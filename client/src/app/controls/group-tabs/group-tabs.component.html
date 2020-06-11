@@ -15,7 +15,7 @@
         [attr.aria-label]="tabItem.title">
 
         <div [load-image]="tabItem.iconUrl" class="icon-medium"></div>
-        <h1>{{tabItem.title}}</h1>
-        <h2 *ngIf="tabItem.description">{{tabItem.description}}</h2>
+        <h3>{{tabItem.title}}</h3>
+        <div *ngIf="tabItem.description" class="group-tab-description">{{tabItem.description}}</div>
     </div>
 </nav>

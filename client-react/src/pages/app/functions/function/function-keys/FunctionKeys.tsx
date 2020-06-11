@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { FunctionKeysFormValues, FunctionKeysModel, DialogType } from './FunctionKeys.types';
 import { useTranslation } from 'react-i18next';
-import { commandBarSticky, formStyle, renewTextStyle, filterBoxStyle, deleteButtonStyle } from './FunctionKeys.styles';
+import { commandBarSticky, formStyle, renewTextStyle, deleteButtonStyle } from './FunctionKeys.styles';
 import FunctionKeysCommandBar from './FunctionKeysCommandBar';
 import {
   ActionButton,
@@ -12,7 +12,6 @@ import {
   SelectionMode,
   SearchBox,
   PanelType,
-  Overlay,
 } from 'office-ui-fabric-react';
 import { defaultCellStyle } from '../../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { FunctionKeysContext } from './FunctionKeysDataLoader';
@@ -22,20 +21,19 @@ import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWi
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import FunctionKeyAddEdit from './FunctionKeyAddEdit';
 import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
-import { SiteStateContext } from '../../../../../SiteState';
-import SiteHelper from '../../../../../utils/SiteHelper';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import { PortalContext } from '../../../../../PortalContext';
-import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { filterTextFieldStyle } from '../../../../../components/form-controls/formControl.override.styles';
+import { linkCellStyle } from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 
 interface FunctionKeysProps {
   resourceId: string;
   initialValues: FunctionKeysFormValues;
   refreshData: () => void;
   setRefreshLoading: (loading: boolean) => void;
-  refreshLoading: boolean;
+  loading: boolean;
   appPermission: boolean;
 }
 
@@ -46,13 +44,12 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     refreshData,
     initialValues: { keys },
     resourceId,
-    refreshLoading,
+    loading,
     appPermission,
   } = props;
   const { t } = useTranslation();
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
-  const [showFilter, setShowFilter] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [renewKey, setRenewKey] = useState(emptyKey);
   const [filterValue, setFilterValue] = useState('');
@@ -66,18 +63,9 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
 
-  const siteStateContext = useContext(SiteStateContext);
-
-  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) || !appPermission;
-
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(keys.map(h => h.name))]);
     setShowValues(!showValues);
-  };
-
-  const toggleFilter = () => {
-    setFilterValue('');
-    setShowFilter(!showFilter);
   };
 
   const onClosePanel = () => {
@@ -102,8 +90,8 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         key: 'name',
         name: t('nameRes'),
         fieldName: 'name',
-        minWidth: 210,
-        maxWidth: 350,
+        minWidth: 100,
+        maxWidth: 220,
         isRowHeader: true,
         data: 'string',
         isPadded: true,
@@ -114,7 +102,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         key: 'value',
         name: t('value'),
         fieldName: 'value',
-        minWidth: 260,
+        minWidth: 350,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
@@ -136,8 +124,8 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         key: 'delete',
         name: '',
         fieldName: 'delete',
-        minWidth: 50,
-        maxWidth: 50,
+        minWidth: 35,
+        maxWidth: 35,
         isRowHeader: false,
         isResizable: false,
         isCollapsable: false,
@@ -201,7 +189,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         <>
           <ActionButton
             id={`function-keys-show-hide-${index}`}
-            className={defaultCellStyle}
+            className={`${defaultCellStyle} ${linkCellStyle(theme)}`}
             onClick={() => onShowHideButtonClick(itemKey)}
             iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
             {hidden ? (
@@ -229,7 +217,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         <TooltipHost content={t('delete')} id={`function-keys-delete-tooltip-${index}`} calloutProps={{ gapSpace: 0 }} closeDelay={500}>
           <IconButton
             className={`${defaultCellStyle} ${deleteButtonStyle(theme)}`}
-            disabled={readOnlyPermission}
+            disabled={!appPermission}
             id={`function-keys-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
@@ -278,7 +266,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
       {
         key: 'function-keys-add',
         onClick: () => showAddEditPanel(),
-        disabled: readOnlyPermission,
+        disabled: !appPermission || loading,
         iconProps: { iconName: 'Add' },
         name: t('newFunctionKey'),
         ariaLabel: t('functionKeys_addNewFunctionKey'),
@@ -288,12 +276,6 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         onClick: flipHideSwitch,
         iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
         name: !showValues ? t('showValues') : t('hideValues'),
-      },
-      {
-        key: 'function-keys-show-filter',
-        onClick: toggleFilter,
-        iconProps: { iconName: 'Filter' },
-        name: t('filter'),
       },
     ];
   };
@@ -308,7 +290,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     <>
       <div>
         <div id="command-bar" className={commandBarSticky}>
-          <FunctionKeysCommandBar refreshFunction={refreshData} appPermission={appPermission} refreshLoading={refreshLoading} />
+          <FunctionKeysCommandBar refreshFunction={refreshData} appPermission={appPermission} loading={loading} />
         </div>
         <div id="function-keys-data" className={formStyle}>
           <h3>{t('functionKeys_title')}</h3>
@@ -321,18 +303,17 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
             layoutMode={DetailsListLayoutMode.justified}
             selectionMode={SelectionMode.none}
             selectionPreservedOnEmptyClick={true}
-            emptyMessage={t('emptyFunctionKeys')}>
-            {showFilter && (
-              <SearchBox
-                id="function-keys-search"
-                className="ms-slideDownIn20"
-                autoFocus
-                iconProps={{ iconName: 'Filter' }}
-                styles={filterBoxStyle}
-                placeholder={t('filterFunctionKeys')}
-                onChange={newValue => setFilterValue(newValue)}
-              />
-            )}
+            emptyMessage={t('emptyFunctionKeys')}
+            shimmer={{ lines: 2, show: loading }}>
+            <SearchBox
+              id="function-keys-search"
+              className="ms-slideDownIn20"
+              autoFocus
+              iconProps={{ iconName: 'Filter' }}
+              styles={filterTextFieldStyle}
+              placeholder={t('filterFunctionKeys')}
+              onChange={newValue => setFilterValue(newValue)}
+            />
           </DisplayTableWithCommandBar>
           {dialogType === DialogType.renew ? (
             <ConfirmDialog
@@ -378,17 +359,11 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
               otherAppKeys={keys}
               panelItem={panelItem}
               showRenewKeyDialog={showRenewKeyDialog}
-              readOnlyPermission={readOnlyPermission}
+              readOnlyPermission={!appPermission}
             />
           </CustomPanel>
         </div>
       </div>
-      {(deletingKey || refreshLoading) && (
-        <>
-          <LoadingComponent />
-          <Overlay />
-        </>
-      )}
     </>
   );
 };

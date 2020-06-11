@@ -118,13 +118,26 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     return undefined;
   };
 
-  const resolveAndGetUndefinedSiteState = (armSiteDescriptor: ArmSiteDescriptor, config?: ArmObj<SiteConfig>) => {
+  const resolveAndGetUndefinedSiteState = async (armSiteDescriptor: ArmSiteDescriptor, config?: ArmObj<SiteConfig>) => {
     if (!!config && SiteHelper.isSourceControlEnabled(config)) {
       return FunctionAppEditMode.ReadOnlySourceControlled;
     }
 
     if (armSiteDescriptor.slot) {
       return FunctionAppEditMode.ReadOnlySlots;
+    }
+
+    const slotResponse = await SiteService.fetchSlots(armSiteDescriptor.getSiteOnlyResourceId());
+    if (slotResponse.metadata.success) {
+      if (slotResponse.data.value.length > 0) {
+        return FunctionAppEditMode.ReadOnlySlots;
+      }
+    } else {
+      LogService.error(
+        LogCategories.siteRouter,
+        'getSlots',
+        `Failed to get slots: ${getErrorMessageOrStringify(slotResponse.metadata.error)}`
+      );
     }
 
     return FunctionAppEditMode.ReadWrite;
@@ -137,7 +150,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       const readOnlyLock = await portalContext.hasLock(trimmedResourceId, 'ReadOnly');
       let functionAppEditMode: FunctionAppEditMode | undefined;
 
-      const site = await SiteService.fetchSite(trimmedResourceId);
+      const siteResponse = await SiteService.fetchSite(trimmedResourceId);
 
       if (readOnlyLock) {
         functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
@@ -146,8 +159,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
 
         if (!writePermission) {
           functionAppEditMode = FunctionAppEditMode.ReadOnlyRbac;
-        } else if (site.metadata.success && isFunctionApp(site.data)) {
-          functionAppEditMode = getSiteStateFromSiteData(site.data);
+        } else if (siteResponse.metadata.success && isFunctionApp(siteResponse.data)) {
+          functionAppEditMode = getSiteStateFromSiteData(siteResponse.data);
 
           if (!functionAppEditMode) {
             const appSettingsResponse = await SiteService.fetchApplicationSettings(trimmedResourceId);
@@ -156,30 +169,30 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
               functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data);
             } else {
               LogService.error(
-                LogCategories.siteDashboard,
+                LogCategories.siteRouter,
                 'fetchAppSetting',
                 `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
               );
             }
           }
-        } else if (!site.metadata.success) {
+        } else if (!siteResponse.metadata.success) {
           LogService.error(
-            LogCategories.siteDashboard,
+            LogCategories.siteRouter,
             'get site',
-            `Failed to get site: ${getErrorMessageOrStringify(site.metadata.error)}`
+            `Failed to get site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
           );
         }
 
         if (!functionAppEditMode) {
           const configResponse = await SiteService.fetchWebConfig(trimmedResourceId);
-          functionAppEditMode = resolveAndGetUndefinedSiteState(
+          functionAppEditMode = await resolveAndGetUndefinedSiteState(
             armSiteDescriptor,
             configResponse.metadata.success ? configResponse.data : undefined
           );
 
           if (!configResponse.metadata.success) {
             LogService.error(
-              LogCategories.siteDashboard,
+              LogCategories.siteRouter,
               'fetchWebConfig',
               `Failed to fetch web config: ${getErrorMessageOrStringify(configResponse.metadata.error)}`
             );
@@ -187,9 +200,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         }
       }
 
-      if (site.metadata.success) {
-        setSite(site.data);
-        setStopped(site.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
+      if (siteResponse.metadata.success) {
+        setSite(siteResponse.data);
+        setStopped(siteResponse.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
       }
       setSiteAppEditState(functionAppEditMode);
     }

@@ -3,14 +3,15 @@ import i18next from 'i18next';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import React from 'react';
 import Dropdown from '../../../../components/form-controls/DropDown';
+import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 import TextField from '../../../../components/form-controls/TextField';
-import { FormControlWrapper, Layout } from '../../../../components/FormControlWrapper/FormControlWrapper';
+import Toggle from '../../../../components/form-controls/Toggle';
 import { Binding, BindingSetting, BindingSettingValue, BindingValidator } from '../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
+import { getFunctionBindingDirection } from '../function/integrate/FunctionIntegrate.utils';
+import { FunctionIntegrateConstants } from '../function/integrate/FunctionIntegrateConstants';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
-import Toggle from '../../../../components/form-controls/Toggle';
-import { getFunctionBindingDirection } from '../function/integrate/BindingPanel/BindingEditor';
 
 export interface BindingEditorFormValues {
   [key: string]: any;
@@ -52,54 +53,132 @@ export class BindingFormBuilder {
     return initialFormValues;
   }
 
-  public getFields(formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
+  public getFields(formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean, includeRules: boolean) {
     const fields: JSX.Element[] = [];
+    const ignoredFields: string[] = [];
 
     let i = 0;
     for (const binding of this._bindingList) {
+      // We don't want to use the rule for HTTP as it doesn't offer the user anything
+      // and we can't restore the state of the rule properly on a second load
+      if (includeRules && formProps.values['type'] !== FunctionIntegrateConstants.httpType) {
+        this._addRules(fields, ignoredFields, binding, formProps, isDisabled);
+      }
+
       for (const setting of binding.settings || []) {
-        switch (setting.value) {
-          case BindingSettingValue.string:
-            if (setting.resource) {
-              fields.push(this._getResourceField(setting, formProps, isDisabled, this._resourceId));
-            } else {
-              fields.push(this._getTextField(setting, formProps, isDisabled));
-            }
-            break;
-          case BindingSettingValue.enum:
-            fields.push(this._getDropdown(setting, formProps, isDisabled));
-            break;
-          case BindingSettingValue.checkBoxList:
-            fields.push(this._getMultiSelectDropdown(setting, formProps, isDisabled, i));
-            break;
-          case BindingSettingValue.boolean:
-            fields.push(this._getBooleanToggle(setting, formProps, isDisabled));
-            break;
+        if (!ignoredFields.includes(setting.name)) {
+          this._addField(fields, setting, formProps, isDisabled, i);
         }
       }
+
       i = +1;
     }
 
     return fields;
   }
 
+  private _addRules(
+    fields: JSX.Element[],
+    ignoredFields: string[],
+    binding: Binding,
+    formProps: FormikProps<BindingEditorFormValues>,
+    isDisabled: boolean
+  ) {
+    if (binding.rules) {
+      binding.rules.forEach(rule => {
+        const ruleName = `${FunctionIntegrateConstants.rulePrefix}${rule.name}`;
+        let defaultValue = formProps.values[ruleName] || rule.values[0].value;
+
+        // No value yet, add a default, otherwise Formik will handle it
+        if (!formProps.values[ruleName]) {
+          for (const ruleValue of rule.values) {
+            if (formProps.values[ruleValue.value]) {
+              defaultValue = ruleValue.value;
+              break;
+            }
+          }
+
+          formProps.values[ruleName] = defaultValue;
+        }
+
+        const ruleInUse = rule.values.find(ruleValue => formProps.values[ruleName] === ruleValue.value);
+        const hiddenSettings = (ruleInUse && ruleInUse.hiddenSettings) || [];
+        ignoredFields.push(...hiddenSettings);
+        ignoredFields.forEach(field => {
+          delete formProps.values[field];
+        });
+
+        const ruleOptions = rule.values.map(ruleValue => {
+          return {
+            text: ruleValue.display,
+            key: ruleValue.value,
+          };
+        });
+
+        fields.push(
+          <Field
+            label={rule.label}
+            name={ruleName}
+            id={ruleName}
+            component={Dropdown}
+            options={ruleOptions}
+            disabled={isDisabled}
+            onPanel={true}
+            layout={Layout.Vertical}
+            mouseOverToolTip={rule.help}
+            required={true}
+            key={ruleName}
+            {...formProps}
+            dirty={false}
+          />
+        );
+      });
+    }
+  }
+
+  private _addField(
+    fields: JSX.Element[],
+    setting: BindingSetting,
+    formProps: FormikProps<BindingEditorFormValues>,
+    isDisabled: boolean,
+    i: number
+  ) {
+    switch (setting.value) {
+      case BindingSettingValue.string:
+        if (setting.resource) {
+          fields.push(this._getResourceField(setting, formProps, isDisabled, this._resourceId));
+        } else {
+          fields.push(this._getTextField(setting, formProps, isDisabled));
+        }
+        break;
+      case BindingSettingValue.enum:
+        fields.push(this._getDropdown(setting, formProps, isDisabled));
+        break;
+      case BindingSettingValue.checkBoxList:
+        fields.push(this._getMultiSelectDropdown(setting, formProps, isDisabled, i));
+        break;
+      case BindingSettingValue.boolean:
+        fields.push(this._getBooleanToggle(setting, formProps, isDisabled));
+        break;
+    }
+  }
+
   private _getTextField(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     return (
-      <FormControlWrapper
+      <Field
         label={setting.label}
-        layout={Layout.vertical}
-        tooltip={setting.help}
+        name={setting.name}
+        id={setting.name}
+        component={TextField}
+        disabled={isDisabled}
+        validate={value => this._validateText(value, setting.required, setting.validators)}
+        layout={Layout.Vertical}
+        mouseOverToolTip={setting.help}
         required={setting.required}
-        key={setting.name}>
-        <Field
-          name={setting.name}
-          id={setting.name}
-          component={TextField}
-          disabled={isDisabled}
-          validate={value => this._validateText(value, setting.required, setting.validators)}
-          {...formProps}
-        />
-      </FormControlWrapper>
+        key={setting.name}
+        {...formProps}
+        dirty={false}
+      />
     );
   }
 
@@ -111,45 +190,43 @@ export class BindingFormBuilder {
     }
 
     return (
-      <FormControlWrapper
+      <Field
         label={setting.label}
-        layout={Layout.vertical}
-        tooltip={setting.help}
+        name={setting.name}
+        id={setting.name}
+        component={Dropdown}
+        options={options}
+        disabled={isDisabled}
+        validate={value => this._validateText(value, setting.required, setting.validators)}
+        onPanel={true}
+        layout={Layout.Vertical}
+        mouseOverToolTip={setting.help}
         required={setting.required}
-        key={setting.name}>
-        <Field
-          name={setting.name}
-          id={setting.name}
-          component={Dropdown}
-          options={options}
-          disabled={isDisabled}
-          validate={value => this._validateText(value, setting.required, setting.validators)}
-          onPanel={true}
-          {...formProps}
-        />
-      </FormControlWrapper>
+        key={setting.name}
+        {...formProps}
+        dirty={false}
+      />
     );
   }
 
   private _getBooleanToggle(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     return (
-      <FormControlWrapper
+      <Field
         label={setting.label}
-        layout={Layout.vertical}
-        tooltip={setting.help}
+        name={setting.name}
+        id={setting.name}
+        component={Toggle}
+        disabled={isDisabled}
+        onText={this._t('yes')}
+        offText={this._t('no')}
+        validate={(value: boolean) => this._validateBoolean(value, setting.required)}
+        layout={Layout.Vertical}
+        mouseOverToolTip={setting.help}
         required={setting.required}
-        key={setting.name}>
-        <Field
-          name={setting.name}
-          id={setting.name}
-          component={Toggle}
-          disabled={isDisabled}
-          onText={this._t('yes')}
-          offText={this._t('no')}
-          validate={(value: boolean) => this._validateBoolean(value, setting.required)}
-          {...formProps}
-        />
-      </FormControlWrapper>
+        key={setting.name}
+        {...formProps}
+        dirty={false}
+      />
     );
   }
 
@@ -160,24 +237,23 @@ export class BindingFormBuilder {
     resourceId: string
   ) {
     return (
-      <FormControlWrapper
+      <Field
         label={setting.label}
-        layout={Layout.vertical}
-        tooltip={setting.help}
+        name={setting.name}
+        id={setting.name}
+        component={ResourceDropdown}
+        setting={setting}
+        resourceId={resourceId}
+        disabled={isDisabled}
+        validate={value => this._validateText(value, setting.required, setting.validators)}
+        onPanel={true}
+        layout={Layout.Vertical}
+        mouseOverToolTip={setting.help}
         required={setting.required}
-        key={setting.name}>
-        <Field
-          name={setting.name}
-          id={setting.name}
-          component={ResourceDropdown}
-          setting={setting}
-          resourceId={resourceId}
-          disabled={isDisabled}
-          validate={value => this._validateText(value, setting.required, setting.validators)}
-          onPanel={true}
-          {...formProps}
-        />
-      </FormControlWrapper>
+        key={setting.name}
+        {...formProps}
+        dirty={false}
+      />
     );
   }
 
@@ -189,23 +265,22 @@ export class BindingFormBuilder {
   ) {
     if (this._bindingInfoList[i].type === BindingType.httpTrigger) {
       return (
-        <FormControlWrapper
+        <Field
           label={setting.label}
-          layout={Layout.vertical}
-          tooltip={setting.help}
+          name={setting.name}
+          id={setting.name}
+          component={HttpMethodMultiDropdown}
+          setting={setting}
+          disabled={isDisabled}
+          validate={value => this._validateText(value, setting.required, setting.validators)}
+          onPanel={true}
+          layout={Layout.Vertical}
+          mouseOverToolTip={setting.help}
           required={setting.required}
-          key={setting.name}>
-          <Field
-            name={setting.name}
-            id={setting.name}
-            component={HttpMethodMultiDropdown}
-            setting={setting}
-            disabled={isDisabled}
-            validate={value => this._validateText(value, setting.required, setting.validators)}
-            onPanel={true}
-            {...formProps}
-          />
-        </FormControlWrapper>
+          key={setting.name}
+          {...formProps}
+          dirty={false}
+        />
       );
     }
 
@@ -216,24 +291,23 @@ export class BindingFormBuilder {
     }
 
     return (
-      <FormControlWrapper
+      <Field
         label={setting.label}
-        layout={Layout.vertical}
-        tooltip={setting.help}
+        name={setting.name}
+        id={setting.name}
+        component={Dropdown}
+        options={options}
+        multiSelect
+        disabled={isDisabled}
+        validate={value => this._validateText(value, setting.required, setting.validators)}
+        onPanel={true}
+        layout={Layout.Vertical}
+        mouseOverToolTip={setting.help}
         required={setting.required}
-        key={setting.name}>
-        <Field
-          name={setting.name}
-          id={setting.name}
-          component={Dropdown}
-          options={options}
-          multiSelect
-          disabled={isDisabled}
-          validate={value => this._validateText(value, setting.required, setting.validators)}
-          onPanel={true}
-          {...formProps}
-        />
-      </FormControlWrapper>
+        key={setting.name}
+        {...formProps}
+        dirty={false}
+      />
     );
   }
 

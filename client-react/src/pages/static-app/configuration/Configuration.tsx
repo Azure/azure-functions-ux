@@ -22,14 +22,13 @@ import {
   tableValueFormFieldStyle,
   tableValueIconStyle,
 } from './Configuration.styles';
-import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
+import { learnMoreLinkStyle, filterTextFieldStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
 import { ArmObj } from '../../../models/arm-obj';
 import { Environment } from '../../../models/static-site/environment';
 import IconButton from '../../../components/IconButton/IconButton';
 import { dirtyElementStyle } from '../../app/app-settings/AppSettings.styles';
 import { ThemeContext } from '../../../ThemeContext';
-import { filterBoxStyle } from '../../app/functions/app-keys/AppKeys.styles';
 import CustomPanel from '../../../components/CustomPanel/CustomPanel';
 import ConfigurationAddEdit from './ConfigurationAddEdit';
 import { sortBy } from 'lodash-es';
@@ -245,8 +244,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         key: 'name',
         name: t('nameRes'),
         fieldName: 'name',
-        minWidth: 210,
-        maxWidth: 350,
+        minWidth: 100,
+        maxWidth: 220,
         isRowHeader: true,
         data: 'string',
         isPadded: true,
@@ -257,7 +256,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         key: 'value',
         name: t('value'),
         fieldName: 'value',
-        minWidth: 280,
+        minWidth: 350,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
@@ -268,7 +267,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         key: 'delete',
         name: t('delete'),
         fieldName: 'delete',
-        minWidth: 50,
+        minWidth: 35,
+        maxWidth: 35,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
@@ -279,8 +279,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         key: 'edit',
         name: t('edit'),
         fieldName: 'edit',
-        minWidth: 50,
-        maxWidth: 50,
+        minWidth: 35,
+        maxWidth: 35,
         isRowHeader: false,
         isResizable: false,
         isCollapsable: false,
@@ -542,7 +542,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             className="ms-slideDownIn20"
             autoFocus
             iconProps={{ iconName: 'Filter' }}
-            styles={filterBoxStyle}
+            styles={filterTextFieldStyle}
             placeholder={t('staticSite_filterApplicationSetting')}
             onChange={newValue => setFilter(newValue)}
             value={filter}

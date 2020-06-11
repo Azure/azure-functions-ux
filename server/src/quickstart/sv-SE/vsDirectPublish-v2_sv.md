@@ -1,6 +1,6 @@
 ### Installera beroenden
 
-Innan du kan komma igång bör du <a href="https://go.microsoft.com/fwlink/?linkid=2016389" target="_blank">installera Visual Studio 2017</a> och se till att arbetsbelastningen Azure Development också är installerad.
+Innan du kan komma igång bör du <a href="https://go.microsoft.com/fwlink/?linkid=2016389" target="_blank">installera Visual Studio 2019</a> och se till att arbetsbelastningen Azure Development också är installerad.
 
 När Visual Studio har installerats kontrollerar du att du har <a href="https://go.microsoft.com/fwlink/?linkid=2016394" target="_blank">de senaste Azure Functions-verktygen</a>.
 

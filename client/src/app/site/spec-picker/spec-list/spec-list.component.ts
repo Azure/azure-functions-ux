@@ -37,4 +37,9 @@ export class SpecListComponent implements OnChanges {
       this.selectSpec(spec);
     }
   }
+
+  getAriaLabelledByForSpec(spec: PriceSpec) {
+    const specDivId = `${this.specGroup.id}${spec.skuCode}`;
+    return !!this.isRecommendedList ? `recommendedTierHeaderId ${specDivId}` : `additionalTierHeaderId ${specDivId}`;
+  }
 }

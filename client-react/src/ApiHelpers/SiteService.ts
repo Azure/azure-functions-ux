@@ -8,11 +8,9 @@ import { SiteConfig, ArmAzureStorageMount } from '../models/site/config';
 import { SlotConfigNames } from '../models/site/slot-config-names';
 import { SiteLogsConfig } from '../models/site/logs-config';
 import { HostStatus } from '../models/functions/host-status';
-import { isLinuxDynamic } from '../utils/arm-utils';
-import Url from '../utils/url';
-import { sendHttpRequest } from './HttpClient';
 import { KeyValue } from '../models/portal-models';
 import { PublishingCredentials } from '../models/site/publish';
+import { DeploymentProperties, DeploymentLogsItem, SourceControlProperties } from '../pages/app/deployment-center/DeploymentCenter.types';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
@@ -78,6 +76,39 @@ export default class SiteService {
       resultCount: result.data && Object.keys(result.data.properties).length,
     });
     return result;
+  };
+
+  public static getSiteDeployments = async (resourceId: string, force?: boolean) => {
+    return MakeArmCall<ArmArray<DeploymentProperties>>({
+      resourceId: `${resourceId}/deployments`,
+      commandName: 'fetchDeployments',
+      method: 'GET',
+      skipBatching: force,
+    });
+  };
+
+  public static getDeploymentLogs = async (deploymentId: string) => {
+    return MakeArmCall<ArmArray<DeploymentLogsItem>>({
+      resourceId: `${deploymentId}/log`,
+      commandName: 'fetchDeploymentLogs',
+      method: 'GET',
+    });
+  };
+
+  public static getLogDetails = async (deploymentId: string, logId: string) => {
+    return MakeArmCall<ArmArray<DeploymentLogsItem>>({
+      resourceId: `${deploymentId}/log/${logId}`,
+      commandName: 'fetchLogDetails',
+      method: 'GET',
+    });
+  };
+
+  public static getSourceControlDetails = async (resourceId: string) => {
+    return MakeArmCall<ArmObj<SourceControlProperties>>({
+      resourceId: `${resourceId}/sourcecontrols/web`,
+      commandName: 'fetchSourceControl',
+      method: 'GET',
+    });
   };
 
   public static updateApplicationSettings = async (resourceId: string, appSettings: ArmObj<KeyValue<string>>) => {
@@ -161,11 +192,7 @@ export default class SiteService {
   };
 
   public static fireSyncTrigger = (site: ArmObj<Site>, token: string) => {
-    if (isLinuxDynamic(site)) {
-      return MakeArmCall<any>({ resourceId: `${site.id}/hostruntime/admin/host/synctriggers`, commandName: 'syncTrigger', method: 'POST' });
-    } else {
-      return sendHttpRequest({ url: Url.getSyncTriggerUrl(site), method: 'POST', headers: { Authorization: `Bearer ${token}` } });
-    }
+    return MakeArmCall<any>({ resourceId: `${site.id}/host/default/sync`, commandName: 'syncTrigger', method: 'POST' });
   };
 
   public static getPublishProfile = (resourceId: string) => {

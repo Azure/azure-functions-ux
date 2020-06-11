@@ -1,6 +1,6 @@
 # Instalace závislostí
 
-Než začnete, měli byste [nainstalovat Visual Studio 2017](https://go.microsoft.com/fwlink/?linkid=2016389) a ujistit se, že je nainstalovaná i úloha vývoje v Azure.
+Než začnete, měli byste [nainstalovat Visual Studio 2019](https://go.microsoft.com/fwlink/?linkid=2016389) a ujistit se, že je nainstalovaná i úloha vývoje v Azure.
 
 Až se sada Visual Studio nainstaluje, ujistěte se, že máte [nejnovější nástroje Azure Functions](https://go.microsoft.com/fwlink/?linkid=2016394).
 

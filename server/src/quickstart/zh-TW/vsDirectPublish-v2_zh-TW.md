@@ -1,6 +1,6 @@
 # 安裝相依性
 
-開始之前，應<a href="https://go.microsoft.com/fwlink/?linkid=2016389" target="_blank">安裝 Visual Studio 2017</a>，並確定也已安裝 Azure 開發工作負載。
+開始之前，應<a href="https://go.microsoft.com/fwlink/?linkid=2016389" target="_blank">安裝 Visual Studio 2019</a>，並確定也已安裝 Azure 開發工作負載。
 
 安裝 Visual Studio 之後，請確定您擁有<a href="https://go.microsoft.com/fwlink/?linkid=2016394" target="_blank">最新版本的 Azure Functions Tools</a>。
 

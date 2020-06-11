@@ -9,6 +9,7 @@ export const commandBarSticky = style({
 
 export const formStyle = style({
   padding: '5px 20px',
+  maxWidth: '800px',
 });
 
 export const messageBanner = (theme: ThemeExtended) =>
@@ -17,7 +18,6 @@ export const messageBanner = (theme: ThemeExtended) =>
     paddingLeft: '5px',
   });
 
-export const filterBoxStyle = { root: { marginTop: '5px', height: '25px', width: '100%' } };
 export const tableActionButtonStyle = { root: { marginTop: '5px' } };
 export const addPanelCommandBar = (theme: ThemeExtended) =>
   style({
@@ -35,6 +35,5 @@ export const renewTextStyle = (theme: ThemeExtended) =>
 
 export const deleteButtonStyle = (theme: ThemeExtended) =>
   style({
-    color: theme.semanticColors.actionLink,
     float: 'right',
   });

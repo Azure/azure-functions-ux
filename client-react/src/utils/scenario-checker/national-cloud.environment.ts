@@ -96,13 +96,6 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.addFTPOptions] = {
-      id: ScenarioIds.addFTPOptions,
-      runCheck: () => {
-        return { status: 'disabled' };
-      },
-    };
-
     this.scenarioChecks[ScenarioIds.addDiagnoseAndSolve] = {
       id: ScenarioIds.addDiagnoseAndSolve,
       runCheck: () => {
@@ -150,11 +143,7 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       runCheck: () => {
         return {
           status:
-            NationalCloudEnvironment.isFairFax() ||
-            NationalCloudEnvironment.isMooncake() ||
-            NationalCloudEnvironment.isBlackforest() ||
-            NationalCloudEnvironment.isUSNat() ||
-            NationalCloudEnvironment.isUSSec()
+            NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec()
               ? 'disabled'
               : 'enabled',
         };

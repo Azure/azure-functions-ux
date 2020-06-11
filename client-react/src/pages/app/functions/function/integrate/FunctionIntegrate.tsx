@@ -18,6 +18,7 @@ import { SiteStateContext } from '../../../../../SiteState';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import SiteHelper from '../../../../../utils/SiteHelper';
+import StringUtils from '../../../../../utils/string';
 import FunctionNameBindingCard from './binding-card/FunctionNameBindingCard';
 import InputBindingCard from './binding-card/InputBindingCard';
 import OutputBindingCard from './binding-card/OutputBindingCard';
@@ -34,6 +35,7 @@ import {
   smallPageStyle,
 } from './FunctionIntegrate.style';
 import FunctionIntegrateCommandBar from './FunctionIntegrateCommandBar';
+import { FunctionIntegrateConstants } from './FunctionIntegrateConstants';
 
 export interface FunctionIntegrateProps {
   functionAppId: string;
@@ -188,20 +190,36 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     </Stack>
   );
 
-  const bindingsMissingDirection = functionInfo.properties.config.bindings.filter(binding => !binding.direction);
-  const banner = bindingsError ? (
-    <CustomBanner message={t('integrate_bindingsFailedLoading')} type={MessageBarType.error} />
-  ) : bindingsMissingDirection.length > 0 ? (
-    <CustomBanner
-      message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
-      type={MessageBarType.warning}
-      learnMoreLink={CommonConstants.Links.bindingDirectionLearnMore}
-    />
-  ) : readOnly ? (
-    <EditModeBanner />
-  ) : (
-    undefined
+  const functionConfig = functionInfo.properties.config;
+  const isCompiledFunction = StringUtils.equalsIgnoreCase(
+    functionConfig.configurationSource,
+    FunctionIntegrateConstants.compiledFunctionConfigurationSource
   );
+
+  const bindingsMissingDirection = functionConfig.bindings.filter(
+    binding => !binding.direction && !StringUtils.endsWithIgnoreCase(binding.type.toString(), 'Trigger')
+  );
+
+  let banner: JSX.Element | undefined;
+  if (bindingsError) {
+    // Issue loading bindings or binding settings
+    banner = <CustomBanner message={t('integrate_bindingsFailedLoading')} type={MessageBarType.error} />;
+  } else if (isCompiledFunction && bindingsMissingDirection.length === 0) {
+    // It's a C# compiled function, and older versions of the SDK don't show input/out bindings.
+    banner = <CustomBanner message={t('integrate_compiledDoNotShowInputOutput')} type={MessageBarType.info} />;
+  } else if (bindingsMissingDirection.length > 0) {
+    // Bindings are missing the direction property, we'll likely put them in the wrong spot
+    banner = (
+      <CustomBanner
+        message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
+        type={MessageBarType.warning}
+        learnMoreLink={CommonConstants.Links.bindingDirectionLearnMore}
+      />
+    );
+  } else if (readOnly) {
+    // All readonly situations
+    banner = <EditModeBanner />;
+  }
 
   return (
     <>
