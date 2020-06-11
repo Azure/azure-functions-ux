@@ -388,7 +388,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
-  const getAuthorizationHeader = (): KeyValue<string> => {
+  const getAuthorizationHeaders = (): KeyValue<string> => {
     return {
       Authorization: `Bearer ${startupInfoContext.token}`,
       FunctionsPortal: '1',
@@ -397,7 +397,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   const getAndSetTestData = async () => {
     if (!!functionInfo && !!hostKeys && !!functionInfo.properties.test_data_href) {
-      const headers = getAuthorizationHeader();
+      const headers = getAuthorizationHeaders();
       const testDataResponse = await FunctionsService.getDataFromFunctionHref(functionInfo.properties.test_data_href, 'GET', headers);
       if (testDataResponse.metadata.success) {
         let data = testDataResponse.data;
