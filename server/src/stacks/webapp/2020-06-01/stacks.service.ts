@@ -29,55 +29,39 @@ export class WebAppStacksService20200601 {
   }
 
   private _filterRuntimeStacks(
-    runtimeStacks: WebAppStack<WebAppRuntimes>[],
+    stacks: WebAppStack<WebAppRuntimes>[],
     os: 'linux' | 'windows'
   ): WebAppStack<WebAppRuntimes | JavaContainers>[] {
     const filteredStacks: WebAppStack<WebAppRuntimes | JavaContainers>[] = [];
-    runtimeStacks.forEach(runtimeStack => {
-      const newStack = this._buildNewStack(runtimeStack);
-      runtimeStack.majorVersions.forEach(majorVersion => {
+    stacks.forEach(stack => {
+      const newStack = this._buildNewStack(stack);
+      stack.majorVersions.forEach(majorVersion => {
         const newMajorVersion = this._buildNewMajorVersion(majorVersion);
         majorVersion.minorVersions.forEach(minorVersion => {
-          if (os === 'linux' && minorVersion.stackSettings.linuxRuntimeSettings !== undefined) {
-            newMajorVersion.minorVersions.push(minorVersion);
-          } else if (os === 'windows' && minorVersion.stackSettings.windowsRuntimeSettings !== undefined) {
-            newMajorVersion.minorVersions.push(minorVersion);
-          }
+          this._addCorrectMinorVersionsForRuntime(newMajorVersion, minorVersion, os);
         });
-        if (newMajorVersion.minorVersions.length > 0) {
-          newStack.majorVersions.push(newMajorVersion);
-        }
+        this._addMajorVersion(newStack, newMajorVersion);
       });
-      if (newStack.majorVersions.length > 0) {
-        filteredStacks.push(newStack);
-      }
+      this._addStack(filteredStacks, newStack);
     });
     return filteredStacks;
   }
 
   private _filterContainerStacks(
-    runtimeStacks: WebAppStack<JavaContainers>[],
+    stacks: WebAppStack<JavaContainers>[],
     os: 'linux' | 'windows'
   ): WebAppStack<WebAppRuntimes | JavaContainers>[] {
     const filteredStacks: WebAppStack<WebAppRuntimes | JavaContainers>[] = [];
-    runtimeStacks.forEach(runtimeStack => {
+    stacks.forEach(runtimeStack => {
       const newStack = this._buildNewStack(runtimeStack);
       runtimeStack.majorVersions.forEach(majorVersion => {
         const newMajorVersion = this._buildNewMajorVersion(majorVersion);
         majorVersion.minorVersions.forEach(minorVersion => {
-          if (os === 'linux' && minorVersion.stackSettings.linuxContainerSettings !== undefined) {
-            newMajorVersion.minorVersions.push(minorVersion);
-          } else if (os === 'windows' && minorVersion.stackSettings.windowsContainerSettings !== undefined) {
-            newMajorVersion.minorVersions.push(minorVersion);
-          }
+          this._addCorrectMinorVersionsForContainer(newMajorVersion, minorVersion, os);
         });
-        if (newMajorVersion.minorVersions.length > 0) {
-          newStack.majorVersions.push(newMajorVersion);
-        }
+        this._addMajorVersion(newStack, newMajorVersion);
       });
-      if (newStack.majorVersions.length > 0) {
-        filteredStacks.push(newStack);
-      }
+      this._addStack(filteredStacks, newStack);
     });
     return filteredStacks;
   }
@@ -100,5 +84,47 @@ export class WebAppStacksService20200601 {
       value: majorVersion.value,
       minorVersions: [],
     };
+  }
+
+  private _addMajorVersion(
+    newStack: WebAppStack<WebAppRuntimes | JavaContainers>,
+    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>
+  ) {
+    if (newMajorVersion.minorVersions.length > 0) {
+      newStack.majorVersions.push(newMajorVersion);
+    }
+  }
+
+  private _addStack(
+    filteredStacks: WebAppStack<WebAppRuntimes | JavaContainers>[],
+    newStack: WebAppStack<WebAppRuntimes | JavaContainers>
+  ) {
+    if (newStack.majorVersions.length > 0) {
+      filteredStacks.push(newStack);
+    }
+  }
+
+  private _addCorrectMinorVersionsForRuntime(
+    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>,
+    minorVersion: WebAppMinorVersion<WebAppRuntimes>,
+    os: 'linux' | 'windows'
+  ) {
+    if (os === 'linux' && minorVersion.stackSettings.linuxRuntimeSettings !== undefined) {
+      newMajorVersion.minorVersions.push(minorVersion);
+    } else if (os === 'windows' && minorVersion.stackSettings.windowsRuntimeSettings !== undefined) {
+      newMajorVersion.minorVersions.push(minorVersion);
+    }
+  }
+
+  private _addCorrectMinorVersionsForContainer(
+    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>,
+    minorVersion: WebAppMinorVersion<JavaContainers>,
+    os: 'linux' | 'windows'
+  ) {
+    if (os === 'linux' && minorVersion.stackSettings.linuxContainerSettings !== undefined) {
+      newMajorVersion.minorVersions.push(minorVersion);
+    } else if (os === 'windows' && minorVersion.stackSettings.windowsContainerSettings !== undefined) {
+      newMajorVersion.minorVersions.push(minorVersion);
+    }
   }
 }
