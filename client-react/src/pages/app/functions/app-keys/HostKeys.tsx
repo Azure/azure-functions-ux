@@ -10,7 +10,7 @@ import {
   ICommandBarItemProps,
   PanelType,
 } from 'office-ui-fabric-react';
-import { filterBoxStyle, renewTextStyle } from './AppKeys.styles';
+import { renewTextStyle } from './AppKeys.styles';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { emptyKey } from './AppKeys';
@@ -21,20 +21,21 @@ import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { ThemeContext } from '../../../../ThemeContext';
+import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 
 interface HostKeysProps {
   resourceId: string;
-  initialLoading: boolean;
+  loading: boolean;
   hostKeys: AppKeysModel[];
   refreshData: () => void;
   readOnlyPermission: boolean;
 }
 
 const HostKeys: React.FC<HostKeysProps> = props => {
-  const { hostKeys, resourceId, refreshData, initialLoading, readOnlyPermission } = props;
+  const { hostKeys, resourceId, refreshData, loading, readOnlyPermission } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
-  const [showFilter, setShowFilter] = useState(false);
   const [showRenewDialog, setShowRenewDialog] = useState(false);
   const [renewKey, setRenewKey] = useState(emptyKey);
   const [filterValue, setFilterValue] = useState('');
@@ -49,11 +50,6 @@ const HostKeys: React.FC<HostKeysProps> = props => {
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(hostKeys.map(h => h.name))]);
     setShowValues(!showValues);
-  };
-
-  const toggleFilter = () => {
-    setFilterValue('');
-    setShowFilter(!showFilter);
   };
 
   const onClosePanel = () => {
@@ -73,8 +69,8 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         key: 'name',
         name: t('nameRes'),
         fieldName: 'name',
-        minWidth: 210,
-        maxWidth: 350,
+        minWidth: 100,
+        maxWidth: 220,
         isRowHeader: true,
         data: 'string',
         isPadded: true,
@@ -85,7 +81,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         key: 'value',
         name: t('value'),
         fieldName: 'value',
-        minWidth: 210,
+        minWidth: 350,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
@@ -107,8 +103,8 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         key: 'delete',
         name: '',
         fieldName: 'delete',
-        minWidth: 100,
-        maxWidth: 100,
+        minWidth: 35,
+        maxWidth: 35,
         isRowHeader: false,
         isResizable: false,
         isCollapsable: false,
@@ -153,7 +149,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         <>
           <ActionButton
             id={`app-keys-host-keys-show-hide-${index}`}
-            className={defaultCellStyle}
+            className={`${defaultCellStyle} ${linkCellStyle(theme)}`}
             onClick={() => onShowHideButtonClick(itemKey)}
             iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
             {hidden ? (
@@ -215,7 +211,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       {
         key: 'app-keys-host-keys-add',
         onClick: () => showAddEditPanel(),
-        disabled: readOnlyPermission || initialLoading,
+        disabled: readOnlyPermission || loading,
         iconProps: { iconName: 'Add' },
         name: t('newHostKey'),
         ariaLabel: t('addHostKey'),
@@ -223,16 +219,9 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       {
         key: 'app-keys-host-keys-show-hide',
         onClick: flipHideSwitch,
-        disabled: initialLoading,
+        disabled: loading,
         iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
         name: !showValues ? t('showValues') : t('hideValues'),
-      },
-      {
-        key: 'app-keys-host-keys-show-filter',
-        onClick: toggleFilter,
-        disabled: initialLoading,
-        iconProps: { iconName: 'Filter' },
-        name: t('filter'),
       },
     ];
   };
@@ -284,19 +273,17 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
-        shimmer={{ lines: 2, show: initialLoading }}
+        shimmer={{ lines: 2, show: loading }}
         emptyMessage={t('emptyHostKeys')}>
-        {showFilter && (
-          <SearchBox
-            id="app-keys-host-keys-search"
-            className="ms-slideDownIn20"
-            autoFocus
-            iconProps={{ iconName: 'Filter' }}
-            styles={filterBoxStyle}
-            placeholder={t('filterHostKeys')}
-            onChange={newValue => setFilterValue(newValue)}
-          />
-        )}
+        <SearchBox
+          id="app-keys-host-keys-search"
+          className="ms-slideDownIn20"
+          autoFocus
+          iconProps={{ iconName: 'Filter' }}
+          styles={filterTextFieldStyle}
+          placeholder={t('filterHostKeys')}
+          onChange={newValue => setFilterValue(newValue)}
+        />
       </DisplayTableWithCommandBar>
       <CustomPanel
         isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}

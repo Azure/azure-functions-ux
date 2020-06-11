@@ -2146,6 +2146,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="validation_siteNameMaxChars" xml:space="preserve">
         <value>Namnet får inte vara längre än 60 tecken</value>
     </data>
+  <data name="validation_slotNameMaxChars" xml:space="preserve">
+        <value>Kombinationen av platsnamn och facknamn måste vara färre än 59 tecken</value>
+    </data>
   <data name="validation_siteNameInvalidChar" xml:space="preserve">
         <value>{0} är ett ogiltigt tecken</value>
     </data>
@@ -3269,7 +3272,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Välj en annan prisnivå om du vill lägga till fler resurser i din plan</value>
     </data>
   <data name="pricing_applyButtonLabel" xml:space="preserve">
-        <value>Uppdatera App Service-planen</value>
+        <value>Tillämpa ändringarna</value>
     </data>
   <data name="pricing_sharedInfrastructure" xml:space="preserve">
         <value>Delad infrastruktur</value>
@@ -3924,10 +3927,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Bildkälla</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Full Image Name and Tag</value>
+        <value>Fullständigt avbildningsnamn och -tagg</value>
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
-        <value>E.g. nginx:latest</value>
+        <value>T.ex. nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Kom igång genom att först skapa ett register med Azure Container Registry och sedan lägga till en avbildning.</value>
@@ -3945,7 +3948,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Server-URL</value>
     </data>
   <data name="containerServerURLPlaceholder" xml:space="preserve">
-        <value>E.g. https://index.docker.io</value>
+        <value>T.ex. https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Inloggning</value>
@@ -4953,13 +4956,25 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Åtkomstbegränsningar har lagts till i din funktionsapp, vilket kan påverka din förmåga att hantera den från portalen och göra körningen onåbar.</value>
     </data>
   <data name="userCredsError" xml:space="preserve">
-        <value>Det angivna lösenordet uppfyller inte minimikraven. Lösenordet måste vara minst åtta tecken långt och måste innehålla bokstäver och siffror.</value>
+        <value>Det angivna lösenordet uppfyller inte minimikraven. Lösenordet måste vara minst åtta tecken långt och måste innehålla versaler, gemener, siffror och symboler.</value>
     </data>
   <data name="incomingClientCertificates" xml:space="preserve">
         <value>Inkommande klientcertifikat</value>
     </data>
   <data name="requireIncomingClientCertificates" xml:space="preserve">
         <value>Kräv inkommande certifikat</value>
+    </data>
+  <data name="clientCertificateMode" xml:space="preserve">
+        <value>Client certificate mode</value>
+    </data>
+  <data name="clientCertificateModeRequire" xml:space="preserve">
+        <value>Require</value>
+    </data>
+  <data name="clientCertificateModeAllow" xml:space="preserve">
+        <value>Allow</value>
+    </data>
+  <data name="clientCertificateModeIgnore" xml:space="preserve">
+        <value>Ignore</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Certifikatundantagssökvägar</value>
@@ -5419,13 +5434,13 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Område</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Runtime Scale Monitoring</value>
+        <value>Övervakning av runtimeskala</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Aktivera den här inställningen så att din app kan utlösas av resurser i ett virtuellt nätverk eller av anpassade utlösare. Den kräver minst 1 förvärmd instans för att vara aktiv. &lt;a href="{0}" target="_blank"&gt;Läs mer&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
+        <value>Aktivera den här inställningen så att din app kan utlösas av resurser i ett virtuellt nätverk eller av anpassade utlösare. Den kräver minst 1 förvärmd instans för att vara aktiv.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Uppdatera appinställningarna</value>
@@ -5599,13 +5614,13 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Genom att konfigurera värdet för FUNCTIONS_EXTENSION_VERSION i programinställningen har du valt att använda en anpassad runtime-version.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+        <value>Du uppdaterar din körningsversion från {0} till {1}. Detta kan orsaka icke-bakåtkompatibla ändringar av språk och bindningar för dina befintliga funktioner. Du kan skapa en ny funktionsapp och migrera dina funktioner till den när du uppgraderar huvudversioner av körningsmiljön.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
-        <value>Update Runtime Version</value>
+        <value>Uppdatera runtime-version</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
-        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
+        <value>Din app kör just nu version {0} och har befintliga funktioner. Det är inte rekommenderat att växla till version {1} eftersom det kan orsaka icke-bakåtkompatibla ändringar av språk och bindningar. Vill du fortsätta?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>Arbetsflödesomfattningen saknas i GitHub-token. Återgå till källkontrollsteget för att omauktorisera GitHub.</value>
@@ -5799,6 +5814,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="integrate_bindingsFailedLoading" xml:space="preserve">
         <value>Det gick inte att läsa in en eller flera bindningar. Uppdatera sidan.</value>
     </data>
+  <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
+        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Ta bort funktionsnyckeln</value>
     </data>
@@ -5946,20 +5964,20 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="blaclistFile_message" xml:space="preserve">
         <value>Redigering av den här filtypen stöds inte i portalredigeraren.</value>
     </data>
-  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
-        <value>Det finns inga miljövariabler att visa</value>
+  <data name="staticSite_emptyApplicationSettingList" xml:space="preserve">
+        <value>Det finns ingen programinställning att visa</value>
     </data>
-  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+  <data name="staticSite_addNewApplicationSetting" xml:space="preserve">
         <value>Lägg till</value>
     </data>
-  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
-        <value>Lägg till en ny miljövariabel</value>
+  <data name="staticSite_ariaLabel_addNewApplicationSetting" xml:space="preserve">
+        <value>Lägg till ny programinställning</value>
     </data>
-  <data name="staticSite_environmentVariables" xml:space="preserve">
-        <value>Miljövariabler</value>
+  <data name="staticSite_applicationSettings" xml:space="preserve">
+        <value>Programinställningar</value>
     </data>
-  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
-        <value>Miljövariablerna som gäller för din plats krypteras i vila och överförs via en krypterad kanal. Du kan välja att visa dem i oformaterad text i webbläsaren genom att använda kontrollerna nedan.</value>
+  <data name="staticSite_applicationSettingsInfoMessage" xml:space="preserve">
+        <value>Programinställningarna som gäller för din plats krypteras i vila och överförs via en krypterad kanal. Du kan välja att visa dem i oformaterad text i webbläsaren genom att använda kontrollerna nedan.</value>
     </data>
   <data name="staticSite_environment" xml:space="preserve">
         <value>Miljö</value>
@@ -5967,11 +5985,11 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
         <value>Välj miljö för platsen</value>
     </data>
-  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Filtrera miljövariabel</value>
+  <data name="staticSite_filterApplicationSetting" xml:space="preserve">
+        <value>Filtrera programinställning</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Är du säker på att du vill åsidosätta ändringarna i miljövariablerna för miljön {0}?</value>
+        <value>Är du säker på att du vill åsidosätta ändringarna i programinställningarna för miljön {0}?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
         <value>Ändringar som inte sparas kommer att ignoreras.</value>
@@ -5979,35 +5997,35 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
         <value>Är du säker på att du vill ändra miljön?</value>
     </data>
-  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} är en obligatorisk egenskap för samtliga miljövariabler</value>
+  <data name="staticSite_applicationSettingPropIsRequired" xml:space="preserve">
+        <value>{0} är en obligatorisk egenskap för samtliga programinställningar</value>
     </data>
-  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Miljövariabelnamnet måste vara unikt</value>
+  <data name="staticSite_applicationSettingNamesUnique" xml:space="preserve">
+        <value>Namnet på programinställningen måste vara unikt</value>
     </data>
-  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>Miljövariabelvärdena måste vara en matris</value>
+  <data name="staticSite_applicationSettingValuesMustBeAnArray" xml:space="preserve">
+        <value>Programinställningsvärden måste vara en matris</value>
     </data>
-  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} är en ogiltig miljövariabelegenskap</value>
+  <data name="staticSite_applicationSettingInvalidProperty" xml:space="preserve">
+        <value>{0} är en ogiltig programinställningsegenskap</value>
     </data>
-  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>Alla egenskaper för miljövariabelvärde och -namn måste vara av typen sträng</value>
+  <data name="staticSite_applicationSettingValueMustBeAString" xml:space="preserve">
+        <value>Alla programinställningsvärden och namnegenskaper måste vara av typen sträng</value>
     </data>
   <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>Din webbplats är för närvarande i skrivskyddat läge eftersom den RBAC-tilldelade åtkomsten har angetts som: Läsare</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
-        <value>Loggar</value>
+  <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
+        <value>Logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
-        <value>Containerloggar</value>
+  <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
+        <value>Deployment center logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
-        <value>Inställningar</value>
+  <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
+        <value>Settings</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
-        <value>Containerinställningar</value>
+  <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
+        <value>Deployment center settings</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>Autentiseringsuppgifter för FTP/FTPs</value>
@@ -6019,7 +6037,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Läser in containerloggar</value>
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
-        <value>Läser in containerloggar ...</value>
+        <value>Läser in containerloggar...</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Det gick inte att läsa in containerloggar</value>
@@ -6034,37 +6052,37 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>De tjugo senaste funktionsanropsspårningarna. Kör frågan i Application Insights om du vill ha mer avancerad analys.</value>
     </data>
   <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
-        <value>Uppdatera miljövariabler</value>
+        <value>Uppdatera programinställningarna</value>
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Alla ej sparade ändringar går förlorade vid uppdatering. Är du säker på att du vill fortsätta?</value>
     </data>
-  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
-        <value>Lägg till miljövariabel</value>
+  <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
+        <value>Lägg till programinställning</value>
     </data>
-  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
-        <value>Redigera miljövariabel</value>
+  <data name="staticSite_editApplicationSettingHeader" xml:space="preserve">
+        <value>Redigera programinställning</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+        <value>App Service stöder flera tekniker för att komma åt, publicera och ändra innehållet i din app. Autentiseringsuppgifterna för FTP/FTPS kan begränsas till programmet eller användaren.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
-        <value>FTPS endpoint</value>
+        <value>FTPS-slutpunkt</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
-        <value>Application scope</value>
+        <value>Programomfång</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>Autentiseringsuppgifter för programbegränsning skapas automatiskt och ger enbart åtkomst till den här specifika appen eller distributionsfacket. De här autentiseringsuppgifterna kan användas med FTP, lokal Git och WebDeploy. De kan inte konfigureras manuellt men kan när som helst återställas.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
-        <value>User scope</value>
+        <value>Användarbegränsning</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+        <value>Autentiseringsuppgifter för användaromfång definieras av dig, användaren och kan användas med alla appar som du har åtkomst till. Dessa autentiseringsuppgifter kan användas med FTP, lokal git och WebDeploy. Autentisering av en FTP/FTPS-slutpunkt med autentiseringsuppgifter på användarnivå kräver ett användarnamn i följande format: {0}</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
-        <value>(your username)</value>
+        <value>(ditt användarnamn)</value>
     </data>
   <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
         <value>Användarnamn</value>
@@ -6076,42 +6094,126 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Bekräfta lösenordet</value>
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
-        <value>Write permission on the site or the slot is required to view credentials.</value>
+        <value>Skrivbehörighet för webbplatsen eller facket krävs för att visa autentiseringsuppgifter.</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
-        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+        <value>Använd värdnycklar med dina klienter för att komma åt HTTP-funktionerna i app._master-nyckeln beviljar administratörsåtkomst till Functions Runtime-API:er.</value>
     </data>
   <data name="appKeys_systemKeys_description" xml:space="preserve">
-        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+        <value>Systemnycklar hanteras automatiskt av funktionskörning. Systemnycklar ger detaljerad åtkomst till funktionskörningsfunktioner.</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+        <value>Funktionsnycklar är begränsade till den här funktionen och kan användas för att komma åt den här http-utlösarfunktionen.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
-        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+        <value>Programinställningar gäller bara för statiska webbappar med minst en funktion. Lägg till en funktion till din app för att aktivera konfigurationen.</value>
     </data>
   <data name="reset" xml:space="preserve">
-        <value>Reset</value>
+        <value>Återställ</value>
     </data>
   <data name="resetPublishProfileAriaLabel" xml:space="preserve">
-        <value>Reset publishing profile</value>
+        <value>Återställ publiceringsprofil</value>
     </data>
   <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Show application password</value>
+        <value>Visa programlösenord</value>
     </data>
   <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Hide application password</value>
+        <value>Dölj programlösenord</value>
     </data>
   <data name="showProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user password</value>
+        <value>Visa providerns användarlösenord</value>
     </data>
   <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user password</value>
+        <value>Dölj användarlösenord för providern</value>
     </data>
   <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user confirm password</value>
+        <value>Visa providerns lösenord för användarbekräftelse</value>
     </data>
   <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user confirm password</value>
+        <value>Dölj providerns lösenord för användarbekräftelse</value>
+    </data>
+  <data name="resetPublishProfileConfirmationTitle" xml:space="preserve">
+        <value>Återställ lösenord för programmets publiceringsprofil?</value>
+    </data>
+  <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
+        <value>Genom att återställa profillösenordet slutar alla externa integrationer via publiceringsprofilen att fungera.</value>
+    </data>
+  <data name="usernameLengthRequirements" xml:space="preserve">
+        <value>Användarnamnet måste vara minst {0} tecken långt.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
+        <value>Använd de här inställningarna för att konfigurera distributionsmodell och register för din containerapp. Vi rekommenderar GitHub-åtgärder för bättre driftseffektivitet.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+        <value>Källa</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
+        <value>Containerregister</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
+        <value>Konfigurera din app för att hämta containeravbildningen från ett register.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
+        <value>GitHub-åtgärder</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
+        <value>Skapa, distribuera och hantera din containerapp automatiskt med GitHub-åtgärder.</value>
+    </data>
+  <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
+        <value>Du måste ha direkt nätverksåtkomst för att kunna köra din funktion. Din app kan vara begränsad med privata slutpunkter, åtkomstbegränsningar eller tjänstslutpunkter.</value>
+    </data>
+  <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
+        <value>GitHub-åtgärder</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
+        <value>Registerinställningar</value>
+    </data>
+  <data name="deploymentCenterContainerRegistryOptionsLabel" xml:space="preserve">
+        <value>Alternativ</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
+        <value>Registerkälla</value>
+    </data>
+  <data name="deploymentCenterPublishProfileDescription" xml:space="preserve">
+        <value>Importera publiceringsprofilen till Visual Studio eller andra klienter för att ansluta och pusha en distribution till din WebApp.</value>
+    </data>
+  <data name="downloadPublishProfile" xml:space="preserve">
+        <value>Ladda ner publiceringsprofilen</value>
+    </data>
+  <data name="managePublishProfileCommandBarAriaLabel" xml:space="preserve">
+        <value>Hantera publiceringsprofilkommandon</value>
+    </data>
+  <data name="downloadingPublishProfile" xml:space="preserve">
+        <value>Laddar ner publiceringsprofilen</value>
+    </data>
+  <data name="downloadingPublishProfileFailed" xml:space="preserve">
+        <value>Det gick inte att ladda ned publiceringsprofilen</value>
+    </data>
+  <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
+        <value>Publiceringsprofilen laddades ner</value>
+    </data>
+  <data name="staticSite_configUpdating" xml:space="preserve">
+        <value>Uppdaterar programinställningarna</value>
+    </data>
+  <data name="staticSite_configUpdateSuccess" xml:space="preserve">
+        <value>Programinställningarna har uppdaterats.</value>
+    </data>
+  <data name="staticSite_configUpdateFailure" xml:space="preserve">
+        <value>Det gick inte att uppdatera programinställningarna: {0}</value>
+    </data>
+  <data name="clickToShowValue" xml:space="preserve">
+        <value>Click to show value</value>
+    </data>
+  <data name="clickToHideValue" xml:space="preserve">
+        <value>Click to hide value</value>
+    </data>
+  <data name="testAndRun" xml:space="preserve">
+        <value>Test/Run</value>
+    </data>
+  <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
+        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+    </data>
+  <data name="clickToUpdateSettings" xml:space="preserve">
+        <value>Click here to update your settings.</value>
     </data>
 </root>

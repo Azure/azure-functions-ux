@@ -1,6 +1,6 @@
 ### 安装依赖项
 
-开始之前，应<a href="https://go.microsoft.com/fwlink/?linkid=2016389" target="_blank">安装 Visual Studio 2017</a> 并确保还安装了 Azure 开发工作负荷。
+开始之前，应<a href="https://go.microsoft.com/fwlink/?linkid=2016389" target="_blank">安装 Visual Studio 2019</a> 并确保还安装了 Azure 开发工作负荷。
 
 安装 Visual Studio 后，请确保具有<a href="https://go.microsoft.com/fwlink/?linkid=2016394" target="_blank">最新的 Azure Functions 工具</a>。
 

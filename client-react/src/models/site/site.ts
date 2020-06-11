@@ -51,6 +51,11 @@ export enum SiteDisabledReason {
   Other = 100,
 }
 
+export enum ClientCertMode {
+  Required = 'Required',
+  Optional = 'Optional',
+}
+
 export interface Site {
   name: string;
   state: string;
@@ -90,6 +95,7 @@ export interface Site {
   gatewaySiteName: string;
   clientAffinityEnabled: boolean;
   clientCertEnabled: boolean;
+  clientCertMode: ClientCertMode;
   clientCertExclusionPaths: string;
   hostNamesDisabled: boolean;
   domainVerificationIdentifiers: string;
@@ -120,3 +126,10 @@ export interface HostNameSslState {
   iPBasedSslState: IpBasedSslState;
   hostType: HostType;
 }
+
+export enum AppOs {
+  linux = 'linux',
+  windows = 'windows',
+}
+
+export type AppOsType = AppOs.linux | AppOs.windows;

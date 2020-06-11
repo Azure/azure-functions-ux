@@ -1,35 +1,36 @@
+import { Field, FieldArray, FieldProps, FormikProps } from 'formik';
+import get from 'lodash-es/get';
+import { IDropdownOption, ITextFieldProps, Label, TextField } from 'office-ui-fabric-react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  pivotItemWrapper,
-  httpAddDataStyle,
-  httpAddDataTextStyle,
-  functionTestGroupStyle,
-  bodyEditorStyle,
-  keyValuePairTextStyle,
-  keyValuePairButtonStyle,
-  keyValuePairStyle,
-  keyValuePairLabelStyle,
-  keyValuePairLabelDivStyle,
-  testFormLabelStyle,
-} from './FunctionTest.styles';
-import { Label, IDropdownOption, ITextFieldProps, TextField } from 'office-ui-fabric-react';
-import MonacoEditor, { getMonacoEditorTheme } from '../../../../../../components/monaco-editor/monaco-editor';
-import { ThemeContext } from '../../../../../../ThemeContext';
-import { InputFormValues, EmptyNameValuePair, NameValuePair, HttpMethods, UrlObj } from '../FunctionEditor.types';
-import { FormikProps, Field, FieldArray, FieldProps } from 'formik';
-import IconButton from '../../../../../../components/IconButton/IconButton';
-import Dropdown from '../../../../../../components/form-controls/DropDown';
-import get from 'lodash-es/get';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { FunctionInfo } from '../../../../../../models/functions/function-info';
+import Dropdown from '../../../../../../components/form-controls/DropDown';
+import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
+import IconButton from '../../../../../../components/IconButton/IconButton';
+import MonacoEditor, { getMonacoEditorTheme } from '../../../../../../components/monaco-editor/monaco-editor';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { BindingType } from '../../../../../../models/functions/function-binding';
+import { FunctionInfo } from '../../../../../../models/functions/function-info';
 import { PortalTheme } from '../../../../../../models/portal-models';
 import { StartupInfoContext } from '../../../../../../StartupInfoContext';
-import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
+import { ThemeContext } from '../../../../../../ThemeContext';
+import StringUtils from '../../../../../../utils/string';
+import { EmptyNameValuePair, HttpMethods, InputFormValues, NameValuePair, UrlObj } from '../FunctionEditor.types';
 import { FunctionEditorContext } from '../FunctionEditorDataLoader';
+import {
+  bodyEditorStyle,
+  functionTestGroupStyle,
+  httpAddDataStyle,
+  httpAddDataTextStyle,
+  keyValuePairButtonStyle,
+  keyValuePairLabelDivStyle,
+  keyValuePairLabelStyle,
+  keyValuePairStyle,
+  keyValuePairTextStyle,
+  pivotItemWrapper,
+  testFormLabelStyle,
+} from './FunctionTest.styles';
 
 export interface FunctionTestInputProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -153,19 +154,28 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
       {t('functionTestInputDescription')}
       {isHttpOrWebHookFunction && (
         <div className={functionTestGroupStyle}>
-          <FormControlWrapper
+          <Field
+            id="method"
+            name="method"
             label={t('httpRun_httpMethod')}
-            layout={Layout.vertical}
-            tooltip={t('httpMethod_tooltip')}
-            defaultLabelClassName={testFormLabelStyle}>
-            <Field id="method" name="method" component={Dropdown} options={getDropdownOptions()} />
-          </FormControlWrapper>
+            layout={Layout.Vertical}
+            mouseOverToolTip={t('httpMethod_tooltip')}
+            customLabelClassName={testFormLabelStyle}
+            component={Dropdown}
+            options={getDropdownOptions()}
+          />
         </div>
       )}
       <div className={functionTestGroupStyle}>
-        <FormControlWrapper label={t('keysDialog_key')} layout={Layout.vertical} defaultLabelClassName={testFormLabelStyle}>
-          <Field id="xFunctionKey" name="xFunctionKey" component={Dropdown} options={getFunctionKeyDropdown()} />
-        </FormControlWrapper>
+        <Field
+          id="xFunctionKey"
+          name="xFunctionKey"
+          label={t('keysDialog_key')}
+          layout={Layout.Vertical}
+          customLabelClassName={testFormLabelStyle}
+          component={Dropdown}
+          options={getFunctionKeyDropdown()}
+        />
       </div>
       {isHttpOrWebHookFunction && (
         <div className={functionTestGroupStyle}>
@@ -184,7 +194,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
         <div className={bodyEditorStyle}>
           <MonacoEditor
             language="json"
-            value={body}
+            value={StringUtils.stringifyJsonForEditor(body)}
             onChange={onRequestBodyChange}
             height="300px"
             options={{

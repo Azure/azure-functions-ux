@@ -1098,6 +1098,12 @@ export class FunctionAppService {
     );
   }
 
+  getFunctionTestData(context: FunctionAppContext, testDataHref: string): Observable<any> {
+    return this.getClient(context).execute({ resourceId: context.site.id }, t => {
+      return this._cacheService.get(testDataHref, true, this.headers(t)).map(r => r.text());
+    });
+  }
+
   // these 2 functions are only for try app service scenarios.
   // It's a hack to not have to change a lot of code since soon try will fork this anyway.
   // DO NOT use this for anything new.

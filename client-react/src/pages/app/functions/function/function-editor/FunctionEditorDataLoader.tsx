@@ -95,7 +95,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       const currentRuntimeVersion = getRuntimeVersionString(hostStatusData.properties.version);
       setRuntimeVersion(currentRuntimeVersion);
       const [hostJsonResponse, fileListResponse] = await Promise.all([
-        FunctionsService.getHostJson(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
+        FunctionsService.getHostJson(siteResourceId, currentRuntimeVersion),
         FunctionsService.getFileContent(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
       ]);
       if (hostJsonResponse && hostJsonResponse.metadata.success) {
@@ -341,16 +341,9 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         // TODO (krmitta): Handle error thrown and show the output accordingly
       }
 
-      let responseText = '';
-      // Stringify the response if it is JSON, otherwise use it as such
-      try {
-        responseText = JSON.stringify(resData);
-      } catch (e) {
-        responseText = resData;
-      }
       setResponseContent({
         code: runResponse.metadata.status,
-        text: responseText,
+        text: resData,
       });
     }
     setFunctionRunning(false);
@@ -395,19 +388,16 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
-  const getKeyHeader = (): KeyValue<string> => {
-    if (hostKeys && hostKeys.masterKey) {
-      return {
-        'Cache-Control': 'no-cache',
-        'x-functions-key': hostKeys.masterKey,
-      };
-    }
-    return {};
+  const getAuthorizationHeaders = (): KeyValue<string> => {
+    return {
+      Authorization: `Bearer ${startupInfoContext.token}`,
+      FunctionsPortal: '1',
+    };
   };
 
   const getAndSetTestData = async () => {
     if (!!functionInfo && !!hostKeys && !!functionInfo.properties.test_data_href) {
-      const headers = getKeyHeader();
+      const headers = getAuthorizationHeaders();
       const testDataResponse = await FunctionsService.getDataFromFunctionHref(functionInfo.properties.test_data_href, 'GET', headers);
       if (testDataResponse.metadata.success) {
         let data = testDataResponse.data;

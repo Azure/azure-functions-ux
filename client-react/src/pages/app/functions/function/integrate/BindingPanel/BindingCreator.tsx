@@ -4,17 +4,17 @@ import { IDropdownOption, Link, MessageBar, MessageBarType } from 'office-ui-fab
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../../../components/ActionBar';
+import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { learnMoreLinkStyle } from '../../../../../../components/form-controls/formControl.override.styles';
-import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
+import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { Binding, BindingDirection } from '../../../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../../../models/functions/function-binding';
+import { KeyValue } from '../../../../../../models/portal-models';
 import { CommonConstants } from '../../../../../../utils/CommonConstants';
 import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
+import { getFunctionBindingDirection } from '../FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
-import { getFunctionBindingDirection } from './BindingEditor';
-import Dropdown from '../../../../../../components/form-controls/DropDown';
-import { KeyValue } from '../../../../../../models/portal-models';
 
 export interface BindingCreatorProps {
   bindingDirection: BindingDirection;
@@ -73,15 +73,19 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
         return (
           <form>
             <p>{getInstructions(formProps.values.direction, t)}</p>
-            <FormControlWrapper label={t('integrateBindingType')} layout={Layout.vertical}>
-              <Field
-                component={Dropdown}
-                name="type"
-                disabled={onlyBuiltInBindings && dropdownOptions.length === 0}
-                options={dropdownOptions}
-                {...formProps}
-              />
-            </FormControlWrapper>
+            <Field
+              label={t('integrateBindingType')}
+              name="type"
+              id="type"
+              component={Dropdown}
+              options={dropdownOptions}
+              disabled={onlyBuiltInBindings && dropdownOptions.length === 0}
+              onPanel={true}
+              layout={Layout.Vertical}
+              key="type"
+              {...formProps}
+              dirty={false}
+            />
 
             {/* Extension bundles warning */}
             {onlyBuiltInBindings ? (
@@ -147,7 +151,7 @@ const bindingTypeSpecificFields = (
 
   const builder = new BindingFormBuilder([formProps.values], [binding], functionAppId, t);
 
-  return builder.getFields(formProps, false);
+  return builder.getFields(formProps, false, true);
 };
 
 const getDefaultValues = (bindingType: BindingType, filteredBindings: Binding[]): KeyValue<string> => {

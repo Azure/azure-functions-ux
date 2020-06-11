@@ -41,7 +41,7 @@ export const panelStyle = {
 
 export const panelBodyStyle = {
   marginTop: '10px',
-  padding: '20px',
+  padding: '0px 20px 20px 20px',
 };
 
 export const closeButtonStyle = (theme: ThemeExtended) =>

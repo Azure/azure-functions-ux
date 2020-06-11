@@ -7,7 +7,7 @@ import { SiteStateContext } from '../../../SiteState';
 import { DeploymentCenterCommandBarProps } from './DeploymentCenter.types';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, showPublishProfilePanel, refreshFunction } = props;
+  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, isLoading } = props;
   const { t } = useTranslation();
   const siteStateContext = useContext(SiteStateContext);
 
@@ -24,6 +24,10 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     window.open(`https://${hostName}`);
   };
 
+  const isDisabledOnReload = () => {
+    return !isSiteLoaded() || isLoading;
+  };
+
   const commandBarItems: ICommandBarItemProps[] = [
     {
       key: 'save',
@@ -32,7 +36,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Save',
       },
       ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
-      disabled: !isSiteLoaded(),
+      disabled: isDisabledOnReload(),
       onClick: saveFunction,
     },
     {
@@ -42,7 +46,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Cancel',
       },
       ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
-      disabled: !isSiteLoaded(),
+      disabled: isDisabledOnReload(),
       onClick: discardFunction,
     },
     {
@@ -72,8 +76,8 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Refresh',
       },
       ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
-      disabled: !isSiteLoaded(),
-      onClick: refreshFunction,
+      disabled: isDisabledOnReload(),
+      onClick: refresh,
     },
   ];
 

@@ -52,7 +52,7 @@ export const responseContentStyle = style({
   backgroundColor: 'rgba(128, 128, 128, 0.1)',
   border: '1px solid rgba(204, 204, 204, 0.8)',
   boxSizing: 'border-box',
-  padding: '3px',
+  padding: '5px',
 });
 
 export const responseCodeStyle = style({

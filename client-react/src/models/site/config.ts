@@ -16,6 +16,13 @@ export enum ScmTypes {
   ExternalHg = 'ExternalHg',
   OneDrive = 'OneDrive',
   Vso = 'VSO',
+  Vsts = 'VSTS',
+}
+
+export enum BuildProvider {
+  None = 'None',
+  GitHubAction = 'GitHubAction',
+  AppServiceBuildService = 'AppServiceBuildService',
 }
 
 export interface SiteConfig {

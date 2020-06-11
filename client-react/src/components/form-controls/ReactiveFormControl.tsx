@@ -1,22 +1,32 @@
-import React, { ReactNode, useContext } from 'react';
-import { Stack, Label, Link, Icon } from 'office-ui-fabric-react';
+import { Label, Link, Stack, TooltipHost, TooltipOverflowMode } from 'office-ui-fabric-react';
+import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useWindowSize } from 'react-use';
+import { style } from 'typestyle';
+import { ReactComponent as InfoSvg } from '../../images/Common/Info.svg';
+import { dirtyElementStyle } from '../../pages/app/app-settings/AppSettings.styles';
+import { ThemeExtended } from '../../theme/SemanticColorsExtended';
+import { ThemeContext } from '../../ThemeContext';
+import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
+import UpsellIcon from '../TooltipIcons/UpsellIcon';
 import {
   controlContainerStyle,
-  upsellIconStyle,
-  infoMessageStyle,
-  infoIconStyle,
-  learnMoreLinkStyle,
-  formStackStyle,
   formLabelStyle,
+  formStackStyle,
+  hostStyle,
+  infoMessageStyle,
+  learnMoreLinkStyle,
+  tooltipStyle,
+  upsellIconStyle,
 } from './formControl.override.styles';
-import UpsellIcon from '../TooltipIcons/UpsellIcon';
-import { useWindowSize } from 'react-use';
-import { useTranslation } from 'react-i18next';
-import { ThemeContext } from '../../ThemeContext';
-import { dirtyElementStyle } from '../../pages/app/app-settings/AppSettings.styles';
+
+export enum Layout {
+  Horizontal = 'horizontal',
+  Vertical = 'vertical',
+}
 
 interface ReactiveFormControlProps {
-  children: ReactNode;
+  children: JSX.Element;
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
@@ -24,47 +34,82 @@ interface ReactiveFormControlProps {
   learnMoreLink?: string;
   dirty?: boolean;
   formControlClassName?: string;
+  customLabelClassName?: string;
+  layout?: Layout;
+  mouseOverToolTip?: string;
+  required?: boolean;
+  multiline?: boolean;
 }
 
 const ReactiveFormControl = (props: ReactiveFormControlProps) => {
-  const { upsellMessage, label, infoBubbleMessage, learnMoreLink, dirty, formControlClassName } = props;
+  const {
+    upsellMessage,
+    label,
+    infoBubbleMessage,
+    learnMoreLink,
+    dirty,
+    formControlClassName,
+    customLabelClassName,
+    layout,
+    children,
+    id,
+    mouseOverToolTip,
+    required,
+    multiline,
+  } = props;
+
   const { width } = useWindowSize();
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
-  const fullpage = width > 1000;
+  const fullPage = width > 1000;
+  const horizontal = layout ? layout !== Layout.Vertical : fullPage;
+
   return (
     <Stack
-      horizontal={fullpage}
+      horizontal={horizontal}
       verticalAlign="center"
-      className={`${!!formControlClassName ? formControlClassName : ''} ${controlContainerStyle(!!upsellMessage, fullpage)}`}>
+      className={`${!!formControlClassName ? formControlClassName : ''} ${controlContainerStyle(!!upsellMessage, fullPage)}`}>
       {label && (
-        <Stack horizontal verticalAlign="center" className={formStackStyle(!!upsellMessage, fullpage)}>
+        <Stack horizontal verticalAlign="center" className={formStackStyle(!!upsellMessage, fullPage)}>
           {upsellMessage && (
             <div className={upsellIconStyle}>
               <UpsellIcon upsellMessage={upsellMessage} />
             </div>
           )}
           <Label
-            className={`${formLabelStyle(!!upsellMessage, fullpage)} ${dirty ? dirtyElementStyle(theme, true) : ''}`}
-            id={`${props.id}-label`}>
-            {label}
+            className={`${!!customLabelClassName ? customLabelClassName : ''} ${formLabelStyle(!!upsellMessage, fullPage)} ${
+              dirty ? dirtyElementStyle(theme, true) : ''
+            }`}
+            id={`${id}-label`}>
+            <TooltipHost overflowMode={TooltipOverflowMode.Self} content={label} hostClassName={hostStyle(multiline)} styles={tooltipStyle}>
+              {label}
+            </TooltipHost>
+            {getRequiredIcon(theme, required)}
+            {getMouseOverToolTip(`${children.props.id}-tooltip`, mouseOverToolTip)}
           </Label>
         </Stack>
       )}
-      {props.children}
+      {children}
       {infoBubbleMessage && (
-        <div className={infoMessageStyle(fullpage)}>
-          <Stack horizontal verticalAlign="center">
-            <Icon iconName="Info" className={infoIconStyle(theme)} />
-            <div>
-              <span id={`${props.id}-infobubble`}>{`${infoBubbleMessage} `}</span>
+        <div className={infoMessageStyle(fullPage)}>
+          <Stack horizontal verticalAlign="center" disableShrink={true}>
+            <InfoSvg
+              className={style({
+                paddingRight: '5px',
+              })}
+            />
+            <div
+              className={style({
+                width: 'fit-content',
+              })}>
+              <span id={`${id}-infobubble`}>{`${infoBubbleMessage} `}</span>
               {learnMoreLink && (
                 <Link
-                  id={`${props.id}-learnmore`}
+                  id={`${id}-learnmore`}
                   href={learnMoreLink}
                   target="_blank"
                   className={learnMoreLinkStyle}
-                  aria-labelledby={`${props.id}-infobubble ${props.id}-learnmore`}>
+                  aria-labelledby={`${id}-infobubble ${id}-learnmore`}>
                   {t('learnMore')}
                 </Link>
               )}
@@ -74,6 +119,27 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
       )}
     </Stack>
   );
+};
+
+const getRequiredIcon = (theme: ThemeExtended, required?: boolean) => {
+  if (required) {
+    return (
+      <span
+        className={style({
+          fontWeight: 'bold',
+          color: theme.palette.red,
+          marginLeft: '2px',
+        })}>
+        *
+      </span>
+    );
+  }
+};
+
+const getMouseOverToolTip = (id: string, content?: string) => {
+  if (content) {
+    return <InfoTooltip id={id} content={content} />;
+  }
 };
 
 export default ReactiveFormControl;

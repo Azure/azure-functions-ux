@@ -2146,6 +2146,9 @@
   <data name="validation_siteNameMaxChars" xml:space="preserve">
         <value>Имя должно содержать меньше 60 символов.</value>
     </data>
+  <data name="validation_slotNameMaxChars" xml:space="preserve">
+        <value>Имя сайта и слота в совокупности должны быть короче 59 символов.</value>
+    </data>
   <data name="validation_siteNameInvalidChar" xml:space="preserve">
         <value>Недопустимый символ ("{0}")</value>
     </data>
@@ -3269,7 +3272,7 @@
         <value>Выберите другую ценовую категорию, чтобы добавить в план больше ресурсов.</value>
     </data>
   <data name="pricing_applyButtonLabel" xml:space="preserve">
-        <value>Обновить план службы приложений</value>
+        <value>Применить изменения</value>
     </data>
   <data name="pricing_sharedInfrastructure" xml:space="preserve">
         <value>Общая инфраструктура</value>
@@ -3924,10 +3927,10 @@
         <value>Источник образа</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Full Image Name and Tag</value>
+        <value>Полное имя образа и тег</value>
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
-        <value>E.g. nginx:latest</value>
+        <value>Например, nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Чтобы начать, создайте реестр контейнеров Azure и добавьте образ.</value>
@@ -3945,7 +3948,7 @@
         <value>URL-адрес сервера</value>
     </data>
   <data name="containerServerURLPlaceholder" xml:space="preserve">
-        <value>E.g. https://index.docker.io</value>
+        <value>Например, https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Вход в систему</value>
@@ -4953,13 +4956,25 @@
         <value>Для вашего приложения-функции были введены ограничения доступа, которые могут повлиять на возможность управления этим приложением на портале и сделать недоступной среду выполнения.</value>
     </data>
   <data name="userCredsError" xml:space="preserve">
-        <value>Указанный пароль не соответствует минимальным требованиям к паролю. Пароль должен содержать буквы и цифры. Длина пароля — не менее восьми символов.</value>
+        <value>Указанный пароль не соответствует минимальным требованиям. Он должен иметь длину не менее восьми символов и включать строчные и прописные буквы, цифры и специальные знаки.</value>
     </data>
   <data name="incomingClientCertificates" xml:space="preserve">
         <value>Входящие сертификаты клиента</value>
     </data>
   <data name="requireIncomingClientCertificates" xml:space="preserve">
         <value>Требовать входящий сертификат</value>
+    </data>
+  <data name="clientCertificateMode" xml:space="preserve">
+        <value>Client certificate mode</value>
+    </data>
+  <data name="clientCertificateModeRequire" xml:space="preserve">
+        <value>Require</value>
+    </data>
+  <data name="clientCertificateModeAllow" xml:space="preserve">
+        <value>Allow</value>
+    </data>
+  <data name="clientCertificateModeIgnore" xml:space="preserve">
+        <value>Ignore</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Пути исключения сертификатов</value>
@@ -5419,13 +5434,13 @@
         <value>Область</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Runtime Scale Monitoring</value>
+        <value>Мониторинг масштабирования среды выполнения</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Включите этот параметр, чтобы разрешить активацию приложения ресурсами в виртуальной сети или пользовательскими триггерами. Требуется, чтобы был активен по меньшей мере один предварительно подготовленный экземпляр. &lt;a href="{0}" target="_blank"&gt;Дополнительные сведения&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
+        <value>Включите этот параметр, чтобы разрешить активацию приложения ресурсами в виртуальной сети или пользовательскими триггерами. Требуется, чтобы был активен по меньшей мере один предварительно подготовленный экземпляр.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Обновление параметров приложения</value>
@@ -5599,13 +5614,13 @@
         <value>Установив значение переменной FUNCTIONS_EXTENSION_VERSION в параметре приложения, вы соглашаетесь на использование настраиваемой версии среды выполнения.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+        <value>Вы обновляете версию среды выполнения с {0} на {1}. Это может привести к критическим изменениям в языке и привязках для существующих функций. Попробуйте создать приложение-функцию и перенести в него функции при обновлении основных номеров версии среды выполнения.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
-        <value>Update Runtime Version</value>
+        <value>Обновление версии среды выполнения</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
-        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
+        <value>Сейчас ваше приложение работает под управлением версии {0} и имеет существующие функции. Переключение на версию {1} не рекомендуется, так как это может привести к критическим изменениям в языках и привязках. Вы действительно хотите продолжить?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>Токен GitHub не содержит область "workflow". Вернитесь на шаг "Управление версиями" и повторите авторизацию GitHub.</value>
@@ -5799,6 +5814,9 @@
   <data name="integrate_bindingsFailedLoading" xml:space="preserve">
         <value>Не удалось загрузить одну или несколько привязок. Обновите страницу.</value>
     </data>
+  <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
+        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Удаление функциональной клавиши</value>
     </data>
@@ -5946,20 +5964,20 @@
   <data name="blaclistFile_message" xml:space="preserve">
         <value>Изменение этого типа файлов не поддерживается в редакторе портала.</value>
     </data>
-  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
-        <value>Нет переменных среды для отображения.</value>
+  <data name="staticSite_emptyApplicationSettingList" xml:space="preserve">
+        <value>Нет параметров приложения для отображения</value>
     </data>
-  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+  <data name="staticSite_addNewApplicationSetting" xml:space="preserve">
         <value>Добавить</value>
     </data>
-  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
-        <value>Добавить новую переменную среды</value>
+  <data name="staticSite_ariaLabel_addNewApplicationSetting" xml:space="preserve">
+        <value>Добавить новый параметр приложения</value>
     </data>
-  <data name="staticSite_environmentVariables" xml:space="preserve">
-        <value>Переменные среды</value>
+  <data name="staticSite_applicationSettings" xml:space="preserve">
+        <value>Параметры приложения</value>
     </data>
-  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
-        <value>Применимые к сайту переменные среды шифруются при хранении и передаются по шифруемому каналу. Вы можете отобразить их в виде простого текста в браузере, используя элементы управления ниже.</value>
+  <data name="staticSite_applicationSettingsInfoMessage" xml:space="preserve">
+        <value>Применимые к сайту параметры приложения шифруются при хранении и передаются по шифруемому каналу. Вы можете отобразить их в виде простого текста в браузере, используя элементы управления ниже.</value>
     </data>
   <data name="staticSite_environment" xml:space="preserve">
         <value>Среда</value>
@@ -5967,11 +5985,11 @@
   <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
         <value>Выберите среду для сайта</value>
     </data>
-  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Фильтрация переменных среды</value>
+  <data name="staticSite_filterApplicationSetting" xml:space="preserve">
+        <value>Фильтр параметров приложения</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Вы действительно хотите отменить изменения переменных среды для среды {0}?</value>
+        <value>Отменить изменения параметров приложения для среды {0}?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
         <value>Несохраненные изменения будут потеряны.</value>
@@ -5979,35 +5997,35 @@
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
         <value>Вы действительно хотите изменить среду?</value>
     </data>
-  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>Свойство {0} является обязательным для всех переменных среды.</value>
+  <data name="staticSite_applicationSettingPropIsRequired" xml:space="preserve">
+        <value>{0} является обязательным свойством для всех параметров приложения.</value>
     </data>
-  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Имена переменных среды должны быть уникальными.</value>
+  <data name="staticSite_applicationSettingNamesUnique" xml:space="preserve">
+        <value>Имя параметра приложения должно быть уникальным.</value>
     </data>
-  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>Значения переменных среды должны быть массивом.</value>
+  <data name="staticSite_applicationSettingValuesMustBeAnArray" xml:space="preserve">
+        <value>Значения параметров приложения должны быть массивом.</value>
     </data>
-  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} является недопустимым свойством переменной среды.</value>
+  <data name="staticSite_applicationSettingInvalidProperty" xml:space="preserve">
+        <value>Свойство параметра приложения {0} недопустимо.</value>
     </data>
-  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>Свойства имен и значений для всех переменных среды должны иметь строковый тип.</value>
+  <data name="staticSite_applicationSettingValueMustBeAString" xml:space="preserve">
+        <value>Свойства имен и значений всех параметров приложения должны иметь строковый тип.</value>
     </data>
   <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>Ваш сайт сейчас находится в режиме только для чтения, так как назначена роль доступа RBAC "Читатель".</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
-        <value>Журналы</value>
+  <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
+        <value>Logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
-        <value>Журналы контейнера</value>
+  <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
+        <value>Deployment center logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
-        <value>Параметры</value>
+  <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
+        <value>Settings</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
-        <value>Параметры контейнера</value>
+  <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
+        <value>Deployment center settings</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>Учетные данные FTP или FTPS</value>
@@ -6034,37 +6052,37 @@
         <value>Двадцать последних трассировок вызовов функций. Для расширенного анализа выполните запрос в Application Insights.</value>
     </data>
   <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
-        <value>Refresh environment variables</value>
+        <value>Обновление параметров приложения</value>
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>При обновлении все несохраненные изменения будут потеряны. Вы действительно хотите продолжить?</value>
     </data>
-  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
-        <value>Add environment variable</value>
+  <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
+        <value>Добавление параметра приложения</value>
     </data>
-  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
-        <value>Edit environment variable</value>
+  <data name="staticSite_editApplicationSettingHeader" xml:space="preserve">
+        <value>Изменение параметра приложения</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+        <value>Служба приложений поддерживает несколько технологий для доступа к содержимому приложения, а также публикации и изменения этого содержимого. Учетные данные FTP/FTPS могут находиться в области приложения или пользователя.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
-        <value>FTPS endpoint</value>
+        <value>Конечная точка FTPS</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
-        <value>Application scope</value>
+        <value>Область приложения</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>Учетные данные области приложения создаются автоматически и предоставляют доступ только к этому приложению или слоту развертывания. Эти учетные данные можно использовать с FTP, локальным Git и WebDeploy. Эти учетные данные не могут быть настроены вручную, но могут быть сброшены в любое время.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
-        <value>User scope</value>
+        <value>Область пользователей</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+        <value>Учетные данные области пользователя определяются вами — пользователем — и могут использоваться со всеми приложениями, к которым у вас есть доступ. Эти учетные данные можно использовать с FTP, локальным Git и WebDeploy. Для проверки подлинности на конечной точке FTP или FTPS с помощью учетных данных уровня пользователя требуется имя пользователя в следующем формате: "{0}".</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
-        <value>(your username)</value>
+        <value>(ваше имя пользователя)</value>
     </data>
   <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
         <value>Имя пользователя</value>
@@ -6076,42 +6094,126 @@
         <value>Подтверждение пароля</value>
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
-        <value>Write permission on the site or the slot is required to view credentials.</value>
+        <value>Для просмотра учетных данных необходимо разрешение на запись для сайта или слота.</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
-        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+        <value>Используйте в своих клиентах ключи узла для доступа ко всем HTTP-функциям в приложении. Ключ _master предоставляет административный доступ к API среды выполнения Функций.</value>
     </data>
   <data name="appKeys_systemKeys_description" xml:space="preserve">
-        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+        <value>Системными ключами автоматически управляет среда выполнения Функций. Системные ключи предоставляют детализированный доступ к возможностям среды выполнения Функций.</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+        <value>Функциональные ключи находятся в области действия этой функции и могут использоваться для доступа к этой функции триггера HTTP.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
-        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+        <value>Параметры приложения применимы только к статическим веб-приложениям как минимум с одной функцией. Добавьте в приложение функцию, чтобы активировать конфигурацию.</value>
     </data>
   <data name="reset" xml:space="preserve">
-        <value>Reset</value>
+        <value>Сброс</value>
     </data>
   <data name="resetPublishProfileAriaLabel" xml:space="preserve">
-        <value>Reset publishing profile</value>
+        <value>Сброс профиля публикации</value>
     </data>
   <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Show application password</value>
+        <value>Показать пароль приложения</value>
     </data>
   <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Hide application password</value>
+        <value>Скрыть пароль приложения</value>
     </data>
   <data name="showProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user password</value>
+        <value>Показать пароль пользователя поставщика</value>
     </data>
   <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user password</value>
+        <value>Скрыть пароль пользователя поставщика</value>
     </data>
   <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user confirm password</value>
+        <value>Показать подтверждение пароля пользователя поставщика</value>
     </data>
   <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user confirm password</value>
+        <value>Скрыть подтверждение пароля пользователя поставщика</value>
+    </data>
+  <data name="resetPublishProfileConfirmationTitle" xml:space="preserve">
+        <value>Сбросить пароль для профиля публикации приложения?</value>
+    </data>
+  <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
+        <value>При сбросе пароля профиля все внешние интеграции с использованием профиля публикации перестанут работать.</value>
+    </data>
+  <data name="usernameLengthRequirements" xml:space="preserve">
+        <value>Длина имени пользователя в символах должна составлять по меньшей мере {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
+        <value>Используйте эти параметры для настройки реестра и модели развертывания приложений контейнера. Рекомендуем использовать GitHub Actions для более эффективной работы.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+        <value>Источник</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
+        <value>Реестр контейнеров</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
+        <value>Настройка приложения для получения образа контейнера из реестра.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
+        <value>Функции GitHub Actions автоматизируют создание, развертывание и поддержку контейнерного приложения.</value>
+    </data>
+  <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
+        <value>Для запуска функции необходим прямой доступ к сети. Ваше приложение может блокироваться через частные конечные точки, ограничения доступа или конечные точки службы.</value>
+    </data>
+  <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
+        <value>Параметры реестра</value>
+    </data>
+  <data name="deploymentCenterContainerRegistryOptionsLabel" xml:space="preserve">
+        <value>Параметры</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
+        <value>Источник реестра</value>
+    </data>
+  <data name="deploymentCenterPublishProfileDescription" xml:space="preserve">
+        <value>Импортируйте профиль публикации в Visual Studio или другие клиенты, чтобы подключать и развертывать его для своего веб-приложения.</value>
+    </data>
+  <data name="downloadPublishProfile" xml:space="preserve">
+        <value>Скачать профиль публикации</value>
+    </data>
+  <data name="managePublishProfileCommandBarAriaLabel" xml:space="preserve">
+        <value>Команды управления профилем публикации</value>
+    </data>
+  <data name="downloadingPublishProfile" xml:space="preserve">
+        <value>Скачивание профиля публикации</value>
+    </data>
+  <data name="downloadingPublishProfileFailed" xml:space="preserve">
+        <value>Не удалось скачать профиль публикации.</value>
+    </data>
+  <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
+        <value>Скачивание профиля публикации завершено</value>
+    </data>
+  <data name="staticSite_configUpdating" xml:space="preserve">
+        <value>Обновление параметров приложения</value>
+    </data>
+  <data name="staticSite_configUpdateSuccess" xml:space="preserve">
+        <value>Параметры приложения обновлены</value>
+    </data>
+  <data name="staticSite_configUpdateFailure" xml:space="preserve">
+        <value>Не удалось обновить параметры приложения: {0}</value>
+    </data>
+  <data name="clickToShowValue" xml:space="preserve">
+        <value>Click to show value</value>
+    </data>
+  <data name="clickToHideValue" xml:space="preserve">
+        <value>Click to hide value</value>
+    </data>
+  <data name="testAndRun" xml:space="preserve">
+        <value>Test/Run</value>
+    </data>
+  <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
+        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+    </data>
+  <data name="clickToUpdateSettings" xml:space="preserve">
+        <value>Click here to update your settings.</value>
     </data>
 </root>
