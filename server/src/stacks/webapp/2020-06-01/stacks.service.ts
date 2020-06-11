@@ -108,10 +108,38 @@ export class WebAppStacksService20200601 {
     os: 'linux' | 'windows'
   ) {
     if (os === 'linux' && minorVersion.stackSettings.linuxRuntimeSettings !== undefined) {
-      newMajorVersion.minorVersions.push(minorVersion);
+      this._addNewMinorVersionLinuxRuntime(newMajorVersion, minorVersion);
     } else if (os === 'windows' && minorVersion.stackSettings.windowsRuntimeSettings !== undefined) {
-      newMajorVersion.minorVersions.push(minorVersion);
+      this._addNewMinorVersionWindowsRuntime(newMajorVersion, minorVersion);
     }
+  }
+
+  private _addNewMinorVersionLinuxRuntime(
+    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>,
+    minorVersion: WebAppMinorVersion<WebAppRuntimes>
+  ) {
+    const newMinorVersion: WebAppMinorVersion<WebAppRuntimes> = {
+      displayText: minorVersion.displayText,
+      value: minorVersion.value,
+      stackSettings: {
+        linuxRuntimeSettings: minorVersion.stackSettings.linuxRuntimeSettings,
+      },
+    };
+    newMajorVersion.minorVersions.push(newMinorVersion);
+  }
+
+  private _addNewMinorVersionWindowsRuntime(
+    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>,
+    minorVersion: WebAppMinorVersion<WebAppRuntimes>
+  ) {
+    const newMinorVersion: WebAppMinorVersion<WebAppRuntimes> = {
+      displayText: minorVersion.displayText,
+      value: minorVersion.value,
+      stackSettings: {
+        windowsRuntimeSettings: minorVersion.stackSettings.windowsRuntimeSettings,
+      },
+    };
+    newMajorVersion.minorVersions.push(newMinorVersion);
   }
 
   private _addCorrectMinorVersionsForContainer(
@@ -120,9 +148,37 @@ export class WebAppStacksService20200601 {
     os: 'linux' | 'windows'
   ) {
     if (os === 'linux' && minorVersion.stackSettings.linuxContainerSettings !== undefined) {
-      newMajorVersion.minorVersions.push(minorVersion);
+      this._addNewMinorVersionLinuxContainer(newMajorVersion, minorVersion);
     } else if (os === 'windows' && minorVersion.stackSettings.windowsContainerSettings !== undefined) {
-      newMajorVersion.minorVersions.push(minorVersion);
+      this._addNewMinorVersionWindowsContainer(newMajorVersion, minorVersion);
     }
+  }
+
+  private _addNewMinorVersionLinuxContainer(
+    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>,
+    minorVersion: WebAppMinorVersion<JavaContainers>
+  ) {
+    const newMinorVersion: WebAppMinorVersion<JavaContainers> = {
+      displayText: minorVersion.displayText,
+      value: minorVersion.value,
+      stackSettings: {
+        linuxContainerSettings: minorVersion.stackSettings.linuxContainerSettings,
+      },
+    };
+    newMajorVersion.minorVersions.push(newMinorVersion);
+  }
+
+  private _addNewMinorVersionWindowsContainer(
+    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>,
+    minorVersion: WebAppMinorVersion<JavaContainers>
+  ) {
+    const newMinorVersion: WebAppMinorVersion<JavaContainers> = {
+      displayText: minorVersion.displayText,
+      value: minorVersion.value,
+      stackSettings: {
+        windowsContainerSettings: minorVersion.stackSettings.windowsContainerSettings,
+      },
+    };
+    newMajorVersion.minorVersions.push(newMinorVersion);
   }
 }
