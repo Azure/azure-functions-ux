@@ -11,6 +11,7 @@ import { StorageAccount, StorageAccountKeys } from '../../../../../../models/sto
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import LogService from '../../../../../../utils/LogService';
 import { NationalCloudEnvironment } from '../../../../../../utils/scenario-checker/national-cloud.environment';
+import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingTopStyle } from '../Callout.styles';
 import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
@@ -22,7 +23,7 @@ interface StorageAccountPivotFormValues {
 const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(StorageAccountPivotContext);
   const { t } = useTranslation();
-  const { resourceId } = props;
+  const { resourceId, appSettingKeys } = props;
   const [formValues, setFormValues] = useState<StorageAccountPivotFormValues>({ storageAccount: undefined });
   const [storageAccounts, setStorageAccounts] = useState<ArmObj<StorageAccount>[] | undefined>(undefined);
   const [keyList, setKeyList] = useState<StorageAccountKeys | undefined>(undefined);
@@ -75,6 +76,7 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
         setStorageAccountConnection(
           formValues,
           keyList,
+          appSettingKeys,
           props.setNewAppSetting,
           props.setSelectedItem,
           props.setIsDialogVisible,
@@ -117,13 +119,14 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
 const setStorageAccountConnection = (
   formValues: StorageAccountPivotFormValues,
   keyList: StorageAccountKeys | undefined,
+  appSettingKeys: string[],
   setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>,
   setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>,
   setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>,
   setKeyList: React.Dispatch<React.SetStateAction<StorageAccountKeys | undefined>>
 ) => {
   if (formValues.storageAccount && keyList) {
-    const appSettingName = `${formValues.storageAccount.name}_STORAGE`;
+    const appSettingName = generateAppSettingName(appSettingKeys, `${formValues.storageAccount.name}_STORAGE`);
     const appSettingValue = `DefaultEndpointsProtocol=https;AccountName=${formValues.storageAccount.name};AccountKey=${
       keyList.keys[0].value
     }${appendEndpoint()}`;

@@ -10,6 +10,7 @@ import { ArmObj } from '../../../../../../models/arm-obj';
 import { AuthorizationRule, EventHub, KeyList, Namespace } from '../../../../../../models/eventhub';
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import LogService from '../../../../../../utils/LogService';
+import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { EventHubPivotContext } from './EventHubPivotDataLoader';
@@ -23,7 +24,7 @@ export interface EventHubPivotFormValues {
 const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(EventHubPivotContext);
   const { t } = useTranslation();
-  const { resourceId } = props;
+  const { resourceId, appSettingKeys } = props;
   const [formValues, setFormValues] = useState<EventHubPivotFormValues>({ namespace: undefined, eventHub: undefined, policy: undefined });
   const [namespaces, setNamespaces] = useState<ArmObj<Namespace>[] | undefined>(undefined);
   const [eventHubs, setEventHubs] = useState<ArmObj<EventHub>[] | undefined>(undefined);
@@ -137,7 +138,9 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
   return (
     <Formik
       initialValues={formValues}
-      onSubmit={() => setEventHubConnection(formValues, keyList, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)}>
+      onSubmit={() =>
+        setEventHubConnection(formValues, keyList, appSettingKeys, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)
+      }>
       {(formProps: FormikProps<EventHubPivotFormValues>) => {
         return (
           <form style={paddingSidesStyle}>
@@ -222,12 +225,13 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
 const setEventHubConnection = (
   formValues: EventHubPivotFormValues,
   keyList: KeyList | undefined,
+  appSettingKeys: string[],
   setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>,
   setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>,
   setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   if (formValues.namespace && formValues.eventHub && keyList) {
-    const appSettingName = `${formValues.namespace.name}_${keyList.keyName}_EVENTHUB`;
+    const appSettingName = generateAppSettingName(appSettingKeys, `${formValues.namespace.name}_${keyList.keyName}_EVENTHUB`);
     const appSettingValue = formatEventHubValue(keyList, formValues.eventHub);
     setNewAppSetting({ key: appSettingName, value: appSettingValue });
     setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
