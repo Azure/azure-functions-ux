@@ -4965,16 +4965,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Bejövő tanúsítvány megkövetelése</value>
     </data>
   <data name="clientCertificateMode" xml:space="preserve">
-        <value>Client certificate mode</value>
+        <value>Ügyféltanúsítvány módja</value>
     </data>
   <data name="clientCertificateModeRequire" xml:space="preserve">
-        <value>Require</value>
+        <value>Kötelező</value>
     </data>
   <data name="clientCertificateModeAllow" xml:space="preserve">
-        <value>Allow</value>
+        <value>Engedélyezés</value>
     </data>
   <data name="clientCertificateModeIgnore" xml:space="preserve">
-        <value>Ignore</value>
+        <value>Mellőzés</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Tanúsítványkizárási útvonalak</value>
@@ -5815,7 +5815,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nem sikerült betölteni egy vagy több kötést. Frissítse a lapot.</value>
     </data>
   <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
-        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+        <value>Lefordított függvények használata esetén előfordulhat, hogy az attribútumokként definiált kötések nem jelennek meg.</value>
     </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Funkcióbillentyű törlése</value>
@@ -6016,16 +6016,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A webhely jelenleg írásvédett üzemmódban működik, mert az RBAC által hozzárendelt hozzáférés az Olvasó értékre van állítva</value>
     </data>
   <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
-        <value>Logs</value>
+        <value>Naplók</value>
     </data>
   <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
-        <value>Deployment center logs</value>
+        <value>Üzembe helyezési központ naplói</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
-        <value>Settings</value>
+        <value>Beállítások</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
-        <value>Deployment center settings</value>
+        <value>Üzembe helyezési központ beállításai</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>FTP-/FTPs-hitelesítő adatok</value>
@@ -6103,7 +6103,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A rendszerkulcsokat automatikusan a függvény futtatókörnyezete kezeli. A rendszerkulcsok részletes hozzáférést biztosítanak a függvény futtatókörnyezetének funkcióihoz.</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>A függvénykulcsok hatóköre ez a függvény, és azokkal elérhető ez a HTTP-triggerfüggvény.</value>
+        <value>Function keys are scoped to this function and can be used to access this function.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
         <value>Az alkalmazásbeállítások csak olyan statikus webalkalmazásokra érvényesek, amelyek legalább egy függvénnyel rendelkeznek. A konfiguráció engedélyezéséhez rendeljen hozzá egy függvényt az alkalmazáshoz.</value>
@@ -6144,8 +6144,26 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Ezekkel a beállításokkal konfigurálhatja a tárolóalkalmazás üzembehelyezési modelljét és a beállításjegyzéket. A nagyobb üzemi hatékonyság érdekében a GitHub Actionst ajánljuk.</value>
     </data>
-  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+  <data name="deploymentCenterCodeSettingsDescription" xml:space="preserve">
+        <value>Helyezzen üzembe és buildeljen kódot választott forrás- és buildszolgáltatóval.</value>
+    </data>
+  <data name="deploymentCenterSettingsSourceLabel" xml:space="preserve">
         <value>Forrás</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcePlaceholder" xml:space="preserve">
+        <value>Kód forrásának kiválasztása</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildTitle" xml:space="preserve">
+        <value>Build</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildLabel" xml:space="preserve">
+        <value>Buildszolgáltató</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeLabel" xml:space="preserve">
+        <value>Futtatókörnyezet verme</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
+        <value>Verzió</value>
     </data>
   <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>Tárolóregisztrációs adatbázis</value>
@@ -6164,6 +6182,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
         <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
+        <value>GitHub</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Regisztrációs adatbázis beállításai</value>
@@ -6202,18 +6223,162 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nem sikerült frissíteni az alkalmazásbeállításokat: {0}</value>
     </data>
   <data name="clickToShowValue" xml:space="preserve">
-        <value>Click to show value</value>
+        <value>Az érték megjelenítéshez kattintson ide</value>
     </data>
   <data name="clickToHideValue" xml:space="preserve">
-        <value>Click to hide value</value>
+        <value>Kattintson ide az elrejtéshez</value>
     </data>
   <data name="testAndRun" xml:space="preserve">
-        <value>Test/Run</value>
+        <value>Teszt/futtatás</value>
     </data>
   <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
-        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+        <value>A rendszer azt észlelte, hogy a Application Insights eszközkulcsa vagy kapcsolati sztringje kulcstartóban van tárolva, ami problémákat okoz a figyelési felületen. </value>
     </data>
   <data name="clickToUpdateSettings" xml:space="preserve">
-        <value>Click here to update your settings.</value>
+        <value>Kattintson ide a beállítások konfigurálásához.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredHeader" xml:space="preserve">
+        <value>A CI/CD nincs konfigurálva</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredDescription" xml:space="preserve">
+        <value>A kezdéshez nyissa meg a Beállítások lapot, és állítsa be a CI/CD-t.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredGoToSettings" xml:space="preserve">
+        <value>Beállítások megnyitása</value>
+    </data>
+  <data name="deploymentCenterCodeLogsNoDeployments" xml:space="preserve">
+        <value>Nem található üzemelő példány</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
+        <value>Üzembe helyezési naplók betöltése</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoading" xml:space="preserve">
+        <value>Üzembe helyezési naplók betöltése...</value>
+    </data>
+  <data name="deploymentCenterFtpLoadingAriaValue" xml:space="preserve">
+        <value>FTP/FTPS hitelesítő adatok betöltése folyamatban</value>
+    </data>
+  <data name="deploymentCenterFtpLoading" xml:space="preserve">
+        <value>FTP/FTPS hitelesítő adatok betöltése...</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailed" xml:space="preserve">
+        <value>Nem sikerült betölteni az üzembe helyezési naplókat</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
+        <value>Nem sikerült betölteni az üzembe helyezési naplókat: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailed" xml:space="preserve">
+        <value>Nem sikerült betölteni a naplózási adatokat</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailedWithError" xml:space="preserve">
+        <value>Nem sikerült betölteni a naplózási adatokat: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailed" xml:space="preserve">
+        <value>Nem sikerült betölteni a tevékenységet</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailedWithError" xml:space="preserve">
+        <value>Nem sikerült betölteni a naplótevékenységet: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoadingAriaValue" xml:space="preserve">
+        <value>Üzembe helyezési napló tevékenységeinek betöltése folyamatban</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoading" xml:space="preserve">
+        <value>Üzembe helyezési napló tevékenységeinek betöltése...</value>
+    </data>
+  <data name="logDetailsHeader" xml:space="preserve">
+        <value>Naplózási adatok</value>
+    </data>
+  <data name="deploymentCenterOAuthFetchingUserInformation" xml:space="preserve">
+        <value>Felhasználói információk beolvasása...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizingUser" xml:space="preserve">
+        <value>Felhasználó engedélyezése...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizeAriaLabel" xml:space="preserve">
+        <value>Felhasználó engedélyezése</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorize" xml:space="preserve">
+        <value>Engedélyezés</value>
+    </data>
+  <data name="deploymentCenterOAuthChangeAccount" xml:space="preserve">
+        <value>Fiók módosítása</value>
+    </data>
+  <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
+        <value>Bejelentkezve mint</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganization" xml:space="preserve">
+        <value>Szervezet</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganizationPlaceholder" xml:space="preserve">
+        <value>Cég kiválasztása</value>
+    </data>
+  <data name="deploymentCenterOAuthProject" xml:space="preserve">
+        <value>Projekt</value>
+    </data>
+  <data name="deploymentCenterOAuthProjectPlaceholder" xml:space="preserve">
+        <value>Projekt kiválasztása</value>
+    </data>
+  <data name="deploymentCenterOAuthRepository" xml:space="preserve">
+        <value>Adattár</value>
+    </data>
+  <data name="deploymentCenterOAuthRepositoryPlaceholder" xml:space="preserve">
+        <value>Adattár kiválasztása</value>
+    </data>
+  <data name="deploymentCenterOAuthBranch" xml:space="preserve">
+        <value>Ág</value>
+    </data>
+  <data name="deploymentCenterOAuthBranchPlaceholder" xml:space="preserve">
+        <value>Ág kiválasztása</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcPlaceholder" xml:space="preserve">
+        <value>Kód forrásának kiválasztása</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceContinuousDeploymentHeader" xml:space="preserve">
+        <value>Folyamatos üzembe helyezés (CI/CD)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceManualDeploymentHeader" xml:space="preserve">
+        <value>Manuális üzembe helyezés (push)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceGitHub" xml:space="preserve">
+        <value>GitHub</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceAzureRepos" xml:space="preserve">
+        <value>Azure-adattárak</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceBitbucket" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceLocalGit" xml:space="preserve">
+        <value>Helyi Git</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceOneDrive" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
+        <value>Külső</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
+        <value>App Service-buildelési szolgáltatás</value>
+    </data>
+  <data name="leaveFeedback" xml:space="preserve">
+        <value>Leave Feedback</value>
+    </data>
+  <data name="functionLogsFeedbackCESQuestion" xml:space="preserve">
+        <value>How easy or difficult is it to use the improved logs feature backed by Application Insights to debug your application?</value>
+    </data>
+  <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
+        <value>How valuable is the new logs feature backed by Application Insights?</value>
+    </data>
+  <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
+        <value>If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
+        <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
     </data>
 </root>
