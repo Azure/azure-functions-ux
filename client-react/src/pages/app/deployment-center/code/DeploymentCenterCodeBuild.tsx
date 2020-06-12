@@ -254,7 +254,7 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
       <h3>{t('deploymentCenterSettingsBuildTitle')}</h3>
       {getCustomBanner()}
       <Field
-        id="deployment-center-container-settings-build-option"
+        id="deployment-center-code-settings-build-option"
         label={t('deploymentCenterSettingsBuildLabel')}
         name="buildProvider"
         component={Dropdown}
@@ -268,7 +268,7 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
       {formProps && formProps.values.buildProvider === BuildProvider.GitHubAction && (
         <>
           <Field
-            id="deployment-center-container-settings-runtime-option"
+            id="deployment-center-code-settings-runtime-option"
             label={t('deploymentCenterSettingsRuntimeLabel')}
             name="runtimeStack"
             component={Dropdown}
@@ -279,7 +279,7 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
             required={true}
           />
           <Field
-            id="deployment-center-container-settings-runtime-version-option"
+            id="deployment-center-code-settings-runtime-version-option"
             label={t('deploymentCenterSettingsRuntimeVersionLabel')}
             name="runtimeVersion"
             component={Dropdown}

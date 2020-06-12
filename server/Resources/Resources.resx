@@ -6384,4 +6384,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
         <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
     </data>
+    <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
+        <value>GitHub Token not found, click authorize to set up GitHub token.</value>
+    </data>
 </root>
