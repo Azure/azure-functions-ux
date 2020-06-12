@@ -232,7 +232,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           this._functionAppService.getEventGridUri(functionView.context, functionView.functionInfo.result.properties.name),
           this._functionAppService.getFunctionHostStatus(functionView.context),
           this._functionAppService.getFunctionErrors(functionView.context, functionView.functionInfo.result.properties),
-          this._functionAppService.getRuntimeGeneration(functionView.context)
+          this._functionAppService.getRuntimeGeneration(functionView.context),
+          this._functionAppService.getFunctionTestData(functionView.context, functionView.functionInfo.result.properties.test_data_href)
         );
       })
       .do(() => {
@@ -283,11 +284,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent
             .concatMap(() => this._functionAppService.restartFunctionsHost(this.context))
             .subscribe(() => this._logService.verbose(LogCategories.functionHostRestart, `restart for ${this.context.site.id}`));
         }
-        if (tuple[0].functionInfo.isSuccessful) {
-          const functionInfo = tuple[0].functionInfo.result.properties;
-          this.content = '';
-          this.eventGridSubscribeUrl = tuple[1].result;
-          this.testContent = functionInfo.test_data;
+        if (tuple[5].isSuccessful) {
+          this.testContent = tuple[5].result;
           try {
             const httpModel = JSON.parse(this.testContent);
             // Check if it's valid model
@@ -297,6 +295,11 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           } catch (e) {
             // it's not run http model
           }
+        }
+        if (tuple[0].functionInfo.isSuccessful) {
+          const functionInfo = tuple[0].functionInfo.result.properties;
+          this.content = '';
+          this.eventGridSubscribeUrl = tuple[1].result;
 
           this.fileName = functionInfo.script_href.substring(functionInfo.script_href.lastIndexOf('/') + 1);
           let href = functionInfo.script_href;

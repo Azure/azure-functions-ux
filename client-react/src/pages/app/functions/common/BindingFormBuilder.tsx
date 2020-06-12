@@ -3,6 +3,7 @@ import i18next from 'i18next';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import React from 'react';
 import Dropdown from '../../../../components/form-controls/DropDown';
+import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 import TextField from '../../../../components/form-controls/TextField';
 import Toggle from '../../../../components/form-controls/Toggle';
 import { Binding, BindingSetting, BindingSettingValue, BindingValidator } from '../../../../models/functions/binding';
@@ -123,7 +124,7 @@ export class BindingFormBuilder {
             options={ruleOptions}
             disabled={isDisabled}
             onPanel={true}
-            horizontal={false}
+            layout={Layout.Vertical}
             mouseOverToolTip={rule.help}
             required={true}
             key={ruleName}
@@ -171,7 +172,7 @@ export class BindingFormBuilder {
         component={TextField}
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
-        horizontal={false}
+        layout={Layout.Vertical}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
@@ -198,7 +199,7 @@ export class BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
-        horizontal={false}
+        layout={Layout.Vertical}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
@@ -219,7 +220,7 @@ export class BindingFormBuilder {
         onText={this._t('yes')}
         offText={this._t('no')}
         validate={(value: boolean) => this._validateBoolean(value, setting.required)}
-        horizontal={false}
+        layout={Layout.Vertical}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
@@ -246,7 +247,7 @@ export class BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
-        horizontal={false}
+        layout={Layout.Vertical}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
@@ -273,7 +274,7 @@ export class BindingFormBuilder {
           disabled={isDisabled}
           validate={value => this._validateText(value, setting.required, setting.validators)}
           onPanel={true}
-          horizontal={false}
+          layout={Layout.Vertical}
           mouseOverToolTip={setting.help}
           required={setting.required}
           key={setting.name}
@@ -300,7 +301,7 @@ export class BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
-        horizontal={false}
+        layout={Layout.Vertical}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}

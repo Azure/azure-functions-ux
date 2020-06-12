@@ -111,12 +111,18 @@ export const javaContainerWindowsConfigStack: WebAppConfigStack = {
               {
                 displayVersion: '8.5.37',
                 runtimeVersion: '8.5.37',
-                isDefault: true,
+                isDefault: false,
                 isRemoteDebuggingEnabled: false,
               },
               {
                 displayVersion: '8.5.42',
                 runtimeVersion: '8.5.42',
+                isDefault: true,
+                isRemoteDebuggingEnabled: false,
+              },
+              {
+                displayVersion: '8.5.47',
+                runtimeVersion: '8.5.47',
                 isDefault: false,
                 isRemoteDebuggingEnabled: false,
               },
@@ -152,12 +158,18 @@ export const javaContainerWindowsConfigStack: WebAppConfigStack = {
               {
                 displayVersion: '9.0.14',
                 runtimeVersion: '9.0.14',
-                isDefault: true,
+                isDefault: false,
                 isRemoteDebuggingEnabled: false,
               },
               {
                 displayVersion: '9.0.21',
                 runtimeVersion: '9.0.21',
+                isDefault: true,
+                isRemoteDebuggingEnabled: false,
+              },
+              {
+                displayVersion: '9.0.27',
+                runtimeVersion: '9.0.27',
                 isDefault: false,
                 isRemoteDebuggingEnabled: false,
               },
@@ -218,12 +230,12 @@ export const javaContainerWindowsConfigStack: WebAppConfigStack = {
       },
       {
         name: 'java',
-        display: 'Java',
+        display: 'Java SE',
         dependency: null,
         majorVersions: [
           {
-            displayVersion: 'SE',
-            runtimeVersion: 'SE',
+            displayVersion: '8',
+            runtimeVersion: '8',
             isDefault: false,
             minorVersions: [],
             applicationInsights: false,

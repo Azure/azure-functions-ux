@@ -1991,7 +1991,13 @@ export class PortalResources {
   public static resetPublishProfileConfirmationDescription = 'resetPublishProfileConfirmationDescription';
   public static usernameLengthRequirements = 'usernameLengthRequirements';
   public static deploymentCenterContainerSettingsDescription = 'deploymentCenterContainerSettingsDescription';
-  public static deploymentCenterContainerSettingsSourceLabel = 'deploymentCenterContainerSettingsSourceLabel';
+  public static deploymentCenterCodeSettingsDescription = 'deploymentCenterCodeSettingsDescription';
+  public static deploymentCenterSettingsSourceLabel = 'deploymentCenterSettingsSourceLabel';
+  public static deploymentCenterCodeSettingsSourcePlaceholder = 'deploymentCenterCodeSettingsSourcePlaceholder';
+  public static deploymentCenterSettingsBuildTitle = 'deploymentCenterSettingsBuildTitle';
+  public static deploymentCenterSettingsBuildLabel = 'deploymentCenterSettingsBuildLabel';
+  public static deploymentCenterSettingsRuntimeLabel = 'deploymentCenterSettingsRuntimeLabel';
+  public static deploymentCenterSettingsRuntimeVersionLabel = 'deploymentCenterSettingsRuntimeVersionLabel';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistry =
     'deploymentCenterContainerSettingsSourceOptionContainerRegistry';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription =
@@ -2001,6 +2007,7 @@ export class PortalResources {
     'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription';
   public static functionEditor_privateLinkRunMessage = 'functionEditor_privateLinkRunMessage';
   public static deploymentCenterContainerGitHubActionsTitle = 'deploymentCenterContainerGitHubActionsTitle';
+  public static deploymentCenterCodeGitHubTitle = 'deploymentCenterCodeGitHubTitle';
   public static deploymentCenterContainerRegistrySettingsTitle = 'deploymentCenterContainerRegistrySettingsTitle';
   public static deploymentCenterContainerRegistryOptionsLabel = 'deploymentCenterContainerRegistryOptionsLabel';
   public static deploymentCenterContainerRegistrySourceLabel = 'deploymentCenterContainerRegistrySourceLabel';
@@ -2041,4 +2048,30 @@ export class PortalResources {
   public static deploymentCenterOAuthAuthorize = 'deploymentCenterOAuthAuthorize';
   public static deploymentCenterOAuthChangeAccount = 'deploymentCenterOAuthChangeAccount';
   public static deploymentCenterOAuthSingedInAs = 'deploymentCenterOAuthSingedInAs';
+  public static deploymentCenterOAuthOrganization = 'deploymentCenterOAuthOrganization';
+  public static deploymentCenterOAuthOrganizationPlaceholder = 'deploymentCenterOAuthOrganizationPlaceholder';
+  public static deploymentCenterOAuthProject = 'deploymentCenterOAuthProject';
+  public static deploymentCenterOAuthProjectPlaceholder = 'deploymentCenterOAuthProjectPlaceholder';
+  public static deploymentCenterOAuthRepository = 'deploymentCenterOAuthRepository';
+  public static deploymentCenterOAuthRepositoryPlaceholder = 'deploymentCenterOAuthRepositoryPlaceholder';
+  public static deploymentCenterOAuthBranch = 'deploymentCenterOAuthBranch';
+  public static deploymentCenterOAuthBranchPlaceholder = 'deploymentCenterOAuthBranchPlaceholder';
+  public static deploymentCenterCodeSettingsSourcPlaceholder = 'deploymentCenterCodeSettingsSourcPlaceholder';
+  public static deploymentCenterCodeSettingsSourceContinuousDeploymentHeader =
+    'deploymentCenterCodeSettingsSourceContinuousDeploymentHeader';
+  public static deploymentCenterCodeSettingsSourceManualDeploymentHeader = 'deploymentCenterCodeSettingsSourceManualDeploymentHeader';
+  public static deploymentCenterCodeSettingsSourceGitHub = 'deploymentCenterCodeSettingsSourceGitHub';
+  public static deploymentCenterCodeSettingsSourceAzureRepos = 'deploymentCenterCodeSettingsSourceAzureRepos';
+  public static deploymentCenterCodeSettingsSourceBitbucket = 'deploymentCenterCodeSettingsSourceBitbucket';
+  public static deploymentCenterCodeSettingsSourceLocalGit = 'deploymentCenterCodeSettingsSourceLocalGit';
+  public static deploymentCenterCodeSettingsSourceOneDrive = 'deploymentCenterCodeSettingsSourceOneDrive';
+  public static deploymentCenterCodeSettingsSourceDropbox = 'deploymentCenterCodeSettingsSourceDropbox';
+  public static deploymentCenterCodeSettingsSourceExternal = 'deploymentCenterCodeSettingsSourceExternal';
+  public static deploymentCenterCodeSettingsBuildGitHubAction = 'deploymentCenterCodeSettingsBuildGitHubAction';
+  public static deploymentCenterCodeSettingsBuildKudu = 'deploymentCenterCodeSettingsBuildKudu';
+  public static leaveFeedback = 'leaveFeedback';
+  public static functionLogsFeedbackCESQuestion = 'functionLogsFeedbackCESQuestion';
+  public static functionLogsFeedbackCVAQuestion = 'functionLogsFeedbackCVAQuestion';
+  public static deploymentCenterConfigureGitHubPermissions = 'deploymentCenterConfigureGitHubPermissions';
+  public static deploymentCenterProdSlotWarning = 'deploymentCenterProdSlotWarning';
 }

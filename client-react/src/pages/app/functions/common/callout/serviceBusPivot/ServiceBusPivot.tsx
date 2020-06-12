@@ -4,11 +4,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
+import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { AuthorizationRule, KeyList, Namespace } from '../../../../../../models/servicebus';
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import LogService from '../../../../../../utils/LogService';
+import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { ServiceBusPivotContext } from './ServiceBusPivotDataLoader';
@@ -21,7 +23,7 @@ export interface ServiceBusPivotFormValues {
 const EventHubPivot: React.SFC<NewConnectionCalloutProps & IDropdownProps & FieldProps & CustomDropdownProps> = props => {
   const provider = useContext(ServiceBusPivotContext);
   const { t } = useTranslation();
-  const { resourceId } = props;
+  const { resourceId, appSettingKeys } = props;
   const [formValues, setFormValues] = useState<ServiceBusPivotFormValues>({ namespace: undefined, policy: undefined });
   const [namespaces, setNamespaces] = useState<ArmObj<Namespace>[] | undefined>(undefined);
   const [namespaceAuthRules, setNamespaceAuthRules] = useState<ArmObj<AuthorizationRule>[] | undefined>(undefined);
@@ -94,7 +96,14 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & IDropdownProps & Fiel
     <Formik
       initialValues={formValues}
       onSubmit={() =>
-        setServiceBusConnection(formValues, keyList, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)
+        setServiceBusConnection(
+          formValues,
+          keyList,
+          appSettingKeys,
+          props.setNewAppSetting,
+          props.setSelectedItem,
+          props.setIsDialogVisible
+        )
       }>
       {(formProps: FormikProps<ServiceBusPivotFormValues>) => {
         return (
@@ -113,7 +122,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & IDropdownProps & Fiel
                     setKeyList(undefined);
                   }}
                   errorMessage={undefined}
-                  horizontal={false}
+                  layout={Layout.Vertical}
                   {...props}
                   id="newServiceBusNamespaceConnection"
                   mouseOverToolTip={undefined}
@@ -132,7 +141,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & IDropdownProps & Fiel
                         setKeyList(undefined);
                       }}
                       errorMessage={undefined}
-                      horizontal={false}
+                      layout={Layout.Vertical}
                       {...props}
                       id="newServiceBusPolicyConnection"
                       mouseOverToolTip={undefined}
@@ -157,12 +166,13 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & IDropdownProps & Fiel
 const setServiceBusConnection = (
   formValues: ServiceBusPivotFormValues,
   keyList: KeyList | undefined,
+  appSettingKeys: string[],
   setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>,
   setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>,
   setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   if (formValues.namespace && keyList) {
-    const appSettingName = `${formValues.namespace.name}_${keyList.keyName}_SERVICEBUS`;
+    const appSettingName = generateAppSettingName(appSettingKeys, `${formValues.namespace.name}_${keyList.keyName}_SERVICEBUS`);
     const appSettingValue = keyList.primaryConnectionString;
     setNewAppSetting({ key: appSettingName, value: appSettingValue });
     setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });

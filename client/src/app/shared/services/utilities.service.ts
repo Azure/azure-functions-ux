@@ -23,7 +23,22 @@ export class UtilitiesService {
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
+
+    // NOTE(michinoy): Adding an event listener to write to the clipboard directly
+    // Idea from - https://stackoverflow.com/a/52949299
+
+    let listener = (e?: ClipboardEvent) => {
+      if (e) {
+        let clipboard = e.clipboardData || window['clipboardData'];
+        clipboard.setData('text', text);
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('copy', listener, false);
     document.execCommand('copy');
+    document.removeEventListener('copy', listener, false);
+
     document.body.removeChild(textArea);
   }
 

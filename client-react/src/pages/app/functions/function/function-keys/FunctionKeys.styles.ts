@@ -9,6 +9,7 @@ export const commandBarSticky = style({
 
 export const formStyle = style({
   padding: '5px 20px',
+  maxWidth: '800px',
 });
 
 export const messageBanner = (theme: ThemeExtended) =>
@@ -34,6 +35,5 @@ export const renewTextStyle = (theme: ThemeExtended) =>
 
 export const deleteButtonStyle = (theme: ThemeExtended) =>
   style({
-    color: theme.semanticColors.actionLink,
     float: 'right',
   });

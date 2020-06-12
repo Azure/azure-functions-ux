@@ -4,11 +4,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
+import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { IotHub, Key, KeyList } from '../../../../../../models/iothub';
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import LogService from '../../../../../../utils/LogService';
+import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { IoTHubPivotContext } from './IoTHubPivotDataLoader';
@@ -21,7 +23,7 @@ interface IoTHubPivotFormValues {
 const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(IoTHubPivotContext);
   const { t } = useTranslation();
-  const { resourceId } = props;
+  const { resourceId, appSettingKeys } = props;
   const [formValues, setFormValues] = useState<IoTHubPivotFormValues>({ iotHub: undefined, endpoint: undefined });
   const [iotHubs, setIoTHubs] = useState<ArmObj<IotHub>[] | undefined>(undefined);
   const [keyList, setKeyList] = useState<KeyList | undefined>(undefined);
@@ -91,7 +93,9 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
   return (
     <Formik
       initialValues={formValues}
-      onSubmit={() => setIoTHubConnection(formValues, serviceKey, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)}>
+      onSubmit={() =>
+        setIoTHubConnection(formValues, serviceKey, appSettingKeys, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)
+      }>
       {(formProps: FormikProps<IoTHubPivotFormValues>) => {
         return (
           <form style={paddingSidesStyle}>
@@ -108,7 +112,7 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
                     setKeyList(undefined);
                   }}
                   errorMessage={undefined}
-                  horizontal={false}
+                  layout={Layout.Vertical}
                   {...props}
                   id="newIotHubConnection"
                   mouseOverToolTip={undefined}
@@ -125,7 +129,7 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
                       setFormValues({ ...formValues, endpoint: e && e.data });
                     }}
                     errorMessage={undefined}
-                    horizontal={false}
+                    layout={Layout.Vertical}
                     {...props}
                     id="newIotHubEndpointConnection"
                     mouseOverToolTip={undefined}
@@ -148,12 +152,13 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
 const setIoTHubConnection = (
   formValues: IoTHubPivotFormValues,
   serviceKey: Key | undefined,
+  appSettingKeys: string[],
   setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>,
   setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>,
   setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   if (formValues.iotHub && formValues.endpoint && serviceKey) {
-    const appSettingName = `${formValues.iotHub.name}_${formValues.endpoint}_IOTHUB`;
+    const appSettingName = generateAppSettingName(appSettingKeys, `${formValues.iotHub.name}_${formValues.endpoint}_IOTHUB`);
     const appSettingValue = formatIoTHubValue(formValues.endpoint, formValues.iotHub, serviceKey);
     setNewAppSetting({ key: appSettingName, value: appSettingValue });
     setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
