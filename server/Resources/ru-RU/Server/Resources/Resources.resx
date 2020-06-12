@@ -4965,16 +4965,16 @@
         <value>Требовать входящий сертификат</value>
     </data>
   <data name="clientCertificateMode" xml:space="preserve">
-        <value>Client certificate mode</value>
+        <value>Режим сертификата клиента</value>
     </data>
   <data name="clientCertificateModeRequire" xml:space="preserve">
-        <value>Require</value>
+        <value>Требовать</value>
     </data>
   <data name="clientCertificateModeAllow" xml:space="preserve">
-        <value>Allow</value>
+        <value>Разрешить</value>
     </data>
   <data name="clientCertificateModeIgnore" xml:space="preserve">
-        <value>Ignore</value>
+        <value>Пропустить</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Пути исключения сертификатов</value>
@@ -5815,7 +5815,7 @@
         <value>Не удалось загрузить одну или несколько привязок. Обновите страницу.</value>
     </data>
   <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
-        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+        <value>Привязки, определенные как атрибуты, могут не отображаться при использовании скомпилированных функций.</value>
     </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Удаление функциональной клавиши</value>
@@ -6016,16 +6016,16 @@
         <value>Ваш сайт сейчас находится в режиме только для чтения, так как назначена роль доступа RBAC "Читатель".</value>
     </data>
   <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
-        <value>Logs</value>
+        <value>Журналы</value>
     </data>
   <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
-        <value>Deployment center logs</value>
+        <value>Журналы Центра развертывания</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
-        <value>Settings</value>
+        <value>Параметры</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
-        <value>Deployment center settings</value>
+        <value>Параметры Центра развертывания</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>Учетные данные FTP или FTPS</value>
@@ -6103,7 +6103,7 @@
         <value>Системными ключами автоматически управляет среда выполнения Функций. Системные ключи предоставляют детализированный доступ к возможностям среды выполнения Функций.</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>Функциональные ключи находятся в области действия этой функции и могут использоваться для доступа к этой функции триггера HTTP.</value>
+        <value>Function keys are scoped to this function and can be used to access this function.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
         <value>Параметры приложения применимы только к статическим веб-приложениям как минимум с одной функцией. Добавьте в приложение функцию, чтобы активировать конфигурацию.</value>
@@ -6144,8 +6144,26 @@
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Используйте эти параметры для настройки реестра и модели развертывания приложений контейнера. Рекомендуем использовать GitHub Actions для более эффективной работы.</value>
     </data>
-  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+  <data name="deploymentCenterCodeSettingsDescription" xml:space="preserve">
+        <value>Развертывание и создание кода из предпочтительного источника и поставщика сборки.</value>
+    </data>
+  <data name="deploymentCenterSettingsSourceLabel" xml:space="preserve">
         <value>Источник</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcePlaceholder" xml:space="preserve">
+        <value>Выберите источник кода</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildTitle" xml:space="preserve">
+        <value>Сборка</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildLabel" xml:space="preserve">
+        <value>Поставщик сборки</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeLabel" xml:space="preserve">
+        <value>Стек времени выполнения</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
+        <value>Версия</value>
     </data>
   <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>Реестр контейнеров</value>
@@ -6164,6 +6182,9 @@
     </data>
   <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
         <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
+        <value>GitHub</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Параметры реестра</value>
@@ -6202,18 +6223,162 @@
         <value>Не удалось обновить параметры приложения: {0}</value>
     </data>
   <data name="clickToShowValue" xml:space="preserve">
-        <value>Click to show value</value>
+        <value>Щелкните, чтобы показать значение</value>
     </data>
   <data name="clickToHideValue" xml:space="preserve">
-        <value>Click to hide value</value>
+        <value>Щелкните, чтобы скрыть значение</value>
     </data>
   <data name="testAndRun" xml:space="preserve">
-        <value>Test/Run</value>
+        <value>Тест/запуск</value>
     </data>
   <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
-        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+        <value>Мы обнаружили, что ваш ключ инструментирования или строка подключения Application Insights хранятся в хранилище ключей, что вызывает проблемы с мониторингом. </value>
     </data>
   <data name="clickToUpdateSettings" xml:space="preserve">
-        <value>Click here to update your settings.</value>
+        <value>Щелкните, чтобы изменить параметры.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredHeader" xml:space="preserve">
+        <value>CI/CD не настроены</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredDescription" xml:space="preserve">
+        <value>Чтобы начать, перейдите на вкладку "Параметры" и настройте CI/CD.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredGoToSettings" xml:space="preserve">
+        <value>Перейти к параметрам</value>
+    </data>
+  <data name="deploymentCenterCodeLogsNoDeployments" xml:space="preserve">
+        <value>Развертывания не найдены.</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
+        <value>Загрузка журналов развертывания</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoading" xml:space="preserve">
+        <value>Загрузка журналов развертывания…</value>
+    </data>
+  <data name="deploymentCenterFtpLoadingAriaValue" xml:space="preserve">
+        <value>Загрузка учетных данных FTP или FTPs</value>
+    </data>
+  <data name="deploymentCenterFtpLoading" xml:space="preserve">
+        <value>Загрузка учетных данных FTP или FTPs...</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailed" xml:space="preserve">
+        <value>Не удалось загрузить журналы развертывания</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
+        <value>Не удалось загрузить журналы развертывания: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailed" xml:space="preserve">
+        <value>Не удалось загрузить сведения о журнале.</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailedWithError" xml:space="preserve">
+        <value>Не удалось загрузить сведения журнала: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailed" xml:space="preserve">
+        <value>Не удалось загрузить активность.</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailedWithError" xml:space="preserve">
+        <value>Не удалось загрузить активность журнала: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoadingAriaValue" xml:space="preserve">
+        <value>Загрузка активности журнала развертывания</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoading" xml:space="preserve">
+        <value>Загрузка активности журнала развертывания...</value>
+    </data>
+  <data name="logDetailsHeader" xml:space="preserve">
+        <value>Сведения о журнале</value>
+    </data>
+  <data name="deploymentCenterOAuthFetchingUserInformation" xml:space="preserve">
+        <value>Получение информации о пользователе...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizingUser" xml:space="preserve">
+        <value>Авторизация пользователя...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizeAriaLabel" xml:space="preserve">
+        <value>Авторизация пользователя</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorize" xml:space="preserve">
+        <value>Авторизовать</value>
+    </data>
+  <data name="deploymentCenterOAuthChangeAccount" xml:space="preserve">
+        <value>Изменить учетную запись</value>
+    </data>
+  <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
+        <value>Выполнен вход</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganization" xml:space="preserve">
+        <value>Организация</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganizationPlaceholder" xml:space="preserve">
+        <value>Выберите организацию.</value>
+    </data>
+  <data name="deploymentCenterOAuthProject" xml:space="preserve">
+        <value>Проект</value>
+    </data>
+  <data name="deploymentCenterOAuthProjectPlaceholder" xml:space="preserve">
+        <value>Выберите проект.</value>
+    </data>
+  <data name="deploymentCenterOAuthRepository" xml:space="preserve">
+        <value>Репозиторий</value>
+    </data>
+  <data name="deploymentCenterOAuthRepositoryPlaceholder" xml:space="preserve">
+        <value>Выберите репозиторий.</value>
+    </data>
+  <data name="deploymentCenterOAuthBranch" xml:space="preserve">
+        <value>Ветвь</value>
+    </data>
+  <data name="deploymentCenterOAuthBranchPlaceholder" xml:space="preserve">
+        <value>Выберите ветвь.</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcPlaceholder" xml:space="preserve">
+        <value>Выберите источник кода</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceContinuousDeploymentHeader" xml:space="preserve">
+        <value>Непрерывное развертывание (CI/CD)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceManualDeploymentHeader" xml:space="preserve">
+        <value>Развертывание вручную (отправка)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceGitHub" xml:space="preserve">
+        <value>GitHub</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceAzureRepos" xml:space="preserve">
+        <value>Репозитории Azure</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceBitbucket" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceLocalGit" xml:space="preserve">
+        <value>Локальный репозиторий Git</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceOneDrive" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
+        <value>Внешний</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
+        <value>Служба сборки службы приложений</value>
+    </data>
+  <data name="leaveFeedback" xml:space="preserve">
+        <value>Оставьте отзыв</value>
+    </data>
+  <data name="functionLogsFeedbackCESQuestion" xml:space="preserve">
+        <value>Насколько легко или трудно вам было использовать улучшенную функцию журналов на базе Application Insights для отладки приложения?</value>
+    </data>
+  <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
+        <value>Насколько полезной для вас оказалась новая функция журналов на базе Application Insights?</value>
+    </data>
+  <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
+        <value>If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
+        <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
     </data>
 </root>

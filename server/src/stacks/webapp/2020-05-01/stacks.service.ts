@@ -57,15 +57,24 @@ export class WebAppStacksService20200501 {
   }
 
   getCreateStacks(os?: 'linux' | 'windows'): WebAppCreateStack[] {
-    const stacks = [
-      aspDotnetCreateStack,
-      nodeCreateStack,
-      pythonCreateStack,
-      phpCreateStack,
-      dotnetCoreCreateStack,
-      rubyCreateStack,
-      java8CreateStack,
-      java11CreateStack,
+    const aspDotnetCreateStackCopy = JSON.parse(JSON.stringify(aspDotnetCreateStack));
+    const nodeCreateStackCopy = JSON.parse(JSON.stringify(nodeCreateStack));
+    const pythonCreateStackCopy = JSON.parse(JSON.stringify(pythonCreateStack));
+    const phpCreateStackCopy = JSON.parse(JSON.stringify(phpCreateStack));
+    const dotnetCoreCreateStackCopy = JSON.parse(JSON.stringify(dotnetCoreCreateStack));
+    const rubyCreateStackCopy = JSON.parse(JSON.stringify(rubyCreateStack));
+    const java8CreateStackCopy = JSON.parse(JSON.stringify(java8CreateStack));
+    const java11CreateStackCopy = JSON.parse(JSON.stringify(java11CreateStack));
+
+    const stacks: WebAppCreateStack[] = [
+      aspDotnetCreateStackCopy,
+      nodeCreateStackCopy,
+      pythonCreateStackCopy,
+      phpCreateStackCopy,
+      dotnetCoreCreateStackCopy,
+      rubyCreateStackCopy,
+      java8CreateStackCopy,
+      java11CreateStackCopy,
     ];
 
     if (!os) {
