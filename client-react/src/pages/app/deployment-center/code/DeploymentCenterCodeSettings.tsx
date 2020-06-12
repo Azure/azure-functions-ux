@@ -5,7 +5,7 @@ import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCente
 import { ScmTypes } from '../../../../models/site/config';
 import DeploymentCenterCodeBuild from './DeploymentCenterCodeBuild';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import DeploymentCenterCodeSourceReadOnly from './DeploymentCenterCodeSourceReadOnly';
+import DeploymentCenterGitHubReadOnly from '../github-provider/DeploymentCenterGitHubReadOnly';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -20,7 +20,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     <>
       {isReadOnly ? (
         <>
-          <DeploymentCenterCodeSourceReadOnly />
+          <DeploymentCenterGitHubReadOnly />
         </>
       ) : (
         <>
