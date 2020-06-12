@@ -27,3 +27,31 @@ export const deploymentCenterLogsError = style({
 export const additionalTextFieldControl = style({
   marginLeft: '5px',
 });
+
+export const deploymentCenterInfoBannerDiv = style({
+  maxWidth: '800px',
+  marginTop: '1em',
+  marginBottom: '1em',
+});
+
+export const deploymentCenterCodeLogsNotConfigured = style({
+  width: '100%',
+  textAlign: 'center',
+  marginBottom: '100px',
+
+  $nest: {
+    h3: {
+      marginTop: '12px',
+      fontSize: '18px',
+    },
+
+    p: {
+      fontSize: '15px',
+    },
+    svg: {
+      height: '200px',
+      width: '200px',
+      marginTop: '18px',
+    },
+  },
+});

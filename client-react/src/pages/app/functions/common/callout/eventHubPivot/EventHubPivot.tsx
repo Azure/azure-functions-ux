@@ -2,17 +2,18 @@ import { FieldProps, Formik, FormikProps } from 'formik';
 import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
-import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
+import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { AuthorizationRule, EventHub, KeyList, Namespace } from '../../../../../../models/eventhub';
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import LogService from '../../../../../../utils/LogService';
+import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { EventHubPivotContext } from './EventHubPivotDataLoader';
-import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 
 export interface EventHubPivotFormValues {
   namespace: ArmObj<Namespace> | undefined;
@@ -23,7 +24,7 @@ export interface EventHubPivotFormValues {
 const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(EventHubPivotContext);
   const { t } = useTranslation();
-  const { resourceId } = props;
+  const { resourceId, appSettingKeys } = props;
   const [formValues, setFormValues] = useState<EventHubPivotFormValues>({ namespace: undefined, eventHub: undefined, policy: undefined });
   const [namespaces, setNamespaces] = useState<ArmObj<Namespace>[] | undefined>(undefined);
   const [eventHubs, setEventHubs] = useState<ArmObj<EventHub>[] | undefined>(undefined);
@@ -137,7 +138,9 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
   return (
     <Formik
       initialValues={formValues}
-      onSubmit={() => setEventHubConnection(formValues, keyList, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)}>
+      onSubmit={() =>
+        setEventHubConnection(formValues, keyList, appSettingKeys, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)
+      }>
       {(formProps: FormikProps<EventHubPivotFormValues>) => {
         return (
           <form style={paddingSidesStyle}>
@@ -145,55 +148,61 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
               <p>{t('eventHubPicker_noNamespaces')}</p>
             ) : (
               <>
-                <FormControlWrapper label={t('eventHubPicker_namespace')} layout={Layout.vertical}>
-                  <Dropdown
-                    options={namespaceOptions}
-                    selectedKey={formValues.namespace && formValues.namespace.id}
-                    onChange={(o, e) => {
-                      setFormValues({ namespace: e && e.data, eventHub: undefined, policy: undefined });
-                      setEventHubs(undefined);
-                      setNamespaceAuthRules(undefined);
-                      setKeyList(undefined);
-                    }}
-                    errorMessage={undefined}
-                    {...props}
-                  />
-                </FormControlWrapper>
+                <Dropdown
+                  label={t('eventHubPicker_namespace')}
+                  options={namespaceOptions}
+                  selectedKey={formValues.namespace && formValues.namespace.id}
+                  onChange={(o, e) => {
+                    setFormValues({ namespace: e && e.data, eventHub: undefined, policy: undefined });
+                    setEventHubs(undefined);
+                    setNamespaceAuthRules(undefined);
+                    setKeyList(undefined);
+                  }}
+                  errorMessage={undefined}
+                  layout={Layout.Vertical}
+                  {...props}
+                  id="newEventHubNamespaceConnection"
+                  mouseOverToolTip={undefined}
+                />
                 {!eventHubs && <LoadingComponent />}
                 {!!eventHubs && eventHubs.length === 0 ? (
                   <p>{t('eventHubPicker_noEventHubs')}</p>
                 ) : (
                   <>
-                    <FormControlWrapper label={t('eventHubPicker_eventHub')} layout={Layout.vertical}>
-                      <Dropdown
-                        options={eventHubOptions}
-                        selectedKey={formValues.eventHub && formValues.eventHub.id}
-                        onChange={(o, e) => {
-                          setFormValues({ ...formValues, eventHub: e && e.data, policy: undefined });
-                          setEventHubAuthRules(undefined);
-                          setKeyList(undefined);
-                        }}
-                        errorMessage={undefined}
-                        {...props}
-                      />
-                    </FormControlWrapper>
+                    <Dropdown
+                      label={t('eventHubPicker_eventHub')}
+                      options={eventHubOptions}
+                      selectedKey={formValues.eventHub && formValues.eventHub.id}
+                      onChange={(o, e) => {
+                        setFormValues({ ...formValues, eventHub: e && e.data, policy: undefined });
+                        setEventHubAuthRules(undefined);
+                        setKeyList(undefined);
+                      }}
+                      errorMessage={undefined}
+                      layout={Layout.Vertical}
+                      {...props}
+                      id="newEventHubConnection"
+                      mouseOverToolTip={undefined}
+                    />
                     {(!namespaceAuthRules || !eventHubAuthRules) && <LoadingComponent />}
                     {!!namespaceAuthRules && namespaceAuthRules.length === 0 && (!!eventHubAuthRules && eventHubAuthRules.length === 0) ? (
                       <p>{t('eventHubPicker_noPolicies')}</p>
                     ) : (
                       <>
-                        <FormControlWrapper label={t('eventHubPicker_policy')} layout={Layout.vertical}>
-                          <Dropdown
-                            options={policyOptions}
-                            selectedKey={formValues.policy && formValues.policy.id}
-                            onChange={(o, e) => {
-                              setFormValues({ ...formValues, policy: e && e.data });
-                              setKeyList(undefined);
-                            }}
-                            errorMessage={undefined}
-                            {...props}
-                          />
-                        </FormControlWrapper>
+                        <Dropdown
+                          label={t('eventHubPicker_policy')}
+                          options={policyOptions}
+                          selectedKey={formValues.policy && formValues.policy.id}
+                          onChange={(o, e) => {
+                            setFormValues({ ...formValues, policy: e && e.data });
+                            setKeyList(undefined);
+                          }}
+                          errorMessage={undefined}
+                          layout={Layout.Vertical}
+                          {...props}
+                          id="newEventHubPolicyConnection"
+                          mouseOverToolTip={undefined}
+                        />
                         {!keyList && <LoadingComponent />}
                       </>
                     )}
@@ -216,12 +225,13 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
 const setEventHubConnection = (
   formValues: EventHubPivotFormValues,
   keyList: KeyList | undefined,
+  appSettingKeys: string[],
   setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>,
   setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>,
   setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   if (formValues.namespace && formValues.eventHub && keyList) {
-    const appSettingName = `${formValues.namespace.name}_${keyList.keyName}_EVENTHUB`;
+    const appSettingName = generateAppSettingName(appSettingKeys, `${formValues.namespace.name}_${keyList.keyName}_EVENTHUB`);
     const appSettingValue = formatEventHubValue(keyList, formValues.eventHub);
     setNewAppSetting({ key: appSettingName, value: appSettingValue });
     setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });

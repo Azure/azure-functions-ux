@@ -4965,16 +4965,16 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Exigir certificado de entrada</value>
     </data>
   <data name="clientCertificateMode" xml:space="preserve">
-        <value>Client certificate mode</value>
+        <value>Modo de certificado do cliente</value>
     </data>
   <data name="clientCertificateModeRequire" xml:space="preserve">
-        <value>Require</value>
+        <value>Exigir</value>
     </data>
   <data name="clientCertificateModeAllow" xml:space="preserve">
-        <value>Allow</value>
+        <value>Permitir</value>
     </data>
   <data name="clientCertificateModeIgnore" xml:space="preserve">
-        <value>Ignore</value>
+        <value>Ignorar</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Caminhos de exclusão de certificado</value>
@@ -5815,7 +5815,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Falha ao carregar uma ou mais associações. Atualize a página.</value>
     </data>
   <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
-        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+        <value>Ao usar funções compiladas, as associações definidas como atributos podem não ser mostradas.</value>
     </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Excluir a Chave de Função</value>
@@ -5923,7 +5923,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Comando de gravação do centro de implantação</value>
     </data>
   <data name="deploymentCenterDiscardCommandAriaLabel" xml:space="preserve">
-        <value>Comando discard do centro de implantação</value>
+        <value>Comando de descarte do centro de implantação</value>
     </data>
   <data name="deploymentCenterBrowseCommandAriaLabel" xml:space="preserve">
         <value>Comando de procura do centro de implantação</value>
@@ -6019,13 +6019,13 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Logs</value>
     </data>
   <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
-        <value>Deployment center logs</value>
+        <value>Logs do centro de implantação</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
-        <value>Settings</value>
+        <value>Configurações</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
-        <value>Deployment center settings</value>
+        <value>Configurações do centro de implantação</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>Credenciais de FTP/FTPs</value>
@@ -6103,7 +6103,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>As chaves do sistema são gerenciadas automaticamente pelo Functions Runtime. Elas fornecem acesso granular aos recursos do Functions Runtime.</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>As teclas de função têm essa função no escopo e podem ser usadas para acessar essa função de gatilho http.</value>
+        <value>Function keys are scoped to this function and can be used to access this function.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
         <value>As configurações de aplicativo são aplicáveis somente a Aplicativos Web Estáticos com pelo menos uma função. Adicione uma função ao aplicativo para habilitar a Configuração.</value>
@@ -6144,8 +6144,26 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Use estas configurações para configurar o registro e o modelo de implantação do aplicativo de contêiner. Recomendamos o GitHub Actions para obter mais eficiência operacional.</value>
     </data>
-  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+  <data name="deploymentCenterCodeSettingsDescription" xml:space="preserve">
+        <value>Implante e compile o código do seu provedor preferencial de código fonte e de build.</value>
+    </data>
+  <data name="deploymentCenterSettingsSourceLabel" xml:space="preserve">
         <value>Origem</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcePlaceholder" xml:space="preserve">
+        <value>Selecionar a origem do código</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildTitle" xml:space="preserve">
+        <value>Build</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildLabel" xml:space="preserve">
+        <value>Provedor de build</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeLabel" xml:space="preserve">
+        <value>Pilha de runtime</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
+        <value>Versão</value>
     </data>
   <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>Registro de Contêiner</value>
@@ -6164,6 +6182,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     </data>
   <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
         <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
+        <value>GitHub</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Configurações do registro</value>
@@ -6202,18 +6223,162 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Falha ao atualizar as configurações de aplicativo: {0}</value>
     </data>
   <data name="clickToShowValue" xml:space="preserve">
-        <value>Click to show value</value>
+        <value>Clique para mostrar o valor</value>
     </data>
   <data name="clickToHideValue" xml:space="preserve">
-        <value>Click to hide value</value>
+        <value>Clique para ocultar o valor</value>
     </data>
   <data name="testAndRun" xml:space="preserve">
-        <value>Test/Run</value>
+        <value>Testar/Executar</value>
     </data>
   <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
-        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+        <value>Detectamos que a chave de instrumentação ou a cadeia de conexão do Application Insights está armazenada no cofre de chaves, o que causa problemas com a experiência de Monitoramento. </value>
     </data>
   <data name="clickToUpdateSettings" xml:space="preserve">
-        <value>Click here to update your settings.</value>
+        <value>Clique aqui para atualizar as configurações.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredHeader" xml:space="preserve">
+        <value>CI/CD não está configurado</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredDescription" xml:space="preserve">
+        <value>Para iniciar, vá para a guia Configurações e configure o CI/CD.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredGoToSettings" xml:space="preserve">
+        <value>Ir para Configurações</value>
+    </data>
+  <data name="deploymentCenterCodeLogsNoDeployments" xml:space="preserve">
+        <value>Nenhuma implantação localizada</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
+        <value>Carregando os logs de implantação</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoading" xml:space="preserve">
+        <value>Carregando os logs de implantação...</value>
+    </data>
+  <data name="deploymentCenterFtpLoadingAriaValue" xml:space="preserve">
+        <value>Carregando credenciais de FTP/FTPs</value>
+    </data>
+  <data name="deploymentCenterFtpLoading" xml:space="preserve">
+        <value>Carregando credenciais de FTP/FTPs...</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailed" xml:space="preserve">
+        <value>Falha ao carregar os logs de implantação</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
+        <value>Falha ao carregar os logs de implantação: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailed" xml:space="preserve">
+        <value>Falha ao carregar os detalhes do log</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailedWithError" xml:space="preserve">
+        <value>Falha ao carregar os detalhes do log: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailed" xml:space="preserve">
+        <value>Falha ao carregar a atividade</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailedWithError" xml:space="preserve">
+        <value>Falha ao carregar a atividade de log: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoadingAriaValue" xml:space="preserve">
+        <value>Carregando atividade do log de implantação</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoading" xml:space="preserve">
+        <value>Carregando atividade do log de implantação...</value>
+    </data>
+  <data name="logDetailsHeader" xml:space="preserve">
+        <value>Detalhes do Log</value>
+    </data>
+  <data name="deploymentCenterOAuthFetchingUserInformation" xml:space="preserve">
+        <value>Buscando informações do usuário...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizingUser" xml:space="preserve">
+        <value>Autorizando usuário...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizeAriaLabel" xml:space="preserve">
+        <value>Autorizar usuário</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorize" xml:space="preserve">
+        <value>Autorizar</value>
+    </data>
+  <data name="deploymentCenterOAuthChangeAccount" xml:space="preserve">
+        <value>Alterar Conta</value>
+    </data>
+  <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
+        <value>Conectado como</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganization" xml:space="preserve">
+        <value>Organização</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganizationPlaceholder" xml:space="preserve">
+        <value>Selecionar organização</value>
+    </data>
+  <data name="deploymentCenterOAuthProject" xml:space="preserve">
+        <value>Projeto</value>
+    </data>
+  <data name="deploymentCenterOAuthProjectPlaceholder" xml:space="preserve">
+        <value>Selecionar o projeto</value>
+    </data>
+  <data name="deploymentCenterOAuthRepository" xml:space="preserve">
+        <value>Repositório</value>
+    </data>
+  <data name="deploymentCenterOAuthRepositoryPlaceholder" xml:space="preserve">
+        <value>Selecionar o repositório</value>
+    </data>
+  <data name="deploymentCenterOAuthBranch" xml:space="preserve">
+        <value>Branch</value>
+    </data>
+  <data name="deploymentCenterOAuthBranchPlaceholder" xml:space="preserve">
+        <value>Selecionar branch</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcPlaceholder" xml:space="preserve">
+        <value>Selecionar a origem do código</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceContinuousDeploymentHeader" xml:space="preserve">
+        <value>Implantação Contínua (CI/CD)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceManualDeploymentHeader" xml:space="preserve">
+        <value>Implantação Manual (Push)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceGitHub" xml:space="preserve">
+        <value>GitHub</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceAzureRepos" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceBitbucket" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceLocalGit" xml:space="preserve">
+        <value>Git Local</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceOneDrive" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
+        <value>Externo</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
+        <value>Serviço de Build do Serviço de Aplicativo</value>
+    </data>
+  <data name="leaveFeedback" xml:space="preserve">
+        <value>Deixar Comentários</value>
+    </data>
+  <data name="functionLogsFeedbackCESQuestion" xml:space="preserve">
+        <value>Qual é o grau de facilidade ou de dificuldade de usar o recurso de logs aprimorado apoiado pelo Application Insights para depurar seu aplicativo?</value>
+    </data>
+  <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
+        <value>Qual é o valor do novo recurso de logs apoiado pelo Application Insights?</value>
+    </data>
+  <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
+        <value>If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
+        <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
     </data>
 </root>

@@ -22,6 +22,7 @@ import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithC
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { ThemeContext } from '../../../../ThemeContext';
 import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 
 interface HostKeysProps {
   resourceId: string;
@@ -68,8 +69,8 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         key: 'name',
         name: t('nameRes'),
         fieldName: 'name',
-        minWidth: 210,
-        maxWidth: 350,
+        minWidth: 100,
+        maxWidth: 220,
         isRowHeader: true,
         data: 'string',
         isPadded: true,
@@ -80,7 +81,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         key: 'value',
         name: t('value'),
         fieldName: 'value',
-        minWidth: 210,
+        minWidth: 350,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
@@ -102,8 +103,8 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         key: 'delete',
         name: '',
         fieldName: 'delete',
-        minWidth: 100,
-        maxWidth: 100,
+        minWidth: 35,
+        maxWidth: 35,
         isRowHeader: false,
         isResizable: false,
         isCollapsable: false,
@@ -148,7 +149,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         <>
           <ActionButton
             id={`app-keys-host-keys-show-hide-${index}`}
-            className={defaultCellStyle}
+            className={`${defaultCellStyle} ${linkCellStyle(theme)}`}
             onClick={() => onShowHideButtonClick(itemKey)}
             iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
             {hidden ? (

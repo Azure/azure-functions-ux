@@ -1,6 +1,6 @@
 import React from 'react';
 import DeploymentCenterContainerSource from './DeploymentCenterContainerSource';
-import { ContainerRegistrySources, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { ContainerRegistrySources, DeploymentCenterFieldProps, DeploymentCenterContainerFormData } from '../DeploymentCenter.types';
 import { ScmTypes } from '../../../../models/site/config';
 import DeploymentCenterContainerRegistrySettings from './DeploymentCenterContainerRegistrySettings';
 import DeploymentCenterContainerAcrSettings from './DeploymentCenterContainerAcrSettings';
@@ -8,7 +8,7 @@ import DeploymentCenterContainerDockerHubSettings from './DeploymentCenterContai
 import DeploymentCenterContainerPrivateRegistrySettings from './DeploymentCenterContainerPrivateRegistrySettings';
 import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
 
-const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps> = props => {
+const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
   const isGitHubActionEnabled = formProps && formProps.values.scmType === ScmTypes.GitHubAction;
   const isAcrConfigured = formProps && formProps.values.registrySource === ContainerRegistrySources.acr;

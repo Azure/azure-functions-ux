@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, DeploymentProperties } from './DeploymentCenter.types';
+import {
+  DeploymentCenterFormData,
+  DeploymentCenterYupValidationSchemaType,
+  DeploymentProperties,
+  DeploymentCenterCodeFormData,
+  DeploymentCenterContainerFormData,
+} from './DeploymentCenter.types';
 import DeploymentCenterData from './DeploymentCenter.data';
 import { PortalContext } from '../../../PortalContext';
 import { SiteStateContext } from '../../../SiteState';
@@ -24,7 +30,10 @@ import { HttpResponseObject } from '../../../ArmHelper.types';
 import { DeploymentCenterContainerFormBuilder } from './container/DeploymentCenterContainerFormBuilder';
 import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCenterPublishProfilePanel';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
-import { isContainerApp } from '../../../utils/arm-utils';
+import { isContainerApp, isLinuxApp } from '../../../utils/arm-utils';
+import { SiteConfig } from '../../../models/site/config';
+import { KeyValue } from '../../../models/portal-models';
+import { DeploymentCenterCodeFormBuilder } from './code/DeploymentCenterCodeFormBuilder';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -42,14 +51,28 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [publishingCredentials, setPublishingCredentials] = useState<ArmObj<PublishingCredentials> | undefined>(undefined);
   const [publishingProfile, setPublishingProfile] = useState<PublishingProfile | undefined>(undefined);
   const [siteDescriptor, setSiteDescriptor] = useState<ArmSiteDescriptor | undefined>(undefined);
-  const [formData, setFormData] = useState<DeploymentCenterFormData | undefined>(undefined);
-  const [formValidationSchema, setFormValidationSchema] = useState<DeploymentCenterYupValidationSchemaType | undefined>(undefined);
+  const [applicationSettings, setApplicationSettings] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
+  const [containerFormData, setContainerFormData] = useState<DeploymentCenterFormData<DeploymentCenterContainerFormData> | undefined>(
+    undefined
+  );
+  const [containerFormValidationSchema, setContainerFormValidationSchema] = useState<
+    DeploymentCenterYupValidationSchemaType<DeploymentCenterContainerFormData> | undefined
+  >(undefined);
+  const [codeFormData, setCodeFormData] = useState<DeploymentCenterFormData<DeploymentCenterCodeFormData> | undefined>(undefined);
+  const [codeFormValidationSchema, setCodeFormValidationSchema] = useState<
+    DeploymentCenterYupValidationSchemaType<DeploymentCenterCodeFormData> | undefined
+  >(undefined);
   const [isPublishProfilePanelOpen, setIsPublishProfilePanelOpen] = useState<boolean>(false);
   const [deployments, setDeployments] = useState<ArmArray<DeploymentProperties> | undefined>(undefined);
+  const [siteConfig, setSiteConfig] = useState<ArmObj<SiteConfig> | undefined>(undefined);
+  const [configMetadata, setConfigMetadata] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
   const [deploymentsError, setDeploymentsError] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
+  const [isContainerApplication, setIsContainerApplication] = useState(false);
+  const [isLinuxApplication, setIsLinuxApplication] = useState(false);
 
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
+  const deploymentCenterCodeFormBuilder = new DeploymentCenterCodeFormBuilder(t);
 
   const processPublishProfileResponse = (publishProfileResponse: HttpResponseObject<string>) => {
     if (publishProfileResponse.metadata.success) {
@@ -88,6 +111,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getContainerLogsRequest = deploymentCenterData.fetchContainerLogs(resourceId);
     const getSiteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
     const getDeploymentsRequest = deploymentCenterData.getSiteDeployments(resourceId);
+    const getConfigMetadataRequest = deploymentCenterData.getConfigMetadata(resourceId);
 
     const [
       writePermissionResponse,
@@ -95,12 +119,14 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       containerLogsResponse,
       siteConfigResponse,
       deploymentsResponse,
+      configMetadataResponse,
     ] = await Promise.all([
       writePermissionRequest,
       getPublishingUserRequest,
       getContainerLogsRequest,
       getSiteConfigRequest,
       getDeploymentsRequest,
+      getConfigMetadataRequest,
     ]);
 
     setSiteDescriptor(new ArmSiteDescriptor(resourceId));
@@ -125,7 +151,9 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     }
 
     if (siteConfigResponse.metadata.success) {
+      setSiteConfig(siteConfigResponse.data);
       deploymentCenterContainerFormBuilder.setSiteConfig(siteConfigResponse.data);
+      deploymentCenterCodeFormBuilder.setSiteConfig(siteConfigResponse.data);
     } else {
       LogService.error(
         LogCategories.deploymentCenter,
@@ -134,9 +162,22 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       );
     }
 
+    if (configMetadataResponse.metadata.success) {
+      setConfigMetadata(configMetadataResponse.data);
+      deploymentCenterContainerFormBuilder.setConfigMetadata(configMetadataResponse.data);
+      deploymentCenterCodeFormBuilder.setConfigMetadata(configMetadataResponse.data);
+    } else {
+      LogService.error(
+        LogCategories.deploymentCenter,
+        'DeploymentCenterFtpsDataLoader',
+        `Failed to get site metadata with error: ${getErrorMessage(configMetadataResponse.metadata.error)}`
+      );
+    }
+
     if (publishingUserResponse.metadata.success) {
       setPublishingUser(publishingUserResponse.data);
       deploymentCenterContainerFormBuilder.setPublishingUser(publishingUserResponse.data);
+      deploymentCenterCodeFormBuilder.setPublishingUser(publishingUserResponse.data);
     } else {
       LogService.error(
         LogCategories.deploymentCenter,
@@ -156,7 +197,9 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       ]);
 
       if (fetchApplicationSettingsResponse.metadata.success) {
+        setApplicationSettings(fetchApplicationSettingsResponse.data);
         deploymentCenterContainerFormBuilder.setApplicationSettings(fetchApplicationSettingsResponse.data);
+        deploymentCenterCodeFormBuilder.setApplicationSettings(fetchApplicationSettingsResponse.data);
       } else {
         LogService.error(
           LogCategories.deploymentCenter,
@@ -181,8 +224,11 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       setIsLoading(false);
     }
 
-    setFormData(deploymentCenterContainerFormBuilder.generateFormData());
-    setFormValidationSchema(deploymentCenterContainerFormBuilder.generateYupValidationSchema());
+    setContainerFormData(deploymentCenterContainerFormBuilder.generateFormData());
+    setContainerFormValidationSchema(deploymentCenterContainerFormBuilder.generateYupValidationSchema());
+
+    setCodeFormData(deploymentCenterCodeFormBuilder.generateFormData());
+    setCodeFormValidationSchema(deploymentCenterCodeFormBuilder.generateYupValidationSchema());
   };
 
   const showPublishProfilePanel = () => {
@@ -203,19 +249,39 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return siteStateContext.site && !isLoading ? (
-    <DeploymentCenterContext.Provider value={{ resourceId, hasWritePermission, siteDescriptor }}>
+  useEffect(() => {
+    if (siteStateContext.site) {
+      setIsContainerApplication(isContainerApp(siteStateContext.site));
+      setIsLinuxApplication(isLinuxApp(siteStateContext.site));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [siteStateContext]);
+
+  return siteStateContext.site ? (
+    <DeploymentCenterContext.Provider
+      value={{
+        resourceId,
+        hasWritePermission,
+        siteDescriptor,
+        siteConfig,
+        applicationSettings,
+        isContainerApplication,
+        isLinuxApplication,
+        configMetadata,
+      }}>
       {isContainerApp(siteStateContext.site) ? (
         <DeploymentCenterContainerForm
           logs={logs}
           publishingUser={publishingUser}
           publishingProfile={publishingProfile}
           publishingCredentials={publishingCredentials}
-          formData={formData}
-          formValidationSchema={formValidationSchema}
+          formData={containerFormData}
+          formValidationSchema={containerFormValidationSchema}
           resetApplicationPassword={resetApplicationPassword}
           showPublishProfilePanel={showPublishProfilePanel}
           refresh={refresh}
+          isLoading={isLoading}
         />
       ) : (
         <DeploymentCenterCodeForm
@@ -224,11 +290,12 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           publishingUser={publishingUser}
           publishingProfile={publishingProfile}
           publishingCredentials={publishingCredentials}
-          formData={formData}
-          formValidationSchema={formValidationSchema}
+          formData={codeFormData}
+          formValidationSchema={codeFormValidationSchema}
           resetApplicationPassword={resetApplicationPassword}
           showPublishProfilePanel={showPublishProfilePanel}
           refresh={refresh}
+          isLoading={isLoading}
         />
       )}
       <DeploymentCenterPublishProfilePanel

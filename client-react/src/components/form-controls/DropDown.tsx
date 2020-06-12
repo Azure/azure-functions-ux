@@ -4,6 +4,7 @@ import { IDropdownOption, IDropdownProps } from 'office-ui-fabric-react/lib/Drop
 import { ResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import React from 'react';
 import DropdownNoFormik from './DropDownnoFormik';
+import { Layout } from './ReactiveFormControl';
 
 export interface CustomDropdownProps {
   id: string;
@@ -13,6 +14,8 @@ export interface CustomDropdownProps {
   learnMoreLink?: string;
   dirty?: boolean;
   onPanel?: boolean;
+  layout?: Layout;
+  mouseOverToolTip?: string;
 }
 
 const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {

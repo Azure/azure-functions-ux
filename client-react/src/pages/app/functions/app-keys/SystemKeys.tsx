@@ -22,6 +22,7 @@ import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithC
 import { ThemeContext } from '../../../../ThemeContext';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 
 interface SystemKeysProps {
   resourceId: string;
@@ -84,8 +85,8 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         key: 'name',
         name: t('nameRes'),
         fieldName: 'name',
-        minWidth: 210,
-        maxWidth: 350,
+        minWidth: 100,
+        maxWidth: 220,
         isRowHeader: true,
         data: 'string',
         isPadded: true,
@@ -96,7 +97,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         key: 'value',
         name: t('value'),
         fieldName: 'value',
-        minWidth: 210,
+        minWidth: 350,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
@@ -118,8 +119,8 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         key: 'delete',
         name: '',
         fieldName: 'delete',
-        minWidth: 100,
-        maxWidth: 100,
+        minWidth: 35,
+        maxWidth: 35,
         isRowHeader: false,
         isResizable: false,
         isCollapsable: false,
@@ -154,7 +155,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         <>
           <ActionButton
             id={`app-keys-host-keys-show-hide-${index}`}
-            className={defaultCellStyle}
+            className={`${defaultCellStyle} ${linkCellStyle(theme)}`}
             onClick={() => onShowHideButtonClick(itemKey)}
             iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
             {hidden ? (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Formik, FormikProps } from 'formik';
-import { DeploymentCenterFormData, DeploymentCenterContainerFormProps } from '../DeploymentCenter.types';
+import { DeploymentCenterFormData, DeploymentCenterContainerFormProps, DeploymentCenterContainerFormData } from '../DeploymentCenter.types';
 import { KeyCodes } from 'office-ui-fabric-react';
 import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
@@ -8,7 +8,7 @@ import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
 
-const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps> = props => {
+const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps<DeploymentCenterContainerFormData>> = props => {
   const { t } = useTranslation();
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
 
@@ -27,11 +27,11 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   };
 
   const refreshFunction = () => {
+    hideRefreshConfirmDialog();
     props.refresh();
   };
 
   const onSubmit = () => {
-    setIsRefreshConfirmDialogVisible(false);
     throw Error('not implemented');
   };
 
@@ -47,7 +47,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       validateOnBlur={false}
       validateOnChange={true}
       validationSchema={props.formValidationSchema}>
-      {(formProps: FormikProps<DeploymentCenterFormData>) => (
+      {(formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>) => (
         <form onKeyDown={onKeyDown}>
           <div id="deployment-center-command-bar" className={commandBarSticky}>
             <DeploymentCenterCommandBar
@@ -55,6 +55,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               discardFunction={discardFunction}
               showPublishProfilePanel={props.showPublishProfilePanel}
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
+              isLoading={props.isLoading}
             />
           </div>
           <>

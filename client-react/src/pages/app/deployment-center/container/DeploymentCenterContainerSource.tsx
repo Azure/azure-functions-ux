@@ -29,7 +29,7 @@ const DeploymentCenterContainerSource: React.FC<{}> = props => {
 
       <Field
         id="deployment-center-container-settings-source-option"
-        label={t('deploymentCenterContainerSettingsSourceLabel')}
+        label={t('deploymentCenterSettingsSourceLabel')}
         name="scmType"
         component={RadioButton}
         displayInVerticalLayout={true}

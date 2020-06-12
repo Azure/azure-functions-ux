@@ -26,6 +26,7 @@ import LogService from '../../../../../utils/LogService';
 import { PortalContext } from '../../../../../PortalContext';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { filterTextFieldStyle } from '../../../../../components/form-controls/formControl.override.styles';
+import { linkCellStyle } from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 
 interface FunctionKeysProps {
   resourceId: string;
@@ -89,8 +90,8 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         key: 'name',
         name: t('nameRes'),
         fieldName: 'name',
-        minWidth: 210,
-        maxWidth: 350,
+        minWidth: 100,
+        maxWidth: 220,
         isRowHeader: true,
         data: 'string',
         isPadded: true,
@@ -101,7 +102,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         key: 'value',
         name: t('value'),
         fieldName: 'value',
-        minWidth: 260,
+        minWidth: 350,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
@@ -123,8 +124,8 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         key: 'delete',
         name: '',
         fieldName: 'delete',
-        minWidth: 50,
-        maxWidth: 50,
+        minWidth: 35,
+        maxWidth: 35,
         isRowHeader: false,
         isResizable: false,
         isCollapsable: false,
@@ -188,7 +189,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         <>
           <ActionButton
             id={`function-keys-show-hide-${index}`}
-            className={defaultCellStyle}
+            className={`${defaultCellStyle} ${linkCellStyle(theme)}`}
             onClick={() => onShowHideButtonClick(itemKey)}
             iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
             {hidden ? (
