@@ -2074,4 +2074,5 @@ export class PortalResources {
   public static functionLogsFeedbackCVAQuestion = 'functionLogsFeedbackCVAQuestion';
   public static deploymentCenterConfigureGitHubPermissions = 'deploymentCenterConfigureGitHubPermissions';
   public static deploymentCenterProdSlotWarning = 'deploymentCenterProdSlotWarning';
+  public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
 }

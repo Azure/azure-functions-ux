@@ -146,6 +146,15 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   gitHubUser?: GitHubUser;
 }
 
+export interface DeploymentCenterReadOnlySettingsProps {
+  disconnect: () => void;
+}
+
+export interface AuthorizationResult {
+  timerId: NodeJS.Timeout;
+  redirectUrl?: string;
+}
+
 export interface DeploymentProperties {
   id: string;
   status: DeploymentStatus;
