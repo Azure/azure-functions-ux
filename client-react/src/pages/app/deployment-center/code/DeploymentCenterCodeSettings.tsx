@@ -14,7 +14,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
   const isGitHubSource = formProps && formProps.values.sourceProvider === ScmTypes.GitHub;
   const isSourceSelected = formProps && formProps.values.sourceProvider !== ScmTypes.None;
-  const isReadOnly = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmTypes.None;
+  const isDeploymentSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmTypes.None;
 
   const disconnectCallback = () => {
     throw Error('not implemented');
@@ -22,7 +22,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
   return (
     <>
-      {isReadOnly ? (
+      {isDeploymentSetup ? (
         <>
           <DeploymentCenterGitHubReadOnly disconnect={disconnectCallback} />
           <DeploymentCenterCodeBuildReadOnly />

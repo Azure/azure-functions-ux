@@ -93,7 +93,7 @@ const DeploymentCenterCodeBuildReadOnly: React.FC<{}> = () => {
     }
   };
 
-  const showBuildProvider = () => {
+  const getBuildProvider = () => {
     let buildProviderString = t('none');
     if (deploymentCenterContext.siteConfig) {
       if (deploymentCenterContext.siteConfig.properties.scmType === ScmTypes.GitHubAction) {
@@ -115,7 +115,7 @@ const DeploymentCenterCodeBuildReadOnly: React.FC<{}> = () => {
   return (
     <>
       <h3>{t('deploymentCenterSettingsBuildTitle')}</h3>
-      {showBuildProvider()}
+      {getBuildProvider()}
       {showRuntimeAndVersion()}
     </>
   );
