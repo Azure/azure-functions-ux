@@ -9,6 +9,7 @@ import {
   tableValueComponentStyle,
   tableValueIconStyle,
   tableValueFormFieldStyle,
+  formDescriptionStyle,
 } from './FunctionKeys.styles';
 import FunctionKeysCommandBar from './FunctionKeysCommandBar';
 import {
@@ -317,7 +318,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         </div>
         <div id="function-keys-data" className={formStyle}>
           <h3>{t('functionKeys_title')}</h3>
-          <p>{t('functionKeys_description')}</p>
+          <p className={formDescriptionStyle}>{t('functionKeys_description')}</p>
           <DisplayTableWithCommandBar
             commandBarItems={getCommandBarItems()}
             columns={getColumns()}
