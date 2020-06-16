@@ -40,3 +40,27 @@ export const deleteButtonStyle = (theme: ThemeExtended) =>
   style({
     float: 'right',
   });
+
+export const tableValueComponentStyle = style({
+  display: 'inline-flex',
+  cursor: 'pointer',
+  alignItems: 'center',
+  width: '100%',
+});
+
+export const tableValueIconStyle = (theme: ThemeExtended) =>
+  style({
+    fontSize: '15px',
+    marginRight: '5px',
+    marginTop: '5px',
+    color: theme.semanticColors.hyperlinkText,
+  });
+
+export const tableValueFormFieldStyle = style({
+  marginBottom: '0px !important',
+  height: 'fit-content',
+});
+
+export const tableValueTextFieldStyle = style({
+  width: '100%',
+});
