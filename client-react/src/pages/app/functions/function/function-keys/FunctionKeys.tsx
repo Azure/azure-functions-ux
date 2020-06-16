@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { FunctionKeysFormValues, FunctionKeysModel, DialogType } from './FunctionKeys.types';
 import { useTranslation } from 'react-i18next';
-import { commandBarSticky, formStyle, renewTextStyle, deleteButtonStyle } from './FunctionKeys.styles';
+import { commandBarSticky, formStyle, renewTextStyle, deleteButtonStyle, formDescriptionStyle } from './FunctionKeys.styles';
 import FunctionKeysCommandBar from './FunctionKeysCommandBar';
 import {
   ActionButton,
@@ -294,7 +294,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         </div>
         <div id="function-keys-data" className={formStyle}>
           <h3>{t('functionKeys_title')}</h3>
-          <p>{t('functionKeys_description')}</p>
+          <p className={formDescriptionStyle}>{t('functionKeys_description')}</p>
           <DisplayTableWithCommandBar
             commandBarItems={getCommandBarItems()}
             columns={getColumns()}
