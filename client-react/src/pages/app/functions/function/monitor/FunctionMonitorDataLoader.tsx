@@ -8,6 +8,8 @@ import { LogCategories } from '../../../../../utils/LogCategories';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
+import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 
 interface FunctionMonitorDataLoaderProps {
   resourceId: string;
@@ -18,8 +20,22 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   const [appInsightsToken, setAppInsightsToken] = useState<string | undefined>(undefined);
   const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined | null>(undefined);
   const [appInsightsKeyType, setAppInsightsKeyType] = useState<AppInsightsKeyType | undefined>(undefined);
+  const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo> | undefined>(undefined);
 
   const startupInfoContext = useContext(StartupInfoContext);
+
+  const fetchData = async () => {
+    const functionInfoResponse = await FunctionsService.getFunction(resourceId);
+    if (functionInfoResponse.metadata.success) {
+      setFunctionInfo(functionInfoResponse.data);
+    } else {
+      LogService.error(
+        LogCategories.functionLog,
+        'getFunction',
+        `Failed to get function info: ${getErrorMessageOrStringify(functionInfoResponse.metadata.error)}`
+      );
+    }
+  };
 
   const fetchComponent = async (force?: boolean) => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
@@ -78,6 +94,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   };
 
   useEffect(() => {
+    fetchData();
     fetchComponent();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -101,6 +118,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
       appInsightsComponent={appInsightsComponent}
       appInsightsToken={appInsightsToken}
       appInsightsKeyType={appInsightsKeyType}
+      functionInfo={functionInfo}
     />
   );
 };
