@@ -3,6 +3,9 @@ import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
 export const formStyle = style({
   padding: '5px 20px',
+});
+
+export const formDescriptionStyle = style({
   maxWidth: '800px',
 });
 

@@ -21,6 +21,7 @@ import {
   tableValueComponentStyle,
   tableValueFormFieldStyle,
   tableValueIconStyle,
+  formDescriptionStyle,
 } from './Configuration.styles';
 import { learnMoreLinkStyle, filterTextFieldStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
@@ -505,7 +506,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       </>
       <div className={formStyle}>
         <h3>{t('staticSite_applicationSettings')}</h3>
-        <p>
+        <p className={formDescriptionStyle}>
           <span id="environment-variable-info-message">{t('staticSite_applicationSettingsInfoMessage')}</span>
           <Link
             id="environment-variable-info-learnMore"
