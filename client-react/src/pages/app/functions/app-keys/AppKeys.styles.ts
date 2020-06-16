@@ -52,3 +52,22 @@ export const renewPanelTextStyle = () =>
     marginLeft: '5px',
     verticalAlign: 'middle',
   });
+
+export const tableValueComponentStyle = style({
+  display: 'inline-flex',
+  cursor: 'pointer',
+  alignItems: 'center',
+});
+
+export const tableValueIconStyle = (theme: ThemeExtended) =>
+  style({
+    fontSize: '15px',
+    marginRight: '5px',
+    marginTop: '5px',
+    color: theme.semanticColors.hyperlinkText,
+  });
+
+export const tableValueFormFieldStyle = style({
+  marginBottom: '0px !important',
+  height: 'fit-content',
+});
