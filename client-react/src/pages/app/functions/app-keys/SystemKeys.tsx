@@ -11,7 +11,13 @@ import {
   PanelType,
 } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { renewTextStyle, tableValueComponentStyle, tableValueIconStyle, tableValueFormFieldStyle } from './AppKeys.styles';
+import {
+  renewTextStyle,
+  tableValueComponentStyle,
+  tableValueIconStyle,
+  tableValueFormFieldStyle,
+  tableValueTextFieldStyle,
+} from './AppKeys.styles';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { emptyKey } from './AppKeys';
 import AppKeyAddEdit from './AppKeyAddEdit';
@@ -169,7 +175,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
                 iconProps={{ iconName: 'Hide' }}
                 onClick={() => onShowHideButtonClick(itemKey)}
               />
-              <div>
+              <div className={tableValueTextFieldStyle}>
                 <TextFieldNoFormik
                   id={`app-system-keys-value-${index}`}
                   value={item[column.fieldName!]}
@@ -177,6 +183,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
                   disabled={true}
                   formControlClassName={tableValueFormFieldStyle}
                   className={defaultCellStyle}
+                  widthOverride="100%"
                 />
               </div>
             </div>

@@ -60,6 +60,7 @@ export const tableValueComponentStyle = style({
   display: 'inline-flex',
   cursor: 'pointer',
   alignItems: 'center',
+  width: '100%',
 });
 
 export const tableValueIconStyle = (theme: ThemeExtended) =>
@@ -73,4 +74,8 @@ export const tableValueIconStyle = (theme: ThemeExtended) =>
 export const tableValueFormFieldStyle = style({
   marginBottom: '0px !important',
   height: 'fit-content',
+});
+
+export const tableValueTextFieldStyle = style({
+  width: '100%',
 });

@@ -10,7 +10,13 @@ import {
   ICommandBarItemProps,
   PanelType,
 } from 'office-ui-fabric-react';
-import { renewTextStyle, tableValueComponentStyle, tableValueIconStyle, tableValueFormFieldStyle } from './AppKeys.styles';
+import {
+  renewTextStyle,
+  tableValueComponentStyle,
+  tableValueIconStyle,
+  tableValueFormFieldStyle,
+  tableValueTextFieldStyle,
+} from './AppKeys.styles';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { emptyKey } from './AppKeys';
@@ -163,7 +169,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
                 iconProps={{ iconName: 'Hide' }}
                 onClick={() => onShowHideButtonClick(itemKey)}
               />
-              <div>
+              <div className={tableValueTextFieldStyle}>
                 <TextFieldNoFormik
                   id={`app-host-keys-value-${index}`}
                   value={item[column.fieldName!]}
@@ -171,6 +177,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
                   disabled={true}
                   formControlClassName={tableValueFormFieldStyle}
                   className={defaultCellStyle}
+                  widthOverride="100%"
                 />
               </div>
             </div>

@@ -10,6 +10,7 @@ import {
   tableValueIconStyle,
   tableValueFormFieldStyle,
   formDescriptionStyle,
+  tableValueTextFieldStyle,
 } from './FunctionKeys.styles';
 import FunctionKeysCommandBar from './FunctionKeysCommandBar';
 import {
@@ -212,7 +213,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
                 iconProps={{ iconName: 'Hide' }}
                 onClick={() => onShowHideButtonClick(itemKey)}
               />
-              <div>
+              <div className={tableValueTextFieldStyle}>
                 <TextFieldNoFormik
                   id={`function-keys-value-${index}`}
                   value={item[column.fieldName!]}
@@ -220,6 +221,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
                   disabled={true}
                   formControlClassName={tableValueFormFieldStyle}
                   className={defaultCellStyle}
+                  widthOverride="100%"
                 />
               </div>
             </div>
