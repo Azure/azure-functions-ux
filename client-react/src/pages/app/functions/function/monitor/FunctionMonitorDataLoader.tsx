@@ -37,7 +37,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
     }
   };
 
-  const fetchComponent = async (force?: boolean) => {
+  const fetchAppInsightsComponent = async (force?: boolean) => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
     const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
 
@@ -95,14 +95,14 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
 
   useEffect(() => {
     fetchData();
-    fetchComponent();
+    fetchAppInsightsComponent();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (!appInsightsComponent) {
-      fetchComponent(true);
+      fetchAppInsightsComponent(true);
     } else if (!appInsightsToken) {
       fetchToken(appInsightsComponent);
     }
