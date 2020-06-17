@@ -4,6 +4,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 
 const localhost = 'https://localhost:44300';
+const apiVersion = '2020-06-01';
 
 describe('WebApp Stacks 2020-06-01', () => {
   // Test the /POST route for all stacks
@@ -11,7 +12,7 @@ describe('WebApp Stacks 2020-06-01', () => {
     it('should validate all stacks are returned', done => {
       chai
         .request(localhost)
-        .post('/stacks/webAppStacks/?api-version=2020-06-01')
+        .post(`/stacks/webAppStacks/?api-version=${apiVersion}`)
         .then(res => {
           expect(res).to.have.status(201);
           validateAllStackLength(res.body);
@@ -28,7 +29,7 @@ describe('WebApp Stacks 2020-06-01', () => {
     it('should validate all stacks with windows are returned', done => {
       chai
         .request(localhost)
-        .post('/stacks/webAppStacks/?api-version=2020-06-01&os=windows')
+        .post(`/stacks/webAppStacks/?api-version=${apiVersion}&os=windows`)
         .then(res => {
           expect(res).to.have.status(201);
           validateWindowsStackLength(res.body);
@@ -45,7 +46,7 @@ describe('WebApp Stacks 2020-06-01', () => {
     it('should validate all stacks with linux are returned', done => {
       chai
         .request(localhost)
-        .post('/stacks/webAppStacks/?api-version=2020-06-01&os=linux')
+        .post(`/stacks/webAppStacks/?api-version=${apiVersion}&os=linux`)
         .then(res => {
           expect(res).to.have.status(201);
           validateLinuxStackLength(res.body);
@@ -62,7 +63,7 @@ describe('WebApp Stacks 2020-06-01', () => {
     it('should validate ASP stack', done => {
       chai
         .request(localhost)
-        .post('/stacks/webAppStacks/?api-version=2020-06-01')
+        .post(`/stacks/webAppStacks/?api-version=${apiVersion}`)
         .then(res => {
           expect(res).to.have.status(201);
           validateAllStackLength(res.body);
@@ -80,7 +81,7 @@ describe('WebApp Stacks 2020-06-01', () => {
     it('should validate Node stack', done => {
       chai
         .request(localhost)
-        .post('/stacks/webAppStacks/?api-version=2020-06-01')
+        .post(`/stacks/webAppStacks/?api-version=${apiVersion}`)
         .then(res => {
           expect(res).to.have.status(201);
           validateAllStackLength(res.body);
@@ -98,7 +99,7 @@ describe('WebApp Stacks 2020-06-01', () => {
     it('should validate Python stack', done => {
       chai
         .request(localhost)
-        .post('/stacks/webAppStacks/?api-version=2020-06-01')
+        .post(`/stacks/webAppStacks/?api-version=${apiVersion}`)
         .then(res => {
           expect(res).to.have.status(201);
           validateAllStackLength(res.body);
@@ -116,7 +117,7 @@ describe('WebApp Stacks 2020-06-01', () => {
     it('should validate PHP stack', done => {
       chai
         .request(localhost)
-        .post('/stacks/webAppStacks/?api-version=2020-06-01')
+        .post(`/stacks/webAppStacks/?api-version=${apiVersion}`)
         .then(res => {
           expect(res).to.have.status(201);
           validateAllStackLength(res.body);
@@ -134,7 +135,7 @@ describe('WebApp Stacks 2020-06-01', () => {
     it('should validate .NET Core stack', done => {
       chai
         .request(localhost)
-        .post('/stacks/webAppStacks/?api-version=2020-06-01')
+        .post(`/stacks/webAppStacks/?api-version=${apiVersion}`)
         .then(res => {
           expect(res).to.have.status(201);
           validateAllStackLength(res.body);
@@ -152,7 +153,7 @@ describe('WebApp Stacks 2020-06-01', () => {
     it('should validate Ruby stack', done => {
       chai
         .request(localhost)
-        .post('/stacks/webAppStacks/?api-version=2020-06-01')
+        .post(`/stacks/webAppStacks/?api-version=${apiVersion}`)
         .then(res => {
           expect(res).to.have.status(201);
           validateAllStackLength(res.body);
@@ -170,7 +171,7 @@ describe('WebApp Stacks 2020-06-01', () => {
     it('should validate Java stack', done => {
       chai
         .request(localhost)
-        .post('/stacks/webAppStacks/?api-version=2020-06-01')
+        .post(`/stacks/webAppStacks/?api-version=${apiVersion}`)
         .then(res => {
           expect(res).to.have.status(201);
           validateAllStackLength(res.body);
@@ -188,7 +189,7 @@ describe('WebApp Stacks 2020-06-01', () => {
     it('should validate Java Containers stack', done => {
       chai
         .request(localhost)
-        .post('/stacks/webAppStacks/?api-version=2020-06-01')
+        .post(`/stacks/webAppStacks/?api-version=${apiVersion}`)
         .then(res => {
           expect(res).to.have.status(201);
           validateAllStackLength(res.body);
