@@ -9,13 +9,7 @@ steps:
   - script: |
       cd server
       npm install
-      npm install -chai
     displayName: 'npm install'
-
-  - script: |
-      cd server
-      nohup npm run start &
-    displayName: 'run server'
 
   - script: |
       cd server

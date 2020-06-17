@@ -3,7 +3,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const expect = chai.expect;
 
-const localhost = 'https://localhost:44300';
+// const localhost = 'https://localhost:44300';
 
 describe('Basic server tests', () => {
   // Test simple success test
@@ -15,18 +15,18 @@ describe('Basic server tests', () => {
   });
 
   // Test the server is running
-  describe('/GET localhost', () => {
-    it('should ensure the host is running', done => {
-      chai
-        .request(localhost)
-        .get('/')
-        .then(res => {
-          expect(res).to.have.status(200);
-          done();
-        })
-        .catch(err => {
-          done(err);
-        });
-    });
-  });
+  // describe('/GET localhost', () => {
+  //   it('should ensure the host is running', done => {
+  //     chai
+  //       .request(localhost)
+  //       .get('/')
+  //       .then(res => {
+  //         expect(res).to.have.status(200);
+  //         done();
+  //       })
+  //       .catch(err => {
+  //         done(err);
+  //       });
+  //   });
+  // });
 });
