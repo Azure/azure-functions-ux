@@ -232,8 +232,8 @@ export default class AppInsightsService {
       } else {
         LogService.trackEvent(
           LogCategories.applicationInsightsQuery,
-          'getOrchestrationTraceDetails',
-          `Failed to query orchestrationTraceDetails: ${getErrorMessageOrStringify(response.metadata.error)}`
+          'getEntityTraceDetails',
+          `Failed to query entityTraceDetails: ${getErrorMessageOrStringify(response.metadata.error)}`
         );
       }
       return details;
@@ -628,19 +628,11 @@ export default class AppInsightsService {
             state: row[2],
           });
         } else {
-          LogService.trackEvent(
-            LogCategories.applicationInsightsQuery,
-            'parseOrchestrationDetail',
-            `Unable to parse orchestration detail: ${row}`
-          );
+          LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseEntityDetails', `Unable to parse entity detail: ${row}`);
         }
       });
     } else {
-      LogService.trackEvent(
-        LogCategories.applicationInsightsQuery,
-        'parseOrchestrationDetails',
-        `Unable to parse orchestration details: ${result}`
-      );
+      LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseEntityDetails', `Unable to parse entity details: ${result}`);
     }
 
     return details;
