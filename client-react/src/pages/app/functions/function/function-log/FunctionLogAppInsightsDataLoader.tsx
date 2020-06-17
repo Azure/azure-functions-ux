@@ -16,6 +16,7 @@ import { getLogTextColor } from './FunctionLog.styles';
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 
 interface FunctionLogAppInsightsDataLoaderProps {
   resourceId: string;
@@ -33,6 +34,9 @@ interface FunctionLogAppInsightsDataLoaderProps {
   isScopeFunctionApp?: boolean;
   leftAlignMainToolbarItems?: boolean;
   customHeight?: number;
+  showLoggingOptionsDropdown?: boolean;
+  selectedLoggingOption?: LoggingOptions;
+  setSelectedLoggingOption?: (options: LoggingOptions) => void;
 }
 
 const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoaderProps> = props => {
