@@ -6402,12 +6402,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionEditor_fileBasedLogsCalloutMessage" xml:space="preserve">
         <value>Switching to filesystem based logs may have an impact on the runtime performance of your Function app. It also may not work if there are network restrictions setup such as IP Restrictions, VNET, etc.</value>
     </data>
-    <data name="switchToAppInsightsLogMessage" xml:space="preserve">
-        <value>Switching to App Insights Logs..</value>
-    </data>
-    <data name="switchToFileSystemLogMessage" xml:space="preserve">
-        <value>Switching to Filesystem Logs..</value>
-    </data>
     <data name="orchestrationTracesTableTitle" xml:space="preserve">
         <value>Orchestration Traces</value>
     </data>

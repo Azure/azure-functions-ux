@@ -107,7 +107,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const scenarioChecker = new ScenarioService(t);
 
   const showAppInsightsLogs = scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
-  const isFileSystemLoggingAvailable = !(siteStateContext.site && isLinuxDynamic(siteStateContext.site));
+  const isFileSystemLoggingAvailable = siteStateContext.site && !isLinuxDynamic(siteStateContext.site);
   const showLoggingOptionsDropdown = showAppInsightsLogs && isFileSystemLoggingAvailable;
   const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.siteAppEditState);
   const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
