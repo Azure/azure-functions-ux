@@ -17,7 +17,7 @@
     "start:prod": "node dist/server.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "build:resources": "gulp build-all",
-    "test": "mocha test --recursive"
+    "test": "mocha test"
   },
   "dependencies": {
     "@azure/storage-blob": "^10.3.0",

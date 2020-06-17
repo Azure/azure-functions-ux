@@ -9,6 +9,7 @@ steps:
   - script: |
       cd server
       npm install
+      npm install -chai
     displayName: 'npm install'
 
   - script: |
