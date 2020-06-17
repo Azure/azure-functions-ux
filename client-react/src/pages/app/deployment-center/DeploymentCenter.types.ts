@@ -33,6 +33,12 @@ export enum DeploymentStatus {
   Success,
 }
 
+export enum WorkflowOptions {
+  Overwrite = 'overwrite',
+  Add = 'add',
+  UseExisting = 'useExisting',
+}
+
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &
   DeploymentCenterFtpsProps<DeploymentCenterContainerFormData>;
 
@@ -50,6 +56,7 @@ export interface DeploymentCenterCommonFormData {
   publishingUsername: string;
   publishingPassword: string;
   publishingConfirmPassword: string;
+  workflowOption: string;
 }
 
 export interface DeploymentCenterContainerFormData {
@@ -71,6 +78,9 @@ export interface DeploymentCenterCodeFormData {
   buildProvider: BuildProvider;
   runtimeStack: string;
   runtimeVersion: string;
+  org: string;
+  repo: string;
+  branch: string;
 }
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {

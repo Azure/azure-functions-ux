@@ -1,6 +1,6 @@
 import { sendHttpRequest } from './HttpClient';
 import Url from '../utils/url';
-import { GitHubUser, GitHubOrganizations, GitHubRepository, GitHubBranch } from '../models/github';
+import { GitHubUser, GitHubOrganizations, GitHubRepository, GitHubBranch, FileContent } from '../models/github';
 import { HttpResponseObject } from '../ArmHelper.types';
 
 export default class GitHubService {
@@ -51,13 +51,29 @@ export default class GitHubService {
     return sendHttpRequest<GitHubRepository[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
-  public static getBranches = (repository_url: string, authToken: string) => {
-    console.log(repository_url);
+  public static getBranches = (repo_url: string, authToken: string) => {
     const data = {
-      url: `${repository_url}/branches`,
+      url: `${repo_url}/branches`,
       authToken,
     };
 
     return sendHttpRequest<GitHubBranch[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+  };
+
+  public static getAllWorkflowConfigurations = (repoUrl: string, branchName: string, authToken: string) => {
+    const data = {
+      url: `${repoUrl}/contents/.github/workflows?ref=${branchName}`,
+      authToken,
+    };
+
+    return sendHttpRequest<FileContent[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+  };
+  public static getWorkflowConfiguration = (repoUrl: string, branchName: string, workflowYmlPath: string, authToken: string) => {
+    const data = {
+      url: `${repoUrl}/contents/${workflowYmlPath}?ref=${branchName}`,
+      authToken,
+    };
+
+    return sendHttpRequest<FileContent>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 }

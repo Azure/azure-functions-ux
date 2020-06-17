@@ -22,6 +22,7 @@ export abstract class DeploymentCenterFormBuilder {
       publishingUsername: this._publishingUser ? this._publishingUser.properties.publishingUserName : '',
       publishingPassword: '',
       publishingConfirmPassword: '',
+      workflowOption: '',
     };
   }
 
@@ -45,6 +46,7 @@ export abstract class DeploymentCenterFormBuilder {
       publishingConfirmPassword: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
         return !this.parent.publishingPassword || this.parent.publishingPassword === value;
       }),
+      workflowOption: Yup.mixed().notRequired(),
     };
   }
 

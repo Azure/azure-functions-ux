@@ -2075,4 +2075,10 @@ export class PortalResources {
   public static deploymentCenterConfigureGitHubPermissions = 'deploymentCenterConfigureGitHubPermissions';
   public static deploymentCenterProdSlotWarning = 'deploymentCenterProdSlotWarning';
   public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
+  public static deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite = 'deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite';
+  public static deploymentCenterSettingsGitHubActionWorkflowOptionAdd = 'deploymentCenterSettingsGitHubActionWorkflowOptionAdd';
+  public static deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting =
+    'deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting';
+  public static deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder =
+    'deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder';
 }

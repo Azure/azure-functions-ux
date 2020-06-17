@@ -10,6 +10,9 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
       buildProvider: BuildProvider.None,
       runtimeStack: '',
       runtimeVersion: '',
+      org: '',
+      repo: '',
+      branch: '',
       ...this.generatePublishingCredentialsFormData(),
     };
   }
@@ -23,6 +26,15 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
       }),
       runtimeVersion: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
         return this.parent.buildProvider !== BuildProvider.GitHubAction || !value;
+      }),
+      org: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
+        return this.parent.sourceProvider === ScmTypes.GitHub && !value;
+      }),
+      repo: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
+        return this.parent.sourceProvider === ScmTypes.GitHub && !value;
+      }),
+      branch: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
+        return this.parent.sourceProvider === ScmTypes.GitHub && !value;
       }),
       ...this.generatePublishingCredentailsYupValidationSchema(),
     });

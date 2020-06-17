@@ -6387,4 +6387,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
         <value>GitHub Token not found, click authorize to set up GitHub token.</value>
     </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite the workflow in the repository</value>
+    </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
+        <value>Add a workflow in the repository</value>
+    </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Use existing repository workflow</value>
+    </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
+        <value>Select workflow option</value>
+    </data>
 </root>
