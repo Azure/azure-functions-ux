@@ -6423,4 +6423,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="failedToFetchTags" xml:space="preserve">
         <value>Failed to get a list of tags.</value>
     </data>
+    <data name="entityDetails" xml:space="preserve">
+        <value>Entity Details</value>
+    <data>
 </root>

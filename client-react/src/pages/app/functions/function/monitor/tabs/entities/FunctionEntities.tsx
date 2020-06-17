@@ -154,7 +154,7 @@ const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
       <CustomPanel
         isOpen={!!currentTrace}
         onDismiss={() => setCurrentTrace(undefined)}
-        headerText={t('orchestrationDetails')}
+        headerText={t('entityDetails')}
         type={PanelType.medium}>
         <FunctionEntityDetails entityDetails={entityDetails} appInsightsResourceId={appInsightsResourceId} currentTrace={currentTrace} />
       </CustomPanel>
