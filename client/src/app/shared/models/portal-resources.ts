@@ -2077,4 +2077,7 @@ export class PortalResources {
   public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
   public static functionMonitor_orchestrations = 'functionMonitor_orchestrations';
   public static functionMonitor_entities = 'functionMonitor_entities';
+  public static functionEditor_appInsightsLogs = 'functionEditor_appInsightsLogs';
+  public static functionEditor_fileBasedLogs = 'functionEditor_fileBasedLogs';
+  public static functionEditor_fileBasedLogsCalloutMessage = 'functionEditor_fileBasedLogsCalloutMessage';
 }

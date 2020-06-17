@@ -44,13 +44,13 @@ const elementWrapperStyle = (theme: ThemeExtended) =>
     background: theme.semanticColors.bodyFrameBackground,
   });
 
-const buttonsWrapperStyle = style({
+export const buttonsWrapperStyle = style({
   display: 'inline-block',
   verticalAlign: 'top',
   paddingTop: '10px',
 });
 
-const buttonStyle = (theme: ThemeExtended, isPrimary: boolean) =>
+export const buttonStyle = (theme: ThemeExtended, isPrimary: boolean) =>
   style({
     marginLeft: '16px',
     marginTop: '2px',

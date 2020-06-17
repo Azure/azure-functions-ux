@@ -9,7 +9,7 @@ import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../../../components/monaco-editor/monaco-editor';
-import { InputFormValues, ResponseContent, PivotType, FileContent, UrlObj } from './FunctionEditor.types';
+import { InputFormValues, ResponseContent, PivotType, FileContent, UrlObj, LoggingOptions } from './FunctionEditor.types';
 import { VfsObject } from '../../../../../models/functions/vfs';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
@@ -95,6 +95,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [isFileContentAvailable, setIsFileContentAvailable] = useState<boolean | undefined>(undefined);
   const [showDiscardConfirmDialog, setShowDiscardConfirmDialog] = useState(false);
   const [logPanelHeight, setLogPanelHeight] = useState(0);
+  const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(undefined);
 
   const { t } = useTranslation();
 
@@ -364,6 +365,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   }, [isRefreshing]);
   useEffect(() => {
     fetchData();
+    setSelectedLoggingOption(showAppInsightsLogs ? LoggingOptions.appInsights : LoggingOptions.fileBased);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -474,7 +476,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         </div>
       )}
       <div className={logPanelStyle(logPanelExpanded, logPanelFullscreen, getReadOnlyBannerHeight())}>
-        {showAppInsightsLogs ? (
+        {showAppInsightsLogs && selectedLoggingOption === LoggingOptions.appInsights && (
           <FunctionLogAppInsightsDataLoader
             resourceId={functionInfo.id}
             toggleExpand={toggleLogPanelExpansion}
@@ -486,8 +488,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             isResizable={true}
             logPanelHeight={logPanelHeight}
             setLogPanelHeight={setLogPanelHeight}
+            showLoggingOptionsDropdown={true}
+            selectedLoggingOption={selectedLoggingOption}
+            setSelectedLoggingOption={setSelectedLoggingOption}
           />
-        ) : (
+        )}
+        {(!showAppInsightsLogs || selectedLoggingOption === LoggingOptions.fileBased) && (
           <FunctionLogFileStreamDataLoader
             resourceId={functionInfo.id}
             toggleExpand={toggleLogPanelExpansion}
@@ -499,6 +505,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             isResizable={true}
             logPanelHeight={logPanelHeight}
             setLogPanelHeight={setLogPanelHeight}
+            showLoggingOptionsDropdown={showAppInsightsLogs}
+            selectedLoggingOption={selectedLoggingOption}
+            setSelectedLoggingOption={setSelectedLoggingOption}
           />
         )}
       </div>
