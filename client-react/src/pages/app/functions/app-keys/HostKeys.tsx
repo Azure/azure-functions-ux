@@ -10,7 +10,13 @@ import {
   ICommandBarItemProps,
   PanelType,
 } from 'office-ui-fabric-react';
-import { renewTextStyle } from './AppKeys.styles';
+import {
+  renewTextStyle,
+  tableValueComponentStyle,
+  tableValueIconStyle,
+  tableValueFormFieldStyle,
+  tableValueTextFieldStyle,
+} from './AppKeys.styles';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { emptyKey } from './AppKeys';
@@ -22,7 +28,7 @@ import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithC
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { ThemeContext } from '../../../../ThemeContext';
 import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
-import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
+import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 
 interface HostKeysProps {
   resourceId: string;
@@ -147,19 +153,35 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     if (column.key === 'value') {
       return (
         <>
-          <ActionButton
-            id={`app-keys-host-keys-show-hide-${index}`}
-            className={`${defaultCellStyle} ${linkCellStyle(theme)}`}
-            onClick={() => onShowHideButtonClick(itemKey)}
-            iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
-            {hidden ? (
+          {hidden ? (
+            <ActionButton
+              id={`app-host-keys-show-${index}`}
+              className={defaultCellStyle}
+              onClick={() => onShowHideButtonClick(itemKey)}
+              iconProps={{ iconName: 'RedEye' }}>
               <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
-            ) : (
-              <div className={defaultCellStyle} id={`app-keys-host-keys-value-${index}`}>
-                {item[column.fieldName!]}
+            </ActionButton>
+          ) : (
+            <div className={`${tableValueComponentStyle} ${defaultCellStyle}`} onClick={() => onShowHideButtonClick(itemKey)}>
+              <IconButton
+                id={`app-host-keys-hide-${index}`}
+                className={tableValueIconStyle(theme)}
+                iconProps={{ iconName: 'Hide' }}
+                onClick={() => onShowHideButtonClick(itemKey)}
+              />
+              <div className={tableValueTextFieldStyle}>
+                <TextFieldNoFormik
+                  id={`app-host-keys-value-${index}`}
+                  value={item[column.fieldName!]}
+                  copyButton={true}
+                  disabled={true}
+                  formControlClassName={tableValueFormFieldStyle}
+                  className={defaultCellStyle}
+                  widthOverride="100%"
+                />
               </div>
-            )}
-          </ActionButton>
+            </div>
+          )}
         </>
       );
     }

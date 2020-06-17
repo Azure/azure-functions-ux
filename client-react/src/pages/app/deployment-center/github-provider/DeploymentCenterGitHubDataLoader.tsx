@@ -4,16 +4,11 @@ import { GitHubUser } from '../../../../models/github';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
-import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterFieldProps, AuthorizationResult } from '../DeploymentCenter.types';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-
-interface authorizationResult {
-  timerId: NodeJS.Timeout;
-  redirectUrl?: string;
-}
 
 const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -108,7 +103,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const authorizeGitHubAccount = async () => {
     const oauthWindow = window.open(GitHubService.authorizeUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
 
-    const authPromise = new Promise<authorizationResult>(resolve => {
+    const authPromise = new Promise<AuthorizationResult>(resolve => {
       setGitHubAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
 
       // Check for authorization status every 100 ms.
