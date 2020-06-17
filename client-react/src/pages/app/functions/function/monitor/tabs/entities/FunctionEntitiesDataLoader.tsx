@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FunctionEntitiesData from './FunctionEntities.data';
 import FunctionEntities from './FunctionEntities';
-import { AppInsightsEntityTrace } from '../../../../../../../models/app-insights';
+import { AppInsightsEntityTrace, AppInsightsEntityTraceDetail } from '../../../../../../../models/app-insights';
 
 interface FunctionEntitiesDataLoaderProps {
   resourceId: string;
@@ -18,6 +18,7 @@ const FunctionEntitiesDataLoader: React.FC<FunctionEntitiesDataLoaderProps> = pr
 
   const [currentTrace, setCurrentTrace] = useState<AppInsightsEntityTrace | undefined>(undefined);
   const [entityTraces, setEntityTraces] = useState<AppInsightsEntityTrace[] | undefined>(undefined);
+  const [entityDetails, setEntityDetails] = useState<AppInsightsEntityTraceDetail[] | undefined>(undefined);
 
   const fetchEntityTraces = async () => {
     if (appInsightsToken) {
@@ -31,11 +32,29 @@ const FunctionEntitiesDataLoader: React.FC<FunctionEntitiesDataLoaderProps> = pr
     fetchEntityTraces();
   };
 
+  const fetchEntityTraceDetails = async () => {
+    if (appInsightsToken && currentTrace) {
+      const entitiesDetailsResponse = await entitiesData.getEntityDetails(
+        appInsightsAppId,
+        appInsightsToken,
+        currentTrace.DurableFunctionsInstanceId
+      );
+      setEntityDetails(entitiesDetailsResponse);
+    }
+  };
+
+  useEffect(() => {
+    fetchEntityTraceDetails();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTrace]);
+
   useEffect(() => {
     fetchEntityTraces();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appInsightsToken]);
+
   return (
     <FunctionEntitiesContext.Provider value={entitiesData}>
       <FunctionEntities
@@ -45,6 +64,7 @@ const FunctionEntitiesDataLoader: React.FC<FunctionEntitiesDataLoaderProps> = pr
         currentTrace={currentTrace}
         entityTraces={entityTraces}
         refreshEntities={refreshEntities}
+        entityDetails={entityDetails}
       />
     </FunctionEntitiesContext.Provider>
   );
