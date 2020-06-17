@@ -6408,4 +6408,28 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="switchToFileSystemLogMessage" xml:space="preserve">
         <value>Switching to Filesystem Logs..</value>
     </data>
+    <data name="orchestrationTracesTableTitle" xml:space="preserve">
+        <value>Orchestration Traces</value>
+    </data>
+    <data name="orchestrationTracesTableDescription" xml:space="preserve">
+        <value>The twenty most recent function orchestration traces. For more advanced analysis, run the query in Application Insights.</value>
+    </data>
+    <data name="runtimeStatus" xml:space="preserve">
+        <value>Runtime Status</value>
+    </data>
+    <data name="instanceId" xml:space="preserve">
+        <value>Instance Id</value>
+    </data>
+    <data name="filterOrchestrations" xml:space="preserve">
+        <value>Filter orchestrations</value>
+    </data>
+    <data name="entityTracesTableTitle" xml:space="preserve">
+        <value>Entity Traces</value>
+    </data>
+    <data name="entityTracesTableDescription" xml:space="preserve">
+        <value>The twenty most recent function entity traces. For more advanced analysis, run the query in Application Insights.</value>
+    </data>
+    <data name="filterEntities" xml:space="preserve">
+        <value>Filter entities</value>
+    </data>
 </root>

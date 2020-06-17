@@ -2,7 +2,7 @@ import { FunctionAppStack } from '../stack.model';
 
 export const powershellStack: FunctionAppStack = {
   sortOrder: 4,
-  displayText: 'Powershell Core',
+  displayText: 'PowerShell Core',
   value: 'powershell',
   versions: [
     {

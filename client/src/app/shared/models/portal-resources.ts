@@ -2082,4 +2082,12 @@ export class PortalResources {
   public static functionEditor_fileBasedLogsCalloutMessage = 'functionEditor_fileBasedLogsCalloutMessage';
   public static switchToAppInsightsLogMessage = 'switchToAppInsightsLogMessage';
   public static switchToFileSystemLogMessage = 'switchToFileSystemLogMessage';
+  public static orchestrationTracesTableTitle = 'orchestrationTracesTableTitle';
+  public static orchestrationTracesTableDescription = 'orchestrationTracesTableDescription';
+  public static runtimeStatus = 'runtimeStatus';
+  public static instanceId = 'instanceId';
+  public static filterOrchestrations = 'filterOrchestrations';
+  public static entityTracesTableTitle = 'entityTracesTableTitle';
+  public static entityTracesTableDescription = 'entityTracesTableDescription';
+  public static filterEntities = 'filterEntities';
 }
