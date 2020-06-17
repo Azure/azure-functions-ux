@@ -10,7 +10,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // ONLY USE LOCALLY FOR NOW
 describe('WebApp Stacks 2020-06-01', () => {
   // Test the /POST route for all stacks
   describe('/POST webAppStacks', () => {
-    it('should validate all stacks are returned', function (done) {
+    it('should validate all stacks are returned', done => {
       chai.request(localhost)
         .post('/stacks/webAppStacks/?api-version=2020-06-01')
         .then(res => {
