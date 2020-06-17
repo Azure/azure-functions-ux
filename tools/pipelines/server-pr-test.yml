@@ -8,7 +8,7 @@ steps:
 
   - script: |
       cd server
-      npm install
+      npm ci
     displayName: 'npm install'
 
   - script: |
