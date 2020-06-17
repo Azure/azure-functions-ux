@@ -60,6 +60,16 @@ export interface AppInsightsInvocationTraceDetail {
   logLevel: string;
 }
 
+export interface AppInsightsOrchestrationTrace {
+  timestamp: string;
+  timestampFriendly: string;
+  id: string;
+  name: string;
+  DurableFunctionsInstanceId: string;
+  DurableFunctionsRuntimeStatus: string;
+  DurableFunctionsType: number;
+}
+
 export enum AppInsightsKeyType {
   string = 'string',
   keyVault = 'keyVault',

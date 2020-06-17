@@ -11,6 +11,7 @@ import {
   AppInsightsInvocationTrace,
   AppInsightsInvocationTraceDetail,
   AppInsightsKeyType,
+  AppInsightsOrchestrationTrace,
 } from '../models/app-insights';
 import { mapResourcesTopologyToArmObjects } from '../utils/arm-utils';
 import LogService from '../utils/LogService';
@@ -134,6 +135,53 @@ export default class AppInsightsService {
       invocationIdFilter +
       `| order by timestamp asc` +
       `| project timestamp, message = iff(message != '', message, iff(innermostMessage != '', innermostMessage, customDimensions.['prop__{OriginalFormat}'])), logLevel = customDimensions.['LogLevel']`
+    );
+  };
+
+  public static getOrchestrationTraces = (
+    appInsightsAppId: string,
+    appInsightsToken: string,
+    functionResourceId: string,
+    top: number = 20
+  ) => {
+    const data = { query: AppInsightsService.formOrchestrationTracesQuery(functionResourceId, top), timespan: 'P30D' };
+    const headers = AppInsightsService._formAppInsightsHeaders(appInsightsToken);
+    const url = AppInsightsService._formOrchestrationTracesUrl(appInsightsAppId);
+
+    return sendHttpRequest<AppInsightsQueryResult>({ data, headers, url, method: 'POST' }).then(response => {
+      let traces: AppInsightsOrchestrationTrace[] = [];
+      if (response.metadata.success && response.data) {
+        traces = AppInsightsService._extracOrchestrationTracesFromQueryResult(response.data);
+      } else {
+        LogService.trackEvent(
+          LogCategories.applicationInsightsQuery,
+          'getOrchestrationTraces',
+          `Failed to query orchestrationTraces: ${getErrorMessageOrStringify(response.metadata.error)}`
+        );
+      }
+      return traces;
+    });
+  };
+
+  public static formOrchestrationTracesQuery = (functionResourceId: string, top: number = 20) => {
+    const [functionAppName, functionName] = AppInsightsService._extractFunctionAppNameAndFunctionName(functionResourceId);
+    const orchestratorRequests =
+      `requests ` +
+      `| extend DurableFunctionsInstanceId = tostring(customDimensions['DurableFunctionsInstanceId']), DurableFunctionsRuntimeStatus = tostring(customDimensions['DurableFunctionsRuntimeStatus']), DurableFunctionsType = tostring(customDimensions['DurableFunctionsType']) ` +
+      `| where DurableFunctionsType == 'Orchestrator' `;
+    return (
+      `${orchestratorRequests}` +
+      `| project timestamp, id, name, operation_Name, cloud_RoleName, DurableFunctionsRuntimeStatus, DurableFunctionsType, DurableFunctionsInstanceId ` +
+      `| where DurableFunctionsRuntimeStatus != 'Terminated' and name == '${functionName}' ` +
+      `| union ( ${orchestratorRequests}` +
+      `| where DurableFunctionsRuntimeStatus == 'Terminated' and DurableFunctionsInstanceId in (` +
+      `(${orchestratorRequests}` +
+      `| where DurableFunctionsRuntimeStatus != 'Terminated' and name == '${functionName}' ` +
+      `| distinct DurableFunctionsInstanceId )) ` +
+      `) ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
+      `| summarize arg_max(timestamp, *) by DurableFunctionsInstanceId ` +
+      `| order by timestamp desc | take ${top}`
     );
   };
 
@@ -299,6 +347,12 @@ export default class AppInsightsService {
     }&queryType=getInvocationTraces`;
   };
 
+  private static _formOrchestrationTracesUrl = (appInsightsAppId: string): string => {
+    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
+      CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
+    }&queryType=getOrchestrationTraces`;
+  };
+
   private static _formInvocationTraceDetailsUrl = (appInsightsAppId: string): string => {
     return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
       CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
@@ -406,5 +460,41 @@ export default class AppInsightsService {
     }
 
     return details;
+  };
+
+  private static _extracOrchestrationTracesFromQueryResult = (result: AppInsightsQueryResult) => {
+    const traces: AppInsightsOrchestrationTrace[] = [];
+    const summaryTable = result.tables.find(table => table.name === 'PrimaryResult');
+    const rows = summaryTable && summaryTable.rows;
+
+    if (rows) {
+      rows.forEach(row => {
+        if (row.length >= 9) {
+          traces.push({
+            timestamp: row[1],
+            timestampFriendly: moment.utc(row[1]).format('YYYY-MM-DD HH:mm:ss.SSS'),
+            id: row[2],
+            name: row[3],
+            DurableFunctionsInstanceId: row[0],
+            DurableFunctionsRuntimeStatus: row[6],
+            DurableFunctionsType: row[7],
+          });
+        } else {
+          LogService.trackEvent(
+            LogCategories.applicationInsightsQuery,
+            'parseOrchestrationTrace',
+            `Unable to parse orchestration trace: ${row}`
+          );
+        }
+      });
+    } else {
+      LogService.trackEvent(
+        LogCategories.applicationInsightsQuery,
+        'parseOrchestrationTraces',
+        `Unable to parse orchestration traces: ${result}`
+      );
+    }
+
+    return traces;
   };
 }
