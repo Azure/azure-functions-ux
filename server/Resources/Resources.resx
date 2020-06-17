@@ -6420,4 +6420,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="state" xml:space="preserve">
         <value>State</value>
     </data>
+    <data name="orchestrationDetails" xml:space="preserve">
+        <value>Orchestration Details</value>
+    </data>
 </root>

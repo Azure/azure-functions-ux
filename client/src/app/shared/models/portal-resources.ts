@@ -2086,4 +2086,5 @@ export class PortalResources {
   public static entityTracesTableDescription = 'entityTracesTableDescription';
   public static filterEntities = 'filterEntities';
   public static state = 'state';
+  public static orchestrationDetails = 'orchestrationDetails';
 }

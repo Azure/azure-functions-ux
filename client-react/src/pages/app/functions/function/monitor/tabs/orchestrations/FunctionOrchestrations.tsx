@@ -166,7 +166,7 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
       <CustomPanel
         isOpen={!!currentTrace}
         onDismiss={() => setCurrentTrace(undefined)}
-        headerText={'Invocation Details'}
+        headerText={t('orchestrationDetails')}
         type={PanelType.medium}>
         <FunctionOrchestrationDetails
           orchestrationDetails={orchestrationDetails}
