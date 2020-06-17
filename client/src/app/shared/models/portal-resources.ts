@@ -2085,4 +2085,6 @@ export class PortalResources {
   public static entityTracesTableTitle = 'entityTracesTableTitle';
   public static entityTracesTableDescription = 'entityTracesTableDescription';
   public static filterEntities = 'filterEntities';
+  public static failedToFetchRepositories = 'failedToFetchRepositories';
+  public static failedToFetchTags = 'failedToFetchTags';
 }
