@@ -19,7 +19,7 @@ const FunctionEntitiesDataLoader: React.FC<FunctionEntitiesDataLoaderProps> = pr
   const [currentTrace, setCurrentTrace] = useState<AppInsightsEntityTrace | undefined>(undefined);
   const [entityTraces, setEntityTraces] = useState<AppInsightsEntityTrace[] | undefined>(undefined);
 
-  const fetchOrchestrationTraces = async () => {
+  const fetchEntityTraces = async () => {
     if (appInsightsToken) {
       const entityTracesResponse = await entitiesData.getEntityTraces(appInsightsAppId, appInsightsToken, resourceId);
       setEntityTraces(entityTracesResponse);
@@ -28,11 +28,11 @@ const FunctionEntitiesDataLoader: React.FC<FunctionEntitiesDataLoaderProps> = pr
 
   const refreshEntities = () => {
     setEntityTraces(undefined);
-    fetchOrchestrationTraces();
+    fetchEntityTraces();
   };
 
   useEffect(() => {
-    fetchOrchestrationTraces();
+    fetchEntityTraces();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appInsightsToken]);
