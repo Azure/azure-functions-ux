@@ -37,10 +37,10 @@ export class ContainerACRService {
     const headers = new Headers();
     const encoded = btoa(`${username}:${password}`);
 
-    headers.append('Authorization', `Basic YWd1YXNqOkpJY2tsYmZCcElxVDd4WVl0dS8xOHVQUnd0UjlqM3Nk`);
+    headers.append('Authorization', `Basic ${encoded}`);
     headers.append('Content-Type', 'application/json');
 
-    const url = `https://aguasj.azurecr.io/v2/_catalog`;
+    const url = `https://${loginServer}/v2/_catalog`;
 
     return this._dispatchPageableRequest(loginServer, url, headers);
   }
