@@ -6399,4 +6399,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Select workflow option</value>
     </data>
+    <data name="functionMonitor_orchestrations" xml:space="preserve">
+        <value>Orchestrations</value>
+    </data>
+    <data name="functionMonitor_entities" xml:space="preserve">
+        <value>Entities</value>
+    </data>
 </root>

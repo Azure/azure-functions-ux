@@ -2081,4 +2081,6 @@ export class PortalResources {
     'deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting';
   public static deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder =
     'deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder';
+  public static functionMonitor_orchestrations = 'functionMonitor_orchestrations';
+  public static functionMonitor_entities = 'functionMonitor_entities';
 }

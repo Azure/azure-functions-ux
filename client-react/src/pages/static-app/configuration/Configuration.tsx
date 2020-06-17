@@ -21,6 +21,8 @@ import {
   tableValueComponentStyle,
   tableValueFormFieldStyle,
   tableValueIconStyle,
+  formDescriptionStyle,
+  tableValueTextFieldStyle,
 } from './Configuration.styles';
 import { learnMoreLinkStyle, filterTextFieldStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
@@ -201,7 +203,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
                 iconProps={{ iconName: 'Hide' }}
                 onClick={() => onShowHideButtonClick(itemKey)}
               />
-              <div>
+              <div className={tableValueTextFieldStyle}>
                 <TextFieldNoFormik
                   id={`environment-variable-value-${index}`}
                   value={item[column.fieldName!]}
@@ -209,6 +211,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
                   disabled={true}
                   formControlClassName={tableValueFormFieldStyle}
                   className={defaultCellStyle}
+                  widthOverride="100%"
                 />
               </div>
             </div>
@@ -505,7 +508,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       </>
       <div className={formStyle}>
         <h3>{t('staticSite_applicationSettings')}</h3>
-        <p>
+        <p className={formDescriptionStyle}>
           <span id="environment-variable-info-message">{t('staticSite_applicationSettingsInfoMessage')}</span>
           <Link
             id="environment-variable-info-learnMore"
