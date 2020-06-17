@@ -2082,4 +2082,7 @@ export class PortalResources {
   public static runtimeStatus = 'runtimeStatus';
   public static instanceId = 'instanceId';
   public static filterOrchestrations = 'filterOrchestrations';
+  public static entityTracesTableTitle = 'entityTracesTableTitle';
+  public static entityTracesTableDescription = 'entityTracesTableDescription';
+  public static filterEntities = 'filterEntities';
 }

@@ -12,6 +12,7 @@ import {
   AppInsightsInvocationTraceDetail,
   AppInsightsKeyType,
   AppInsightsOrchestrationTrace,
+  AppInsightsEntityTrace,
 } from '../models/app-insights';
 import { mapResourcesTopologyToArmObjects } from '../utils/arm-utils';
 import LogService from '../utils/LogService';
@@ -179,6 +180,39 @@ export default class AppInsightsService {
       `| where DurableFunctionsRuntimeStatus != 'Terminated' and name == '${functionName}' ` +
       `| distinct DurableFunctionsInstanceId )) ` +
       `) ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
+      `| summarize arg_max(timestamp, *) by DurableFunctionsInstanceId ` +
+      `| order by timestamp desc | take ${top}`
+    );
+  };
+
+  public static getEntityTraces = (appInsightsAppId: string, appInsightsToken: string, functionResourceId: string, top: number = 20) => {
+    const data = { query: AppInsightsService.formEntityTracesQuery(functionResourceId, top), timespan: 'P30D' };
+    const headers = AppInsightsService._formAppInsightsHeaders(appInsightsToken);
+    const url = AppInsightsService._formEntityTracesUrl(appInsightsAppId);
+
+    return sendHttpRequest<AppInsightsQueryResult>({ data, headers, url, method: 'POST' }).then(response => {
+      let traces: AppInsightsEntityTrace[] = [];
+      if (response.metadata.success && response.data) {
+        traces = AppInsightsService._extractEntityTracesFromQueryResult(response.data);
+      } else {
+        LogService.trackEvent(
+          LogCategories.applicationInsightsQuery,
+          'getEntityTraces',
+          `Failed to query entity Traces: ${getErrorMessageOrStringify(response.metadata.error)}`
+        );
+      }
+      return traces;
+    });
+  };
+
+  public static formEntityTracesQuery = (functionResourceId: string, top: number = 20) => {
+    const [functionAppName, functionName] = AppInsightsService._extractFunctionAppNameAndFunctionName(functionResourceId);
+    return (
+      `requests ` +
+      `| extend DurableFunctionsInstanceId = tostring(customDimensions['DurableFunctionsInstanceId']), DurableFunctionsRuntimeStatus = tostring(customDimensions['DurableFunctionsRuntimeStatus']), DurableFunctionsType = tostring(customDimensions['DurableFunctionsType']) ` +
+      `| project timestamp, id, name, operation_Name, cloud_RoleName, DurableFunctionsRuntimeStatus, DurableFunctionsType, DurableFunctionsInstanceId ` +
+      `| where DurableFunctionsType == 'Entity' and DurableFunctionsInstanceId != '' and name ==  '${functionName}'` +
       `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
       `| summarize arg_max(timestamp, *) by DurableFunctionsInstanceId ` +
       `| order by timestamp desc | take ${top}`
@@ -353,6 +387,12 @@ export default class AppInsightsService {
     }&queryType=getOrchestrationTraces`;
   };
 
+  private static _formEntityTracesUrl = (appInsightsAppId: string): string => {
+    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
+      CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
+    }&queryType=getEntityTraces`;
+  };
+
   private static _formInvocationTraceDetailsUrl = (appInsightsAppId: string): string => {
     return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
       CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
@@ -469,7 +509,7 @@ export default class AppInsightsService {
 
     if (rows) {
       rows.forEach(row => {
-        if (row.length >= 9) {
+        if (row.length >= 8) {
           traces.push({
             timestamp: row[1],
             timestampFriendly: moment.utc(row[1]).format('YYYY-MM-DD HH:mm:ss.SSS'),
@@ -493,6 +533,34 @@ export default class AppInsightsService {
         'parseOrchestrationTraces',
         `Unable to parse orchestration traces: ${result}`
       );
+    }
+
+    return traces;
+  };
+
+  private static _extractEntityTracesFromQueryResult = (result: AppInsightsQueryResult) => {
+    const traces: AppInsightsEntityTrace[] = [];
+    const summaryTable = result.tables.find(table => table.name === 'PrimaryResult');
+    const rows = summaryTable && summaryTable.rows;
+
+    if (rows) {
+      rows.forEach(row => {
+        if (row.length >= 8) {
+          traces.push({
+            timestamp: row[1],
+            timestampFriendly: moment.utc(row[1]).format('YYYY-MM-DD HH:mm:ss.SSS'),
+            id: row[2],
+            name: row[3],
+            DurableFunctionsInstanceId: row[0],
+            DurableFunctionsRuntimeStatus: row[6],
+            DurableFunctionsType: row[7],
+          });
+        } else {
+          LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseEntityTrace', `Unable to parse entity trace: ${row}`);
+        }
+      });
+    } else {
+      LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseEntityTraces', `Unable to parse entity traces: ${result}`);
     }
 
     return traces;
