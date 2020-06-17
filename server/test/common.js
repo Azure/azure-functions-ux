@@ -3,7 +3,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const expect = chai.expect;
 
-// const localhost = 'https://localhost:44300';
+const localhost = 'https://localhost:44300';
 
 describe('Basic server tests', () => {
   // Test simple success test
