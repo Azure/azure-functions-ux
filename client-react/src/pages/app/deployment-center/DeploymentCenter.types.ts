@@ -36,7 +36,8 @@ export enum DeploymentStatus {
 export enum WorkflowOptions {
   Overwrite = 'overwrite',
   Add = 'add',
-  UseExisting = 'useExisting',
+  UseAvailableWorkflowConfigs = 'useAvailableWorkflowConfigs',
+  UseExistingWorkflowConfig = 'useExistingWorkflowConfig',
 }
 
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &

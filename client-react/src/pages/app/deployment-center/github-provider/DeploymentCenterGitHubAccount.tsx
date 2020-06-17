@@ -67,11 +67,11 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
 
   const overwriteOrUseExistingOptions: IDropdownOption[] = [
     { key: WorkflowOptions.Overwrite, text: t('deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite') },
-    { key: WorkflowOptions.UseExisting, text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting') },
+    { key: WorkflowOptions.UseExistingWorkflowConfig, text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting') },
   ];
   const addOrUseExistingOptions: IDropdownOption[] = [
     { key: WorkflowOptions.Add, text: t('deploymentCenterSettingsGitHubActionWorkflowOptionAdd') },
-    { key: WorkflowOptions.UseExisting, text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting') },
+    { key: WorkflowOptions.UseAvailableWorkflowConfigs, text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting') },
   ];
 
   const fetchWorkflowConfiguration = async () => {
