@@ -106,6 +106,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const scenarioChecker = new ScenarioService(t);
   const showAppInsightsLogs = scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
 
+  const isFileSystemLoggingAvailable = true;
+
   const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.siteAppEditState);
 
   const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
@@ -488,12 +490,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             isResizable={true}
             logPanelHeight={logPanelHeight}
             setLogPanelHeight={setLogPanelHeight}
-            showLoggingOptionsDropdown={true}
+            showLoggingOptionsDropdown={isFileSystemLoggingAvailable}
             selectedLoggingOption={selectedLoggingOption}
             setSelectedLoggingOption={setSelectedLoggingOption}
           />
         )}
-        {(!showAppInsightsLogs || selectedLoggingOption === LoggingOptions.fileBased) && (
+        {(!showAppInsightsLogs || selectedLoggingOption === LoggingOptions.fileBased) && isFileSystemLoggingAvailable && (
           <FunctionLogFileStreamDataLoader
             resourceId={functionInfo.id}
             toggleExpand={toggleLogPanelExpansion}

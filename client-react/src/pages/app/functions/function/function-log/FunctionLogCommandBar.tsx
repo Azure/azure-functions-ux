@@ -1,5 +1,5 @@
 import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
 import { logCommandBarStyle, getCommandBarStyle } from './FunctionLog.styles';
@@ -7,7 +7,6 @@ import { PortalContext } from '../../../../../PortalContext';
 import { ArmResourceDescriptor } from '../../../../../utils/resourceDescriptors';
 import { LogLevel } from './FunctionLog.types';
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
-import { IContextualMenuRenderItem } from 'office-ui-fabric-react';
 import FunctionLogOptionsCallout from './FunctionLogOptionsCallout';
 
 interface FunctionLogCommandBarProps {
@@ -53,8 +52,6 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   const { t } = useTranslation();
 
   const [isLoggingOptionConfirmCallOutVisible, setIsLoggingOptionConfirmCallOutVisible] = useState(false);
-
-  const loggingOptionsRef = useRef<IContextualMenuRenderItem | null>(null);
 
   const getLeftItems = (): ICommandBarItemProps[] => {
     let items: ICommandBarItemProps[] = [];
@@ -127,6 +124,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       iconProps: {
         iconName: 'PageList',
       },
+      className: 'editor-logging-dropdown', // Note (krmitta): This is required for the callout to show at the right place
       subMenuProps: {
         items: [
           {
@@ -141,7 +139,6 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       },
       disabled: false,
       ariaLabel: name,
-      componentRef: ref => (loggingOptionsRef.current = ref),
     };
   };
 
@@ -297,8 +294,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       {isLoggingOptionConfirmCallOutVisible && (
         <FunctionLogOptionsCallout
           setIsDialogVisible={setIsLoggingOptionConfirmCallOutVisible}
-          dialogTarget={loggingOptionsRef.current}
-          setSelectedLoggingOption={setSelectedLoggingOption}
+          setSelectedLoggingOption={props.setSelectedLoggingOption}
         />
       )}
     </>

@@ -8,12 +8,11 @@ import { buttonStyle, buttonsWrapperStyle } from '../../../../../components/Acti
 
 interface FunctionLogOptionsCalloutProps {
   setIsDialogVisible: (isVisible: boolean) => void;
-  setSelectedLoggingOption: (option: LoggingOptions) => void;
-  dialogTarget: any;
+  setSelectedLoggingOption?: (option: LoggingOptions) => void;
 }
 
 const FunctionLogOptionsCallout: React.FC<FunctionLogOptionsCalloutProps> = props => {
-  const { dialogTarget, setIsDialogVisible, setSelectedLoggingOption } = props;
+  const { setIsDialogVisible, setSelectedLoggingOption } = props;
 
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
@@ -23,18 +22,20 @@ const FunctionLogOptionsCallout: React.FC<FunctionLogOptionsCalloutProps> = prop
   };
 
   const primaryButtonOnClick = () => {
-    setSelectedLoggingOption(LoggingOptions.fileBased);
+    if (setSelectedLoggingOption) {
+      setSelectedLoggingOption(LoggingOptions.fileBased);
+    }
     onCloseDialog();
   };
 
   return (
     <Callout
       role="alertdialog"
-      gapSpace={380}
-      target={dialogTarget}
+      gapSpace={0}
+      target={`.editor-logging-dropdown`}
       onDismiss={onCloseDialog}
       setInitialFocus={true}
-      directionalHint={DirectionalHint.topCenter}
+      directionalHint={DirectionalHint.bottomLeftEdge}
       isBeakVisible={true}>
       <div className={calloutStyle}>
         <div>{t('functionEditor_fileBasedLogsCalloutMessage')}</div>
