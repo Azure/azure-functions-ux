@@ -4,7 +4,6 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 
 const localhost = 'https://localhost:44300';
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // ONLY USE LOCALLY FOR NOW
 
 describe('Basic server tests', () => {
   // Test simple success test
@@ -18,7 +17,8 @@ describe('Basic server tests', () => {
   // Test the server is running
   describe('/GET localhost', () => {
     it('should ensure the host is running', done => {
-      chai.request(localhost)
+      chai
+        .request(localhost)
         .get('/')
         .then(res => {
           expect(res).to.have.status(200);
@@ -26,7 +26,7 @@ describe('Basic server tests', () => {
         })
         .catch(err => {
           done(err);
-        })
+        });
     });
   });
 });

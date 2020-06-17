@@ -1,0 +1,24 @@
+pool:
+  vmImage: 'macOS-10.14'
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '8.x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      cd server
+      npm install
+    displayName: 'npm install'
+
+  - script: |
+      cd server
+      npm run start:topdev
+    displayName: 'run server'
+
+  - script: |
+      cd server
+      npm test
+    displayName: 'run server tests'
+    env:
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
