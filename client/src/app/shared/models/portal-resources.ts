@@ -2077,4 +2077,12 @@ export class PortalResources {
   public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
   public static functionMonitor_orchestrations = 'functionMonitor_orchestrations';
   public static functionMonitor_entities = 'functionMonitor_entities';
+  public static orchestrationTracesTableTitle = 'orchestrationTracesTableTitle';
+  public static orchestrationTracesTableDescription = 'orchestrationTracesTableDescription';
+  public static runtimeStatus = 'runtimeStatus';
+  public static instanceId = 'instanceId';
+  public static filterOrchestrations = 'filterOrchestrations';
+  public static entityTracesTableTitle = 'entityTracesTableTitle';
+  public static entityTracesTableDescription = 'entityTracesTableDescription';
+  public static filterEntities = 'filterEntities';
 }
