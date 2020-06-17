@@ -15,18 +15,18 @@ describe('Basic server tests', () => {
   });
 
   // Test the server is running
-  // describe('/GET localhost', () => {
-  //   it('should ensure the host is running', done => {
-  //     chai
-  //       .request(localhost)
-  //       .get('/')
-  //       .then(res => {
-  //         expect(res).to.have.status(200);
-  //         done();
-  //       })
-  //       .catch(err => {
-  //         done(err);
-  //       });
-  //   });
-  // });
+  describe('/GET localhost', () => {
+    it('should ensure the host is running', done => {
+      chai
+        .request(localhost)
+        .get('/')
+        .then(res => {
+          expect(res).to.have.status(200);
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
+    });
+  });
 });
