@@ -6417,4 +6417,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="filterEntities" xml:space="preserve">
         <value>Filter entities</value>
     </data>
+    <data name="state" xml:space="preserve">
+        <value>State</value>
+    </data>
 </root>
