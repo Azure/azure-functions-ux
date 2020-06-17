@@ -16,6 +16,8 @@ import { bannerLinkStyle } from '../../../../../components/CustomBanner/CustomBa
 import { ThemeContext } from '../../../../../ThemeContext';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { BindingType } from '../../../../../models/functions/function-binding';
+import FunctionOrchestrationsDataLoader from './tabs/orchestrations/FunctionOrchestrationsDataLoader';
+import FunctionEntitiesDataLoader from './tabs/entities/FunctionEntitiesDataLoader';
 
 interface FunctionMonitorProps {
   resourceId: string;
@@ -121,12 +123,22 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
         </PivotItem>
         {isOrchestrationTrigger() && (
           <PivotItem itemKey={PivotState.orchestration} headerText={t('functionMonitor_orchestrations')}>
-            {/**TODO(krmitta): Add table content */}
+            <FunctionOrchestrationsDataLoader
+              resourceId={resourceId}
+              appInsightsAppId={appInsightsComponent.properties.AppId}
+              appInsightsResourceId={appInsightsComponent.id}
+              appInsightsToken={appInsightsToken}
+            />
           </PivotItem>
         )}
         {isEntityTrigger() && (
           <PivotItem itemKey={PivotState.entity} headerText={t('functionMonitor_entities')}>
-            {/**TODO(krmitta): Add table content */}
+            <FunctionEntitiesDataLoader
+              resourceId={resourceId}
+              appInsightsAppId={appInsightsComponent.properties.AppId}
+              appInsightsResourceId={appInsightsComponent.id}
+              appInsightsToken={appInsightsToken}
+            />
           </PivotItem>
         )}
         <PivotItem itemKey={PivotState.logs} headerText={t('functionMonitor_logs')}>
