@@ -13,7 +13,7 @@ steps:
 
   - script: |
       cd server
-      npm run start:topdev
+      nohup npm run start
     displayName: 'run server'
 
   - script: |
