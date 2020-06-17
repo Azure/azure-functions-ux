@@ -2080,4 +2080,6 @@ export class PortalResources {
   public static functionEditor_appInsightsLogs = 'functionEditor_appInsightsLogs';
   public static functionEditor_fileBasedLogs = 'functionEditor_fileBasedLogs';
   public static functionEditor_fileBasedLogsCalloutMessage = 'functionEditor_fileBasedLogsCalloutMessage';
+  public static switchToAppInsightsLogMessage = 'switchToAppInsightsLogMessage';
+  public static switchToFileSystemLogMessage = 'switchToFileSystemLogMessage';
 }

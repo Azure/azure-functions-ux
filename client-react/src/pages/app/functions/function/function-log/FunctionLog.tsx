@@ -66,8 +66,8 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     leftAlignMainToolbarItems,
     customHeight,
     selectedLoggingOption,
-    setSelectedLoggingOption,
     showLoggingOptionsDropdown,
+    setSelectedLoggingOption,
   } = props;
   const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
@@ -143,7 +143,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     if (toggleFullscreen) {
       toggleFullscreen(maximized);
     }
-    if (setLogPanelHeight) {
+    if (isExpanded && setLogPanelHeight) {
       setLogPanelHeight(maximized ? getMaximizedLogPanelHeight(readOnlyBannerHeight) : minimumLogPanelHeight);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

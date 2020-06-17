@@ -42,6 +42,7 @@ import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
+import { isLinuxDynamic } from '../../../../../utils/arm-utils';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -104,12 +105,11 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const functionEditorContext = useContext(FunctionEditorContext);
 
   const scenarioChecker = new ScenarioService(t);
+
   const showAppInsightsLogs = scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
-
-  const isFileSystemLoggingAvailable = true;
-
+  const isFileSystemLoggingAvailable = !(siteStateContext.site && isLinuxDynamic(siteStateContext.site));
+  const showLoggingOptionsDropdown = showAppInsightsLogs && isFileSystemLoggingAvailable;
   const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.siteAppEditState);
-
   const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
 
   const save = async () => {
@@ -349,15 +349,19 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logPanelExpanded]);
+
   useEffect(() => {
     setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? logCommandBarHeight : 0) + logPanelHeight + 130 + getReadOnlyBannerHeight()}px)`);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logPanelExpanded, readOnlyBanner, logPanelHeight]);
+
   useEffect(() => {
     if (!!responseContent) {
       changePivotTab(PivotType.output);
     }
   }, [responseContent]);
+
   useEffect(() => {
     if (!isRefreshing && !initialLoading) {
       fetchData();
@@ -365,12 +369,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRefreshing]);
+
   useEffect(() => {
     fetchData();
     setSelectedLoggingOption(showAppInsightsLogs ? LoggingOptions.appInsights : LoggingOptions.fileBased);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       <div className={commandBarSticky}>
@@ -490,12 +496,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             isResizable={true}
             logPanelHeight={logPanelHeight}
             setLogPanelHeight={setLogPanelHeight}
-            showLoggingOptionsDropdown={isFileSystemLoggingAvailable}
+            showLoggingOptionsDropdown={showLoggingOptionsDropdown}
             selectedLoggingOption={selectedLoggingOption}
             setSelectedLoggingOption={setSelectedLoggingOption}
           />
         )}
-        {(!showAppInsightsLogs || selectedLoggingOption === LoggingOptions.fileBased) && isFileSystemLoggingAvailable && (
+        {(!showAppInsightsLogs || selectedLoggingOption === LoggingOptions.fileBased) && (
           <FunctionLogFileStreamDataLoader
             resourceId={functionInfo.id}
             toggleExpand={toggleLogPanelExpansion}
@@ -507,7 +513,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             isResizable={true}
             logPanelHeight={logPanelHeight}
             setLogPanelHeight={setLogPanelHeight}
-            showLoggingOptionsDropdown={showAppInsightsLogs}
+            showLoggingOptionsDropdown={showLoggingOptionsDropdown}
             selectedLoggingOption={selectedLoggingOption}
             setSelectedLoggingOption={setSelectedLoggingOption}
           />
