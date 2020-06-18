@@ -2093,4 +2093,5 @@ export class PortalResources {
   public static failedToFetchRepositories = 'failedToFetchRepositories';
   public static failedToFetchTags = 'failedToFetchTags';
   public static entityDetails = 'entityDetails';
+  public static durableFunctionNoDataFound = 'durableFunctionNoDataFound';
 }
