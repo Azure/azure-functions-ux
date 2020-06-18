@@ -51,9 +51,9 @@ export default class GitHubService {
     return sendHttpRequest<GitHubRepository[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
-  public static getBranches = (repository_url: string, authToken: string) => {
+  public static getBranches = (repoUrl: string, authToken: string) => {
     const data = {
-      url: `${repository_url}/branches`,
+      url: `${repoUrl}/branches`,
       authToken,
     };
 
