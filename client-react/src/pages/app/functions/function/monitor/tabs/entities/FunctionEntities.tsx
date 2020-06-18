@@ -124,7 +124,7 @@ const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
         <CustomBanner message={t('appInsightsDelay')} type={MessageBarType.info} onDismiss={() => setShowDelayMessage(false)} />
       )}
 
-      {!showDelayMessage && !!entityDetails && entityDetails.length === 0 && (
+      {!showDelayMessage && !!entityTraces && entityTraces.length === 0 && (
         <CustomBanner
           message={t('durableFunctionNoDataFound')}
           type={MessageBarType.info}

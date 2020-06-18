@@ -136,7 +136,7 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
         <CustomBanner message={t('appInsightsDelay')} type={MessageBarType.info} onDismiss={() => setShowDelayMessage(false)} />
       )}
 
-      {!showDelayMessage && !!orchestrationDetails && orchestrationDetails.length === 0 && (
+      {!showDelayMessage && !!orchestrationTraces && orchestrationTraces.length === 0 && (
         <CustomBanner
           message={t('durableFunctionNoDataFound')}
           type={MessageBarType.info}
