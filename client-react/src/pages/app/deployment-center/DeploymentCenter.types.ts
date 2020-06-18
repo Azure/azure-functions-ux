@@ -33,7 +33,9 @@ export enum DeploymentStatus {
   Success,
 }
 
-export enum WorkflowOptions {
+export enum WorkflowOption {
+  None = 'none',
+  Loading = 'loading',
   Overwrite = 'overwrite',
   Add = 'add',
   UseAvailableWorkflowConfigs = 'useAvailableWorkflowConfigs',
@@ -58,6 +60,9 @@ export interface DeploymentCenterCommonFormData {
   publishingPassword: string;
   publishingConfirmPassword: string;
   workflowOption: string;
+  org: string;
+  repo: string;
+  branch: string;
 }
 
 export interface DeploymentCenterContainerFormData {
@@ -79,9 +84,6 @@ export interface DeploymentCenterCodeFormData {
   buildProvider: BuildProvider;
   runtimeStack: string;
   runtimeVersion: string;
-  org: string;
-  repo: string;
-  branch: string;
 }
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
@@ -218,6 +220,10 @@ export interface CodeDeploymentsRow {
 
 export interface BuildDropdownOption extends IDropdownOption {
   buildType: BuildProvider;
+}
+
+export interface WorkflowDropdownOption extends IDropdownOption {
+  workflowOption: WorkflowOption;
 }
 
 export interface RuntimeStackSetting {

@@ -1,7 +1,7 @@
 import { ArmObj } from '../../../models/arm-obj';
 import { PublishingUser } from '../../../models/site/publish';
 import { SiteConfig } from '../../../models/site/config';
-import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType } from './DeploymentCenter.types';
+import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, WorkflowOption } from './DeploymentCenter.types';
 import i18next from 'i18next';
 import { KeyValue } from '../../../models/portal-models';
 import * as Yup from 'yup';
@@ -22,7 +22,11 @@ export abstract class DeploymentCenterFormBuilder {
       publishingUsername: this._publishingUser ? this._publishingUser.properties.publishingUserName : '',
       publishingPassword: '',
       publishingConfirmPassword: '',
-      workflowOption: '',
+      workflowOption: WorkflowOption.None,
+      org: '',
+      repo: '',
+      branch: '',
+      runFormValidation: false,
     };
   }
 
@@ -46,7 +50,11 @@ export abstract class DeploymentCenterFormBuilder {
       publishingConfirmPassword: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
         return !this.parent.publishingPassword || this.parent.publishingPassword === value;
       }),
+      // TODO(t-kakan): Need to do correct validation in later PR for DeploymentCenterFormBuilder, DeploymentCenterCodeFormBuilder, DeploymentCenterContainerFormBuilder,
       workflowOption: Yup.mixed().notRequired(),
+      org: Yup.mixed().notRequired(),
+      repo: Yup.mixed().notRequired(),
+      branch: Yup.mixed().notRequired(),
     };
   }
 

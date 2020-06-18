@@ -32,7 +32,7 @@ export interface GitHubUser {
   location?: string;
 }
 
-// Note (t-kakan): only should be null when getting directory content rather than a file
+// Note (t-kakan): optional properties only should be null when getting directory content rather than a file
 export class FileContent {
   path: string;
   type: string;

@@ -7,6 +7,7 @@ import DeploymentCenterCodeBuild from './DeploymentCenterCodeBuild';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterGitHubReadOnly from '../github-provider/DeploymentCenterGitHubReadOnly';
 import DeploymentCenterCodeBuildReadOnly from './DeploymentCenterCodeBuildReadOnly';
+import DeploymentCenterGitHubWorkflowConfig from '../github-provider/DeploymentCenterGitHubWorkflowConfig';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -32,6 +33,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           <DeploymentCenterCodeSource />
           {isGitHubSource && <DeploymentCenterGitHubDataLoader formProps={formProps} />}
           {isSourceSelected && <DeploymentCenterCodeBuild formProps={formProps} />}
+          <DeploymentCenterGitHubWorkflowConfig formProps={formProps} />
         </>
       )}
     </>

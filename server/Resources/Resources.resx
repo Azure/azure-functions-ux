@@ -6387,6 +6387,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
         <value>GitHub Token not found, click authorize to set up GitHub token.</value>
     </data>
+    <data name="deploymentCenterSettingsWorkflowConfigTitle" xml:space="preserve">
+        <value>Workflow Configuration</value>
+    </data>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
         <value>Overwrite the workflow in the repository</value>
     </data>
@@ -6398,6 +6401,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Select workflow option</value>
+    </data>
+    <data name="deploymentCenterWorkflowConfigsLoadingAriaValue" xml:space="preserve">
+        <value>Loading workflow configurations</value>
+    </data>
+    <data name="deploymentCenterWorkflowConfigsLoading" xml:space="preserve">
+        <value>Loading workflow configurations...</value>
     </data>
     <data name="functionMonitor_orchestrations" xml:space="preserve">
         <value>Orchestrations</value>
