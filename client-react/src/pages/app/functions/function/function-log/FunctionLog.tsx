@@ -13,6 +13,7 @@ import FunctionLogCommandBar from './FunctionLogCommandBar';
 import { Resizable } from 're-resizable';
 import { LogLevel, LogEntry } from './FunctionLog.types';
 import { useTranslation } from 'react-i18next';
+import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 
 interface FunctionLogProps {
   isExpanded: boolean;
@@ -36,6 +37,9 @@ interface FunctionLogProps {
   setLogPanelHeight?: (height: number) => void;
   leftAlignMainToolbarItems?: boolean;
   customHeight?: number;
+  showLoggingOptionsDropdown?: boolean;
+  selectedLoggingOption?: LoggingOptions;
+  setSelectedLoggingOption?: (options: LoggingOptions) => void;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
@@ -61,6 +65,9 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     allLogEntries,
     leftAlignMainToolbarItems,
     customHeight,
+    selectedLoggingOption,
+    showLoggingOptionsDropdown,
+    setSelectedLoggingOption,
   } = props;
   const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
@@ -136,7 +143,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     if (toggleFullscreen) {
       toggleFullscreen(maximized);
     }
-    if (setLogPanelHeight) {
+    if (isExpanded && setLogPanelHeight) {
       setLogPanelHeight(maximized ? getMaximizedLogPanelHeight(readOnlyBannerHeight) : minimumLogPanelHeight);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -184,6 +191,9 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         appInsightsResourceId={appInsightsResourceId}
         setLogLevel={setLogLevel}
         leftAlignMainToolbarItems={leftAlignMainToolbarItems}
+        showLoggingOptionsDropdown={showLoggingOptionsDropdown}
+        selectedLoggingOption={selectedLoggingOption}
+        setSelectedLoggingOption={setSelectedLoggingOption}
       />
       {isExpanded && (
         <div
