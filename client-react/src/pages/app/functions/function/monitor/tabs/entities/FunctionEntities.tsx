@@ -20,6 +20,7 @@ import { PortalContext } from '../../../../../../../PortalContext';
 import { FunctionEntitiesContext } from './FunctionEntitiesDataLoader';
 import CustomPanel from '../../../../../../../components/CustomPanel/CustomPanel';
 import FunctionEntityDetails from './FunctionEntityDetails';
+import { Links } from '../../../../../../../utils/FwLinks';
 
 interface FunctionEntitiesProps {
   functionResourceId: string;
@@ -121,6 +122,14 @@ const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
       {/*Delay Message Banner*/}
       {showDelayMessage && (
         <CustomBanner message={t('appInsightsDelay')} type={MessageBarType.info} onDismiss={() => setShowDelayMessage(false)} />
+      )}
+
+      {!showDelayMessage && !!entityDetails && entityDetails.length === 0 && (
+        <CustomBanner
+          message={t('durableFunctionNoDataFound')}
+          type={MessageBarType.info}
+          learnMoreLink={Links.durableFunctionExtensionLearnMore}
+        />
       )}
 
       {/*Orchestration Traces Table*/}

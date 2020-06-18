@@ -20,6 +20,7 @@ import { PortalContext } from '../../../../../../../PortalContext';
 import { FunctionOrchestrationsContext } from './FunctionOrchestrationsDataLoader';
 import CustomPanel from '../../../../../../../components/CustomPanel/CustomPanel';
 import FunctionOrchestrationDetails from './FunctionOrchestrationDetails';
+import { Links } from '../../../../../../../utils/FwLinks';
 
 interface FunctionOrchestrationsProps {
   functionResourceId: string;
@@ -133,6 +134,14 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
       {/*Delay Message Banner*/}
       {showDelayMessage && (
         <CustomBanner message={t('appInsightsDelay')} type={MessageBarType.info} onDismiss={() => setShowDelayMessage(false)} />
+      )}
+
+      {!showDelayMessage && !!orchestrationDetails && orchestrationDetails.length === 0 && (
+        <CustomBanner
+          message={t('durableFunctionNoDataFound')}
+          type={MessageBarType.info}
+          learnMoreLink={Links.durableFunctionExtensionLearnMore}
+        />
       )}
 
       {/*Orchestration Traces Table*/}
