@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { AppInsightsOrchestrationTrace } from '../../../../../../../models/app-insights';
+import { AppInsightsOrchestrationTrace, AppInsightsOrchestrationTraceDetail } from '../../../../../../../models/app-insights';
 import { tableStyle, tabStyle } from '../FunctionMonitorTab.styles';
 import CustomBanner from '../../../../../../../components/CustomBanner/CustomBanner';
 import { useTranslation } from 'react-i18next';
@@ -11,12 +11,15 @@ import {
   ICommandBarItemProps,
   IColumn,
   Link,
+  PanelType,
 } from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { filterTextFieldStyle } from '../../../../../../../components/form-controls/formControl.override.styles';
 import { openAppInsightsQueryEditor } from '../FunctionMonitorTab.data';
 import { PortalContext } from '../../../../../../../PortalContext';
 import { FunctionOrchestrationsContext } from './FunctionOrchestrationsDataLoader';
+import CustomPanel from '../../../../../../../components/CustomPanel/CustomPanel';
+import FunctionOrchestrationDetails from './FunctionOrchestrationDetails';
 
 interface FunctionOrchestrationsProps {
   functionResourceId: string;
@@ -25,10 +28,19 @@ interface FunctionOrchestrationsProps {
   refreshOrchestrations: () => void;
   currentTrace?: AppInsightsOrchestrationTrace;
   orchestrationTraces?: AppInsightsOrchestrationTrace[];
+  orchestrationDetails?: AppInsightsOrchestrationTraceDetail[];
 }
 
 const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
-  const { orchestrationTraces, functionResourceId, appInsightsResourceId, refreshOrchestrations, setCurrentTrace } = props;
+  const {
+    orchestrationTraces,
+    functionResourceId,
+    appInsightsResourceId,
+    refreshOrchestrations,
+    setCurrentTrace,
+    currentTrace,
+    orchestrationDetails,
+  } = props;
 
   const [filterValue, setFilterValue] = useState('');
   const [showDelayMessage, setShowDelayMessage] = useState(false);
@@ -150,6 +162,18 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
           </DisplayTableWithCommandBar>
         </div>
       </div>
+      {/*Orchestration Details Panel*/}
+      <CustomPanel
+        isOpen={!!currentTrace}
+        onDismiss={() => setCurrentTrace(undefined)}
+        headerText={t('orchestrationDetails')}
+        type={PanelType.medium}>
+        <FunctionOrchestrationDetails
+          orchestrationDetails={orchestrationDetails}
+          appInsightsResourceId={appInsightsResourceId}
+          currentTrace={currentTrace}
+        />
+      </CustomPanel>
     </div>
   );
 };

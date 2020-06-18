@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FunctionOrchestrationsData from './FunctionOrchestrations.data';
 import FunctionOrchestrations from './FunctionOrchestrations';
-import { AppInsightsOrchestrationTrace } from '../../../../../../../models/app-insights';
+import { AppInsightsOrchestrationTrace, AppInsightsOrchestrationTraceDetail } from '../../../../../../../models/app-insights';
 
 interface FunctionOrchestrationsDataLoaderProps {
   resourceId: string;
@@ -18,6 +18,7 @@ const FunctionOrchestrationsDataLoader: React.FC<FunctionOrchestrationsDataLoade
 
   const [currentTrace, setCurrentTrace] = useState<AppInsightsOrchestrationTrace | undefined>(undefined);
   const [orchestrationTraces, setOrchestrationTraces] = useState<AppInsightsOrchestrationTrace[] | undefined>(undefined);
+  const [orchestrationDetails, setOrchestrationDetails] = useState<AppInsightsOrchestrationTraceDetail[] | undefined>(undefined);
 
   const fetchOrchestrationTraces = async () => {
     if (appInsightsToken) {
@@ -26,11 +27,27 @@ const FunctionOrchestrationsDataLoader: React.FC<FunctionOrchestrationsDataLoade
     }
   };
 
+  const fetchOrchestrationTraceDetails = async () => {
+    if (appInsightsToken && currentTrace) {
+      const orchestrationDetailsResponse = await orchestrationsData.getOrchestrationDetails(
+        appInsightsAppId,
+        appInsightsToken,
+        currentTrace.DurableFunctionsInstanceId
+      );
+      setOrchestrationDetails(orchestrationDetailsResponse);
+    }
+  };
+
   const refreshOrchestrations = () => {
     setOrchestrationTraces(undefined);
     fetchOrchestrationTraces();
   };
 
+  useEffect(() => {
+    fetchOrchestrationTraceDetails();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTrace]);
   useEffect(() => {
     fetchOrchestrationTraces();
 
@@ -45,6 +62,7 @@ const FunctionOrchestrationsDataLoader: React.FC<FunctionOrchestrationsDataLoade
         currentTrace={currentTrace}
         orchestrationTraces={orchestrationTraces}
         refreshOrchestrations={refreshOrchestrations}
+        orchestrationDetails={orchestrationDetails}
       />
     </FunctionOrchestrationsContext.Provider>
   );

@@ -2077,6 +2077,9 @@ export class PortalResources {
   public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
   public static functionMonitor_orchestrations = 'functionMonitor_orchestrations';
   public static functionMonitor_entities = 'functionMonitor_entities';
+  public static functionEditor_appInsightsLogs = 'functionEditor_appInsightsLogs';
+  public static functionEditor_fileBasedLogs = 'functionEditor_fileBasedLogs';
+  public static functionEditor_fileBasedLogsCalloutMessage = 'functionEditor_fileBasedLogsCalloutMessage';
   public static orchestrationTracesTableTitle = 'orchestrationTracesTableTitle';
   public static orchestrationTracesTableDescription = 'orchestrationTracesTableDescription';
   public static runtimeStatus = 'runtimeStatus';
@@ -2085,6 +2088,9 @@ export class PortalResources {
   public static entityTracesTableTitle = 'entityTracesTableTitle';
   public static entityTracesTableDescription = 'entityTracesTableDescription';
   public static filterEntities = 'filterEntities';
+  public static state = 'state';
+  public static orchestrationDetails = 'orchestrationDetails';
   public static failedToFetchRepositories = 'failedToFetchRepositories';
   public static failedToFetchTags = 'failedToFetchTags';
+  public static entityDetails = 'entityDetails';
 }

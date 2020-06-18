@@ -1,23 +1,23 @@
 import React, { useContext } from 'react';
 import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { AppInsightsOrchestrationTrace, AppInsightsEntityTraceDetail } from '../../../../../../../models/app-insights';
+import { AppInsightsOrchestrationTraceDetail, AppInsightsOrchestrationTrace } from '../../../../../../../models/app-insights';
 import { PortalContext } from '../../../../../../../PortalContext';
 import { openAppInsightsQueryEditor } from '../FunctionMonitorTab.data';
+import { FunctionOrchestrationsContext } from './FunctionOrchestrationsDataLoader';
 import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { tabStyle } from '../FunctionMonitorTab.styles';
-import { FunctionEntitiesContext } from './FunctionEntitiesDataLoader';
 
-export interface FunctionEntityDetailsProps {
+export interface FunctionOrchestrationDetailsProps {
   appInsightsResourceId: string;
   currentTrace?: AppInsightsOrchestrationTrace;
-  entityDetails?: AppInsightsEntityTraceDetail[];
+  orchestrationDetails?: AppInsightsOrchestrationTraceDetail[];
 }
 
-const FunctionEntityDetails: React.FC<FunctionEntityDetailsProps> = props => {
-  const { entityDetails, appInsightsResourceId, currentTrace } = props;
+const FunctionOrchestrationDetails: React.FC<FunctionOrchestrationDetailsProps> = props => {
+  const { orchestrationDetails, appInsightsResourceId, currentTrace } = props;
   const portalContext = useContext(PortalContext);
-  const entityContext = useContext(FunctionEntitiesContext);
+  const orchestrationContext = useContext(FunctionOrchestrationsContext);
   const instanceId = currentTrace ? currentTrace.DurableFunctionsInstanceId : '';
 
   const { t } = useTranslation();
@@ -25,9 +25,13 @@ const FunctionEntityDetails: React.FC<FunctionEntityDetailsProps> = props => {
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     return [
       {
-        key: 'entity-run-query',
+        key: 'orchestration-run-query',
         onClick: () =>
-          openAppInsightsQueryEditor(portalContext, appInsightsResourceId, entityContext.formEntityTraceDetailsQuery(instanceId)),
+          openAppInsightsQueryEditor(
+            portalContext,
+            appInsightsResourceId,
+            orchestrationContext.formOrchestrationTraceDetailsQuery(instanceId)
+          ),
         iconProps: { iconName: 'LineChart' },
         name: t('runQueryInApplicationInsights'),
       },
@@ -64,12 +68,12 @@ const FunctionEntityDetails: React.FC<FunctionEntityDetailsProps> = props => {
     ];
   };
 
-  const getItems = (): AppInsightsEntityTraceDetail[] => {
-    return entityDetails || [];
+  const getItems = (): AppInsightsOrchestrationTraceDetail[] => {
+    return orchestrationDetails || [];
   };
 
   return (
-    <div id="entity-details" className={tabStyle}>
+    <div id="orchestration-details" className={tabStyle}>
       <DisplayTableWithCommandBar
         commandBarItems={getCommandBarItems()}
         columns={getColumns()}
@@ -79,10 +83,10 @@ const FunctionEntityDetails: React.FC<FunctionEntityDetailsProps> = props => {
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('noResults')}
-        shimmer={{ lines: 2, show: !entityDetails }}
+        shimmer={{ lines: 2, show: !orchestrationDetails }}
       />
     </div>
   );
 };
 
-export default FunctionEntityDetails;
+export default FunctionOrchestrationDetails;

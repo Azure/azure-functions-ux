@@ -1,11 +1,13 @@
 import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
 import { logCommandBarStyle, getCommandBarStyle } from './FunctionLog.styles';
 import { PortalContext } from '../../../../../PortalContext';
 import { ArmResourceDescriptor } from '../../../../../utils/resourceDescriptors';
 import { LogLevel } from './FunctionLog.types';
+import { LoggingOptions } from '../function-editor/FunctionEditor.types';
+import FunctionLogOptionsCallout from './FunctionLogOptionsCallout';
 
 interface FunctionLogCommandBarProps {
   onChevronClick: () => void;
@@ -22,6 +24,9 @@ interface FunctionLogCommandBarProps {
   setLogLevel: (level: LogLevel) => void;
   appInsightsResourceId?: string;
   leftAlignMainToolbarItems?: boolean;
+  showLoggingOptionsDropdown?: boolean;
+  selectedLoggingOption?: LoggingOptions;
+  setSelectedLoggingOption?: (options: LoggingOptions) => void;
 }
 
 const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
@@ -40,9 +45,13 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     appInsightsResourceId,
     setLogLevel,
     leftAlignMainToolbarItems,
+    showLoggingOptionsDropdown,
+    selectedLoggingOption,
   } = props;
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
+
+  const [isLoggingOptionConfirmCallOutVisible, setIsLoggingOptionConfirmCallOutVisible] = useState(false);
 
   const getLeftItems = (): ICommandBarItemProps[] => {
     let items: ICommandBarItemProps[] = [];
@@ -66,6 +75,9 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   const getMainItems = (): ICommandBarItemProps[] => {
     const mainItems: ICommandBarItemProps[] = [];
     if (isPanelVisible) {
+      if (showLoggingOptionsDropdown) {
+        mainItems.push(getLoggingDropdown());
+      }
       mainItems.push(getFilterItem(), getStartItem(), getCopyItem(), getClearItem());
       if (!hideLiveMetrics) {
         mainItems.push(getLiveMetricsItem());
@@ -73,7 +85,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       if (showMaximize) {
         mainItems.push(getMaximizeItem());
       }
-      if (appInsightsResourceId) {
+      if (appInsightsResourceId || showLoggingOptionsDropdown) {
         mainItems.push(getFeedbackItem());
       }
     }
@@ -90,6 +102,43 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       disabled: false,
       ariaLabel: t('logStreaming_logs'),
       onClick: onChevronClick,
+    };
+  };
+
+  const setSelectedLoggingOption = () => {
+    if (props.setSelectedLoggingOption) {
+      if (selectedLoggingOption === LoggingOptions.appInsights) {
+        setIsLoggingOptionConfirmCallOutVisible(true);
+      } else {
+        props.setSelectedLoggingOption(LoggingOptions.appInsights);
+      }
+    }
+  };
+
+  const getLoggingDropdown = (): ICommandBarItemProps => {
+    const name =
+      selectedLoggingOption === LoggingOptions.appInsights ? t('functionEditor_appInsightsLogs') : t('functionEditor_fileBasedLogs');
+    return {
+      key: 'loggingOptions',
+      name: name,
+      iconProps: {
+        iconName: 'PageList',
+      },
+      className: 'editor-logging-dropdown', // Note (krmitta): This is required for the callout to show at the right place
+      subMenuProps: {
+        items: [
+          {
+            key: selectedLoggingOption === LoggingOptions.appInsights ? LoggingOptions.fileBased : LoggingOptions.appInsights,
+            text:
+              selectedLoggingOption === LoggingOptions.appInsights
+                ? t('functionEditor_fileBasedLogs')
+                : t('functionEditor_appInsightsLogs'),
+            onClick: () => setSelectedLoggingOption(),
+          },
+        ],
+      },
+      disabled: false,
+      ariaLabel: name,
     };
   };
 
@@ -233,14 +282,22 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   };
 
   return (
-    <CommandBar
-      items={getLeftItems()}
-      farItems={getRightItems()}
-      styles={styleProps => getCommandBarStyle(styleProps, leftAlignMainToolbarItems)}
-      ariaLabel={t('logStreaming_logs')}
-      buttonAs={CustomCommandBarButton}
-      className={logCommandBarStyle}
-    />
+    <>
+      <CommandBar
+        items={getLeftItems()}
+        farItems={getRightItems()}
+        styles={styleProps => getCommandBarStyle(styleProps, leftAlignMainToolbarItems)}
+        ariaLabel={t('logStreaming_logs')}
+        buttonAs={CustomCommandBarButton}
+        className={logCommandBarStyle}
+      />
+      {isLoggingOptionConfirmCallOutVisible && (
+        <FunctionLogOptionsCallout
+          setIsDialogVisible={setIsLoggingOptionConfirmCallOutVisible}
+          setSelectedLoggingOption={props.setSelectedLoggingOption}
+        />
+      )}
+    </>
   );
 };
 

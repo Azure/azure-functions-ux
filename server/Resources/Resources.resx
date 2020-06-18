@@ -6393,6 +6393,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionMonitor_entities" xml:space="preserve">
         <value>Entities</value>
     </data>
+    <data name="functionEditor_appInsightsLogs" xml:space="preserve">
+        <value>App Insights Logs</value>
+    </data>
+    <data name="functionEditor_fileBasedLogs" xml:space="preserve">
+        <value>Filesystem Logs</value>
+    </data>
+    <data name="functionEditor_fileBasedLogsCalloutMessage" xml:space="preserve">
+        <value>Switching to filesystem based logs may have an impact on the runtime performance of your Function app. It also may not work if there are network restrictions setup such as IP Restrictions, VNET, etc.</value>
+    </data>
     <data name="orchestrationTracesTableTitle" xml:space="preserve">
         <value>Orchestration Traces</value>
     </data>
@@ -6417,6 +6426,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="filterEntities" xml:space="preserve">
         <value>Filter entities</value>
     </data>
+    <data name="state" xml:space="preserve">
+        <value>State</value>
+    </data>
+    <data name="orchestrationDetails" xml:space="preserve">
+        <value>Orchestration Details</value>
+    </data>
     <data name="failedToFetchRepositories" xml:space="preserve">
         <value>Failed to get a list of repositories.</value>
     </data>
@@ -6425,5 +6440,5 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="entityDetails" xml:space="preserve">
         <value>Entity Details</value>
-    <data>
+    </data>
 </root>
