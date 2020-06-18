@@ -2,7 +2,7 @@ import { ArmObj, ArmArray } from '../../../models/arm-obj';
 import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../../models/site/publish';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { ScmTypes, BuildProvider } from '../../../models/site/config';
+import { ScmType, BuildProvider } from '../../../models/site/config';
 import moment from 'moment';
 import { Uri } from 'monaco-editor';
 import { GitHubUser } from '../../../models/github';
@@ -76,11 +76,11 @@ export interface DeploymentCenterContainerFormData {
   password: string;
   command: string;
   cicd: boolean;
-  scmType: ScmTypes;
+  scmType: ScmType;
 }
 
 export interface DeploymentCenterCodeFormData {
-  sourceProvider: ScmTypes;
+  sourceProvider: ScmType;
   buildProvider: BuildProvider;
   runtimeStack: string;
   runtimeVersion: string;

@@ -3,20 +3,20 @@ import { useTranslation } from 'react-i18next';
 import { IChoiceGroupOption } from 'office-ui-fabric-react';
 import { Field } from 'formik';
 import RadioButton from '../../../../components/form-controls/RadioButton';
-import { ScmTypes } from '../../../../models/site/config';
+import { ScmType } from '../../../../models/site/config';
 
 const DeploymentCenterContainerSource: React.FC<{}> = props => {
   const { t } = useTranslation();
 
   const options: IChoiceGroupOption[] = [
     {
-      key: ScmTypes.None,
+      key: ScmType.None,
       text: `${t('deploymentCenterContainerSettingsSourceOptionContainerRegistry')}: ${t(
         'deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription'
       )}`,
     },
     {
-      key: ScmTypes.GitHubAction,
+      key: ScmType.GitHubAction,
       text: `${t('deploymentCenterContainerSettingsSourceOptionGitHubActions')}: ${t(
         'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription'
       )}`,
