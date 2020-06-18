@@ -2088,6 +2088,8 @@ export class PortalResources {
   public static entityTracesTableTitle = 'entityTracesTableTitle';
   public static entityTracesTableDescription = 'entityTracesTableDescription';
   public static filterEntities = 'filterEntities';
+  public static state = 'state';
+  public static orchestrationDetails = 'orchestrationDetails';
   public static failedToFetchRepositories = 'failedToFetchRepositories';
   public static failedToFetchTags = 'failedToFetchTags';
 }

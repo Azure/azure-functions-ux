@@ -6426,6 +6426,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="filterEntities" xml:space="preserve">
         <value>Filter entities</value>
     </data>
+    <data name="state" xml:space="preserve">
+        <value>State</value>
+    </data>
+    <data name="orchestrationDetails" xml:space="preserve">
+        <value>Orchestration Details</value>
+    </data>
     <data name="failedToFetchRepositories" xml:space="preserve">
         <value>Failed to get a list of repositories.</value>
     </data>
