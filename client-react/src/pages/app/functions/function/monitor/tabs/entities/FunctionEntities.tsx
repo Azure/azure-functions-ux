@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { AppInsightsEntityTrace } from '../../../../../../../models/app-insights';
+import { AppInsightsEntityTrace, AppInsightsEntityTraceDetail } from '../../../../../../../models/app-insights';
 import { tableStyle, tabStyle } from '../FunctionMonitorTab.styles';
 import CustomBanner from '../../../../../../../components/CustomBanner/CustomBanner';
 import { useTranslation } from 'react-i18next';
@@ -11,12 +11,15 @@ import {
   ICommandBarItemProps,
   IColumn,
   Link,
+  PanelType,
 } from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { filterTextFieldStyle } from '../../../../../../../components/form-controls/formControl.override.styles';
 import { openAppInsightsQueryEditor } from '../FunctionMonitorTab.data';
 import { PortalContext } from '../../../../../../../PortalContext';
 import { FunctionEntitiesContext } from './FunctionEntitiesDataLoader';
+import CustomPanel from '../../../../../../../components/CustomPanel/CustomPanel';
+import FunctionEntityDetails from './FunctionEntityDetails';
 
 interface FunctionEntitiesProps {
   functionResourceId: string;
@@ -25,10 +28,11 @@ interface FunctionEntitiesProps {
   refreshEntities: () => void;
   currentTrace?: AppInsightsEntityTrace;
   entityTraces?: AppInsightsEntityTrace[];
+  entityDetails?: AppInsightsEntityTraceDetail[];
 }
 
 const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
-  const { entityTraces, functionResourceId, appInsightsResourceId, refreshEntities, setCurrentTrace } = props;
+  const { entityTraces, functionResourceId, appInsightsResourceId, refreshEntities, setCurrentTrace, currentTrace, entityDetails } = props;
 
   const [filterValue, setFilterValue] = useState('');
   const [showDelayMessage, setShowDelayMessage] = useState(false);
@@ -146,6 +150,14 @@ const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
           </DisplayTableWithCommandBar>
         </div>
       </div>
+      {/*Entity Details Panel*/}
+      <CustomPanel
+        isOpen={!!currentTrace}
+        onDismiss={() => setCurrentTrace(undefined)}
+        headerText={t('entityDetails')}
+        type={PanelType.medium}>
+        <FunctionEntityDetails entityDetails={entityDetails} appInsightsResourceId={appInsightsResourceId} currentTrace={currentTrace} />
+      </CustomPanel>
     </div>
   );
 };

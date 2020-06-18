@@ -88,6 +88,14 @@ export interface AppInsightsEntityTrace {
   DurableFunctionsType: number;
 }
 
+export interface AppInsightsEntityTraceDetail {
+  rowId: number;
+  timestamp: string;
+  timestampFriendly: string;
+  message: string;
+  state: string;
+}
+
 export enum AppInsightsKeyType {
   string = 'string',
   keyVault = 'keyVault',

@@ -2092,4 +2092,5 @@ export class PortalResources {
   public static orchestrationDetails = 'orchestrationDetails';
   public static failedToFetchRepositories = 'failedToFetchRepositories';
   public static failedToFetchTags = 'failedToFetchTags';
+  public static entityDetails = 'entityDetails';
 }

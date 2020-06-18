@@ -13,6 +13,7 @@ import {
   AppInsightsKeyType,
   AppInsightsOrchestrationTrace,
   AppInsightsEntityTrace,
+  AppInsightsEntityTraceDetail,
   AppInsightsOrchestrationTraceDetail,
 } from '../models/app-insights';
 import { mapResourcesTopologyToArmObjects } from '../utils/arm-utils';
@@ -259,6 +260,45 @@ export default class AppInsightsService {
     );
   };
 
+  public static getEntityDetails = (appInsightsAppId: string, appInsightsToken: string, instanceId: string) => {
+    const data = { query: AppInsightsService.formEntityTraceDetailsQuery(instanceId), timespan: 'P30D' };
+    const headers = AppInsightsService._formAppInsightsHeaders(appInsightsToken);
+    const url = AppInsightsService._formEntityTraceDetailsUrl(appInsightsAppId);
+
+    return sendHttpRequest<AppInsightsQueryResult>({ data, headers, url, method: 'POST' }).then(response => {
+      let details: AppInsightsEntityTraceDetail[] = [];
+      if (response.metadata.success && response.data) {
+        details = AppInsightsService._extractEntityTraceDetailsFromQueryResult(response.data);
+      } else {
+        LogService.trackEvent(
+          LogCategories.applicationInsightsQuery,
+          'getEntityTraceDetails',
+          `Failed to query entityTraceDetails: ${getErrorMessageOrStringify(response.metadata.error)}`
+        );
+      }
+      return details;
+    });
+  };
+
+  public static formEntityTraceDetailsQuery = (instanceId: string) => {
+    return (
+      // tslint:disable-next-line: prefer-template
+      `union traces` +
+      `| where timestamp > ago(7d) ` +
+      `| where customDimensions.Category == 'Host.Triggers.DurableTask' ` +
+      `| extend instanceId = customDimensions['prop__instanceId'] ` +
+      `| extend state = customDimensions['prop__state'] ` +
+      `| extend isReplay = tobool(tolower(customDimensions['prop__isReplay'])) ` +
+      `| extend sequenceNumber = tolong(customDimensions["prop__sequenceNumber"]) ` +
+      `| where isReplay != true ` +
+      `| where instanceId == '${instanceId}' ` +
+      `| sort by timestamp desc, sequenceNumber desc ` +
+      `| take 100 ` +
+      `| sort by timestamp asc, sequenceNumber asc ` +
+      `| project timestamp, sequenceNumber, state, operation_Name, message `
+    );
+  };
+
   public static getAppInsightsResourceId = async (resourceId: string, subscriptions: ISubscription[]) => {
     const storageItem = LocalStorageService.getItem(resourceId, StorageKeys.appInsights);
     const aiResourceId = !!storageItem && !!storageItem.value ? storageItem.value : undefined;
@@ -431,6 +471,12 @@ export default class AppInsightsService {
     return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
       CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
     }&queryType=getEntityTraces`;
+  };
+
+  private static _formEntityTraceDetailsUrl = (appInsightsAppId: string): string => {
+    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
+      CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
+    }&queryType=getEntityTraceDetails`;
   };
 
   private static _formInvocationTraceDetailsUrl = (appInsightsAppId: string): string => {
@@ -644,5 +690,31 @@ export default class AppInsightsService {
     }
 
     return traces;
+  };
+
+  private static _extractEntityTraceDetailsFromQueryResult = (result: AppInsightsQueryResult) => {
+    const details: AppInsightsEntityTraceDetail[] = [];
+    const summaryTable = result.tables.find(table => table.name === 'PrimaryResult');
+    const rows = summaryTable && summaryTable.rows;
+
+    if (rows) {
+      rows.forEach((row, index) => {
+        if (row.length >= 5) {
+          details.push({
+            rowId: index,
+            timestamp: row[0],
+            timestampFriendly: moment.utc(row[0]).format('YYYY-MM-DD HH:mm:ss.SSS'),
+            message: row[4],
+            state: row[2],
+          });
+        } else {
+          LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseEntityDetails', `Unable to parse entity detail: ${row}`);
+        }
+      });
+    } else {
+      LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseEntityDetails', `Unable to parse entity details: ${result}`);
+    }
+
+    return details;
   };
 }
