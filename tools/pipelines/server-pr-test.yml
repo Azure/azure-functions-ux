@@ -15,3 +15,8 @@ steps:
       cd server
       npm test
     displayName: 'run server tests'
+
+  - script: |
+      cd server
+      npm run build
+    displayName: 'build server'
