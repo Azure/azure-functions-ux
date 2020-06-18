@@ -11,7 +11,7 @@ import {
   validateRubyStack,
   validateJavaStack,
   validateJavaContainersStack,
-} from './stackValidations';
+} from './validations';
 
 const webAppStacksService = new WebAppStacksService20200601();
 
@@ -99,7 +99,7 @@ describe('WebApp Stacks Test 2020-06-01', () => {
 
   // Test Java stack
   describe('Test the Java stack', () => {
-    it('should validate the Python stack', done => {
+    it('should validate the Java stack', done => {
       const stacks = webAppStacksService.getStacks();
       validateJavaStack(stacks);
       done();
