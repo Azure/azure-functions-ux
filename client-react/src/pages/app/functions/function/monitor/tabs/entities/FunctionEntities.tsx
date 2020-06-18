@@ -113,6 +113,7 @@ const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
 
   return (
     <div id="entities-tab" className={tabStyle}>
+      {/**Durable Functions Extension Message Banner/ */}
       {!!entityTraces && entityTraces.length === 0 && (
         <CustomBanner
           message={t('durableFunctionNoDataFound')}

@@ -125,6 +125,7 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
 
   return (
     <div id="orchestrations-tab" className={tabStyle}>
+      {/**Durable Functions Extension Message Banner/ */}
       {!!orchestrationTraces && orchestrationTraces.length === 0 && (
         <CustomBanner
           message={t('durableFunctionNoDataFound')}
