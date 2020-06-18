@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppInsightsEntityTrace, AppInsightsEntityTraceDetail } from '../../../../../../../models/app-insights';
 import { tableStyle, tabStyle } from '../FunctionMonitorTab.styles';
 import CustomBanner from '../../../../../../../components/CustomBanner/CustomBanner';
@@ -36,7 +36,6 @@ const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
   const { entityTraces, functionResourceId, appInsightsResourceId, refreshEntities, setCurrentTrace, currentTrace, entityDetails } = props;
 
   const [filterValue, setFilterValue] = useState('');
-  const [showDelayMessage, setShowDelayMessage] = useState(false);
 
   const entitiesContext = useContext(FunctionEntitiesContext);
   const portalContext = useContext(PortalContext);
@@ -112,19 +111,9 @@ const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
       : [];
   };
 
-  useEffect(() => {
-    setShowDelayMessage(!!entityTraces && entityTraces.length === 0);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entityTraces]);
   return (
     <div id="entities-tab" className={tabStyle}>
-      {/*Delay Message Banner*/}
-      {showDelayMessage && (
-        <CustomBanner message={t('appInsightsDelay')} type={MessageBarType.info} onDismiss={() => setShowDelayMessage(false)} />
-      )}
-
-      {!showDelayMessage && !!entityTraces && entityTraces.length === 0 && (
+      {!!entityTraces && entityTraces.length === 0 && (
         <CustomBanner
           message={t('durableFunctionNoDataFound')}
           type={MessageBarType.info}

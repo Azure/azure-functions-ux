@@ -14,8 +14,7 @@ export const Links = {
   staticSiteEnvironmentVariablesLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2128074',
   // TODO (krmitta): Update the learn more link with the correct fwlink
   functionsPrivateLinkLearnMore: 'https://docs.microsoft.com/en-us/azure/azure-functions/functions-networking-options',
-  // TODO (krmitta): Update the learn more link with the fwlink
-  durableFunctionExtensionLearnMore: 'https://docs.microsoft.com/azure/azure-functions/durable/durable-functions-versions',
+  durableFunctionExtensionLearnMore: 'https://aka.ms/AA8qz41',
 };
 
 export const DeploymentCenterLinks = {

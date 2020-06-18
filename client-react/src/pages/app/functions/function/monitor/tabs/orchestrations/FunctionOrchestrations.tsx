@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { AppInsightsOrchestrationTrace, AppInsightsOrchestrationTraceDetail } from '../../../../../../../models/app-insights';
 import { tableStyle, tabStyle } from '../FunctionMonitorTab.styles';
 import CustomBanner from '../../../../../../../components/CustomBanner/CustomBanner';
@@ -44,7 +44,6 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
   } = props;
 
   const [filterValue, setFilterValue] = useState('');
-  const [showDelayMessage, setShowDelayMessage] = useState(false);
 
   const orchestrationsContext = useContext(FunctionOrchestrationsContext);
   const portalContext = useContext(PortalContext);
@@ -124,19 +123,9 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
       : [];
   };
 
-  useEffect(() => {
-    setShowDelayMessage(!!orchestrationTraces && orchestrationTraces.length === 0);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orchestrationTraces]);
   return (
     <div id="orchestrations-tab" className={tabStyle}>
-      {/*Delay Message Banner*/}
-      {showDelayMessage && (
-        <CustomBanner message={t('appInsightsDelay')} type={MessageBarType.info} onDismiss={() => setShowDelayMessage(false)} />
-      )}
-
-      {!showDelayMessage && !!orchestrationTraces && orchestrationTraces.length === 0 && (
+      {!!orchestrationTraces && orchestrationTraces.length === 0 && (
         <CustomBanner
           message={t('durableFunctionNoDataFound')}
           type={MessageBarType.info}
