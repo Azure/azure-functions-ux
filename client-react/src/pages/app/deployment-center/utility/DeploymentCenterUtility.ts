@@ -89,3 +89,7 @@ const getRuntimeStackSettingForLinux = (siteConfig: ArmObj<SiteConfig>): Runtime
 
   return stackData;
 };
+
+export const getArmToken = () => {
+  return window.appsvc && window.appsvc.env.armToken ? `bearer ${window.appsvc.env.armToken}` : '';
+};

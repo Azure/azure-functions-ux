@@ -8,6 +8,7 @@ import { Field } from 'formik';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { getArmToken } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterGitHubWorkflowConfig: React.FC<DeploymentCenterFieldProps> = props => {
   const { formProps } = props;
@@ -40,10 +41,6 @@ const DeploymentCenterGitHubWorkflowConfig: React.FC<DeploymentCenterFieldProps>
       workflowOption: WorkflowOption.UseAvailableWorkflowConfigs,
     },
   ];
-
-  const getArmToken = () => {
-    return window.appsvc && window.appsvc.env.armToken ? `bearer ${window.appsvc.env.armToken}` : '';
-  };
 
   const getWorkflowFileName = (branch: string, siteName: string, slotName?: string): string => {
     const normalizedBranchName = branch.split('/').join('-');
