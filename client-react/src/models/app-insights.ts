@@ -70,6 +70,14 @@ export interface AppInsightsOrchestrationTrace {
   DurableFunctionsType: number;
 }
 
+export interface AppInsightsOrchestrationTraceDetail {
+  rowId: number;
+  timestamp: string;
+  timestampFriendly: string;
+  message: string;
+  state: string;
+}
+
 export interface AppInsightsEntityTrace {
   timestamp: string;
   timestampFriendly: string;
@@ -78,6 +86,14 @@ export interface AppInsightsEntityTrace {
   DurableFunctionsInstanceId: string;
   DurableFunctionsRuntimeStatus: string;
   DurableFunctionsType: number;
+}
+
+export interface AppInsightsEntityTraceDetail {
+  rowId: number;
+  timestamp: string;
+  timestampFriendly: string;
+  message: string;
+  state: string;
 }
 
 export enum AppInsightsKeyType {

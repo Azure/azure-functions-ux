@@ -8,4 +8,12 @@ export default class FunctionEntitiesData {
   public formEntityTracesQuery(functionResourceId: string) {
     return AppInsightsService.formEntityTracesQuery(functionResourceId);
   }
+
+  public getEntityDetails(appInsightsAppId: string, appInsightsToken: string, instanceId: string) {
+    return AppInsightsService.getEntityDetails(appInsightsAppId, appInsightsToken, instanceId);
+  }
+
+  public formEntityTraceDetailsQuery(instanceId: string) {
+    return AppInsightsService.formEntityTraceDetailsQuery(instanceId);
+  }
 }
