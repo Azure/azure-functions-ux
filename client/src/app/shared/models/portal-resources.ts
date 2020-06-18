@@ -2076,6 +2076,10 @@ export class PortalResources {
   public static deploymentCenterProdSlotWarning = 'deploymentCenterProdSlotWarning';
   public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
   public static deploymentCenterSettingsWorkflowConfigTitle = 'deploymentCenterSettingsWorkflowConfigTitle';
+  public static deploymentCenterSettingsWorkflowConfigPreviewDescription = 'deploymentCenterSettingsWorkflowConfigPreviewDescription';
+  public static deploymentCenterSettingsWorkflowConfigPreviewFileButtonText = 'deploymentCenterSettingsWorkflowConfigPreviewFileButtonText';
+  public static deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo =
+    'deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo';
   public static deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite = 'deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite';
   public static deploymentCenterSettingsGitHubActionWorkflowOptionAdd = 'deploymentCenterSettingsGitHubActionWorkflowOptionAdd';
   public static deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting =
