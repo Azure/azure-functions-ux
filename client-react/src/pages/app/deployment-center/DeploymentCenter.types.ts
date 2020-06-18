@@ -35,7 +35,6 @@ export enum DeploymentStatus {
 
 export enum WorkflowOption {
   None = 'none',
-  Loading = 'loading',
   Overwrite = 'overwrite',
   Add = 'add',
   UseAvailableWorkflowConfigs = 'useAvailableWorkflowConfigs',
