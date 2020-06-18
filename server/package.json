@@ -17,7 +17,7 @@
     "start:prod": "node dist/server.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "build:resources": "gulp build-all",
-    "test": "mocha test --recursive"
+    "test": "./node_modules/.bin/mocha -require ts-node/register ./tests/**/*.ts"
   },
   "dependencies": {
     "@azure/storage-blob": "^10.3.0",
@@ -47,8 +47,10 @@
   },
   "devDependencies": {
     "@nestjs/testing": "^6.1.1",
+    "@types/chai": "^4.2.11",
     "@types/express": "^4.16.1",
     "@types/jest": "^24.0.12",
+    "@types/mocha": "^7.0.2",
     "@types/node": "^11.12.2",
     "@types/react": "^16.8.16",
     "@types/react-dom": "^16.8.4",
@@ -75,12 +77,12 @@
     "through2": "^3.0.1",
     "ts-jest": "^24.0.2",
     "ts-loader": "^5.4.5",
-    "ts-node": "^8.1.0",
+    "ts-node": "^8.10.2",
     "tsconfig-paths": "^3.8.0",
     "tslint": "5.16.0",
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.4.5"
+    "typescript": "^3.9.5"
   },
   "jest": {
     "moduleFileExtensions": [

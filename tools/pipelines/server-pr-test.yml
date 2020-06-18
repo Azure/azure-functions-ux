@@ -13,12 +13,5 @@ steps:
 
   - script: |
       cd server
-      nohup npm run start
-    displayName: 'npm run server'
-
-  - script: |
-      cd server
       npm test
     displayName: 'run server tests'
-    env:
-      NODE_TLS_REJECT_UNAUTHORIZED: 0
