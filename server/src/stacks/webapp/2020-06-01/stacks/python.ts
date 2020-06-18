@@ -23,6 +23,7 @@ export const pythonStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
+                supportedVersion: '3.8',
               },
             },
           },
@@ -39,6 +40,7 @@ export const pythonStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
+                supportedVersion: '3.7',
               },
             },
           },
@@ -55,6 +57,7 @@ export const pythonStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
+                supportedVersion: '3.6',
               },
             },
             windowsRuntimeSettings: {
@@ -89,6 +92,7 @@ export const pythonStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
+                supportedVersion: '2.7',
               },
               endOfLifeDate: python2EOL,
             },
@@ -101,6 +105,7 @@ export const pythonStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
+                supportedVersion: '2.7',
               },
               endOfLifeDate: python2EOL,
             },
