@@ -1,4 +1,4 @@
-import { ScmTypes } from '../../../../models/site/config';
+import { ScmType } from '../../../../models/site/config';
 import {
   DeploymentCenterFormData,
   ContainerOptions,
@@ -14,7 +14,7 @@ import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBuilder {
   public generateFormData(): DeploymentCenterFormData<DeploymentCenterContainerFormData> {
     return {
-      scmType: this._siteConfig ? this._siteConfig.properties.scmType : ScmTypes.None,
+      scmType: this._siteConfig ? this._siteConfig.properties.scmType : ScmType.None,
       option: ContainerOptions.docker,
       registrySource: this._getContainerRegistrySource(),
       dockerAccessType: ContainerDockerAccessTypes.public,

@@ -32,6 +32,15 @@ export interface GitHubUser {
   location?: string;
 }
 
+// Note (t-kakan): optional properties only should be null when getting directory content rather than a file
+export class FileContent {
+  path: string;
+  type: string;
+  sha: string;
+  content?: string;
+  encoding?: string;
+}
+
 export interface GitHubOrganizations {
   avatar_url: string;
   description: string;

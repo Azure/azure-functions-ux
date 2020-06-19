@@ -2,7 +2,7 @@ import { ArmObj, ArmArray } from '../../../models/arm-obj';
 import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../../models/site/publish';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { ScmTypes, BuildProvider } from '../../../models/site/config';
+import { ScmType, BuildProvider } from '../../../models/site/config';
 import moment from 'moment';
 import { Uri } from 'monaco-editor';
 import { GitHubUser } from '../../../models/github';
@@ -33,6 +33,14 @@ export enum DeploymentStatus {
   Success,
 }
 
+export enum WorkflowOption {
+  None = 'none',
+  Overwrite = 'overwrite',
+  Add = 'add',
+  UseAvailableWorkflowConfigs = 'useAvailableWorkflowConfigs',
+  UseExistingWorkflowConfig = 'useExistingWorkflowConfig',
+}
+
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &
   DeploymentCenterFtpsProps<DeploymentCenterContainerFormData>;
 
@@ -50,6 +58,10 @@ export interface DeploymentCenterCommonFormData {
   publishingUsername: string;
   publishingPassword: string;
   publishingConfirmPassword: string;
+  workflowOption: string;
+  org: string;
+  repo: string;
+  branch: string;
 }
 
 export interface DeploymentCenterContainerFormData {
@@ -63,11 +75,11 @@ export interface DeploymentCenterContainerFormData {
   password: string;
   command: string;
   cicd: boolean;
-  scmType: ScmTypes;
+  scmType: ScmType;
 }
 
 export interface DeploymentCenterCodeFormData {
-  sourceProvider: ScmTypes;
+  sourceProvider: ScmType;
   buildProvider: BuildProvider;
   runtimeStack: string;
   runtimeVersion: string;
@@ -207,6 +219,10 @@ export interface CodeDeploymentsRow {
 
 export interface BuildDropdownOption extends IDropdownOption {
   buildType: BuildProvider;
+}
+
+export interface WorkflowDropdownOption extends IDropdownOption {
+  workflowOption: WorkflowOption;
 }
 
 export interface RuntimeStackSetting {
