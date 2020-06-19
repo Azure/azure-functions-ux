@@ -10,7 +10,7 @@ import { RuntimeStackSetting } from '../DeploymentCenter.types';
 import { getRuntimeStackSetting } from '../utility/DeploymentCenterUtility';
 import { useTranslation } from 'react-i18next';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { ScmTypes } from '../../../../models/site/config';
+import { ScmType } from '../../../../models/site/config';
 
 const DeploymentCenterCodeBuildReadOnly: React.FC<{}> = () => {
   const { t } = useTranslation();
@@ -77,7 +77,7 @@ const DeploymentCenterCodeBuildReadOnly: React.FC<{}> = () => {
   }, []);
 
   const showRuntimeAndVersion = () => {
-    if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmTypes.Vsts) {
+    if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.Vsts) {
       return (
         <>
           <ReactiveFormControl id="deployment-center-code-settings-runtime" label={t('deploymentCenterSettingsRuntimeLabel')}>
@@ -96,9 +96,9 @@ const DeploymentCenterCodeBuildReadOnly: React.FC<{}> = () => {
   const getBuildProvider = () => {
     let buildProviderString = t('none');
     if (deploymentCenterContext.siteConfig) {
-      if (deploymentCenterContext.siteConfig.properties.scmType === ScmTypes.GitHubAction) {
+      if (deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction) {
         buildProviderString = t('deploymentCenterCodeSettingsBuildGitHubAction');
-      } else if (deploymentCenterContext.siteConfig.properties.scmType === ScmTypes.Vsts) {
+      } else if (deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vsts) {
         buildProviderString = t('vstsBuildServerTitle');
       } else {
         buildProviderString = t('deploymentCenterCodeSettingsBuildKudu');
