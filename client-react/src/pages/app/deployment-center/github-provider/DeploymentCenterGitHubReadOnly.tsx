@@ -13,6 +13,7 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { getArmToken } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsProps> = props => {
   const { disconnect } = props;
@@ -25,10 +26,6 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsP
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterData = new DeploymentCenterData();
-
-  const getArmToken = () => {
-    return window.appsvc && window.appsvc.env.armToken ? `bearer ${window.appsvc.env.armToken}` : '';
-  };
 
   const getSourceControlDetails = async () => {
     const getGitHubUserRequest = deploymentCenterData.getGitHubUser(getArmToken());

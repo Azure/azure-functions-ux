@@ -9,6 +9,7 @@ import { IDropdownOption } from 'office-ui-fabric-react';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { getArmToken } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -23,10 +24,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [organizationOptions, setOrganizationOptions] = useState<IDropdownOption[]>([]);
   const [repositoryOptions, setRepositoryOptions] = useState<IDropdownOption[]>([]);
   const [branchOptions, setBranchOptions] = useState<IDropdownOption[]>([]);
-
-  const getArmToken = () => {
-    return window.appsvc && window.appsvc.env.armToken ? `bearer ${window.appsvc.env.armToken}` : '';
-  };
 
   const fetchOrganizationOptions = async () => {
     setOrganizationOptions([]);

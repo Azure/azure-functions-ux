@@ -1,7 +1,7 @@
 import { NameValuePair } from '../name-value-pair';
 import { ApiDefinition } from './api-definition';
 
-export enum ScmTypes {
+export enum ScmType {
   None = 'None',
   Dropbox = 'Dropbox',
   Tfs = 'Tfs',
@@ -51,7 +51,7 @@ export interface SiteConfig {
   handlerMappings: HandlerMapping[];
   azureStorageAccounts?: ArmAzureStorageMount;
   documentRoot: string;
-  scmType: ScmTypes;
+  scmType: ScmType;
   use32BitWorkerProcess: boolean;
   webSocketsEnabled: boolean;
   alwaysOn: boolean;
