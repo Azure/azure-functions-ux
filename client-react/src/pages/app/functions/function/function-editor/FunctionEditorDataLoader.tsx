@@ -339,7 +339,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       if (runResponse.metadata.success) {
         resData = runResponse.data;
       } else {
-        // TODO (krmitta): Handle error thrown and show the output accordingly
+        resData = runResponse.metadata.error;
       }
 
       setResponseContent({
