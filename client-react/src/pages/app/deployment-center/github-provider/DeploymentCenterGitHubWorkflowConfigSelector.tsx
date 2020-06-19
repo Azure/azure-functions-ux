@@ -131,9 +131,11 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterFie
       )}
       {showWorkflowConfigDropdown && (
         <>
-          <div className={deploymentCenterInfoBannerDiv}>
-            <CustomBanner message={workflowFileExistsWarningMessage} type={MessageBarType.warning} />
-          </div>
+          {workflowFileExistsWarningMessage && (
+            <div className={deploymentCenterInfoBannerDiv}>
+              <CustomBanner message={workflowFileExistsWarningMessage} type={MessageBarType.warning} />
+            </div>
+          )}
           <Field
             id="deployment-center-settings-workflow-option"
             label={t('githubActionWorkflowOption')}
