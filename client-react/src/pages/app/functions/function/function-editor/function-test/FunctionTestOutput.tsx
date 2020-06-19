@@ -38,10 +38,7 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
       </div>
       <div className={functionTestGroupStyle}>
         <Label className={testFormLabelStyle}>{t('httpRun_responseContent')}</Label>
-        <div className={responseContentStyle}>
-          {getBodyValue()}
-          ewfdwefwefwefwefweewfdwefwefwefwefweewfdwefwefwefwefweewfdwefwefwefwefweewfdwefwefwefwefweewfdwefwefwefwefweewfdwefwefwefwefweewfdwefwefwefwefweewfdwefwefwefwefweewfdwefwefwefwefweewfdwefwefwefwefweewfdwefwefwefwefwe
-        </div>
+        <div className={responseContentStyle}>{getBodyValue()}</div>
       </div>
     </div>
   );
