@@ -37,13 +37,13 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
       setSelectedOrg(option.key.toString());
       formProps.setFieldValue('org', option.key.toString());
 
-      fetchRepositoryOptions(option.key.toString());
-
       setSelectedRepo('');
       formProps.setFieldValue('repo', '');
 
       setSelectedBranch('');
       formProps.setFieldValue('branch', '');
+
+      fetchRepositoryOptions(option.key.toString());
     }
   };
 
@@ -52,10 +52,10 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
       setSelectedRepo(option.key.toString());
       formProps.setFieldValue('repo', option.key.toString());
 
-      fetchBranchOptions(option.key.toString());
-
       setSelectedBranch('');
       formProps.setFieldValue('branch', '');
+
+      fetchBranchOptions(option.key.toString());
     }
   };
 

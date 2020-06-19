@@ -60,8 +60,8 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     }
   };
 
-  const isGitHubSource = formProps && formProps.values.sourceProvider === ScmType.GitHub;
   const isSourceSelected = formProps && formProps.values.sourceProvider !== ScmType.None;
+  const isGitHubSource = formProps && formProps.values.sourceProvider === ScmType.GitHub;
 
   useEffect(
     () => {
@@ -99,7 +99,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       </p>
 
       <Field
-        id="deployment-center-container-settings-source-option"
+        id="deployment-center-code-settings-source-option"
         label={t('deploymentCenterSettingsSourceLabel')}
         placeholder={t('deploymentCenterCodeSettingsSourcePlaceholder')}
         name="sourceProvider"

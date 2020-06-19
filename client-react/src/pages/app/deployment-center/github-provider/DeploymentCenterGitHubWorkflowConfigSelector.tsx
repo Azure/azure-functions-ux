@@ -6,7 +6,7 @@ import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { Field } from 'formik';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { getArmToken } from '../utility/DeploymentCenterUtility';
+import { getArmToken, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
@@ -16,8 +16,8 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterFie
 
   const [selectedWorkflowConfigOption, setSelectedWorkflowConfigOption] = useState<WorkflowOption | undefined>(undefined);
   const [showWorkflowConfigDropdown, setShowWorkflowConfigDropdown] = useState<boolean>(false);
-  const [workflowConfigDropwdownOptions, setWorkflowConfigDropwdownOptions] = useState<IDropdownOption[] | undefined>(undefined);
-  const [workflowFileExistsWarningMessage, setWorkflowFileExistsWarningMessage] = useState<string>('');
+  const [workflowConfigDropdownOptions, setWorkflowConfigDropdownOptions] = useState<IDropdownOption[] | undefined>(undefined);
+  const [workflowFileExistsWarningMessage, setWorkflowFileExistsWarningMessage] = useState<string | undefined>(undefined);
   const [isWorkflowConfigLoading, setIsWorkflowConfigLoading] = useState<boolean>(false);
 
   const deploymentCenterData = new DeploymentCenterData();
@@ -49,11 +49,6 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterFie
     if (formProps) {
       formProps.setFieldValue('workflowOption', option.workflowOption);
     }
-  };
-
-  const getWorkflowFileName = (branch: string, siteName: string, slotName?: string): string => {
-    const normalizedBranchName = branch.split('/').join('-');
-    return slotName ? `${normalizedBranchName}_${siteName}(${slotName}).yml` : `${normalizedBranchName}_${siteName}.yml`;
   };
 
   const fetchWorkflowConfiguration = async (selectedOrg: string, selectedRepo: string, selectedBranch: string) => {
@@ -91,7 +86,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterFie
           })
         );
 
-        setWorkflowConfigDropwdownOptions(overwriteOrUseExistingOptions);
+        setWorkflowConfigDropdownOptions(overwriteOrUseExistingOptions);
         setShowWorkflowConfigDropdown(true);
       } else if (allWorkflowConfigurationsResponse.metadata.success && allWorkflowConfigurationsResponse.data.length > 0) {
         setWorkflowFileExistsWarningMessage(
@@ -100,7 +95,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterFie
           })
         );
 
-        setWorkflowConfigDropwdownOptions(addOrUseExistingOptions);
+        setWorkflowConfigDropdownOptions(addOrUseExistingOptions);
         setShowWorkflowConfigDropdown(true);
       } else {
         setSelectedWorkflowConfigOption(WorkflowOption.Add);
@@ -146,7 +141,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterFie
             name="workflowOption"
             component={Dropdown}
             displayInVerticalLayout={true}
-            options={workflowConfigDropwdownOptions}
+            options={workflowConfigDropdownOptions}
             selectedKey={selectedWorkflowConfigOption}
             required={true}
             onChange={onWorkflowOptionChange}

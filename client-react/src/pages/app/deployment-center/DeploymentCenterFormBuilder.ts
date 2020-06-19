@@ -26,7 +26,6 @@ export abstract class DeploymentCenterFormBuilder {
       org: '',
       repo: '',
       branch: '',
-      runFormValidation: false,
     };
   }
 

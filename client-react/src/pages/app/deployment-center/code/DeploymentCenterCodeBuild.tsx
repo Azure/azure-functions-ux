@@ -199,9 +199,9 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
             <CustomBanner message={stackNotSupportedMessage} type={MessageBarType.warning} />
           </div>
         )}
-        {stackMismatchMessage && (
+        {(stackNotSupportedMessage || stackMismatchMessage) && (
           <div className={deploymentCenterInfoBannerDiv}>
-            <CustomBanner message={stackMismatchMessage} type={MessageBarType.warning} />
+            <CustomBanner message={stackNotSupportedMessage || stackMismatchMessage} type={MessageBarType.warning} />
           </div>
         )}
       </>
