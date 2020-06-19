@@ -53,6 +53,8 @@ export const responseContentStyle = style({
   border: '1px solid rgba(204, 204, 204, 0.8)',
   boxSizing: 'border-box',
   padding: '7px',
+  whiteSpace: 'pre-wrap',
+  overflowWrap: 'break-word',
 });
 
 export const responseCodeStyle = style({
