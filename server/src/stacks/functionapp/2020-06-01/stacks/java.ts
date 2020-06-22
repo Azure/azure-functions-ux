@@ -15,7 +15,47 @@ export const JavaStack: FunctionAppStack = {
         {
           displayText: 'Java 11',
           value: '11.0',
-          stackSettings: {},
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '11',
+              isAutoUpdate: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'java',
+              },
+              siteConfigPropertiesDictionary: {},
+              supportedFunctionsExtensionVersions: ['~3'],
+              endOfLifeDate: java11EOL,
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'Java|11',
+              isAutoUpdate: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'java',
+              },
+              siteConfigPropertiesDictionary: {
+                Use32BitWorkerProcess: false,
+                linuxFxVersion: 'Java|11',
+              },
+              supportedFunctionsExtensionVersions: ['~3'],
+              endOfLifeDate: java11EOL,
+            },
+          },
         },
       ],
     },
