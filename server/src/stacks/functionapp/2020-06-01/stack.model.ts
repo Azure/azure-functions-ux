@@ -29,8 +29,10 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   gitHubActionSettings: GitHubActionSettings;
   appSettingsDictionary: { [key: string]: any };
   siteConfigPropertiesDictionary: { [key: string]: any };
-  supportedFunctionsExtensionVersions: '~1' | '~2' | '~3'[];
+  supportedFunctionsExtensionVersions: FunctionExtensionVersion[];
 }
+
+type FunctionExtensionVersion = '~1' | '~2' | '~3';
 
 export interface AppInsightsSettings {
   isSupported: boolean;
