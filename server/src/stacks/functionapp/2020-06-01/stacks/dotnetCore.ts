@@ -6,11 +6,11 @@ export const dotnetCoreStack: FunctionAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
-      displayText: '.Net Core 3',
+      displayText: '.NET Core 3',
       value: '3',
       minorVersions: [
         {
-          displayText: '.NET Core 3.1 (LTS)',
+          displayText: '.NET Core 3.1',
           value: '3.1',
           stackSettings: {
             windowsRuntimeSettings: {
@@ -26,7 +26,7 @@ export const dotnetCoreStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'dotnet',
               },
               siteConfigPropertiesDictionary: {},
-              supportedPlatforms: ['~3'],
+              supportedFunctionsExtensionVersions: ['~3'],
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'dotnet|3.1',
@@ -44,7 +44,7 @@ export const dotnetCoreStack: FunctionAppStack = {
                 Use32BitWorkerProcess: false,
                 linuxFxVersion: 'dotnet|3.1',
               },
-              supportedPlatforms: ['~3'],
+              supportedFunctionsExtensionVersions: ['~3'],
             },
           },
         },
