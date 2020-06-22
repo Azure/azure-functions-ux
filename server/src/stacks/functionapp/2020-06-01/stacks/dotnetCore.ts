@@ -14,7 +14,7 @@ export const dotnetCoreStack: FunctionAppStack = {
           value: '3.1',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '2.2',
+              runtimeVersion: '3.1',
               appInsightsSettings: {
                 isSupported: true,
               },
