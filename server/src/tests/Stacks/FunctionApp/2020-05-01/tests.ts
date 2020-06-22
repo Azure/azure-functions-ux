@@ -1,4 +1,4 @@
-import { FunctionAppStacksService20200501 } from '../../../../src/stacks/functionapp/2020-05-01/stacks.service';
+import { FunctionAppStacksService20200501 } from '../../../../stacks/functionapp/2020-05-01/stacks.service';
 import {
   validateAllStackLength,
   validateDotnetCoreStack,
