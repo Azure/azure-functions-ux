@@ -1,8 +1,11 @@
+type Os = 'linux' | 'windows';
+type FunctionExtensionVersion = '~1' | '~2' | '~3';
+
 export interface FunctionAppStack {
   displayText: string;
   value: string;
   majorVersions: FunctionAppMajorVersion[];
-  preferredOs?: 'linux' | 'windows';
+  preferredOs?: Os;
 }
 
 export interface FunctionAppMajorVersion {
@@ -31,8 +34,6 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   siteConfigPropertiesDictionary: { [key: string]: any };
   supportedFunctionsExtensionVersions: FunctionExtensionVersion[];
 }
-
-type FunctionExtensionVersion = '~1' | '~2' | '~3';
 
 export interface AppInsightsSettings {
   isSupported: boolean;
