@@ -43,7 +43,7 @@ export const nodeStack: FunctionAppStack = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '10.x',
+                supportedVersion: '12.x',
               },
               appSettingsDictionary: {
                 FUNCTIONS_WORKER_RUNTIME: 'node',
