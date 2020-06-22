@@ -3,7 +3,7 @@ const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
 export function validateDotnetCoreStack(stacks) {
@@ -33,18 +33,27 @@ export function validatePythonStack(stacks) {
   expect(pythonStack.versions.length).to.equal(3);
 }
 
-export function validateJava8Stack(stacks) {
+export function validateJava11Stack(stacks) {
   validateAllStackLength(stacks);
   const java8Stack = stacks[3];
   expect(java8Stack.displayText).to.equal('Java');
   expect(java8Stack.value).to.equal('java');
-  expect(java8Stack.sortOrder).to.equal(3);
+  expect(java8Stack.sortOrder).to.equal(1);
+  expect(java8Stack.versions.length).to.equal(1);
+}
+
+export function validateJava8Stack(stacks) {
+  validateAllStackLength(stacks);
+  const java8Stack = stacks[4];
+  expect(java8Stack.displayText).to.equal('Java');
+  expect(java8Stack.value).to.equal('java');
+  expect(java8Stack.sortOrder).to.equal(2);
   expect(java8Stack.versions.length).to.equal(1);
 }
 
 export function validatePowershellCoreStack(stacks) {
   validateAllStackLength(stacks);
-  const powershellStack = stacks[4];
+  const powershellStack = stacks[5];
   expect(powershellStack.displayText).to.equal('PowerShell Core');
   expect(powershellStack.value).to.equal('powershell');
   expect(powershellStack.sortOrder).to.equal(4);

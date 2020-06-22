@@ -6,6 +6,7 @@ import {
   validatePythonStack,
   validateJava8Stack,
   validatePowershellCoreStack,
+  validateJava11Stack,
 } from './validations';
 
 const functionAppStacksService = new FunctionAppStacksService20200501();
@@ -43,6 +44,15 @@ describe('FunctionApp Stacks Test 2020-05-01', () => {
     it('should validate the Python stack', done => {
       const stacks = functionAppStacksService.getStacks();
       validatePythonStack(stacks);
+      done();
+    });
+  });
+
+  // Test Java 11 stack
+  describe('Test the Java 11 stack', () => {
+    it('should validate the Java 11 stack', done => {
+      const stacks = functionAppStacksService.getStacks();
+      validateJava11Stack(stacks);
       done();
     });
   });
