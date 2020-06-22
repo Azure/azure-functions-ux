@@ -27,8 +27,9 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   remoteDebuggingSupported: boolean;
   appInsightsSettings: AppInsightsSettings;
   gitHubActionSettings: GitHubActionSettings;
-  appSettingsDictionary: any;
-  siteConfigPropertiesDictionary: any;
+  appSettingsDictionary: { [key: string]: any };
+  siteConfigPropertiesDictionary: { [key: string]: any };
+  supportedPlatforms: '~1' | '~2' | '~3'[];
 }
 
 export interface AppInsightsSettings {

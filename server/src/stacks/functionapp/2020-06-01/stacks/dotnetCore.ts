@@ -26,6 +26,7 @@ export const dotnetCoreStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'dotnet',
               },
               siteConfigPropertiesDictionary: {},
+              supportedPlatforms: ['~3'],
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'dotnet|3.1',
@@ -43,6 +44,7 @@ export const dotnetCoreStack: FunctionAppStack = {
                 Use32BitWorkerProcess: false,
                 linuxFxVersion: 'dotnet|3.1',
               },
+              supportedPlatforms: ['~3'],
             },
           },
         },
