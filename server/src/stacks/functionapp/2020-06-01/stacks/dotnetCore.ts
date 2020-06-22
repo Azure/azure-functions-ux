@@ -18,9 +18,10 @@ export const dotnetCoreStack: FunctionAppStack = {
               appInsightsSettings: {
                 isSupported: true,
               },
-              remoteDebuggingSupported: true,
+              remoteDebuggingSupported: false,
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '3.1.301',
               },
               appSettingsDictionary: {
                 FUNCTIONS_WORKER_RUNTIME: 'dotnet',
@@ -33,9 +34,10 @@ export const dotnetCoreStack: FunctionAppStack = {
               appInsightsSettings: {
                 isSupported: true,
               },
-              remoteDebuggingSupported: true,
+              remoteDebuggingSupported: false,
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '3.1.301',
               },
               appSettingsDictionary: {
                 FUNCTIONS_WORKER_RUNTIME: 'dotnet',
