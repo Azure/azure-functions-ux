@@ -66,7 +66,47 @@ export const JavaStack: FunctionAppStack = {
         {
           displayText: 'Java 8',
           value: '8.0',
-          stackSettings: {},
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8',
+              isAutoUpdate: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'java',
+              },
+              siteConfigPropertiesDictionary: {},
+              supportedFunctionsExtensionVersions: ['~2', '~3'],
+              endOfLifeDate: java8EOL,
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'Java|8',
+              isAutoUpdate: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'java',
+              },
+              siteConfigPropertiesDictionary: {
+                Use32BitWorkerProcess: false,
+                linuxFxVersion: 'Java|8',
+              },
+              supportedFunctionsExtensionVersions: ['~3'],
+              endOfLifeDate: java8EOL,
+            },
+          },
         },
       ],
     },
