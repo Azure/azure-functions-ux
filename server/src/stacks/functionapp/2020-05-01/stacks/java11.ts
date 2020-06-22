@@ -1,14 +1,14 @@
 import { FunctionAppStack } from '../stack.model';
 
-export const java8Stack: FunctionAppStack = {
-  sortOrder: 2,
+export const java11Stack: FunctionAppStack = {
+  sortOrder: 1,
   displayText: 'Java',
   value: 'java',
   versions: [
     {
       sortOrder: 0,
-      displayText: '8',
-      value: '1.8',
+      displayText: '11',
+      value: '11',
       isDefault: true,
       supportedPlatforms: [
         {
@@ -18,7 +18,7 @@ export const java8Stack: FunctionAppStack = {
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,
-          runtimeVersion: '1.8',
+          runtimeVersion: '11',
           appSettingsDictionary: {
             FUNCTIONS_WORKER_RUNTIME: 'java',
           },
@@ -31,13 +31,13 @@ export const java8Stack: FunctionAppStack = {
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,
-          runtimeVersion: 'Java|8',
+          runtimeVersion: 'Java|11',
           appSettingsDictionary: {
             FUNCTIONS_WORKER_RUNTIME: 'java',
           },
           siteConfigPropertiesDictionary: {
             Use32BitWorkerProcess: false,
-            linuxFxVersion: 'Java|8',
+            linuxFxVersion: 'Java|11',
           },
         },
       ],
