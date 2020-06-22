@@ -41,6 +41,7 @@ import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../utils/FwLinks';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
+import { PortalContext } from '../../../PortalContext';
 
 interface ConfigurationProps {
   environments: ArmObj<Environment>[];
@@ -83,6 +84,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
+  const portalContext = useContext(PortalContext);
 
   const openAddNewEnvironmentVariablePanel = () => {
     setShowPanel(true);
@@ -434,6 +436,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   useEffect(() => {
     const dirtyState = getDirtyState(environmentVariables);
     setIsDirty(dirtyState);
+    portalContext.updateDirtyState(dirtyState);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [environmentVariables]);
