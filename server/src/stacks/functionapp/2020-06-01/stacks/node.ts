@@ -68,7 +68,7 @@ export const nodeStack: FunctionAppStack = {
           value: '10 LTS',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '~12',
+              runtimeVersion: '~10',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -112,7 +112,33 @@ export const nodeStack: FunctionAppStack = {
     {
       displayText: 'Node.js 8',
       value: '8',
-      minorVersions: [],
+      minorVersions: [
+        {
+          displayText: 'Node.js 8 LTS',
+          value: '8 LTS',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '~8',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'node',
+                WEBSITE_NODE_DEFAULT_VERSION: '~8',
+              },
+              siteConfigPropertiesDictionary: {},
+              supportedFunctionsExtensionVersions: ['~1', '~2'],
+              isDeprecated: true,
+              endOfLifeDate: node8EOL,
+            },
+          },
+        },
+      ],
     },
   ],
 };
