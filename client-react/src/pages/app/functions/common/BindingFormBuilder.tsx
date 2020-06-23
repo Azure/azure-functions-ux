@@ -189,6 +189,10 @@ export class BindingFormBuilder {
       options = setting.enum.map(e => ({ text: e.display, key: e.value }));
     }
 
+    if (!setting.required) {
+      options.unshift({ text: '', key: '' });
+    }
+
     return (
       <Field
         label={setting.label}
