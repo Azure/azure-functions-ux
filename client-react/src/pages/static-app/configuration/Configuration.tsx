@@ -300,8 +300,13 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const onColumnClick = (ev: React.MouseEvent<HTMLElement>, column: IColumn) => {
-    const newColumns = [...columns];
     const currColumn = columns.filter(currCol => column.key === currCol.key)[0];
+    updateColumnSortOrder(currColumn);
+    sortEnvironmentVariablesByColumn(currColumn);
+  };
+
+  const updateColumnSortOrder = (currColumn: IColumn) => {
+    const newColumns = [...columns];
     newColumns.forEach((newCol: IColumn) => {
       if (newCol === currColumn) {
         currColumn.isSortedDescending = !currColumn.isSortedDescending;
@@ -311,11 +316,14 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         newCol.isSortedDescending = true;
       }
     });
+    setColumns(newColumns);
+  };
+
+  const sortEnvironmentVariablesByColumn = (currColumn: IColumn) => {
     const key = currColumn.fieldName! as keyof string;
     const newEnvironmentVariables = [...environmentVariables].sort((a: EnvironmentVariable, b: EnvironmentVariable) =>
       (currColumn.isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1
     );
-    setColumns(newColumns);
     setEnvironmentVariables(newEnvironmentVariables);
   };
 
