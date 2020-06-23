@@ -3,7 +3,7 @@ import { FunctionAppStack } from './../stack.model';
 const java11EOL = new Date(2026, 9);
 const java8EOL = new Date(2025, 3);
 
-export const JavaStack: FunctionAppStack = {
+export const javaStack: FunctionAppStack = {
   displayText: 'Java',
   value: 'java',
   preferredOs: 'windows',
