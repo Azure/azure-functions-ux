@@ -3,6 +3,7 @@ import { FunctionAppStack } from '../stack.model';
 const node12EOL = new Date(2022, 4, 1);
 const node10EOL = new Date(2021, 4, 1);
 const node8EOL = new Date(2019, 12, 31);
+const node6EOL = new Date(2019, 4, 30);
 
 export const nodeStack: FunctionAppStack = {
   displayText: 'Node.js',
@@ -138,9 +139,40 @@ export const nodeStack: FunctionAppStack = {
               siteConfigPropertiesDictionary: {
                 Use32BitWorkerProcess: true,
               },
-              supportedFunctionsExtensionVersions: ['~1', '~2'],
+              supportedFunctionsExtensionVersions: ['~2'],
               isDeprecated: true,
               endOfLifeDate: node8EOL,
+            },
+          },
+        },
+      ],
+    },
+    {
+      displayText: 'Node.js 6',
+      value: '6',
+      minorVersions: [
+        {
+          displayText: 'Node.js 6 LTS',
+          value: '6 LTS',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '~6',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              appSettingsDictionary: {
+                WEBSITE_NODE_DEFAULT_VERSION: '~6',
+              },
+              siteConfigPropertiesDictionary: {
+                Use32BitWorkerProcess: true,
+              },
+              supportedFunctionsExtensionVersions: ['~1'],
+              isDeprecated: true,
+              endOfLifeDate: node6EOL,
             },
           },
         },

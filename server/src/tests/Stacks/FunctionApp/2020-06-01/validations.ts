@@ -21,7 +21,7 @@ export function validateNodeStack(stacks) {
   expect(nodeStack.displayText).to.equal('Node.js');
   expect(nodeStack.value).to.equal('node');
   expect(nodeStack.preferredOs).to.equal('windows');
-  expect(nodeStack.majorVersions.length).to.equal(3);
+  expect(nodeStack.majorVersions.length).to.equal(4);
 }
 
 export function validatePythonStack(stacks) {

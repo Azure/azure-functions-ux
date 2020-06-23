@@ -47,7 +47,7 @@ export interface GitHubActionSettings {
 }
 
 export interface AppSettingsDictionary {
-  FUNCTIONS_WORKER_RUNTIME: FunctionsWorkerRuntime;
+  FUNCTIONS_WORKER_RUNTIME?: FunctionsWorkerRuntime;
   WEBSITE_NODE_DEFAULT_VERSION?: string;
 }
 
