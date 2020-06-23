@@ -36,6 +36,16 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   supportedFunctionsExtensionVersions: FunctionsExtensionVersion[];
 }
 
+export interface AppInsightsSettings {
+  isSupported: boolean;
+  isDefaultOff?: boolean;
+}
+
+export interface GitHubActionSettings {
+  isSupported: boolean;
+  supportedVersion?: string;
+}
+
 export interface AppSettingsDictionary {
   FUNCTIONS_WORKER_RUNTIME: FunctionsWorkerRuntime;
   WEBSITE_NODE_DEFAULT_VERSION?: string;
@@ -46,16 +56,6 @@ export interface SiteConfigPropertiesDictionary {
   linuxFxVersion?: string;
   JavaVersion?: string;
   PowerShellVersion?: string;
-}
-
-export interface AppInsightsSettings {
-  isSupported: boolean;
-  isDefaultOff?: boolean;
-}
-
-export interface GitHubActionSettings {
-  isSupported: boolean;
-  supportedVersion?: string;
 }
 
 export interface CommonSettings {
