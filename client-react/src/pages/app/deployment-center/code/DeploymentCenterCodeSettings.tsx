@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, WorkflowOption } from '../DeploymentCenter.types';
 import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
 import { ScmType, BuildProvider } from '../../../../models/site/config';
@@ -14,6 +14,7 @@ import { deploymentCenterConsole } from '../DeploymentCenter.styles';
 import { MessageBarType } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { getWorkflowInformation } from '../utility/GitHubActions';
+import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -21,6 +22,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const { t } = useTranslation();
 
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
+  const [workflowFileName, setWorkflowFileName] = useState<string>('');
 
   const isGitHubSource = formProps && formProps.values.sourceProvider === ScmType.GitHub;
   const isGitHubActionsBuild = formProps && formProps.values.buildProvider === BuildProvider.GitHubAction;
@@ -89,6 +91,29 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     }
   };
 
+  useEffect(
+    () => {
+      if (
+        deploymentCenterContext.siteDescriptor &&
+        formProps &&
+        (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
+          formProps.values.workflowOption === WorkflowOption.Add ||
+          formProps.values.workflowOption === WorkflowOption.Overwrite)
+      ) {
+        setWorkflowFileName(
+          getWorkflowFileName(
+            formProps.values.branch,
+            deploymentCenterContext.siteDescriptor.site,
+            deploymentCenterContext.siteDescriptor.slot
+          )
+        );
+      } else {
+        setWorkflowFileName('');
+      }
+    }, // eslint-disable-next-line react-hooks/exhaustive-deps
+    formProps ? [formProps.values.workflowOption] : []
+  );
+
   return (
     <>
       {isDeploymentSetup ? (
@@ -113,6 +138,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
                     <DeploymentCenterGitHubWorkflowConfigPreview
                       getPreviewPanelContent={getPreviewPanelContent}
                       isPreviewFileButtonEnabled={isPreviewFileButtonEnabled}
+                      workflowFileName={workflowFileName}
                     />
                   )}
                 </>

@@ -2084,10 +2084,13 @@ export class PortalResources {
   public static deploymentCenterSettingsGitHubActionWorkflowOptionAdd = 'deploymentCenterSettingsGitHubActionWorkflowOptionAdd';
   public static deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting =
     'deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting';
+  public static deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable =
+    'deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable';
   public static deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder =
     'deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder';
   public static deploymentCenterWorkflowConfigsLoadingAriaValue = 'deploymentCenterWorkflowConfigsLoadingAriaValue';
   public static deploymentCenterWorkflowConfigsLoading = 'deploymentCenterWorkflowConfigsLoading';
+  public static deploymentCenterWorkflowConfigsFilePathLabel = 'deploymentCenterWorkflowConfigsFilePathLabel';
   public static functionMonitor_orchestrations = 'functionMonitor_orchestrations';
   public static functionMonitor_entities = 'functionMonitor_entities';
   public static functionEditor_appInsightsLogs = 'functionEditor_appInsightsLogs';

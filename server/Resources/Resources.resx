@@ -6408,6 +6408,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Use existing repository workflow</value>
     </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
+        <value>Use available repository workflow</value>
+    </data>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Select workflow option</value>
     </data>
@@ -6416,6 +6419,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterWorkflowConfigsLoading" xml:space="preserve">
         <value>Loading workflow configurations...</value>
+    </data>
+    <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
+        <value>File path</value>
     </data>
     <data name="functionMonitor_orchestrations" xml:space="preserve">
         <value>Orchestrations</value>

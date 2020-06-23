@@ -39,7 +39,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
     { key: WorkflowOption.Add, text: t('deploymentCenterSettingsGitHubActionWorkflowOptionAdd'), workflowOption: WorkflowOption.Add },
     {
       key: WorkflowOption.UseAvailableWorkflowConfigs,
-      text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting'),
+      text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable'),
       workflowOption: WorkflowOption.UseAvailableWorkflowConfigs,
     },
   ];
