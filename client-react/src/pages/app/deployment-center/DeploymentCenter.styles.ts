@@ -15,9 +15,13 @@ export const deploymentCenterContent = style({
   maxWidth: '800px',
 });
 
-export const deploymentCenterLogs = style({
+export const deploymentCenterConsole = style({
   whiteSpace: 'pre-line',
   margin: 0,
+  backgroundColor: '#f3f2f1',
+  padding: '15px',
+  borderWidth: 'thin',
+  borderStyle: 'solid',
 });
 
 export const deploymentCenterLogsError = style({

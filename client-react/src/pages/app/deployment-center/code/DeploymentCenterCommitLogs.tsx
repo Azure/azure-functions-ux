@@ -5,7 +5,7 @@ import { ArmArray, ArmObj } from '../../../../models/arm-obj';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { useTranslation } from 'react-i18next';
 import { ProgressIndicator, IColumn, Link } from 'office-ui-fabric-react';
-import { deploymentCenterLogsError, deploymentCenterLogs } from '../DeploymentCenter.styles';
+import { deploymentCenterLogsError, deploymentCenterConsole } from '../DeploymentCenter.styles';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
 
@@ -101,7 +101,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
           <h3>{t('logDetailsHeader')}</h3>
           {getCommitIdHeader()}
           <DisplayTableWithEmptyMessage columns={columns} items={logDisplayItems} selectionMode={0} layoutMode={1} constrainMode={0} />
-          {displayingDetails && <pre className={deploymentCenterLogs}>{logDetails ? logDetails : t('resourceSelect')}</pre>}
+          {displayingDetails && <pre className={deploymentCenterConsole}>{logDetails ? logDetails : t('resourceSelect')}</pre>}
         </>
       ) : (
         <ProgressIndicator

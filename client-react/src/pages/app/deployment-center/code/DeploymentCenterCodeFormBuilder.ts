@@ -10,6 +10,8 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
       buildProvider: BuildProvider.None,
       runtimeStack: '',
       runtimeVersion: '',
+      runtimeRecommendedVersion: '',
+      gitHubPublishProfileSecretGuid: '',
       ...this.generatePublishingCredentialsFormData(),
     };
   }
@@ -20,6 +22,8 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
       buildProvider: Yup.mixed().required(),
       runtimeStack: Yup.mixed().notRequired(),
       runtimeVersion: Yup.mixed().notRequired(),
+      runtimeRecommendedVersion: Yup.mixed().notRequired(),
+      gitHubPublishProfileSecretGuid: Yup.mixed().notRequired(),
       ...this.generatePublishingCredentailsYupValidationSchema(),
     });
   }
