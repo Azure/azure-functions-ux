@@ -4,7 +4,7 @@ const dotnetCore2Point2EOL = new Date(2019, 12, 23);
 
 export const dotnetCoreStack: FunctionAppStack = {
   displayText: '.NET Core',
-  value: 'dotnet',
+  value: 'dotnetCore',
   preferredOs: 'windows',
   majorVersions: [
     {

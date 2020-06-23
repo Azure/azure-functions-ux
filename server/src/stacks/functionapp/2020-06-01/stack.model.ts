@@ -4,7 +4,7 @@ type FunctionsWorkerRuntime = 'dotnet' | 'node' | 'python' | 'java' | 'powershel
 
 export interface FunctionAppStack {
   displayText: string;
-  value: FunctionsWorkerRuntime;
+  value: string;
   majorVersions: FunctionAppMajorVersion[];
   preferredOs?: Os;
 }

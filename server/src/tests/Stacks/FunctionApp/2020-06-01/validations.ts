@@ -3,14 +3,14 @@ const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
-export function validateDotnetStack(stacks) {
+export function validateDotnetCoreStack(stacks) {
   validateAllStackLength(stacks);
   const dotnetCoreStack = stacks[0];
   expect(dotnetCoreStack.displayText).to.equal('.NET Core');
-  expect(dotnetCoreStack.value).to.equal('dotnet');
+  expect(dotnetCoreStack.value).to.equal('dotnetCore');
   expect(dotnetCoreStack.preferredOs).to.equal('windows');
   expect(dotnetCoreStack.majorVersions.length).to.equal(2);
 }
@@ -49,4 +49,13 @@ export function validatePowershellStack(stacks) {
   expect(powershellStack.value).to.equal('powershell');
   expect(powershellStack.preferredOs).to.equal('windows');
   expect(powershellStack.majorVersions.length).to.equal(2);
+}
+
+export function validateDotnetFrameworkStack(stacks) {
+  validateAllStackLength(stacks);
+  const dotnetCoreStack = stacks[5];
+  expect(dotnetCoreStack.displayText).to.equal('.NET Framework');
+  expect(dotnetCoreStack.value).to.equal('dotnetFramework');
+  expect(dotnetCoreStack.preferredOs).to.equal('windows');
+  expect(dotnetCoreStack.majorVersions.length).to.equal(1);
 }

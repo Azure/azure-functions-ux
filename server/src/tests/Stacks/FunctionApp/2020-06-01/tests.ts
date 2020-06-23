@@ -1,11 +1,12 @@
 import { FunctionAppStacksService20200601 } from '../../../../stacks/functionapp/2020-06-01/stacks.service';
 import {
   validateAllStackLength,
-  validateDotnetStack,
+  validateDotnetCoreStack,
   validateNodeStack,
   validatePythonStack,
   validateJavaStack,
   validatePowershellStack,
+  validateDotnetFrameworkStack,
 } from './validations';
 
 const functionAppStacksService = new FunctionAppStacksService20200601();
@@ -24,7 +25,7 @@ describe('FunctionApp Stacks Test 2020-05-01', () => {
   describe('Test the .NET Core stack', () => {
     it('should validate the .NET Core stack', done => {
       const stacks = functionAppStacksService.getStacks();
-      validateDotnetStack(stacks);
+      validateDotnetCoreStack(stacks);
       done();
     });
   });
@@ -61,6 +62,15 @@ describe('FunctionApp Stacks Test 2020-05-01', () => {
     it('should validate the PowerShell Core stack', done => {
       const stacks = functionAppStacksService.getStacks();
       validatePowershellStack(stacks);
+      done();
+    });
+  });
+
+  // Test .NET Framework stack
+  describe('Test the .NET Framework stack', () => {
+    it('should validate the .NET Framework stack', done => {
+      const stacks = functionAppStacksService.getStacks();
+      validateDotnetFrameworkStack(stacks);
       done();
     });
   });
