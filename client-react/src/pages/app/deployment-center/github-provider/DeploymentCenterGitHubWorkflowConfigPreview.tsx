@@ -23,10 +23,12 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
         onClick={() => setIsPreviewPanelOpen(true)}
         disabled={!isPreviewFileButtonEnabled()}
       />
-      <CustomPanel isOpen={isPreviewPanelOpen} onDismiss={dismissPreviewPanel} type={PanelType.medium}>
-        <h1>Hello</h1>
-        {getPreviewPanelContent()}
-      </CustomPanel>
+      {isPreviewPanelOpen && (
+        <CustomPanel isOpen={isPreviewPanelOpen} onDismiss={dismissPreviewPanel} type={PanelType.medium}>
+          <h1>Hello</h1>
+          {getPreviewPanelContent()}
+        </CustomPanel>
+      )}
     </>
   );
 };

@@ -17,7 +17,6 @@ export const deploymentCenterContent = style({
 
 export const deploymentCenterConsole = style({
   whiteSpace: 'pre-line',
-  margin: 0,
   backgroundColor: '#f3f2f1',
   padding: '15px',
   borderWidth: 'thin',
