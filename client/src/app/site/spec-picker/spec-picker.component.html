@@ -123,7 +123,7 @@
 
           {{statusMessage?.message}}
         </span>
-        <a *ngIf="statusMessage?.infoLink" class="message-text" [href]="statusMessage?.infoLink" target="_blank">{{'learnMore' | translate}}</a>
+        <a *ngIf="statusMessage?.infoLink" class="message-text" [href]="statusMessage?.infoLink" target="_blank" [attr.aria-label]="statusMessage?.infoLinkAriaLabel">{{'learnMore' | translate}}</a>
       </div>
     </div>
   </footer>
