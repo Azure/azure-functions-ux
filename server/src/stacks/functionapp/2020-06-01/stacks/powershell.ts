@@ -55,7 +55,7 @@ export const powershellStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'powershell',
               },
               siteConfigPropertiesDictionary: {
-                PowerShellVersion: '~7',
+                PowerShellVersion: '~6',
               },
               supportedFunctionsExtensionVersions: ['~2', '~3'],
             },
