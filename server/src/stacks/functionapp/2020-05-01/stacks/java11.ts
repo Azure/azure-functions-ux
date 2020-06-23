@@ -14,7 +14,7 @@ export const java11Stack: FunctionAppStack = {
         {
           sortOrder: 0,
           os: 'windows',
-          isPreview: false,
+          isPreview: true,
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,
@@ -27,7 +27,7 @@ export const java11Stack: FunctionAppStack = {
         {
           sortOrder: 1,
           os: 'linux',
-          isPreview: false,
+          isPreview: true,
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,
