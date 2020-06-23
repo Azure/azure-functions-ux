@@ -3,7 +3,7 @@ import { FunctionAppStack } from './../stack.model';
 const java11EOL = new Date(2026, 9);
 const java8EOL = new Date(2025, 3);
 
-export const JavaStack: FunctionAppStack = {
+export const javaStack: FunctionAppStack = {
   displayText: 'Java',
   value: 'java',
   preferredOs: 'windows',
@@ -31,8 +31,8 @@ export const JavaStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'java',
               },
               siteConfigPropertiesDictionary: {
-                JavaVersion: '11',
                 Use32BitWorkerProcess: true,
+                JavaVersion: '11',
               },
               supportedFunctionsExtensionVersions: ['~3'],
               endOfLifeDate: java11EOL,
@@ -85,8 +85,8 @@ export const JavaStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'java',
               },
               siteConfigPropertiesDictionary: {
-                JavaVersion: '1.8',
                 Use32BitWorkerProcess: true,
+                JavaVersion: '1.8',
               },
               supportedFunctionsExtensionVersions: ['~2', '~3'],
               endOfLifeDate: java8EOL,

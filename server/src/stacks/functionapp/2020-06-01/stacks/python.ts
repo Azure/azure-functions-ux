@@ -1,6 +1,6 @@
 import { FunctionAppStack } from './../stack.model';
 
-export const PythonStack: FunctionAppStack = {
+export const pythonStack: FunctionAppStack = {
   displayText: 'Python',
   value: 'python',
   preferredOs: 'linux',
