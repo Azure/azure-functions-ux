@@ -8,7 +8,7 @@ export const powershellStack: FunctionAppStack = {
     {
       sortOrder: 0,
       displayText: '7.0',
-      value: '7',
+      value: '7.0',
       isDefault: true,
       supportedPlatforms: [
         {
@@ -31,7 +31,7 @@ export const powershellStack: FunctionAppStack = {
     {
       sortOrder: 1,
       displayText: '6.2',
-      value: '6',
+      value: '6.2',
       isDefault: true,
       supportedPlatforms: [
         {
