@@ -1,10 +1,5 @@
 import { FunctionAppStack } from '../stack.model';
 
-const node12EOL = new Date(2022, 4, 1);
-const node10EOL = new Date(2021, 4, 1);
-const node8EOL = new Date(2019, 12, 31);
-const node6EOL = new Date(2019, 4, 30);
-
 export const nodeStack: FunctionAppStack = {
   displayText: 'Node.js',
   value: 'node',
@@ -36,7 +31,6 @@ export const nodeStack: FunctionAppStack = {
                 Use32BitWorkerProcess: true,
               },
               supportedFunctionsExtensionVersions: ['~3'],
-              endOfLifeDate: node12EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'Node|12',
@@ -56,7 +50,6 @@ export const nodeStack: FunctionAppStack = {
                 linuxFxVersion: 'Node|12',
               },
               supportedFunctionsExtensionVersions: ['~3'],
-              endOfLifeDate: node12EOL,
             },
           },
         },
@@ -88,7 +81,6 @@ export const nodeStack: FunctionAppStack = {
                 Use32BitWorkerProcess: true,
               },
               supportedFunctionsExtensionVersions: ['~2', '~3'],
-              endOfLifeDate: node10EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'Node|10',
@@ -108,7 +100,6 @@ export const nodeStack: FunctionAppStack = {
                 linuxFxVersion: 'Node|10',
               },
               supportedFunctionsExtensionVersions: ['~2', '~3'],
-              endOfLifeDate: node10EOL,
             },
           },
         },
@@ -140,8 +131,6 @@ export const nodeStack: FunctionAppStack = {
                 Use32BitWorkerProcess: true,
               },
               supportedFunctionsExtensionVersions: ['~2'],
-              isDeprecated: true,
-              endOfLifeDate: node8EOL,
             },
           },
         },
@@ -171,8 +160,6 @@ export const nodeStack: FunctionAppStack = {
                 Use32BitWorkerProcess: true,
               },
               supportedFunctionsExtensionVersions: ['~1'],
-              isDeprecated: true,
-              endOfLifeDate: node6EOL,
             },
           },
         },

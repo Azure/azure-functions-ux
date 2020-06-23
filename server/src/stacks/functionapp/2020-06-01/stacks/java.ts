@@ -1,8 +1,5 @@
 import { FunctionAppStack } from './../stack.model';
 
-const java11EOL = new Date(2026, 9);
-const java8EOL = new Date(2025, 3);
-
 export const javaStack: FunctionAppStack = {
   displayText: 'Java',
   value: 'java',
@@ -35,7 +32,6 @@ export const javaStack: FunctionAppStack = {
                 JavaVersion: '11',
               },
               supportedFunctionsExtensionVersions: ['~3'],
-              endOfLifeDate: java11EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'Java|11',
@@ -56,7 +52,6 @@ export const javaStack: FunctionAppStack = {
                 linuxFxVersion: 'Java|11',
               },
               supportedFunctionsExtensionVersions: ['~3'],
-              endOfLifeDate: java11EOL,
             },
           },
         },
@@ -89,7 +84,6 @@ export const javaStack: FunctionAppStack = {
                 JavaVersion: '1.8',
               },
               supportedFunctionsExtensionVersions: ['~2', '~3'],
-              endOfLifeDate: java8EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'Java|8',
@@ -110,7 +104,6 @@ export const javaStack: FunctionAppStack = {
                 linuxFxVersion: 'Java|8',
               },
               supportedFunctionsExtensionVersions: ['~3'],
-              endOfLifeDate: java8EOL,
             },
           },
         },

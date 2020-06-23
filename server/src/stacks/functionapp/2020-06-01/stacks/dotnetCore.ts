@@ -1,7 +1,5 @@
 import { FunctionAppStack } from '../stack.model';
 
-const dotnetCore2Point2EOL = new Date(2019, 12, 23);
-
 export const dotnetCoreStack: FunctionAppStack = {
   displayText: '.NET Core',
   value: 'dotnetCore',
@@ -66,7 +64,6 @@ export const dotnetCoreStack: FunctionAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '2.2',
-              isDeprecated: true,
               appInsightsSettings: {
                 isSupported: true,
               },
@@ -82,11 +79,9 @@ export const dotnetCoreStack: FunctionAppStack = {
                 Use32BitWorkerProcess: true,
               },
               supportedFunctionsExtensionVersions: ['~2'],
-              endOfLifeDate: dotnetCore2Point2EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'dotnet|2.2',
-              isDeprecated: true,
               appInsightsSettings: {
                 isSupported: true,
               },
@@ -103,7 +98,6 @@ export const dotnetCoreStack: FunctionAppStack = {
                 linuxFxVersion: 'dotnet|2.2',
               },
               supportedFunctionsExtensionVersions: ['~2'],
-              endOfLifeDate: dotnetCore2Point2EOL,
             },
           },
         },
