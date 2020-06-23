@@ -45,7 +45,7 @@ export function validateJavaStack(stacks) {
 export function validatePowershellStack(stacks) {
   validateAllStackLength(stacks);
   const powershellStack = stacks[4];
-  expect(powershellStack.displayText).to.equal('PowerShell Core');
+  expect(powershellStack.displayText).to.equal('PowerShell');
   expect(powershellStack.value).to.equal('powershell');
   expect(powershellStack.preferredOs).to.equal('windows');
   expect(powershellStack.majorVersions.length).to.equal(2);

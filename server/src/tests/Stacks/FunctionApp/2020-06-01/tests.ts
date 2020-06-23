@@ -11,7 +11,7 @@ import {
 
 const functionAppStacksService = new FunctionAppStacksService20200601();
 
-describe('FunctionApp Stacks Test 2020-05-01', () => {
+describe('FunctionApp Stacks Test 2020-06-01', () => {
   // Test length of all stacks
   describe('Test all stack length', () => {
     it('should validate all stacks are returned', done => {
@@ -57,9 +57,9 @@ describe('FunctionApp Stacks Test 2020-05-01', () => {
     });
   });
 
-  // Test PowerShell Core stack
-  describe('Test the PowerShell Core stack', () => {
-    it('should validate the PowerShell Core stack', done => {
+  // Test PowerShell stack
+  describe('Test the PowerShell stack', () => {
+    it('should validate the PowerShell stack', done => {
       const stacks = functionAppStacksService.getStacks();
       validatePowershellStack(stacks);
       done();

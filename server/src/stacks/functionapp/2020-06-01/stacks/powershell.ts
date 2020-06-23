@@ -1,16 +1,16 @@
 import { FunctionAppStack } from './../stack.model';
 
 export const powershellStack: FunctionAppStack = {
-  displayText: 'PowerShell Core',
+  displayText: 'PowerShell',
   value: 'powershell',
   preferredOs: 'windows',
   majorVersions: [
     {
-      displayText: 'PowerShell Core 7',
+      displayText: 'PowerShell 7',
       value: '7',
       minorVersions: [
         {
-          displayText: 'PowerShell Core 7.0',
+          displayText: 'PowerShell 7.0',
           value: '7.0',
           stackSettings: {
             windowsRuntimeSettings: {
