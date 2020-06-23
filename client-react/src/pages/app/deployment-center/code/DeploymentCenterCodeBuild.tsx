@@ -1,10 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
-import { BuildProvider } from '../../../../models/site/config';
+import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
-import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, RuntimeStackSetting } from '../DeploymentCenter.types';
+import {
+  DeploymentCenterFieldProps,
+  DeploymentCenterCodeFormData,
+  RuntimeStackSetting,
+  WorkflowOption,
+  BuildDropdownOption,
+} from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import LogService from '../../../../utils/LogService';
@@ -20,6 +26,7 @@ import { AppOs } from '../../../../models/site/site';
 const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
+  const [selectedBuild, setSelectedBuild] = useState<BuildProvider>(BuildProvider.None);
   const [selectedRuntime, setSelectedRuntime] = useState<string | undefined>(undefined);
   const [selectedVersion, setSelectedVersion] = useState<string | undefined>(undefined);
   const [runtimeStacksData, setRuntimeStacksData] = useState<WebAppCreateStack[]>([]);
@@ -33,6 +40,15 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const deploymentCenterData = new DeploymentCenterData();
+
+  const buildOptions: BuildDropdownOption[] = [
+    { key: BuildProvider.GitHubAction, text: t('deploymentCenterCodeSettingsBuildGitHubAction'), buildType: BuildProvider.GitHubAction },
+    {
+      key: BuildProvider.AppServiceBuildService,
+      text: t('deploymentCenterCodeSettingsBuildKudu'),
+      buildType: BuildProvider.AppServiceBuildService,
+    },
+  ];
 
   const fetchStacks = async () => {
     const runtimeStacksResponse = await deploymentCenterData.getRuntimeStacks(
@@ -85,6 +101,13 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
       }
     } else {
       setStackMismatchMessage('');
+    }
+  };
+
+  const updateSelectedBuild = (e: any, option: BuildDropdownOption) => {
+    setSelectedBuild(option.buildType);
+    if (formProps) {
+      formProps.setFieldValue('buildProvider', option.buildType);
     }
   };
 
@@ -171,6 +194,21 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
     setDefaultVersion(defaultStackAndVersion.runtimeVersion);
   };
 
+  useEffect(
+    () => {
+      if (formProps && formProps.values.sourceProvider !== ScmType.GitHub) {
+        setSelectedBuild(BuildProvider.AppServiceBuildService);
+        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
+      }
+
+      if (formProps && formProps.values.sourceProvider === ScmType.GitHub) {
+        setSelectedBuild(BuildProvider.GitHubAction);
+        formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
+      }
+    }, // eslint-disable-next-line react-hooks/exhaustive-deps
+    formProps ? [formProps.values.sourceProvider] : []
+  );
+
   useEffect(() => {
     setInitialDefaultValues();
     fetchStacks();
@@ -208,32 +246,55 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
     );
   };
 
+  const isGitHubSource = formProps && formProps.values.sourceProvider === ScmType.GitHub;
+  const isGitHubActionsBuild = formProps && formProps.values.buildProvider === BuildProvider.GitHubAction;
+  const isUsingExistingOrAvailableWorkflowConfig =
+    formProps &&
+    (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
+      formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs);
+
   return (
     <>
       <h3>{t('deploymentCenterSettingsBuildTitle')}</h3>
-      {getCustomBanner()}
       <Field
-        id="deployment-center-code-settings-runtime-option"
-        label={t('deploymentCenterSettingsRuntimeLabel')}
-        name="runtimeStack"
+        id="deployment-center-code-settings-build-option"
+        label={t('deploymentCenterSettingsBuildLabel')}
+        name="buildProvider"
         component={Dropdown}
         displayInVerticalLayout={true}
-        options={runtimeStackOptions}
-        selectedKey={selectedRuntime}
-        onChange={updateSelectedRuntime}
+        options={buildOptions}
+        selectedKey={selectedBuild}
+        onChange={updateSelectedBuild}
         required={true}
+        disabled={!isGitHubSource}
       />
-      <Field
-        id="deployment-center-code-settings-runtime-version-option"
-        label={t('deploymentCenterSettingsRuntimeVersionLabel')}
-        name="runtimeVersion"
-        component={Dropdown}
-        displayInVerticalLayout={true}
-        options={runtimeVersionOptions}
-        selectedKey={selectedVersion}
-        onChange={updateSelectedVersion}
-        required={true}
-      />
+      {isGitHubActionsBuild && !isUsingExistingOrAvailableWorkflowConfig && (
+        <>
+          {getCustomBanner()}
+          <Field
+            id="deployment-center-code-settings-runtime-option"
+            label={t('deploymentCenterSettingsRuntimeLabel')}
+            name="runtimeStack"
+            component={Dropdown}
+            displayInVerticalLayout={true}
+            options={runtimeStackOptions}
+            selectedKey={selectedRuntime}
+            onChange={updateSelectedRuntime}
+            required={true}
+          />
+          <Field
+            id="deployment-center-code-settings-runtime-version-option"
+            label={t('deploymentCenterSettingsRuntimeVersionLabel')}
+            name="runtimeVersion"
+            component={Dropdown}
+            displayInVerticalLayout={true}
+            options={runtimeVersionOptions}
+            selectedKey={selectedVersion}
+            onChange={updateSelectedVersion}
+            required={true}
+          />
+        </>
+      )}
     </>
   );
 };
