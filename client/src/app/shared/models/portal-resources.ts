@@ -2103,4 +2103,7 @@ export class PortalResources {
   public static failedToFetchTags = 'failedToFetchTags';
   public static entityDetails = 'entityDetails';
   public static durableFunctionNoDataFound = 'durableFunctionNoDataFound';
+  public static pricing_pv2FlexStampCheckboxAriaLabel = 'pricing_pv2FlexStampCheckboxAriaLabel';
+  public static pricing_pv2UpsellInfoMessageAriaLabel = 'pricing_pv2UpsellInfoMessageAriaLabel';
+  public static pricing_appDensityWarningMessageAriaLabel = 'pricing_appDensityWarningMessageAriaLabel';
 }
