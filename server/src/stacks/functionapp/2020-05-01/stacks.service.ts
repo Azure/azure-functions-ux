@@ -10,6 +10,6 @@ import { powershellStack } from './stacks/powershell';
 @Injectable()
 export class FunctionAppStacksService20200501 {
   getStacks(): FunctionAppStack[] {
-    return [dotnetCoreStack, nodeStack, pythonStack, java11Stack, java8Stack, powershellStack];
+    return [dotnetCoreStack, nodeStack, pythonStack, java8Stack, java11Stack, powershellStack];
   }
 }
