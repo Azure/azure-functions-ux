@@ -36,18 +36,6 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   supportedFunctionsExtensionVersions: FunctionsExtensionVersion[];
 }
 
-export interface AppSettingsDictionary {
-  FUNCTIONS_WORKER_RUNTIME: FunctionsWorkerRuntime;
-  WEBSITE_NODE_DEFAULT_VERSION?: string;
-}
-
-export interface SiteConfigPropertiesDictionary {
-  Use32BitWorkerProcess: boolean;
-  linuxFxVersion?: string;
-  JavaVersion?: string;
-  PowerShellVersion?: string;
-}
-
 export interface AppInsightsSettings {
   isSupported: boolean;
   isDefaultOff?: boolean;
@@ -64,7 +52,7 @@ export interface AppSettingsDictionary {
 }
 
 export interface SiteConfigPropertiesDictionary {
-  Use32BitWorkerProcess?: boolean;
+  Use32BitWorkerProcess: boolean;
   linuxFxVersion?: string;
   JavaVersion?: string;
   PowerShellVersion?: string;
