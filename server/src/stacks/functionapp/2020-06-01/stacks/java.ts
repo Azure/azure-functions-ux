@@ -30,7 +30,10 @@ export const JavaStack: FunctionAppStack = {
               appSettingsDictionary: {
                 FUNCTIONS_WORKER_RUNTIME: 'java',
               },
-              siteConfigPropertiesDictionary: {},
+              siteConfigPropertiesDictionary: {
+                JavaVersion: '11',
+                Use32BitWorkerProcess: true,
+              },
               supportedFunctionsExtensionVersions: ['~3'],
               endOfLifeDate: java11EOL,
             },
@@ -81,7 +84,10 @@ export const JavaStack: FunctionAppStack = {
               appSettingsDictionary: {
                 FUNCTIONS_WORKER_RUNTIME: 'java',
               },
-              siteConfigPropertiesDictionary: {},
+              siteConfigPropertiesDictionary: {
+                JavaVersion: '1.8',
+                Use32BitWorkerProcess: true,
+              },
               supportedFunctionsExtensionVersions: ['~2', '~3'],
               endOfLifeDate: java8EOL,
             },
