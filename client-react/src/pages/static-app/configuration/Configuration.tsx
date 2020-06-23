@@ -21,6 +21,8 @@ import {
   tableValueComponentStyle,
   tableValueFormFieldStyle,
   tableValueIconStyle,
+  formDescriptionStyle,
+  tableValueTextFieldStyle,
 } from './Configuration.styles';
 import { learnMoreLinkStyle, filterTextFieldStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
@@ -39,6 +41,7 @@ import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../utils/FwLinks';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
+import { PortalContext } from '../../../PortalContext';
 
 interface ConfigurationProps {
   environments: ArmObj<Environment>[];
@@ -81,6 +84,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
+  const portalContext = useContext(PortalContext);
 
   const openAddNewEnvironmentVariablePanel = () => {
     setShowPanel(true);
@@ -201,7 +205,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
                 iconProps={{ iconName: 'Hide' }}
                 onClick={() => onShowHideButtonClick(itemKey)}
               />
-              <div>
+              <div className={tableValueTextFieldStyle}>
                 <TextFieldNoFormik
                   id={`environment-variable-value-${index}`}
                   value={item[column.fieldName!]}
@@ -209,6 +213,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
                   disabled={true}
                   formControlClassName={tableValueFormFieldStyle}
                   className={defaultCellStyle}
+                  widthOverride="100%"
                 />
               </div>
             </div>
@@ -431,6 +436,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   useEffect(() => {
     const dirtyState = getDirtyState(environmentVariables);
     setIsDirty(dirtyState);
+    portalContext.updateDirtyState(dirtyState);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [environmentVariables]);
@@ -505,7 +511,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       </>
       <div className={formStyle}>
         <h3>{t('staticSite_applicationSettings')}</h3>
-        <p>
+        <p className={formDescriptionStyle}>
           <span id="environment-variable-info-message">{t('staticSite_applicationSettingsInfoMessage')}</span>
           <Link
             id="environment-variable-info-learnMore"

@@ -1,7 +1,7 @@
 import { FunctionAppStack } from '../stack.model';
 
 export const java8Stack: FunctionAppStack = {
-  sortOrder: 3,
+  sortOrder: 2,
   displayText: 'Java',
   value: 'java',
   versions: [

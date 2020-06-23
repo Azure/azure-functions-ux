@@ -6387,4 +6387,91 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
         <value>GitHub Token not found, click authorize to set up GitHub token.</value>
     </data>
+    <data name="deploymentCenterSettingsWorkflowConfigTitle" xml:space="preserve">
+        <value>Workflow Configuration</value>
+    </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite the workflow in the repository</value>
+    </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
+        <value>Add a workflow in the repository</value>
+    </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Use existing repository workflow</value>
+    </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
+        <value>Select workflow option</value>
+    </data>
+    <data name="deploymentCenterWorkflowConfigsLoadingAriaValue" xml:space="preserve">
+        <value>Loading workflow configurations</value>
+    </data>
+    <data name="deploymentCenterWorkflowConfigsLoading" xml:space="preserve">
+        <value>Loading workflow configurations...</value>
+    </data>
+    <data name="functionMonitor_orchestrations" xml:space="preserve">
+        <value>Orchestrations</value>
+    </data>
+    <data name="functionMonitor_entities" xml:space="preserve">
+        <value>Entities</value>
+    </data>
+    <data name="functionEditor_appInsightsLogs" xml:space="preserve">
+        <value>App Insights Logs</value>
+    </data>
+    <data name="functionEditor_fileBasedLogs" xml:space="preserve">
+        <value>Filesystem Logs</value>
+    </data>
+    <data name="functionEditor_fileBasedLogsCalloutMessage" xml:space="preserve">
+        <value>Switching to filesystem based logs may have an impact on the runtime performance of your Function app. It also may not work if there are network restrictions setup such as IP Restrictions, VNET, etc.</value>
+    </data>
+    <data name="orchestrationTracesTableTitle" xml:space="preserve">
+        <value>Orchestration Traces</value>
+    </data>
+    <data name="orchestrationTracesTableDescription" xml:space="preserve">
+        <value>The twenty most recent function orchestration traces. For more advanced analysis, run the query in Application Insights.</value>
+    </data>
+    <data name="runtimeStatus" xml:space="preserve">
+        <value>Runtime Status</value>
+    </data>
+    <data name="instanceId" xml:space="preserve">
+        <value>Instance Id</value>
+    </data>
+    <data name="filterOrchestrations" xml:space="preserve">
+        <value>Filter orchestrations</value>
+    </data>
+    <data name="entityTracesTableTitle" xml:space="preserve">
+        <value>Entity Traces</value>
+    </data>
+    <data name="entityTracesTableDescription" xml:space="preserve">
+        <value>The twenty most recent function entity traces. For more advanced analysis, run the query in Application Insights.</value>
+    </data>
+    <data name="filterEntities" xml:space="preserve">
+        <value>Filter entities</value>
+    </data>
+    <data name="state" xml:space="preserve">
+        <value>State</value>
+    </data>
+    <data name="orchestrationDetails" xml:space="preserve">
+        <value>Orchestration Details</value>
+    </data>
+    <data name="failedToFetchRepositories" xml:space="preserve">
+        <value>Failed to get a list of repositories.</value>
+    </data>
+    <data name="failedToFetchTags" xml:space="preserve">
+        <value>Failed to get a list of tags.</value>
+    </data>
+    <data name="entityDetails" xml:space="preserve">
+        <value>Entity Details</value>
+    </data>
+    <data name="durableFunctionNoDataFound" xml:space="preserve">
+        <value>No data found. Please make sure you install the latest Durable Functions extension (.NET) or use V2 of extension bundles.</value>
+    </data>
+    <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
+        <value>Learn more about flex stamps.</value>
+    </data>
+    <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about Ootgoing IP addresses.</value>
+    </data>
+    <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about app service plan density.</value>
+    </data>
 </root>
