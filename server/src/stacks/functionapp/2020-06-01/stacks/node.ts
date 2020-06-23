@@ -31,7 +31,9 @@ export const nodeStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'node',
                 WEBSITE_NODE_DEFAULT_VERSION: '~12',
               },
-              siteConfigPropertiesDictionary: {},
+              siteConfigPropertiesDictionary: {
+                Use32BitWorkerProcess: true,
+              },
               supportedFunctionsExtensionVersions: ['~3'],
               endOfLifeDate: node12EOL,
             },
@@ -81,7 +83,9 @@ export const nodeStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'node',
                 WEBSITE_NODE_DEFAULT_VERSION: '~10',
               },
-              siteConfigPropertiesDictionary: {},
+              siteConfigPropertiesDictionary: {
+                Use32BitWorkerProcess: true,
+              },
               supportedFunctionsExtensionVersions: ['~2', '~3'],
               endOfLifeDate: node10EOL,
             },
@@ -131,7 +135,9 @@ export const nodeStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'node',
                 WEBSITE_NODE_DEFAULT_VERSION: '~8',
               },
-              siteConfigPropertiesDictionary: {},
+              siteConfigPropertiesDictionary: {
+                Use32BitWorkerProcess: true,
+              },
               supportedFunctionsExtensionVersions: ['~1', '~2'],
               isDeprecated: true,
               endOfLifeDate: node8EOL,
