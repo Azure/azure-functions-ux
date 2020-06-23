@@ -4,7 +4,7 @@ type FunctionsWorkerRuntime = 'dotnet' | 'node' | 'python' | 'java' | 'powershel
 
 export interface FunctionAppStack {
   displayText: string;
-  value: string;
+  value: FunctionsWorkerRuntime;
   majorVersions: FunctionAppMajorVersion[];
   preferredOs?: Os;
 }
@@ -34,6 +34,18 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   appSettingsDictionary: AppSettingsDictionary;
   siteConfigPropertiesDictionary: SiteConfigPropertiesDictionary;
   supportedFunctionsExtensionVersions: FunctionsExtensionVersion[];
+}
+
+export interface AppSettingsDictionary {
+  FUNCTIONS_WORKER_RUNTIME: FunctionsWorkerRuntime;
+  WEBSITE_NODE_DEFAULT_VERSION?: string;
+}
+
+export interface SiteConfigPropertiesDictionary {
+  Use32BitWorkerProcess: boolean;
+  linuxFxVersion?: string;
+  JavaVersion?: string;
+  PowerShellVersion?: string;
 }
 
 export interface AppInsightsSettings {
