@@ -1,5 +1,6 @@
 type Os = 'linux' | 'windows';
-type FunctionExtensionVersion = '~1' | '~2' | '~3';
+type FunctionsExtensionVersion = '~1' | '~2' | '~3';
+type FunctionsWorkerRuntime = 'dotnet' | 'node' | 'python' | 'java' | 'powershell';
 
 export interface FunctionAppStack {
   displayText: string;
@@ -30,9 +31,9 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   remoteDebuggingSupported: boolean;
   appInsightsSettings: AppInsightsSettings;
   gitHubActionSettings: GitHubActionSettings;
-  appSettingsDictionary: { [key: string]: any };
-  siteConfigPropertiesDictionary: { [key: string]: any };
-  supportedFunctionsExtensionVersions: FunctionExtensionVersion[];
+  appSettingsDictionary: AppSettingsDictionary;
+  siteConfigPropertiesDictionary: SiteConfigPropertiesDictionary;
+  supportedFunctionsExtensionVersions: FunctionsExtensionVersion[];
 }
 
 export interface AppInsightsSettings {
@@ -43,6 +44,18 @@ export interface AppInsightsSettings {
 export interface GitHubActionSettings {
   isSupported: boolean;
   supportedVersion?: string;
+}
+
+export interface AppSettingsDictionary {
+  FUNCTIONS_WORKER_RUNTIME: FunctionsWorkerRuntime;
+  WEBSITE_NODE_DEFAULT_VERSION?: string;
+}
+
+export interface SiteConfigPropertiesDictionary {
+  Use32BitWorkerProcess?: boolean;
+  linuxFxVersion?: string;
+  JavaVersion?: string;
+  PowerShellVersion?: string;
 }
 
 export interface CommonSettings {

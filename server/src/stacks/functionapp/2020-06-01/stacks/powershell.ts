@@ -12,7 +12,25 @@ export const powershellStack: FunctionAppStack = {
         {
           displayText: 'PowerShell Core 7.0',
           value: '7.0',
-          stackSettings: {},
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '~7',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'powershell',
+              },
+              siteConfigPropertiesDictionary: {
+                PowerShellVersion: '~7',
+              },
+              supportedFunctionsExtensionVersions: ['~3'],
+            },
+          },
         },
       ],
     },
@@ -23,7 +41,25 @@ export const powershellStack: FunctionAppStack = {
         {
           displayText: 'PowerShell Core 6.2',
           value: '6.2',
-          stackSettings: {},
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '~6',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'powershell',
+              },
+              siteConfigPropertiesDictionary: {
+                PowerShellVersion: '~7',
+              },
+              supportedFunctionsExtensionVersions: ['~2', '~3'],
+            },
+          },
         },
       ],
     },
