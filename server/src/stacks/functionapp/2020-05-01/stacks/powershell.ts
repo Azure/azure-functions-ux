@@ -23,7 +23,7 @@ export const powershellStack: FunctionAppStack = {
             FUNCTIONS_WORKER_RUNTIME: 'powershell',
           },
           siteConfigPropertiesDictionary: {
-            PowerShellVersion: '~7',
+            powerShellVersion: '~7',
           },
         },
       ],
@@ -46,7 +46,7 @@ export const powershellStack: FunctionAppStack = {
             FUNCTIONS_WORKER_RUNTIME: 'powershell',
           },
           siteConfigPropertiesDictionary: {
-            PowerShellVersion: '~6',
+            powerShellVersion: '~6',
           },
         },
       ],
