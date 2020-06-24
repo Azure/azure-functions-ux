@@ -1,17 +1,17 @@
-import { FunctionAppStacksService20200501 } from '../../../../stacks/functionapp/2020-05-01/stacks.service';
+import { FunctionAppStacksService20200601 } from '../../../../stacks/functionapp/2020-06-01/stacks.service';
 import {
   validateAllStackLength,
   validateDotnetCoreStack,
   validateNodeStack,
   validatePythonStack,
-  validateJava8Stack,
-  validatePowershellCoreStack,
-  validateJava11Stack,
+  validateJavaStack,
+  validatePowershellStack,
+  validateDotnetFrameworkStack,
 } from './validations';
 
-const functionAppStacksService = new FunctionAppStacksService20200501();
+const functionAppStacksService = new FunctionAppStacksService20200601();
 
-describe('FunctionApp Stacks Test 2020-05-01', () => {
+describe('FunctionApp Stacks Test 2020-06-01', () => {
   // Test length of all stacks
   describe('Test all stack length', () => {
     it('should validate all stacks are returned', done => {
@@ -31,8 +31,8 @@ describe('FunctionApp Stacks Test 2020-05-01', () => {
   });
 
   // Test Node stack
-  describe('Test the Node stack', () => {
-    it('should validate the Node stack', done => {
+  describe('Test the Node.js stack', () => {
+    it('should validate the Node.js stack', done => {
       const stacks = functionAppStacksService.getStacks();
       validateNodeStack(stacks);
       done();
@@ -48,29 +48,29 @@ describe('FunctionApp Stacks Test 2020-05-01', () => {
     });
   });
 
-  // Test Java 8 stack
-  describe('Test the Java 8 stack', () => {
-    it('should validate the Java 8 stack', done => {
+  // Test Java stack
+  describe('Test the Java stack', () => {
+    it('should validate the Java stack', done => {
       const stacks = functionAppStacksService.getStacks();
-      validateJava8Stack(stacks);
+      validateJavaStack(stacks);
       done();
     });
   });
 
-  // Test Java 11 stack
-  describe('Test the Java 11 stack', () => {
-    it('should validate the Java 11 stack', done => {
+  // Test PowerShell stack
+  describe('Test the PowerShell stack', () => {
+    it('should validate the PowerShell stack', done => {
       const stacks = functionAppStacksService.getStacks();
-      validateJava11Stack(stacks);
+      validatePowershellStack(stacks);
       done();
     });
   });
 
-  // Test PowerShell Core stack
-  describe('Test the PowerShell Core stack', () => {
-    it('should validate the PowerShell Core stack', done => {
+  // Test .NET Framework stack
+  describe('Test the .NET Framework stack', () => {
+    it('should validate the .NET Framework stack', done => {
       const stacks = functionAppStacksService.getStacks();
-      validatePowershellCoreStack(stacks);
+      validateDotnetFrameworkStack(stacks);
       done();
     });
   });

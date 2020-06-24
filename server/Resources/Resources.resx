@@ -6483,4 +6483,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="durableFunctionNoDataFound" xml:space="preserve">
         <value>No data found. Please make sure you install the latest Durable Functions extension (.NET) or use V2 of extension bundles.</value>
     </data>
+    <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
+        <value>Learn more about flex stamps.</value>
+    </data>
+    <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about Ootgoing IP addresses.</value>
+    </data>
+    <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about app service plan density.</value>
+    </data>
 </root>

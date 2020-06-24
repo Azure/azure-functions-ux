@@ -80,6 +80,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [isOnChangeConfirmDialogVisible, setIsOnChangeConfirmDialogVisible] = useState(false);
   const [onChangeEnvironment, setOnChangeEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
+  const [columns, setColumns] = useState<IColumn[]>([]);
 
   const { t } = useTranslation();
 
@@ -223,7 +224,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     }
     if (column.key === 'name') {
       column.className = '';
-      if (isEnvironmentVariableDirty(index)) {
+      if (isEnvironmentVariableDirty(item)) {
         column.className = dirtyElementStyle(theme);
       }
       return (
@@ -243,7 +244,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
-  const getColumns = (): IColumn[] => {
+  const getDefaultColumns = (): IColumn[] => {
     return [
       {
         key: 'name',
@@ -255,7 +256,10 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         data: 'string',
         isPadded: true,
         isResizable: true,
+        isSortedDescending: false,
+        isSorted: true,
         onRender: onRenderColumnItem,
+        onColumnClick: onColumnClick,
       },
       {
         key: 'value',
@@ -267,6 +271,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         isPadded: true,
         isResizable: true,
         onRender: onRenderColumnItem,
+        onColumnClick: onColumnClick,
       },
       {
         key: 'delete',
@@ -294,6 +299,34 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     ];
   };
 
+  const onColumnClick = (ev: React.MouseEvent<HTMLElement>, column: IColumn) => {
+    const currColumn = columns.filter(currCol => column.key === currCol.key)[0];
+    updateColumnSortOrder(currColumn);
+    sortEnvironmentVariablesByColumn(currColumn);
+  };
+
+  const updateColumnSortOrder = (currColumn: IColumn) => {
+    const newColumns = [...columns];
+    newColumns.forEach((newCol: IColumn) => {
+      if (newCol === currColumn) {
+        currColumn.isSortedDescending = !currColumn.isSortedDescending;
+        currColumn.isSorted = true;
+      } else {
+        newCol.isSorted = false;
+        newCol.isSortedDescending = true;
+      }
+    });
+    setColumns(newColumns);
+  };
+
+  const sortEnvironmentVariablesByColumn = (currColumn: IColumn) => {
+    const key = currColumn.fieldName! as keyof string;
+    const newEnvironmentVariables = [...environmentVariables].sort((a: EnvironmentVariable, b: EnvironmentVariable) =>
+      (currColumn.isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1
+    );
+    setEnvironmentVariables(newEnvironmentVariables);
+  };
+
   const onDropdownChange = (environment: ArmObj<Environment>) => {
     if (isDirty) {
       setOnChangeEnvironment(environment);
@@ -303,11 +336,10 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     }
   };
 
-  const isEnvironmentVariableDirty = (index: number): boolean => {
+  const isEnvironmentVariableDirty = (item: EnvironmentVariable): boolean => {
     const initialEnvironmentVariables = getInitialEnvironmentVariables();
-    const currentRow = environmentVariables[index];
     const currentEnvironmentVariableIndex = initialEnvironmentVariables.findIndex(x => {
-      return x.name.toLowerCase() === currentRow.name.toLowerCase() && x.value.toLowerCase() === currentRow.value.toLowerCase();
+      return x.name.toLowerCase() === item.name.toLowerCase() && x.value.toLowerCase() === item.value.toLowerCase();
     });
     return currentEnvironmentVariableIndex < 0;
   };
@@ -331,8 +363,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const updateEnvironmentVariable = (updatedEnvironmentVariables: EnvironmentVariable[]) => {
-    const sortedUpdatedEnvironmentVariables = sort(updatedEnvironmentVariables);
-    setEnvironmentVariables([...sortedUpdatedEnvironmentVariables]);
+    setEnvironmentVariables([...updatedEnvironmentVariables]);
   };
 
   const sort = (environmentVariables: EnvironmentVariable[]) => {
@@ -357,10 +388,14 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     const initialEnvironmentVariables = getInitialEnvironmentVariables();
     return (
       newEnvironmentVariables.length !== initialEnvironmentVariables.length ||
-      newEnvironmentVariables.filter((environmentVariable, index) => {
+      newEnvironmentVariables.filter(environmentVariable => {
         return (
-          environmentVariable.name.toLocaleLowerCase() !== initialEnvironmentVariables[index].name.toLocaleLowerCase() ||
-          environmentVariable.value.toLocaleLowerCase() !== initialEnvironmentVariables[index].value.toLocaleLowerCase()
+          initialEnvironmentVariables.filter(initialEnvironmentVariable => {
+            return (
+              initialEnvironmentVariable.name.toLocaleLowerCase() === environmentVariable.name.toLocaleLowerCase() &&
+              initialEnvironmentVariable.value === environmentVariable.value
+            );
+          }).length === 0
         );
       }).length > 0
     );
@@ -445,6 +480,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEnvironmentVariableResponse]);
+  useEffect(() => {
+    setColumns(getDefaultColumns());
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shownValues, environmentVariables]);
   return (
     <>
       <div className={commandBarSticky}>
@@ -530,7 +570,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         />
         <DisplayTableWithCommandBar
           commandBarItems={getCommandBarItems()}
-          columns={getColumns()}
+          columns={columns}
           items={environmentVariables.filter(environmentVariable => {
             if (!filter) {
               return true;
