@@ -59,3 +59,15 @@ export const deploymentCenterCodeLogsNotConfigured = style({
     },
   },
 });
+
+export const calloutStyle = style({
+  width: '300px',
+});
+
+export const calloutContent = style({
+  margin: '18px 24px 12px',
+});
+
+export const calloutContentButton = style({
+  margin: '18px 12px 10px 0px',
+});

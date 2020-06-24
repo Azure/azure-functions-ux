@@ -1,6 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IDropdownOption, DropdownMenuItemType, Link, MessageBarType } from 'office-ui-fabric-react';
+import {
+  IDropdownOption,
+  DropdownMenuItemType,
+  Link,
+  MessageBarType,
+  DefaultButton,
+  Callout,
+  ChoiceGroup,
+  PrimaryButton,
+} from 'office-ui-fabric-react';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
@@ -8,17 +17,31 @@ import { learnMoreLinkStyle } from '../../../../components/form-controls/formCon
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import { BuildDropdownOption, DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
+import {
+  deploymentCenterInfoBannerDiv,
+  calloutStyle,
+  calloutContent,
+  calloutContentButton,
+  additionalTextFieldControl,
+} from '../DeploymentCenter.styles';
+import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, BuildChoiceGroupOption } from '../DeploymentCenter.types';
 import { Guid } from '../../../../utils/Guid';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
 
   const [selectedBuild, setSelectedBuild] = useState<BuildProvider>(BuildProvider.None);
+  const [selectedBuildChoice, setSelectedBuildChoice] = useState<BuildProvider>(BuildProvider.None);
+  const [isCalloutVisible, setIsCalloutVisible] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+
+  const toggleIsCalloutVisible = () => {
+    setSelectedBuildChoice(selectedBuild);
+    setIsCalloutVisible(!isCalloutVisible);
+  };
 
   const getInProductionSlot = () => {
     return !(deploymentCenterContext.siteDescriptor && deploymentCenterContext.siteDescriptor.slot);
@@ -45,7 +68,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     { key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternal') },
   ];
 
-  const buildOptions: BuildDropdownOption[] = [
+  const buildOptions: BuildChoiceGroupOption[] = [
     { key: BuildProvider.GitHubAction, text: t('deploymentCenterCodeSettingsBuildGitHubAction'), buildType: BuildProvider.GitHubAction },
     {
       key: BuildProvider.AppServiceBuildService,
@@ -54,11 +77,11 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     },
   ];
 
-  const updateSelectedBuild = (e: any, option: BuildDropdownOption) => {
-    setSelectedBuild(option.buildType);
+  const updateSelectedBuild = () => {
+    setSelectedBuild(selectedBuildChoice);
     if (formProps) {
-      formProps.setFieldValue('buildProvider', option.buildType);
-      if (option.buildType === BuildProvider.GitHubAction) {
+      formProps.setFieldValue('buildProvider', selectedBuildChoice);
+      if (selectedBuildChoice === BuildProvider.GitHubAction) {
         formProps.setFieldValue(
           'gitHubPublishProfileSecretGuid',
           Guid.newGuid()
@@ -67,10 +90,12 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         );
       }
     }
+    toggleIsCalloutVisible();
   };
 
-  const isSourceSelected = formProps && formProps.values.sourceProvider !== ScmType.None;
-  const isGitHubSource = formProps && formProps.values.sourceProvider === ScmType.GitHub;
+  const updateSelectedBuildChoiceOption = (e: any, option: BuildChoiceGroupOption) => {
+    setSelectedBuildChoice(option.buildType);
+  };
 
   useEffect(
     () => {
@@ -92,6 +117,11 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     }, // eslint-disable-next-line react-hooks/exhaustive-deps
     formProps ? [formProps.values.sourceProvider] : []
   );
+
+  const isSourceSelected = formProps && formProps.values.sourceProvider !== ScmType.None;
+  const isGitHubSource = formProps && formProps.values.sourceProvider === ScmType.GitHub;
+  const isGitHubActionsBuild = formProps && formProps.values.buildProvider === BuildProvider.GitHubAction;
+  const calloutOkButtonDisabled = selectedBuildChoice && selectedBuildChoice === selectedBuild;
 
   return (
     <>
@@ -125,18 +155,54 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       />
 
       {isSourceSelected && (
-        <Field
-          id="deployment-center-code-settings-build-option"
-          label={t('deploymentCenterSettingsBuildLabel')}
-          name="buildProvider"
-          component={Dropdown}
-          displayInVerticalLayout={true}
-          options={buildOptions}
-          selectedKey={selectedBuild}
-          onChange={updateSelectedBuild}
-          required={true}
-          disabled={!isGitHubSource}
-        />
+        <>
+          {isGitHubSource ? (
+            <>
+              <ReactiveFormControl id="deployment-center-build-provider-text" label={' '}>
+                <div>
+                  {isGitHubActionsBuild ? t('deploymentCenterGitHubActionsBuildDescription') : t('deploymentCenterKuduBuildDescription')}
+                  <Link
+                    key="deployment-center-change-build-provider"
+                    onClick={toggleIsCalloutVisible}
+                    className={additionalTextFieldControl}
+                    aria-label={t('deploymentCenterChangeBuildText')}>
+                    {`${t('deploymentCenterChangeBuildText')}`}
+                  </Link>
+                </div>
+              </ReactiveFormControl>
+              {isCalloutVisible && (
+                <Callout
+                  className={calloutStyle}
+                  role="alertdialog"
+                  gapSpace={0}
+                  target={`.${additionalTextFieldControl}`}
+                  onDismiss={toggleIsCalloutVisible}
+                  setInitialFocus={true}>
+                  <div className={calloutContent}>
+                    <h3>{t('deploymentCenterSettingsBuildLabel')}</h3>
+                    <ChoiceGroup
+                      selectedKey={selectedBuildChoice}
+                      options={buildOptions}
+                      onChange={updateSelectedBuildChoiceOption}
+                      required={true}
+                    />
+                    <PrimaryButton
+                      className={calloutContentButton}
+                      text={t('ok')}
+                      onClick={updateSelectedBuild}
+                      disabled={calloutOkButtonDisabled}
+                    />
+                    <DefaultButton className={calloutContentButton} text={t('cancel')} onClick={toggleIsCalloutVisible} />
+                  </div>
+                </Callout>
+              )}
+            </>
+          ) : (
+            <ReactiveFormControl id="deployment-center-build-provider-text" label={' '}>
+              <div>{t('deploymentCenterKuduBuildDescription')}</div>
+            </ReactiveFormControl>
+          )}
+        </>
       )}
     </>
   );

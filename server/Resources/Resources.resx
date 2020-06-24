@@ -6426,6 +6426,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
         <value>File path</value>
     </data>
+    <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
+        <value>Building with GitHub Actions.</value>
+    </data>
+    <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
+        <value>Building with App Service Build Service.</value>
+    </data>
+    <data name="deploymentCenterChangeBuildText" xml:space="preserve">
+        <value>Change provider.</value>
+    </data>
     <data name="functionMonitor_orchestrations" xml:space="preserve">
         <value>Orchestrations</value>
     </data>
