@@ -1,4 +1,4 @@
-import { WebAppStacksService20200601 } from '../../../../src/stacks/webapp/2020-06-01/stacks.service';
+import { WebAppStacksService20200601 } from '../../../../stacks/webapp/2020-06-01/stacks.service';
 import {
   validateAllStackLength,
   validateWindowsStackLength,

@@ -1,14 +1,14 @@
 import { FunctionAppStack } from '../stack.model';
 
-export const powershellStack: FunctionAppStack = {
-  sortOrder: 4,
-  displayText: 'PowerShell Core',
-  value: 'powershell',
+export const java11Stack: FunctionAppStack = {
+  sortOrder: 1,
+  displayText: 'Java',
+  value: 'java',
   versions: [
     {
       sortOrder: 0,
-      displayText: '7.0',
-      value: '7.0',
+      displayText: '11',
+      value: '11',
       isDefault: true,
       supportedPlatforms: [
         {
@@ -18,35 +18,26 @@ export const powershellStack: FunctionAppStack = {
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,
-          runtimeVersion: '~7',
+          runtimeVersion: '11',
           appSettingsDictionary: {
-            FUNCTIONS_WORKER_RUNTIME: 'powershell',
+            FUNCTIONS_WORKER_RUNTIME: 'java',
           },
-          siteConfigPropertiesDictionary: {
-            PowerShellVersion: '~7',
-          },
+          siteConfigPropertiesDictionary: {},
         },
-      ],
-    },
-    {
-      sortOrder: 1,
-      displayText: '6.2',
-      value: '6.2',
-      isDefault: true,
-      supportedPlatforms: [
         {
-          sortOrder: 0,
-          os: 'windows',
+          sortOrder: 1,
+          os: 'linux',
           isPreview: false,
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,
-          runtimeVersion: '~6',
+          runtimeVersion: 'Java|11',
           appSettingsDictionary: {
-            FUNCTIONS_WORKER_RUNTIME: 'powershell',
+            FUNCTIONS_WORKER_RUNTIME: 'java',
           },
           siteConfigPropertiesDictionary: {
-            PowerShellVersion: '~6',
+            Use32BitWorkerProcess: false,
+            linuxFxVersion: 'Java|11',
           },
         },
       ],
