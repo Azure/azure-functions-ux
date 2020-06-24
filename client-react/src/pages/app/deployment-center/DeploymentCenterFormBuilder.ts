@@ -17,7 +17,7 @@ export abstract class DeploymentCenterFormBuilder {
     this._t = t;
   }
 
-  protected generatePublishingCredentialsFormData() {
+  protected generateCommonFormData() {
     return {
       publishingUsername: this._publishingUser ? this._publishingUser.properties.publishingUserName : '',
       publishingPassword: '',
@@ -29,7 +29,7 @@ export abstract class DeploymentCenterFormBuilder {
     };
   }
 
-  protected generatePublishingCredentailsYupValidationSchema() {
+  protected generateCommonFormYupValidationSchema() {
     // NOTE(michinoy): The password should be at least eight characters long and must contain letters, numbers, and symbol.
     const passwordMinimumRequirementsRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
     const usernameMinLength = 3;

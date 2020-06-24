@@ -83,10 +83,17 @@ export interface DeploymentCenterCodeFormData {
   buildProvider: BuildProvider;
   runtimeStack: string;
   runtimeVersion: string;
+  runtimeRecommendedVersion: string;
+  gitHubPublishProfileSecretGuid: string;
 }
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
   formProps?: FormikProps<DeploymentCenterFormData<T>>;
+}
+
+export interface DeploymentCenterGitHubWorkflowConfigSelectorProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  setGithubActionExistingWorkflowContents: (active: string) => void;
 }
 
 export interface DeploymentCenterContainerLogsProps {
@@ -103,6 +110,12 @@ export interface DeploymentCenterCodeLogsProps {
 
 export interface DeploymentCenterCommitLogsProps {
   commitId?: string;
+}
+
+export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
+  isPreviewFileButtonEnabled: () => boolean;
+  getPreviewPanelContent: () => JSX.Element | undefined;
+  workflowFilePath: string;
 }
 
 export interface DeploymentCenterFtpsProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -228,4 +241,10 @@ export interface WorkflowDropdownOption extends IDropdownOption {
 export interface RuntimeStackSetting {
   runtimeStack: string;
   runtimeVersion: string;
+}
+
+export class WorkflowInformation {
+  fileName: string;
+  secretName: string;
+  content: string;
 }

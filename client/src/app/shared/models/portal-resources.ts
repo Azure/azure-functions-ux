@@ -1872,6 +1872,7 @@ export class PortalResources {
   public static noRuntimeVersionWhileFunctionAppStopped = 'noRuntimeVersionWhileFunctionAppStopped';
   public static githubActionWorkflowsExist = 'githubActionWorkflowsExist';
   public static githubActionWorkflowOptionUseExistingMessageWithoutPreview = 'githubActionWorkflowOptionUseExistingMessageWithoutPreview';
+  public static githubActionWorkflowOptionOverwriteIfConfigExists = 'githubActionWorkflowOptionOverwriteIfConfigExists';
   public static appFilesSaveAriaLabel = 'appFilesSaveAriaLabel';
   public static functionEditorRefreshAriaLabel = 'functionEditorRefreshAriaLabel';
   public static integrateDeleteTriggerConfirmHeader = 'integrateDeleteTriggerConfirmHeader';
@@ -2076,14 +2077,21 @@ export class PortalResources {
   public static deploymentCenterProdSlotWarning = 'deploymentCenterProdSlotWarning';
   public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
   public static deploymentCenterSettingsWorkflowConfigTitle = 'deploymentCenterSettingsWorkflowConfigTitle';
+  public static deploymentCenterSettingsWorkflowConfigPreviewDescription = 'deploymentCenterSettingsWorkflowConfigPreviewDescription';
+  public static deploymentCenterSettingsWorkflowConfigPreviewFileButtonText = 'deploymentCenterSettingsWorkflowConfigPreviewFileButtonText';
+  public static deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo =
+    'deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo';
   public static deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite = 'deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite';
   public static deploymentCenterSettingsGitHubActionWorkflowOptionAdd = 'deploymentCenterSettingsGitHubActionWorkflowOptionAdd';
   public static deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting =
     'deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting';
+  public static deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable =
+    'deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable';
   public static deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder =
     'deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder';
   public static deploymentCenterWorkflowConfigsLoadingAriaValue = 'deploymentCenterWorkflowConfigsLoadingAriaValue';
   public static deploymentCenterWorkflowConfigsLoading = 'deploymentCenterWorkflowConfigsLoading';
+  public static deploymentCenterWorkflowConfigsFilePathLabel = 'deploymentCenterWorkflowConfigsFilePathLabel';
   public static functionMonitor_orchestrations = 'functionMonitor_orchestrations';
   public static functionMonitor_entities = 'functionMonitor_entities';
   public static functionEditor_appInsightsLogs = 'functionEditor_appInsightsLogs';

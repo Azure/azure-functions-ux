@@ -10,6 +10,7 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { BuildDropdownOption, DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
+import { Guid } from '../../../../utils/Guid';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -57,6 +58,14 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     setSelectedBuild(option.buildType);
     if (formProps) {
       formProps.setFieldValue('buildProvider', option.buildType);
+      if (option.buildType === BuildProvider.GitHubAction) {
+        formProps.setFieldValue(
+          'gitHubPublishProfileSecretGuid',
+          Guid.newGuid()
+            .toLowerCase()
+            .replace(/[-]/g, '')
+        );
+      }
     }
   };
 
@@ -73,6 +82,12 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       if (formProps && formProps.values.sourceProvider === ScmType.GitHub) {
         setSelectedBuild(BuildProvider.GitHubAction);
         formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
+        formProps.setFieldValue(
+          'gitHubPublishProfileSecretGuid',
+          Guid.newGuid()
+            .toLowerCase()
+            .replace(/[-]/g, '')
+        );
       }
     }, // eslint-disable-next-line react-hooks/exhaustive-deps
     formProps ? [formProps.values.sourceProvider] : []

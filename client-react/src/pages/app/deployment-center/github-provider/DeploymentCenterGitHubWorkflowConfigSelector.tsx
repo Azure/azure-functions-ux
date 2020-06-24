@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { WorkflowOption, WorkflowDropdownOption, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { WorkflowOption, WorkflowDropdownOption, DeploymentCenterGitHubWorkflowConfigSelectorProps } from '../DeploymentCenter.types';
 import { IDropdownOption, MessageBarType, ProgressIndicator } from 'office-ui-fabric-react';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import Dropdown from '../../../../components/form-controls/DropDown';
@@ -10,8 +10,8 @@ import { getArmToken, getWorkflowFileName } from '../utility/DeploymentCenterUti
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
-const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterFieldProps> = props => {
-  const { formProps } = props;
+const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGitHubWorkflowConfigSelectorProps> = props => {
+  const { formProps, setGithubActionExistingWorkflowContents } = props;
   const { t } = useTranslation();
 
   const [selectedWorkflowConfigOption, setSelectedWorkflowConfigOption] = useState<WorkflowOption | undefined>(undefined);
@@ -39,7 +39,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterFie
     { key: WorkflowOption.Add, text: t('deploymentCenterSettingsGitHubActionWorkflowOptionAdd'), workflowOption: WorkflowOption.Add },
     {
       key: WorkflowOption.UseAvailableWorkflowConfigs,
-      text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting'),
+      text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable'),
       workflowOption: WorkflowOption.UseAvailableWorkflowConfigs,
     },
   ];
@@ -85,6 +85,12 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterFie
             branchName: selectedBranch,
           })
         );
+
+        if (appWorkflowConfigurationResponse.data.content) {
+          setGithubActionExistingWorkflowContents(atob(appWorkflowConfigurationResponse.data.content));
+        } else {
+          setGithubActionExistingWorkflowContents('');
+        }
 
         setWorkflowConfigDropdownOptions(overwriteOrUseExistingOptions);
         setShowWorkflowConfigDropdown(true);

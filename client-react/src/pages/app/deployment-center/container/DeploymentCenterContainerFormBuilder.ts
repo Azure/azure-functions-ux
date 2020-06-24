@@ -25,7 +25,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       password: '',
       command: '',
       cicd: false,
-      ...this.generatePublishingCredentialsFormData(),
+      ...this.generateCommonFormData(),
     };
   }
 
@@ -42,7 +42,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       password: Yup.mixed().notRequired(),
       command: Yup.mixed().notRequired(),
       cicd: Yup.mixed().notRequired(),
-      ...this.generatePublishingCredentailsYupValidationSchema(),
+      ...this.generateCommonFormYupValidationSchema(),
     });
   }
 
