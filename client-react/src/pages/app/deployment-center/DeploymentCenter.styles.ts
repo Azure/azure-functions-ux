@@ -21,6 +21,7 @@ export const deploymentCenterConsole = style({
   padding: '15px',
   borderWidth: 'thin',
   borderStyle: 'solid',
+  overflowWrap: 'break-word',
 });
 
 export const deploymentCenterLogsError = style({

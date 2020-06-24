@@ -115,7 +115,7 @@ export interface DeploymentCenterCommitLogsProps {
 export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
   isPreviewFileButtonEnabled: () => boolean;
   getPreviewPanelContent: () => JSX.Element | undefined;
-  workflowFileName: string;
+  workflowFilePath: string;
 }
 
 export interface DeploymentCenterFtpsProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>

@@ -118,6 +118,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   const getRuntimeStackRecommendedVersion = (stackValue: string, runtimeVersionValue: string): string => {
     const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === selectedRuntime);
     if (runtimeStack) {
+      // NOTE(t-kakan): list should already be filtered by OS, so the supportedPlatforms[0] should be only element available
       const runtimeStackVersion = runtimeStack.versions.find(
         version => version.supportedPlatforms[0].runtimeVersion === runtimeVersionValue
       );
@@ -186,14 +187,16 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     if (formProps && formProps.values.buildProvider === BuildProvider.GitHubAction && defaultStack && runtimeStackOptions.length >= 1) {
       const appSelectedStack = runtimeStackOptions.filter(item => item.key.toString() === defaultStack.toLocaleLowerCase());
 
+      const appSelectedStackKey = appSelectedStack[0].key.toString();
+
       if (appSelectedStack && appSelectedStack.length === 1) {
         setStackNotSupportedMessage('');
         setStackMismatchMessage('');
-        setSelectedRuntime(appSelectedStack[0].key.toString());
+        setSelectedRuntime(appSelectedStackKey);
         if (formProps) {
-          formProps.setFieldValue('runtimeStack', appSelectedStack[0].key.toString());
+          formProps.setFieldValue('runtimeStack', appSelectedStackKey);
         }
-        populateVersionDropdown(appSelectedStack[0].key.toString());
+        populateVersionDropdown(appSelectedStackKey);
       } else {
         updateStackNotSupportedMessage();
       }

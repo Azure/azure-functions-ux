@@ -5790,6 +5790,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
         <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
     </data>
+    <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
+        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+    </data>
     <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>Refresh app files</value>
     </data>
