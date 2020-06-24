@@ -158,7 +158,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         <>
           {isGitHubSource ? (
             <>
-              <ReactiveFormControl id="deployment-center-build-provider-text" label={' '}>
+              <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
                 <div>
                   {isGitHubActionsBuild ? t('deploymentCenterGitHubActionsBuildDescription') : t('deploymentCenterKuduBuildDescription')}
                   <Link
@@ -198,7 +198,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
               )}
             </>
           ) : (
-            <ReactiveFormControl id="deployment-center-build-provider-text" label={' '}>
+            <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
               <div>{t('deploymentCenterKuduBuildDescription')}</div>
             </ReactiveFormControl>
           )}
