@@ -27,7 +27,7 @@ export const pythonStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'python',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: false,
+                use32BitWorkerProcess: false,
                 linuxFxVersion: 'Python|3.8',
               },
               supportedFunctionsExtensionVersions: ['~3'],
@@ -52,7 +52,7 @@ export const pythonStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'python',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: false,
+                use32BitWorkerProcess: false,
                 linuxFxVersion: 'Python|3.7',
               },
               supportedFunctionsExtensionVersions: ['~2', '~3'],
@@ -77,7 +77,7 @@ export const pythonStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'python',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: false,
+                use32BitWorkerProcess: false,
                 linuxFxVersion: 'Python|3.6',
               },
               supportedFunctionsExtensionVersions: ['~2', '~3'],

@@ -26,8 +26,8 @@ export const powershellStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'powershell',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: true,
-                PowerShellVersion: '~7',
+                use32BitWorkerProcess: true,
+                powerShellVersion: '~7',
               },
               supportedFunctionsExtensionVersions: ['~3'],
             },
@@ -56,8 +56,8 @@ export const powershellStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'powershell',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: true,
-                PowerShellVersion: '~6',
+                use32BitWorkerProcess: true,
+                powerShellVersion: '~6',
               },
               supportedFunctionsExtensionVersions: ['~2', '~3'],
             },

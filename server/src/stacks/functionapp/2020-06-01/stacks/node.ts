@@ -28,7 +28,7 @@ export const nodeStack: FunctionAppStack = {
                 WEBSITE_NODE_DEFAULT_VERSION: '~12',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: true,
+                use32BitWorkerProcess: true,
               },
               supportedFunctionsExtensionVersions: ['~3'],
             },
@@ -46,7 +46,7 @@ export const nodeStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'node',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: false,
+                use32BitWorkerProcess: false,
                 linuxFxVersion: 'Node|12',
               },
               supportedFunctionsExtensionVersions: ['~3'],
@@ -78,7 +78,7 @@ export const nodeStack: FunctionAppStack = {
                 WEBSITE_NODE_DEFAULT_VERSION: '~10',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: true,
+                use32BitWorkerProcess: true,
               },
               supportedFunctionsExtensionVersions: ['~2', '~3'],
             },
@@ -96,7 +96,7 @@ export const nodeStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'node',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: false,
+                use32BitWorkerProcess: false,
                 linuxFxVersion: 'Node|10',
               },
               supportedFunctionsExtensionVersions: ['~2', '~3'],
@@ -128,7 +128,7 @@ export const nodeStack: FunctionAppStack = {
                 WEBSITE_NODE_DEFAULT_VERSION: '~8',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: true,
+                use32BitWorkerProcess: true,
               },
               supportedFunctionsExtensionVersions: ['~2'],
             },
@@ -157,7 +157,7 @@ export const nodeStack: FunctionAppStack = {
                 WEBSITE_NODE_DEFAULT_VERSION: '~6',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: true,
+                use32BitWorkerProcess: true,
               },
               supportedFunctionsExtensionVersions: ['~1'],
             },
