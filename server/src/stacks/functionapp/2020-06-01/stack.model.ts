@@ -52,10 +52,10 @@ export interface AppSettingsDictionary {
 }
 
 export interface SiteConfigPropertiesDictionary {
-  Use32BitWorkerProcess: boolean;
+  use32BitWorkerProcess: boolean;
   linuxFxVersion?: string;
-  JavaVersion?: string;
-  PowerShellVersion?: string;
+  javaVersion?: string;
+  powerShellVersion?: string;
 }
 
 export interface CommonSettings {

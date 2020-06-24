@@ -24,7 +24,7 @@ export const dotnetFrameworkStack: FunctionAppStack = {
               },
               appSettingsDictionary: {},
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: true,
+                use32BitWorkerProcess: true,
               },
               supportedFunctionsExtensionVersions: ['~1'],
             },
