@@ -4,9 +4,8 @@ import {
   validateDotnetCoreStack,
   validateNodeStack,
   validatePythonStack,
-  validateJava8Stack,
+  validateJavaStack,
   validatePowershellCoreStack,
-  validateJava11Stack,
 } from './validations';
 
 const functionAppStacksService = new FunctionAppStacksService20200501();
@@ -48,20 +47,11 @@ describe('FunctionApp Stacks Test 2020-05-01', () => {
     });
   });
 
-  // Test Java 8 stack
-  describe('Test the Java 8 stack', () => {
-    it('should validate the Java 8 stack', done => {
+  // Test Java stack
+  describe('Test the Java stack', () => {
+    it('should validate the Java stack', done => {
       const stacks = functionAppStacksService.getStacks();
-      validateJava8Stack(stacks);
-      done();
-    });
-  });
-
-  // Test Java 11 stack
-  describe('Test the Java 11 stack', () => {
-    it('should validate the Java 11 stack', done => {
-      const stacks = functionAppStacksService.getStacks();
-      validateJava11Stack(stacks);
+      validateJavaStack(stacks);
       done();
     });
   });
