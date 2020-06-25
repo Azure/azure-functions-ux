@@ -2,8 +2,8 @@ import { FunctionAppStack } from '../stack.model';
 
 export const java11Stack: FunctionAppStack = {
   sortOrder: 1,
-  displayText: 'Java',
-  value: 'java',
+  displayText: 'Java 11',
+  value: 'java11',
   versions: [
     {
       sortOrder: 0,

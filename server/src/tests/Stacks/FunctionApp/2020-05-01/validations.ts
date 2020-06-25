@@ -36,8 +36,8 @@ export function validatePythonStack(stacks) {
 export function validateJava8Stack(stacks) {
   validateAllStackLength(stacks);
   const java8Stack = stacks[3];
-  expect(java8Stack.displayText).to.equal('Java');
-  expect(java8Stack.value).to.equal('java');
+  expect(java8Stack.displayText).to.equal('Java 8');
+  expect(java8Stack.value).to.equal('java8');
   expect(java8Stack.sortOrder).to.equal(2);
   expect(java8Stack.versions.length).to.equal(1);
 }
@@ -45,8 +45,8 @@ export function validateJava8Stack(stacks) {
 export function validateJava11Stack(stacks) {
   validateAllStackLength(stacks);
   const java8Stack = stacks[4];
-  expect(java8Stack.displayText).to.equal('Java');
-  expect(java8Stack.value).to.equal('java');
+  expect(java8Stack.displayText).to.equal('Java 11');
+  expect(java8Stack.value).to.equal('java11');
   expect(java8Stack.sortOrder).to.equal(1);
   expect(java8Stack.versions.length).to.equal(1);
 }
