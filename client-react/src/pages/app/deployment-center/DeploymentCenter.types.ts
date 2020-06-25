@@ -6,7 +6,7 @@ import { ScmType, BuildProvider } from '../../../models/site/config';
 import moment from 'moment';
 import { Uri } from 'monaco-editor';
 import { GitHubUser } from '../../../models/github';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption, IChoiceGroupOption } from 'office-ui-fabric-react';
 
 export enum ContainerOptions {
   docker = 'docker',
@@ -175,6 +175,14 @@ export interface DeploymentCenterReadOnlySettingsProps {
   disconnect: () => void;
 }
 
+export interface DeploymentCenterCodeBuildCalloutProps {
+  selectedBuildChoice: BuildProvider;
+  updateSelectedBuildChoiceOption: (e: any, option: BuildChoiceGroupOption) => void;
+  calloutOkButtonDisabled: boolean;
+  toggleIsCalloutVisible: () => void;
+  updateSelectedBuild: () => void;
+}
+
 export interface AuthorizationResult {
   timerId: NodeJS.Timeout;
   redirectUrl?: string;
@@ -230,7 +238,7 @@ export interface CodeDeploymentsRow {
   status: string;
 }
 
-export interface BuildDropdownOption extends IDropdownOption {
+export interface BuildChoiceGroupOption extends IChoiceGroupOption {
   buildType: BuildProvider;
 }
 

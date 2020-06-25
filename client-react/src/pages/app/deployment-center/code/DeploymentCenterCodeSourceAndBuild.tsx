@@ -8,17 +8,26 @@ import { learnMoreLinkStyle } from '../../../../components/form-controls/formCon
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import { BuildDropdownOption, DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
+import { deploymentCenterInfoBannerDiv, additionalTextFieldControl } from '../DeploymentCenter.styles';
+import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, BuildChoiceGroupOption } from '../DeploymentCenter.types';
 import { Guid } from '../../../../utils/Guid';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import DeploymentCenterCodeBuildCallout from './DeploymentCenterCodeBuildCallout';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
 
   const [selectedBuild, setSelectedBuild] = useState<BuildProvider>(BuildProvider.None);
+  const [selectedBuildChoice, setSelectedBuildChoice] = useState<BuildProvider>(BuildProvider.None);
+  const [isCalloutVisible, setIsCalloutVisible] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+
+  const toggleIsCalloutVisible = () => {
+    setSelectedBuildChoice(selectedBuild);
+    setIsCalloutVisible(!isCalloutVisible);
+  };
 
   const getInProductionSlot = () => {
     return !(deploymentCenterContext.siteDescriptor && deploymentCenterContext.siteDescriptor.slot);
@@ -45,20 +54,11 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     { key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternal') },
   ];
 
-  const buildOptions: BuildDropdownOption[] = [
-    { key: BuildProvider.GitHubAction, text: t('deploymentCenterCodeSettingsBuildGitHubAction'), buildType: BuildProvider.GitHubAction },
-    {
-      key: BuildProvider.AppServiceBuildService,
-      text: t('deploymentCenterCodeSettingsBuildKudu'),
-      buildType: BuildProvider.AppServiceBuildService,
-    },
-  ];
-
-  const updateSelectedBuild = (e: any, option: BuildDropdownOption) => {
-    setSelectedBuild(option.buildType);
+  const updateSelectedBuild = () => {
+    setSelectedBuild(selectedBuildChoice);
     if (formProps) {
-      formProps.setFieldValue('buildProvider', option.buildType);
-      if (option.buildType === BuildProvider.GitHubAction) {
+      formProps.setFieldValue('buildProvider', selectedBuildChoice);
+      if (selectedBuildChoice === BuildProvider.GitHubAction) {
         formProps.setFieldValue(
           'gitHubPublishProfileSecretGuid',
           Guid.newGuid()
@@ -67,10 +67,12 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         );
       }
     }
+    toggleIsCalloutVisible();
   };
 
-  const isSourceSelected = formProps && formProps.values.sourceProvider !== ScmType.None;
-  const isGitHubSource = formProps && formProps.values.sourceProvider === ScmType.GitHub;
+  const updateSelectedBuildChoiceOption = (e: any, option: BuildChoiceGroupOption) => {
+    setSelectedBuildChoice(option.buildType);
+  };
 
   useEffect(
     () => {
@@ -92,6 +94,29 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     }, // eslint-disable-next-line react-hooks/exhaustive-deps
     formProps ? [formProps.values.sourceProvider] : []
   );
+
+  const isSourceSelected = formProps && formProps.values.sourceProvider !== ScmType.None;
+  const isGitHubSource = formProps && formProps.values.sourceProvider === ScmType.GitHub;
+  const isGitHubActionsBuild = formProps && formProps.values.buildProvider === BuildProvider.GitHubAction;
+  const calloutOkButtonDisabled = selectedBuildChoice === selectedBuild;
+
+  const getBuildDescription = () => {
+    return isGitHubActionsBuild ? t('deploymentCenterGitHubActionsBuildDescription') : t('deploymentCenterKuduBuildDescription');
+  };
+
+  const getCalloutContent = () => {
+    return (
+      isCalloutVisible && (
+        <DeploymentCenterCodeBuildCallout
+          selectedBuildChoice={selectedBuildChoice}
+          updateSelectedBuildChoiceOption={updateSelectedBuildChoiceOption}
+          calloutOkButtonDisabled={calloutOkButtonDisabled}
+          toggleIsCalloutVisible={toggleIsCalloutVisible}
+          updateSelectedBuild={updateSelectedBuild}
+        />
+      )
+    );
+  };
 
   return (
     <>
@@ -124,20 +149,28 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         required={true}
       />
 
-      {isSourceSelected && (
-        <Field
-          id="deployment-center-code-settings-build-option"
-          label={t('deploymentCenterSettingsBuildLabel')}
-          name="buildProvider"
-          component={Dropdown}
-          displayInVerticalLayout={true}
-          options={buildOptions}
-          selectedKey={selectedBuild}
-          onChange={updateSelectedBuild}
-          required={true}
-          disabled={!isGitHubSource}
-        />
-      )}
+      {isSourceSelected &&
+        (isGitHubSource ? (
+          <>
+            <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
+              <div>
+                {getBuildDescription()}
+                <Link
+                  key="deployment-center-change-build-provider"
+                  onClick={toggleIsCalloutVisible}
+                  className={additionalTextFieldControl}
+                  aria-label={t('deploymentCenterChangeBuildText')}>
+                  {`${t('deploymentCenterChangeBuildText')}`}
+                </Link>
+              </div>
+            </ReactiveFormControl>
+            {getCalloutContent()}
+          </>
+        ) : (
+          <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
+            <div>{getBuildDescription()}</div>
+          </ReactiveFormControl>
+        ))}
     </>
   );
 };

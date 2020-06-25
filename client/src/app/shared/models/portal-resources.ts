@@ -2092,6 +2092,9 @@ export class PortalResources {
   public static deploymentCenterWorkflowConfigsLoadingAriaValue = 'deploymentCenterWorkflowConfigsLoadingAriaValue';
   public static deploymentCenterWorkflowConfigsLoading = 'deploymentCenterWorkflowConfigsLoading';
   public static deploymentCenterWorkflowConfigsFilePathLabel = 'deploymentCenterWorkflowConfigsFilePathLabel';
+  public static deploymentCenterGitHubActionsBuildDescription = 'deploymentCenterGitHubActionsBuildDescription';
+  public static deploymentCenterKuduBuildDescription = 'deploymentCenterKuduBuildDescription';
+  public static deploymentCenterChangeBuildText = 'deploymentCenterChangeBuildText';
   public static functionMonitor_orchestrations = 'functionMonitor_orchestrations';
   public static functionMonitor_entities = 'functionMonitor_entities';
   public static functionEditor_appInsightsLogs = 'functionEditor_appInsightsLogs';
