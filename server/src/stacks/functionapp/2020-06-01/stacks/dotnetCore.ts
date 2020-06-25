@@ -27,7 +27,7 @@ export const dotnetCoreStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'dotnet',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: true,
+                use32BitWorkerProcess: true,
               },
               supportedFunctionsExtensionVersions: ['~3'],
             },
@@ -45,7 +45,7 @@ export const dotnetCoreStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'dotnet',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: false,
+                use32BitWorkerProcess: false,
                 linuxFxVersion: 'dotnet|3.1',
               },
               supportedFunctionsExtensionVersions: ['~3'],
@@ -76,7 +76,7 @@ export const dotnetCoreStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'dotnet',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: true,
+                use32BitWorkerProcess: true,
               },
               supportedFunctionsExtensionVersions: ['~2'],
             },
@@ -94,7 +94,7 @@ export const dotnetCoreStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'dotnet',
               },
               siteConfigPropertiesDictionary: {
-                Use32BitWorkerProcess: false,
+                use32BitWorkerProcess: false,
                 linuxFxVersion: 'dotnet|2.2',
               },
               supportedFunctionsExtensionVersions: ['~2'],

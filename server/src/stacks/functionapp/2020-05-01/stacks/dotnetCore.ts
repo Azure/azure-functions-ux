@@ -36,7 +36,7 @@ export const dotnetCoreStack: FunctionAppStack = {
             FUNCTIONS_WORKER_RUNTIME: 'dotnet',
           },
           siteConfigPropertiesDictionary: {
-            Use32BitWorkerProcess: false,
+            use32BitWorkerProcess: false,
             linuxFxVersion: 'dotnet|3.1',
           },
         },
