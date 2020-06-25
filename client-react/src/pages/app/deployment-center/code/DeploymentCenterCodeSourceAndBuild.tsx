@@ -1,15 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  IDropdownOption,
-  DropdownMenuItemType,
-  Link,
-  MessageBarType,
-  DefaultButton,
-  Callout,
-  ChoiceGroup,
-  PrimaryButton,
-} from 'office-ui-fabric-react';
+import { IDropdownOption, DropdownMenuItemType, Link, MessageBarType } from 'office-ui-fabric-react';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
@@ -17,16 +8,11 @@ import { learnMoreLinkStyle } from '../../../../components/form-controls/formCon
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import {
-  deploymentCenterInfoBannerDiv,
-  calloutStyle,
-  calloutContent,
-  calloutContentButton,
-  additionalTextFieldControl,
-} from '../DeploymentCenter.styles';
+import { deploymentCenterInfoBannerDiv, additionalTextFieldControl } from '../DeploymentCenter.styles';
 import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, BuildChoiceGroupOption } from '../DeploymentCenter.types';
 import { Guid } from '../../../../utils/Guid';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import DeploymentCenterCodeBuildCallout from './DeploymentCenterCodeBuildCallout';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -66,15 +52,6 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     { key: ScmType.OneDrive, text: t('deploymentCenterCodeSettingsSourceOneDrive') },
     { key: ScmType.Dropbox, text: t('deploymentCenterCodeSettingsSourceDropbox') },
     { key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternal') },
-  ];
-
-  const buildOptions: BuildChoiceGroupOption[] = [
-    { key: BuildProvider.GitHubAction, text: t('deploymentCenterCodeSettingsBuildGitHubAction'), buildType: BuildProvider.GitHubAction },
-    {
-      key: BuildProvider.AppServiceBuildService,
-      text: t('deploymentCenterCodeSettingsBuildKudu'),
-      buildType: BuildProvider.AppServiceBuildService,
-    },
   ];
 
   const updateSelectedBuild = () => {
@@ -121,7 +98,25 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const isSourceSelected = formProps && formProps.values.sourceProvider !== ScmType.None;
   const isGitHubSource = formProps && formProps.values.sourceProvider === ScmType.GitHub;
   const isGitHubActionsBuild = formProps && formProps.values.buildProvider === BuildProvider.GitHubAction;
-  const calloutOkButtonDisabled = selectedBuildChoice && selectedBuildChoice === selectedBuild;
+  const calloutOkButtonDisabled = selectedBuildChoice === selectedBuild;
+
+  const getBuildDescription = () => {
+    return isGitHubActionsBuild ? t('deploymentCenterGitHubActionsBuildDescription') : t('deploymentCenterKuduBuildDescription');
+  };
+
+  const getCalloutContent = () => {
+    return (
+      isCalloutVisible && (
+        <DeploymentCenterCodeBuildCallout
+          selectedBuildChoice={selectedBuildChoice}
+          updateSelectedBuildChoiceOption={updateSelectedBuildChoiceOption}
+          calloutOkButtonDisabled={calloutOkButtonDisabled}
+          toggleIsCalloutVisible={toggleIsCalloutVisible}
+          updateSelectedBuild={updateSelectedBuild}
+        />
+      )
+    );
+  };
 
   return (
     <>
@@ -154,56 +149,28 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         required={true}
       />
 
-      {isSourceSelected && (
-        <>
-          {isGitHubSource ? (
-            <>
-              <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
-                <div>
-                  {isGitHubActionsBuild ? t('deploymentCenterGitHubActionsBuildDescription') : t('deploymentCenterKuduBuildDescription')}
-                  <Link
-                    key="deployment-center-change-build-provider"
-                    onClick={toggleIsCalloutVisible}
-                    className={additionalTextFieldControl}
-                    aria-label={t('deploymentCenterChangeBuildText')}>
-                    {`${t('deploymentCenterChangeBuildText')}`}
-                  </Link>
-                </div>
-              </ReactiveFormControl>
-              {isCalloutVisible && (
-                <Callout
-                  className={calloutStyle}
-                  role="alertdialog"
-                  gapSpace={0}
-                  target={`.${additionalTextFieldControl}`}
-                  onDismiss={toggleIsCalloutVisible}
-                  setInitialFocus={true}>
-                  <div className={calloutContent}>
-                    <h3>{t('deploymentCenterSettingsBuildLabel')}</h3>
-                    <ChoiceGroup
-                      selectedKey={selectedBuildChoice}
-                      options={buildOptions}
-                      onChange={updateSelectedBuildChoiceOption}
-                      required={true}
-                    />
-                    <PrimaryButton
-                      className={calloutContentButton}
-                      text={t('ok')}
-                      onClick={updateSelectedBuild}
-                      disabled={calloutOkButtonDisabled}
-                    />
-                    <DefaultButton className={calloutContentButton} text={t('cancel')} onClick={toggleIsCalloutVisible} />
-                  </div>
-                </Callout>
-              )}
-            </>
-          ) : (
+      {isSourceSelected &&
+        (isGitHubSource ? (
+          <>
             <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
-              <div>{t('deploymentCenterKuduBuildDescription')}</div>
+              <div>
+                {getBuildDescription()}
+                <Link
+                  key="deployment-center-change-build-provider"
+                  onClick={toggleIsCalloutVisible}
+                  className={additionalTextFieldControl}
+                  aria-label={t('deploymentCenterChangeBuildText')}>
+                  {`${t('deploymentCenterChangeBuildText')}`}
+                </Link>
+              </div>
             </ReactiveFormControl>
-          )}
-        </>
-      )}
+            {getCalloutContent()}
+          </>
+        ) : (
+          <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
+            <div>{getBuildDescription()}</div>
+          </ReactiveFormControl>
+        ))}
     </>
   );
 };

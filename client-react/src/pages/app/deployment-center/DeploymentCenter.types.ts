@@ -175,6 +175,14 @@ export interface DeploymentCenterReadOnlySettingsProps {
   disconnect: () => void;
 }
 
+export interface DeploymentCenterCodeBuildCalloutProps {
+  selectedBuildChoice: BuildProvider;
+  updateSelectedBuildChoiceOption: (e: any, option: BuildChoiceGroupOption) => void;
+  calloutOkButtonDisabled: boolean;
+  toggleIsCalloutVisible: () => void;
+  updateSelectedBuild: () => void;
+}
+
 export interface AuthorizationResult {
   timerId: NodeJS.Timeout;
   redirectUrl?: string;
