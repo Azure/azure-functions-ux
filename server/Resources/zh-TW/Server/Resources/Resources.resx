@@ -5787,6 +5787,9 @@
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
         <value>GitHub 中現有的工作流程設定會用於建置及部署。</value>
     </data>
+  <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
+        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+    </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>重新整理應用程式檔案</value>
     </data>
@@ -6103,7 +6106,7 @@
         <value>系統金鑰由 Functions 執行階段自動管理。系統金鑰可提供 Functions 執行階段功能的細微存取權。</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>Function keys are scoped to this function and can be used to access this function.</value>
+        <value>函式金鑰的範圍限定為此函式，並可用於存取此函式。</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
         <value>應用程式設定僅適用於至少有一個函式的靜態 Web Apps。請在您的應用程式中新增函式以啟用設定。</value>
@@ -6376,9 +6379,123 @@
         <value>Application Insights 支援之新記錄功能的實用程度如何?</value>
     </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
-        <value>If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.</value>
+        <value>若找不到組織或存放庫，則必須對 GitHub 啟用其他權限。</value>
     </data>
   <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
-        <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
+        <value>您現在處於生產位置，不建議設定 CI/CD。</value>
+    </data>
+  <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
+        <value>找不到 GitHub 權杖，按一下 [授權] 即可設定 GitHub 權杖。</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigTitle" xml:space="preserve">
+        <value>工作流程設定</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
+        <value>File with the workflow configuration defined by the settings above.</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
+        <value>Preview file</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
+        <value>Fill out the required settings above to enable the preview.</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>覆寫存放庫中的工作流程</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
+        <value>在存放庫中新增工作流程</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>使用現有的存放庫工作流程</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
+        <value>Use available repository workflow</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
+        <value>選取工作流程選項</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoadingAriaValue" xml:space="preserve">
+        <value>正在載入工作流程設定</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoading" xml:space="preserve">
+        <value>正在載入工作流程設定...</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
+        <value>File path</value>
+    </data>
+  <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
+        <value>Building with GitHub Actions.</value>
+    </data>
+  <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
+        <value>Building with App Service Build Service.</value>
+    </data>
+  <data name="deploymentCenterChangeBuildText" xml:space="preserve">
+        <value>Change provider.</value>
+    </data>
+  <data name="functionMonitor_orchestrations" xml:space="preserve">
+        <value>協調流程</value>
+    </data>
+  <data name="functionMonitor_entities" xml:space="preserve">
+        <value>實體</value>
+    </data>
+  <data name="functionEditor_appInsightsLogs" xml:space="preserve">
+        <value>應用程式見解記錄</value>
+    </data>
+  <data name="functionEditor_fileBasedLogs" xml:space="preserve">
+        <value>檔案系統記錄</value>
+    </data>
+  <data name="functionEditor_fileBasedLogsCalloutMessage" xml:space="preserve">
+        <value>切換至以檔案系統為主的記錄，可能會對函數應用程式的執行階段效能產生影響。如果有網路限制設定 (例如 IP 限制、VNET 等)，可能也會無法正常運作。</value>
+    </data>
+  <data name="orchestrationTracesTableTitle" xml:space="preserve">
+        <value>協調流程追蹤</value>
+    </data>
+  <data name="orchestrationTracesTableDescription" xml:space="preserve">
+        <value>二十個最新的函式協調流程追蹤。如需更多進階分析，請在 Application Insights 中執行查詢。</value>
+    </data>
+  <data name="runtimeStatus" xml:space="preserve">
+        <value>執行階段狀態</value>
+    </data>
+  <data name="instanceId" xml:space="preserve">
+        <value>執行個體識別碼</value>
+    </data>
+  <data name="filterOrchestrations" xml:space="preserve">
+        <value>篩選協調流程</value>
+    </data>
+  <data name="entityTracesTableTitle" xml:space="preserve">
+        <value>實體追蹤</value>
+    </data>
+  <data name="entityTracesTableDescription" xml:space="preserve">
+        <value>二十個最新的函式實體追蹤。如需更多進階分析，請在 Application Insights 中執行查詢。</value>
+    </data>
+  <data name="filterEntities" xml:space="preserve">
+        <value>篩選實體</value>
+    </data>
+  <data name="state" xml:space="preserve">
+        <value>狀態</value>
+    </data>
+  <data name="orchestrationDetails" xml:space="preserve">
+        <value>協調流程詳細資料</value>
+    </data>
+  <data name="failedToFetchRepositories" xml:space="preserve">
+        <value>無法取得存放庫清單。</value>
+    </data>
+  <data name="failedToFetchTags" xml:space="preserve">
+        <value>無法取得標籤清單。</value>
+    </data>
+  <data name="entityDetails" xml:space="preserve">
+        <value>實體詳細資料</value>
+    </data>
+  <data name="durableFunctionNoDataFound" xml:space="preserve">
+        <value>找不到任何資料。請確定您已安裝最新的 Durable Functions 延伸模組 (.NET)，或使用 V2 的延伸模組套件組合。</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
+        <value>Learn more about flex stamps.</value>
+    </data>
+  <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about Ootgoing IP addresses.</value>
+    </data>
+  <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about app service plan density.</value>
     </data>
 </root>
