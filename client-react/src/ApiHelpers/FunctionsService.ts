@@ -1,5 +1,5 @@
 import { HostStatus } from './../models/functions/host-status';
-import { ArmArray, ArmObj } from './../models/arm-obj';
+import { ArmArray, ArmObj, UntrackedArmObj } from './../models/arm-obj';
 import MakeArmCall from './ArmHelper';
 import { FunctionInfo } from '../models/functions/function-info';
 import { sendHttpRequest, getTextHeaders } from './HttpClient';
@@ -36,10 +36,8 @@ export default class FunctionsService {
     const sampleData = filesCopy['sample.dat'];
     delete filesCopy['sample.dat'];
 
-    const functionInfo: ArmObj<FunctionInfo> = {
+    const functionInfo: UntrackedArmObj<FunctionInfo> = {
       id: resourceId,
-      name: '',
-      location: '',
       properties: {
         name: functionName,
         files: filesCopy,
@@ -48,7 +46,7 @@ export default class FunctionsService {
       },
     };
 
-    return MakeArmCall<ArmObj<FunctionInfo>>({
+    return MakeArmCall<UntrackedArmObj<FunctionInfo>>({
       resourceId,
       commandName: 'createFunction',
       method: 'PUT',

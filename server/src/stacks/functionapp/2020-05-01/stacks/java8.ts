@@ -36,7 +36,7 @@ export const java8Stack: FunctionAppStack = {
             FUNCTIONS_WORKER_RUNTIME: 'java',
           },
           siteConfigPropertiesDictionary: {
-            Use32BitWorkerProcess: false,
+            use32BitWorkerProcess: false,
             linuxFxVersion: 'Java|8',
           },
         },
