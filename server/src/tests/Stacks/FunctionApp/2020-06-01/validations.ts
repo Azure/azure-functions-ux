@@ -35,11 +35,11 @@ export function validatePythonStack(stacks) {
 
 export function validateJavaStack(stacks) {
   validateAllStackLength(stacks);
-  const java8Stack = stacks[3];
-  expect(java8Stack.displayText).to.equal('Java');
-  expect(java8Stack.value).to.equal('java');
-  expect(java8Stack.preferredOs).to.equal('windows');
-  expect(java8Stack.majorVersions.length).to.equal(2);
+  const javaStack = stacks[3];
+  expect(javaStack.displayText).to.equal('Java');
+  expect(javaStack.value).to.equal('java');
+  expect(javaStack.preferredOs).to.equal('windows');
+  expect(javaStack.majorVersions.length).to.equal(2);
 }
 
 export function validatePowershellStack(stacks) {
