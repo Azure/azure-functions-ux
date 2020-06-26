@@ -20,6 +20,7 @@ export interface StatusMessage {
   level: 'error' | 'success' | 'warning' | 'info';
   infoLink?: string;
   showCheckbox?: boolean;
+  infoLinkAriaLabel?: string;
 }
 
 interface SpecResult {

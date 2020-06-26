@@ -89,3 +89,12 @@ const getRuntimeStackSettingForLinux = (siteConfig: ArmObj<SiteConfig>): Runtime
 
   return stackData;
 };
+
+export const getArmToken = () => {
+  return window.appsvc && window.appsvc.env.armToken ? `bearer ${window.appsvc.env.armToken}` : '';
+};
+
+export const getWorkflowFileName = (branch: string, siteName: string, slotName?: string): string => {
+  const normalizedBranchName = branch.split('/').join('-');
+  return slotName ? `${normalizedBranchName}_${siteName}(${slotName}).yml` : `${normalizedBranchName}_${siteName}.yml`;
+};

@@ -21,6 +21,8 @@ import {
   tableValueComponentStyle,
   tableValueFormFieldStyle,
   tableValueIconStyle,
+  formDescriptionStyle,
+  tableValueTextFieldStyle,
 } from './Configuration.styles';
 import { learnMoreLinkStyle, filterTextFieldStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
@@ -39,6 +41,7 @@ import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../utils/FwLinks';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
+import { PortalContext } from '../../../PortalContext';
 
 interface ConfigurationProps {
   environments: ArmObj<Environment>[];
@@ -77,10 +80,12 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [isOnChangeConfirmDialogVisible, setIsOnChangeConfirmDialogVisible] = useState(false);
   const [onChangeEnvironment, setOnChangeEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
+  const [columns, setColumns] = useState<IColumn[]>([]);
 
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
+  const portalContext = useContext(PortalContext);
 
   const openAddNewEnvironmentVariablePanel = () => {
     setShowPanel(true);
@@ -201,7 +206,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
                 iconProps={{ iconName: 'Hide' }}
                 onClick={() => onShowHideButtonClick(itemKey)}
               />
-              <div>
+              <div className={tableValueTextFieldStyle}>
                 <TextFieldNoFormik
                   id={`environment-variable-value-${index}`}
                   value={item[column.fieldName!]}
@@ -209,6 +214,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
                   disabled={true}
                   formControlClassName={tableValueFormFieldStyle}
                   className={defaultCellStyle}
+                  widthOverride="100%"
                 />
               </div>
             </div>
@@ -218,7 +224,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     }
     if (column.key === 'name') {
       column.className = '';
-      if (isEnvironmentVariableDirty(index)) {
+      if (isEnvironmentVariableDirty(item)) {
         column.className = dirtyElementStyle(theme);
       }
       return (
@@ -238,7 +244,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
-  const getColumns = (): IColumn[] => {
+  const getDefaultColumns = (): IColumn[] => {
     return [
       {
         key: 'name',
@@ -250,7 +256,10 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         data: 'string',
         isPadded: true,
         isResizable: true,
+        isSortedDescending: false,
+        isSorted: true,
         onRender: onRenderColumnItem,
+        onColumnClick: onColumnClick,
       },
       {
         key: 'value',
@@ -262,6 +271,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         isPadded: true,
         isResizable: true,
         onRender: onRenderColumnItem,
+        onColumnClick: onColumnClick,
       },
       {
         key: 'delete',
@@ -289,6 +299,34 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     ];
   };
 
+  const onColumnClick = (ev: React.MouseEvent<HTMLElement>, column: IColumn) => {
+    const currColumn = columns.filter(currCol => column.key === currCol.key)[0];
+    updateColumnSortOrder(currColumn);
+    sortEnvironmentVariablesByColumn(currColumn);
+  };
+
+  const updateColumnSortOrder = (currColumn: IColumn) => {
+    const newColumns = [...columns];
+    newColumns.forEach((newCol: IColumn) => {
+      if (newCol === currColumn) {
+        currColumn.isSortedDescending = !currColumn.isSortedDescending;
+        currColumn.isSorted = true;
+      } else {
+        newCol.isSorted = false;
+        newCol.isSortedDescending = true;
+      }
+    });
+    setColumns(newColumns);
+  };
+
+  const sortEnvironmentVariablesByColumn = (currColumn: IColumn) => {
+    const key = currColumn.fieldName! as keyof string;
+    const newEnvironmentVariables = [...environmentVariables].sort((a: EnvironmentVariable, b: EnvironmentVariable) =>
+      (currColumn.isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1
+    );
+    setEnvironmentVariables(newEnvironmentVariables);
+  };
+
   const onDropdownChange = (environment: ArmObj<Environment>) => {
     if (isDirty) {
       setOnChangeEnvironment(environment);
@@ -298,11 +336,10 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     }
   };
 
-  const isEnvironmentVariableDirty = (index: number): boolean => {
+  const isEnvironmentVariableDirty = (item: EnvironmentVariable): boolean => {
     const initialEnvironmentVariables = getInitialEnvironmentVariables();
-    const currentRow = environmentVariables[index];
     const currentEnvironmentVariableIndex = initialEnvironmentVariables.findIndex(x => {
-      return x.name.toLowerCase() === currentRow.name.toLowerCase() && x.value.toLowerCase() === currentRow.value.toLowerCase();
+      return x.name.toLowerCase() === item.name.toLowerCase() && x.value.toLowerCase() === item.value.toLowerCase();
     });
     return currentEnvironmentVariableIndex < 0;
   };
@@ -326,8 +363,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const updateEnvironmentVariable = (updatedEnvironmentVariables: EnvironmentVariable[]) => {
-    const sortedUpdatedEnvironmentVariables = sort(updatedEnvironmentVariables);
-    setEnvironmentVariables([...sortedUpdatedEnvironmentVariables]);
+    setEnvironmentVariables([...updatedEnvironmentVariables]);
   };
 
   const sort = (environmentVariables: EnvironmentVariable[]) => {
@@ -352,10 +388,14 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     const initialEnvironmentVariables = getInitialEnvironmentVariables();
     return (
       newEnvironmentVariables.length !== initialEnvironmentVariables.length ||
-      newEnvironmentVariables.filter((environmentVariable, index) => {
+      newEnvironmentVariables.filter(environmentVariable => {
         return (
-          environmentVariable.name.toLocaleLowerCase() !== initialEnvironmentVariables[index].name.toLocaleLowerCase() ||
-          environmentVariable.value.toLocaleLowerCase() !== initialEnvironmentVariables[index].value.toLocaleLowerCase()
+          initialEnvironmentVariables.filter(initialEnvironmentVariable => {
+            return (
+              initialEnvironmentVariable.name.toLocaleLowerCase() === environmentVariable.name.toLocaleLowerCase() &&
+              initialEnvironmentVariable.value === environmentVariable.value
+            );
+          }).length === 0
         );
       }).length > 0
     );
@@ -431,6 +471,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   useEffect(() => {
     const dirtyState = getDirtyState(environmentVariables);
     setIsDirty(dirtyState);
+    portalContext.updateDirtyState(dirtyState);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [environmentVariables]);
@@ -439,6 +480,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEnvironmentVariableResponse]);
+  useEffect(() => {
+    setColumns(getDefaultColumns());
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shownValues, environmentVariables]);
   return (
     <>
       <div className={commandBarSticky}>
@@ -505,7 +551,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       </>
       <div className={formStyle}>
         <h3>{t('staticSite_applicationSettings')}</h3>
-        <p>
+        <p className={formDescriptionStyle}>
           <span id="environment-variable-info-message">{t('staticSite_applicationSettingsInfoMessage')}</span>
           <Link
             id="environment-variable-info-learnMore"
@@ -524,7 +570,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         />
         <DisplayTableWithCommandBar
           commandBarItems={getCommandBarItems()}
-          columns={getColumns()}
+          columns={columns}
           items={environmentVariables.filter(environmentVariable => {
             if (!filter) {
               return true;
