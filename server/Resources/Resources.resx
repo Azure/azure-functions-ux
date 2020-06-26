@@ -6501,4 +6501,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
         <value>Learn more about app service plan density.</value>
     </data>
+    <data name="ibizafication_readOnlyLinuxElastic" xml:space="preserve">
+        <value>Your app is currently in read only mode because Elastic Premium on Linux requires running frmo a package.</value>
+    </data>
 </root>
