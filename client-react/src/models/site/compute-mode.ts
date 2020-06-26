@@ -1,5 +1,5 @@
 export enum ComputeMode {
-  Shared = 0,
-  Dedicated,
-  Dynamic,
+  Shared = 'Shared',
+  Dedicated = 'Dedicated',
+  Dynamic = 'Dynamic',
 }
