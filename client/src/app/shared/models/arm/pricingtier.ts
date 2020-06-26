@@ -8,9 +8,9 @@ export interface PricingTier {
   currencyCode: string;
   isLinux: boolean;
   isXenon: boolean;
-  specGroup: number;
-  specSection: number;
-  computeMode: number;
+  specGroup: string;
+  specSection: string;
+  computeMode: string;
   numberOfCores: number;
   memorySize: number;
   osVersion: string;

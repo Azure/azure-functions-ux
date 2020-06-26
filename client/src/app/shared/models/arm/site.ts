@@ -1,9 +1,9 @@
 import { HostingEnvironmentProfile } from './hosting-environment';
 
 export enum ComputeMode {
-  Shared,
-  Dedicated,
-  Dynamic,
+  Shared = 'Shared',
+  Dedicated = 'Dedicated',
+  Dynamic = 'Dynamic',
 }
 
 export enum SiteAvailabilityState {

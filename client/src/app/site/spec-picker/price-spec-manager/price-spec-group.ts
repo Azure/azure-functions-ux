@@ -35,14 +35,14 @@ export enum BannerMessageLevel {
 }
 
 export enum SpecGroup {
-  Development = 0,
-  Production,
-  Isolated,
+  Development = 'Development',
+  Production = 'Production',
+  Isolated = 'Isolated',
 }
 
 export enum SpecSection {
-  Recommended = 0,
-  Additional,
+  Recommended = 'Recommended',
+  Additional = 'Additional',
 }
 
 export interface BannerMessage {
@@ -109,7 +109,7 @@ export class GenericSpecGroup extends PriceSpecGroup {
   }
 
   initialize(input: PriceSpecInput) {
-    this.pricingTiers.value.forEach(pricingTier => {
+    this.pricingTiers.value.forEach((pricingTier) => {
       if (input.plan) {
         if (input.plan.properties.hyperV !== pricingTier.properties.isXenon) {
           return;
