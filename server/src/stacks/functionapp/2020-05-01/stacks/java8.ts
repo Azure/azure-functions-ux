@@ -1,14 +1,14 @@
 import { FunctionAppStack } from '../stack.model';
 
-export const dotnetCoreStack: FunctionAppStack = {
-  displayText: '.NET Core',
-  value: 'dotnet',
-  sortOrder: 0,
+export const java8Stack: FunctionAppStack = {
+  sortOrder: 3,
+  displayText: 'Java',
+  value: 'java',
   versions: [
     {
-      displayText: '3.1',
-      value: '3.1',
-      sortOrder: 1,
+      sortOrder: 0,
+      displayText: '8',
+      value: '1.8',
       isDefault: true,
       supportedPlatforms: [
         {
@@ -18,9 +18,9 @@ export const dotnetCoreStack: FunctionAppStack = {
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,
-          runtimeVersion: '2.2',
+          runtimeVersion: '1.8',
           appSettingsDictionary: {
-            FUNCTIONS_WORKER_RUNTIME: 'dotnet',
+            FUNCTIONS_WORKER_RUNTIME: 'java',
           },
           siteConfigPropertiesDictionary: {},
         },
@@ -31,13 +31,13 @@ export const dotnetCoreStack: FunctionAppStack = {
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,
-          runtimeVersion: 'dotnet|3.1',
+          runtimeVersion: 'Java|8',
           appSettingsDictionary: {
-            FUNCTIONS_WORKER_RUNTIME: 'dotnet',
+            FUNCTIONS_WORKER_RUNTIME: 'java',
           },
           siteConfigPropertiesDictionary: {
             Use32BitWorkerProcess: false,
-            linuxFxVersion: 'dotnet|3.1',
+            linuxFxVersion: 'Java|8',
           },
         },
       ],

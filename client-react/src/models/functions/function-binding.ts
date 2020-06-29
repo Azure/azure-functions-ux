@@ -49,7 +49,6 @@ export enum BindingType {
   orchestrationClient = 'orchestrationClient',
   signalR = 'signalR',
   signalRConnectionInfo = 'signalRConnectionInfo',
-  entityTrigger = 'entityTrigger',
 }
 
 export interface BindingInfo {

@@ -10,4 +10,4 @@ export enum Versions {
 // Task 7363507: [Stacks] Controller should create a stack instance based on API version
 export const WebAppVersions = [Versions.version20200501];
 
-export const FunctionAppVersions = [Versions.version20200501, Versions.version20200601];
+export const FunctionAppVersions = [Versions.version20200501];

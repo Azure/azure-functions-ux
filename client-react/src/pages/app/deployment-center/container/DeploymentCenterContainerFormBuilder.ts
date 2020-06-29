@@ -1,4 +1,4 @@
-import { ScmType } from '../../../../models/site/config';
+import { ScmTypes } from '../../../../models/site/config';
 import {
   DeploymentCenterFormData,
   ContainerOptions,
@@ -14,7 +14,7 @@ import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBuilder {
   public generateFormData(): DeploymentCenterFormData<DeploymentCenterContainerFormData> {
     return {
-      scmType: this._siteConfig ? this._siteConfig.properties.scmType : ScmType.None,
+      scmType: this._siteConfig ? this._siteConfig.properties.scmType : ScmTypes.None,
       option: ContainerOptions.docker,
       registrySource: this._getContainerRegistrySource(),
       dockerAccessType: ContainerDockerAccessTypes.public,
@@ -25,7 +25,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       password: '',
       command: '',
       cicd: false,
-      ...this.generateCommonFormData(),
+      ...this.generatePublishingCredentialsFormData(),
     };
   }
 
@@ -42,7 +42,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       password: Yup.mixed().notRequired(),
       command: Yup.mixed().notRequired(),
       cicd: Yup.mixed().notRequired(),
-      ...this.generateCommonFormYupValidationSchema(),
+      ...this.generatePublishingCredentailsYupValidationSchema(),
     });
   }
 

@@ -9,7 +9,6 @@ import FunctionLog from './FunctionLog';
 import Url from '../../../../../utils/url';
 import { processLogs } from './FunctionLogFileStreamData';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
-import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 interface FunctionLogFileStreamDataLoaderProps {
   resourceId: string;
   isExpanded: boolean;
@@ -23,9 +22,6 @@ interface FunctionLogFileStreamDataLoaderProps {
   isResizable?: boolean;
   logPanelHeight?: number;
   setLogPanelHeight?: (height: number) => void;
-  showLoggingOptionsDropdown?: boolean;
-  selectedLoggingOption?: LoggingOptions;
-  setSelectedLoggingOption?: (options: LoggingOptions) => void;
 }
 
 const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderProps> = props => {

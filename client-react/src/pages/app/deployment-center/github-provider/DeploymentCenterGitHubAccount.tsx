@@ -11,60 +11,31 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 
 const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProps> = props => {
   const {
-    formProps,
     gitHubUser,
     gitHubAccountStatusMessage,
     authorizeGitHubAccount,
     fetchRepositoryOptions,
-    fetchBranchOptions,
+    fetchBranchOptions: fetchBatchOptions,
     organizationOptions,
     repositoryOptions,
     branchOptions,
   } = props;
-  const { t } = useTranslation();
-
   const [showInfoBanner, setShowInfoBanner] = useState(true);
-  const [selectedOrg, setSelectedOrg] = useState<string>('');
-  const [selectedRepo, setSelectedRepo] = useState<string>('');
-  const [selectedBranch, setSelectedBranch] = useState<string>('');
+  const { t } = useTranslation();
 
   const closeInfoBanner = () => {
     setShowInfoBanner(false);
   };
 
   const onOrganizationChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    if (formProps) {
-      setSelectedOrg(option.key.toString());
-      formProps.setFieldValue('org', option.key.toString());
-
-      setSelectedRepo('');
-      formProps.setFieldValue('repo', '');
-
-      setSelectedBranch('');
-      formProps.setFieldValue('branch', '');
-
-      fetchRepositoryOptions(option.key.toString());
-    }
+    fetchRepositoryOptions(option.key.toString());
   };
 
   const onRepositoryChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    if (formProps) {
-      setSelectedRepo(option.key.toString());
-      formProps.setFieldValue('repo', option.key.toString());
-
-      setSelectedBranch('');
-      formProps.setFieldValue('branch', '');
-
-      fetchBranchOptions(option.key.toString());
-    }
+    fetchBatchOptions(option.key.toString());
   };
 
-  const onBranchChange = async (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    if (formProps) {
-      setSelectedBranch(option.key.toString());
-      formProps.setFieldValue('branch', option.key.toString());
-    }
-  };
+  const onBranchChange = () => {};
 
   const gitHubAccountControls = gitHubUser ? (
     <>
@@ -95,11 +66,10 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
         id="deployment-center-settings-organization-option"
         label={t('deploymentCenterOAuthOrganization')}
         placeholder={t('deploymentCenterOAuthOrganizationPlaceholder')}
-        name="org"
+        name="organization"
         component={Dropdown}
         displayInVerticalLayout={true}
         options={organizationOptions}
-        selectedKey={selectedOrg}
         required={true}
         onChange={onOrganizationChange}
       />
@@ -107,11 +77,10 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
         id="deployment-center-settings-repository-option"
         label={t('deploymentCenterOAuthRepository')}
         placeholder={t('deploymentCenterOAuthRepositoryPlaceholder')}
-        name="repo"
+        name="repository"
         component={Dropdown}
         displayInVerticalLayout={true}
         options={repositoryOptions}
-        selectedKey={selectedRepo}
         required={true}
         onChange={onRepositoryChange}
       />
@@ -123,7 +92,6 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
         component={Dropdown}
         displayInVerticalLayout={true}
         options={branchOptions}
-        selectedKey={selectedBranch}
         required={true}
         onChange={onBranchChange}
       />

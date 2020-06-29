@@ -377,7 +377,6 @@ export class PlanPriceSpecManager {
           level: 'info',
           infoLink: Links.pv2FlexStampInfoLearnMore,
           showCheckbox: true,
-          infoLinkAriaLabel: this._ts.instant(PortalResources.pricing_pv2FlexStampCheckboxAriaLabel),
         };
 
         this.specSpecificBanner = {
@@ -410,7 +409,6 @@ export class PlanPriceSpecManager {
             message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
             level: 'info',
             infoLink: Links.pv2UpsellInfoLearnMore,
-            infoLinkAriaLabel: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessageAriaLabel),
           };
         }
       }
@@ -498,7 +496,6 @@ export class PlanPriceSpecManager {
         message: this._ts.instant(PortalResources.pricing_appDensityWarningMessage).format(this._plan.name),
         level: 'warning',
         infoLink: Links.appDensityWarningLink,
-        infoLinkAriaLabel: this._ts.instant(PortalResources.pricing_appDensityWarningMessageAriaLabel),
       };
     }
   }

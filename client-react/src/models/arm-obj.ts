@@ -1,4 +1,3 @@
-import { Omit } from '@uifabric/utilities';
 import { KeyValue } from './portal-models';
 
 export interface MsiIdentity {
@@ -17,8 +16,6 @@ export interface ArmObj<T> {
   identity?: MsiIdentity;
   sku?: ArmSku;
 }
-
-export interface UntrackedArmObj<T> extends Omit<ArmObj<T>, 'location' | 'name'> {}
 
 export interface ArmArray<T> {
   value: ArmObj<T>[];

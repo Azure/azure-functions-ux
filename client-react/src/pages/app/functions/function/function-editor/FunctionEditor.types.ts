@@ -53,8 +53,3 @@ export enum UrlType {
 }
 
 export const urlParameterRegExp = /\{([^}]+)\}/g;
-
-export enum LoggingOptions {
-  appInsights = 'appInsights',
-  fileBased = 'fileBased',
-}

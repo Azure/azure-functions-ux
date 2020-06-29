@@ -135,8 +135,7 @@ const createOrUpdateBinding = (
   // Delete data that isn't needed in function.json
   delete newBindingInfo['newAppSettings'];
   for (const field in newBindingInfo) {
-    // Delete rules and empty data
-    if (field.startsWith(FunctionIntegrateConstants.rulePrefix) || !newBindingInfo[field]) {
+    if (field.startsWith(FunctionIntegrateConstants.rulePrefix)) {
       delete newBindingInfo[field];
     }
   }

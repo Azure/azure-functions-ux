@@ -72,8 +72,3 @@ export const getCommandBarStyle = (styleProps, leftAlignMainToolbarItems) => {
   }
   return newCommandBarStyles;
 };
-
-export const calloutStyle = style({
-  padding: '20px',
-  width: '300px',
-});

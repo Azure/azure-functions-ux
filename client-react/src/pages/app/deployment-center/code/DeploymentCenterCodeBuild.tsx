@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
-import { BuildProvider } from '../../../../models/site/config';
+import { BuildProvider, ScmTypes } from '../../../../models/site/config';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
-import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, RuntimeStackSetting } from '../DeploymentCenter.types';
+import {
+  DeploymentCenterFieldProps,
+  DeploymentCenterCodeFormData,
+  BuildDropdownOption,
+  RuntimeStackSetting,
+} from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import LogService from '../../../../utils/LogService';
@@ -17,9 +22,10 @@ import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { AppOs } from '../../../../models/site/site';
 
-const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
+const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
+  const [selectedBuild, setSelectedBuild] = useState<BuildProvider>(BuildProvider.None);
   const [selectedRuntime, setSelectedRuntime] = useState<string | undefined>(undefined);
   const [selectedVersion, setSelectedVersion] = useState<string | undefined>(undefined);
   const [runtimeStacksData, setRuntimeStacksData] = useState<WebAppCreateStack[]>([]);
@@ -33,6 +39,8 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const deploymentCenterData = new DeploymentCenterData();
+
+  const isGitHubSource = formProps && formProps.values.sourceProvider === ScmTypes.GitHub;
 
   const fetchStacks = async () => {
     const runtimeStacksResponse = await deploymentCenterData.getRuntimeStacks(
@@ -52,6 +60,13 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
         'DeploymentCenterFetchRuntimeStacks',
         `Failed to get runtime stacks with error: ${getErrorMessage(runtimeStacksResponse.metadata.error)}`
       );
+    }
+  };
+
+  const updateSelectedBuild = (e: any, option: BuildDropdownOption) => {
+    setSelectedBuild(option.buildType);
+    if (formProps) {
+      formProps.setFieldValue('buildProvider', option.buildType);
     }
   };
 
@@ -90,9 +105,6 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
   const updateSelectedRuntime = (e: any, option: IDropdownOption) => {
     setSelectedRuntime(option.key.toString());
-    if (formProps) {
-      formProps.setFieldValue('runtimeStack', option.key.toString());
-    }
 
     // NOTE(michinoy): Show a warning message if the user selects a stack which does not match what their app is configured with.
     if (defaultStack && option.key.toString() !== defaultStack.toLocaleLowerCase() && !stackNotSupportedMessage) {
@@ -106,31 +118,16 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
   const updateSelectedVersion = (e: any, option: IDropdownOption) => {
     setSelectedVersion(option.key.toString());
-    if (formProps) {
-      formProps.setFieldValue('runtimeVersion', option.key.toString());
-      formProps.setFieldValue(
-        'runtimeRecommendedVersion',
-        getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, option.key.toString())
-      );
-    }
   };
 
-  const getRuntimeStackRecommendedVersion = (stackValue: string, runtimeVersionValue: string): string => {
-    const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === selectedRuntime);
-    if (runtimeStack) {
-      // NOTE(t-kakan): list should already be filtered by OS, so the supportedPlatforms[0] should be only element available
-      const runtimeStackVersion = runtimeStack.versions.find(
-        version => version.supportedPlatforms[0].runtimeVersion === runtimeVersionValue
-      );
-      if (runtimeStackVersion) {
-        if (runtimeStackVersion.supportedPlatforms[0].githubActionSettings) {
-          const recommendedVersion = runtimeStackVersion.supportedPlatforms[0].githubActionSettings.recommendedVersion;
-          return recommendedVersion ? recommendedVersion : '';
-        }
-      }
-    }
-    return '';
-  };
+  const buildOptions: BuildDropdownOption[] = [
+    { key: BuildProvider.GitHubAction, text: t('deploymentCenterCodeSettingsBuildGitHubAction'), buildType: BuildProvider.GitHubAction },
+    {
+      key: BuildProvider.AppServiceBuildService,
+      text: t('deploymentCenterCodeSettingsBuildKudu'),
+      buildType: BuildProvider.AppServiceBuildService,
+    },
+  ];
 
   const setDefaultSelectedRuntimeVersion = () => {
     // NOTE(michinoy): once the stack versions dropdown is populated, default selection can be done in either of following ways:
@@ -143,22 +140,8 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
       if (defaultRuntimeVersionOption && defaultRuntimeVersionOption.length === 1) {
         setSelectedVersion(defaultRuntimeVersionOption[0].key.toString());
-        if (formProps) {
-          formProps.setFieldValue('runtimeVersion', defaultRuntimeVersionOption[0].key.toString());
-          formProps.setFieldValue(
-            'runtimeRecommendedVersion',
-            getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, defaultRuntimeVersionOption[0].key.toString())
-          );
-        }
       } else {
         setSelectedVersion(runtimeVersionOptions[0].key.toString());
-        if (formProps) {
-          formProps.setFieldValue('runtimeVersion', runtimeVersionOptions[0].key.toString());
-          formProps.setFieldValue(
-            'runtimeRecommendedVersion',
-            getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, runtimeVersionOptions[0].key.toString())
-          );
-        }
       }
     }
   };
@@ -181,22 +164,17 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     }
   };
 
-  const setDefaultSelectedRuntimeStack = () => {
+  const setInitialRuntimeDetails = () => {
     // NOTE(michinoy): Once the dropdown is populated, preselect stack that the user had selected during create.
     // If the users app was built using a stack that is not supported, show a warning message.
-    if (formProps && formProps.values.buildProvider === BuildProvider.GitHubAction && defaultStack && runtimeStackOptions.length >= 1) {
+    if (selectedBuild === BuildProvider.GitHubAction && defaultStack && runtimeStackOptions.length >= 1) {
       const appSelectedStack = runtimeStackOptions.filter(item => item.key.toString() === defaultStack.toLocaleLowerCase());
-
-      const appSelectedStackKey = appSelectedStack[0].key.toString();
 
       if (appSelectedStack && appSelectedStack.length === 1) {
         setStackNotSupportedMessage('');
         setStackMismatchMessage('');
-        setSelectedRuntime(appSelectedStackKey);
-        if (formProps) {
-          formProps.setFieldValue('runtimeStack', appSelectedStackKey);
-        }
-        populateVersionDropdown(appSelectedStackKey);
+        setSelectedRuntime(appSelectedStack[0].key.toString());
+        populateVersionDropdown(appSelectedStack[0].key.toString());
       } else {
         updateStackNotSupportedMessage();
       }
@@ -218,11 +196,6 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   };
 
   useEffect(() => {
-    if (formProps) {
-      formProps.setFieldValue('runtimeStack', '');
-      formProps.setFieldValue('runtimeVersion', '');
-      formProps.setFieldValue('runtimeRecommendedVersion', '');
-    }
     setInitialDefaultValues();
     fetchStacks();
 
@@ -231,21 +204,26 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
   useEffect(
     () => {
-      if (formProps) {
-        formProps.setFieldValue('runtimeStack', '');
-        formProps.setFieldValue('runtimeVersion', '');
-        formProps.setFieldValue('runtimeRecommendedVersion', '');
+      if (formProps && formProps.values.sourceProvider !== ScmTypes.GitHub) {
+        setSelectedBuild(BuildProvider.AppServiceBuildService);
+        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
       }
-      setDefaultSelectedRuntimeStack();
+
+      if (formProps && formProps.values.sourceProvider === ScmTypes.GitHub) {
+        setSelectedBuild(BuildProvider.GitHubAction);
+        formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
+      }
     }, // eslint-disable-next-line react-hooks/exhaustive-deps
-    formProps ? [runtimeStackOptions, formProps.values.buildProvider] : [runtimeStackOptions]
+    formProps ? [formProps.values.sourceProvider] : []
   );
 
   useEffect(() => {
-    if (formProps) {
-      formProps.setFieldValue('runtimeVersion', '');
-      formProps.setFieldValue('runtimeRecommendedVersion', '');
-    }
+    setInitialRuntimeDetails();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runtimeStackOptions, selectedBuild]);
+
+  useEffect(() => {
     setDefaultSelectedRuntimeVersion();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -253,18 +231,21 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
   const getCustomBanner = () => {
     return (
-      <>
-        {stackNotSupportedMessage && (
-          <div className={deploymentCenterInfoBannerDiv}>
-            <CustomBanner message={stackNotSupportedMessage} type={MessageBarType.warning} />
-          </div>
-        )}
-        {(stackNotSupportedMessage || stackMismatchMessage) && (
-          <div className={deploymentCenterInfoBannerDiv}>
-            <CustomBanner message={stackNotSupportedMessage || stackMismatchMessage} type={MessageBarType.warning} />
-          </div>
-        )}
-      </>
+      formProps &&
+      formProps.values.buildProvider === BuildProvider.GitHubAction && (
+        <>
+          {stackNotSupportedMessage && (
+            <div className={deploymentCenterInfoBannerDiv}>
+              <CustomBanner message={stackNotSupportedMessage} type={MessageBarType.warning} />
+            </div>
+          )}
+          {stackMismatchMessage && (
+            <div className={deploymentCenterInfoBannerDiv}>
+              <CustomBanner message={stackMismatchMessage} type={MessageBarType.warning} />
+            </div>
+          )}
+        </>
+      )
     );
   };
 
@@ -273,29 +254,45 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       <h3>{t('deploymentCenterSettingsBuildTitle')}</h3>
       {getCustomBanner()}
       <Field
-        id="deployment-center-code-settings-runtime-option"
-        label={t('deploymentCenterSettingsRuntimeLabel')}
-        name="runtimeStack"
+        id="deployment-center-container-settings-build-option"
+        label={t('deploymentCenterSettingsBuildLabel')}
+        name="buildProvider"
         component={Dropdown}
         displayInVerticalLayout={true}
-        options={runtimeStackOptions}
-        selectedKey={selectedRuntime}
-        onChange={updateSelectedRuntime}
+        options={buildOptions}
+        selectedKey={selectedBuild}
+        onChange={updateSelectedBuild}
         required={true}
+        disabled={!isGitHubSource}
       />
-      <Field
-        id="deployment-center-code-settings-runtime-version-option"
-        label={t('deploymentCenterSettingsRuntimeVersionLabel')}
-        name="runtimeVersion"
-        component={Dropdown}
-        displayInVerticalLayout={true}
-        options={runtimeVersionOptions}
-        selectedKey={selectedVersion}
-        onChange={updateSelectedVersion}
-        required={true}
-      />
+      {formProps && formProps.values.buildProvider === BuildProvider.GitHubAction && (
+        <>
+          <Field
+            id="deployment-center-container-settings-runtime-option"
+            label={t('deploymentCenterSettingsRuntimeLabel')}
+            name="runtimeStack"
+            component={Dropdown}
+            displayInVerticalLayout={true}
+            options={runtimeStackOptions}
+            selectedKey={selectedRuntime}
+            onChange={updateSelectedRuntime}
+            required={true}
+          />
+          <Field
+            id="deployment-center-container-settings-runtime-version-option"
+            label={t('deploymentCenterSettingsRuntimeVersionLabel')}
+            name="runtimeVersion"
+            component={Dropdown}
+            displayInVerticalLayout={true}
+            options={runtimeVersionOptions}
+            selectedKey={selectedVersion}
+            onChange={updateSelectedVersion}
+            required={true}
+          />
+        </>
+      )}
     </>
   );
 };
 
-export default DeploymentCenterCodeBuildRuntimeAndVersion;
+export default DeploymentCenterCodeBuild;
