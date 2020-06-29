@@ -12,7 +12,6 @@ import {
   SearchBox,
   MessageBarType,
   Checkbox,
-  CheckboxVisibility,
   DetailsRow,
   DetailsHeader,
 } from 'office-ui-fabric-react';
