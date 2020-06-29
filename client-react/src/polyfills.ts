@@ -18,6 +18,8 @@ import 'core-js/es6/map';
 import 'core-js/es6/set';
 import 'core-js/es7/array';
 import 'core-js/es6/promise';
+import 'core-js/modules/es7.promise.finally';
+
 // Evergreen browsers require these.
 import 'core-js/es6/reflect';
 import 'core-js/es7/reflect';

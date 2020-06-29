@@ -1,4 +1,4 @@
-import './pollyfills';
+import './polyfills';
 import { initializeIcons } from '@uifabric/icons';
 import React from 'react';
 import * as ReactDOM from 'react-dom';

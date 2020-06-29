@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ICommandBarItemProps, CommandBar } from 'office-ui-fabric-react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
@@ -14,6 +14,7 @@ interface ConfigurationCommandBarProps {
 
 const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props => {
   const { save, dirty, showDiscardConfirmDialog, refresh, isLoading } = props;
+  const [items, setItems] = useState<ICommandBarItemProps[]>([]);
 
   const { t } = useTranslation();
 
@@ -53,7 +54,12 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
     ];
   };
 
-  return <CommandBar items={getItems()} role="nav" styles={CommandBarStyles} buttonAs={CustomCommandBarButton} />;
+  useEffect(() => {
+    setItems([...getItems()]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dirty, isLoading]);
+  return <CommandBar items={items} role="nav" styles={CommandBarStyles} buttonAs={CustomCommandBarButton} />;
 };
 
 export default ConfigurationCommandBar;
