@@ -14,10 +14,6 @@ import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { PortalContext } from '../../../../../PortalContext';
 import { bannerLinkStyle } from '../../../../../components/CustomBanner/CustomBanner.styles';
 import { ThemeContext } from '../../../../../ThemeContext';
-import { FunctionInfo } from '../../../../../models/functions/function-info';
-import { BindingType } from '../../../../../models/functions/function-binding';
-import FunctionOrchestrationsDataLoader from './tabs/orchestrations/FunctionOrchestrationsDataLoader';
-import FunctionEntitiesDataLoader from './tabs/entities/FunctionEntitiesDataLoader';
 
 interface FunctionMonitorProps {
   resourceId: string;
@@ -26,11 +22,10 @@ interface FunctionMonitorProps {
   appInsightsComponent?: ArmObj<AppInsightsComponent> | null;
   appInsightsToken?: string;
   appInsightsKeyType?: AppInsightsKeyType;
-  functionInfo?: ArmObj<FunctionInfo>;
 }
 
 const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
-  const { resourceId, resetAppInsightsComponent, appInsightsComponent, appInsightsToken, appInsightsKeyType, functionInfo } = props;
+  const { resourceId, resetAppInsightsComponent, appInsightsComponent, appInsightsToken, appInsightsKeyType } = props;
   const { t } = useTranslation();
 
   const portalContext = useContext(PortalContext);
@@ -46,34 +41,12 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
     }
   };
 
-  const isOrchestrationTrigger = () => {
-    return (
-      functionInfo &&
-      functionInfo.properties.config &&
-      functionInfo.properties.config.bindings &&
-      !!functionInfo.properties.config.bindings.find(e => e.type === BindingType.orchestrationTrigger)
-    );
-  };
-
-  const isEntityTrigger = () => {
-    return (
-      functionInfo &&
-      functionInfo.properties.config &&
-      functionInfo.properties.config.bindings &&
-      !!functionInfo.properties.config.bindings.find(e => e.type === BindingType.entityTrigger)
-    );
-  };
-
   const getPivotTabId = (itemKey: string) => {
     switch (itemKey) {
       case PivotState.invocations:
         return 'function-monitor-invocations-tab';
       case PivotState.logs:
         return 'function-monitor-logs-tab';
-      case PivotState.orchestration:
-        return 'function-monitor-orchestration-tab';
-      case PivotState.entity:
-        return 'function-monitor-entity-tab';
     }
     return '';
   };
@@ -121,26 +94,6 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
             appInsightsToken={appInsightsToken}
           />
         </PivotItem>
-        {isOrchestrationTrigger() && (
-          <PivotItem itemKey={PivotState.orchestration} headerText={t('functionMonitor_orchestrations')}>
-            <FunctionOrchestrationsDataLoader
-              resourceId={resourceId}
-              appInsightsAppId={appInsightsComponent.properties.AppId}
-              appInsightsResourceId={appInsightsComponent.id}
-              appInsightsToken={appInsightsToken}
-            />
-          </PivotItem>
-        )}
-        {isEntityTrigger() && (
-          <PivotItem itemKey={PivotState.entity} headerText={t('functionMonitor_entities')}>
-            <FunctionEntitiesDataLoader
-              resourceId={resourceId}
-              appInsightsAppId={appInsightsComponent.properties.AppId}
-              appInsightsResourceId={appInsightsComponent.id}
-              appInsightsToken={appInsightsToken}
-            />
-          </PivotItem>
-        )}
         <PivotItem itemKey={PivotState.logs} headerText={t('functionMonitor_logs')}>
           <div style={logStyle}>
             <FunctionLogAppInsightsDataLoader

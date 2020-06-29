@@ -16,7 +16,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
-import { ScmType } from '../../../../models/site/config';
+import { ScmTypes } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
@@ -126,7 +126,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const groups: IGroup[] = getItemGroups(items);
 
   const getZeroDayContent = () => {
-    if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None) {
+    if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmTypes.None) {
       return (
         <>
           <div className={deploymentCenterCodeLogsNotConfigured}>

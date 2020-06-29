@@ -8,7 +8,6 @@ import { Observable } from 'rxjs/Observable';
 import { ContainerMultiConfigService } from '../../services/container-multiconfig.service';
 import { ContainerConstants } from 'app/shared/models/constants';
 import { Response } from '@angular/http';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'container-image-source-acr',
@@ -42,15 +41,8 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
   public imageSourceForm: FormGroup;
   public cotainsCrossSubscriptionRegistry = false;
   public credentialsErrorMessage: string;
-  public repositoriesErrorMessage = '';
-  public tagsErrorMessage = '';
 
-  constructor(
-    private _acrService: ContainerACRService,
-    private _multiConfigService: ContainerMultiConfigService,
-    private _ts: TranslateService,
-    injector: Injector
-  ) {
+  constructor(private _acrService: ContainerACRService, private _multiConfigService: ContainerMultiConfigService, injector: Injector) {
     super('ContainerImageSourceACRComponent', injector, 'dashboard');
     this.featureName = 'ContainerSettings';
   }
@@ -128,8 +120,6 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     this.tagDropdownItems = [];
     this.loadingRepo = true;
     this.credentialsErrorMessage = null;
-    this.repositoriesErrorMessage = '';
-    this.tagsErrorMessage = '';
 
     const acrRegistry = this.registryItems.find(item => item.loginServer === element.value);
 
@@ -154,7 +144,6 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     this.selectedTag = '';
     this.tagItems = [];
     this.tagDropdownItems = [];
-    this.tagsErrorMessage = '';
     this._loadTags();
   }
 
@@ -174,23 +163,15 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     this.tagItems = [];
     this.loadingTag = false;
     this.registriesMissing = false;
-    this.repositoriesErrorMessage = '';
-    this.tagsErrorMessage = '';
   }
 
   private _loadRepositories() {
     this.loadingRepo = true;
     this._acrService
       .getRepositories(this.selectedRegistry, this.imageSourceForm.controls.login.value, this.imageSourceForm.controls.password.value)
-      .catch(err => {
-        // NOTE(michinoy): Unfortunately we are not receiving any error messages from ACR, just a status code of 400.
-        return Observable.of(null);
-      })
       .subscribe((response: Response) => {
-        if (response && response.status === 200) {
-          const acrRepositories = response.json() as ACRRepositories;
-          const repositories: string[] =
-            acrRepositories && acrRepositories.repositories && acrRepositories.repositories.length > 0 ? acrRepositories.repositories : [];
+        if (response.status === 200) {
+          const repositories: string[] = (response.json() as ACRRepositories).repositories;
           this.repositoryItems.push(...repositories);
 
           const nextLink = this._acrService.getNextLink(this.selectedRegistry, response);
@@ -208,7 +189,6 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
           }
         } else {
           this.loadingRepo = false;
-          this.repositoriesErrorMessage = this._ts.instant('failedToFetchRepositories');
         }
       });
   }
@@ -222,12 +202,8 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
         this.imageSourceForm.controls.login.value,
         this.imageSourceForm.controls.password.value
       )
-      .catch(err => {
-        // NOTE(michinoy): Unfortunately we are not receiving any error messages from ACR, just a status code of 400.
-        return Observable.of(null);
-      })
       .subscribe((response: Response) => {
-        if (response && response.status === 200) {
+        if (response.status === 200) {
           const tags: string[] = (response.json() as ACRTags).tags;
           this.tagItems.push(...tags);
 
@@ -242,7 +218,6 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
           }
         } else {
           this.loadingTag = false;
-          this.tagsErrorMessage = this._ts.instant('failedToFetchTags');
         }
       });
   }

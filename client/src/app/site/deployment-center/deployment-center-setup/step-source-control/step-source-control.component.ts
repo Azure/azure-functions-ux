@@ -136,8 +136,6 @@ export class StepSourceControlComponent {
     private _broadcastService: BroadcastService,
     private _scenarioService: ScenarioService
   ) {
-    this._logService.trace(LogCategories.cicd, '/load-source-selector');
-
     this.githubUserSubject$
       .takeUntil(this._ngUnsubscribe$)
       .filter(r => r)
@@ -345,7 +343,7 @@ export class StepSourceControlComponent {
     }
   }
   public selectProvider(card: ProviderCard) {
-    this._logService.trace(LogCategories.cicd, '/source-provider-card-selected', card);
+    this._logService.trace(LogCategories.cicd, '/build-provider-card-selected', card);
     this.selectedProvider = card;
     const currentFormValues = this._wizardService.wizardValues;
     currentFormValues.sourceProvider = card.id;
@@ -374,7 +372,6 @@ export class StepSourceControlComponent {
     this._wizardService.updateSourceProviderConfig$.next();
   }
   public authorize() {
-    this._logService.trace(LogCategories.cicd, '/source-provider-authorize', this.selectedProvider);
     const provider = this.selectedProvider.id;
     const win = window.open(`${Constants.serviceHost}auth/${provider}/authorize`, 'windowname1', 'width=800, height=600');
     const clearInterval = new Subject();

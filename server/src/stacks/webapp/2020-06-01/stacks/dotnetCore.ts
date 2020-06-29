@@ -27,7 +27,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '3.1.301',
+                supportedVersion: '3.1.102',
               },
             },
             linuxRuntimeSettings: {
@@ -38,7 +38,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '3.1.301',
+                supportedVersion: '3.1.102',
               },
             },
           },
@@ -56,7 +56,6 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '3.0.103',
               },
               endOfLifeDate: dotnetCore3Point0EOL,
             },
@@ -69,7 +68,6 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '3.0.103',
               },
               endOfLifeDate: dotnetCore3Point0EOL,
             },
@@ -94,7 +92,6 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '2.2.207',
               },
               endOfLifeDate: dotnetCore2Point2EOL,
             },
@@ -107,7 +104,6 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '2.2.207',
               },
               endOfLifeDate: dotnetCore2Point2EOL,
             },
@@ -125,7 +121,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '2.1.807',
+                supportedVersion: '2.1.804',
               },
               endOfLifeDate: dotnetCore2Point1EOL,
             },
@@ -137,7 +133,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '2.1.807',
+                supportedVersion: '2.1.804',
               },
               endOfLifeDate: dotnetCore2Point1EOL,
             },
@@ -156,7 +152,6 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '2.1.202',
               },
               endOfLifeDate: dotnetCore2Point0EOL,
             },
@@ -169,7 +164,6 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '2.1.202',
               },
               endOfLifeDate: dotnetCore2Point0EOL,
             },
@@ -194,7 +188,6 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '1.1.14',
               },
               endOfLifeDate: dotnetCore1EOL,
             },
@@ -207,7 +200,6 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '1.1.14',
               },
               endOfLifeDate: dotnetCore1EOL,
             },
@@ -226,7 +218,6 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '1.1.14',
               },
               endOfLifeDate: dotnetCore1EOL,
             },
@@ -239,7 +230,6 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '1.1.14',
               },
               endOfLifeDate: dotnetCore1EOL,
             },

@@ -84,14 +84,6 @@ export default class DeploymentCenterData {
     return GitHubService.getBranches(repository_url, armToken);
   };
 
-  public getAllWorkflowConfigurations = (repoUrl: string, branchName: string, authToken: string) => {
-    return GitHubService.getAllWorkflowConfigurations(repoUrl, branchName, authToken);
-  };
-
-  public getWorkflowConfiguration = (repoUrl: string, branchName: string, workflowYmlPath: string, authToken: string) => {
-    return GitHubService.getWorkflowConfiguration(repoUrl, branchName, workflowYmlPath, authToken);
-  };
-
   public getRuntimeStacks = (stacksOs: AppOsType) => {
     return RuntimeStackService.getWebAppGitHubActionStacks(stacksOs);
   };

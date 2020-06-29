@@ -15,13 +15,9 @@ export const deploymentCenterContent = style({
   maxWidth: '800px',
 });
 
-export const deploymentCenterConsole = style({
+export const deploymentCenterLogs = style({
   whiteSpace: 'pre-line',
-  backgroundColor: '#f3f2f1',
-  padding: '15px',
-  borderWidth: 'thin',
-  borderStyle: 'solid',
-  overflowWrap: 'break-word',
+  margin: 0,
 });
 
 export const deploymentCenterLogsError = style({
@@ -58,16 +54,4 @@ export const deploymentCenterCodeLogsNotConfigured = style({
       marginTop: '18px',
     },
   },
-});
-
-export const calloutStyle = style({
-  width: '300px',
-});
-
-export const calloutContent = style({
-  margin: '18px 24px 12px',
-});
-
-export const calloutContentButton = style({
-  margin: '18px 12px 10px 0px',
 });

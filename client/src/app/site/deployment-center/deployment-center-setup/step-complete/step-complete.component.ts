@@ -130,8 +130,8 @@ export class StepCompleteComponent {
             err && err.message
               ? err.message
               : err && err.json() && err.json().message
-                ? err && err.json() && err.json().message
-                : this._translateService.instant(PortalResources.settingupDeploymentFail);
+              ? err && err.json() && err.json().message
+              : this._translateService.instant(PortalResources.settingupDeploymentFail);
 
           this._portalService.stopNotification(notificationId, false, errorMessage);
           this._logService.error(LogCategories.cicd, '/step-complete', { resourceId: this.wizard.siteArm.id, error: err });
@@ -466,9 +466,9 @@ export class StepCompleteComponent {
     const data = {
       resourceId: this.wizard.siteArm.id,
       sourceProvider: this.wizard.wizardValues.sourceProvider,
-      sourceSettings: JSON.stringify(this.wizard.wizardValues.sourceSettings),
+      sourceSettings: this.wizard.wizardValues.sourceSettings,
       buildProvider: this.wizard.wizardValues.buildProvider,
-      buildSettings: JSON.stringify(this.wizard.wizardValues.buildSettings),
+      buildSettings: this.wizard.wizardValues.buildSettings,
     };
 
     this._logService.trace(LogCategories.cicd, '/step-complete', data);

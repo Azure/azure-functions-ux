@@ -1,7 +1,7 @@
 import { ArmObj } from '../../../models/arm-obj';
 import { PublishingUser } from '../../../models/site/publish';
 import { SiteConfig } from '../../../models/site/config';
-import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, WorkflowOption } from './DeploymentCenter.types';
+import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType } from './DeploymentCenter.types';
 import i18next from 'i18next';
 import { KeyValue } from '../../../models/portal-models';
 import * as Yup from 'yup';
@@ -17,19 +17,15 @@ export abstract class DeploymentCenterFormBuilder {
     this._t = t;
   }
 
-  protected generateCommonFormData() {
+  protected generatePublishingCredentialsFormData() {
     return {
       publishingUsername: this._publishingUser ? this._publishingUser.properties.publishingUserName : '',
       publishingPassword: '',
       publishingConfirmPassword: '',
-      workflowOption: WorkflowOption.None,
-      org: '',
-      repo: '',
-      branch: '',
     };
   }
 
-  protected generateCommonFormYupValidationSchema() {
+  protected generatePublishingCredentailsYupValidationSchema() {
     // NOTE(michinoy): The password should be at least eight characters long and must contain letters, numbers, and symbol.
     const passwordMinimumRequirementsRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
     const usernameMinLength = 3;
@@ -49,11 +45,6 @@ export abstract class DeploymentCenterFormBuilder {
       publishingConfirmPassword: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
         return !this.parent.publishingPassword || this.parent.publishingPassword === value;
       }),
-      // TODO(t-kakan): Need to do correct validation in later PR for DeploymentCenterFormBuilder, DeploymentCenterCodeFormBuilder, DeploymentCenterContainerFormBuilder,
-      workflowOption: Yup.mixed().notRequired(),
-      org: Yup.mixed().notRequired(),
-      repo: Yup.mixed().notRequired(),
-      branch: Yup.mixed().notRequired(),
     };
   }
 

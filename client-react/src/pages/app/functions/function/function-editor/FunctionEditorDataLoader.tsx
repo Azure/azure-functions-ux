@@ -27,7 +27,6 @@ import { ValidationRegex } from '../../../../../utils/constants/ValidationRegex'
 import { KeyValue } from '../../../../../models/portal-models';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../../../ArmHelper.types';
-import StringUtils from '../../../../../utils/string';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -339,7 +338,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       if (runResponse.metadata.success) {
         resData = runResponse.data;
       } else {
-        resData = runResponse.metadata.error;
+        // TODO (krmitta): Handle error thrown and show the output accordingly
       }
 
       setResponseContent({
@@ -403,7 +402,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       if (testDataResponse.metadata.success) {
         let data = testDataResponse.data;
         try {
-          data = StringUtils.stringifyJsonForEditor(testDataResponse.data);
+          data = JSON.stringify(testDataResponse.data);
         } catch (err) {
           LogService.error(LogCategories.FunctionEdit, 'invalid-test-data', err);
         }

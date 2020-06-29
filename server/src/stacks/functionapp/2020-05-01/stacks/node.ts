@@ -37,7 +37,7 @@ export const nodeStack: FunctionAppStack = {
             FUNCTIONS_WORKER_RUNTIME: 'node',
           },
           siteConfigPropertiesDictionary: {
-            use32BitWorkerProcess: false,
+            Use32BitWorkerProcess: false,
             linuxFxVersion: 'Node|12',
           },
         },
@@ -75,7 +75,7 @@ export const nodeStack: FunctionAppStack = {
             FUNCTIONS_WORKER_RUNTIME: 'node',
           },
           siteConfigPropertiesDictionary: {
-            use32BitWorkerProcess: false,
+            Use32BitWorkerProcess: false,
             linuxFxVersion: 'Node|10',
           },
         },
