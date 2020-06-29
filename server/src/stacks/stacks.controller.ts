@@ -1,4 +1,4 @@
-import { Controller, Query, HttpException, Post } from '@nestjs/common';
+import { Controller, Query, HttpException, Post, Get } from '@nestjs/common';
 import { Versions, WebAppVersions, FunctionAppVersions } from './versions';
 import { FunctionAppStacksService20200501 } from './functionapp/2020-05-01/stacks.service';
 import { WebAppStacksService20200501 } from './webapp/2020-05-01/stacks.service';
@@ -44,7 +44,26 @@ export class StacksController {
   }
 
   @Post('functionAppStacks')
-  functionAppStacks(@Query('api-version') apiVersion: string) {
+  functionAppStacksPost(@Query('api-version') apiVersion: string) {
+    return this._getFunctionAppStacks(apiVersion);
+  }
+
+  @Get('functionAppStacks')
+  functionAppStacksGet(@Query('api-version') apiVersion: string) {
+    return this._getFunctionAppStacks(apiVersion);
+  }
+
+  @Post('webAppStacks')
+  webAppStacksPost(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
+    return this._getWebAppStacks(apiVersion, os);
+  }
+
+  @Get('webAppStacks')
+  webAppStacksGet(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
+    return this._getWebAppStacks(apiVersion, os);
+  }
+
+  private _getFunctionAppStacks(apiVersion: string) {
     this._validateApiVersion(apiVersion, FunctionAppVersions);
 
     if (apiVersion === Versions.version20200501) {
@@ -55,8 +74,7 @@ export class StacksController {
     }
   }
 
-  @Post('webAppStacks')
-  webAppStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
+  private _getWebAppStacks(apiVersion: string, os?: 'linux' | 'windows') {
     this._validateApiVersion(apiVersion, [Versions.version20200601]);
     this._validateOs(os);
 
