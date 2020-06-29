@@ -629,6 +629,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [environments]);
+
   useEffect(() => {
     const dirtyState = getDirtyState(environmentVariables);
     setIsDirty(dirtyState);
@@ -636,16 +637,19 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [environmentVariables]);
+
   useEffect(() => {
     initEnvironmentVariables();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEnvironmentVariableResponse]);
+
   useEffect(() => {
     setColumns(getDefaultColumns());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shownValues, environmentVariables]);
+
   return (
     <>
       <div className={commandBarSticky}>
