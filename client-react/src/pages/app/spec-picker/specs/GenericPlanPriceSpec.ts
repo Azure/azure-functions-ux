@@ -11,7 +11,7 @@ export abstract class GenericPlanPriceSpec extends PriceSpec {
     orange: 'spec free-spec',
   };
 
-  private _computeMode?: number;
+  private _computeMode?: ComputeMode;
 
   constructor(t: i18next.TFunction, pricingTier: PricingTier) {
     super(t);

@@ -13,7 +13,7 @@ export class GenericPlanPriceSpec extends PriceSpec {
   featureItems = [];
   hardwareItems = [];
   specResourceSet = null;
-  computeMode?: number = null;
+  computeMode?: ComputeMode = null;
 
   private static readonly colorToCssSpec = {
     darkOrchid: 'spec premium-spec',

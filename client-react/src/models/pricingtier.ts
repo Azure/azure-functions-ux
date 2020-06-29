@@ -1,3 +1,5 @@
+import { ComputeMode } from './site/compute-mode';
+
 export interface PricingTier {
   name: string;
   skuName: string;
@@ -10,7 +12,7 @@ export interface PricingTier {
   isXenon: boolean;
   specGroup: string;
   specSection: string;
-  computeMode: string;
+  computeMode: ComputeMode;
   numberOfCores: number;
   memorySize: number;
   osVersion: string;
