@@ -37,6 +37,7 @@ import { AuthzService } from 'app/shared/services/authz.service';
 import { AppKind } from 'app/shared/Utilities/app-kind';
 import { BillingService } from 'app/shared/services/billing.service';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
+import { ComputeMode } from '../../../shared/models/arm/site';
 
 export interface SpecPickerInput<T> {
   id: ResourceId;
@@ -58,7 +59,7 @@ export interface PlanSpecPickerData {
   hostingEnvironmentName: string | null;
   allowAseV2Creation: boolean;
   forbiddenSkus: string[];
-  forbiddenComputeMode?: number;
+  forbiddenComputeMode?: ComputeMode;
   isFunctionApp?: boolean;
   isLinux: boolean;
   isXenon: boolean;

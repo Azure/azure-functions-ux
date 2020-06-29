@@ -4,6 +4,7 @@ import { Certificate, Csr } from './certificate';
 import { SiteConfig } from './config';
 import { CloningInfo } from './cloning-info';
 import { KeyValue } from '../portal-models';
+import { ComputeMode } from './compute-mode';
 
 export enum ContentAvailabilityState {
   Normal = 'Normal',
@@ -71,7 +72,7 @@ export interface Site {
   cers: Certificate;
   siteMode: string;
   hostNameSslStates: Partial<HostNameSslState>[];
-  computeMode: number;
+  computeMode: ComputeMode;
   serverFarm: string;
   serverFarmId: string;
   lastModifiedTimeUtc: string;
