@@ -7,6 +7,8 @@ import {
   validateJavaStack,
   validatePowershellStack,
   validateDotnetFrameworkStack,
+  validateWindowsStackLength,
+  validateLinuxStackLength,
 } from './validations';
 
 const functionAppStacksService = new FunctionAppStacksService20200601();
@@ -17,6 +19,24 @@ describe('FunctionApp Stacks Test 2020-06-01', () => {
     it('should validate all stacks are returned', done => {
       const stacks = functionAppStacksService.getStacks();
       validateAllStackLength(stacks);
+      done();
+    });
+  });
+
+  // Test length of windows stacks
+  describe('Test windows stack length', () => {
+    it('should validate all stacks with windows are returned', done => {
+      const stacks = functionAppStacksService.getStacks('windows');
+      validateWindowsStackLength(stacks);
+      done();
+    });
+  });
+
+  // Test length of linux stacks
+  describe('Test linux stack length', () => {
+    it('should validate all stacks with linux are returned', done => {
+      const stacks = functionAppStacksService.getStacks('linux');
+      validateLinuxStackLength(stacks);
       done();
     });
   });
