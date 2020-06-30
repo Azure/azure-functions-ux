@@ -13,14 +13,14 @@ export class FunctionAppStacksService20200601 {
     const functionAppStacks = [dotnetCoreStack, nodeStack, pythonStack, javaStack, powershellStack, dotnetFrameworkStack];
 
     if (!stackValue) {
-      return !os ? functionAppStacks : this._filterFunctionAppStacks(functionAppStacks, os);
+      return !os ? functionAppStacks : this._filterFunctionAppStacksByOs(functionAppStacks, os);
     }
 
-    const filteredStack: FunctionAppStack[] = [functionAppStacks.find(stack => stack.value === stackValue)];
-    return !os ? filteredStack : this._filterFunctionAppStacks(filteredStack, os);
+    const filteredStackByValue: FunctionAppStack[] = [functionAppStacks.find(stack => stack.value === stackValue)];
+    return !os ? filteredStackByValue : this._filterFunctionAppStacksByOs(filteredStackByValue, os);
   }
 
-  private _filterFunctionAppStacks(stacks: FunctionAppStack[], os: Os): FunctionAppStack[] {
+  private _filterFunctionAppStacksByOs(stacks: FunctionAppStack[], os: Os): FunctionAppStack[] {
     const filteredStacks: FunctionAppStack[] = [];
     stacks.forEach(stack => {
       const newStack = this._buildNewStack(stack);
