@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FunctionAppStack, FunctionAppMajorVersion, FunctionAppMinorVersion } from './stack.model';
+import { FunctionAppStack, FunctionAppMajorVersion, FunctionAppMinorVersion, Os, StackValue } from './stack.model';
 import { dotnetCoreStack } from './stacks/dotnetCore';
 import { nodeStack } from './stacks/node';
 import { pythonStack } from './stacks/python';
@@ -9,17 +9,18 @@ import { dotnetFrameworkStack } from './stacks/dotnetFramework';
 
 @Injectable()
 export class FunctionAppStacksService20200601 {
-  getStacks(os?: 'linux' | 'windows'): FunctionAppStack[] {
+  getStacks(os?: Os, stackValue?: StackValue): FunctionAppStack[] {
     const functionAppStacks = [dotnetCoreStack, nodeStack, pythonStack, javaStack, powershellStack, dotnetFrameworkStack];
 
-    if (!os) {
-      return functionAppStacks;
+    if (!stackValue) {
+      return !os ? functionAppStacks : this._filterFunctionAppStacks(functionAppStacks, os);
     }
 
-    return this._filterFunctionAppStacks(functionAppStacks, os);
+    const filteredStack: FunctionAppStack[] = [functionAppStacks.find(stack => stack.value === stackValue)];
+    return !os ? filteredStack : this._filterFunctionAppStacks(filteredStack, os);
   }
 
-  private _filterFunctionAppStacks(stacks: FunctionAppStack[], os: 'linux' | 'windows'): FunctionAppStack[] {
+  private _filterFunctionAppStacks(stacks: FunctionAppStack[], os: Os): FunctionAppStack[] {
     const filteredStacks: FunctionAppStack[] = [];
     stacks.forEach(stack => {
       const newStack = this._buildNewStack(stack);
@@ -64,11 +65,7 @@ export class FunctionAppStacksService20200601 {
     }
   }
 
-  private _addCorrectMinorVersions(
-    newMajorVersion: FunctionAppMajorVersion,
-    minorVersion: FunctionAppMinorVersion,
-    os: 'linux' | 'windows'
-  ) {
+  private _addCorrectMinorVersions(newMajorVersion: FunctionAppMajorVersion, minorVersion: FunctionAppMinorVersion, os: Os) {
     if (os === 'linux' && minorVersion.stackSettings.linuxRuntimeSettings) {
       this._addNewMinorVersionLinuxRuntime(newMajorVersion, minorVersion);
     } else if (os === 'windows' && minorVersion.stackSettings.windowsRuntimeSettings) {

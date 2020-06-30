@@ -1,10 +1,12 @@
-type Os = 'linux' | 'windows';
+export type Os = 'linux' | 'windows';
+export type StackValue = 'dotnetCore' | 'dotnetFramework' | 'java' | 'node' | 'powershell' | 'python';
+
 type FunctionsExtensionVersion = '~1' | '~2' | '~3';
 type FunctionsWorkerRuntime = 'dotnet' | 'node' | 'python' | 'java' | 'powershell';
 
 export interface FunctionAppStack {
   displayText: string;
-  value: string;
+  value: StackValue;
   majorVersions: FunctionAppMajorVersion[];
   preferredOs?: Os;
 }
