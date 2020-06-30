@@ -8,20 +8,22 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { useTranslation } from 'react-i18next';
 import { additionalTextFieldControl, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
-import { DeploymentCenterReadOnlySettingsProps, AuthorizationResult } from '../DeploymentCenter.types';
+import { AuthorizationResult, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { getArmToken } from '../utility/DeploymentCenterUtility';
+import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 
-const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsProps> = props => {
-  const { disconnect } = props;
+const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = props => {
+  const { formProps } = props;
   const { t } = useTranslation();
   const [org, setOrg] = useState<string>(t('loading'));
   const [repo, setRepo] = useState<string>(t('loading'));
   const [branch, setBranch] = useState<string>(t('loading'));
   const [repoUrl, setRepoUrl] = useState<string | undefined>(undefined);
+  const [repoApiUrl, setRepoApiUrl] = useState<string>('');
   const [gitHubUsername, setGitHubUsername] = useState<string>(t('loading'));
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -41,6 +43,7 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsP
       if (repoUrlSplit.length >= 2) {
         setOrg(repoUrlSplit[repoUrlSplit.length - 2]);
         setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
+        setRepoApiUrl(`https://api.github.com/repos/${repoUrlSplit[repoUrlSplit.length - 2]}/${repoUrlSplit[repoUrlSplit.length - 1]}`);
       }
     } else {
       LogService.error(
@@ -125,14 +128,7 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsP
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
         <div>
           {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
-          <Link
-            key="deployment-center-disconnect-link"
-            onClick={disconnect}
-            className={additionalTextFieldControl}
-            aria-label={t('disconnect')}>
-            <Icon iconName={'PlugDisconnected'} />
-            {` ${t('disconnect')}`}
-          </Link>
+          <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoApiUrl={repoApiUrl} formProps={formProps} />
         </div>
       </ReactiveFormControl>
       {deploymentCenterContext.isContainerApplication ? (

@@ -6,6 +6,7 @@ import SiteService from '../../../ApiHelpers/SiteService';
 import GitHubService from '../../../ApiHelpers/GitHubService';
 import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppOsType } from '../../../models/site/site';
+import { GitHubCommit } from '../../../models/github';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -60,6 +61,10 @@ export default class DeploymentCenterData {
     return SiteService.getSourceControlDetails(resourceId);
   };
 
+  public deleteSourceControlDetails = (resourceId: string) => {
+    return SiteService.deleteSourceControlDetails(resourceId);
+  };
+
   public getGitHubUser = (armToken: string) => {
     return GitHubService.getUser(armToken);
   };
@@ -90,6 +95,10 @@ export default class DeploymentCenterData {
 
   public getWorkflowConfiguration = (repoUrl: string, branchName: string, workflowYmlPath: string, authToken: string) => {
     return GitHubService.getWorkflowConfiguration(repoUrl, branchName, workflowYmlPath, authToken);
+  };
+
+  public deleteActionWorkflow = (authToken: string, deleteCommit: GitHubCommit) => {
+    return GitHubService.deleteActionWorkflow(authToken, deleteCommit);
   };
 
   public getRuntimeStacks = (stacksOs: AppOsType) => {

@@ -111,6 +111,14 @@ export default class SiteService {
     });
   };
 
+  public static deleteSourceControlDetails = async (resourceId: string) => {
+    return MakeArmCall<{}>({
+      resourceId: `${resourceId}/sourcecontrols/web`,
+      commandName: 'deleteSourceControl',
+      method: 'DELETE',
+    });
+  };
+
   public static updateApplicationSettings = async (resourceId: string, appSettings: ArmObj<KeyValue<string>>) => {
     const id = `${resourceId}/config/appsettings`;
     const result = await MakeArmCall<ArmObj<KeyValue<string>>>({
