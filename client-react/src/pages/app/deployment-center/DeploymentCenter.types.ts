@@ -62,6 +62,7 @@ export interface DeploymentCenterCommonFormData {
   org: string;
   repo: string;
   branch: string;
+  deleteWorkflowDuringDisconnect: boolean;
 }
 
 export interface DeploymentCenterContainerFormData {
@@ -171,8 +172,12 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   gitHubUser?: GitHubUser;
 }
 
-export interface DeploymentCenterReadOnlySettingsProps {
-  disconnect: () => void;
+export interface DeploymentCenterGitHubDisconnectProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  branch: string;
+  org: string;
+  repo: string;
+  repoApiUrl: string;
 }
 
 export interface DeploymentCenterCodeBuildCalloutProps {

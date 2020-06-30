@@ -1,6 +1,6 @@
 import { sendHttpRequest } from './HttpClient';
 import Url from '../utils/url';
-import { GitHubUser, GitHubOrganizations, GitHubRepository, GitHubBranch, FileContent } from '../models/github';
+import { GitHubUser, GitHubOrganizations, GitHubRepository, GitHubBranch, FileContent, GitHubCommit } from '../models/github';
 import { HttpResponseObject } from '../ArmHelper.types';
 
 export default class GitHubService {
@@ -75,5 +75,14 @@ export default class GitHubService {
     };
 
     return sendHttpRequest<FileContent>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+  };
+
+  public static deleteActionWorkflow = (authToken: string, deleteCommit: GitHubCommit) => {
+    const data = {
+      authToken,
+      deleteCommit,
+    };
+
+    return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/deleteActionWorkflow`, method: 'POST', data });
   };
 }

@@ -73,6 +73,9 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         getArmToken()
       );
 
+      console.log(selectedRepo);
+      console.log(selectedBranch);
+
       const [allWorkflowConfigurationsResponse, appWorkflowConfigurationResponse] = await Promise.all([
         getAllWorkflowConfigurationsRequest,
         getWorkflowConfigurationRequest,
