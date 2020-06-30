@@ -45,25 +45,15 @@ export class StacksController {
 
   @Post('functionAppStacks')
   functionAppStacksPost(@Query('api-version') apiVersion: string) {
-    return this._getFunctionAppStacks(apiVersion);
+    this._validateApiVersion(apiVersion, [Versions.version20200501]);
+
+    if (apiVersion === Versions.version20200501) {
+      return this._stackFunctionAppService20200501.getStacks();
+    }
   }
 
   @Get('functionAppStacks')
   functionAppStacksGet(@Query('api-version') apiVersion: string) {
-    return this._getFunctionAppStacks(apiVersion);
-  }
-
-  @Post('webAppStacks')
-  webAppStacksPost(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
-    return this._getWebAppStacks(apiVersion, os);
-  }
-
-  @Get('webAppStacks')
-  webAppStacksGet(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
-    return this._getWebAppStacks(apiVersion, os);
-  }
-
-  private _getFunctionAppStacks(apiVersion: string) {
     this._validateApiVersion(apiVersion, FunctionAppVersions);
 
     if (apiVersion === Versions.version20200501) {
@@ -74,7 +64,8 @@ export class StacksController {
     }
   }
 
-  private _getWebAppStacks(apiVersion: string, os?: 'linux' | 'windows') {
+  @Get('webAppStacks')
+  webAppStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
     this._validateApiVersion(apiVersion, [Versions.version20200601]);
     this._validateOs(os);
 
