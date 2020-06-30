@@ -12,7 +12,7 @@ export const nodeLinuxConfigStack: WebAppConfigStack = {
       {
         displayVersion: 'LTS',
         runtimeVersion: 'NODE|lts',
-        isDefault: true,
+        isDefault: false,
         minorVersions: [
           {
             displayVersion: 'LTS',
@@ -23,13 +23,13 @@ export const nodeLinuxConfigStack: WebAppConfigStack = {
         ],
         applicationInsights: true,
         isPreview: false,
-        isDeprecated: false,
+        isDeprecated: true,
         isHidden: false,
       },
       {
         displayVersion: '12 LTS',
         runtimeVersion: 'NODE|12-lts',
-        isDefault: false,
+        isDefault: true,
         minorVersions: [
           {
             displayVersion: '12 LTS',
