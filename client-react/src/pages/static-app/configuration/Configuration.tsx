@@ -11,6 +11,9 @@ import {
   ActionButton,
   SearchBox,
   MessageBarType,
+  Checkbox,
+  DetailsRow,
+  DetailsHeader,
 } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable, PanelType } from './Configuration.types';
@@ -42,6 +45,7 @@ import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../utils/FwLinks';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import { PortalContext } from '../../../PortalContext';
+import { commandBarSeparator } from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 
 interface ConfigurationProps {
   environments: ArmObj<Environment>[];
@@ -142,6 +146,14 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
       },
+      {
+        key: 'environment-variable-bulk-delete',
+        onClick: deleteBulkEnvironmentVariables,
+        disabled: isTableCommandBarDisabled() || !isDeleteButtonEnabled(),
+        iconProps: { iconName: 'Delete' },
+        text: t('delete'),
+        className: commandBarSeparator(theme),
+      },
     ];
   };
 
@@ -150,26 +162,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     const hidden = !shownValues.includes(itemKey) && !showAllValues;
     if (!column || !item) {
       return null;
-    }
-    if (column.key === 'delete') {
-      return (
-        <TooltipHost
-          content={t('delete')}
-          id={`environment-variable-delete-tooltip-${index}`}
-          calloutProps={{ gapSpace: 0 }}
-          closeDelay={500}>
-          <IconButton
-            className={defaultCellStyle}
-            disabled={false}
-            id={`environment-variable-delete-${index}`}
-            iconProps={{ iconName: 'Delete' }}
-            ariaLabel={t('delete')}
-            onClick={() => {
-              deleteEnvironmentVariable(index);
-            }}
-          />
-        </TooltipHost>
-      );
     }
     if (column.key === 'edit') {
       return (
@@ -223,10 +215,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       );
     }
     if (column.key === 'name') {
-      column.className = '';
-      if (isEnvironmentVariableDirty(item)) {
-        column.className = dirtyElementStyle(theme);
-      }
       return (
         <ActionButton
           className={defaultCellStyle}
@@ -241,6 +229,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         </ActionButton>
       );
     }
+
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
@@ -272,18 +261,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         isResizable: true,
         onRender: onRenderColumnItem,
         onColumnClick: onColumnClick,
-      },
-      {
-        key: 'delete',
-        name: t('delete'),
-        fieldName: 'delete',
-        minWidth: 35,
-        maxWidth: 35,
-        isRowHeader: false,
-        data: 'string',
-        isPadded: true,
-        isResizable: true,
-        onRender: onRenderColumnItem,
       },
       {
         key: 'edit',
@@ -402,12 +379,12 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const initEnvironmentVariables = () => {
-    setEnvironmentVariables(getInitialEnvironmentVariables());
+    setEnvironmentVariables([...getInitialEnvironmentVariables()]);
   };
 
   const discard = () => {
-    initEnvironmentVariables();
     setIsDirty(false);
+    initEnvironmentVariables();
     hideDiscardConfirmDialog();
   };
 
@@ -427,13 +404,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       setSelectedEnvironment(env);
     }
     hideOnChangeConfirmDialog();
-  };
-
-  const deleteEnvironmentVariable = (index: number) => {
-    if (index < environmentVariables.length) {
-      const deleteItem = environmentVariables[index];
-      setEnvironmentVariables([...environmentVariables.filter(environmentVariable => environmentVariable !== deleteItem)]);
-    }
   };
 
   const setDefaultSelectedEnvironment = () => {
@@ -463,46 +433,87 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     return !!bannerInfo.message ? <CustomBanner message={bannerInfo.message} type={bannerInfo.type} /> : <></>;
   };
 
-  useEffect(() => {
-    setDefaultSelectedEnvironment();
+  const onRowItemCheckboxChange = (item: EnvironmentVariable) => {
+    const updatedEnvironmentVariables = [...environmentVariables];
+    setEnvironmentVariables(
+      updatedEnvironmentVariables.map(environmentVariable => {
+        if (environmentVariable.name.toLocaleLowerCase() === item.name.toLocaleLowerCase()) {
+          environmentVariable.checked = !item.checked;
+        }
+        return environmentVariable;
+      })
+    );
+  };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [environments]);
-  useEffect(() => {
-    const dirtyState = getDirtyState(environmentVariables);
-    setIsDirty(dirtyState);
-    portalContext.updateDirtyState(dirtyState);
+  const onHeaderItemCheckboxChange = (updatedChecked: boolean) => {
+    const updatedEnvironmentVariables = [...environmentVariables];
+    setEnvironmentVariables(
+      updatedEnvironmentVariables.map(environmentVariable => {
+        environmentVariable.checked = updatedChecked;
+        return environmentVariable;
+      })
+    );
+  };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [environmentVariables]);
-  useEffect(() => {
-    initEnvironmentVariables();
+  const onRenderRowItemCheckbox = (item: EnvironmentVariable) => {
+    return (
+      <Checkbox
+        checked={!!item.checked}
+        onChange={() => {
+          onRowItemCheckboxChange(item);
+        }}
+      />
+    );
+  };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedEnvironmentVariableResponse]);
-  useEffect(() => {
-    setColumns(getDefaultColumns());
+  const onRenderHeaderItemCheckbox = () => {
+    const selectedEnvironmentVariables = environmentVariables.filter(environmentVariable => environmentVariable.checked).length;
+    const disabled = environmentVariables.length === 0;
+    const checked = !disabled && selectedEnvironmentVariables === environmentVariables.length;
+    return (
+      <Checkbox
+        disabled={disabled}
+        checked={checked}
+        onChange={() => {
+          onHeaderItemCheckboxChange(!checked);
+        }}
+      />
+    );
+  };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shownValues, environmentVariables]);
-  return (
-    <>
-      <div className={commandBarSticky}>
-        <ConfigurationCommandBar
-          save={save}
-          dirty={isDirty}
-          isLoading={isLoading}
-          showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)}
-          refresh={() => {
-            if (isDirty) {
-              setIsRefreshConfirmDialogVisible(true);
-            } else {
-              refresh();
-            }
-          }}
-        />
-      </div>
-      {getBanner()}
+  const getFilteredItems = () => {
+    return environmentVariables.filter(environmentVariable => {
+      if (!filter) {
+        return true;
+      }
+      return environmentVariable.name.toLowerCase().includes(filter.toLowerCase());
+    });
+  };
+
+  const onRenderRow = rowProps => {
+    const { item } = rowProps;
+    let className = '';
+    if (isEnvironmentVariableDirty(item)) {
+      className = dirtyElementStyle(theme);
+    }
+    return <DetailsRow className={className} {...rowProps} onRenderCheck={() => onRenderRowItemCheckbox(item)} />;
+  };
+
+  const onRenderDetailsHeader = headerProps => {
+    return <DetailsHeader {...headerProps} onRenderDetailsCheckbox={onRenderHeaderItemCheckbox} />;
+  };
+
+  const isDeleteButtonEnabled = () => {
+    return environmentVariables.filter(environmentVariable => environmentVariable.checked).length > 0;
+  };
+
+  const deleteBulkEnvironmentVariables = () => {
+    const updatedEnvironmentVariables = [...environmentVariables];
+    setEnvironmentVariables(updatedEnvironmentVariables.filter(environmentVariable => !environmentVariable.checked));
+  };
+
+  const getConfirmDialogs = () => {
+    return (
       <>
         <ConfirmDialog
           primaryActionButton={{
@@ -549,6 +560,115 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           onDismiss={hideRefreshConfirmDialog}
         />
       </>
+    );
+  };
+
+  const getAddEditPanel = () => {
+    return (
+      <CustomPanel
+        isOpen={showPanel && panelType === PanelType.edit}
+        onDismiss={onCancel}
+        headerText={
+          currentEnvironmentVariableIndex === undefined
+            ? t('staticSite_addApplicationSettingHeader')
+            : t('staticSite_editApplicationSettingHeader')
+        }>
+        <ConfigurationAddEdit
+          currentEnvironmentVariableIndex={currentEnvironmentVariableIndex!}
+          environmentVariables={environmentVariables}
+          cancel={onCancel}
+          updateEnvironmentVariable={updateEnvironmentVariable}
+        />
+      </CustomPanel>
+    );
+  };
+
+  const getBulkAddEditPanel = () => {
+    return (
+      <CustomPanel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
+        <ConfigurationAdvancedAddEdit
+          environmentVariables={environmentVariables}
+          cancel={onCancel}
+          updateEnvironmentVariable={updateEnvironmentVariable}
+        />
+      </CustomPanel>
+    );
+  };
+
+  const getTable = () => {
+    return (
+      <DisplayTableWithCommandBar
+        commandBarItems={getCommandBarItems()}
+        columns={columns}
+        items={getFilteredItems()}
+        isHeaderVisible={true}
+        layoutMode={DetailsListLayoutMode.justified}
+        selectionMode={SelectionMode.multiple}
+        selectionPreservedOnEmptyClick={true}
+        emptyMessage={t('staticSite_emptyApplicationSettingList')}
+        shimmer={{ lines: 2, show: isLoading }}
+        onRenderRow={onRenderRow}
+        onRenderDetailsHeader={onRenderDetailsHeader}>
+        <SearchBox
+          id="environment-variable-search"
+          className="ms-slideDownIn20"
+          autoFocus
+          iconProps={{ iconName: 'Filter' }}
+          styles={filterTextFieldStyle}
+          placeholder={t('staticSite_filterApplicationSetting')}
+          onChange={newValue => setFilter(newValue)}
+          value={filter}
+          disabled={isTableCommandBarDisabled()}
+        />
+      </DisplayTableWithCommandBar>
+    );
+  };
+
+  useEffect(() => {
+    setDefaultSelectedEnvironment();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [environments]);
+
+  useEffect(() => {
+    const dirtyState = getDirtyState(environmentVariables);
+    setIsDirty(dirtyState);
+    portalContext.updateDirtyState(dirtyState);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [environmentVariables]);
+
+  useEffect(() => {
+    initEnvironmentVariables();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedEnvironmentVariableResponse]);
+
+  useEffect(() => {
+    setColumns(getDefaultColumns());
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shownValues, environmentVariables]);
+
+  return (
+    <>
+      <div className={commandBarSticky}>
+        <ConfigurationCommandBar
+          save={save}
+          dirty={isDirty}
+          isLoading={isLoading}
+          showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)}
+          refresh={() => {
+            if (isDirty) {
+              setIsRefreshConfirmDialogVisible(true);
+            } else {
+              refresh();
+            }
+          }}
+        />
+      </div>
+      {getBanner()}
+      {getConfirmDialogs()}
       <div className={formStyle}>
         <h3>{t('staticSite_applicationSettings')}</h3>
         <p className={formDescriptionStyle}>
@@ -568,55 +688,9 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           disabled={isLoading || !hasWritePermissions}
           selectedEnvironment={selectedEnvironment}
         />
-        <DisplayTableWithCommandBar
-          commandBarItems={getCommandBarItems()}
-          columns={columns}
-          items={environmentVariables.filter(environmentVariable => {
-            if (!filter) {
-              return true;
-            }
-            return environmentVariable.name.toLowerCase().includes(filter.toLowerCase());
-          })}
-          isHeaderVisible={true}
-          layoutMode={DetailsListLayoutMode.justified}
-          selectionMode={SelectionMode.none}
-          selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('staticSite_emptyApplicationSettingList')}
-          shimmer={{ lines: 2, show: isLoading }}>
-          <SearchBox
-            id="environment-variable-search"
-            className="ms-slideDownIn20"
-            autoFocus
-            iconProps={{ iconName: 'Filter' }}
-            styles={filterTextFieldStyle}
-            placeholder={t('staticSite_filterApplicationSetting')}
-            onChange={newValue => setFilter(newValue)}
-            value={filter}
-            disabled={isTableCommandBarDisabled()}
-          />
-        </DisplayTableWithCommandBar>
-        <CustomPanel
-          isOpen={showPanel && panelType === PanelType.edit}
-          onDismiss={onCancel}
-          headerText={
-            currentEnvironmentVariableIndex === undefined
-              ? t('staticSite_addApplicationSettingHeader')
-              : t('staticSite_editApplicationSettingHeader')
-          }>
-          <ConfigurationAddEdit
-            currentEnvironmentVariableIndex={currentEnvironmentVariableIndex!}
-            environmentVariables={environmentVariables}
-            cancel={onCancel}
-            updateEnvironmentVariable={updateEnvironmentVariable}
-          />
-        </CustomPanel>
-        <CustomPanel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
-          <ConfigurationAdvancedAddEdit
-            environmentVariables={environmentVariables}
-            cancel={onCancel}
-            updateEnvironmentVariable={updateEnvironmentVariable}
-          />
-        </CustomPanel>
+        {getTable()}
+        {getAddEditPanel()}
+        {getBulkAddEditPanel()}
       </div>
     </>
   );
