@@ -19,6 +19,7 @@ import { LogService } from '../shared/services/log.service';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { ApplicationInsight } from 'app/shared/models/application-insights';
 import { PortalService } from 'app/shared/services/portal.service';
+import { ConfigService } from '../shared/services/config.service';
 
 @Component({
   selector: ComponentNames.functionMonitor,
@@ -41,6 +42,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
     private _applicationInsightsService: ApplicationInsightsService,
     private _logService: LogService,
     private _portalService: PortalService,
+    private _configService: ConfigService,
     public globalStateService: GlobalStateService,
     injector: Injector
   ) {
@@ -80,7 +82,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
           Observable.of(tuple[1].functionDescriptor.name),
           this._siteService.getAppSettings(tuple[0].site.id),
           this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: tuple[0].site }),
-          this._portalService.getAdToken('applicationinsightapi')
+          this._configService.isOnPrem() ? Observable.of(null) : this._portalService.getAdToken('applicationinsightapi')
         )
       )
       .map(
