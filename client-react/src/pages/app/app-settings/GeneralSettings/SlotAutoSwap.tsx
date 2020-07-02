@@ -75,16 +75,10 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
                 options={[
                   {
                     key: 'on',
-                    /**
-                     * The text string for the option.
-                     */
                     text: t('on'),
                   },
                   {
                     key: 'off',
-                    /**
-                     * The text string for the option.
-                     */
                     text: t('off'),
                   },
                 ]}
