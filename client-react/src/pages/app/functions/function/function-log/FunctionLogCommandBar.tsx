@@ -10,11 +10,7 @@ import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 import FunctionLogOptionsCallout from './FunctionLogOptionsCallout';
 
 interface FunctionLogCommandBarProps {
-  onChevronClick: () => void;
-  copy: () => void;
-  toggleConnection: () => void;
-  clear: () => void;
-  toggleMaximize: () => void;
+  resourceId: string;
   isPanelVisible: boolean;
   started: boolean;
   maximized: boolean;
@@ -22,6 +18,11 @@ interface FunctionLogCommandBarProps {
   hideChevron: boolean;
   hideLiveMetrics: boolean;
   setLogLevel: (level: LogLevel) => void;
+  onChevronClick: () => void;
+  copy: () => void;
+  toggleConnection: () => void;
+  clear: () => void;
+  toggleMaximize: () => void;
   appInsightsResourceId?: string;
   leftAlignMainToolbarItems?: boolean;
   showLoggingOptionsDropdown?: boolean;
@@ -47,6 +48,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     leftAlignMainToolbarItems,
     showLoggingOptionsDropdown,
     selectedLoggingOption,
+    resourceId,
   } = props;
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
@@ -293,6 +295,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       />
       {isLoggingOptionConfirmCallOutVisible && (
         <FunctionLogOptionsCallout
+          resourceId={resourceId}
           setIsDialogVisible={setIsLoggingOptionConfirmCallOutVisible}
           setSelectedLoggingOption={props.setSelectedLoggingOption}
         />
