@@ -8,18 +8,19 @@ import { buttonStyle, buttonsWrapperStyle } from '../../../../../components/Acti
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import Url from '../../../../../utils/url';
+import { SiteStateContext } from '../../../../../SiteState';
 
 interface FunctionLogOptionsCalloutProps {
-  resourceId: string;
   setIsDialogVisible: (isVisible: boolean) => void;
   setSelectedLoggingOption?: (option: LoggingOptions) => void;
 }
 
 const FunctionLogOptionsCallout: React.FC<FunctionLogOptionsCalloutProps> = props => {
-  const { setIsDialogVisible, setSelectedLoggingOption, resourceId } = props;
+  const { setIsDialogVisible, setSelectedLoggingOption } = props;
 
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const onCloseDialog = () => {
     setIsDialogVisible(false);
@@ -29,7 +30,7 @@ const FunctionLogOptionsCallout: React.FC<FunctionLogOptionsCalloutProps> = prop
     if (setSelectedLoggingOption) {
       setSelectedLoggingOption(LoggingOptions.fileBased);
       LogService.trackEvent(LogCategories.functionLog, 'fileBased-logging-selected', {
-        resourceId,
+        resourceId: siteStateContext.resourceId,
         sessionId: Url.getParameterByName(null, 'sessionId'),
       });
     }

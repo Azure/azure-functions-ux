@@ -16,7 +16,6 @@ import { useTranslation } from 'react-i18next';
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 
 interface FunctionLogProps {
-  resourceId: string;
   isExpanded: boolean;
   started: boolean;
   startLogs: () => void;
@@ -69,7 +68,6 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     selectedLoggingOption,
     showLoggingOptionsDropdown,
     setSelectedLoggingOption,
-    resourceId,
   } = props;
   const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
@@ -196,7 +194,6 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         showLoggingOptionsDropdown={showLoggingOptionsDropdown}
         selectedLoggingOption={selectedLoggingOption}
         setSelectedLoggingOption={setSelectedLoggingOption}
-        resourceId={resourceId}
       />
       {isExpanded && (
         <div
