@@ -1,42 +1,51 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { useTranslation } from 'react-i18next';
-import { additionalTextFieldControl } from '../DeploymentCenter.styles';
-import { Link, Icon } from 'office-ui-fabric-react';
-import { DeploymentCenterGitHubDisconnectProps } from '../DeploymentCenter.types';
+import { additionalTextFieldControl, choiceGroupSubLabel } from '../DeploymentCenter.styles';
+import { Link, Icon, PanelType, ChoiceGroup } from 'office-ui-fabric-react';
+import {
+  DeploymentCenterGitHubDisconnectProps,
+  DeploymentDisconnectStatus,
+  DeployDisconnectStep,
+  WorkflowFileDeleteOptions,
+  WorkflowChoiceGroupOption,
+} from '../DeploymentCenter.types';
 import { getArmToken, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import { FileContent, GitHubCommit } from '../../../../models/github';
 import { PortalContext } from '../../../../PortalContext';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
+import ActionBar from '../../../../components/ActionBar';
 
 const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnectProps> = props => {
-  const { branch, org, repo, repoApiUrl, formProps } = props;
+  const { branch, org, repo, repoUrl, repoApiUrl, formProps } = props;
   const { t } = useTranslation();
+  const [isDisconnectPanelOpen, setIsDisconnectPanelOpen] = useState<boolean>(false);
+  const [selectedWorkflowChoice, setSelectedWorkflowChoice] = useState<WorkflowFileDeleteOptions>(WorkflowFileDeleteOptions.Preserve);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
 
-  enum DeployDisconnectStep {
-    DeleteWorkflowFile = 'DeleteWorkflowFile',
-    ClearSCMSettings = 'ClearSCMSettings',
-  }
+  const showDisconnectPanel = () => {
+    setSelectedWorkflowChoice(WorkflowFileDeleteOptions.Preserve);
+    setIsDisconnectPanelOpen(true);
+  };
 
-  interface DeploymentDisconnectStatus {
-    step: DeployDisconnectStep;
-    isSuccessful: boolean;
-    errorMessage?: string;
-    error?: any;
-  }
+  const dismissDisconnectPanel = () => {
+    setIsDisconnectPanelOpen(false);
+  };
 
-  const disconnectCallback = async () => {
+  const updateSelectedWorkflowChoice = (e: any, option: WorkflowChoiceGroupOption) => {
+    setSelectedWorkflowChoice(option.workflowDeleteChoice);
+  };
+
+  const disconnectCallback = async (deleteWorkflowDuringDisconnect: boolean) => {
     const notificationId = portalContext.startNotification(t('disconnectingDeployment'), t('disconnectingDeployment'));
-    if (formProps) {
-      formProps.values.deleteWorkflowDuringDisconnect = true;
-    }
 
-    let deploymentDisconnectStatus = await deleteWorkflowFileIfNeeded();
-    deploymentDisconnectStatus = await clearSCMSettings(deploymentDisconnectStatus);
+    let deploymentDisconnectStatus = await deleteWorkflowFileIfNeeded(deleteWorkflowDuringDisconnect);
+    deploymentDisconnectStatus = await clearSCMSettings(deleteWorkflowDuringDisconnect, deploymentDisconnectStatus);
 
     if (deploymentDisconnectStatus.isSuccessful) {
       portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
@@ -49,7 +58,12 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     }
   };
 
-  const clearSCMSettings = async (deploymentDisconnectStatus: DeploymentDisconnectStatus) => {
+  const workflowFileName =
+    formProps && deploymentCenterContext.siteDescriptor
+      ? getWorkflowFileName(branch, deploymentCenterContext.siteDescriptor.site, deploymentCenterContext.siteDescriptor.slot)
+      : '';
+
+  const clearSCMSettings = async (deleteWorkflowDuringDisconnect: boolean, deploymentDisconnectStatus: DeploymentDisconnectStatus) => {
     if (deploymentDisconnectStatus.isSuccessful) {
       const deleteSourceControlDetailsResponse = await deploymentCenterData.deleteSourceControlDetails(deploymentCenterContext.resourceId);
       if (!deleteSourceControlDetailsResponse.metadata.success) {
@@ -59,7 +73,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
           error: deleteSourceControlDetailsResponse.metadata.error,
         };
 
-        if (formProps && formProps.values.deleteWorkflowDuringDisconnect) {
+        if (deleteWorkflowDuringDisconnect) {
           failedStatus.errorMessage = t('disconnectingDeploymentFailWorkflowFileDeleteSucceeded');
           return failedStatus;
         } else {
@@ -78,12 +92,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     }
   };
 
-  const deleteWorkflowFileIfNeeded = async () => {
-    const workflowFileName =
-      formProps && deploymentCenterContext.siteDescriptor
-        ? getWorkflowFileName(branch, deploymentCenterContext.siteDescriptor.site, deploymentCenterContext.siteDescriptor.slot)
-        : '';
-
+  const deleteWorkflowFileIfNeeded = async (deleteWorkflowDuringDisconnect: boolean) => {
     const errorMessage = t('githubActionDisconnectWorkflowDeleteFailed').format(workflowFileName, branch, repoApiUrl);
 
     const successStatus: DeploymentDisconnectStatus = {
@@ -97,7 +106,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
       errorMessage: errorMessage,
     };
 
-    if (formProps && !formProps.values.deleteWorkflowDuringDisconnect) {
+    if (!deleteWorkflowDuringDisconnect) {
       return successStatus;
     } else {
       const workflowFilePath = `.github/workflows/${workflowFileName}`;
@@ -119,6 +128,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
           return failedStatus;
         }
       } else {
+        // (Note t-kakan): not localized due to this string not being shown to users
         failedStatus.error = `Workflow file '${workflowFilePath}' not found in branch '${branch}' from repo '${org}/${repo}'`;
         return failedStatus;
       }
@@ -141,18 +151,141 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     return deploymentCenterData.deleteActionWorkflow(getArmToken(), deleteCommitInfo);
   };
 
+  const fetchWorkflowConfiguration = async () => {
+    setIsLoading(true);
+
+    if (deploymentCenterContext.siteDescriptor) {
+      const workflowFileName = getWorkflowFileName(
+        branch,
+        deploymentCenterContext.siteDescriptor.site,
+        deploymentCenterContext.siteDescriptor.slot
+      );
+      const workflowFilePath = `.github/workflows/${workflowFileName}`;
+      const getAllWorkflowConfigurationsRequest = deploymentCenterData.getAllWorkflowConfigurations(repoApiUrl, branch, getArmToken());
+      const getWorkflowConfigurationRequest = deploymentCenterData.getWorkflowConfiguration(
+        repoApiUrl,
+        branch,
+        workflowFilePath,
+        getArmToken()
+      );
+
+      const [allWorkflowConfigurationsResponse, appWorkflowConfigurationResponse] = await Promise.all([
+        getAllWorkflowConfigurationsRequest,
+        getWorkflowConfigurationRequest,
+      ]);
+
+      if (appWorkflowConfigurationResponse.metadata.success) {
+        setWorkflowFileExistsWarningMessage(
+          t('githubActionWorkflowFileExists', {
+            workflowFilePath: workflowFilePath,
+            branchName: selectedBranch,
+          })
+        );
+
+        if (appWorkflowConfigurationResponse.data.content) {
+          setGithubActionExistingWorkflowContents(atob(appWorkflowConfigurationResponse.data.content));
+        } else {
+          setGithubActionExistingWorkflowContents('');
+        }
+
+        setWorkflowConfigDropdownOptions(overwriteOrUseExistingOptions);
+        setShowWorkflowConfigDropdown(true);
+      } else if (allWorkflowConfigurationsResponse.metadata.success && allWorkflowConfigurationsResponse.data.length > 0) {
+        setWorkflowFileExistsWarningMessage(
+          t('githubActionWorkflowsExist', {
+            branchName: selectedBranch,
+          })
+        );
+
+        setWorkflowConfigDropdownOptions(addOrUseExistingOptions);
+        setShowWorkflowConfigDropdown(true);
+      } else {
+        setSelectedWorkflowConfigOption(WorkflowOption.Add);
+        if (formProps) {
+          formProps.setFieldValue('workflowOption', WorkflowOption.Add);
+        }
+      }
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchWorkflowConfiguration();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const options: WorkflowChoiceGroupOption[] = [
+    {
+      key: 'Preserve',
+      text: t('githubActionWorkflowFilePreserveLabel'),
+      workflowDeleteChoice: WorkflowFileDeleteOptions.Preserve,
+      onRenderField: (fieldProps, defaultRenderer) => (
+        <div>
+          {defaultRenderer!(fieldProps)}
+          <div className={choiceGroupSubLabel}>{t('githubActionWorkflowFilePreserveDescription')}</div>
+        </div>
+      ),
+    },
+    {
+      key: 'Delete',
+      text: t('githubActionWorkflowFileDeleteLabel'),
+      workflowDeleteChoice: WorkflowFileDeleteOptions.Delete,
+      onRenderField: (fieldProps, defaultRenderer) => (
+        <div>
+          {defaultRenderer!(fieldProps)}
+          <div className={choiceGroupSubLabel}>
+            {t('githubActionWorkflowFileDeleteDescription').format(workflowFileName, branch, repoUrl)}
+          </div>
+        </div>
+      ),
+    },
+  ];
+
+  const actionBarPrimaryButtonProps = {
+    id: 'save',
+    title: t('ok'),
+    onClick: () => disconnectCallback(selectedWorkflowChoice === WorkflowFileDeleteOptions.Delete),
+    disable: isLoading,
+  };
+
+  const actionBarSecondaryButtonProps = {
+    id: 'cancel',
+    title: t('cancel'),
+    onClick: dismissDisconnectPanel,
+    disable: false,
+  };
+
   return (
     <>
-      {repoApiUrl && (
-        <Link
-          key="deployment-center-disconnect-link"
-          onClick={disconnectCallback}
-          className={additionalTextFieldControl}
-          aria-label={t('disconnect')}>
-          <Icon iconName={'PlugDisconnected'} />
-          {` ${t('disconnect')}`}
-        </Link>
-      )}
+      <Link
+        key="deployment-center-disconnect-link"
+        onClick={showDisconnectPanel}
+        className={additionalTextFieldControl}
+        aria-label={t('disconnect')}>
+        <Icon iconName={'PlugDisconnected'} />
+        {` ${t('disconnect')}`}
+      </Link>
+      <CustomPanel
+        isOpen={isDisconnectPanelOpen}
+        onDismiss={dismissDisconnectPanel}
+        type={PanelType.medium}
+        headerText={t('githubActionDisconnectConfirmationTitle')}>
+        <h4>{t('githubActionWorkflowFileDeletePanelDescription')}</h4>
+        <h4>{t('githubActionWorkflowFileDeletePanelChoiceDescription')}</h4>
+        <ChoiceGroup
+          selectedKey={selectedWorkflowChoice}
+          options={options}
+          onChange={updateSelectedWorkflowChoice}
+          label={t('githubActionWorkflowFileLabel')}
+          required={true}
+        />
+        <ActionBar
+          id="app-settings-edit-footer"
+          primaryButton={actionBarPrimaryButtonProps}
+          secondaryButton={actionBarSecondaryButtonProps}
+        />
+      </CustomPanel>
     </>
   );
 };

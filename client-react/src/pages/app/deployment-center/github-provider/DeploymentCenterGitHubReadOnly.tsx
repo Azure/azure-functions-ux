@@ -22,7 +22,7 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = pro
   const [org, setOrg] = useState<string>(t('loading'));
   const [repo, setRepo] = useState<string>(t('loading'));
   const [branch, setBranch] = useState<string>(t('loading'));
-  const [repoUrl, setRepoUrl] = useState<string | undefined>(undefined);
+  const [repoUrl, setRepoUrl] = useState<string>('');
   const [repoApiUrl, setRepoApiUrl] = useState<string>('');
   const [gitHubUsername, setGitHubUsername] = useState<string>(t('loading'));
 
@@ -128,7 +128,16 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = pro
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
         <div>
           {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
-          <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoApiUrl={repoApiUrl} formProps={formProps} />
+          {repoApiUrl && (
+            <DeploymentCenterGitHubDisconnect
+              branch={branch}
+              org={org}
+              repo={repo}
+              repoUrl={repoUrl}
+              repoApiUrl={repoApiUrl}
+              formProps={formProps}
+            />
+          )}
         </div>
       </ReactiveFormControl>
       {deploymentCenterContext.isContainerApplication ? (

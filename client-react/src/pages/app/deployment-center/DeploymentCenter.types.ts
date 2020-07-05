@@ -41,6 +41,11 @@ export enum WorkflowOption {
   UseExistingWorkflowConfig = 'useExistingWorkflowConfig',
 }
 
+export enum WorkflowFileDeleteOptions {
+  Preserve = 'Preserve',
+  Delete = 'Delete',
+}
+
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &
   DeploymentCenterFtpsProps<DeploymentCenterContainerFormData>;
 
@@ -62,7 +67,6 @@ export interface DeploymentCenterCommonFormData {
   org: string;
   repo: string;
   branch: string;
-  deleteWorkflowDuringDisconnect: boolean;
 }
 
 export interface DeploymentCenterContainerFormData {
@@ -177,6 +181,7 @@ export interface DeploymentCenterGitHubDisconnectProps<T = DeploymentCenterConta
   branch: string;
   org: string;
   repo: string;
+  repoUrl: string;
   repoApiUrl: string;
 }
 
@@ -260,4 +265,20 @@ export class WorkflowInformation {
   fileName: string;
   secretName: string;
   content: string;
+}
+
+export enum DeployDisconnectStep {
+  DeleteWorkflowFile = 'DeleteWorkflowFile',
+  ClearSCMSettings = 'ClearSCMSettings',
+}
+
+export interface DeploymentDisconnectStatus {
+  step: DeployDisconnectStep;
+  isSuccessful: boolean;
+  errorMessage?: string;
+  error?: any;
+}
+
+export interface WorkflowChoiceGroupOption extends IChoiceGroupOption {
+  workflowDeleteChoice: WorkflowFileDeleteOptions;
 }
