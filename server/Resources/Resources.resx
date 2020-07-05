@@ -5739,6 +5739,27 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
         <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
     </data>
+    <data name="githubActionWorkflowFileLabel" xml:space="preserve">
+        <value>Workflow file</value>
+    </data>
+    <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
+        <value>Preserve</value>
+    </data>
+    <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
+        <value>Leaving the file will cause commits to this branch to continue triggering deployments to your app.</value>
+    </data>
+    <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
+        <value>Delete</value>
+    </data>
+    <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
+        <value>Delete file ‘{0}’ from branch {1} in repository ‘{2}’.</value>
+    </data>
+    <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
+        <value>Disconnecting the GitHub Action will cause</value>
+    </data>
+    <data name="githubActionWorkflowFileDeletePanelChoiceDescription" xml:space="preserve">
+        <value>Choose whether to remove the workflow file below.</value>
+    </data>
     <data name="emptyFunctionKeys" xml:space="preserve">
         <value>No function keys to display</value>
     </data>

@@ -71,3 +71,9 @@ export const calloutContent = style({
 export const calloutContentButton = style({
   margin: '18px 12px 10px 0px',
 });
+
+export const choiceGroupSubLabel = style({
+  paddingLeft: '26px',
+  fontSize: '12px',
+  color: '#605E5C',
+});

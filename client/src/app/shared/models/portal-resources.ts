@@ -1855,6 +1855,13 @@ export class PortalResources {
   public static githubActionWorkflowOptionUseExisting = 'githubActionWorkflowOptionUseExisting';
   public static githubActionWorkflowOptionUseExistingMessage = 'githubActionWorkflowOptionUseExistingMessage';
   public static githubActionWorkflowOptionOverwriteMessage = 'githubActionWorkflowOptionOverwriteMessage';
+  public static githubActionWorkflowFileLabel = 'githubActionWorkflowFileLabel';
+  public static githubActionWorkflowFilePreserveLabel = 'githubActionWorkflowFilePreserveLabel';
+  public static githubActionWorkflowFilePreserveDescription = 'githubActionWorkflowFilePreserveDescription';
+  public static githubActionWorkflowFileDeleteLabel = 'githubActionWorkflowFileDeleteLabel';
+  public static githubActionWorkflowFileDeleteDescription = 'githubActionWorkflowFileDeleteDescription';
+  public static githubActionWorkflowFileDeletePanelDescription = 'githubActionWorkflowFileDeletePanelDescription';
+  public static githubActionWorkflowFileDeletePanelChoiceDescription = 'githubActionWorkflowFileDeletePanelChoiceDescription';
   public static emptyFunctionKeys = 'emptyFunctionKeys';
   public static featureNotSupportedForPremium = 'featureNotSupportedForPremium';
   public static deleteFunctionKeyNotification = 'deleteFunctionKeyNotification';

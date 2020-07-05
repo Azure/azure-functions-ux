@@ -51,7 +51,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
     }
   };
 
-  const fetchWorkflowConfiguration = async (selectedOrg: string, selectedRepo: string, selectedBranch: string) => {
+  const fetchWorkflowConfiguration = async (selectedRepo: string, selectedBranch: string) => {
     setIsWorkflowConfigLoading(true);
 
     if (deploymentCenterContext.siteDescriptor) {
@@ -72,9 +72,6 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         workflowFilePath,
         getArmToken()
       );
-
-      console.log(selectedRepo);
-      console.log(selectedBranch);
 
       const [allWorkflowConfigurationsResponse, appWorkflowConfigurationResponse] = await Promise.all([
         getAllWorkflowConfigurationsRequest,
@@ -124,7 +121,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         formProps.setFieldValue('workflowOption', WorkflowOption.None);
       }
       if (formProps && formProps.values.branch !== '') {
-        fetchWorkflowConfiguration(formProps.values.org, formProps.values.repo, formProps.values.branch);
+        fetchWorkflowConfiguration(formProps.values.repo, formProps.values.branch);
       }
     }, // eslint-disable-next-line react-hooks/exhaustive-deps
     formProps ? [formProps.values.branch] : []

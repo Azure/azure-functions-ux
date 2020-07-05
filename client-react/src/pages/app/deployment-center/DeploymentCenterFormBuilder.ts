@@ -26,7 +26,6 @@ export abstract class DeploymentCenterFormBuilder {
       org: '',
       repo: '',
       branch: '',
-      deleteWorkflowDuringDisconnect: false,
     };
   }
 
@@ -55,7 +54,6 @@ export abstract class DeploymentCenterFormBuilder {
       org: Yup.mixed().notRequired(),
       repo: Yup.mixed().notRequired(),
       branch: Yup.mixed().notRequired(),
-      deleteWorkflowDuringDisconnect: Yup.mixed().notRequired(),
     };
   }
 
