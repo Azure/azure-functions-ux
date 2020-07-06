@@ -1861,6 +1861,7 @@ export class PortalResources {
   public static githubActionWorkflowFileDeleteLabel = 'githubActionWorkflowFileDeleteLabel';
   public static githubActionWorkflowFileDeleteDescription = 'githubActionWorkflowFileDeleteDescription';
   public static githubActionWorkflowFileDeletePanelDescription = 'githubActionWorkflowFileDeletePanelDescription';
+  public static githubActionWorkflowFileDeletePanelNoChoiceDescription = 'githubActionWorkflowFileDeletePanelNoChoiceDescription';
   public static githubActionWorkflowFileDeletePanelChoiceDescription = 'githubActionWorkflowFileDeletePanelChoiceDescription';
   public static emptyFunctionKeys = 'emptyFunctionKeys';
   public static featureNotSupportedForPremium = 'featureNotSupportedForPremium';
@@ -1920,6 +1921,8 @@ export class PortalResources {
   public static githubActionDashboardRepositoryMissingError = 'githubActionDashboardRepositoryMissingError';
   public static githubActionDashboardBranchMissingError = 'githubActionDashboardBranchMissingError';
   public static githubActionDisconnectConfirmationTitle = 'githubActionDisconnectConfirmationTitle';
+  public static deploymentCenterGitHubDisconnectLoadingAriaValue = 'deploymentCenterGitHubDisconnectLoadingAriaValue';
+  public static deploymentCenterGitHubDisconnectLoading = 'deploymentCenterGitHubDisconnectLoading';
   public static githubActionDisconnectWorkflowDeleteFailed = 'githubActionDisconnectWorkflowDeleteFailed';
   public static disconnectingDeploymentFailWorkflowFileDeleteSucceeded = 'disconnectingDeploymentFailWorkflowFileDeleteSucceeded';
   public static functionLog_rbacPermissionsForAppInsights = 'functionLog_rbacPermissionsForAppInsights';

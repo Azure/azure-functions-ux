@@ -5746,19 +5746,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Preserve</value>
     </data>
     <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Leaving the file will cause commits to this branch to continue triggering deployments to your app.</value>
+        <value>Preserve file '{0}' from branch '{1}' in repository '{2}'. This may trigger deployments to your app on commits to the branch.</value>
     </data>
     <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
         <value>Delete</value>
     </data>
     <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Delete file ‘{0}’ from branch {1} in repository ‘{2}’.</value>
+        <value>Delete file '{0}' from branch '{1}' in repository '{2}'. This will prevent future deployments to your app on commits to this branch.</value>
     </data>
     <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting the GitHub Action will cause</value>
+        <value>Disconnecting the GitHub Action will prevent any future deployments trigerred by commits.</value>
+    </data>
+    <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
+        <value>GitHub Action workflow file '{0}' from branch '{1}' in repository '{2}' does not exist. Select 'OK' to disconnect deployment.</value>
     </data>
     <data name="githubActionWorkflowFileDeletePanelChoiceDescription" xml:space="preserve">
-        <value>Choose whether to remove the workflow file below.</value>
+        <value>Would you also like to remove the workflow file from your GitHub repository?</value>
     </data>
     <data name="emptyFunctionKeys" xml:space="preserve">
         <value>No function keys to display</value>
@@ -5935,10 +5938,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Confirm GitHub Action Disconnect</value>
     </data>
     <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
-        <value>Loading disconnect panel</value>
+        <value>Fetching GitHub Action workflow configuration</value>
     </data>
     <data name="deploymentCenterGitHubDisconnectLoading" xml:space="preserve">
-        <value>Loading disconnect panel...</value>
+        <value>Fetching GitHub Action workflow configuration...</value>
     </data>
     <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
         <value>Failed to delete '{0}' workflow file from branch '{1}' in repository '{2}'. This could be caused by either the file being renamed or already deleted.</value>

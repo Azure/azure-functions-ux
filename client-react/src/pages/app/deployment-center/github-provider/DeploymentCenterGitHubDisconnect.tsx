@@ -23,6 +23,8 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
   const [isDisconnectPanelOpen, setIsDisconnectPanelOpen] = useState<boolean>(false);
   const [selectedWorkflowChoice, setSelectedWorkflowChoice] = useState<WorkflowFileDeleteOptions>(WorkflowFileDeleteOptions.Preserve);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [workflowConfigExists, setWorkflowConfigExists] = useState<boolean>(false);
+  const [workflowFileName, setWorkflowFileName] = useState<string>('');
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
@@ -57,11 +59,6 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
       );
     }
   };
-
-  const workflowFileName =
-    formProps && deploymentCenterContext.siteDescriptor
-      ? getWorkflowFileName(branch, deploymentCenterContext.siteDescriptor.site, deploymentCenterContext.siteDescriptor.slot)
-      : '';
 
   const clearSCMSettings = async (deleteWorkflowDuringDisconnect: boolean, deploymentDisconnectStatus: DeploymentDisconnectStatus) => {
     if (deploymentDisconnectStatus.isSuccessful) {
@@ -154,62 +151,31 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
   const fetchWorkflowConfiguration = async () => {
     setIsLoading(true);
 
-    if (deploymentCenterContext.siteDescriptor) {
-      const workflowFileName = getWorkflowFileName(
-        branch,
-        deploymentCenterContext.siteDescriptor.site,
-        deploymentCenterContext.siteDescriptor.slot
-      );
-      const workflowFilePath = `.github/workflows/${workflowFileName}`;
-      const getAllWorkflowConfigurationsRequest = deploymentCenterData.getAllWorkflowConfigurations(repoApiUrl, branch, getArmToken());
-      const getWorkflowConfigurationRequest = deploymentCenterData.getWorkflowConfiguration(
-        repoApiUrl,
-        branch,
-        workflowFilePath,
-        getArmToken()
-      );
+    const workflowFilePath = `.github/workflows/${workflowFileName}`;
+    const getWorkflowConfigurationRequest = deploymentCenterData.getWorkflowConfiguration(
+      repoApiUrl,
+      branch,
+      workflowFilePath,
+      getArmToken()
+    );
 
-      const [allWorkflowConfigurationsResponse, appWorkflowConfigurationResponse] = await Promise.all([
-        getAllWorkflowConfigurationsRequest,
-        getWorkflowConfigurationRequest,
-      ]);
+    const appWorkflowConfigurationResponse = await getWorkflowConfigurationRequest;
 
-      if (appWorkflowConfigurationResponse.metadata.success) {
-        setWorkflowFileExistsWarningMessage(
-          t('githubActionWorkflowFileExists', {
-            workflowFilePath: workflowFilePath,
-            branchName: selectedBranch,
-          })
-        );
-
-        if (appWorkflowConfigurationResponse.data.content) {
-          setGithubActionExistingWorkflowContents(atob(appWorkflowConfigurationResponse.data.content));
-        } else {
-          setGithubActionExistingWorkflowContents('');
-        }
-
-        setWorkflowConfigDropdownOptions(overwriteOrUseExistingOptions);
-        setShowWorkflowConfigDropdown(true);
-      } else if (allWorkflowConfigurationsResponse.metadata.success && allWorkflowConfigurationsResponse.data.length > 0) {
-        setWorkflowFileExistsWarningMessage(
-          t('githubActionWorkflowsExist', {
-            branchName: selectedBranch,
-          })
-        );
-
-        setWorkflowConfigDropdownOptions(addOrUseExistingOptions);
-        setShowWorkflowConfigDropdown(true);
-      } else {
-        setSelectedWorkflowConfigOption(WorkflowOption.Add);
-        if (formProps) {
-          formProps.setFieldValue('workflowOption', WorkflowOption.Add);
-        }
-      }
+    if (appWorkflowConfigurationResponse.metadata.success) {
+      setWorkflowConfigExists(true);
+    } else {
+      setWorkflowConfigExists(false);
     }
     setIsLoading(false);
   };
 
   useEffect(() => {
+    if (formProps && deploymentCenterContext.siteDescriptor) {
+      setWorkflowFileName(
+        getWorkflowFileName(branch, deploymentCenterContext.siteDescriptor.site, deploymentCenterContext.siteDescriptor.slot)
+      );
+    }
+
     fetchWorkflowConfiguration();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -223,7 +189,9 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
       onRenderField: (fieldProps, defaultRenderer) => (
         <div>
           {defaultRenderer!(fieldProps)}
-          <div className={choiceGroupSubLabel}>{t('githubActionWorkflowFilePreserveDescription')}</div>
+          <div className={choiceGroupSubLabel}>
+            {t('githubActionWorkflowFilePreserveDescription').format(workflowFileName, branch, repoUrl)}
+          </div>
         </div>
       ),
     },
@@ -282,7 +250,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
         headerText={t('githubActionDisconnectConfirmationTitle')}>
         {isLoading ? (
           getProgressIndicator()
-        ) : (
+        ) : workflowConfigExists ? (
           <>
             <h4>{t('githubActionWorkflowFileDeletePanelDescription')}</h4>
             <h4>{t('githubActionWorkflowFileDeletePanelChoiceDescription')}</h4>
@@ -293,13 +261,15 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
               label={t('githubActionWorkflowFileLabel')}
               required={true}
             />
-            <ActionBar
-              id="app-settings-edit-footer"
-              primaryButton={actionBarPrimaryButtonProps}
-              secondaryButton={actionBarSecondaryButtonProps}
-            />
           </>
+        ) : (
+          <h4>{t('githubActionWorkflowFileDeletePanelNoChoiceDescription').format(workflowFileName, branch, repoUrl)}</h4>
         )}
+        <ActionBar
+          id="app-settings-edit-footer"
+          primaryButton={actionBarPrimaryButtonProps}
+          secondaryButton={actionBarSecondaryButtonProps}
+        />
       </CustomPanel>
     </>
   );
