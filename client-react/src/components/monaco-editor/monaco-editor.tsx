@@ -46,6 +46,12 @@ class MonacoEditor extends React.Component<any, any> {
       this.editor.updateOptions({ ...this.props.options });
     }
 
+    if (this.props.onSave && this.editor.addCommand) {
+      this.editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
+        this.props.onSave();
+      });
+    }
+
     this.editor.layout();
   }
 
@@ -76,7 +82,7 @@ class MonacoEditor extends React.Component<any, any> {
 
   public initMonaco() {
     const value = this.props.value !== null ? this.props.value : this.props.defaultValue;
-    const { language, theme, options } = this.props;
+    const { language, theme, options, onSave } = this.props;
     if (this.containerElement) {
       // Before initializing monaco editor
       this.editorWillMount();
@@ -136,6 +142,7 @@ MonacoEditor.propTypes = {
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   height: PropTypes.string,
+  onSave: PropTypes.func,
 };
 const noop = () => {
   return;
@@ -151,6 +158,7 @@ MonacoEditor.defaultProps = {
   onChange: noop,
   disabled: false,
   height: 'calc(100vh - 100px)',
+  onSave: noop,
 };
 
 export default MonacoEditor;
