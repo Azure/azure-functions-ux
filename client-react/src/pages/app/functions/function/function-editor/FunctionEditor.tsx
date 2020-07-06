@@ -133,7 +133,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     );
     if (fileResponse.metadata.success) {
       setFileContent({ ...fileContent, default: fileContent.latest });
-      expandLogPanelAndTrackEvent();
+      expandLogPanel();
       setFileSavedCount(fileSavedCount + 1);
     }
     setSavingFile(false);
@@ -181,7 +181,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     }
     const tempFunctionInfo = functionInfo;
     tempFunctionInfo.properties.test_data = data;
-    expandLogPanelAndTrackEvent();
+    expandLogPanel();
     props.run(tempFunctionInfo, values.xFunctionKey);
   };
 
@@ -311,9 +311,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const toggleLogPanelExpansion = () => {
     if (!logPanelExpanded) {
-      expandLogPanelAndTrackEvent();
+      expandLogPanel();
     } else {
-      closeLogPanelAndTrackEvent();
+      closeLogPanel();
     }
   };
 
@@ -349,7 +349,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return functionEditorContext.isBlacklistedFile(!!selectedFile ? (selectedFile.key as string) : '');
   };
 
-  const expandLogPanelAndTrackEvent = () => {
+  const expandLogPanel = () => {
     setLogPanelExpanded(true);
     LogService.trackEvent(LogCategories.functionLog, 'functionEditor-logPanelExpanded', {
       resourceId: siteStateContext.resourceId,
@@ -357,7 +357,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     });
   };
 
-  const closeLogPanelAndTrackEvent = () => {
+  const closeLogPanel = () => {
     setLogPanelExpanded(false);
     LogService.trackEvent(LogCategories.functionLog, 'functionEditor-logPanelClosed', {
       resourceId: siteStateContext.resourceId,
