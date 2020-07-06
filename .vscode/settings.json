@@ -17,8 +17,5 @@
     "**/__snapshots__": true
   },
   "debug.node.autoAttach": "on",
-  "typescript.preferences.importModuleSpecifier": "relative",
-  "cSpell.words": [
-    "kakan"
-  ]
+  "typescript.preferences.importModuleSpecifier": "relative"
 }
