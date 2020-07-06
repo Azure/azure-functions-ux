@@ -1,4 +1,4 @@
-import { ScmTypes, BuildProvider } from '../../../../models/site/config';
+import { ScmType, BuildProvider } from '../../../../models/site/config';
 import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
 import * as Yup from 'yup';
 import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
@@ -6,11 +6,13 @@ import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder {
   public generateFormData(): DeploymentCenterFormData<DeploymentCenterCodeFormData> {
     return {
-      sourceProvider: ScmTypes.None,
+      sourceProvider: ScmType.None,
       buildProvider: BuildProvider.None,
       runtimeStack: '',
       runtimeVersion: '',
-      ...this.generatePublishingCredentialsFormData(),
+      runtimeRecommendedVersion: '',
+      gitHubPublishProfileSecretGuid: '',
+      ...this.generateCommonFormData(),
     };
   }
 
@@ -18,13 +20,11 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
     return Yup.object().shape({
       sourceProvider: Yup.mixed().required(),
       buildProvider: Yup.mixed().required(),
-      runtimeStack: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
-        return this.parent.buildProvider !== BuildProvider.GitHubAction || !value;
-      }),
-      runtimeVersion: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
-        return this.parent.buildProvider !== BuildProvider.GitHubAction || !value;
-      }),
-      ...this.generatePublishingCredentailsYupValidationSchema(),
+      runtimeStack: Yup.mixed().notRequired(),
+      runtimeVersion: Yup.mixed().notRequired(),
+      runtimeRecommendedVersion: Yup.mixed().notRequired(),
+      gitHubPublishProfileSecretGuid: Yup.mixed().notRequired(),
+      ...this.generateCommonFormYupValidationSchema(),
     });
   }
 }

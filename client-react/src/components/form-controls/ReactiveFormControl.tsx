@@ -39,6 +39,7 @@ interface ReactiveFormControlProps {
   mouseOverToolTip?: string;
   required?: boolean;
   multiline?: boolean;
+  pushContentRight?: boolean;
 }
 
 const ReactiveFormControl = (props: ReactiveFormControlProps) => {
@@ -56,6 +57,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
     mouseOverToolTip,
     required,
     multiline,
+    pushContentRight,
   } = props;
 
   const { width } = useWindowSize();
@@ -69,7 +71,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
       horizontal={horizontal}
       verticalAlign="center"
       className={`${!!formControlClassName ? formControlClassName : ''} ${controlContainerStyle(!!upsellMessage, fullPage)}`}>
-      {label && (
+      {(label || (pushContentRight && fullPage)) && (
         <Stack horizontal verticalAlign="center" className={formStackStyle(!!upsellMessage, fullPage)}>
           {upsellMessage && (
             <div className={upsellIconStyle}>
