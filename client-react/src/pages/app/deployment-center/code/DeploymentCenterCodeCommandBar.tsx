@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { PortalContext } from '../../../../PortalContext';
 import { getWorkflowInformation } from '../utility/GitHubActionUtility';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { GitHubCommit } from '../../../../models/github';
 
 const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarProps> = props => {
   const { isLoading, showPublishProfilePanel, refresh, formProps } = props;
@@ -15,19 +16,14 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
 
-  // class SourceSettings {
-  //   public repoUrl: string;
-  //   public branch: string;
-  //   public isManualIntegration: boolean;
-  //   public isGitHubAction: boolean;
-  //   public deploymentRollbackEnabled: boolean;
-  //   public isMercurial: boolean;
-  //   public privateRepo: boolean;
-  //   public username: string;
-  //   public password: string;
-  //   public githubActionWorkflowOption: string;
-  //   public githubActionExistingWorkflowContents: string;
-  // }
+  class SourceSettings {
+    public repoUrl: string;
+    public branch: string;
+    public isManualIntegration: boolean;
+    public isGitHubAction: boolean;
+    public deploymentRollbackEnabled: boolean;
+    public isMercurial: boolean;
+  }
 
   const deployGithubActions = () => {
     if (formProps && deploymentCenterContext.siteDescriptor) {
