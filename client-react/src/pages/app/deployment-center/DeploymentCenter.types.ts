@@ -2,11 +2,11 @@ import { ArmObj, ArmArray } from '../../../models/arm-obj';
 import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../../models/site/publish';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { ScmTypes, BuildProvider } from '../../../models/site/config';
+import { ScmType, BuildProvider } from '../../../models/site/config';
 import moment from 'moment';
 import { Uri } from 'monaco-editor';
 import { GitHubUser } from '../../../models/github';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption, IChoiceGroupOption } from 'office-ui-fabric-react';
 
 export enum ContainerOptions {
   docker = 'docker',
@@ -33,6 +33,14 @@ export enum DeploymentStatus {
   Success,
 }
 
+export enum WorkflowOption {
+  None = 'none',
+  Overwrite = 'overwrite',
+  Add = 'add',
+  UseAvailableWorkflowConfigs = 'useAvailableWorkflowConfigs',
+  UseExistingWorkflowConfig = 'useExistingWorkflowConfig',
+}
+
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &
   DeploymentCenterFtpsProps<DeploymentCenterContainerFormData>;
 
@@ -50,6 +58,10 @@ export interface DeploymentCenterCommonFormData {
   publishingUsername: string;
   publishingPassword: string;
   publishingConfirmPassword: string;
+  workflowOption: string;
+  org: string;
+  repo: string;
+  branch: string;
 }
 
 export interface DeploymentCenterContainerFormData {
@@ -63,18 +75,25 @@ export interface DeploymentCenterContainerFormData {
   password: string;
   command: string;
   cicd: boolean;
-  scmType: ScmTypes;
+  scmType: ScmType;
 }
 
 export interface DeploymentCenterCodeFormData {
-  sourceProvider: ScmTypes;
+  sourceProvider: ScmType;
   buildProvider: BuildProvider;
   runtimeStack: string;
   runtimeVersion: string;
+  runtimeRecommendedVersion: string;
+  gitHubPublishProfileSecretGuid: string;
 }
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
   formProps?: FormikProps<DeploymentCenterFormData<T>>;
+}
+
+export interface DeploymentCenterGitHubWorkflowConfigSelectorProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  setGithubActionExistingWorkflowContents: (active: string) => void;
 }
 
 export interface DeploymentCenterContainerLogsProps {
@@ -91,6 +110,12 @@ export interface DeploymentCenterCodeLogsProps {
 
 export interface DeploymentCenterCommitLogsProps {
   commitId?: string;
+}
+
+export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
+  isPreviewFileButtonEnabled: () => boolean;
+  getPreviewPanelContent: () => JSX.Element | undefined;
+  workflowFilePath: string;
 }
 
 export interface DeploymentCenterFtpsProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -146,6 +171,23 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   gitHubUser?: GitHubUser;
 }
 
+export interface DeploymentCenterReadOnlySettingsProps {
+  disconnect: () => void;
+}
+
+export interface DeploymentCenterCodeBuildCalloutProps {
+  selectedBuildChoice: BuildProvider;
+  updateSelectedBuildChoiceOption: (e: any, option: BuildChoiceGroupOption) => void;
+  calloutOkButtonDisabled: boolean;
+  toggleIsCalloutVisible: () => void;
+  updateSelectedBuild: () => void;
+}
+
+export interface AuthorizationResult {
+  timerId: NodeJS.Timeout;
+  redirectUrl?: string;
+}
+
 export interface DeploymentProperties {
   id: string;
   status: DeploymentStatus;
@@ -196,11 +238,21 @@ export interface CodeDeploymentsRow {
   status: string;
 }
 
-export interface BuildDropdownOption extends IDropdownOption {
+export interface BuildChoiceGroupOption extends IChoiceGroupOption {
   buildType: BuildProvider;
+}
+
+export interface WorkflowDropdownOption extends IDropdownOption {
+  workflowOption: WorkflowOption;
 }
 
 export interface RuntimeStackSetting {
   runtimeStack: string;
   runtimeVersion: string;
+}
+
+export class WorkflowInformation {
+  fileName: string;
+  secretName: string;
+  content: string;
 }

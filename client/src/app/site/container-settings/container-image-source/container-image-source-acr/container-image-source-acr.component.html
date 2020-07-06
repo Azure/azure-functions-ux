@@ -45,6 +45,8 @@
       <div invalidmessage="repository" id="containersettings-acr-repository-error" role="alert"></div>
     </div>
 
+    <info-box *ngIf="!!repositoriesErrorMessage" typeClass="error" [infoText]="repositoriesErrorMessage"> </info-box>
+
     <div *ngIf="containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
       <label>{{ 'containerACRTag' | translate }}</label>
       <ng-select
@@ -62,6 +64,8 @@
       </ng-select>
       <div invalidmessage="tag" id="containersettings-acr-tag-error" role="alert"></div>
     </div>
+
+    <info-box *ngIf="!!tagsErrorMessage" typeClass="error" [infoText]="tagsErrorMessage"> </info-box>
 
     <div
       *ngIf="containerImageSourceInfo.container.id === 'single' && containerImageSourceInfo.os === 'linux'"

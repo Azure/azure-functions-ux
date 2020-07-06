@@ -5787,6 +5787,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
         <value>Die vorhandene Workflowkonfiguration in GitHub wird zur Erstellung und Bereitstellung verwendet.</value>
     </data>
+  <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
+        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+    </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>App-Dateien aktualisieren</value>
     </data>
@@ -6103,7 +6106,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Systemschlüssel werden automatisch von der Functions-Runtime verwaltet. Systemschlüssel bieten einen differenzierten Zugriff auf Features der Functions-Runtime.</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>Function keys are scoped to this function and can be used to access this function.</value>
+        <value>Funktionsschlüssel sind auf diese Funktion begrenzt und können für den Zugriff auf diese Funktion verwendet werden.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
         <value>Anwendungseinstellungen gelten nur für statische Web-Apps mit mindestens einer Funktion. Fügen Sie Ihrer App eine Funktion hinzu, um die Konfiguration zu aktivieren.</value>
@@ -6376,9 +6379,123 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Wie nützlich ist das neue, von Application Insights unterstützte Protokollfeature?</value>
     </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
-        <value>If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.</value>
+        <value>Wenn Sie eine Organisation oder ein Repository nicht finden, müssen Sie möglicherweise zusätzliche Berechtigungen auf GitHub aktivieren.</value>
     </data>
   <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
-        <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
+        <value>Sie befinden sich jetzt im Produktionsslot, der zum Einrichten von CI/CD nicht empfohlen wird.</value>
+    </data>
+  <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
+        <value>GitHub-Token nicht gefunden. Klicken Sie auf "Autorisieren", um ein GitHub-Token einzurichten.</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigTitle" xml:space="preserve">
+        <value>Workflowkonfiguration</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
+        <value>File with the workflow configuration defined by the settings above.</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
+        <value>Preview file</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
+        <value>Fill out the required settings above to enable the preview.</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Workflow im Repository überschreiben</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
+        <value>Workflow zu Repository hinzufügen</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Vorhandenen Repositoryworkflow verwenden</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
+        <value>Use available repository workflow</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
+        <value>Workflowoption auswählen</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoadingAriaValue" xml:space="preserve">
+        <value>Workflowkonfigurationen werden geladen</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoading" xml:space="preserve">
+        <value>Workflowkonfigurationen werden geladen...</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
+        <value>File path</value>
+    </data>
+  <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
+        <value>Building with GitHub Actions.</value>
+    </data>
+  <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
+        <value>Building with App Service Build Service.</value>
+    </data>
+  <data name="deploymentCenterChangeBuildText" xml:space="preserve">
+        <value>Change provider.</value>
+    </data>
+  <data name="functionMonitor_orchestrations" xml:space="preserve">
+        <value>Orchestrierungen</value>
+    </data>
+  <data name="functionMonitor_entities" xml:space="preserve">
+        <value>Entitäten</value>
+    </data>
+  <data name="functionEditor_appInsightsLogs" xml:space="preserve">
+        <value>App Insights-Protokolle</value>
+    </data>
+  <data name="functionEditor_fileBasedLogs" xml:space="preserve">
+        <value>Dateisystemprotokolle</value>
+    </data>
+  <data name="functionEditor_fileBasedLogsCalloutMessage" xml:space="preserve">
+        <value>Der Wechsel zu dateisystembasierten Protokollen wirkt sich möglicherweise auf die Laufzeitleistung Ihrer Funktions-App aus. Möglicherweise funktioniert sie auch nicht, wenn Netzwerkeinschränkungen wie z. B. IP-Einschränkungen oder ein VNET eingerichtet wurden.</value>
+    </data>
+  <data name="orchestrationTracesTableTitle" xml:space="preserve">
+        <value>Orchestrierungsablaufverfolgungen</value>
+    </data>
+  <data name="orchestrationTracesTableDescription" xml:space="preserve">
+        <value>Die 20 letzten Ablaufverfolgungen für Funktionsorchestrierungen. Für eine detailliertere Analyse führen Sie die Abfrage in Application Insights aus.</value>
+    </data>
+  <data name="runtimeStatus" xml:space="preserve">
+        <value>Laufzeitstatus</value>
+    </data>
+  <data name="instanceId" xml:space="preserve">
+        <value>Instanz-ID</value>
+    </data>
+  <data name="filterOrchestrations" xml:space="preserve">
+        <value>Orchestrierungen filtern</value>
+    </data>
+  <data name="entityTracesTableTitle" xml:space="preserve">
+        <value>Entitätsablaufverfolgungen</value>
+    </data>
+  <data name="entityTracesTableDescription" xml:space="preserve">
+        <value>Die 20 letzten Ablaufverfolgungen für Funktionsentitäten. Für eine detailliertere Analyse führen Sie die Abfrage in Application Insights aus.</value>
+    </data>
+  <data name="filterEntities" xml:space="preserve">
+        <value>Entitäten filtern</value>
+    </data>
+  <data name="state" xml:space="preserve">
+        <value>Zustand</value>
+    </data>
+  <data name="orchestrationDetails" xml:space="preserve">
+        <value>Orchestrierungsdetails</value>
+    </data>
+  <data name="failedToFetchRepositories" xml:space="preserve">
+        <value>Fehler beim Abrufen einer Liste von Repositorys.</value>
+    </data>
+  <data name="failedToFetchTags" xml:space="preserve">
+        <value>Fehler beim Abrufen einer Liste von Tags.</value>
+    </data>
+  <data name="entityDetails" xml:space="preserve">
+        <value>Entitätsdetails</value>
+    </data>
+  <data name="durableFunctionNoDataFound" xml:space="preserve">
+        <value>Keine Daten gefunden. Stellen Sie sicher, dass Sie die neueste Durable Functions-Erweiterung (.NET) installieren oder V2 der Erweiterungspakete verwenden.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
+        <value>Learn more about flex stamps.</value>
+    </data>
+  <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about Ootgoing IP addresses.</value>
+    </data>
+  <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about app service plan density.</value>
     </data>
 </root>

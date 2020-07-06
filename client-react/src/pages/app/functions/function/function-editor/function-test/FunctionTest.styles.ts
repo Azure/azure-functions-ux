@@ -48,11 +48,13 @@ export const keyValuePairStyle = style({
 
 export const responseContentStyle = style({
   width: '95%',
-  height: '77px',
+  minHeight: '200px',
   backgroundColor: 'rgba(128, 128, 128, 0.1)',
   border: '1px solid rgba(204, 204, 204, 0.8)',
   boxSizing: 'border-box',
-  padding: '5px',
+  padding: '7px',
+  whiteSpace: 'pre-wrap',
+  overflowWrap: 'break-word',
 });
 
 export const responseCodeStyle = style({
