@@ -2117,4 +2117,5 @@ export class PortalResources {
   public static pricing_pv2FlexStampCheckboxAriaLabel = 'pricing_pv2FlexStampCheckboxAriaLabel';
   public static pricing_pv2UpsellInfoMessageAriaLabel = 'pricing_pv2UpsellInfoMessageAriaLabel';
   public static pricing_appDensityWarningMessageAriaLabel = 'pricing_appDensityWarningMessageAriaLabel';
+  public static ibizafication_readOnlyLinuxElastic = 'ibizafication_readOnlyLinuxElastic';
 }

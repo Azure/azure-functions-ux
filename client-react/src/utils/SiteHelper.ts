@@ -60,6 +60,9 @@ export default class SiteHelper {
       case FunctionAppEditMode.ReadOnlyRbac: {
         return t('readOnlyRbac');
       }
+      case FunctionAppEditMode.ReadOnlyLinuxCodeElastic: {
+        return t('ibizafication_readOnlyLinuxElastic');
+      }
     }
     return t('ibizafication_readOnly');
   }
