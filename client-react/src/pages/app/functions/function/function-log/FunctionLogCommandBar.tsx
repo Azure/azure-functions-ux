@@ -8,6 +8,10 @@ import { ArmResourceDescriptor } from '../../../../../utils/resourceDescriptors'
 import { LogLevel } from './FunctionLog.types';
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 import FunctionLogOptionsCallout from './FunctionLogOptionsCallout';
+import LogService from '../../../../../utils/LogService';
+import { LogCategories } from '../../../../../utils/LogCategories';
+import Url from '../../../../../utils/url';
+import { SiteStateContext } from '../../../../../SiteState';
 
 interface FunctionLogCommandBarProps {
   isPanelVisible: boolean;
@@ -49,6 +53,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     selectedLoggingOption,
   } = props;
   const portalContext = useContext(PortalContext);
+  const siteStateContext = useContext(SiteStateContext);
   const { t } = useTranslation();
 
   const [isLoggingOptionConfirmCallOutVisible, setIsLoggingOptionConfirmCallOutVisible] = useState(false);
@@ -111,6 +116,10 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
         setIsLoggingOptionConfirmCallOutVisible(true);
       } else {
         props.setSelectedLoggingOption(LoggingOptions.appInsights);
+        LogService.trackEvent(LogCategories.functionLog, 'appInsights-logging-selected', {
+          resourceId: siteStateContext.resourceId,
+          sessionId: Url.getParameterByName(null, 'sessionId'),
+        });
       }
     }
   };
