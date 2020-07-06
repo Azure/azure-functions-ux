@@ -153,6 +153,12 @@ export interface DeploymentCenterCommandBarProps {
   refresh: () => void;
 }
 
+export interface DeploymentCenterCodeCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterCodeFormData> {
+  isLoading: boolean;
+  showPublishProfilePanel: () => void;
+  refresh: () => void;
+}
+
 export interface DeploymentCenterPublishProfilePanelProps {
   isPanelOpen: boolean;
   dismissPanel: () => void;
