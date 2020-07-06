@@ -5934,6 +5934,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirm GitHub Action Disconnect</value>
     </data>
+    <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
+        <value>Loading disconnect panel</value>
+    </data>
+    <data name="deploymentCenterGitHubDisconnectLoading" xml:space="preserve">
+        <value>Loading disconnect panel...</value>
+    </data>
     <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
         <value>Failed to delete '{0}' workflow file from branch '{1}' in repository '{2}'. This could be caused by either the file being renamed or already deleted.</value>
     </data>
