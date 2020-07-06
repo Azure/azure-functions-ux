@@ -501,6 +501,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               extraEditorClassName: editorStyle,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
+            onSave={() => isDirty() && save()}
           />
         </div>
       )}

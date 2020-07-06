@@ -46,6 +46,12 @@ class MonacoEditor extends React.Component<any, any> {
       this.editor.updateOptions({ ...this.props.options });
     }
 
+    if (this.props.onSave && this.editor.addCommand) {
+      this.editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
+        this.props.onSave();
+      });
+    }
+
     this.editor.layout();
   }
 
