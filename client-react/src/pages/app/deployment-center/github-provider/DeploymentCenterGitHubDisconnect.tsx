@@ -3,7 +3,7 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { useTranslation } from 'react-i18next';
 import { additionalTextFieldControl, choiceGroupSubLabel } from '../DeploymentCenter.styles';
-import { Link, Icon, PanelType, ChoiceGroup } from 'office-ui-fabric-react';
+import { Link, Icon, PanelType, ChoiceGroup, ProgressIndicator } from 'office-ui-fabric-react';
 import {
   DeploymentCenterGitHubDisconnectProps,
   DeploymentDisconnectStatus,
@@ -256,6 +256,15 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     disable: false,
   };
 
+  const getProgressIndicator = () => {
+    return (
+      <ProgressIndicator
+        description={t('deploymentCenterGitHubDisconnectLoading')}
+        ariaValueText={t('deploymentCenterGitHubDisconnectLoadingAriaValue')}
+      />
+    );
+  };
+
   return (
     <>
       <Link
@@ -271,20 +280,26 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
         onDismiss={dismissDisconnectPanel}
         type={PanelType.medium}
         headerText={t('githubActionDisconnectConfirmationTitle')}>
-        <h4>{t('githubActionWorkflowFileDeletePanelDescription')}</h4>
-        <h4>{t('githubActionWorkflowFileDeletePanelChoiceDescription')}</h4>
-        <ChoiceGroup
-          selectedKey={selectedWorkflowChoice}
-          options={options}
-          onChange={updateSelectedWorkflowChoice}
-          label={t('githubActionWorkflowFileLabel')}
-          required={true}
-        />
-        <ActionBar
-          id="app-settings-edit-footer"
-          primaryButton={actionBarPrimaryButtonProps}
-          secondaryButton={actionBarSecondaryButtonProps}
-        />
+        {isLoading ? (
+          getProgressIndicator()
+        ) : (
+          <>
+            <h4>{t('githubActionWorkflowFileDeletePanelDescription')}</h4>
+            <h4>{t('githubActionWorkflowFileDeletePanelChoiceDescription')}</h4>
+            <ChoiceGroup
+              selectedKey={selectedWorkflowChoice}
+              options={options}
+              onChange={updateSelectedWorkflowChoice}
+              label={t('githubActionWorkflowFileLabel')}
+              required={true}
+            />
+            <ActionBar
+              id="app-settings-edit-footer"
+              primaryButton={actionBarPrimaryButtonProps}
+              secondaryButton={actionBarSecondaryButtonProps}
+            />
+          </>
+        )}
       </CustomPanel>
     </>
   );
