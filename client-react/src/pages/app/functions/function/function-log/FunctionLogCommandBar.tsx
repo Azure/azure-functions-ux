@@ -10,11 +10,6 @@ import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 import FunctionLogOptionsCallout from './FunctionLogOptionsCallout';
 
 interface FunctionLogCommandBarProps {
-  onChevronClick: () => void;
-  copy: () => void;
-  toggleConnection: () => void;
-  clear: () => void;
-  toggleMaximize: () => void;
   isPanelVisible: boolean;
   started: boolean;
   maximized: boolean;
@@ -22,6 +17,11 @@ interface FunctionLogCommandBarProps {
   hideChevron: boolean;
   hideLiveMetrics: boolean;
   setLogLevel: (level: LogLevel) => void;
+  onChevronClick: () => void;
+  copy: () => void;
+  toggleConnection: () => void;
+  clear: () => void;
+  toggleMaximize: () => void;
   appInsightsResourceId?: string;
   leftAlignMainToolbarItems?: boolean;
   showLoggingOptionsDropdown?: boolean;

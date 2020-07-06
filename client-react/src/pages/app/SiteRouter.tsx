@@ -221,7 +221,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             setResourceId(value.token && value.resourceId);
             return (
               value.token && (
-                <SiteStateContext.Provider value={{ site, siteAppEditState, stopped }}>
+                <SiteStateContext.Provider value={{ site, siteAppEditState, stopped, resourceId }}>
                   <Router>
                     {/* NOTE(michinoy): The paths should be always all lowercase. */}
 
