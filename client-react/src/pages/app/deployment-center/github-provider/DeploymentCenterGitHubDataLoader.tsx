@@ -63,7 +63,8 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
     if (gitHubRepositoriesResponse.metadata.success) {
       gitHubRepositoriesResponse.data.forEach(repository => {
-        newRepositoryOptions.push({ key: repository.url, text: repository.name });
+        if (!repository.permissions || repository.permissions.admin)
+          newRepositoryOptions.push({ key: repository.url, text: repository.name });
       });
     } else {
       LogService.error(

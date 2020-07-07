@@ -76,6 +76,13 @@ export interface GitHubRepository {
   html_url: string;
   branches_url: string;
   url: string;
+  permissions?: GitHubRepositoryPermissions;
+}
+
+export interface GitHubRepositoryPermissions {
+  admin: boolean;
+  pull: boolean;
+  push: boolean;
 }
 
 export interface GitHubBranch {

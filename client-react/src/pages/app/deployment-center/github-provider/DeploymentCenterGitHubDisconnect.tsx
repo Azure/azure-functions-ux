@@ -11,27 +11,26 @@ import {
   WorkflowFileDeleteOptions,
   WorkflowChoiceGroupOption,
 } from '../DeploymentCenter.types';
-import { getArmToken, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { getArmToken, getWorkflowFileName, getWorkflowFilePath } from '../utility/DeploymentCenterUtility';
 import { FileContent, GitHubCommit } from '../../../../models/github';
 import { PortalContext } from '../../../../PortalContext';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import ActionBar from '../../../../components/ActionBar';
 
 const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnectProps> = props => {
-  const { branch, org, repo, repoUrl, repoApiUrl, formProps } = props;
+  const { branch, org, repo, repoUrl, repoApiUrl } = props;
   const { t } = useTranslation();
   const [isDisconnectPanelOpen, setIsDisconnectPanelOpen] = useState<boolean>(false);
-  const [selectedWorkflowChoice, setSelectedWorkflowChoice] = useState<WorkflowFileDeleteOptions>(WorkflowFileDeleteOptions.Preserve);
+  const [selectedWorkflowOption, setSelectedWorkflowOption] = useState<WorkflowFileDeleteOptions>(WorkflowFileDeleteOptions.Preserve);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [workflowConfigExists, setWorkflowConfigExists] = useState<boolean>(false);
-  const [workflowFileName, setWorkflowFileName] = useState<string>('');
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
 
   const showDisconnectPanel = () => {
-    setSelectedWorkflowChoice(WorkflowFileDeleteOptions.Preserve);
+    setSelectedWorkflowOption(WorkflowFileDeleteOptions.Preserve);
     setIsDisconnectPanelOpen(true);
   };
 
@@ -40,7 +39,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
   };
 
   const updateSelectedWorkflowChoice = (e: any, option: WorkflowChoiceGroupOption) => {
-    setSelectedWorkflowChoice(option.workflowDeleteChoice);
+    setSelectedWorkflowOption(option.workflowDeleteChoice);
   };
 
   const disconnectCallback = async (deleteWorkflowDuringDisconnect: boolean) => {
@@ -106,7 +105,11 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     if (!deleteWorkflowDuringDisconnect) {
       return successStatus;
     } else {
-      const workflowFilePath = `.github/workflows/${workflowFileName}`;
+      const workflowFilePath = getWorkflowFilePath(
+        branch,
+        deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+        deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+      );
       const workflowConfigurationResponse = await deploymentCenterData.getWorkflowConfiguration(
         repoApiUrl,
         branch,
@@ -151,15 +154,17 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
   const fetchWorkflowConfiguration = async () => {
     setIsLoading(true);
 
-    const workflowFilePath = `.github/workflows/${workflowFileName}`;
-    const getWorkflowConfigurationRequest = deploymentCenterData.getWorkflowConfiguration(
+    const workflowFilePath = getWorkflowFilePath(
+      branch,
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+    );
+    const appWorkflowConfigurationResponse = await deploymentCenterData.getWorkflowConfiguration(
       repoApiUrl,
       branch,
       workflowFilePath,
       getArmToken()
     );
-
-    const appWorkflowConfigurationResponse = await getWorkflowConfigurationRequest;
 
     if (appWorkflowConfigurationResponse.metadata.success) {
       setWorkflowConfigExists(true);
@@ -170,12 +175,6 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
   };
 
   useEffect(() => {
-    if (formProps && deploymentCenterContext.siteDescriptor) {
-      setWorkflowFileName(
-        getWorkflowFileName(branch, deploymentCenterContext.siteDescriptor.site, deploymentCenterContext.siteDescriptor.slot)
-      );
-    }
-
     fetchWorkflowConfiguration();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -213,7 +212,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
   const actionBarPrimaryButtonProps = {
     id: 'save',
     title: t('ok'),
-    onClick: () => disconnectCallback(selectedWorkflowChoice === WorkflowFileDeleteOptions.Delete),
+    onClick: () => disconnectCallback(selectedWorkflowOption === WorkflowFileDeleteOptions.Delete),
     disable: isLoading,
   };
 
@@ -255,7 +254,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
             <h4>{t('githubActionWorkflowFileDeletePanelDescription')}</h4>
             <h4>{t('githubActionWorkflowFileDeletePanelChoiceDescription')}</h4>
             <ChoiceGroup
-              selectedKey={selectedWorkflowChoice}
+              selectedKey={selectedWorkflowOption}
               options={options}
               onChange={updateSelectedWorkflowChoice}
               label={t('githubActionWorkflowFileLabel')}
