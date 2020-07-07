@@ -8,26 +8,29 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { useTranslation } from 'react-i18next';
 import { additionalTextFieldControl, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
-import { DeploymentCenterReadOnlySettingsProps, AuthorizationResult } from '../DeploymentCenter.types';
+import { AuthorizationResult, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { getArmToken } from '../utility/DeploymentCenterUtility';
+import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 
-const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsProps> = props => {
-  const { disconnect } = props;
+const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = props => {
+  const { formProps } = props;
   const { t } = useTranslation();
   const [org, setOrg] = useState<string>(t('loading'));
   const [repo, setRepo] = useState<string>(t('loading'));
   const [branch, setBranch] = useState<string>(t('loading'));
-  const [repoUrl, setRepoUrl] = useState<string | undefined>(undefined);
+  const [repoUrl, setRepoUrl] = useState<string>('');
   const [gitHubUsername, setGitHubUsername] = useState<string>(t('loading'));
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterData = new DeploymentCenterData();
 
   const getSourceControlDetails = async () => {
+    setIsLoading(true);
     const getGitHubUserRequest = deploymentCenterData.getGitHubUser(getArmToken());
     const getSourceControlDetailsResponse = deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
 
@@ -62,6 +65,8 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsP
         `Failed to get GitHub user details with error: ${getErrorMessage(gitHubUserResponse.metadata.error)}`
       );
     }
+
+    setIsLoading(false);
   };
 
   const authorizeGitHubAccount = async () => {
@@ -103,6 +108,32 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsP
     });
   };
 
+  const getSignedInAsComponent = () => {
+    if (gitHubUsername) {
+      return (
+        <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
+          <div>{`${gitHubUsername}`}</div>
+        </ReactiveFormControl>
+      );
+    } else {
+      return (
+        <div className={deploymentCenterInfoBannerDiv}>
+          <CustomBanner
+            message={
+              <>
+                {`${t('deploymentCenterSettingsReadOnlyGitHubNotAuthorized')} `}
+                <Link onClick={authorizeGitHubAccount} target="_blank">
+                  {t('authorize')}
+                </Link>
+              </>
+            }
+            type={MessageBarType.error}
+          />
+        </div>
+      );
+    }
+  };
+
   useEffect(() => {
     getSourceControlDetails();
 
@@ -125,14 +156,7 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsP
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
         <div>
           {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
-          <Link
-            key="deployment-center-disconnect-link"
-            onClick={disconnect}
-            className={additionalTextFieldControl}
-            aria-label={t('disconnect')}>
-            <Icon iconName={'PlugDisconnected'} />
-            {` ${t('disconnect')}`}
-          </Link>
+          {!isLoading && <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoUrl={repoUrl} formProps={formProps} />}
         </div>
       </ReactiveFormControl>
       {deploymentCenterContext.isContainerApplication ? (
@@ -140,34 +164,24 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsP
       ) : (
         <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>
       )}
-      {gitHubUsername ? (
+      {isLoading ? (
         <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
-          <div>{`${gitHubUsername}`}</div>
+          <div>{t('loading')}</div>
         </ReactiveFormControl>
       ) : (
-        <div className={deploymentCenterInfoBannerDiv}>
-          <CustomBanner
-            message={
-              <>
-                {`${t('deploymentCenterSettingsReadOnlyGitHubNotAuthorized')} `}
-                <Link onClick={authorizeGitHubAccount} target="_blank">
-                  {t('authorize')}
-                </Link>
-              </>
-            }
-            type={MessageBarType.error}
-          />
-        </div>
+        getSignedInAsComponent()
       )}
       <ReactiveFormControl id="deployment-center-organization" label={t('deploymentCenterOAuthOrganization')}>
-        <div>{org}</div>
+        <div>{isLoading ? t('loading') : org}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-repository" label={t('deploymentCenterOAuthRepository')}>
-        <div>{repo}</div>
+        <div>{isLoading ? t('loading') : repo}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-github-branch" label={t('deploymentCenterOAuthBranch')}>
         <div>
-          {repoUrl ? (
+          {isLoading ? (
+            t('loading')
+          ) : (
             <Link
               key="deployment-center-branch-link"
               onClick={() => window.open(repoUrl, '_blank')}
@@ -176,8 +190,6 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsP
               {`${branch} `}
               <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
             </Link>
-          ) : (
-            `${branch}`
           )}
         </div>
       </ReactiveFormControl>

@@ -98,3 +98,7 @@ export const getWorkflowFileName = (branch: string, siteName: string, slotName?:
   const normalizedBranchName = branch.split('/').join('-');
   return slotName ? `${normalizedBranchName}_${siteName}(${slotName}).yml` : `${normalizedBranchName}_${siteName}.yml`;
 };
+
+export const getWorkflowFilePath = (branch: string, siteName: string, slotName?: string): string => {
+  return `.github/workflows/${getWorkflowFileName(branch, siteName, slotName)}`;
+};

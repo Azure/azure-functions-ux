@@ -41,6 +41,11 @@ export enum WorkflowOption {
   UseExistingWorkflowConfig = 'useExistingWorkflowConfig',
 }
 
+export enum WorkflowFileDeleteOptions {
+  Preserve = 'Preserve',
+  Delete = 'Delete',
+}
+
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &
   DeploymentCenterFtpsProps<DeploymentCenterContainerFormData>;
 
@@ -163,7 +168,7 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   authorizeGitHubAccount: () => void;
   fetchOrganizationOptions: () => void;
   fetchRepositoryOptions: (repositories_url: string) => void;
-  fetchBranchOptions: (repository_url: string) => void;
+  fetchBranchOptions: (org: string, repo: string) => void;
   organizationOptions: IDropdownOption[];
   repositoryOptions: IDropdownOption[];
   branchOptions: IDropdownOption[];
@@ -171,8 +176,12 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   gitHubUser?: GitHubUser;
 }
 
-export interface DeploymentCenterReadOnlySettingsProps {
-  disconnect: () => void;
+export interface DeploymentCenterGitHubDisconnectProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  branch: string;
+  org: string;
+  repo: string;
+  repoUrl: string;
 }
 
 export interface DeploymentCenterCodeBuildCalloutProps {
@@ -255,4 +264,20 @@ export class WorkflowInformation {
   fileName: string;
   secretName: string;
   content: string;
+}
+
+export enum DeployDisconnectStep {
+  DeleteWorkflowFile = 'DeleteWorkflowFile',
+  ClearSCMSettings = 'ClearSCMSettings',
+}
+
+export interface DeploymentDisconnectStatus {
+  step: DeployDisconnectStep;
+  isSuccessful: boolean;
+  errorMessage?: string;
+  error?: any;
+}
+
+export interface WorkflowChoiceGroupOption extends IChoiceGroupOption {
+  workflowDeleteChoice: WorkflowFileDeleteOptions;
 }

@@ -35,7 +35,7 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
   const onOrganizationChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
     if (formProps) {
       setSelectedOrg(option.key.toString());
-      formProps.setFieldValue('org', option.key.toString());
+      formProps.setFieldValue('org', option.text);
 
       setSelectedRepo('');
       formProps.setFieldValue('repo', '');
@@ -49,19 +49,19 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
 
   const onRepositoryChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
     if (formProps) {
-      setSelectedRepo(option.key.toString());
+      setSelectedRepo(option.text);
       formProps.setFieldValue('repo', option.key.toString());
 
       setSelectedBranch('');
       formProps.setFieldValue('branch', '');
 
-      fetchBranchOptions(option.key.toString());
+      fetchBranchOptions(formProps.values.org, option.text);
     }
   };
 
   const onBranchChange = async (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
     if (formProps) {
-      setSelectedBranch(option.key.toString());
+      setSelectedBranch(option.text);
       formProps.setFieldValue('branch', option.key.toString());
     }
   };

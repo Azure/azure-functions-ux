@@ -18,8 +18,8 @@ import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
-  const deploymentCenterContext = useContext(DeploymentCenterContext);
   const { t } = useTranslation();
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
   const [workflowFilePath, setWorkflowFilePath] = useState<string>('');
@@ -31,10 +31,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     formProps &&
     (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
       formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs);
-
-  const disconnectCallback = () => {
-    throw Error('not implemented');
-  };
 
   const isPreviewFileButtonEnabled = () => {
     if (formProps) {
@@ -118,7 +114,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     <>
       {isDeploymentSetup ? (
         <>
-          <DeploymentCenterGitHubReadOnly disconnect={disconnectCallback} />
+          <DeploymentCenterGitHubReadOnly formProps={formProps} />
           <DeploymentCenterCodeBuildReadOnly />
         </>
       ) : (

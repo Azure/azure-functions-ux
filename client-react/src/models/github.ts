@@ -41,6 +41,21 @@ export class FileContent {
   encoding?: string;
 }
 
+export interface GitHubCommit {
+  repoName: string;
+  branchName: string;
+  filePath: string;
+  message: string;
+  committer: GitHubCommitter;
+  contentBase64Encoded?: string;
+  sha?: string;
+}
+
+export interface GitHubCommitter {
+  name: string;
+  email: string;
+}
+
 export interface GitHubOrganizations {
   avatar_url: string;
   description: string;
@@ -61,6 +76,13 @@ export interface GitHubRepository {
   html_url: string;
   branches_url: string;
   url: string;
+  permissions?: GitHubRepositoryPermissions;
+}
+
+export interface GitHubRepositoryPermissions {
+  admin: boolean;
+  pull: boolean;
+  push: boolean;
 }
 
 export interface GitHubBranch {

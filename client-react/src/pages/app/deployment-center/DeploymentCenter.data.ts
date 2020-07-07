@@ -60,6 +60,10 @@ export default class DeploymentCenterData {
     return SiteService.getSourceControlDetails(resourceId);
   };
 
+  public deleteSourceControlDetails = (resourceId: string) => {
+    return SiteService.deleteSourceControlDetails(resourceId);
+  };
+
   public getGitHubUser = (armToken: string) => {
     return GitHubService.getUser(armToken);
   };
@@ -80,16 +84,20 @@ export default class DeploymentCenterData {
     return GitHubService.getUserRepositories(armToken);
   };
 
-  public getGitHubBranches = (repository_url: string, armToken: string) => {
-    return GitHubService.getBranches(repository_url, armToken);
+  public getGitHubBranches = (org: string, repo: string, armToken: string) => {
+    return GitHubService.getBranches(org, repo, armToken);
   };
 
-  public getAllWorkflowConfigurations = (repoUrl: string, branchName: string, authToken: string) => {
-    return GitHubService.getAllWorkflowConfigurations(repoUrl, branchName, authToken);
+  public getAllWorkflowConfigurations = (org: string, repo: string, branchName: string, authToken: string) => {
+    return GitHubService.getAllWorkflowConfigurations(org, repo, branchName, authToken);
   };
 
-  public getWorkflowConfiguration = (repoUrl: string, branchName: string, workflowYmlPath: string, authToken: string) => {
-    return GitHubService.getWorkflowConfiguration(repoUrl, branchName, workflowYmlPath, authToken);
+  public getWorkflowConfiguration = (org: string, repo: string, branchName: string, workflowYmlPath: string, authToken: string) => {
+    return GitHubService.getWorkflowConfiguration(org, repo, branchName, workflowYmlPath, authToken);
+  };
+
+  public deleteActionWorkflow = (authToken: string, org: string, repo: string, branch: string, workflowFilePath: string, sha: string) => {
+    return GitHubService.deleteActionWorkflow(authToken, org, repo, branch, workflowFilePath, sha);
   };
 
   public getRuntimeStacks = (stacksOs: AppOsType) => {
