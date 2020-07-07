@@ -97,8 +97,16 @@ export default class DeploymentCenterData {
     return GitHubService.getWorkflowConfiguration(org, repo, branchName, workflowYmlPath, authToken);
   };
 
-  public deleteActionWorkflow = (authToken: string, org: string, repo: string, branch: string, workflowFilePath: string, sha: string) => {
-    return GitHubService.deleteActionWorkflow(authToken, org, repo, branch, workflowFilePath, sha);
+  public deleteActionWorkflow = (
+    authToken: string,
+    org: string,
+    repo: string,
+    branch: string,
+    workflowFilePath: string,
+    message: string,
+    sha: string
+  ) => {
+    return GitHubService.deleteActionWorkflow(authToken, org, repo, branch, workflowFilePath, message, sha);
   };
 
   public createOrUpdateActionWorkflow = (authToken: string, content: GitHubActionWorkflowRequestContent) => {

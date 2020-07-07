@@ -225,7 +225,9 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     formProps.setFieldValue('runtimeRecommendedVersion', '');
 
     setDefaultSelectedRuntimeStack();
-  }, [runtimeStackOptions, formProps.values.buildProvider]); // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runtimeStackOptions, formProps.values.buildProvider]);
 
   useEffect(() => {
     formProps.setFieldValue('runtimeVersion', '');

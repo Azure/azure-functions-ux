@@ -88,7 +88,8 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
           .replace(/[-]/g, '')
       );
     }
-  }, [formProps.values.sourceProvider]); // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.sourceProvider]);
 
   const isSourceSelected = formProps.values.sourceProvider !== ScmType.None;
   const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;

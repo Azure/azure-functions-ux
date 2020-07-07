@@ -106,17 +106,15 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
     setIsWorkflowConfigLoading(false);
   };
 
-  useEffect(
-    () => {
-      setShowWorkflowConfigDropdown(false);
-      setSelectedWorkflowConfigOption(WorkflowOption.None);
-      formProps.setFieldValue('workflowOption', WorkflowOption.None);
-      if (formProps.values.branch !== '') {
-        fetchWorkflowConfiguration(formProps.values.org, formProps.values.repo, formProps.values.branch);
-      }
-    }, // eslint-disable-next-line react-hooks/exhaustive-deps
-    [formProps.values.branch]
-  );
+  useEffect(() => {
+    setShowWorkflowConfigDropdown(false);
+    setSelectedWorkflowConfigOption(WorkflowOption.None);
+    formProps.setFieldValue('workflowOption', WorkflowOption.None);
+    if (formProps.values.branch !== '') {
+      fetchWorkflowConfiguration(formProps.values.org, formProps.values.repo, formProps.values.branch);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.branch]);
 
   return (
     <>

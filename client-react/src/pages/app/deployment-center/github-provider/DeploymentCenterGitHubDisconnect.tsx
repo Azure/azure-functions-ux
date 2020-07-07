@@ -131,6 +131,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
           repo,
           branch,
           workflowFilePath,
+          t('githubActionWorkflowDeleteCommitMessage'),
           workflowConfigurationResponse.data.sha
         );
         if (deleteWorkflowFileResponse && deleteWorkflowFileResponse.metadata.success) {

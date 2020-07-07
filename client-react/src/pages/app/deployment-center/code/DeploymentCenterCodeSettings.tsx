@@ -101,7 +101,8 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     } else {
       setWorkflowFilePath('');
     }
-  }, [formProps.values.workflowOption]); // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.workflowOption]);
 
   return (
     <>
