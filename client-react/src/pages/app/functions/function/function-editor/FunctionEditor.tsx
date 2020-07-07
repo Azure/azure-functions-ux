@@ -43,6 +43,7 @@ import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids'
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
 import { isLinuxDynamic } from '../../../../../utils/arm-utils';
+import Url from '../../../../../utils/url';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -132,7 +133,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     );
     if (fileResponse.metadata.success) {
       setFileContent({ ...fileContent, default: fileContent.latest });
-      setLogPanelExpanded(true);
+      expandLogPanel();
       setFileSavedCount(fileSavedCount + 1);
     }
     setSavingFile(false);
@@ -180,7 +181,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     }
     const tempFunctionInfo = functionInfo;
     tempFunctionInfo.properties.test_data = data;
-    setLogPanelExpanded(true);
+    expandLogPanel();
     props.run(tempFunctionInfo, values.xFunctionKey);
   };
 
@@ -309,7 +310,11 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const toggleLogPanelExpansion = () => {
-    setLogPanelExpanded(!logPanelExpanded);
+    if (!logPanelExpanded) {
+      expandLogPanel();
+    } else {
+      closeLogPanel();
+    }
   };
 
   const getReadOnlyBannerHeight = () => {
@@ -342,6 +347,22 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const isSelectedFileBlacklisted = () => {
     return functionEditorContext.isBlacklistedFile(!!selectedFile ? (selectedFile.key as string) : '');
+  };
+
+  const expandLogPanel = () => {
+    setLogPanelExpanded(true);
+    LogService.trackEvent(LogCategories.functionLog, 'functionEditor-logPanelExpanded', {
+      resourceId: siteStateContext.resourceId,
+      sessionId: Url.getParameterByName(null, 'sessionId'),
+    });
+  };
+
+  const closeLogPanel = () => {
+    setLogPanelExpanded(false);
+    LogService.trackEvent(LogCategories.functionLog, 'functionEditor-logPanelClosed', {
+      resourceId: siteStateContext.resourceId,
+      sessionId: Url.getParameterByName(null, 'sessionId'),
+    });
   };
 
   useEffect(() => {
@@ -480,6 +501,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               extraEditorClassName: editorStyle,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
+            onSave={() => isDirty() && save()}
           />
         </div>
       )}
