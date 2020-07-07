@@ -1,5 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Dropdown from '../../../../components/form-controls/DropDown';
@@ -9,6 +9,7 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext, SiteContext } from '../Contexts';
 import { Links } from '../../../../utils/FwLinks';
+import { ScenarioCheckResult } from '../../../../utils/scenario-checker/scenario.models';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -17,9 +18,26 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const scenarioChecker = new ScenarioService(t);
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
-  const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
-  const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
-  const alwaysOnEnable = scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site });
+
+  const [platformOptionEnable, setPlatformOptionEnable] = useState<ScenarioCheckResult | undefined>(undefined);
+  const [websocketsEnable, setWebsocketsEnable] = useState<ScenarioCheckResult | undefined>(undefined);
+  const [alwaysOnEnable, setAlwaysOnEnable] = useState<ScenarioCheckResult | undefined>(undefined);
+
+  const initScenarioResults = async () => {
+    const platformOptionEnable = await scenarioChecker.checkScenarioAsync(ScenarioIds.enablePlatform64, { site });
+    setPlatformOptionEnable(platformOptionEnable);
+
+    const websocketsEnable = await scenarioChecker.checkScenarioAsync(ScenarioIds.webSocketsEnabled, { site });
+    setWebsocketsEnable(websocketsEnable);
+
+    const alwaysOnEnable = await scenarioChecker.checkScenarioAsync(ScenarioIds.enableAlwaysOn, { site });
+    setAlwaysOnEnable(alwaysOnEnable);
+  };
+
+  useEffect(() => {
+    initScenarioResults();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div>
       {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' && (
@@ -27,10 +45,10 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name="config.properties.use32BitWorkerProcess"
           dirty={values.config.properties.use32BitWorkerProcess !== initialValues.config.properties.use32BitWorkerProcess}
           component={Dropdown}
-          upsellMessage={platformOptionEnable.status === 'disabled' ? platformOptionEnable.data : ''}
+          upsellMessage={platformOptionEnable && platformOptionEnable.status === 'disabled' ? platformOptionEnable.data : ''}
           label={t('platform')}
           id="app-settings-worker-process"
-          disabled={disableAllControls || platformOptionEnable.status === 'disabled'}
+          disabled={disableAllControls || (platformOptionEnable && platformOptionEnable.status === 'disabled')}
           options={[
             {
               key: true,
@@ -115,10 +133,10 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name="config.properties.webSocketsEnabled"
           dirty={values.config.properties.webSocketsEnabled !== initialValues.config.properties.webSocketsEnabled}
           component={RadioButton}
-          upsellMessage={websocketsEnable.status === 'disabled' ? websocketsEnable.data : ''}
+          upsellMessage={websocketsEnable && websocketsEnable.status === 'disabled' ? websocketsEnable.data : ''}
           label={t('webSocketsEnabledLabel')}
           id="app-settings-web-sockets-enabled"
-          disabled={disableAllControls || websocketsEnable.status === 'disabled'}
+          disabled={disableAllControls || (websocketsEnable && websocketsEnable.status === 'disabled')}
           options={[
             {
               key: true,
@@ -138,10 +156,10 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           component={RadioButton}
           infoBubbleMessage={t('alwaysOnInfoMessage')}
           learnMoreLink={Links.alwaysOnInfo}
-          upsellMessage={alwaysOnEnable.status === 'disabled' ? alwaysOnEnable.data : ''}
+          upsellMessage={alwaysOnEnable && alwaysOnEnable.status === 'disabled' ? alwaysOnEnable.data : ''}
           label={t('alwaysOn')}
           id="app-settings-always-on"
-          disabled={disableAllControls || alwaysOnEnable.status === 'disabled'}
+          disabled={disableAllControls || (alwaysOnEnable && alwaysOnEnable.status === 'disabled')}
           options={[
             {
               key: true,
