@@ -24,11 +24,11 @@ const UnknownDirectionBindingCard: React.SFC<BindingCardChildProps> = props => {
 };
 
 const getUnknownBindings = (bindings: BindingInfo[]): BindingInfo[] => {
-  const inputBindings = bindings.filter(binding => {
+  const unknownBindings = bindings.filter(binding => {
     return getBindingDirection(binding) === BindingDirection.unknown;
   });
 
-  return inputBindings ? inputBindings : [];
+  return unknownBindings ? unknownBindings : [];
 };
 
 const getContent = (bindings: Binding[], theme: ThemeExtended, unknownBindings: BindingInfo[]): JSX.Element => {
