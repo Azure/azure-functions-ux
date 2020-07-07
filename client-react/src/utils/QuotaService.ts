@@ -28,7 +28,7 @@ export class QuotaService {
       LogService.error(LogCategories.quotaService, '/quota-service', quotaSettings.metadata.error);
     }
 
-    const quotaSettingForCurrentSub = quotaSettings.data.value.first(quota => quota.properties.subscriptionId === subscriptionId);
+    const quotaSettingForCurrentSub = quotaSettings.data.value.find(quota => quota.properties.subscriptionId === subscriptionId);
     return quotaSettingForCurrentSub;
   }
 
