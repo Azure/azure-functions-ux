@@ -5,6 +5,10 @@ import { calloutStyle } from './FunctionLog.styles';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { buttonStyle, buttonsWrapperStyle } from '../../../../../components/ActionBar';
+import LogService from '../../../../../utils/LogService';
+import { LogCategories } from '../../../../../utils/LogCategories';
+import Url from '../../../../../utils/url';
+import { SiteStateContext } from '../../../../../SiteState';
 
 interface FunctionLogOptionsCalloutProps {
   setIsDialogVisible: (isVisible: boolean) => void;
@@ -16,6 +20,7 @@ const FunctionLogOptionsCallout: React.FC<FunctionLogOptionsCalloutProps> = prop
 
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const onCloseDialog = () => {
     setIsDialogVisible(false);
@@ -24,6 +29,10 @@ const FunctionLogOptionsCallout: React.FC<FunctionLogOptionsCalloutProps> = prop
   const primaryButtonOnClick = () => {
     if (setSelectedLoggingOption) {
       setSelectedLoggingOption(LoggingOptions.fileBased);
+      LogService.trackEvent(LogCategories.functionLog, 'fileBased-logging-selected', {
+        resourceId: siteStateContext.resourceId,
+        sessionId: Url.getParameterByName(null, 'sessionId'),
+      });
     }
     onCloseDialog();
   };
