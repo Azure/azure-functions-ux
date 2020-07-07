@@ -51,24 +51,21 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
     }
   };
 
-  const fetchWorkflowConfiguration = async (selectedRepo: string, selectedBranch: string) => {
+  const fetchWorkflowConfiguration = async (org: string, repo: string, branch: string) => {
     setIsWorkflowConfigLoading(true);
 
     if (deploymentCenterContext.siteDescriptor) {
       const workflowFileName = getWorkflowFileName(
-        selectedBranch,
+        branch,
         deploymentCenterContext.siteDescriptor.site,
         deploymentCenterContext.siteDescriptor.slot
       );
       const workflowFilePath = `.github/workflows/${workflowFileName}`;
-      const getAllWorkflowConfigurationsRequest = deploymentCenterData.getAllWorkflowConfigurations(
-        selectedRepo,
-        selectedBranch,
-        getArmToken()
-      );
+      const getAllWorkflowConfigurationsRequest = deploymentCenterData.getAllWorkflowConfigurations(org, repo, branch, getArmToken());
       const getWorkflowConfigurationRequest = deploymentCenterData.getWorkflowConfiguration(
-        selectedRepo,
-        selectedBranch,
+        org,
+        repo,
+        branch,
         workflowFilePath,
         getArmToken()
       );
@@ -82,7 +79,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         setWorkflowFileExistsWarningMessage(
           t('githubActionWorkflowFileExists', {
             workflowFilePath: workflowFilePath,
-            branchName: selectedBranch,
+            branchName: branch,
           })
         );
 
@@ -97,7 +94,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
       } else if (allWorkflowConfigurationsResponse.metadata.success && allWorkflowConfigurationsResponse.data.length > 0) {
         setWorkflowFileExistsWarningMessage(
           t('githubActionWorkflowsExist', {
-            branchName: selectedBranch,
+            branchName: branch,
           })
         );
 
@@ -121,7 +118,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         formProps.setFieldValue('workflowOption', WorkflowOption.None);
       }
       if (formProps && formProps.values.branch !== '') {
-        fetchWorkflowConfiguration(formProps.values.repo, formProps.values.branch);
+        fetchWorkflowConfiguration(formProps.values.org, formProps.values.repo, formProps.values.branch);
       }
     }, // eslint-disable-next-line react-hooks/exhaustive-deps
     formProps ? [formProps.values.branch] : []

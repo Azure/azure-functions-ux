@@ -168,7 +168,7 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   authorizeGitHubAccount: () => void;
   fetchOrganizationOptions: () => void;
   fetchRepositoryOptions: (repositories_url: string) => void;
-  fetchBranchOptions: (repository_url: string) => void;
+  fetchBranchOptions: (org: string, repo: string) => void;
   organizationOptions: IDropdownOption[];
   repositoryOptions: IDropdownOption[];
   branchOptions: IDropdownOption[];
@@ -182,7 +182,6 @@ export interface DeploymentCenterGitHubDisconnectProps<T = DeploymentCenterConta
   org: string;
   repo: string;
   repoUrl: string;
-  repoApiUrl: string;
 }
 
 export interface DeploymentCenterCodeBuildCalloutProps {

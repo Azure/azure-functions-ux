@@ -24,11 +24,13 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = pro
   const [branch, setBranch] = useState<string>(t('loading'));
   const [repoUrl, setRepoUrl] = useState<string>('');
   const [gitHubUsername, setGitHubUsername] = useState<string>(t('loading'));
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterData = new DeploymentCenterData();
 
   const getSourceControlDetails = async () => {
+    setIsLoading(true);
     const getGitHubUserRequest = deploymentCenterData.getGitHubUser(getArmToken());
     const getSourceControlDetailsResponse = deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
 
@@ -42,7 +44,6 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = pro
       if (repoUrlSplit.length >= 2) {
         setOrg(repoUrlSplit[repoUrlSplit.length - 2]);
         setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
-        setRepoApiUrl(`https://api.github.com/repos/${repoUrlSplit[repoUrlSplit.length - 2]}/${repoUrlSplit[repoUrlSplit.length - 1]}`);
       }
     } else {
       LogService.error(
@@ -64,6 +65,8 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = pro
         `Failed to get GitHub user details with error: ${getErrorMessage(gitHubUserResponse.metadata.error)}`
       );
     }
+
+    setIsLoading(false);
   };
 
   const authorizeGitHubAccount = async () => {
@@ -105,6 +108,32 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = pro
     });
   };
 
+  const getSignedInAsComponent = () => {
+    if (gitHubUsername) {
+      return (
+        <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
+          <div>{`${gitHubUsername}`}</div>
+        </ReactiveFormControl>
+      );
+    } else {
+      return (
+        <div className={deploymentCenterInfoBannerDiv}>
+          <CustomBanner
+            message={
+              <>
+                {`${t('deploymentCenterSettingsReadOnlyGitHubNotAuthorized')} `}
+                <Link onClick={authorizeGitHubAccount} target="_blank">
+                  {t('authorize')}
+                </Link>
+              </>
+            }
+            type={MessageBarType.error}
+          />
+        </div>
+      );
+    }
+  };
+
   useEffect(() => {
     getSourceControlDetails();
 
@@ -127,16 +156,7 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = pro
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
         <div>
           {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
-          {org && repoUrl && (
-            <DeploymentCenterGitHubDisconnect
-              branch={branch}
-              org={org}
-              repo={repo}
-              repoUrl={repoUrl}
-              repoApiUrl={repoApiUrl}
-              formProps={formProps}
-            />
-          )}
+          {!isLoading && <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoUrl={repoUrl} formProps={formProps} />}
         </div>
       </ReactiveFormControl>
       {deploymentCenterContext.isContainerApplication ? (
@@ -144,34 +164,24 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = pro
       ) : (
         <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>
       )}
-      {gitHubUsername ? (
+      {isLoading ? (
         <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
-          <div>{`${gitHubUsername}`}</div>
+          <div>{t('loading')}</div>
         </ReactiveFormControl>
       ) : (
-        <div className={deploymentCenterInfoBannerDiv}>
-          <CustomBanner
-            message={
-              <>
-                {`${t('deploymentCenterSettingsReadOnlyGitHubNotAuthorized')} `}
-                <Link onClick={authorizeGitHubAccount} target="_blank">
-                  {t('authorize')}
-                </Link>
-              </>
-            }
-            type={MessageBarType.error}
-          />
-        </div>
+        getSignedInAsComponent()
       )}
       <ReactiveFormControl id="deployment-center-organization" label={t('deploymentCenterOAuthOrganization')}>
-        <div>{org}</div>
+        <div>{isLoading ? t('loading') : org}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-repository" label={t('deploymentCenterOAuthRepository')}>
-        <div>{repo}</div>
+        <div>{isLoading ? t('loading') : repo}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-github-branch" label={t('deploymentCenterOAuthBranch')}>
         <div>
-          {repoUrl ? (
+          {isLoading ? (
+            t('loading')
+          ) : (
             <Link
               key="deployment-center-branch-link"
               onClick={() => window.open(repoUrl, '_blank')}
@@ -180,8 +190,6 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = pro
               {`${branch} `}
               <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
             </Link>
-          ) : (
-            `${branch}`
           )}
         </div>
       </ReactiveFormControl>
