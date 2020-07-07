@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import DeploymentCenterFtps from '../DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterCodeProps } from '../DeploymentCenter.types';
+import { DeploymentCenterCodePivotProps } from '../DeploymentCenter.types';
 import DeploymentCenterCodeLogs from './DeploymentCenterCodeLogs';
 import DeploymentCenterCodeSettings from './DeploymentCenterCodeSettings';
 
-const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodeProps> = props => {
+const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const {
     publishingCredentials,
     publishingProfile,

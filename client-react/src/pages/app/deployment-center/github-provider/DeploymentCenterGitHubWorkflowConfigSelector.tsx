@@ -46,9 +46,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
 
   const onWorkflowOptionChange = (event: React.FormEvent<HTMLDivElement>, option: WorkflowDropdownOption) => {
     setSelectedWorkflowConfigOption(option.workflowOption);
-    if (formProps) {
-      formProps.setFieldValue('workflowOption', option.workflowOption);
-    }
+    formProps.setFieldValue('workflowOption', option.workflowOption);
   };
 
   const fetchWorkflowConfiguration = async (org: string, repo: string, branch: string) => {
@@ -102,9 +100,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         setShowWorkflowConfigDropdown(true);
       } else {
         setSelectedWorkflowConfigOption(WorkflowOption.Add);
-        if (formProps) {
-          formProps.setFieldValue('workflowOption', WorkflowOption.Add);
-        }
+        formProps.setFieldValue('workflowOption', WorkflowOption.Add);
       }
     }
     setIsWorkflowConfigLoading(false);
@@ -114,14 +110,12 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
     () => {
       setShowWorkflowConfigDropdown(false);
       setSelectedWorkflowConfigOption(WorkflowOption.None);
-      if (formProps) {
-        formProps.setFieldValue('workflowOption', WorkflowOption.None);
-      }
-      if (formProps && formProps.values.branch !== '') {
+      formProps.setFieldValue('workflowOption', WorkflowOption.None);
+      if (formProps.values.branch !== '') {
         fetchWorkflowConfiguration(formProps.values.org, formProps.values.repo, formProps.values.branch);
       }
     }, // eslint-disable-next-line react-hooks/exhaustive-deps
-    formProps ? [formProps.values.branch] : []
+    [formProps.values.branch]
   );
 
   return (

@@ -6,6 +6,7 @@ import SiteService from '../../../ApiHelpers/SiteService';
 import GitHubService from '../../../ApiHelpers/GitHubService';
 import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppOsType } from '../../../models/site/site';
+import { GitHubActionWorkflowRequestContent } from '../../../models/github';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -98,6 +99,10 @@ export default class DeploymentCenterData {
 
   public deleteActionWorkflow = (authToken: string, org: string, repo: string, branch: string, workflowFilePath: string, sha: string) => {
     return GitHubService.deleteActionWorkflow(authToken, org, repo, branch, workflowFilePath, sha);
+  };
+
+  public createOrUpdateActionWorkflow = (authToken: string, content: GitHubActionWorkflowRequestContent) => {
+    return GitHubService.createOrUpdateActionWorkflow(authToken, content);
   };
 
   public getRuntimeStacks = (stacksOs: AppOsType) => {

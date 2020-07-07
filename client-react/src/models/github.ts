@@ -51,6 +51,12 @@ export interface GitHubCommit {
   sha?: string;
 }
 
+export interface GitHubActionWorkflowRequestContent {
+  resourceId: string;
+  secretName: string;
+  commit: GitHubCommit;
+}
+
 export interface GitHubCommitter {
   name: string;
   email: string;

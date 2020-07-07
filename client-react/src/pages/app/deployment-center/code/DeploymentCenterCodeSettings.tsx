@@ -24,26 +24,23 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
   const [workflowFilePath, setWorkflowFilePath] = useState<string>('');
 
-  const isGitHubSource = formProps && formProps.values.sourceProvider === ScmType.GitHub;
-  const isGitHubActionsBuild = formProps && formProps.values.buildProvider === BuildProvider.GitHubAction;
+  const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
+  const isGitHubActionsBuild = formProps.values.buildProvider === BuildProvider.GitHubAction;
   const isDeploymentSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.None;
   const isUsingExistingOrAvailableWorkflowConfig =
-    formProps &&
-    (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
-      formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs);
+    formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
+    formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs;
 
   const isPreviewFileButtonEnabled = () => {
-    if (formProps) {
-      if (
-        formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs ||
-        formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig
-      ) {
+    if (
+      formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs ||
+      formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig
+    ) {
+      return true;
+    }
+    if (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) {
+      if (formProps.values.runtimeStack && formProps.values.runtimeVersion) {
         return true;
-      }
-      if (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) {
-        if (formProps.values.runtimeStack && formProps.values.runtimeVersion) {
-          return true;
-        }
       }
     }
 
@@ -51,7 +48,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   };
 
   const getPreviewPanelContent = () => {
-    if (formProps && deploymentCenterContext.siteDescriptor) {
+    if (deploymentCenterContext.siteDescriptor) {
       if (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig) {
         return (
           <>
@@ -88,33 +85,29 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     }
   };
 
-  useEffect(
-    () => {
-      if (
-        deploymentCenterContext.siteDescriptor &&
-        formProps &&
-        (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
-          formProps.values.workflowOption === WorkflowOption.Add ||
-          formProps.values.workflowOption === WorkflowOption.Overwrite)
-      ) {
-        const workflowFileName = getWorkflowFileName(
-          formProps.values.branch,
-          deploymentCenterContext.siteDescriptor.site,
-          deploymentCenterContext.siteDescriptor.slot
-        );
-        setWorkflowFilePath(`.github/workflows/${workflowFileName}`);
-      } else {
-        setWorkflowFilePath('');
-      }
-    }, // eslint-disable-next-line react-hooks/exhaustive-deps
-    formProps ? [formProps.values.workflowOption] : []
-  );
+  useEffect(() => {
+    if (
+      deploymentCenterContext.siteDescriptor &&
+      (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
+        formProps.values.workflowOption === WorkflowOption.Add ||
+        formProps.values.workflowOption === WorkflowOption.Overwrite)
+    ) {
+      const workflowFileName = getWorkflowFileName(
+        formProps.values.branch,
+        deploymentCenterContext.siteDescriptor.site,
+        deploymentCenterContext.siteDescriptor.slot
+      );
+      setWorkflowFilePath(`.github/workflows/${workflowFileName}`);
+    } else {
+      setWorkflowFilePath('');
+    }
+  }, [formProps.values.workflowOption]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   return (
     <>
       {isDeploymentSetup ? (
         <>
-          <DeploymentCenterGitHubReadOnly formProps={formProps} />
+          <DeploymentCenterGitHubReadOnly />
           <DeploymentCenterCodeBuildReadOnly />
         </>
       ) : (
@@ -130,13 +123,11 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
                     setGithubActionExistingWorkflowContents={setGithubActionExistingWorkflowContents}
                   />
                   {!isUsingExistingOrAvailableWorkflowConfig && <DeploymentCenterCodeBuildRuntimeAndVersion formProps={formProps} />}
-                  {formProps && (
-                    <DeploymentCenterGitHubWorkflowConfigPreview
-                      getPreviewPanelContent={getPreviewPanelContent}
-                      isPreviewFileButtonEnabled={isPreviewFileButtonEnabled}
-                      workflowFilePath={workflowFilePath}
-                    />
-                  )}
+                  <DeploymentCenterGitHubWorkflowConfigPreview
+                    getPreviewPanelContent={getPreviewPanelContent}
+                    isPreviewFileButtonEnabled={isPreviewFileButtonEnabled}
+                    workflowFilePath={workflowFilePath}
+                  />
                 </>
               )}
             </>

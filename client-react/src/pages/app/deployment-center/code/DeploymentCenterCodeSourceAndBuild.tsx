@@ -56,16 +56,14 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   const updateSelectedBuild = () => {
     setSelectedBuild(selectedBuildChoice);
-    if (formProps) {
-      formProps.setFieldValue('buildProvider', selectedBuildChoice);
-      if (selectedBuildChoice === BuildProvider.GitHubAction) {
-        formProps.setFieldValue(
-          'gitHubPublishProfileSecretGuid',
-          Guid.newGuid()
-            .toLowerCase()
-            .replace(/[-]/g, '')
-        );
-      }
+    formProps.setFieldValue('buildProvider', selectedBuildChoice);
+    if (selectedBuildChoice === BuildProvider.GitHubAction) {
+      formProps.setFieldValue(
+        'gitHubPublishProfileSecretGuid',
+        Guid.newGuid()
+          .toLowerCase()
+          .replace(/[-]/g, '')
+      );
     }
     toggleIsCalloutVisible();
   };
@@ -74,30 +72,27 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     setSelectedBuildChoice(option.buildType);
   };
 
-  useEffect(
-    () => {
-      if (formProps && formProps.values.sourceProvider !== ScmType.GitHub) {
-        setSelectedBuild(BuildProvider.AppServiceBuildService);
-        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
-      }
+  useEffect(() => {
+    if (formProps.values.sourceProvider !== ScmType.GitHub) {
+      setSelectedBuild(BuildProvider.AppServiceBuildService);
+      formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
+    }
 
-      if (formProps && formProps.values.sourceProvider === ScmType.GitHub) {
-        setSelectedBuild(BuildProvider.GitHubAction);
-        formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
-        formProps.setFieldValue(
-          'gitHubPublishProfileSecretGuid',
-          Guid.newGuid()
-            .toLowerCase()
-            .replace(/[-]/g, '')
-        );
-      }
-    }, // eslint-disable-next-line react-hooks/exhaustive-deps
-    formProps ? [formProps.values.sourceProvider] : []
-  );
+    if (formProps.values.sourceProvider === ScmType.GitHub) {
+      setSelectedBuild(BuildProvider.GitHubAction);
+      formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
+      formProps.setFieldValue(
+        'gitHubPublishProfileSecretGuid',
+        Guid.newGuid()
+          .toLowerCase()
+          .replace(/[-]/g, '')
+      );
+    }
+  }, [formProps.values.sourceProvider]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
-  const isSourceSelected = formProps && formProps.values.sourceProvider !== ScmType.None;
-  const isGitHubSource = formProps && formProps.values.sourceProvider === ScmType.GitHub;
-  const isGitHubActionsBuild = formProps && formProps.values.buildProvider === BuildProvider.GitHubAction;
+  const isSourceSelected = formProps.values.sourceProvider !== ScmType.None;
+  const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
+  const isGitHubActionsBuild = formProps.values.buildProvider === BuildProvider.GitHubAction;
   const calloutOkButtonDisabled = selectedBuildChoice === selectedBuild;
 
   const getBuildDescription = () => {

@@ -8,7 +8,7 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { useTranslation } from 'react-i18next';
 import { additionalTextFieldControl, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
-import { AuthorizationResult, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { AuthorizationResult } from '../DeploymentCenter.types';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
@@ -16,8 +16,7 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { getArmToken } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 
-const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = props => {
-  const { formProps } = props;
+const DeploymentCenterGitHubReadOnly: React.FC<{}> = props => {
   const { t } = useTranslation();
   const [org, setOrg] = useState<string>(t('loading'));
   const [repo, setRepo] = useState<string>(t('loading'));
@@ -156,21 +155,21 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = pro
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
         <div>
           {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
-          {!isLoading && <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoUrl={repoUrl} formProps={formProps} />}
+          {!isLoading && <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoUrl={repoUrl} />}
         </div>
       </ReactiveFormControl>
       {deploymentCenterContext.isContainerApplication ? (
         <h3>{t('deploymentCenterContainerGitHubActionsTitle')}</h3>
       ) : (
-        <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>
-      )}
+          <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>
+        )}
       {isLoading ? (
         <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
           <div>{t('loading')}</div>
         </ReactiveFormControl>
       ) : (
-        getSignedInAsComponent()
-      )}
+          getSignedInAsComponent()
+        )}
       <ReactiveFormControl id="deployment-center-organization" label={t('deploymentCenterOAuthOrganization')}>
         <div>{isLoading ? t('loading') : org}</div>
       </ReactiveFormControl>
@@ -182,15 +181,15 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = pro
           {isLoading ? (
             t('loading')
           ) : (
-            <Link
-              key="deployment-center-branch-link"
-              onClick={() => window.open(repoUrl, '_blank')}
-              className={additionalTextFieldControl}
-              aria-label={`${branch}`}>
-              {`${branch} `}
-              <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
-            </Link>
-          )}
+              <Link
+                key="deployment-center-branch-link"
+                onClick={() => window.open(repoUrl, '_blank')}
+                className={additionalTextFieldControl}
+                aria-label={`${branch}`}>
+                {`${branch} `}
+                <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
+              </Link>
+            )}
         </div>
       </ReactiveFormControl>
     </>

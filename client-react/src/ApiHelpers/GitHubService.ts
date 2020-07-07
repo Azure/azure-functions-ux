@@ -1,6 +1,14 @@
 import { sendHttpRequest } from './HttpClient';
 import Url from '../utils/url';
-import { GitHubUser, GitHubOrganizations, GitHubRepository, GitHubBranch, FileContent, GitHubCommit } from '../models/github';
+import {
+  GitHubUser,
+  GitHubOrganizations,
+  GitHubRepository,
+  GitHubBranch,
+  FileContent,
+  GitHubCommit,
+  GitHubActionWorkflowRequestContent,
+} from '../models/github';
 import { HttpResponseObject } from '../ArmHelper.types';
 import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
 import { useTranslation } from 'react-i18next';
@@ -107,5 +115,14 @@ export default class GitHubService {
     };
 
     return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/deleteActionWorkflow`, method: 'POST', data });
+  };
+
+  public static createOrUpdateActionWorkflow = (authToken: string, content: GitHubActionWorkflowRequestContent) => {
+    const data = {
+      authToken,
+      content,
+    };
+
+    return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/actionWorkflow`, method: 'PUT', data });
   };
 }

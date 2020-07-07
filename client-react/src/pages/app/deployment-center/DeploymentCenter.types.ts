@@ -46,10 +46,9 @@ export enum WorkflowFileDeleteOptions {
   Delete = 'Delete',
 }
 
-export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &
-  DeploymentCenterFtpsProps<DeploymentCenterContainerFormData>;
+export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps;
 
-export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps<DeploymentCenterCodeFormData>;
+export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps;
 
 export type DeploymentCenterYupValidationSchemaType<
   T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData
@@ -93,7 +92,7 @@ export interface DeploymentCenterCodeFormData {
 }
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
-  formProps?: FormikProps<DeploymentCenterFormData<T>>;
+  formProps: FormikProps<DeploymentCenterFormData<T>>;
 }
 
 export interface DeploymentCenterGitHubWorkflowConfigSelectorProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -123,8 +122,7 @@ export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
   workflowFilePath: string;
 }
 
-export interface DeploymentCenterFtpsProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
-  extends DeploymentCenterFieldProps<T> {
+export interface DeploymentCenterFtpsProps {
   isLoading: boolean;
   resetApplicationPassword: () => void;
   publishingCredentials?: ArmObj<PublishingCredentials>;
@@ -140,10 +138,15 @@ export interface DeploymentCenterFormProps<T = DeploymentCenterContainerFormData
   formValidationSchema?: DeploymentCenterYupValidationSchemaType<T>;
 }
 
-export type DeploymentCenterContainerFormProps<T = DeploymentCenterContainerFormData> = DeploymentCenterContainerProps &
-  DeploymentCenterFormProps<T>;
+export type DeploymentCenterContainerFormProps = DeploymentCenterContainerProps &
+  DeploymentCenterFormProps<DeploymentCenterContainerFormData>;
 
-export type DeploymentCenterCodeFormProps<T = DeploymentCenterCodeFormData> = DeploymentCenterCodeProps & DeploymentCenterFormProps<T>;
+export type DeploymentCenterContainerPivotProps = DeploymentCenterContainerFormProps &
+  DeploymentCenterFieldProps<DeploymentCenterContainerFormData>;
+
+export type DeploymentCenterCodeFormProps = DeploymentCenterCodeProps & DeploymentCenterFormProps<DeploymentCenterCodeFormData>;
+
+export type DeploymentCenterCodePivotProps = DeploymentCenterCodeFormProps & DeploymentCenterFieldProps<DeploymentCenterCodeFormData>;
 
 export interface DeploymentCenterCommandBarProps {
   isLoading: boolean;
@@ -182,8 +185,7 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   gitHubUser?: GitHubUser;
 }
 
-export interface DeploymentCenterGitHubDisconnectProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
-  extends DeploymentCenterFieldProps<T> {
+export interface DeploymentCenterGitHubDisconnectProps {
   branch: string;
   org: string;
   repo: string;
