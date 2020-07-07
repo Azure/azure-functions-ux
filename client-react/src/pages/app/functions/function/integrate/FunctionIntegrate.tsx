@@ -23,6 +23,7 @@ import FunctionNameBindingCard from './binding-card/FunctionNameBindingCard';
 import InputBindingCard from './binding-card/InputBindingCard';
 import OutputBindingCard from './binding-card/OutputBindingCard';
 import TriggerBindingCard from './binding-card/TriggerBindingCard';
+import UnknownDirectionBindingCard from './binding-card/UnknownDirectionBindingCard';
 import { ClosedReason } from './BindingPanel/BindingEditor';
 import BindingPanel from './BindingPanel/BindingPanel';
 import {
@@ -159,8 +160,9 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
       </Stack.Item>
 
       <Stack.Item grow>
-        <Stack verticalFill={true} className={singleCardStackStyle}>
+        <Stack gap={40} verticalFill={true} className={singleCardStackStyle}>
           <FunctionNameBindingCard functionInfo={functionInfo} bindings={bindings} />
+          <UnknownDirectionBindingCard functionInfo={functionInfo} bindings={bindings} />
         </Stack>
       </Stack.Item>
 
@@ -187,6 +189,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
       <InputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} loadBindingSettings={loadBindingSettings} />
       <FunctionNameBindingCard functionInfo={functionInfo} bindings={bindings} />
       <OutputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} loadBindingSettings={loadBindingSettings} />
+      <UnknownDirectionBindingCard functionInfo={functionInfo} bindings={bindings} />
     </Stack>
   );
 

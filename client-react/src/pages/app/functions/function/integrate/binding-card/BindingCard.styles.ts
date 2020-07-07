@@ -53,6 +53,9 @@ export const listStyle = (theme: ThemeExtended): string => {
       '.emptyMessage': {
         color: theme.semanticColors.disabledBodyText,
       },
+      '.unknownBinding': {
+        color: theme.semanticColors.disabledBodyText,
+      },
     },
   });
 };
