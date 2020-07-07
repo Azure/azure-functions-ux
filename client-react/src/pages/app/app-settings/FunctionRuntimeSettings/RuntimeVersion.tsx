@@ -108,6 +108,15 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
       ];
     }
 
+    if (window.appsvc && window.appsvc.env.runtimeType === 'OnPrem') {
+      return [
+        {
+          key: RuntimeExtensionMajorVersions.v1,
+          text: RuntimeExtensionMajorVersions.v1,
+        },
+      ];
+    }
+
     return [
       {
         key: RuntimeExtensionMajorVersions.v1,
