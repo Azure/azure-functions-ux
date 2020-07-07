@@ -229,6 +229,7 @@ export class PortalResources {
   public static integrate_inputsHelp = 'integrate_inputsHelp';
   public static integrate_outputsHelp = 'integrate_outputsHelp';
   public static integrate_triggersHelp = 'integrate_triggersHelp';
+  public static integrate_unknownCardTitle = 'integrate_unknownCardTitle';
   public static binding_createNewFunction = 'binding_createNewFunction';
   public static binding_documentation = 'binding_documentation';
   public static binding_go = 'binding_go';
