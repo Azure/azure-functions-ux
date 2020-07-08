@@ -23,7 +23,6 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
     public branch: string;
     public isManualIntegration: boolean;
     public isGitHubAction: boolean;
-    public deploymentRollbackEnabled: boolean;
     public isMercurial: boolean;
   }
 
@@ -35,8 +34,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       branch: formProps.values.branch || 'master',
       isManualIntegration: false,
       isGitHubAction: formProps.values.buildProvider === BuildProvider.GitHubAction,
-      deploymentRollbackEnabled: '',
-      isMercurial: null,
+      isMercurial: false,
     };
 
     if (formProps.values.sourceProvider === ScmType.LocalGit) {
