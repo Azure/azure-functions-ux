@@ -80,13 +80,10 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
           error: deleteSourceControlDetailsResponse.metadata.error,
         };
 
-        if (deleteWorkflowDuringDisconnect) {
-          failedStatus.errorMessage = t('disconnectingDeploymentFailWorkflowFileDeleteSucceeded');
-          return failedStatus;
-        } else {
-          failedStatus.errorMessage = t('disconnectingDeploymentFail');
-          return failedStatus;
-        }
+        failedStatus.errorMessage = deleteWorkflowDuringDisconnect
+          ? t('disconnectingDeploymentFailWorkflowFileDeleteSucceeded')
+          : t('disconnectingDeploymentFail');
+        return failedStatus;
       } else {
         const successStatus: DeploymentDisconnectStatus = {
           step: DeployDisconnectStep.ClearSCMSettings,

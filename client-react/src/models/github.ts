@@ -41,6 +41,12 @@ export class FileContent {
   encoding?: string;
 }
 
+export interface GitHubActionWorkflowRequestContent {
+  resourceId: string;
+  secretName: string;
+  commit: GitHubCommit;
+}
+
 export interface GitHubCommit {
   repoName: string;
   branchName: string;
@@ -49,12 +55,6 @@ export interface GitHubCommit {
   committer: GitHubCommitter;
   contentBase64Encoded?: string;
   sha?: string;
-}
-
-export interface GitHubActionWorkflowRequestContent {
-  resourceId: string;
-  secretName: string;
-  commit: GitHubCommit;
 }
 
 export interface GitHubCommitter {

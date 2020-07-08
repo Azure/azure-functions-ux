@@ -76,9 +76,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     if (formProps.values.sourceProvider !== ScmType.GitHub) {
       setSelectedBuild(BuildProvider.AppServiceBuildService);
       formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
-    }
-
-    if (formProps.values.sourceProvider === ScmType.GitHub) {
+    } else {
       setSelectedBuild(BuildProvider.GitHubAction);
       formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
       formProps.setFieldValue(

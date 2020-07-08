@@ -274,16 +274,16 @@ export class WorkflowInformation {
   content: string;
 }
 
-export enum DeployDisconnectStep {
-  DeleteWorkflowFile = 'DeleteWorkflowFile',
-  ClearSCMSettings = 'ClearSCMSettings',
-}
-
 export interface DeploymentDisconnectStatus {
   step: DeployDisconnectStep;
   isSuccessful: boolean;
   errorMessage?: string;
   error?: any;
+}
+
+export enum DeployDisconnectStep {
+  DeleteWorkflowFile = 'DeleteWorkflowFile',
+  ClearSCMSettings = 'ClearSCMSettings',
 }
 
 export interface WorkflowChoiceGroupOption extends IChoiceGroupOption {
