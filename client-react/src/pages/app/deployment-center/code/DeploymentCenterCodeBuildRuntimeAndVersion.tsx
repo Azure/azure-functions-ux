@@ -90,9 +90,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
   const updateSelectedRuntime = (e: any, option: IDropdownOption) => {
     setSelectedRuntime(option.key.toString());
-    if (formProps) {
-      formProps.setFieldValue('runtimeStack', option.key.toString());
-    }
+    formProps.setFieldValue('runtimeStack', option.key.toString());
 
     // NOTE(michinoy): Show a warning message if the user selects a stack which does not match what their app is configured with.
     if (defaultStack && option.key.toString() !== defaultStack.toLocaleLowerCase() && !stackNotSupportedMessage) {
@@ -106,13 +104,12 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
   const updateSelectedVersion = (e: any, option: IDropdownOption) => {
     setSelectedVersion(option.key.toString());
-    if (formProps) {
-      formProps.setFieldValue('runtimeVersion', option.key.toString());
-      formProps.setFieldValue(
-        'runtimeRecommendedVersion',
-        getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, option.key.toString())
-      );
-    }
+
+    formProps.setFieldValue('runtimeVersion', option.key.toString());
+    formProps.setFieldValue(
+      'runtimeRecommendedVersion',
+      getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, option.key.toString())
+    );
   };
 
   const getRuntimeStackRecommendedVersion = (stackValue: string, runtimeVersionValue: string): string => {
@@ -143,22 +140,18 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
       if (defaultRuntimeVersionOption && defaultRuntimeVersionOption.length === 1) {
         setSelectedVersion(defaultRuntimeVersionOption[0].key.toString());
-        if (formProps) {
-          formProps.setFieldValue('runtimeVersion', defaultRuntimeVersionOption[0].key.toString());
-          formProps.setFieldValue(
-            'runtimeRecommendedVersion',
-            getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, defaultRuntimeVersionOption[0].key.toString())
-          );
-        }
+        formProps.setFieldValue('runtimeVersion', defaultRuntimeVersionOption[0].key.toString());
+        formProps.setFieldValue(
+          'runtimeRecommendedVersion',
+          getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, defaultRuntimeVersionOption[0].key.toString())
+        );
       } else {
         setSelectedVersion(runtimeVersionOptions[0].key.toString());
-        if (formProps) {
-          formProps.setFieldValue('runtimeVersion', runtimeVersionOptions[0].key.toString());
-          formProps.setFieldValue(
-            'runtimeRecommendedVersion',
-            getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, runtimeVersionOptions[0].key.toString())
-          );
-        }
+        formProps.setFieldValue('runtimeVersion', runtimeVersionOptions[0].key.toString());
+        formProps.setFieldValue(
+          'runtimeRecommendedVersion',
+          getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, runtimeVersionOptions[0].key.toString())
+        );
       }
     }
   };
@@ -184,7 +177,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   const setDefaultSelectedRuntimeStack = () => {
     // NOTE(michinoy): Once the dropdown is populated, preselect stack that the user had selected during create.
     // If the users app was built using a stack that is not supported, show a warning message.
-    if (formProps && formProps.values.buildProvider === BuildProvider.GitHubAction && defaultStack && runtimeStackOptions.length >= 1) {
+    if (formProps.values.buildProvider === BuildProvider.GitHubAction && defaultStack && runtimeStackOptions.length >= 1) {
       const appSelectedStack = runtimeStackOptions.filter(item => item.key.toString() === defaultStack.toLocaleLowerCase());
 
       const appSelectedStackKey = appSelectedStack[0].key.toString();
@@ -193,9 +186,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
         setStackNotSupportedMessage('');
         setStackMismatchMessage('');
         setSelectedRuntime(appSelectedStackKey);
-        if (formProps) {
-          formProps.setFieldValue('runtimeStack', appSelectedStackKey);
-        }
+        formProps.setFieldValue('runtimeStack', appSelectedStackKey);
         populateVersionDropdown(appSelectedStackKey);
       } else {
         updateStackNotSupportedMessage();
@@ -218,36 +209,31 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   };
 
   useEffect(() => {
-    if (formProps) {
-      formProps.setFieldValue('runtimeStack', '');
-      formProps.setFieldValue('runtimeVersion', '');
-      formProps.setFieldValue('runtimeRecommendedVersion', '');
-    }
+    formProps.setFieldValue('runtimeStack', '');
+    formProps.setFieldValue('runtimeVersion', '');
+    formProps.setFieldValue('runtimeRecommendedVersion', '');
+
     setInitialDefaultValues();
     fetchStacks();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(
-    () => {
-      if (formProps) {
-        formProps.setFieldValue('runtimeStack', '');
-        formProps.setFieldValue('runtimeVersion', '');
-        formProps.setFieldValue('runtimeRecommendedVersion', '');
-      }
-      setDefaultSelectedRuntimeStack();
-    }, // eslint-disable-next-line react-hooks/exhaustive-deps
-    formProps ? [runtimeStackOptions, formProps.values.buildProvider] : [runtimeStackOptions]
-  );
+  useEffect(() => {
+    formProps.setFieldValue('runtimeStack', '');
+    formProps.setFieldValue('runtimeVersion', '');
+    formProps.setFieldValue('runtimeRecommendedVersion', '');
+
+    setDefaultSelectedRuntimeStack();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runtimeStackOptions, formProps.values.buildProvider]);
 
   useEffect(() => {
-    if (formProps) {
-      formProps.setFieldValue('runtimeVersion', '');
-      formProps.setFieldValue('runtimeRecommendedVersion', '');
-    }
-    setDefaultSelectedRuntimeVersion();
+    formProps.setFieldValue('runtimeVersion', '');
+    formProps.setFieldValue('runtimeRecommendedVersion', '');
 
+    setDefaultSelectedRuntimeVersion();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runtimeVersionOptions]);
 

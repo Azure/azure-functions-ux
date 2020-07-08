@@ -1,6 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { Field } from 'formik';
-import { DeploymentCenterFtpsProps } from './DeploymentCenter.types';
+import {
+  DeploymentCenterFtpsProps,
+  DeploymentCenterFieldProps,
+  DeploymentCenterContainerFormData,
+  DeploymentCenterCodeFormData,
+} from './DeploymentCenter.types';
 import { MessageBarType, ActionButton, ProgressIndicator } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterContent, additionalTextFieldControl } from './DeploymentCenter.styles';
@@ -12,7 +17,9 @@ import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocu
 
 type PasswordFieldType = 'password' | undefined;
 
-const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
+const DeploymentCenterFtps: React.FC<
+  DeploymentCenterFtpsProps & DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+> = props => {
   const { t } = useTranslation();
   const { publishingProfile, publishingUser, resetApplicationPassword, isLoading } = props;
 

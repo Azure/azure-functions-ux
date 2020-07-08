@@ -8,7 +8,7 @@ import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
 
-const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps<DeploymentCenterContainerFormData>> = props => {
+const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps> = props => {
   const { t } = useTranslation();
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
 

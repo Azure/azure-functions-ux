@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Formik, FormikProps } from 'formik';
 import { DeploymentCenterFormData, DeploymentCenterCodeFormProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
 import { KeyCodes } from 'office-ui-fabric-react';
-import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
 import { useTranslation } from 'react-i18next';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import DeploymentCenterCodeCommandBar from './DeploymentCenterCodeCommandBar';
 
-const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps<DeploymentCenterCodeFormData>> = props => {
+const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
 
@@ -16,14 +16,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps<Deploymen
     if ((keyEvent.charCode || keyEvent.keyCode) === KeyCodes.enter) {
       keyEvent.preventDefault();
     }
-  };
-
-  const saveFunction = () => {
-    throw Error('not implemented');
-  };
-
-  const discardFunction = () => {
-    throw Error('not implemented');
   };
 
   const refreshFunction = () => {
@@ -50,12 +42,11 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps<Deploymen
       {(formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterCodeFormData>>) => (
         <form onKeyDown={onKeyDown}>
           <div id="deployment-center-command-bar" className={commandBarSticky}>
-            <DeploymentCenterCommandBar
-              saveFunction={saveFunction}
-              discardFunction={discardFunction}
+            <DeploymentCenterCodeCommandBar
+              isLoading={props.isLoading}
               showPublishProfilePanel={props.showPublishProfilePanel}
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
-              isLoading={props.isLoading}
+              formProps={formProps}
             />
           </div>
           <>

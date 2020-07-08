@@ -3,10 +3,10 @@ import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import DeploymentCenterContainerSettings from './DeploymentCenterContainerSettings';
 import DeploymentCenterFtps from '../DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterContainerProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContainerPivotProps } from '../DeploymentCenter.types';
 import DeploymentCenterContainerLogs from './DeploymentCenterContainerLogs';
 
-const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerProps> = props => {
+const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotProps> = props => {
   const { logs, publishingCredentials, publishingProfile, publishingUser, formProps, resetApplicationPassword, isLoading } = props;
   const { t } = useTranslation();
 

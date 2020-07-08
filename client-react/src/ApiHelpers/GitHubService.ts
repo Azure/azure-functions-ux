@@ -1,9 +1,16 @@
 import { sendHttpRequest } from './HttpClient';
 import Url from '../utils/url';
-import { GitHubUser, GitHubOrganizations, GitHubRepository, GitHubBranch, FileContent, GitHubCommit } from '../models/github';
+import {
+  GitHubUser,
+  GitHubOrganizations,
+  GitHubRepository,
+  GitHubBranch,
+  FileContent,
+  GitHubCommit,
+  GitHubActionWorkflowRequestContent,
+} from '../models/github';
 import { HttpResponseObject } from '../ArmHelper.types';
 import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
-import { useTranslation } from 'react-i18next';
 
 export default class GitHubService {
   public static authorizeUrl = `${Url.serviceHost}auth/github/authorize`;
@@ -86,14 +93,14 @@ export default class GitHubService {
     repo: string,
     branch: string,
     workflowFilePath: string,
+    message: string,
     sha: string
   ) => {
-    const { t } = useTranslation();
     const deleteCommit: GitHubCommit = {
       repoName: `${org}/${repo}`,
       branchName: branch,
       filePath: workflowFilePath,
-      message: t('githubActionWorkflowDeleteCommitMessage'),
+      message: message,
       committer: {
         name: 'Azure App Service',
         email: 'donotreply@microsoft.com',
@@ -107,5 +114,14 @@ export default class GitHubService {
     };
 
     return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/deleteActionWorkflow`, method: 'POST', data });
+  };
+
+  public static createOrUpdateActionWorkflow = (authToken: string, content: GitHubActionWorkflowRequestContent) => {
+    const data = {
+      authToken,
+      content,
+    };
+
+    return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/actionWorkflow`, method: 'PUT', data });
   };
 }

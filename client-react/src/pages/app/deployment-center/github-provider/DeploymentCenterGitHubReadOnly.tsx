@@ -8,7 +8,7 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { useTranslation } from 'react-i18next';
 import { additionalTextFieldControl, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
-import { AuthorizationResult, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { AuthorizationResult } from '../DeploymentCenter.types';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
@@ -16,13 +16,12 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { getArmToken } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 
-const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = props => {
-  const { formProps } = props;
+const DeploymentCenterGitHubReadOnly: React.FC<{}> = props => {
   const { t } = useTranslation();
-  const [org, setOrg] = useState<string>(t('loading'));
-  const [repo, setRepo] = useState<string>(t('loading'));
-  const [branch, setBranch] = useState<string>(t('loading'));
-  const [repoUrl, setRepoUrl] = useState<string>('');
+  const [org, setOrg] = useState<string | undefined>(undefined);
+  const [repo, setRepo] = useState<string | undefined>(undefined);
+  const [branch, setBranch] = useState<string | undefined>(undefined);
+  const [repoUrl, setRepoUrl] = useState<string | undefined>(undefined);
   const [gitHubUsername, setGitHubUsername] = useState<string>(t('loading'));
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -156,7 +155,7 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterFieldProps> = pro
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
         <div>
           {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
-          {!isLoading && <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoUrl={repoUrl} formProps={formProps} />}
+          {branch && org && repo && repoUrl && <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoUrl={repoUrl} />}
         </div>
       </ReactiveFormControl>
       {deploymentCenterContext.isContainerApplication ? (
