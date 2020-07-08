@@ -123,10 +123,10 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
       />
     </>
   ) : (
-      <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeGitHubAccount}>
-        {t('deploymentCenterOAuthAuthorize')}
-      </PrimaryButton>
-    );
+    <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeGitHubAccount}>
+      {t('deploymentCenterOAuthAuthorize')}
+    </PrimaryButton>
+  );
 
   const gitHubAccountStatusMessageControl = <Label>{gitHubAccountStatusMessage}</Label>;
 

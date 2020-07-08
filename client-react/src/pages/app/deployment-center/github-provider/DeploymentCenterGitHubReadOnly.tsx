@@ -161,15 +161,15 @@ const DeploymentCenterGitHubReadOnly: React.FC<{}> = props => {
       {deploymentCenterContext.isContainerApplication ? (
         <h3>{t('deploymentCenterContainerGitHubActionsTitle')}</h3>
       ) : (
-          <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>
-        )}
+        <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>
+      )}
       {isLoading ? (
         <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
           <div>{t('loading')}</div>
         </ReactiveFormControl>
       ) : (
-          getSignedInAsComponent()
-        )}
+        getSignedInAsComponent()
+      )}
       <ReactiveFormControl id="deployment-center-organization" label={t('deploymentCenterOAuthOrganization')}>
         <div>{isLoading ? t('loading') : org}</div>
       </ReactiveFormControl>
@@ -181,15 +181,15 @@ const DeploymentCenterGitHubReadOnly: React.FC<{}> = props => {
           {isLoading ? (
             t('loading')
           ) : (
-              <Link
-                key="deployment-center-branch-link"
-                onClick={() => window.open(repoUrl, '_blank')}
-                className={additionalTextFieldControl}
-                aria-label={`${branch}`}>
-                {`${branch} `}
-                <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
-              </Link>
-            )}
+            <Link
+              key="deployment-center-branch-link"
+              onClick={() => window.open(repoUrl, '_blank')}
+              className={additionalTextFieldControl}
+              aria-label={`${branch}`}>
+              {`${branch} `}
+              <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
+            </Link>
+          )}
         </div>
       </ReactiveFormControl>
     </>

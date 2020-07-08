@@ -796,6 +796,9 @@
     <data name="integrate_triggersHelp" xml:space="preserve">
         <value>Triggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger.</value>
     </data>
+    <data name="integrate_unknownCardTitle" xml:space="preserve">
+        <value>Unknown</value>
+    </data>
     <data name="binding_createNewFunction" xml:space="preserve">
         <value>Create a new function triggered by this output</value>
     </data>
