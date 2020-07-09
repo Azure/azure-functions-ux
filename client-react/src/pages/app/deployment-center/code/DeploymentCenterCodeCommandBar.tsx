@@ -10,6 +10,8 @@ import { getArmToken } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import { Guid } from '../../../../utils/Guid';
 import { useTranslation } from 'react-i18next';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarProps> = props => {
   const { isLoading, showPublishProfilePanel, refresh, formProps } = props;
@@ -17,7 +19,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
-  ``;
+
   class SourceSettings {
     public repoUrl: string;
     public branch: string;
@@ -27,10 +29,10 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
   }
 
   const deployKudu = () => {
-    const payload = this.wizardValues.sourceSettings;
     // (Note: t-kakan): setting isManualIntegration to false for now. In Angular, it is set to this.wizardValues.sourceProvider === 'external'
-    const payload2: SourceSettings = {
-      repoUrl: '',
+    // (Note: t-kakan): setting isMercurial to false for now
+    const payload: SourceSettings = {
+      repoUrl: `${DeploymentCenterConstants.githubUri}/${formProps.values.org}/${formProps.values.repo}`,
       branch: formProps.values.branch || 'master',
       isManualIntegration: false,
       isGitHubAction: formProps.values.buildProvider === BuildProvider.GitHubAction,
@@ -38,19 +40,13 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
     };
 
     if (formProps.values.sourceProvider === ScmType.LocalGit) {
-      return this._cacheService
-        .patchArm(`${this._resourceId}/config/web`, ARMApiVersions.antaresApiVersion20181101, {
-          properties: {
-            scmType: 'LocalGit',
-          },
-        })
-        .map(r => r.json());
+      return deploymentCenterData.updateSourceControlDetailsLocalGit(deploymentCenterContext.resourceId, {
+        properties: {
+          scmType: 'LocalGit',
+        },
+      });
     } else {
-      return this._cacheService
-        .putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.antaresApiVersion20181101, {
-          properties: payload,
-        })
-        .map(r => r.json());
+      return deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, { properties: payload });
     }
   };
 
@@ -99,8 +95,12 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       commit: commitInfo,
     };
 
-    await deploymentCenterData.createOrUpdateActionWorkflow(getArmToken(), requestContent);
-    return deployKudu();
+    const actionWorkflowResponse = await deploymentCenterData.createOrUpdateActionWorkflow(getArmToken(), requestContent);
+    if (actionWorkflowResponse.metadata.success) {
+      return deployKudu();
+    } else {
+      return actionWorkflowResponse;
+    }
   };
 
   const deploy = () => {
@@ -108,34 +108,48 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       // NOTE(michinoy): Only initiate writing a workflow configuration file if the branch does not already have it OR
       // the user opted to overwrite it.
       if (formProps.values.workflowOption === WorkflowOption.Overwrite || formProps.values.workflowOption === WorkflowOption.Add) {
-        // this is async
-        return deployGithubActions().map(result => ({ status: 'succeeded', statusMessage: null, result }));
+        return deployGithubActions();
       } else {
-        return deployKudu().map(result => ({ status: 'succeeded', statusMessage: null, result }));
+        return deployKudu();
       }
     } else {
-      return deployKudu().map(result => ({ status: 'succeeded', statusMessage: null, result }));
+      return deployKudu();
     }
   };
 
-  const saveGithubActionsDeploymentSettings = (saveGuid: string) => {
+  const saveGithubActionsDeploymentSettings = async (saveGuid: string) => {
     const notificationId = portalContext.startNotification(t('settingupDeployment'), t('githubActionSavingSettings'));
+    const deployResponse = await deploy();
+    if (deployResponse.metadata.success) {
+      portalContext.stopNotification(notificationId, true, t('githubActionSettingsSavedSuccessfully'));
+    } else {
+      const errorMessage = getErrorMessage(deployResponse.metadata.error);
+      errorMessage
+        ? portalContext.stopNotification(notificationId, false, t('settingupDeploymentFailWithStatusMessage').format(errorMessage))
+        : portalContext.stopNotification(notificationId, false, t('settingupDeploymentFail'));
+    }
   };
 
-  const saveAppServiceDeploymentSettings = (saveGuid: string) => {
+  const saveAppServiceDeploymentSettings = async (saveGuid: string) => {
     const notificationId = portalContext.startNotification(t('settingupDeployment'), t('settingupDeployment'));
+    const deployResponse = await deploy();
+    if (deployResponse.metadata.success) {
+      portalContext.stopNotification(notificationId, true, t('settingupDeploymentSuccess'));
+    } else {
+      const errorMessage = getErrorMessage(deployResponse.metadata.error);
+      errorMessage
+        ? portalContext.stopNotification(notificationId, false, t('settingupDeploymentFailWithStatusMessage').format(errorMessage))
+        : portalContext.stopNotification(notificationId, false, t('settingupDeploymentFail'));
+    }
   };
 
   const saveFunction = async () => {
-    console.log(formProps);
-    return;
     const saveGuid = Guid.newGuid();
     if (formProps.values.buildProvider === BuildProvider.GitHubAction) {
       saveGithubActionsDeploymentSettings(saveGuid);
     } else {
       saveAppServiceDeploymentSettings(saveGuid);
     }
-    throw Error('not implemented');
   };
 
   const discardFunction = () => {

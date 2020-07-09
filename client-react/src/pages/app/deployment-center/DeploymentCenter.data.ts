@@ -65,6 +65,14 @@ export default class DeploymentCenterData {
     return SiteService.deleteSourceControlDetails(resourceId);
   };
 
+  public updateSourceControlDetails = (resourceId: string, body: any) => {
+    return SiteService.updateSourceControlDetails(resourceId, body);
+  };
+
+  public updateSourceControlDetailsLocalGit = (resourceId: string, body: any) => {
+    return SiteService.updateSourceControlDetailsLocalGit(resourceId, body);
+  };
+
   public getGitHubUser = (armToken: string) => {
     return GitHubService.getUser(armToken);
   };

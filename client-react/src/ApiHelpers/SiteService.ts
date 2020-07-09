@@ -119,6 +119,26 @@ export default class SiteService {
     });
   };
 
+  public static updateSourceControlDetails = (resourceId: string, body: any) => {
+    return MakeArmCall<ArmObj<any>>({
+      method: 'PUT',
+      resourceId: `${resourceId}/sourcecontrols/web`,
+      body: body,
+      commandName: 'updateDeployment',
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+    });
+  };
+
+  public static updateSourceControlDetailsLocalGit = (resourceId: string, body: any) => {
+    return MakeArmCall<ArmObj<any>>({
+      method: 'PATCH',
+      resourceId: `${resourceId}/config/web`,
+      body: body,
+      commandName: 'updateDeploymentLocalGit',
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+    });
+  };
+
   public static updateApplicationSettings = async (resourceId: string, appSettings: ArmObj<KeyValue<string>>) => {
     const id = `${resourceId}/config/appsettings`;
     const result = await MakeArmCall<ArmObj<KeyValue<string>>>({
