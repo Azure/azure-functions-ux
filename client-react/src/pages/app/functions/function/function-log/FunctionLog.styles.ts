@@ -1,6 +1,7 @@
 import { style } from 'typestyle';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
+import { IButtonStyles } from 'office-ui-fabric-react';
 
 export const getMaximizedLogPanelHeight = (readOnlyBannerHeight?: number) => {
   return window.innerHeight - (164 + (readOnlyBannerHeight || 0));
@@ -77,3 +78,9 @@ export const calloutStyle = style({
   padding: '20px',
   width: '300px',
 });
+
+export const logFilterItemStyle = {
+  flexContainer: {
+    flexDirection: 'row-reverse',
+  },
+} as IButtonStyles;
