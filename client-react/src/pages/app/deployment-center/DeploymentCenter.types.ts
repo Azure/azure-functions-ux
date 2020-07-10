@@ -289,3 +289,11 @@ export enum DeployDisconnectStep {
 export interface WorkflowChoiceGroupOption extends IChoiceGroupOption {
   workflowDeleteChoice: WorkflowFileDeleteOptions;
 }
+
+export interface SiteSourceControlRequestBody {
+  repoUrl: string;
+  branch: string;
+  isManualIntegration: boolean;
+  isGitHubAction: boolean;
+  isMercurial: boolean;
+}
