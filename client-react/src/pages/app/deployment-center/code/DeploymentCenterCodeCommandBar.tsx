@@ -1,14 +1,13 @@
 import React, { useContext } from 'react';
 import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
-import { DeploymentCenterCodeCommandBarProps, WorkflowOption } from '../DeploymentCenter.types';
+import { DeploymentCenterCodeCommandBarProps, WorkflowOption, SiteSourceControlRequestBody } from '../DeploymentCenter.types';
 import { GitHubCommit, GitHubActionWorkflowRequestContent } from '../../../../models/github';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { getWorkflowInformation } from '../utility/GitHubActionUtility';
-import { getArmToken } from '../utility/DeploymentCenterUtility';
+import { getArmToken, getWorkflowFilePath } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
-import { Guid } from '../../../../utils/Guid';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
@@ -20,18 +19,10 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
   const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
 
-  class SourceSettings {
-    public repoUrl: string;
-    public branch: string;
-    public isManualIntegration: boolean;
-    public isGitHubAction: boolean;
-    public isMercurial: boolean;
-  }
-
   const deployKudu = () => {
     // (Note: t-kakan): setting isManualIntegration to false for now. In Angular, it is set to this.wizardValues.sourceProvider === 'external'
     // (Note: t-kakan): setting isMercurial to false for now
-    const payload: SourceSettings = {
+    const payload: SiteSourceControlRequestBody = {
       repoUrl: `${DeploymentCenterConstants.githubUri}/${formProps.values.org}/${formProps.values.repo}`,
       branch: formProps.values.branch || 'master',
       isManualIntegration: false,
@@ -40,7 +31,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
     };
 
     if (formProps.values.sourceProvider === ScmType.LocalGit) {
-      return deploymentCenterData.updateSourceControlDetailsLocalGit(deploymentCenterContext.resourceId, {
+      return deploymentCenterData.updatePathSiteConfig(deploymentCenterContext.resourceId, {
         properties: {
           scmType: 'LocalGit',
         },
@@ -68,7 +59,11 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
     const commitInfo: GitHubCommit = {
       repoName: repo,
       branchName: branch,
-      filePath: `.github/workflows/${workflowInformation.fileName}`,
+      filePath: getWorkflowFilePath(
+        branch,
+        deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+        deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+      ),
       message: t('githubActionWorkflowCommitMessage'),
       contentBase64Encoded: btoa(workflowInformation.content),
       committer: {
@@ -95,29 +90,26 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       commit: commitInfo,
     };
 
-    const actionWorkflowResponse = await deploymentCenterData.createOrUpdateActionWorkflow(getArmToken(), requestContent);
-    if (actionWorkflowResponse.metadata.success) {
-      return deployKudu();
-    } else {
-      return actionWorkflowResponse;
-    }
+    return deploymentCenterData.createOrUpdateActionWorkflow(getArmToken(), requestContent);
   };
 
-  const deploy = () => {
-    if (formProps.values.buildProvider === BuildProvider.GitHubAction) {
-      // NOTE(michinoy): Only initiate writing a workflow configuration file if the branch does not already have it OR
-      // the user opted to overwrite it.
-      if (formProps.values.workflowOption === WorkflowOption.Overwrite || formProps.values.workflowOption === WorkflowOption.Add) {
-        return deployGithubActions();
-      } else {
-        return deployKudu();
+  const deploy = async () => {
+    // NOTE(michinoy): Only initiate writing a workflow configuration file if the branch does not already have it OR
+    // the user opted to overwrite it.
+    if (
+      formProps.values.buildProvider === BuildProvider.GitHubAction &&
+      (formProps.values.workflowOption === WorkflowOption.Overwrite || formProps.values.workflowOption === WorkflowOption.Add)
+    ) {
+      const gitHubActionDeployResponse = await deployGithubActions();
+      if (!gitHubActionDeployResponse.metadata.success) {
+        return gitHubActionDeployResponse;
       }
-    } else {
-      return deployKudu();
     }
+
+    return deployKudu();
   };
 
-  const saveGithubActionsDeploymentSettings = async (saveGuid: string) => {
+  const saveGithubActionsDeploymentSettings = async () => {
     const notificationId = portalContext.startNotification(t('settingupDeployment'), t('githubActionSavingSettings'));
     const deployResponse = await deploy();
     if (deployResponse.metadata.success) {
@@ -130,7 +122,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
     }
   };
 
-  const saveAppServiceDeploymentSettings = async (saveGuid: string) => {
+  const saveAppServiceDeploymentSettings = async () => {
     const notificationId = portalContext.startNotification(t('settingupDeployment'), t('settingupDeployment'));
     const deployResponse = await deploy();
     if (deployResponse.metadata.success) {
@@ -144,11 +136,10 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
   };
 
   const saveFunction = async () => {
-    const saveGuid = Guid.newGuid();
     if (formProps.values.buildProvider === BuildProvider.GitHubAction) {
-      saveGithubActionsDeploymentSettings(saveGuid);
+      saveGithubActionsDeploymentSettings();
     } else {
-      saveAppServiceDeploymentSettings(saveGuid);
+      saveAppServiceDeploymentSettings();
     }
   };
 

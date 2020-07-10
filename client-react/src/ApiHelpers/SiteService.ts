@@ -120,7 +120,7 @@ export default class SiteService {
   };
 
   public static updateSourceControlDetails = (resourceId: string, body: any) => {
-    return MakeArmCall<ArmObj<any>>({
+    return MakeArmCall<void>({
       method: 'PUT',
       resourceId: `${resourceId}/sourcecontrols/web`,
       body: body,
@@ -129,8 +129,8 @@ export default class SiteService {
     });
   };
 
-  public static updateSourceControlDetailsLocalGit = (resourceId: string, body: any) => {
-    return MakeArmCall<ArmObj<any>>({
+  public static updatePathSiteConfig = (resourceId: string, body: any) => {
+    return MakeArmCall<void>({
       method: 'PATCH',
       resourceId: `${resourceId}/config/web`,
       body: body,
