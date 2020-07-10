@@ -189,6 +189,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         hideChevron={!!hideChevron}
         hideLiveMetrics={!!hideLiveMetrics}
         appInsightsResourceId={appInsightsResourceId}
+        logLevel={logLevel}
         setLogLevel={setLogLevel}
         leftAlignMainToolbarItems={leftAlignMainToolbarItems}
         showLoggingOptionsDropdown={showLoggingOptionsDropdown}
