@@ -18,10 +18,10 @@ import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect
 
 const DeploymentCenterGitHubReadOnly: React.FC<{}> = props => {
   const { t } = useTranslation();
-  const [org, setOrg] = useState<string>(t('loading'));
-  const [repo, setRepo] = useState<string>(t('loading'));
-  const [branch, setBranch] = useState<string>(t('loading'));
-  const [repoUrl, setRepoUrl] = useState<string>('');
+  const [org, setOrg] = useState<string | undefined>(undefined);
+  const [repo, setRepo] = useState<string | undefined>(undefined);
+  const [branch, setBranch] = useState<string | undefined>(undefined);
+  const [repoUrl, setRepoUrl] = useState<string | undefined>(undefined);
   const [gitHubUsername, setGitHubUsername] = useState<string>(t('loading'));
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -155,7 +155,7 @@ const DeploymentCenterGitHubReadOnly: React.FC<{}> = props => {
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
         <div>
           {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
-          {!isLoading && <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoUrl={repoUrl} />}
+          {branch && org && repo && repoUrl && <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoUrl={repoUrl} />}
         </div>
       </ReactiveFormControl>
       {deploymentCenterContext.isContainerApplication ? (
