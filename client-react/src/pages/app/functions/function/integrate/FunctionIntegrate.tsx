@@ -16,7 +16,6 @@ import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { HostStatus } from '../../../../../models/functions/host-status';
 import { SiteStateContext } from '../../../../../SiteState';
 import { ThemeContext } from '../../../../../ThemeContext';
-import { CommonConstants } from '../../../../../utils/CommonConstants';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import StringUtils from '../../../../../utils/string';
 import FunctionNameBindingCard from './binding-card/FunctionNameBindingCard';
@@ -37,6 +36,7 @@ import {
 } from './FunctionIntegrate.style';
 import FunctionIntegrateCommandBar from './FunctionIntegrateCommandBar';
 import { FunctionIntegrateConstants } from './FunctionIntegrateConstants';
+import { Links } from '../../../../../utils/FwLinks';
 
 export interface FunctionIntegrateProps {
   functionAppId: string;
@@ -216,7 +216,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
       <CustomBanner
         message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
         type={MessageBarType.warning}
-        learnMoreLink={CommonConstants.Links.bindingDirectionLearnMore}
+        learnMoreLink={Links.bindingDirectionLearnMore}
       />
     );
   } else if (readOnly) {

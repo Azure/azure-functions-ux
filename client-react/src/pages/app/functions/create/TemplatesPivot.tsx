@@ -9,7 +9,7 @@ import { Order } from './CreateConstants';
 import { Binding } from '../../../../models/functions/binding';
 import { HostStatus } from '../../../../models/functions/host-status';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { Links } from '../../../../utils/FwLinks';
 
 interface TemplatesPivotProps {
   functionTemplates: FunctionTemplate[];
@@ -56,7 +56,7 @@ const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
       {!hostStatus.version.startsWith('1') && !hostStatus.extensionBundle && (
         <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
           {t('functionCreate_extensionBundlesRequired')}
-          <Link href={CommonConstants.Links.extensionBundlesRequiredLearnMore} target="_blank" className={learnMoreLinkStyle}>
+          <Link href={Links.extensionBundlesRequiredLearnMore} target="_blank" className={learnMoreLinkStyle}>
             {t('learnMore')}
           </Link>
         </MessageBar>
