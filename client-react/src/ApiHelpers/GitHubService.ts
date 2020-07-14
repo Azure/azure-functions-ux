@@ -42,27 +42,31 @@ export default class GitHubService {
     return sendHttpRequest<GitHubOrganizations[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
-  public static getOrgRepositories = (repositories_url: string, authToken: string) => {
+  public static getOrgRepositories = (repositories_url: string, authToken: string, page?: number) => {
     const data = {
-      url: `${repositories_url}/repos?per_page=100`,
+      url: page ? `${repositories_url}/repos?per_page=100&page=${page}` : `${repositories_url}/repos?per_page=100`,
       authToken,
     };
 
     return sendHttpRequest<GitHubRepository[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
-  public static getUserRepositories = (authToken: string) => {
+  public static getUserRepositories = (authToken: string, page?: number) => {
     const data = {
-      url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`,
+      url: page
+        ? `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner&page=${page}`
+        : `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`,
       authToken,
     };
 
     return sendHttpRequest<GitHubRepository[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
-  public static getBranches = (org: string, repo: string, authToken: string) => {
+  public static getBranches = (org: string, repo: string, authToken: string, page?: number) => {
     const data = {
-      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/branches`,
+      url: page
+        ? `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/branches?per_page=100&page=${page}`
+        : `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/branches?per_page=100`,
       authToken,
     };
 

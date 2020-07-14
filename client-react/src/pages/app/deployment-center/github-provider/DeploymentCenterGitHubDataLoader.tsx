@@ -10,6 +10,7 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { getArmToken } from '../utility/DeploymentCenterUtility';
+import Url from '../../../../utils/url';
 
 const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -82,7 +83,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     const newBranchOptions: IDropdownOption[] = [];
 
     const gitHubBranchesResponse = await deploymentCenterData.getGitHubBranches(org, repo, getArmToken());
-
     if (gitHubBranchesResponse.metadata.success) {
       gitHubBranchesResponse.data.forEach(branch => {
         newBranchOptions.push({ key: branch.name, text: branch.name });
@@ -95,7 +95,47 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       );
     }
 
+    const linkHeader = branchesFirstPageResponse.metadata.headers.link;
+    if (linkHeader) {
+      const links = DeploymentCenterData.getLinksFromLinkHeader(linkHeader);
+      const lastPageNumber = DeploymentCenterData.getLastPage(links);
+      for (let i = 2; i <= lastPageNumber; i++) {
+        const branchesPageResponse = await GitHubService.getBranches(org, repo, armToken, i);
+        if (!branchesPageResponse.metadata.success) {
+          return null;
+        }
+        repoBranches.push(...branchesPageResponse.data);
+      }
+    }
+
     setBranchOptions(newBranchOptions);
+  };
+
+  const getLastPage = (links: { [key: string]: string }) => {
+    const lastPageLink = links && links.last;
+    if (lastPageLink) {
+      const lastPageNumberString = Url.getParameterByName(lastPageLink, 'page');
+      if (lastPageNumberString) {
+        return +lastPageNumberString;
+      }
+    }
+    return 1;
+  };
+
+  const getLinksFromLinkHeader = (linksHeader: string): { [key: string]: string } => {
+    const links: { [key: string]: string } = {};
+
+    if (linksHeader) {
+      // Parse each part into a named link
+      linksHeader.split(',').forEach(part => {
+        const section = part.split(';');
+        const url = section[0].replace(/<(.*)>/, '$1').trim();
+        const name = section[1].replace(/rel="(.*)"/, '$1').trim();
+        links[name] = url;
+      });
+    }
+
+    return links;
   };
 
   const authorizeGitHubAccount = async () => {
