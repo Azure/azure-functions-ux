@@ -79,11 +79,16 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
         this.state = 'hidden';
       } else {
         return this._aseService.getAse(input.plan.properties.hostingEnvironmentProfile.id).do(r => {
-          // If the call to get the ASE fails (maybe due to RBAC), then we can't confirm ASE v1 or v2
+          // If the call to get the ASE fails (maybe due to RBAC), then we can't confirm ASE v1 or v2 or v3
           // but we'll let them see the isolated card anyway.  The plan update will probably fail in
-          // the back-end if it's ASE v1, but at least we allow real ASE v2 customers who don't have
+          // the back-end if it's ASE v1, but at least we allow real ASE v2/v3 customers who don't have
           // ASE permissions to scale their plan.
-          if (r.isSuccessful && r.result.kind && r.result.kind.toLowerCase().indexOf(Kinds.aseV2.toLowerCase()) === -1) {
+          if (
+            r.isSuccessful &&
+            r.result.kind &&
+            (r.result.kind.toLowerCase().indexOf(Kinds.aseV2.toLowerCase()) === -1 &&
+              r.result.kind.toLowerCase().indexOf(Kinds.aseV3.toLowerCase()) === -1)
+          ) {
             this.state = 'hidden';
           }
         });
