@@ -95,7 +95,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
         {children}
         {infoBubbleMessage && (
           <div className={infoMessageStyle()}>
-            <Stack horizontal disableShrink={true}>
+            <Stack horizontal verticalAlign="center" disableShrink={true}>
               <InfoSvg
                 className={style({
                   paddingRight: '5px',
