@@ -101,8 +101,8 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
           result.data.value.isSuccessful &&
           result.data.value.result &&
           result.data.value.result.kind &&
-          (result.data.value.result.kind.toLowerCase().indexOf(CommonConstants.Kinds.aseV2.toLowerCase()) === -1 &&
-            result.data.value.result.kind.toLowerCase().indexOf(CommonConstants.Kinds.aseV3.toLowerCase()) === -1)
+          result.data.value.result.kind.toLowerCase().indexOf(CommonConstants.Kinds.aseV2.toLowerCase()) === -1 &&
+          result.data.value.result.kind.toLowerCase().indexOf(CommonConstants.Kinds.aseV3.toLowerCase()) === -1
         ) {
           this.state = 'hidden';
         }

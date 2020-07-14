@@ -86,8 +86,8 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
           if (
             r.isSuccessful &&
             r.result.kind &&
-            (r.result.kind.toLowerCase().indexOf(Kinds.aseV2.toLowerCase()) === -1 &&
-              r.result.kind.toLowerCase().indexOf(Kinds.aseV3.toLowerCase()) === -1)
+            r.result.kind.toLowerCase().indexOf(Kinds.aseV2.toLowerCase()) === -1 &&
+            r.result.kind.toLowerCase().indexOf(Kinds.aseV3.toLowerCase()) === -1
           ) {
             this.state = 'hidden';
           }
