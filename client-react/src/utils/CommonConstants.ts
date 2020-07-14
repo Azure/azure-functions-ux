@@ -30,6 +30,7 @@ export class CommonConstants {
     linux: 'linux',
     aseV1: 'ASEV1',
     aseV2: 'ASEV2',
+    aseV3: 'ASEV3',
     container: 'container',
     functionApp: 'functionapp',
     botapp: 'botapp',
