@@ -4,7 +4,7 @@ import ReactiveFormControl, { Layout } from './ReactiveFormControl';
 import { useWindowSize } from 'react-use';
 import { ThemeContext } from '../../ThemeContext';
 import { textFieldStyleOverrides, copyButtonStyle } from './formControl.override.styles';
-import { TooltipHost } from 'office-ui-fabric-react';
+import { TooltipHost, Stack } from 'office-ui-fabric-react';
 import IconButton from '../IconButton/IconButton';
 import { useTranslation } from 'react-i18next';
 import { TextUtilitiesService } from '../../utils/textUtilities';
@@ -115,21 +115,23 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   return (
     <ReactiveFormControl {...props}>
       <>
-        <OfficeTextField
-          componentRef={ref => ref && setTextFieldRef(ref)}
-          id={id}
-          aria-labelledby={`${id}-label`}
-          value={hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : value || ''}
-          tabIndex={0}
-          onChange={onChange}
-          onBlur={onBlur}
-          errorMessage={errorMessage}
-          styles={textFieldStyleOverrides(theme, fullpage, widthOverride)}
-          onRenderSuffix={onRenderSuffix}
-          {...rest}
-          required={false} // ReactiveFormControl will handle displaying required
-        />
-        {additionalControls}
+        <Stack horizontal verticalAlign="center">
+          <OfficeTextField
+            componentRef={ref => ref && setTextFieldRef(ref)}
+            id={id}
+            aria-labelledby={`${id}-label`}
+            value={hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : value || ''}
+            tabIndex={0}
+            onChange={onChange}
+            onBlur={onBlur}
+            errorMessage={errorMessage}
+            styles={textFieldStyleOverrides(theme, fullpage, widthOverride)}
+            onRenderSuffix={onRenderSuffix}
+            {...rest}
+            required={false} // ReactiveFormControl will handle displaying required
+          />
+          {additionalControls}
+        </Stack>
       </>
     </ReactiveFormControl>
   );
