@@ -44,6 +44,7 @@ const DeploymentCenterCodeSourceKuduReadOnly: React.FC<{}> = () => {
       const deleteSourceControlDetailsResponse = await deploymentCenterData.deleteSourceControlDetails(deploymentCenterContext.resourceId);
       if (deleteSourceControlDetailsResponse.metadata.success) {
         portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
+        deploymentCenterContext.refresh();
         return;
       }
     }
