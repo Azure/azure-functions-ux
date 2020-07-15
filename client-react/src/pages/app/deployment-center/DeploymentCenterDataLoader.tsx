@@ -269,6 +269,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         isContainerApplication,
         isLinuxApplication,
         configMetadata,
+        refresh,
       }}>
       {isContainerApp(siteStateContext.site) ? (
         <DeploymentCenterContainerForm
@@ -280,7 +281,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           formValidationSchema={containerFormValidationSchema}
           resetApplicationPassword={resetApplicationPassword}
           showPublishProfilePanel={showPublishProfilePanel}
-          refresh={refresh}
           isLoading={isLoading}
         />
       ) : (
@@ -294,7 +294,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           formValidationSchema={codeFormValidationSchema}
           resetApplicationPassword={resetApplicationPassword}
           showPublishProfilePanel={showPublishProfilePanel}
-          refresh={refresh}
           isLoading={isLoading}
         />
       )}

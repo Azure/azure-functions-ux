@@ -9,6 +9,7 @@ export interface IDeploymentCenterContext {
   hasWritePermission: boolean;
   isContainerApplication: boolean;
   isLinuxApplication: boolean;
+  refresh: () => void;
   siteConfig?: ArmObj<SiteConfig>;
   siteDescriptor?: ArmSiteDescriptor;
   applicationSettings?: ArmObj<KeyValue<string>>;
