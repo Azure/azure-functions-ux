@@ -134,7 +134,7 @@ export default class SiteService {
       method: 'PATCH',
       resourceId: `${resourceId}/config/web`,
       body: body,
-      commandName: 'updateDeploymentLocalGit',
+      commandName: 'updatePathSiteConfig',
       apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
     });
   };

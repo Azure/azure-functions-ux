@@ -5940,6 +5940,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirm GitHub Action Disconnect</value>
     </data>
+    <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Confirm App Service Build Service Disconnect</value>
+    </data>
     <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
         <value>Fetching GitHub Action workflow configuration</value>
     </data>

@@ -8,16 +8,15 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { useTranslation } from 'react-i18next';
 import { additionalTextFieldControl, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
-import { AuthorizationResult } from '../DeploymentCenter.types';
-import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
-import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { AuthorizationResult, DeploymentCenterGitHubReadOnlyProps } from '../DeploymentCenter.types';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { getArmToken } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 
-const DeploymentCenterGitHubReadOnly: React.FC<{}> = props => {
+const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterGitHubReadOnlyProps> = props => {
   const { t } = useTranslation();
+  const { isGitHubActionsSetup } = props;
   const [org, setOrg] = useState<string | undefined>(undefined);
   const [repo, setRepo] = useState<string | undefined>(undefined);
   const [branch, setBranch] = useState<string | undefined>(undefined);
@@ -141,23 +140,16 @@ const DeploymentCenterGitHubReadOnly: React.FC<{}> = props => {
 
   return (
     <>
-      <p>
-        <span id="deployment-center-settings-message">{t('deploymentCenterCodeSettingsDescription')}</span>
-        <Link
-          id="deployment-center-settings-learnMore"
-          href={DeploymentCenterLinks.appServiceDocumentation}
-          target="_blank"
-          className={learnMoreLinkStyle}
-          aria-labelledby="deployment-center-settings-message">
-          {` ${t('learnMore')}`}
-        </Link>
-      </p>
-      <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
-        <div>
-          {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
-          {branch && org && repo && repoUrl && <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoUrl={repoUrl} />}
-        </div>
-      </ReactiveFormControl>
+      {isGitHubActionsSetup && (
+        <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
+          <div>
+            {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
+            {branch && org && repo && repoUrl && (
+              <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoUrl={repoUrl} />
+            )}
+          </div>
+        </ReactiveFormControl>
+      )}
       {deploymentCenterContext.isContainerApplication ? (
         <h3>{t('deploymentCenterContainerGitHubActionsTitle')}</h3>
       ) : (
