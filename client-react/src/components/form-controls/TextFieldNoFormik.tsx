@@ -4,7 +4,7 @@ import ReactiveFormControl, { Layout } from './ReactiveFormControl';
 import { useWindowSize } from 'react-use';
 import { ThemeContext } from '../../ThemeContext';
 import { textFieldStyleOverrides, copyButtonStyle } from './formControl.override.styles';
-import { TooltipHost } from 'office-ui-fabric-react';
+import { TooltipHost, Stack } from 'office-ui-fabric-react';
 import IconButton from '../IconButton/IconButton';
 import { useTranslation } from 'react-i18next';
 import { TextUtilitiesService } from '../../utils/textUtilities';
@@ -114,7 +114,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
 
   return (
     <ReactiveFormControl {...props}>
-      <>
+      <Stack horizontal verticalAlign="center">
         <OfficeTextField
           componentRef={ref => ref && setTextFieldRef(ref)}
           id={id}
@@ -130,7 +130,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
           required={false} // ReactiveFormControl will handle displaying required
         />
         {additionalControls}
-      </>
+      </Stack>
     </ReactiveFormControl>
   );
 };
