@@ -28,6 +28,7 @@ const DeploymentCenterCodeSourceKuduReadOnly: React.FC<{}> = () => {
   const disconnect = async () => {
     const notificationId = portalContext.startNotification(t('disconnectingDeployment'), t('disconnectingDeployment'));
 
+    // (note: t-kakan): PATCH call to `${resourceId}/config/web`
     const updatePathSiteConfigResponse = await deploymentCenterData.updatePathSiteConfig(deploymentCenterContext.resourceId, {
       properties: {
         scmType: 'None',
@@ -37,6 +38,7 @@ const DeploymentCenterCodeSourceKuduReadOnly: React.FC<{}> = () => {
     let disconnectSuccess = updatePathSiteConfigResponse.metadata.success;
 
     if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.LocalGit) {
+      //(note: t-kakan): DELETE call to `${resourceId}/sourcecontrols/web`
       const deleteSourceControlDetailsResponse = await deploymentCenterData.deleteSourceControlDetails(deploymentCenterContext.resourceId);
       disconnectSuccess = disconnectSuccess && deleteSourceControlDetailsResponse.metadata.success;
     }
