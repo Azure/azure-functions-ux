@@ -1,11 +1,11 @@
 import { createContext } from 'react';
-import { AvailableStack } from '../../../models/available-stacks';
 import { Permissions } from './AppSettings.types';
 import { ArmArray, ArmObj } from '../../../models/arm-obj';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
+import { WebAppStack } from '../../../models/stacks/web-app-stacks';
 
-export const AvailableStacksContext = createContext<ArmArray<AvailableStack>>({ value: [] });
+export const AvailableStacksContext = createContext<WebAppStack[]>([]);
 
 export const PermissionsContext = createContext<Permissions>({
   production_write: true,

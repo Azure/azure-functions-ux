@@ -54,6 +54,7 @@ export class CommonConstants {
     appInsightsQueryApiVersion20180420: '2018-04-20',
     staticSitePreviewApiVersion20191201: '2019-12-01-preview',
     stacksApiVersion20200501: '2020-05-01',
+    stacksApiVersion20200601: '2020-06-01',
   };
 
   public static readonly NonThemeColors = {

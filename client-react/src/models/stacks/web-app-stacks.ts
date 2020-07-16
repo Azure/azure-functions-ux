@@ -5,7 +5,7 @@ export interface WebAppRuntimes {
   windowsRuntimeSettings?: WebAppRuntimeSettings;
 }
 
-export interface WebAppRuntimeSettings {
+export interface WebAppRuntimeSettings extends CommonSettings {
   runtimeVersion: string;
   remoteDebuggingSupported: boolean;
   appInsightsSettings: AppInsightsSettings;
@@ -41,14 +41,14 @@ export interface CommonSettings {
   isPreview?: boolean;
   isDeprecated?: boolean;
   isHidden?: boolean;
-  endOfLifeDate?: Date;
+  endOfLifeDate?: string;
   isAutoUpdate?: boolean;
 }
 
 export interface WebAppMinorVersion {
   displayText: string;
   value: string;
-  stackSettings: WebAppRuntimes | JavaContainers;
+  stackSettings: WebAppRuntimes & JavaContainers;
 }
 
 export interface WebAppMajorVersion {
