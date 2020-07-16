@@ -44,6 +44,9 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterGitHubReadOnlyPro
         setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
       }
     } else {
+      setRepoUrl(t('deploymentCenterErrorFetchingInfo'));
+      setOrg(t('deploymentCenterErrorFetchingInfo'));
+      setRepo(t('deploymentCenterErrorFetchingInfo'));
       LogService.error(
         LogCategories.deploymentCenter,
         'DeploymentCenterSourceControls',
@@ -132,6 +135,23 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterGitHubReadOnlyPro
     }
   };
 
+  const getBranchLink = () => {
+    if (branch) {
+      return (
+        <Link
+          key="deployment-center-branch-link"
+          onClick={() => window.open(repoUrl, '_blank')}
+          className={additionalTextFieldControl}
+          aria-label={`${branch}`}>
+          {`${branch} `}
+          <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
+        </Link>
+      );
+    } else {
+      return t('deploymentCenterErrorFetchingInfo');
+    }
+  };
+
   useEffect(() => {
     getSourceControlDetails();
 
@@ -169,20 +189,7 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterGitHubReadOnlyPro
         <div>{isLoading ? t('loading') : repo}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-github-branch" label={t('deploymentCenterOAuthBranch')}>
-        <div>
-          {isLoading ? (
-            t('loading')
-          ) : (
-            <Link
-              key="deployment-center-branch-link"
-              onClick={() => window.open(repoUrl, '_blank')}
-              className={additionalTextFieldControl}
-              aria-label={`${branch}`}>
-              {`${branch} `}
-              <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
-            </Link>
-          )}
-        </div>
+        <div>{isLoading ? t('loading') : getBranchLink()}</div>
       </ReactiveFormControl>
     </>
   );
