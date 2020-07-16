@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import get from 'lodash-es/get';
 import TextFieldNoFormik from './TextFieldNoFormik';
 import { Link } from 'office-ui-fabric-react';
-import { CommonConstants } from '../../utils/CommonConstants';
+import { Links } from '../../utils/FwLinks';
 
 interface EventMsg {
   e: any;
@@ -66,7 +66,7 @@ class TextField extends React.Component<FieldProps & ITextFieldProps & CustomTex
           Invalid Cron Expression. Please consult the{' '}
           <Link // eslint-disable-next-line react/jsx-no-target-blank
             target="_blank"
-            href={CommonConstants.Links.cronLearnMore}>
+            href={Links.cronLearnMore}>
             documentation
           </Link>{' '}
           to learn more.
