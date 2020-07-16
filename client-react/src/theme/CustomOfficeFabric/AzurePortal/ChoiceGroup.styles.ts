@@ -29,6 +29,12 @@ const GroupStyles: IStyleFunction<GroupStyleProps, IChoiceGroupStyles> = props =
       {
         display: 'block',
         minWidth: '120px',
+        selectors: {
+          '.ms-ChoiceField': {
+            paddingTop: '0px',
+            marginTop: '0px',
+          },
+        },
       },
     ],
     flexContainer: [

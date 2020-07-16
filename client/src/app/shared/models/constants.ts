@@ -176,6 +176,7 @@ export class Links {
 export class Kinds {
   public static readonly linux = 'linux';
   public static readonly aseV2 = 'ASEV2';
+  public static readonly aseV3 = 'ASEV3';
   public static readonly container = 'container';
   public static readonly functionApp = 'functionapp';
   public static readonly botapp = 'botapp';
