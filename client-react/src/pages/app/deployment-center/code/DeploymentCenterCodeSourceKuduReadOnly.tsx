@@ -71,35 +71,33 @@ const DeploymentCenterCodeSourceKuduReadOnly: React.FC<{}> = () => {
   };
 
   return (
-    <>
-      <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
-        <div>
-          {getSourceLocation()}
-          <Link
-            key="deployment-center-disconnect-link"
-            onClick={showRefreshConfirmDialog}
-            className={additionalTextFieldControl}
-            aria-label={t('disconnect')}>
-            <Icon iconName={'PlugDisconnected'} />
-            {` ${t('disconnect')}`}
-          </Link>
-          <ConfirmDialog
-            primaryActionButton={{
-              title: t('ok'),
-              onClick: disconnect,
-            }}
-            defaultActionButton={{
-              title: t('cancel'),
-              onClick: hideRefreshConfirmDialog,
-            }}
-            title={t('kuduDisconnectConfirmationTitle')}
-            content={t('disconnectConfirm')}
-            hidden={!isRefreshConfirmDialogVisible}
-            onDismiss={hideRefreshConfirmDialog}
-          />
-        </div>
-      </ReactiveFormControl>
-    </>
+    <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
+      <div>
+        {getSourceLocation()}
+        <Link
+          key="deployment-center-disconnect-link"
+          onClick={showRefreshConfirmDialog}
+          className={additionalTextFieldControl}
+          aria-label={t('disconnect')}>
+          <Icon iconName={'PlugDisconnected'} />
+          {` ${t('disconnect')}`}
+        </Link>
+        <ConfirmDialog
+          primaryActionButton={{
+            title: t('ok'),
+            onClick: disconnect,
+          }}
+          defaultActionButton={{
+            title: t('cancel'),
+            onClick: hideRefreshConfirmDialog,
+          }}
+          title={t('kuduDisconnectConfirmationTitle')}
+          content={t('disconnectConfirm')}
+          hidden={!isRefreshConfirmDialogVisible}
+          onDismiss={hideRefreshConfirmDialog}
+        />
+      </div>
+    </ReactiveFormControl>
   );
 };
 
