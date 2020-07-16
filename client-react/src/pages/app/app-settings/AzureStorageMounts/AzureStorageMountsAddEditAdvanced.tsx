@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { StorageType } from '../../../../models/site/config';
 import { MessageBarType } from 'office-ui-fabric-react';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { Links } from '../../../../utils/FwLinks';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
   const { errors, values } = props;
@@ -42,7 +42,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         <CustomBanner
           id="azure-storage-mount-blob-warning"
           message={t('readonlyBlobStorageWarning')}
-          learnMoreLink={CommonConstants.Links.byosBlobReadonlyLearnMore}
+          learnMoreLink={Links.byosBlobReadonlyLearnMore}
           type={MessageBarType.warning}
           undocked={true}
         />

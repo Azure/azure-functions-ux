@@ -201,7 +201,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
         label={t('appCommandLineLabel')}
         id="linux-fx-version-appCommandLine"
         infoBubbleMessage={t('appCommandLineLabelHelpNoLink')}
-        learnMoreLink={Links.startupFileInfo}
+        learnMoreLink={Links.linuxContainersLearnMore}
         style={{ marginLeft: '1px', marginTop: '1px' }} // Not sure why but left border disappears without margin and for small windows the top also disappears
       />
     </>
