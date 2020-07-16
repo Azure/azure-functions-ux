@@ -10,16 +10,16 @@ const node4EOL = new Date(2018, 4, 30);
 
 export const nodeStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Node',
-  value: 'Node',
+  value: 'node',
   preferredOs: 'linux',
   majorVersions: [
     {
       displayText: 'Node LTS',
-      value: 'LTS',
+      value: 'lts',
       minorVersions: [
         {
           displayText: 'Node LTS',
-          value: 'LTS',
+          value: 'lts',
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'NODE|lts',
@@ -42,7 +42,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
       minorVersions: [
         {
           displayText: 'Node 12 LTS',
-          value: '12-LTS',
+          value: '12-lts',
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'NODE|12-lts',
@@ -309,7 +309,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
       minorVersions: [
         {
           displayText: 'Node 8 LTS',
-          value: '8-LTS',
+          value: '8-lts',
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'NODE|8-lts',

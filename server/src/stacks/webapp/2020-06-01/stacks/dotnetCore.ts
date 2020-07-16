@@ -8,7 +8,7 @@ const dotnetCore1EOL = new Date(2019, 6, 27);
 
 export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
   displayText: '.NET Core',
-  value: '.NET Core',
+  value: 'dotnetcore',
   preferredOs: 'windows',
   majorVersions: [
     {
@@ -79,7 +79,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
     },
     {
       displayText: '.NET Core 2',
-      value: 'DotnetCore2',
+      value: 'dotnetcore2',
       minorVersions: [
         {
           displayText: '.NET Core 2.2',
