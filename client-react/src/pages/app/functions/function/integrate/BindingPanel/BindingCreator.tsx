@@ -11,10 +11,10 @@ import LoadingComponent from '../../../../../../components/Loading/LoadingCompon
 import { Binding, BindingDirection } from '../../../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../../../models/functions/function-binding';
 import { KeyValue } from '../../../../../../models/portal-models';
-import { CommonConstants } from '../../../../../../utils/CommonConstants';
 import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { getFunctionBindingDirection } from '../FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
+import { Links } from '../../../../../../utils/FwLinks';
 
 export interface BindingCreatorProps {
   bindingDirection: BindingDirection;
@@ -91,7 +91,7 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
             {onlyBuiltInBindings ? (
               <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
                 {t('functionCreate_extensionBundlesRequired')}
-                <Link href={CommonConstants.Links.extensionBundlesRequiredLearnMore} target="_blank" className={learnMoreLinkStyle}>
+                <Link href={Links.extensionBundlesRequiredLearnMore} target="_blank" className={learnMoreLinkStyle}>
                   {t('learnMore')}
                 </Link>
               </MessageBar>

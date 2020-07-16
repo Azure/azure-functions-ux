@@ -13,8 +13,8 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { MessageBarType } from 'office-ui-fabric-react';
 import { StorageType } from '../../../../models/site/config';
-import { CommonConstants } from '../../../../utils/CommonConstants';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { Links } from '../../../../utils/FwLinks';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -167,7 +167,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
         <CustomBanner
           id="azure-storage-mount-blob-warning"
           message={t('readonlyBlobStorageWarning')}
-          learnMoreLink={CommonConstants.Links.byosBlobReadonlyLearnMore}
+          learnMoreLink={Links.byosBlobReadonlyLearnMore}
           type={MessageBarType.warning}
           undocked={true}
         />
