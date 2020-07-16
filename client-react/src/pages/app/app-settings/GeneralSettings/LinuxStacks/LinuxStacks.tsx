@@ -1,5 +1,4 @@
 import { Field, FormikProps } from 'formik';
-import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import React, { useContext, useState, useEffect } from 'react';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../../AppSettings.types';
