@@ -7,6 +7,7 @@ import { style } from 'typestyle';
 import { DV2SeriesPriceSpec } from '../DV2SeriesPriceSpec';
 import i18next from 'i18next';
 import { ServerFarm } from '../../../../../models/serverFarm/serverfarm';
+import { Links } from '../../../../../utils/FwLinks';
 
 export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
   constructor(t: i18next.TFunction) {
@@ -14,7 +15,7 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
       t,
       ServerFarmSkuConstants.Tier.elasticPremium,
       'Elastic Premium is not supported for this scale unit. Please consider redeploying or cloning your app.',
-      CommonConstants.Links.premiumV2NotAvailableLearnMore
+      Links.premiumV2NotAvailableLearnMore
     );
     this.tier = ServerFarmSkuConstants.Tier.elasticPremium;
     this.featureItems = [
@@ -56,7 +57,7 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
         iconUrl: 'image/app-service-plan.svg',
         title: t('pricing_includedHardware_azureComputeUnits'),
         description: t('pricing_computeDedicatedAcu'),
-        learnMoreUrl: CommonConstants.Links.azureComputeUnitLearnMore,
+        learnMoreUrl: Links.azureComputeUnitLearnMore,
       },
       {
         id: 'memory',

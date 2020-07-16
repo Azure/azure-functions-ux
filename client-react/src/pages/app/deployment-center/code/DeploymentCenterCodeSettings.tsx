@@ -10,7 +10,7 @@ import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/Dep
 import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
 import DeploymentCenterCodeBuildRuntimeAndVersion from './DeploymentCenterCodeBuildRuntimeAndVersion';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { deploymentCenterConsole } from '../DeploymentCenter.styles';
+import { deploymentCenterConsole, panelBanner } from '../DeploymentCenter.styles';
 import { MessageBarType, Link } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { getWorkflowInformation } from '../utility/GitHubActionUtility';
@@ -61,7 +61,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
       if (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig) {
         return (
           <>
-            <div>
+            <div className={panelBanner}>
               <CustomBanner message={t('githubActionWorkflowOptionUseExistingMessage')} type={MessageBarType.info} />
             </div>
             <pre className={deploymentCenterConsole}>{githubActionExistingWorkflowContents}</pre>
@@ -69,9 +69,9 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
         );
       } else if (formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs) {
         return (
-          <>
+          <div className={panelBanner}>
             <CustomBanner message={t('githubActionWorkflowOptionUseExistingMessageWithoutPreview')} type={MessageBarType.info} />
-          </>
+          </div>
         );
       } else if (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) {
         const information = getWorkflowInformation(
@@ -86,7 +86,9 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
         );
         return (
           <>
-            <CustomBanner message={t('githubActionWorkflowOptionOverwriteIfConfigExists')} type={MessageBarType.info} />
+            <div className={panelBanner}>
+              <CustomBanner message={t('githubActionWorkflowOptionOverwriteIfConfigExists')} type={MessageBarType.info} />
+            </div>
             <pre className={deploymentCenterConsole}>{information.content}</pre>
           </>
         );
