@@ -42,8 +42,6 @@ const getMajorVersions = (builtInStacks: WebAppStack[], stack: string, t: i18nex
 };
 
 const getMinorVersions = (builtInStacks: WebAppStack[], stack: string, majorVersion: string, t: i18next.TFunction) => {
-  const linuxFxVersionOptions: IDropdownOption[] = [];
-  // included already handles the case that duplicate versions are included multiple times and needs to be filtered out
   const stackToLower = (stack || '').toLowerCase();
   const currentStack = builtInStacks.find(s => s.value === stackToLower);
   if (!currentStack) {
@@ -56,15 +54,10 @@ const getMinorVersions = (builtInStacks: WebAppStack[], stack: string, majorVers
     return [];
   }
 
-  currentVersion.minorVersions.forEach(minVer => {
-    const runtime = minVer.stackSettings.linuxRuntimeSettings ? minVer.stackSettings.linuxRuntimeSettings.runtimeVersion : '';
-    linuxFxVersionOptions.push({
-      text: minVer.displayText,
-      key: runtime,
-    });
-  });
-
-  return linuxFxVersionOptions;
+  return currentVersion.minorVersions.map(minVer => ({
+    text: minVer.displayText,
+    key: minVer.value,
+  }));
 };
 
 const getVersionDetails = (builtInStacks: WebAppStack[], version: string): VersionDetails => {
@@ -80,12 +73,12 @@ const getVersionDetails = (builtInStacks: WebAppStack[], version: string): Versi
       stack.majorVersions.forEach(stackMajorVersion => {
         stackMajorVersion.minorVersions.forEach(stackMinorVersion => {
           const setting = stackMinorVersion.stackSettings.linuxRuntimeSettings;
-          if (setting && setting.runtimeVersion === version) {
+          if (setting && setting.runtimeVersion && setting.runtimeVersion.toLocaleLowerCase() === version) {
             versionDetails = {
-              runtimeStackName: stack.displayText,
-              majorVersionName: stackMajorVersion.displayText,
+              runtimeStackName: stack.value,
+              majorVersionName: stackMajorVersion.value,
               majorVersionRuntime: stackMajorVersion.value,
-              minorVersionName: stackMinorVersion.displayText,
+              minorVersionName: stackMinorVersion.value,
               minorVersionRuntime: setting.runtimeVersion,
             };
           }

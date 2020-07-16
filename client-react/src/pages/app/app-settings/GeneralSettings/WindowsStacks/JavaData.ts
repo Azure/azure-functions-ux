@@ -4,7 +4,7 @@ import { SiteConfig } from '../../../../../models/site/config';
 import { WebAppStack, WebAppStackOs } from '../../../../../models/stacks/web-app-stacks';
 
 export const getJavaStack = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'java');
-export const getJavaContainers = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'javaContainers');
+export const getJavaContainers = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'javacontainers');
 export const DEFAULTJAVAMAJORVERSION = { majorVersion: '11', minorVersion: '11' };
 
 export const getJavaMajorMinorVersion = (javaStack: WebAppStack, config: ArmObj<SiteConfig>) => {
@@ -13,7 +13,7 @@ export const getJavaMajorMinorVersion = (javaStack: WebAppStack, config: ArmObj<
   javaStack.majorVersions.forEach(javaStackMajorVersion => {
     javaStackMajorVersion.minorVersions.forEach(javaStackMinorVersion => {
       const settings = javaStackMinorVersion.stackSettings.windowsRuntimeSettings;
-      if (settings && settings.runtimeVersion === javaVersion.toLocaleLowerCase()) {
+      if (settings && javaVersion && settings.runtimeVersion === javaVersion.toLocaleLowerCase()) {
         versionDetails = {
           majorVersion: javaStackMajorVersion.value,
           minorVersion: settings.runtimeVersion,
@@ -56,7 +56,7 @@ export const getJavaMinorVersionAsDropdownOptions = (
       currentJavaMajorVersionDetails.minorVersions.map(x => ({
         key: x.value,
         text: `${x.displayText} ${
-          x.stackSettings.windowsRuntimeSettings && x.stackSettings.windowsRuntimeSettings.isAutoUpdate ? `(${autoUpdateLabel}` : ''
+          x.stackSettings.windowsRuntimeSettings && x.stackSettings.windowsRuntimeSettings.isAutoUpdate ? `(${autoUpdateLabel})` : ''
         }`,
       }))) ||
     []
@@ -82,7 +82,7 @@ export const getFrameworkVersionOptions = (
     return currentFramework.minorVersions.map(x => ({
       key: x.value,
       text: `${x.displayText} ${
-        x.stackSettings.windowsContainerSettings && x.stackSettings.windowsContainerSettings.isAutoUpdate ? `(${autoUpdateLabel}` : ''
+        x.stackSettings.windowsContainerSettings && x.stackSettings.windowsContainerSettings.isAutoUpdate ? `(${autoUpdateLabel})` : ''
       }`,
     }));
   }
@@ -90,17 +90,16 @@ export const getFrameworkVersionOptions = (
 };
 
 const getLatestNonPreviewJavaMajorMinorVersion = (javaStack: WebAppStack) => {
-  let versionDetails = DEFAULTJAVAMAJORVERSION;
   javaStack.majorVersions.forEach(javaStackMajorVersion => {
     javaStackMajorVersion.minorVersions.forEach(javaStackMinorVersion => {
       const settings = javaStackMinorVersion.stackSettings.windowsRuntimeSettings;
       if (settings && !settings.isPreview) {
-        versionDetails = {
+        return {
           majorVersion: javaStackMajorVersion.value,
           minorVersion: settings.runtimeVersion,
         };
       }
     });
   });
-  return versionDetails;
+  return DEFAULTJAVAMAJORVERSION;
 };

@@ -44,7 +44,8 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   useEffect(() => {
     const currentLinuxFxVersion = props.values.config.properties.linuxFxVersion;
     const enabled =
-      remoteDebuggingEnabledStacks.includes(currentLinuxFxVersion) || currentLinuxFxVersion.toLowerCase().startsWith('python');
+      !!currentLinuxFxVersion &&
+      (remoteDebuggingEnabledStacks.includes(currentLinuxFxVersion) || currentLinuxFxVersion.toLowerCase().startsWith('python'));
     setEnabledStack(enabled);
     if (!enabled) {
       props.setFieldValue('config.properties.remoteDebuggingEnabled', false);

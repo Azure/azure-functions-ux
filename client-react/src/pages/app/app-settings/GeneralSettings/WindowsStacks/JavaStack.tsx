@@ -37,7 +37,6 @@ const JavaStack: React.SFC<Props> = props => {
     if (javaStack && javaContainers) {
       setCurrentJavaMajorVersion(getJavaMajorMinorVersion(javaStack, values.config).majorVersion);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
