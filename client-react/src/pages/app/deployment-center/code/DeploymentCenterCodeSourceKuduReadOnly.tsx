@@ -52,19 +52,19 @@ const DeploymentCenterCodeSourceKuduReadOnly: React.FC<{}> = () => {
     switch (scmType) {
       case ScmType.BitbucketGit:
       case ScmType.BitbucketHg:
-        return 'Bitbucket';
+        return t('deploymentCenterCodeSettingsSourceBitbucket');
       case ScmType.ExternalGit:
-        return 'External Git';
+        return t('deploymentCenterCodeSettingsSourceExternal');
       case ScmType.GitHub:
-        return 'GitHub';
+        return t('deploymentCenterCodeSettingsSourceGitHub');
       case ScmType.LocalGit:
-        return 'Local Git';
+        return t('deploymentCenterCodeSettingsSourceLocalGit');
       case ScmType.Dropbox:
-        return 'Dropbox';
+        return t('deploymentCenterCodeSettingsSourceDropbox');
       case ScmType.OneDrive:
-        return 'OneDrive';
+        return t('deploymentCenterCodeSettingsSourceOneDrive');
       case ScmType.Vso:
-        return 'Azure Repos';
+        return t('deploymentCenterCodeSettingsSourceAzureRepos');
       default:
         return '';
     }
