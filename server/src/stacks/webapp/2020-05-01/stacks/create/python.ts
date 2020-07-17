@@ -7,7 +7,7 @@ export const pythonCreateStack: WebAppCreateStack = {
   versions: [
     {
       displayText: 'Python 3.8',
-      value: '3.7',
+      value: '3.8',
       sortOrder: 0,
       supportedPlatforms: [
         {

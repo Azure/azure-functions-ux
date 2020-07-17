@@ -1872,6 +1872,7 @@ export class PortalResources {
   public static noRuntimeVersionWhileFunctionAppStopped = 'noRuntimeVersionWhileFunctionAppStopped';
   public static githubActionWorkflowsExist = 'githubActionWorkflowsExist';
   public static githubActionWorkflowOptionUseExistingMessageWithoutPreview = 'githubActionWorkflowOptionUseExistingMessageWithoutPreview';
+  public static githubActionWorkflowOptionOverwriteIfConfigExists = 'githubActionWorkflowOptionOverwriteIfConfigExists';
   public static appFilesSaveAriaLabel = 'appFilesSaveAriaLabel';
   public static functionEditorRefreshAriaLabel = 'functionEditorRefreshAriaLabel';
   public static integrateDeleteTriggerConfirmHeader = 'integrateDeleteTriggerConfirmHeader';
@@ -1991,7 +1992,13 @@ export class PortalResources {
   public static resetPublishProfileConfirmationDescription = 'resetPublishProfileConfirmationDescription';
   public static usernameLengthRequirements = 'usernameLengthRequirements';
   public static deploymentCenterContainerSettingsDescription = 'deploymentCenterContainerSettingsDescription';
-  public static deploymentCenterContainerSettingsSourceLabel = 'deploymentCenterContainerSettingsSourceLabel';
+  public static deploymentCenterCodeSettingsDescription = 'deploymentCenterCodeSettingsDescription';
+  public static deploymentCenterSettingsSourceLabel = 'deploymentCenterSettingsSourceLabel';
+  public static deploymentCenterCodeSettingsSourcePlaceholder = 'deploymentCenterCodeSettingsSourcePlaceholder';
+  public static deploymentCenterSettingsBuildTitle = 'deploymentCenterSettingsBuildTitle';
+  public static deploymentCenterSettingsBuildLabel = 'deploymentCenterSettingsBuildLabel';
+  public static deploymentCenterSettingsRuntimeLabel = 'deploymentCenterSettingsRuntimeLabel';
+  public static deploymentCenterSettingsRuntimeVersionLabel = 'deploymentCenterSettingsRuntimeVersionLabel';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistry =
     'deploymentCenterContainerSettingsSourceOptionContainerRegistry';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription =
@@ -2001,6 +2008,7 @@ export class PortalResources {
     'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription';
   public static functionEditor_privateLinkRunMessage = 'functionEditor_privateLinkRunMessage';
   public static deploymentCenterContainerGitHubActionsTitle = 'deploymentCenterContainerGitHubActionsTitle';
+  public static deploymentCenterCodeGitHubTitle = 'deploymentCenterCodeGitHubTitle';
   public static deploymentCenterContainerRegistrySettingsTitle = 'deploymentCenterContainerRegistrySettingsTitle';
   public static deploymentCenterContainerRegistryOptionsLabel = 'deploymentCenterContainerRegistryOptionsLabel';
   public static deploymentCenterContainerRegistrySourceLabel = 'deploymentCenterContainerRegistrySourceLabel';
@@ -2018,8 +2026,14 @@ export class PortalResources {
   public static testAndRun = 'testAndRun';
   public static appInsightsKeyVaultWarningMessage = 'appInsightsKeyVaultWarningMessage';
   public static clickToUpdateSettings = 'clickToUpdateSettings';
+  public static deploymentCenterCodeLogsCICDNotConfiguredHeader = 'deploymentCenterCodeLogsCICDNotConfiguredHeader';
+  public static deploymentCenterCodeLogsCICDNotConfiguredDescription = 'deploymentCenterCodeLogsCICDNotConfiguredDescription';
+  public static deploymentCenterCodeLogsCICDNotConfiguredGoToSettings = 'deploymentCenterCodeLogsCICDNotConfiguredGoToSettings';
+  public static deploymentCenterCodeLogsNoDeployments = 'deploymentCenterCodeLogsNoDeployments';
   public static deploymentCenterCodeDeploymentsLoadingAriaValue = 'deploymentCenterCodeDeploymentsLoadingAriaValue';
   public static deploymentCenterCodeDeploymentsLoading = 'deploymentCenterCodeDeploymentsLoading';
+  public static deploymentCenterFtpLoadingAriaValue = 'deploymentCenterFtpLoadingAriaValue';
+  public static deploymentCenterFtpLoading = 'deploymentCenterFtpLoading';
   public static deploymentCenterCodeDeploymentsFailed = 'deploymentCenterCodeDeploymentsFailed';
   public static deploymentCenterCodeDeploymentsFailedWithError = 'deploymentCenterCodeDeploymentsFailedWithError';
   public static deploymentCenterCodeLogDetailsFailed = 'deploymentCenterCodeLogDetailsFailed';
@@ -2035,7 +2049,73 @@ export class PortalResources {
   public static deploymentCenterOAuthAuthorize = 'deploymentCenterOAuthAuthorize';
   public static deploymentCenterOAuthChangeAccount = 'deploymentCenterOAuthChangeAccount';
   public static deploymentCenterOAuthSingedInAs = 'deploymentCenterOAuthSingedInAs';
+  public static deploymentCenterOAuthOrganization = 'deploymentCenterOAuthOrganization';
+  public static deploymentCenterOAuthOrganizationPlaceholder = 'deploymentCenterOAuthOrganizationPlaceholder';
+  public static deploymentCenterOAuthProject = 'deploymentCenterOAuthProject';
+  public static deploymentCenterOAuthProjectPlaceholder = 'deploymentCenterOAuthProjectPlaceholder';
+  public static deploymentCenterOAuthRepository = 'deploymentCenterOAuthRepository';
+  public static deploymentCenterOAuthRepositoryPlaceholder = 'deploymentCenterOAuthRepositoryPlaceholder';
+  public static deploymentCenterOAuthBranch = 'deploymentCenterOAuthBranch';
+  public static deploymentCenterOAuthBranchPlaceholder = 'deploymentCenterOAuthBranchPlaceholder';
+  public static deploymentCenterCodeSettingsSourcPlaceholder = 'deploymentCenterCodeSettingsSourcPlaceholder';
+  public static deploymentCenterCodeSettingsSourceContinuousDeploymentHeader =
+    'deploymentCenterCodeSettingsSourceContinuousDeploymentHeader';
+  public static deploymentCenterCodeSettingsSourceManualDeploymentHeader = 'deploymentCenterCodeSettingsSourceManualDeploymentHeader';
+  public static deploymentCenterCodeSettingsSourceGitHub = 'deploymentCenterCodeSettingsSourceGitHub';
+  public static deploymentCenterCodeSettingsSourceAzureRepos = 'deploymentCenterCodeSettingsSourceAzureRepos';
+  public static deploymentCenterCodeSettingsSourceBitbucket = 'deploymentCenterCodeSettingsSourceBitbucket';
+  public static deploymentCenterCodeSettingsSourceLocalGit = 'deploymentCenterCodeSettingsSourceLocalGit';
+  public static deploymentCenterCodeSettingsSourceOneDrive = 'deploymentCenterCodeSettingsSourceOneDrive';
+  public static deploymentCenterCodeSettingsSourceDropbox = 'deploymentCenterCodeSettingsSourceDropbox';
+  public static deploymentCenterCodeSettingsSourceExternal = 'deploymentCenterCodeSettingsSourceExternal';
+  public static deploymentCenterCodeSettingsBuildGitHubAction = 'deploymentCenterCodeSettingsBuildGitHubAction';
+  public static deploymentCenterCodeSettingsBuildKudu = 'deploymentCenterCodeSettingsBuildKudu';
   public static leaveFeedback = 'leaveFeedback';
   public static functionLogsFeedbackCESQuestion = 'functionLogsFeedbackCESQuestion';
   public static functionLogsFeedbackCVAQuestion = 'functionLogsFeedbackCVAQuestion';
+  public static deploymentCenterConfigureGitHubPermissions = 'deploymentCenterConfigureGitHubPermissions';
+  public static deploymentCenterProdSlotWarning = 'deploymentCenterProdSlotWarning';
+  public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
+  public static deploymentCenterSettingsWorkflowConfigTitle = 'deploymentCenterSettingsWorkflowConfigTitle';
+  public static deploymentCenterSettingsWorkflowConfigPreviewDescription = 'deploymentCenterSettingsWorkflowConfigPreviewDescription';
+  public static deploymentCenterSettingsWorkflowConfigPreviewFileButtonText = 'deploymentCenterSettingsWorkflowConfigPreviewFileButtonText';
+  public static deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo =
+    'deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo';
+  public static deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite = 'deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite';
+  public static deploymentCenterSettingsGitHubActionWorkflowOptionAdd = 'deploymentCenterSettingsGitHubActionWorkflowOptionAdd';
+  public static deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting =
+    'deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting';
+  public static deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable =
+    'deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable';
+  public static deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder =
+    'deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder';
+  public static deploymentCenterWorkflowConfigsLoadingAriaValue = 'deploymentCenterWorkflowConfigsLoadingAriaValue';
+  public static deploymentCenterWorkflowConfigsLoading = 'deploymentCenterWorkflowConfigsLoading';
+  public static deploymentCenterWorkflowConfigsFilePathLabel = 'deploymentCenterWorkflowConfigsFilePathLabel';
+  public static deploymentCenterGitHubActionsBuildDescription = 'deploymentCenterGitHubActionsBuildDescription';
+  public static deploymentCenterKuduBuildDescription = 'deploymentCenterKuduBuildDescription';
+  public static deploymentCenterChangeBuildText = 'deploymentCenterChangeBuildText';
+  public static functionMonitor_orchestrations = 'functionMonitor_orchestrations';
+  public static functionMonitor_entities = 'functionMonitor_entities';
+  public static functionEditor_appInsightsLogs = 'functionEditor_appInsightsLogs';
+  public static functionEditor_fileBasedLogs = 'functionEditor_fileBasedLogs';
+  public static functionEditor_fileBasedLogsCalloutMessage = 'functionEditor_fileBasedLogsCalloutMessage';
+  public static orchestrationTracesTableTitle = 'orchestrationTracesTableTitle';
+  public static orchestrationTracesTableDescription = 'orchestrationTracesTableDescription';
+  public static runtimeStatus = 'runtimeStatus';
+  public static instanceId = 'instanceId';
+  public static filterOrchestrations = 'filterOrchestrations';
+  public static entityTracesTableTitle = 'entityTracesTableTitle';
+  public static entityTracesTableDescription = 'entityTracesTableDescription';
+  public static filterEntities = 'filterEntities';
+  public static state = 'state';
+  public static orchestrationDetails = 'orchestrationDetails';
+  public static failedToFetchRepositories = 'failedToFetchRepositories';
+  public static failedToFetchTags = 'failedToFetchTags';
+  public static entityDetails = 'entityDetails';
+  public static durableFunctionNoDataFound = 'durableFunctionNoDataFound';
+  public static pricing_pv2FlexStampCheckboxAriaLabel = 'pricing_pv2FlexStampCheckboxAriaLabel';
+  public static pricing_pv2UpsellInfoMessageAriaLabel = 'pricing_pv2UpsellInfoMessageAriaLabel';
+  public static pricing_appDensityWarningMessageAriaLabel = 'pricing_appDensityWarningMessageAriaLabel';
+  public static ibizafication_readOnlyLinuxElastic = 'ibizafication_readOnlyLinuxElastic';
 }

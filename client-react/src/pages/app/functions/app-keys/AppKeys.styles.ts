@@ -11,6 +11,10 @@ export const formStyle = style({
   padding: '5px 20px',
 });
 
+export const formDescriptionStyle = style({
+  maxWidth: '800px',
+});
+
 export const messageBanner = (theme: ThemeExtended) =>
   style({
     backgroundColor: theme.semanticColors.infoBackground,
@@ -51,3 +55,27 @@ export const renewPanelTextStyle = () =>
     marginLeft: '5px',
     verticalAlign: 'middle',
   });
+
+export const tableValueComponentStyle = style({
+  display: 'inline-flex',
+  cursor: 'pointer',
+  alignItems: 'center',
+  width: '100%',
+});
+
+export const tableValueIconStyle = (theme: ThemeExtended) =>
+  style({
+    fontSize: '15px',
+    marginRight: '5px',
+    marginTop: '5px',
+    color: theme.semanticColors.hyperlinkText,
+  });
+
+export const tableValueFormFieldStyle = style({
+  marginBottom: '0px !important',
+  height: 'fit-content',
+});
+
+export const tableValueTextFieldStyle = style({
+  width: '100%',
+});

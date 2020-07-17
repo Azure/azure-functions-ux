@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { ArmObj } from '../../../../../models/arm-obj';
-import { AppInsightsComponent } from '../../../../../models/app-insights';
+import { AppInsightsComponent, AppInsightsComponentToken } from '../../../../../models/app-insights';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
@@ -16,6 +16,7 @@ import { getLogTextColor } from './FunctionLog.styles';
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 
 interface FunctionLogAppInsightsDataLoaderProps {
   resourceId: string;
@@ -33,6 +34,9 @@ interface FunctionLogAppInsightsDataLoaderProps {
   isScopeFunctionApp?: boolean;
   leftAlignMainToolbarItems?: boolean;
   customHeight?: number;
+  showLoggingOptionsDropdown?: boolean;
+  selectedLoggingOption?: LoggingOptions;
+  setSelectedLoggingOption?: (options: LoggingOptions) => void;
 }
 
 const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoaderProps> = props => {
@@ -49,7 +53,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   const { t } = useTranslation();
 
-  const [appInsightsToken, setAppInsightsToken] = useState<string | undefined>(undefined);
+  const [appInsightsToken, setAppInsightsToken] = useState<AppInsightsComponentToken | undefined>(undefined);
   const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined | null>(undefined);
   const [started, setStarted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
@@ -90,7 +94,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const fetchToken = async (component: ArmObj<AppInsightsComponent>) => {
     AppInsightsService.getAppInsightsComponentToken(component.id).then(appInsightsComponentTokenResponse => {
       if (appInsightsComponentTokenResponse.metadata.success) {
-        setAppInsightsToken(appInsightsComponentTokenResponse.data.token);
+        setAppInsightsToken(appInsightsComponentTokenResponse.data);
       } else {
         LogService.error(
           LogCategories.functionLog,
@@ -105,9 +109,9 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     setAppInsightsToken(undefined);
   };
 
-  const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, token: string) => {
+  const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, tokenComponent: AppInsightsComponentToken) => {
     quickPulseQueryLayer
-      .queryDetails(token, false, '')
+      .queryDetails(tokenComponent.token, false, '')
       .then((dataV2: SchemaResponseV2) => {
         if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
           let newDocs = dataV2.DataRanges[0].Documents.filter(
@@ -124,13 +128,18 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
         }
       })
       .catch(error => {
-        const errorString = typeof error === 'string' ? error : JSON.stringify(error);
+        const tokenExpirationTime = new Date(tokenComponent.expires);
+        const currentTime = new Date();
+        if (tokenExpirationTime > currentTime) {
+          // Only log an error if the token has not yet expired
+          const errorString = typeof error === 'string' ? error : JSON.stringify(error);
+          LogService.error(
+            LogCategories.functionLog,
+            'queryAppInsights',
+            `Error when attempting to Query Application Insights: ${errorString}`
+          );
+        }
         resetAppInsightsToken();
-        LogService.error(
-          LogCategories.functionLog,
-          'getAppInsightsComponentToken',
-          `Error when attempting to Query Application Insights: ${errorString}`
-        );
       })
       .finally(() => {
         setCallCount(callCount + 1);
@@ -176,6 +185,12 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     newQueryLayer.setConfiguration([], getDefaultDocumentStreams(), []);
     setQueryLayer(newQueryLayer);
     setCallCount(0);
+  };
+
+  const tokenIsValid = (tokenComponent: AppInsightsComponentToken): boolean => {
+    const tokenExpirationTime = new Date(tokenComponent.expires);
+    const currentTime = new Date();
+    return tokenExpirationTime > currentTime;
   };
 
   const startLogs = () => {
@@ -227,8 +242,12 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   useEffect(() => {
     if (appInsightsToken && queryLayer) {
-      const timeout = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, appInsightsToken), 3000);
-      return () => clearInterval(timeout);
+      if (tokenIsValid(appInsightsToken)) {
+        const timeout = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, appInsightsToken), 3000);
+        return () => clearInterval(timeout);
+      } else {
+        resetAppInsightsToken();
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allLogEntries, queryLayer, appInsightsToken, callCount]);

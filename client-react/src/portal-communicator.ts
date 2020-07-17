@@ -131,9 +131,6 @@ export default class PortalCommunicator {
           this.postInitializeMessage(startupInfo);
         })
         .catch(() => {
-          // NOTE(michinoy): '.finally' is not supported on promises on IE and Edge.
-          // Explore adding a polyfill - https://github.com/babel/babel/issues/8111
-          // WI - https://msazure.visualstudio.com/Antares/_workitems/edit/5493047
           this.postInitializeMessage(startupInfo);
         });
     }

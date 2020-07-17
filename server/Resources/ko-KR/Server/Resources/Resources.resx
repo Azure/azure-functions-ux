@@ -4965,16 +4965,16 @@
         <value>들어오는 인증서 필요</value>
     </data>
   <data name="clientCertificateMode" xml:space="preserve">
-        <value>Client certificate mode</value>
+        <value>클라이언트 인증서 모드</value>
     </data>
   <data name="clientCertificateModeRequire" xml:space="preserve">
-        <value>Require</value>
+        <value>필요</value>
     </data>
   <data name="clientCertificateModeAllow" xml:space="preserve">
-        <value>Allow</value>
+        <value>허용</value>
     </data>
   <data name="clientCertificateModeIgnore" xml:space="preserve">
-        <value>Ignore</value>
+        <value>무시</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>인증서 제외 경로</value>
@@ -5787,6 +5787,9 @@
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
         <value>GitHub의 기존 워크플로 구성이 빌드 및 배포에 사용됩니다.</value>
     </data>
+  <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
+        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+    </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>앱 파일 새로 고침</value>
     </data>
@@ -5815,7 +5818,7 @@
         <value>하나 이상의 바인딩을 로드하지 못했습니다. 페이지를 새로 고치세요.</value>
     </data>
   <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
-        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+        <value>컴파일된 함수를 사용할 때 특성으로 정의된 바인딩은 표시되지 않을 수 있습니다.</value>
     </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>함수 키 삭제</value>
@@ -6016,16 +6019,16 @@
         <value>RBAC 할당된 액세스 권한이 reader로 설정되어 있어 사이트가 현재 읽기 전용 모드에 있습니다.</value>
     </data>
   <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
-        <value>Logs</value>
+        <value>로그</value>
     </data>
   <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
-        <value>Deployment center logs</value>
+        <value>배포 센터 로그</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
-        <value>Settings</value>
+        <value>설정</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
-        <value>Deployment center settings</value>
+        <value>배포 센터 설정</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>FTP/FTPS 자격 증명</value>
@@ -6103,7 +6106,7 @@
         <value>시스템 키는 함수 런타임에 의해 자동으로 관리됩니다. 시스템 키를 통해 함수 런타임 기능의 액세스를 세밀하게 제어할 수 있습니다.</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>함수 키는 이 함수로 범위가 지정되며 이 http 트리거 함수에 액세스하는 데 사용할 수 있습니다.</value>
+        <value>함수 키는 이 함수로 범위가 지정되며 이 함수에 액세스하는 데 사용할 수 있습니다.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
         <value>애플리케이션 설정은 하나 이상의 함수가 포함된 정적 Web Apps에만 적용할 수 있습니다. 구성을 사용하도록 설정하려면 앱에 함수를 추가하세요.</value>
@@ -6144,8 +6147,26 @@
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>이 설정을 사용하여 컨테이너 앱 배포 모델 및 레지스트리를 구성하세요. 작업 효율성을 높이기 위해 GitHub Actions를 사용하는 것이 좋습니다.</value>
     </data>
-  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+  <data name="deploymentCenterCodeSettingsDescription" xml:space="preserve">
+        <value>기본 소스 및 빌드 공급자의 코드를 배포하고 빌드합니다.</value>
+    </data>
+  <data name="deploymentCenterSettingsSourceLabel" xml:space="preserve">
         <value>소스</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcePlaceholder" xml:space="preserve">
+        <value>코드 소스 선택</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildTitle" xml:space="preserve">
+        <value>빌드</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildLabel" xml:space="preserve">
+        <value>빌드 공급자</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeLabel" xml:space="preserve">
+        <value>런타임 스택</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
+        <value>버전</value>
     </data>
   <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>컨테이너 레지스트리</value>
@@ -6164,6 +6185,9 @@
     </data>
   <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
         <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
+        <value>GitHub</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>레지스트리 설정</value>
@@ -6202,18 +6226,276 @@
         <value>애플리케이션 설정을 업데이트하지 못했습니다({0}).</value>
     </data>
   <data name="clickToShowValue" xml:space="preserve">
-        <value>Click to show value</value>
+        <value>값을 표시하려면 클릭하세요.</value>
     </data>
   <data name="clickToHideValue" xml:space="preserve">
-        <value>Click to hide value</value>
+        <value>값을 숨기려면 클릭하세요.</value>
     </data>
   <data name="testAndRun" xml:space="preserve">
-        <value>Test/Run</value>
+        <value>테스트/실행</value>
     </data>
   <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
-        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+        <value>Application Insights 계측 키 또는 연결 문자열이 모니터링 환경에서 문제를 일으키는 키 자격 증명 모음에 저장되어 있습니다. </value>
     </data>
   <data name="clickToUpdateSettings" xml:space="preserve">
-        <value>Click here to update your settings.</value>
+        <value>설정을 업데이트하려면 여기를 클릭하세요.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredHeader" xml:space="preserve">
+        <value>CI/CD가 구성되지 않음</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredDescription" xml:space="preserve">
+        <value>시작하려면 [설정] 탭으로 이동하여 CI/CD를 설정하세요.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredGoToSettings" xml:space="preserve">
+        <value>설정으로 이동</value>
+    </data>
+  <data name="deploymentCenterCodeLogsNoDeployments" xml:space="preserve">
+        <value>배포를 찾을 수 없음</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
+        <value>배포 로그를 로드하는 중</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoading" xml:space="preserve">
+        <value>배포 로그를 로드하는 중...</value>
+    </data>
+  <data name="deploymentCenterFtpLoadingAriaValue" xml:space="preserve">
+        <value>FTP/FTPS 자격 증명을 로드하는 중</value>
+    </data>
+  <data name="deploymentCenterFtpLoading" xml:space="preserve">
+        <value>FTP/FTPS 자격 증명을 로드하는 중...</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailed" xml:space="preserve">
+        <value>배포 로그를 로드하지 못함</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
+        <value>배포 로그를 로드하지 못함: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailed" xml:space="preserve">
+        <value>로그 세부 정보를 로드하지 못함</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailedWithError" xml:space="preserve">
+        <value>로그 세부 정보를 로드하지 못함: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailed" xml:space="preserve">
+        <value>작업을 로드하지 못함</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailedWithError" xml:space="preserve">
+        <value>로그 작업을 로드하지 못함: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoadingAriaValue" xml:space="preserve">
+        <value>배포 로그 작업을 로드하는 중</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoading" xml:space="preserve">
+        <value>배포 로그 작업을 로드하는 중...</value>
+    </data>
+  <data name="logDetailsHeader" xml:space="preserve">
+        <value>로그 세부 정보</value>
+    </data>
+  <data name="deploymentCenterOAuthFetchingUserInformation" xml:space="preserve">
+        <value>사용자 정보를 가져오는 중...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizingUser" xml:space="preserve">
+        <value>사용자에게 권한을 부여하는 중...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizeAriaLabel" xml:space="preserve">
+        <value>사용자 권한 부여</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorize" xml:space="preserve">
+        <value>권한 부여</value>
+    </data>
+  <data name="deploymentCenterOAuthChangeAccount" xml:space="preserve">
+        <value>계정 변경</value>
+    </data>
+  <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
+        <value>다음으로 로그인</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganization" xml:space="preserve">
+        <value>조직</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganizationPlaceholder" xml:space="preserve">
+        <value>조직 선택</value>
+    </data>
+  <data name="deploymentCenterOAuthProject" xml:space="preserve">
+        <value>프로젝트</value>
+    </data>
+  <data name="deploymentCenterOAuthProjectPlaceholder" xml:space="preserve">
+        <value>프로젝트 선택</value>
+    </data>
+  <data name="deploymentCenterOAuthRepository" xml:space="preserve">
+        <value>리포지토리</value>
+    </data>
+  <data name="deploymentCenterOAuthRepositoryPlaceholder" xml:space="preserve">
+        <value>리포지토리 선택</value>
+    </data>
+  <data name="deploymentCenterOAuthBranch" xml:space="preserve">
+        <value>분기</value>
+    </data>
+  <data name="deploymentCenterOAuthBranchPlaceholder" xml:space="preserve">
+        <value>분기 선택</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcPlaceholder" xml:space="preserve">
+        <value>코드 소스 선택</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceContinuousDeploymentHeader" xml:space="preserve">
+        <value>지속적인 배포(CI/CD)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceManualDeploymentHeader" xml:space="preserve">
+        <value>수동 배포(푸시)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceGitHub" xml:space="preserve">
+        <value>GitHub</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceAzureRepos" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceBitbucket" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceLocalGit" xml:space="preserve">
+        <value>로컬 Git</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceOneDrive" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
+        <value>외부</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
+        <value>App Service 빌드 서비스</value>
+    </data>
+  <data name="leaveFeedback" xml:space="preserve">
+        <value>피드백 남기기</value>
+    </data>
+  <data name="functionLogsFeedbackCESQuestion" xml:space="preserve">
+        <value>애플리케이션을 디버그하기 위해 Application Insights에서 지원하는 향상된 로그 기능을 사용하기가 얼마나 쉽거나 어려웠습니까?</value>
+    </data>
+  <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
+        <value>Application Insights에서 지원하는 새 로그 기능이 얼마나 유용합니까?</value>
+    </data>
+  <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
+        <value>조직 또는 리포지토리를 찾을 수 없는 경우 GitHub에 대한 추가 권한을 사용하도록 설정해야 할 수 있습니다.</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
+        <value>현재 프로덕션 슬롯에 있습니다. CI/CD 설정에 권장되지 않습니다.</value>
+    </data>
+  <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
+        <value>GitHub 토큰을 찾을 수 없습니다. GitHub 토큰을 설정하려면 [권한 부여]를 클릭하세요.</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigTitle" xml:space="preserve">
+        <value>워크플로 구성</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
+        <value>File with the workflow configuration defined by the settings above.</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
+        <value>Preview file</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
+        <value>Fill out the required settings above to enable the preview.</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>리포지토리에서 워크플로 덮어쓰기</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
+        <value>리포지토리에서 워크플로 추가</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>기존 리포지토리 워크플로 사용</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
+        <value>Use available repository workflow</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
+        <value>워크플로 옵션 선택</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoadingAriaValue" xml:space="preserve">
+        <value>워크플로 구성 로드 중</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoading" xml:space="preserve">
+        <value>워크플로 구성을 로드하는 중...</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
+        <value>File path</value>
+    </data>
+  <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
+        <value>Building with GitHub Actions.</value>
+    </data>
+  <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
+        <value>Building with App Service Build Service.</value>
+    </data>
+  <data name="deploymentCenterChangeBuildText" xml:space="preserve">
+        <value>Change provider.</value>
+    </data>
+  <data name="functionMonitor_orchestrations" xml:space="preserve">
+        <value>오케스트레이션</value>
+    </data>
+  <data name="functionMonitor_entities" xml:space="preserve">
+        <value>엔터티</value>
+    </data>
+  <data name="functionEditor_appInsightsLogs" xml:space="preserve">
+        <value>App Insights 로그</value>
+    </data>
+  <data name="functionEditor_fileBasedLogs" xml:space="preserve">
+        <value>파일 시스템 로그</value>
+    </data>
+  <data name="functionEditor_fileBasedLogsCalloutMessage" xml:space="preserve">
+        <value>파일 시스템 기반 로그로 전환하면 함수 앱의 런타임 성능에 영향을 줄 수 있습니다. IP 제한, VNET 등과 같은 네트워크 제한 설정이 있는 경우에도 작동하지 않을 수 있습니다.</value>
+    </data>
+  <data name="orchestrationTracesTableTitle" xml:space="preserve">
+        <value>오케스트레이션 추적</value>
+    </data>
+  <data name="orchestrationTracesTableDescription" xml:space="preserve">
+        <value>가장 최근의 함수 오케스트레이션 추적 20개입니다. 고급 분석을 위해 Application Insights에서 쿼리를 실행하세요.</value>
+    </data>
+  <data name="runtimeStatus" xml:space="preserve">
+        <value>런타임 상태</value>
+    </data>
+  <data name="instanceId" xml:space="preserve">
+        <value>인스턴스 ID</value>
+    </data>
+  <data name="filterOrchestrations" xml:space="preserve">
+        <value>오케스트레이션 필터링</value>
+    </data>
+  <data name="entityTracesTableTitle" xml:space="preserve">
+        <value>엔터티 추적</value>
+    </data>
+  <data name="entityTracesTableDescription" xml:space="preserve">
+        <value>가장 최근의 함수 엔터티 추적 20개입니다. 고급 분석을 위해 Application Insights에서 쿼리를 실행하세요.</value>
+    </data>
+  <data name="filterEntities" xml:space="preserve">
+        <value>엔터티 필터링</value>
+    </data>
+  <data name="state" xml:space="preserve">
+        <value>상태</value>
+    </data>
+  <data name="orchestrationDetails" xml:space="preserve">
+        <value>오케스트레이션 세부 정보</value>
+    </data>
+  <data name="failedToFetchRepositories" xml:space="preserve">
+        <value>리포지토리 목록을 가져오지 못했습니다.</value>
+    </data>
+  <data name="failedToFetchTags" xml:space="preserve">
+        <value>태그 목록을 가져오지 못했습니다.</value>
+    </data>
+  <data name="entityDetails" xml:space="preserve">
+        <value>엔터티 세부 정보</value>
+    </data>
+  <data name="durableFunctionNoDataFound" xml:space="preserve">
+        <value>데이터를 찾을 수 없습니다. 최신 Durable Functions 확장(.NET)을 설치하거나 확장 번들의 V2를 사용하세요.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
+        <value>플렉스 스탬프에 대해 자세히 알아봅니다.</value>
+    </data>
+  <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
+        <value>나가는 IP 주소에 대해 자세히 알아봅니다.</value>
+    </data>
+  <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
+        <value>App Service 계획 밀도에 대해 자세히 알아봅니다.</value>
     </data>
 </root>

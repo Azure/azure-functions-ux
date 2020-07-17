@@ -5,6 +5,10 @@ export const formStyle = style({
   padding: '5px 20px',
 });
 
+export const formDescriptionStyle = style({
+  maxWidth: '800px',
+});
+
 export const commandBarSticky = style({
   position: 'sticky',
   top: 0,
@@ -24,6 +28,7 @@ export const tableValueComponentStyle = style({
   display: 'inline-flex',
   cursor: 'pointer',
   alignItems: 'center',
+  width: '100%',
 });
 
 export const tableValueIconStyle = (theme: ThemeExtended) =>
@@ -37,4 +42,8 @@ export const tableValueIconStyle = (theme: ThemeExtended) =>
 export const tableValueFormFieldStyle = style({
   marginBottom: '0px !important',
   height: 'fit-content',
+});
+
+export const tableValueTextFieldStyle = style({
+  width: '100%',
 });

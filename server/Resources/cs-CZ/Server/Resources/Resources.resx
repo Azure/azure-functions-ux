@@ -4965,16 +4965,16 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Požadovat příchozí certifikát</value>
     </data>
   <data name="clientCertificateMode" xml:space="preserve">
-        <value>Client certificate mode</value>
+        <value>Režim klientského certifikátu</value>
     </data>
   <data name="clientCertificateModeRequire" xml:space="preserve">
-        <value>Require</value>
+        <value>Vyžadovat</value>
     </data>
   <data name="clientCertificateModeAllow" xml:space="preserve">
-        <value>Allow</value>
+        <value>Povolit</value>
     </data>
   <data name="clientCertificateModeIgnore" xml:space="preserve">
-        <value>Ignore</value>
+        <value>Ignorovat</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Cesty pro vyloučení certifikátů</value>
@@ -5787,6 +5787,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
         <value>K sestavování a nasazování se použije stávající konfigurace pracovního postupu v GitHubu.</value>
     </data>
+  <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
+        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+    </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>Aktualizovat soubory aplikace</value>
     </data>
@@ -5815,7 +5818,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nejméně jednu vazbu se nepovedlo načíst, aktualizujte prosím stránku.</value>
     </data>
   <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
-        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+        <value>Když se používají zkompilované funkce, vazby definované jako atributy se nemusí zobrazovat.</value>
     </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Odstranit funkční klávesu</value>
@@ -6016,16 +6019,16 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Váš web je v tuto chvíli v režimu jen pro čtení, protože přístup přiřazený přes RBAC je nastavený na hodnotu Čtenář.</value>
     </data>
   <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
-        <value>Logs</value>
+        <value>Protokoly</value>
     </data>
   <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
-        <value>Deployment center logs</value>
+        <value>Protokoly centra Deployment Center</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
-        <value>Settings</value>
+        <value>Nastavení</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
-        <value>Deployment center settings</value>
+        <value>Nastavení centra Deployment Center</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>Přihlašovací údaje k FTP/FTPS</value>
@@ -6103,7 +6106,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Systémové klíče se automaticky spravují pomocí Modulu runtime služby Functions. Poskytují podrobný přístup k funkcím Modulu runtime služby Functions.</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>Klíče služby Functions mají obor vymezený na tuto funkci a dají se použít pro přístup k této funkci triggeru HTTP.</value>
+        <value>Klíče služby Functions mají obor vymezený na tuto funkci a dají se použít pro přístup k této funkci.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
         <value>Nastavení aplikace se dají použít jen pro statické webové aplikace s alespoň jednou funkcí. Pokud chcete povolit konfiguraci, přidejte ke své aplikaci nějakou funkci.</value>
@@ -6144,8 +6147,26 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Pomocí těchto nastavení můžete nakonfigurovat model nasazení kontejnerové aplikace a registr. Pro větší operační efektivitu doporučujeme GitHub Actions.</value>
     </data>
-  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+  <data name="deploymentCenterCodeSettingsDescription" xml:space="preserve">
+        <value>Nasaďte a sestavte kód z upřednostňovaného zdroje a poskytovatele buildu.</value>
+    </data>
+  <data name="deploymentCenterSettingsSourceLabel" xml:space="preserve">
         <value>Zdroj</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcePlaceholder" xml:space="preserve">
+        <value>Vybrat zdroj kódu</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildTitle" xml:space="preserve">
+        <value>Build</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildLabel" xml:space="preserve">
+        <value>Zprostředkovatel buildu</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeLabel" xml:space="preserve">
+        <value>Zásobník modulu runtime</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
+        <value>Verze</value>
     </data>
   <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>Registr kontejnerů</value>
@@ -6164,6 +6185,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
         <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
+        <value>GitHub</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Nastavení registru</value>
@@ -6202,18 +6226,276 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nepovedlo se aktualizovat nastavení aplikace: {0}</value>
     </data>
   <data name="clickToShowValue" xml:space="preserve">
-        <value>Click to show value</value>
+        <value>Kliknutím zobrazíte hodnotu.</value>
     </data>
   <data name="clickToHideValue" xml:space="preserve">
-        <value>Click to hide value</value>
+        <value>Kliknutím skryjete hodnotu.</value>
     </data>
   <data name="testAndRun" xml:space="preserve">
-        <value>Test/Run</value>
+        <value>Testovat/spustit</value>
     </data>
   <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
-        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+        <value>Zjistili jsme, že váš instrumentační klíč Application Insights nebo připojovací řetězec jsou uložené v trezoru klíčů, což způsobuje problémy s prostředím Monitorování. </value>
     </data>
   <data name="clickToUpdateSettings" xml:space="preserve">
-        <value>Click here to update your settings.</value>
+        <value>Pokud chcete aktualizovat nastavení, klikněte sem.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredHeader" xml:space="preserve">
+        <value>CI/CD není nakonfigurované</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredDescription" xml:space="preserve">
+        <value>Pokud chcete začít, přejděte na kartu Nastavení a nastavte CI/CD.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredGoToSettings" xml:space="preserve">
+        <value>Přejít do nastavení</value>
+    </data>
+  <data name="deploymentCenterCodeLogsNoDeployments" xml:space="preserve">
+        <value>Nenašla se žádná nasazení.</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
+        <value>Načítají se protokoly nasazení</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoading" xml:space="preserve">
+        <value>Načítají se protokoly nasazení...</value>
+    </data>
+  <data name="deploymentCenterFtpLoadingAriaValue" xml:space="preserve">
+        <value>Načítají se přihlašovací údaje FTP/FTPs</value>
+    </data>
+  <data name="deploymentCenterFtpLoading" xml:space="preserve">
+        <value>Načítají se přihlašovací údaje FTP/FTPs...</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailed" xml:space="preserve">
+        <value>Nepovedlo se načíst protokoly nasazení.</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
+        <value>Nepovedlo se načíst protokoly nasazení: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailed" xml:space="preserve">
+        <value>Nepovedlo se načíst podrobnosti o protokolu.</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailedWithError" xml:space="preserve">
+        <value>Nepovedlo se načíst podrobnosti o protokolu: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailed" xml:space="preserve">
+        <value>Nepovedlo se načíst aktivitu.</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailedWithError" xml:space="preserve">
+        <value>Nepovedlo se načíst aktivitu protokolu: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoadingAriaValue" xml:space="preserve">
+        <value>Načítá se aktivita protokolu nasazení.</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoading" xml:space="preserve">
+        <value>Načítá se aktivita protokolu nasazení...</value>
+    </data>
+  <data name="logDetailsHeader" xml:space="preserve">
+        <value>Podrobnosti o protokolu</value>
+    </data>
+  <data name="deploymentCenterOAuthFetchingUserInformation" xml:space="preserve">
+        <value>Načítají se informace o uživateli...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizingUser" xml:space="preserve">
+        <value>Autorizuje se uživatel...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizeAriaLabel" xml:space="preserve">
+        <value>Autorizovat uživatele</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorize" xml:space="preserve">
+        <value>Autorizovat</value>
+    </data>
+  <data name="deploymentCenterOAuthChangeAccount" xml:space="preserve">
+        <value>Změnit účet</value>
+    </data>
+  <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
+        <value>Přihlášeno jako</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganization" xml:space="preserve">
+        <value>Organizace</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganizationPlaceholder" xml:space="preserve">
+        <value>Vyberte organizaci.</value>
+    </data>
+  <data name="deploymentCenterOAuthProject" xml:space="preserve">
+        <value>Projekt</value>
+    </data>
+  <data name="deploymentCenterOAuthProjectPlaceholder" xml:space="preserve">
+        <value>Vyberte projekt.</value>
+    </data>
+  <data name="deploymentCenterOAuthRepository" xml:space="preserve">
+        <value>Úložiště</value>
+    </data>
+  <data name="deploymentCenterOAuthRepositoryPlaceholder" xml:space="preserve">
+        <value>Vyberte úložiště.</value>
+    </data>
+  <data name="deploymentCenterOAuthBranch" xml:space="preserve">
+        <value>Větev</value>
+    </data>
+  <data name="deploymentCenterOAuthBranchPlaceholder" xml:space="preserve">
+        <value>Vyberte větev</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcPlaceholder" xml:space="preserve">
+        <value>Vybrat zdroj kódu</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceContinuousDeploymentHeader" xml:space="preserve">
+        <value>Průběžné nasazování (CI/CD)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceManualDeploymentHeader" xml:space="preserve">
+        <value>Ruční nasazení (vložení)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceGitHub" xml:space="preserve">
+        <value>GitHub</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceAzureRepos" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceBitbucket" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceLocalGit" xml:space="preserve">
+        <value>Místní Git</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceOneDrive" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
+        <value>Externí</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
+        <value>Sestavovací služba App Service</value>
+    </data>
+  <data name="leaveFeedback" xml:space="preserve">
+        <value>Váš názor</value>
+    </data>
+  <data name="functionLogsFeedbackCESQuestion" xml:space="preserve">
+        <value>Jak snadné nebo obtížné bylo používat při ladění aplikace vylepšenou funkci protokolů, která používá Application Insights?</value>
+    </data>
+  <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
+        <value>Jak užitečná je nová funkce protokolů, která používá Application Insights?</value>
+    </data>
+  <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
+        <value>Pokud se vám nedaří najít organizaci nebo úložiště, bude možná nutné povolit v GitHubu další oprávnění.</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
+        <value>Teď se nacházíte v produkčním slotu, to se ale pro nastavování CI/CD nedoporučuje.</value>
+    </data>
+  <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
+        <value>Nenašel se token GitHubu. Pokud ho chcete nastavit, klikněte na autorizovat.</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigTitle" xml:space="preserve">
+        <value>Konfigurace pracovního postupu</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
+        <value>File with the workflow configuration defined by the settings above.</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
+        <value>Preview file</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
+        <value>Fill out the required settings above to enable the preview.</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Přepsat pracovní postup v úložišti</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
+        <value>Přidat pracovní postup do úložiště</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Použít existující pracovní postup úložiště</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
+        <value>Use available repository workflow</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
+        <value>Vybrat možnost pracovního postupu</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoadingAriaValue" xml:space="preserve">
+        <value>Načítají se konfigurace pracovního postupu</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoading" xml:space="preserve">
+        <value>Načítají se konfigurace pracovního postupu...</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
+        <value>File path</value>
+    </data>
+  <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
+        <value>Building with GitHub Actions.</value>
+    </data>
+  <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
+        <value>Building with App Service Build Service.</value>
+    </data>
+  <data name="deploymentCenterChangeBuildText" xml:space="preserve">
+        <value>Change provider.</value>
+    </data>
+  <data name="functionMonitor_orchestrations" xml:space="preserve">
+        <value>Orchestrace</value>
+    </data>
+  <data name="functionMonitor_entities" xml:space="preserve">
+        <value>Entity</value>
+    </data>
+  <data name="functionEditor_appInsightsLogs" xml:space="preserve">
+        <value>Protokoly App Insights</value>
+    </data>
+  <data name="functionEditor_fileBasedLogs" xml:space="preserve">
+        <value>Protokoly souborového systému</value>
+    </data>
+  <data name="functionEditor_fileBasedLogsCalloutMessage" xml:space="preserve">
+        <value>Přepnutí na protokoly založené na souborovém systému můžou mít vliv na výkon modulu runtime aplikace funkcí. Navíc nemusí fungovat, pokud budou nastavená omezení sítě, třeba omezení IP adres, virtuální síť atd.</value>
+    </data>
+  <data name="orchestrationTracesTableTitle" xml:space="preserve">
+        <value>Trasy orchestrace</value>
+    </data>
+  <data name="orchestrationTracesTableDescription" xml:space="preserve">
+        <value>Dvacet nejnovějších tras orchestrace funkce. Pro pokročilejší analýzu spusťte dotaz v Application Insights.</value>
+    </data>
+  <data name="runtimeStatus" xml:space="preserve">
+        <value>Stav modulu runtime</value>
+    </data>
+  <data name="instanceId" xml:space="preserve">
+        <value>ID instance</value>
+    </data>
+  <data name="filterOrchestrations" xml:space="preserve">
+        <value>Filtrovat orchestrace</value>
+    </data>
+  <data name="entityTracesTableTitle" xml:space="preserve">
+        <value>Trasy entit</value>
+    </data>
+  <data name="entityTracesTableDescription" xml:space="preserve">
+        <value>Dvacet nejnovějších tras entity funkce. Pro pokročilejší analýzu spusťte dotaz v Application Insights.</value>
+    </data>
+  <data name="filterEntities" xml:space="preserve">
+        <value>Filtrovat entity</value>
+    </data>
+  <data name="state" xml:space="preserve">
+        <value>Stav</value>
+    </data>
+  <data name="orchestrationDetails" xml:space="preserve">
+        <value>Podrobnosti o orchestraci</value>
+    </data>
+  <data name="failedToFetchRepositories" xml:space="preserve">
+        <value>Nepovedlo se získat seznam úložišť.</value>
+    </data>
+  <data name="failedToFetchTags" xml:space="preserve">
+        <value>Nepovedlo se získat seznam značek.</value>
+    </data>
+  <data name="entityDetails" xml:space="preserve">
+        <value>Podrobnosti o entitě</value>
+    </data>
+  <data name="durableFunctionNoDataFound" xml:space="preserve">
+        <value>Nenašla se žádná data. Ujistěte se prosím, že jste nainstalovali nejnovější rozšíření Durable Functions (.NET), nebo použijte verzi V2 rozšiřujících sad.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
+        <value>Learn more about flex stamps.</value>
+    </data>
+  <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about Ootgoing IP addresses.</value>
+    </data>
+  <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about app service plan density.</value>
     </data>
 </root>

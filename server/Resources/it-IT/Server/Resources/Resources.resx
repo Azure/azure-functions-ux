@@ -4965,16 +4965,16 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Richiedi certificato in ingresso</value>
     </data>
   <data name="clientCertificateMode" xml:space="preserve">
-        <value>Client certificate mode</value>
+        <value>Modalità certificato client</value>
     </data>
   <data name="clientCertificateModeRequire" xml:space="preserve">
-        <value>Require</value>
+        <value>Richiedi</value>
     </data>
   <data name="clientCertificateModeAllow" xml:space="preserve">
-        <value>Allow</value>
+        <value>Consenti</value>
     </data>
   <data name="clientCertificateModeIgnore" xml:space="preserve">
-        <value>Ignore</value>
+        <value>Ignora</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Percorsi di esclusione dei certificati</value>
@@ -5787,6 +5787,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
         <value>La configurazione del flusso di lavoro esistente in GitHub verrà usata per la compilazione e la distribuzione.</value>
     </data>
+  <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
+        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+    </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>Aggiorna file dell'app</value>
     </data>
@@ -5815,7 +5818,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Il caricamento di una o più associazioni non è riuscito. Aggiornare la pagina.</value>
     </data>
   <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
-        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+        <value>Durante l'uso di funzioni compilate, le associazioni definite come attributi potrebbero non essere visualizzate.</value>
     </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Elimina chiave di funzione</value>
@@ -6016,16 +6019,16 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Il sito è attualmente in modalità di sola lettura perché l'accesso assegnato al controllo degli accessi in base al ruolo è impostato su: Lettore</value>
     </data>
   <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
-        <value>Logs</value>
+        <value>Log</value>
     </data>
   <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
-        <value>Deployment center logs</value>
+        <value>Log del Centro distribuzione</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
-        <value>Settings</value>
+        <value>Impostazioni</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
-        <value>Deployment center settings</value>
+        <value>Impostazioni del Centro distribuzione</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>Credenziali FTP/FTPS</value>
@@ -6103,7 +6106,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Le chiavi di sistema sono gestite automaticamente dal runtime della funzione. Le chiavi di sistema forniscono un accesso granulare alle funzioni del runtime delle funzioni.</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>I tasti funzione sono limitati a questa funzione e possono essere usati per accedere a questa funzione di trigger HTTP.</value>
+        <value>I tasti funzione sono limitati a questa funzione e possono essere usati per accedere a questa funzione.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
         <value>Le impostazioni applicazione sono applicabili solo alle app Web statiche con almeno una funzione. Per abilitare la configurazione, aggiungere una funzione all'app.</value>
@@ -6144,8 +6147,26 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Usare queste impostazioni per configurare il modello di distribuzione dell'app contenitore e il registro. È consigliabile usare GitHub Actions per una maggiore efficienza operativa.</value>
     </data>
-  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+  <data name="deploymentCenterCodeSettingsDescription" xml:space="preserve">
+        <value>Distribuire e compilare codice dal provider di compilazione e dall'origine preferiti.</value>
+    </data>
+  <data name="deploymentCenterSettingsSourceLabel" xml:space="preserve">
         <value>Origine</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcePlaceholder" xml:space="preserve">
+        <value>Seleziona origine codice</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildTitle" xml:space="preserve">
+        <value>Compila</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildLabel" xml:space="preserve">
+        <value>Provider compilazione</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeLabel" xml:space="preserve">
+        <value>Stack di runtime</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
+        <value>Versione</value>
     </data>
   <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>Registro Container</value>
@@ -6164,6 +6185,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
         <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
+        <value>GitHub</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Impostazioni registro</value>
@@ -6202,18 +6226,276 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Non è stato possibile aggiornare le impostazioni applicazione: {0}</value>
     </data>
   <data name="clickToShowValue" xml:space="preserve">
-        <value>Click to show value</value>
+        <value>Fare clic per mostrare il valore</value>
     </data>
   <data name="clickToHideValue" xml:space="preserve">
-        <value>Click to hide value</value>
+        <value>Fare clic per nascondere il valore</value>
     </data>
   <data name="testAndRun" xml:space="preserve">
-        <value>Test/Run</value>
+        <value>Test/Esegui</value>
     </data>
   <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
-        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+        <value>È stato rilevato che la chiave di strumentazione di Application Insights o la stringa di connessione è archiviata nell'insieme di credenziali delle chiavi. Questo scenario causa problemi con l'esperienza di Monitoraggio.</value>
     </data>
   <data name="clickToUpdateSettings" xml:space="preserve">
-        <value>Click here to update your settings.</value>
+        <value>Fare clic qui per aggiornare le impostazioni.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredHeader" xml:space="preserve">
+        <value>I dettagli di CI/CD non sono configurati</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredDescription" xml:space="preserve">
+        <value>Per iniziare, passare alla scheda Impostazioni e configurare i dettagli di CI/CD.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredGoToSettings" xml:space="preserve">
+        <value>Vai a Impostazioni</value>
+    </data>
+  <data name="deploymentCenterCodeLogsNoDeployments" xml:space="preserve">
+        <value>Non sono state trovate distribuzioni</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
+        <value>Caricamento dei log di distribuzione</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoading" xml:space="preserve">
+        <value>Caricamento dei log di distribuzione...</value>
+    </data>
+  <data name="deploymentCenterFtpLoadingAriaValue" xml:space="preserve">
+        <value>Caricamento delle credenziali FTP/FTPS</value>
+    </data>
+  <data name="deploymentCenterFtpLoading" xml:space="preserve">
+        <value>Caricamento delle credenziali FTP/FTPS...</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailed" xml:space="preserve">
+        <value>Non è stato possibile caricare i log di distribuzione</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
+        <value>Non è stato possibile caricare i log di distribuzione: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailed" xml:space="preserve">
+        <value>Non è stato possibile caricare i dettagli del log</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailedWithError" xml:space="preserve">
+        <value>Non è stato possibile caricare i dettagli del log: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailed" xml:space="preserve">
+        <value>Non è stato possibile caricare l'attività</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailedWithError" xml:space="preserve">
+        <value>Non è stato possibile caricare l'attività del log: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoadingAriaValue" xml:space="preserve">
+        <value>Caricamento dell'attività del log di distribuzione</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoading" xml:space="preserve">
+        <value>Caricamento dell'attività del log di distribuzione...</value>
+    </data>
+  <data name="logDetailsHeader" xml:space="preserve">
+        <value>Dettagli log</value>
+    </data>
+  <data name="deploymentCenterOAuthFetchingUserInformation" xml:space="preserve">
+        <value>Recupero delle informazioni utente...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizingUser" xml:space="preserve">
+        <value>Autorizzazione utente...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizeAriaLabel" xml:space="preserve">
+        <value>Autorizza utente</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorize" xml:space="preserve">
+        <value>Autorizza</value>
+    </data>
+  <data name="deploymentCenterOAuthChangeAccount" xml:space="preserve">
+        <value>Cambia account</value>
+    </data>
+  <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
+        <value>Accesso eseguito come</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganization" xml:space="preserve">
+        <value>Organizzazione</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganizationPlaceholder" xml:space="preserve">
+        <value>Seleziona organizzazione</value>
+    </data>
+  <data name="deploymentCenterOAuthProject" xml:space="preserve">
+        <value>Progetto</value>
+    </data>
+  <data name="deploymentCenterOAuthProjectPlaceholder" xml:space="preserve">
+        <value>Seleziona progetto</value>
+    </data>
+  <data name="deploymentCenterOAuthRepository" xml:space="preserve">
+        <value>Repository</value>
+    </data>
+  <data name="deploymentCenterOAuthRepositoryPlaceholder" xml:space="preserve">
+        <value>Seleziona repository</value>
+    </data>
+  <data name="deploymentCenterOAuthBranch" xml:space="preserve">
+        <value>Ramo</value>
+    </data>
+  <data name="deploymentCenterOAuthBranchPlaceholder" xml:space="preserve">
+        <value>Seleziona ramo</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcPlaceholder" xml:space="preserve">
+        <value>Seleziona origine codice</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceContinuousDeploymentHeader" xml:space="preserve">
+        <value>Distribuzione continua (CI/CD)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceManualDeploymentHeader" xml:space="preserve">
+        <value>Distribuzione manuale (push)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceGitHub" xml:space="preserve">
+        <value>GitHub</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceAzureRepos" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceBitbucket" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceLocalGit" xml:space="preserve">
+        <value>Repository GIT locale</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceOneDrive" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
+        <value>Esterna</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
+        <value>Servizio di compilazione del servizio app</value>
+    </data>
+  <data name="leaveFeedback" xml:space="preserve">
+        <value>Invia feedback</value>
+    </data>
+  <data name="functionLogsFeedbackCESQuestion" xml:space="preserve">
+        <value>Quanto è facile o difficile usare la funzionalità log migliorata supportata da Application Insights per eseguire il debug dell'applicazione?</value>
+    </data>
+  <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
+        <value>Quanto è utile la nuova funzionalità log supportata da Application Insights?</value>
+    </data>
+  <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
+        <value>Se non si riesce a trovare un'organizzazione o un repository, potrebbe essere necessario abilitare autorizzazioni aggiuntive in GitHub.</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
+        <value>Questo è lo slot di produzione, che non è consigliato per la configurazione di CI/CD.</value>
+    </data>
+  <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
+        <value>Il token GitHub non è stato trovato. Fare clic su Autorizza per configurare il token GitHub.</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigTitle" xml:space="preserve">
+        <value>Configurazione del flusso di lavoro</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
+        <value>File with the workflow configuration defined by the settings above.</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
+        <value>Preview file</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
+        <value>Fill out the required settings above to enable the preview.</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Sovrascrivi il flusso di lavoro nel repository</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
+        <value>Aggiungi un flusso di lavoro nel repository</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Usa il flusso di lavoro del repository esistente</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
+        <value>Use available repository workflow</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
+        <value>Selezionare l'opzione flusso di lavoro</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoadingAriaValue" xml:space="preserve">
+        <value>Caricamento delle configurazioni del flusso di lavoro</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoading" xml:space="preserve">
+        <value>Caricamento delle configurazioni del flusso di lavoro...</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
+        <value>File path</value>
+    </data>
+  <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
+        <value>Building with GitHub Actions.</value>
+    </data>
+  <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
+        <value>Building with App Service Build Service.</value>
+    </data>
+  <data name="deploymentCenterChangeBuildText" xml:space="preserve">
+        <value>Change provider.</value>
+    </data>
+  <data name="functionMonitor_orchestrations" xml:space="preserve">
+        <value>Orchestrazioni</value>
+    </data>
+  <data name="functionMonitor_entities" xml:space="preserve">
+        <value>Entità</value>
+    </data>
+  <data name="functionEditor_appInsightsLogs" xml:space="preserve">
+        <value>Log di Application Insights</value>
+    </data>
+  <data name="functionEditor_fileBasedLogs" xml:space="preserve">
+        <value>Log del file system</value>
+    </data>
+  <data name="functionEditor_fileBasedLogsCalloutMessage" xml:space="preserve">
+        <value>Il passaggio ai log basati su file system può avere un impatto sulle prestazioni di runtime dell'app per le funzioni. Potrebbe inoltre non funzionare se sono state configurare restrizioni di rete, ad esempio per indirizzi IP, reti virtuali e così via.</value>
+    </data>
+  <data name="orchestrationTracesTableTitle" xml:space="preserve">
+        <value>Analisi orchestrazione</value>
+    </data>
+  <data name="orchestrationTracesTableDescription" xml:space="preserve">
+        <value>Le venti analisi di orchestrazione della funzione più recenti. Per un'analisi più avanzata, eseguire la query in Application Insights.</value>
+    </data>
+  <data name="runtimeStatus" xml:space="preserve">
+        <value>Stato runtime</value>
+    </data>
+  <data name="instanceId" xml:space="preserve">
+        <value>ID istanza</value>
+    </data>
+  <data name="filterOrchestrations" xml:space="preserve">
+        <value>Filtra orchestrazioni</value>
+    </data>
+  <data name="entityTracesTableTitle" xml:space="preserve">
+        <value>Analisi entità</value>
+    </data>
+  <data name="entityTracesTableDescription" xml:space="preserve">
+        <value>Le venti analisi di entità della funzione più recenti. Per un'analisi più avanzata, eseguire la query in Application Insights.</value>
+    </data>
+  <data name="filterEntities" xml:space="preserve">
+        <value>Filtra entità</value>
+    </data>
+  <data name="state" xml:space="preserve">
+        <value>Stato</value>
+    </data>
+  <data name="orchestrationDetails" xml:space="preserve">
+        <value>Dettagli orchestrazione</value>
+    </data>
+  <data name="failedToFetchRepositories" xml:space="preserve">
+        <value>Non è stato possibile recuperare un elenco di repository.</value>
+    </data>
+  <data name="failedToFetchTags" xml:space="preserve">
+        <value>Non è stato possibile recuperare un elenco di tag.</value>
+    </data>
+  <data name="entityDetails" xml:space="preserve">
+        <value>Dettagli entità</value>
+    </data>
+  <data name="durableFunctionNoDataFound" xml:space="preserve">
+        <value>Non sono stati trovati dati. Assicurarsi di installare l'estensione Durable Functions (.NET) più recente o di usare V2 dei bundle dell'estensione.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
+        <value>Altre informazioni sugli stamp Flex.</value>
+    </data>
+  <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
+        <value>Altre informazioni sugli indirizzi IP in uscita.</value>
+    </data>
+  <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
+        <value>Altre informazioni sulla densità dei piani di servizio app.</value>
     </data>
 </root>

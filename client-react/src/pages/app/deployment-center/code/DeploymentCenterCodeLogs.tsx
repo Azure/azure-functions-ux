@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
 import { IGroup } from 'office-ui-fabric-react/lib/components/GroupedList/GroupedList.types';
@@ -9,12 +9,15 @@ import {
   DeploymentProperties,
   CodeDeploymentsRow,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link } from 'office-ui-fabric-react';
+import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterLogsError } from '../DeploymentCenter.styles';
+import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
+import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
+import { ScmType } from '../../../../models/site/config';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {
@@ -29,7 +32,8 @@ export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
 const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
-  const { deployments, deploymentsError } = props;
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const { deployments, deploymentsError, isLoading, goToSettings } = props;
   const { t } = useTranslation();
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
@@ -94,29 +98,69 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     return groups;
   };
 
+  const getProgressIndicator = () => {
+    return (
+      <ProgressIndicator
+        description={t('deploymentCenterCodeDeploymentsLoading')}
+        ariaValueText={t('deploymentCenterCodeDeploymentsLoadingAriaValue')}
+      />
+    );
+  };
+
+  const goToSettingsOnClick = () => {
+    if (goToSettings) {
+      goToSettings();
+    }
+  };
+
   const rows: CodeDeploymentsRow[] = deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
   const items: CodeDeploymentsRow[] = rows.sort(dateTimeComparatorReverse);
 
   const columns: IColumn[] = [
-    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150 },
-    { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 150 },
-    { key: 'status', name: t('status'), fieldName: 'status', minWidth: 210 },
+    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150, maxWidth: 250 },
+    { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 100, maxWidth: 150 },
+    { key: 'status', name: t('status'), fieldName: 'status', minWidth: 150, maxWidth: 200 },
     { key: 'checkinMessage', name: t('checkinMessage'), fieldName: 'checkinMessage', minWidth: 210 },
   ];
 
   const groups: IGroup[] = getItemGroups(items);
 
+  const getZeroDayContent = () => {
+    if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None) {
+      return (
+        <>
+          <div className={deploymentCenterCodeLogsNotConfigured}>
+            <DeploymentCenterIcon filter="grayscale(100%)" />
+            <h3>{t('deploymentCenterCodeLogsCICDNotConfiguredHeader')}</h3>
+            <p>{t('deploymentCenterCodeLogsCICDNotConfiguredDescription')}</p>
+            <PrimaryButton text={t('deploymentCenterCodeLogsCICDNotConfiguredGoToSettings')} onClick={() => goToSettingsOnClick()} />
+          </div>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <div className={deploymentCenterCodeLogsNotConfigured}>
+            <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>;
+          </div>
+        </>
+      );
+    }
+  };
+
   return (
     <>
-      {deploymentsError ? (
+      {isLoading ? (
+        getProgressIndicator()
+      ) : deploymentsError ? (
         <pre className={deploymentCenterLogsError}>{deploymentsError}</pre>
       ) : deployments ? (
-        <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
+        <>
+          <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
+          {items.length === 0 && getZeroDayContent()}
+        </>
       ) : (
-        <ProgressIndicator
-          description={t('deploymentCenterCodeDeploymentsLoading')}
-          ariaValueText={t('deploymentCenterCodeDeploymentsLoadingAriaValue')}
-        />
+        getProgressIndicator()
       )}
       <CustomPanel isOpen={isLogPanelOpen} onDismiss={dismissLogPanel} type={PanelType.medium}>
         <DeploymentCenterCommitLogs commitId={currentCommitId} />

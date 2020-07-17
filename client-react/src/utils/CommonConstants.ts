@@ -1,4 +1,5 @@
 export class CommonConstants {
+  // TODO(t-kakan): Any new additions should go in the FwLinks.ts file
   public static readonly Links = {
     standaloneCreateLearnMore: 'https://go.microsoft.com/fwlink/?linkid=848756',
     pythonLearnMore: 'https://go.microsoft.com/fwlink/?linkid=852196',

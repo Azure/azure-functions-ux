@@ -1,11 +1,16 @@
 import React from 'react';
-import { DeploymentCenterFieldProps, ContainerOptions, ContainerRegistrySources } from '../DeploymentCenter.types';
+import {
+  DeploymentCenterFieldProps,
+  ContainerOptions,
+  ContainerRegistrySources,
+  DeploymentCenterContainerFormData,
+} from '../DeploymentCenter.types';
 import { useTranslation } from 'react-i18next';
 import { IChoiceGroupOptionProps } from 'office-ui-fabric-react';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
 
-const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldProps> = props => {
+const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
 

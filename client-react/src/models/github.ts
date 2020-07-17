@@ -31,3 +31,39 @@ export interface GitHubUser {
   hireable?: string;
   location?: string;
 }
+
+// Note (t-kakan): optional properties only should be null when getting directory content rather than a file
+export class FileContent {
+  path: string;
+  type: string;
+  sha: string;
+  content?: string;
+  encoding?: string;
+}
+
+export interface GitHubOrganizations {
+  avatar_url: string;
+  description: string;
+  events_url: string;
+  hooks_url: string;
+  id: number;
+  issues_url: string;
+  login: string;
+  members_url: string;
+  node_id: string;
+  public_members_url: string;
+  repos_url: string;
+  url: string;
+}
+
+export interface GitHubRepository {
+  name: string;
+  html_url: string;
+  branches_url: string;
+  url: string;
+}
+
+export interface GitHubBranch {
+  name: string;
+  protected: boolean;
+}

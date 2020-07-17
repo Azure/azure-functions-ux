@@ -15,5 +15,6 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/__snapshots__": true
-  }
+  },
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

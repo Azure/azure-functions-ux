@@ -10,7 +10,7 @@ import { SiteLogsConfig } from '../models/site/logs-config';
 import { HostStatus } from '../models/functions/host-status';
 import { KeyValue } from '../models/portal-models';
 import { PublishingCredentials } from '../models/site/publish';
-import { DeploymentProperties, DeploymentLogsItem } from '../pages/app/deployment-center/DeploymentCenter.types';
+import { DeploymentProperties, DeploymentLogsItem, SourceControlProperties } from '../pages/app/deployment-center/DeploymentCenter.types';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
@@ -103,6 +103,14 @@ export default class SiteService {
     });
   };
 
+  public static getSourceControlDetails = async (resourceId: string) => {
+    return MakeArmCall<ArmObj<SourceControlProperties>>({
+      resourceId: `${resourceId}/sourcecontrols/web`,
+      commandName: 'fetchSourceControl',
+      method: 'GET',
+    });
+  };
+
   public static updateApplicationSettings = async (resourceId: string, appSettings: ArmObj<KeyValue<string>>) => {
     const id = `${resourceId}/config/appsettings`;
     const result = await MakeArmCall<ArmObj<KeyValue<string>>>({
@@ -135,7 +143,12 @@ export default class SiteService {
 
   public static updateSlotConfigNames = (resourceId: string, slotConfigNames: ArmObj<SlotConfigNames>) => {
     const id = `${SiteService.getProductionId(resourceId)}/config/slotconfignames`;
-    return MakeArmCall<ArmObj<SlotConfigNames>>({ resourceId: id, commandName: 'updateWebConfig', method: 'PUT', body: slotConfigNames });
+    return MakeArmCall<ArmObj<SlotConfigNames>>({
+      resourceId: id,
+      commandName: 'updateSlotConfigNames',
+      method: 'PUT',
+      body: slotConfigNames,
+    });
   };
 
   public static fetchAzureStorageMounts = (resourceId: string) => {

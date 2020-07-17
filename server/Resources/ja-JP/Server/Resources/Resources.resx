@@ -4965,16 +4965,16 @@
         <value>着信証明書が必要です</value>
     </data>
   <data name="clientCertificateMode" xml:space="preserve">
-        <value>Client certificate mode</value>
+        <value>クライアント証明書モード</value>
     </data>
   <data name="clientCertificateModeRequire" xml:space="preserve">
-        <value>Require</value>
+        <value>必須</value>
     </data>
   <data name="clientCertificateModeAllow" xml:space="preserve">
-        <value>Allow</value>
+        <value>許可</value>
     </data>
   <data name="clientCertificateModeIgnore" xml:space="preserve">
-        <value>Ignore</value>
+        <value>無視</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>証明書の除外パス</value>
@@ -5787,6 +5787,9 @@
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
         <value>GitHub の既存のワークフロー構成は、ビルドとデプロイに使用されます。</value>
     </data>
+  <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
+        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+    </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>アプリ ファイルの更新</value>
     </data>
@@ -5815,7 +5818,7 @@
         <value>1 つまたは複数のバインドを読み込めませんでした。ページを更新してください。</value>
     </data>
   <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
-        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+        <value>コンパイルされた関数を使用するときに、属性として定義されたバインドが表示されない可能性があります。</value>
     </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>関数キーの削除</value>
@@ -6016,16 +6019,16 @@
         <value>RBAC 割り当て済みアクセスが閲覧者に設定されているため、現在、このサイトは読み取り専用モードになっています</value>
     </data>
   <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
-        <value>Logs</value>
+        <value>ログ</value>
     </data>
   <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
-        <value>Deployment center logs</value>
+        <value>デプロイ センターのログ</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
-        <value>Settings</value>
+        <value>設定</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
-        <value>Deployment center settings</value>
+        <value>デプロイ センターの設定</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>FTP または FTPS の資格情報</value>
@@ -6103,7 +6106,7 @@
         <value>システム キーは、関数ランタイムによって自動的に管理されます。システム キーを使用すると、関数ランタイム機能への詳細なアクセスが提供されます。</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>関数キーはこの関数にスコープ指定されており、この http トリガー関数にアクセスするために使用できます。</value>
+        <value>関数キーはこの関数にスコープ指定されており、この関数にアクセスするために使用できます。</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
         <value>アプリケーション設定は、少なくとも 1 つの関数を持つ静的 Web アプリにのみ適用されます。構成を有効にするには、アプリに関数を追加してください。</value>
@@ -6144,8 +6147,26 @@
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>コンテナー アプリのデプロイ モデルとレジストリを構成するには、これらの設定を使用します。操作の効率を向上させるために GitHub Actions をお勧めします。</value>
     </data>
-  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+  <data name="deploymentCenterCodeSettingsDescription" xml:space="preserve">
+        <value>優先するソースおよびビルド プロバイダーからコードをデプロイし、ビルドします。</value>
+    </data>
+  <data name="deploymentCenterSettingsSourceLabel" xml:space="preserve">
         <value>ソース</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcePlaceholder" xml:space="preserve">
+        <value>コード ソースを選択</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildTitle" xml:space="preserve">
+        <value>ビルド</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildLabel" xml:space="preserve">
+        <value>ビルド プロバイダー</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeLabel" xml:space="preserve">
+        <value>ランタイム スタック</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
+        <value>バージョン</value>
     </data>
   <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>コンテナー レジストリ</value>
@@ -6164,6 +6185,9 @@
     </data>
   <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
         <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
+        <value>GitHub</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>レジストリの設定</value>
@@ -6202,18 +6226,276 @@
         <value>アプリケーション設定を更新できませんでした: {0}</value>
     </data>
   <data name="clickToShowValue" xml:space="preserve">
-        <value>Click to show value</value>
+        <value>クリックして値を表示にする</value>
     </data>
   <data name="clickToHideValue" xml:space="preserve">
-        <value>Click to hide value</value>
+        <value>クリックして値を非表示にする</value>
     </data>
   <data name="testAndRun" xml:space="preserve">
-        <value>Test/Run</value>
+        <value>テストと実行</value>
     </data>
   <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
-        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+        <value>Application Insights のインストルメンテーション キーまたは接続文字列がキー コンテナーに格納されていることが検出されました。これにより、監視エクスペリエンスで問題が発生する場合があります。</value>
     </data>
   <data name="clickToUpdateSettings" xml:space="preserve">
-        <value>Click here to update your settings.</value>
+        <value>こちらをクリックして、設定を更新してください。</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredHeader" xml:space="preserve">
+        <value>CI/CD が構成されていません</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredDescription" xml:space="preserve">
+        <value>開始するには、[設定] タブに移動して CI/CD をセットアップしてください。</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredGoToSettings" xml:space="preserve">
+        <value>設定に移動する</value>
+    </data>
+  <data name="deploymentCenterCodeLogsNoDeployments" xml:space="preserve">
+        <value>デプロイが見つかりませんでした</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
+        <value>デプロイ ログを読み込んでいます</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoading" xml:space="preserve">
+        <value>デプロイ ログを読み込んでいます...</value>
+    </data>
+  <data name="deploymentCenterFtpLoadingAriaValue" xml:space="preserve">
+        <value>FTP の資格情報を読み込んでいます</value>
+    </data>
+  <data name="deploymentCenterFtpLoading" xml:space="preserve">
+        <value>FTP の資格情報を読み込んでいます...</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailed" xml:space="preserve">
+        <value>デプロイ ログを読み込めませんでした</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
+        <value>デプロイ ログを読み込めませんでした: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailed" xml:space="preserve">
+        <value>ログの詳細を読み込めませんでした</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailedWithError" xml:space="preserve">
+        <value>ログの詳細を読み込めませんでした: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailed" xml:space="preserve">
+        <value>アクティビティを読み込めませんでした</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailedWithError" xml:space="preserve">
+        <value>ログ アクティビティを読み込めませんでした: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoadingAriaValue" xml:space="preserve">
+        <value>デプロイ ログ アクティビティを読み込んでいます</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoading" xml:space="preserve">
+        <value>デプロイ ログ アクティビティを読み込んでいます...</value>
+    </data>
+  <data name="logDetailsHeader" xml:space="preserve">
+        <value>ログの詳細</value>
+    </data>
+  <data name="deploymentCenterOAuthFetchingUserInformation" xml:space="preserve">
+        <value>ユーザー情報をフェッチしています...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizingUser" xml:space="preserve">
+        <value>ユーザーを承認しています...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizeAriaLabel" xml:space="preserve">
+        <value>ユーザーを承認する</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorize" xml:space="preserve">
+        <value>承認する</value>
+    </data>
+  <data name="deploymentCenterOAuthChangeAccount" xml:space="preserve">
+        <value>アカウントの変更</value>
+    </data>
+  <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
+        <value>次のユーザーとしてサインイン:</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganization" xml:space="preserve">
+        <value>組織</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganizationPlaceholder" xml:space="preserve">
+        <value>組織を選択してください</value>
+    </data>
+  <data name="deploymentCenterOAuthProject" xml:space="preserve">
+        <value>プロジェクト</value>
+    </data>
+  <data name="deploymentCenterOAuthProjectPlaceholder" xml:space="preserve">
+        <value>プロジェクトを選択してください</value>
+    </data>
+  <data name="deploymentCenterOAuthRepository" xml:space="preserve">
+        <value>リポジトリ</value>
+    </data>
+  <data name="deploymentCenterOAuthRepositoryPlaceholder" xml:space="preserve">
+        <value>リポジトリを選択してください</value>
+    </data>
+  <data name="deploymentCenterOAuthBranch" xml:space="preserve">
+        <value>ブランチ</value>
+    </data>
+  <data name="deploymentCenterOAuthBranchPlaceholder" xml:space="preserve">
+        <value>ブランチを選択してください</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcPlaceholder" xml:space="preserve">
+        <value>コード ソースを選択</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceContinuousDeploymentHeader" xml:space="preserve">
+        <value>継続的なデプロイ (CI/CD)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceManualDeploymentHeader" xml:space="preserve">
+        <value>手動デプロイ (プッシュ)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceGitHub" xml:space="preserve">
+        <value>GitHub</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceAzureRepos" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceBitbucket" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceLocalGit" xml:space="preserve">
+        <value>ローカル Git</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceOneDrive" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
+        <value>外部</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
+        <value>App Service のビルド サービス</value>
+    </data>
+  <data name="leaveFeedback" xml:space="preserve">
+        <value>フィードバックを送信</value>
+    </data>
+  <data name="functionLogsFeedbackCESQuestion" xml:space="preserve">
+        <value>Application Insights を基盤とする改善されたログ機能を使用して、アプリケーションをデバッグすることはどれほど簡単または困難ですか?</value>
+    </data>
+  <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
+        <value>Application Insights を基盤とする新しいログ機能はどれほど役立ちましたか?</value>
+    </data>
+  <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
+        <value>組織またはリポジトリが見つからない場合は、GitHub で追加のアクセス許可を有効にする必要があります。</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
+        <value>お客様は現在運用スロットにいます。これは CI/CD の設定にはお勧めできません。</value>
+    </data>
+  <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
+        <value>GitHub トークンが見つかりません。[承認] をクリックして GitHub トークンを設定してください。</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigTitle" xml:space="preserve">
+        <value>ワークフローの構成</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
+        <value>File with the workflow configuration defined by the settings above.</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
+        <value>Preview file</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
+        <value>Fill out the required settings above to enable the preview.</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>リポジトリ内のワークフローを上書きする</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
+        <value>リポジトリにワークフローを追加する</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>既存のリポジトリ ワークフローを使用する</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
+        <value>Use available repository workflow</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
+        <value>ワークフロー オプションを選択してください</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoadingAriaValue" xml:space="preserve">
+        <value>ワークフローの構成を読み込んでいます</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoading" xml:space="preserve">
+        <value>ワークフローの構成を読み込んでいます...</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
+        <value>File path</value>
+    </data>
+  <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
+        <value>Building with GitHub Actions.</value>
+    </data>
+  <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
+        <value>Building with App Service Build Service.</value>
+    </data>
+  <data name="deploymentCenterChangeBuildText" xml:space="preserve">
+        <value>Change provider.</value>
+    </data>
+  <data name="functionMonitor_orchestrations" xml:space="preserve">
+        <value>オーケストレーション</value>
+    </data>
+  <data name="functionMonitor_entities" xml:space="preserve">
+        <value>エンティティ</value>
+    </data>
+  <data name="functionEditor_appInsightsLogs" xml:space="preserve">
+        <value>App Insights ログ</value>
+    </data>
+  <data name="functionEditor_fileBasedLogs" xml:space="preserve">
+        <value>Filesystem ログ</value>
+    </data>
+  <data name="functionEditor_fileBasedLogsCalloutMessage" xml:space="preserve">
+        <value>ファイルシステム ベースのログに切り替えると、関数アプリの実行時のパフォーマンスに影響を与える可能性があります。また、IP 制限や VNET などのネットワーク制限が設定されている場合には、動作しないことがあります。</value>
+    </data>
+  <data name="orchestrationTracesTableTitle" xml:space="preserve">
+        <value>オーケストレーション トレース</value>
+    </data>
+  <data name="orchestrationTracesTableDescription" xml:space="preserve">
+        <value>最近 20 件の関数オーケストレーション トレースです。詳細な分析を行うには、Application Insights でクエリを実行します。</value>
+    </data>
+  <data name="runtimeStatus" xml:space="preserve">
+        <value>ランタイムの状態</value>
+    </data>
+  <data name="instanceId" xml:space="preserve">
+        <value>インスタンス ID</value>
+    </data>
+  <data name="filterOrchestrations" xml:space="preserve">
+        <value>オーケストレーションのフィルター処理</value>
+    </data>
+  <data name="entityTracesTableTitle" xml:space="preserve">
+        <value>エンティティ トレース</value>
+    </data>
+  <data name="entityTracesTableDescription" xml:space="preserve">
+        <value>最近 20 件の関数エンティティ トレースです。詳細な分析を行うには、Application Insights でクエリを実行します。</value>
+    </data>
+  <data name="filterEntities" xml:space="preserve">
+        <value>エンティティのフィルター処理</value>
+    </data>
+  <data name="state" xml:space="preserve">
+        <value>状態</value>
+    </data>
+  <data name="orchestrationDetails" xml:space="preserve">
+        <value>オーケストレーションの詳細</value>
+    </data>
+  <data name="failedToFetchRepositories" xml:space="preserve">
+        <value>リポジトリの一覧を取得できませんでした。</value>
+    </data>
+  <data name="failedToFetchTags" xml:space="preserve">
+        <value>タグの一覧を取得できませんでした。</value>
+    </data>
+  <data name="entityDetails" xml:space="preserve">
+        <value>エンティティの詳細</value>
+    </data>
+  <data name="durableFunctionNoDataFound" xml:space="preserve">
+        <value>データが見つかりませんでした。最新の Durable Functions 拡張機能 (.NET) をインストールするか、拡張機能バンドルの V2 をお使いください。</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
+        <value>Learn more about flex stamps.</value>
+    </data>
+  <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about Ootgoing IP addresses.</value>
+    </data>
+  <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about app service plan density.</value>
     </data>
 </root>

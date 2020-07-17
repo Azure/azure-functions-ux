@@ -1,46 +1,20 @@
-import { ArmObj } from '../../../../models/arm-obj';
-import { PublishingUser } from '../../../../models/site/publish';
-import { SiteConfig, ScmTypes } from '../../../../models/site/config';
+import { ScmType } from '../../../../models/site/config';
 import {
   DeploymentCenterFormData,
   ContainerOptions,
   ContainerRegistrySources,
   ContainerDockerAccessTypes,
   DeploymentCenterYupValidationSchemaType,
+  DeploymentCenterContainerFormData,
 } from '../DeploymentCenter.types';
-import { KeyValue } from '../../../../models/portal-models';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import i18next from 'i18next';
 import * as Yup from 'yup';
+import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 
-export class DeploymentCenterContainerFormBuilder {
-  private _publishingUser: ArmObj<PublishingUser>;
-  private _siteConfig: ArmObj<SiteConfig>;
-  private _applicationSettings: ArmObj<KeyValue<string>>;
-  private _t: i18next.TFunction;
-
-  constructor(t: i18next.TFunction) {
-    this._t = t;
-  }
-
-  public setPublishingUser(publishingUser: ArmObj<PublishingUser>) {
-    this._publishingUser = publishingUser;
-  }
-
-  public setSiteConfig(siteConfig: ArmObj<SiteConfig>) {
-    this._siteConfig = siteConfig;
-  }
-
-  public setApplicationSettings(applicationSettings: ArmObj<KeyValue<string>>) {
-    this._applicationSettings = applicationSettings;
-  }
-
-  public generateFormData(): DeploymentCenterFormData {
+export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBuilder {
+  public generateFormData(): DeploymentCenterFormData<DeploymentCenterContainerFormData> {
     return {
-      publishingUsername: this._publishingUser ? this._publishingUser.properties.publishingUserName : '',
-      publishingPassword: '',
-      publishingConfirmPassword: '',
-      scmType: this._siteConfig ? this._siteConfig.properties.scmType : ScmTypes.None,
+      scmType: this._siteConfig ? this._siteConfig.properties.scmType : ScmType.None,
       option: ContainerOptions.docker,
       registrySource: this._getContainerRegistrySource(),
       dockerAccessType: ContainerDockerAccessTypes.public,
@@ -51,29 +25,12 @@ export class DeploymentCenterContainerFormBuilder {
       password: '',
       command: '',
       cicd: false,
+      ...this.generateCommonFormData(),
     };
   }
 
-  public generateYupValidationSchema(): DeploymentCenterYupValidationSchemaType {
-    // NOTE(michinoy): The password should be at least eight characters long and must contain letters, numbers, and symbol.
-    const passwordMinimumRequirementsRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
-    const usernameMinLength = 3;
-
+  public generateYupValidationSchema(): DeploymentCenterYupValidationSchemaType<DeploymentCenterContainerFormData> {
     return Yup.object().shape({
-      publishingUsername: Yup.string().test(
-        'usernameMinCharsIfEntered',
-        this._t('usernameLengthRequirements').format(usernameMinLength),
-        value => {
-          return !value || value.length >= usernameMinLength;
-        }
-      ),
-      publishingPassword: Yup.string().test('validateIfNeeded', this._t('userCredsError'), value => {
-        return !value || passwordMinimumRequirementsRegex.test(value);
-      }),
-      // NOTE(michinoy): Cannot use the arrow operator for the test function as 'this' context is required.
-      publishingConfirmPassword: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
-        return !this.parent.publishingPassword || this.parent.publishingPassword === value;
-      }),
       scmType: Yup.mixed().required(),
       option: Yup.mixed().notRequired(),
       registrySource: Yup.mixed().notRequired(),
@@ -85,6 +42,7 @@ export class DeploymentCenterContainerFormBuilder {
       password: Yup.mixed().notRequired(),
       command: Yup.mixed().notRequired(),
       cicd: Yup.mixed().notRequired(),
+      ...this.generateCommonFormYupValidationSchema(),
     });
   }
 
