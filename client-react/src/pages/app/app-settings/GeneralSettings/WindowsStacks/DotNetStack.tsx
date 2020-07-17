@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../../AppSettings.types';
 import { PermissionsContext } from '../../Contexts';
-import { WebAppStack, WebAppStackOs } from '../../../../../models/stacks/web-app-stacks';
+import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import { getStacksSummaryForDropdown } from '../../../../../utils/stacks-utils';
+import { AppStackOs } from '../../../../../models/stacks/app-stacks';
 
 export interface StateProps {
   stacks: WebAppStack[];
@@ -35,7 +36,7 @@ const DotNetStack: React.SFC<Props> = props => {
       label={t('netFrameWorkVersionLabel')}
       id="netValidationVersion"
       disabled={disableAllControls}
-      options={getStacksSummaryForDropdown(aspNetStack, WebAppStackOs.windows)}
+      options={getStacksSummaryForDropdown(aspNetStack, AppStackOs.windows)}
     />
   );
 };
