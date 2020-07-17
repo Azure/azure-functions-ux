@@ -9,6 +9,7 @@ import MakeArmCall from '../../../../../ApiHelpers/ArmHelper';
 import i18next from 'i18next';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { HostingEnvironment } from '../../../../../models/hostingEnvironment/hosting-environment';
+import { Links } from '../../../../../utils/FwLinks';
 
 export abstract class IsolatedPlanPriceSpec extends PriceSpec {
   constructor(t: i18next.TFunction) {
@@ -53,7 +54,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
         iconUrl: 'image/app-service-plan.svg',
         title: t('pricing_includedHardware_azureComputeUnits'),
         description: t('pricing_computeDedicatedAcu'),
-        learnMoreUrl: CommonConstants.Links.azureComputeUnitLearnMore,
+        learnMoreUrl: Links.azureComputeUnitLearnMore,
       },
       {
         id: 'memory',

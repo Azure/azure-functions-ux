@@ -94,7 +94,6 @@ export const urlFieldStyle = style({
 
 export const urlFormStyle = style({
   marginBottom: '0px',
-  paddingTop: '5px',
 });
 
 export const shrinkEditorStyle = (width: number) => {

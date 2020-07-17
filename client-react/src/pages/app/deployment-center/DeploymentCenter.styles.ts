@@ -77,3 +77,7 @@ export const choiceGroupSubLabel = style({
   fontSize: '12px',
   color: '#605E5C',
 });
+
+export const panelBanner = style({
+  position: 'relative',
+});
