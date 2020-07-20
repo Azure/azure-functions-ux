@@ -15,7 +15,6 @@ import {
   getFunctions,
   fetchFunctionsHostStatus,
 } from './AppSettings.service';
-import { AvailableStack } from '../../../models/available-stacks';
 import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext, SiteContext } from './Contexts';
 import { PortalContext } from '../../../PortalContext';
 import { useTranslation } from 'react-i18next';
@@ -32,6 +31,7 @@ import { StartupInfoContext } from '../../../StartupInfoContext';
 import { LogCategories } from '../../../utils/LogCategories';
 import { KeyValue } from '../../../models/portal-models';
 import { getErrorMessage, getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
+import { WebAppStack } from '../../../models/stacks/web-app-stacks';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -72,7 +72,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [initialLoading, setInitialLoading] = useState(false);
   const [loadingFailure, setLoadingFailure] = useState(false);
   const [refreshValues, setRefreshValues] = useState(false);
-  const [currentAvailableStacks, setCurrentAvailableStacks] = useState<ArmArray<AvailableStack>>({ value: [] });
+  const [currentAvailableStacks, setCurrentAvailableStacks] = useState<WebAppStack[]>([]);
   const [appPermissions, setAppPermissions] = useState<boolean>(true);
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);

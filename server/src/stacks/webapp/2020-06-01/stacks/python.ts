@@ -4,7 +4,7 @@ const python2EOL = new Date(2020, 1, 1);
 
 export const pythonStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Python',
-  value: 'Python',
+  value: 'python',
   preferredOs: 'linux',
   majorVersions: [
     {
