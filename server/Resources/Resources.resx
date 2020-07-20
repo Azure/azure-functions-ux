@@ -6537,4 +6537,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="ibizafication_readOnlyLinuxElastic" xml:space="preserve">
         <value>Your app is currently in read only mode because Elastic Premium on Linux requires running from a package.</value>
     </data>
+    <data name="stackVersionAutoUpdate" xml:space="preserve">
+        <value>{0} (auto-update)</value>
+    </data>
 </root>

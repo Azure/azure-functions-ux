@@ -2,6 +2,7 @@ import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { SiteConfig } from '../../../../../models/site/config';
 import { WebAppStack, WebAppStackOs } from '../../../../../models/stacks/web-app-stacks';
+import i18next from 'i18next';
 
 export const getJavaStack = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'java');
 export const getJavaContainers = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'javacontainers');
@@ -47,16 +48,17 @@ export const getJavaMajorVersionAsDropdownOptions = (javaStack: WebAppStack, osT
 export const getJavaMinorVersionAsDropdownOptions = (
   currentJavaMajorVersion: string,
   javaStack: WebAppStack,
-  newestLabel: string,
-  autoUpdateLabel: string
+  t: i18next.TFunction
 ): IDropdownOption[] => {
   const currentJavaMajorVersionDetails = javaStack.majorVersions.find(x => x.value === currentJavaMajorVersion);
   return (
     (!!currentJavaMajorVersionDetails &&
       currentJavaMajorVersionDetails.minorVersions.map(x => ({
         key: x.value,
-        text: `${x.displayText} ${
-          x.stackSettings.windowsRuntimeSettings && x.stackSettings.windowsRuntimeSettings.isAutoUpdate ? `(${autoUpdateLabel})` : ''
+        text: `${
+          x.stackSettings.windowsRuntimeSettings && x.stackSettings.windowsRuntimeSettings.isAutoUpdate
+            ? t('stackVersionAutoUpdate').format(x.displayText)
+            : x.displayText
         }`,
       }))) ||
     []
@@ -74,15 +76,17 @@ export const getJavaContainersOptions = (javaContainers: WebAppStack): IDropdown
 export const getFrameworkVersionOptions = (
   javaContainers: WebAppStack,
   config: ArmObj<SiteConfig>,
-  autoUpdateLabel: string
+  t: i18next.TFunction
 ): IDropdownOption[] => {
   const currentFramework =
     config.properties.javaContainer && javaContainers.majorVersions.find(x => x.value === config.properties.javaContainer.toLowerCase());
   if (currentFramework) {
     return currentFramework.minorVersions.map(x => ({
       key: x.value,
-      text: `${x.displayText} ${
-        x.stackSettings.windowsContainerSettings && x.stackSettings.windowsContainerSettings.isAutoUpdate ? `(${autoUpdateLabel})` : ''
+      text: `${
+        x.stackSettings.windowsContainerSettings && x.stackSettings.windowsContainerSettings.isAutoUpdate
+          ? t('stackVersionAutoUpdate').format(x.displayText)
+          : x.displayText
       }`,
     }));
   }
