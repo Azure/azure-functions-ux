@@ -19,6 +19,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
   const [workflowConfigDropdownOptions, setWorkflowConfigDropdownOptions] = useState<IDropdownOption[] | undefined>(undefined);
   const [workflowFileExistsWarningMessage, setWorkflowFileExistsWarningMessage] = useState<string | undefined>(undefined);
   const [isWorkflowConfigLoading, setIsWorkflowConfigLoading] = useState<boolean>(false);
+  const [showWarningBanner, setShowWarningBanner] = useState(true);
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -43,6 +44,10 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
       workflowOption: WorkflowOption.UseAvailableWorkflowConfigs,
     },
   ];
+
+  const closeWarningBanner = () => {
+    setShowWarningBanner(false);
+  };
 
   const onWorkflowOptionChange = (event: React.FormEvent<HTMLDivElement>, option: WorkflowDropdownOption) => {
     setSelectedWorkflowConfigOption(option.workflowOption);
@@ -74,6 +79,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
       ]);
 
       if (appWorkflowConfigurationResponse.metadata.success) {
+        setShowWarningBanner(true);
         setWorkflowFileExistsWarningMessage(
           t('githubActionWorkflowFileExists', {
             workflowFilePath: workflowFilePath,
@@ -90,6 +96,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         setWorkflowConfigDropdownOptions(overwriteOrUseExistingOptions);
         setShowWorkflowConfigDropdown(true);
       } else if (allWorkflowConfigurationsResponse.metadata.success && allWorkflowConfigurationsResponse.data.length > 0) {
+        setShowWarningBanner(true);
         setWorkflowFileExistsWarningMessage(
           t('githubActionWorkflowsExist', {
             branchName: branch,
@@ -99,6 +106,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         setWorkflowConfigDropdownOptions(addOrUseExistingOptions);
         setShowWorkflowConfigDropdown(true);
       } else {
+        setWorkflowFileExistsWarningMessage(undefined);
         setSelectedWorkflowConfigOption(WorkflowOption.Add);
         formProps.setFieldValue('workflowOption', WorkflowOption.Add);
       }
@@ -126,9 +134,9 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
       )}
       {showWorkflowConfigDropdown && (
         <>
-          {workflowFileExistsWarningMessage && (
+          {workflowFileExistsWarningMessage && showWarningBanner && (
             <div className={deploymentCenterInfoBannerDiv}>
-              <CustomBanner message={workflowFileExistsWarningMessage} type={MessageBarType.warning} />
+              <CustomBanner message={workflowFileExistsWarningMessage} type={MessageBarType.warning} onDismiss={closeWarningBanner} />
             </div>
           )}
           <Field
