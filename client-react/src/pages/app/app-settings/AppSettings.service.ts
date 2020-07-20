@@ -11,11 +11,12 @@ import { HttpResponseObject } from '../../../ArmHelper.types';
 import PortalCommunicator from '../../../portal-communicator';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
 import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
+import { AppStackOs } from '../../../models/stacks/app-stacks';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
   const [windowsStacksPromise, linuxStacksPromise] = [
-    RuntimeStackService.getWebAppConfigurationStacks('windows'),
-    RuntimeStackService.getWebAppConfigurationStacks('linux'),
+    RuntimeStackService.getWebAppConfigurationStacks(AppStackOs.windows),
+    RuntimeStackService.getWebAppConfigurationStacks(AppStackOs.linux),
   ];
 
   const [
