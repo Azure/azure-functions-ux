@@ -5,8 +5,9 @@ import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues, FormApi, FormState } from '../../AppSettings.types';
 import { PermissionsContext } from '../../Contexts';
 import { Links } from '../../../../../utils/FwLinks';
-import { WebAppStack, WebAppStackOs } from '../../../../../models/stacks/web-app-stacks';
+import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import { getStacksSummaryForDropdown } from '../../../../../utils/stacks-utils';
+import { AppStackOs } from '../../../../../models/stacks/app-stacks';
 
 export interface StateProps {
   stacks: WebAppStack[];
@@ -28,7 +29,7 @@ const PythonStack: React.StatelessComponent<Props> = props => {
   if (!pythonStack) {
     return null;
   }
-  const pythonVersions = getStacksSummaryForDropdown(pythonStack, WebAppStackOs.windows);
+  const pythonVersions = getStacksSummaryForDropdown(pythonStack, AppStackOs.windows);
   pythonVersions.push({ key: '', text: t('off') });
 
   return (

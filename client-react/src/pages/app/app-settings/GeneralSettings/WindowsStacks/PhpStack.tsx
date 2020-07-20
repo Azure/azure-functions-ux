@@ -5,8 +5,9 @@ import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../../AppSettings.types';
 import { PermissionsContext } from '../../Contexts';
-import { WebAppStack, WebAppStackOs } from '../../../../../models/stacks/web-app-stacks';
+import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import { getStacksSummaryForDropdown } from '../../../../../utils/stacks-utils';
+import { AppStackOs } from '../../../../../models/stacks/app-stacks';
 
 export interface StateProps {
   stacks: WebAppStack[];
@@ -23,7 +24,7 @@ const PhpStack: React.SFC<Props> = props => {
   if (!phpStack) {
     return null;
   }
-  const phpVersions = getStacksSummaryForDropdown(phpStack, WebAppStackOs.windows);
+  const phpVersions = getStacksSummaryForDropdown(phpStack, AppStackOs.windows);
   phpVersions.push({ key: '', text: t('off') });
 
   return (
