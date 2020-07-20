@@ -11,7 +11,7 @@ interface VersionDetails {
 
 export const getRuntimeStacks = (builtInStacks: WebAppStack[]) => {
   return builtInStacks
-    .filter(stack => stack.value !== 'javacontainers')
+    .filter(stack => stack.value !== 'javacontainers' && stack.value !== 'java')
     .map(stack => ({
       key: stack.value,
       text: stack.displayText,
