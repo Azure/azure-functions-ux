@@ -11,10 +11,13 @@ import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/Depl
 import DeploymentCenterCodeBuildRuntimeAndVersion from './DeploymentCenterCodeBuildRuntimeAndVersion';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { deploymentCenterConsole, panelBanner } from '../DeploymentCenter.styles';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType, Link } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { getWorkflowInformation } from '../utility/GitHubActionUtility';
 import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import DeploymentCenterCodeSourceKuduReadOnly from './DeploymentCenterCodeSourceKuduReadOnly';
+import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
+import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -29,6 +32,12 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
   const isGitHubActionsBuild = formProps.values.buildProvider === BuildProvider.GitHubAction;
   const isDeploymentSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.None;
+  const isGitHubActionsSetup =
+    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+  const isGitHubSourceSetup =
+    deploymentCenterContext.siteConfig &&
+    (deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction ||
+      deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHub);
   const isUsingExistingOrAvailableWorkflowConfig =
     formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
     formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs;
@@ -136,7 +145,19 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     <>
       {isDeploymentSetup ? (
         <>
-          <DeploymentCenterGitHubReadOnly />
+          <p>
+            <span id="deployment-center-settings-message">{t('deploymentCenterCodeSettingsDescription')}</span>
+            <Link
+              id="deployment-center-settings-learnMore"
+              href={DeploymentCenterLinks.appServiceDocumentation}
+              target="_blank"
+              className={learnMoreLinkStyle}
+              aria-labelledby="deployment-center-settings-message">
+              {` ${t('learnMore')}`}
+            </Link>
+          </p>
+          {!isGitHubActionsSetup && <DeploymentCenterCodeSourceKuduReadOnly />}
+          {isGitHubSourceSetup && <DeploymentCenterGitHubReadOnly isGitHubActionsSetup={isGitHubActionsSetup} />}
           <DeploymentCenterCodeBuildReadOnly />
         </>
       ) : (

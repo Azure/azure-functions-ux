@@ -186,6 +186,10 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   gitHubUser?: GitHubUser;
 }
 
+export interface DeploymentCenterGitHubReadOnlyProps {
+  isGitHubActionsSetup?: boolean;
+}
+
 export interface DeploymentCenterGitHubDisconnectProps {
   branch: string;
   org: string;
