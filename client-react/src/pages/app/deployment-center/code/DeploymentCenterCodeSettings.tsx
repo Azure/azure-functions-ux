@@ -22,6 +22,8 @@ import { learnMoreLinkStyle } from '../../../../components/form-controls/formCon
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
+  const [showInfoBanner, setShowInfoBanner] = useState(true);
+
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
@@ -39,6 +41,10 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const isUsingExistingOrAvailableWorkflowConfig =
     formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
     formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs;
+
+  const closeInfoBanner = () => {
+    setShowInfoBanner(false);
+  };
 
   const isPreviewFileButtonEnabled = () => {
     if (
@@ -61,17 +67,31 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
       if (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig) {
         return (
           <>
-            <div className={panelBanner}>
-              <CustomBanner message={t('githubActionWorkflowOptionUseExistingMessage')} type={MessageBarType.info} />
-            </div>
+            {showInfoBanner && (
+              <div className={panelBanner}>
+                <CustomBanner
+                  message={t('githubActionWorkflowOptionUseExistingMessage')}
+                  type={MessageBarType.info}
+                  onDismiss={closeInfoBanner}
+                />
+              </div>
+            )}
             <pre className={deploymentCenterConsole}>{githubActionExistingWorkflowContents}</pre>
           </>
         );
       } else if (formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs) {
         return (
-          <div className={panelBanner}>
-            <CustomBanner message={t('githubActionWorkflowOptionUseExistingMessageWithoutPreview')} type={MessageBarType.info} />
-          </div>
+          <>
+            {showInfoBanner && (
+              <div className={panelBanner}>
+                <CustomBanner
+                  message={t('githubActionWorkflowOptionUseExistingMessageWithoutPreview')}
+                  type={MessageBarType.info}
+                  onDismiss={closeInfoBanner}
+                />
+              </div>
+            )}
+          </>
         );
       } else if (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) {
         const information = getWorkflowInformation(
@@ -86,9 +106,15 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
         );
         return (
           <>
-            <div className={panelBanner}>
-              <CustomBanner message={t('githubActionWorkflowOptionOverwriteIfConfigExists')} type={MessageBarType.info} />
-            </div>
+            {showInfoBanner && (
+              <div className={panelBanner}>
+                <CustomBanner
+                  message={t('githubActionWorkflowOptionOverwriteIfConfigExists')}
+                  type={MessageBarType.info}
+                  onDismiss={closeInfoBanner}
+                />
+              </div>
+            )}
             <pre className={deploymentCenterConsole}>{information.content}</pre>
           </>
         );
@@ -149,6 +175,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
                   {!isUsingExistingOrAvailableWorkflowConfig && <DeploymentCenterCodeBuildRuntimeAndVersion formProps={formProps} />}
                   <DeploymentCenterGitHubWorkflowConfigPreview
                     getPreviewPanelContent={getPreviewPanelContent}
+                    setShowInfoBanner={setShowInfoBanner}
                     isPreviewFileButtonEnabled={isPreviewFileButtonEnabled}
                     workflowFilePath={workflowFilePath}
                   />
