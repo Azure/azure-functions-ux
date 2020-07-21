@@ -185,7 +185,7 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   gitHubUser?: GitHubUser;
 }
 
-export interface DeploymentCenterGitHubReadOnlyProps {
+export interface DeploymentCenterGitHubConfiguredViewProps {
   isGitHubActionsSetup?: boolean;
 }
 

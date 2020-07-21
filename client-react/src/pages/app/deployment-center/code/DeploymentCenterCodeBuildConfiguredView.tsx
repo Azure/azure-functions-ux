@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { ScmType } from '../../../../models/site/config';
 
-const DeploymentCenterCodeBuildReadOnly: React.FC<{}> = () => {
+const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
   const { t } = useTranslation();
   const [defaultStack, setDefaultStack] = useState<string>(t('loading'));
   const [defaultVersion, setDefaultVersion] = useState<string>(t('loading'));
@@ -121,4 +121,4 @@ const DeploymentCenterCodeBuildReadOnly: React.FC<{}> = () => {
   );
 };
 
-export default DeploymentCenterCodeBuildReadOnly;
+export default DeploymentCenterCodeBuildConfiguredView;

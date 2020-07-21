@@ -9,7 +9,7 @@ import { Link, Icon } from 'office-ui-fabric-react';
 import { additionalTextFieldControl } from '../DeploymentCenter.styles';
 import { PortalContext } from '../../../../PortalContext';
 
-const DeploymentCenterCodeSourceKuduReadOnly: React.FC<{}> = () => {
+const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<{}> = () => {
   const { t } = useTranslation();
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
 
@@ -105,4 +105,4 @@ const DeploymentCenterCodeSourceKuduReadOnly: React.FC<{}> = () => {
   );
 };
 
-export default DeploymentCenterCodeSourceKuduReadOnly;
+export default DeploymentCenterCodeSourceKuduConfiguredView;
