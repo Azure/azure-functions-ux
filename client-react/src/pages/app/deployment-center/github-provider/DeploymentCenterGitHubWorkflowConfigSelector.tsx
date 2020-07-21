@@ -106,6 +106,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         setWorkflowConfigDropdownOptions(addOrUseExistingOptions);
         setShowWorkflowConfigDropdown(true);
       } else {
+        setShowWarningBanner(false);
         setWorkflowFileExistsWarningMessage(undefined);
         setSelectedWorkflowConfigOption(WorkflowOption.Add);
         formProps.setFieldValue('workflowOption', WorkflowOption.Add);
