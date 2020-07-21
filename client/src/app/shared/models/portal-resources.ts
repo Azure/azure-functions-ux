@@ -1922,6 +1922,7 @@ export class PortalResources {
   public static githubActionDashboardRepositoryMissingError = 'githubActionDashboardRepositoryMissingError';
   public static githubActionDashboardBranchMissingError = 'githubActionDashboardBranchMissingError';
   public static githubActionDisconnectConfirmationTitle = 'githubActionDisconnectConfirmationTitle';
+  public static kuduDisconnectConfirmationTitle = 'kuduDisconnectConfirmationTitle';
   public static deploymentCenterGitHubDisconnectLoadingAriaValue = 'deploymentCenterGitHubDisconnectLoadingAriaValue';
   public static deploymentCenterGitHubDisconnectLoading = 'deploymentCenterGitHubDisconnectLoading';
   public static githubActionDisconnectWorkflowDeleteFailed = 'githubActionDisconnectWorkflowDeleteFailed';
@@ -2129,4 +2130,5 @@ export class PortalResources {
   public static pricing_pv2UpsellInfoMessageAriaLabel = 'pricing_pv2UpsellInfoMessageAriaLabel';
   public static pricing_appDensityWarningMessageAriaLabel = 'pricing_appDensityWarningMessageAriaLabel';
   public static ibizafication_readOnlyLinuxElastic = 'ibizafication_readOnlyLinuxElastic';
+  public static stackVersionAutoUpdate = 'stackVersionAutoUpdate';
 }

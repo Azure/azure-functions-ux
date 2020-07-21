@@ -29,10 +29,20 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   const [defaultVersion, setDefaultVersion] = useState<string>('');
   const [stackNotSupportedMessage, setStackNotSupportedMessage] = useState<string>('');
   const [stackMismatchMessage, setStackMismatchMessage] = useState<string>('');
+  const [showNotSupportedWarningBar, setShowNotSupportedWarningBar] = useState(true);
+  const [showMismatchWarningBar, setShowMismatchWarningBar] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const deploymentCenterData = new DeploymentCenterData();
+
+  const closeStackNotSupportedWarningBanner = () => {
+    setShowNotSupportedWarningBar(false);
+  };
+
+  const closeStackMismatchWarningBanner = () => {
+    setShowMismatchWarningBar(false);
+  };
 
   const fetchStacks = async () => {
     const runtimeStacksResponse = await deploymentCenterData.getRuntimeStacks(
@@ -71,6 +81,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     if (deploymentCenterContext.siteDescriptor) {
       const siteName = deploymentCenterContext.siteDescriptor.site;
       const slotName = deploymentCenterContext.siteDescriptor.slot;
+      setShowMismatchWarningBar(true);
       if (defaultStack.toLocaleLowerCase() === RuntimeStacks.aspnet) {
         setStackMismatchMessage(
           t('githubActionAspNetStackMismatchMessage', { appName: slotName ? `${siteName} (${slotName})` : siteName })
@@ -160,6 +171,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     if (deploymentCenterContext.siteDescriptor) {
       const siteName = deploymentCenterContext.siteDescriptor.site;
       const slotName = deploymentCenterContext.siteDescriptor.slot;
+      setShowNotSupportedWarningBar(true);
       if (defaultStack.toLocaleLowerCase() === RuntimeStacks.aspnet) {
         setStackNotSupportedMessage(
           t('githubActionAspNetStackNotSupportedMessage', { appName: slotName ? `${siteName} (${slotName})` : siteName })
@@ -240,14 +252,18 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   const getCustomBanner = () => {
     return (
       <>
-        {stackNotSupportedMessage && (
+        {stackNotSupportedMessage && showNotSupportedWarningBar && (
           <div className={deploymentCenterInfoBannerDiv}>
-            <CustomBanner message={stackNotSupportedMessage} type={MessageBarType.warning} />
+            <CustomBanner
+              message={stackNotSupportedMessage}
+              type={MessageBarType.warning}
+              onDismiss={closeStackNotSupportedWarningBanner}
+            />
           </div>
         )}
-        {(stackNotSupportedMessage || stackMismatchMessage) && (
+        {stackMismatchMessage && showMismatchWarningBar && (
           <div className={deploymentCenterInfoBannerDiv}>
-            <CustomBanner message={stackNotSupportedMessage || stackMismatchMessage} type={MessageBarType.warning} />
+            <CustomBanner message={stackMismatchMessage} type={MessageBarType.warning} onDismiss={closeStackMismatchWarningBanner} />
           </div>
         )}
       </>

@@ -2,11 +2,11 @@ import { WebAppStack, JavaContainers } from './../stack.model';
 
 export const javaContainersStack: WebAppStack<JavaContainers> = {
   displayText: 'Java Containers',
-  value: 'Java Containers',
+  value: 'javacontainers',
   majorVersions: [
     {
       displayText: 'Java SE (embedded web server)',
-      value: 'Java SE',
+      value: 'javase',
       minorVersions: [
         {
           displayText: 'Java SE 11',
@@ -56,7 +56,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
     },
     {
       displayText: 'Tomcat 9.0',
-      value: 'Tomcat 9.0',
+      value: 'tomcat9.0',
       minorVersions: [
         {
           displayText: 'Tomcat 9.0',
@@ -148,7 +148,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
     },
     {
       displayText: 'Tomcat 8.5',
-      value: 'Tomcat 8.5',
+      value: 'tomcat8.5',
       minorVersions: [
         {
           displayText: 'Tomcat 8.5',
@@ -250,7 +250,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
     },
     {
       displayText: 'Tomcat 8.0',
-      value: 'Tomcat 8.0',
+      value: 'tomcat8.0',
       minorVersions: [
         {
           displayText: 'Tomcat 8.0',
@@ -297,7 +297,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
     },
     {
       displayText: 'Tomcat 7.0',
-      value: 'Tomcat 7.0',
+      value: 'tomcat7.0',
       minorVersions: [
         {
           displayText: 'Tomcat 7.0',
@@ -354,7 +354,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
     },
     {
       displayText: 'Jetty 9.3',
-      value: 'Jetty 9.3',
+      value: 'jetty9.3',
       minorVersions: [
         {
           displayText: 'Jetty 9.3',
@@ -391,7 +391,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
     },
     {
       displayText: 'Jetty 9.1',
-      value: 'Jetty 9.1',
+      value: 'jetty9.1',
       minorVersions: [
         {
           displayText: 'Jetty 9.1',
@@ -418,7 +418,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
     },
     {
       displayText: 'WildFly 14',
-      value: 'WildFly 14',
+      value: 'wildfly14',
       minorVersions: [
         {
           displayText: 'WildFly 14',

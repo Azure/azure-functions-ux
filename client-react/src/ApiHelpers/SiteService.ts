@@ -129,12 +129,12 @@ export default class SiteService {
     });
   };
 
-  public static updatePathSiteConfig = (resourceId: string, body: any) => {
+  public static patchSiteConfig = (resourceId: string, body: any) => {
     return MakeArmCall<void>({
       method: 'PATCH',
       resourceId: `${resourceId}/config/web`,
       body: body,
-      commandName: 'updateDeploymentLocalGit',
+      commandName: 'updatePathSiteConfig',
       apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
     });
   };

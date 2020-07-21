@@ -31,7 +31,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
     };
 
     if (formProps.values.sourceProvider === ScmType.LocalGit) {
-      return deploymentCenterData.updatePathSiteConfig(deploymentCenterContext.resourceId, {
+      return deploymentCenterData.patchSiteConfig(deploymentCenterContext.resourceId, {
         properties: {
           scmType: 'LocalGit',
         },
