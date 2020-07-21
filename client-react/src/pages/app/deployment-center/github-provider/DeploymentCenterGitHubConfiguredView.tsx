@@ -8,13 +8,13 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { useTranslation } from 'react-i18next';
 import { additionalTextFieldControl, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
-import { AuthorizationResult, DeploymentCenterGitHubReadOnlyProps } from '../DeploymentCenter.types';
+import { AuthorizationResult, DeploymentCenterGitHubConfiguredViewProps } from '../DeploymentCenter.types';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { getArmToken } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 
-const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterGitHubReadOnlyProps> = props => {
+const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfiguredViewProps> = props => {
   const { t } = useTranslation();
   const { isGitHubActionsSetup } = props;
   const [org, setOrg] = useState<string | undefined>(undefined);
@@ -62,7 +62,7 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterGitHubReadOnlyPro
 
       LogService.error(
         LogCategories.deploymentCenter,
-        'DeploymentCenterGitHubReadOnly',
+        'DeploymentCenterGitHubConfiguredView',
         `Failed to get GitHub user details with error: ${getErrorMessage(gitHubUserResponse.metadata.error)}`
       );
     }
@@ -122,7 +122,7 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterGitHubReadOnlyPro
           <CustomBanner
             message={
               <>
-                {`${t('deploymentCenterSettingsReadOnlyGitHubNotAuthorized')} `}
+                {`${t('deploymentCenterSettingsConfiguredViewGitHubNotAuthorized')} `}
                 <Link onClick={authorizeGitHubAccount} target="_blank">
                   {t('authorize')}
                 </Link>
@@ -195,4 +195,4 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterGitHubReadOnlyPro
   );
 };
 
-export default DeploymentCenterGitHubReadOnly;
+export default DeploymentCenterGitHubConfiguredView;
