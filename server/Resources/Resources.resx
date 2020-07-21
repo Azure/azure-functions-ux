@@ -3470,7 +3470,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Azure Pipelines (Preview)</value>
     </data>
     <data name="vstsBuildServerDesc" xml:space="preserve">
-        <value>Configure a robust deployment pipeline for your application using Azure Pipelines. The pipeline will build the application and deploys to this Azure resource.</value>
+        <value>onfigure a robust build and deployment pipeline for your application using Azure Pipelines. It will build, run load tests and deploy to staging slot and then to production.</value>
     </data>
     <data name="kuduTitle" xml:space="preserve">
         <value>App Service build service</value>
