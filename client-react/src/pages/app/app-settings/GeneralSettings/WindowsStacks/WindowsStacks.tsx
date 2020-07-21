@@ -1,7 +1,6 @@
 import { Field, FormikProps } from 'formik';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../../AppSettings.types';
 import DotNetStack from './DotNetStack';
@@ -18,7 +17,7 @@ const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const readonly = !app_write;
   const javaSelected = values.currentlySelectedStack === 'java';
   const showNonJavaAnyway = readonly && !javaSelected;
-  const { value } = useContext(AvailableStacksContext);
+  const value = useContext(AvailableStacksContext);
   return (
     <>
       {!readonly && (

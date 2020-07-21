@@ -17,18 +17,22 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const [flexStamp, setFlexStamp] = useState(false);
 
   const remoteDebuggingEnabledStacks = useMemo(() => {
-    return availableStacks.value
+    return availableStacks
       .flatMap(value => {
-        return value.properties.majorVersions.flatMap(majorVersion => {
+        return value.majorVersions.flatMap(majorVersion => {
           return majorVersion.minorVersions.flatMap(minorVersion => ({
-            runtimeVersion: minorVersion.runtimeVersion,
-            isRemoteDebuggingEnabled: minorVersion.isRemoteDebuggingEnabled,
+            runtimeVersion: minorVersion.stackSettings.linuxRuntimeSettings
+              ? minorVersion.stackSettings.linuxRuntimeSettings.runtimeVersion
+              : '',
+            isRemoteDebuggingEnabled: minorVersion.stackSettings.linuxRuntimeSettings
+              ? minorVersion.stackSettings.linuxRuntimeSettings.remoteDebuggingSupported
+              : false,
           }));
         });
       })
       .filter(x => x.isRemoteDebuggingEnabled)
-      .map(x => x.runtimeVersion.toLowerCase());
-  }, [availableStacks.value]);
+      .map(x => x.runtimeVersion && x.runtimeVersion.toLowerCase());
+  }, [availableStacks]);
 
   const getInfoBubbleText = (): string => {
     if (!enabledStack) {
@@ -40,7 +44,8 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   useEffect(() => {
     const currentLinuxFxVersion = props.values.config.properties.linuxFxVersion;
     const enabled =
-      remoteDebuggingEnabledStacks.includes(currentLinuxFxVersion) || currentLinuxFxVersion.toLowerCase().startsWith('python');
+      !!currentLinuxFxVersion &&
+      (remoteDebuggingEnabledStacks.includes(currentLinuxFxVersion) || currentLinuxFxVersion.toLowerCase().startsWith('python'));
     setEnabledStack(enabled);
     if (!enabled) {
       props.setFieldValue('config.properties.remoteDebuggingEnabled', false);
