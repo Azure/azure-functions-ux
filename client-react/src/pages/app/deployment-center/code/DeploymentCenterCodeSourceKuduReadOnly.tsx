@@ -35,18 +35,20 @@ const DeploymentCenterCodeSourceKuduReadOnly: React.FC<{}> = () => {
       },
     });
 
-    let disconnectSuccess = updatePathSiteConfigResponse.metadata.success;
-
-    if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.LocalGit) {
+    if (
+      updatePathSiteConfigResponse.metadata.success &&
+      deploymentCenterContext.siteConfig &&
+      deploymentCenterContext.siteConfig.properties.scmType !== ScmType.LocalGit
+    ) {
       //(note: t-kakan): DELETE call to `${resourceId}/sourcecontrols/web`
       const deleteSourceControlDetailsResponse = await deploymentCenterData.deleteSourceControlDetails(deploymentCenterContext.resourceId);
-      disconnectSuccess = disconnectSuccess && deleteSourceControlDetailsResponse.metadata.success;
+      if (deleteSourceControlDetailsResponse.metadata.success) {
+        portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
+        return;
+      }
     }
-    if (disconnectSuccess) {
-      portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
-    } else {
-      portalContext.stopNotification(notificationId, false, t('disconnectingDeploymentFail'));
-    }
+
+    portalContext.stopNotification(notificationId, false, t('disconnectingDeploymentFail'));
   };
 
   const getSourceLocation = () => {
