@@ -24,6 +24,12 @@ export const deploymentCenterConsole = style({
   overflowWrap: 'break-word',
 });
 
+export const deploymentCenterContainerLogs = style({
+  whiteSpace: 'pre-line',
+  padding: '15px',
+  overflowWrap: 'break-word',
+});
+
 export const deploymentCenterLogsError = style({
   marginTop: '20px',
 });

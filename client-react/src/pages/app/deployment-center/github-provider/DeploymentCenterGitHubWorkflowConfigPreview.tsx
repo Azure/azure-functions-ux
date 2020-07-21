@@ -5,7 +5,7 @@ import { PanelType, DefaultButton } from 'office-ui-fabric-react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 
 const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitHubWorkflowConfigPreviewProps> = props => {
-  const { isPreviewFileButtonEnabled, getPreviewPanelContent, workflowFilePath } = props;
+  const { isPreviewFileButtonEnabled, getPreviewPanelContent, setShowInfoBanner, workflowFilePath } = props;
   const { t } = useTranslation();
 
   const [isPreviewPanelOpen, setIsPreviewPanelOpen] = useState<boolean>(false);
@@ -26,7 +26,10 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
       <p>{t('deploymentCenterSettingsWorkflowConfigPreviewDescription')}</p>
       <DefaultButton
         text={t('deploymentCenterSettingsWorkflowConfigPreviewFileButtonText')}
-        onClick={() => setIsPreviewPanelOpen(true)}
+        onClick={() => {
+          setIsPreviewPanelOpen(true);
+          setShowInfoBanner(true);
+        }}
         disabled={!isPreviewFileButtonEnabled()}
       />
       {isPreviewPanelOpen && (

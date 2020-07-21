@@ -1922,6 +1922,7 @@ export class PortalResources {
   public static githubActionDashboardRepositoryMissingError = 'githubActionDashboardRepositoryMissingError';
   public static githubActionDashboardBranchMissingError = 'githubActionDashboardBranchMissingError';
   public static githubActionDisconnectConfirmationTitle = 'githubActionDisconnectConfirmationTitle';
+  public static kuduDisconnectConfirmationTitle = 'kuduDisconnectConfirmationTitle';
   public static deploymentCenterGitHubDisconnectLoadingAriaValue = 'deploymentCenterGitHubDisconnectLoadingAriaValue';
   public static deploymentCenterGitHubDisconnectLoading = 'deploymentCenterGitHubDisconnectLoading';
   public static githubActionDisconnectWorkflowDeleteFailed = 'githubActionDisconnectWorkflowDeleteFailed';
