@@ -176,7 +176,6 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
 export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
   extends DeploymentCenterFieldProps<T> {
   authorizeGitHubAccount: () => void;
-  fetchOrganizationOptions: () => void;
   fetchRepositoryOptions: (repositories_url: string) => void;
   fetchBranchOptions: (org: string, repo: string) => void;
   organizationOptions: IDropdownOption[];
