@@ -73,7 +73,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
   const [scrollHeight, setScrollHeight] = useState(0);
   const [visibleLogEntries, setVisibleLogEntries] = useState<LogEntry[]>([]);
-  const [logLevel, setLogLevel] = useState<LogLevel>(LogLevel.Information);
+  const [logLevel, setLogLevel] = useState<LogLevel>(LogLevel.Verbose);
 
   const { t } = useTranslation();
 
