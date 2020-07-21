@@ -2,6 +2,7 @@ import { HttpResponseObject } from './../ArmHelper.types';
 import axios, { AxiosRequestConfig } from 'axios';
 import { Guid } from '../utils/Guid';
 import { KeyValue } from '../models/portal-models';
+import Url from '../utils/url';
 
 export const sendHttpRequest = <T>(options: AxiosRequestConfig) => {
   return axios({
@@ -36,4 +37,31 @@ export const getTextHeaders = (): KeyValue<string> => {
     'Content-Type': 'text/plain',
     Accept: 'text/plain,*/*',
   };
+};
+
+export const getLinksFromLinkHeader = (linksHeader: string): { [key: string]: string } => {
+  const links: { [key: string]: string } = {};
+
+  if (linksHeader) {
+    // Parse each part into a named link
+    linksHeader.split(',').forEach(part => {
+      const section = part.split(';');
+      const url = section[0].replace(/<(.*)>/, '$1').trim();
+      const name = section[1].replace(/rel="(.*)"/, '$1').trim();
+      links[name] = url;
+    });
+  }
+
+  return links;
+};
+
+export const getLastPageNumberFromLinks = (links: { [key: string]: string }) => {
+  const lastPageLink = links && links.last;
+  if (lastPageLink) {
+    const lastPageNumberString = Url.getParameterByName(lastPageLink, 'page');
+    if (lastPageNumberString) {
+      return +lastPageNumberString;
+    }
+  }
+  return 1;
 };
