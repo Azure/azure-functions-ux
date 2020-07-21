@@ -1,8 +1,9 @@
 import { WebAppStack } from '../models/stacks/web-app-stacks';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import { AppStackOs } from '../models/stacks/app-stacks';
+import { FunctionAppStack } from '../models/stacks/function-app-stacks';
 
-export const getStacksSummaryForDropdown = (stack: WebAppStack, osType: AppStackOs): IDropdownOption[] => {
+export const getStacksSummaryForDropdown = (stack: WebAppStack | FunctionAppStack, osType: AppStackOs): IDropdownOption[] => {
   const options: IDropdownOption[] = [];
   stack.majorVersions.forEach(stackMajorVersion => {
     stackMajorVersion.minorVersions.forEach(stackMinorVersion => {

@@ -1,5 +1,5 @@
 import i18next from 'i18next';
-import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
+import { AvailableStackArray } from '../../../../../models/stacks/app-stacks';
 
 interface VersionDetails {
   runtimeStackName: string;
@@ -9,8 +9,8 @@ interface VersionDetails {
   minorVersionRuntime: string;
 }
 
-export const getRuntimeStacks = (builtInStacks: WebAppStack[]) => {
-  return builtInStacks
+export const getRuntimeStacks = (builtInStacks: AvailableStackArray) => {
+  return (builtInStacks as any[])
     .filter(stack => stack.value !== 'javacontainers' && stack.value !== 'java')
     .map(stack => ({
       key: stack.value,
@@ -18,9 +18,9 @@ export const getRuntimeStacks = (builtInStacks: WebAppStack[]) => {
     }));
 };
 
-export const getMajorVersions = (builtInStacks: WebAppStack[], stack: string, t: i18next.TFunction) => {
+export const getMajorVersions = (builtInStacks: AvailableStackArray, stack: string, t: i18next.TFunction) => {
   const stackToLower = (stack || '').toLowerCase();
-  const currentStack = builtInStacks.find(s => s.value === stackToLower);
+  const currentStack = (builtInStacks as any[]).find(s => s.value === stackToLower);
   return !!currentStack
     ? currentStack.majorVersions.map(x => ({
         key: x.value,
@@ -29,9 +29,9 @@ export const getMajorVersions = (builtInStacks: WebAppStack[], stack: string, t:
     : [];
 };
 
-export const getMinorVersions = (builtInStacks: WebAppStack[], stack: string, majorVersion: string, t: i18next.TFunction) => {
+export const getMinorVersions = (builtInStacks: AvailableStackArray, stack: string, majorVersion: string, t: i18next.TFunction) => {
   const stackToLower = (stack || '').toLowerCase();
-  const currentStack = builtInStacks.find(s => s.value === stackToLower);
+  const currentStack = (builtInStacks as any[]).find(s => s.value === stackToLower);
   if (!currentStack) {
     return [];
   }
@@ -51,7 +51,7 @@ export const getMinorVersions = (builtInStacks: WebAppStack[], stack: string, ma
   }));
 };
 
-export const getVersionDetails = (builtInStacks: WebAppStack[], version: string): VersionDetails => {
+export const getVersionDetails = (builtInStacks: AvailableStackArray, version: string): VersionDetails => {
   let versionDetails = {
     runtimeStackName: '',
     majorVersionName: '',
@@ -84,17 +84,17 @@ export const getVersionDetails = (builtInStacks: WebAppStack[], version: string)
   return versionDetails;
 };
 
-export const getSelectedRuntimeStack = (builtInStacks: WebAppStack[], version: string) => {
+export const getSelectedRuntimeStack = (builtInStacks: AvailableStackArray, version: string) => {
   const versionDetails = getVersionDetails(builtInStacks, version);
   return versionDetails.runtimeStackName;
 };
 
-export const getSelectedMajorVersion = (builtInStacks: WebAppStack[], version: string) => {
+export const getSelectedMajorVersion = (builtInStacks: AvailableStackArray, version: string) => {
   const versionDetails = getVersionDetails(builtInStacks, version);
   return versionDetails.majorVersionRuntime;
 };
 
-export const getSelectedMinorVersion = (builtInStacks: WebAppStack[], stack: string, version: string) => {
+export const getSelectedMinorVersion = (builtInStacks: AvailableStackArray, stack: string, version: string) => {
   const versionDetails = getVersionDetails(builtInStacks, version);
   return versionDetails.minorVersionRuntime;
 };

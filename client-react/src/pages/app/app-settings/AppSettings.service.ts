@@ -14,9 +14,11 @@ import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
-  const [windowsStacksPromise, linuxStacksPromise] = [
+  const [webWindowsStacksPromise, webLinuxStacksPromise, functionWindowsStacksPromise, functionLinuxStacksPromise] = [
     RuntimeStackService.getWebAppConfigurationStacks(AppStackOs.windows),
     RuntimeStackService.getWebAppConfigurationStacks(AppStackOs.linux),
+    RuntimeStackService.getFunctionAppConfigurationStacks(AppStackOs.windows),
+    RuntimeStackService.getFunctionAppConfigurationStacks(AppStackOs.linux),
   ];
 
   const [
@@ -26,8 +28,10 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     connectionStrings,
     applicationSettings,
     azureStorageMounts,
-    windowsStacks,
-    linuxStacks,
+    webWindowsStacks,
+    webLinuxStacks,
+    functionWindowsStacks,
+    functionLinuxStacks,
   ] = await Promise.all([
     SiteService.fetchWebConfig(resourceId),
     SiteService.fetchMetadata(resourceId),
@@ -35,8 +39,10 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     SiteService.fetchConnectionStrings(resourceId),
     SiteService.fetchApplicationSettings(resourceId),
     SiteService.fetchAzureStorageMounts(resourceId),
-    windowsStacksPromise,
-    linuxStacksPromise,
+    webWindowsStacksPromise,
+    webLinuxStacksPromise,
+    functionWindowsStacksPromise,
+    functionLinuxStacksPromise,
   ]);
 
   return {
@@ -46,8 +52,10 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     connectionStrings,
     applicationSettings,
     azureStorageMounts,
-    windowsStacks,
-    linuxStacks,
+    webWindowsStacks,
+    webLinuxStacks,
+    functionWindowsStacks,
+    functionLinuxStacks,
   };
 };
 

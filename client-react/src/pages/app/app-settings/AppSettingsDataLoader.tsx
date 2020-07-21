@@ -26,12 +26,12 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
-import { isFunctionApp } from '../../../utils/arm-utils';
+import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { StartupInfoContext } from '../../../StartupInfoContext';
 import { LogCategories } from '../../../utils/LogCategories';
 import { KeyValue } from '../../../models/portal-models';
 import { getErrorMessage, getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
-import { WebAppStack } from '../../../models/stacks/web-app-stacks';
+import { AvailableStackArray } from '../../../models/stacks/app-stacks';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -72,7 +72,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [initialLoading, setInitialLoading] = useState(false);
   const [loadingFailure, setLoadingFailure] = useState(false);
   const [refreshValues, setRefreshValues] = useState(false);
-  const [currentAvailableStacks, setCurrentAvailableStacks] = useState<WebAppStack[]>([]);
+  const [currentAvailableStacks, setCurrentAvailableStacks] = useState<AvailableStackArray>([]);
   const [appPermissions, setAppPermissions] = useState<boolean>(true);
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);
@@ -113,7 +113,18 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const fetchData = async () => {
     const [
       site,
-      { webConfig, metadata, connectionStrings, applicationSettings, slotConfigNames, azureStorageMounts, windowsStacks, linuxStacks },
+      {
+        webConfig,
+        metadata,
+        connectionStrings,
+        applicationSettings,
+        slotConfigNames,
+        azureStorageMounts,
+        webWindowsStacks,
+        webLinuxStacks,
+        functionWindowsStacks,
+        functionLinuxStacks,
+      },
     ] = await Promise.all([siteContext.fetchSite(resourceId), fetchApplicationSettingValues(resourceId)]);
 
     const loadingFailed =
@@ -123,8 +134,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       armCallFailed(connectionStrings, true) ||
       armCallFailed(applicationSettings, true) ||
       armCallFailed(azureStorageMounts, true) ||
-      armCallFailed(windowsStacks) ||
-      armCallFailed(linuxStacks);
+      armCallFailed(webWindowsStacks) ||
+      armCallFailed(webLinuxStacks);
 
     setLoadingFailure(loadingFailed);
 
@@ -191,10 +202,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         }),
       });
 
-      if (site.data.kind!.includes('linux')) {
-        setCurrentAvailableStacks(linuxStacks.data);
+      const isLinux = isLinuxApp(site.data);
+      if (isFunctionApp(site.data)) {
+        setCurrentAvailableStacks(isLinux ? functionLinuxStacks.data : functionWindowsStacks.data);
       } else {
-        setCurrentAvailableStacks(windowsStacks.data);
+        setCurrentAvailableStacks(isLinux ? webLinuxStacks.data : webWindowsStacks.data);
       }
     }
     LogService.stopTrackPage('shell', { feature: 'AppSettings' });

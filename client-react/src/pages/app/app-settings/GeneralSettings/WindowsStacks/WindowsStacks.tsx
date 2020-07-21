@@ -7,9 +7,11 @@ import DotNetStack from './DotNetStack';
 import JavaStack from './JavaStack';
 import PhpStack from './PhpStack';
 import PythonStack from './PythonStack';
-import { AvailableStacksContext, PermissionsContext } from '../../Contexts';
+import { PermissionsContext } from '../../Contexts';
 
-const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+export type StackProps = FormikProps<AppSettingsFormValues>;
+
+const WindowsStacks: React.FC<StackProps> = props => {
   const { values, initialValues } = props;
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
@@ -17,7 +19,6 @@ const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const readonly = !app_write;
   const javaSelected = values.currentlySelectedStack === 'java';
   const showNonJavaAnyway = readonly && !javaSelected;
-  const value = useContext(AvailableStacksContext);
   return (
     <>
       {!readonly && (
@@ -53,10 +54,10 @@ const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           id="app-settings-stack-dropdown"
         />
       )}
-      {values.currentlySelectedStack === 'dotnet' || showNonJavaAnyway ? <DotNetStack stacks={value} {...props} /> : null}
-      {values.currentlySelectedStack === 'php' || showNonJavaAnyway ? <PhpStack stacks={value} {...props} /> : null}
-      {values.currentlySelectedStack === 'python' || showNonJavaAnyway ? <PythonStack stacks={value} {...props} /> : null}
-      {javaSelected ? <JavaStack stacks={value} {...props} /> : null}
+      {values.currentlySelectedStack === 'dotnet' || showNonJavaAnyway ? <DotNetStack {...props} /> : null}
+      {values.currentlySelectedStack === 'php' || showNonJavaAnyway ? <PhpStack {...props} /> : null}
+      {values.currentlySelectedStack === 'python' || showNonJavaAnyway ? <PythonStack {...props} /> : null}
+      {javaSelected ? <JavaStack {...props} /> : null}
     </>
   );
 };

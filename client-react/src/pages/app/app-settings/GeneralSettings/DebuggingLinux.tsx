@@ -17,7 +17,7 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const [flexStamp, setFlexStamp] = useState(false);
 
   const remoteDebuggingEnabledStacks = useMemo(() => {
-    return availableStacks
+    return (availableStacks as any[])
       .flatMap(value => {
         return value.majorVersions.flatMap(majorVersion => {
           return majorVersion.minorVersions.flatMap(minorVersion => ({
