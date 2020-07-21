@@ -29,7 +29,7 @@ const DeploymentCenterCodeSourceKuduReadOnly: React.FC<{}> = () => {
     const notificationId = portalContext.startNotification(t('disconnectingDeployment'), t('disconnectingDeployment'));
 
     // (note: t-kakan): PATCH call to `${resourceId}/config/web`
-    const updatePathSiteConfigResponse = await deploymentCenterData.updatePathSiteConfig(deploymentCenterContext.resourceId, {
+    const updatePathSiteConfigResponse = await deploymentCenterData.patchSiteConfig(deploymentCenterContext.resourceId, {
       properties: {
         scmType: 'None',
       },
