@@ -8,7 +8,7 @@ import {
 } from './DeploymentCenter.types';
 import { MessageBarType, ActionButton, ProgressIndicator } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterContent, additionalTextFieldControl } from './DeploymentCenter.styles';
+import { deploymentCenterContent, additionalTextFieldControl, deploymentCenterInfoBannerDiv } from './DeploymentCenter.styles';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import TextField from '../../../components/form-controls/TextField';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
@@ -27,6 +27,7 @@ const DeploymentCenterFtps: React.FC<
   const [providerPasswordType, setProviderPasswordType] = useState<PasswordFieldType>('password');
   const [providerConfirmPasswordType, setProviderConfirmPasswordType] = useState<PasswordFieldType>('password');
   const [isResetCalloutHidden, setIsResetCalloutHidden] = useState<boolean>(true);
+  const [showBlockedBanner, setShowBlockedBanner] = useState(true);
 
   const ftpsEndpoint = publishingProfile && publishingProfile.publishUrl.toLocaleLowerCase().replace('ftp:/', 'ftps:/');
   const webProviderUsername = publishingUser && publishingUser.properties.publishingUserName;
@@ -69,12 +70,22 @@ const DeploymentCenterFtps: React.FC<
     return <ProgressIndicator description={t('deploymentCenterFtpLoading')} ariaValueText={t('deploymentCenterFtpLoadingAriaValue')} />;
   };
 
+  const closeBlockedBanner = () => {
+    setShowBlockedBanner(false);
+  };
+
   return (
     <>
       {isLoading && getProgressIndicator()}
       <div className={deploymentCenterContent}>
-        {deploymentCenterContext && !deploymentCenterContext.hasWritePermission && (
-          <CustomBanner message={t('deploymentCenterFtpsWritePermissionRequired')} type={MessageBarType.blocked} />
+        {deploymentCenterContext && !deploymentCenterContext.hasWritePermission && showBlockedBanner && (
+          <div className={deploymentCenterInfoBannerDiv}>
+            <CustomBanner
+              message={t('deploymentCenterFtpsWritePermissionRequired')}
+              type={MessageBarType.blocked}
+              onDismiss={closeBlockedBanner}
+            />
+          </div>
         )}
 
         <p>{t('deploymentCenterFtpsDescription')}</p>
