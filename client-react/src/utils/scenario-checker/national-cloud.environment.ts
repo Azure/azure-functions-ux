@@ -143,11 +143,7 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       runCheck: () => {
         return {
           status:
-            NationalCloudEnvironment.isFairFax() ||
-            NationalCloudEnvironment.isMooncake() ||
-            NationalCloudEnvironment.isBlackforest() ||
-            NationalCloudEnvironment.isUSNat() ||
-            NationalCloudEnvironment.isUSSec()
+            NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec()
               ? 'disabled'
               : 'enabled',
         };
