@@ -1,5 +1,5 @@
 import { ArmObj } from '../models/arm-obj';
-import { CommonConstants } from './CommonConstants';
+import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { KeyValue } from '../models/portal-models';
 
 export default class FunctionAppService {
@@ -29,11 +29,11 @@ export default class FunctionAppService {
 
   public static usingPythonWorkerRuntime(appSettings: ArmObj<KeyValue<string>>): boolean {
     const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
-    return !!workerRuntime && CommonConstants.WorkerRuntimeLanguages[workerRuntime] === CommonConstants.WorkerRuntimeLanguages.python;
+    return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.python;
   }
 
   public static usingJavaWorkerRuntime(appSettings: ArmObj<KeyValue<string>>): boolean {
     const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
-    return !!workerRuntime && CommonConstants.WorkerRuntimeLanguages[workerRuntime] === CommonConstants.WorkerRuntimeLanguages.java;
+    return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.java;
   }
 }

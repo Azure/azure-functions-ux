@@ -1,7 +1,6 @@
 import { AppInsightsSettings, GitHubActionSettings, CommonSettings, AppStack } from './app-stacks';
-
-type FunctionsExtensionVersion = '~1' | '~2' | '~3';
-type FunctionsWorkerRuntime = 'dotnet' | 'node' | 'python' | 'java' | 'powershell';
+import { WorkerRuntimeLanguages } from '../../utils/CommonConstants';
+import { RuntimeExtensionMajorVersions } from '../functions/runtime-extension';
 
 export interface FunctionAppRuntimes {
   linuxRuntimeSettings?: FunctionAppRuntimeSettings;
@@ -9,7 +8,7 @@ export interface FunctionAppRuntimes {
 }
 
 export interface AppSettingsDictionary {
-  FUNCTIONS_WORKER_RUNTIME?: FunctionsWorkerRuntime;
+  FUNCTIONS_WORKER_RUNTIME?: WorkerRuntimeLanguages;
   WEBSITE_NODE_DEFAULT_VERSION?: string;
 }
 
@@ -27,7 +26,7 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   gitHubActionSettings: GitHubActionSettings;
   appSettingsDictionary: AppSettingsDictionary;
   siteConfigPropertiesDictionary: SiteConfigPropertiesDictionary;
-  supportedFunctionsExtensionVersions: FunctionsExtensionVersion[];
+  supportedFunctionsExtensionVersions: RuntimeExtensionMajorVersions[];
 }
 
 export type FunctionAppStack = AppStack<FunctionAppRuntimeSettings>;
