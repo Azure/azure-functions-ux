@@ -21,7 +21,7 @@ export default class RuntimeStackService {
           ...result.metadata,
           success,
         },
-        data: success ? result.data : (null as any),
+        data: success ? result.data : [],
       };
       return mappedResult;
     });
@@ -39,7 +39,7 @@ export default class RuntimeStackService {
           ...result.metadata,
           success,
         },
-        data: success ? result.data : (null as any),
+        data: success ? result.data : [],
       };
       return mappedResult;
     });
