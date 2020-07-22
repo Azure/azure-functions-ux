@@ -13,7 +13,7 @@ import {
   getJavaMajorVersionAsDropdownOptions,
 } from './JavaData';
 import { useTranslation } from 'react-i18next';
-import { PermissionsContext, AvailableStacksContext } from '../../Contexts';
+import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 import { StackProps } from './WindowsStacks';
 
@@ -24,7 +24,7 @@ const JavaStack: React.SFC<StackProps> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
 
-  const stacks = useContext(AvailableStacksContext);
+  const stacks = useContext(WebAppStacksContext);
 
   const javaStack = getJavaStack(stacks);
   const javaContainers = getJavaContainers(stacks);

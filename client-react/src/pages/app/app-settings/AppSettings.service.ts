@@ -10,39 +10,15 @@ import MakeArmCall from '../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import PortalCommunicator from '../../../portal-communicator';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
-import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
-import { AppStackOs } from '../../../models/stacks/app-stacks';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
-  const [webWindowsStacksPromise, webLinuxStacksPromise, functionWindowsStacksPromise, functionLinuxStacksPromise] = [
-    RuntimeStackService.getWebAppConfigurationStacks(AppStackOs.windows),
-    RuntimeStackService.getWebAppConfigurationStacks(AppStackOs.linux),
-    RuntimeStackService.getFunctionAppConfigurationStacks(AppStackOs.windows),
-    RuntimeStackService.getFunctionAppConfigurationStacks(AppStackOs.linux),
-  ];
-
-  const [
-    webConfig,
-    metadata,
-    slotConfigNames,
-    connectionStrings,
-    applicationSettings,
-    azureStorageMounts,
-    webWindowsStacks,
-    webLinuxStacks,
-    functionWindowsStacks,
-    functionLinuxStacks,
-  ] = await Promise.all([
+  const [webConfig, metadata, slotConfigNames, connectionStrings, applicationSettings, azureStorageMounts] = await Promise.all([
     SiteService.fetchWebConfig(resourceId),
     SiteService.fetchMetadata(resourceId),
     SiteService.fetchSlotConfigNames(resourceId),
     SiteService.fetchConnectionStrings(resourceId),
     SiteService.fetchApplicationSettings(resourceId),
     SiteService.fetchAzureStorageMounts(resourceId),
-    webWindowsStacksPromise,
-    webLinuxStacksPromise,
-    functionWindowsStacksPromise,
-    functionLinuxStacksPromise,
   ]);
 
   return {
@@ -52,10 +28,6 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     connectionStrings,
     applicationSettings,
     azureStorageMounts,
-    webWindowsStacks,
-    webLinuxStacks,
-    functionWindowsStacks,
-    functionLinuxStacks,
   };
 };
 

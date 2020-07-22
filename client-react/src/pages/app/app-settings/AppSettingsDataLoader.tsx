@@ -15,7 +15,14 @@ import {
   getFunctions,
   fetchFunctionsHostStatus,
 } from './AppSettings.service';
-import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext, SiteContext } from './Contexts';
+import {
+  PermissionsContext,
+  StorageAccountsContext,
+  SlotsListContext,
+  SiteContext,
+  WebAppStacksContext,
+  FunctionAppStacksContext,
+} from './Contexts';
 import { PortalContext } from '../../../PortalContext';
 import { useTranslation } from 'react-i18next';
 import { HttpResponseObject } from '../../../ArmHelper.types';
@@ -31,7 +38,10 @@ import { StartupInfoContext } from '../../../StartupInfoContext';
 import { LogCategories } from '../../../utils/LogCategories';
 import { KeyValue } from '../../../models/portal-models';
 import { getErrorMessage, getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
-import { AvailableStackArray } from '../../../models/stacks/app-stacks';
+import { WebAppStack } from '../../../models/stacks/web-app-stacks';
+import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
+import { AppStackOs } from '../../../models/stacks/app-stacks';
+import { FunctionAppStack } from '../../../models/stacks/function-app-stacks';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -72,7 +82,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [initialLoading, setInitialLoading] = useState(false);
   const [loadingFailure, setLoadingFailure] = useState(false);
   const [refreshValues, setRefreshValues] = useState(false);
-  const [currentAvailableStacks, setCurrentAvailableStacks] = useState<AvailableStackArray>([]);
+  const [webAppStacks, setWebAppStacks] = useState<WebAppStack[]>([]);
+  const [functionAppStacks, setFunctionAppStacks] = useState<FunctionAppStack[]>([]);
   const [appPermissions, setAppPermissions] = useState<boolean>(true);
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);
@@ -111,31 +122,38 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchData = async () => {
-    const [
-      site,
-      {
-        webConfig,
-        metadata,
-        connectionStrings,
-        applicationSettings,
-        slotConfigNames,
-        azureStorageMounts,
-        webWindowsStacks,
-        webLinuxStacks,
-        functionWindowsStacks,
-        functionLinuxStacks,
-      },
-    ] = await Promise.all([siteContext.fetchSite(resourceId), fetchApplicationSettingValues(resourceId)]);
+    const [site, { webConfig, metadata, connectionStrings, applicationSettings, slotConfigNames, azureStorageMounts }] = await Promise.all([
+      siteContext.fetchSite(resourceId),
+      fetchApplicationSettingValues(resourceId),
+    ]);
 
-    const loadingFailed =
+    let loadingFailed =
       armCallFailed(site) ||
       armCallFailed(webConfig) ||
       armCallFailed(metadata, true) ||
       armCallFailed(connectionStrings, true) ||
       armCallFailed(applicationSettings, true) ||
-      armCallFailed(azureStorageMounts, true) ||
-      armCallFailed(webWindowsStacks) ||
-      armCallFailed(webLinuxStacks);
+      armCallFailed(azureStorageMounts, true);
+
+    // Get stacks response
+    if (!loadingFailed) {
+      const isLinux = isLinuxApp(site.data);
+      if (isFunctionApp(site.data)) {
+        const stacksResponse = await RuntimeStackService.getFunctionAppConfigurationStacks(isLinux ? AppStackOs.linux : AppStackOs.windows);
+        if (stacksResponse.metadata.status) {
+          setFunctionAppStacks(stacksResponse.data);
+        } else {
+          loadingFailed = true;
+        }
+      } else {
+        const stacksResponse = await RuntimeStackService.getWebAppConfigurationStacks(isLinux ? AppStackOs.linux : AppStackOs.windows);
+        if (stacksResponse.metadata.status) {
+          setWebAppStacks(stacksResponse.data);
+        } else {
+          loadingFailed = true;
+        }
+      }
+    }
 
     setLoadingFailure(loadingFailed);
 
@@ -150,7 +168,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
     if (!loadingFailed) {
       setCurrentSiteNonForm(site.data);
-
       if (isFunctionApp(site.data)) {
         SiteService.fireSyncTrigger(site.data, startUpInfoContext.token || '').then(r => {
           if (!r.metadata.success) {
@@ -201,13 +218,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
         }),
       });
-
-      const isLinux = isLinuxApp(site.data);
-      if (isFunctionApp(site.data)) {
-        setCurrentAvailableStacks(isLinux ? functionLinuxStacks.data : functionWindowsStacks.data);
-      } else {
-        setCurrentAvailableStacks(isLinux ? webLinuxStacks.data : webWindowsStacks.data);
-      }
     }
     LogService.stopTrackPage('shell', { feature: 'AppSettings' });
     portalContext.loadComplete();
@@ -379,23 +389,25 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   }
 
   return (
-    <AvailableStacksContext.Provider value={currentAvailableStacks}>
-      <PermissionsContext.Provider value={{ editable, saving, app_write: appPermissions, production_write: productionPermissions }}>
-        <StorageAccountsContext.Provider value={storageAccountsState}>
-          <SiteContext.Provider value={currentSiteNonForm}>
-            <SlotsListContext.Provider value={slotList}>
-              {children({
-                onSubmit,
-                scaleUpPlan,
-                asyncData,
-                refreshAppSettings,
-                initialFormValues: initialValues,
-              })}
-            </SlotsListContext.Provider>
-          </SiteContext.Provider>
-        </StorageAccountsContext.Provider>
-      </PermissionsContext.Provider>
-    </AvailableStacksContext.Provider>
+    <WebAppStacksContext.Provider value={webAppStacks}>
+      <FunctionAppStacksContext.Provider value={functionAppStacks}>
+        <PermissionsContext.Provider value={{ editable, saving, app_write: appPermissions, production_write: productionPermissions }}>
+          <StorageAccountsContext.Provider value={storageAccountsState}>
+            <SiteContext.Provider value={currentSiteNonForm}>
+              <SlotsListContext.Provider value={slotList}>
+                {children({
+                  onSubmit,
+                  scaleUpPlan,
+                  asyncData,
+                  refreshAppSettings,
+                  initialFormValues: initialValues,
+                })}
+              </SlotsListContext.Provider>
+            </SiteContext.Provider>
+          </StorageAccountsContext.Provider>
+        </PermissionsContext.Provider>
+      </FunctionAppStacksContext.Provider>
+    </WebAppStacksContext.Provider>
   );
 };
 

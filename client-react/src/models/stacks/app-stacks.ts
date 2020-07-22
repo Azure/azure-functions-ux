@@ -1,6 +1,3 @@
-import { WebAppStack } from './web-app-stacks';
-import { FunctionAppStack } from './function-app-stacks';
-
 export interface AppStack<T> {
   displayText: string;
   value: string;
@@ -42,6 +39,3 @@ export interface CommonSettings {
   endOfLifeDate?: string;
   isAutoUpdate?: boolean;
 }
-
-export type AvailableStack = WebAppStack | FunctionAppStack;
-export type AvailableStackArray = WebAppStack[] | FunctionAppStack[];
