@@ -1,8 +1,9 @@
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { SiteConfig } from '../../../../../models/site/config';
-import { WebAppStack, WebAppStackOs } from '../../../../../models/stacks/web-app-stacks';
 import i18next from 'i18next';
+import { AppStackOs } from '../../../../../models/stacks/app-stacks';
+import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 
 export const getJavaStack = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'java');
 export const getJavaContainers = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'javacontainers');
@@ -38,7 +39,7 @@ export const getJavaMinorVersionObject = (javaStack: WebAppStack, selectedJavaVe
   return minorVersionSettings;
 };
 
-export const getJavaMajorVersionAsDropdownOptions = (javaStack: WebAppStack, osType?: WebAppStackOs): IDropdownOption[] => {
+export const getJavaMajorVersionAsDropdownOptions = (javaStack: WebAppStack, osType?: AppStackOs): IDropdownOption[] => {
   return javaStack.majorVersions.map(x => ({
     key: x.value,
     text: x.displayText,

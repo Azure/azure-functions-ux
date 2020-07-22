@@ -2,7 +2,7 @@ import { Field, FormikProps } from 'formik';
 import React, { useContext, useState, useEffect } from 'react';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../../AppSettings.types';
-import { AvailableStacksContext, PermissionsContext } from '../../Contexts';
+import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import TextField from '../../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
@@ -26,7 +26,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
   const { site } = values;
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
-  const stacks = useContext(AvailableStacksContext);
+  const stacks = useContext(WebAppStacksContext);
   const runtimeOptions = getRuntimeStacks(stacks);
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
