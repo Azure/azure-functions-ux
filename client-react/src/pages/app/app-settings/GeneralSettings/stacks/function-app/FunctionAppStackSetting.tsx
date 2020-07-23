@@ -13,6 +13,7 @@ import { isLinuxApp } from '../../../../../../utils/arm-utils';
 import { getStackVersionConfigPropertyForWindowsApp, getStackVersionDropdownOptions } from './FunctionAppStackSetting.data';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
+import { settingsWrapper } from '../../../AppSettingsForm';
 
 const FunctionAppStackSetting: React.FC<StackProps> = props => {
   const { t } = useTranslation();
@@ -58,26 +59,29 @@ const FunctionAppStackSetting: React.FC<StackProps> = props => {
   }, []);
   return !!runtimeStack && !!currentStackData ? (
     <>
-      <DropdownNoFormik
-        selectedKey={runtimeStack}
-        disabled={true}
-        onChange={() => {}}
-        options={[{ key: runtimeStack, text: currentStackData.displayText }]}
-        label={t('stack')}
-        id="function-app-stack"
-      />
-      <Field
-        name={`config.properties.${getConfigProperty()}`}
-        dirty={isVersionDirty()}
-        component={Dropdown}
-        label={t('versionLabel').format(currentStackData.displayText)}
-        id="function-app-stack-major-version"
-        options={getStackVersionDropdownOptions(
-          currentStackData,
-          runtimeMajorVersion,
-          !!siteStateContext.site && isLinuxApp(siteStateContext.site) ? AppStackOs.linux : AppStackOs.windows
-        )}
-      />
+      <h3>{t('stackSettings')}</h3>
+      <div className={settingsWrapper}>
+        <DropdownNoFormik
+          selectedKey={runtimeStack}
+          disabled={true}
+          onChange={() => {}}
+          options={[{ key: runtimeStack, text: currentStackData.displayText }]}
+          label={t('stack')}
+          id="function-app-stack"
+        />
+        <Field
+          name={`config.properties.${getConfigProperty()}`}
+          dirty={isVersionDirty()}
+          component={Dropdown}
+          label={t('versionLabel').format(currentStackData.displayText)}
+          id="function-app-stack-major-version"
+          options={getStackVersionDropdownOptions(
+            currentStackData,
+            runtimeMajorVersion,
+            !!siteStateContext.site && isLinuxApp(siteStateContext.site) ? AppStackOs.linux : AppStackOs.windows
+          )}
+        />
+      </div>
     </>
   ) : null;
 };
