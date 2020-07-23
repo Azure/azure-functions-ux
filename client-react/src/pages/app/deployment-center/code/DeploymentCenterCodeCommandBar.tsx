@@ -137,10 +137,11 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
 
   const saveFunction = async () => {
     if (formProps.values.buildProvider === BuildProvider.GitHubAction) {
-      saveGithubActionsDeploymentSettings();
+      await saveGithubActionsDeploymentSettings();
     } else {
-      saveAppServiceDeploymentSettings();
+      await saveAppServiceDeploymentSettings();
     }
+    deploymentCenterContext.refresh();
   };
 
   const discardFunction = () => {

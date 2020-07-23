@@ -10,32 +10,15 @@ import MakeArmCall from '../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import PortalCommunicator from '../../../portal-communicator';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
-import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
-  const [windowsStacksPromise, linuxStacksPromise] = [
-    RuntimeStackService.getWebAppConfigurationStacks('windows'),
-    RuntimeStackService.getWebAppConfigurationStacks('linux'),
-  ];
-
-  const [
-    webConfig,
-    metadata,
-    slotConfigNames,
-    connectionStrings,
-    applicationSettings,
-    azureStorageMounts,
-    windowsStacks,
-    linuxStacks,
-  ] = await Promise.all([
+  const [webConfig, metadata, slotConfigNames, connectionStrings, applicationSettings, azureStorageMounts] = await Promise.all([
     SiteService.fetchWebConfig(resourceId),
     SiteService.fetchMetadata(resourceId),
     SiteService.fetchSlotConfigNames(resourceId),
     SiteService.fetchConnectionStrings(resourceId),
     SiteService.fetchApplicationSettings(resourceId),
     SiteService.fetchAzureStorageMounts(resourceId),
-    windowsStacksPromise,
-    linuxStacksPromise,
   ]);
 
   return {
@@ -45,8 +28,6 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     connectionStrings,
     applicationSettings,
     azureStorageMounts,
-    windowsStacks,
-    linuxStacks,
   };
 };
 
