@@ -2132,4 +2132,5 @@ export class PortalResources {
   public static pricing_appDensityWarningMessageAriaLabel = 'pricing_appDensityWarningMessageAriaLabel';
   public static ibizafication_readOnlyLinuxElastic = 'ibizafication_readOnlyLinuxElastic';
   public static stackVersionAutoUpdate = 'stackVersionAutoUpdate';
+  public static versionLabel = 'versionLabel';
 }
