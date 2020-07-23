@@ -2,7 +2,7 @@ import { StackProps } from '../../WindowsStacks/WindowsStacks';
 import DropdownNoFormik from '../../../../../../components/form-controls/DropDownnoFormik';
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FunctionAppStacksContext } from '../../../Contexts';
+import { FunctionAppStacksContext, PermissionsContext } from '../../../Contexts';
 import { FunctionAppStack } from '../../../../../../models/stacks/function-app-stacks';
 import { CommonConstants } from '../../../../../../utils/CommonConstants';
 import { findFormAppSettingValue } from '../../../AppSettingsFormData';
@@ -14,12 +14,16 @@ import { getStackVersionConfigPropertyForWindowsApp, getStackVersionDropdownOpti
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
 import { settingsWrapper } from '../../../AppSettingsForm';
+import { TextField } from 'office-ui-fabric-react';
+import { Links } from '../../../../../../utils/FwLinks';
 
 const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();
   const { initialValues, values } = props;
   const functionAppStacksContext = useContext(FunctionAppStacksContext);
   const siteStateContext = useContext(SiteStateContext);
+  const { app_write, editable, saving } = useContext(PermissionsContext);
+  const disableAllControls = !app_write || !editable || saving;
 
   const [runtimeStack, setRuntimeStack] = useState<string | undefined>(undefined);
   const [currentStackData, setCurrentStackData] = useState<FunctionAppStack | undefined>(undefined);
@@ -28,10 +32,10 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const [initialStackVersion, setInitialStackVersion] = useState<string | undefined>(undefined);
   const runtimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(runtimeVersion);
 
+  const isLinux = () => !!siteStateContext.site && isLinuxApp(siteStateContext.site);
+
   const getConfigProperty = (latestRuntimeStack?: string) => {
-    return !!siteStateContext.site && isLinuxApp(siteStateContext.site)
-      ? 'linuxFxVersion'
-      : getStackVersionConfigPropertyForWindowsApp(latestRuntimeStack || runtimeStack);
+    return isLinux() ? 'linuxFxVersion' : getStackVersionConfigPropertyForWindowsApp(latestRuntimeStack || runtimeStack);
   };
 
   const setInitialData = () => {
@@ -72,6 +76,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
           name={`config.properties.${getConfigProperty()}`}
           dirty={isVersionDirty()}
           component={Dropdown}
+          disabled={disableAllControls}
           label={t('versionLabel').format(currentStackData.displayText)}
           id="function-app-stack-major-version"
           options={getStackVersionDropdownOptions(
@@ -80,6 +85,19 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
             !!siteStateContext.site && isLinuxApp(siteStateContext.site) ? AppStackOs.linux : AppStackOs.windows
           )}
         />
+        {isLinux() && (
+          <Field
+            name="config.properties.appCommandLine"
+            component={TextField}
+            dirty={values.config.properties.appCommandLine !== initialValues.config.properties.appCommandLine}
+            disabled={disableAllControls}
+            label={t('appCommandLineLabel')}
+            id="linux-fx-version-appCommandLine"
+            infoBubbleMessage={t('appCommandLineLabelHelpNoLink')}
+            learnMoreLink={Links.linuxContainersLearnMore}
+            style={{ marginLeft: '1px', marginTop: '1px' }} // Not sure why but left border disappears without margin and for small windows the top also disappears
+          />
+        )}
       </div>
     </>
   ) : null;
