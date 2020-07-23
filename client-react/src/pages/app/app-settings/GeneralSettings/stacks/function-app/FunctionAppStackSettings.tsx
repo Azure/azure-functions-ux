@@ -9,7 +9,7 @@ import { findFormAppSettingValue } from '../../../AppSettingsFormData';
 import { FunctionsRuntimeVersionHelper } from '../../../../../../utils/FunctionsRuntimeVersionHelper';
 import { SiteStateContext } from '../../../../../../SiteState';
 import { Field } from 'formik';
-import { isLinuxApp } from '../../../../../../utils/arm-utils';
+import { isLinuxApp, isContainerApp } from '../../../../../../utils/arm-utils';
 import { getStackVersionConfigPropertyForWindowsApp, getStackVersionDropdownOptions } from './FunctionAppStackSettings.data';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
@@ -55,36 +55,46 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     return !!values.config && values.config.properties[stackVersionProperty] !== initialStackVersion;
   };
 
+  const isWindowsContainer = () => !siteStateContext.site || (!isLinux() && isContainerApp(siteStateContext.site));
+
   useEffect(() => {
     setInitialData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return !!runtimeStack && !!currentStackData ? (
+
+  if (!runtimeStack || !currentStackData || isWindowsContainer()) {
+    return null;
+  }
+  return (
     <>
       <h3>{t('stackSettings')}</h3>
       <div className={settingsWrapper}>
-        <DropdownNoFormik
-          selectedKey={runtimeStack}
-          disabled={true}
-          onChange={() => {}}
-          options={[{ key: runtimeStack, text: currentStackData.displayText }]}
-          label={t('stack')}
-          id="function-app-stack"
-        />
-        <Field
-          name={`config.properties.${getConfigProperty()}`}
-          dirty={isVersionDirty()}
-          component={Dropdown}
-          disabled={disableAllControls}
-          label={t('versionLabel').format(currentStackData.displayText)}
-          id="function-app-stack-major-version"
-          options={getStackVersionDropdownOptions(
-            currentStackData,
-            runtimeMajorVersion,
-            !!siteStateContext.site && isLinuxApp(siteStateContext.site) ? AppStackOs.linux : AppStackOs.windows
-          )}
-        />
+        {siteStateContext.site && !isContainerApp(siteStateContext.site) && (
+          <>
+            <DropdownNoFormik
+              selectedKey={runtimeStack}
+              disabled={true}
+              onChange={() => {}}
+              options={[{ key: runtimeStack, text: currentStackData.displayText }]}
+              label={t('stack')}
+              id="function-app-stack"
+            />
+            <Field
+              name={`config.properties.${getConfigProperty()}`}
+              dirty={isVersionDirty()}
+              component={Dropdown}
+              disabled={disableAllControls}
+              label={t('versionLabel').format(currentStackData.displayText)}
+              id="function-app-stack-major-version"
+              options={getStackVersionDropdownOptions(
+                currentStackData,
+                runtimeMajorVersion,
+                !!siteStateContext.site && isLinuxApp(siteStateContext.site) ? AppStackOs.linux : AppStackOs.windows
+              )}
+            />
+          </>
+        )}
         {isLinux() && (
           <Field
             name="config.properties.appCommandLine"
@@ -100,7 +110,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
         )}
       </div>
     </>
-  ) : null;
+  );
 };
 
 export default FunctionAppStackSettings;
