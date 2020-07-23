@@ -8,6 +8,8 @@ import { settingsWrapper } from '../AppSettingsForm';
 import LinuxStacks from './LinuxStacks/LinuxStacks';
 import WindowsStacks from './WindowsStacks/WindowsStacks';
 import { useTranslation } from 'react-i18next';
+import FunctionAppStackSetting from './stacks/function-app/FunctionAppStackSetting';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const Stacks: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
   const { values } = props;
@@ -15,7 +17,16 @@ const Stacks: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
 
-  if (scenarioService.checkScenario(ScenarioIds.linuxAppStack, { site }).status === 'enabled') {
+  if (scenarioService.checkScenario(ScenarioIds.functionAppRuntimeStack, { site }).status === 'disabled') {
+    return !!values.appSettings.find(appSetting => appSetting.name === CommonConstants.AppSettingNames.functionsWorkerRuntime) ? (
+      <>
+        <h3>{t('stackSettings')}</h3>
+        <div className={settingsWrapper}>
+          <FunctionAppStackSetting {...props} />
+        </div>
+      </>
+    ) : null;
+  } else if (scenarioService.checkScenario(ScenarioIds.linuxAppStack, { site }).status === 'enabled') {
     return (
       <>
         <h3>{t('stackSettings')}</h3>
@@ -24,8 +35,6 @@ const Stacks: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
         </div>
       </>
     );
-  } else if (scenarioService.checkScenario(ScenarioIds.functionAppRuntimeStack, { site }).status === 'disabled') {
-    return null;
   } else if (scenarioService.checkScenario(ScenarioIds.xenonAppRuntimeStack, { site }).status === 'disabled') {
     return null;
   } else {
