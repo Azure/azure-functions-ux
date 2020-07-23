@@ -10,20 +10,21 @@ import { FunctionsRuntimeVersionHelper } from '../../../../../../utils/Functions
 import { SiteStateContext } from '../../../../../../SiteState';
 import { Field } from 'formik';
 import { isLinuxApp } from '../../../../../../utils/arm-utils';
-import { getStackVersionConfigPropertyForWindowsApp, getStackVersionDropdownOptions } from './FunctionAppStackSetting.data';
+import { getStackVersionConfigPropertyForWindowsApp, getStackVersionDropdownOptions } from './FunctionAppStackSettings.data';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
 import { settingsWrapper } from '../../../AppSettingsForm';
 
-const FunctionAppStackSetting: React.FC<StackProps> = props => {
+const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();
-  const { values } = props;
+  const { initialValues, values } = props;
   const functionAppStacksContext = useContext(FunctionAppStacksContext);
   const siteStateContext = useContext(SiteStateContext);
 
   const [runtimeStack, setRuntimeStack] = useState<string | undefined>(undefined);
   const [currentStackData, setCurrentStackData] = useState<FunctionAppStack | undefined>(undefined);
-  const runtimeVersion = findFormAppSettingValue(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) || '';
+  const runtimeVersion =
+    findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) || '';
   const [initialStackVersion, setInitialStackVersion] = useState<string | undefined>(undefined);
   const runtimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(runtimeVersion);
 
@@ -34,16 +35,14 @@ const FunctionAppStackSetting: React.FC<StackProps> = props => {
   };
 
   const setInitialData = () => {
-    const runtimeStack = values.currentlySelectedStack;
+    const runtimeStack = initialValues.currentlySelectedStack;
     if (runtimeStack && functionAppStacksContext.length > 0) {
       setRuntimeStack(runtimeStack);
       setCurrentStackData(functionAppStacksContext.find(stack => stack.value === runtimeStack));
     }
-    if (!initialStackVersion) {
-      const stackVersionProperty = getConfigProperty(runtimeStack);
-      if (values.config && values.config && values.config.properties[stackVersionProperty]) {
-        setInitialStackVersion(values.config.properties[stackVersionProperty]);
-      }
+    const stackVersionProperty = getConfigProperty(runtimeStack);
+    if (initialValues.config && initialValues.config && initialValues.config.properties[stackVersionProperty]) {
+      setInitialStackVersion(initialValues.config.properties[stackVersionProperty]);
     }
   };
 
@@ -86,4 +85,4 @@ const FunctionAppStackSetting: React.FC<StackProps> = props => {
   ) : null;
 };
 
-export default FunctionAppStackSetting;
+export default FunctionAppStackSettings;
