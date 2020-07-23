@@ -3,8 +3,8 @@ import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, WorkflowOptio
 import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
 import { ScmType, BuildProvider } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import DeploymentCenterGitHubReadOnly from '../github-provider/DeploymentCenterGitHubReadOnly';
-import DeploymentCenterCodeBuildReadOnly from './DeploymentCenterCodeBuildReadOnly';
+import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentCenterGitHubConfiguredView';
+import DeploymentCenterCodeBuildConfiguredView from './DeploymentCenterCodeBuildConfiguredView';
 import DeploymentCenterCodeSourceAndBuild from './DeploymentCenterCodeSourceAndBuild';
 import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/DeploymentCenterGitHubWorkflowConfigSelector';
 import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
@@ -15,7 +15,7 @@ import { MessageBarType, Link } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { getWorkflowInformation } from '../utility/GitHubActionUtility';
 import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
-import DeploymentCenterCodeSourceKuduReadOnly from './DeploymentCenterCodeSourceKuduReadOnly';
+import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 
@@ -156,9 +156,9 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
               {` ${t('learnMore')}`}
             </Link>
           </p>
-          {!isGitHubActionsSetup && <DeploymentCenterCodeSourceKuduReadOnly />}
-          {isGitHubSourceSetup && <DeploymentCenterGitHubReadOnly isGitHubActionsSetup={isGitHubActionsSetup} />}
-          <DeploymentCenterCodeBuildReadOnly />
+          {!isGitHubActionsSetup && <DeploymentCenterCodeSourceKuduConfiguredView />}
+          {isGitHubSourceSetup && <DeploymentCenterGitHubConfiguredView isGitHubActionsSetup={isGitHubActionsSetup} />}
+          <DeploymentCenterCodeBuildConfiguredView />
         </>
       ) : (
         <>

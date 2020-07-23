@@ -1,23 +1,19 @@
-import { Field, FormikProps } from 'formik';
+import { Field } from 'formik';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../../components/form-controls/DropDown';
-import { AppSettingsFormValues } from '../../AppSettings.types';
-import { PermissionsContext } from '../../Contexts';
-import { WebAppStack, WebAppStackOs } from '../../../../../models/stacks/web-app-stacks';
+import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import { getStacksSummaryForDropdown } from '../../../../../utils/stacks-utils';
+import { AppStackOs } from '../../../../../models/stacks/app-stacks';
+import { StackProps } from './WindowsStacks';
 
-export interface StateProps {
-  stacks: WebAppStack[];
-}
-
-type Props = StateProps & FormikProps<AppSettingsFormValues>;
-
-const DotNetStack: React.SFC<Props> = props => {
-  const { stacks, values, initialValues } = props;
+const DotNetStack: React.SFC<StackProps> = props => {
+  const { values, initialValues } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
   const { t } = useTranslation();
+  const stacks = useContext(WebAppStacksContext);
+
   const aspNetStack = stacks.find(x => x.value === 'aspnet');
   if (!aspNetStack) {
     return null;
@@ -35,7 +31,7 @@ const DotNetStack: React.SFC<Props> = props => {
       label={t('netFrameWorkVersionLabel')}
       id="netValidationVersion"
       disabled={disableAllControls}
-      options={getStacksSummaryForDropdown(aspNetStack, WebAppStackOs.windows)}
+      options={getStacksSummaryForDropdown(aspNetStack, AppStackOs.windows)}
     />
   );
 };

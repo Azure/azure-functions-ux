@@ -87,15 +87,6 @@ export class CommonConstants {
     v3: '~12',
   };
 
-  public static readonly WorkerRuntimeLanguages = {
-    dotnet: 'C#',
-    node: 'JavaScript',
-    nodejs: 'JavaScript',
-    python: 'Python',
-    java: 'Java',
-    powershell: 'PowerShell',
-  };
-
   public static localCacheOptionSettingValue = 'always';
 
   public static readonly QuickPulseEndpoints = {
@@ -167,4 +158,13 @@ export class CommonConstants {
   public static readonly DefaultHiddenValue = '******';
 
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
+}
+
+export enum WorkerRuntimeLanguages {
+  dotnet = 'dotnet',
+  javascript = 'javascript',
+  nodejs = 'node',
+  python = 'python',
+  java = 'java',
+  powershell = 'powershell',
 }

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
-import { PermissionsContext, AvailableStacksContext } from '../Contexts';
+import { PermissionsContext, WebAppStacksContext } from '../Contexts';
 import SiteHelper from '../../../../utils/SiteHelper';
 import { Links } from '../../../../utils/FwLinks';
 
@@ -12,12 +12,12 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
-  const availableStacks = useContext(AvailableStacksContext);
+  const webAppStacks = useContext(WebAppStacksContext);
   const [enabledStack, setEnabledStack] = useState(false);
   const [flexStamp, setFlexStamp] = useState(false);
 
   const remoteDebuggingEnabledStacks = useMemo(() => {
-    return availableStacks
+    return webAppStacks
       .flatMap(value => {
         return value.majorVersions.flatMap(majorVersion => {
           return majorVersion.minorVersions.flatMap(minorVersion => ({
@@ -32,7 +32,7 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       })
       .filter(x => x.isRemoteDebuggingEnabled)
       .map(x => x.runtimeVersion && x.runtimeVersion.toLowerCase());
-  }, [availableStacks]);
+  }, [webAppStacks]);
 
   const getInfoBubbleText = (): string => {
     if (!enabledStack) {
