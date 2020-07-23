@@ -115,7 +115,7 @@ const JavaStack: React.SFC<StackProps> = props => {
         component={Dropdown}
         fullpage
         required
-        label={t('javaContainer')}
+        label={t('javaWebServer')}
         disabled={disableAllControls}
         id="app-settings-java-container-runtime"
         options={frameworks}
@@ -128,7 +128,7 @@ const JavaStack: React.SFC<StackProps> = props => {
           fullpage
           required
           disabled={disableAllControls}
-          label={t('javaContainerVersion')}
+          label={t('javaWebServerVersion')}
           id="app-settings-java-container-version"
           options={javaFrameworkVersionOptions}
         />
