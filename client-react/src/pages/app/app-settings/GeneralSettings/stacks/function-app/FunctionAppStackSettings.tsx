@@ -22,20 +22,20 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { initialValues, values } = props;
   const functionAppStacksContext = useContext(FunctionAppStacksContext);
   const siteStateContext = useContext(SiteStateContext);
+
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
+  const runtimeVersion =
+    findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) || '';
+  const runtimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(runtimeVersion);
+  const isLinux = () => !!siteStateContext.site && isLinuxApp(siteStateContext.site);
 
   const [runtimeStack, setRuntimeStack] = useState<string | undefined>(undefined);
   const [currentStackData, setCurrentStackData] = useState<FunctionAppStack | undefined>(undefined);
-  const runtimeVersion =
-    findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) || '';
   const [initialStackVersion, setInitialStackVersion] = useState<string | undefined>(undefined);
-  const runtimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(runtimeVersion);
 
-  const isLinux = () => !!siteStateContext.site && isLinuxApp(siteStateContext.site);
-
-  const getConfigProperty = (latestRuntimeStack?: string) => {
-    return getStackVersionConfigPropertyName(isLinux(), latestRuntimeStack || runtimeStack);
+  const getConfigProperty = (runtimeStack?: string) => {
+    return getStackVersionConfigPropertyName(isLinux(), runtimeStack);
   };
 
   const setInitialData = () => {
@@ -73,36 +73,36 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
         {siteStateContext.site && !isContainerApp(siteStateContext.site) && (
           <>
             <DropdownNoFormik
+              id="function-app-stack"
               selectedKey={runtimeStack}
               disabled={true}
               onChange={() => {}}
               options={[{ key: runtimeStack, text: currentStackData.displayText }]}
               label={t('stack')}
-              id="function-app-stack"
             />
             <Field
-              name={`config.properties.${getConfigProperty()}`}
+              id="function-app-stack-major-version"
+              name={`config.properties.${getConfigProperty(runtimeStack)}`}
               dirty={isVersionDirty()}
               component={Dropdown}
               disabled={disableAllControls}
               label={t('versionLabel').format(currentStackData.displayText)}
-              id="function-app-stack-major-version"
               options={getStackVersionDropdownOptions(
                 currentStackData,
                 runtimeMajorVersion,
-                !!siteStateContext.site && isLinuxApp(siteStateContext.site) ? AppStackOs.linux : AppStackOs.windows
+                isLinux() ? AppStackOs.linux : AppStackOs.windows
               )}
             />
           </>
         )}
         {isLinux() && (
           <Field
+            id="linux-function-app-appCommandLine"
             name="config.properties.appCommandLine"
             component={TextField}
             dirty={values.config.properties.appCommandLine !== initialValues.config.properties.appCommandLine}
             disabled={disableAllControls}
             label={t('appCommandLineLabel')}
-            id="linux-fx-version-appCommandLine"
             infoBubbleMessage={t('appCommandLineLabelHelpNoLink')}
             learnMoreLink={Links.linuxContainersLearnMore}
             style={{ marginLeft: '1px', marginTop: '1px' }} // Not sure why but left border disappears without margin and for small windows the top also disappears

@@ -10,6 +10,7 @@ export const getStackVersionDropdownOptions = (
   osType: AppStackOs
 ): IDropdownOption[] => {
   const stackMinorVersions: IDropdownOption[] = [];
+
   stack.majorVersions.forEach(stackMajorVersion => {
     stackMajorVersion.minorVersions.forEach(stackMinorVersion => {
       const settings =
@@ -25,6 +26,7 @@ export const getStackVersionDropdownOptions = (
       }
     });
   });
+
   return stackMinorVersions;
 };
 
