@@ -16,7 +16,7 @@ const Stacks: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
 
-  if (scenarioService.checkScenario(ScenarioIds.functionAppRuntimeStack, { site }).status === 'disabled') {
+  if (scenarioService.checkScenario(ScenarioIds.functionAppRuntimeStack, { site }).status === 'enabled') {
     return <FunctionAppStackSetting {...props} />;
   } else if (scenarioService.checkScenario(ScenarioIds.linuxAppStack, { site }).status === 'enabled') {
     return (
