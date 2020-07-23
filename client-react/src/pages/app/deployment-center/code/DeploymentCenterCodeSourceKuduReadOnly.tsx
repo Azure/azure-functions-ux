@@ -50,7 +50,6 @@ const DeploymentCenterCodeSourceKuduReadOnly: React.FC<{}> = () => {
     }
 
     portalContext.stopNotification(notificationId, false, t('disconnectingDeploymentFail'));
-    deploymentCenterContext.refresh();
   };
 
   const getSourceLocation = () => {

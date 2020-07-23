@@ -61,6 +61,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
 
     if (deploymentDisconnectStatus.isSuccessful) {
       portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
+      deploymentCenterContext.refresh();
     } else {
       portalContext.stopNotification(
         notificationId,
@@ -68,8 +69,6 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
         deploymentDisconnectStatus.errorMessage ? deploymentDisconnectStatus.errorMessage : t('disconnectingDeploymentFail')
       );
     }
-
-    deploymentCenterContext.refresh();
   };
 
   const clearSCMSettings = async (deleteWorkflowDuringDisconnect: boolean, deploymentDisconnectStatus: DeploymentDisconnectStatus) => {
