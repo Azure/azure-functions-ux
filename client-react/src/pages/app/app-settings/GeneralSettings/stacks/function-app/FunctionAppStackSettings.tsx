@@ -10,7 +10,7 @@ import { FunctionsRuntimeVersionHelper } from '../../../../../../utils/Functions
 import { SiteStateContext } from '../../../../../../SiteState';
 import { Field } from 'formik';
 import { isLinuxApp, isContainerApp } from '../../../../../../utils/arm-utils';
-import { getStackVersionConfigPropertyForWindowsApp, getStackVersionDropdownOptions } from './FunctionAppStackSettings.data';
+import { getStackVersionConfigPropertyName, getStackVersionDropdownOptions } from './FunctionAppStackSettings.data';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
 import { settingsWrapper } from '../../../AppSettingsForm';
@@ -35,7 +35,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const isLinux = () => !!siteStateContext.site && isLinuxApp(siteStateContext.site);
 
   const getConfigProperty = (latestRuntimeStack?: string) => {
-    return isLinux() ? 'linuxFxVersion' : getStackVersionConfigPropertyForWindowsApp(latestRuntimeStack || runtimeStack);
+    return getStackVersionConfigPropertyName(isLinux(), latestRuntimeStack || runtimeStack);
   };
 
   const setInitialData = () => {

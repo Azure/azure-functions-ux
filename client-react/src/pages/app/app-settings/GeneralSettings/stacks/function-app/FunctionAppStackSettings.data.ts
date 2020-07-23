@@ -28,7 +28,11 @@ export const getStackVersionDropdownOptions = (
   return stackMinorVersions;
 };
 
-export const getStackVersionConfigPropertyForWindowsApp = (runtimeStack?: string) => {
+export const getStackVersionConfigPropertyName = (isLinuxApp: boolean, runtimeStack?: string) => {
+  if (isLinuxApp) {
+    return 'linuxFxVersion';
+  }
+
   switch (runtimeStack) {
     case WorkerRuntimeLanguages.dotnet:
       return 'netFrameworkVersion';
