@@ -133,7 +133,6 @@ export interface DeploymentCenterFtpsProps {
 
 export interface DeploymentCenterFormProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
   isLoading: boolean;
-  refresh: () => void;
   showPublishProfilePanel: () => void;
   formData?: DeploymentCenterFormData<T>;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType<T>;
