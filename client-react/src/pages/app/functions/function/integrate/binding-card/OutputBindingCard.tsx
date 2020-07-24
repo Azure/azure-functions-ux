@@ -41,8 +41,8 @@ const OutputBindingCard: React.SFC<EditableBindingCardProps> = props => {
 };
 
 const getOutputBindings = (bindings: BindingInfo[]): BindingInfo[] => {
-  const outputBindings = bindings.filter(b => {
-    return getBindingDirection(b) === BindingDirection.out;
+  const outputBindings = bindings.filter(binding => {
+    return getBindingDirection(binding) === BindingDirection.out;
   });
 
   return outputBindings ? outputBindings : [];

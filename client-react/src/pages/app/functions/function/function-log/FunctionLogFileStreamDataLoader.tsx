@@ -10,6 +10,8 @@ import Url from '../../../../../utils/url';
 import { processLogs } from './FunctionLogFileStreamData';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { Site } from '../../../../../models/site/site';
 interface FunctionLogFileStreamDataLoaderProps {
   resourceId: string;
   isExpanded: boolean;
@@ -36,6 +38,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
 
   const { t } = useTranslation();
 
+  const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
   const [xhReq, setXhReq] = useState<XMLHttpRequest | undefined>(undefined);
   const [started, setStarted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
@@ -46,8 +49,23 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const fetchSiteAndOpenStream = async () => {
     const siteResponse = await SiteService.fetchSite(siteResourceId);
 
-    if (siteResponse.metadata.success && siteResponse.data.properties) {
-      const site = siteResponse.data;
+    if (siteResponse.metadata.success && siteResponse.data) {
+      setSite(siteResponse.data);
+      openStream();
+    } else {
+      setErrorMessage(t('feature_logStreamingConnectionError'));
+      LogService.error(
+        LogCategories.functionLog,
+        'fetchSite',
+        `Failed to fetch site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
+      );
+    }
+  };
+
+  const openStream = () => {
+    setLoadingMessage(t('feature_logStreamingConnecting'));
+
+    if (site) {
       const logUrl = `${Url.getScmUrl(site)}/api/logstream/application/functions/host`;
       const token = window.appsvc && window.appsvc.env && window.appsvc.env.armToken;
 
@@ -57,14 +75,21 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       newXhReq.setRequestHeader('FunctionsPortal', '1');
       newXhReq.send(null);
       setXhReq(newXhReq);
-    } else {
-      setErrorMessage(t('feature_logStreamingConnectionError'));
-      LogService.error(
-        LogCategories.functionLog,
-        'fetchSite',
-        `Failed to fetch site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
-      );
     }
+  };
+
+  const closeStream = () => {
+    if (xhReq) {
+      xhReq.abort();
+      setLogStreamIndex(0);
+      setXhReq(undefined);
+    }
+  };
+
+  const listenToStream = () => {
+    setLoadingMessage(undefined);
+    listenForErrors();
+    listenForUpdates();
   };
 
   const listenForErrors = () => {
@@ -97,7 +122,6 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   };
 
   const startLogs = () => {
-    setLoadingMessage(xhReq ? undefined : t('feature_logStreamingConnecting'));
     setStarted(true);
   };
 
@@ -116,9 +140,14 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   }, []);
 
   useEffect(() => {
-    if (started && xhReq) {
-      listenForErrors();
-      listenForUpdates();
+    if (started) {
+      if (xhReq) {
+        listenToStream();
+      } else {
+        openStream();
+      }
+    } else {
+      closeStream();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

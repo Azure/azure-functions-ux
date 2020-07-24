@@ -107,9 +107,10 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
                   label={t('iotHubPivot_IoTHub')}
                   options={iotHubOptions}
                   selectedKey={formValues.iotHub && formValues.iotHub.id}
-                  onChange={(o, e) => {
-                    setFormValues({ iotHub: e && e.data, endpoint: undefined });
+                  onChange={(event, option) => {
+                    setFormValues({ iotHub: option && option.data, endpoint: undefined });
                     setKeyList(undefined);
+                    setServiceKey(undefined);
                   }}
                   errorMessage={undefined}
                   layout={Layout.Vertical}

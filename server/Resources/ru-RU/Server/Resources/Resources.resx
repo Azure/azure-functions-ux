@@ -793,6 +793,9 @@
   <data name="integrate_triggersHelp" xml:space="preserve">
         <value>Триггеры запускают функцию. Например, можно активировать новое сообщение в очереди. Триггер должен быть всегда.</value>
     </data>
+  <data name="integrate_unknownCardTitle" xml:space="preserve">
+        <value>Неизвестно</value>
+    </data>
   <data name="binding_createNewFunction" xml:space="preserve">
         <value>Создание функции, запускаемой этими выходными данными</value>
     </data>
@@ -5736,6 +5739,30 @@
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
         <value>Существующая конфигурация рабочего процесса в GitHub будет перезаписана конфигурацией ниже.</value>
     </data>
+  <data name="githubActionWorkflowFileLabel" xml:space="preserve">
+        <value>Файл рабочего процесса</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
+        <value>Сохранить</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
+        <value>Сохранить файл "{0}" из ветви "{1}" в репозитории "{2}". Это действие может активировать развертывания приложения при фиксации в ветви.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
+        <value>Удалить</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
+        <value>Удалить файл "{0}" из ветви "{1}" в репозитории "{2}". Это предотвратит будущие развертывания приложения при фиксации в этой ветви.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
+        <value>Отключение действия GitHub предотвратит все будущие развертывания, активируемые фиксациями.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
+        <value>Файл рабочего процесса действия GitHub "{0}" из ветви "{1}" в репозитории "{2}" не существует. Нажмите кнопку "ОК", чтобы отключить развертывание.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelChoiceDescription" xml:space="preserve">
+        <value>Вы хотите также удалить файл рабочего процесса из репозитория GitHub?</value>
+    </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
         <value>Нет ключей функции для отображения</value>
     </data>
@@ -5788,7 +5815,7 @@
         <value>Для сборки и развертывания будет использована существующая конфигурация рабочего процесса в GitHub.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
-        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+        <value>Если существует конфигурация рабочего процесса, она будет перезаписана.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>Обновление файлов приложения</value>
@@ -5910,6 +5937,15 @@
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
         <value>Подтверждение отключения действия GitHub</value>
     </data>
+  <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Подтверждение отключения службы сборки в Службе приложений</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
+        <value>Идет получение конфигурации рабочего процесса действия GitHub</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoading" xml:space="preserve">
+        <value>Идет получение конфигурации рабочего процесса действия GitHub…</value>
+    </data>
   <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
         <value>Не удалось удалить файл рабочего процесса "{0}" из ветви "{1}" в репозитории "{2}". Возможно, файл переименован или уже удален.</value>
     </data>
@@ -5936,6 +5972,9 @@
     </data>
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Команда обновления в Центре развертывания</value>
+    </data>
+  <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
+        <value>Ошибка при получении сведений</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Управление профилем публикации</value>
@@ -6391,13 +6430,13 @@
         <value>Конфигурация рабочих процессов</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
-        <value>File with the workflow configuration defined by the settings above.</value>
+        <value>Файл с конфигурацией рабочего процесса, определенной приведенными выше параметрами.</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
-        <value>Preview file</value>
+        <value>Предварительный просмотр файла</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
-        <value>Fill out the required settings above to enable the preview.</value>
+        <value>Чтобы включить предварительный просмотр, укажите приведенные выше параметры.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
         <value>Перезаписать рабочий процесс в репозитории</value>
@@ -6409,7 +6448,7 @@
         <value>Использовать существующий рабочий процесс в репозитории</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Use available repository workflow</value>
+        <value>Использовать доступный рабочий процесс в репозитории</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Выберите параметр рабочего процесса</value>
@@ -6421,16 +6460,16 @@
         <value>Загрузка конфигураций рабочих процессов…</value>
     </data>
   <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
-        <value>File path</value>
+        <value>Путь к файлу</value>
     </data>
   <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
-        <value>Building with GitHub Actions.</value>
+        <value>Создание с помощью GitHub Actions.</value>
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
-        <value>Building with App Service Build Service.</value>
+        <value>Создание с помощью службы сборок Службы приложений.</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
-        <value>Change provider.</value>
+        <value>Измените поставщика.</value>
     </data>
   <data name="functionMonitor_orchestrations" xml:space="preserve">
         <value>Оркестрации</value>
@@ -6490,12 +6529,27 @@
         <value>Данные не найдены. Обязательно установите последнюю версию расширения "Устойчивые функции" (.NET) или используйте пакеты расширений версии 2.</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
-        <value>Learn more about flex stamps.</value>
+        <value>Дополнительные сведения о гибких метках.</value>
     </data>
   <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about Ootgoing IP addresses.</value>
+        <value>Дополнительные сведения об IP-адресах для исходящего трафика.</value>
     </data>
   <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about app service plan density.</value>
+        <value>Дополнительные сведения о плотности планов службы приложений.</value>
+    </data>
+  <data name="ibizafication_readOnlyLinuxElastic" xml:space="preserve">
+        <value>Ваше приложение сейчас находится в режиме "только для чтения", так как эластичный план "Премиум" в Linux требует запуска из пакета.</value>
+    </data>
+  <data name="stackVersionAutoUpdate" xml:space="preserve">
+        <value>{0} (автообновление)</value>
+    </data>
+  <data name="versionLabel" xml:space="preserve">
+        <value>{0} Version</value>
+    </data>
+  <data name="javaWebServer" xml:space="preserve">
+        <value>Java web server</value>
+    </data>
+  <data name="javaWebServerVersion" xml:space="preserve">
+        <value>Java web server version</value>
     </data>
 </root>

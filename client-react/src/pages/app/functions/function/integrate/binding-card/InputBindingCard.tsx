@@ -41,8 +41,8 @@ const InputBindingCard: React.SFC<EditableBindingCardProps> = props => {
 };
 
 const getInputBindings = (bindings: BindingInfo[]): BindingInfo[] => {
-  const inputBindings = bindings.filter(b => {
-    return getBindingDirection(b) === BindingDirection.in;
+  const inputBindings = bindings.filter(binding => {
+    return getBindingDirection(binding) === BindingDirection.in;
   });
 
   return inputBindings ? inputBindings : [];

@@ -108,7 +108,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const scenarioChecker = new ScenarioService(t);
 
   const showAppInsightsLogs = scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
-  const isFileSystemLoggingAvailable = siteStateContext.site && !isLinuxDynamic(siteStateContext.site);
+  const isFileSystemLoggingAvailable = site && !isLinuxDynamic(site);
   const showLoggingOptionsDropdown = showAppInsightsLogs && isFileSystemLoggingAvailable;
   const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.siteAppEditState);
   const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
@@ -393,7 +393,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   useEffect(() => {
     fetchData();
-    setSelectedLoggingOption(showAppInsightsLogs ? LoggingOptions.appInsights : LoggingOptions.fileBased);
+    setSelectedLoggingOption(isFileSystemLoggingAvailable ? LoggingOptions.fileBased : LoggingOptions.appInsights);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -501,6 +501,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               extraEditorClassName: editorStyle,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
+            onSave={() => isDirty() && save()}
           />
         </div>
       )}

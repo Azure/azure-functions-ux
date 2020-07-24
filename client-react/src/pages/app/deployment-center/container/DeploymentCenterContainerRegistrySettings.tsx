@@ -27,7 +27,7 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
     ];
 
     // NOTE(michinoy): Kubernetes support is currently deprecated, so only show IF the user has a kubernetes based app
-    if (formProps && formProps.initialValues.option === ContainerOptions.kubernetes) {
+    if (formProps.initialValues.option === ContainerOptions.kubernetes) {
       options.push({
         key: ContainerOptions.kubernetes,
         text: t('kubernetesContainerTitle'),

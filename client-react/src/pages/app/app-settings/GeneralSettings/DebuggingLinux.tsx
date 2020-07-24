@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
-import { PermissionsContext, AvailableStacksContext } from '../Contexts';
+import { PermissionsContext, WebAppStacksContext } from '../Contexts';
 import SiteHelper from '../../../../utils/SiteHelper';
 import { Links } from '../../../../utils/FwLinks';
 
@@ -12,23 +12,27 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
-  const availableStacks = useContext(AvailableStacksContext);
+  const webAppStacks = useContext(WebAppStacksContext);
   const [enabledStack, setEnabledStack] = useState(false);
   const [flexStamp, setFlexStamp] = useState(false);
 
   const remoteDebuggingEnabledStacks = useMemo(() => {
-    return availableStacks.value
+    return webAppStacks
       .flatMap(value => {
-        return value.properties.majorVersions.flatMap(majorVersion => {
+        return value.majorVersions.flatMap(majorVersion => {
           return majorVersion.minorVersions.flatMap(minorVersion => ({
-            runtimeVersion: minorVersion.runtimeVersion,
-            isRemoteDebuggingEnabled: minorVersion.isRemoteDebuggingEnabled,
+            runtimeVersion: minorVersion.stackSettings.linuxRuntimeSettings
+              ? minorVersion.stackSettings.linuxRuntimeSettings.runtimeVersion
+              : '',
+            isRemoteDebuggingEnabled: minorVersion.stackSettings.linuxRuntimeSettings
+              ? minorVersion.stackSettings.linuxRuntimeSettings.remoteDebuggingSupported
+              : false,
           }));
         });
       })
       .filter(x => x.isRemoteDebuggingEnabled)
-      .map(x => x.runtimeVersion.toLowerCase());
-  }, [availableStacks.value]);
+      .map(x => x.runtimeVersion && x.runtimeVersion.toLowerCase());
+  }, [webAppStacks]);
 
   const getInfoBubbleText = (): string => {
     if (!enabledStack) {
@@ -40,7 +44,8 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   useEffect(() => {
     const currentLinuxFxVersion = props.values.config.properties.linuxFxVersion;
     const enabled =
-      remoteDebuggingEnabledStacks.includes(currentLinuxFxVersion) || currentLinuxFxVersion.toLowerCase().startsWith('python');
+      !!currentLinuxFxVersion &&
+      (remoteDebuggingEnabledStacks.includes(currentLinuxFxVersion) || currentLinuxFxVersion.toLowerCase().startsWith('python'));
     setEnabledStack(enabled);
     if (!enabled) {
       props.setFieldValue('config.properties.remoteDebuggingEnabled', false);

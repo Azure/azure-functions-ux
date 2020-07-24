@@ -793,6 +793,9 @@
   <data name="integrate_triggersHelp" xml:space="preserve">
         <value>Az eseményindítókkal indíthatók el a függvények, például új üzenetsorbeli üzenetek érkezésekor. Eseményindítóval mindig rendelkeznie kell.</value>
     </data>
+  <data name="integrate_unknownCardTitle" xml:space="preserve">
+        <value>Ismeretlen</value>
+    </data>
   <data name="binding_createNewFunction" xml:space="preserve">
         <value>Kimenet által aktivált új függvény létrehozása</value>
     </data>
@@ -5736,6 +5739,30 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
         <value>A GitHubban már meglévő munkafolyamat-konfiguráció felül lesz írva az alábbi konfigurációval.</value>
     </data>
+  <data name="githubActionWorkflowFileLabel" xml:space="preserve">
+        <value>Munkafolyamat-fájl</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
+        <value>Megőrzés</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
+        <value>A(z) {0} fájl megőrzése a(z) {2} adattár {1} ágában. Ez előidézheti az alkalmazás üzembe helyezéseit az ág véglegesítéseikor.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
+        <value>Törlés</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
+        <value>A(z) {0} fájl törlése a(z) {2} adattár {1} ágából. Ezzel megakadályozza az alkalmazás jövőbeli üzembe helyezéseit az ág véglegesítéseikor.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
+        <value>A GitHub-művelet leválasztása megakadályozza a véglegesítés hatására kezdeményezett összes jövőbeli üzembe helyezést.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
+        <value>A(z) {2} adattár {1} ágában található {0} GitHub-műveleti munkafolyamat-fájl nem létezik. Kattintson az OK gombra az üzemelő példány leválasztásához.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelChoiceDescription" xml:space="preserve">
+        <value>Szeretné eltávolítani a munkafolyamat-fájlt is a GitHub-adattárból?</value>
+    </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
         <value>Nincsenek megjeleníthető funkcióbillentyűk</value>
     </data>
@@ -5788,7 +5815,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A rendszer a GitHubban már meglévő munkafolyamat-konfigurációt fogja használni a buildeléshez és az üzembe helyezéshez.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
-        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+        <value>Ha már létezik egy munkafolyamat-konfiguráció, a rendszer felülírja azt.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>Alkalmazás fájljainak frissítése</value>
@@ -5910,6 +5937,15 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
         <value>GitHub-művelet leválasztásának megerősítése</value>
     </data>
+  <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
+        <value>App Service-buildelési szolgáltatás leválasztásának megerősítése</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
+        <value>GitHub-művelet munkafolyamat-konfigurációjának beolvasása</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoading" xml:space="preserve">
+        <value>GitHub-művelet munkafolyamat-konfigurációjának beolvasása...</value>
+    </data>
   <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
         <value>Nem sikerült törölni a(z) {0} munkafolyamat-fájlt a(z) {2} adattár {1} ágából. Ennek oka lehet, hogy a fájlt átnevezték vagy már törölték.</value>
     </data>
@@ -5936,6 +5972,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Üzembe helyezési központ frissítési parancsa</value>
+    </data>
+  <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
+        <value>Hiba történt az adatok beolvasásakor</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Közzétételi profil kezelése</value>
@@ -6391,13 +6430,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Munkafolyamat-konfiguráció</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
-        <value>File with the workflow configuration defined by the settings above.</value>
+        <value>A fenti beállítások által meghatározott munkafolyamat-konfigurációval rendelkező fájl.</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
-        <value>Preview file</value>
+        <value>Előzetes fájl</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
-        <value>Fill out the required settings above to enable the preview.</value>
+        <value>Töltse ki fent az előnézet engedélyezéséhez szükséges beállításokat.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
         <value>A munkafolyamat felülírása az adattárban</value>
@@ -6409,7 +6448,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Meglévő adattár-munkafolyamat használata</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Use available repository workflow</value>
+        <value>Rendelkezésre álló adattár-munkafolyamat használata</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Munkafolyamat-beállítás kiválasztása</value>
@@ -6421,16 +6460,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Munkafolyamat-konfigurációk betöltése...</value>
     </data>
   <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
-        <value>File path</value>
+        <value>Fájl elérési útja</value>
     </data>
   <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
-        <value>Building with GitHub Actions.</value>
+        <value>Buildelés GitHub-műveletekkel.</value>
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
-        <value>Building with App Service Build Service.</value>
+        <value>Buildelés az App Service-buildelési szolgáltatás használatával.</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
-        <value>Change provider.</value>
+        <value>Szolgáltató módosítása.</value>
     </data>
   <data name="functionMonitor_orchestrations" xml:space="preserve">
         <value>Vezénylések</value>
@@ -6490,12 +6529,27 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nem találhatók adatok. Győződjön meg róla, hogy a legújabb Durable Functions-bővítményt (.NET) telepíti, vagy a bővítőcsomagok 2-es verzióját használja.</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
-        <value>Learn more about flex stamps.</value>
+        <value>További információ a rugalmas lenyomatokról.</value>
     </data>
   <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about Ootgoing IP addresses.</value>
+        <value>További információ a kimenő IP-címekről.</value>
     </data>
   <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about app service plan density.</value>
+        <value>További információ az App Service-csomagok kapacitásáról.</value>
+    </data>
+  <data name="ibizafication_readOnlyLinuxElastic" xml:space="preserve">
+        <value>Az alkalmazás jelenleg csak olvasható módban van, mert a linuxos Rugalmas prémium tarifacsomag megköveteli az alkalmazások csomagból való futtatását.</value>
+    </data>
+  <data name="stackVersionAutoUpdate" xml:space="preserve">
+        <value>{0} (automatikus frissítés)</value>
+    </data>
+  <data name="versionLabel" xml:space="preserve">
+        <value>{0} Version</value>
+    </data>
+  <data name="javaWebServer" xml:space="preserve">
+        <value>Java web server</value>
+    </data>
+  <data name="javaWebServerVersion" xml:space="preserve">
+        <value>Java web server version</value>
     </data>
 </root>

@@ -8,6 +8,10 @@ export const getBindingDirection = (bindingInfo: BindingInfo): BindingDirection 
     return BindingDirection.trigger;
   }
 
+  if (!bindingInfo.direction) {
+    return BindingDirection.unknown;
+  }
+
   return bindingInfo.direction === BindingDirection.in ? BindingDirection.in : BindingDirection.out;
 };
 

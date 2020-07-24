@@ -25,8 +25,9 @@ import { ThemeContext } from '../../../../ThemeContext';
 import StringUtils from '../../../../utils/string';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
 import { QuickstartOptions } from './FunctionQuickstart.types';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
 import { KeyValue } from '../../../../models/portal-models';
+import { Links } from '../../../../utils/FwLinks';
 
 registerIcons({
   icons: {
@@ -83,15 +84,15 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   };
 
   const isVSCodeOptionVisible = (): boolean => {
-    return workerRuntime === CommonConstants.WorkerRuntimeLanguages.java.toLocaleLowerCase() || !isLinuxApp(site) || !isElastic(site);
+    return workerRuntime === WorkerRuntimeLanguages.java || !isLinuxApp(site) || !isElastic(site);
   };
 
   const isCoreToolsOptionVisible = (): boolean => {
-    return workerRuntime !== CommonConstants.WorkerRuntimeLanguages.java.toLocaleLowerCase();
+    return workerRuntime !== WorkerRuntimeLanguages.java;
   };
 
   const isMavenToolsOptionVisible = (): boolean => {
-    return workerRuntime === CommonConstants.WorkerRuntimeLanguages.java.toLocaleLowerCase();
+    return workerRuntime === WorkerRuntimeLanguages.java;
   };
 
   const dropdownOptions = [
@@ -176,7 +177,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       <h2>{t('quickstartHeader')}</h2>
       <div>
         {t('quickstartDesc')}
-        <Link href={`${CommonConstants.Links.quickstartViewDocumentation}&pivots=programming-language-${workerRuntime}`} target="_blank">
+        <Link href={`${Links.quickstartViewDocumentation}&pivots=programming-language-${workerRuntime}`} target="_blank">
           {t('viewDocumentation')}
         </Link>
       </div>

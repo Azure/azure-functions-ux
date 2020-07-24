@@ -8,26 +8,27 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { useTranslation } from 'react-i18next';
 import { additionalTextFieldControl, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
-import { DeploymentCenterReadOnlySettingsProps, AuthorizationResult } from '../DeploymentCenter.types';
-import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
-import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { AuthorizationResult, DeploymentCenterGitHubConfiguredViewProps } from '../DeploymentCenter.types';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { getArmToken } from '../utility/DeploymentCenterUtility';
+import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 
-const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsProps> = props => {
-  const { disconnect } = props;
+const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfiguredViewProps> = props => {
   const { t } = useTranslation();
-  const [org, setOrg] = useState<string>(t('loading'));
-  const [repo, setRepo] = useState<string>(t('loading'));
-  const [branch, setBranch] = useState<string>(t('loading'));
+  const { isGitHubActionsSetup } = props;
+  const [org, setOrg] = useState<string | undefined>(undefined);
+  const [repo, setRepo] = useState<string | undefined>(undefined);
+  const [branch, setBranch] = useState<string | undefined>(undefined);
   const [repoUrl, setRepoUrl] = useState<string | undefined>(undefined);
   const [gitHubUsername, setGitHubUsername] = useState<string>(t('loading'));
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterData = new DeploymentCenterData();
 
   const getSourceControlDetails = async () => {
+    setIsLoading(true);
     const getGitHubUserRequest = deploymentCenterData.getGitHubUser(getArmToken());
     const getSourceControlDetailsResponse = deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
 
@@ -43,6 +44,9 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsP
         setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
       }
     } else {
+      setRepoUrl(t('deploymentCenterErrorFetchingInfo'));
+      setOrg(t('deploymentCenterErrorFetchingInfo'));
+      setRepo(t('deploymentCenterErrorFetchingInfo'));
       LogService.error(
         LogCategories.deploymentCenter,
         'DeploymentCenterSourceControls',
@@ -58,10 +62,12 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsP
 
       LogService.error(
         LogCategories.deploymentCenter,
-        'DeploymentCenterGitHubReadOnly',
+        'DeploymentCenterGitHubConfiguredView',
         `Failed to get GitHub user details with error: ${getErrorMessage(gitHubUserResponse.metadata.error)}`
       );
     }
+
+    setIsLoading(false);
   };
 
   const authorizeGitHubAccount = async () => {
@@ -103,53 +109,20 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsP
     });
   };
 
-  useEffect(() => {
-    getSourceControlDetails();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return (
-    <>
-      <p>
-        <span id="deployment-center-settings-message">{t('deploymentCenterCodeSettingsDescription')}</span>
-        <Link
-          id="deployment-center-settings-learnMore"
-          href={DeploymentCenterLinks.appServiceDocumentation}
-          target="_blank"
-          className={learnMoreLinkStyle}
-          aria-labelledby="deployment-center-settings-message">
-          {` ${t('learnMore')}`}
-        </Link>
-      </p>
-      <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
-        <div>
-          {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
-          <Link
-            key="deployment-center-disconnect-link"
-            onClick={disconnect}
-            className={additionalTextFieldControl}
-            aria-label={t('disconnect')}>
-            <Icon iconName={'PlugDisconnected'} />
-            {` ${t('disconnect')}`}
-          </Link>
-        </div>
-      </ReactiveFormControl>
-      {deploymentCenterContext.isContainerApplication ? (
-        <h3>{t('deploymentCenterContainerGitHubActionsTitle')}</h3>
-      ) : (
-        <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>
-      )}
-      {gitHubUsername ? (
+  const getSignedInAsComponent = () => {
+    if (gitHubUsername) {
+      return (
         <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
           <div>{`${gitHubUsername}`}</div>
         </ReactiveFormControl>
-      ) : (
+      );
+    } else {
+      return (
         <div className={deploymentCenterInfoBannerDiv}>
           <CustomBanner
             message={
               <>
-                {`${t('deploymentCenterSettingsReadOnlyGitHubNotAuthorized')} `}
+                {`${t('deploymentCenterSettingsConfiguredViewGitHubNotAuthorized')} `}
                 <Link onClick={authorizeGitHubAccount} target="_blank">
                   {t('authorize')}
                 </Link>
@@ -158,31 +131,68 @@ const DeploymentCenterGitHubReadOnly: React.FC<DeploymentCenterReadOnlySettingsP
             type={MessageBarType.error}
           />
         </div>
+      );
+    }
+  };
+
+  const getBranchLink = () => {
+    if (branch) {
+      return (
+        <Link
+          key="deployment-center-branch-link"
+          onClick={() => window.open(repoUrl, '_blank')}
+          className={additionalTextFieldControl}
+          aria-label={`${branch}`}>
+          {`${branch} `}
+          <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
+        </Link>
+      );
+    } else {
+      return t('deploymentCenterErrorFetchingInfo');
+    }
+  };
+
+  useEffect(() => {
+    getSourceControlDetails();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <>
+      {isGitHubActionsSetup && (
+        <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
+          <div>
+            {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
+            {branch && org && repo && repoUrl && (
+              <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoUrl={repoUrl} />
+            )}
+          </div>
+        </ReactiveFormControl>
+      )}
+      {deploymentCenterContext.isContainerApplication ? (
+        <h3>{t('deploymentCenterContainerGitHubActionsTitle')}</h3>
+      ) : (
+        <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>
+      )}
+      {isLoading ? (
+        <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
+          <div>{t('loading')}</div>
+        </ReactiveFormControl>
+      ) : (
+        getSignedInAsComponent()
       )}
       <ReactiveFormControl id="deployment-center-organization" label={t('deploymentCenterOAuthOrganization')}>
-        <div>{org}</div>
+        <div>{isLoading ? t('loading') : org}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-repository" label={t('deploymentCenterOAuthRepository')}>
-        <div>{repo}</div>
+        <div>{isLoading ? t('loading') : repo}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-github-branch" label={t('deploymentCenterOAuthBranch')}>
-        <div>
-          {repoUrl ? (
-            <Link
-              key="deployment-center-branch-link"
-              onClick={() => window.open(repoUrl, '_blank')}
-              className={additionalTextFieldControl}
-              aria-label={`${branch}`}>
-              {`${branch} `}
-              <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
-            </Link>
-          ) : (
-            `${branch}`
-          )}
-        </div>
+        <div>{isLoading ? t('loading') : getBranchLink()}</div>
       </ReactiveFormControl>
     </>
   );
 };
 
-export default DeploymentCenterGitHubReadOnly;
+export default DeploymentCenterGitHubConfiguredView;

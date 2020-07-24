@@ -7,10 +7,11 @@ import { style } from 'typestyle';
 import { DV2SeriesPriceSpec } from '../DV2SeriesPriceSpec';
 import i18next from 'i18next';
 import { ServerFarm } from '../../../../../models/serverFarm/serverfarm';
+import { Links } from '../../../../../utils/FwLinks';
 
 export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
   constructor(t: i18next.TFunction) {
-    super(t, ServerFarmSkuConstants.Tier.premiumV2, t('pricing_pv2NotAvailable'), CommonConstants.Links.premiumV2NotAvailableLearnMore);
+    super(t, ServerFarmSkuConstants.Tier.premiumV2, t('pricing_pv2NotAvailable'), Links.premiumV2NotAvailableLearnMore);
     this.tier = ServerFarmSkuConstants.Tier.premiumV2;
     this.featureItems = [
       {
@@ -51,7 +52,7 @@ export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
         iconUrl: 'image/app-service-plan.svg',
         title: t('pricing_includedHardware_azureComputeUnits'),
         description: t('pricing_computeDedicatedAcu'),
-        learnMoreUrl: CommonConstants.Links.azureComputeUnitLearnMore,
+        learnMoreUrl: Links.azureComputeUnitLearnMore,
       },
       {
         id: 'memory',

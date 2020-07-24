@@ -63,7 +63,8 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
     if (gitHubRepositoriesResponse.metadata.success) {
       gitHubRepositoriesResponse.data.forEach(repository => {
-        newRepositoryOptions.push({ key: repository.url, text: repository.name });
+        if (!repository.permissions || repository.permissions.admin)
+          newRepositoryOptions.push({ key: repository.name, text: repository.name });
       });
     } else {
       LogService.error(
@@ -76,11 +77,11 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setRepositoryOptions(newRepositoryOptions);
   };
 
-  const fetchBranchOptions = async (repository_url: string) => {
+  const fetchBranchOptions = async (org: string, repo: string) => {
     setBranchOptions([]);
     const newBranchOptions: IDropdownOption[] = [];
 
-    const gitHubBranchesResponse = await deploymentCenterData.getGitHubBranches(repository_url, getArmToken());
+    const gitHubBranchesResponse = await deploymentCenterData.getGitHubBranches(org, repo, getArmToken());
 
     if (gitHubBranchesResponse.metadata.success) {
       gitHubBranchesResponse.data.forEach(branch => {
@@ -171,7 +172,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       gitHubUser={gitHubUser}
       gitHubAccountStatusMessage={gitHubAccountStatusMessage}
       authorizeGitHubAccount={authorizeGitHubAccount}
-      fetchOrganizationOptions={fetchOrganizationOptions}
       fetchRepositoryOptions={fetchRepositoryOptions}
       fetchBranchOptions={fetchBranchOptions}
       organizationOptions={organizationOptions}
