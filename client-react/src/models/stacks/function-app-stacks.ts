@@ -29,4 +29,4 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   supportedFunctionsExtensionVersions: RuntimeExtensionMajorVersions[];
 }
 
-export type FunctionAppStack = AppStack<FunctionAppRuntimeSettings>;
+export type FunctionAppStack = AppStack<FunctionAppRuntimes>;

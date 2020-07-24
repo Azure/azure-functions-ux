@@ -6546,6 +6546,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="stackVersionAutoUpdate" xml:space="preserve">
         <value>{0} (auto-update)</value>
     </data>
+    <data name="versionLabel" xml:space="preserve">
+        <value>{0} Version</value>
+    </data>
     <data name="javaWebServer" xml:space="preserve">
         <value>Java web server</value>
     </data>
