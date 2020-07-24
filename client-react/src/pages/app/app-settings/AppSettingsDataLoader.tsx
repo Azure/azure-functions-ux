@@ -319,8 +319,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       slotConfigNamesFromApi
     );
 
-    // TODO (andimarc): Once the API is updated, include azureStorageAccounts on the site config object instead of making a separate call
-    // TASK 5843044 - Combine updateSite and updateAzureStorageMount calls into a single PUT call when saving config
     const [siteUpdate, slotConfigNamesUpdate] = [
       updateSite(resourceId, site),
       productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
