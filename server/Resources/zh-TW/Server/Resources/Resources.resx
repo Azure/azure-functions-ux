@@ -793,6 +793,9 @@
   <data name="integrate_triggersHelp" xml:space="preserve">
         <value>觸發程序會啟動您的函式。例如，您可以在新的佇列訊息上進行觸發。您必須隨時具備觸發程序。</value>
     </data>
+  <data name="integrate_unknownCardTitle" xml:space="preserve">
+        <value>未知</value>
+    </data>
   <data name="binding_createNewFunction" xml:space="preserve">
         <value>建立由此輸出所觸發的新函式</value>
     </data>
@@ -5736,6 +5739,30 @@
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
         <value>將使用下方的設定，覆寫 GitHub 中現有的工作流程設定。</value>
     </data>
+  <data name="githubActionWorkflowFileLabel" xml:space="preserve">
+        <value>工作流程檔案</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
+        <value>保留</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
+        <value>保留存放庫 '{2}' 中分支 '{1}' 的檔案 '{0}'。這可能會在認可該分支時觸發對應用程式的部署。</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
+        <value>刪除</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
+        <value>從存放庫 '{2}' 中的分支 '{1}' 刪除檔案 '{0}'。這可避免日後認可此分支時部署到您的應用程式。</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
+        <value>中斷此 GitHub Action 的連線，將會導致日後無法進行認可觸發的任何部署。</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
+        <value>存放庫 '{2}' 中分支 '{1}' 的 GitHub Action 工作流程檔案 '{0}' 不存在。選取 [確定] 以中斷部署的連線。</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelChoiceDescription" xml:space="preserve">
+        <value>您也要從 GitHub 存放庫移除工作流程檔案嗎?</value>
+    </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
         <value>沒有可顯示的功能鍵</value>
     </data>
@@ -5788,7 +5815,7 @@
         <value>GitHub 中現有的工作流程設定會用於建置及部署。</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
-        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+        <value>如果現有工作流程設定已存在，將會覆寫該設定。</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>重新整理應用程式檔案</value>
@@ -5910,6 +5937,15 @@
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
         <value>確認 GitHub 動作中斷連線</value>
     </data>
+  <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
+        <value>確認 App Service 建置服務中斷連線</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
+        <value>正在擷取 GitHub Action 工作流程設定</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoading" xml:space="preserve">
+        <value>正在擷取 GitHub Action 工作流程設定...</value>
+    </data>
   <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
         <value>無法從存放庫 '{2}' 的分支 '{1}' 中刪除 ' {0} ' 工作流程檔案。可能是正在重新命名檔案，或檔案已刪除所致。</value>
     </data>
@@ -5936,6 +5972,9 @@
     </data>
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>部署中心重新整理命令</value>
+    </data>
+  <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
+        <value>擷取資訊時發生錯誤</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>管理發行設定檔</value>
@@ -6391,13 +6430,13 @@
         <value>工作流程設定</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
-        <value>File with the workflow configuration defined by the settings above.</value>
+        <value>包含由上述設定所定義之工作流程設定的檔案。</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
-        <value>Preview file</value>
+        <value>預覽檔案</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
-        <value>Fill out the required settings above to enable the preview.</value>
+        <value>在上方填入必要設定以啟用預覽。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
         <value>覆寫存放庫中的工作流程</value>
@@ -6409,7 +6448,7 @@
         <value>使用現有的存放庫工作流程</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Use available repository workflow</value>
+        <value>使用可用的存放庫工作流程</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>選取工作流程選項</value>
@@ -6421,16 +6460,16 @@
         <value>正在載入工作流程設定...</value>
     </data>
   <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
-        <value>File path</value>
+        <value>檔案路徑</value>
     </data>
   <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
-        <value>Building with GitHub Actions.</value>
+        <value>正在使用 GitHub Actions 建置。</value>
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
-        <value>Building with App Service Build Service.</value>
+        <value>正在使用 App Service 組建服務建置。</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
-        <value>Change provider.</value>
+        <value>變更提供者。</value>
     </data>
   <data name="functionMonitor_orchestrations" xml:space="preserve">
         <value>協調流程</value>
@@ -6490,12 +6529,27 @@
         <value>找不到任何資料。請確定您已安裝最新的 Durable Functions 延伸模組 (.NET)，或使用 V2 的延伸模組套件組合。</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
-        <value>Learn more about flex stamps.</value>
+        <value>深入了解彈性戳記。</value>
     </data>
   <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about Ootgoing IP addresses.</value>
+        <value>深入了解連出 IP 位址。</value>
     </data>
   <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about app service plan density.</value>
+        <value>深入了解 app service 方案密度。</value>
+    </data>
+  <data name="ibizafication_readOnlyLinuxElastic" xml:space="preserve">
+        <value>因為 Linux 上的彈性進階需要從套件執行，所以您的應用程式目前處於唯讀模式。</value>
+    </data>
+  <data name="stackVersionAutoUpdate" xml:space="preserve">
+        <value>{0} (自動更新)</value>
+    </data>
+  <data name="versionLabel" xml:space="preserve">
+        <value>{0} Version</value>
+    </data>
+  <data name="javaWebServer" xml:space="preserve">
+        <value>Java web server</value>
+    </data>
+  <data name="javaWebServerVersion" xml:space="preserve">
+        <value>Java web server version</value>
     </data>
 </root>
