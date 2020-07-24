@@ -167,4 +167,5 @@ export enum WorkerRuntimeLanguages {
   python = 'python',
   java = 'java',
   powershell = 'powershell',
+  php = 'php',
 }
