@@ -3,7 +3,7 @@ import StorageService from '../../../ApiHelpers/StorageService';
 import RbacConstants from '../../../utils/rbac-constants';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
-import { SiteConfig, ArmAzureStorageMount, KeyVaultReference } from '../../../models/site/config';
+import { SiteConfig, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import LogService from '../../../utils/LogService';
 import MakeArmCall from '../../../ApiHelpers/ArmHelper';
@@ -55,9 +55,6 @@ export const updateWebConfig = (resourceId: string, siteConfig: ArmObj<SiteConfi
   return SiteService.updateWebConfig(resourceId, siteConfig);
 };
 
-export const updateStorageMounts = (resourceId: string, storageAccountMounts: ArmObj<ArmAzureStorageMount>) => {
-  return SiteService.updateStorageMounts(resourceId, storageAccountMounts);
-};
 export const updateSlotConfigNames = (resourceId: string, slotConfigNames: ArmObj<SlotConfigNames>) => {
   return SiteService.updateSlotConfigNames(resourceId, slotConfigNames);
 };
