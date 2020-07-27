@@ -1,0 +1,23 @@
+.big-image {
+  padding-top: 50px;
+  display: inline-block;
+  height: 200px;
+  width: 200px;
+  opacity: .15;
+}
+
+.grayscale {
+  filter: grayscale(100%);
+}
+
+.button-spacing {
+  margin-top: 30px;
+}
+
+.error-state {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
