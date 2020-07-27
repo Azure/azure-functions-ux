@@ -19,7 +19,6 @@ import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { Site } from '../../../models/site/site';
 import PortalCommunicator from '../../../portal-communicator';
 import { PortalContext } from '../../../PortalContext';
-import { CommonConstants } from '../../../utils/CommonConstants';
 import { LogCategories } from '../../../utils/LogCategories';
 import LogService from '../../../utils/LogService';
 import { ArmPlanDescriptor, ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
@@ -29,6 +28,7 @@ import { getDefaultServerFarmName } from '../../../utils/validation/serverFarmVa
 import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
 import { addNewPlanToOptions, CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
+import { Links } from '../../../utils/FwLinks';
 
 export const leftCol = style({
   marginRight: '20px',
@@ -271,7 +271,7 @@ const getWarningBar = (
     return (
       <MessageBar messageBarType={MessageBarType.warning}>
         {t('pricing_appDensityWarningMessage').format(planName)}
-        <Link href={CommonConstants.Links.appDensityWarningLink} target="_blank">
+        <Link href={Links.appDensityWarningLink} target="_blank">
           {t('learnMore')}
         </Link>
       </MessageBar>

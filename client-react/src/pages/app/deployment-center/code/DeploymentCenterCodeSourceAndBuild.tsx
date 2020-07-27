@@ -21,6 +21,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const [selectedBuild, setSelectedBuild] = useState<BuildProvider>(BuildProvider.None);
   const [selectedBuildChoice, setSelectedBuildChoice] = useState<BuildProvider>(BuildProvider.None);
   const [isCalloutVisible, setIsCalloutVisible] = useState(false);
+  const [showInfoBanner, setShowInfoBanner] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
@@ -31,6 +32,10 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   const getInProductionSlot = () => {
     return !(deploymentCenterContext.siteDescriptor && deploymentCenterContext.siteDescriptor.slot);
+  };
+
+  const closeInfoBanner = () => {
+    setShowInfoBanner(false);
   };
 
   const sourceOptions: IDropdownOption[] = [
@@ -114,9 +119,9 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   return (
     <>
-      {getInProductionSlot() && (
+      {getInProductionSlot() && showInfoBanner && (
         <div className={deploymentCenterInfoBannerDiv}>
-          <CustomBanner message={t('deploymentCenterProdSlotWarning')} type={MessageBarType.info} />
+          <CustomBanner message={t('deploymentCenterProdSlotWarning')} type={MessageBarType.info} onDismiss={closeInfoBanner} />
         </div>
       )}
 

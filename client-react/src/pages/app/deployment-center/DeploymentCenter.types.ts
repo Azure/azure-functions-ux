@@ -119,6 +119,7 @@ export interface DeploymentCenterCommitLogsProps {
 export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
   isPreviewFileButtonEnabled: () => boolean;
   getPreviewPanelContent: () => JSX.Element | undefined;
+  setShowInfoBanner: (showInfoBanner: boolean) => void;
   workflowFilePath: string;
 }
 
@@ -132,7 +133,6 @@ export interface DeploymentCenterFtpsProps {
 
 export interface DeploymentCenterFormProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
   isLoading: boolean;
-  refresh: () => void;
   showPublishProfilePanel: () => void;
   formData?: DeploymentCenterFormData<T>;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType<T>;
@@ -175,7 +175,6 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
 export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
   extends DeploymentCenterFieldProps<T> {
   authorizeGitHubAccount: () => void;
-  fetchOrganizationOptions: () => void;
   fetchRepositoryOptions: (repositories_url: string) => void;
   fetchBranchOptions: (org: string, repo: string) => void;
   organizationOptions: IDropdownOption[];
@@ -183,6 +182,10 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   branchOptions: IDropdownOption[];
   gitHubAccountStatusMessage?: string;
   gitHubUser?: GitHubUser;
+}
+
+export interface DeploymentCenterGitHubConfiguredViewProps {
+  isGitHubActionsSetup?: boolean;
 }
 
 export interface DeploymentCenterGitHubDisconnectProps {
@@ -288,4 +291,12 @@ export enum DeployDisconnectStep {
 
 export interface WorkflowChoiceGroupOption extends IChoiceGroupOption {
   workflowDeleteChoice: WorkflowFileDeleteOptions;
+}
+
+export interface SiteSourceControlRequestBody {
+  repoUrl: string;
+  branch: string;
+  isManualIntegration: boolean;
+  isGitHubAction: boolean;
+  isMercurial: boolean;
 }

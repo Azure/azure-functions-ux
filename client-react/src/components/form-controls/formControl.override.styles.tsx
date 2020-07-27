@@ -67,10 +67,9 @@ export const controlContainerStyle = (upsellIcon: boolean, fullpage: boolean) =>
 
 export const upsellIconStyle = style({ marginRight: '6px' });
 
-export const infoMessageStyle = (fullpage: boolean) =>
+export const infoMessageStyle = () =>
   style({
-    paddingLeft: fullpage ? '10px' : 0,
-    paddingTop: fullpage ? 0 : '5px',
+    paddingTop: '10px',
   });
 
 export const copyButtonStyle = {
@@ -109,4 +108,11 @@ export const hostStyle = (multiline?: boolean) =>
     textOverflow: 'ellipsis',
     whiteSpace: !multiline ? 'nowrap' : 'normal',
     maxWidth: 250,
+  });
+
+export const stackControlStyle = () =>
+  style({
+    paddingTop: '5px',
+    paddingBottom: '5px',
+    width: '100%',
   });

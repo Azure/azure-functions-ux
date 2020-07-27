@@ -7,7 +7,7 @@ const java7EOL = new Date(2023, 7);
 
 export const javaStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Java',
-  value: 'Java',
+  value: 'java',
   preferredOs: 'linux',
   majorVersions: [
     {

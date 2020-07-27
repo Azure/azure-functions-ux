@@ -793,6 +793,9 @@
   <data name="integrate_triggersHelp" xml:space="preserve">
         <value>Los desencadenadores iniciarán la función. Por ejemplo, puede desencadenar un mensaje en cola nuevo. Siempre debe tener un desencadenador.</value>
     </data>
+  <data name="integrate_unknownCardTitle" xml:space="preserve">
+        <value>Desconocido</value>
+    </data>
   <data name="binding_createNewFunction" xml:space="preserve">
         <value>Crear una función nueva desencadenada por esta salida</value>
     </data>
@@ -5736,6 +5739,30 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
         <value>La configuración del flujo de trabajo existente en GitHub se sobrescribirá con la configuración siguiente.</value>
     </data>
+  <data name="githubActionWorkflowFileLabel" xml:space="preserve">
+        <value>Archivo de flujo de trabajo</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
+        <value>Conservar</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
+        <value>Permite conservar el archivo "{0}" de la rama "{1}" del repositorio "{2}". Esto puede desencadenar implementaciones en la aplicación al realizar confirmaciones en la rama.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
+        <value>Eliminar</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
+        <value>Permite eliminar el archivo "{0}" de la rama "{1}" del repositorio "{2}". Esto impedirá futuras implementaciones en la aplicación al realizar confirmaciones en esta rama.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
+        <value>Si desconecta la acción de GitHub, las confirmaciones no desencadenarán implementaciones futuras.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
+        <value>El archivo de flujo de trabajo de acción de GitHub "{0}" de la rama "{1}" en el repositorio "{2}" no existe. Seleccione "Aceptar" para desconectar la implementación.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelChoiceDescription" xml:space="preserve">
+        <value>¿Quiere quitar también el archivo de flujo de trabajo del repositorio de GitHub?</value>
+    </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
         <value>No hay teclas de función para mostrar.</value>
     </data>
@@ -5788,7 +5815,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>La configuración del flujo de trabajo existente en GitHub se usará para la compilación y la implementación.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
-        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+        <value>Si ya hay una configuración para el flujo de trabajo, esta se sobrescribirá.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>Actualizar los archivos de la aplicación</value>
@@ -5910,6 +5937,15 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirmar la desconexión de la acción de GitHub</value>
     </data>
+  <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Confirmar la desconexión del servicio de compilación de App Service</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
+        <value>Capturando la configuración del flujo de trabajo de la acción de GitHub</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoading" xml:space="preserve">
+        <value>Capturando la configuración del flujo de trabajo de la acción de GitHub...</value>
+    </data>
   <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
         <value>No se pudo eliminar el archivo de flujo de trabajo "{0}" de la rama "{1}" en el repositorio "{2}". Puede que se haya cambiado el nombre del archivo o que ya se haya eliminado.</value>
     </data>
@@ -5936,6 +5972,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Comando de actualización del centro de implementación</value>
+    </data>
+  <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
+        <value>Error al capturar la información</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Administrar perfil de publicación</value>
@@ -6391,13 +6430,13 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Configuración del flujo de trabajo</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
-        <value>File with the workflow configuration defined by the settings above.</value>
+        <value>Archivo con la configuración del flujo de trabajo definida según la configuración anterior.</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
-        <value>Preview file</value>
+        <value>Archivo de versión preliminar</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
-        <value>Fill out the required settings above to enable the preview.</value>
+        <value>Complete las opciones de configuración necesarias indicadas anteriormente para habilitar la versión preliminar.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
         <value>Sobrescribir el flujo de trabajo del repositorio</value>
@@ -6409,7 +6448,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Usar el flujo de trabajo del repositorio existente</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Use available repository workflow</value>
+        <value>Usar el flujo de trabajo del repositorio disponible</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Seleccione una opción de flujo de trabajo</value>
@@ -6421,16 +6460,16 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Cargando configuraciones de flujo de trabajo...</value>
     </data>
   <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
-        <value>File path</value>
+        <value>Ruta de acceso del archivo</value>
     </data>
   <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
-        <value>Building with GitHub Actions.</value>
+        <value>Compilación con Acciones de GitHub.</value>
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
-        <value>Building with App Service Build Service.</value>
+        <value>Compilación con el servicio de compilación de App Service.</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
-        <value>Change provider.</value>
+        <value>Cambie el proveedor.</value>
     </data>
   <data name="functionMonitor_orchestrations" xml:space="preserve">
         <value>Orquestaciones</value>
@@ -6490,12 +6529,27 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>No se encontraron datos. Asegúrese de instalar la última extensión de Durable Functions (.NET) o de usar la versión 2 de los paquetes de extensiones.</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
-        <value>Learn more about flex stamps.</value>
+        <value>Más información sobre stamps flexibles.</value>
     </data>
   <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about Ootgoing IP addresses.</value>
+        <value>Más información acerca de las direcciones IP de salida.</value>
     </data>
   <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about app service plan density.</value>
+        <value>Más información sobre la densidad de los planes de App Service.</value>
+    </data>
+  <data name="ibizafication_readOnlyLinuxElastic" xml:space="preserve">
+        <value>Actualmente, la aplicación está en modo de solo lectura porque el plan elástico premium de Linux requiere que la ejecución se realice desde un paquete.</value>
+    </data>
+  <data name="stackVersionAutoUpdate" xml:space="preserve">
+        <value>{0} (actualización automática)</value>
+    </data>
+  <data name="versionLabel" xml:space="preserve">
+        <value>{0} Version</value>
+    </data>
+  <data name="javaWebServer" xml:space="preserve">
+        <value>Java web server</value>
+    </data>
+  <data name="javaWebServerVersion" xml:space="preserve">
+        <value>Java web server version</value>
     </data>
 </root>

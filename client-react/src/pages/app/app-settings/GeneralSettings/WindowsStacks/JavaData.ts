@@ -1,97 +1,110 @@
-import { AvailableStack } from '../../../../../models/available-stacks';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { SiteConfig } from '../../../../../models/site/config';
+import i18next from 'i18next';
+import { AppStackOs } from '../../../../../models/stacks/app-stacks';
+import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 
-export const getJavaStack = (stacks: ArmObj<AvailableStack>[]) => stacks.find(x => x.name === 'java');
-export const getJavaContainers = (stacks: ArmObj<AvailableStack>[]) => stacks.find(x => x.name === 'javaContainers');
+export const getJavaStack = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'java');
+export const getJavaContainers = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'javacontainers');
+export const DEFAULTJAVAMAJORVERSION = { majorVersion: '11', minorVersion: '11' };
 
-export const getJavaMajorVersion = (javaStack: AvailableStack, config: ArmObj<SiteConfig>) => {
+export const getJavaMajorMinorVersion = (javaStack: WebAppStack, config: ArmObj<SiteConfig>) => {
   const { javaVersion } = config.properties;
-  const javaMajorVersion = javaStack.majorVersions.find(
-    x => x.runtimeVersion === javaVersion || !!x.minorVersions.find(y => y.runtimeVersion === javaVersion)
-  );
-  if (javaMajorVersion) {
-    return javaMajorVersion.runtimeVersion;
-  }
-  const defaultVersion = javaStack.majorVersions.find(x => x.isDefault);
-  return defaultVersion ? defaultVersion.runtimeVersion : '1.8';
-};
-
-export const getJavaVersionAsDropdownOptions = (javaStack: ArmObj<AvailableStack>) =>
-  javaStack.properties.majorVersions.map<IDropdownOption>(val => {
-    return {
-      key: val.runtimeVersion,
-      // The value of val.runtimeVersion may be '1.7', '1.8' or '11'.
-      // We want to display 'Java 7', 'Java 8', or 'Java 11' respectively.
-      text: `Java ${val.runtimeVersion.split('.')[1] || val.runtimeVersion}`,
-    };
-  });
-
-export const getJavaMajorVersionObject = (javaStack: ArmObj<AvailableStack>, currentJavaMajorVersion: string) =>
-  javaStack.properties.majorVersions.find(x => x.runtimeVersion === currentJavaMajorVersion);
-
-export const getJavaMinorVersionOptions = (
-  currentJavaMajorVersion: string,
-  javaStack: ArmObj<AvailableStack>,
-  newestLabel: string,
-  autoUpdateLabel: string
-) => {
-  const currentJavaMajorVersionOnject = getJavaMajorVersionObject(javaStack, currentJavaMajorVersion);
-  let javaMinorVersionOptions: IDropdownOption[] = [];
-  if (currentJavaMajorVersionOnject) {
-    const version = [
-      {
-        key: currentJavaMajorVersionOnject.runtimeVersion,
-        text: `${currentJavaMajorVersionOnject.displayVersion} (${autoUpdateLabel})`,
-      },
-    ];
-    javaMinorVersionOptions = version.concat(
-      currentJavaMajorVersionOnject.minorVersions.map(val => {
-        const newest = val.isDefault ? ` (${newestLabel})` : '';
-        return {
-          key: val.runtimeVersion,
-          text: `${val.displayVersion}${newest}`,
+  let versionDetails;
+  javaStack.majorVersions.forEach(javaStackMajorVersion => {
+    javaStackMajorVersion.minorVersions.forEach(javaStackMinorVersion => {
+      const settings = javaStackMinorVersion.stackSettings.windowsRuntimeSettings;
+      if (settings && javaVersion && settings.runtimeVersion === javaVersion.toLocaleLowerCase()) {
+        versionDetails = {
+          majorVersion: javaStackMajorVersion.value,
+          minorVersion: settings.runtimeVersion,
         };
-      })
-    );
-  }
-  return javaMinorVersionOptions;
+      }
+    });
+  });
+  return versionDetails || getLatestNonPreviewJavaMajorMinorVersion(javaStack);
 };
 
-export const getJavaContainersOptions = (javaContainers: ArmObj<AvailableStack>) =>
-  javaContainers.properties.frameworks.map<IDropdownOption>(val => {
+export const getJavaMinorVersionObject = (javaStack: WebAppStack, selectedJavaVersion: string) => {
+  let minorVersionSettings;
+  javaStack.majorVersions.forEach(javaStackMajorVersion => {
+    javaStackMajorVersion.minorVersions.forEach(javaStackMinorVersion => {
+      const settings = javaStackMinorVersion.stackSettings.windowsRuntimeSettings;
+      if (settings && settings.runtimeVersion === selectedJavaVersion) {
+        minorVersionSettings = settings;
+      }
+    });
+  });
+  return minorVersionSettings;
+};
+
+export const getJavaMajorVersionAsDropdownOptions = (javaStack: WebAppStack, osType?: AppStackOs): IDropdownOption[] => {
+  return javaStack.majorVersions.map(x => ({
+    key: x.value,
+    text: x.displayText,
+  }));
+};
+
+export const getJavaMinorVersionAsDropdownOptions = (
+  currentJavaMajorVersion: string,
+  javaStack: WebAppStack,
+  t: i18next.TFunction
+): IDropdownOption[] => {
+  const currentJavaMajorVersionDetails = javaStack.majorVersions.find(x => x.value === currentJavaMajorVersion);
+  return (
+    (!!currentJavaMajorVersionDetails &&
+      currentJavaMajorVersionDetails.minorVersions.map(x => ({
+        key: x.value,
+        text: `${
+          x.stackSettings.windowsRuntimeSettings && x.stackSettings.windowsRuntimeSettings.isAutoUpdate
+            ? t('stackVersionAutoUpdate').format(x.displayText)
+            : x.displayText
+        }`,
+      }))) ||
+    []
+  );
+};
+
+export const getJavaContainersOptions = (javaContainers: WebAppStack): IDropdownOption[] =>
+  javaContainers.majorVersions.map(x => {
     return {
-      key: val.name.toUpperCase(),
-      text: val.display,
+      key: x.value,
+      text: x.displayText,
     };
   });
 
-export const getFrameworkVersionOptions = (javaContainers: ArmObj<AvailableStack>, config: ArmObj<SiteConfig>, autoUpdateLabel: string) => {
+export const getFrameworkVersionOptions = (
+  javaContainers: WebAppStack,
+  config: ArmObj<SiteConfig>,
+  t: i18next.TFunction
+): IDropdownOption[] => {
   const currentFramework =
-    config.properties.javaContainer &&
-    javaContainers.properties.frameworks.find(x => x.name.toLowerCase() === config.properties.javaContainer.toLowerCase());
-  let javaFrameworkVersionOptions: IDropdownOption[] = [];
+    config.properties.javaContainer && javaContainers.majorVersions.find(x => x.value === config.properties.javaContainer.toLowerCase());
   if (currentFramework) {
-    const majorVersions = currentFramework.majorVersions.map(val => {
-      const version = [
-        {
-          key: val.runtimeVersion,
-          text: `${val.displayVersion} (${autoUpdateLabel})`,
-        },
-      ];
-      return version.concat(
-        val.minorVersions.map(inner => {
-          return {
-            key: inner.runtimeVersion,
-            text: inner.displayVersion,
-          };
-        })
-      );
-    });
-    majorVersions.forEach(x => {
-      javaFrameworkVersionOptions = javaFrameworkVersionOptions.concat(x);
-    });
+    return currentFramework.minorVersions.map(x => ({
+      key: x.value,
+      text: `${
+        x.stackSettings.windowsContainerSettings && x.stackSettings.windowsContainerSettings.isAutoUpdate
+          ? t('stackVersionAutoUpdate').format(x.displayText)
+          : x.displayText
+      }`,
+    }));
   }
-  return javaFrameworkVersionOptions;
+  return [];
+};
+
+const getLatestNonPreviewJavaMajorMinorVersion = (javaStack: WebAppStack) => {
+  javaStack.majorVersions.forEach(javaStackMajorVersion => {
+    javaStackMajorVersion.minorVersions.forEach(javaStackMinorVersion => {
+      const settings = javaStackMinorVersion.stackSettings.windowsRuntimeSettings;
+      if (settings && !settings.isPreview) {
+        return {
+          majorVersion: javaStackMajorVersion.value,
+          minorVersion: settings.runtimeVersion,
+        };
+      }
+    });
+  });
+  return DEFAULTJAVAMAJORVERSION;
 };

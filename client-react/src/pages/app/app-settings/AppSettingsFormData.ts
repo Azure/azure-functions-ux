@@ -7,6 +7,7 @@ import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, K
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 import StringUtils from '../../../utils/string';
+import { CommonConstants } from '../../../utils/CommonConstants';
 import { KeyValue } from '../../../models/portal-models';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
@@ -57,7 +58,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     appSettings: formAppSetting,
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
-    currentlySelectedStack: getCurrentStackString(config, metadata),
+    currentlySelectedStack: getCurrentStackString(config, metadata, appSettings),
     azureStorageMounts: getFormAzureStorageMount(azureStorageMounts),
   };
 };
@@ -347,12 +348,19 @@ export function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]
   return newList;
 }
 
-export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata?: ArmObj<KeyValue<string>> | null): string {
+export function getCurrentStackString(
+  config: ArmObj<SiteConfig>,
+  metadata?: ArmObj<KeyValue<string>> | null,
+  appSettings?: ArmObj<KeyValue<string>> | null
+): string {
   if (!!config.properties.javaVersion) {
     return 'java';
   }
   if (metadata && metadata.properties && metadata.properties.CURRENT_STACK) {
     return metadata.properties.CURRENT_STACK;
+  }
+  if (appSettings && appSettings.properties && appSettings.properties[CommonConstants.AppSettingNames.functionsWorkerRuntime]) {
+    return appSettings.properties[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLocaleLowerCase();
   }
   return 'dotnet';
 }

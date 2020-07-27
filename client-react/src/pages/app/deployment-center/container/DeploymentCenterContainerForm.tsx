@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Formik, FormikProps } from 'formik';
 import { DeploymentCenterFormData, DeploymentCenterContainerFormProps, DeploymentCenterContainerFormData } from '../DeploymentCenter.types';
 import { KeyCodes } from 'office-ui-fabric-react';
@@ -7,10 +7,12 @@ import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps> = props => {
   const { t } = useTranslation();
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const onKeyDown = keyEvent => {
     if ((keyEvent.charCode || keyEvent.keyCode) === KeyCodes.enter) {
@@ -28,7 +30,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
   const refreshFunction = () => {
     hideRefreshConfirmDialog();
-    props.refresh();
+    deploymentCenterContext.refresh();
   };
 
   const onSubmit = () => {

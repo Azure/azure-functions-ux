@@ -1,45 +1,38 @@
-import { Field, FormikProps } from 'formik';
+import { Field } from 'formik';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import React, { useState, useEffect, useContext } from 'react';
-
 import Dropdown from '../../../../../components/form-controls/DropDown';
-import { AvailableStack } from '../../../../../models/available-stacks';
-import { AppSettingsFormValues } from '../../AppSettings.types';
 import {
   getJavaStack,
   getJavaContainers,
-  getJavaMajorVersion,
-  getJavaVersionAsDropdownOptions,
-  getJavaMinorVersionOptions,
+  getJavaMajorMinorVersion,
   getJavaContainersOptions,
   getFrameworkVersionOptions,
-  getJavaMajorVersionObject,
+  getJavaMinorVersionObject,
+  getJavaMinorVersionAsDropdownOptions,
+  getJavaMajorVersionAsDropdownOptions,
 } from './JavaData';
 import { useTranslation } from 'react-i18next';
-import { PermissionsContext } from '../../Contexts';
+import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
-import { ArmObj } from '../../../../../models/arm-obj';
+import { StackProps } from './WindowsStacks';
 
-export interface StateProps {
-  stacks: ArmObj<AvailableStack>[];
-}
-
-type Props = StateProps & FormikProps<AppSettingsFormValues>;
-
-const JavaStack: React.SFC<Props> = props => {
+const JavaStack: React.SFC<StackProps> = props => {
   const [currentJavaMajorVersion, setCurrentJavaMajorVersion] = useState('');
-  const { stacks, values, initialValues } = props;
+  const { values, initialValues } = props;
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
+
+  const stacks = useContext(WebAppStacksContext);
+
   const javaStack = getJavaStack(stacks);
   const javaContainers = getJavaContainers(stacks);
 
   useEffect(() => {
     if (javaStack && javaContainers) {
-      setCurrentJavaMajorVersion(getJavaMajorVersion(javaStack.properties, values.config));
+      setCurrentJavaMajorVersion(getJavaMajorMinorVersion(javaStack, values.config).majorVersion);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -48,27 +41,27 @@ const JavaStack: React.SFC<Props> = props => {
   }
 
   const getInitialJavaMinorVersion = () => {
-    const initialJavaMajorVersion = getJavaMajorVersion(javaStack.properties, initialValues.config);
-    if (!initialJavaMajorVersion) {
+    const initialJavaVersion = getJavaMajorMinorVersion(javaStack, initialValues.config);
+    if (!initialJavaVersion) {
       return '';
     }
-    const initialJavaMajorVersionObject = getJavaMajorVersionObject(javaStack, initialJavaMajorVersion);
-    return initialJavaMajorVersionObject ? initialJavaMajorVersionObject.displayVersion : '';
+    const initialJavaMinorVersionObject = getJavaMinorVersionObject(javaStack, initialJavaVersion.minorVersion);
+    return initialJavaMinorVersionObject ? initialJavaMinorVersionObject.displayText : '';
   };
 
   const getSelectedJavaMinorVersion = () => {
-    const currentJavaMajorVersion = getJavaMajorVersion(javaStack.properties, values.config);
+    const currentJavaMajorVersion = getJavaMajorMinorVersion(javaStack, values.config);
     if (!currentJavaMajorVersion) {
       return '';
     }
-    const currentJavaMajorVersionObject = getJavaMajorVersionObject(javaStack, currentJavaMajorVersion);
-    return currentJavaMajorVersionObject ? currentJavaMajorVersionObject.displayVersion : '';
+    const currentJavaMinorVersionObject = getJavaMinorVersionObject(javaStack, currentJavaMajorVersion);
+    return currentJavaMinorVersionObject ? currentJavaMinorVersionObject.displayText : '';
   };
 
   const isJavaMajorVersionDirty = () => {
     return (
       values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
-      currentJavaMajorVersion !== getJavaMajorVersion(javaStack.properties, initialValues.config)
+      currentJavaMajorVersion !== getJavaMajorMinorVersion(javaStack, initialValues.config).majorVersion
     );
   };
 
@@ -85,12 +78,12 @@ const JavaStack: React.SFC<Props> = props => {
   };
 
   // Java Versions
-  const javaMajorVersionOptions = getJavaVersionAsDropdownOptions(javaStack);
-  const javaMinorVersionOptions = getJavaMinorVersionOptions(currentJavaMajorVersion, javaStack, t('newest'), t('autoUpdate'));
+  const javaMajorVersionOptions = getJavaMajorVersionAsDropdownOptions(javaStack);
+  const javaMinorVersionOptions = getJavaMinorVersionAsDropdownOptions(currentJavaMajorVersion, javaStack, t);
 
   // container versions
   const frameworks = getJavaContainersOptions(javaContainers);
-  const javaFrameworkVersionOptions = getFrameworkVersionOptions(javaContainers, values.config, t('autoUpdate'));
+  const javaFrameworkVersionOptions = getFrameworkVersionOptions(javaContainers, values.config, t);
   const onMajorVersionChange = (e: unknown, option: IDropdownOption) => {
     setCurrentJavaMajorVersion(option.key as string);
   };
@@ -122,7 +115,7 @@ const JavaStack: React.SFC<Props> = props => {
         component={Dropdown}
         fullpage
         required
-        label={t('javaContainer')}
+        label={t('javaWebServer')}
         disabled={disableAllControls}
         id="app-settings-java-container-runtime"
         options={frameworks}
@@ -135,7 +128,7 @@ const JavaStack: React.SFC<Props> = props => {
           fullpage
           required
           disabled={disableAllControls}
-          label={t('javaContainerVersion')}
+          label={t('javaWebServerVersion')}
           id="app-settings-java-container-version"
           options={javaFrameworkVersionOptions}
         />

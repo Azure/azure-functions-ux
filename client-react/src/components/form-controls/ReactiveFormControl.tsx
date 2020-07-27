@@ -18,6 +18,7 @@ import {
   learnMoreLinkStyle,
   tooltipStyle,
   upsellIconStyle,
+  stackControlStyle,
 } from './formControl.override.styles';
 
 export enum Layout {
@@ -69,10 +70,9 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
   return (
     <Stack
       horizontal={horizontal}
-      verticalAlign="center"
       className={`${!!formControlClassName ? formControlClassName : ''} ${controlContainerStyle(!!upsellMessage, fullPage)}`}>
       {(label || (pushContentRight && fullPage)) && (
-        <Stack horizontal verticalAlign="center" className={formStackStyle(!!upsellMessage, fullPage)}>
+        <Stack horizontal className={formStackStyle(!!upsellMessage, fullPage)}>
           {upsellMessage && (
             <div className={upsellIconStyle}>
               <UpsellIcon upsellMessage={upsellMessage} />
@@ -91,34 +91,36 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
           </Label>
         </Stack>
       )}
-      {children}
-      {infoBubbleMessage && (
-        <div className={infoMessageStyle(fullPage)}>
-          <Stack horizontal verticalAlign="center" disableShrink={true}>
-            <InfoSvg
-              className={style({
-                paddingRight: '5px',
-              })}
-            />
-            <div
-              className={style({
-                width: 'fit-content',
-              })}>
-              <span id={`${id}-infobubble`}>{`${infoBubbleMessage} `}</span>
-              {learnMoreLink && (
-                <Link
-                  id={`${id}-learnmore`}
-                  href={learnMoreLink}
-                  target="_blank"
-                  className={learnMoreLinkStyle}
-                  aria-labelledby={`${id}-infobubble ${id}-learnmore`}>
-                  {t('learnMore')}
-                </Link>
-              )}
-            </div>
-          </Stack>
-        </div>
-      )}
+      <Stack verticalAlign="center" className={stackControlStyle()}>
+        {children}
+        {infoBubbleMessage && (
+          <div className={infoMessageStyle()}>
+            <Stack horizontal verticalAlign="center" disableShrink={true}>
+              <InfoSvg
+                className={style({
+                  paddingRight: '5px',
+                })}
+              />
+              <div
+                className={style({
+                  width: 'fit-content',
+                })}>
+                <span id={`${id}-infobubble`}>{`${infoBubbleMessage} `}</span>
+                {learnMoreLink && (
+                  <Link
+                    id={`${id}-learnmore`}
+                    href={learnMoreLink}
+                    target="_blank"
+                    className={learnMoreLinkStyle}
+                    aria-labelledby={`${id}-infobubble ${id}-learnmore`}>
+                    {t('learnMore')}
+                  </Link>
+                )}
+              </div>
+            </Stack>
+          </div>
+        )}
+      </Stack>
     </Stack>
   );
 };
