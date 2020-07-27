@@ -1,4 +1,4 @@
-import { sendHttpRequest } from './HttpClient';
+import { sendHttpRequest, getLinksFromLinkHeader, getLastPageNumberFromLinks } from './HttpClient';
 import Url from '../utils/url';
 import {
   GitHubUser,
@@ -42,31 +42,59 @@ export default class GitHubService {
     return sendHttpRequest<GitHubOrganizations[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
-  public static getOrgRepositories = (repositories_url: string, authToken: string) => {
-    const data = {
-      url: `${repositories_url}/repos?per_page=100`,
-      authToken,
-    };
-
-    return sendHttpRequest<GitHubRepository[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+  public static getOrgRepositories = async (repositories_url: string, authToken: string, logger?: (page, response) => void) => {
+    return GitHubService._getGitHubObjectList<GitHubRepository>(`${repositories_url}/repos?per_page=100`, authToken, logger);
   };
 
-  public static getUserRepositories = (authToken: string) => {
-    const data = {
-      url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`,
+  public static getUserRepositories = async (authToken: string, logger?: (page, response) => void) => {
+    return GitHubService._getGitHubObjectList<GitHubRepository>(
+      `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`,
       authToken,
-    };
-
-    return sendHttpRequest<GitHubRepository[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+      logger
+    );
   };
 
-  public static getBranches = (org: string, repo: string, authToken: string) => {
+  public static getBranches = async (org: string, repo: string, authToken: string, logger?: (page, response) => void) => {
+    return GitHubService._getGitHubObjectList<GitHubBranch>(
+      `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/branches?per_page=100`,
+      authToken,
+      logger
+    );
+  };
+
+  private static _getGitHubObjectList = async <T>(url: string, authToken: string, logger?: (page, response) => void) => {
+    const githubObjectList: T[] = [];
+    let lastPageNumber = 1;
+    for (let i = 1; i <= lastPageNumber; i++) {
+      const pageResponse = await GitHubService._sendGitHubRequest<T[]>(`${url}&page=${i}`, authToken);
+      if (pageResponse.metadata.success) {
+        githubObjectList.push(...pageResponse.data);
+
+        const linkHeader = pageResponse.metadata.headers.link;
+        if (linkHeader) {
+          const links = getLinksFromLinkHeader(linkHeader);
+          const thisLastPageNumber = getLastPageNumberFromLinks(links);
+          lastPageNumber = thisLastPageNumber > 10 ? 10 : thisLastPageNumber;
+        }
+      } else if (logger) {
+        logger(i, pageResponse);
+      }
+    }
+
+    return githubObjectList;
+  };
+
+  private static _sendGitHubRequest = <T>(url: string, authToken: string) => {
     const data = {
-      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/branches`,
+      url,
       authToken,
     };
 
-    return sendHttpRequest<GitHubBranch[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+    return sendHttpRequest<T>({
+      url: `${Url.serviceHost}api/github/passthrough`,
+      method: 'POST',
+      data,
+    });
   };
 
   public static getAllWorkflowConfigurations = (org: string, repo: string, branchName: string, authToken: string) => {
