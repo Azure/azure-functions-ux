@@ -793,6 +793,9 @@
   <data name="integrate_triggersHelp" xml:space="preserve">
         <value>Met triggers wordt uw functie gestart. U kunt bijvoorbeeld een trigger voor een nieuw wachtrijbericht instellen. U moet altijd een trigger gebruiken.</value>
     </data>
+  <data name="integrate_unknownCardTitle" xml:space="preserve">
+        <value>Onbekend</value>
+    </data>
   <data name="binding_createNewFunction" xml:space="preserve">
         <value>Een nieuwe functie maken die wordt geactiveerd door deze uitvoer</value>
     </data>
@@ -5737,6 +5740,30 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
         <value>De bestaande werkstroomconfiguratie in GitHub wordt overschreven met de onderstaande configuratie.</value>
     </data>
+  <data name="githubActionWorkflowFileLabel" xml:space="preserve">
+        <value>Werkstroombestand</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
+        <value>Behouden</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
+        <value>Behoud het bestand {0} van de vertakking {1} in de opslagplaats {2}. Hiermee worden implementaties naar uw app geactiveerd voor doorvoeren aan de vertakking.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
+        <value>Verwijderen</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
+        <value>Verwijder het bestand {0} uit de vertakking {1} in de opslagplaats {2}. Hiermee voorkomt u dat toekomstige implementaties voor uw app worden doorgevoerd in deze vertakking.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
+        <value>Als u de verbinding met GitHub Actions verbreekt, kunnen toekomstige implementaties die door doorvoeringen worden geactiveerd, niet worden uitgevoerd.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
+        <value>Het GitHub Actions-bestand {0} van de vertakking {1} in de opslagplaats {2} bestaat niet. Selecteer OK om de implementatie te verbreken.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelChoiceDescription" xml:space="preserve">
+        <value>Wilt u het werkstroombestand ook verwijderen uit de GitHub-opslagplaats?</value>
+    </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
         <value>Er zijn geen functiesleutels om weer te geven</value>
     </data>
@@ -5789,7 +5816,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>De bestaande werkstroomconfiguratie in GitHub wordt gebruikt voor de build en implementatie.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
-        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+        <value>Als er een bestaande werkstroomconfiguratie bestaat, wordt deze overschreven.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>App-bestanden vernieuwen</value>
@@ -5911,6 +5938,15 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
         <value>GitHub-actie voor verbreken van de verbinding bevestigen</value>
     </data>
+  <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Ontkoppeling van App Service-buildservice bevestigen</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
+        <value>GitHub Actions-werkstroomconfiguratie ophalen</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoading" xml:space="preserve">
+        <value>GitHub Actions-werkstroomconfiguratie ophalen...</value>
+    </data>
   <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
         <value>Kan het werkstroombestand {0} niet verwijderen uit de vertakking {1} in de opslagplaats {2}. Dit wordt mogelijk veroorzaakt doordat de naam van het bestand is gewijzigd of doordat het bestand al is verwijderd.</value>
     </data>
@@ -5937,6 +5973,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Opdracht voor vernieuwen voor Implementatiecentrum</value>
+    </data>
+  <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
+        <value>Fout bij het ophalen van gegevens</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Publicatieprofiel beheren</value>
@@ -6392,13 +6431,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Configuratie van werkstroom</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
-        <value>File with the workflow configuration defined by the settings above.</value>
+        <value>Bestand met de werkstroomconfiguratie die is gedefinieerd met de bovenstaande instellingen.</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
-        <value>Preview file</value>
+        <value>Voorbeeldbestand</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
-        <value>Fill out the required settings above to enable the preview.</value>
+        <value>Vul de vereiste instellingen hierboven in om de voorbeeldversie in te schakelen.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
         <value>De werkstroom in de opslagplaats overschrijven</value>
@@ -6410,7 +6449,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Bestaande werkstroom van opslagplaats gebruiken</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Use available repository workflow</value>
+        <value>Beschikbare werkstroom van opslagplaats gebruiken</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Werkstroomoptie selecteren</value>
@@ -6422,16 +6461,16 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Werkstroomconfiguraties laden...</value>
     </data>
   <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
-        <value>File path</value>
+        <value>Bestandspad</value>
     </data>
   <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
-        <value>Building with GitHub Actions.</value>
+        <value>Bouwen met GitHub Actions.</value>
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
-        <value>Building with App Service Build Service.</value>
+        <value>Bouwen met App Service-opbouwservice.</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
-        <value>Change provider.</value>
+        <value>De provider wijzigen.</value>
     </data>
   <data name="functionMonitor_orchestrations" xml:space="preserve">
         <value>Indelingen</value>
@@ -6494,9 +6533,24 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Meer informatie over Flex-stempels.</value>
     </data>
   <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about Ootgoing IP addresses.</value>
+        <value>Meer informatie over uitgaande IP-adressen</value>
     </data>
   <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about app service plan density.</value>
+        <value>Meer informatie over de dichtheid van App Service-abonnementen</value>
+    </data>
+  <data name="ibizafication_readOnlyLinuxElastic" xml:space="preserve">
+        <value>Uw app bevindt zich momenteel in de alleen-lezenmodus omdat Elastic Premium voor Linux moet worden uitgevoerd via een pakket.</value>
+    </data>
+  <data name="stackVersionAutoUpdate" xml:space="preserve">
+        <value>{0} (automatisch bijwerken)</value>
+    </data>
+  <data name="versionLabel" xml:space="preserve">
+        <value>{0} Version</value>
+    </data>
+  <data name="javaWebServer" xml:space="preserve">
+        <value>Java web server</value>
+    </data>
+  <data name="javaWebServerVersion" xml:space="preserve">
+        <value>Java web server version</value>
     </data>
 </root>

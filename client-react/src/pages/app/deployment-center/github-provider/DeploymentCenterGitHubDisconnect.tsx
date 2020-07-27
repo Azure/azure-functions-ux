@@ -61,6 +61,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
 
     if (deploymentDisconnectStatus.isSuccessful) {
       portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
+      deploymentCenterContext.refresh();
     } else {
       portalContext.stopNotification(
         notificationId,

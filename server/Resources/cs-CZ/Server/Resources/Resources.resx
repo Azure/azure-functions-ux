@@ -793,6 +793,9 @@
   <data name="integrate_triggersHelp" xml:space="preserve">
         <value>Triggery spouští funkci. Můžete mít třeba trigger zprávy o nové frontě. Trigger musíte mít vždy.</value>
     </data>
+  <data name="integrate_unknownCardTitle" xml:space="preserve">
+        <value>Neznámý</value>
+    </data>
   <data name="binding_createNewFunction" xml:space="preserve">
         <value>Vytvořit novou funkci spouštěnou tímto výstupem</value>
     </data>
@@ -5736,6 +5739,30 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
         <value>Stávající konfigurace pracovního postupu v GitHubu se přepíše konfigurací uvedenou níže.</value>
     </data>
+  <data name="githubActionWorkflowFileLabel" xml:space="preserve">
+        <value>Soubor pracovního postupu</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
+        <value>Zachovat</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
+        <value>Zachovejte soubor {0} z větve {1} v úložišti {2}. Tím se můžou aktivovat nasazení do aplikace při potvrzování do této větve.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
+        <value>Odstranit</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
+        <value>Odstraňte soubor {0} z větve {1} v úložišti {2}. Tím se zabrání budoucím nasazením do aplikace při potvrzování do této větve.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
+        <value>Odpojení akce GitHub Actions zabrání budoucím nasazením aktivovaným potvrzeními.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
+        <value>Soubor pracovního postupu GitHub Actions {0} z větve {1} v úložišti {2} neexistuje. Pokud chcete nasazení odpojit, vyberte OK.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelChoiceDescription" xml:space="preserve">
+        <value>Chcete soubor pracovního postupu odebrat i z úložiště GitHubu?</value>
+    </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
         <value>Nejsou k dispozici žádné funkční klávesy, které by se daly zobrazit.</value>
     </data>
@@ -5788,7 +5815,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>K sestavování a nasazování se použije stávající konfigurace pracovního postupu v GitHubu.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
-        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+        <value>Pokud existuje nějaká stávající konfigurace pracovního prostoru, přepíše se.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>Aktualizovat soubory aplikace</value>
@@ -5910,6 +5937,15 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
         <value>Potvrdit odpojení akce GitHubu</value>
     </data>
+  <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Potvrdit odpojení sestavovací služby App Service</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
+        <value>Načítá se konfigurace pracovního postupu GitHub Actions.</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoading" xml:space="preserve">
+        <value>Načítá se konfigurace pracovního postupu GitHub Actions...</value>
+    </data>
   <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
         <value>Nepovedlo se odstranit soubor pracovního postupu {0} z větve {1} v úložišti {2}. Příčinou může být buď změna názvu souboru, nebo jeho odstranění.</value>
     </data>
@@ -5936,6 +5972,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Příkaz pro aktualizaci v centru Deployment Center</value>
+    </data>
+  <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
+        <value>Při načítání informací došlo k chybě.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Spravovat profil publikování</value>
@@ -6391,13 +6430,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Konfigurace pracovního postupu</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
-        <value>File with the workflow configuration defined by the settings above.</value>
+        <value>Soubor s konfigurací pracovního postupu definovaný nastavením výše</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
-        <value>Preview file</value>
+        <value>Náhled souboru</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
-        <value>Fill out the required settings above to enable the preview.</value>
+        <value>Pokud chcete povolit náhled, vyplňte požadovaná nastavení výše.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
         <value>Přepsat pracovní postup v úložišti</value>
@@ -6409,7 +6448,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Použít existující pracovní postup úložiště</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Use available repository workflow</value>
+        <value>Použít dostupný pracovní postup úložiště</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Vybrat možnost pracovního postupu</value>
@@ -6421,16 +6460,16 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Načítají se konfigurace pracovního postupu...</value>
     </data>
   <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
-        <value>File path</value>
+        <value>Cesta k souboru</value>
     </data>
   <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
-        <value>Building with GitHub Actions.</value>
+        <value>Vytváření s GitHub Actions</value>
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
-        <value>Building with App Service Build Service.</value>
+        <value>Vytváření se službou App Service Build</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
-        <value>Change provider.</value>
+        <value>Změňte poskytovatele.</value>
     </data>
   <data name="functionMonitor_orchestrations" xml:space="preserve">
         <value>Orchestrace</value>
@@ -6490,12 +6529,27 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nenašla se žádná data. Ujistěte se prosím, že jste nainstalovali nejnovější rozšíření Durable Functions (.NET), nebo použijte verzi V2 rozšiřujících sad.</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
-        <value>Learn more about flex stamps.</value>
+        <value>Další informace o flexibilních razítkách</value>
     </data>
   <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about Ootgoing IP addresses.</value>
+        <value>Další informace o odchozích IP adresách</value>
     </data>
   <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about app service plan density.</value>
+        <value>Další informace o hustotě plánů služby App Service</value>
+    </data>
+  <data name="ibizafication_readOnlyLinuxElastic" xml:space="preserve">
+        <value>Vaše aplikace je v tuto chvíli v režimu jen pro čtení, protože Elastic Premium na Linuxu vyžaduje spuštění z balíčku.</value>
+    </data>
+  <data name="stackVersionAutoUpdate" xml:space="preserve">
+        <value>{0} (automatická aktualizace)</value>
+    </data>
+  <data name="versionLabel" xml:space="preserve">
+        <value>{0} Version</value>
+    </data>
+  <data name="javaWebServer" xml:space="preserve">
+        <value>Java web server</value>
+    </data>
+  <data name="javaWebServerVersion" xml:space="preserve">
+        <value>Java web server version</value>
     </data>
 </root>

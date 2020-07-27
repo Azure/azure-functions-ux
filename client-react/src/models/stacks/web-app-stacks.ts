@@ -1,4 +1,5 @@
 // NOTE (krmitta): Should match with the schema coming from the backend: stacks/webapp/2020-06-01/stack.model.ts
+import { AppInsightsSettings, GitHubActionSettings, CommonSettings, AppStack } from './app-stacks';
 
 export interface WebAppRuntimes {
   linuxRuntimeSettings?: WebAppRuntimeSettings;
@@ -10,16 +11,6 @@ export interface WebAppRuntimeSettings extends CommonSettings {
   remoteDebuggingSupported: boolean;
   appInsightsSettings: AppInsightsSettings;
   gitHubActionSettings: GitHubActionSettings;
-}
-
-export interface AppInsightsSettings {
-  isSupported: boolean;
-  isDefaultOff?: boolean;
-}
-
-export interface GitHubActionSettings {
-  isSupported: boolean;
-  supportedVersion?: string;
 }
 
 export interface JavaContainers {
@@ -37,34 +28,4 @@ export interface LinuxJavaContainerSettings extends CommonSettings {
   java8Runtime?: string;
 }
 
-export interface CommonSettings {
-  isPreview?: boolean;
-  isDeprecated?: boolean;
-  isHidden?: boolean;
-  endOfLifeDate?: string;
-  isAutoUpdate?: boolean;
-}
-
-export interface WebAppMinorVersion {
-  displayText: string;
-  value: string;
-  stackSettings: WebAppRuntimes & JavaContainers;
-}
-
-export interface WebAppMajorVersion {
-  displayText: string;
-  value: string;
-  minorVersions: WebAppMinorVersion[];
-}
-
-export interface WebAppStack {
-  displayText: string;
-  value: string;
-  majorVersions: WebAppMajorVersion[];
-  preferredOs?: WebAppStackOs;
-}
-
-export enum WebAppStackOs {
-  linux = 'linux',
-  windows = 'windows',
-}
+export type WebAppStack = AppStack<WebAppRuntimes & JavaContainers>;

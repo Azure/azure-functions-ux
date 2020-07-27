@@ -1,8 +1,7 @@
-import { Field, FormikProps } from 'formik';
+import { Field } from 'formik';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import React, { useState, useEffect, useContext } from 'react';
 import Dropdown from '../../../../../components/form-controls/DropDown';
-import { AppSettingsFormValues } from '../../AppSettings.types';
 import {
   getJavaStack,
   getJavaContainers,
@@ -14,22 +13,19 @@ import {
   getJavaMajorVersionAsDropdownOptions,
 } from './JavaData';
 import { useTranslation } from 'react-i18next';
-import { PermissionsContext } from '../../Contexts';
+import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
-import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
+import { StackProps } from './WindowsStacks';
 
-export interface StateProps {
-  stacks: WebAppStack[];
-}
-
-type Props = StateProps & FormikProps<AppSettingsFormValues>;
-
-const JavaStack: React.SFC<Props> = props => {
+const JavaStack: React.SFC<StackProps> = props => {
   const [currentJavaMajorVersion, setCurrentJavaMajorVersion] = useState('');
-  const { stacks, values, initialValues } = props;
+  const { values, initialValues } = props;
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
+
+  const stacks = useContext(WebAppStacksContext);
+
   const javaStack = getJavaStack(stacks);
   const javaContainers = getJavaContainers(stacks);
 
@@ -119,7 +115,7 @@ const JavaStack: React.SFC<Props> = props => {
         component={Dropdown}
         fullpage
         required
-        label={t('javaContainer')}
+        label={t('javaWebServer')}
         disabled={disableAllControls}
         id="app-settings-java-container-runtime"
         options={frameworks}
@@ -132,7 +128,7 @@ const JavaStack: React.SFC<Props> = props => {
           fullpage
           required
           disabled={disableAllControls}
-          label={t('javaContainerVersion')}
+          label={t('javaWebServerVersion')}
           id="app-settings-java-container-version"
           options={javaFrameworkVersionOptions}
         />

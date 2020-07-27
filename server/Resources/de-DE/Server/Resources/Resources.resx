@@ -793,6 +793,9 @@
   <data name="integrate_triggersHelp" xml:space="preserve">
         <value>Mit Triggern wird Ihre Funktion gestartet. Beispielsweise kann eine Funktion bei einer neuen Warteschlangennachricht ausgelöst werden. Ein Trigger ist immer erforderlich.</value>
     </data>
+  <data name="integrate_unknownCardTitle" xml:space="preserve">
+        <value>Unbekannt</value>
+    </data>
   <data name="binding_createNewFunction" xml:space="preserve">
         <value>Neue durch diese Ausgabe ausgelöste Funktion erstellen</value>
     </data>
@@ -5736,6 +5739,30 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
         <value>Die vorhandene Workflowkonfiguration in GitHub wird mit der folgenden Konfiguration überschrieben.</value>
     </data>
+  <data name="githubActionWorkflowFileLabel" xml:space="preserve">
+        <value>Workflowdatei</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
+        <value>Beibehalten</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
+        <value>Hiermit wird die Datei "{0}" aus dem Branch "{1}" im Repository "{2}" beibehalten. Dies kann Bereitstellungen für Ihre App in Commits für den Branch auslösen.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
+        <value>Löschen</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
+        <value>Löschen Sie die Datei "{0}" aus dem Branch "{1}" im Repository "{2}". Damit werden zukünftige Bereitstellungen für Ihre App in Commits für diesen Branch verhindert.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
+        <value>Durch das Trennen der GitHub-Aktion wird verhindert, dass zukünftige Bereitstellungen durch Commits ausgelöst werden.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
+        <value>Die GitHub-Aktionsworkflowdatei "{0}" aus dem Branch "{1}" im Repository "{2}" ist nicht vorhanden. Wählen Sie "OK" aus, um die Bereitstellung zu trennen.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelChoiceDescription" xml:space="preserve">
+        <value>Möchten Sie die Workflowdatei auch aus Ihrem GitHub-Repository entfernen?</value>
+    </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
         <value>Keine Funktionstasten zur Anzeige vorhanden.</value>
     </data>
@@ -5788,7 +5815,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Die vorhandene Workflowkonfiguration in GitHub wird zur Erstellung und Bereitstellung verwendet.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
-        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+        <value>Wenn bereits eine Workflowkonfiguration vorhanden ist, wird diese überschrieben.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>App-Dateien aktualisieren</value>
@@ -5910,6 +5937,15 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
         <value>Trennen von GitHub Action bestätigen</value>
     </data>
+  <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Trennen des App Service-Builddiensts bestätigen</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
+        <value>Die Konfiguration des GitHub-Aktionsworkflows wird abgerufen.</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoading" xml:space="preserve">
+        <value>Die Konfiguration des GitHub-Aktionsworkflows wird abgerufen...</value>
+    </data>
   <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
         <value>Fehler beim Löschen der Workflowdatei "{0}" aus dem Branch "{1}" im Repository "{2}". Möglicherweise wurde die Datei umbenannt oder bereits gelöscht.</value>
     </data>
@@ -5936,6 +5972,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Bereitstellungscenter-Befehl zum Aktualisieren</value>
+    </data>
+  <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
+        <value>Fehler beim Abrufen von Informationen.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Veröffentlichungsprofil verwalten</value>
@@ -6391,13 +6430,13 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Workflowkonfiguration</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
-        <value>File with the workflow configuration defined by the settings above.</value>
+        <value>Datei mit der Workflowkonfiguration, die durch die Einstellungen oben definiert wird.</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
-        <value>Preview file</value>
+        <value>Vorschau der Datei anzeigen</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
-        <value>Fill out the required settings above to enable the preview.</value>
+        <value>Füllen Sie oben die erforderlichen Einstellungen aus, um die Vorschau zu aktivieren.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
         <value>Workflow im Repository überschreiben</value>
@@ -6409,7 +6448,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Vorhandenen Repositoryworkflow verwenden</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Use available repository workflow</value>
+        <value>Vorhandenen Repositoryworkflow verwenden</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Workflowoption auswählen</value>
@@ -6421,16 +6460,16 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Workflowkonfigurationen werden geladen...</value>
     </data>
   <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
-        <value>File path</value>
+        <value>Dateipfad</value>
     </data>
   <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
-        <value>Building with GitHub Actions.</value>
+        <value>Erstellung mit GitHub Actions.</value>
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
-        <value>Building with App Service Build Service.</value>
+        <value>Erstellung mit App Service-Builddienst.</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
-        <value>Change provider.</value>
+        <value>Anbieter ändern</value>
     </data>
   <data name="functionMonitor_orchestrations" xml:space="preserve">
         <value>Orchestrierungen</value>
@@ -6490,12 +6529,27 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Keine Daten gefunden. Stellen Sie sicher, dass Sie die neueste Durable Functions-Erweiterung (.NET) installieren oder V2 der Erweiterungspakete verwenden.</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
-        <value>Learn more about flex stamps.</value>
+        <value>Erfahren Sie mehr über flexible Stempel.</value>
     </data>
   <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about Ootgoing IP addresses.</value>
+        <value>Erfahren Sie mehr über ausgehende IP-Adressen.</value>
     </data>
   <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about app service plan density.</value>
+        <value>Erfahren Sie mehr über die App Service-Plandichte.</value>
+    </data>
+  <data name="ibizafication_readOnlyLinuxElastic" xml:space="preserve">
+        <value>Ihre App befindet sich aktuell im schreibgeschützten Modus, weil für Elastic Premium unter Linux ein Paket ausgeführt werden muss.</value>
+    </data>
+  <data name="stackVersionAutoUpdate" xml:space="preserve">
+        <value>{0} (automatische Aktualisierung)</value>
+    </data>
+  <data name="versionLabel" xml:space="preserve">
+        <value>{0} Version</value>
+    </data>
+  <data name="javaWebServer" xml:space="preserve">
+        <value>Java web server</value>
+    </data>
+  <data name="javaWebServerVersion" xml:space="preserve">
+        <value>Java web server version</value>
     </data>
 </root>
