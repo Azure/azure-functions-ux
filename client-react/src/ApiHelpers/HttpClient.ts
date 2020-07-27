@@ -46,9 +46,11 @@ export const getLinksFromLinkHeader = (linksHeader: string): { [key: string]: st
     // Parse each part into a named link
     linksHeader.split(',').forEach(part => {
       const section = part.split(';');
-      const url = section[0].replace(/<(.*)>/, '$1').trim();
-      const name = section[1].replace(/rel="(.*)"/, '$1').trim();
-      links[name] = url;
+      if (section.length > 1) {
+        const url = section[0].replace(/<(.*)>/, '$1').trim();
+        const name = section[1].replace(/rel="(.*)"/, '$1').trim();
+        links[name] = url;
+      }
     });
   }
 

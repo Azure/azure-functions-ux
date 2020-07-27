@@ -85,16 +85,16 @@ export default class DeploymentCenterData {
     return GitHubService.getOrganizations(armToken);
   };
 
-  public getGitHubOrgRepositories = (repositories_url: string, armToken: string, logCategory: string) => {
-    return GitHubService.getOrgRepositories(repositories_url, armToken, logCategory);
+  public getGitHubOrgRepositories = (repositories_url: string, armToken: string, logger?: (page, response) => void) => {
+    return GitHubService.getOrgRepositories(repositories_url, armToken, logger);
   };
 
-  public getGitHubUserRepositories = (armToken: string, logCategory: string) => {
-    return GitHubService.getUserRepositories(armToken, logCategory);
+  public getGitHubUserRepositories = (armToken: string, logger?: (page, response) => void) => {
+    return GitHubService.getUserRepositories(armToken, logger);
   };
 
-  public getGitHubBranches = (org: string, repo: string, armToken: string, logCategory: string) => {
-    return GitHubService.getBranches(org, repo, armToken, logCategory);
+  public getGitHubBranches = (org: string, repo: string, armToken: string, logger?: (page, response) => void) => {
+    return GitHubService.getBranches(org, repo, armToken, logger);
   };
 
   public getAllWorkflowConfigurations = (org: string, repo: string, branchName: string, authToken: string) => {

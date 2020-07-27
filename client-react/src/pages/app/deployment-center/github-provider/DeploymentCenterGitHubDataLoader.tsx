@@ -41,7 +41,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       } else {
         LogService.error(
           LogCategories.deploymentCenter,
-          'DeploymentCenterGitHubDataLoader',
+          'GitHubGetOrganizations',
           `Failed to fetch GitHub organizations with error: ${getErrorMessage(gitHubOrganizationsResponse.metadata.error)}`
         );
       }
@@ -55,29 +55,42 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const fetchRepositoryOptions = async (repositories_url: string) => {
     setRepositoryOptions([]);
     setBranchOptions([]);
-    const newRepositoryOptions: IDropdownOption[] = [];
 
     const gitHubRepositories = await (repositories_url.toLocaleLowerCase().indexOf('github.com/users/') > -1
-      ? deploymentCenterData.getGitHubUserRepositories(getArmToken(), LogCategories.deploymentCenter)
-      : deploymentCenterData.getGitHubOrgRepositories(repositories_url, getArmToken(), LogCategories.deploymentCenter));
+      ? deploymentCenterData.getGitHubUserRepositories(getArmToken(), (page, response) => {
+          LogService.error(
+            LogCategories.deploymentCenter,
+            'GitHubGetUserRepositories',
+            `Failed to fetch GitHub repositories with error: ${getErrorMessage(response.metadata.error)}`
+          );
+        })
+      : deploymentCenterData.getGitHubOrgRepositories(repositories_url, getArmToken(), (page, response) => {
+          LogService.error(
+            LogCategories.deploymentCenter,
+            'GitHubGetOrgRepositories',
+            `Failed to fetch GitHub repositories with error: ${getErrorMessage(response.metadata.error)}`
+          );
+        }));
 
-    gitHubRepositories.forEach(repository => {
-      if (!repository.permissions || repository.permissions.admin)
-        newRepositoryOptions.push({ key: repository.name, text: repository.name });
-    });
+    const newRepositoryOptions: IDropdownOption[] = gitHubRepositories
+      .filter(repo => !repo.permissions || repo.permissions.admin)
+      .map(repo => ({ key: repo.name, text: repo.name }));
 
     setRepositoryOptions(newRepositoryOptions);
   };
 
   const fetchBranchOptions = async (org: string, repo: string) => {
     setBranchOptions([]);
-    const newBranchOptions: IDropdownOption[] = [];
 
-    const gitHubBranches = await deploymentCenterData.getGitHubBranches(org, repo, getArmToken(), LogCategories.deploymentCenter);
-
-    gitHubBranches.forEach(branch => {
-      newBranchOptions.push({ key: branch.name, text: branch.name });
+    const gitHubBranches = await deploymentCenterData.getGitHubBranches(org, repo, getArmToken(), (page, response) => {
+      LogService.error(
+        LogCategories.deploymentCenter,
+        'GitHubGetBranches',
+        `Failed to fetch GitHub branches with error: ${getErrorMessage(response.metadata.error)}`
+      );
     });
+
+    const newBranchOptions: IDropdownOption[] = gitHubBranches.map(branch => ({ key: branch.name, text: branch.name }));
 
     setBranchOptions(newBranchOptions);
   };

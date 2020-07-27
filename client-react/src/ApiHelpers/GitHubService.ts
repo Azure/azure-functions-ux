@@ -11,8 +11,6 @@ import {
 } from '../models/github';
 import { HttpResponseObject } from '../ArmHelper.types';
 import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
-import LogService from '../utils/LogService';
-import { getErrorMessage } from './ArmHelper';
 
 export default class GitHubService {
   public static authorizeUrl = `${Url.serviceHost}auth/github/authorize`;
@@ -44,157 +42,59 @@ export default class GitHubService {
     return sendHttpRequest<GitHubOrganizations[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
-  public static getOrgRepositories = async (repositories_url: string, authToken: string, logCategory: string) => {
-    const data = {
-      url: `${repositories_url}/repos?per_page=100`,
-      authToken,
-    };
-    const initialResponse = await sendHttpRequest<GitHubRepository[]>({
-      url: `${Url.serviceHost}api/github/passthrough`,
-      method: 'POST',
-      data,
-    });
-
-    if (!initialResponse.metadata.success) {
-      LogService.error(
-        logCategory,
-        'GitHubGetOrgRepositories',
-        `Failed to fetch GitHub repositories with error: ${getErrorMessage(initialResponse.metadata.error)}`
-      );
-      return [];
-    }
-
-    const orgRepositoriesList: GitHubRepository[] = initialResponse.data;
-
-    const linkHeader = initialResponse.metadata.headers.link;
-    if (linkHeader) {
-      const links = getLinksFromLinkHeader(linkHeader);
-      const lastPageNumber = getLastPageNumberFromLinks(links);
-      for (let i = 2; i <= lastPageNumber; i++) {
-        const data = {
-          url: `${repositories_url}/repos?per_page=100&page=${i}`,
-          authToken,
-        };
-        const pageResponse = await sendHttpRequest<GitHubRepository[]>({
-          url: `${Url.serviceHost}api/github/passthrough`,
-          method: 'POST',
-          data,
-        });
-        if (pageResponse.metadata.success) {
-          orgRepositoriesList.push(...pageResponse.data);
-        } else {
-          LogService.warn(
-            logCategory,
-            'GitHubGetOrgRepositories',
-            `Failed to fetch GitHub repositories with error: ${getErrorMessage(pageResponse.metadata.error)}`
-          );
-        }
-      }
-    }
-
-    return orgRepositoriesList;
+  public static getOrgRepositories = async (repositories_url: string, authToken: string, logger?: (page, response) => void) => {
+    return GitHubService._getGitHubObjectList<GitHubRepository>(`${repositories_url}/repos?per_page=100`, authToken, logger);
   };
 
-  public static getUserRepositories = async (authToken: string, logCategory: string) => {
-    const data = {
-      url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`,
+  public static getUserRepositories = async (authToken: string, logger?: (page, response) => void) => {
+    return GitHubService._getGitHubObjectList<GitHubRepository>(
+      `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`,
       authToken,
-    };
-    const initialResponse = await sendHttpRequest<GitHubRepository[]>({
-      url: `${Url.serviceHost}api/github/passthrough`,
-      method: 'POST',
-      data,
-    });
-
-    if (!initialResponse.metadata.success) {
-      LogService.error(
-        logCategory,
-        'GitHubGetUserRepositories',
-        `Failed to fetch GitHub repositories with error: ${getErrorMessage(initialResponse.metadata.error)}`
-      );
-      return [];
-    }
-
-    const userRepositoriesList: GitHubRepository[] = initialResponse.data;
-
-    const linkHeader = initialResponse.metadata.headers.link;
-    if (linkHeader) {
-      const links = getLinksFromLinkHeader(linkHeader);
-      const lastPageNumber = getLastPageNumberFromLinks(links);
-      for (let i = 2; i <= lastPageNumber; i++) {
-        const data = {
-          url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner&page=${i}`,
-          authToken,
-        };
-        const pageResponse = await sendHttpRequest<GitHubRepository[]>({
-          url: `${Url.serviceHost}api/github/passthrough`,
-          method: 'POST',
-          data,
-        });
-        if (pageResponse.metadata.success) {
-          userRepositoriesList.push(...pageResponse.data);
-        } else {
-          LogService.warn(
-            logCategory,
-            'GitHubGetUserRepositories',
-            `Failed to fetch GitHub repositories with error: ${getErrorMessage(pageResponse.metadata.error)}`
-          );
-        }
-      }
-    }
-
-    return userRepositoriesList;
+      logger
+    );
   };
 
-  public static getBranches = async (org: string, repo: string, authToken: string, logCategory: string) => {
+  public static getBranches = async (org: string, repo: string, authToken: string, logger?: (page, response) => void) => {
+    return GitHubService._getGitHubObjectList<GitHubBranch>(
+      `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/branches?per_page=100`,
+      authToken,
+      logger
+    );
+  };
+
+  private static _getGitHubObjectList = async <T>(url: string, authToken: string, logger?: (page, response) => void) => {
+    const githubObjectList: T[] = [];
+    let lastPageNumber = 1;
+    for (let i = 1; i <= lastPageNumber; i++) {
+      const pageResponse = await GitHubService._sendGitHubRequest<T[]>(`${url}&page=${i}`, authToken);
+      if (pageResponse.metadata.success) {
+        githubObjectList.push(...pageResponse.data);
+
+        const linkHeader = pageResponse.metadata.headers.link;
+        if (linkHeader) {
+          const links = getLinksFromLinkHeader(linkHeader);
+          const thisLastPageNumber = getLastPageNumberFromLinks(links);
+          lastPageNumber = thisLastPageNumber > 10 ? 10 : thisLastPageNumber;
+        }
+      } else if (logger) {
+        logger(i, pageResponse);
+      }
+    }
+
+    return githubObjectList;
+  };
+
+  private static _sendGitHubRequest = <T>(url: string, authToken: string) => {
     const data = {
-      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/branches?per_page=100`,
+      url,
       authToken,
     };
-    const initialResponse = await sendHttpRequest<GitHubBranch[]>({
+
+    return sendHttpRequest<T>({
       url: `${Url.serviceHost}api/github/passthrough`,
       method: 'POST',
       data,
     });
-
-    if (!initialResponse.metadata.success) {
-      LogService.error(
-        logCategory,
-        'GitHubGetBranches',
-        `Failed to fetch GitHub branches with error: ${getErrorMessage(initialResponse.metadata.error)}`
-      );
-      return [];
-    }
-
-    const branchesList: GitHubBranch[] = initialResponse.data;
-
-    const linkHeader = initialResponse.metadata.headers.link;
-    if (linkHeader) {
-      const links = getLinksFromLinkHeader(linkHeader);
-      const lastPageNumber = getLastPageNumberFromLinks(links);
-      for (let i = 2; i <= lastPageNumber; i++) {
-        const data = {
-          url: `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/branches?per_page=100&page=${i}`,
-          authToken,
-        };
-        const pageResponse = await sendHttpRequest<GitHubBranch[]>({
-          url: `${Url.serviceHost}api/github/passthrough`,
-          method: 'POST',
-          data,
-        });
-        if (pageResponse.metadata.success) {
-          branchesList.push(...pageResponse.data);
-        } else {
-          LogService.warn(
-            logCategory,
-            'GitHubGetBranches',
-            `Failed to fetch GitHub branches with error: ${getErrorMessage(pageResponse.metadata.error)}`
-          );
-        }
-      }
-    }
-
-    return branchesList;
   };
 
   public static getAllWorkflowConfigurations = (org: string, repo: string, branchName: string, authToken: string) => {

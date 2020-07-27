@@ -1934,6 +1934,7 @@ export class PortalResources {
   public static deploymentCenterBrowseCommandAriaLabel = 'deploymentCenterBrowseCommandAriaLabel';
   public static deploymentCenterPublishProfileCommandAriaLabel = 'deploymentCenterPublishProfileCommandAriaLabel';
   public static deploymentCenterRefreshCommandAriaLabel = 'deploymentCenterRefreshCommandAriaLabel';
+  public static deploymentCenterErrorFetchingInfo = 'deploymentCenterErrorFetchingInfo';
   public static managePublishProfile = 'managePublishProfile';
   public static ibizafication_readOnlyPython = 'ibizafication_readOnlyPython';
   public static ibizafication_readOnlyJava = 'ibizafication_readOnlyJava';
