@@ -14,8 +14,8 @@ import { getStackVersionConfigPropertyName, getStackVersionDropdownOptions } fro
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
 import { settingsWrapper } from '../../../AppSettingsForm';
-import { TextField } from 'office-ui-fabric-react';
 import { Links } from '../../../../../../utils/FwLinks';
+import TextField from '../../../../../../components/form-controls/TextField';
 
 const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();
@@ -63,14 +63,14 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!runtimeStack || !currentStackData || isWindowsContainer()) {
+  if (!runtimeStack || isWindowsContainer()) {
     return null;
   }
   return (
     <>
       <h3>{t('stackSettings')}</h3>
       <div className={settingsWrapper}>
-        {siteStateContext.site && !isContainerApp(siteStateContext.site) && (
+        {siteStateContext.site && currentStackData && !isContainerApp(siteStateContext.site) && (
           <>
             <DropdownNoFormik
               id="function-app-stack"
