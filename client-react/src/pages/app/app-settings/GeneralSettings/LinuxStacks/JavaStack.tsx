@@ -122,7 +122,7 @@ const JavaStack: React.SFC<StackProps> = props => {
               values.containerKey = javaContainerMajorVersion.value;
               values.containerVersion = containerSettings.java8Runtime;
             } else if (containerSettings.java11Runtime && containerSettings.java11Runtime.toLowerCase() === linuxFxVersion.toLowerCase()) {
-              values.majorVersion = JAVA8KEY;
+              values.majorVersion = JAVA11KEY;
               values.containerKey = javaContainerMajorVersion.value;
               values.containerVersion = containerSettings.java11Runtime;
             }
@@ -190,7 +190,9 @@ const JavaStack: React.SFC<StackProps> = props => {
         newContainerKey
       );
       setCurrentContainerVersionDropdownOptions(containerVersionDropdownOptions);
-      setFieldValue('config.properties.linuxFxVersion', containerVersionDropdownOptions[0].key);
+      if (containerVersionDropdownOptions.length > 0) {
+        setFieldValue('config.properties.linuxFxVersion', containerVersionDropdownOptions[0].key);
+      }
     }
   };
 
@@ -229,7 +231,7 @@ const JavaStack: React.SFC<StackProps> = props => {
         label={t('majorVersion')}
         id="linux-fx-java-major-version"
       />
-      {currentMajorVersion && (
+      {currentMajorVersion && currentContainerDropdownOptions.length > 0 && (
         <DropdownNoFormik
           selectedKey={currentContainerKey || ''}
           dirty={isContainerKeyDirty()}
@@ -240,7 +242,7 @@ const JavaStack: React.SFC<StackProps> = props => {
           id="linux-fx-version-java-container-major-version"
         />
       )}
-      {currentContainerKey && (
+      {currentContainerKey && currentContainerVersionDropdownOptions.length > 0 && (
         <Field
           name="config.properties.linuxFxVersion"
           dirty={isContianerVersionDirty()}
