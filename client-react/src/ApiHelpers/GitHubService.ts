@@ -11,6 +11,7 @@ import {
 } from '../models/github';
 import { HttpResponseObject } from '../ArmHelper.types';
 import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
+import { ProviderToken } from '../models/provider';
 
 export default class GitHubService {
   public static authorizeUrl = `${Url.serviceHost}auth/github/authorize`;
@@ -24,13 +25,12 @@ export default class GitHubService {
     return sendHttpRequest<GitHubUser>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
-  public static storeToken = (redirectUrl: string, authToken: string): Promise<HttpResponseObject<void>> => {
+  public static getToken = (redirectUrl: string): Promise<HttpResponseObject<ProviderToken>> => {
     const data = {
       redirUrl: redirectUrl,
-      authToken: authToken,
     };
 
-    return sendHttpRequest<void>({ url: `${Url.serviceHost}auth/github/storeToken`, method: 'POST', data });
+    return sendHttpRequest<ProviderToken>({ url: `${Url.serviceHost}auth/github/getToken`, method: 'POST', data });
   };
 
   public static getOrganizations = (authToken: string) => {

@@ -11,6 +11,7 @@ import { BroadcastService } from '../../../../shared/services/broadcast.service'
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
+import { ProviderService } from '../../../../shared/services/provider.service';
 
 @Component({
   selector: 'app-step-source-control',
@@ -134,7 +135,8 @@ export class StepSourceControlComponent {
     private _logService: LogService,
     private _translateService: TranslateService,
     private _broadcastService: BroadcastService,
-    private _scenarioService: ScenarioService
+    private _scenarioService: ScenarioService,
+    private _providerService: ProviderService
   ) {
     this._logService.trace(LogCategories.cicd, '/load-source-selector');
 
@@ -148,7 +150,7 @@ export class StepSourceControlComponent {
       .switchMap(() =>
         this._cacheService.post(Constants.serviceHost + 'api/github/passthrough', true, null, {
           url: 'https://api.github.com/user',
-          authToken: this._wizardService.getToken(),
+          gitHubToken: this._wizardService.wizardValues.sourceSettings.gitHubToken
         })
       )
       .subscribe(
@@ -186,7 +188,7 @@ export class StepSourceControlComponent {
       .switchMap(() =>
         this._cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
           url: 'https://api.bitbucket.org/2.0/user',
-          authToken: this._wizardService.getToken(),
+          bitBucketToken: this._wizardService.wizardValues.sourceSettings.bitBucketToken
         })
       )
       .subscribe(
@@ -210,7 +212,7 @@ export class StepSourceControlComponent {
       .switchMap(() =>
         this._cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
           url: 'https://api.onedrive.com/v1.0/drive',
-          authToken: this._wizardService.getToken(),
+          oneDriveToken: this._wizardService.wizardValues.sourceSettings.oneDriveToken
         })
       )
       .subscribe(
@@ -233,7 +235,7 @@ export class StepSourceControlComponent {
       .switchMap(() =>
         this._cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
           url: 'https://api.dropboxapi.com/2/users/get_current_account',
-          authToken: this._wizardService.getToken(),
+          dropBoxToken: this._wizardService.wizardValues.sourceSettings.dropBoxToken,
         })
       )
       .subscribe(
@@ -249,19 +251,37 @@ export class StepSourceControlComponent {
     if (this._shouldFetchSourceControlTokens()) {
       this._wizardService.resourceIdStream$
         .takeUntil(this._ngUnsubscribe$)
-        .switchMap(r =>
-          this._cacheService.post(Constants.serviceHost + 'api/SourceControlAuthenticationState', true, null, {
-            authToken: this._wizardService.getToken(),
-          })
-        )
+        .switchMap(r => this._providerService.getUserSourceControls())
         .subscribe(
-          dep => {
-            const r = dep.json();
-            this._onedriveAuthed = r.onedrive;
-            this._dropboxAuthed = r.dropbox;
-            this._bitbucketAuthed = r.bitbucket;
-            this._githubAuthed = r.github;
-            this.refreshAuth();
+          response => {
+
+            if (response.isSuccessful) {
+              const oneDriveSourceControl = response.result.value.find(item => item.name.toLowerCase() == 'onedrive');
+              const dropBoxSourceControl = response.result.value.find(item => item.name.toLowerCase() == 'dropbox');
+              const bitBucketSourceControl = response.result.value.find(item => item.name.toLowerCase() == 'bitbucket');
+              const gitHubSourceControl = response.result.value.find(item => item.name.toLowerCase() == 'github');
+
+              const oneDriveToken = oneDriveSourceControl && !!oneDriveSourceControl.properties.token;
+              const dropBoxToken = dropBoxSourceControl && !!dropBoxSourceControl.properties.token;
+              const bitBucketToken = bitBucketSourceControl && !!bitBucketSourceControl.properties.token;
+              const gitHubToken = gitHubSourceControl && !!gitHubSourceControl.properties.token;
+
+              this._wizardService.sourceSettings.get('oneDriveToken').setValue(oneDriveToken);
+              this._wizardService.sourceSettings.get('dropBoxToken').setValue(dropBoxToken);
+              this._wizardService.sourceSettings.get('bitBucketToken').setValue(bitBucketToken);
+              this._wizardService.sourceSettings.get('gitHubToken').setValue(gitHubToken);
+
+              this._onedriveAuthed = !!oneDriveToken;
+              this._dropboxAuthed = !!dropBoxToken;
+              this._bitbucketAuthed = !!bitBucketToken;
+              this._githubAuthed = !!gitHubToken;
+
+              this.refreshAuth();
+            } else {
+              this.authStateError = true;
+              this._logService.error(LogCategories.cicd, '/fetch-current-auth-state', response.error);
+            }
+
           },
           err => {
             this.authStateError = true;
@@ -389,9 +409,29 @@ export class StepSourceControlComponent {
             clearInterval.next();
 
             this._cacheService
-              .post(`${Constants.serviceHost}auth/${provider}/storeToken`, true, null, {
+              .post(`${Constants.serviceHost}auth/${provider}/getToken`, true, null, {
                 redirUrl: win.document.URL,
-                authToken: this._wizardService.getToken(),
+              })
+              .switchMap(response => {
+                switch (provider) {
+                  case 'dropbox':
+                    this._wizardService.sourceSettings.get('dropBoxToken').setValue(response.accessToken);
+                    break;
+                  case 'onedrive':
+                    this._wizardService.sourceSettings.get('oneDriveToken').setValue(response.accessToken);
+                    break;
+                  case 'bitbucket':
+                    this._wizardService.sourceSettings.get('bitBucketToken').setValue(response.accessToken);
+                    break;
+                  case 'github':
+                    this._wizardService.sourceSettings.get('gitHubToken').setValue(response.accessToken);
+                    break;
+                  default:
+                    // NOTE(michinoy): Do nothing in this case as the POST call above would have failed.
+                    break;
+                }
+
+                return this._providerService.updateUserSourceControl(provider, response.accessToken, response.refreshToken, response.environment);
               })
               .subscribe(() => {
                 this.updateProvider(provider);

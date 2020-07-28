@@ -59,7 +59,7 @@ export class ConfigureDropboxComponent implements OnInit, OnDestroy {
     return this._cacheService
       .post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
         url: `${DeploymentCenterConstants.dropboxApiUrl}/files/list_folder`,
-        authToken: this.wizard.getToken(),
+        dropBoxToken: this.wizard.wizardValues.sourceSettings.dropBoxToken,
         arg: {
           path: '',
         },

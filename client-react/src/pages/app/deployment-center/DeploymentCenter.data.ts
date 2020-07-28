@@ -7,6 +7,7 @@ import GitHubService from '../../../ApiHelpers/GitHubService';
 import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppOsType } from '../../../models/site/site';
 import { GitHubActionWorkflowRequestContent } from '../../../models/github';
+import { ProviderToken } from '../../../models/provider';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -77,8 +78,8 @@ export default class DeploymentCenterData {
     return GitHubService.getUser(armToken);
   };
 
-  public storeGitHubToken = (redirectUrl: string, armToken: string) => {
-    return GitHubService.storeToken(redirectUrl, armToken);
+  public getGitHubToken = (redirectUrl: string) => {
+    return GitHubService.getToken(redirectUrl);
   };
 
   public getGitHubOrganizations = (armToken: string) => {
@@ -124,4 +125,12 @@ export default class DeploymentCenterData {
   public getRuntimeStacks = (stacksOs: AppOsType) => {
     return RuntimeStackService.getWebAppGitHubActionStacks(stacksOs);
   };
+
+  public storeGitHubToken = (providerToken: ProviderToken) => {
+    return ProviderService.updateUserSourceControl(
+      'github',
+      providerToken.accessToken,
+      providerToken.refreshToken,
+      providerToken.environment);
+  }
 }

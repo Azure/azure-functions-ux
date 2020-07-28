@@ -129,7 +129,7 @@ export class AzureDevOpsService implements OnDestroy {
 
   public static readonly AzDevPermissionApiUri = `${
     AzureDevOpsService.AzureDevOpsUrl.PeDeploymentLevel
-  }_apis/ContinuousDelivery/PermissionsResult?api-version=4.1-preview.1`;
+    }_apis/ContinuousDelivery/PermissionsResult?api-version=4.1-preview.1`;
   public static readonly AzDevProfileUri = `${AzureDevOpsService.AzureDevOpsUrl.PeDeploymentLevel}_apis/AzureTfs/UserContext`;
   public static readonly AzDevProjectsApi = `${AzureDevOpsService.AzureDevOpsUrl.Tfs}{0}/_apis/projects?includeCapabilities=true`;
   public static readonly AzDevRegionsApi = `${AzureDevOpsService.AzureDevOpsUrl.Aex}_apis/hostacquisition/regions`;
@@ -171,7 +171,7 @@ export class AzureDevOpsService implements OnDestroy {
       .switchMap(user => {
         const accountUrl = `${AzureDevOpsService.AzureDevOpsUrl.Sps}_apis/accounts?memeberId=${
           user.authenticatedUser.descriptor
-        }?api-version=5.0-preview.1`;
+          }?api-version=5.0-preview.1`;
         return forkJoin([
           this._httpClient.get(accountUrl, { headers: this.getAzDevDirectHeaders(false) }),
           this._httpClient.get(accountUrl, { headers: this.getAzDevDirectHeaders(true) }),
@@ -314,6 +314,7 @@ export class AzureDevOpsService implements OnDestroy {
     ) {
       deploymentObject = {
         authToken: azureAuthToken,
+        githubToken: wizardValues.sourceSettings.gitHubToken,
         pipelineTemplateId: this.getPipelineTemplateId(wizardValues.buildSettings),
         pipelineTemplateParameters: this._getPipelineTemplateParameters(
           wizardValues.buildSettings,
@@ -329,6 +330,7 @@ export class AzureDevOpsService implements OnDestroy {
     } else {
       deploymentObject = {
         authToken: azureAuthToken,
+        githubToken: wizardValues.sourceSettings.gitHubToken,
         ciConfiguration: this._ciConfig(wizardValues.buildSettings.vstsProject),
         id: null,
         source: this._deploymentSource(wizardValues, siteArm.kind),

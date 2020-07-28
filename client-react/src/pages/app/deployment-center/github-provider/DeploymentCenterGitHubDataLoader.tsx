@@ -58,19 +58,19 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
     const gitHubRepositories = await (repositories_url.toLocaleLowerCase().indexOf('github.com/users/') > -1
       ? deploymentCenterData.getGitHubUserRepositories(getArmToken(), (page, response) => {
-          LogService.error(
-            LogCategories.deploymentCenter,
-            'GitHubGetUserRepositories',
-            `Failed to fetch GitHub repositories with error: ${getErrorMessage(response.metadata.error)}`
-          );
-        })
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'GitHubGetUserRepositories',
+          `Failed to fetch GitHub repositories with error: ${getErrorMessage(response.metadata.error)}`
+        );
+      })
       : deploymentCenterData.getGitHubOrgRepositories(repositories_url, getArmToken(), (page, response) => {
-          LogService.error(
-            LogCategories.deploymentCenter,
-            'GitHubGetOrgRepositories',
-            `Failed to fetch GitHub repositories with error: ${getErrorMessage(response.metadata.error)}`
-          );
-        }));
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'GitHubGetOrgRepositories',
+          `Failed to fetch GitHub repositories with error: ${getErrorMessage(response.metadata.error)}`
+        );
+      }));
 
     const newRepositoryOptions: IDropdownOption[] = gitHubRepositories
       .filter(repo => !repo.permissions || repo.permissions.admin)
@@ -128,7 +128,16 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       oauthWindow && oauthWindow.close();
 
       if (authorizationResult.redirectUrl) {
-        return deploymentCenterData.storeGitHubToken(authorizationResult.redirectUrl, getArmToken()).then(() => fetchData());
+        return deploymentCenterData
+          .getGitHubToken(authorizationResult.redirectUrl)
+          .then(response => {
+            if (response.metadata.success) {
+              return deploymentCenterData.storeGitHubToken(response.data);
+            } else {
+              return null;
+            }
+          })
+          .then(() => fetchData());
       } else {
         return fetchData();
       }

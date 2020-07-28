@@ -42,7 +42,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
         this._cacheService
           .post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
             url: `${DeploymentCenterConstants.onedriveApiUri}/children`,
-            authToken: this.wizard.getToken(),
+            oneDriveToken: this.wizard.wizardValues.sourceSettings.oneDriveToken,
           })
           .catch(err => {
             this._logService.error(LogCategories.cicd, '/fetch-onedrive-folders', err);

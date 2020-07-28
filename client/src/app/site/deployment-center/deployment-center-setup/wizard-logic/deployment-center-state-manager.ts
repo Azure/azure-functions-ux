@@ -271,7 +271,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     };
 
     return this._githubService
-      .fetchWorkflowConfiguration(this.getToken(), this.wizardValues.sourceSettings.repoUrl, repo, branch, commitInfo.filePath)
+      .fetchWorkflowConfiguration(this.wizardValues.sourceSettings.gitHubToken, this.wizardValues.sourceSettings.repoUrl, repo, branch, commitInfo.filePath)
       .switchMap(fileContentResponse => {
         if (fileContentResponse) {
           commitInfo.sha = fileContentResponse.sha;
@@ -283,7 +283,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
           commit: commitInfo,
         };
 
-        return this._githubService.createOrUpdateActionWorkflow(this.getToken(), requestContent);
+        return this._githubService.createOrUpdateActionWorkflow(this.getToken(), this.wizardValues.sourceSettings.gitHubToken, requestContent);
       })
       .switchMap(_ => {
         return this._deployKudu();
@@ -404,7 +404,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
       return this._cacheService
         .post(
           `${AzureDevOpsService.AzureDevOpsUrl.Aex}_apis/HostAcquisition/collections?collectionName=${
-            this.wizardValues.buildSettings.vstsAccount
+          this.wizardValues.buildSettings.vstsAccount
           }&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`,
           true,
           this._azureDevOpsService.getAzDevDirectHeaders(false),
