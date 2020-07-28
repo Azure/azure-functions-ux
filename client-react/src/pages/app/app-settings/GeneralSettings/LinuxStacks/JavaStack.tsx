@@ -179,12 +179,13 @@ const JavaStack: React.SFC<StackProps> = props => {
     setCurrentMajorVersion(newMajorVersion);
     const containerDropdownOptions = getJavaContainerDropdownOptionsForSelectedMajorVersion(newMajorVersion);
     setCurrentContainerDropdownOptions(containerDropdownOptions);
-    setCurrentContainerKey(containerDropdownOptions.length > 0 ? (containerDropdownOptions[0].key as string) : undefined);
+    if (containerDropdownOptions.length > 0) {
+      onContainerKeyChange(newMajorVersion, containerDropdownOptions[0].key as string);
+    }
   };
 
   const onContainerKeyChange = (newMajorVersion: string, newContainerKey: string) => {
     if (newContainerKey !== currentContainerKey) {
-      setCurrentContainerKey(newContainerKey);
       const containerVersionDropdownOptions = getJavaContainerVersionDropdownOptionsForSelectedJavaContainer(
         newMajorVersion,
         newContainerKey
@@ -193,6 +194,7 @@ const JavaStack: React.SFC<StackProps> = props => {
       if (containerVersionDropdownOptions.length > 0) {
         setFieldValue('config.properties.linuxFxVersion', containerVersionDropdownOptions[0].key);
       }
+      setCurrentContainerKey(newContainerKey);
     }
   };
 
@@ -214,7 +216,7 @@ const JavaStack: React.SFC<StackProps> = props => {
     setInitialData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [values.config.properties.linuxFxVersion]);
 
   if (!currentMajorVersion || !currentContainerKey || !javaStack || !javaContainer) {
     return null;
