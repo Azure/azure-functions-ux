@@ -30,21 +30,33 @@ const JavaStack: React.SFC<StackProps> = props => {
   const stacks = useContext(WebAppStacksContext);
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
-  const javaStacks = stacks.filter(stack => stack.value === LINUXJAVASTACKKEY);
-  const javaContainers = stacks.filter(stack => stack.value === LINUXJAVACONTAINERKEY);
+  const javaStack = stacks.find(stack => stack.value === LINUXJAVASTACKKEY);
+  const javaContainer = stacks.find(stack => stack.value === LINUXJAVACONTAINERKEY);
 
   const getJavaMajorVersionDropdownOptions = (): IDropdownOption[] => {
-    return javaStacks.length > 0
-      ? javaStacks[0].majorVersions.map(stack => ({
-          key: stack.value,
-          text: stack.displayText,
-        }))
-      : [];
+    const options: IDropdownOption[] = [];
+    if (javaStack) {
+      javaStack.majorVersions.forEach(javaStackMajorVersion => {
+        let linuxRuntimeCount = 0;
+        javaStackMajorVersion.minorVersions.forEach(javaStackMinorVersion => {
+          if (javaStackMinorVersion.stackSettings.linuxRuntimeSettings) {
+            linuxRuntimeCount += 1;
+          }
+        });
+        if (linuxRuntimeCount > 0) {
+          options.push({
+            key: javaStackMajorVersion.value,
+            text: javaStackMajorVersion.displayText,
+          });
+        }
+      });
+    }
+    return options;
   };
 
   const getJavaContainerDropdownOptionsForSelectedMajorVersion = (majorVersion: string): IDropdownOption[] => {
     const options: IDropdownOption[] = [];
-    javaContainers.forEach(javaContainer => {
+    if (javaContainer) {
       javaContainer.majorVersions.forEach(javaContainerMajorVersion => {
         const containerMinorVersions: AppStackMinorVersion<any>[] = [];
         javaContainerMajorVersion.minorVersions.forEach(javaContainerMinorVersion => {
@@ -64,7 +76,7 @@ const JavaStack: React.SFC<StackProps> = props => {
           });
         }
       });
-    });
+    }
     return options;
   };
 
@@ -73,7 +85,7 @@ const JavaStack: React.SFC<StackProps> = props => {
     javaContainerKey: string
   ): IDropdownOption[] => {
     const options: IDropdownOption[] = [];
-    javaContainers.forEach(javaContainer => {
+    if (javaContainer) {
       javaContainer.majorVersions
         .filter(javaContainerMajorVersion => javaContainerMajorVersion.value === javaContainerKey)
         .forEach(javaContainerMajorVersion => {
@@ -94,13 +106,13 @@ const JavaStack: React.SFC<StackProps> = props => {
             }
           });
         });
-    });
+    }
     return options;
   };
 
   const getSelectedValues = (linuxFxVersion: string) => {
     const values: JavaStackValues = { majorVersion: '', containerKey: '', containerVersion: '' };
-    javaContainers.forEach(javaContainer => {
+    if (javaContainer) {
       javaContainer.majorVersions.forEach(javaContainerMajorVersion => {
         javaContainerMajorVersion.minorVersions.forEach(javaContainerMinorVersion => {
           const containerSettings = javaContainerMinorVersion.stackSettings.linuxContainerSettings;
@@ -117,7 +129,7 @@ const JavaStack: React.SFC<StackProps> = props => {
           }
         });
       });
-    });
+    }
     return values;
   };
 
@@ -196,7 +208,7 @@ const JavaStack: React.SFC<StackProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!currentMajorVersion || !currentContainerKey) {
+  if (!currentMajorVersion || !currentContainerKey || !javaStack || !javaContainer) {
     return null;
   }
 
