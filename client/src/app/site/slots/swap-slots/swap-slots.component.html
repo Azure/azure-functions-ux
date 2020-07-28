@@ -240,7 +240,7 @@
                 class="custom-button"
                 [disabled]="executeButtonDisabled || !swapForm || swapForm.pending || !swapForm.valid"
                 (click)="executePhase2()">
-                {{ (swapForm && swapForm.controls['revertSwap'].value === 'cancel' ? 'cancelSwap' : 'completeSwap') | translate }}
+                {{ (swapForm && swapForm.controls['revertSwap'].value === stage2OptionData.CancelSwap ? 'cancelSwap' : 'completeSwap') | translate }}
             </button>
 
             <button

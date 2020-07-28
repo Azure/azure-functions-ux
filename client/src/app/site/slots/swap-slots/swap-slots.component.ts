@@ -38,6 +38,11 @@ export type SwapStep =
   | 'phase2-complete'
   | 'complete';
 
+export enum Stage2OptionData {
+  CompleteSwap = 'complete',
+  CancelSwap = 'cancel',
+}
+
 export interface SwapSlotParameters extends SlotSwapInfo {
   uri: string;
   content?: any;
@@ -52,6 +57,10 @@ export type StickySettingValue = null | string | ConnectionString;
   styleUrls: ['./../common.scss', './swap-slots.component.scss'],
 })
 export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements OnDestroy {
+  get stage2OptionData() {
+    return Stage2OptionData;
+  }
+
   @Input()
   set resourceIdInput(resourceId: ResourceId) {
     this._resourceId = resourceId;
@@ -86,7 +95,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   public showPreviewChanges = true;
 
   public showPhase2Controls = false;
-  public phase2DropDownOptions: DropDownElement<string>[];
+  public phase2DropDownOptions: DropDownElement<Stage2OptionData>[];
   public previewLink: string;
   public showPreviewLink = false;
 
@@ -146,12 +155,12 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     this.phase2DropDownOptions = [
       {
         displayLabel: this._translateService.instant(PortalResources.completeSwap),
-        value: 'complete',
+        value: Stage2OptionData.CompleteSwap,
         default: true,
       },
       {
         displayLabel: this._translateService.instant(PortalResources.cancelSwap),
-        value: 'cancel',
+        value: Stage2OptionData.CancelSwap,
         default: false,
       },
     ];
@@ -329,7 +338,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
 
     const multiPhaseCtrl = this._fb.control({ value: false, disabled: true });
 
-    const revertSwapCtrl = this._fb.control({ value: 'complete', disabled: true });
+    const revertSwapCtrl = this._fb.control({ value: Stage2OptionData.CompleteSwap, disabled: true });
 
     this.swapForm = this._fb.group({
       srcId: srcIdCtrl,
@@ -513,7 +522,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   executePhase2() {
     this._setupPhase2Executing();
 
-    if (this.swapForm.controls['revertSwap'].value === 'cancel') {
+    if (this.swapForm.controls['revertSwap'].value === Stage2OptionData.CancelSwap) {
       this._resetSlotConfig();
     } else {
       this._slotsSwap(true);
