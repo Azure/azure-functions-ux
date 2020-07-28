@@ -144,6 +144,7 @@ const JavaStack: React.SFC<StackProps> = props => {
       : majorVersionDropdownOptions.length > 0
       ? (majorVersionDropdownOptions[0].key as string)
       : undefined;
+
     if (majorVersion) {
       containerKeyDropdownOptions = getJavaContainerDropdownOptionsForSelectedMajorVersion(majorVersion);
       const containerKey = selectedValues.containerKey
@@ -151,6 +152,7 @@ const JavaStack: React.SFC<StackProps> = props => {
         : containerKeyDropdownOptions.length > 0
         ? (containerKeyDropdownOptions[0].key as string)
         : undefined;
+
       if (containerKey) {
         containerVersionDropdownOptions = getJavaContainerVersionDropdownOptionsForSelectedJavaContainer(majorVersion, containerKey);
         const containerVersion = selectedValues.containerVersion
@@ -158,13 +160,17 @@ const JavaStack: React.SFC<StackProps> = props => {
           : containerVersionDropdownOptions.length > 0
           ? (containerVersionDropdownOptions[0].key as string)
           : undefined;
+
         if (containerVersion && containerVersion.toLowerCase() !== values.config.properties.linuxFxVersion.toLowerCase()) {
           setFieldValue('config.properties.linuxFxVersion', containerVersion);
         }
+
         setCurrentContainerKey(containerKey);
       }
+
       setCurrentMajorVersion(majorVersion);
     }
+
     setCurrentContainerDropdownOptions(containerKeyDropdownOptions);
     setCurrentContainerVersionDropdownOptions(containerVersionDropdownOptions);
   };
