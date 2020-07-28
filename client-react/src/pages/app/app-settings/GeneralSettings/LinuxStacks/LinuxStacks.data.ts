@@ -1,6 +1,9 @@
 import i18next from 'i18next';
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 
+export const LINUXJAVASTACKKEY = 'java';
+export const LINUXJAVACONTAINERKEY = 'javacontainers';
+
 interface VersionDetails {
   runtimeStackName: string;
   majorVersionName: string;
@@ -11,7 +14,7 @@ interface VersionDetails {
 
 export const getRuntimeStacks = (builtInStacks: WebAppStack[]) => {
   return builtInStacks
-    .filter(stack => stack.value !== 'javacontainers' && stack.value !== 'java')
+    .filter(stack => stack.value !== LINUXJAVACONTAINERKEY)
     .map(stack => ({
       key: stack.value,
       text: stack.displayText,
@@ -65,7 +68,7 @@ export const getVersionDetails = (builtInStacks: WebAppStack[], version: string)
         stackMajorVersion.minorVersions.forEach(stackMinorVersion => {
           const setting = stackMinorVersion.stackSettings.linuxRuntimeSettings;
           if (
-            (setting && setting.runtimeVersion && setting.runtimeVersion.toLocaleLowerCase() === version) ||
+            (setting && setting.runtimeVersion && setting.runtimeVersion.toLowerCase() === version) ||
             stackMinorVersion.value === version
           ) {
             versionDetails = {
@@ -97,4 +100,24 @@ export const getSelectedMajorVersion = (builtInStacks: WebAppStack[], version: s
 export const getSelectedMinorVersion = (builtInStacks: WebAppStack[], stack: string, version: string) => {
   const versionDetails = getVersionDetails(builtInStacks, version);
   return versionDetails.minorVersionRuntime;
+};
+
+export const isJavaStackSelected = (builtInStacks: WebAppStack[], runtimeVersion: string): boolean => {
+  let isJava = false;
+  const javaContainers = builtInStacks.filter(stack => stack.value === 'javacontainers');
+  javaContainers.forEach(stack => {
+    stack.majorVersions.forEach(stackMajorVersion => {
+      stackMajorVersion.minorVersions.forEach(stackMinorVersion => {
+        const containerSettings = stackMinorVersion.stackSettings.linuxContainerSettings;
+        if (
+          containerSettings &&
+          ((containerSettings.java11Runtime && containerSettings.java11Runtime.toLowerCase() === runtimeVersion) ||
+            (containerSettings.java8Runtime && containerSettings.java8Runtime.toLowerCase() === runtimeVersion))
+        ) {
+          isJava = true;
+        }
+      });
+    });
+  });
+  return isJava;
 };
