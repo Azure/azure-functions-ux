@@ -86,7 +86,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   public showPreviewChanges = true;
 
   public showPhase2Controls = false;
-  public phase2DropDownOptions: DropDownElement<boolean>[];
+  public phase2DropDownOptions: DropDownElement<string>[];
   public previewLink: string;
   public showPreviewLink = false;
 
@@ -146,12 +146,12 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     this.phase2DropDownOptions = [
       {
         displayLabel: this._translateService.instant(PortalResources.completeSwap),
-        value: false,
+        value: 'complete',
         default: true,
       },
       {
         displayLabel: this._translateService.instant(PortalResources.cancelSwap),
-        value: true,
+        value: 'cancel',
         default: false,
       },
     ];
@@ -329,7 +329,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
 
     const multiPhaseCtrl = this._fb.control({ value: false, disabled: true });
 
-    const revertSwapCtrl = this._fb.control({ value: false, disabled: true });
+    const revertSwapCtrl = this._fb.control({ value: 'complete', disabled: true });
 
     this.swapForm = this._fb.group({
       srcId: srcIdCtrl,
@@ -513,7 +513,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   executePhase2() {
     this._setupPhase2Executing();
 
-    if (this.swapForm.controls['revertSwap'].value) {
+    if (this.swapForm.controls['revertSwap'].value === 'cancel') {
       this._resetSlotConfig();
     } else {
       this._slotsSwap(true);
