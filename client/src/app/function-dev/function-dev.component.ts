@@ -244,6 +244,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
       .subscribe(tuple => {
         if (tuple[2].isSuccessful) {
           const status = tuple[2].result;
+          console.log(status);
           if (status.state === 'Error') {
             status.errors = status.errors || [];
             this.showComponentError({
