@@ -72,11 +72,9 @@ export const getJavaMinorVersionAsDropdownOptions = (
           key: minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
             ? minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
             : minorVersion.value,
-          text: `${
-            minorVersion.stackSettings.windowsRuntimeSettings.isAutoUpdate
-              ? t('stackVersionAutoUpdate').format(minorVersion.displayText)
-              : minorVersion.displayText
-          }`,
+          text: minorVersion.stackSettings.windowsRuntimeSettings.isAutoUpdate
+            ? t('stackVersionAutoUpdate').format(minorVersion.displayText)
+            : minorVersion.displayText,
         });
       }
     });
@@ -110,17 +108,19 @@ export const getFrameworkVersionOptions = (
 ): IDropdownOption[] => {
   const currentFramework =
     config.properties.javaContainer && javaContainers.majorVersions.find(x => getJavaContainerKey(x) === config.properties.javaContainer);
-  if (currentFramework) {
-    return currentFramework.minorVersions.map(x => ({
-      key: x.stackSettings.windowsContainerSettings ? x.stackSettings.windowsContainerSettings.javaContainerVersion : x.value,
-      text: `${
-        x.stackSettings.windowsContainerSettings && x.stackSettings.windowsContainerSettings.isAutoUpdate
-          ? t('stackVersionAutoUpdate').format(x.displayText)
-          : x.displayText
-      }`,
-    }));
+  const options: IDropdownOption[] = [];
+  if (!!currentFramework) {
+    currentFramework.minorVersions.forEach(minorVersion => {
+      const containerSettings = minorVersion.stackSettings.windowsContainerSettings;
+      if (containerSettings) {
+        options.push({
+          key: containerSettings.javaContainerVersion ? containerSettings.javaContainerVersion : minorVersion.value,
+          text: containerSettings.isAutoUpdate ? t('stackVersionAutoUpdate').format(minorVersion.displayText) : minorVersion.displayText,
+        });
+      }
+    });
   }
-  return [];
+  return options;
 };
 
 const getJavaContainerKey = (javaContainerMajorVersion: AppStackMajorVersion<any>) => {
