@@ -45,8 +45,8 @@ const JavaStack: React.SFC<StackProps> = props => {
     if (!initialJavaVersion) {
       return '';
     }
-    const initialJavaMinorVersionObject = getJavaMinorVersionObject(javaStack, initialJavaVersion.minorVersion);
-    return initialJavaMinorVersionObject ? initialJavaMinorVersionObject.displayText : '';
+    const initialJavaMinorVersionObject = getJavaMinorVersionObject(javaStack, initialJavaVersion);
+    return initialJavaMinorVersionObject ? initialJavaMinorVersionObject.value : '';
   };
 
   const getSelectedJavaMinorVersion = () => {
@@ -55,7 +55,7 @@ const JavaStack: React.SFC<StackProps> = props => {
       return '';
     }
     const currentJavaMinorVersionObject = getJavaMinorVersionObject(javaStack, currentJavaMajorVersion);
-    return currentJavaMinorVersionObject ? currentJavaMinorVersionObject.displayText : '';
+    return currentJavaMinorVersionObject ? currentJavaMinorVersionObject.value : '';
   };
 
   const isJavaMajorVersionDirty = () => {
