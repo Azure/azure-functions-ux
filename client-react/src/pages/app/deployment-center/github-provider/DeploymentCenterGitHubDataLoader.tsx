@@ -9,7 +9,6 @@ import { IDropdownOption } from 'office-ui-fabric-react';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { getArmToken } from '../utility/DeploymentCenterUtility';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
@@ -62,19 +61,19 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
     const gitHubRepositories = await (repositories_url.toLocaleLowerCase().indexOf('github.com/users/') > -1
       ? deploymentCenterData.getGitHubUserRepositories(gitHubToken, (page, response) => {
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'GitHubGetUserRepositories',
-          `Failed to fetch GitHub repositories with error: ${getErrorMessage(response.metadata.error)}`
-        );
-      })
+          LogService.error(
+            LogCategories.deploymentCenter,
+            'GitHubGetUserRepositories',
+            `Failed to fetch GitHub repositories with error: ${getErrorMessage(response.metadata.error)}`
+          );
+        })
       : deploymentCenterData.getGitHubOrgRepositories(repositories_url, gitHubToken, (page, response) => {
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'GitHubGetOrgRepositories',
-          `Failed to fetch GitHub repositories with error: ${getErrorMessage(response.metadata.error)}`
-        );
-      }));
+          LogService.error(
+            LogCategories.deploymentCenter,
+            'GitHubGetOrgRepositories',
+            `Failed to fetch GitHub repositories with error: ${getErrorMessage(response.metadata.error)}`
+          );
+        }));
 
     const newRepositoryOptions: IDropdownOption[] = gitHubRepositories
       .filter(repo => !repo.permissions || repo.permissions.admin)

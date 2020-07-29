@@ -11,7 +11,7 @@ import {
   WorkflowFileDeleteOptions,
   WorkflowChoiceGroupOption,
 } from '../DeploymentCenter.types';
-import { getArmToken, getWorkflowFileName, getWorkflowFilePath } from '../utility/DeploymentCenterUtility';
+import { getWorkflowFileName, getWorkflowFilePath } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import ActionBar from '../../../../components/ActionBar';

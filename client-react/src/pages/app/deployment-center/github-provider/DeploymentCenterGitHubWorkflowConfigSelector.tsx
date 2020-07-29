@@ -6,7 +6,7 @@ import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { Field } from 'formik';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { getArmToken, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
