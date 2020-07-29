@@ -11,7 +11,6 @@ import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
 import { AuthorizationResult, DeploymentCenterGitHubConfiguredViewProps } from '../DeploymentCenter.types';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { getArmToken } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 
 const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfiguredViewProps> = props => {
@@ -29,7 +28,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
 
   const getSourceControlDetails = async () => {
     setIsLoading(true);
-    const getGitHubUserRequest = deploymentCenterData.getGitHubUser(getArmToken());
+    const getGitHubUserRequest = deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken || '');
     const getSourceControlDetailsResponse = deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
 
     const [gitHubUserResponse, sourceControlDetailsResponse] = await Promise.all([getGitHubUserRequest, getSourceControlDetailsResponse]);

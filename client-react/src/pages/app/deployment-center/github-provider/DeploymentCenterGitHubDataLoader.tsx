@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import DeploymentCenterGitHubProvider from './DeploymentCenterGitHubProvider';
 import { GitHubUser } from '../../../../models/github';
 import { useTranslation } from 'react-i18next';
@@ -10,12 +10,15 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { getArmToken } from '../utility/DeploymentCenterUtility';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
   const { formProps } = props;
 
   const deploymentCenterData = new DeploymentCenterData();
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
+
   const [gitHubUser, setGitHubUser] = useState<GitHubUser | undefined>(undefined);
   const [gitHubAccountStatusMessage, setGitHubAccountStatusMessage] = useState<string | undefined>(
     t('deploymentCenterOAuthFetchingUserInformation')
@@ -32,7 +35,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     const newOrganizationOptions: IDropdownOption[] = [];
 
     if (gitHubUser) {
-      const gitHubOrganizationsResponse = await deploymentCenterData.getGitHubOrganizations(getArmToken());
+      const gitHubOrganizationsResponse = await deploymentCenterData.getGitHubOrganizations(deploymentCenterContext.gitHubToken || '');
 
       if (gitHubOrganizationsResponse.metadata.success) {
         gitHubOrganizationsResponse.data.forEach(org => {
@@ -55,16 +58,17 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const fetchRepositoryOptions = async (repositories_url: string) => {
     setRepositoryOptions([]);
     setBranchOptions([]);
+    const gitHubToken = deploymentCenterContext.gitHubToken || '';
 
     const gitHubRepositories = await (repositories_url.toLocaleLowerCase().indexOf('github.com/users/') > -1
-      ? deploymentCenterData.getGitHubUserRepositories(getArmToken(), (page, response) => {
+      ? deploymentCenterData.getGitHubUserRepositories(gitHubToken, (page, response) => {
         LogService.error(
           LogCategories.deploymentCenter,
           'GitHubGetUserRepositories',
           `Failed to fetch GitHub repositories with error: ${getErrorMessage(response.metadata.error)}`
         );
       })
-      : deploymentCenterData.getGitHubOrgRepositories(repositories_url, getArmToken(), (page, response) => {
+      : deploymentCenterData.getGitHubOrgRepositories(repositories_url, gitHubToken, (page, response) => {
         LogService.error(
           LogCategories.deploymentCenter,
           'GitHubGetOrgRepositories',
@@ -81,8 +85,9 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   const fetchBranchOptions = async (org: string, repo: string) => {
     setBranchOptions([]);
+    const gitHubToken = deploymentCenterContext.gitHubToken || '';
 
-    const gitHubBranches = await deploymentCenterData.getGitHubBranches(org, repo, getArmToken(), (page, response) => {
+    const gitHubBranches = await deploymentCenterData.getGitHubBranches(org, repo, gitHubToken, (page, response) => {
       LogService.error(
         LogCategories.deploymentCenter,
         'GitHubGetBranches',
@@ -148,7 +153,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   // repos, orgs, branches, workflow file, etc.
 
   const fetchData = async () => {
-    const getGitHubUserRequest = deploymentCenterData.getGitHubUser(getArmToken());
+    const getGitHubUserRequest = deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken || '');
 
     const [gitHubUserResponse] = await Promise.all([getGitHubUserRequest]);
 

@@ -14,6 +14,10 @@ export interface IDeploymentCenterContext {
   siteDescriptor?: ArmSiteDescriptor;
   applicationSettings?: ArmObj<KeyValue<string>>;
   configMetadata?: ArmObj<KeyValue<string>>;
+  oneDriveToken?: string;
+  dropBoxToken?: string;
+  bitBucketToken?: string;
+  gitHubToken?: string;
 }
 
 export const DeploymentCenterContext = React.createContext<IDeploymentCenterContext>({} as IDeploymentCenterContext);

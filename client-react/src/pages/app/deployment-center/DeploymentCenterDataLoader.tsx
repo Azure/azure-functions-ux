@@ -34,6 +34,7 @@ import { isContainerApp, isLinuxApp } from '../../../utils/arm-utils';
 import { SiteConfig } from '../../../models/site/config';
 import { KeyValue } from '../../../models/portal-models';
 import { DeploymentCenterCodeFormBuilder } from './code/DeploymentCenterCodeFormBuilder';
+import { SourceControl } from '../../../models/provider';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -70,6 +71,10 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [isLoading, setIsLoading] = useState(false);
   const [isContainerApplication, setIsContainerApplication] = useState(false);
   const [isLinuxApplication, setIsLinuxApplication] = useState(false);
+  const [oneDriveToken, setOneDriveToken] = useState<string | undefined>(undefined);
+  const [dropBoxToken, setDropBoxToken] = useState<string | undefined>(undefined);
+  const [bitBucketToken, setBitBucketToken] = useState<string | undefined>(undefined);
+  const [gitHubToken, setGitHubToken] = useState<string | undefined>(undefined);
 
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
   const deploymentCenterCodeFormBuilder = new DeploymentCenterCodeFormBuilder(t);
@@ -112,6 +117,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getSiteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
     const getDeploymentsRequest = deploymentCenterData.getSiteDeployments(resourceId);
     const getConfigMetadataRequest = deploymentCenterData.getConfigMetadata(resourceId);
+    const getUserSourceControlsRequest = deploymentCenterData.getUserSourceControls();
 
     const [
       writePermissionResponse,
@@ -120,6 +126,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       siteConfigResponse,
       deploymentsResponse,
       configMetadataResponse,
+      userSourceControlsResponse,
     ] = await Promise.all([
       writePermissionRequest,
       getPublishingUserRequest,
@@ -127,7 +134,12 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       getSiteConfigRequest,
       getDeploymentsRequest,
       getConfigMetadataRequest,
+      getUserSourceControlsRequest,
     ]);
+
+    if (userSourceControlsResponse.metadata.success) {
+      setUserControlTokens(userSourceControlsResponse.data);
+    }
 
     setSiteDescriptor(new ArmSiteDescriptor(resourceId));
     setHasWritePermission(writePermissionResponse);
@@ -231,6 +243,18 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     setCodeFormValidationSchema(deploymentCenterCodeFormBuilder.generateYupValidationSchema());
   };
 
+  const setUserControlTokens = (sourceControls: ArmArray<SourceControl>) => {
+    const oneDriveSourceControl = sourceControls.value.find(item => item.name === 'onedrive');
+    const dropBoxSourceControl = sourceControls.value.find(item => item.name === 'dropbox');
+    const bitBucketSourceControl = sourceControls.value.find(item => item.name === 'bitbucket');
+    const gitHubSourceControl = sourceControls.value.find(item => item.name === 'github');
+
+    setOneDriveToken(oneDriveSourceControl && oneDriveSourceControl.properties.token);
+    setDropBoxToken(dropBoxSourceControl && dropBoxSourceControl.properties.token);
+    setBitBucketToken(bitBucketSourceControl && bitBucketSourceControl.properties.token);
+    setGitHubToken(gitHubSourceControl && gitHubSourceControl.properties.token);
+  }
+
   const showPublishProfilePanel = () => {
     setIsPublishProfilePanelOpen(true);
   };
@@ -269,6 +293,10 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         isContainerApplication,
         isLinuxApplication,
         configMetadata,
+        oneDriveToken,
+        dropBoxToken,
+        bitBucketToken,
+        gitHubToken,
         refresh,
       }}>
       {isContainerApp(siteStateContext.site) ? (
@@ -284,19 +312,19 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           isLoading={isLoading}
         />
       ) : (
-        <DeploymentCenterCodeForm
-          deployments={deployments}
-          deploymentsError={deploymentsError}
-          publishingUser={publishingUser}
-          publishingProfile={publishingProfile}
-          publishingCredentials={publishingCredentials}
-          formData={codeFormData}
-          formValidationSchema={codeFormValidationSchema}
-          resetApplicationPassword={resetApplicationPassword}
-          showPublishProfilePanel={showPublishProfilePanel}
-          isLoading={isLoading}
-        />
-      )}
+          <DeploymentCenterCodeForm
+            deployments={deployments}
+            deploymentsError={deploymentsError}
+            publishingUser={publishingUser}
+            publishingProfile={publishingProfile}
+            publishingCredentials={publishingCredentials}
+            formData={codeFormData}
+            formValidationSchema={codeFormValidationSchema}
+            resetApplicationPassword={resetApplicationPassword}
+            showPublishProfilePanel={showPublishProfilePanel}
+            isLoading={isLoading}
+          />
+        )}
       <DeploymentCenterPublishProfilePanel
         isPanelOpen={isPublishProfilePanelOpen}
         dismissPanel={dismissPublishProfilePanel}
@@ -304,8 +332,8 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       />
     </DeploymentCenterContext.Provider>
   ) : (
-    <LoadingComponent />
-  );
+      <LoadingComponent />
+    );
 };
 
 export default DeploymentCenterDataLoader;

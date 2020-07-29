@@ -72,12 +72,14 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       },
     };
 
+    const gitHubToken = deploymentCenterContext.gitHubToken || '';
+
     const workflowConfigurationResponse = await deploymentCenterData.getWorkflowConfiguration(
       formProps.values.org,
       formProps.values.repo,
       branch,
       commitInfo.filePath,
-      getArmToken()
+      gitHubToken
     );
 
     if (workflowConfigurationResponse.metadata.success) {
@@ -90,7 +92,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       commit: commitInfo,
     };
 
-    return deploymentCenterData.createOrUpdateActionWorkflow(getArmToken(), requestContent);
+    return deploymentCenterData.createOrUpdateActionWorkflow(getArmToken(), gitHubToken, requestContent);
   };
 
   const deploy = async () => {

@@ -64,13 +64,14 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         deploymentCenterContext.siteDescriptor.slot
       );
       const workflowFilePath = `.github/workflows/${workflowFileName}`;
-      const getAllWorkflowConfigurationsRequest = deploymentCenterData.getAllWorkflowConfigurations(org, repo, branch, getArmToken());
+      const gitHubToken = deploymentCenterContext.gitHubToken || '';
+      const getAllWorkflowConfigurationsRequest = deploymentCenterData.getAllWorkflowConfigurations(org, repo, branch, gitHubToken);
       const getWorkflowConfigurationRequest = deploymentCenterData.getWorkflowConfiguration(
         org,
         repo,
         branch,
         workflowFilePath,
-        getArmToken()
+        gitHubToken
       );
 
       const [allWorkflowConfigurationsResponse, appWorkflowConfigurationResponse] = await Promise.all([
