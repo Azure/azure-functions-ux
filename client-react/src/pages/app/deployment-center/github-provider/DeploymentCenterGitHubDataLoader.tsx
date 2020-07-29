@@ -134,13 +134,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       if (authorizationResult.redirectUrl) {
         return deploymentCenterData
           .getGitHubToken(authorizationResult.redirectUrl)
-          .then(response => {
-            if (response.metadata.success) {
-              return deploymentCenterData.storeGitHubToken(response.data);
-            } else {
-              return null;
-            }
-          })
+          .then(response => deploymentCenterData.storeGitHubToken(response.data))
           .then(() => fetchData());
       } else {
         return fetchData();
