@@ -52,13 +52,15 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
   public operationInProgressWarning: string;
 
   public addForm: FormGroup;
-  public hasCreateAcess = false;
+  public hasCreateAccess = false;
   public slotsQuotaMessage: string;
   public isLoading = true;
   public loadingFailed = false;
   public loadingSiteFailureMessage = '';
   public loadingSlotsFailureMessage = '';
   public loadingAppSettingsFailureMessage = '';
+  public slotPrefix = '';
+  public slotSuffix = '';
   public cloneSrcIdDropDownOptions: DropDownElement<string>[];
   public isCreating = false;
   public executeButtonDisabled = false;
@@ -108,7 +110,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     return inputEvents
       .distinctUntilChanged()
       .switchMap(resourceId => {
-        this.hasCreateAcess = false;
+        this.hasCreateAccess = false;
         this.slotsQuotaMessage = null;
         this.isLoading = true;
         this.loadingFailed = false;
@@ -145,7 +147,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
       .mergeMap(r => {
         const [siteResult, slotsResult, appSettingsResult, hasWritePermission, hasReadOnlyLock] = r;
 
-        this.hasCreateAcess = hasWritePermission && !hasReadOnlyLock;
+        this.hasCreateAccess = hasWritePermission && !hasReadOnlyLock;
 
         if (!siteResult.isSuccessful) {
           this._logService.error(LogCategories.addSlot, '/add-slot', siteResult.error.result);
@@ -224,7 +226,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     const cloneSrcIdCtrl = this.addForm.get('cloneSrcId');
     const cloneSrcConfigCtrl = this.addForm.get('cloneSrcConfig');
 
-    if (!this.hasCreateAcess || !!this.slotsQuotaMessage || this.loadingFailed || (this.slotOptInNeeded && !this.slotOptInEnabled)) {
+    if (!this.hasCreateAccess || !!this.slotsQuotaMessage || this.loadingFailed || (this.slotOptInNeeded && !this.slotOptInEnabled)) {
       nameCtrl.clearValidators();
       nameCtrl.clearAsyncValidators();
       nameCtrl.setValue(null);
@@ -246,6 +248,10 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
       nameCtrl.setValue(null);
       nameCtrl.setValidators(requiredValidator.validate.bind(requiredValidator));
       nameCtrl.setAsyncValidators(slotNameValidator.validate.bind(slotNameValidator));
+
+      const splitHostname = this._slotsArm[0].properties.defaultHostName.split(/\.(.+)/);
+      this.slotPrefix = splitHostname[0];
+      this.slotSuffix = splitHostname[1];
 
       const options: DropDownElement<string>[] = [
         {
