@@ -247,10 +247,10 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getToken = (sourceControl?: ArmObj<SourceControl>) =>
       sourceControl && sourceControl.properties.token ? sourceControl.properties.token : '';
 
-    setOneDriveToken(getToken(sourceControls.value.find(item => item.name === 'onedrive')));
-    setDropBoxToken(getToken(sourceControls.value.find(item => item.name === 'dropbox')));
-    setBitBucketToken(getToken(sourceControls.value.find(item => item.name === 'bitbucket')));
-    setGitHubToken(getToken(sourceControls.value.find(item => item.name === 'github')));
+    setOneDriveToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === 'onedrive')));
+    setDropBoxToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === 'dropbox')));
+    setBitBucketToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === 'bitbucket')));
+    setGitHubToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === 'github')));
   };
 
   const showPublishProfilePanel = () => {

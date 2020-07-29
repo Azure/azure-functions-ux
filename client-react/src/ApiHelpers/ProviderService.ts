@@ -5,20 +5,28 @@ import { SourceControl } from '../models/provider';
 
 export default class ProviderService {
   public static getUserSourceControls = () => {
-    const id = `providers/Microsoft.Web/sourcecontrols`;
-    return MakeArmCall<ArmArray<SourceControl>>({ method: 'GET', resourceId: id, commandName: 'getUserSourceControls' });
-  }
+    const id = `/providers/Microsoft.Web/sourcecontrols`;
+    return MakeArmCall<ArmArray<SourceControl>>({
+      method: 'GET',
+      resourceId: id,
+      commandName: 'getUserSourceControls',
+      skipBatching: true,
+    });
+  };
 
   public static getUserSourceControl = (provider: string) => {
-    const id = `providers/Microsoft.Web/sourcecontrols/${provider}`;
-    return MakeArmCall<ArmObj<SourceControl>>({ method: 'GET', resourceId: id, commandName: 'getUserSourceControl' });
-  }
+    const id = `/providers/Microsoft.Web/sourcecontrols/${provider}`;
+    return MakeArmCall<ArmObj<SourceControl>>({ method: 'GET', resourceId: id, commandName: 'getUserSourceControl', skipBatching: true });
+  };
 
   public static updateUserSourceControl(provider: string, token: string, refreshToken?: string, environment?: string) {
-    const id = `providers/Microsoft.Web/sourcecontrols/${provider}`;
+    const id = `/providers/Microsoft.Web/sourcecontrols/${provider}`;
 
     return MakeArmCall<ArmObj<SourceControl>>({
-      method: 'PUT', resourceId: id, commandName: 'updateUserSourceControl', body: {
+      method: 'PUT',
+      resourceId: id,
+      commandName: 'updateUserSourceControl',
+      body: {
         id: '',
         location: '',
         name: provider,
@@ -27,10 +35,10 @@ export default class ProviderService {
           token,
           refreshToken,
           environment,
-          name: provider
-        }
-      }
-    })
+          name: provider,
+        },
+      },
+    });
   }
 
   public static getPublishingUser = () => {
