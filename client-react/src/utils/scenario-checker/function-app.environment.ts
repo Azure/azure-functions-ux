@@ -50,7 +50,7 @@ export class FunctionAppEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.functionAppRuntimeStack] = {
       id: ScenarioIds.functionAppRuntimeStack,
       runCheck: () => {
-        return { status: 'disabled' };
+        return { status: 'enabled' };
       },
     };
 
