@@ -103,13 +103,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
       if (authorizationResult.redirectUrl) {
         return deploymentCenterData
           .getGitHubToken(authorizationResult.redirectUrl)
-          .then(response => {
-            if (response.metadata.success) {
-              return deploymentCenterData.storeGitHubToken(response.data);
-            } else {
-              return null;
-            }
-          })
+          .then(response => deploymentCenterData.storeGitHubToken(response.data))
           .then(() => getSourceControlDetails());
       } else {
         return getSourceControlDetails();
@@ -181,15 +175,15 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
       {deploymentCenterContext.isContainerApplication ? (
         <h3>{t('deploymentCenterContainerGitHubActionsTitle')}</h3>
       ) : (
-          <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>
-        )}
+        <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>
+      )}
       {isLoading ? (
         <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
           <div>{t('loading')}</div>
         </ReactiveFormControl>
       ) : (
-          getSignedInAsComponent()
-        )}
+        getSignedInAsComponent()
+      )}
       <ReactiveFormControl id="deployment-center-organization" label={t('deploymentCenterOAuthOrganization')}>
         <div>{isLoading ? t('loading') : org}</div>
       </ReactiveFormControl>
