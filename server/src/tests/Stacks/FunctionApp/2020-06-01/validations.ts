@@ -151,10 +151,10 @@ export function validateDotnetFrameworkStackFilter(stacks) {
   validateDotnetFrameworkStack(stacks[0]);
 }
 
-function validateDotnetFrameworkStack(dotnetFrameworkStack) {
-  expect(dotnetFrameworkStack.displayText).to.equal('.NET Framework');
-  expect(dotnetFrameworkStack.value).to.equal('dotnetFramework');
-  expect(dotnetFrameworkStack.preferredOs).to.equal('windows');
-  expect(dotnetFrameworkStack.majorVersions.length).to.equal(1);
-  expect(dotnetFrameworkStack).to.deep.equal(hardCodedDotnetFrameworkStack);
+function validateDotnetFrameworkStack(dotNetFrameworkStack) {
+  expect(dotNetFrameworkStack.displayText).to.equal('.NET Framework');
+  expect(dotNetFrameworkStack.value).to.equal('dotnetFramework');
+  expect(dotNetFrameworkStack.preferredOs).to.equal('windows');
+  expect(dotNetFrameworkStack.majorVersions.length).to.equal(1);
+  expect(dotNetFrameworkStack).to.deep.equal(hardCodedDotnetFrameworkStack);
 }
