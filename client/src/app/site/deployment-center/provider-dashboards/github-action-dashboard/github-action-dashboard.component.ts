@@ -59,7 +59,7 @@ class GithubActionTableItem implements TableItem {
   selector: 'app-github-action-dashboard',
   templateUrl: './github-action-dashboard.component.html',
   styleUrls: ['./github-action-dashboard.component.scss'],
-  providers: [GithubService],
+  providers: [GithubService, ProviderService],
 })
 export class GithubActionDashboardComponent extends DeploymentDashboard implements OnChanges, OnDestroy {
   @Input()
@@ -214,17 +214,17 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
         if (!r.isSuccessful) {
           return this._deleteWorkflowDuringDisconnect
             ? Observable.throw({
-              step: DeployDisconnectStep.ClearSCMSettings,
-              isSuccessful: false,
-              errorMessage: this._translateService.instant(PortalResources.disconnectingDeploymentFailWorkflowFileDeleteSucceeded),
-              error: r.error,
-            })
+                step: DeployDisconnectStep.ClearSCMSettings,
+                isSuccessful: false,
+                errorMessage: this._translateService.instant(PortalResources.disconnectingDeploymentFailWorkflowFileDeleteSucceeded),
+                error: r.error,
+              })
             : Observable.throw({
-              step: DeployDisconnectStep.ClearSCMSettings,
-              isSuccessful: false,
-              errorMessage: this._translateService.instant(PortalResources.disconnectingDeploymentFail),
-              error: r.error,
-            });
+                step: DeployDisconnectStep.ClearSCMSettings,
+                isSuccessful: false,
+                errorMessage: this._translateService.instant(PortalResources.disconnectingDeploymentFail),
+                error: r.error,
+              });
         } else {
           return Observable.of(r);
         }
@@ -341,7 +341,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
             sourceControl: sourceControl.result,
             deployments: deployments.result,
             publishingUser: publishingUser.result,
-            gitHubToken: gitHubUserSourceControl.result
+            gitHubToken: gitHubUserSourceControl.result,
           })
         );
       })
@@ -412,7 +412,9 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       .switchMap(_ =>
         Observable.zip(
           this._githubService.fetchRepo(this._gitHubToken, this.repositoryText, this._repoName).catch(r => Observable.of(r)),
-          this._githubService.fetchBranch(this._gitHubToken, this.repositoryText, this._repoName, this.branchText).catch(r => Observable.of(r))
+          this._githubService
+            .fetchBranch(this._gitHubToken, this.repositoryText, this._repoName, this.branchText)
+            .catch(r => Observable.of(r))
         )
       )
       .subscribe(responses => {

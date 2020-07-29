@@ -51,10 +51,6 @@ export class SourceSettings {
   public password: string;
   public githubActionWorkflowOption: string;
   public githubActionExistingWorkflowContents: string;
-  public oneDriveToken: string;
-  public dropBoxToken: string;
-  public bitBucketToken: string;
-  public gitHubToken: string;
 }
 export class DeploymentCenterSetupModel {
   public sourceProvider: sourceControlProvider;

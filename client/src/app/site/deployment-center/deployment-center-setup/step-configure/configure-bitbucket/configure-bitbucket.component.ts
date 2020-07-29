@@ -67,7 +67,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     const repoCalls = this._cacheService
       .post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
         url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories?pagelen=100&role=contributor`,
-        bitBucketToken: this.wizard.wizardValues.sourceSettings.bitBucketToken
+        bitBucketToken: this.wizard.bitBucketToken,
       })
       .first()
       .expand(value => {
@@ -80,7 +80,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         } else {
           return this._cacheService.post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
             url: page.next,
-            bitBucketToken: this.wizard.wizardValues.sourceSettings.bitBucketToken
+            bitBucketToken: this.wizard.bitBucketToken,
           });
         }
       });
@@ -128,7 +128,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
       this._cacheService
         .post(Constants.serviceHost + `api/bitbucket/passthrough?branch=${repo}`, true, null, {
           url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories/${repo}/refs/branches?pagelen=100`,
-          bitBucketToken: this.wizard.wizardValues.sourceSettings.bitBucketToken
+          bitBucketToken: this.wizard.bitBucketToken,
         })
         .expand(value => {
           const page = value.json();
@@ -143,7 +143,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
           } else {
             return this._cacheService.post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
               url: page.next,
-              bitBucketToken: this.wizard.wizardValues.sourceSettings.bitBucketToken
+              bitBucketToken: this.wizard.bitBucketToken,
             });
           }
         })

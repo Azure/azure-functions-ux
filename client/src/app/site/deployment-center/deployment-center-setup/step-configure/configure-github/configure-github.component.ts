@@ -98,8 +98,8 @@ export class ConfigureGithubComponent implements OnDestroy {
 
   fetchOrgs() {
     return Observable.zip(
-      this._githubService.fetchOrgs(this.wizard.wizardValues.sourceSettings.gitHubToken),
-      this._githubService.fetchUser(this.wizard.wizardValues.sourceSettings.gitHubToken),
+      this._githubService.fetchOrgs(this.wizard.gitHubToken),
+      this._githubService.fetchUser(this.wizard.gitHubToken),
       (orgs, user) => ({
         orgs: orgs.json(),
         user: user.json(),
@@ -155,7 +155,7 @@ export class ConfigureGithubComponent implements OnDestroy {
     if (repo) {
       this.BranchList = [];
       this._githubService
-        .fetchBranches(this.wizard.wizardValues.sourceSettings.gitHubToken, repo, this._repoUrlToNameMap[repo])
+        .fetchBranches(this.wizard.gitHubToken, repo, this._repoUrlToNameMap[repo])
         .switchMap(r => {
           const linkHeader = r.headers.toJSON().link;
           const pageCalls: Observable<any>[] = [Observable.of(r)];
@@ -163,7 +163,7 @@ export class ConfigureGithubComponent implements OnDestroy {
             const links = ResponseHeader.getLinksFromLinkHeader(linkHeader);
             const lastPageNumber = this._getLastPage(links);
             for (let i = 2; i <= lastPageNumber; i++) {
-              pageCalls.push(this._githubService.fetchBranches(this.wizard.wizardValues.sourceSettings.gitHubToken, repo, this._repoUrlToNameMap[repo], i));
+              pageCalls.push(this._githubService.fetchBranches(this.wizard.gitHubToken, repo, this._repoUrlToNameMap[repo], i));
             }
           }
           return Observable.forkJoin(pageCalls);
@@ -197,13 +197,13 @@ export class ConfigureGithubComponent implements OnDestroy {
 
       Observable.zip(
         this._githubService.fetchAllWorkflowConfigurations(
-          this.wizard.wizardValues.sourceSettings.gitHubToken,
+          this.wizard.gitHubToken,
           this.selectedRepo,
           this._repoUrlToNameMap[this.selectedRepo],
           this.selectedBranch
         ),
         this._githubService.fetchWorkflowConfiguration(
-          this.wizard.wizardValues.sourceSettings.gitHubToken,
+          this.wizard.gitHubToken,
           this.selectedRepo,
           this._repoUrlToNameMap[this.selectedRepo],
           this.selectedBranch,
@@ -331,14 +331,14 @@ export class ConfigureGithubComponent implements OnDestroy {
   }
 
   private _fetchUserRepos(org: string) {
-    return this._githubService.fetchUserRepos(this.wizard.wizardValues.sourceSettings.gitHubToken, org, null, true).switchMap(r => {
+    return this._githubService.fetchUserRepos(this.wizard.gitHubToken, org, null, true).switchMap(r => {
       const linkHeader = r.headers.toJSON().link;
       const pageCalls: Observable<any>[] = [Observable.of(r)];
       if (linkHeader) {
         const links = ResponseHeader.getLinksFromLinkHeader(linkHeader);
         const lastPageNumber = this._getLastPage(links);
         for (let i = 2; i <= lastPageNumber; i++) {
-          pageCalls.push(this._githubService.fetchUserRepos(this.wizard.wizardValues.sourceSettings.gitHubToken, org, i, true));
+          pageCalls.push(this._githubService.fetchUserRepos(this.wizard.gitHubToken, org, i, true));
         }
       }
       return Observable.forkJoin(pageCalls);
@@ -346,14 +346,14 @@ export class ConfigureGithubComponent implements OnDestroy {
   }
 
   private _fetchOrgRepos(org: string) {
-    return this._githubService.fetchOrgRepos(this.wizard.wizardValues.sourceSettings.gitHubToken, org).switchMap(r => {
+    return this._githubService.fetchOrgRepos(this.wizard.gitHubToken, org).switchMap(r => {
       const linkHeader = r.headers.toJSON().link;
       const pageCalls: Observable<any>[] = [Observable.of(r)];
       if (linkHeader) {
         const links = ResponseHeader.getLinksFromLinkHeader(linkHeader);
         const lastPageNumber = this._getLastPage(links);
         for (let i = 2; i <= lastPageNumber; i++) {
-          pageCalls.push(this._githubService.fetchOrgRepos(this.wizard.wizardValues.sourceSettings.gitHubToken, org, i));
+          pageCalls.push(this._githubService.fetchOrgRepos(this.wizard.gitHubToken, org, i));
         }
       }
       return Observable.forkJoin(pageCalls);

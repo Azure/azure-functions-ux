@@ -34,7 +34,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     const newOrganizationOptions: IDropdownOption[] = [];
 
     if (gitHubUser) {
-      const gitHubOrganizationsResponse = await deploymentCenterData.getGitHubOrganizations(deploymentCenterContext.gitHubToken || '');
+      const gitHubOrganizationsResponse = await deploymentCenterData.getGitHubOrganizations(deploymentCenterContext.gitHubToken);
 
       if (gitHubOrganizationsResponse.metadata.success) {
         gitHubOrganizationsResponse.data.forEach(org => {
@@ -57,17 +57,16 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const fetchRepositoryOptions = async (repositories_url: string) => {
     setRepositoryOptions([]);
     setBranchOptions([]);
-    const gitHubToken = deploymentCenterContext.gitHubToken || '';
 
     const gitHubRepositories = await (repositories_url.toLocaleLowerCase().indexOf('github.com/users/') > -1
-      ? deploymentCenterData.getGitHubUserRepositories(gitHubToken, (page, response) => {
+      ? deploymentCenterData.getGitHubUserRepositories(deploymentCenterContext.gitHubToken, (page, response) => {
           LogService.error(
             LogCategories.deploymentCenter,
             'GitHubGetUserRepositories',
             `Failed to fetch GitHub repositories with error: ${getErrorMessage(response.metadata.error)}`
           );
         })
-      : deploymentCenterData.getGitHubOrgRepositories(repositories_url, gitHubToken, (page, response) => {
+      : deploymentCenterData.getGitHubOrgRepositories(repositories_url, deploymentCenterContext.gitHubToken, (page, response) => {
           LogService.error(
             LogCategories.deploymentCenter,
             'GitHubGetOrgRepositories',
@@ -84,15 +83,19 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   const fetchBranchOptions = async (org: string, repo: string) => {
     setBranchOptions([]);
-    const gitHubToken = deploymentCenterContext.gitHubToken || '';
 
-    const gitHubBranches = await deploymentCenterData.getGitHubBranches(org, repo, gitHubToken, (page, response) => {
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'GitHubGetBranches',
-        `Failed to fetch GitHub branches with error: ${getErrorMessage(response.metadata.error)}`
-      );
-    });
+    const gitHubBranches = await deploymentCenterData.getGitHubBranches(
+      org,
+      repo,
+      deploymentCenterContext.gitHubToken,
+      (page, response) => {
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'GitHubGetBranches',
+          `Failed to fetch GitHub branches with error: ${getErrorMessage(response.metadata.error)}`
+        );
+      }
+    );
 
     const newBranchOptions: IDropdownOption[] = gitHubBranches.map(branch => ({ key: branch.name, text: branch.name }));
 
@@ -146,7 +149,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   // repos, orgs, branches, workflow file, etc.
 
   const fetchData = async () => {
-    const getGitHubUserRequest = deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken || '');
+    const getGitHubUserRequest = deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken);
 
     const [gitHubUserResponse] = await Promise.all([getGitHubUserRequest]);
 

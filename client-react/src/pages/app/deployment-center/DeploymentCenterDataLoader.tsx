@@ -71,10 +71,10 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [isLoading, setIsLoading] = useState(false);
   const [isContainerApplication, setIsContainerApplication] = useState(false);
   const [isLinuxApplication, setIsLinuxApplication] = useState(false);
-  const [oneDriveToken, setOneDriveToken] = useState<string | undefined>(undefined);
-  const [dropBoxToken, setDropBoxToken] = useState<string | undefined>(undefined);
-  const [bitBucketToken, setBitBucketToken] = useState<string | undefined>(undefined);
-  const [gitHubToken, setGitHubToken] = useState<string | undefined>(undefined);
+  const [oneDriveToken, setOneDriveToken] = useState<string>('');
+  const [dropBoxToken, setDropBoxToken] = useState<string>('');
+  const [bitBucketToken, setBitBucketToken] = useState<string>('');
+  const [gitHubToken, setGitHubToken] = useState<string>('');
 
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
   const deploymentCenterCodeFormBuilder = new DeploymentCenterCodeFormBuilder(t);
@@ -244,16 +244,14 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   };
 
   const setUserControlTokens = (sourceControls: ArmArray<SourceControl>) => {
-    const oneDriveSourceControl = sourceControls.value.find(item => item.name === 'onedrive');
-    const dropBoxSourceControl = sourceControls.value.find(item => item.name === 'dropbox');
-    const bitBucketSourceControl = sourceControls.value.find(item => item.name === 'bitbucket');
-    const gitHubSourceControl = sourceControls.value.find(item => item.name === 'github');
+    const getToken = (sourceControl?: ArmObj<SourceControl>) =>
+      sourceControl && sourceControl.properties.token ? sourceControl.properties.token : '';
 
-    setOneDriveToken(oneDriveSourceControl && oneDriveSourceControl.properties.token);
-    setDropBoxToken(dropBoxSourceControl && dropBoxSourceControl.properties.token);
-    setBitBucketToken(bitBucketSourceControl && bitBucketSourceControl.properties.token);
-    setGitHubToken(gitHubSourceControl && gitHubSourceControl.properties.token);
-  }
+    setOneDriveToken(getToken(sourceControls.value.find(item => item.name === 'onedrive')));
+    setDropBoxToken(getToken(sourceControls.value.find(item => item.name === 'dropbox')));
+    setBitBucketToken(getToken(sourceControls.value.find(item => item.name === 'bitbucket')));
+    setGitHubToken(getToken(sourceControls.value.find(item => item.name === 'github')));
+  };
 
   const showPublishProfilePanel = () => {
     setIsPublishProfilePanelOpen(true);
@@ -312,19 +310,19 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           isLoading={isLoading}
         />
       ) : (
-          <DeploymentCenterCodeForm
-            deployments={deployments}
-            deploymentsError={deploymentsError}
-            publishingUser={publishingUser}
-            publishingProfile={publishingProfile}
-            publishingCredentials={publishingCredentials}
-            formData={codeFormData}
-            formValidationSchema={codeFormValidationSchema}
-            resetApplicationPassword={resetApplicationPassword}
-            showPublishProfilePanel={showPublishProfilePanel}
-            isLoading={isLoading}
-          />
-        )}
+        <DeploymentCenterCodeForm
+          deployments={deployments}
+          deploymentsError={deploymentsError}
+          publishingUser={publishingUser}
+          publishingProfile={publishingProfile}
+          publishingCredentials={publishingCredentials}
+          formData={codeFormData}
+          formValidationSchema={codeFormValidationSchema}
+          resetApplicationPassword={resetApplicationPassword}
+          showPublishProfilePanel={showPublishProfilePanel}
+          isLoading={isLoading}
+        />
+      )}
       <DeploymentCenterPublishProfilePanel
         isPanelOpen={isPublishProfilePanelOpen}
         dismissPanel={dismissPublishProfilePanel}
@@ -332,8 +330,8 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       />
     </DeploymentCenterContext.Provider>
   ) : (
-      <LoadingComponent />
-    );
+    <LoadingComponent />
+  );
 };
 
 export default DeploymentCenterDataLoader;

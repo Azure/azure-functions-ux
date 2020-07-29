@@ -111,8 +111,6 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
       errorMessage: errorMessage,
     };
 
-    const gitHubToken = deploymentCenterContext.gitHubToken || '';
-
     if (!deleteWorkflowDuringDisconnect) {
       return successStatus;
     } else {
@@ -121,12 +119,12 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
         repo,
         branch,
         workflowFilePath,
-        gitHubToken
+        deploymentCenterContext.gitHubToken
       );
 
       if (workflowConfigurationResponse.metadata.success) {
         const deleteWorkflowFileResponse = await deploymentCenterData.deleteActionWorkflow(
-          gitHubToken,
+          deploymentCenterContext.gitHubToken,
           org,
           repo,
           branch,
@@ -153,14 +151,12 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
   const fetchWorkflowConfiguration = async () => {
     setIsLoading(true);
 
-    const gitHubToken = deploymentCenterContext.gitHubToken || '';
-
     const appWorkflowConfigurationResponse = await deploymentCenterData.getWorkflowConfiguration(
       org,
       repo,
       branch,
       workflowFilePath,
-      gitHubToken
+      deploymentCenterContext.gitHubToken
     );
 
     setWorkflowConfigExists(appWorkflowConfigurationResponse.metadata.success);

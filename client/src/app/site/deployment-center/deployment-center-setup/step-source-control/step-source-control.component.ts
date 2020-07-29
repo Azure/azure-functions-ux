@@ -17,6 +17,7 @@ import { ProviderService } from '../../../../shared/services/provider.service';
   selector: 'app-step-source-control',
   templateUrl: './step-source-control.component.html',
   styleUrls: ['./step-source-control.component.scss', '../deployment-center-setup.component.scss'],
+  providers: [ProviderService],
 })
 export class StepSourceControlComponent {
   public readonly _allProviders: ProviderCard[] = [
@@ -150,7 +151,7 @@ export class StepSourceControlComponent {
       .switchMap(() =>
         this._cacheService.post(Constants.serviceHost + 'api/github/passthrough', true, null, {
           url: 'https://api.github.com/user',
-          gitHubToken: this._wizardService.wizardValues.sourceSettings.gitHubToken
+          gitHubToken: this._wizardService.gitHubToken,
         })
       )
       .subscribe(
@@ -188,7 +189,7 @@ export class StepSourceControlComponent {
       .switchMap(() =>
         this._cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
           url: 'https://api.bitbucket.org/2.0/user',
-          bitBucketToken: this._wizardService.wizardValues.sourceSettings.bitBucketToken
+          bitBucketToken: this._wizardService.bitBucketToken,
         })
       )
       .subscribe(
@@ -212,7 +213,7 @@ export class StepSourceControlComponent {
       .switchMap(() =>
         this._cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
           url: 'https://api.onedrive.com/v1.0/drive',
-          oneDriveToken: this._wizardService.wizardValues.sourceSettings.oneDriveToken
+          oneDriveToken: this._wizardService.oneDriveToken,
         })
       )
       .subscribe(
@@ -235,7 +236,7 @@ export class StepSourceControlComponent {
       .switchMap(() =>
         this._cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
           url: 'https://api.dropboxapi.com/2/users/get_current_account',
-          dropBoxToken: this._wizardService.wizardValues.sourceSettings.dropBoxToken,
+          dropBoxToken: this._wizardService.dropBoxToken,
         })
       )
       .subscribe(
@@ -254,34 +255,27 @@ export class StepSourceControlComponent {
         .switchMap(r => this._providerService.getUserSourceControls())
         .subscribe(
           response => {
-
             if (response.isSuccessful) {
-              const oneDriveSourceControl = response.result.value.find(item => item.name.toLowerCase() == 'onedrive');
-              const dropBoxSourceControl = response.result.value.find(item => item.name.toLowerCase() == 'dropbox');
-              const bitBucketSourceControl = response.result.value.find(item => item.name.toLowerCase() == 'bitbucket');
-              const gitHubSourceControl = response.result.value.find(item => item.name.toLowerCase() == 'github');
+              const oneDriveSourceControl = response.result.value.find(item => item.name.toLocaleLowerCase() == 'onedrive');
+              const dropBoxSourceControl = response.result.value.find(item => item.name.toLocaleLowerCase() == 'dropbox');
+              const bitBucketSourceControl = response.result.value.find(item => item.name.toLocaleLowerCase() == 'bitbucket');
+              const gitHubSourceControl = response.result.value.find(item => item.name.toLocaleLowerCase() == 'github');
 
-              const oneDriveToken = oneDriveSourceControl && !!oneDriveSourceControl.properties.token;
-              const dropBoxToken = dropBoxSourceControl && !!dropBoxSourceControl.properties.token;
-              const bitBucketToken = bitBucketSourceControl && !!bitBucketSourceControl.properties.token;
-              const gitHubToken = gitHubSourceControl && !!gitHubSourceControl.properties.token;
+              this._wizardService.oneDriveToken = oneDriveSourceControl && oneDriveSourceControl.properties.token;
+              this._wizardService.dropBoxToken = dropBoxSourceControl && dropBoxSourceControl.properties.token;
+              this._wizardService.bitBucketToken = bitBucketSourceControl && bitBucketSourceControl.properties.token;
+              this._wizardService.gitHubToken = gitHubSourceControl && gitHubSourceControl.properties.token;
 
-              this._wizardService.sourceSettings.get('oneDriveToken').setValue(oneDriveToken);
-              this._wizardService.sourceSettings.get('dropBoxToken').setValue(dropBoxToken);
-              this._wizardService.sourceSettings.get('bitBucketToken').setValue(bitBucketToken);
-              this._wizardService.sourceSettings.get('gitHubToken').setValue(gitHubToken);
-
-              this._onedriveAuthed = !!oneDriveToken;
-              this._dropboxAuthed = !!dropBoxToken;
-              this._bitbucketAuthed = !!bitBucketToken;
-              this._githubAuthed = !!gitHubToken;
+              this._onedriveAuthed = !!this._wizardService.oneDriveToken;
+              this._dropboxAuthed = !!this._wizardService.dropBoxToken;
+              this._bitbucketAuthed = !!this._wizardService.bitBucketToken;
+              this._githubAuthed = !!this._wizardService.gitHubToken;
 
               this.refreshAuth();
             } else {
               this.authStateError = true;
               this._logService.error(LogCategories.cicd, '/fetch-current-auth-state', response.error);
             }
-
           },
           err => {
             this.authStateError = true;
@@ -431,7 +425,12 @@ export class StepSourceControlComponent {
                     break;
                 }
 
-                return this._providerService.updateUserSourceControl(provider, response.accessToken, response.refreshToken, response.environment);
+                return this._providerService.updateUserSourceControl(
+                  provider,
+                  response.accessToken,
+                  response.refreshToken,
+                  response.environment
+                );
               })
               .subscribe(() => {
                 this.updateProvider(provider);

@@ -73,6 +73,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public stack = '';
   public stackVersion = '';
   public gitHubTokenUpdated$ = new ReplaySubject<boolean>();
+  public oneDriveToken: string;
+  public dropBoxToken: string;
+  public bitBucketToken: string;
+  public gitHubToken: string;
 
   constructor(
     private _cacheService: CacheService,
@@ -271,7 +275,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     };
 
     return this._githubService
-      .fetchWorkflowConfiguration(this.wizardValues.sourceSettings.gitHubToken, this.wizardValues.sourceSettings.repoUrl, repo, branch, commitInfo.filePath)
+      .fetchWorkflowConfiguration(this.gitHubToken, this.wizardValues.sourceSettings.repoUrl, repo, branch, commitInfo.filePath)
       .switchMap(fileContentResponse => {
         if (fileContentResponse) {
           commitInfo.sha = fileContentResponse.sha;
@@ -283,7 +287,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
           commit: commitInfo,
         };
 
-        return this._githubService.createOrUpdateActionWorkflow(this.getToken(), this.wizardValues.sourceSettings.gitHubToken, requestContent);
+        return this._githubService.createOrUpdateActionWorkflow(this.getToken(), this.gitHubToken, requestContent);
       })
       .switchMap(_ => {
         return this._deployKudu();
@@ -382,7 +386,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
       this.siteArm,
       this.subscriptionName,
       this._vstsApiToken,
-      this._azureDevOpsDeploymentMethod
+      this._azureDevOpsDeploymentMethod,
+      this.gitHubToken
     );
 
     this._portalService.logAction('deploymentcenter', 'azureDevOpsDeployment', {
@@ -404,7 +409,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
       return this._cacheService
         .post(
           `${AzureDevOpsService.AzureDevOpsUrl.Aex}_apis/HostAcquisition/collections?collectionName=${
-          this.wizardValues.buildSettings.vstsAccount
+            this.wizardValues.buildSettings.vstsAccount
           }&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`,
           true,
           this._azureDevOpsService.getAzDevDirectHeaders(false),
