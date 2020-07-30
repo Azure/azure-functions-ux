@@ -1,8 +1,8 @@
 import { WebAppStacksService20200601 } from '../../../../stacks/webapp/2020-06-01/stacks.service';
 import {
   validateAllStackLength,
-  validateWindowsStackLength,
-  validateLinuxStackLength,
+  validateWindowsStacks,
+  validateLinuxStacks,
   validateASPStack,
   validateNodeStack,
   validatePythonStack,
@@ -29,7 +29,7 @@ describe('WebApp Stacks Test 2020-06-01', () => {
   describe('Test windows stack length', () => {
     it('should validate all stacks with windows are returned', done => {
       const stacks = webAppStacksService.getStacks('windows');
-      validateWindowsStackLength(stacks);
+      validateWindowsStacks(stacks);
       done();
     });
   });
@@ -38,7 +38,7 @@ describe('WebApp Stacks Test 2020-06-01', () => {
   describe('Test linux stack length', () => {
     it('should validate all stacks with linux are returned', done => {
       const stacks = webAppStacksService.getStacks('linux');
-      validateLinuxStackLength(stacks);
+      validateLinuxStacks(stacks);
       done();
     });
   });
