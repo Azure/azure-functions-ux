@@ -10,6 +10,6 @@ import { customStack } from './stacks/custom';
 @Injectable()
 export class FunctionAppStacksService20200501 {
   getStacks(): FunctionAppStack[] {
-    return [dotnetCoreStack, nodeStack, pythonStack, javaStack, powershellStack,customStack];
+    return [dotnetCoreStack, nodeStack, pythonStack, javaStack, powershellStack, customStack];
   }
 }

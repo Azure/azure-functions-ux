@@ -4,6 +4,7 @@ import { nodeStack as hardCodedNodeStack } from './../../../../stacks/functionap
 import { pythonStack as hardCodedPythonStack } from './../../../../stacks/functionapp/2020-05-01/stacks/python';
 import { javaStack as hardCodedJavaStack } from './../../../../stacks/functionapp/2020-05-01/stacks/java';
 import { powershellStack as hardCodedPowershellStack } from './../../../../stacks/functionapp/2020-05-01/stacks/powershell';
+import { customStack as hardCodedCustomStack } from './../../../../stacks/functionapp/2020-05-01/stacks/custom';
 
 const expect = chai.expect;
 
@@ -69,4 +70,5 @@ export function validateCustomStack(stacks) {
   expect(customStack.value).to.equal('custom');
   expect(customStack.sortOrder).to.equal(5);
   expect(customStack.versions.length).to.equal(1);
+  expect(customStack).to.deep.equal(hardCodedCustomStack);
 }

@@ -19,6 +19,9 @@ export const customStack: FunctionAppStack = {
                 isSupported: true,
               },
               remoteDebuggingSupported: false,
+              gitHubActionSettings: {
+                isSupported: false
+              },
               appSettingsDictionary: {
                 FUNCTIONS_WORKER_RUNTIME: 'custom',
               },
@@ -33,6 +36,9 @@ export const customStack: FunctionAppStack = {
                 isSupported: true,
               },
               remoteDebuggingSupported: false,
+              gitHubActionSettings: {
+                isSupported: false,
+              },
               appSettingsDictionary: {
                 FUNCTIONS_WORKER_RUNTIME: 'custom',
               },

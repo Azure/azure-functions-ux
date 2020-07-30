@@ -32,7 +32,7 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   runtimeVersion: string;
   remoteDebuggingSupported: boolean;
   appInsightsSettings: AppInsightsSettings;
-  gitHubActionSettings?: GitHubActionSettings;
+  gitHubActionSettings: GitHubActionSettings;
   appSettingsDictionary: AppSettingsDictionary;
   siteConfigPropertiesDictionary: SiteConfigPropertiesDictionary;
   supportedFunctionsExtensionVersions: FunctionsExtensionVersion[];
