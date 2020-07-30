@@ -144,8 +144,8 @@ export class GithubController {
     try {
       const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
         code,
-        client_id: '0b07f856c9fbb510037b',
-        client_secret: '14045fde820879bc72346a6f1926d619af2b4d69',
+        client_id: this.configService.get('GITHUB_CLIENT_ID'),
+        client_secret: this.configService.get('GITHUB_CLIENT_SECRET'),
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
       return {
