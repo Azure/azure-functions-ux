@@ -1,4 +1,10 @@
 import * as chai from 'chai';
+import { dotnetCoreStack as hardCodedDotnetCoreStack } from './../../../../stacks/functionapp/2020-05-01/stacks/dotnetCore';
+import { nodeStack as hardCodedNodeStack } from './../../../../stacks/functionapp/2020-05-01/stacks/node';
+import { pythonStack as hardCodedPythonStack } from './../../../../stacks/functionapp/2020-05-01/stacks/python';
+import { javaStack as hardCodedJavaStack } from './../../../../stacks/functionapp/2020-05-01/stacks/java';
+import { powershellStack as hardCodedPowershellStack } from './../../../../stacks/functionapp/2020-05-01/stacks/powershell';
+
 const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
@@ -13,6 +19,7 @@ export function validateDotnetCoreStack(stacks) {
   expect(dotnetCoreStack.value).to.equal('dotnet');
   expect(dotnetCoreStack.sortOrder).to.equal(0);
   expect(dotnetCoreStack.versions.length).to.equal(1);
+  expect(dotnetCoreStack).to.deep.equal(hardCodedDotnetCoreStack);
 }
 
 export function validateNodeStack(stacks) {
@@ -22,6 +29,7 @@ export function validateNodeStack(stacks) {
   expect(nodeStack.value).to.equal('node');
   expect(nodeStack.sortOrder).to.equal(1);
   expect(nodeStack.versions.length).to.equal(2);
+  expect(nodeStack).to.deep.equal(hardCodedNodeStack);
 }
 
 export function validatePythonStack(stacks) {
@@ -31,15 +39,17 @@ export function validatePythonStack(stacks) {
   expect(pythonStack.value).to.equal('python');
   expect(pythonStack.sortOrder).to.equal(2);
   expect(pythonStack.versions.length).to.equal(3);
+  expect(pythonStack).to.deep.equal(hardCodedPythonStack);
 }
 
 export function validateJavaStack(stacks) {
   validateAllStackLength(stacks);
-  const java8Stack = stacks[3];
-  expect(java8Stack.displayText).to.equal('Java');
-  expect(java8Stack.value).to.equal('java');
-  expect(java8Stack.sortOrder).to.equal(3);
-  expect(java8Stack.versions.length).to.equal(2);
+  const javaStack = stacks[3];
+  expect(javaStack.displayText).to.equal('Java');
+  expect(javaStack.value).to.equal('java');
+  expect(javaStack.sortOrder).to.equal(3);
+  expect(javaStack.versions.length).to.equal(2);
+  expect(javaStack).to.deep.equal(hardCodedJavaStack);
 }
 
 export function validatePowershellCoreStack(stacks) {
@@ -49,4 +59,5 @@ export function validatePowershellCoreStack(stacks) {
   expect(powershellStack.value).to.equal('powershell');
   expect(powershellStack.sortOrder).to.equal(4);
   expect(powershellStack.versions.length).to.equal(2);
+  expect(powershellStack).to.deep.equal(hardCodedPowershellStack);
 }
