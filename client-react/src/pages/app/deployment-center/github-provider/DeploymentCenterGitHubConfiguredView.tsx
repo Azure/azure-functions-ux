@@ -103,7 +103,22 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
       if (authorizationResult.redirectUrl) {
         return deploymentCenterData
           .getGitHubToken(authorizationResult.redirectUrl)
-          .then(response => deploymentCenterData.storeGitHubToken(response.data))
+          .then(response => {
+            if (response.metadata.success) {
+              return deploymentCenterData.storeGitHubToken(response.data);
+            } else {
+              // NOTE(michinoy): This is all related to the handshake between us and the provider.
+              // If this fails, there isn't much the user can do except retry.
+
+              LogService.error(
+                LogCategories.deploymentCenter,
+                'authorizeGitHubAccount',
+                `Failed to get token with error: ${getErrorMessage(response.metadata.error)}`
+              );
+
+              return Promise.resolve(null);
+            }
+          })
           .then(() => getSourceControlDetails());
       } else {
         return getSourceControlDetails();

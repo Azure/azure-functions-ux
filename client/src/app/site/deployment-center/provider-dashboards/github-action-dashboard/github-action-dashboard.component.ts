@@ -85,7 +85,6 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   private _tableItems: GithubActionTableItem[];
   private _deleteWorkflowDuringDisconnect = false;
   private _actionWorkflowFileName = '';
-  private _token = '';
   private _repoName = '';
   private _gitHubToken = '';
 
@@ -96,14 +95,9 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
     private _broadcastService: BroadcastService,
     private _githubService: GithubService,
     private _providerService: ProviderService,
-    userService: UserService,
     translateService: TranslateService
   ) {
     super(translateService);
-
-    userService.getStartupInfo().subscribe(info => {
-      this._token = `Bearer ${info.token}`;
-    });
 
     this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
     this._setupRepositoryStatusStream();

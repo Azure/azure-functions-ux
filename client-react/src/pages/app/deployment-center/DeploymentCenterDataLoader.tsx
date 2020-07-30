@@ -40,6 +40,13 @@ export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
 }
 
+enum SourceControlTypes {
+  oneDrive = 'onedrive',
+  dropBox = 'dropbox',
+  bitBucket = 'bitbucket',
+  gitHub = 'github',
+}
+
 const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
   const { resourceId } = props;
   const { t } = useTranslation();
@@ -247,10 +254,10 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getToken = (sourceControl?: ArmObj<SourceControl>) =>
       sourceControl && sourceControl.properties.token ? sourceControl.properties.token : '';
 
-    setOneDriveToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === 'onedrive')));
-    setDropBoxToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === 'dropbox')));
-    setBitBucketToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === 'bitbucket')));
-    setGitHubToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === 'github')));
+    setOneDriveToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.oneDrive)));
+    setDropBoxToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.dropBox)));
+    setBitBucketToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.bitBucket)));
+    setGitHubToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.gitHub)));
   };
 
   const showPublishProfilePanel = () => {

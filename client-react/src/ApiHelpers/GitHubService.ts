@@ -71,7 +71,13 @@ export default class GitHubService {
     return sendHttpRequest<FileContent[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
-  public static getWorkflowConfiguration = (org: string, repo: string, branchName: string, workflowYmlPath: string, gitHubToken: string) => {
+  public static getWorkflowConfiguration = (
+    org: string,
+    repo: string,
+    branchName: string,
+    workflowYmlPath: string,
+    gitHubToken: string
+  ) => {
     const data = {
       url: `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/contents/${workflowYmlPath}?ref=${branchName}`,
       gitHubToken,
@@ -148,9 +154,9 @@ export default class GitHubService {
     };
 
     return sendHttpRequest<T>({
+      data,
       url: `${Url.serviceHost}api/github/passthrough`,
       method: 'POST',
-      data,
     });
   };
 }
