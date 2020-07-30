@@ -18,7 +18,6 @@ import { TableItem, GetTableHash } from 'app/controls/tbl/tbl.component';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { GithubService } from '../../deployment-center-setup/wizard-logic/github.service';
 import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
-import { UserService } from '../../../../shared/services/user.service';
 import { GitHubCommit, FileContent } from '../../Models/github';
 import { ProviderService } from '../../../../shared/services/provider.service';
 import { SourceControl } from '../../../../shared/models/arm/provider';

@@ -17,7 +17,7 @@ export class GithubController {
     private configService: ConfigService,
     private loggingService: LoggingService,
     private httpService: HttpService
-  ) { }
+  ) {}
 
   @Post('api/github/passthrough')
   @HttpCode(200)
@@ -53,7 +53,11 @@ export class GithubController {
 
   @Put('api/github/actionWorkflow')
   @HttpCode(200)
-  async actionWorkflow(@Body('authToken') authToken: string, @Body('gitHubToken') gitHubToken: string, @Body('content') content: GitHubActionWorkflowRequestContent) {
+  async actionWorkflow(
+    @Body('authToken') authToken: string,
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('content') content: GitHubActionWorkflowRequestContent
+  ) {
     // NOTE(michinoy): In order for the action workflow to succesfully execute, it needs to have the secret allowing access
     // to the web app. This secret is the publish profile. This one method will retrieve publish profile, encrypt it, put it
     // as a GitHub secret, and then publish the workflow file.
@@ -80,7 +84,7 @@ export class GithubController {
     } catch (err) {
       this.loggingService.error(
         `Failed to delete action workflow '${deleteCommit.filePath}' on branch '${deleteCommit.branchName}' in repo '${
-        deleteCommit.repoName
+          deleteCommit.repoName
         }'.`
       );
 
@@ -140,15 +144,15 @@ export class GithubController {
     try {
       const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
         code,
-        client_id: this.configService.get('GITHUB_CLIENT_ID'),
-        client_secret: this.configService.get('GITHUB_CLIENT_SECRET'),
+        client_id: '0b07f856c9fbb510037b',
+        client_secret: '14045fde820879bc72346a6f1926d619af2b4d69',
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
       return {
         accessToken: token,
         refreshToken: null,
-        environment: null
-      }
+        environment: null,
+      };
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
@@ -241,7 +245,7 @@ export class GithubController {
     } catch (err) {
       this.loggingService.error(
         `Failed to commit action workflow '${content.commit.filePath}' on branch '${content.commit.branchName}' in repo '${
-        content.commit.repoName
+          content.commit.repoName
         }'.`
       );
 
