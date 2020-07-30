@@ -9,12 +9,14 @@ import {
   validateJavaInStacks,
   validatePowershellInStacks,
   validateDotnetFrameworkInStacks,
+  validateCustomInStacks,
   validateDotnetCoreFilter,
   validateNodeStackFilter,
   validatePythonStackFilter,
   validateJavaStackFilter,
   validatePowershellStackFilter,
   validateDotnetFrameworkStackFilter,
+  validateCustomStackFilter
 } from './validations';
 
 const functionAppStacksService = new FunctionAppStacksService20200601();
@@ -151,6 +153,24 @@ describe('FunctionApp Stacks Test 2020-06-01', () => {
     it('should validate the .NET Framework stack', done => {
       const stacks = functionAppStacksService.getStacks(undefined, 'dotnetFramework');
       validateDotnetFrameworkStackFilter(stacks);
+      done();
+    });
+  });
+
+   // Test Custom stack
+   describe('Test the Custom stack', () => {
+    it('should validate the Custom stack', done => {
+      const stacks = functionAppStacksService.getStacks();
+      validateCustomInStacks(stacks);
+      done();
+    });
+  });
+
+  // Test Custom stack filter
+  describe('Test the Custom stack filter', () => {
+    it('should validate the Custom stack filter', done => {
+      const stacks = functionAppStacksService.getStacks(undefined, 'custom');
+      validateCustomStackFilter(stacks);
       done();
     });
   });

@@ -10,7 +10,7 @@ const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(6);
+  expect(stacks.length).to.equal(7);
 }
 
 export function validateWindowsStacks(stacks) {
@@ -25,12 +25,12 @@ export function validateLinuxStacks(stacks) {
 
 function validateWindowsStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
 function validateLinuxStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(4);
+  expect(stacks.length).to.equal(5);
 }
 
 function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
@@ -157,4 +157,21 @@ function validateDotnetFrameworkStack(dotnetFrameworkStack) {
   expect(dotnetFrameworkStack.preferredOs).to.equal('windows');
   expect(dotnetFrameworkStack.majorVersions.length).to.equal(1);
   expect(dotnetFrameworkStack).to.deep.equal(hardCodedDotnetFrameworkStack);
+}
+
+export function validateCustomInStacks(stacks) {
+  validateAllStackLength(stacks);
+  validateCustomStack(stacks[6]);
+}
+
+export function validateCustomStackFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validateCustomStack(stacks[0]);
+}
+
+function validateCustomStack(dotnetCoreStack) {
+  expect(dotnetCoreStack.displayText).to.equal('Custom');
+  expect(dotnetCoreStack.value).to.equal('custom');
+  expect(dotnetCoreStack.preferredOs).to.equal('windows');
+  expect(dotnetCoreStack.majorVersions.length).to.equal(1);
 }

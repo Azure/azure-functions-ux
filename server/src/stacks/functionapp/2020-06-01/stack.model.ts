@@ -1,8 +1,8 @@
 export type Os = 'linux' | 'windows';
-export type StackValue = 'dotnetCore' | 'dotnetFramework' | 'java' | 'node' | 'powershell' | 'python';
+export type StackValue = 'dotnetCore' | 'dotnetFramework' | 'java' | 'node' | 'powershell' | 'python' | 'custom';
 
 type FunctionsExtensionVersion = '~1' | '~2' | '~3';
-type FunctionsWorkerRuntime = 'dotnet' | 'node' | 'python' | 'java' | 'powershell';
+type FunctionsWorkerRuntime = 'dotnet' | 'node' | 'python' | 'java' | 'powershell' | 'custom';
 
 export interface FunctionAppStack {
   displayText: string;
@@ -32,7 +32,7 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   runtimeVersion: string;
   remoteDebuggingSupported: boolean;
   appInsightsSettings: AppInsightsSettings;
-  gitHubActionSettings: GitHubActionSettings;
+  gitHubActionSettings?: GitHubActionSettings;
   appSettingsDictionary: AppSettingsDictionary;
   siteConfigPropertiesDictionary: SiteConfigPropertiesDictionary;
   supportedFunctionsExtensionVersions: FunctionsExtensionVersion[];
