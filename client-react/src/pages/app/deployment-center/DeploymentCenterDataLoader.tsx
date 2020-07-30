@@ -34,9 +34,17 @@ import { isContainerApp, isLinuxApp } from '../../../utils/arm-utils';
 import { SiteConfig } from '../../../models/site/config';
 import { KeyValue } from '../../../models/portal-models';
 import { DeploymentCenterCodeFormBuilder } from './code/DeploymentCenterCodeFormBuilder';
+import { SourceControl } from '../../../models/provider';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
+}
+
+enum SourceControlTypes {
+  oneDrive = 'onedrive',
+  dropBox = 'dropbox',
+  bitBucket = 'bitbucket',
+  gitHub = 'github',
 }
 
 const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
@@ -70,6 +78,10 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [isLoading, setIsLoading] = useState(false);
   const [isContainerApplication, setIsContainerApplication] = useState(false);
   const [isLinuxApplication, setIsLinuxApplication] = useState(false);
+  const [oneDriveToken, setOneDriveToken] = useState<string>('');
+  const [dropBoxToken, setDropBoxToken] = useState<string>('');
+  const [bitBucketToken, setBitBucketToken] = useState<string>('');
+  const [gitHubToken, setGitHubToken] = useState<string>('');
 
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
   const deploymentCenterCodeFormBuilder = new DeploymentCenterCodeFormBuilder(t);
@@ -112,6 +124,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getSiteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
     const getDeploymentsRequest = deploymentCenterData.getSiteDeployments(resourceId);
     const getConfigMetadataRequest = deploymentCenterData.getConfigMetadata(resourceId);
+    const getUserSourceControlsRequest = deploymentCenterData.getUserSourceControls();
 
     const [
       writePermissionResponse,
@@ -120,6 +133,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       siteConfigResponse,
       deploymentsResponse,
       configMetadataResponse,
+      userSourceControlsResponse,
     ] = await Promise.all([
       writePermissionRequest,
       getPublishingUserRequest,
@@ -127,7 +141,12 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       getSiteConfigRequest,
       getDeploymentsRequest,
       getConfigMetadataRequest,
+      getUserSourceControlsRequest,
     ]);
+
+    if (userSourceControlsResponse.metadata.success) {
+      setUserControlTokens(userSourceControlsResponse.data);
+    }
 
     setSiteDescriptor(new ArmSiteDescriptor(resourceId));
     setHasWritePermission(writePermissionResponse);
@@ -231,6 +250,16 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     setCodeFormValidationSchema(deploymentCenterCodeFormBuilder.generateYupValidationSchema());
   };
 
+  const setUserControlTokens = (sourceControls: ArmArray<SourceControl>) => {
+    const getToken = (sourceControl?: ArmObj<SourceControl>) =>
+      sourceControl && sourceControl.properties.token ? sourceControl.properties.token : '';
+
+    setOneDriveToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.oneDrive)));
+    setDropBoxToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.dropBox)));
+    setBitBucketToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.bitBucket)));
+    setGitHubToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.gitHub)));
+  };
+
   const showPublishProfilePanel = () => {
     setIsPublishProfilePanelOpen(true);
   };
@@ -269,6 +298,10 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         isContainerApplication,
         isLinuxApplication,
         configMetadata,
+        oneDriveToken,
+        dropBoxToken,
+        bitBucketToken,
+        gitHubToken,
         refresh,
       }}>
       {isContainerApp(siteStateContext.site) ? (

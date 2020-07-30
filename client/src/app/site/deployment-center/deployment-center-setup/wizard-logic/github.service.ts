@@ -12,27 +12,27 @@ import { Response } from '@angular/http';
 export class GithubService implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
 
-  constructor(private _cacheService: CacheService) {}
+  constructor(private _cacheService: CacheService) { }
 
   ngOnDestroy(): void {
     this._ngUnsubscribe$.next();
   }
 
-  fetchOrgs(authToken: string) {
+  fetchOrgs(gitHubToken: string) {
     return this._cacheService.post(Constants.serviceHost + 'api/github/passthrough?orgs=', true, null, {
       url: `${DeploymentCenterConstants.githubApiUrl}/user/orgs`,
-      authToken,
+      gitHubToken,
     });
   }
 
-  fetchUser(authToken: string) {
+  fetchUser(gitHubToken: string) {
     return this._cacheService.post(Constants.serviceHost + 'api/github/passthrough?user=', true, null, {
       url: `${DeploymentCenterConstants.githubApiUrl}/user`,
-      authToken,
+      gitHubToken,
     });
   }
 
-  fetchUserRepos(authToken: string, org: string, page?: number, ownerAccessRequired: boolean = true) {
+  fetchUserRepos(gitHubToken: string, org: string, page?: number, ownerAccessRequired: boolean = true) {
     let url;
 
     if (ownerAccessRequired) {
@@ -47,45 +47,45 @@ export class GithubService implements OnDestroy {
 
     return this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
       url,
-      authToken,
+      gitHubToken,
     });
   }
 
-  fetchOrgRepos(authToken: string, org: string, page?: number) {
+  fetchOrgRepos(gitHubToken: string, org: string, page?: number) {
     const url = page ? `${org}/repos?per_page=100&page=${page}` : `${org}/repos?per_page=100`;
 
     return this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
       url,
-      authToken,
+      gitHubToken,
     });
   }
 
-  fetchRepo(authToken: string, repoUrl: string, repoName: string): Observable<Response> {
+  fetchRepo(gitHubToken: string, repoUrl: string, repoName: string): Observable<Response> {
     return this._cacheService.post(Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}&t=${Guid.newTinyGuid()}`, true, null, {
       url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}`,
-      authToken,
+      gitHubToken,
     });
   }
 
-  fetchBranches(authToken: string, repoUrl: string, repoName: string, page?: number): Observable<Response> {
+  fetchBranches(gitHubToken: string, repoUrl: string, repoName: string, page?: number): Observable<Response> {
     const url = page
       ? `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches?per_page=100&page=${page}`
       : `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches?per_page=100`;
 
     return this._cacheService.post(Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}&t=${Guid.newTinyGuid()}`, true, null, {
       url,
-      authToken,
+      gitHubToken,
     });
   }
 
-  fetchBranch(authToken: string, repoUrl: string, repoName: string, branchName: string): Observable<Response> {
+  fetchBranch(gitHubToken: string, repoUrl: string, repoName: string, branchName: string): Observable<Response> {
     return this._cacheService.post(Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}&t=${Guid.newTinyGuid()}`, true, null, {
       url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches/${branchName}`,
-      authToken,
+      gitHubToken,
     });
   }
 
-  fetchAllWorkflowConfigurations(authToken: string, repoUrl: string, repoName: string, branchName: string): Observable<FileContent[]> {
+  fetchAllWorkflowConfigurations(gitHubToken: string, repoUrl: string, repoName: string, branchName: string): Observable<FileContent[]> {
     return this._cacheService
       .post(
         Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}/contents/.github/workflows&t=${Guid.newTinyGuid()}`,
@@ -93,7 +93,7 @@ export class GithubService implements OnDestroy {
         null,
         {
           url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/.github/workflows?ref=${branchName}`,
-          authToken,
+          gitHubToken,
         }
       )
       .map(r => r.json())
@@ -101,7 +101,7 @@ export class GithubService implements OnDestroy {
   }
 
   fetchWorkflowConfiguration(
-    authToken: string,
+    gitHubToken: string,
     repoUrl: string,
     repoName: string,
     branchName: string,
@@ -114,23 +114,24 @@ export class GithubService implements OnDestroy {
         null,
         {
           url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/${workflowYmlPath}?ref=${branchName}`,
-          authToken,
+          gitHubToken,
         }
       )
       .map(r => r.json())
       .catch(e => Observable.of(null));
   }
 
-  createOrUpdateActionWorkflow(authToken: string, content: GitHubActionWorkflowRequestContent) {
+  createOrUpdateActionWorkflow(authToken: string, gitHubToken: string, content: GitHubActionWorkflowRequestContent) {
     return this._cacheService.put(Constants.serviceHost + `api/github/actionWorkflow`, null, {
       authToken,
+      gitHubToken,
       content,
     });
   }
 
-  deleteActionWorkflow(authToken: string, deleteCommit: GitHubCommit) {
+  deleteActionWorkflow(gitHubToken: string, deleteCommit: GitHubCommit) {
     return this._cacheService.post(Constants.serviceHost + `api/github/deleteActionWorkflow`, true, null, {
-      authToken,
+      gitHubToken,
       deleteCommit,
     });
   }
