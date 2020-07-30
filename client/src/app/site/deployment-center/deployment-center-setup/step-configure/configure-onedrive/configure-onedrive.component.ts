@@ -42,7 +42,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
         this._cacheService
           .post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
             url: `${DeploymentCenterConstants.onedriveApiUri}/children`,
-            oneDriveToken: this.wizard.oneDriveToken,
+            oneDriveToken: this.wizard.oneDriveToken$.getValue(),
           })
           .catch(err => {
             this._logService.error(LogCategories.cicd, '/fetch-onedrive-folders', err);
@@ -88,6 +88,13 @@ export class ConfigureOnedriveComponent implements OnDestroy {
     this.wizard.updateSourceProviderConfig$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
       this.fillOnedriveFolders();
     });
+
+    this.wizard.oneDriveToken$
+      .takeUntil(this._ngUnsubscribe$)
+      .distinctUntilChanged()
+      .subscribe(token => {
+        this.fillOnedriveFolders();
+      });
   }
   updateFormValidation() {
     const required = new RequiredValidator(this._translateService, false);
@@ -100,7 +107,9 @@ export class ConfigureOnedriveComponent implements OnDestroy {
   public fillOnedriveFolders() {
     this.folderList = [];
     this.foldersLoading = true;
-    this._onedriveCallSubject$.next();
+    if (this.wizard.oneDriveToken$.getValue()) {
+      this._onedriveCallSubject$.next();
+    }
   }
 
   ngOnDestroy(): void {

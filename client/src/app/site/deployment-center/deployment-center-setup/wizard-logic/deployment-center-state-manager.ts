@@ -40,6 +40,7 @@ import { Guid } from 'app/shared/Utilities/Guid';
 import { SubscriptionService } from 'app/shared/services/subscription.service';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { WorkflowOptions } from '../../Models/deployment-enums';
+import { BehaviorSubject } from 'rxjs';
 
 const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
 
@@ -73,10 +74,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public stack = '';
   public stackVersion = '';
   public gitHubTokenUpdated$ = new ReplaySubject<boolean>();
-  public oneDriveToken: string;
-  public dropBoxToken: string;
-  public bitBucketToken: string;
-  public gitHubToken: string;
+  public oneDriveToken$ = new BehaviorSubject<string>('');
+  public dropBoxToken$ = new BehaviorSubject<string>('');
+  public bitBucketToken$ = new BehaviorSubject<string>('');
+  public gitHubToken$ = new BehaviorSubject<string>('');
 
   constructor(
     private _cacheService: CacheService,
@@ -275,7 +276,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     };
 
     return this._githubService
-      .fetchWorkflowConfiguration(this.gitHubToken, this.wizardValues.sourceSettings.repoUrl, repo, branch, commitInfo.filePath)
+      .fetchWorkflowConfiguration(this.gitHubToken$.getValue(), this.wizardValues.sourceSettings.repoUrl, repo, branch, commitInfo.filePath)
       .switchMap(fileContentResponse => {
         if (fileContentResponse) {
           commitInfo.sha = fileContentResponse.sha;
@@ -287,7 +288,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
           commit: commitInfo,
         };
 
-        return this._githubService.createOrUpdateActionWorkflow(this.getToken(), this.gitHubToken, requestContent);
+        return this._githubService.createOrUpdateActionWorkflow(this.getToken(), this.gitHubToken$.getValue(), requestContent);
       })
       .switchMap(_ => {
         return this._deployKudu();
@@ -387,7 +388,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
       this.subscriptionName,
       this._vstsApiToken,
       this._azureDevOpsDeploymentMethod,
-      this.gitHubToken
+      this.gitHubToken$.getValue()
     );
 
     this._portalService.logAction('deploymentcenter', 'azureDevOpsDeployment', {
