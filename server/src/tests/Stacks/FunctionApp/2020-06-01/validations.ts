@@ -5,12 +5,13 @@ import { pythonStack as hardCodedPythonStack } from './../../../../stacks/functi
 import { javaStack as hardCodedJavaStack } from './../../../../stacks/functionapp/2020-06-01/stacks/java';
 import { powershellStack as hardCodedPowershellStack } from './../../../../stacks/functionapp/2020-06-01/stacks/powershell';
 import { dotnetFrameworkStack as hardCodedDotnetFrameworkStack } from './../../../../stacks/functionapp/2020-06-01/stacks/dotnetFramework';
+import { customStack as hardCodedCustomStack } from './../../../../stacks/functionapp/2020-06-01/stacks/custom';
 
 const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(6);
+  expect(stacks.length).to.equal(7);
 }
 
 export function validateWindowsStacks(stacks) {
@@ -25,12 +26,12 @@ export function validateLinuxStacks(stacks) {
 
 function validateWindowsStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
 function validateLinuxStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(4);
+  expect(stacks.length).to.equal(5);
 }
 
 function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
@@ -157,4 +158,22 @@ function validateDotnetFrameworkStack(dotnetFrameworkStack) {
   expect(dotnetFrameworkStack.preferredOs).to.equal('windows');
   expect(dotnetFrameworkStack.majorVersions.length).to.equal(1);
   expect(dotnetFrameworkStack).to.deep.equal(hardCodedDotnetFrameworkStack);
+}
+
+export function validateCustomInStacks(stacks) {
+  validateAllStackLength(stacks);
+  validateCustomStack(stacks[6]);
+}
+
+export function validateCustomStackFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validateCustomStack(stacks[0]);
+}
+
+function validateCustomStack(customStack) {
+  expect(customStack.displayText).to.equal('Custom');
+  expect(customStack.value).to.equal('custom');
+  expect(customStack.preferredOs).to.equal('windows');
+  expect(customStack.majorVersions.length).to.equal(1);
+  expect(customStack).to.deep.equal(hardCodedCustomStack);
 }

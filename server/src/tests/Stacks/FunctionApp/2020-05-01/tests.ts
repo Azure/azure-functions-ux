@@ -6,6 +6,7 @@ import {
   validatePythonStack,
   validateJavaStack,
   validatePowershellCoreStack,
+  validateCustomStack
 } from './validations';
 
 const functionAppStacksService = new FunctionAppStacksService20200501();
@@ -61,6 +62,15 @@ describe('FunctionApp Stacks Test 2020-05-01', () => {
     it('should validate the PowerShell Core stack', done => {
       const stacks = functionAppStacksService.getStacks();
       validatePowershellCoreStack(stacks);
+      done();
+    });
+  });
+
+   // Test Custom Core stack
+   describe('Test the Custom stack', () => {
+    it('should validate the Custom stack', done => {
+      const stacks = functionAppStacksService.getStacks();
+      validateCustomStack(stacks);
       done();
     });
   });
