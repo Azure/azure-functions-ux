@@ -4,12 +4,13 @@ import { nodeStack as hardCodedNodeStack } from './../../../../stacks/functionap
 import { pythonStack as hardCodedPythonStack } from './../../../../stacks/functionapp/2020-05-01/stacks/python';
 import { javaStack as hardCodedJavaStack } from './../../../../stacks/functionapp/2020-05-01/stacks/java';
 import { powershellStack as hardCodedPowershellStack } from './../../../../stacks/functionapp/2020-05-01/stacks/powershell';
+import { customStack as hardCodedCustomStack } from './../../../../stacks/functionapp/2020-05-01/stacks/custom';
 
 const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
 export function validateDotnetCoreStack(stacks) {
@@ -60,4 +61,14 @@ export function validatePowershellCoreStack(stacks) {
   expect(powershellStack.sortOrder).to.equal(4);
   expect(powershellStack.versions.length).to.equal(2);
   expect(powershellStack).to.deep.equal(hardCodedPowershellStack);
+}
+
+export function validateCustomStack(stacks) {
+  validateAllStackLength(stacks);
+  const customStack = stacks[5];
+  expect(customStack.displayText).to.equal('Custom');
+  expect(customStack.value).to.equal('custom');
+  expect(customStack.sortOrder).to.equal(5);
+  expect(customStack.versions.length).to.equal(1);
+  expect(customStack).to.deep.equal(hardCodedCustomStack);
 }
