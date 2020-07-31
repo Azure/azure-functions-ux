@@ -32,7 +32,7 @@ export const customStack: FunctionAppStack = {
               supportedFunctionsExtensionVersions: ['~3', '~2'],
             },
             linuxRuntimeSettings: {
-              runtimeVersion: null,
+              runtimeVersion: '',
               isPreview: true,
               appInsightsSettings: {
                 isSupported: true,
@@ -43,6 +43,7 @@ export const customStack: FunctionAppStack = {
               },
               appSettingsDictionary: {
                 FUNCTIONS_WORKER_RUNTIME: 'custom',
+                linuxFxVersion: '',
               },
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: false

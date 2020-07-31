@@ -31,9 +31,10 @@ export const customStack: FunctionAppStack = {
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,
-          runtimeVersion: null,
+          runtimeVersion: '',
           appSettingsDictionary: {
             FUNCTIONS_WORKER_RUNTIME: 'custom',
+            linuxFxVersion: '',
           },
           siteConfigPropertiesDictionary: {
             use32BitWorkerProcess: false
