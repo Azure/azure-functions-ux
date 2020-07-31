@@ -6,11 +6,12 @@ import { pythonStack } from './stacks/python';
 import { javaStack } from './stacks/java';
 import { powershellStack } from './stacks/powershell';
 import { dotnetFrameworkStack } from './stacks/dotnetFramework';
+import { customStack } from './stacks/custom';
 
 @Injectable()
 export class FunctionAppStacksService20200601 {
   getStacks(os?: Os, stackValue?: StackValue): FunctionAppStack[] {
-    const functionAppStacks = [dotnetCoreStack, nodeStack, pythonStack, javaStack, powershellStack, dotnetFrameworkStack];
+    const functionAppStacks = [dotnetCoreStack, nodeStack, pythonStack, javaStack, powershellStack, dotnetFrameworkStack, customStack];
 
     if (!stackValue) {
       return !os ? functionAppStacks : this._filterFunctionAppStacksByOs(functionAppStacks, os);
