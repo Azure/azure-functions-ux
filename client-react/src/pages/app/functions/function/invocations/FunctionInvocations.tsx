@@ -234,7 +234,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         isOpen={!!currentTrace}
         onDismiss={() => setCurrentTrace(undefined)}
         headerText={'Invocation Details'}
-        type={PanelType.medium}>
+        type={PanelType.large}>
         <FunctionInvocationDetails
           invocationDetails={invocationDetails}
           appInsightsResourceId={appInsightsResourceId}
