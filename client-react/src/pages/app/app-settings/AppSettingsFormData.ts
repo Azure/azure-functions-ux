@@ -47,7 +47,7 @@ interface StateToFormParams {
   azureStorageMounts: ArmObj<ArmAzureStorageMount> | null;
   slotConfigNames: ArmObj<SlotConfigNames> | null;
   metadata: ArmObj<KeyValue<string>> | null;
-  basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies>;
+  basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
   const {

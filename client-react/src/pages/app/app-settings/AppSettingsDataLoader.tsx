@@ -226,7 +226,9 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
-          basicPublishingCredentialsPolicies: basicPublishingCredentialsPolicies.data,
+          basicPublishingCredentialsPolicies: basicPublishingCredentialsPolicies.metadata.success
+            ? basicPublishingCredentialsPolicies.data
+            : null,
         }),
       });
     }
