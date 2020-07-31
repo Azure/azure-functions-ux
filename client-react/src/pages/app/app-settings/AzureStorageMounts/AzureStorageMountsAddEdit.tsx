@@ -116,6 +116,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               id={`azure-storage-mounts-name`}
               ariaLabel={t('_name')}
               errorMessage={formProps.errors && formProps.errors.name}
+              required={true}
               autoFocus
             />
             <Field
@@ -146,6 +147,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               component={TextField}
               id={`azure-storage-mounts-path`}
               errorMessage={formProps.errors && formProps.errors.mountPath}
+              required={true}
             />
             <ActionBar
               id="handler-mappings-edit-footer"
