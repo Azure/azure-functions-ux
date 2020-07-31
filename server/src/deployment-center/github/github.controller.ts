@@ -10,7 +10,6 @@ import { TokenData, EnvironmentUrlMappings, Environments } from '../deployment-c
 
 @Controller()
 export class GithubController {
-  private readonly provider = 'github';
   private readonly githubApiUrl = 'https://api.github.com';
 
   constructor(
@@ -22,12 +21,11 @@ export class GithubController {
 
   @Post('api/github/passthrough')
   @HttpCode(200)
-  async passthrough(@Body('authToken') authToken: string, @Body('url') url: string, @Res() res) {
-    const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
+  async passthrough(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Res() res) {
     try {
       const response = await this.httpService.get(url, {
         headers: {
-          Authorization: `Bearer ${tokenData.token}`,
+          Authorization: `Bearer ${gitHubToken}`,
         },
       });
       if (response.headers.link) {
@@ -55,30 +53,31 @@ export class GithubController {
 
   @Put('api/github/actionWorkflow')
   @HttpCode(200)
-  async actionWorkflow(@Body('authToken') authToken: string, @Body('content') content: GitHubActionWorkflowRequestContent) {
+  async actionWorkflow(
+    @Body('authToken') authToken: string,
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('content') content: GitHubActionWorkflowRequestContent
+  ) {
     // NOTE(michinoy): In order for the action workflow to succesfully execute, it needs to have the secret allowing access
     // to the web app. This secret is the publish profile. This one method will retrieve publish profile, encrypt it, put it
     // as a GitHub secret, and then publish the workflow file.
 
     const publishProfileRequest = this.dcService.getSitePublishProfile(authToken, content.resourceId);
-    const tokenDataRequest = this.dcService.getSourceControlToken(authToken, this.provider);
-    const [publishProfile, tokenData] = await Promise.all([publishProfileRequest, tokenDataRequest]);
-    const publicKey = await this._getGitHubRepoPublicKey(tokenData, content.commit.repoName);
-    await this._putGitHubRepoSecret(tokenData, publicKey, content.commit.repoName, content.secretName, publishProfile);
-    await this._commitFile(tokenData, content);
+    const publicKeyRequest = this._getGitHubRepoPublicKey(gitHubToken, content.commit.repoName);
+    const [publishProfile, publicKey] = await Promise.all([publishProfileRequest, publicKeyRequest]);
+    await this._putGitHubRepoSecret(gitHubToken, publicKey, content.commit.repoName, content.secretName, publishProfile);
+    await this._commitFile(gitHubToken, content);
   }
 
   @Post('api/github/deleteActionWorkflow')
   @HttpCode(200)
-  async deleteActionWorkflow(@Body('authToken') authToken: string, @Body('deleteCommit') deleteCommit: GitHubCommit) {
-    const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
-
+  async deleteActionWorkflow(@Body('gitHubToken') gitHubToken: string, @Body('deleteCommit') deleteCommit: GitHubCommit) {
     const url = `${this.githubApiUrl}/repos/${deleteCommit.repoName}/contents/${deleteCommit.filePath}`;
 
     try {
       await this.httpService.delete(url, {
         headers: {
-          Authorization: `Bearer ${tokenData.token}`,
+          Authorization: `Bearer ${gitHubToken}`,
         },
         data: deleteCommit,
       });
@@ -128,9 +127,9 @@ export class GithubController {
     return 'Successfully Authenticated. Redirecting...';
   }
 
-  @Post('auth/github/storeToken')
+  @Post('auth/github/getToken')
   @HttpCode(200)
-  async storeToken(@Session() session, @Body('redirUrl') redirUrl: string, @Body('authToken') authToken: string) {
+  async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
     const state = this.dcService.getParameterByName('state', redirUrl);
     if (
       !session ||
@@ -149,7 +148,11 @@ export class GithubController {
         client_secret: this.configService.get('GITHUB_CLIENT_SECRET'),
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
-      this.dcService.saveToken(token, authToken, this.provider);
+      return {
+        accessToken: token,
+        refreshToken: null,
+        environment: null,
+      };
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
@@ -158,13 +161,13 @@ export class GithubController {
     }
   }
 
-  private async _getGitHubRepoPublicKey(tokenData: TokenData, repoName: string): Promise<GitHubSecretPublicKey> {
+  private async _getGitHubRepoPublicKey(gitHubToken: string, repoName: string): Promise<GitHubSecretPublicKey> {
     const url = `${this.githubApiUrl}/repos/${repoName}/actions/secrets/public-key`;
 
     try {
       const response = await this.httpService.get(url, {
         headers: {
-          Authorization: `Bearer ${tokenData.token}`,
+          Authorization: `Bearer ${gitHubToken}`,
         },
       });
 
@@ -180,7 +183,7 @@ export class GithubController {
   }
 
   private async _putGitHubRepoSecret(
-    tokenData: TokenData,
+    gitHubToken: string,
     publicKey: GitHubSecretPublicKey,
     repoName: string,
     secretName: string,
@@ -202,7 +205,7 @@ export class GithubController {
     try {
       const config = {
         headers: {
-          Authorization: `Bearer ${tokenData.token}`,
+          Authorization: `Bearer ${gitHubToken}`,
         },
       };
 
@@ -222,7 +225,7 @@ export class GithubController {
     }
   }
 
-  private async _commitFile(tokenData: TokenData, content: GitHubActionWorkflowRequestContent) {
+  private async _commitFile(gitHubToken: string, content: GitHubActionWorkflowRequestContent) {
     const url = `${this.githubApiUrl}/repos/${content.commit.repoName}/contents/${content.commit.filePath}`;
 
     const commitContent = {
@@ -236,7 +239,7 @@ export class GithubController {
     try {
       await this.httpService.put(url, commitContent, {
         headers: {
-          Authorization: `Bearer ${tokenData.token}`,
+          Authorization: `Bearer ${gitHubToken}`,
         },
       });
     } catch (err) {

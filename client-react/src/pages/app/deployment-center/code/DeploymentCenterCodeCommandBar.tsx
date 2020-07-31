@@ -77,7 +77,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       formProps.values.repo,
       branch,
       commitInfo.filePath,
-      getArmToken()
+      deploymentCenterContext.gitHubToken
     );
 
     if (workflowConfigurationResponse.metadata.success) {
@@ -90,7 +90,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       commit: commitInfo,
     };
 
-    return deploymentCenterData.createOrUpdateActionWorkflow(getArmToken(), requestContent);
+    return deploymentCenterData.createOrUpdateActionWorkflow(getArmToken(), deploymentCenterContext.gitHubToken, requestContent);
   };
 
   const deploy = async () => {

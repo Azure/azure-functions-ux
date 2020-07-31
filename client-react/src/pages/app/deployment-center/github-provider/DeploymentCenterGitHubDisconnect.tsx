@@ -11,7 +11,7 @@ import {
   WorkflowFileDeleteOptions,
   WorkflowChoiceGroupOption,
 } from '../DeploymentCenter.types';
-import { getArmToken, getWorkflowFileName, getWorkflowFilePath } from '../utility/DeploymentCenterUtility';
+import { getWorkflowFileName, getWorkflowFilePath } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import ActionBar from '../../../../components/ActionBar';
@@ -119,12 +119,12 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
         repo,
         branch,
         workflowFilePath,
-        getArmToken()
+        deploymentCenterContext.gitHubToken
       );
 
       if (workflowConfigurationResponse.metadata.success) {
         const deleteWorkflowFileResponse = await deploymentCenterData.deleteActionWorkflow(
-          getArmToken(),
+          deploymentCenterContext.gitHubToken,
           org,
           repo,
           branch,
@@ -156,7 +156,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
       repo,
       branch,
       workflowFilePath,
-      getArmToken()
+      deploymentCenterContext.gitHubToken
     );
 
     setWorkflowConfigExists(appWorkflowConfigurationResponse.metadata.success);

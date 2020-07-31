@@ -6,7 +6,7 @@ import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { Field } from 'formik';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { getArmToken, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
@@ -64,13 +64,18 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         deploymentCenterContext.siteDescriptor.slot
       );
       const workflowFilePath = `.github/workflows/${workflowFileName}`;
-      const getAllWorkflowConfigurationsRequest = deploymentCenterData.getAllWorkflowConfigurations(org, repo, branch, getArmToken());
+      const getAllWorkflowConfigurationsRequest = deploymentCenterData.getAllWorkflowConfigurations(
+        org,
+        repo,
+        branch,
+        deploymentCenterContext.gitHubToken
+      );
       const getWorkflowConfigurationRequest = deploymentCenterData.getWorkflowConfiguration(
         org,
         repo,
         branch,
         workflowFilePath,
-        getArmToken()
+        deploymentCenterContext.gitHubToken
       );
 
       const [allWorkflowConfigurationsResponse, appWorkflowConfigurationResponse] = await Promise.all([
