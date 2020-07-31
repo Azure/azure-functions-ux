@@ -1,256 +1,246 @@
-<div class="wrapper"
-    [is-dirty]="swapping || (swapForm && swapForm.dirty)"
-    [is-dirty-message]="swapping ? operationInProgressWarning : (swapForm && swapForm.dirty) ? unsavedChangesWarning : null">
-
-    <div *ngIf="showHeader" class="header">
-        <div class="header-icon-container">
-            <span class="header-icon" load-image="image/swap.svg"></span>
-        </div>
-
-        {{ 'swapSlotsHeading' | translate }}
-
-        <div class="header-close-button"
-            role="button"
-            title="'close' | translate"
-            aria-label="'close' | translate"
-            load-image="image/close.svg"
-            tabindex="0"
-            (click)="closePanel()"
-            [activate-with-keys]>
-            <span
-                class="header-close-button-icon">
-            </span>
-        </div>
+<div
+  class="wrapper"
+  [is-dirty]="swapping || (swapForm && swapForm.dirty)"
+  [is-dirty-message]="swapping ? operationInProgressWarning : swapForm && swapForm.dirty ? unsavedChangesWarning : null"
+>
+  <div *ngIf="showHeader" class="header">
+    <div class="header-icon-container">
+      <span class="header-icon" load-image="image/swap.svg"></span>
     </div>
 
-    <div class="body" [formGroup]="swapForm" novalidate>
-        <div class="body-liner">
+    {{ 'swapSlotsHeading' | translate }}
 
-            <div class="controls-container">
-                <info-box *ngIf="loadingFailure"
-                    typeClass="error"
-                    [infoText]="loadingFailure">
-                </info-box>
+    <div
+      class="header-close-button"
+      role="button"
+      title="'close' | translate"
+      aria-label="'close' | translate"
+      load-image="image/close.svg"
+      tabindex="0"
+      (click)="closePanel()"
+      [activate-with-keys]
+    >
+      <span class="header-close-button-icon"> </span>
+    </div>
+  </div>
 
-                <info-box *ngIf="swapPermissionsMessage"
-                    typeClass="warn"
-                    [infoText]="swapPermissionsMessage">
-                </info-box>
+  <div class="body" [formGroup]="swapForm" novalidate>
+    <div class="body-liner">
+      <div class="controls-container">
+        <info-box *ngIf="loadingFailure" typeClass="error" [infoText]="loadingFailure"> </info-box>
 
-                <info-box *ngIf="readOnlyLockMessage"
-                    typeClass="warn"
-                    [infoText]="readOnlyLockMessage">
-                </info-box>
-            </div>
+        <info-box *ngIf="swapPermissionsMessage" typeClass="warn" [infoText]="swapPermissionsMessage"> </info-box>
 
-            <div class="controls-container">
-                <div class="control-container src">
-                    <div class="control-label">
-                        <div class="bullet src"></div>
-                        {{ 'source' | translate }}
-                        <div *ngIf="swapForm?.controls['srcId']?.value === siteResourceId" class="pill">{{ 'production' | translate }}</div>
-                    </div>
-                    <div>
-                        <drop-down
-                          [ariaLabel]="'source' | translate"
-                          ariaErrorId="src-validation"
-                          [control]="!!swapForm ? swapForm.controls['srcId'] : null"
-                          [options]="srcDropDownOptions"
-                          [highlightDirty]="false"
-                          (value)="onSlotIdChange()">
-                        </drop-down>
-                        <div *ngIf="swapForm?.controls['srcId']" id="src-validation" class="validation-container">
-                            <div *ngIf="!swapForm.pending && swapForm.invalid && swapForm.errors && swapForm.errors['slotsNotUnique']"
-                                class="error-message">
-                                    {{ swapForm.errors['slotsNotUnique'] }}
-                            </div>
-                            <ng-container *ngIf="!swapForm.controls['srcId'].pending
-                                    && swapForm.controls['srcId'].invalid && swapForm.controls['srcId'].errors">
-                                    <div *ngIf="swapForm.controls['srcId'].errors['noSwapPermission']" class="error-message">
-                                        {{ swapForm.controls['srcId'].errors['noSwapPermission'] }}
-                                    </div>
-                                    <div *ngIf="swapForm.controls['srcId'].errors['noWritePermission']" class="error-message">
-                                        {{ swapForm.controls['srcId'].errors['noWritePermission'] }}
-                                    </div>
-                                    <div *ngIf="swapForm.controls['srcId'].errors['readOnlyLock']" class="error-message">
-                                        {{ swapForm.controls['srcId'].errors['readOnlyLock'] }}
-                                    </div>
-                            </ng-container>
-                            <div [style.display]="swapForm.controls['srcId'].pending ? 'inherit': 'none'">
-                                <span load-image="image/spinner.svg" class="icon-small"></span>
-                                <p class="centered-validating-text">{{ 'validating' | translate }}</p>
-                            </div>
-                        </div>
-                    </div>
+        <info-box *ngIf="readOnlyLockMessage" typeClass="warn" [infoText]="readOnlyLockMessage"> </info-box>
+      </div>
+
+      <div class="controls-container">
+        <div class="control-container src">
+          <div class="control-label">
+            <div class="bullet src"></div>
+            {{ 'source' | translate }}
+            <div *ngIf="(swapForm?.controls)['srcId']?.value === siteResourceId" class="pill">{{ 'production' | translate }}</div>
+          </div>
+          <div>
+            <drop-down
+              [ariaLabel]="'source' | translate"
+              ariaErrorId="src-validation"
+              [control]="!!swapForm ? swapForm.controls['srcId'] : null"
+              [options]="srcDropDownOptions"
+              [highlightDirty]="false"
+              (value)="onSlotIdChange()"
+            >
+            </drop-down>
+            <div *ngIf="(swapForm?.controls)['srcId']" id="src-validation" class="validation-container">
+              <div
+                *ngIf="!swapForm.pending && swapForm.invalid && swapForm.errors && swapForm.errors['slotsNotUnique']"
+                class="error-message"
+              >
+                {{ swapForm.errors['slotsNotUnique'] }}
+              </div>
+              <ng-container
+                *ngIf="!swapForm.controls['srcId'].pending && swapForm.controls['srcId'].invalid && swapForm.controls['srcId'].errors"
+              >
+                <div *ngIf="swapForm.controls['srcId'].errors['noSwapPermission']" class="error-message">
+                  {{ swapForm.controls['srcId'].errors['noSwapPermission'] }}
                 </div>
-
-                <div class="control-container dest">
-                    <div class="control-label">
-                        <div class="bullet dest"></div>
-                        {{ 'target' | translate }}
-                        <div *ngIf="swapForm?.controls['destId']?.value === siteResourceId" class="pill">{{ 'production' | translate }}</div>
-                    </div>
-                    <div>
-                        <drop-down
-                          [ariaLabel]="'target' | translate"
-                          ariaErrorId="dest-validation"
-                          [control]="!!swapForm ? swapForm.controls['destId'] : null"
-                          [options]="destDropDownOptions"
-                          [highlightDirty]="false"
-                          (value)="onSlotIdChange()">
-                        </drop-down>
-                        <div *ngIf="swapForm?.controls['destId']" id="dest-validation" class="validation-container">
-                            <div *ngIf="!swapForm.pending && swapForm.invalid && swapForm.errors && swapForm.errors['slotsNotUnique']"
-                                class="error-message">
-                                    {{ swapForm.errors['slotsNotUnique'] }}
-                            </div>
-                            <ng-container *ngIf="!swapForm.controls['destId'].pending
-                                    && swapForm.controls['destId'].invalid && swapForm.controls['destId'].errors">
-                                    <div *ngIf="swapForm.controls['destId'].errors['noSwapPermission']" class="error-message">
-                                        {{ swapForm.controls['destId'].errors['noSwapPermission'] }}
-                                    </div>
-                                    <div *ngIf="swapForm.controls['destId'].errors['noWritePermission']" class="error-message">
-                                        {{ swapForm.controls['destId'].errors['noWritePermission'] }}
-                                    </div>
-                                    <div *ngIf="swapForm.controls['destId'].errors['readOnlyLock']" class="error-message">
-                                        {{ swapForm.controls['destId'].errors['readOnlyLock'] }}
-                                    </div>
-                            </ng-container>
-                            <div [style.display]="swapForm.controls['destId'].pending ? 'inherit': 'none'">
-                                <span load-image="image/spinner.svg" class="icon-small"></span>
-                                <p class="centered-validating-text">{{ 'validating' | translate }}</p>
-                            </div>
-                        </div>
-                    </div>
+                <div *ngIf="swapForm.controls['srcId'].errors['noWritePermission']" class="error-message">
+                  {{ swapForm.controls['srcId'].errors['noWritePermission'] }}
                 </div>
-            </div>
-
-            <div class="controls-container">
-                <info-box *ngIf="noStickySettings"
-                    typeClass="info"
-                    [infoText]="'swapMultiPhaseNoStickySettings' | translate">
-                </info-box>
-
-                <div>
-                    <label>
-                        <input
-                            [formControl]="swapForm ? swapForm.controls['multiPhase'] : null"
-                            type="checkbox">
-                        {{ 'swapWithPreviewLabel' | translate }}
-                    </label>
-                    <div invalidmessage="form-group" errorkey="authMultiPhaseConflict"></div>
+                <div *ngIf="swapForm.controls['srcId'].errors['readOnlyLock']" class="error-message">
+                  {{ swapForm.controls['srcId'].errors['readOnlyLock'] }}
                 </div>
+              </ng-container>
+              <div [style.display]="swapForm.controls['srcId'].pending ? 'inherit' : 'none'">
+                <span load-image="image/spinner.svg" class="icon-small"></span>
+                <p class="centered-validating-text">{{ 'validating' | translate }}</p>
+              </div>
             </div>
-
-            <div *ngIf="swapForm?.controls['multiPhase']?.value" class="phase-container">
-
-                <progress-bar [steps]="phases" class="NavSymbols"></progress-bar>
-
-                <div class="help-text-container">
-                    {{ 'swapWithPreviewInfoText' | translate }}
-                </div>
-
-                <info-box *ngIf="showPreviewLink"
-                    typeClass="info"
-                    [infoText]="'swapMultiPhasePreviewMessage' | translate"
-                    [infoLink]="previewLink">
-                </info-box>
-            </div>
-
-            <div *ngIf="showPreviewChanges && swapForm?.controls['multiPhase']?.value">
-
-                <h1 class="preview-changes-header">{{ 'phaseOneChangesHeading' | translate }}</h1>
-                <div class="help-text-container">
-                    {{ 'phaseOneChangesInfoText' | translate }}
-                </div>
-
-                <swap-diff-table
-                    [loading]="swapForm?.pending || (swapForm?.valid && loadingDiffs)"
-                    [invalid]="!swapForm?.pending && !swapForm?.valid"
-                    [loadedOrFailed]="!swapForm?.pending && swapForm?.valid && !loadingDiffs"
-                    [diffs]="stickySettingDiffs"
-                    [showToggle]="false"
-                    oldValueHeading="slotsDiff_currentValueHeader"
-                    newValueHeading="slotsDiff_tempValueHeader">
-                </swap-diff-table>
-
-            </div>
-
-            <div>
-                <h1 *ngIf="!swapForm?.controls['multiPhase']?.value" class="preview-changes-header">
-                    {{ 'swapDiffHeading' | translate }}
-                </h1>
-                <h1 *ngIf="swapForm?.controls['multiPhase']?.value" class="preview-changes-header">
-                    {{ 'phaseTwoChangesHeading' | translate }}
-                </h1>
-                <div class="help-text-container">
-                    {{ 'swapChangesInfoText' | translate }}
-                </div>
-
-                <swap-diff-table
-                    [loading]="swapForm?.pending || (swapForm?.valid && loadingDiffs)"
-                    [invalid]="!swapForm?.pending && !swapForm?.valid"
-                    [loadedOrFailed]="!swapForm?.pending && swapForm?.valid && !loadingDiffs"
-                    [diffs]="slotsDiffs"
-                    [showToggle]="true"
-                    oldValueHeading="slotsDiff_oldValueHeader"
-                    newValueHeading="slotsDiff_newValueHeader">
-                </swap-diff-table>
-
-            </div>
-
-            <div *ngIf="showPhase2Controls" class="controls-container revert-dropdown-container">
-                <div class="control-container">
-                    <div class="control-label">
-                        {{ 'swapActionLabel' | translate }}
-                    </div>
-                    <div>
-                        <drop-down
-                          [ariaLabel]="'swapActionLabel' | translate"
-                          [control]="!!swapForm ? swapForm.controls['revertSwap'] : null"
-                          [options]="phase2DropDownOptions"
-                          [highlightDirty]="false">
-                        </drop-down>
-                    </div>
-                </div>
-            </div>
-
+          </div>
         </div>
+
+        <div class="control-container dest">
+          <div class="control-label">
+            <div class="bullet dest"></div>
+            {{ 'target' | translate }}
+            <div *ngIf="(swapForm?.controls)['destId']?.value === siteResourceId" class="pill">{{ 'production' | translate }}</div>
+          </div>
+          <div>
+            <drop-down
+              [ariaLabel]="'target' | translate"
+              ariaErrorId="dest-validation"
+              [control]="!!swapForm ? swapForm.controls['destId'] : null"
+              [options]="destDropDownOptions"
+              [highlightDirty]="false"
+              (value)="onSlotIdChange()"
+            >
+            </drop-down>
+            <div *ngIf="(swapForm?.controls)['destId']" id="dest-validation" class="validation-container">
+              <div
+                *ngIf="!swapForm.pending && swapForm.invalid && swapForm.errors && swapForm.errors['slotsNotUnique']"
+                class="error-message"
+              >
+                {{ swapForm.errors['slotsNotUnique'] }}
+              </div>
+              <ng-container
+                *ngIf="!swapForm.controls['destId'].pending && swapForm.controls['destId'].invalid && swapForm.controls['destId'].errors"
+              >
+                <div *ngIf="swapForm.controls['destId'].errors['noSwapPermission']" class="error-message">
+                  {{ swapForm.controls['destId'].errors['noSwapPermission'] }}
+                </div>
+                <div *ngIf="swapForm.controls['destId'].errors['noWritePermission']" class="error-message">
+                  {{ swapForm.controls['destId'].errors['noWritePermission'] }}
+                </div>
+                <div *ngIf="swapForm.controls['destId'].errors['readOnlyLock']" class="error-message">
+                  {{ swapForm.controls['destId'].errors['readOnlyLock'] }}
+                </div>
+              </ng-container>
+              <div [style.display]="swapForm.controls['destId'].pending ? 'inherit' : 'none'">
+                <span load-image="image/spinner.svg" class="icon-small"></span>
+                <p class="centered-validating-text">{{ 'validating' | translate }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls-container">
+        <info-box *ngIf="noStickySettings" typeClass="info" [infoText]="'swapMultiPhaseNoStickySettings' | translate"> </info-box>
+
+        <div>
+          <label>
+            <input [formControl]="swapForm ? swapForm.controls['multiPhase'] : null" type="checkbox" />
+            {{ 'swapWithPreviewLabel' | translate }}
+          </label>
+          <info-box
+            *ngIf="swapForm && swapForm.errors !== null && swapForm.errors['authMultiPhaseConflict']"
+            typeClass="warning"
+            [infoText]="swapForm.errors['authMultiPhaseConflict'] | translate"
+          >
+          </info-box>
+        </div>
+      </div>
+
+      <div *ngIf="(swapForm?.controls)['multiPhase']?.value" class="phase-container">
+        <progress-bar [steps]="phases" class="NavSymbols"></progress-bar>
+
+        <div class="help-text-container">
+          {{ 'swapWithPreviewInfoText' | translate }}
+        </div>
+
+        <info-box *ngIf="showPreviewLink" typeClass="info" [infoText]="'swapMultiPhasePreviewMessage' | translate" [infoLink]="previewLink">
+        </info-box>
+      </div>
+
+      <div *ngIf="showPreviewChanges && (swapForm?.controls)['multiPhase']?.value">
+        <h1 class="preview-changes-header">{{ 'phaseOneChangesHeading' | translate }}</h1>
+        <div class="help-text-container">
+          {{ 'phaseOneChangesInfoText' | translate }}
+        </div>
+
+        <swap-diff-table
+          [loading]="swapForm?.pending || (swapForm?.valid && loadingDiffs)"
+          [invalid]="!swapForm?.pending && !swapForm?.valid"
+          [loadedOrFailed]="!swapForm?.pending && swapForm?.valid && !loadingDiffs"
+          [diffs]="stickySettingDiffs"
+          [showToggle]="false"
+          oldValueHeading="slotsDiff_currentValueHeader"
+          newValueHeading="slotsDiff_tempValueHeader"
+        >
+        </swap-diff-table>
+      </div>
+
+      <div>
+        <h1 *ngIf="!(swapForm?.controls)['multiPhase']?.value" class="preview-changes-header">
+          {{ 'swapDiffHeading' | translate }}
+        </h1>
+        <h1 *ngIf="(swapForm?.controls)['multiPhase']?.value" class="preview-changes-header">
+          {{ 'phaseTwoChangesHeading' | translate }}
+        </h1>
+        <div class="help-text-container">
+          {{ 'swapChangesInfoText' | translate }}
+        </div>
+
+        <swap-diff-table
+          [loading]="swapForm?.pending || (swapForm?.valid && loadingDiffs)"
+          [invalid]="!swapForm?.pending && !swapForm?.valid"
+          [loadedOrFailed]="!swapForm?.pending && swapForm?.valid && !loadingDiffs"
+          [diffs]="slotsDiffs"
+          [showToggle]="true"
+          oldValueHeading="slotsDiff_oldValueHeader"
+          newValueHeading="slotsDiff_newValueHeader"
+        >
+        </swap-diff-table>
+      </div>
+
+      <div *ngIf="showPhase2Controls" class="controls-container revert-dropdown-container">
+        <div class="control-container">
+          <div class="control-label">
+            {{ 'swapActionLabel' | translate }}
+          </div>
+          <div>
+            <drop-down
+              [ariaLabel]="'swapActionLabel' | translate"
+              [control]="!!swapForm ? swapForm.controls['revertSwap'] : null"
+              [options]="phase2DropDownOptions"
+              [highlightDirty]="false"
+            >
+            </drop-down>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div *ngIf="progressMessage" class="progress-container">
+      <info-box [typeClass]="progressMessageClass" [infoText]="progressMessage"> </info-box>
     </div>
 
-    <div class="footer">
+    <div class="buttons-container">
+      <button
+        *ngIf="!showPhase2Controls"
+        class="custom-button"
+        (click)="executePhase1()"
+        [disabled]="executeButtonDisabled || !swapForm || swapForm.pending || !swapForm.valid"
+      >
+        {{ (swapForm && swapForm.controls['multiPhase'].value ? 'startSwap' : 'swap') | translate }}
+      </button>
 
-        <div *ngIf="progressMessage"
-            class="progress-container">
-            <info-box
-                [typeClass]="progressMessageClass"
-                [infoText]="progressMessage">
-            </info-box>
-        </div>
+      <button
+        *ngIf="showPhase2Controls"
+        class="custom-button"
+        [disabled]="executeButtonDisabled || !swapForm || swapForm.pending || !swapForm.valid"
+        (click)="executePhase2()"
+      >
+        {{
+          (swapForm && swapForm.controls['revertSwap'].value === stage2OptionData.CancelSwap ? 'cancelSwap' : 'completeSwap') | translate
+        }}
+      </button>
 
-        <div class="buttons-container">
-            <button *ngIf="!showPhase2Controls"
-                class="custom-button"
-                (click)="executePhase1()"
-                [disabled]="executeButtonDisabled || !swapForm || swapForm.pending || !swapForm.valid">
-                {{ (swapForm && swapForm.controls['multiPhase'].value ? 'startSwap' : 'swap') | translate }}
-            </button>
-
-            <button *ngIf="showPhase2Controls"
-                class="custom-button"
-                [disabled]="executeButtonDisabled || !swapForm || swapForm.pending || !swapForm.valid"
-                (click)="executePhase2()">
-                {{ (swapForm && swapForm.controls['revertSwap'].value === stage2OptionData.CancelSwap ? 'cancelSwap' : 'completeSwap') | translate }}
-            </button>
-
-            <button
-                class="custom-button"
-                [disabled]="swapping"
-                (click)="closePanel()">
-                {{ 'close' | translate }}
-            </button>
-        </div>
-
+      <button class="custom-button" [disabled]="swapping" (click)="closePanel()">
+        {{ 'close' | translate }}
+      </button>
     </div>
-
+  </div>
 </div>
