@@ -303,7 +303,8 @@ export class AzureDevOpsService implements OnDestroy {
     siteArm: ArmObj<Site>,
     subscriptionName: string,
     azureDevOpsAuthToken: string,
-    azureDevOpsDeploymentMethod: AzureDevOpsDeploymentMethod
+    azureDevOpsDeploymentMethod: AzureDevOpsDeploymentMethod,
+    gitHubToken: string
   ): ProvisioningConfigurationBase {
     let deploymentObject: ProvisioningConfigurationBase;
     const azureAuthToken = this._getAuthTokenForMakingAzDevRequestBasedOnDeployment();
@@ -314,6 +315,7 @@ export class AzureDevOpsService implements OnDestroy {
     ) {
       deploymentObject = {
         authToken: azureAuthToken,
+        githubToken: gitHubToken,
         pipelineTemplateId: this.getPipelineTemplateId(wizardValues.buildSettings),
         pipelineTemplateParameters: this._getPipelineTemplateParameters(
           wizardValues.buildSettings,
@@ -329,6 +331,7 @@ export class AzureDevOpsService implements OnDestroy {
     } else {
       deploymentObject = {
         authToken: azureAuthToken,
+        githubToken: gitHubToken,
         ciConfiguration: this._ciConfig(wizardValues.buildSettings.vstsProject),
         id: null,
         source: this._deploymentSource(wizardValues, siteArm.kind),

@@ -9,6 +9,10 @@ export interface IDeploymentCenterContext {
   hasWritePermission: boolean;
   isContainerApplication: boolean;
   isLinuxApplication: boolean;
+  oneDriveToken: string;
+  dropBoxToken: string;
+  bitBucketToken: string;
+  gitHubToken: string;
   refresh: () => void;
   siteConfig?: ArmObj<SiteConfig>;
   siteDescriptor?: ArmSiteDescriptor;

@@ -11,7 +11,6 @@ import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
 import { AuthorizationResult, DeploymentCenterGitHubConfiguredViewProps } from '../DeploymentCenter.types';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { getArmToken } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 
 const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfiguredViewProps> = props => {
@@ -29,7 +28,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
 
   const getSourceControlDetails = async () => {
     setIsLoading(true);
-    const getGitHubUserRequest = deploymentCenterData.getGitHubUser(getArmToken());
+    const getGitHubUserRequest = deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken);
     const getSourceControlDetailsResponse = deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
 
     const [gitHubUserResponse, sourceControlDetailsResponse] = await Promise.all([getGitHubUserRequest, getSourceControlDetailsResponse]);
@@ -102,7 +101,25 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
       oauthWindow && oauthWindow.close();
 
       if (authorizationResult.redirectUrl) {
-        return deploymentCenterData.storeGitHubToken(authorizationResult.redirectUrl, getArmToken()).then(() => getSourceControlDetails());
+        return deploymentCenterData
+          .getGitHubToken(authorizationResult.redirectUrl)
+          .then(response => {
+            if (response.metadata.success) {
+              return deploymentCenterData.storeGitHubToken(response.data);
+            } else {
+              // NOTE(michinoy): This is all related to the handshake between us and the provider.
+              // If this fails, there isn't much the user can do except retry.
+
+              LogService.error(
+                LogCategories.deploymentCenter,
+                'authorizeGitHubAccount',
+                `Failed to get token with error: ${getErrorMessage(response.metadata.error)}`
+              );
+
+              return Promise.resolve(null);
+            }
+          })
+          .then(() => getSourceControlDetails());
       } else {
         return getSourceControlDetails();
       }
