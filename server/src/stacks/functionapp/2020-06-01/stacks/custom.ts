@@ -42,11 +42,11 @@ export const customStack: FunctionAppStack = {
                 isSupported: false,
               },
               appSettingsDictionary: {
-                FUNCTIONS_WORKER_RUNTIME: 'custom',
-                linuxFxVersion: '',
+                FUNCTIONS_WORKER_RUNTIME: 'custom'
               },
               siteConfigPropertiesDictionary: {
-                use32BitWorkerProcess: false
+                use32BitWorkerProcess: false,
+                linuxFxVersion: '',
               },
               supportedFunctionsExtensionVersions: ['~3', '~2'],
             },
