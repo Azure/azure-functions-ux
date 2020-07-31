@@ -133,3 +133,12 @@ export enum AppOs {
 }
 
 export type AppOsType = AppOs.linux | AppOs.windows;
+
+export interface CredentialPolicy {
+  allow: boolean;
+}
+
+export interface PublishingCredentialPolicies {
+  ftp: CredentialPolicy;
+  scm: CredentialPolicy;
+}

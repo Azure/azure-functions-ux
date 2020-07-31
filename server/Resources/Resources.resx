@@ -6555,4 +6555,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="javaWebServerVersion" xml:space="preserve">
         <value>Java web server version</value>
     </data>
+    <data name="ftpDisabledByPolicy" xml:space="preserve">
+        <value>FTP is disabled by access policy.</value>
+    </data>
 </root>

@@ -2,7 +2,7 @@ import SiteService from '../../../ApiHelpers/SiteService';
 import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
 import { ArmObj } from '../../../models/arm-obj';
-import { Site } from '../../../models/site/site';
+import { Site, PublishingCredentialPolicies } from '../../../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
@@ -47,13 +47,24 @@ interface StateToFormParams {
   azureStorageMounts: ArmObj<ArmAzureStorageMount> | null;
   slotConfigNames: ArmObj<SlotConfigNames> | null;
   metadata: ArmObj<KeyValue<string>> | null;
+  basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies>;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
-  const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata } = props;
+  const {
+    site,
+    config,
+    appSettings,
+    connectionStrings,
+    azureStorageMounts,
+    slotConfigNames,
+    metadata,
+    basicPublishingCredentialsPolicies,
+  } = props;
   const formAppSetting = getFormAppSetting(appSettings, slotConfigNames);
 
   return {
     site,
+    basicPublishingCredentialsPolicies,
     config: getCleanedConfig(config),
     appSettings: formAppSetting,
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
