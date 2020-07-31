@@ -35,8 +35,8 @@ export interface AppSettingsFormValues {
   azureStorageMounts: FormAzureStorageMounts[];
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
-  references?: AppSettingsReferences;
   basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies>;
+  references?: AppSettingsReferences;
 }
 
 export interface FormState {
