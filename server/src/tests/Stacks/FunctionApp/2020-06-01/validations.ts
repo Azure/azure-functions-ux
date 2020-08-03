@@ -24,6 +24,11 @@ export function validateLinuxStacks(stacks) {
   validateStacksOnlyHaveCorrectOS(stacks, 'linux');
 }
 
+export function validateNotHiddenStacks(stacks) {
+  validateNotHiddenStacksLength(stacks);
+  validateStacksAreNotHidden(stacks);
+}
+
 function validateWindowsStacksLength(stacks) {
   expect(stacks).to.be.an('array');
   expect(stacks.length).to.equal(6);
@@ -34,6 +39,11 @@ function validateLinuxStacksLength(stacks) {
   expect(stacks.length).to.equal(5);
 }
 
+function validateNotHiddenStacksLength(stacks) {
+  expect(stacks).to.be.an('array');
+  expect(stacks.length).to.equal(6);
+}
+
 function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
   stacks.forEach(stack => {
     expect(stack.majorVersions).to.be.an('array');
@@ -41,7 +51,27 @@ function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
       expect(majorVersion.minorVersions).to.be.an('array');
       majorVersion.minorVersions.forEach(minorVersion => {
         expect(minorVersion.stackSettings).to.have.property(os === 'windows' ? 'windowsRuntimeSettings' : 'linuxRuntimeSettings');
-        expect(minorVersion.stackSettings).to.not.have.property(os === 'windows' ? 'linuxRuntimeSettings' : 'windowsRuntimeSettings');
+        expect(minorVersion.stackSettings).to.have.not.property(
+          os === 'windows' ? 'linuxRuntimeSettings' : 'windowsRuntimeSettings',
+          !undefined
+        );
+      });
+    });
+  });
+}
+
+function validateStacksAreNotHidden(stacks) {
+  stacks.forEach(stack => {
+    expect(stack.majorVersions).to.be.an('array');
+    stack.majorVersions.forEach(majorVersion => {
+      expect(majorVersion.minorVersions).to.be.an('array');
+      majorVersion.minorVersions.forEach(minorVersion => {
+        if (minorVersion.stackSettings.windowsRuntimeSettings) {
+          expect(minorVersion.stackSettings.windowsRuntimeSettings).to.not.have.property('isHidden', true);
+        }
+        if (minorVersion.stackSettings.linuxRuntimeSettings) {
+          expect(minorVersion.stackSettings.linuxRuntimeSettings).to.not.have.property('isHidden', true);
+        }
       });
     });
   });
