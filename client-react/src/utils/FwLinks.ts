@@ -33,6 +33,7 @@ export const Links = {
   cronLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2117147&clcid=0x409',
   quickstartViewDocumentation: 'https://go.microsoft.com/fwlink/?linkid=2119201',
   bindingDirectionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2121806&clcid=0x409',
+  ftpDisabledByPolicyLink: 'https://go.microsoft.com/fwlink/?linkid=2137907',
 };
 
 export const DeploymentCenterLinks = {
