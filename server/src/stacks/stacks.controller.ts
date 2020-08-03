@@ -45,11 +45,13 @@ export class StacksController {
   }
 
   @Post('functionAppStacks')
-  functionAppStacksPost(@Query('api-version') apiVersion: string) {
+  functionAppStacksPost(@Query('api-version') apiVersion: string, @Query('removeHiddenStacks') removeHiddenStacks?: string) {
     this._validateApiVersion(apiVersion, [Versions.version20200501]);
+    this._validateRemoveHiddenStacks(removeHiddenStacks);
+    const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
 
     if (apiVersion === Versions.version20200501) {
-      return this._stackFunctionAppService20200501.getStacks();
+      return this._stackFunctionAppService20200501.getStacks(removeHidden);
     }
   }
 
@@ -94,6 +96,15 @@ export class StacksController {
     const stackValues: StackValue[] = ['dotnetCore', 'dotnetFramework', 'java', 'node', 'powershell', 'python'];
     if (stack && !stackValues.includes(stack)) {
       throw new HttpException(`Incorrect stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`, 400);
+    }
+  }
+
+  private _validateRemoveHiddenStacks(removeHiddenStacks?: string) {
+    if (removeHiddenStacks && removeHiddenStacks.toLowerCase() !== 'true' && removeHiddenStacks.toLowerCase() !== 'false') {
+      throw new HttpException(
+        `Incorrect removeHiddenStacks '${removeHiddenStacks}' provided. Allowed removeHiddenStacks values are 'true' or 'false'.`,
+        400
+      );
     }
   }
 }
