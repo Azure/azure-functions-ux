@@ -90,6 +90,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   };
 
   const getSiteStateFromAppSettings = (appSettings: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
+    if (FunctionAppService.usingCustomWorkerRuntime(appSettings)) {
+      return FunctionAppEditMode.ReadOnlyCustom;
+    }
+
     if (FunctionAppService.usingRunFromPackage(appSettings)) {
       return FunctionAppEditMode.ReadOnlyRunFromPackage;
     }

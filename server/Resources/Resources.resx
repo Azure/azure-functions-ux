@@ -6558,4 +6558,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="ftpDisabledByPolicy" xml:space="preserve">
         <value>FTP is disabled by access policy.</value>
     </data>
+    <data name="ibizafication_readOnlyCustom" xml:space="preserve">
+        <value>Editing Custom Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+    </data>
 </root>

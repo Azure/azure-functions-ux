@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FunctionAppStacksContext, PermissionsContext } from '../../../Contexts';
 import { FunctionAppStack } from '../../../../../../models/stacks/function-app-stacks';
-import { CommonConstants } from '../../../../../../utils/CommonConstants';
+import { CommonConstants, WorkerRuntimeLanguages } from '../../../../../../utils/CommonConstants';
 import { findFormAppSettingValue } from '../../../AppSettingsFormData';
 import { FunctionsRuntimeVersionHelper } from '../../../../../../utils/FunctionsRuntimeVersionHelper';
 import { SiteStateContext } from '../../../../../../SiteState';
@@ -80,19 +80,21 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
               options={[{ key: runtimeStack, text: currentStackData.displayText }]}
               label={t('stack')}
             />
-            <Field
-              id="function-app-stack-major-version"
-              name={`config.properties.${getConfigProperty(runtimeStack)}`}
-              dirty={isVersionDirty()}
-              component={Dropdown}
-              disabled={disableAllControls}
-              label={t('versionLabel').format(currentStackData.displayText)}
-              options={getStackVersionDropdownOptions(
-                currentStackData,
-                runtimeMajorVersion,
-                isLinux() ? AppStackOs.linux : AppStackOs.windows
-              )}
-            />
+            {runtimeStack !== WorkerRuntimeLanguages.custom && (
+              <Field
+                id="function-app-stack-major-version"
+                name={`config.properties.${getConfigProperty(runtimeStack)}`}
+                dirty={isVersionDirty()}
+                component={Dropdown}
+                disabled={disableAllControls}
+                label={t('versionLabel').format(currentStackData.displayText)}
+                options={getStackVersionDropdownOptions(
+                  currentStackData,
+                  runtimeMajorVersion,
+                  isLinux() ? AppStackOs.linux : AppStackOs.windows
+                )}
+              />
+            )}
           </>
         )}
         {isLinux() && (
