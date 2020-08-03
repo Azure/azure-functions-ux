@@ -56,13 +56,20 @@ export class StacksController {
   }
 
   @Get('functionAppStacks')
-  functionAppStacks(@Query('api-version') apiVersion: string, @Query('os') os?: Os, @Query('stack') stack?: StackValue) {
+  functionAppStacks(
+    @Query('api-version') apiVersion: string,
+    @Query('os') os?: Os,
+    @Query('stack') stack?: StackValue,
+    @Query('removeHiddenStacks') removeHiddenStacks?: string
+  ) {
     this._validateApiVersion(apiVersion, [Versions.version20200601]);
     this._validateOs(os);
     this._validateStack(stack);
+    this._validateRemoveHiddenStacks(removeHiddenStacks);
+    const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
 
     if (apiVersion === Versions.version20200601) {
-      return this._stackFunctionAppService20200601.getStacks(os, stack);
+      return this._stackFunctionAppService20200601.getStacks(os, stack, removeHidden);
     }
   }
 
@@ -93,7 +100,7 @@ export class StacksController {
   }
 
   private _validateStack(stack?: StackValue) {
-    const stackValues: StackValue[] = ['dotnetCore', 'dotnetFramework', 'java', 'node', 'powershell', 'python'];
+    const stackValues: StackValue[] = ['dotnetCore', 'dotnetFramework', 'java', 'node', 'powershell', 'python', 'custom'];
     if (stack && !stackValues.includes(stack)) {
       throw new HttpException(`Incorrect stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`, 400);
     }
