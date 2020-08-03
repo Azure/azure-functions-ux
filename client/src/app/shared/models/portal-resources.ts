@@ -2135,4 +2135,5 @@ export class PortalResources {
   public static versionLabel = 'versionLabel';
   public static javaWebServer = 'javaWebServer';
   public static javaWebServerVersion = 'javaWebServerVersion';
+  public static ftpDisabledByPolicy = 'ftpDisabledByPolicy';
 }

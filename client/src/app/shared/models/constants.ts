@@ -171,6 +171,7 @@ export class Links {
   public static apimUpsellLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104075';
   public static runtimeScaleMonitoringLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104710';
   public static pv2FlexStampInfoLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2116583';
+  public static ftpDisabledByPolicyLink: 'https://go.microsoft.com/fwlink/?linkid=2137907';
 }
 
 export class Kinds {

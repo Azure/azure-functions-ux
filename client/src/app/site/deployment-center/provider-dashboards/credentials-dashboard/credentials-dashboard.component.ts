@@ -55,6 +55,8 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
   public publishProfileLink: SafeUrl;
   public profileName: string = '';
   public learnMoreLink = Links.deploymentCredentialsLearnMore;
+  public ftpDisabledByPolicy = false;
+  public ftpDisabledInfoLink = Links.ftpDisabledByPolicyLink;
 
   public scopeItems: SelectOption<CredentialScopeType>[] = [];
 
@@ -108,17 +110,32 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
             .getPublishingProfile(this._credentialsData.resourceId)
             .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)).first(x => x.publishMethod === 'FTP')),
           this._siteService.getPublishingCredentials(this._credentialsData.resourceId),
-          (hasWriteAccess, siteResponse, siteConfigResponse, publishingUser, publishingFtpProfile, publishingCredentials) => ({
+          this._siteService.getBasicPublishingCredentialsPolicies(this._credentialsData.resourceId),
+          (
             hasWriteAccess,
             siteResponse,
             siteConfigResponse,
             publishingUser,
             publishingFtpProfile,
             publishingCredentials,
+            basicPublishingCredentialsPolicies
+          ) => ({
+            hasWriteAccess,
+            siteResponse,
+            siteConfigResponse,
+            publishingUser,
+            publishingFtpProfile,
+            publishingCredentials,
+            basicPublishingCredentialsPolicies,
           })
         );
       })
       .do(responses => {
+        this.ftpDisabledByPolicy =
+          responses.basicPublishingCredentialsPolicies &&
+          responses.basicPublishingCredentialsPolicies.result &&
+          responses.basicPublishingCredentialsPolicies.properties &&
+          !responses.basicPublishingCredentialsPolicies.properties.ftp.allow;
         this.hasWriteAccess = responses.hasWriteAccess;
         this.siteAvailabilityStateNormal =
           responses.siteResponse &&

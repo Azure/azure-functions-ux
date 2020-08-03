@@ -35,6 +35,7 @@ import { SiteConfig } from '../../../models/site/config';
 import { KeyValue } from '../../../models/portal-models';
 import { DeploymentCenterCodeFormBuilder } from './code/DeploymentCenterCodeFormBuilder';
 import { SourceControl } from '../../../models/provider';
+import { PublishingCredentialPolicies } from '../../../models/site/site';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -82,6 +83,9 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [dropBoxToken, setDropBoxToken] = useState<string>('');
   const [bitBucketToken, setBitBucketToken] = useState<string>('');
   const [gitHubToken, setGitHubToken] = useState<string>('');
+  const [basicPublishingCredentialsPolicies, setBasicPublishingCredentialsPolicies] = useState<PublishingCredentialPolicies | undefined>(
+    undefined
+  );
 
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
   const deploymentCenterCodeFormBuilder = new DeploymentCenterCodeFormBuilder(t);
@@ -120,11 +124,12 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     setIsLoading(true);
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
+    const getUserSourceControlsRequest = deploymentCenterData.getUserSourceControls();
     const getContainerLogsRequest = deploymentCenterData.fetchContainerLogs(resourceId);
     const getSiteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
     const getDeploymentsRequest = deploymentCenterData.getSiteDeployments(resourceId);
     const getConfigMetadataRequest = deploymentCenterData.getConfigMetadata(resourceId);
-    const getUserSourceControlsRequest = deploymentCenterData.getUserSourceControls();
+    const getBasicPublishingCredentialsPoliciesRequest = deploymentCenterData.getBasicPublishingCredentialsPolicies(resourceId);
 
     const [
       writePermissionResponse,
@@ -134,6 +139,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       deploymentsResponse,
       configMetadataResponse,
       userSourceControlsResponse,
+      basicPublishingCredentialsPoliciesResponse,
     ] = await Promise.all([
       writePermissionRequest,
       getPublishingUserRequest,
@@ -142,10 +148,15 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       getDeploymentsRequest,
       getConfigMetadataRequest,
       getUserSourceControlsRequest,
+      getBasicPublishingCredentialsPoliciesRequest,
     ]);
 
     if (userSourceControlsResponse.metadata.success) {
       setUserControlTokens(userSourceControlsResponse.data);
+    }
+
+    if (basicPublishingCredentialsPoliciesResponse.metadata.success) {
+      setBasicPublishingCredentialsPolicies(basicPublishingCredentialsPoliciesResponse.data.properties);
     }
 
     setSiteDescriptor(new ArmSiteDescriptor(resourceId));
@@ -302,6 +313,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         dropBoxToken,
         bitBucketToken,
         gitHubToken,
+        basicPublishingCredentialsPolicies,
         refresh,
       }}>
       {isContainerApp(siteStateContext.site) ? (
