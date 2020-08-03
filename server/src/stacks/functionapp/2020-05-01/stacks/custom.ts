@@ -6,7 +6,7 @@ export const customStack: FunctionAppStack = {
   sortOrder: 5,
   versions: [
     {
-      displayText: 'custom',
+      displayText: 'Custom Handler',
       value: 'custom',
       sortOrder: 1,
       isDefault: true,

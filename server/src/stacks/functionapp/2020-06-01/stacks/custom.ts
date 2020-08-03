@@ -10,7 +10,7 @@ export const customStack: FunctionAppStack = {
       value: 'custom',
       minorVersions: [
         {
-          displayText: 'Custom',
+          displayText: 'Custom Handler',
           value: 'custom',
           stackSettings: {
             windowsRuntimeSettings: {
