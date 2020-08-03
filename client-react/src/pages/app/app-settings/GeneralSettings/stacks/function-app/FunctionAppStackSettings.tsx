@@ -57,6 +57,10 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const isWindowsContainer = () => !siteStateContext.site || (!isLinux() && isContainerApp(siteStateContext.site));
 
+  const isMajorVersionVisible = () => {
+    return runtimeStack !== WorkerRuntimeLanguages.custom;
+  };
+
   useEffect(() => {
     setInitialData();
 
@@ -80,7 +84,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
               options={[{ key: runtimeStack, text: currentStackData.displayText }]}
               label={t('stack')}
             />
-            {runtimeStack !== WorkerRuntimeLanguages.custom && (
+            {isMajorVersionVisible() && (
               <Field
                 id="function-app-stack-major-version"
                 name={`config.properties.${getConfigProperty(runtimeStack)}`}
