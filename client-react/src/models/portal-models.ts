@@ -321,6 +321,7 @@ export enum FunctionAppEditMode {
   ReadOnlyLinuxCodeElastic,
   ReadOnlyLock,
   ReadOnlyRbac,
+  ReadOnlyCustom,
 }
 
 export enum PortalTheme {
