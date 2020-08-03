@@ -50,3 +50,12 @@ export interface Site {
   possibleInboundIpAddresses: string;
   possibleOutboundIpAddresses: string;
 }
+
+export interface CredentialPolicy {
+  allow: boolean;
+}
+
+export interface PublishingCredentialPolicies {
+  ftp: CredentialPolicy;
+  scm: CredentialPolicy;
+}

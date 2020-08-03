@@ -9,7 +9,7 @@ import { ArmArrayResult } from './../models/arm/arm-obj';
 import { ArmObj } from './../models/arm/arm-obj';
 import { AuthSettings } from './../models/arm/auth-settings';
 import { ConnectionStrings } from './../models/arm/connection-strings';
-import { Site } from './../models/arm/site';
+import { Site, PublishingCredentialPolicies } from './../models/arm/site';
 import { SiteConfig } from './../models/arm/site-config';
 import { SiteExtension } from './../models/arm/site-extension';
 import { SlotConfigNames } from './../models/arm/slot-config-names';
@@ -255,4 +255,12 @@ export class SiteService {
       .map(r => r.json());
     return this._client.execute({ resourceId: resourceId }, t => fetchSiteConfigMetadata);
   }
+
+  getBasicPublishingCredentialsPolicies = (resourceId: string): Result<ArmObj<PublishingCredentialPolicies>> => {
+    const getBasicPublishingCredentialsPolicies = this._cacheService
+      .getArm(`${resourceId}/basicPublishingCredentialsPolicies`, true)
+      .map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => getBasicPublishingCredentialsPolicies);
+  };
 }

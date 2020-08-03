@@ -122,10 +122,20 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchData = async () => {
-    const [site, { webConfig, metadata, connectionStrings, applicationSettings, slotConfigNames, azureStorageMounts }] = await Promise.all([
+    const [site, basicPublishingCredentialsPolicies, applicationSettingsResponse] = await Promise.all([
       siteContext.fetchSite(resourceId),
+      SiteService.getBasicPublishingCredentialsPolicies(resourceId),
       fetchApplicationSettingValues(resourceId),
     ]);
+
+    const {
+      webConfig,
+      metadata,
+      connectionStrings,
+      applicationSettings,
+      slotConfigNames,
+      azureStorageMounts,
+    } = applicationSettingsResponse;
 
     let loadingFailed =
       armCallFailed(site) ||
@@ -216,6 +226,9 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
+          basicPublishingCredentialsPolicies: basicPublishingCredentialsPolicies.metadata.success
+            ? basicPublishingCredentialsPolicies.data
+            : null,
         }),
       });
     }

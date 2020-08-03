@@ -131,10 +131,15 @@ export default class DeploymentCenterData {
       'github',
       providerToken.accessToken,
       providerToken.refreshToken,
-      providerToken.environment);
-  }
+      providerToken.environment
+    );
+  };
 
   public getUserSourceControls = () => {
     return ProviderService.getUserSourceControls();
-  }
+  };
+
+  public getBasicPublishingCredentialsPolicies = (resourceId: string) => {
+    return SiteService.getBasicPublishingCredentialsPolicies(resourceId);
+  };
 }
