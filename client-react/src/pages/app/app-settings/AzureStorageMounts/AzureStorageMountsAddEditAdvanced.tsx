@@ -22,6 +22,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         label={t('storageAccount')}
         id="azure-storage-mounts-account-name"
         errorMessage={errors.accountName}
+        required={true}
       />
       <Field
         component={RadioButton}
@@ -53,6 +54,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         label={t('shareName')}
         id="azure-storage-mounts-share-name"
         errorMessage={errors.shareName}
+        required={true}
       />
       <Field
         component={TextField}
@@ -62,6 +64,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         multiline
         rows={4}
         errorMessage={errors.accessKey}
+        required={true}
       />
     </>
   );
