@@ -10,12 +10,13 @@ export const customStack: FunctionAppStack = {
       value: 'custom',
       minorVersions: [
         {
-          displayText: 'Custom',
+          displayText: 'Custom Handler',
           value: 'custom',
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'custom',
               isPreview: true,
+              isHidden: true,
               appInsightsSettings: {
                 isSupported: true,
               },
@@ -34,6 +35,7 @@ export const customStack: FunctionAppStack = {
             linuxRuntimeSettings: {
               runtimeVersion: '',
               isPreview: true,
+              isHidden: true,
               appInsightsSettings: {
                 isSupported: true,
               },
