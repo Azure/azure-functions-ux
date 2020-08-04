@@ -31,27 +31,18 @@ const JavaStack: React.SFC<StackProps> = props => {
   const javaStack = getJavaStack(stacks);
   const javaContainers = getJavaContainers(stacks);
 
+  useEffect(() => {
+    if (javaStack && javaContainers) {
+      setCurrentJavaMajorVersion(getJavaMajorMinorVersion(javaStack, values.config).majorVersion);
+      setCurrentJavaContainer(getJavaContainerKey(javaContainers, values.config));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (!javaStack || !javaContainers) {
     return null;
   }
-
-  const getInitialJavaMinorVersion = () => {
-    const initialJavaVersion = getJavaMajorMinorVersion(javaStack, initialValues.config);
-    if (!initialJavaVersion) {
-      return '';
-    }
-    const initialJavaMinorVersionObject = getJavaMinorVersionObject(javaStack, initialJavaVersion);
-    return initialJavaMinorVersionObject ? initialJavaMinorVersionObject.value : '';
-  };
-
-  const getSelectedJavaMinorVersion = () => {
-    const currentJavaMajorVersion = getJavaMajorMinorVersion(javaStack, values.config);
-    if (!currentJavaMajorVersion) {
-      return '';
-    }
-    const currentJavaMinorVersionObject = getJavaMinorVersionObject(javaStack, currentJavaMajorVersion);
-    return currentJavaMinorVersionObject ? currentJavaMinorVersionObject.value : '';
-  };
 
   const isJavaMajorVersionDirty = () => {
     return (
@@ -86,15 +77,6 @@ const JavaStack: React.SFC<StackProps> = props => {
     setFieldValue('config.properties.javaContainer', !!option.data ? option.data : '');
     setCurrentJavaContainer(option.key as string);
   };
-
-  useEffect(() => {
-    if (javaStack && javaContainers) {
-      setCurrentJavaMajorVersion(getJavaMajorMinorVersion(javaStack, values.config).majorVersion);
-      setCurrentJavaContainer(getJavaContainerKey(javaContainers, values.config));
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div>

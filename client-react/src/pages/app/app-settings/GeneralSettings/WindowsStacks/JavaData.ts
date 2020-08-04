@@ -4,7 +4,6 @@ import { SiteConfig } from '../../../../../models/site/config';
 import i18next from 'i18next';
 import { AppStackOs, AppStackMajorVersion } from '../../../../../models/stacks/app-stacks';
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
-import { JavaContainers } from '../../../../../utils/stacks-utils';
 
 export const getJavaStack = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'java');
 export const getJavaContainers = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'javacontainers');
