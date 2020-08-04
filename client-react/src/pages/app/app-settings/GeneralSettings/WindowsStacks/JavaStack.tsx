@@ -8,7 +8,6 @@ import {
   getJavaMajorMinorVersion,
   getJavaContainersOptions,
   getFrameworkVersionOptions,
-  getJavaMinorVersionObject,
   getJavaMinorVersionAsDropdownOptions,
   getJavaMajorVersionAsDropdownOptions,
   getJavaContainerKey,
