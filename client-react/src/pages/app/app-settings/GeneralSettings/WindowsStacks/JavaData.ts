@@ -4,6 +4,7 @@ import { SiteConfig } from '../../../../../models/site/config';
 import i18next from 'i18next';
 import { AppStackOs, AppStackMajorVersion } from '../../../../../models/stacks/app-stacks';
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
+import { JavaContainers } from '../../../../../utils/stacks-utils';
 
 export const getJavaStack = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'java');
 export const getJavaContainers = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'javacontainers');
@@ -93,8 +94,9 @@ export const getJavaContainersOptions = (javaContainers: WebAppStack): IDropdown
     });
     if (windowsContainerCount > 0) {
       options.push({
-        key: getJavaContainerKey(javaContainerMajorVersion),
+        key: javaContainerMajorVersion.value,
         text: javaContainerMajorVersion.displayText,
+        data: getJavaContainerValue(javaContainerMajorVersion),
       });
     }
   });
@@ -103,11 +105,10 @@ export const getJavaContainersOptions = (javaContainers: WebAppStack): IDropdown
 
 export const getFrameworkVersionOptions = (
   javaContainers: WebAppStack,
-  config: ArmObj<SiteConfig>,
+  selectedJavaContainer: string,
   t: i18next.TFunction
 ): IDropdownOption[] => {
-  const currentFramework =
-    config.properties.javaContainer && javaContainers.majorVersions.find(x => getJavaContainerKey(x) === config.properties.javaContainer);
+  const currentFramework = javaContainers.majorVersions.find(x => x.value === selectedJavaContainer);
   const options: IDropdownOption[] = [];
   if (!!currentFramework) {
     currentFramework.minorVersions.forEach(minorVersion => {
@@ -123,7 +124,23 @@ export const getFrameworkVersionOptions = (
   return options;
 };
 
-const getJavaContainerKey = (javaContainerMajorVersion: AppStackMajorVersion<any>) => {
+export const getJavaContainerKey = (javaContainers: WebAppStack, config: ArmObj<SiteConfig>) => {
+  for (const majorVersion of javaContainers.majorVersions) {
+    for (const minorVersion of majorVersion.minorVersions) {
+      const settings = minorVersion.stackSettings.windowsContainerSettings;
+      if (
+        !!settings &&
+        settings.javaContainer === config.properties.javaContainer &&
+        settings.javaContainerVersion === config.properties.javaContainerVersion
+      ) {
+        return majorVersion.value;
+      }
+    }
+  }
+  return '';
+};
+
+const getJavaContainerValue = (javaContainerMajorVersion: AppStackMajorVersion<any>) => {
   for (let i = 0; i < javaContainerMajorVersion.minorVersions.length; ++i) {
     if (javaContainerMajorVersion.minorVersions[i].stackSettings.windowsContainerSettings) {
       return javaContainerMajorVersion.minorVersions[i].stackSettings.windowsContainerSettings.javaContainer;

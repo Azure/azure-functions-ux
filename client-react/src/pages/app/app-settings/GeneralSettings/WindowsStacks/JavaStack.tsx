@@ -11,6 +11,7 @@ import {
   getJavaMinorVersionObject,
   getJavaMinorVersionAsDropdownOptions,
   getJavaMajorVersionAsDropdownOptions,
+  getJavaContainerKey,
 } from './JavaData';
 import { useTranslation } from 'react-i18next';
 import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
@@ -19,7 +20,8 @@ import { StackProps } from './WindowsStacks';
 
 const JavaStack: React.SFC<StackProps> = props => {
   const [currentJavaMajorVersion, setCurrentJavaMajorVersion] = useState('');
-  const { values, initialValues } = props;
+  const [currentJavaContainer, setCurrentJavaContainer] = useState('');
+  const { values, initialValues, setFieldValue } = props;
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
@@ -28,13 +30,6 @@ const JavaStack: React.SFC<StackProps> = props => {
 
   const javaStack = getJavaStack(stacks);
   const javaContainers = getJavaContainers(stacks);
-
-  useEffect(() => {
-    if (javaStack && javaContainers) {
-      setCurrentJavaMajorVersion(getJavaMajorMinorVersion(javaStack, values.config).majorVersion);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   if (!javaStack || !javaContainers) {
     return null;
@@ -66,11 +61,11 @@ const JavaStack: React.SFC<StackProps> = props => {
   };
 
   const isJavaMinorVersionDirty = () => {
-    return isJavaMajorVersionDirty() || getSelectedJavaMinorVersion() !== getInitialJavaMinorVersion();
+    return isJavaMajorVersionDirty() || values.config.properties.javaVersion !== initialValues.config.properties.javaVersion;
   };
 
   const isJavaContainerDirty = () => {
-    return isJavaMinorVersionDirty() || values.config.properties.javaContainer !== initialValues.config.properties.javaContainer;
+    return isJavaMinorVersionDirty() || currentJavaContainer !== getJavaContainerKey(javaContainers, initialValues.config);
   };
 
   const isJavaContainerVersionDirty = () => {
@@ -83,10 +78,24 @@ const JavaStack: React.SFC<StackProps> = props => {
 
   // container versions
   const frameworks = getJavaContainersOptions(javaContainers);
-  const javaFrameworkVersionOptions = getFrameworkVersionOptions(javaContainers, values.config, t);
+  const javaFrameworkVersionOptions = getFrameworkVersionOptions(javaContainers, currentJavaContainer, t);
   const onMajorVersionChange = (e: unknown, option: IDropdownOption) => {
     setCurrentJavaMajorVersion(option.key as string);
   };
+  const onJavaContainerChange = (e: unknown, option: IDropdownOption) => {
+    setFieldValue('config.properties.javaContainer', !!option.data ? option.data : '');
+    setCurrentJavaContainer(option.key as string);
+  };
+
+  useEffect(() => {
+    if (javaStack && javaContainers) {
+      setCurrentJavaMajorVersion(getJavaMajorMinorVersion(javaStack, values.config).majorVersion);
+      setCurrentJavaContainer(getJavaContainerKey(javaContainers, values.config));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
       <DropdownNoFormik
@@ -109,16 +118,14 @@ const JavaStack: React.SFC<StackProps> = props => {
         id="app-settings-java-minor-verison"
         options={javaMinorVersionOptions}
       />
-      <Field
-        name="config.properties.javaContainer"
-        dirty={isJavaContainerDirty()}
-        component={Dropdown}
-        fullpage
-        required
+      <DropdownNoFormik
         label={t('javaWebServer')}
-        disabled={disableAllControls}
+        dirty={isJavaContainerDirty()}
+        selectedKey={currentJavaContainer}
         id="app-settings-java-container-runtime"
+        disabled={disableAllControls}
         options={frameworks}
+        onChange={onJavaContainerChange}
       />
       {javaFrameworkVersionOptions.length > 0 && (
         <Field
