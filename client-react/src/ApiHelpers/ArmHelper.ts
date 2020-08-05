@@ -68,8 +68,7 @@ const armObs$ = armSubject$.pipe(
       })
     ).pipe(
       concatMap(result => {
-        const resSuccess = result.status < 300;
-        if (resSuccess) {
+        if (result.status < 300) {
           const { responses } = result.data;
           const responsesWithId: ArmBatchObject[] = [];
           for (let i = 0; i < responses.length; i = i + 1) {
