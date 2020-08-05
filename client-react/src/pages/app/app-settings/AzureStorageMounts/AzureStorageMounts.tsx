@@ -13,14 +13,17 @@ import { StorageType } from '../../../../models/site/config';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { ThemeContext } from '../../../../ThemeContext';
+import { dirtyElementStyle } from '../AppSettings.styles';
 
 const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
+  const theme = useContext(ThemeContext);
 
   const [showPanel, setShowPanel] = useState(false);
   const [currentAzureStorageMount, setCurrentAzureStorageMount] = useState<FormAzureStorageMounts | null>(null);
-  const [currentItemIndex, setCurrentItemIndex] = useState<number | null>(null);
+  const [currentItemIndex, setCurrentItemIndex] = useState<number | undefined>(undefined);
   const [createNewItem, setCreateNewItem] = useState(false);
 
   const { values, t } = props;
@@ -90,6 +93,24 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues> & WithTran
     });
   };
 
+  const isAzureStorageMountEqual = (storageMount1: FormAzureStorageMounts, storageMount2: FormAzureStorageMounts): boolean => {
+    return (
+      storageMount1.name === storageMount2.name &&
+      storageMount1.type === storageMount2.type &&
+      storageMount1.accountName === storageMount2.accountName &&
+      storageMount1.shareName === storageMount2.shareName &&
+      storageMount1.accessKey === storageMount2.accessKey &&
+      storageMount1.mountPath === storageMount2.mountPath
+    );
+  };
+
+  const isAzureStorageMountDirty = (index: number): boolean => {
+    const initialstorageMounts = props.initialValues.azureStorageMounts || [];
+    const currentRow = values.azureStorageMounts[index] || null;
+    const initialstorageMountIndex = initialstorageMounts.findIndex(x => isAzureStorageMountEqual(x, currentRow));
+    return initialstorageMountIndex < 0;
+  };
+
   const onRenderItemColumn = (item: FormAzureStorageMounts, index: number, column: IColumn) => {
     if (!column || !item) {
       return null;
@@ -130,6 +151,12 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues> & WithTran
           />
         </TooltipHost>
       );
+    }
+    if (column.key === 'name') {
+      column.className = '';
+      if (isAzureStorageMountDirty(index)) {
+        column.className = dirtyElementStyle(theme);
+      }
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
@@ -222,7 +249,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues> & WithTran
     ];
   };
 
-  if (!values.config) {
+  if (!app_write) {
     return <CustomBanner message={t('applicationSettingsNoPermission')} type={MessageBarType.warning} />;
   }
 
