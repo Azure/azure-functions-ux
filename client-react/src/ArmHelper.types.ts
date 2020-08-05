@@ -18,5 +18,5 @@ export interface HttpResponseObject<T> {
     error?: any;
     headers: KeyValue<string>;
   };
-  data: T;
+  data?: T;
 }
