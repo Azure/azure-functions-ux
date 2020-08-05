@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { CommonConstants } from '../utils/CommonConstants';
-import { Subject, from, throwError, of } from 'rxjs';
+import { Subject, from, of } from 'rxjs';
 import { bufferTime, filter, concatMap, share, take, catchError } from 'rxjs/operators';
 import { Guid } from '../utils/Guid';
 import { async } from 'rxjs/internal/scheduler/async';
@@ -189,6 +189,7 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
           headers: err.headers ? err.headers : {},
           error: err.data ? err.data : null,
         },
+        data: null as any,
       };
     }
   }
