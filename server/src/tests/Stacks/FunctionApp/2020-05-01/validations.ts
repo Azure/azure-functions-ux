@@ -13,6 +13,11 @@ export function validateAllStackLength(stacks) {
   expect(stacks.length).to.equal(6);
 }
 
+export function validateNonHiddenStackLength(stacks) {
+  expect(stacks).to.be.an('array');
+  expect(stacks.length).to.equal(5);
+}
+
 export function validateDotnetCoreStack(stacks) {
   validateAllStackLength(stacks);
   const dotnetCoreStack = stacks[0];

@@ -52,6 +52,9 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
   public resetting = false;
   public userCredsDesc = '';
   public learnMoreLink = Links.deploymentCredentialsLearnMore;
+  public ftpDisabledByPolicy = false;
+  public ftpDisabledInfoLink = Links.ftpDisabledByPolicyLink;
+
   constructor(
     private _cacheService: CacheService,
     private _siteService: SiteService,
@@ -86,6 +89,11 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
 
   protected setup(inputEvents: Observable<string>) {
     return inputEvents.switchMap(() => {
+      const basicPublsihing$ = this._siteService.getBasicPublishingCredentialsPolicies(this.resourceId).do(r => {
+        if (r.isSuccessful) {
+          this.ftpDisabledByPolicy = r.result && !r.result.properties.ftp.allow;
+        }
+      });
       const publishXml$ = this._siteService
         .getPublishingProfile(this.resourceId)
         .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)))
@@ -115,7 +123,7 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
           : this._translateService.instant(PortalResources.userCredsNewUserDesc);
         this.userPasswordForm.reset({ userName: creds.properties.publishingUserName, password: '', passwordConfirm: '' });
       });
-      return forkJoin(publishXml$, publishingUsers$);
+      return forkJoin(basicPublsihing$, publishXml$, publishingUsers$);
     });
   }
 

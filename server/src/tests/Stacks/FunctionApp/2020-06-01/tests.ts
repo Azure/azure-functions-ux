@@ -3,6 +3,7 @@ import {
   validateAllStackLength,
   validateWindowsStacks,
   validateLinuxStacks,
+  validateNotHiddenStacks,
   validateDotnetCoreInStacks,
   validateNodeInStacks,
   validatePythonInStacks,
@@ -16,7 +17,7 @@ import {
   validateJavaStackFilter,
   validatePowershellStackFilter,
   validateDotnetFrameworkStackFilter,
-  validateCustomStackFilter
+  validateCustomStackFilter,
 } from './validations';
 
 const functionAppStacksService = new FunctionAppStacksService20200601();
@@ -45,6 +46,15 @@ describe('FunctionApp Stacks Test 2020-06-01', () => {
     it('should validate all stacks with linux are returned', done => {
       const stacks = functionAppStacksService.getStacks('linux');
       validateLinuxStacks(stacks);
+      done();
+    });
+  });
+
+  // Test length of not hidden stacks
+  describe('Test remove hidden stack length', () => {
+    it('should validate no stacks with hidden are returned', done => {
+      const stacks = functionAppStacksService.getStacks(undefined, undefined, true);
+      validateNotHiddenStacks(stacks);
       done();
     });
   });
@@ -157,8 +167,8 @@ describe('FunctionApp Stacks Test 2020-06-01', () => {
     });
   });
 
-   // Test Custom stack
-   describe('Test the Custom stack', () => {
+  // Test Custom stack
+  describe('Test the Custom stack', () => {
     it('should validate the Custom stack', done => {
       const stacks = functionAppStacksService.getStacks();
       validateCustomInStacks(stacks);
