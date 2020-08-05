@@ -20,7 +20,8 @@ export const aspDotnetStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '3.1',
               },
             },
           },
@@ -42,7 +43,8 @@ export const aspDotnetStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '2.1',
               },
             },
           },

@@ -14,7 +14,6 @@ import { WebAppCreateStack } from '../../../../models/available-stacks';
 import { getRuntimeStackSetting } from '../utility/DeploymentCenterUtility';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { AppOs } from '../../../../models/site/site';
 
 const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
@@ -82,18 +81,12 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       const siteName = deploymentCenterContext.siteDescriptor.site;
       const slotName = deploymentCenterContext.siteDescriptor.slot;
       setShowMismatchWarningBar(true);
-      if (defaultStack.toLocaleLowerCase() === RuntimeStacks.aspnet) {
-        setStackMismatchMessage(
-          t('githubActionAspNetStackMismatchMessage', { appName: slotName ? `${siteName} (${slotName})` : siteName })
-        );
-      } else {
-        setStackMismatchMessage(
-          t('githubActionStackMismatchMessage', {
-            appName: slotName ? `${siteName} (${slotName})` : siteName,
-            stack: defaultStack,
-          })
-        );
-      }
+      setStackMismatchMessage(
+        t('githubActionStackMismatchMessage', {
+          appName: slotName ? `${siteName} (${slotName})` : siteName,
+          stack: defaultStack,
+        })
+      );
     } else {
       setStackMismatchMessage('');
     }
@@ -172,15 +165,9 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       const siteName = deploymentCenterContext.siteDescriptor.site;
       const slotName = deploymentCenterContext.siteDescriptor.slot;
       setShowNotSupportedWarningBar(true);
-      if (defaultStack.toLocaleLowerCase() === RuntimeStacks.aspnet) {
-        setStackNotSupportedMessage(
-          t('githubActionAspNetStackNotSupportedMessage', { appName: slotName ? `${siteName} (${slotName})` : siteName })
-        );
-      } else {
-        setStackNotSupportedMessage(
-          t('githubActionStackNotSupportedMessage', { appName: slotName ? `${siteName} (${slotName})` : siteName, stack: defaultStack })
-        );
-      }
+      setStackNotSupportedMessage(
+        t('githubActionStackNotSupportedMessage', { appName: slotName ? `${siteName} (${slotName})` : siteName, stack: defaultStack })
+      );
     } else {
       setStackNotSupportedMessage('');
     }
