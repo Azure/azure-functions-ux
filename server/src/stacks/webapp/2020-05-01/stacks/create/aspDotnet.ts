@@ -20,7 +20,8 @@ export const aspDotnetCreateStack: WebAppCreateStack = {
           runtimeVersion: 'v4.0',
           sortOrder: 0,
           githubActionSettings: {
-            supported: false,
+            supported: true,
+            recommendedVersion: '3.1',
           },
         },
       ],
@@ -40,7 +41,8 @@ export const aspDotnetCreateStack: WebAppCreateStack = {
           runtimeVersion: 'v2.0',
           sortOrder: 0,
           githubActionSettings: {
-            supported: false,
+            supported: true,
+            recommendedVersion: '2.1',
           },
         },
       ],

@@ -39,6 +39,9 @@ export const getWorkflowInformation = (
         content = getJavaJarGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion);
       }
       break;
+    case RuntimeStacks.aspnet:
+      content = getAspNetGithubActionWorkflowDefinition(siteName, slotName, branch, secretName, runtimeStackVersion);
+      break;
     default:
       throw Error(`Incorrect stack value '${runtimeStack}' provided.`);
   }
@@ -353,4 +356,54 @@ jobs:
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
         package: '\${{ github.workspace }}/target/*.war'`;
+};
+
+// TODO(michinoy): Need to implement templated github action workflow generation.
+// Current reference - https://github.com/Azure/actions-workflow-templates
+const getAspNetGithubActionWorkflowDefinition = (
+  siteName: string,
+  slotName: string,
+  branch: string,
+  secretName: string,
+  runtimeStackVersion: string
+) => {
+  const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+  const slot = slotName || 'production';
+
+  return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy WAR app to Azure Web App - ${webAppName}
+
+on:
+  push:
+    branches:
+      - ${branch}
+
+  jobs:
+    build-and-deploy:
+      runs-on: 'windows-latest'
+
+      steps:
+      - uses: actions/checkout@master
+
+      - name: Setup MSBuild path
+        uses: microsoft/setup-msbuild@v1.0.0
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.2
+
+      - name: Restore NuGet packages
+        run: nuget restore
+
+      - name: Publish to folder
+        run: msbuild /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=./published/ /p:PackageAsSingleFile=false
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: '${siteName}'
+          slot-name: '${slot}'
+          publish-profile: \${{ secrets.${secretName} }}
+          package: ./published/`;
 };
