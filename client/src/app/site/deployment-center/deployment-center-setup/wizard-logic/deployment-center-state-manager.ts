@@ -215,6 +215,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
       // defined constants.
       if (metadataStack === 'java') {
         this.stack = siteConfig.javaVersion === JavaVersions.WindowsVersion8 ? RuntimeStacks.java8 : RuntimeStacks.java11;
+      } else if (metadataStack === 'dotnet') {
+        this.stack = RuntimeStacks.aspnet;
       } else {
         this.stack = metadataStack;
       }

@@ -38,6 +38,8 @@ const getRuntimeStackForWindows = (siteConfig: ArmObj<SiteConfig>, configMetadat
     // defined constants.
     if (metadataStack === 'java') {
       return siteConfig.properties.javaVersion === JavaVersions.WindowsVersion8 ? RuntimeStacks.java8 : RuntimeStacks.java11;
+    } else if (metadataStack === 'dotnet') {
+      return RuntimeStacks.aspnet;
     } else {
       return metadataStack;
     }

@@ -46,12 +46,12 @@ export function validateConfigLinuxStackLength(stacks) {
 
 export function validateGithubActionStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
 export function validateGithubActionWindowsStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
 export function validateGithubActionLinuxStackLength(stacks) {
