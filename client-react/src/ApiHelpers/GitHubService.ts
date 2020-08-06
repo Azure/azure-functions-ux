@@ -1,7 +1,16 @@
 import { sendHttpRequest } from './HttpClient';
 import Url from '../utils/url';
-import { GitHubUser, GitHubOrganizations, GitHubRepository, GitHubBranch, FileContent } from '../models/github';
+import {
+  GitHubUser,
+  GitHubOrganizations,
+  GitHubRepository,
+  GitHubBranch,
+  FileContent,
+  GitHubCommit,
+  GitHubActionWorkflowRequestContent,
+} from '../models/github';
 import { HttpResponseObject } from '../ArmHelper.types';
+import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
 
 export default class GitHubService {
   public static authorizeUrl = `${Url.serviceHost}auth/github/authorize`;
@@ -44,36 +53,75 @@ export default class GitHubService {
 
   public static getUserRepositories = (authToken: string) => {
     const data = {
-      url: `https://api.github.com/user/repos?type=owner`,
+      url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`,
       authToken,
     };
 
     return sendHttpRequest<GitHubRepository[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
-  public static getBranches = (repoUrl: string, authToken: string) => {
+  public static getBranches = (org: string, repo: string, authToken: string) => {
     const data = {
-      url: `${repoUrl}/branches`,
+      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/branches`,
       authToken,
     };
 
     return sendHttpRequest<GitHubBranch[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
-  public static getAllWorkflowConfigurations = (repoUrl: string, branchName: string, authToken: string) => {
+  public static getAllWorkflowConfigurations = (org: string, repo: string, branchName: string, authToken: string) => {
     const data = {
-      url: `${repoUrl}/contents/.github/workflows?ref=${branchName}`,
+      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/contents/.github/workflows?ref=${branchName}`,
       authToken,
     };
 
     return sendHttpRequest<FileContent[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
-  public static getWorkflowConfiguration = (repoUrl: string, branchName: string, workflowYmlPath: string, authToken: string) => {
+
+  public static getWorkflowConfiguration = (org: string, repo: string, branchName: string, workflowYmlPath: string, authToken: string) => {
     const data = {
-      url: `${repoUrl}/contents/${workflowYmlPath}?ref=${branchName}`,
+      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/contents/${workflowYmlPath}?ref=${branchName}`,
       authToken,
     };
 
     return sendHttpRequest<FileContent>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+  };
+
+  public static deleteActionWorkflow = (
+    authToken: string,
+    org: string,
+    repo: string,
+    branch: string,
+    workflowFilePath: string,
+    message: string,
+    sha: string
+  ) => {
+    const deleteCommit: GitHubCommit = {
+      repoName: `${org}/${repo}`,
+      branchName: branch,
+      filePath: workflowFilePath,
+      message: message,
+      committer: {
+        name: 'Azure App Service',
+        email: 'donotreply@microsoft.com',
+      },
+      sha: sha,
+    };
+
+    const data = {
+      authToken,
+      deleteCommit,
+    };
+
+    return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/deleteActionWorkflow`, method: 'POST', data });
+  };
+
+  public static createOrUpdateActionWorkflow = (authToken: string, content: GitHubActionWorkflowRequestContent) => {
+    const data = {
+      authToken,
+      content,
+    };
+
+    return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/actionWorkflow`, method: 'PUT', data });
   };
 }

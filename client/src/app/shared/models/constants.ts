@@ -176,6 +176,7 @@ export class Links {
 export class Kinds {
   public static readonly linux = 'linux';
   public static readonly aseV2 = 'ASEV2';
+  public static readonly aseV3 = 'ASEV3';
   public static readonly container = 'container';
   public static readonly functionApp = 'functionapp';
   public static readonly botapp = 'botapp';
@@ -388,7 +389,7 @@ export class LogCategories {
 export class ARMApiVersions {
   public static antaresApiVersion20181101 = '2018-11-01';
   public static armApiVersion = '2014-04-01';
-  public static acrApiversion = '2017-03-01';
+  public static acrApiversion = '2017-10-01';
   public static acrWebhookApiVersion = '2017-10-01';
   public static serviceBusAndEventHubApiVersion20150801 = '2015-08-01';
   public static storageApiVersion = '2018-07-01';

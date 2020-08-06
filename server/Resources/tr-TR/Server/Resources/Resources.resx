@@ -793,6 +793,9 @@
   <data name="integrate_triggersHelp" xml:space="preserve">
         <value>Tetikleyiciler, işlevinizi başlatır. Örneğin, yeni bir kuyruk iletisi üzerinde tetikleyebilirsiniz. Her zaman bir tetikleyiciniz olmalıdır.</value>
     </data>
+  <data name="integrate_unknownCardTitle" xml:space="preserve">
+        <value>Bilinmiyor</value>
+    </data>
   <data name="binding_createNewFunction" xml:space="preserve">
         <value>Bu çıktı tarafından tetiklenen yeni bir işlev oluşturun</value>
     </data>
@@ -5736,6 +5739,30 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
         <value>Aşağıdaki yapılandırmayla GitHub'daki mevcut iş akışı yapılandırmasının üzerine yazılacak.</value>
     </data>
+  <data name="githubActionWorkflowFileLabel" xml:space="preserve">
+        <value>İş akışı dosyası</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
+        <value>Koru</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
+        <value>'{2}' deposunda bulunan '{1}' dalındaki '{0}' dosyasını koruyun. Bu, dala yönelik yürütmelerde uygulamanıza dağıtım yapılmasını tetikleyebilir.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
+        <value>Sil</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
+        <value>'{2}' deposundaki '{1}' dalından '{0}' dosyasını silin. Bu, bu dala yönelik yürütmelerde uygulamanıza yapılacak sonraki dağıtımları engeller.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
+        <value>GitHub Eyleminin bağlantısının kesilmesi, ileride yürütmeler tarafından tetiklenecek dağıtımları engeller.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
+        <value>'{2}' deposundaki '{1}' dalında '{0}' GitHub Eylemi iş akışı dosyası yok. Dağıtımın bağlantısını kesmek için 'Tamam'ı seçin.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelChoiceDescription" xml:space="preserve">
+        <value>Ayrıca iş akışı dosyasını GitHub deponuzdan kaldırmak ister misiniz?</value>
+    </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
         <value>Görüntülenecek işlev tuşu yok</value>
     </data>
@@ -5788,7 +5815,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>GitHub'daki mevcut iş akışı yapılandırması, derleme ve dağıtım için kullanılacak.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
-        <value>If an existing workflow configuration exists, it will be overwritten.</value>
+        <value>Mevcut bir iş akışı yapılandırması varsa bu yapılandırmanın üzerine yazılacak.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>Uygulama dosyalarını yenileyin</value>
@@ -5910,6 +5937,15 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
         <value>GitHub Eyleminin Bağlantısını Kesmeyi Onayla</value>
     </data>
+  <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
+        <value>App Service Derleme Hizmeti Bağlantısının Kesilmesini Onayla</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
+        <value>GitHub Eylemi iş akışı yapılandırması getiriliyor</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoading" xml:space="preserve">
+        <value>GitHub eylemi iş akışı yapılandırması getiriliyor...</value>
+    </data>
   <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
         <value>'{2}' deposundaki '{1}' dalında bulunan '{0}' iş akışı dosyası silinemedi. Bunun nedeni, dosyanın yeniden adlandırılıyor olması veya zaten silinmiş olması olabilir.</value>
     </data>
@@ -5936,6 +5972,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Dağıtım merkezi yenileme komutu</value>
+    </data>
+  <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
+        <value>Bilgiler getirilirken hata oluştu</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Yayımlama profilini yönet</value>
@@ -6391,13 +6430,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>İş Akışı Yapılandırması</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
-        <value>File with the workflow configuration defined by the settings above.</value>
+        <value>Yukarıdaki ayarlar tarafından tanımlanan iş akışı yapılandırmasını içeren dosya.</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
-        <value>Preview file</value>
+        <value>Önizleme dosyası</value>
     </data>
   <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
-        <value>Fill out the required settings above to enable the preview.</value>
+        <value>Önizlemeyi etkinleştirmek için yukarıdaki gerekli ayarları doldurun.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
         <value>Depodaki iş akışının üzerine yaz</value>
@@ -6409,7 +6448,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Mevcut depo iş akışını kullan</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Use available repository workflow</value>
+        <value>Mevcut depo iş akışını kullan</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>İş akışı seçeneğini belirleyin</value>
@@ -6421,16 +6460,16 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>İş akışı yapılandırmaları yükleniyor...</value>
     </data>
   <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
-        <value>File path</value>
+        <value>Dosya yolu</value>
     </data>
   <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
-        <value>Building with GitHub Actions.</value>
+        <value>GitHub Actions ile derleniyor.</value>
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
-        <value>Building with App Service Build Service.</value>
+        <value>App Service Derleme Hizmeti ile derleniyor.</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
-        <value>Change provider.</value>
+        <value>Sağlayıcıyı değiştirin.</value>
     </data>
   <data name="functionMonitor_orchestrations" xml:space="preserve">
         <value>Düzenlemeler</value>
@@ -6490,12 +6529,27 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Veri bulunamadı. Lütfen en son Dayanıklı İşlevler uzantısını (.NET) yüklediğinizden emin olun veya uzantı paketi gruplarının V2 sürümünü kullanın.</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
-        <value>Learn more about flex stamps.</value>
+        <value>Esnek damgalar hakkında daha fazla bilgi edinin.</value>
     </data>
   <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about Ootgoing IP addresses.</value>
+        <value>Giden IP adresleri hakkında daha fazla bilgi edinin.</value>
     </data>
   <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
-        <value>Learn more about app service plan density.</value>
+        <value>App Service plan yoğunluğu hakkında daha fazla bilgi edinin.</value>
+    </data>
+  <data name="ibizafication_readOnlyLinuxElastic" xml:space="preserve">
+        <value>Linux'ta Elastik Premium'un bir paketten çalıştırılması gerektiğinden uygulamanız şu anda salt okunur modda.</value>
+    </data>
+  <data name="stackVersionAutoUpdate" xml:space="preserve">
+        <value>{0} (otomatik güncelleştirme)</value>
+    </data>
+  <data name="versionLabel" xml:space="preserve">
+        <value>{0} Version</value>
+    </data>
+  <data name="javaWebServer" xml:space="preserve">
+        <value>Java web server</value>
+    </data>
+  <data name="javaWebServerVersion" xml:space="preserve">
+        <value>Java web server version</value>
     </data>
 </root>

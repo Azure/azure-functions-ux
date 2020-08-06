@@ -41,10 +41,14 @@ export enum WorkflowOption {
   UseExistingWorkflowConfig = 'useExistingWorkflowConfig',
 }
 
-export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &
-  DeploymentCenterFtpsProps<DeploymentCenterContainerFormData>;
+export enum WorkflowFileDeleteOptions {
+  Preserve = 'Preserve',
+  Delete = 'Delete',
+}
 
-export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps<DeploymentCenterCodeFormData>;
+export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps;
+
+export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps;
 
 export type DeploymentCenterYupValidationSchemaType<
   T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData
@@ -88,7 +92,7 @@ export interface DeploymentCenterCodeFormData {
 }
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
-  formProps?: FormikProps<DeploymentCenterFormData<T>>;
+  formProps: FormikProps<DeploymentCenterFormData<T>>;
 }
 
 export interface DeploymentCenterGitHubWorkflowConfigSelectorProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -115,11 +119,11 @@ export interface DeploymentCenterCommitLogsProps {
 export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
   isPreviewFileButtonEnabled: () => boolean;
   getPreviewPanelContent: () => JSX.Element | undefined;
+  setShowInfoBanner: (showInfoBanner: boolean) => void;
   workflowFilePath: string;
 }
 
-export interface DeploymentCenterFtpsProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
-  extends DeploymentCenterFieldProps<T> {
+export interface DeploymentCenterFtpsProps {
   isLoading: boolean;
   resetApplicationPassword: () => void;
   publishingCredentials?: ArmObj<PublishingCredentials>;
@@ -129,21 +133,31 @@ export interface DeploymentCenterFtpsProps<T = DeploymentCenterContainerFormData
 
 export interface DeploymentCenterFormProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
   isLoading: boolean;
-  refresh: () => void;
   showPublishProfilePanel: () => void;
   formData?: DeploymentCenterFormData<T>;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType<T>;
 }
 
-export type DeploymentCenterContainerFormProps<T = DeploymentCenterContainerFormData> = DeploymentCenterContainerProps &
-  DeploymentCenterFormProps<T>;
+export type DeploymentCenterContainerFormProps = DeploymentCenterContainerProps &
+  DeploymentCenterFormProps<DeploymentCenterContainerFormData>;
 
-export type DeploymentCenterCodeFormProps<T = DeploymentCenterCodeFormData> = DeploymentCenterCodeProps & DeploymentCenterFormProps<T>;
+export type DeploymentCenterContainerPivotProps = DeploymentCenterContainerFormProps &
+  DeploymentCenterFieldProps<DeploymentCenterContainerFormData>;
+
+export type DeploymentCenterCodeFormProps = DeploymentCenterCodeProps & DeploymentCenterFormProps<DeploymentCenterCodeFormData>;
+
+export type DeploymentCenterCodePivotProps = DeploymentCenterCodeFormProps & DeploymentCenterFieldProps<DeploymentCenterCodeFormData>;
 
 export interface DeploymentCenterCommandBarProps {
   isLoading: boolean;
   saveFunction: () => void;
   discardFunction: () => void;
+  showPublishProfilePanel: () => void;
+  refresh: () => void;
+}
+
+export interface DeploymentCenterCodeCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterCodeFormData> {
+  isLoading: boolean;
   showPublishProfilePanel: () => void;
   refresh: () => void;
 }
@@ -161,9 +175,8 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
 export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
   extends DeploymentCenterFieldProps<T> {
   authorizeGitHubAccount: () => void;
-  fetchOrganizationOptions: () => void;
   fetchRepositoryOptions: (repositories_url: string) => void;
-  fetchBranchOptions: (repository_url: string) => void;
+  fetchBranchOptions: (org: string, repo: string) => void;
   organizationOptions: IDropdownOption[];
   repositoryOptions: IDropdownOption[];
   branchOptions: IDropdownOption[];
@@ -171,8 +184,15 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   gitHubUser?: GitHubUser;
 }
 
-export interface DeploymentCenterReadOnlySettingsProps {
-  disconnect: () => void;
+export interface DeploymentCenterGitHubConfiguredViewProps {
+  isGitHubActionsSetup?: boolean;
+}
+
+export interface DeploymentCenterGitHubDisconnectProps {
+  branch: string;
+  org: string;
+  repo: string;
+  repoUrl: string;
 }
 
 export interface DeploymentCenterCodeBuildCalloutProps {
@@ -255,4 +275,28 @@ export class WorkflowInformation {
   fileName: string;
   secretName: string;
   content: string;
+}
+
+export interface DeploymentDisconnectStatus {
+  step: DeployDisconnectStep;
+  isSuccessful: boolean;
+  errorMessage?: string;
+  error?: any;
+}
+
+export enum DeployDisconnectStep {
+  DeleteWorkflowFile = 'DeleteWorkflowFile',
+  ClearSCMSettings = 'ClearSCMSettings',
+}
+
+export interface WorkflowChoiceGroupOption extends IChoiceGroupOption {
+  workflowDeleteChoice: WorkflowFileDeleteOptions;
+}
+
+export interface SiteSourceControlRequestBody {
+  repoUrl: string;
+  branch: string;
+  isManualIntegration: boolean;
+  isGitHubAction: boolean;
+  isMercurial: boolean;
 }

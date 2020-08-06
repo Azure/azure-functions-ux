@@ -16,13 +16,13 @@ import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { HostStatus } from '../../../../../models/functions/host-status';
 import { SiteStateContext } from '../../../../../SiteState';
 import { ThemeContext } from '../../../../../ThemeContext';
-import { CommonConstants } from '../../../../../utils/CommonConstants';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import StringUtils from '../../../../../utils/string';
 import FunctionNameBindingCard from './binding-card/FunctionNameBindingCard';
 import InputBindingCard from './binding-card/InputBindingCard';
 import OutputBindingCard from './binding-card/OutputBindingCard';
 import TriggerBindingCard from './binding-card/TriggerBindingCard';
+import UnknownDirectionBindingCard from './binding-card/UnknownDirectionBindingCard';
 import { ClosedReason } from './BindingPanel/BindingEditor';
 import BindingPanel from './BindingPanel/BindingPanel';
 import {
@@ -36,6 +36,7 @@ import {
 } from './FunctionIntegrate.style';
 import FunctionIntegrateCommandBar from './FunctionIntegrateCommandBar';
 import { FunctionIntegrateConstants } from './FunctionIntegrateConstants';
+import { Links } from '../../../../../utils/FwLinks';
 
 export interface FunctionIntegrateProps {
   functionAppId: string;
@@ -159,8 +160,9 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
       </Stack.Item>
 
       <Stack.Item grow>
-        <Stack verticalFill={true} className={singleCardStackStyle}>
+        <Stack gap={40} verticalFill={true} className={singleCardStackStyle}>
           <FunctionNameBindingCard functionInfo={functionInfo} bindings={bindings} />
+          <UnknownDirectionBindingCard functionInfo={functionInfo} bindings={bindings} />
         </Stack>
       </Stack.Item>
 
@@ -187,6 +189,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
       <InputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} loadBindingSettings={loadBindingSettings} />
       <FunctionNameBindingCard functionInfo={functionInfo} bindings={bindings} />
       <OutputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} loadBindingSettings={loadBindingSettings} />
+      <UnknownDirectionBindingCard functionInfo={functionInfo} bindings={bindings} />
     </Stack>
   );
 
@@ -213,7 +216,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
       <CustomBanner
         message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
         type={MessageBarType.warning}
-        learnMoreLink={CommonConstants.Links.bindingDirectionLearnMore}
+        learnMoreLink={Links.bindingDirectionLearnMore}
       />
     );
   } else if (readOnly) {

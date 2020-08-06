@@ -111,6 +111,34 @@ export default class SiteService {
     });
   };
 
+  public static deleteSourceControlDetails = async (resourceId: string) => {
+    return MakeArmCall<{}>({
+      resourceId: `${resourceId}/sourcecontrols/web`,
+      commandName: 'deleteSourceControl',
+      method: 'DELETE',
+    });
+  };
+
+  public static updateSourceControlDetails = (resourceId: string, body: any) => {
+    return MakeArmCall<void>({
+      method: 'PUT',
+      resourceId: `${resourceId}/sourcecontrols/web`,
+      body: body,
+      commandName: 'updateDeployment',
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+    });
+  };
+
+  public static patchSiteConfig = (resourceId: string, body: any) => {
+    return MakeArmCall<void>({
+      method: 'PATCH',
+      resourceId: `${resourceId}/config/web`,
+      body: body,
+      commandName: 'updatePathSiteConfig',
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+    });
+  };
+
   public static updateApplicationSettings = async (resourceId: string, appSettings: ArmObj<KeyValue<string>>) => {
     const id = `${resourceId}/config/appsettings`;
     const result = await MakeArmCall<ArmObj<KeyValue<string>>>({

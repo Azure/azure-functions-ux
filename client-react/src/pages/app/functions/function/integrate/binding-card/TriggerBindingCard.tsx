@@ -41,8 +41,8 @@ const TriggerBindingCard: React.SFC<EditableBindingCardProps> = props => {
 };
 
 const getTrigger = (bindingsInfo: BindingInfo[]): BindingInfo | undefined => {
-  return bindingsInfo.find(b => {
-    return getBindingDirection(b) === BindingDirection.trigger;
+  return bindingsInfo.find(binding => {
+    return getBindingDirection(binding) === BindingDirection.trigger;
   });
 };
 

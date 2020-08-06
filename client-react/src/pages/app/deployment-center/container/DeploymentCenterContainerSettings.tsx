@@ -10,10 +10,10 @@ import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCente
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
-  const isGitHubActionEnabled = formProps && formProps.values.scmType === ScmType.GitHubAction;
-  const isAcrConfigured = formProps && formProps.values.registrySource === ContainerRegistrySources.acr;
-  const isDockerHubConfigured = formProps && formProps.values.registrySource === ContainerRegistrySources.docker;
-  const isPrivateRegistryConfigured = formProps && formProps.values.registrySource === ContainerRegistrySources.privateRegistry;
+  const isGitHubActionEnabled = formProps.values.scmType === ScmType.GitHubAction;
+  const isAcrConfigured = formProps.values.registrySource === ContainerRegistrySources.acr;
+  const isDockerHubConfigured = formProps.values.registrySource === ContainerRegistrySources.docker;
+  const isPrivateRegistryConfigured = formProps.values.registrySource === ContainerRegistrySources.privateRegistry;
 
   return (
     <>

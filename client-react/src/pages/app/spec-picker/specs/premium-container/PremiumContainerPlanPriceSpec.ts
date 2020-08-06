@@ -1,8 +1,8 @@
-import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { ServerFarmSkuConstants } from '../../../../../utils/scenario-checker/ServerFarmSku';
 import { PriceSpec, PriceSpecInput, SpecColorCodes } from '../PriceSpec';
 import { style } from 'typestyle';
 import i18next from 'i18next';
+import { Links } from '../../../../../utils/FwLinks';
 
 export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
   constructor(t: i18next.TFunction) {
@@ -41,7 +41,7 @@ export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
         iconUrl: 'image/app-service-plan.svg',
         title: t('pricing_includedHardware_azureComputeUnits'),
         description: t('pricing_computeDedicatedAcu'),
-        learnMoreUrl: CommonConstants.Links.azureComputeUnitLearnMore,
+        learnMoreUrl: Links.azureComputeUnitLearnMore,
       },
       {
         id: 'memory',

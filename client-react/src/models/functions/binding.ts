@@ -15,6 +15,7 @@ export enum BindingDirection {
   trigger = 'trigger',
   in = 'in',
   out = 'out',
+  unknown = 'unknown', // Only used when we can't determine binding direction
 }
 
 export interface BindingExtension {

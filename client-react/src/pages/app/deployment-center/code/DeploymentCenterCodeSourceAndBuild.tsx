@@ -21,6 +21,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const [selectedBuild, setSelectedBuild] = useState<BuildProvider>(BuildProvider.None);
   const [selectedBuildChoice, setSelectedBuildChoice] = useState<BuildProvider>(BuildProvider.None);
   const [isCalloutVisible, setIsCalloutVisible] = useState(false);
+  const [showInfoBanner, setShowInfoBanner] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
@@ -31,6 +32,10 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   const getInProductionSlot = () => {
     return !(deploymentCenterContext.siteDescriptor && deploymentCenterContext.siteDescriptor.slot);
+  };
+
+  const closeInfoBanner = () => {
+    setShowInfoBanner(false);
   };
 
   const sourceOptions: IDropdownOption[] = [
@@ -56,16 +61,14 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   const updateSelectedBuild = () => {
     setSelectedBuild(selectedBuildChoice);
-    if (formProps) {
-      formProps.setFieldValue('buildProvider', selectedBuildChoice);
-      if (selectedBuildChoice === BuildProvider.GitHubAction) {
-        formProps.setFieldValue(
-          'gitHubPublishProfileSecretGuid',
-          Guid.newGuid()
-            .toLowerCase()
-            .replace(/[-]/g, '')
-        );
-      }
+    formProps.setFieldValue('buildProvider', selectedBuildChoice);
+    if (selectedBuildChoice === BuildProvider.GitHubAction) {
+      formProps.setFieldValue(
+        'gitHubPublishProfileSecretGuid',
+        Guid.newGuid()
+          .toLowerCase()
+          .replace(/[-]/g, '')
+      );
     }
     toggleIsCalloutVisible();
   };
@@ -74,30 +77,26 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     setSelectedBuildChoice(option.buildType);
   };
 
-  useEffect(
-    () => {
-      if (formProps && formProps.values.sourceProvider !== ScmType.GitHub) {
-        setSelectedBuild(BuildProvider.AppServiceBuildService);
-        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
-      }
+  useEffect(() => {
+    if (formProps.values.sourceProvider !== ScmType.GitHub) {
+      setSelectedBuild(BuildProvider.AppServiceBuildService);
+      formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
+    } else {
+      setSelectedBuild(BuildProvider.GitHubAction);
+      formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
+      formProps.setFieldValue(
+        'gitHubPublishProfileSecretGuid',
+        Guid.newGuid()
+          .toLowerCase()
+          .replace(/[-]/g, '')
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.sourceProvider]);
 
-      if (formProps && formProps.values.sourceProvider === ScmType.GitHub) {
-        setSelectedBuild(BuildProvider.GitHubAction);
-        formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
-        formProps.setFieldValue(
-          'gitHubPublishProfileSecretGuid',
-          Guid.newGuid()
-            .toLowerCase()
-            .replace(/[-]/g, '')
-        );
-      }
-    }, // eslint-disable-next-line react-hooks/exhaustive-deps
-    formProps ? [formProps.values.sourceProvider] : []
-  );
-
-  const isSourceSelected = formProps && formProps.values.sourceProvider !== ScmType.None;
-  const isGitHubSource = formProps && formProps.values.sourceProvider === ScmType.GitHub;
-  const isGitHubActionsBuild = formProps && formProps.values.buildProvider === BuildProvider.GitHubAction;
+  const isSourceSelected = formProps.values.sourceProvider !== ScmType.None;
+  const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
+  const isGitHubActionsBuild = formProps.values.buildProvider === BuildProvider.GitHubAction;
   const calloutOkButtonDisabled = selectedBuildChoice === selectedBuild;
 
   const getBuildDescription = () => {
@@ -120,9 +119,9 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   return (
     <>
-      {getInProductionSlot() && (
+      {getInProductionSlot() && showInfoBanner && (
         <div className={deploymentCenterInfoBannerDiv}>
-          <CustomBanner message={t('deploymentCenterProdSlotWarning')} type={MessageBarType.info} />
+          <CustomBanner message={t('deploymentCenterProdSlotWarning')} type={MessageBarType.info} onDismiss={closeInfoBanner} />
         </div>
       )}
 

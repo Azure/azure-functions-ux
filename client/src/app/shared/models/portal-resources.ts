@@ -229,6 +229,7 @@ export class PortalResources {
   public static integrate_inputsHelp = 'integrate_inputsHelp';
   public static integrate_outputsHelp = 'integrate_outputsHelp';
   public static integrate_triggersHelp = 'integrate_triggersHelp';
+  public static integrate_unknownCardTitle = 'integrate_unknownCardTitle';
   public static binding_createNewFunction = 'binding_createNewFunction';
   public static binding_documentation = 'binding_documentation';
   public static binding_go = 'binding_go';
@@ -1855,6 +1856,14 @@ export class PortalResources {
   public static githubActionWorkflowOptionUseExisting = 'githubActionWorkflowOptionUseExisting';
   public static githubActionWorkflowOptionUseExistingMessage = 'githubActionWorkflowOptionUseExistingMessage';
   public static githubActionWorkflowOptionOverwriteMessage = 'githubActionWorkflowOptionOverwriteMessage';
+  public static githubActionWorkflowFileLabel = 'githubActionWorkflowFileLabel';
+  public static githubActionWorkflowFilePreserveLabel = 'githubActionWorkflowFilePreserveLabel';
+  public static githubActionWorkflowFilePreserveDescription = 'githubActionWorkflowFilePreserveDescription';
+  public static githubActionWorkflowFileDeleteLabel = 'githubActionWorkflowFileDeleteLabel';
+  public static githubActionWorkflowFileDeleteDescription = 'githubActionWorkflowFileDeleteDescription';
+  public static githubActionWorkflowFileDeletePanelDescription = 'githubActionWorkflowFileDeletePanelDescription';
+  public static githubActionWorkflowFileDeletePanelNoChoiceDescription = 'githubActionWorkflowFileDeletePanelNoChoiceDescription';
+  public static githubActionWorkflowFileDeletePanelChoiceDescription = 'githubActionWorkflowFileDeletePanelChoiceDescription';
   public static emptyFunctionKeys = 'emptyFunctionKeys';
   public static featureNotSupportedForPremium = 'featureNotSupportedForPremium';
   public static deleteFunctionKeyNotification = 'deleteFunctionKeyNotification';
@@ -1913,6 +1922,9 @@ export class PortalResources {
   public static githubActionDashboardRepositoryMissingError = 'githubActionDashboardRepositoryMissingError';
   public static githubActionDashboardBranchMissingError = 'githubActionDashboardBranchMissingError';
   public static githubActionDisconnectConfirmationTitle = 'githubActionDisconnectConfirmationTitle';
+  public static kuduDisconnectConfirmationTitle = 'kuduDisconnectConfirmationTitle';
+  public static deploymentCenterGitHubDisconnectLoadingAriaValue = 'deploymentCenterGitHubDisconnectLoadingAriaValue';
+  public static deploymentCenterGitHubDisconnectLoading = 'deploymentCenterGitHubDisconnectLoading';
   public static githubActionDisconnectWorkflowDeleteFailed = 'githubActionDisconnectWorkflowDeleteFailed';
   public static disconnectingDeploymentFailWorkflowFileDeleteSucceeded = 'disconnectingDeploymentFailWorkflowFileDeleteSucceeded';
   public static functionLog_rbacPermissionsForAppInsights = 'functionLog_rbacPermissionsForAppInsights';
@@ -1922,6 +1934,7 @@ export class PortalResources {
   public static deploymentCenterBrowseCommandAriaLabel = 'deploymentCenterBrowseCommandAriaLabel';
   public static deploymentCenterPublishProfileCommandAriaLabel = 'deploymentCenterPublishProfileCommandAriaLabel';
   public static deploymentCenterRefreshCommandAriaLabel = 'deploymentCenterRefreshCommandAriaLabel';
+  public static deploymentCenterErrorFetchingInfo = 'deploymentCenterErrorFetchingInfo';
   public static managePublishProfile = 'managePublishProfile';
   public static ibizafication_readOnlyPython = 'ibizafication_readOnlyPython';
   public static ibizafication_readOnlyJava = 'ibizafication_readOnlyJava';
@@ -2118,4 +2131,8 @@ export class PortalResources {
   public static pricing_pv2UpsellInfoMessageAriaLabel = 'pricing_pv2UpsellInfoMessageAriaLabel';
   public static pricing_appDensityWarningMessageAriaLabel = 'pricing_appDensityWarningMessageAriaLabel';
   public static ibizafication_readOnlyLinuxElastic = 'ibizafication_readOnlyLinuxElastic';
+  public static stackVersionAutoUpdate = 'stackVersionAutoUpdate';
+  public static versionLabel = 'versionLabel';
+  public static javaWebServer = 'javaWebServer';
+  public static javaWebServerVersion = 'javaWebServerVersion';
 }

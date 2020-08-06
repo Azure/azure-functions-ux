@@ -2,7 +2,7 @@ import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/Com
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
-import { logCommandBarStyle, getCommandBarStyle } from './FunctionLog.styles';
+import { logCommandBarStyle, getCommandBarStyle, logFilterItemStyle } from './FunctionLog.styles';
 import { PortalContext } from '../../../../../PortalContext';
 import { ArmResourceDescriptor } from '../../../../../utils/resourceDescriptors';
 import { LogLevel } from './FunctionLog.types';
@@ -12,6 +12,7 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import Url from '../../../../../utils/url';
 import { SiteStateContext } from '../../../../../SiteState';
+import { IContextualMenuItem, ActionButton } from 'office-ui-fabric-react';
 
 interface FunctionLogCommandBarProps {
   isPanelVisible: boolean;
@@ -20,6 +21,7 @@ interface FunctionLogCommandBarProps {
   showMaximize: boolean;
   hideChevron: boolean;
   hideLiveMetrics: boolean;
+  logLevel: LogLevel;
   setLogLevel: (level: LogLevel) => void;
   onChevronClick: () => void;
   copy: () => void;
@@ -47,6 +49,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     hideChevron,
     hideLiveMetrics,
     appInsightsResourceId,
+    logLevel,
     setLogLevel,
     leftAlignMainToolbarItems,
     showLoggingOptionsDropdown,
@@ -151,6 +154,20 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     };
   };
 
+  const onRenderFilterItem = (item: IContextualMenuItem, dismissMenu: (ev?: any, dismissAll?: boolean) => void) => {
+    let iconProps = {};
+    if (logLevel === item.data) {
+      iconProps = {
+        iconName: 'Accept',
+      };
+    }
+    return (
+      <ActionButton iconProps={iconProps} styles={logFilterItemStyle} onClick={() => setLogLevel(item.data)}>
+        {item.text}
+      </ActionButton>
+    );
+  };
+
   const getFilterItem = (): ICommandBarItemProps => {
     return {
       key: 'filter',
@@ -160,10 +177,10 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       },
       subMenuProps: {
         items: [
-          { key: 'verbose', text: t('verbose'), onClick: () => setLogLevel(LogLevel.Verbose) },
-          { key: 'information', text: t('information'), onClick: () => setLogLevel(LogLevel.Information) },
-          { key: 'warning', text: t('warning'), onClick: () => setLogLevel(LogLevel.Warning) },
-          { key: 'error', text: t('error'), onClick: () => setLogLevel(LogLevel.Error) },
+          { key: 'verbose', text: t('verbose'), data: LogLevel.Verbose, onRender: onRenderFilterItem },
+          { key: 'information', text: t('information'), data: LogLevel.Information, onRender: onRenderFilterItem },
+          { key: 'warning', text: t('warning'), data: LogLevel.Warning, onRender: onRenderFilterItem },
+          { key: 'error', text: t('error'), data: LogLevel.Error, onRender: onRenderFilterItem },
         ],
       },
       disabled: false,

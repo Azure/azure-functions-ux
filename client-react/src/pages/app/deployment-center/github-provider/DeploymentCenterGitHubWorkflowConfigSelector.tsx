@@ -19,6 +19,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
   const [workflowConfigDropdownOptions, setWorkflowConfigDropdownOptions] = useState<IDropdownOption[] | undefined>(undefined);
   const [workflowFileExistsWarningMessage, setWorkflowFileExistsWarningMessage] = useState<string | undefined>(undefined);
   const [isWorkflowConfigLoading, setIsWorkflowConfigLoading] = useState<boolean>(false);
+  const [showWarningBanner, setShowWarningBanner] = useState(true);
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -44,31 +45,30 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
     },
   ];
 
-  const onWorkflowOptionChange = (event: React.FormEvent<HTMLDivElement>, option: WorkflowDropdownOption) => {
-    setSelectedWorkflowConfigOption(option.workflowOption);
-    if (formProps) {
-      formProps.setFieldValue('workflowOption', option.workflowOption);
-    }
+  const closeWarningBanner = () => {
+    setShowWarningBanner(false);
   };
 
-  const fetchWorkflowConfiguration = async (selectedOrg: string, selectedRepo: string, selectedBranch: string) => {
+  const onWorkflowOptionChange = (event: React.FormEvent<HTMLDivElement>, option: WorkflowDropdownOption) => {
+    setSelectedWorkflowConfigOption(option.workflowOption);
+    formProps.setFieldValue('workflowOption', option.workflowOption);
+  };
+
+  const fetchWorkflowConfiguration = async (org: string, repo: string, branch: string) => {
     setIsWorkflowConfigLoading(true);
 
     if (deploymentCenterContext.siteDescriptor) {
       const workflowFileName = getWorkflowFileName(
-        selectedBranch,
+        branch,
         deploymentCenterContext.siteDescriptor.site,
         deploymentCenterContext.siteDescriptor.slot
       );
       const workflowFilePath = `.github/workflows/${workflowFileName}`;
-      const getAllWorkflowConfigurationsRequest = deploymentCenterData.getAllWorkflowConfigurations(
-        selectedRepo,
-        selectedBranch,
-        getArmToken()
-      );
+      const getAllWorkflowConfigurationsRequest = deploymentCenterData.getAllWorkflowConfigurations(org, repo, branch, getArmToken());
       const getWorkflowConfigurationRequest = deploymentCenterData.getWorkflowConfiguration(
-        selectedRepo,
-        selectedBranch,
+        org,
+        repo,
+        branch,
         workflowFilePath,
         getArmToken()
       );
@@ -79,10 +79,11 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
       ]);
 
       if (appWorkflowConfigurationResponse.metadata.success) {
+        setShowWarningBanner(true);
         setWorkflowFileExistsWarningMessage(
           t('githubActionWorkflowFileExists', {
             workflowFilePath: workflowFilePath,
-            branchName: selectedBranch,
+            branchName: branch,
           })
         );
 
@@ -95,37 +96,34 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         setWorkflowConfigDropdownOptions(overwriteOrUseExistingOptions);
         setShowWorkflowConfigDropdown(true);
       } else if (allWorkflowConfigurationsResponse.metadata.success && allWorkflowConfigurationsResponse.data.length > 0) {
+        setShowWarningBanner(true);
         setWorkflowFileExistsWarningMessage(
           t('githubActionWorkflowsExist', {
-            branchName: selectedBranch,
+            branchName: branch,
           })
         );
 
         setWorkflowConfigDropdownOptions(addOrUseExistingOptions);
         setShowWorkflowConfigDropdown(true);
       } else {
+        setShowWarningBanner(false);
+        setWorkflowFileExistsWarningMessage(undefined);
         setSelectedWorkflowConfigOption(WorkflowOption.Add);
-        if (formProps) {
-          formProps.setFieldValue('workflowOption', WorkflowOption.Add);
-        }
+        formProps.setFieldValue('workflowOption', WorkflowOption.Add);
       }
     }
     setIsWorkflowConfigLoading(false);
   };
 
-  useEffect(
-    () => {
-      setShowWorkflowConfigDropdown(false);
-      setSelectedWorkflowConfigOption(WorkflowOption.None);
-      if (formProps) {
-        formProps.setFieldValue('workflowOption', WorkflowOption.None);
-      }
-      if (formProps && formProps.values.branch !== '') {
-        fetchWorkflowConfiguration(formProps.values.org, formProps.values.repo, formProps.values.branch);
-      }
-    }, // eslint-disable-next-line react-hooks/exhaustive-deps
-    formProps ? [formProps.values.branch] : []
-  );
+  useEffect(() => {
+    setShowWorkflowConfigDropdown(false);
+    setSelectedWorkflowConfigOption(WorkflowOption.None);
+    formProps.setFieldValue('workflowOption', WorkflowOption.None);
+    if (formProps.values.branch !== '') {
+      fetchWorkflowConfiguration(formProps.values.org, formProps.values.repo, formProps.values.branch);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.branch]);
 
   return (
     <>
@@ -137,9 +135,9 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
       )}
       {showWorkflowConfigDropdown && (
         <>
-          {workflowFileExistsWarningMessage && (
+          {workflowFileExistsWarningMessage && showWarningBanner && (
             <div className={deploymentCenterInfoBannerDiv}>
-              <CustomBanner message={workflowFileExistsWarningMessage} type={MessageBarType.warning} />
+              <CustomBanner message={workflowFileExistsWarningMessage} type={MessageBarType.warning} onDismiss={closeWarningBanner} />
             </div>
           )}
           <Field

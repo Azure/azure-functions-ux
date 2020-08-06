@@ -5,7 +5,7 @@ const ruby2Point3EOL = new Date(2019, 3, 31);
 
 export const rubyStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Ruby',
-  value: 'Ruby',
+  value: 'ruby',
   preferredOs: 'linux',
   majorVersions: [
     {
@@ -52,7 +52,7 @@ export const rubyStack: WebAppStack<WebAppRuntimes> = {
       minorVersions: [
         {
           displayText: 'Ruby 2.5.X',
-          value: '2.5.X',
+          value: '2.5.x',
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'RUBY|2.5',
