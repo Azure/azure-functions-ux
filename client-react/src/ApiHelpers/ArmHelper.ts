@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { CommonConstants } from '../utils/CommonConstants';
-import { Subject, from } from 'rxjs';
-import { bufferTime, filter, concatMap, share, take } from 'rxjs/operators';
+import { Subject, from, of } from 'rxjs';
+import { bufferTime, filter, concatMap, share, take, catchError } from 'rxjs/operators';
 import { Guid } from '../utils/Guid';
 import { async } from 'rxjs/internal/scheduler/async';
 import Url from '../utils/url';
@@ -68,13 +68,18 @@ const armObs$ = armSubject$.pipe(
       })
     ).pipe(
       concatMap(result => {
-        const { responses } = result.data;
-        const responsesWithId: ArmBatchObject[] = [];
-        for (let i = 0; i < responses.length; i = i + 1) {
-          responsesWithId.push({ ...responses[i], id: x[i].id });
+        if (result.status < 300) {
+          const { responses } = result.data;
+          const responsesWithId: ArmBatchObject[] = [];
+          for (let i = 0; i < responses.length; i = i + 1) {
+            responsesWithId.push({ ...responses[i], id: x[i].id });
+          }
+          return from(responsesWithId);
+        } else {
+          throw result;
         }
-        return from(responsesWithId);
-      })
+      }),
+      catchError(err => of(err))
     );
   }),
   share()
@@ -142,32 +147,50 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
   };
 
   if (!skipBatching && !alwaysSkipBatching) {
-    const fetchFromBatch = new Promise<ArmBatchObject>((resolve, reject) => {
-      armObs$
-        .pipe(
-          filter(x => x.id === id),
-          take(1)
-        )
-        .subscribe(x => {
-          resolve(x);
-        });
+    try {
+      const fetchFromBatch = new Promise<ArmBatchObject>((resolve, reject) => {
+        armObs$
+          .pipe(
+            filter(x => {
+              return !x.id || x.id === id;
+            }),
+            take(1)
+          )
+          .subscribe(x => {
+            if (!x.id) {
+              reject(x);
+            } else {
+              resolve(x);
+            }
+          });
 
-      armSubject$.next(armBatchObject);
-    });
+        armSubject$.next(armBatchObject);
+      });
 
-    const res = await fetchFromBatch;
-    const resSuccess = res.httpStatusCode < 300;
-    const ret: HttpResponseObject<T> = {
-      metadata: {
-        success: resSuccess,
-        status: res.httpStatusCode,
-        headers: res.headers,
-        error: resSuccess ? null : res.content,
-      },
-      data: resSuccess ? res.content : null,
-    };
+      const res = await fetchFromBatch;
+      const resSuccess = res.httpStatusCode < 300;
+      const ret: HttpResponseObject<T> = {
+        metadata: {
+          success: resSuccess,
+          status: res.httpStatusCode,
+          headers: res.headers,
+          error: resSuccess ? null : res.content,
+        },
+        data: resSuccess ? res.content : null,
+      };
 
-    return ret;
+      return ret;
+    } catch (err) {
+      return {
+        metadata: {
+          success: false,
+          status: err.status ? err.status : 500,
+          headers: err.headers ? err.headers : {},
+          error: err.data ? err.data : null,
+        },
+        data: null as any,
+      };
+    }
   }
 
   const response = await makeArmRequest<T>(armBatchObject);
