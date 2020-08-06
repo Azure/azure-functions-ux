@@ -1723,7 +1723,6 @@ export class PortalResources {
   public static addFunctionKey = 'addFunctionKey';
   public static functionKeyPropIsRequired = 'functionKeyPropIsRequired';
   public static functionKeyNamesUnique = 'functionKeyNamesUnique';
-  public static gitHubActionBuildServerTitle = 'gitHubActionBuildServerTitle';
   public static gitHubActionBuildServerDesc = 'gitHubActionBuildServerDesc';
   public static azureKeyVault = 'azureKeyVault';
   public static appConfigValue = 'appConfigValue';
@@ -1871,8 +1870,6 @@ export class PortalResources {
   public static deleteFunctionKeyNotificationFailed = 'deleteFunctionKeyNotificationFailed';
   public static deleteFunctionKeyNotificationSuccess = 'deleteFunctionKeyNotificationSuccess';
   public static disableFunctionTestTooltip = 'disableFunctionTestTooltip';
-  public static githubActionAspNetStackNotSupportedMessage = 'githubActionAspNetStackNotSupportedMessage';
-  public static githubActionAspNetStackMismatchMessage = 'githubActionAspNetStackMismatchMessage';
   public static gitHubActionWorkflowFileNameTitle = 'gitHubActionWorkflowFileNameTitle';
   public static noAppFilesWhileFunctionAppStopped = 'noAppFilesWhileFunctionAppStopped';
   public static noAppKeysWhileFunctionAppStopped = 'noAppKeysWhileFunctionAppStopped';
@@ -2135,4 +2132,6 @@ export class PortalResources {
   public static versionLabel = 'versionLabel';
   public static javaWebServer = 'javaWebServer';
   public static javaWebServerVersion = 'javaWebServerVersion';
+  public static ftpDisabledByPolicy = 'ftpDisabledByPolicy';
+  public static ibizafication_readOnlyCustom = 'ibizafication_readOnlyCustom';
 }

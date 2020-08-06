@@ -137,6 +137,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           root: formElementStyle,
         }}
         errorMessage={errors.accountName}
+        required={true}
         validate={() => {
           if (accountError) {
             return accountError;
@@ -187,6 +188,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           return validateStorageContainer(value);
         }}
         errorMessage={errors.shareName}
+        required={true}
       />
     </>
   );

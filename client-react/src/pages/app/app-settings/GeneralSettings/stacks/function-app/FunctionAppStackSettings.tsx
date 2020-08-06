@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FunctionAppStacksContext, PermissionsContext } from '../../../Contexts';
 import { FunctionAppStack } from '../../../../../../models/stacks/function-app-stacks';
-import { CommonConstants } from '../../../../../../utils/CommonConstants';
+import { CommonConstants, WorkerRuntimeLanguages } from '../../../../../../utils/CommonConstants';
 import { findFormAppSettingValue } from '../../../AppSettingsFormData';
 import { FunctionsRuntimeVersionHelper } from '../../../../../../utils/FunctionsRuntimeVersionHelper';
 import { SiteStateContext } from '../../../../../../SiteState';
@@ -14,8 +14,8 @@ import { getStackVersionConfigPropertyName, getStackVersionDropdownOptions } fro
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
 import { settingsWrapper } from '../../../AppSettingsForm';
-import { TextField } from 'office-ui-fabric-react';
 import { Links } from '../../../../../../utils/FwLinks';
+import TextField from '../../../../../../components/form-controls/TextField';
 
 const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();
@@ -57,20 +57,24 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const isWindowsContainer = () => !siteStateContext.site || (!isLinux() && isContainerApp(siteStateContext.site));
 
+  const isMajorVersionVisible = () => {
+    return runtimeStack !== WorkerRuntimeLanguages.custom;
+  };
+
   useEffect(() => {
     setInitialData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!runtimeStack || !currentStackData || isWindowsContainer()) {
+  if (!runtimeStack || isWindowsContainer()) {
     return null;
   }
   return (
     <>
       <h3>{t('stackSettings')}</h3>
       <div className={settingsWrapper}>
-        {siteStateContext.site && !isContainerApp(siteStateContext.site) && (
+        {siteStateContext.site && currentStackData && !isContainerApp(siteStateContext.site) && (
           <>
             <DropdownNoFormik
               id="function-app-stack"
@@ -80,19 +84,21 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
               options={[{ key: runtimeStack, text: currentStackData.displayText }]}
               label={t('stack')}
             />
-            <Field
-              id="function-app-stack-major-version"
-              name={`config.properties.${getConfigProperty(runtimeStack)}`}
-              dirty={isVersionDirty()}
-              component={Dropdown}
-              disabled={disableAllControls}
-              label={t('versionLabel').format(currentStackData.displayText)}
-              options={getStackVersionDropdownOptions(
-                currentStackData,
-                runtimeMajorVersion,
-                isLinux() ? AppStackOs.linux : AppStackOs.windows
-              )}
-            />
+            {isMajorVersionVisible() && (
+              <Field
+                id="function-app-stack-major-version"
+                name={`config.properties.${getConfigProperty(runtimeStack)}`}
+                dirty={isVersionDirty()}
+                component={Dropdown}
+                disabled={disableAllControls}
+                label={t('versionLabel').format(currentStackData.displayText)}
+                options={getStackVersionDropdownOptions(
+                  currentStackData,
+                  runtimeMajorVersion,
+                  isLinux() ? AppStackOs.linux : AppStackOs.windows
+                )}
+              />
+            )}
           </>
         )}
         {isLinux() && (

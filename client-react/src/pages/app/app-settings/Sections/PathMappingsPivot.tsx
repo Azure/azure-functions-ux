@@ -60,7 +60,8 @@ const PathMappingsPivot: React.FC<FormikProps<AppSettingsFormValues> & PathMappi
 export const pathMappingsDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
   return (
     !isEqual(values.virtualApplications, initialValues.virtualApplications) ||
-    !isEqual(values.config.properties.handlerMappings, initialValues.config.properties.handlerMappings)
+    !isEqual(values.config.properties.handlerMappings, initialValues.config.properties.handlerMappings) ||
+    !isEqual(values.azureStorageMounts, initialValues.azureStorageMounts)
   );
 };
 

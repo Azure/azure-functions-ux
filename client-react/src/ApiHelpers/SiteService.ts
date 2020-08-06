@@ -3,7 +3,7 @@ import { AvailableStack } from '../models/available-stacks';
 import { CommonConstants } from '../utils/CommonConstants';
 import LogService from '../utils/LogService';
 import { ArmObj, ArmArray } from '../models/arm-obj';
-import { Site } from '../models/site/site';
+import { Site, PublishingCredentialPolicies } from '../models/site/site';
 import { SiteConfig, ArmAzureStorageMount } from '../models/site/config';
 import { SlotConfigNames } from '../models/site/slot-config-names';
 import { SiteLogsConfig } from '../models/site/logs-config';
@@ -238,5 +238,14 @@ export default class SiteService {
   public static getPublishingCredentials = (resourceId: string) => {
     const id = `${resourceId}/config/publishingcredentials/list`;
     return MakeArmCall<ArmObj<PublishingCredentials>>({ method: 'POST', resourceId: id, commandName: 'getPublishingCredentials' });
+  };
+
+  public static getBasicPublishingCredentialsPolicies = (resourceId: string) => {
+    const id = `${resourceId}/basicPublishingCredentialsPolicies`;
+    return MakeArmCall<ArmObj<PublishingCredentialPolicies>>({
+      method: 'GET',
+      resourceId: id,
+      commandName: 'getBasicPublishingCredentialsPolicies',
+    });
   };
 }

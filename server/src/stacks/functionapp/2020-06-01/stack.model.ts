@@ -1,8 +1,8 @@
 export type Os = 'linux' | 'windows';
-export type StackValue = 'dotnetCore' | 'dotnetFramework' | 'java' | 'node' | 'powershell' | 'python';
+export type StackValue = 'dotnetCore' | 'dotnetFramework' | 'java' | 'node' | 'powershell' | 'python' | 'custom';
 
 type FunctionsExtensionVersion = '~1' | '~2' | '~3';
-type FunctionsWorkerRuntime = 'dotnet' | 'node' | 'python' | 'java' | 'powershell';
+type FunctionsWorkerRuntime = 'dotnet' | 'node' | 'python' | 'java' | 'powershell' | 'custom';
 
 export interface FunctionAppStack {
   displayText: string;
@@ -64,6 +64,6 @@ export interface CommonSettings {
   isPreview?: boolean; // Stack should be labeled as 'preview'
   isDeprecated?: boolean; // Stack should be hidden unless user is already running that stack
   isHidden?: boolean; // Stack should be hidden unless a feature flag is used
-  endOfLifeDate?: Date; // Stack end of life date
+  endOfLifeDate?: string; // Stack end of life date
   isAutoUpdate?: boolean; // Stack should be labeled as 'auto-update'
 }

@@ -1,20 +1,23 @@
 import { FunctionAppStacksService20200601 } from '../../../../stacks/functionapp/2020-06-01/stacks.service';
 import {
   validateAllStackLength,
-  validateWindowsStackLength,
-  validateLinuxStackLength,
+  validateWindowsStacks,
+  validateLinuxStacks,
+  validateNotHiddenStacks,
   validateDotnetCoreInStacks,
   validateNodeInStacks,
   validatePythonInStacks,
   validateJavaInStacks,
   validatePowershellInStacks,
   validateDotnetFrameworkInStacks,
+  validateCustomInStacks,
   validateDotnetCoreFilter,
   validateNodeStackFilter,
   validatePythonStackFilter,
   validateJavaStackFilter,
   validatePowershellStackFilter,
   validateDotnetFrameworkStackFilter,
+  validateCustomStackFilter,
 } from './validations';
 
 const functionAppStacksService = new FunctionAppStacksService20200601();
@@ -33,7 +36,7 @@ describe('FunctionApp Stacks Test 2020-06-01', () => {
   describe('Test windows stack length', () => {
     it('should validate all stacks with windows are returned', done => {
       const stacks = functionAppStacksService.getStacks('windows');
-      validateWindowsStackLength(stacks);
+      validateWindowsStacks(stacks);
       done();
     });
   });
@@ -42,7 +45,16 @@ describe('FunctionApp Stacks Test 2020-06-01', () => {
   describe('Test linux stack length', () => {
     it('should validate all stacks with linux are returned', done => {
       const stacks = functionAppStacksService.getStacks('linux');
-      validateLinuxStackLength(stacks);
+      validateLinuxStacks(stacks);
+      done();
+    });
+  });
+
+  // Test length of not hidden stacks
+  describe('Test remove hidden stack length', () => {
+    it('should validate no stacks with hidden are returned', done => {
+      const stacks = functionAppStacksService.getStacks(undefined, undefined, true);
+      validateNotHiddenStacks(stacks);
       done();
     });
   });
@@ -151,6 +163,24 @@ describe('FunctionApp Stacks Test 2020-06-01', () => {
     it('should validate the .NET Framework stack', done => {
       const stacks = functionAppStacksService.getStacks(undefined, 'dotnetFramework');
       validateDotnetFrameworkStackFilter(stacks);
+      done();
+    });
+  });
+
+  // Test Custom stack
+  describe('Test the Custom stack', () => {
+    it('should validate the Custom stack', done => {
+      const stacks = functionAppStacksService.getStacks();
+      validateCustomInStacks(stacks);
+      done();
+    });
+  });
+
+  // Test Custom stack filter
+  describe('Test the Custom stack filter', () => {
+    it('should validate the Custom stack filter', done => {
+      const stacks = functionAppStacksService.getStacks(undefined, 'custom');
+      validateCustomStackFilter(stacks);
       done();
     });
   });

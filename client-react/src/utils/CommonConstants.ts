@@ -168,4 +168,5 @@ export enum WorkerRuntimeLanguages {
   java = 'java',
   powershell = 'powershell',
   php = 'php',
+  custom = 'custom',
 }
