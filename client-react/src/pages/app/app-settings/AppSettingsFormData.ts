@@ -121,9 +121,7 @@ export const getCleanedConfigForSave = (config: SiteConfig) => {
 export interface ApiSetupReturn {
   site: ArmObj<Site>;
   slotConfigNames: ArmObj<SlotConfigNames>;
-  storageMounts: ArmObj<ArmAzureStorageMount>;
   slotConfigNamesModified: boolean;
-  storageMountsModified: boolean;
 }
 export const convertFormToState = (
   values: AppSettingsFormValues,
@@ -133,13 +131,11 @@ export const convertFormToState = (
 ): ApiSetupReturn => {
   const site = { ...values.site };
   const slotConfigNames = getStickySettings(values.appSettings, values.connectionStrings, oldSlotConfigNames);
-  const storageMounts = getAzureStorageMountFromForm(values.azureStorageMounts);
   const slotConfigNamesModified = isSlotConfigNamesModified(oldSlotConfigNames, slotConfigNames);
-  const storageMountsModified = isStorageMountsModified(initialValues, values);
 
   let config = { ...values.config.properties };
   config.virtualApplications = unFlattenVirtualApplicationsList(values.virtualApplications);
-  config.azureStorageAccounts = undefined;
+  config.azureStorageAccounts = getAzureStorageMountFromForm(values.azureStorageMounts);
   config.appSettings = getAppSettingsFromForm(values.appSettings);
   config.connectionStrings = getConnectionStringsFromForm(values.connectionStrings);
   config.metadata = getMetadataToSet(currentMetadata, values.currentlySelectedStack);
@@ -152,20 +148,16 @@ export const convertFormToState = (
     const [id, location] = [site.id, site.location];
     if (id) {
       slotConfigNames.id = `${SiteService.getProductionId(id)}/config/slotconfignames`;
-      storageMounts.id = `${id}/config/azureStorageAccounts`;
     }
     if (location) {
       slotConfigNames.location = location;
-      storageMounts.location = location;
     }
   }
 
   return {
     site,
     slotConfigNames,
-    storageMounts,
     slotConfigNamesModified,
-    storageMountsModified,
   };
 };
 
@@ -245,18 +237,13 @@ export function getFormAzureStorageMount(storageData: ArmObj<ArmAzureStorageMoun
   );
 }
 
-export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts[]): ArmObj<ArmAzureStorageMount> {
+export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts[]): ArmAzureStorageMount {
   const storageMountFromForm: ArmAzureStorageMount = {};
   storageData.forEach(store => {
     const { name, ...rest } = store;
     storageMountFromForm[name] = rest;
   });
-  return {
-    id: '',
-    location: '',
-    name: 'azurestorageaccounts',
-    properties: storageMountFromForm,
-  };
+  return storageMountFromForm;
 }
 
 export function getAppSettingsFromForm(appSettings: FormAppSetting[]): NameValuePair[] {
