@@ -14,10 +14,10 @@ import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { ThemeContext } from '../../../../ThemeContext';
 import { dirtyElementStyle } from '../AppSettings.styles';
-import { ArmObj } from '../../../../models/arm-obj';
 import { useTranslation } from 'react-i18next';
-import { AppKind } from '../../../../utils/AppKind';
-import { Site } from '../../../../models/site/site';
+import { isXenonApp } from '../../../../utils/arm-utils';
+
+const MAXALLOWEDAZUREMOUNTS = 5;
 
 const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
@@ -37,7 +37,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
       {
         key: 'app-settings-new-azure-storage-mount-button',
         onClick: createNewAzureStorageMount,
-        disabled: disableAllControls || values.azureStorageMounts.length >= 5,
+        disabled: disableAllControls || values.azureStorageMounts.length >= MAXALLOWEDAZUREMOUNTS,
         iconProps: { iconName: 'Add' },
         text: t('newAzureStorageMount'),
       },
@@ -62,7 +62,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
   const onClosePanel = (item: FormAzureStorageMounts): void => {
     const azureStorageMountsItem = values.azureStorageMounts || [];
     const azureStorageMounts = [...azureStorageMountsItem];
-    if (!createNewItem && currentItemIndex) {
+    if (!createNewItem && currentItemIndex !== undefined) {
       azureStorageMounts[currentItemIndex] = item;
     } else {
       azureStorageMounts.push(item);
@@ -250,10 +250,6 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         onRender: onRenderItemColumn,
       },
     ];
-  };
-
-  const isXenonApp = (obj: ArmObj<Site>) => {
-    return AppKind.hasKinds(obj, ['xenon']);
   };
 
   const getTable = () => {
