@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div class="settings-wrapper">
+    <div *ngIf="showVersionSelector" class="settings-wrapper">
         <div class="setting-wrapper">
             <label id="github-action-configure-stackversion-label" class="setting-label">{{ 'runtimeStackVersion' | translate }} </label>
             <div class="setting-control-container">

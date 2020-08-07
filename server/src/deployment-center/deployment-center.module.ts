@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { DeploymentCenterController } from './deployment-center.controller';
 import { DeploymentCenterService } from './deployment-center.service';
 import { GithubController } from './github/github.controller';
 import { DropboxController } from './dropbox/dropbox.controller';
@@ -10,14 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 
 @Module({
   imports: [SharedModule],
-  controllers: [
-    DeploymentCenterController,
-    GithubController,
-    DropboxController,
-    OnedriveController,
-    AzureDevOpsController,
-    BitbucketsController,
-  ],
+  controllers: [GithubController, DropboxController, OnedriveController, AzureDevOpsController, BitbucketsController],
   providers: [DeploymentCenterService],
 })
 export class DeploymentCenterModule {}

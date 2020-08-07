@@ -29,7 +29,7 @@ export class StepBuildProviderComponent implements OnDestroy {
     },
     {
       id: 'github',
-      name: this._translateService.instant(PortalResources.gitHubActionBuildServerTitle),
+      name: this._translateService.instant(PortalResources.deploymentCenterCodeSettingsBuildGitHubAction),
       icon: 'image/deployment-center/GitHubLogo.svg',
       color: '#68217A',
       description: this._translateService.instant(PortalResources.gitHubActionBuildServerDesc),

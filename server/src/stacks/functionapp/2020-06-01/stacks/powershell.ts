@@ -1,5 +1,7 @@
 import { FunctionAppStack } from './../stack.model';
 
+const powershell6point2EOL = new Date(2020, 9, 4).toString();
+
 export const powershellStack: FunctionAppStack = {
   displayText: 'PowerShell',
   value: 'powershell',
@@ -60,6 +62,7 @@ export const powershellStack: FunctionAppStack = {
                 powerShellVersion: '~6',
               },
               supportedFunctionsExtensionVersions: ['~2', '~3'],
+              endOfLifeDate: powershell6point2EOL,
             },
           },
         },

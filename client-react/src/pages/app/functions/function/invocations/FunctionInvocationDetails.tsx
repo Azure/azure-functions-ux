@@ -62,7 +62,6 @@ const FunctionInvocationDetails: React.FC<FunctionInvocationDetailsProps> = prop
         name: t('message'),
         fieldName: 'message',
         minWidth: 100,
-        maxWidth: 260,
         isResizable: true,
         isMultiline: true,
       },

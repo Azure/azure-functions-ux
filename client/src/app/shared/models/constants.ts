@@ -171,6 +171,7 @@ export class Links {
   public static apimUpsellLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104075';
   public static runtimeScaleMonitoringLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104710';
   public static pv2FlexStampInfoLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2116583';
+  public static ftpDisabledByPolicyLink: 'https://go.microsoft.com/fwlink/?linkid=2137907';
 }
 
 export class Kinds {
@@ -389,8 +390,8 @@ export class LogCategories {
 export class ARMApiVersions {
   public static antaresApiVersion20181101 = '2018-11-01';
   public static armApiVersion = '2014-04-01';
-  public static acrApiversion = '2017-10-01';
-  public static acrWebhookApiVersion = '2017-10-01';
+  public static acrApiversion = '2019-05-01';
+  public static acrWebhookApiVersion = '2019-05-01';
   public static serviceBusAndEventHubApiVersion20150801 = '2015-08-01';
   public static storageApiVersion = '2018-07-01';
   public static stacksApiVersion20200501 = '2020-05-01';
@@ -682,7 +683,7 @@ export class Pricing {
 }
 
 export class RuntimeStacks {
-  public static aspnet = 'dotnet';
+  public static aspnet = 'asp.net';
   public static node = 'node';
   public static python = 'python';
   public static dotnetcore = 'dotnetcore';

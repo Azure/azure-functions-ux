@@ -7,6 +7,7 @@ import GitHubService from '../../../ApiHelpers/GitHubService';
 import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppOsType } from '../../../models/site/site';
 import { GitHubActionWorkflowRequestContent } from '../../../models/github';
+import { ProviderToken } from '../../../models/provider';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -73,40 +74,40 @@ export default class DeploymentCenterData {
     return SiteService.patchSiteConfig(resourceId, body);
   };
 
-  public getGitHubUser = (armToken: string) => {
-    return GitHubService.getUser(armToken);
+  public getGitHubUser = (gitHubToken: string) => {
+    return GitHubService.getUser(gitHubToken);
   };
 
-  public storeGitHubToken = (redirectUrl: string, armToken: string) => {
-    return GitHubService.storeToken(redirectUrl, armToken);
+  public getGitHubToken = (redirectUrl: string) => {
+    return GitHubService.getToken(redirectUrl);
   };
 
-  public getGitHubOrganizations = (armToken: string) => {
-    return GitHubService.getOrganizations(armToken);
+  public getGitHubOrganizations = (gitHubToken: string) => {
+    return GitHubService.getOrganizations(gitHubToken);
   };
 
-  public getGitHubOrgRepositories = (repositories_url: string, armToken: string) => {
-    return GitHubService.getOrgRepositories(repositories_url, armToken);
+  public getGitHubOrgRepositories = (repositories_url: string, gitHubToken: string, logger?: (page, response) => void) => {
+    return GitHubService.getOrgRepositories(repositories_url, gitHubToken, logger);
   };
 
-  public getGitHubUserRepositories = (armToken: string) => {
-    return GitHubService.getUserRepositories(armToken);
+  public getGitHubUserRepositories = (gitHubToken: string, logger?: (page, response) => void) => {
+    return GitHubService.getUserRepositories(gitHubToken, logger);
   };
 
-  public getGitHubBranches = (org: string, repo: string, armToken: string) => {
-    return GitHubService.getBranches(org, repo, armToken);
+  public getGitHubBranches = (org: string, repo: string, gitHubToken: string, logger?: (page, response) => void) => {
+    return GitHubService.getBranches(org, repo, gitHubToken, logger);
   };
 
-  public getAllWorkflowConfigurations = (org: string, repo: string, branchName: string, authToken: string) => {
-    return GitHubService.getAllWorkflowConfigurations(org, repo, branchName, authToken);
+  public getAllWorkflowConfigurations = (org: string, repo: string, branchName: string, gitHubToken: string) => {
+    return GitHubService.getAllWorkflowConfigurations(org, repo, branchName, gitHubToken);
   };
 
-  public getWorkflowConfiguration = (org: string, repo: string, branchName: string, workflowYmlPath: string, authToken: string) => {
-    return GitHubService.getWorkflowConfiguration(org, repo, branchName, workflowYmlPath, authToken);
+  public getWorkflowConfiguration = (org: string, repo: string, branchName: string, workflowYmlPath: string, gitHubToken: string) => {
+    return GitHubService.getWorkflowConfiguration(org, repo, branchName, workflowYmlPath, gitHubToken);
   };
 
   public deleteActionWorkflow = (
-    authToken: string,
+    gitHubToken: string,
     org: string,
     repo: string,
     branch: string,
@@ -114,14 +115,31 @@ export default class DeploymentCenterData {
     message: string,
     sha: string
   ) => {
-    return GitHubService.deleteActionWorkflow(authToken, org, repo, branch, workflowFilePath, message, sha);
+    return GitHubService.deleteActionWorkflow(gitHubToken, org, repo, branch, workflowFilePath, message, sha);
   };
 
-  public createOrUpdateActionWorkflow = (authToken: string, content: GitHubActionWorkflowRequestContent) => {
-    return GitHubService.createOrUpdateActionWorkflow(authToken, content);
+  public createOrUpdateActionWorkflow = (authToken: string, gitHubToken: string, content: GitHubActionWorkflowRequestContent) => {
+    return GitHubService.createOrUpdateActionWorkflow(authToken, gitHubToken, content);
   };
 
   public getRuntimeStacks = (stacksOs: AppOsType) => {
     return RuntimeStackService.getWebAppGitHubActionStacks(stacksOs);
+  };
+
+  public storeGitHubToken = (providerToken: ProviderToken) => {
+    return ProviderService.updateUserSourceControl(
+      'github',
+      providerToken.accessToken,
+      providerToken.refreshToken,
+      providerToken.environment
+    );
+  };
+
+  public getUserSourceControls = () => {
+    return ProviderService.getUserSourceControls();
+  };
+
+  public getBasicPublishingCredentialsPolicies = (resourceId: string) => {
+    return SiteService.getBasicPublishingCredentialsPolicies(resourceId);
   };
 }

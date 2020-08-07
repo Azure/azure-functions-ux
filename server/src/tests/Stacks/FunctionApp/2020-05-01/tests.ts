@@ -1,11 +1,13 @@
 import { FunctionAppStacksService20200501 } from '../../../../stacks/functionapp/2020-05-01/stacks.service';
 import {
   validateAllStackLength,
+  validateNonHiddenStackLength,
   validateDotnetCoreStack,
   validateNodeStack,
   validatePythonStack,
   validateJavaStack,
   validatePowershellCoreStack,
+  validateCustomStack,
 } from './validations';
 
 const functionAppStacksService = new FunctionAppStacksService20200501();
@@ -16,6 +18,15 @@ describe('FunctionApp Stacks Test 2020-05-01', () => {
     it('should validate all stacks are returned', done => {
       const stacks = functionAppStacksService.getStacks();
       validateAllStackLength(stacks);
+      done();
+    });
+  });
+
+  // Test length of non-hidden stacks
+  describe('Test non-hidden stack length', () => {
+    it('should validate that hidden stacks are removed', done => {
+      const stacks = functionAppStacksService.getStacks(true);
+      validateNonHiddenStackLength(stacks);
       done();
     });
   });
@@ -61,6 +72,15 @@ describe('FunctionApp Stacks Test 2020-05-01', () => {
     it('should validate the PowerShell Core stack', done => {
       const stacks = functionAppStacksService.getStacks();
       validatePowershellCoreStack(stacks);
+      done();
+    });
+  });
+
+  // Test Custom Core stack
+  describe('Test the Custom stack', () => {
+    it('should validate the Custom stack', done => {
+      const stacks = functionAppStacksService.getStacks();
+      validateCustomStack(stacks);
       done();
     });
   });

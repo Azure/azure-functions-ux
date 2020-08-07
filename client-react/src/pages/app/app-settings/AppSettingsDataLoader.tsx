@@ -1,7 +1,7 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues, AppSettingsReferences, AppSettingsAsyncData, LoadingStates } from './AppSettings.types';
-import { convertStateToForm, convertFormToState, getCleanedReferences, getFormAzureStorageMount } from './AppSettingsFormData';
+import { convertStateToForm, convertFormToState, getCleanedReferences } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import {
   fetchApplicationSettingValues,
@@ -9,7 +9,6 @@ import {
   updateSite,
   updateSlotConfigNames,
   getProductionAppWritePermissions,
-  updateStorageMounts,
   getAllAppSettingReferences,
   fetchAzureStorageAccounts,
   getFunctions,
@@ -122,10 +121,20 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchData = async () => {
-    const [site, { webConfig, metadata, connectionStrings, applicationSettings, slotConfigNames, azureStorageMounts }] = await Promise.all([
+    const [site, basicPublishingCredentialsPolicies, applicationSettingsResponse] = await Promise.all([
       siteContext.fetchSite(resourceId),
+      SiteService.getBasicPublishingCredentialsPolicies(resourceId),
       fetchApplicationSettingValues(resourceId),
     ]);
+
+    const {
+      webConfig,
+      metadata,
+      connectionStrings,
+      applicationSettings,
+      slotConfigNames,
+      azureStorageMounts,
+    } = applicationSettingsResponse;
 
     let loadingFailed =
       armCallFailed(site) ||
@@ -216,6 +225,9 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
+          basicPublishingCredentialsPolicies: basicPublishingCredentialsPolicies.metadata.success
+            ? basicPublishingCredentialsPolicies.data
+            : null,
         }),
       });
     }
@@ -313,37 +325,25 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
     setSaving(true);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
-    const { site, slotConfigNames, storageMounts, slotConfigNamesModified, storageMountsModified } = convertFormToState(
+    const { site, slotConfigNames, slotConfigNamesModified } = convertFormToState(
       values,
       metadataFromApi,
       initialValues!,
       slotConfigNamesFromApi
     );
 
-    // TODO (andimarc): Once the API is updated, include azureStorageAccounts on the site config object instead of making a separate call
-    // TASK 5843044 - Combine updateSite and updateAzureStorageMount calls into a single PUT call when saving config
-    const [siteUpdate, slotConfigNamesUpdate, storageMountsUpdate] = [
+    const [siteUpdate, slotConfigNamesUpdate] = [
       updateSite(resourceId, site),
       productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
-      storageMountsModified ? updateStorageMounts(resourceId, storageMounts) : Promise.resolve(null),
     ];
 
-    const [siteResult, slotConfigNamesResult, storageMountsResult] = await Promise.all([
-      siteUpdate,
-      slotConfigNamesUpdate,
-      storageMountsUpdate,
-    ]);
+    const [siteResult, slotConfigNamesResult] = await Promise.all([siteUpdate, slotConfigNamesUpdate]);
 
-    const success =
-      siteResult!.metadata.success &&
-      (!slotConfigNamesResult || slotConfigNamesResult.metadata.success) &&
-      (!storageMountsResult || storageMountsResult.metadata.success);
+    const success = siteResult!.metadata.success && (!slotConfigNamesResult || slotConfigNamesResult.metadata.success);
 
     if (success) {
-      const azureStorageMounts = storageMountsResult ? getFormAzureStorageMount(storageMountsResult.data) : values.azureStorageMounts;
       setInitialValues({
         ...values,
-        azureStorageMounts,
       });
       if (slotConfigNamesResult) {
         setSlotConfigNamesFromApi(slotConfigNamesResult.data);
@@ -364,12 +364,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
-      const [siteError, slotConfigError, storageMountsError] = [
+      const [siteError, slotConfigError] = [
         getErrorMessage(siteResult!.metadata.error),
         getErrorMessage(slotConfigNamesResult && slotConfigNamesResult.metadata.error),
-        getErrorMessage(storageMountsResult && storageMountsResult.metadata.error),
       ];
-      const errorMessage = siteError || slotConfigError || storageMountsError;
+      const errorMessage = siteError || slotConfigError;
       const message = errorMessage ? t('configUpdateFailureExt').format(errorMessage) : t('configUpdateFailure');
       portalContext.stopNotification(notificationId, false, message);
     }

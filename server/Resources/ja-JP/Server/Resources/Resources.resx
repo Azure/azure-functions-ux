@@ -5337,9 +5337,6 @@
   <data name="functionKeyNamesUnique" xml:space="preserve">
         <value>ファンクション キー名は一意である必要があります</value>
     </data>
-  <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (プレビュー)</value>
-    </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>GitHub Actions を使用して、ビルド、テスト、デプロイのステップを無料で自動化できます。これにより、App Service にアプリケーションをビルドしてデプロイするステップを含む YML ワークフローがリポジトリに追加されます。</value>
     </data>
@@ -5783,12 +5780,6 @@
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
         <value>テストは HTTP によってトリガーされる関数でのみサポートされています</value>
-    </data>
-  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>アプリ '{{appName}}' はスタック 'ASP.NET' でセットアップされていますが、これは現在、GitHub Actions を経由したデプロイ センターではサポートされていません。</value>
-    </data>
-  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>アプリ '{{appName}}' は現在、'ASP.NET' 用に構成されていますが、これは現在のビルドの選択と一致しません。このアプリは、現在のビルドの選択では正常に機能しない可能性があります。</value>
     </data>
   <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
         <value>GitHub アクションのワークフロー ファイル名</value>
@@ -6544,12 +6535,18 @@
         <value>{0} (自動更新)</value>
     </data>
   <data name="versionLabel" xml:space="preserve">
-        <value>{0} Version</value>
+        <value>{0} バージョン</value>
     </data>
   <data name="javaWebServer" xml:space="preserve">
-        <value>Java web server</value>
+        <value>Java Web サーバー</value>
     </data>
   <data name="javaWebServerVersion" xml:space="preserve">
-        <value>Java web server version</value>
+        <value>Java Web サーバーのバージョン</value>
+    </data>
+  <data name="ftpDisabledByPolicy" xml:space="preserve">
+        <value>FTP はアクセス ポリシーによって無効化されています。</value>
+    </data>
+  <data name="ibizafication_readOnlyCustom" xml:space="preserve">
+        <value>Editing Custom Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>

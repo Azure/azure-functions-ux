@@ -11,11 +11,13 @@ import { BroadcastService } from '../../../../shared/services/broadcast.service'
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
+import { ProviderService } from '../../../../shared/services/provider.service';
 
 @Component({
   selector: 'app-step-source-control',
   templateUrl: './step-source-control.component.html',
   styleUrls: ['./step-source-control.component.scss', '../deployment-center-setup.component.scss'],
+  providers: [ProviderService],
 })
 export class StepSourceControlComponent {
   public readonly _allProviders: ProviderCard[] = [
@@ -134,10 +136,34 @@ export class StepSourceControlComponent {
     private _logService: LogService,
     private _translateService: TranslateService,
     private _broadcastService: BroadcastService,
-    private _scenarioService: ScenarioService
+    private _scenarioService: ScenarioService,
+    private _providerService: ProviderService
   ) {
     this._logService.trace(LogCategories.cicd, '/load-source-selector');
 
+    this._wizardService.siteArmObj$.subscribe(SiteObj => {
+      if (SiteObj) {
+        this._allProviders.forEach(provider => {
+          provider.enabled = this._scenarioService.checkScenario(provider.scenarioId, { site: SiteObj }).status !== 'disabled';
+          if (provider.enabled) {
+            if (provider.deploymentType === 'continuous') {
+              this.continuousDeploymentProviderCards.push(provider);
+            } else {
+              this.manualDeploymentProviderCards.push(provider);
+            }
+          }
+        });
+      }
+    });
+
+    this._setupProviderUserSubscribers();
+
+    if (this._shouldFetchSourceControlTokens()) {
+      this._setupProviderTokenSubscribers();
+    }
+  }
+
+  private _setupProviderUserSubscribers() {
     this.githubUserSubject$
       .takeUntil(this._ngUnsubscribe$)
       .filter(r => r)
@@ -148,7 +174,7 @@ export class StepSourceControlComponent {
       .switchMap(() =>
         this._cacheService.post(Constants.serviceHost + 'api/github/passthrough', true, null, {
           url: 'https://api.github.com/user',
-          authToken: this._wizardService.getToken(),
+          gitHubToken: this._wizardService.gitHubToken$.getValue(),
         })
       )
       .subscribe(
@@ -186,7 +212,7 @@ export class StepSourceControlComponent {
       .switchMap(() =>
         this._cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
           url: 'https://api.bitbucket.org/2.0/user',
-          authToken: this._wizardService.getToken(),
+          bitBucketToken: this._wizardService.bitBucketToken$.getValue(),
         })
       )
       .subscribe(
@@ -210,7 +236,7 @@ export class StepSourceControlComponent {
       .switchMap(() =>
         this._cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
           url: 'https://api.onedrive.com/v1.0/drive',
-          authToken: this._wizardService.getToken(),
+          oneDriveToken: this._wizardService.oneDriveToken$.getValue(),
         })
       )
       .subscribe(
@@ -233,7 +259,7 @@ export class StepSourceControlComponent {
       .switchMap(() =>
         this._cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
           url: 'https://api.dropboxapi.com/2/users/get_current_account',
-          authToken: this._wizardService.getToken(),
+          dropBoxToken: this._wizardService.dropBoxToken$.getValue(),
         })
       )
       .subscribe(
@@ -245,46 +271,86 @@ export class StepSourceControlComponent {
           this._logService.error(LogCategories.cicd, '/fetch-dropbox-user', err);
         }
       );
+  }
 
-    if (this._shouldFetchSourceControlTokens()) {
-      this._wizardService.resourceIdStream$
-        .takeUntil(this._ngUnsubscribe$)
-        .switchMap(r =>
-          this._cacheService.post(Constants.serviceHost + 'api/SourceControlAuthenticationState', true, null, {
-            authToken: this._wizardService.getToken(),
-          })
-        )
-        .subscribe(
-          dep => {
-            const r = dep.json();
-            this._onedriveAuthed = r.onedrive;
-            this._dropboxAuthed = r.dropbox;
-            this._bitbucketAuthed = r.bitbucket;
-            this._githubAuthed = r.github;
-            this.refreshAuth();
-          },
-          err => {
+  private _setupProviderTokenSubscribers() {
+    this._wizardService.siteArmObj$
+      .takeUntil(this._ngUnsubscribe$)
+      .switchMap(r => this._providerService.getUserSourceControls())
+      .subscribe(
+        response => {
+          if (response.isSuccessful) {
+            const oneDriveSourceControl = response.result.value.find(item => item.name.toLocaleLowerCase() == 'onedrive');
+            const dropBoxSourceControl = response.result.value.find(item => item.name.toLocaleLowerCase() == 'dropbox');
+            const bitBucketSourceControl = response.result.value.find(item => item.name.toLocaleLowerCase() == 'bitbucket');
+            const gitHubSourceControl = response.result.value.find(item => item.name.toLocaleLowerCase() == 'github');
+
+            this._wizardService.oneDriveToken$.next(oneDriveSourceControl && oneDriveSourceControl.properties.token);
+            this._wizardService.dropBoxToken$.next(dropBoxSourceControl && dropBoxSourceControl.properties.token);
+            this._wizardService.bitBucketToken$.next(bitBucketSourceControl && bitBucketSourceControl.properties.token);
+            this._wizardService.gitHubToken$.next(gitHubSourceControl && gitHubSourceControl.properties.token);
+          } else {
             this.authStateError = true;
-            this._logService.error(LogCategories.cicd, '/fetch-current-auth-state', err);
+            this._logService.error(LogCategories.cicd, '/fetch-current-auth-state', response.error);
           }
-        );
-    }
+        },
+        err => {
+          this.authStateError = true;
+          this._logService.error(LogCategories.cicd, '/fetch-current-auth-state', err);
+        }
+      );
 
-    this._wizardService.siteArmObj$.subscribe(SiteObj => {
-      if (SiteObj) {
-        this._allProviders.forEach(provider => {
-          provider.enabled = this._scenarioService.checkScenario(provider.scenarioId, { site: SiteObj }).status !== 'disabled';
-          if (provider.enabled) {
-            if (provider.deploymentType === 'continuous') {
-              this.continuousDeploymentProviderCards.push(provider);
-            } else {
-              this.manualDeploymentProviderCards.push(provider);
-            }
-          }
-        });
-        this.refreshAuth();
-      }
-    });
+    this._wizardService.oneDriveToken$
+      .takeUntil(this._ngUnsubscribe$)
+      .distinctUntilChanged()
+      .subscribe(token => {
+        this._onedriveAuthed = !!token;
+
+        if (this._onedriveAuthed) {
+          this.onedriveUserSubject$.next(this._onedriveAuthed);
+        } else {
+          this.setProviderCardStatus('onedrive', 'notAuthorized');
+        }
+      });
+
+    this._wizardService.dropBoxToken$
+      .takeUntil(this._ngUnsubscribe$)
+      .distinctUntilChanged()
+      .subscribe(token => {
+        this._dropboxAuthed = !!token;
+
+        if (this._dropboxAuthed) {
+          this.dropboxUserSubject$.next(this._dropboxAuthed);
+        } else {
+          this.setProviderCardStatus('dropbox', 'notAuthorized');
+        }
+      });
+
+    this._wizardService.bitBucketToken$
+      .takeUntil(this._ngUnsubscribe$)
+      .distinctUntilChanged()
+      .subscribe(token => {
+        this._bitbucketAuthed = !!token;
+
+        if (this._bitbucketAuthed) {
+          this.bitbucketUserSubject$.next(this._bitbucketAuthed);
+        } else {
+          this.setProviderCardStatus('bitbucket', 'notAuthorized');
+        }
+      });
+
+    this._wizardService.gitHubToken$
+      .takeUntil(this._ngUnsubscribe$)
+      .distinctUntilChanged()
+      .subscribe(token => {
+        this._githubAuthed = !!token;
+
+        if (this._githubAuthed) {
+          this.githubUserSubject$.next(this._githubAuthed);
+        } else {
+          this.setProviderCardStatus('github', 'notAuthorized');
+        }
+      });
   }
 
   private _shouldFetchSourceControlTokens(): boolean {
@@ -305,32 +371,6 @@ export class StepSourceControlComponent {
     );
   }
 
-  public refreshAuth() {
-    if (this._onedriveAuthed) {
-      this.onedriveUserSubject$.next(this._onedriveAuthed);
-    } else {
-      this.setProviderCardStatus('onedrive', 'notAuthorized');
-    }
-
-    if (this._dropboxAuthed) {
-      this.dropboxUserSubject$.next(this._dropboxAuthed);
-    } else {
-      this.setProviderCardStatus('dropbox', 'notAuthorized');
-    }
-
-    if (this._githubAuthed) {
-      this.githubUserSubject$.next(this._githubAuthed);
-    } else {
-      this.setProviderCardStatus('github', 'notAuthorized');
-    }
-
-    if (this._bitbucketAuthed) {
-      this.bitbucketUserSubject$.next(this._bitbucketAuthed);
-    } else {
-      this.setProviderCardStatus('bitbucket', 'notAuthorized');
-    }
-  }
-
   private setProviderCardStatus(id: string, status: 'loadingAuth' | 'notAuthorized' | 'authorized' | 'none', userId: string = '') {
     const continuousDeploymentCard = this.continuousDeploymentProviderCards.find(x => x.id === id);
     if (continuousDeploymentCard) {
@@ -349,7 +389,7 @@ export class StepSourceControlComponent {
     this.selectedProvider = card;
     const currentFormValues = this._wizardService.wizardValues;
     currentFormValues.sourceProvider = card.id;
-    currentFormValues.buildProvider = 'kudu'; // Not all providers are supported by VSTS, however all providers are supported by kudu so this is a safe default
+    currentFormValues.buildProvider = card.id == 'github' ? 'github' : 'kudu'; // Not all providers are supported by VSTS, however all providers are supported by kudu so this is a safe default
     this._wizardService.wizardValues = currentFormValues;
   }
 
@@ -389,9 +429,34 @@ export class StepSourceControlComponent {
             clearInterval.next();
 
             this._cacheService
-              .post(`${Constants.serviceHost}auth/${provider}/storeToken`, true, null, {
+              .post(`${Constants.serviceHost}auth/${provider}/getToken`, true, null, {
                 redirUrl: win.document.URL,
-                authToken: this._wizardService.getToken(),
+              })
+              .switchMap(response => {
+                switch (provider) {
+                  case 'dropbox':
+                    this._wizardService.dropBoxToken$.next(response.accessToken);
+                    break;
+                  case 'onedrive':
+                    this._wizardService.oneDriveToken$.next(response.accessToken);
+                    break;
+                  case 'bitbucket':
+                    this._wizardService.bitBucketToken$.next(response.accessToken);
+                    break;
+                  case 'github':
+                    this._wizardService.gitHubToken$.next(response.accessToken);
+                    break;
+                  default:
+                    // NOTE(michinoy): Do nothing in this case as the POST call above would have failed.
+                    break;
+                }
+
+                return this._providerService.updateUserSourceControl(
+                  provider,
+                  response.accessToken,
+                  response.refreshToken,
+                  response.environment
+                );
               })
               .subscribe(() => {
                 this.updateProvider(provider);

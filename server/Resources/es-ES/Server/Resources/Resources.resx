@@ -5337,9 +5337,6 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="functionKeyNamesUnique" xml:space="preserve">
         <value>Los nombres de las claves de función deben ser únicos.</value>
     </data>
-  <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (versión preliminar)</value>
-    </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>Automatice los pasos de compilación, prueba e implementación con GitHub Actions de forma gratuita. Se agregará un flujo de trabajo de YML al repositorio con los pasos para compilar e implementar la aplicación en App Service.</value>
     </data>
@@ -5783,12 +5780,6 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
         <value>La prueba solo se admite para las funciones desencadenadas por HTTP</value>
-    </data>
-  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>La aplicación "{{appName}}" está configurada con la pila "ASP.NET", que, actualmente, no se admite en el centro de implementación mediante Acciones de GitHub.</value>
-    </data>
-  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>Actualmente, la aplicación "{{appName}}" está configurada para "ASP.NET", lo que no se corresponde con la selección de la compilación actual. Es posible que la aplicación no funcione correctamente con la selección de la compilación actual.</value>
     </data>
   <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
         <value>Nombre de archivo del flujo de trabajo de acción de GitHub</value>
@@ -6544,12 +6535,18 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>{0} (actualización automática)</value>
     </data>
   <data name="versionLabel" xml:space="preserve">
-        <value>{0} Version</value>
+        <value>{0} versión</value>
     </data>
   <data name="javaWebServer" xml:space="preserve">
-        <value>Java web server</value>
+        <value>Servidor web de Java</value>
     </data>
   <data name="javaWebServerVersion" xml:space="preserve">
-        <value>Java web server version</value>
+        <value>Versión del servidor web de Java</value>
+    </data>
+  <data name="ftpDisabledByPolicy" xml:space="preserve">
+        <value>FTP is disabled by access policy.</value>
+    </data>
+  <data name="ibizafication_readOnlyCustom" xml:space="preserve">
+        <value>Editing Custom Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>

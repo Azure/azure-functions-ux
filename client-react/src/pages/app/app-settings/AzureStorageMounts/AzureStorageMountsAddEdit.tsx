@@ -36,6 +36,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   // eslint-disable-next-line no-useless-escape
   const mountPathRegex = /^\/[a-zA-Z0-9.\[\]\(\)\-_\/]*$/;
   const shareNameMaxLength = 64;
+  const mountPathMaxLength = 256;
 
   // eslint-disable-next-line no-useless-escape
   const shareNameRegex = /^[a-zA-Z0-9\[\]\(\)\-_]+$/;
@@ -61,6 +62,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     accessKey: Yup.string().required(t('validation_requiredError')),
     mountPath: Yup.string()
       .required(t('validation_requiredError'))
+      .max(mountPathMaxLength, t('validation_fieldMaxCharacters').format(mountPathMaxLength))
       .matches(mountPathRegex, t('validation_mountNameAllowedCharacters'))
       .test('cannotMountHomeDirectory', t('validation_mountPathNotHome'), (value: string) => value !== '/home')
       .test('uniqueMountPath', t('mouthPathMustBeUnique'), value => {
@@ -114,6 +116,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               id={`azure-storage-mounts-name`}
               ariaLabel={t('_name')}
               errorMessage={formProps.errors && formProps.errors.name}
+              required={true}
               autoFocus
             />
             <Field
@@ -144,6 +147,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               component={TextField}
               id={`azure-storage-mounts-path`}
               errorMessage={formProps.errors && formProps.errors.mountPath}
+              required={true}
             />
             <ActionBar
               id="handler-mappings-edit-footer"

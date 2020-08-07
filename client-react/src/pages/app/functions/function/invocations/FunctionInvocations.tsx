@@ -170,6 +170,10 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
       : [];
   };
 
+  const onDetailPanelDismiss = () => {
+    setCurrentTrace(undefined);
+  };
+
   useEffect(() => {
     setShowDelayMessage(!!invocationTraces && invocationTraces.length === 0);
   }, [invocationTraces]);
@@ -230,11 +234,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
       </div>
 
       {/*Invocation Details Panel*/}
-      <CustomPanel
-        isOpen={!!currentTrace}
-        onDismiss={() => setCurrentTrace(undefined)}
-        headerText={'Invocation Details'}
-        type={PanelType.medium}>
+      <CustomPanel isOpen={!!currentTrace} onDismiss={onDetailPanelDismiss} headerText={'Invocation Details'} type={PanelType.large}>
         <FunctionInvocationDetails
           invocationDetails={invocationDetails}
           appInsightsResourceId={appInsightsResourceId}

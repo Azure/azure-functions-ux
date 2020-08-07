@@ -36,7 +36,7 @@ export class JavaContainers {
 }
 
 export class RuntimeStacks {
-  public static aspnet = 'dotnet';
+  public static aspnet = 'asp.net';
   public static node = 'node';
   public static python = 'python';
   public static dotnetcore = 'dotnetcore';

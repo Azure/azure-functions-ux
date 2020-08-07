@@ -36,4 +36,9 @@ export default class FunctionAppService {
     const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
     return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.java;
   }
+
+  public static usingCustomWorkerRuntime(appSettings: ArmObj<KeyValue<string>>): boolean {
+    const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
+    return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.custom;
+  }
 }

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ArrayUtil } from '../../../utilities/array.util';
 import { FunctionAppStack, FunctionAppMajorVersion, FunctionAppMinorVersion, Os, StackValue } from './stack.model';
 import { dotnetCoreStack } from './stacks/dotnetCore';
 import { nodeStack } from './stacks/node';
@@ -6,92 +7,80 @@ import { pythonStack } from './stacks/python';
 import { javaStack } from './stacks/java';
 import { powershellStack } from './stacks/powershell';
 import { dotnetFrameworkStack } from './stacks/dotnetFramework';
+import { customStack } from './stacks/custom';
 
 @Injectable()
 export class FunctionAppStacksService20200601 {
-  getStacks(os?: Os, stackValue?: StackValue): FunctionAppStack[] {
-    const functionAppStacks = [dotnetCoreStack, nodeStack, pythonStack, javaStack, powershellStack, dotnetFrameworkStack];
+  getStacks(os?: Os, stackValue?: StackValue, removeHiddenStacks?: boolean): FunctionAppStack[] {
+    const dotnetCoreStackCopy = JSON.parse(JSON.stringify(dotnetCoreStack));
+    const nodeStackCopy = JSON.parse(JSON.stringify(nodeStack));
+    const pythonStackCopy = JSON.parse(JSON.stringify(pythonStack));
+    const javaStackCopy = JSON.parse(JSON.stringify(javaStack));
+    const powershellStackCopy = JSON.parse(JSON.stringify(powershellStack));
+    const dotnetFrameworkStackCopy = JSON.parse(JSON.stringify(dotnetFrameworkStack));
+    const customStackCopy = JSON.parse(JSON.stringify(customStack));
 
-    if (!stackValue) {
-      return !os ? functionAppStacks : this._filterFunctionAppStacksByOs(functionAppStacks, os);
+    let stacks: FunctionAppStack[] = [
+      dotnetCoreStackCopy,
+      nodeStackCopy,
+      pythonStackCopy,
+      javaStackCopy,
+      powershellStackCopy,
+      dotnetFrameworkStackCopy,
+      customStackCopy,
+    ];
+
+    if (stackValue) {
+      stacks = [stacks.find(stack => stack.value === stackValue)];
     }
 
-    const filteredStackByValue: FunctionAppStack[] = [functionAppStacks.find(stack => stack.value === stackValue)];
-    return !os ? filteredStackByValue : this._filterFunctionAppStacksByOs(filteredStackByValue, os);
+    return !os && !removeHiddenStacks ? stacks : this._filterStacks(stacks, os, removeHiddenStacks);
   }
 
-  private _filterFunctionAppStacksByOs(stacks: FunctionAppStack[], os: Os): FunctionAppStack[] {
-    const filteredStacks: FunctionAppStack[] = [];
-    stacks.forEach(stack => {
-      const newStack = this._buildNewStack(stack);
-      stack.majorVersions.forEach(majorVersion => {
-        const newMajorVersion = this._buildNewMajorVersion(majorVersion);
-        majorVersion.minorVersions.forEach(minorVersion => {
-          this._addCorrectMinorVersions(newMajorVersion, minorVersion, os);
+  private _filterStacks(stacks: FunctionAppStack[], os?: Os, removeHiddenStacks?: boolean): FunctionAppStack[] {
+    stacks.forEach((stack, i) => {
+      stack.majorVersions.forEach((majorVersion, j) => {
+        majorVersion.minorVersions.forEach((minorVersion, k) => {
+          // Set Runtimes Settings as undefined if they do not meet filters
+          this._setUndefinedByOs(stacks, i, j, k, os);
+          this._setUndefinedByHidden(stacks, i, j, k, removeHiddenStacks);
         });
-        this._addMajorVersion(newStack, newMajorVersion);
+        // Remove Minor Versions without Runtime Settings
+        ArrayUtil.remove<FunctionAppMinorVersion>(majorVersion.minorVersions, minorVersion => {
+          return !minorVersion.stackSettings.windowsRuntimeSettings && !minorVersion.stackSettings.linuxRuntimeSettings;
+        });
       });
-      this._addStack(filteredStacks, newStack);
+      // Remove Major Versions without Minor Versions
+      ArrayUtil.remove<FunctionAppMajorVersion>(stack.majorVersions, majorVersion => {
+        return majorVersion.minorVersions.length === 0;
+      });
     });
-    return filteredStacks;
+
+    // Remove Stacks without Major Versions
+    ArrayUtil.remove<FunctionAppStack>(stacks, stack => stack.majorVersions.length === 0);
+    return stacks;
   }
 
-  private _buildNewStack(stack: FunctionAppStack): FunctionAppStack {
-    return {
-      displayText: stack.displayText,
-      value: stack.value,
-      preferredOs: stack.preferredOs,
-      majorVersions: [],
-    };
-  }
-
-  private _buildNewMajorVersion(majorVersion: FunctionAppMajorVersion): FunctionAppMajorVersion {
-    return {
-      displayText: majorVersion.displayText,
-      value: majorVersion.value,
-      minorVersions: [],
-    };
-  }
-
-  private _addMajorVersion(newStack: FunctionAppStack, newMajorVersion: FunctionAppMajorVersion) {
-    if (newMajorVersion.minorVersions.length > 0) {
-      newStack.majorVersions.push(newMajorVersion);
+  private _setUndefinedByOs(stacks: FunctionAppStack[], i: number, j: number, k: number, os?: Os): void {
+    if (os === 'linux') {
+      stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings = undefined;
+    } else if (os === 'windows') {
+      stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings = undefined;
     }
   }
 
-  private _addStack(filteredStacks: FunctionAppStack[], newStack: FunctionAppStack) {
-    if (newStack.majorVersions.length > 0) {
-      filteredStacks.push(newStack);
+  private _setUndefinedByHidden(stacks: FunctionAppStack[], i: number, j: number, k: number, removeHiddenStacks?: boolean): void {
+    if (removeHiddenStacks) {
+      const windowsRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+      const linuxRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+
+      if (windowsRuntimeSettings && windowsRuntimeSettings.isHidden) {
+        stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings = undefined;
+      }
+
+      if (linuxRuntimeSettings && linuxRuntimeSettings.isHidden) {
+        stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings = undefined;
+      }
     }
-  }
-
-  private _addCorrectMinorVersions(newMajorVersion: FunctionAppMajorVersion, minorVersion: FunctionAppMinorVersion, os: Os) {
-    if (os === 'linux' && minorVersion.stackSettings.linuxRuntimeSettings) {
-      this._addNewMinorVersionLinuxRuntime(newMajorVersion, minorVersion);
-    } else if (os === 'windows' && minorVersion.stackSettings.windowsRuntimeSettings) {
-      this._addNewMinorVersionWindowsRuntime(newMajorVersion, minorVersion);
-    }
-  }
-
-  private _addNewMinorVersionLinuxRuntime(newMajorVersion: FunctionAppMajorVersion, minorVersion: FunctionAppMinorVersion) {
-    const newMinorVersion: FunctionAppMinorVersion = {
-      displayText: minorVersion.displayText,
-      value: minorVersion.value,
-      stackSettings: {
-        linuxRuntimeSettings: minorVersion.stackSettings.linuxRuntimeSettings,
-      },
-    };
-    newMajorVersion.minorVersions.push(newMinorVersion);
-  }
-
-  private _addNewMinorVersionWindowsRuntime(newMajorVersion: FunctionAppMajorVersion, minorVersion: FunctionAppMinorVersion) {
-    const newMinorVersion: FunctionAppMinorVersion = {
-      displayText: minorVersion.displayText,
-      value: minorVersion.value,
-      stackSettings: {
-        windowsRuntimeSettings: minorVersion.stackSettings.windowsRuntimeSettings,
-      },
-    };
-    newMajorVersion.minorVersions.push(newMinorVersion);
   }
 }
