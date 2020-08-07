@@ -5337,9 +5337,6 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="functionKeyNamesUnique" xml:space="preserve">
         <value>Die Namen von Funktionsschlüsseln müssen eindeutig sein.</value>
     </data>
-  <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Vorschau)</value>
-    </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>Mit GitHub Actions können Sie Ihre Build-, Test- und Bereitstellungsschritte kostenlos automatisieren. Ihrem Repository ein YML-Workflow mit Schritten zum Erstellen und Bereitstellen Ihrer Anwendung für App Service hinzugefügt.</value>
     </data>
@@ -5783,12 +5780,6 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
         <value>Der Test wird nur für über HTTP ausgelöste Funktionen unterstützt.</value>
-    </data>
-  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>Die App "{{appName}}" ist mit dem Stack "ASP.NET" konfiguriert. Dies wird im Bereitstellungscenter über GitHub Actions aktuell nicht unterstützt.</value>
-    </data>
-  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>Die App "{{appName}}" ist aktuell für "ASP.NET" konfiguriert. Dies entspricht nicht der aktuellen Buildauswahl. Die App funktioniert mit der aktuellen Buildauswahl möglicherweise nicht ordnungsgemäß.</value>
     </data>
   <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
         <value>Dateiname für GitHub-Aktionsworkflow</value>
@@ -6544,12 +6535,18 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>{0} (automatische Aktualisierung)</value>
     </data>
   <data name="versionLabel" xml:space="preserve">
-        <value>{0} Version</value>
+        <value>{0}-Version</value>
     </data>
   <data name="javaWebServer" xml:space="preserve">
-        <value>Java web server</value>
+        <value>Java-Webserver</value>
     </data>
   <data name="javaWebServerVersion" xml:space="preserve">
-        <value>Java web server version</value>
+        <value>Java-Webserverversion</value>
+    </data>
+  <data name="ftpDisabledByPolicy" xml:space="preserve">
+        <value>FTP ist durch die Zugriffsrichtlinie deaktiviert.</value>
+    </data>
+  <data name="ibizafication_readOnlyCustom" xml:space="preserve">
+        <value>Das Bearbeiten benutzerdefinierter Funktions-Apps wird im Azure-Portal nicht unterstützt. Verwenden Sie Ihre lokale Entwicklungsumgebung, um diese Funktion zu bearbeiten.</value>
     </data>
 </root>
