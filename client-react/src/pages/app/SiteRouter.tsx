@@ -46,8 +46,8 @@ const FunctionBindingLoadable: any = lazy(() =>
 const FunctionCreateLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioncreate" */ './functions/create/FunctionCreateDataLoader')
 );
-const FunctionCreateV2Loadable: any = lazy(() =>
-  import(/* webpackChunkName:"functioncreate" */ './functions/createV2/FunctionCreateDataLoader')
+const FunctionNewCreatePreviewLoadable: any = lazy(() =>
+  import(/* webpackChunkName:"functioncreate" */ './functions/new-create-preview/FunctionCreateDataLoader')
 );
 const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeysDataLoader'));
 const FunctionKeysLoadable: any = lazy(() =>
@@ -238,7 +238,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
                     <FunctionBindingLoadable resourceId={value.resourceId} path="/bindingeditor" />
                     <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
-                    <FunctionCreateV2Loadable resourceId={value.resourceId} path="/functioncreatev2" />
+                    <FunctionNewCreatePreviewLoadable resourceId={value.resourceId} path="/newcreatepreview" />
                     <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
                     <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />
                     <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />
