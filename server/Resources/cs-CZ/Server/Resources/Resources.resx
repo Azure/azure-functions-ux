@@ -5337,9 +5337,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="functionKeyNamesUnique" xml:space="preserve">
         <value>Názvy klíčů funkcí musí být jedinečné.</value>
     </data>
-  <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Preview)</value>
-    </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>Umožňuje bezplatně automatizovat postup vytváření, testování a nasazení pomocí GitHub Actions. Tato možnost přidá do úložiště pracovní postup YML s postupem, jak vytvářet a nasazovat aplikaci do služby App Service.</value>
     </data>
@@ -5783,12 +5780,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
         <value>Test se podporuje jen pro funkce aktivované protokolem HTTP.</value>
-    </data>
-  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>Aplikace {{appName}} má nastavený stack ASP.NET, který se v současné době v Centru nasazení přes GitHub Actions nepodporuje.</value>
-    </data>
-  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>Aplikace {{appName}} má v tuto chvíli nakonfigurovaný stack ASP.NET, což neodpovídá aktuálnímu výběru buildu. Je možné, že aplikace nebude se stávajícím výběrem buildu fungovat správně.</value>
     </data>
   <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
         <value>Název souboru pracovního postupu akce GitHubu</value>
@@ -6544,12 +6535,18 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>{0} (automatická aktualizace)</value>
     </data>
   <data name="versionLabel" xml:space="preserve">
-        <value>{0} Version</value>
+        <value>Verze {0}</value>
     </data>
   <data name="javaWebServer" xml:space="preserve">
-        <value>Java web server</value>
+        <value>Webový server Java</value>
     </data>
   <data name="javaWebServerVersion" xml:space="preserve">
-        <value>Java web server version</value>
+        <value>Verze webového serveru Java</value>
+    </data>
+  <data name="ftpDisabledByPolicy" xml:space="preserve">
+        <value>Zásady přístupu zakazují protokol FTP.</value>
+    </data>
+  <data name="ibizafication_readOnlyCustom" xml:space="preserve">
+        <value>Na portálu Azure Portal se úpravy vlastních aplikací funkcí nepodporují. K úpravě této funkce použijte místní vývojové prostředí.</value>
     </data>
 </root>
