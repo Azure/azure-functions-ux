@@ -6552,4 +6552,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="ibizafication_readOnlyCustom" xml:space="preserve">
         <value>Editing Custom Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
+    <data name="selectDevelopmentEnvironment" xml:space="preserve">
+        <value>Select development environment</value>
+    </data>
+    <data name="selectDevelopmentEnvironmentDescription" xml:space="preserve">
+        <value>Instructions will vary based on your development environment. </value>
+    </data>
+    <data name="developmentEnvironment" xml:space="preserve">
+        <value>Development environment</value>
+    </data>
 </root>
