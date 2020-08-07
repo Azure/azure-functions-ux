@@ -5337,9 +5337,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="functionKeyNamesUnique" xml:space="preserve">
         <value>İşlev anahtarı adları benzersiz olmalıdır</value>
     </data>
-  <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Önizleme)</value>
-    </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>GitHub Actions ile derleme, test ve dağıtım adımlarınızı ücretsiz olarak otomatikleştirin. Bu, uygulamanızı derleyip App Service'e dağıtma adımlarını içeren bir YML iş akışını deponuza ekler.</value>
     </data>
@@ -5783,12 +5780,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
         <value>Test yalnızca HTTP tarafından tetiklenen işlevler için desteklenir</value>
-    </data>
-  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>'{{appName}}' uygulaması şu anda GitHub Actions aracılığıyla Dağıtım Merkezinde desteklenmeyen 'ASP.NET' yığını ile kuruldu.</value>
-    </data>
-  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>'{{appName}}' uygulaması, şu anda geçerli derleme seçimiyle eşleşmeyen 'ASP.NET' için yapılandırıldı. Uygulama, geçerli derleme seçimiyle düzgün çalışmayabilir.</value>
     </data>
   <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
         <value>GitHub Eylem İş Akışı Dosya Adı</value>
@@ -6544,12 +6535,18 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>{0} (otomatik güncelleştirme)</value>
     </data>
   <data name="versionLabel" xml:space="preserve">
-        <value>{0} Version</value>
+        <value>{0} Sürümü</value>
     </data>
   <data name="javaWebServer" xml:space="preserve">
-        <value>Java web server</value>
+        <value>Java web sunucusu</value>
     </data>
   <data name="javaWebServerVersion" xml:space="preserve">
-        <value>Java web server version</value>
+        <value>Java web sunucusu sürümü</value>
+    </data>
+  <data name="ftpDisabledByPolicy" xml:space="preserve">
+        <value>FTP is disabled by access policy.</value>
+    </data>
+  <data name="ibizafication_readOnlyCustom" xml:space="preserve">
+        <value>Editing Custom Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>

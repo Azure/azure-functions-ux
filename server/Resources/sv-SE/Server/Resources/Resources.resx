@@ -5337,9 +5337,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="functionKeyNamesUnique" xml:space="preserve">
         <value>Funktionsnyckelnamnen måste vara unika</value>
     </data>
-  <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (förhandsversion)</value>
-    </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>Automatisera dina versions-, test- och distributionssteg med GitHub Actions kostnadsfritt. Detta lägger till ett YML-arbetsflöde till din lagringsplats med steg för att skapa och distribuera ditt program till App Service.</value>
     </data>
@@ -5783,12 +5780,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
         <value>Testet stöds endast för HTTP-utlösta funktioner</value>
-    </data>
-  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>Appen {{appName}} är konfigurerad med stacken ASP.NET vilket för närvarande inte stöds i Distributioncenter via GitHub-åtgärder.</value>
-    </data>
-  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>Appen {{appName}} har konfigurerats för ASP.NET, vilket inte matchar den aktuellt valda versionen. Appen kanske inte fungerar korrekt med den aktuellt valda versionen.</value>
     </data>
   <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
         <value>Arbetsflödesfilnamn för GitHub-åtgärd</value>
@@ -6544,12 +6535,18 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>{0} (automatisk uppdatering)</value>
     </data>
   <data name="versionLabel" xml:space="preserve">
-        <value>{0} Version</value>
+        <value>Version {0}</value>
     </data>
   <data name="javaWebServer" xml:space="preserve">
-        <value>Java web server</value>
+        <value>Java-webbserver</value>
     </data>
   <data name="javaWebServerVersion" xml:space="preserve">
-        <value>Java web server version</value>
+        <value>Java Web Server-version</value>
+    </data>
+  <data name="ftpDisabledByPolicy" xml:space="preserve">
+        <value>FTP har inaktiverats av åtkomstprincipen.</value>
+    </data>
+  <data name="ibizafication_readOnlyCustom" xml:space="preserve">
+        <value>Editing Custom Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>
