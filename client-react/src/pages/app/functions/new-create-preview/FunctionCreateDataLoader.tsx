@@ -44,7 +44,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   return (
     <div className={formStyle}>
       <div>
-        <h4 className={selectDevelopmentEnvironmentHeaderStyle}>{t('selectDevelopmentEnvironment')}</h4>
+        <h3 className={selectDevelopmentEnvironmentHeaderStyle}>{t('selectDevelopmentEnvironment')}</h3>
         <p className={selectDevelopmentEnvironmentDescriptionStyle}>
           {t('selectDevelopmentEnvironmentDescription')}
           {/* TODO(krmitta): Add learn more link */}

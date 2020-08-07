@@ -6556,7 +6556,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Select development environment</value>
     </data>
     <data name="selectDevelopmentEnvironmentDescription" xml:space="preserve">
-        <value>Depending on your development environment, the instructions can vary. </value>
+        <value>Instructions will vary based on your development environment. </value>
     </data>
     <data name="developmentEnvironment" xml:space="preserve">
         <value>Development environment</value>
