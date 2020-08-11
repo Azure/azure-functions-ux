@@ -38,7 +38,7 @@ export const powershellStack: FunctionAppStack = {
           sortOrder: 0,
           os: 'windows',
           isPreview: false,
-          isDeprecated: false,
+          isDeprecated: true,
           isHidden: false,
           applicationInsightsEnabled: true,
           runtimeVersion: '~6',
