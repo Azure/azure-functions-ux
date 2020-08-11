@@ -8,7 +8,7 @@ function AiDefined(checkFunctionName?: boolean) {
   checkFunctionName = typeof checkFunctionName !== 'undefined' ? checkFunctionName : true;
   return (_: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
     const originalMethod = descriptor.value;
-    descriptor.value = function(...args: any[]) {
+    descriptor.value = function (...args: any[]) {
       if (typeof appInsights !== 'undefined' && (typeof appInsights[functionName] !== 'undefined' || !checkFunctionName)) {
         return originalMethod.apply(this, args);
       } else {
@@ -23,7 +23,7 @@ function run<T>(action: () => T): any {
   if (typeof appInsights !== 'undefined') {
     return action();
   } else {
-    return () => {};
+    return () => { };
   }
 }
 
@@ -158,7 +158,8 @@ export class AiService implements IAppInsights {
    */
   @AiDefined()
   trackEvent(name: string, properties?: { [name: string]: string }, measurements?: { [name: string]: number }) {
-    return appInsights.trackEvent(name, properties, measurements);
+    const data = this._getTrackingData(properties);
+    return appInsights.trackEvent(name, data, measurements);
   }
 
   /**
@@ -273,5 +274,26 @@ export class AiService implements IAppInsights {
   @AiDefined()
   _onerror(message: string, url: string, lineNumber: number, columnNumber: number, error: Error) {
     return appInsights._onerror(message, url, lineNumber, columnNumber, error);
+  }
+
+  private _getTrackingData(data: any) {
+    const properties = data
+      ? typeof data === 'object' ? data : { message: data }
+      : {};
+
+    const identifiers = window.appsvc
+      ? JSON.stringify({
+        hostName: window.appsvc.env && window.appsvc.env.hostName,
+        appName: window.appsvc.env && window.appsvc.env.appName,
+        version: window.appsvc.version,
+        resourceId: window.appsvc.resourceId,
+        feature: window.appsvc.feature,
+      })
+      : '';
+
+    return {
+      identifiers,
+      ...properties,
+    };
   }
 }
