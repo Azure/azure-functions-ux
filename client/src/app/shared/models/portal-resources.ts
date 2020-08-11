@@ -2137,4 +2137,9 @@ export class PortalResources {
   public static selectDevelopmentEnvironment = 'selectDevelopmentEnvironment';
   public static selectDevelopmentEnvironmentDescription = 'selectDevelopmentEnvironmentDescription';
   public static developmentEnvironment = 'developmentEnvironment';
+  public static selectTemplate = 'selectTemplate';
+  public static selectTemplateDescription = 'selectTemplateDescription';
+  public static description = 'description';
+  public static detail = 'detail';
+  public static detailDescription = 'detailDescription';
 }
