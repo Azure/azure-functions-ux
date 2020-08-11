@@ -9,12 +9,15 @@ import {
 } from './FunctionCreate.styles';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
+import ActionBar from '../../../../components/ActionBar';
+import TemplateList from './portal-create/TemplateList';
 
 export interface FunctionCreateDataLoaderProps {
   resourceId: string;
 }
 
 const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props => {
+  const { resourceId } = props;
   const { t } = useTranslation();
 
   const onDevelopmentEnvironmentChange = (event: any, option: IDropdownOption) => {
@@ -41,6 +44,28 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     );
   };
 
+  const addFunction = () => {
+    // TODO (krmitta): Implement add
+  };
+
+  const cancel = () => {
+    // TODO (krmitta): Implement cancel
+  };
+
+  const actionBarPrimaryButtonProps = {
+    id: 'add',
+    title: t('add'),
+    onClick: addFunction,
+    disable: false,
+  };
+
+  const actionBarSecondaryButtonProps = {
+    id: 'cancel',
+    title: t('cancel'),
+    onClick: cancel,
+    disable: false,
+  };
+
   return (
     <div className={formStyle}>
       <div>
@@ -62,7 +87,9 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
           layout={Layout.Horizontal}
           widthOverride="70%"
         />
+        <TemplateList resourceId={resourceId} addFunction={addFunction} />
       </div>
+      <ActionBar id="add-function-footer" primaryButton={actionBarPrimaryButtonProps} secondaryButton={actionBarSecondaryButtonProps} />
     </div>
   );
 };

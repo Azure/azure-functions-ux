@@ -67,6 +67,12 @@ export const java11LinuxConfigStack: WebAppConfigStack = {
             isRemoteDebuggingEnabled: false,
           },
           {
+            displayVersion: '11.0.6',
+            runtimeVersion: 'JAVA|11.0.6',
+            isDefault: false,
+            isRemoteDebuggingEnabled: false,
+          },
+          {
             displayVersion: '11.0.5',
             runtimeVersion: 'JAVA|11.0.5',
             isDefault: false,
