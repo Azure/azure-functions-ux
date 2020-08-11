@@ -30,8 +30,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
   const [functionsInfo, setFunctionsInfo] = useState<ArmObj<FunctionInfo>[] | undefined>(undefined);
   const [bindings, setBindings] = useState<Binding[] | undefined>(undefined);
 
-  const fetchData = async () => {
-    const bindingIds = getRequiredBindingIds(selectedTemplate);
+  const fetchFunctionInfo = async () => {
     const functionsInfoResponse = await FunctionsService.getFunctions(resourceId);
 
     if (functionsInfoResponse.metadata.success) {
@@ -43,7 +42,10 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
         `Failed to get functions info: ${getErrorMessageOrStringify(functionsInfoResponse.metadata.error)}`
       );
     }
+  };
 
+  const fetchBindings = async () => {
+    const bindingIds = getRequiredBindingIds(selectedTemplate);
     const allBindings: Binding[] = [];
     for (const bindingId of bindingIds) {
       const bindingPromise = await FunctionCreateData.getBinding(resourceId, bindingId);
@@ -62,6 +64,11 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
         ? getRequiredCreationBindings(allBindings, selectedTemplate.userPrompt)
         : []
     );
+  };
+
+  const fetchData = async () => {
+    await fetchFunctionInfo();
+    await fetchBindings();
   };
 
   const getRequiredBindingIds = (template: FunctionTemplate): string[] => {
@@ -120,11 +127,13 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [functionsInfo, bindings]);
+
   useEffect(() => {
     fetchData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTemplate]);
+
   return functionsInfo && bindings ? (
     <div className={detailContainerStyle}>
       <h3>{t('detail')}</h3>
