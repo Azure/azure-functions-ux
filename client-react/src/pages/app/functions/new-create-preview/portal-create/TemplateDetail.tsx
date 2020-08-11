@@ -66,11 +66,6 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     );
   };
 
-  const fetchData = async () => {
-    await fetchFunctionInfo();
-    await fetchBindings();
-  };
-
   const getRequiredBindingIds = (template: FunctionTemplate): string[] => {
     const requiredBindingIds: string[] = [];
     if (template.userPrompt && template.userPrompt.length > 0) {
@@ -129,10 +124,16 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
   }, [functionsInfo, bindings]);
 
   useEffect(() => {
-    fetchData();
+    fetchBindings();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTemplate]);
+
+  useEffect(() => {
+    fetchFunctionInfo();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return functionsInfo && bindings ? (
     <div className={detailContainerStyle}>
