@@ -176,9 +176,9 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   return (
     <DeploymentCenterGitHubProvider
       formProps={formProps}
-      gitHubUser={gitHubUser}
-      gitHubAccountStatusMessage={gitHubAccountStatusMessage}
-      authorizeGitHubAccount={authorizeGitHubAccount}
+      accountUser={gitHubUser}
+      accountStatusMessage={gitHubAccountStatusMessage}
+      authorizeAccount={authorizeGitHubAccount}
       fetchRepositoryOptions={fetchRepositoryOptions}
       fetchBranchOptions={fetchBranchOptions}
       organizationOptions={organizationOptions}
