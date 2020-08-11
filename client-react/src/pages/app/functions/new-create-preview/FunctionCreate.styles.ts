@@ -1,6 +1,6 @@
 import { style } from 'typestyle';
 
-export const formStyle = style({
+export const containerStyle = style({
   padding: '5px 25px',
 });
 
@@ -26,3 +26,15 @@ export const templateListNameColumnStyle = style({
 });
 
 export const filterTextFieldStyle = { root: { marginTop: '30px', marginBottom: '10px', height: '25px', width: '200px' } };
+
+export const formContainerStyle = style({
+  height: '100vh',
+});
+
+export const formContainerDivStyle = style({
+  height: '100vh',
+});
+
+export const detailContainerStyle = style({
+  marginTop: '25px',
+});
