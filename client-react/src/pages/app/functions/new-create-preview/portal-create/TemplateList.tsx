@@ -8,15 +8,19 @@ import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper'
 import FunctionCreateData from '../FunctionCreate.data';
 import { Link, DetailsListLayoutMode, SelectionMode, CheckboxVisibility, IColumn, Selection, SearchBox } from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { templateListStyle, templateListNameColumnStyle, filterTextFieldStyle } from '../FunctionCreate.styles';
+import { templateListStyle, templateListNameColumnStyle, filterTextFieldStyle, containerStyle } from '../FunctionCreate.styles';
+import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
+import { FormikProps } from 'formik';
 
 export interface TemplateListProps {
   resourceId: string;
-  addFunction: () => void;
+  formProps: FormikProps<CreateFunctionFormValues>;
+  setBuilder: (builder?: CreateFunctionFormBuilder) => void;
+  builder?: CreateFunctionFormBuilder;
 }
 
 const TemplateList: React.FC<TemplateListProps> = props => {
-  const { resourceId } = props;
+  const { resourceId, formProps, setBuilder, builder } = props;
   const { t } = useTranslation();
 
   const [templates, setTemplates] = useState<FunctionTemplate[] | undefined | null>(undefined);
@@ -111,7 +115,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <>
+    <div className={containerStyle}>
       <h3>{t('selectTemplate')}</h3>
       <p>
         {t('selectTemplateDescription')}
@@ -146,8 +150,16 @@ const TemplateList: React.FC<TemplateListProps> = props => {
       ) : (
         <>{/**TODO (krmitta): Add Error Banner here**/}</>
       )}
-      {!!selectedTemplate && <TemplateDetail />}
-    </>
+      {!!selectedTemplate && (
+        <TemplateDetail
+          resourceId={resourceId}
+          selectedTemplate={selectedTemplate}
+          formProps={formProps}
+          setBuilder={setBuilder}
+          builder={builder}
+        />
+      )}
+    </div>
   );
 };
 
