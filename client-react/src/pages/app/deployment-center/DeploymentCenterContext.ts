@@ -12,7 +12,7 @@ export interface IDeploymentCenterContext {
   isLinuxApplication: boolean;
   oneDriveToken: string;
   dropBoxToken: string;
-  bitBucketToken: string;
+  bitbucketToken: string;
   gitHubToken: string;
   refresh: () => void;
   siteConfig?: ArmObj<SiteConfig>;
