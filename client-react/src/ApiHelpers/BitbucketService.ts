@@ -4,7 +4,7 @@ import { ProviderToken } from '../models/provider';
 import { BitbucketUser, BitbucketRepository, BitbucketBranch } from '../models/bitbucket';
 
 export default class BitbucketService {
-  public static authorizeUrl = `${Url.serviceHost}auth/github/authorize`;
+  public static authorizeUrl = `${Url.serviceHost}auth/bitbucket/authorize`;
 
   public static getUser = (bitbucketToken: string): Promise<HttpResponseObject<BitbucketUser>> => {
     throw Error('Not implemented');
