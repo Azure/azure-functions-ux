@@ -174,14 +174,14 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
 
 export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
   extends DeploymentCenterFieldProps<T> {
-  authorizeGitHubAccount: () => void;
+  authorizeAccount: () => void;
   fetchRepositoryOptions: (repositories_url: string) => void;
   fetchBranchOptions: (org: string, repo: string) => void;
   organizationOptions: IDropdownOption[];
   repositoryOptions: IDropdownOption[];
   branchOptions: IDropdownOption[];
-  gitHubAccountStatusMessage?: string;
-  gitHubUser?: GitHubUser;
+  accountStatusMessage?: string;
+  accountUser?: GitHubUser;
 }
 
 export interface DeploymentCenterGitHubConfiguredViewProps {
