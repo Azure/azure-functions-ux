@@ -12,9 +12,9 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProps> = props => {
   const {
     formProps,
-    gitHubUser,
-    gitHubAccountStatusMessage,
-    authorizeGitHubAccount,
+    accountUser,
+    accountStatusMessage,
+    authorizeAccount,
     fetchRepositoryOptions,
     fetchBranchOptions,
     organizationOptions,
@@ -60,7 +60,7 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
     formProps.setFieldValue('branch', option.key.toString());
   };
 
-  const gitHubAccountControls = gitHubUser ? (
+  const gitHubAccountControls = accountUser ? (
     <>
       {showInfoBanner && (
         <div className={deploymentCenterInfoBannerDiv}>
@@ -75,10 +75,10 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
 
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
         <div>
-          {`${gitHubUser.login}`}
+          {`${accountUser.login}`}
           <Link
             key="deployment-center-github-change-account-link"
-            onClick={authorizeGitHubAccount}
+            onClick={authorizeAccount}
             className={additionalTextFieldControl}
             aria-label={t('deploymentCenterOAuthChangeAccount')}>
             {t('deploymentCenterOAuthChangeAccount')}
@@ -123,14 +123,14 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
       />
     </>
   ) : (
-    <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeGitHubAccount}>
+    <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeAccount}>
       {t('deploymentCenterOAuthAuthorize')}
     </PrimaryButton>
   );
 
-  const gitHubAccountStatusMessageControl = <Label>{gitHubAccountStatusMessage}</Label>;
+  const accountStatusMessageControl = <Label>{accountStatusMessage}</Label>;
 
-  return <>{gitHubAccountStatusMessage ? gitHubAccountStatusMessageControl : gitHubAccountControls}</>;
+  return <>{accountStatusMessage ? accountStatusMessageControl : gitHubAccountControls}</>;
 };
 
 export default DeploymentCenterGitHubAccount;
