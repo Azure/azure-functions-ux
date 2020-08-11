@@ -14,11 +14,11 @@ export default class BitbucketService {
     throw Error('Not implemented');
   };
 
-  public static getRepositories = async (bitbucketToken: string, logger?: (page, response) => void): Promise<BitbucketRepository[]> => {
+  public static getRepositories = (bitbucketToken: string, logger?: (page, response) => void): Promise<BitbucketRepository[]> => {
     throw Error('Not implemented');
   };
 
-  public static getBranches = async (
+  public static getBranches = (
     org: string,
     repo: string,
     bitbucketToken: string,
