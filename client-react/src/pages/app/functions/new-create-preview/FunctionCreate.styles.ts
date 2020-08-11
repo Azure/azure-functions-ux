@@ -16,3 +16,13 @@ export const selectDevelopmentEnvironmentDescriptionStyle = style({
   marginTop: '0px',
   marginBottom: '30px',
 });
+
+export const templateListStyle = style({
+  maxHeight: '300px',
+});
+
+export const templateListNameColumnStyle = style({
+  marginRight: '10px',
+});
+
+export const filterTextFieldStyle = { root: { marginTop: '30px', marginBottom: '10px', height: '25px', width: '200px' } };
