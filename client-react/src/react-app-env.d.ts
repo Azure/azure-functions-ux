@@ -25,6 +25,7 @@ interface AppSvc {
   feature?: string;
   cdn?: string;
   cacheBreakQuery?: string;
+  frameId?: string;
 }
 
 declare global {

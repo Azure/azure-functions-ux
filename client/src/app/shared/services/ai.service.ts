@@ -288,6 +288,7 @@ export class AiService implements IAppInsights {
         version: window.appsvc.version,
         resourceId: window.appsvc.resourceId,
         feature: window.appsvc.feature,
+        frameId: window.appsvc.frameId
       })
       : '';
 
