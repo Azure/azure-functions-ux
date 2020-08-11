@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, IDropdownOption, ResponsiveMode } from 'office-ui-fabric-react';
 import {
-  formStyle,
+  containerStyle,
   developmentEnvironmentStyle,
   selectDevelopmentEnvironmentDescriptionStyle,
   selectDevelopmentEnvironmentHeaderStyle,
+  formContainerStyle,
+  formContainerDivStyle,
 } from './FunctionCreate.styles';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 import ActionBar from '../../../../components/ActionBar';
 import TemplateList from './portal-create/TemplateList';
+import { Formik, FormikProps } from 'formik';
+import { CreateFunctionFormValues, CreateFunctionFormBuilder } from '../common/CreateFunctionFormBuilder';
 
 export interface FunctionCreateDataLoaderProps {
   resourceId: string;
@@ -19,6 +23,9 @@ export interface FunctionCreateDataLoaderProps {
 const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props => {
   const { resourceId } = props;
   const { t } = useTranslation();
+
+  const [initialFormValues, setInitialFormValues] = useState<CreateFunctionFormValues | undefined>(undefined);
+  const [templateDetailFormBuilder, setTemplateDetailFormBuilder] = useState<CreateFunctionFormBuilder | undefined>(undefined);
 
   const onDevelopmentEnvironmentChange = (event: any, option: IDropdownOption) => {
     // TODO(krmitta): Implement onChange
@@ -44,31 +51,20 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     );
   };
 
-  const addFunction = () => {
-    // TODO (krmitta): Implement add
-  };
-
   const cancel = () => {
     // TODO (krmitta): Implement cancel
   };
 
-  const actionBarPrimaryButtonProps = {
-    id: 'add',
-    title: t('add'),
-    onClick: addFunction,
-    disable: false,
-  };
+  useEffect(() => {
+    if (templateDetailFormBuilder) {
+      setInitialFormValues(templateDetailFormBuilder.getInitialFormValues());
+    }
 
-  const actionBarSecondaryButtonProps = {
-    id: 'cancel',
-    title: t('cancel'),
-    onClick: cancel,
-    disable: false,
-  };
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templateDetailFormBuilder]);
   return (
-    <div className={formStyle}>
-      <div>
+    <div>
+      <div className={containerStyle}>
         <h3 className={selectDevelopmentEnvironmentHeaderStyle}>{t('selectDevelopmentEnvironment')}</h3>
         <p className={selectDevelopmentEnvironmentDescriptionStyle}>
           {t('selectDevelopmentEnvironmentDescription')}
@@ -87,9 +83,49 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
           layout={Layout.Horizontal}
           widthOverride="70%"
         />
-        <TemplateList resourceId={resourceId} addFunction={addFunction} />
       </div>
-      <ActionBar id="add-function-footer" primaryButton={actionBarPrimaryButtonProps} secondaryButton={actionBarSecondaryButtonProps} />
+      <Formik
+        initialValues={initialFormValues}
+        enableReinitialize={true}
+        isInitialValid={true} // Using deprecated option to allow pristine values to be valid.
+        onSubmit={formValues => {
+          // TODO (krmitta): Implement onSubmit
+        }}>
+        {(formProps: FormikProps<CreateFunctionFormValues>) => {
+          const actionBarPrimaryButtonProps = {
+            id: 'add',
+            title: t('add'),
+            onClick: formProps.submitForm,
+            disable: false,
+          };
+
+          const actionBarSecondaryButtonProps = {
+            id: 'cancel',
+            title: t('cancel'),
+            onClick: cancel,
+            disable: false,
+          };
+
+          return (
+            <form className={formContainerStyle}>
+              <div className={formContainerDivStyle}>
+                <TemplateList
+                  resourceId={resourceId}
+                  formProps={formProps}
+                  setBuilder={setTemplateDetailFormBuilder}
+                  builder={templateDetailFormBuilder}
+                />
+              </div>
+              <ActionBar
+                fullPageHeight={true}
+                id="add-function-footer"
+                primaryButton={actionBarPrimaryButtonProps}
+                secondaryButton={actionBarSecondaryButtonProps}
+              />
+            </form>
+          );
+        }}
+      </Formik>
     </div>
   );
 };
