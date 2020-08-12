@@ -49,7 +49,7 @@ const LocalCreateInstructions: React.FC<LocalCreateInstructionsProps> = props =>
       startupInfoContext.effectiveLocale
     );
     if (localDevExperienceResponse.metadata.success) {
-      setInstructions(StringUtils.formatString(localDevExperienceResponse.data, getParameters()));
+      //   setInstructions(StringUtils.formatString(localDevExperienceResponse.data, getParameters()));
     } else {
       setInstructions(null);
       LogService.trackEvent(
