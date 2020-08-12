@@ -29,8 +29,8 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
     throw Error('Not implemented');
   };
 
-  const fetchRepositoriesInOrganization = (orgName: string) => {
-    setRepositoryOptions(orgToRepoMapping[orgName]);
+  const fetchRepositoriesInOrganization = (org: string) => {
+    setRepositoryOptions(orgToRepoMapping[org]);
     setBranchOptions([]);
     throw Error('Not implemented');
   };
