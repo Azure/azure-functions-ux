@@ -1,3 +1,4 @@
+import React from 'react';
 import { ShimmerElementsGroup, ShimmerElementType } from 'office-ui-fabric-react';
 import { wrapperStyle } from './Shimmer.styles';
 
