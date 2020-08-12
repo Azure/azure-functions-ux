@@ -11,20 +11,18 @@ const DeploymentCenterBitbucketAccount: React.FC<DeploymentCenterBitbucketProvid
   const { t } = useTranslation();
 
   const bitbucketAccountControls = accountUser ? (
-    <>
-      <ReactiveFormControl id="deployment-center-bitbucket-user" label={t('deploymentCenterOAuthSingedInAs')}>
-        <div>
-          {`${accountUser.username}`}
-          <Link
-            key="deployment-center-bitbucket-change-account-link"
-            onClick={authorizeAccount}
-            className={additionalTextFieldControl}
-            aria-label={t('deploymentCenterOAuthChangeAccount')}>
-            {t('deploymentCenterOAuthChangeAccount')}
-          </Link>
-        </div>
-      </ReactiveFormControl>
-    </>
+    <ReactiveFormControl id="deployment-center-bitbucket-user" label={t('deploymentCenterOAuthSingedInAs')}>
+      <div>
+        {`${accountUser.username}`}
+        <Link
+          key="deployment-center-bitbucket-change-account-link"
+          onClick={authorizeAccount}
+          className={additionalTextFieldControl}
+          aria-label={t('deploymentCenterOAuthChangeAccount')}>
+          {t('deploymentCenterOAuthChangeAccount')}
+        </Link>
+      </div>
+    </ReactiveFormControl>
   ) : (
     <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeAccount}>
       {t('deploymentCenterOAuthAuthorize')}
@@ -33,7 +31,7 @@ const DeploymentCenterBitbucketAccount: React.FC<DeploymentCenterBitbucketProvid
 
   const accountStatusMessageControl = <Label>{accountStatusMessage}</Label>;
 
-  return <>{accountStatusMessage ? accountStatusMessageControl : bitbucketAccountControls}</>;
+  return accountStatusMessage ? accountStatusMessageControl : bitbucketAccountControls;
 };
 
 export default DeploymentCenterBitbucketAccount;

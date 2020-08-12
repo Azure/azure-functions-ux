@@ -20,8 +20,13 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
 
   let orgToRepoMapping: { [key: string]: IDropdownOption[] } = {};
 
-  const fetchRepositoryOptions = async () => {
+  const fetchData = async () => {
     setBitbucketUser(undefined);
+    throw Error('Not implemented');
+  };
+
+  const fetchRepositoryOptions = async () => {
+    orgToRepoMapping = {};
     setBitbucketAccountStatusMessage(undefined);
     setOrganizationOptions([]);
     setRepositoryOptions([]);
@@ -43,16 +48,16 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
     throw Error('Not implemented');
   };
 
-  const fetchData = async () => {
-    throw Error('Not implemented');
-  };
-
   useEffect(() => {
     fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     fetchRepositoryOptions();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bitbucketUser]);
 
   return (
