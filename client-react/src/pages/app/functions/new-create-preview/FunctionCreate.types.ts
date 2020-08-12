@@ -4,5 +4,4 @@ export enum DevelopmentExperience {
   coreTools = 'coretoolsDirectPublish',
   maven = 'mavenDirectPublish',
   developInPortal = 'developInPortal',
-  custom = 'custom',
 }
