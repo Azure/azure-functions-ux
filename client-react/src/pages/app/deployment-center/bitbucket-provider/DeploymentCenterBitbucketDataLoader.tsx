@@ -17,14 +17,12 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   const [organizationOptions, setOrganizationOptions] = useState<IDropdownOption[]>([]);
   const [repositoryOptions, setRepositoryOptions] = useState<IDropdownOption[]>([]);
   const [branchOptions, setBranchOptions] = useState<IDropdownOption[]>([]);
-  const [orgToRepoMapping, setOrgToRepoMapping] = useState<{ [key: string]: string[] }>({});
 
-  //let orgToRepoMapping: { [key: string]: string[] } = {};
+  let orgToRepoMapping: { [key: string]: IDropdownOption[] } = {};
 
   const fetchRepositoryOptions = async () => {
     setBitbucketUser(undefined);
     setBitbucketAccountStatusMessage(undefined);
-    setOrgToRepoMapping({});
     setOrganizationOptions([]);
     setRepositoryOptions([]);
     setBranchOptions([]);
@@ -32,7 +30,7 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   };
 
   const fetchRepositoriesInOrganization = (orgName: string) => {
-    orgToRepoMapping;
+    setRepositoryOptions(orgToRepoMapping[orgName]);
     setBranchOptions([]);
     throw Error('Not implemented');
   };
@@ -46,13 +44,16 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   };
 
   const fetchData = async () => {
-    fetchRepositoryOptions();
     throw Error('Not implemented');
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    fetchRepositoryOptions();
+  }, [bitbucketUser]);
 
   return (
     <DeploymentCenterBitbucketProvider

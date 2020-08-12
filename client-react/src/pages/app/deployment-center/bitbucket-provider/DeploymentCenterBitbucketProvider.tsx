@@ -34,7 +34,7 @@ const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProvi
     setSelectedBranch('');
     formProps.setFieldValue('branch', '');
 
-    fetchBranchOptions(formProps.values.org, option.text);
+    fetchBranchOptions(formProps.values.org, option.key.toString());
   };
 
   const onBranchChange = async (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
