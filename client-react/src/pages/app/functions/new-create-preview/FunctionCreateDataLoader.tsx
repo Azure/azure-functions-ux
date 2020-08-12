@@ -204,6 +204,62 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     disable: false,
   };
 
+  const getLocalCreateComponent = (): JSX.Element => {
+    return (
+      <>
+        <LocalCreateInstructions resourceId={resourceId} localDevExperience={selectedDropdownKey} workerRuntime={workerRuntime} />
+        <ActionBar fullPageHeight={true} id="add-function-footer" primaryButton={actionBarCloseButtonProps} />
+      </>
+    );
+  };
+
+  const getPortalCreateComponent = (): JSX.Element => {
+    return (
+      <Formik
+        initialValues={initialFormValues}
+        enableReinitialize={true}
+        isInitialValid={true} // Using deprecated option to allow pristine values to be valid.
+        onSubmit={formValues => {
+          // TODO (krmitta): Implement onSubmit
+        }}>
+        {(formProps: FormikProps<CreateFunctionFormValues>) => {
+          const actionBarPrimaryButtonProps = {
+            id: 'add',
+            title: t('add'),
+            onClick: formProps.submitForm,
+            disable: false,
+          };
+
+          const actionBarSecondaryButtonProps = {
+            id: 'cancel',
+            title: t('cancel'),
+            onClick: cancel,
+            disable: false,
+          };
+
+          return (
+            <form className={formContainerStyle}>
+              <div className={formContainerDivStyle}>
+                <TemplateList
+                  resourceId={resourceId}
+                  formProps={formProps}
+                  setBuilder={setTemplateDetailFormBuilder}
+                  builder={templateDetailFormBuilder}
+                />
+              </div>
+              <ActionBar
+                fullPageHeight={true}
+                id="add-function-footer"
+                primaryButton={actionBarPrimaryButtonProps}
+                secondaryButton={actionBarSecondaryButtonProps}
+              />
+            </form>
+          );
+        }}
+      </Formik>
+    );
+  };
+
   useEffect(() => {
     setDefaultDropdownKey();
 
@@ -247,55 +303,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
           selectedKey={selectedDropdownKey}
         />
       </div>
-      {selectedDropdownKey === DevelopmentExperience.developInPortal ? (
-        <Formik
-          initialValues={initialFormValues}
-          enableReinitialize={true}
-          isInitialValid={true} // Using deprecated option to allow pristine values to be valid.
-          onSubmit={formValues => {
-            // TODO (krmitta): Implement onSubmit
-          }}>
-          {(formProps: FormikProps<CreateFunctionFormValues>) => {
-            const actionBarPrimaryButtonProps = {
-              id: 'add',
-              title: t('add'),
-              onClick: formProps.submitForm,
-              disable: false,
-            };
-
-            const actionBarSecondaryButtonProps = {
-              id: 'cancel',
-              title: t('cancel'),
-              onClick: cancel,
-              disable: false,
-            };
-
-            return (
-              <form className={formContainerStyle}>
-                <div className={formContainerDivStyle}>
-                  <TemplateList
-                    resourceId={resourceId}
-                    formProps={formProps}
-                    setBuilder={setTemplateDetailFormBuilder}
-                    builder={templateDetailFormBuilder}
-                  />
-                </div>
-                <ActionBar
-                  fullPageHeight={true}
-                  id="add-function-footer"
-                  primaryButton={actionBarPrimaryButtonProps}
-                  secondaryButton={actionBarSecondaryButtonProps}
-                />
-              </form>
-            );
-          }}
-        </Formik>
-      ) : (
-        <>
-          <LocalCreateInstructions resourceId={resourceId} localDevExperience={selectedDropdownKey} workerRuntime={workerRuntime} />
-          <ActionBar fullPageHeight={true} id="add-function-footer" primaryButton={actionBarCloseButtonProps} />
-        </>
-      )}
+      {selectedDropdownKey === DevelopmentExperience.developInPortal ? getPortalCreateComponent() : getLocalCreateComponent()}
     </div>
   ) : null;
 };

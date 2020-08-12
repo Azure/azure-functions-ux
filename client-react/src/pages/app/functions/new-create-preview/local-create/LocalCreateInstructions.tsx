@@ -18,7 +18,7 @@ import CustomElementsShimmer from '../../../../../components/shimmer/CustomEleme
 
 export interface LocalCreateInstructionsProps {
   resourceId: string;
-  localDevExperience: DevelopmentExperience;
+  localDevExperience?: DevelopmentExperience;
   workerRuntime?: string;
 }
 
@@ -44,19 +44,21 @@ const LocalCreateInstructions: React.FC<LocalCreateInstructionsProps> = props =>
   };
 
   const fetchData = async () => {
-    const localDevExperienceResponse = await FunctionCreateData.getLocalDevExperienceInstructions(
-      localDevExperience,
-      startupInfoContext.effectiveLocale
-    );
-    if (localDevExperienceResponse.metadata.success) {
-      setInstructions(StringUtils.formatString(localDevExperienceResponse.data, getParameters()));
-    } else {
-      setInstructions(null);
-      LogService.trackEvent(
-        LogCategories.functionCreate,
-        'getLocalDevExperienceInstructions',
-        `Failed to fetch instructions: ${getErrorMessageOrStringify(localDevExperienceResponse.metadata.error)}`
+    if (localDevExperience) {
+      const localDevExperienceResponse = await FunctionCreateData.getLocalDevExperienceInstructions(
+        localDevExperience,
+        startupInfoContext.effectiveLocale
       );
+      if (localDevExperienceResponse.metadata.success) {
+        setInstructions(StringUtils.formatString(localDevExperienceResponse.data, getParameters()));
+      } else {
+        setInstructions(null);
+        LogService.trackEvent(
+          LogCategories.functionCreate,
+          'getLocalDevExperienceInstructions',
+          `Failed to fetch instructions: ${getErrorMessageOrStringify(localDevExperienceResponse.metadata.error)}`
+        );
+      }
     }
   };
 
