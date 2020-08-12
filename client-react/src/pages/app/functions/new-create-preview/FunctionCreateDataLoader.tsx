@@ -30,6 +30,8 @@ import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import { isLinuxApp, isElastic } from '../../../../utils/arm-utils';
 import SiteHelper from '../../../../utils/SiteHelper';
 import LocalCreateInstructions from './local-create/LocalCreateInstructions';
+import PortalCommunicator from '../../../../portal-communicator';
+import { PortalContext } from '../../../../PortalContext';
 
 registerIcons({
   icons: {
@@ -53,6 +55,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
 
   const siteStateContext = useContext(SiteStateContext);
+  const portalCommunicator = useContext(PortalContext);
   const site = siteStateContext.site;
 
   const onDevelopmentEnvironmentChange = (event: any, option: IDropdownOption) => {
@@ -165,7 +168,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   };
 
   const cancel = () => {
-    // TODO (krmitta): Implement cancel
+    portalCommunicator.closeSelf();
   };
 
   const fetchData = async () => {
@@ -193,6 +196,13 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         setSelectedDropdownKey(options[0].key as DevelopmentExperience);
       }
     }
+  };
+
+  const actionBarCloseButtonProps = {
+    id: 'close',
+    title: t('close'),
+    onClick: cancel,
+    disable: false,
   };
 
   useEffect(() => {
@@ -282,7 +292,10 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
           }}
         </Formik>
       ) : (
-        <LocalCreateInstructions resourceId={resourceId} localDevExperience={selectedDropdownKey} workerRuntime={workerRuntime} />
+        <>
+          <LocalCreateInstructions resourceId={resourceId} localDevExperience={selectedDropdownKey} workerRuntime={workerRuntime} />
+          <ActionBar fullPageHeight={true} id="add-function-footer" primaryButton={actionBarCloseButtonProps} />
+        </>
       )}
     </div>
   ) : null;
