@@ -30,7 +30,6 @@ import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import { isLinuxApp, isElastic } from '../../../../utils/arm-utils';
 import SiteHelper from '../../../../utils/SiteHelper';
 import LocalCreateInstructions from './local-create/LocalCreateInstructions';
-import PortalCommunicator from '../../../../portal-communicator';
 import { PortalContext } from '../../../../PortalContext';
 
 registerIcons({
