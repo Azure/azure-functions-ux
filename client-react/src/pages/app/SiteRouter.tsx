@@ -237,7 +237,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
                     <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
                     <FunctionBindingLoadable resourceId={value.resourceId} path="/bindingeditor" />
-                    <FunctionNewCreatePreviewLoadable resourceId={value.resourceId} path="/functioncreate" />
+                    <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
                     <FunctionNewCreatePreviewLoadable resourceId={value.resourceId} path="/newcreatepreview" />
                     <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
                     <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />
