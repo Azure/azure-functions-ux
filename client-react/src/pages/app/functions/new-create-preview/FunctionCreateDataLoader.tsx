@@ -78,48 +78,68 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     return !SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState);
   };
 
+  const getVSDropdownOption = (): IDropdownOption => {
+    return {
+      key: DevelopmentExperience.visualStudio,
+      text: t('vsCardTitle'),
+      data: {
+        icon: <Icon iconName="visual-studio" />,
+        visible: isVSOptionVisible(),
+      },
+    };
+  };
+
+  const getVSCodeDropdownOption = (): IDropdownOption => {
+    return {
+      key: DevelopmentExperience.visualStudioCode,
+      text: t('vscodeCardTitle'),
+      data: {
+        icon: <Icon iconName="vs-code" />,
+        visible: isVSCodeOptionVisible(),
+      },
+    };
+  };
+
+  const getMavenDropdownOption = (): IDropdownOption => {
+    return {
+      key: DevelopmentExperience.maven,
+      text: t('mavenCardTitle'),
+      data: {
+        icon: <Icon iconName="terminal" />,
+        visible: isMavenToolsOptionVisible(),
+      },
+    };
+  };
+
+  const getDevelopInPortalDropdownOption = (): IDropdownOption => {
+    return {
+      key: DevelopmentExperience.developInPortal,
+      text: t('developInPortal'),
+      data: {
+        icon: <Icon iconName="Globe" className={developInPortalIconStyle} />,
+        visible: isDevelopInPortalOptionVisible(),
+      },
+    };
+  };
+
+  const getCoreToolsDropdownOption = (): IDropdownOption => {
+    return {
+      key: DevelopmentExperience.coreTools,
+      text: t('coretoolsCardTitle'),
+      data: {
+        icon: <Icon iconName="terminal" />,
+        visible: isCoreToolsOptionVisible(),
+      },
+    };
+  };
+
   const getVisibleDropdownOptions = () => {
     return [
-      {
-        key: DevelopmentExperience.visualStudio,
-        text: t('vsCardTitle'),
-        data: {
-          icon: <Icon iconName="visual-studio" />,
-          visible: isVSOptionVisible(),
-        },
-      },
-      {
-        key: DevelopmentExperience.visualStudioCode,
-        text: t('vscodeCardTitle'),
-        data: {
-          icon: <Icon iconName="vs-code" />,
-          visible: isVSCodeOptionVisible(),
-        },
-      },
-      {
-        key: DevelopmentExperience.coreTools,
-        text: t('coretoolsCardTitle'),
-        data: {
-          icon: <Icon iconName="terminal" />,
-          visible: isCoreToolsOptionVisible(),
-        },
-      },
-      {
-        key: DevelopmentExperience.maven,
-        text: t('mavenCardTitle'),
-        data: {
-          icon: <Icon iconName="terminal" />,
-          visible: isMavenToolsOptionVisible(),
-        },
-      },
-      {
-        key: DevelopmentExperience.developInPortal,
-        text: t('developInPortal'),
-        data: {
-          icon: <Icon iconName="Globe" className={developInPortalIconStyle} />,
-          visible: isDevelopInPortalOptionVisible(),
-        },
-      },
+      getVSDropdownOption(),
+      getVSCodeDropdownOption(),
+      getCoreToolsDropdownOption(),
+      getMavenDropdownOption(),
+      getDevelopInPortalDropdownOption(),
     ].filter(option => option.data && option.data.visible);
   };
 
@@ -169,7 +189,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
       if (options.find(option => option.key === DevelopmentExperience.developInPortal)) {
         setSelectedDropdownKey(DevelopmentExperience.developInPortal);
       } else {
-        setSelectedDropdownKey(options[0].key);
+        setSelectedDropdownKey(options[0].key as DevelopmentExperience);
       }
     }
   };
