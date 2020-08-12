@@ -153,12 +153,13 @@ export default class LogService {
 
     const identifiers = window.appsvc
       ? JSON.stringify({
-          hostName: window.appsvc.env && window.appsvc.env.hostName,
-          appName: window.appsvc.env && window.appsvc.env.appName,
-          version: window.appsvc.version,
-          resourceId: window.appsvc.resourceId,
-          feature: window.appsvc.feature,
-        })
+        hostName: window.appsvc.env && window.appsvc.env.hostName,
+        appName: window.appsvc.env && window.appsvc.env.appName,
+        version: window.appsvc.version,
+        resourceId: window.appsvc.resourceId,
+        feature: window.appsvc.feature,
+        frameId: window.appsvc.frameId,
+      })
       : '';
 
     return {
