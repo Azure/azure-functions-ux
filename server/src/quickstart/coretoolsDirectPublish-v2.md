@@ -24,6 +24,8 @@ To create a function, run the following command:
 
 This will prompt you to choose a template for your function. We recommend HTTP trigger for getting started.
 
+<StackInstructions customStack={true}>To learn about how to create a custom handler that is invoked when this function executes, see the Azure Functions <a href="https://go.microsoft.com/fwlink/?linkid=2138621" target="_blank">Custom Handlers documentation</a>.</StackInstructions>
+
 <br/>
 ### Run your function project locally
 
