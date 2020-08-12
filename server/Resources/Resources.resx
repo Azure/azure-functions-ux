@@ -6576,4 +6576,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="detailDescription" xml:space="preserve">
         <value>We need more information to create the function. </value>
     </data>
+    <data name="developInPortal" xml:space="preserve">
+        <value>Develop in portal</value>
+    </data>
 </root>

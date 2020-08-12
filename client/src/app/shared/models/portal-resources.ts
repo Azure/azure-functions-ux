@@ -2142,4 +2142,5 @@ export class PortalResources {
   public static description = 'description';
   public static detail = 'detail';
   public static detailDescription = 'detailDescription';
+  public static developInPortal = 'developInPortal';
 }
