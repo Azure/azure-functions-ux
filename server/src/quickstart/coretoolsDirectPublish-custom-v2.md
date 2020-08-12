@@ -1,6 +1,6 @@
 ### Install dependencies
 
-Before you can get started, you should <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">install Node.js</a> which includes npm, which is how you will obtain the Azure Functions Core Tools. If you prefer not to install Node.js, see the other installation options in our <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">Core Tools reference</a>.
+Before you can get started, you should <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">install Node.js</a> which includes npm. This is how you will obtain the Azure Functions Core Tools. If you prefer not to install Node.js, see the other installation options in our <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">Core Tools reference</a>.
 
 Run the following command to install the Core Tools package:
 
@@ -13,7 +13,7 @@ In the terminal window or from a command prompt, navigate to an empty folder for
 
 <MarkdownHighlighter>func init</MarkdownHighlighter>
 
-You will also be prompted to choose a runtime for the project. Select Custom.
+You will also be prompted to choose a runtime for the project. Select {workerRuntime}.
 
 <br/>
 ### Create a function
@@ -42,6 +42,6 @@ To stop debugging, use **Ctrl-C** in the terminal.
 
 To publish your Functions project into Azure, enter the following command:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName} --no-build --force</MarkdownHighlighter>
+<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
 
-You may be prompted to sign into Azure. Follow the onscreen instructions. The actual command may depend on the language used to build your custom handler.
+You may be prompted to sign into Azure. Follow the onscreen instructions.

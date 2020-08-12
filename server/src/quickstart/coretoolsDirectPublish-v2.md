@@ -1,6 +1,6 @@
 ### Install dependencies
 
-Before you can get started, you should <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">install Node.js</a> which includes npm, which is how you will obtain the Azure Functions Core Tools. If you prefer not to install Node.js, see the other installation options in our <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">Core Tools reference</a>.
+Before you can get started, you should <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">install Node.js</a> which includes npm. This is how you will obtain the Azure Functions Core Tools. If you prefer not to install Node.js, see the other installation options in our <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">Core Tools reference</a>.
 
 Run the following command to install the Core Tools package:
 
