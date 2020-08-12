@@ -8,4 +8,8 @@ export default class FunctionCreateData {
   public static getBinding(resourceId: string, bindingId: string) {
     return FunctionsService.getBinding(resourceId, bindingId);
   }
+
+  public static getLocalDevExperienceInstructions(filename: string, language: string) {
+    return FunctionsService.getQuickStartFile(filename, language);
+  }
 }

@@ -29,6 +29,7 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import { isLinuxApp, isElastic } from '../../../../utils/arm-utils';
 import SiteHelper from '../../../../utils/SiteHelper';
+import LocalCreateInstructions from './local-create/LocalCreateInstructions';
 
 registerIcons({
   icons: {
@@ -237,7 +238,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
           selectedKey={selectedDropdownKey}
         />
       </div>
-      {selectedDropdownKey === DevelopmentExperience.developInPortal && (
+      {selectedDropdownKey === DevelopmentExperience.developInPortal ? (
         <Formik
           initialValues={initialFormValues}
           enableReinitialize={true}
@@ -280,6 +281,8 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
             );
           }}
         </Formik>
+      ) : (
+        <LocalCreateInstructions resourceId={resourceId} localDevExperience={selectedDropdownKey} workerRuntime={workerRuntime} />
       )}
     </div>
   ) : null;
