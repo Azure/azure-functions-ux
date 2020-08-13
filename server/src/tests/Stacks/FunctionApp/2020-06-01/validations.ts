@@ -165,7 +165,7 @@ export function validatePowershellStackFilter(stacks) {
 }
 
 function validatePowershellStack(powershellStack) {
-  expect(powershellStack.displayText).to.equal('PowerShell');
+  expect(powershellStack.displayText).to.equal('PowerShell Core');
   expect(powershellStack.value).to.equal('powershell');
   expect(powershellStack.preferredOs).to.equal('windows');
   expect(powershellStack.majorVersions.length).to.equal(2);
