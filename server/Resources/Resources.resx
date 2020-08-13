@@ -6222,6 +6222,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
         <value>GitHub</value>
     </data>
+    <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
     <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Registry settings</value>
     </data>
