@@ -7,6 +7,7 @@ import moment from 'moment';
 import { Uri } from 'monaco-editor';
 import { GitHubUser } from '../../../models/github';
 import { IDropdownOption, IChoiceGroupOption } from 'office-ui-fabric-react';
+import { BitbucketUser } from '../../../models/bitbucket';
 
 export enum ContainerOptions {
   docker = 'docker',
@@ -174,14 +175,14 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
 
 export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
   extends DeploymentCenterFieldProps<T> {
-  authorizeGitHubAccount: () => void;
+  authorizeAccount: () => void;
   fetchRepositoryOptions: (repositories_url: string) => void;
   fetchBranchOptions: (org: string, repo: string) => void;
   organizationOptions: IDropdownOption[];
   repositoryOptions: IDropdownOption[];
   branchOptions: IDropdownOption[];
-  gitHubAccountStatusMessage?: string;
-  gitHubUser?: GitHubUser;
+  accountStatusMessage?: string;
+  accountUser?: GitHubUser;
 }
 
 export interface DeploymentCenterGitHubConfiguredViewProps {
@@ -299,4 +300,16 @@ export interface SiteSourceControlRequestBody {
   isManualIntegration: boolean;
   isGitHubAction: boolean;
   isMercurial: boolean;
+}
+
+export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  authorizeAccount: () => void;
+  fetchRepositoriesInOrganization: (org: string) => void;
+  fetchBranchOptions: (org: string, repo: string) => void;
+  organizationOptions: IDropdownOption[];
+  repositoryOptions: IDropdownOption[];
+  branchOptions: IDropdownOption[];
+  accountStatusMessage?: string;
+  accountUser?: BitbucketUser;
 }

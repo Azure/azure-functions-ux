@@ -3,7 +3,7 @@ import { FunctionAppStack } from './../stack.model';
 const powershell6point2EOL = new Date(2020, 9, 4).toString();
 
 export const powershellStack: FunctionAppStack = {
-  displayText: 'PowerShell',
+  displayText: 'PowerShell Core',
   value: 'powershell',
   preferredOs: 'windows',
   majorVersions: [
@@ -61,6 +61,7 @@ export const powershellStack: FunctionAppStack = {
                 use32BitWorkerProcess: true,
                 powerShellVersion: '~6',
               },
+              isDeprecated: true,
               supportedFunctionsExtensionVersions: ['~2', '~3'],
               endOfLifeDate: powershell6point2EOL,
             },

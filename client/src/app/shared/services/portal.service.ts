@@ -292,7 +292,7 @@ export class PortalService implements IPortalService {
   }
 
   hasPermission(resourceId: string, actions: string[]) {
-    this.logAction('portal-service', `has-permission: ${resourceId}`, null);
+    this.logAction('portal-service', 'has-permission', { resourceId });
     const operationId = Guid.newGuid();
 
     const payload: DataMessage<CheckPermissionRequest> = {
@@ -316,7 +316,7 @@ export class PortalService implements IPortalService {
   }
 
   hasLock(resourceId: string, type: LockType) {
-    this.logAction('portal-service', `has-lock: ${resourceId}`, null);
+    this.logAction('portal-service', 'has-lock', { resourceId });
     const operationId = Guid.newGuid();
 
     const payload: DataMessage<CheckLockRequest> = {
@@ -521,6 +521,7 @@ export class PortalService implements IPortalService {
       window.appsvc.env.armToken = this.startupInfo.token;
       window.appsvc.resourceId = this.startupInfo.resourceId;
       window.appsvc.feature = this.startupInfo.featureInfo && this.startupInfo.featureInfo.feature;
+      window.appsvc.frameId = this.frameId;
 
       this.startupInfoObservable.next(this.startupInfo);
       this.logTokenExpiration(this.startupInfo.token, '/portal-service/token-new-startupInfo');

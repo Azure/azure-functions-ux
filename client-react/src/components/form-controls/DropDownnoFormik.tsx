@@ -18,6 +18,7 @@ interface CustomDropdownProps {
   onPanel?: boolean;
   layout?: Layout;
   mouseOverToolTip?: string;
+  customLabelClassName?: string;
 }
 
 const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {

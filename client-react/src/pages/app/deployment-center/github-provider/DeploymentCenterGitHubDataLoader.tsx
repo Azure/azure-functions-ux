@@ -149,9 +149,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   // repos, orgs, branches, workflow file, etc.
 
   const fetchData = async () => {
-    const getGitHubUserRequest = deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken);
-
-    const [gitHubUserResponse] = await Promise.all([getGitHubUserRequest]);
+    const gitHubUserResponse = await deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken);
 
     setGitHubAccountStatusMessage(undefined);
 
@@ -176,9 +174,9 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   return (
     <DeploymentCenterGitHubProvider
       formProps={formProps}
-      gitHubUser={gitHubUser}
-      gitHubAccountStatusMessage={gitHubAccountStatusMessage}
-      authorizeGitHubAccount={authorizeGitHubAccount}
+      accountUser={gitHubUser}
+      accountStatusMessage={gitHubAccountStatusMessage}
+      authorizeAccount={authorizeGitHubAccount}
       fetchRepositoryOptions={fetchRepositoryOptions}
       fetchBranchOptions={fetchBranchOptions}
       organizationOptions={organizationOptions}
