@@ -433,30 +433,36 @@ export class StepSourceControlComponent {
                 redirUrl: win.document.URL,
               })
               .switchMap(response => {
-                switch (provider) {
-                  case 'dropbox':
-                    this._wizardService.dropBoxToken$.next(response.accessToken);
-                    break;
-                  case 'onedrive':
-                    this._wizardService.oneDriveToken$.next(response.accessToken);
-                    break;
-                  case 'bitbucket':
-                    this._wizardService.bitBucketToken$.next(response.accessToken);
-                    break;
-                  case 'github':
-                    this._wizardService.gitHubToken$.next(response.accessToken);
-                    break;
-                  default:
-                    // NOTE(michinoy): Do nothing in this case as the POST call above would have failed.
-                    break;
-                }
+                if (response && response.status === 200) {
+                  const responseJson = response.json();
 
-                return this._providerService.updateUserSourceControl(
-                  provider,
-                  response.accessToken,
-                  response.refreshToken,
-                  response.environment
-                );
+                  switch (provider) {
+                    case 'dropbox':
+                      this._wizardService.dropBoxToken$.next(responseJson.accessToken);
+                      break;
+                    case 'onedrive':
+                      this._wizardService.oneDriveToken$.next(responseJson.accessToken);
+                      break;
+                    case 'bitbucket':
+                      this._wizardService.bitBucketToken$.next(responseJson.accessToken);
+                      break;
+                    case 'github':
+                      this._wizardService.gitHubToken$.next(responseJson.accessToken);
+                      break;
+                    default:
+                      // NOTE(michinoy): Do nothing in this case as the POST call above would have failed.
+                      break;
+                  }
+
+                  return this._providerService.updateUserSourceControl(
+                    provider,
+                    responseJson.accessToken,
+                    responseJson.refreshToken,
+                    responseJson.environment
+                  );
+                } else {
+                  return Observable.of(null);
+                }
               })
               .subscribe(() => {
                 this.updateProvider(provider);
