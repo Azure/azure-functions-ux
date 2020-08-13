@@ -35,7 +35,6 @@ import FunctionCreateData from './FunctionCreate.data';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { ArmObj } from '../../../../models/arm-obj';
 import { KeyValue } from '../../../../models/portal-models';
-import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 
 registerIcons({
   icons: {
@@ -51,6 +50,10 @@ export interface FunctionCreateDataLoaderProps {
 
 const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props => {
   const { resourceId } = props;
+
+  const siteStateContext = useContext(SiteStateContext);
+  const portalCommunicator = useContext(PortalContext);
+  const site = siteStateContext.site;
   const { t } = useTranslation();
 
   const [initialFormValues, setInitialFormValues] = useState<CreateFunctionFormValues | undefined>(undefined);
@@ -58,10 +61,6 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   const [selectedDropdownKey, setSelectedDropdownKey] = useState<DevelopmentExperience | undefined>(undefined);
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
   const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplate | undefined>(undefined);
-
-  const siteStateContext = useContext(SiteStateContext);
-  const portalCommunicator = useContext(PortalContext);
-  const site = siteStateContext.site;
 
   const onDevelopmentEnvironmentChange = (event: any, option: IDropdownOption) => {
     setSelectedDropdownKey(option.key as DevelopmentExperience);
@@ -203,19 +202,23 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     }
   };
 
-  const updateAppSettings = (appSettings: ArmObj<KeyValue<string>>) => {
+  const updateAppSettings = async (appSettings: ArmObj<KeyValue<string>>) => {
     const notificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
-    SiteService.updateApplicationSettings(resourceId, appSettings).then(r => {
-      if (!r.metadata.success) {
-        const errorMessage = getErrorMessage(r.metadata.error) || t('configUpdateFailure');
-        portalCommunicator.stopNotification(notificationId, false, errorMessage);
-        return;
-      }
+    const updateAppSettingsResponse = await FunctionCreateData.updateAppSettings(resourceId, appSettings);
+    if (updateAppSettingsResponse.metadata.success) {
       portalCommunicator.stopNotification(notificationId, true, t('configUpdateSuccess'));
-    });
+    } else {
+      const errorMessage = getErrorMessage(updateAppSettingsResponse.metadata.error) || t('configUpdateFailure');
+      portalCommunicator.stopNotification(notificationId, false, errorMessage);
+      LogService.trackEvent(
+        LogCategories.functionCreate,
+        'updateAppSettings',
+        `Failed to update Application Settings: ${getErrorMessageOrStringify(updateAppSettingsResponse.metadata.error)}`
+      );
+    }
   };
 
-  const addFunction = (formValues: CreateFunctionFormValues) => {
+  const addFunction = async (formValues: CreateFunctionFormValues) => {
     if (selectedTemplate) {
       const config = FunctionCreateData.buildFunctionConfig(selectedTemplate.bindings || [], formValues);
       const { functionName } = formValues;
@@ -225,23 +228,27 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         t('createFunctionNotificationDetails').format(functionName)
       );
 
-      FunctionsService.createFunction(resourceId, functionName, files, config).then(r => {
-        if (!r.metadata.success) {
-          const errorMessage = getErrorMessage(r.metadata.error);
-          portalCommunicator.stopNotification(
-            notificationId,
-            false,
-            errorMessage
-              ? t('createFunctionNotificationFailedDetails').format(functionName, errorMessage)
-              : t('createFunctionNotificationFailed').format(functionName)
-          );
-          portalCommunicator.closeSelf();
-        } else {
-          portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
-          const id = `${resourceId}/functions/${functionName}`;
-          portalCommunicator.closeSelf(id);
-        }
-      });
+      const createFunctionResponse = await FunctionCreateData.createFunction(resourceId, functionName, files, config);
+      if (createFunctionResponse.metadata.success) {
+        portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
+        const id = `${resourceId}/functions/${functionName}`;
+        portalCommunicator.closeSelf(id);
+      } else {
+        LogService.trackEvent(
+          LogCategories.functionCreate,
+          'createFunction',
+          `Failed to create function ${getErrorMessageOrStringify(createFunctionResponse.metadata.error)}`
+        );
+        const errorMessage = getErrorMessage(createFunctionResponse.metadata.error);
+        portalCommunicator.stopNotification(
+          notificationId,
+          false,
+          errorMessage
+            ? t('createFunctionNotificationFailedDetails').format(functionName, errorMessage)
+            : t('createFunctionNotificationFailed').format(functionName)
+        );
+        portalCommunicator.closeSelf();
+      }
     }
   };
 

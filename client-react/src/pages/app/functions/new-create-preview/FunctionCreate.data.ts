@@ -2,6 +2,9 @@ import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { BindingInfo } from '../../../../models/functions/function-binding';
 import { BindingEditorFormValues } from '../common/BindingFormBuilder';
 import { FunctionConfig } from '../../../../models/functions/function-config';
+import { ArmObj } from '../../../../models/arm-obj';
+import { KeyValue } from '../../../../models/portal-models';
+import SiteService from '../../../../ApiHelpers/SiteService';
 
 export default class FunctionCreateData {
   public static getTemplates(resourceId: string) {
@@ -33,5 +36,13 @@ export default class FunctionCreateData {
     });
 
     return resultConfig;
+  }
+
+  public static updateAppSettings(resourceId: string, appSettings: ArmObj<KeyValue<string>>) {
+    return SiteService.updateApplicationSettings(resourceId, appSettings);
+  }
+
+  public static createFunction(functionAppId: string, functionName: string, files: KeyValue<string>, functionConfig: FunctionConfig) {
+    return FunctionsService.createFunction(functionAppId, functionName, files, functionConfig);
   }
 }
