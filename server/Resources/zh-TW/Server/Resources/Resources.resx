@@ -6547,6 +6547,33 @@
         <value>存取原則已停用 FTP。</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>Editing Custom Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+        <value>不支援在 Azure 入口網站中編輯自訂函數應用程式。請使用您的本機開發環境來編輯此函式。</value>
+    </data>
+  <data name="selectDevelopmentEnvironment" xml:space="preserve">
+        <value>選取開發環境</value>
+    </data>
+  <data name="selectDevelopmentEnvironmentDescription" xml:space="preserve">
+        <value>指示將因開發環境而有所不同。 </value>
+    </data>
+  <data name="developmentEnvironment" xml:space="preserve">
+        <value>開發環境</value>
+    </data>
+  <data name="selectTemplate" xml:space="preserve">
+        <value>選取範本</value>
+    </data>
+  <data name="selectTemplateDescription" xml:space="preserve">
+        <value>Use a template to create a function. Triggers describe the type of events that invoke your functions. </value>
+    </data>
+  <data name="description" xml:space="preserve">
+        <value>描述</value>
+    </data>
+  <data name="detail" xml:space="preserve">
+        <value>詳細資料</value>
+    </data>
+  <data name="detailDescription" xml:space="preserve">
+        <value>We need more information to create the function. </value>
+    </data>
+  <data name="developInPortal" xml:space="preserve">
+        <value>Develop in portal</value>
     </data>
 </root>
