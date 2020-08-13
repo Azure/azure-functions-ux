@@ -6549,4 +6549,31 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
         <value>Na portálu Azure Portal se úpravy vlastních aplikací funkcí nepodporují. K úpravě této funkce použijte místní vývojové prostředí.</value>
     </data>
+  <data name="selectDevelopmentEnvironment" xml:space="preserve">
+        <value>Vyberte vývojové prostředí.</value>
+    </data>
+  <data name="selectDevelopmentEnvironmentDescription" xml:space="preserve">
+        <value>Pokyny se budou lišit v závislosti na vývojovém prostředí. </value>
+    </data>
+  <data name="developmentEnvironment" xml:space="preserve">
+        <value>Vývojové prostředí</value>
+    </data>
+  <data name="selectTemplate" xml:space="preserve">
+        <value>Vybrat šablonu</value>
+    </data>
+  <data name="selectTemplateDescription" xml:space="preserve">
+        <value>Use a template to create a function. Triggers describe the type of events that invoke your functions. </value>
+    </data>
+  <data name="description" xml:space="preserve">
+        <value>Popis</value>
+    </data>
+  <data name="detail" xml:space="preserve">
+        <value>Podrobnosti</value>
+    </data>
+  <data name="detailDescription" xml:space="preserve">
+        <value>We need more information to create the function. </value>
+    </data>
+  <data name="developInPortal" xml:space="preserve">
+        <value>Develop in portal</value>
+    </data>
 </root>
