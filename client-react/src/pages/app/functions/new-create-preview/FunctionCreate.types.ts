@@ -1,14 +1,6 @@
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 
-export enum DevelopmentExperience {
-  visualStudio = 'vsDirectPublish',
-  visualStudioCode = 'vsCodeDirectPublish',
-  coreTools = 'coretoolsDirectPublish',
-  maven = 'mavenDirectPublish',
-  developInPortal = 'developInPortal',
-}
-
-export class Order {
+class Order {
   public static templateOrder: string[] = [
     'HttpTrigger-',
     'TimerTrigger-',
@@ -42,6 +34,14 @@ export class Order {
     'ExternalFileTrigger-',
     'ExternalTable-',
   ];
+}
+
+export enum DevelopmentExperience {
+  visualStudio = 'vsDirectPublish',
+  visualStudioCode = 'vsCodeDirectPublish',
+  coreTools = 'coretoolsDirectPublish',
+  maven = 'mavenDirectPublish',
+  developInPortal = 'developInPortal',
 }
 
 export const sortTemplate = (templateA: FunctionTemplate, templateB: FunctionTemplate): number => {

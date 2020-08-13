@@ -13,7 +13,6 @@ import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../commo
 import { FormikProps } from 'formik';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { HostStatus } from '../../../../../models/functions/host-status';
-import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import StringUtils from '../../../../../utils/string';
 import { RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
 import { sortTemplate } from '../FunctionCreate.types';
@@ -53,11 +52,11 @@ const TemplateList: React.FC<TemplateListProps> = props => {
 
   const fetchData = async () => {
     await getHostStatus();
-    await getTemplates();
+    getTemplates();
   };
 
   const getHostStatus = async () => {
-    const hostStatusResponse = await FunctionsService.getHostStatus(resourceId);
+    const hostStatusResponse = await FunctionCreateData.getHostStatus(resourceId);
     if (hostStatusResponse.metadata.success) {
       setHostStatus(hostStatusResponse.data);
     } else {
