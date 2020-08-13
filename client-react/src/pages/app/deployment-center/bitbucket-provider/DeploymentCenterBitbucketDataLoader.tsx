@@ -6,6 +6,9 @@ import { IDropdownOption } from 'office-ui-fabric-react';
 import DeploymentCenterBitbucketProvider from './DeploymentCenterBitbucketProvider';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -27,8 +30,6 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
 
   const fetchData = async () => {
     if (deploymentCenterContext.bitbucketToken) {
-      setBitbucketUser(undefined);
-
       const bitbucketUserResponse = await deploymentCenterData.getBitbucketUser(deploymentCenterContext.bitbucketToken);
 
       setBitbucketAccountStatusMessage(undefined);
@@ -36,6 +37,13 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
       if (bitbucketUserResponse.metadata.success && bitbucketUserResponse.data.username) {
         // NOTE(michinoy): if unsuccessful, assume the user needs to authorize.
         setBitbucketUser(bitbucketUserResponse.data);
+      } else {
+        setBitbucketUser(undefined);
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'DeploymentCenterBitbucketDataLoader',
+          `Failed to get bitbucket user with error: ${getErrorMessage(bitbucketUserResponse.metadata.error)}`
+        );
       }
     }
   };
