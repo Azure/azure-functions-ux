@@ -433,7 +433,7 @@ export class StepSourceControlComponent {
                 redirUrl: win.document.URL,
               })
               .switchMap(response => {
-                if (response && response.status === 200) {
+                if (response && response.status === 200 && response.json()) {
                   const responseJson = response.json();
 
                   switch (provider) {
