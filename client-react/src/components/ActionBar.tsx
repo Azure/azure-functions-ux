@@ -29,11 +29,12 @@ interface ActionBarProps {
   statusMessage?: StatusMessage;
   validating?: boolean;
   overlay?: boolean;
+  fullPageHeight?: boolean;
 }
 
-const elementWrapperStyle = (theme: ThemeExtended) =>
+const elementWrapperStyle = (theme: ThemeExtended, fullPageHeight?: boolean) =>
   style({
-    position: 'absolute',
+    position: fullPageHeight ? 'sticky' : 'absolute',
     bottom: '0px',
     height: '57px',
     left: '0px',
@@ -81,11 +82,19 @@ const statusMessageDiv = style({
 });
 
 type ActionBarPropsCombined = ActionBarProps;
-const ActionBar: React.FC<ActionBarPropsCombined> = ({ primaryButton, secondaryButton, validating, id, statusMessage, overlay }) => {
+const ActionBar: React.FC<ActionBarPropsCombined> = ({
+  primaryButton,
+  secondaryButton,
+  validating,
+  id,
+  statusMessage,
+  overlay,
+  fullPageHeight,
+}) => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
   return (
-    <div className={elementWrapperStyle(theme)}>
+    <div className={elementWrapperStyle(theme, fullPageHeight)}>
       <div className={buttonsWrapperStyle}>
         <PrimaryButton
           id={`${id}-${primaryButton.id}`}

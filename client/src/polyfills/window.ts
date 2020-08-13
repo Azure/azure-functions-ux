@@ -13,10 +13,11 @@ interface AppSvc {
   env: Environment;
   functionsVersionInfo: FunctionsVersionInfo;
   version: string;
+  cacheBreakQuery: string;
   resourceId?: string;
   feature?: string;
   cdn?: string;
-  cacheBreakQuery: string;
+  frameId?: string;
 }
 
 declare global {

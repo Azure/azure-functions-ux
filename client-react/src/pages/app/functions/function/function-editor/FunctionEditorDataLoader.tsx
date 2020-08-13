@@ -23,7 +23,6 @@ import { Method } from 'axios';
 import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
-import { ValidationRegex } from '../../../../../utils/constants/ValidationRegex';
 import { KeyValue } from '../../../../../models/portal-models';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../../../ArmHelper.types';
@@ -93,7 +92,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
     if (hostStatusResponse.metadata.success) {
       const hostStatusData = hostStatusResponse.data;
-      const currentRuntimeVersion = getRuntimeVersionString(hostStatusData.properties.version);
+      const currentRuntimeVersion = StringUtils.getRuntimeVersionString(hostStatusData.properties.version);
       setRuntimeVersion(currentRuntimeVersion);
       const [hostJsonResponse, fileListResponse] = await Promise.all([
         FunctionsService.getHostJson(siteResourceId, currentRuntimeVersion),
@@ -142,14 +141,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
     setInitialLoading(false);
     setIsRefreshing(false);
-  };
-
-  const getRuntimeVersionString = (exactVersion: string): string => {
-    if (ValidationRegex.runtimeVersion.test(exactVersion)) {
-      const versionElements = exactVersion.split('.');
-      return `~${versionElements[0]}`;
-    }
-    return exactVersion;
   };
 
   const createAndGetFunctionInvokeUrlPath = (key?: string) => {

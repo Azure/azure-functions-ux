@@ -61,6 +61,7 @@ export const powershellStack: FunctionAppStack = {
                 use32BitWorkerProcess: true,
                 powerShellVersion: '~6',
               },
+              isDeprecated: true,
               supportedFunctionsExtensionVersions: ['~2', '~3'],
               endOfLifeDate: powershell6point2EOL,
             },

@@ -2134,4 +2134,13 @@ export class PortalResources {
   public static javaWebServerVersion = 'javaWebServerVersion';
   public static ftpDisabledByPolicy = 'ftpDisabledByPolicy';
   public static ibizafication_readOnlyCustom = 'ibizafication_readOnlyCustom';
+  public static selectDevelopmentEnvironment = 'selectDevelopmentEnvironment';
+  public static selectDevelopmentEnvironmentDescription = 'selectDevelopmentEnvironmentDescription';
+  public static developmentEnvironment = 'developmentEnvironment';
+  public static selectTemplate = 'selectTemplate';
+  public static selectTemplateDescription = 'selectTemplateDescription';
+  public static description = 'description';
+  public static detail = 'detail';
+  public static detailDescription = 'detailDescription';
+  public static developInPortal = 'developInPortal';
 }

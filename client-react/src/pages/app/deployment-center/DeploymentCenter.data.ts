@@ -8,6 +8,7 @@ import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppOsType } from '../../../models/site/site';
 import { GitHubActionWorkflowRequestContent } from '../../../models/github';
 import { ProviderToken } from '../../../models/provider';
+import BitbucketService from '../../../ApiHelpers/BitbucketService';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -141,5 +142,21 @@ export default class DeploymentCenterData {
 
   public getBasicPublishingCredentialsPolicies = (resourceId: string) => {
     return SiteService.getBasicPublishingCredentialsPolicies(resourceId);
+  };
+
+  public getBitbucketUser = (bitbucketToken: string) => {
+    return BitbucketService.getUser(bitbucketToken);
+  };
+
+  public getBitbucketToken = (redirectUrl: string) => {
+    return BitbucketService.getToken(redirectUrl);
+  };
+
+  public getBitbucketRepositories = (bitbucketToken: string) => {
+    return BitbucketService.getRepositories(bitbucketToken);
+  };
+
+  public getBitbucketBranches = (org: string, repo: string, bitbucketToken: string, logger?: (page, response) => void) => {
+    return BitbucketService.getBranches(org, repo, bitbucketToken, logger);
   };
 }

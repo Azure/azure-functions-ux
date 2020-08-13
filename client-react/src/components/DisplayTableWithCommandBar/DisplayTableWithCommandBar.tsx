@@ -24,7 +24,7 @@ const DisplayTableWithCommandBar: React.SFC<Props> = props => {
 
   return (
     <>
-      {commandBarItems && (
+      {!!commandBarItems && commandBarItems.length > 0 && (
         <CommandBar items={commandBarItems} role="nav" styles={commandBarStyles(theme)} buttonAs={DisplayTableCommandBarButton} />
       )}
       {props.children}
