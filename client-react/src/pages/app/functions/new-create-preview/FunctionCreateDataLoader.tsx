@@ -26,10 +26,15 @@ import SiteService from '../../../../ApiHelpers/SiteService';
 import { CommonConstants, WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
-import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import { getErrorMessageOrStringify, getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { isLinuxApp, isElastic } from '../../../../utils/arm-utils';
 import SiteHelper from '../../../../utils/SiteHelper';
 import LocalCreateInstructions from './local-create/LocalCreateInstructions';
+import { PortalContext } from '../../../../PortalContext';
+import FunctionCreateData from './FunctionCreate.data';
+import { FunctionTemplate } from '../../../../models/functions/function-template';
+import { ArmObj } from '../../../../models/arm-obj';
+import { KeyValue } from '../../../../models/portal-models';
 
 registerIcons({
   icons: {
@@ -45,15 +50,17 @@ export interface FunctionCreateDataLoaderProps {
 
 const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props => {
   const { resourceId } = props;
+
+  const siteStateContext = useContext(SiteStateContext);
+  const portalCommunicator = useContext(PortalContext);
+  const site = siteStateContext.site;
   const { t } = useTranslation();
 
   const [initialFormValues, setInitialFormValues] = useState<CreateFunctionFormValues | undefined>(undefined);
   const [templateDetailFormBuilder, setTemplateDetailFormBuilder] = useState<CreateFunctionFormBuilder | undefined>(undefined);
   const [selectedDropdownKey, setSelectedDropdownKey] = useState<DevelopmentExperience | undefined>(undefined);
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
-
-  const siteStateContext = useContext(SiteStateContext);
-  const site = siteStateContext.site;
+  const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplate | undefined>(undefined);
 
   const onDevelopmentEnvironmentChange = (event: any, option: IDropdownOption) => {
     setSelectedDropdownKey(option.key as DevelopmentExperience);
@@ -165,7 +172,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   };
 
   const cancel = () => {
-    // TODO (krmitta): Implement cancel
+    portalCommunicator.closeSelf();
   };
 
   const fetchData = async () => {
@@ -193,6 +200,129 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         setSelectedDropdownKey(options[0].key as DevelopmentExperience);
       }
     }
+  };
+
+  const updateAppSettings = async (appSettings: ArmObj<KeyValue<string>>) => {
+    const notificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
+    const updateAppSettingsResponse = await FunctionCreateData.updateAppSettings(resourceId, appSettings);
+    if (updateAppSettingsResponse.metadata.success) {
+      portalCommunicator.stopNotification(notificationId, true, t('configUpdateSuccess'));
+    } else {
+      const errorMessage = getErrorMessage(updateAppSettingsResponse.metadata.error) || t('configUpdateFailure');
+      portalCommunicator.stopNotification(notificationId, false, errorMessage);
+      LogService.trackEvent(
+        LogCategories.functionCreate,
+        'updateAppSettings',
+        `Failed to update Application Settings: ${getErrorMessageOrStringify(updateAppSettingsResponse.metadata.error)}`
+      );
+    }
+  };
+
+  const addFunction = async (formValues: CreateFunctionFormValues) => {
+    if (selectedTemplate) {
+      const config = FunctionCreateData.buildFunctionConfig(selectedTemplate.bindings || [], formValues);
+      const { functionName } = formValues;
+      const { files } = selectedTemplate;
+      const notificationId = portalCommunicator.startNotification(
+        t('createFunctionNotication'),
+        t('createFunctionNotificationDetails').format(functionName)
+      );
+
+      const createFunctionResponse = await FunctionCreateData.createFunction(resourceId, functionName, files, config);
+      if (createFunctionResponse.metadata.success) {
+        portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
+        const id = `${resourceId}/functions/${functionName}`;
+        portalCommunicator.closeSelf(id);
+      } else {
+        LogService.trackEvent(
+          LogCategories.functionCreate,
+          'createFunction',
+          `Failed to create function ${getErrorMessageOrStringify(createFunctionResponse.metadata.error)}`
+        );
+        const errorMessage = getErrorMessage(createFunctionResponse.metadata.error);
+        portalCommunicator.stopNotification(
+          notificationId,
+          false,
+          errorMessage
+            ? t('createFunctionNotificationFailedDetails').format(functionName, errorMessage)
+            : t('createFunctionNotificationFailed').format(functionName)
+        );
+        portalCommunicator.closeSelf();
+      }
+    }
+  };
+
+  const onSubmit = (formValues?: CreateFunctionFormValues) => {
+    if (!!formValues) {
+      if (formValues.newAppSettings) {
+        updateAppSettings(formValues.newAppSettings);
+      } else {
+        addFunction(formValues);
+      }
+    }
+  };
+
+  const actionBarCloseButtonProps = {
+    id: 'close',
+    title: t('close'),
+    onClick: cancel,
+    disable: false,
+  };
+
+  const getLocalCreateComponent = (): JSX.Element => {
+    return (
+      <>
+        <LocalCreateInstructions resourceId={resourceId} localDevExperience={selectedDropdownKey} workerRuntime={workerRuntime} />
+        <ActionBar fullPageHeight={true} id="add-function-footer" primaryButton={actionBarCloseButtonProps} />
+      </>
+    );
+  };
+
+  const getPortalCreateComponent = (): JSX.Element => {
+    return (
+      <Formik
+        initialValues={initialFormValues}
+        enableReinitialize={true}
+        isInitialValid={true} // Using deprecated option to allow pristine values to be valid.
+        onSubmit={onSubmit}>
+        {(formProps: FormikProps<CreateFunctionFormValues>) => {
+          const actionBarPrimaryButtonProps = {
+            id: 'add',
+            title: t('add'),
+            onClick: formProps.submitForm,
+            disable: !initialFormValues,
+          };
+
+          const actionBarSecondaryButtonProps = {
+            id: 'cancel',
+            title: t('cancel'),
+            onClick: cancel,
+            disable: false,
+          };
+
+          return (
+            <form className={formContainerStyle}>
+              <div className={formContainerDivStyle}>
+                <TemplateList
+                  resourceId={resourceId}
+                  formProps={formProps}
+                  setBuilder={setTemplateDetailFormBuilder}
+                  builder={templateDetailFormBuilder}
+                  selectedTemplate={selectedTemplate}
+                  setSelectedTemplate={setSelectedTemplate}
+                />
+              </div>
+              <ActionBar
+                fullPageHeight={true}
+                id="add-function-footer"
+                primaryButton={actionBarPrimaryButtonProps}
+                secondaryButton={actionBarSecondaryButtonProps}
+              />
+            </form>
+          );
+        }}
+      </Formik>
+    );
   };
 
   useEffect(() => {
@@ -238,52 +368,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
           selectedKey={selectedDropdownKey}
         />
       </div>
-      {selectedDropdownKey === DevelopmentExperience.developInPortal ? (
-        <Formik
-          initialValues={initialFormValues}
-          enableReinitialize={true}
-          isInitialValid={true} // Using deprecated option to allow pristine values to be valid.
-          onSubmit={formValues => {
-            // TODO (krmitta): Implement onSubmit
-          }}>
-          {(formProps: FormikProps<CreateFunctionFormValues>) => {
-            const actionBarPrimaryButtonProps = {
-              id: 'add',
-              title: t('add'),
-              onClick: formProps.submitForm,
-              disable: false,
-            };
-
-            const actionBarSecondaryButtonProps = {
-              id: 'cancel',
-              title: t('cancel'),
-              onClick: cancel,
-              disable: false,
-            };
-
-            return (
-              <form className={formContainerStyle}>
-                <div className={formContainerDivStyle}>
-                  <TemplateList
-                    resourceId={resourceId}
-                    formProps={formProps}
-                    setBuilder={setTemplateDetailFormBuilder}
-                    builder={templateDetailFormBuilder}
-                  />
-                </div>
-                <ActionBar
-                  fullPageHeight={true}
-                  id="add-function-footer"
-                  primaryButton={actionBarPrimaryButtonProps}
-                  secondaryButton={actionBarSecondaryButtonProps}
-                />
-              </form>
-            );
-          }}
-        </Formik>
-      ) : (
-        <LocalCreateInstructions resourceId={resourceId} localDevExperience={selectedDropdownKey} workerRuntime={workerRuntime} />
-      )}
+      {selectedDropdownKey === DevelopmentExperience.developInPortal ? getPortalCreateComponent() : getLocalCreateComponent()}
     </div>
   ) : null;
 };

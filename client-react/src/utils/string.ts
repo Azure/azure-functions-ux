@@ -1,5 +1,6 @@
 import { isEqual } from 'lodash-es';
 import { KeyValue } from '../models/portal-models';
+import { ValidationRegex } from './constants/ValidationRegex';
 
 export default class StringUtils {
   public static fileSeparator = '\\';
@@ -49,5 +50,13 @@ export default class StringUtils {
     } else {
       return value;
     }
+  }
+
+  public static getRuntimeVersionString(exactVersion: string) {
+    if (ValidationRegex.runtimeVersion.test(exactVersion)) {
+      const versionElements = exactVersion.split('.');
+      return `~${versionElements[0]}`;
+    }
+    return exactVersion;
   }
 }
