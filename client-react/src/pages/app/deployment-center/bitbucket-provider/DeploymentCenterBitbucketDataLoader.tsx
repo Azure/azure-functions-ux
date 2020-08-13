@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BitbucketUser } from '../../../../models/bitbucket';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import DeploymentCenterBitbucketProvider from './DeploymentCenterBitbucketProvider';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
   const { formProps } = props;
+
+  const deploymentCenterData = new DeploymentCenterData();
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const [bitbucketUser, setBitbucketUser] = useState<BitbucketUser | undefined>(undefined);
   const [bitbucketAccountStatusMessage, setBitbucketAccountStatusMessage] = useState<string | undefined>(
@@ -21,8 +26,17 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   let orgToRepoMapping: { [key: string]: IDropdownOption[] } = {};
 
   const fetchData = async () => {
-    setBitbucketUser(undefined);
-    throw Error('Not implemented');
+    if (deploymentCenterContext.bitbucketToken) {
+      setBitbucketUser(undefined);
+
+      const bitbucketUserResponse = await deploymentCenterData.getBitbucketUser(deploymentCenterContext.bitbucketToken);
+
+      if (bitbucketUserResponse.metadata.success && bitbucketUserResponse.data.username) {
+        // NOTE(michinoy): if unsuccessful, assume the user needs to authorize.
+        setBitbucketUser(bitbucketUserResponse.data);
+      }
+    }
+    setBitbucketAccountStatusMessage(undefined);
   };
 
   const fetchRepositoryOptions = async () => {

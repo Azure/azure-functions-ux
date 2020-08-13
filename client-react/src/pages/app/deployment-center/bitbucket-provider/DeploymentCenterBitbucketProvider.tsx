@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { DeploymentCenterBitbucketProviderProps } from '../DeploymentCenter.types';
 import DeploymentCenterBitbucketAccount from './DeploymentCenterBitbucketAccount';
 import { Field } from 'formik';
-import { IDropdownOption, Dropdown } from 'office-ui-fabric-react';
+import { IDropdownOption } from 'office-ui-fabric-react';
+import Dropdown from '../../../../components/form-controls/DropDown';
 import { useTranslation } from 'react-i18next';
 
 const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProviderProps> = props => {
@@ -44,6 +45,8 @@ const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProvi
 
   return (
     <>
+      <h3>{t('deploymentCenterCodeBitbucketTitle')}</h3>
+
       <DeploymentCenterBitbucketAccount {...props} />
 
       {props.accountUser && (
