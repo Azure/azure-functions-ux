@@ -16,15 +16,16 @@ export interface TemplateListProps {
   resourceId: string;
   formProps: FormikProps<CreateFunctionFormValues>;
   setBuilder: (builder?: CreateFunctionFormBuilder) => void;
+  setSelectedTemplate: (template?: FunctionTemplate) => void;
+  selectedTemplate?: FunctionTemplate;
   builder?: CreateFunctionFormBuilder;
 }
 
 const TemplateList: React.FC<TemplateListProps> = props => {
-  const { resourceId, formProps, setBuilder, builder } = props;
+  const { resourceId, formProps, setBuilder, builder, selectedTemplate, setSelectedTemplate } = props;
   const { t } = useTranslation();
 
   const [templates, setTemplates] = useState<FunctionTemplate[] | undefined | null>(undefined);
-  const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplate | undefined>(undefined);
   const [filter, setFilter] = useState('');
 
   const selection = useMemo(
@@ -38,6 +39,8 @@ const TemplateList: React.FC<TemplateListProps> = props => {
         },
         selectionMode: SelectionMode.single,
       }),
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
