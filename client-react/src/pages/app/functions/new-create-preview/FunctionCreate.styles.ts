@@ -38,3 +38,17 @@ export const formContainerDivStyle = style({
 export const detailContainerStyle = style({
   marginTop: '25px',
 });
+
+export const dropdownIconStyle = style({
+  width: '14px',
+  height: '14px',
+  verticalAlign: 'middle',
+  marginRight: '6px',
+});
+
+export const developInPortalIconStyle = style({
+  width: '14px',
+  height: '14px',
+  color: '#0078D4',
+  marginRight: '6px',
+});
