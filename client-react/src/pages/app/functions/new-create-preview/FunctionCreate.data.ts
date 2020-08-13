@@ -45,4 +45,8 @@ export default class FunctionCreateData {
   public static createFunction(functionAppId: string, functionName: string, files: KeyValue<string>, functionConfig: FunctionConfig) {
     return FunctionsService.createFunction(functionAppId, functionName, files, functionConfig);
   }
+
+  public static getHostStatus(resourceId: string) {
+    return FunctionsService.getHostStatus(resourceId);
+  }
 }
