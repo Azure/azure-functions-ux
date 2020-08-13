@@ -2019,6 +2019,7 @@ export class PortalResources {
   public static functionEditor_privateLinkRunMessage = 'functionEditor_privateLinkRunMessage';
   public static deploymentCenterContainerGitHubActionsTitle = 'deploymentCenterContainerGitHubActionsTitle';
   public static deploymentCenterCodeGitHubTitle = 'deploymentCenterCodeGitHubTitle';
+  public static deploymentCenterCodeBitbucketTitle = 'deploymentCenterCodeBitbucketTitle';
   public static deploymentCenterContainerRegistrySettingsTitle = 'deploymentCenterContainerRegistrySettingsTitle';
   public static deploymentCenterContainerRegistryOptionsLabel = 'deploymentCenterContainerRegistryOptionsLabel';
   public static deploymentCenterContainerRegistrySourceLabel = 'deploymentCenterContainerRegistrySourceLabel';
@@ -2134,4 +2135,13 @@ export class PortalResources {
   public static javaWebServerVersion = 'javaWebServerVersion';
   public static ftpDisabledByPolicy = 'ftpDisabledByPolicy';
   public static ibizafication_readOnlyCustom = 'ibizafication_readOnlyCustom';
+  public static selectDevelopmentEnvironment = 'selectDevelopmentEnvironment';
+  public static selectDevelopmentEnvironmentDescription = 'selectDevelopmentEnvironmentDescription';
+  public static developmentEnvironment = 'developmentEnvironment';
+  public static selectTemplate = 'selectTemplate';
+  public static selectTemplateDescription = 'selectTemplateDescription';
+  public static description = 'description';
+  public static detail = 'detail';
+  public static detailDescription = 'detailDescription';
+  public static developInPortal = 'developInPortal';
 }

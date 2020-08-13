@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, WorkflowOption } from '../DeploymentCenter.types';
 import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
+import DeploymentCenterBitbucketDataLoader from '../bitbucket-provider/DeploymentCenterBitbucketDataLoader';
 import { ScmType, BuildProvider } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentCenterGitHubConfiguredView';
@@ -30,6 +31,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [workflowFilePath, setWorkflowFilePath] = useState<string>('');
 
   const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
+  const isBitbucketSource = formProps.values.sourceProvider === ScmType.BitbucketGit;
   const isGitHubActionsBuild = formProps.values.buildProvider === BuildProvider.GitHubAction;
   const isDeploymentSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.None;
   const isGitHubActionsSetup =
@@ -163,6 +165,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
       ) : (
         <>
           <DeploymentCenterCodeSourceAndBuild formProps={formProps} />
+
           {isGitHubSource && (
             <>
               <DeploymentCenterGitHubDataLoader formProps={formProps} />
@@ -183,6 +186,8 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
               )}
             </>
           )}
+
+          {isBitbucketSource && <DeploymentCenterBitbucketDataLoader formProps={formProps} />}
         </>
       )}
     </>

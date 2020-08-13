@@ -39,8 +39,7 @@ export class LogService {
     }
 
     // Always log traces to App Insights
-    const properties = data ? (typeof data === 'object' ? data : { message: data }) : null;
-    this._aiService.trackEvent(`/trace/${category}/${id}`, properties);
+    this._aiService.trackEvent(`/trace/${category}/${id}`, data);
 
     if (this._shouldLog(category, LogLevel.trace)) {
       console.error(`[${category}] - ${this._getDataString(data)}`);
@@ -55,8 +54,7 @@ export class LogService {
     const errorId = `/errors/${category}/${id}`;
 
     // Always log errors to App Insights
-    const properties = typeof data === 'object' ? data : { message: data };
-    this._aiService.trackEvent(errorId, properties);
+    this._aiService.trackEvent(errorId, data);
 
     if (this._shouldLog(category, LogLevel.error)) {
       console.error(`[${category}] - ${this._getDataString(data)}`);
@@ -71,8 +69,7 @@ export class LogService {
     const warningId = `/warnings/${category}/${id}`;
 
     // Always log warnings to App Insights
-    const properties = typeof data === 'object' ? data : { message: data };
-    this._aiService.trackEvent(warningId, properties);
+    this._aiService.trackEvent(warningId, data);
 
     if (this._shouldLog(category, LogLevel.warning)) {
       console.log(`%c[${category}] - ${this._getDataString(data)}`, 'color: #ff8c00');
