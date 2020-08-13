@@ -44,6 +44,8 @@ const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProvi
 
   return (
     <>
+      <h3>{t('deploymentCenterCodeBitbucketTitle')}</h3>
+
       <DeploymentCenterBitbucketAccount {...props} />
 
       {props.accountUser && (
