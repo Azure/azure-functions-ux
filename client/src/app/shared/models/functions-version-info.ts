@@ -1,4 +1,4 @@
-import { FunctionAppVersion } from './../models/constants';
+import { FunctionAppVersion, Regex } from './../models/constants';
 
 export interface FunctionsVersionInfo {
   runtimeStable: string[];
@@ -41,5 +41,13 @@ export class FunctionsVersionInfoHelper {
     const path = generation === FunctionAppVersion.v1 ? 'admin/extensions/EventGridExtensionConfig' : 'runtime/webhooks/EventGrid';
 
     return `${mainSiteUrl.toLowerCase()}/${path}?functionName=${functionName}&code=${code}`;
+  }
+
+  public static getRuntimeVersionString(exactVersion: string) {
+    if (Regex.runtimeVersion.test(exactVersion)) {
+      const versionElements = exactVersion.split('.');
+      return `~${versionElements[0]}`;
+    }
+    return exactVersion;
   }
 }

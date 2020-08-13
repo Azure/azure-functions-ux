@@ -25,6 +25,7 @@ import { HostingEnvironment } from '../models/arm/hosting-environment';
 import { PublishingUser } from '../models/arm/publishing-users';
 import { Deployment, SourceControlData } from 'app/site/deployment-center/Models/deployment-data';
 import { AppSettingsHelper } from '../Utilities/application-settings-helper';
+import { HostStatus } from '../models/host-status';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -263,4 +264,10 @@ export class SiteService {
 
     return this._client.execute({ resourceId: resourceId }, t => getBasicPublishingCredentialsPolicies);
   };
+
+  getHostStatus(resourceId: string, force?: boolean): Result<ArmObj<HostStatus>> {
+    const getHostStatus = this._cacheService.postArm(`${resourceId}/host/default/properties/status`, force).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => getHostStatus);
+  }
 }

@@ -18,6 +18,7 @@ import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { NavigableComponent, ExtendedTreeViewInfo } from '../../shared/components/navigable-component';
 import { SiteService } from '../../shared/services/site.service';
 import { PortalService } from '../../shared/services/portal.service';
+import { FunctionsVersionInfoHelper } from '../../shared/models/functions-version-info';
 
 @Component({
   selector: 'api-details',
@@ -40,6 +41,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
   private selectedNode: ProxyNode;
   private proxiesNode: ProxiesNode;
   private _rrOverrideValue: any;
+  private _runtimeVersion: string;
 
   constructor(
     private _fb: FormBuilder,
@@ -68,11 +70,22 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
         }
 
         const siteDescriptor = new ArmSiteDescriptor(viewInfo.resourceId);
-        return this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId()).concatMap(context => {
-          this.context = context;
-          this.initEdit();
-          return Observable.zip(this._functionAppService.getApiProxies(context), this._siteService.getAppSettings(context.site.id));
-        });
+        return this._functionAppService
+          .getAppContext(siteDescriptor.getTrimmedResourceId())
+          .concatMap(context => {
+            this.context = context;
+            this.initEdit();
+            return this._siteService.getHostStatus(context.site.id);
+          })
+          .concatMap(r => {
+            if (r.isSuccessful) {
+              this._runtimeVersion = FunctionsVersionInfoHelper.getRuntimeVersionString(r.result.properties.version);
+            }
+            return Observable.zip(
+              this._functionAppService.getApiProxies(this.context, this._runtimeVersion),
+              this._siteService.getAppSettings(this.context.site.id)
+            );
+          });
       })
       .do(r => {
         this.apiProxies = r[0].isSuccessful ? r[0].result : [];
@@ -120,7 +133,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
   deleteProxyClicked() {
     this.setBusy();
     this._functionAppService
-      .getApiProxies(this.context)
+      .getApiProxies(this.context, this._runtimeVersion)
       .concatMap(proxies => {
         this.apiProxies = proxies.isSuccessful ? proxies.result : [];
         const indexToDelete = this.apiProxies.findIndex(p => {
@@ -129,7 +142,11 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
 
         this.apiProxies.splice(indexToDelete, 1);
 
-        return this._functionAppService.saveApiProxy(this.context, ApiProxy.toJson(this.apiProxies, this._translateService));
+        return this._functionAppService.saveApiProxy(
+          this.context,
+          ApiProxy.toJson(this.apiProxies, this._translateService),
+          this._runtimeVersion
+        );
       })
       .subscribe(() => {
         this.clearBusy();
@@ -169,7 +186,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
       this.apiProxyEdit.matchCondition.methods = [];
 
       this._functionAppService
-        .getApiProxies(this.context)
+        .getApiProxies(this.context, this._runtimeVersion)
         .concatMap(proxies => {
           this.apiProxies = proxies.isSuccessful ? proxies.result : [];
           const index = this.apiProxies.findIndex(p => {
@@ -202,7 +219,11 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
             this.apiProxies[index] = this.apiProxyEdit;
           }
 
-          return this._functionAppService.saveApiProxy(this.context, ApiProxy.toJson(this.apiProxies, this._translateService));
+          return this._functionAppService.saveApiProxy(
+            this.context,
+            ApiProxy.toJson(this.apiProxies, this._translateService),
+            this._runtimeVersion
+          );
         })
         .subscribe(() => {
           this.clearBusy();

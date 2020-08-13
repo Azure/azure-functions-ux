@@ -49,6 +49,7 @@ import { ApplicationSettings } from 'app/shared/models/arm/application-settings'
 import { ArmSiteDescriptor } from '../resourceDescriptors';
 import { FunctionService } from './function.service';
 import { AppSettingsHelper } from '../Utilities/application-settings-helper';
+import { ArmService } from './arm.service';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -64,6 +65,7 @@ export class FunctionAppService {
     private _siteService: SiteService,
     private _logService: LogService,
     private _functionService: FunctionService,
+    private _armService: ArmService,
     injector: Injector
   ) {
     this.runtime = new ConditionalHttpClient(
@@ -92,10 +94,10 @@ export class FunctionAppService {
     return context.urlTemplates.useNewUrls ? this.runtime : this.azure;
   }
 
-  getApiProxies(context: FunctionAppContext): Result<ApiProxy[]> {
+  getApiProxies(context: FunctionAppContext, runtimeVersion: string): Result<ApiProxy[]> {
     return this.getClient(context).execute({ resourceId: context.site.id } /*input*/, token =>
       Observable /*query*/.zip(
-        this.retrieveProxies(context, token),
+        this.retrieveProxies(context, runtimeVersion),
         this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
         (p, s) => ({ proxies: p, schema: s })
       )
@@ -103,8 +105,8 @@ export class FunctionAppService {
     );
   }
 
-  private retrieveProxies(context: FunctionAppContext, token: string): Observable<any> {
-    return this._cacheService.get(context.urlTemplates.proxiesJsonUrl, false, this.headers(token)).catch(err =>
+  private retrieveProxies(context: FunctionAppContext, runtimeVersion: string): Observable<any> {
+    return this._cacheService.getArm(context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json')).catch(err =>
       err.status === 404
         ? Observable.throw({
             errorId: errorIds.proxyJsonNotFound,
@@ -152,12 +154,13 @@ export class FunctionAppService {
     return Observable.of(ApiProxy.fromJson(proxiesJson));
   }
 
-  saveApiProxy(context: FunctionAppContext, jsonString: string): Result<Response> {
-    const uri = context.urlTemplates.proxiesJsonUrl;
-    this._cacheService.clearCachePrefix(uri);
-
+  saveApiProxy(context: FunctionAppContext, jsonString: string, runtimeVersion): Result<Response> {
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
-      this._cacheService.put(uri, this.jsonHeaders(t, ['If-Match', '*']), jsonString)
+      this._cacheService.putArm(
+        context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json'),
+        this._armService.antaresApiVersion20181101,
+        jsonString
+      )
     );
   }
 
