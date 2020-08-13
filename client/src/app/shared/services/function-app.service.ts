@@ -106,7 +106,14 @@ export class FunctionAppService {
   }
 
   private retrieveProxies(context: FunctionAppContext, runtimeVersion: string): Observable<any> {
-    return this._cacheService.getArm(context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json')).catch(err =>
+    const headers = this._armService.getHeaders();
+    headers['Cache-Control'] = 'no-cache';
+    const url = this._armService.getArmUrl(
+      `${context.site.id}${context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json')}`,
+      this._armService.antaresApiVersion20181101
+    );
+
+    return this._cacheService.get(url, true, headers).catch(err =>
       err.status === 404
         ? Observable.throw({
             errorId: errorIds.proxyJsonNotFound,
@@ -155,13 +162,14 @@ export class FunctionAppService {
   }
 
   saveApiProxy(context: FunctionAppContext, jsonString: string, runtimeVersion): Result<Response> {
-    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
-      this._cacheService.putArm(
-        context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json'),
-        this._armService.antaresApiVersion20181101,
-        jsonString
-      )
+    const headers = this._armService.getHeaders();
+    headers['Cache-Control'] = 'no-cache';
+    const url = this._armService.getArmUrl(
+      `${context.site.id}${context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json')}`,
+      this._armService.antaresApiVersion20181101
     );
+
+    return this.getClient(context).execute({ resourceId: context.site.id }, t => this._cacheService.put(url, headers, jsonString));
   }
 
   getFileContent(context: FunctionAppContext, file: VfsObject | string): Result<string> {

@@ -266,7 +266,7 @@ export class SiteService {
   };
 
   getHostStatus(resourceId: string, force?: boolean): Result<ArmObj<HostStatus>> {
-    const getHostStatus = this._cacheService.postArm(`${resourceId}/host/default/properties/status`, force).map(r => r.json());
+    const getHostStatus = this._cacheService.getArm(`${resourceId}/host/default/properties/status`, force).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getHostStatus);
   }
