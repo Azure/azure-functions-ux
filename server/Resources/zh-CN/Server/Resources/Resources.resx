@@ -6549,4 +6549,31 @@
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
         <value>Azure 门户不支持编辑自定义函数应用。请使用本地开发环境来编辑此函数。</value>
     </data>
+  <data name="selectDevelopmentEnvironment" xml:space="preserve">
+        <value>选择开发环境</value>
+    </data>
+  <data name="selectDevelopmentEnvironmentDescription" xml:space="preserve">
+        <value>说明将因开发环境而异。</value>
+    </data>
+  <data name="developmentEnvironment" xml:space="preserve">
+        <value>开发环境</value>
+    </data>
+  <data name="selectTemplate" xml:space="preserve">
+        <value>选择模板</value>
+    </data>
+  <data name="selectTemplateDescription" xml:space="preserve">
+        <value>使用模板来创建函数。触发器描述了调用函数的事件的类型。</value>
+    </data>
+  <data name="description" xml:space="preserve">
+        <value>说明</value>
+    </data>
+  <data name="detail" xml:space="preserve">
+        <value>详细信息</value>
+    </data>
+  <data name="detailDescription" xml:space="preserve">
+        <value>我们需要更多信息来创建此函数。</value>
+    </data>
+  <data name="developInPortal" xml:space="preserve">
+        <value>Develop in portal</value>
+    </data>
 </root>

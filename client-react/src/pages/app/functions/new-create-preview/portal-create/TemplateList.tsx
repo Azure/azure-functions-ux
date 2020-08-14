@@ -11,21 +11,28 @@ import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWi
 import { templateListStyle, templateListNameColumnStyle, filterTextFieldStyle, containerStyle } from '../FunctionCreate.styles';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
 import { FormikProps } from 'formik';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { HostStatus } from '../../../../../models/functions/host-status';
+import StringUtils from '../../../../../utils/string';
+import { RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
+import { sortTemplate } from '../FunctionCreate.types';
 
 export interface TemplateListProps {
   resourceId: string;
   formProps: FormikProps<CreateFunctionFormValues>;
   setBuilder: (builder?: CreateFunctionFormBuilder) => void;
+  setSelectedTemplate: (template?: FunctionTemplate) => void;
+  selectedTemplate?: FunctionTemplate;
   builder?: CreateFunctionFormBuilder;
 }
 
 const TemplateList: React.FC<TemplateListProps> = props => {
-  const { resourceId, formProps, setBuilder, builder } = props;
+  const { resourceId, formProps, setBuilder, builder, selectedTemplate, setSelectedTemplate } = props;
   const { t } = useTranslation();
 
   const [templates, setTemplates] = useState<FunctionTemplate[] | undefined | null>(undefined);
-  const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplate | undefined>(undefined);
   const [filter, setFilter] = useState('');
+  const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus> | undefined>(undefined);
 
   const selection = useMemo(
     () =>
@@ -38,10 +45,30 @@ const TemplateList: React.FC<TemplateListProps> = props => {
         },
         selectionMode: SelectionMode.single,
       }),
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
   const fetchData = async () => {
+    await getHostStatus();
+    getTemplates();
+  };
+
+  const getHostStatus = async () => {
+    const hostStatusResponse = await FunctionCreateData.getHostStatus(resourceId);
+    if (hostStatusResponse.metadata.success) {
+      setHostStatus(hostStatusResponse.data);
+    } else {
+      LogService.trackEvent(
+        LogCategories.functionCreate,
+        'getHostStatus',
+        `Failed to get hostStatus: ${getErrorMessageOrStringify(hostStatusResponse.metadata.error)}`
+      );
+    }
+  };
+
+  const getTemplates = async () => {
     const templateResponse = await FunctionCreateData.getTemplates(resourceId);
     if (templateResponse.metadata.success) {
       setTemplates(templateResponse.data.properties);
@@ -61,7 +88,12 @@ const TemplateList: React.FC<TemplateListProps> = props => {
     }
 
     if (column.key === 'template') {
-      return <div className={templateListNameColumnStyle}>{item.name}</div>;
+      const runtimeVersion = hostStatus ? StringUtils.getRuntimeVersionString(hostStatus.properties.version) : '';
+      return (
+        <div className={templateListNameColumnStyle}>
+          {runtimeVersion === RuntimeExtensionMajorVersions.v1 ? `${item.name}: ${item.language}` : item.name}
+        </div>
+      );
     }
 
     return <div>{item[column.fieldName!]}</div>;
@@ -93,13 +125,15 @@ const TemplateList: React.FC<TemplateListProps> = props => {
 
   const getItems = () => {
     return !!templates
-      ? templates.filter(template => {
-          const lowerCasedFilterValue = !!filter ? filter.toLocaleLowerCase() : '';
-          return (
-            template.name.toLocaleLowerCase().includes(lowerCasedFilterValue) ||
-            (template.description && template.description.toLocaleLowerCase().includes(lowerCasedFilterValue))
-          );
-        })
+      ? templates
+          .filter(template => {
+            const lowerCasedFilterValue = !!filter ? filter.toLocaleLowerCase() : '';
+            return (
+              template.name.toLocaleLowerCase().includes(lowerCasedFilterValue) ||
+              (template.description && template.description.toLocaleLowerCase().includes(lowerCasedFilterValue))
+            );
+          })
+          .sort((templateA: FunctionTemplate, templateB: FunctionTemplate) => sortTemplate(templateA, templateB))
       : [];
   };
 

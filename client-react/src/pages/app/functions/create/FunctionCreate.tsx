@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
@@ -9,6 +9,9 @@ import { useTranslation } from 'react-i18next';
 import { Binding } from '../../../../models/functions/binding';
 import { paddingStyle } from './FunctionCreate.styles';
 import { HostStatus } from '../../../../models/functions/host-status';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
+import Url from '../../../../utils/url';
 
 export interface FunctionCreateProps {
   functionTemplates: FunctionTemplate[];
@@ -36,6 +39,21 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
     }
   };
 
+  const logTelemetry = () => {
+    LogService.trackEvent(LogCategories.functionCreate, 'FunctionCreateLoaded', {
+      resourceId,
+      sessionId: Url.getParameterByName(null, 'sessionId'),
+      templateCount: functionTemplates.length,
+      bundleWarning: !hostStatus.version.startsWith('1') && !hostStatus.extensionBundle,
+    });
+  };
+
+  useEffect(() => {
+    logTelemetry();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <div style={paddingStyle}>
@@ -58,6 +76,7 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
               bindings={bindings}
               selectedFunctionTemplate={selectedFunctionTemplate}
               resourceId={resourceId}
+              hostStatus={hostStatus}
             />
           </PivotItem>
         </Pivot>
