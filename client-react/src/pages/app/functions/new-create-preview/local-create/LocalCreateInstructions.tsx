@@ -51,6 +51,7 @@ const LocalCreateInstructions: React.FC<LocalCreateInstructionsProps> = props =>
       );
       if (localDevExperienceResponse.metadata.success) {
         setInstructions(StringUtils.formatString(localDevExperienceResponse.data, getParameters()));
+        // setInstructions(undefined);
       } else {
         setInstructions(null);
         LogService.trackEvent(
