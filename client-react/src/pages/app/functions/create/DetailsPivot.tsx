@@ -11,16 +11,18 @@ import { PortalContext } from '../../../../PortalContext';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { detailsPaddingStyle } from './FunctionCreate.styles';
 import { FunctionCreateContext } from './FunctionCreateDataLoader';
+import { HostStatus } from '../../../../models/functions/host-status';
 
 interface DetailsPivotProps {
   functionsInfo: ArmObj<FunctionInfo>[] | undefined;
   bindings: Binding[] | undefined;
   selectedFunctionTemplate: FunctionTemplate | undefined;
   resourceId: string;
+  hostStatus: HostStatus;
 }
 
 const DetailsPivot: React.FC<DetailsPivotProps> = props => {
-  const { functionsInfo, bindings, selectedFunctionTemplate, resourceId } = props;
+  const { functionsInfo, bindings, selectedFunctionTemplate, resourceId, hostStatus } = props;
   const provider = useContext(FunctionCreateContext);
   const portalCommunicator = useContext(PortalContext);
   const { t } = useTranslation();
@@ -51,7 +53,7 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
           isInitialValid={true} // Using deprecated option to allow pristine values to be valid.
           onSubmit={formValues => {
             setCreatingFunction(true);
-            provider.createFunction(portalCommunicator, t, resourceId, selectedFunctionTemplate, formValues);
+            provider.createFunction(portalCommunicator, t, resourceId, selectedFunctionTemplate, formValues, hostStatus);
           }}>
           {(formProps: FormikProps<CreateFunctionFormValues>) => {
             return (
