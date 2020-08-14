@@ -14,6 +14,7 @@ import FunctionCreateData from '../FunctionCreate.data';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
 import { FormikProps } from 'formik';
 import { detailContainerStyle } from '../FunctionCreate.styles';
+import BasicShimmerLines from '../../../../../components/shimmer/BasicShimmerLines';
 
 export interface TemplateDetailProps {
   resourceId: string;
@@ -27,8 +28,8 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
   const { resourceId, selectedTemplate, formProps, builder, setBuilder } = props;
   const { t } = useTranslation();
 
-  const [functionsInfo, setFunctionsInfo] = useState<ArmObj<FunctionInfo>[] | undefined>(undefined);
-  const [bindings, setBindings] = useState<Binding[] | undefined>(undefined);
+  const [functionsInfo, setFunctionsInfo] = useState<ArmObj<FunctionInfo>[] | undefined | null>(undefined);
+  const [bindings, setBindings] = useState<Binding[] | undefined | null>(undefined);
 
   const fetchFunctionInfo = async () => {
     const functionsInfoResponse = await FunctionsService.getFunctions(resourceId);
@@ -36,6 +37,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     if (functionsInfoResponse.metadata.success) {
       setFunctionsInfo(functionsInfoResponse.data.value);
     } else {
+      setFunctionsInfo(null);
       LogService.trackEvent(
         LogCategories.functionCreate,
         'getFunctionsInfo',
@@ -52,6 +54,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
       if (bindingPromise.metadata.success) {
         allBindings.push(bindingPromise.data.properties[0]);
       } else {
+        setBindings(null);
         LogService.trackEvent(
           LogCategories.functionCreate,
           'getBindings',
@@ -117,6 +120,10 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     }
   };
 
+  const getDetails = () => {
+    return !functionsInfo || !bindings || !builder ? <BasicShimmerLines /> : builder.getFields(formProps, false);
+  };
+
   useEffect(() => {
     createBuilder();
 
@@ -124,6 +131,8 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
   }, [functionsInfo, bindings]);
 
   useEffect(() => {
+    setBindings(undefined);
+    setBuilder(undefined);
     fetchBindings();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -135,7 +144,9 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return functionsInfo && bindings ? (
+  return functionsInfo === null || bindings === null ? (
+    <>{/** TODO(krmitta): Add banner when call fails */}</>
+  ) : (
     <div className={detailContainerStyle}>
       <h3>{t('detail')}</h3>
       <p>
@@ -143,9 +154,9 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
         {/* TODO(krmitta): Add learn more link */}
         <Link>{t('learnMore')}</Link>
       </p>
-      {builder && builder.getFields(formProps, false)}
+      {getDetails()}
     </div>
-  ) : null;
+  );
 };
 
 export default TemplateDetail;
