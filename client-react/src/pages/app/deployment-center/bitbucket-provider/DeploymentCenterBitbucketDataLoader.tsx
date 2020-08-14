@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { BitbucketUser } from '../../../../models/bitbucket';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
@@ -6,6 +6,9 @@ import { IDropdownOption } from 'office-ui-fabric-react';
 import DeploymentCenterBitbucketProvider from './DeploymentCenterBitbucketProvider';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -23,7 +26,7 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   const [repositoryOptions, setRepositoryOptions] = useState<IDropdownOption[]>([]);
   const [branchOptions, setBranchOptions] = useState<IDropdownOption[]>([]);
 
-  let orgToRepoMapping: { [key: string]: IDropdownOption[] } = {};
+  const orgToReposMapping = useRef<{ [key: string]: IDropdownOption[] }>({});
 
   const fetchData = async () => {
     if (deploymentCenterContext.bitbucketToken) {
@@ -32,7 +35,7 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
       const bitbucketUserResponse = await deploymentCenterData.getBitbucketUser(deploymentCenterContext.bitbucketToken);
 
       if (bitbucketUserResponse.metadata.success && bitbucketUserResponse.data.username) {
-        // NOTE(michinoy): if unsuccessful, assume the user needs to authorize.
+        // NOTE(stpelleg): if unsuccessful, assume the user needs to authorize.
         setBitbucketUser(bitbucketUserResponse.data);
       }
     }
@@ -40,22 +43,56 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   };
 
   const fetchRepositoryOptions = async () => {
-    orgToRepoMapping = {};
-    setBitbucketAccountStatusMessage(undefined);
+    const newOrgToReposMapping = {};
     setOrganizationOptions([]);
     setRepositoryOptions([]);
     setBranchOptions([]);
-    throw Error('Not implemented');
+
+    if (bitbucketUser) {
+      const bitbucketRepositoriesResponse = await deploymentCenterData.getBitbucketRepositories(deploymentCenterContext.bitbucketToken);
+      bitbucketRepositoriesResponse.forEach(repository => {
+        const repoNameParts = repository.full_name.split('/');
+        const [org, repo] = repoNameParts;
+
+        if (newOrgToReposMapping[org]) {
+          newOrgToReposMapping[org].push({ key: repo, text: repo });
+        } else {
+          newOrgToReposMapping[org] = [{ key: repo, text: repo }];
+        }
+      });
+    }
+
+    orgToReposMapping.current = newOrgToReposMapping;
+    const newOrgOptions: IDropdownOption[] = Object.keys(orgToReposMapping.current).map(org => ({ key: org, text: org }));
+    setOrganizationOptions(newOrgOptions);
   };
 
   const fetchRepositoriesInOrganization = (org: string) => {
-    setRepositoryOptions(orgToRepoMapping[org]);
+    setRepositoryOptions(orgToReposMapping.current[org]);
     setBranchOptions([]);
-    throw Error('Not implemented');
   };
 
   const fetchBranchOptions = async (org: string, repo: string) => {
-    throw Error('Not implemented');
+    setBranchOptions([]);
+
+    if (bitbucketUser && organizationOptions && repositoryOptions) {
+      const logger = (page, response) => {
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'GitHubGetBranches',
+          `Failed to fetch GitHub branches with error: ${getErrorMessage(response.metadata.error)}`
+        );
+      };
+
+      const bitbucketBranchesResponse = await deploymentCenterData.getBitbucketBranches(
+        org,
+        repo,
+        deploymentCenterContext.bitbucketToken,
+        logger
+      );
+      const newBranchOptions: IDropdownOption[] = bitbucketBranchesResponse.map(branch => ({ key: branch.name, text: branch.name }));
+      setBranchOptions(newBranchOptions);
+    }
   };
 
   const authorizeBitbucketAccount = async () => {

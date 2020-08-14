@@ -6,10 +6,17 @@ export interface BitbucketUser {
 
 export interface BitbucketRepository {
   full_name: string;
-  html_url: string;
-  branches_url: string;
+  name: string;
 }
 
 export interface BitbucketBranch {
   name: string;
+}
+
+export interface BitbucketArrayResponse<T> {
+  values: T[];
+  pagelen: number;
+  next?: string;
+  page?: number;
+  size?: number;
 }
