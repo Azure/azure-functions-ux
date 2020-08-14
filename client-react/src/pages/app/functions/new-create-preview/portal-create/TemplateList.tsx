@@ -74,7 +74,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
       setHostStatus(hostStatusResponse.data);
     } else {
       LogService.trackEvent(
-        LogCategories.functionCreate,
+        LogCategories.localDevExperience,
         'getHostStatus',
         `Failed to get hostStatus: ${getErrorMessageOrStringify(hostStatusResponse.metadata.error)}`
       );
@@ -88,7 +88,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
     } else {
       setTemplates(null);
       LogService.trackEvent(
-        LogCategories.functionCreate,
+        LogCategories.localDevExperience,
         'getTemplates',
         `Failed to get templates: ${getErrorMessageOrStringify(templateResponse.metadata.error)}`
       );

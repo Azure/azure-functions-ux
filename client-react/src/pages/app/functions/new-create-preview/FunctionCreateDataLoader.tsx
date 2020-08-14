@@ -231,7 +231,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
       const errorMessage = getErrorMessage(updateAppSettingsResponse.metadata.error) || t('configUpdateFailure');
       portalCommunicator.stopNotification(notificationId, false, errorMessage);
       LogService.trackEvent(
-        LogCategories.functionCreate,
+        LogCategories.localDevExperience,
         'updateAppSettings',
         `Failed to update Application Settings: ${getErrorMessageOrStringify(updateAppSettingsResponse.metadata.error)}`
       );
@@ -265,7 +265,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         portalCommunicator.closeSelf(id);
       } else {
         LogService.trackEvent(
-          LogCategories.functionCreate,
+          LogCategories.localDevExperience,
           'createFunction',
           `Failed to create function ${getErrorMessageOrStringify(createFunctionResponse.metadata.error)}`
         );
