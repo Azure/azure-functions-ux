@@ -10,6 +10,9 @@ import { ArmObj } from '../../../../models/arm-obj';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import { KeyValue } from '../../../../models/portal-models';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
+import Url from '../../../../utils/url';
 
 export default class FunctionCreateData {
   public getHostStatus(resourceId: string) {
@@ -56,6 +59,12 @@ export default class FunctionCreateData {
     );
 
     FunctionsService.createFunction(resourceId, functionName, functionFiles, functionConfig).then(r => {
+      LogService.trackEvent(LogCategories.functionCreate, 'FunctionCreateClicked', {
+        resourceId,
+        functionName,
+        sessionId: Url.getParameterByName(null, 'sessionId'),
+      });
+
       if (!r.metadata.success) {
         const errorMessage = getErrorMessage(r.metadata.error);
         portalCommunicator.stopNotification(
@@ -67,6 +76,11 @@ export default class FunctionCreateData {
         );
         portalCommunicator.closeSelf();
       } else {
+        LogService.trackEvent(LogCategories.functionCreate, 'FunctionCreateSucceeded', {
+          resourceId,
+          functionName,
+          sessionId: Url.getParameterByName(null, 'sessionId'),
+        });
         portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
         const id = `${resourceId}/functions/${functionName}`;
         portalCommunicator.closeSelf(id);
