@@ -38,19 +38,20 @@ export default class BitbucketService {
 
   private static _getBitbucketObjectList = async <T>(url: string, bitbucketToken: string, logger?: (page, response) => void) => {
     const bitbucketObjectList: T[] = [];
-    let next;
+    let requestUrl: string | undefined = url;
     let pageNumber = 1;
+
     do {
-      let pageResponse = await BitbucketService._sendBitbucketRequest<BitbucketArrayResponse<T>>(url, bitbucketToken, 'GET');
+      let pageResponse = await BitbucketService._sendBitbucketRequest<BitbucketArrayResponse<T>>(requestUrl, bitbucketToken, 'GET');
       if (pageResponse.metadata.success && pageResponse.data) {
         bitbucketObjectList.push(...pageResponse.data.values);
 
-        next = pageResponse.data.next;
-      } else if (logger) {
+        requestUrl = pageResponse.data.next;
+      } else if (logger && !pageResponse.metadata.success) {
         logger(pageNumber, pageResponse);
       }
       ++pageNumber;
-    } while (next);
+    } while (requestUrl);
 
     return bitbucketObjectList;
   };
