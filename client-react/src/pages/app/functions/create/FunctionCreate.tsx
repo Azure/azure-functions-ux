@@ -76,6 +76,7 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
               bindings={bindings}
               selectedFunctionTemplate={selectedFunctionTemplate}
               resourceId={resourceId}
+              hostStatus={hostStatus}
             />
           </PivotItem>
         </Pivot>
