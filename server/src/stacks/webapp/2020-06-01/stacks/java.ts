@@ -23,7 +23,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -54,7 +54,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
               runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -127,7 +127,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -158,7 +158,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
               runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
