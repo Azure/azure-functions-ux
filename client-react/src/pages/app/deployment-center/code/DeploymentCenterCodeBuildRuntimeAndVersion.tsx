@@ -15,6 +15,7 @@ import { getRuntimeStackSetting } from '../utility/DeploymentCenterUtility';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { AppOs } from '../../../../models/site/site';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -32,7 +33,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   const [showMismatchWarningBar, setShowMismatchWarningBar] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
-
+  const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterData = new DeploymentCenterData();
 
   const closeStackNotSupportedWarningBanner = () => {
@@ -44,9 +45,8 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   };
 
   const fetchStacks = async () => {
-    const runtimeStacksResponse = await deploymentCenterData.getRuntimeStacks(
-      deploymentCenterContext.isLinuxApplication ? AppOs.linux : AppOs.windows
-    );
+    const appOs = siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows;
+    const runtimeStacksResponse = await deploymentCenterData.getRuntimeStacks(appOs);
 
     if (runtimeStacksResponse.metadata.success) {
       setRuntimeStacksData(runtimeStacksResponse.data);
@@ -197,7 +197,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     const defaultStackAndVersion: RuntimeStackSetting =
       deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata && deploymentCenterContext.applicationSettings
         ? getRuntimeStackSetting(
-            deploymentCenterContext.isLinuxApplication,
+            siteStateContext.isLinuxApp,
             deploymentCenterContext.siteConfig,
             deploymentCenterContext.configMetadata,
             deploymentCenterContext.applicationSettings
