@@ -12,6 +12,7 @@ import { AuthorizationResult, DeploymentCenterGitHubConfiguredViewProps } from '
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfiguredViewProps> = props => {
   const { t } = useTranslation();
@@ -24,6 +25,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterData = new DeploymentCenterData();
 
   const getSourceControlDetails = async () => {
@@ -187,7 +189,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
           </div>
         </ReactiveFormControl>
       )}
-      {deploymentCenterContext.isContainerApplication ? (
+      {siteStateContext.isContainerApp ? (
         <h3>{t('deploymentCenterContainerGitHubActionsTitle')}</h3>
       ) : (
         <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>

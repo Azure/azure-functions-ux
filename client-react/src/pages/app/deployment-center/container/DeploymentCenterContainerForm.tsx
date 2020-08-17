@@ -7,12 +7,13 @@ import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 
 const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps> = props => {
   const { t } = useTranslation();
+  const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
-  const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const onKeyDown = keyEvent => {
     if ((keyEvent.charCode || keyEvent.keyCode) === KeyCodes.enter) {
@@ -30,7 +31,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
   const refreshFunction = () => {
     hideRefreshConfirmDialog();
-    deploymentCenterContext.refresh();
+    props.refresh();
   };
 
   const onSubmit = () => {
@@ -55,7 +56,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
             <DeploymentCenterCommandBar
               saveFunction={saveFunction}
               discardFunction={discardFunction}
-              showPublishProfilePanel={props.showPublishProfilePanel}
+              showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
               isLoading={props.isLoading}
             />

@@ -7,16 +7,7 @@ import DeploymentCenterCodeLogs from './DeploymentCenterCodeLogs';
 import DeploymentCenterCodeSettings from './DeploymentCenterCodeSettings';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
-  const {
-    publishingCredentials,
-    publishingProfile,
-    publishingUser,
-    formProps,
-    resetApplicationPassword,
-    deployments,
-    deploymentsError,
-    isLoading,
-  } = props;
+  const { formProps, deployments, deploymentsError, isLoading } = props;
   const { t } = useTranslation();
   const [selectedKey, setSelectedKey] = useState<string>('logs');
 
@@ -55,14 +46,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
         itemKey="ftps"
         headerText={t('deploymentCenterPivotItemFtpsHeaderText')}
         ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}>
-        <DeploymentCenterFtps
-          formProps={formProps}
-          resetApplicationPassword={resetApplicationPassword}
-          publishingCredentials={publishingCredentials}
-          publishingProfile={publishingProfile}
-          publishingUser={publishingUser}
-          isLoading={isLoading}
-        />
+        <DeploymentCenterFtps formProps={formProps} isLoading={isLoading} />
       </PivotItem>
     </Pivot>
   );
