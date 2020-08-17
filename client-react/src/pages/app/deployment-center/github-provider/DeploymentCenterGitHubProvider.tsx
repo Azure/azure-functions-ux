@@ -2,14 +2,14 @@ import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterGitHubAccount from './DeploymentCenterGitHubAccount';
 import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { Field } from 'formik';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderProps> = props => {
   const { t } = useTranslation();
-  const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const {
     formProps,
@@ -55,50 +55,50 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
 
   return (
     <>
-      <h3>
-        {deploymentCenterContext.isContainerApplication ? t('deploymentCenterContainerGitHubActionsTitle') : t('deploymentCenterCodeGitHubTitle')}
-      </h3>
+      <h3>{siteStateContext.isContainerApp ? t('deploymentCenterContainerGitHubActionsTitle') : t('deploymentCenterCodeGitHubTitle')}</h3>
 
       <DeploymentCenterGitHubAccount {...props} />
 
-      {accountUser && accountUser.login && <>
-        <Field
-          id="deployment-center-settings-organization-option"
-          label={t('deploymentCenterOAuthOrganization')}
-          placeholder={t('deploymentCenterOAuthOrganizationPlaceholder')}
-          name="org"
-          component={Dropdown}
-          displayInVerticalLayout={true}
-          options={organizationOptions}
-          selectedKey={selectedOrg}
-          required={true}
-          onChange={onOrganizationChange}
-        />
-        <Field
-          id="deployment-center-settings-repository-option"
-          label={t('deploymentCenterOAuthRepository')}
-          placeholder={t('deploymentCenterOAuthRepositoryPlaceholder')}
-          name="repo"
-          component={Dropdown}
-          displayInVerticalLayout={true}
-          options={repositoryOptions}
-          selectedKey={selectedRepo}
-          required={true}
-          onChange={onRepositoryChange}
-        />
-        <Field
-          id="deployment-center-settings-branch-option"
-          label={t('deploymentCenterOAuthBranch')}
-          placeholder={t('deploymentCenterOAuthBranchPlaceholder')}
-          name="branch"
-          component={Dropdown}
-          displayInVerticalLayout={true}
-          options={branchOptions}
-          selectedKey={selectedBranch}
-          required={true}
-          onChange={onBranchChange}
-        />
-      </>}
+      {accountUser && accountUser.login && (
+        <>
+          <Field
+            id="deployment-center-settings-organization-option"
+            label={t('deploymentCenterOAuthOrganization')}
+            placeholder={t('deploymentCenterOAuthOrganizationPlaceholder')}
+            name="org"
+            component={Dropdown}
+            displayInVerticalLayout={true}
+            options={organizationOptions}
+            selectedKey={selectedOrg}
+            required={true}
+            onChange={onOrganizationChange}
+          />
+          <Field
+            id="deployment-center-settings-repository-option"
+            label={t('deploymentCenterOAuthRepository')}
+            placeholder={t('deploymentCenterOAuthRepositoryPlaceholder')}
+            name="repo"
+            component={Dropdown}
+            displayInVerticalLayout={true}
+            options={repositoryOptions}
+            selectedKey={selectedRepo}
+            required={true}
+            onChange={onRepositoryChange}
+          />
+          <Field
+            id="deployment-center-settings-branch-option"
+            label={t('deploymentCenterOAuthBranch')}
+            placeholder={t('deploymentCenterOAuthBranchPlaceholder')}
+            name="branch"
+            component={Dropdown}
+            displayInVerticalLayout={true}
+            options={branchOptions}
+            selectedKey={selectedBranch}
+            required={true}
+            onChange={onBranchChange}
+          />
+        </>
+      )}
     </>
   );
 };
