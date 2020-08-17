@@ -189,7 +189,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
           </div>
         </ReactiveFormControl>
       )}
-      {siteStateContext.isContainerApplication ? (
+      {siteStateContext.isContainerApp ? (
         <h3>{t('deploymentCenterContainerGitHubActionsTitle')}</h3>
       ) : (
         <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>

@@ -54,7 +54,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       formProps.values.runtimeVersion,
       formProps.values.runtimeRecommendedVersion,
       branch,
-      siteStateContext.isLinuxApplication,
+      siteStateContext.isLinuxApp,
       formProps.values.gitHubPublishProfileSecretGuid,
       deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
       deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''

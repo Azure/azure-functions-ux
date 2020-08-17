@@ -55,9 +55,7 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
 
   return (
     <>
-      <h3>
-        {siteStateContext.isContainerApplication ? t('deploymentCenterContainerGitHubActionsTitle') : t('deploymentCenterCodeGitHubTitle')}
-      </h3>
+      <h3>{siteStateContext.isContainerApp ? t('deploymentCenterContainerGitHubActionsTitle') : t('deploymentCenterCodeGitHubTitle')}</h3>
 
       <DeploymentCenterGitHubAccount {...props} />
 

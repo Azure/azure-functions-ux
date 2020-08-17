@@ -233,7 +233,14 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             return (
               value.token && (
                 <SiteStateContext.Provider
-                  value={{ site, siteAppEditState, stopped, resourceId, isLinuxApplication, isContainerApplication }}>
+                  value={{
+                    site,
+                    siteAppEditState,
+                    stopped,
+                    resourceId,
+                    isLinuxApp: isLinuxApplication,
+                    isContainerApp: isContainerApplication,
+                  }}>
                   <Router>
                     {/* NOTE(michinoy): The paths should be always all lowercase. */}
 

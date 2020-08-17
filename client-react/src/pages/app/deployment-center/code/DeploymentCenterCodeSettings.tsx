@@ -103,7 +103,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           formProps.values.runtimeVersion,
           formProps.values.runtimeRecommendedVersion,
           formProps.values.branch,
-          siteStateContext.isLinuxApplication,
+          siteStateContext.isLinuxApp,
           formProps.values.gitHubPublishProfileSecretGuid,
           deploymentCenterContext.siteDescriptor.site,
           deploymentCenterContext.siteDescriptor.slot

@@ -23,7 +23,7 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
   const siteStateContext = useContext(SiteStateContext);
 
   const fetchData = async () => {
-    const appOs = siteStateContext.isLinuxApplication ? AppOs.linux : AppOs.windows;
+    const appOs = siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows;
     const runtimeStacksResponse = await deploymentCenterData.getRuntimeStacks(appOs);
 
     if (runtimeStacksResponse.metadata.success) {
@@ -53,7 +53,7 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
     const defaultStackAndVersionKeys: RuntimeStackSetting =
       deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata && deploymentCenterContext.applicationSettings
         ? getRuntimeStackSetting(
-            siteStateContext.isLinuxApplication,
+            siteStateContext.isLinuxApp,
             deploymentCenterContext.siteConfig,
             deploymentCenterContext.configMetadata,
             deploymentCenterContext.applicationSettings
