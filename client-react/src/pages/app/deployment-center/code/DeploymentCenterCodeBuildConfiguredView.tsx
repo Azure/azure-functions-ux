@@ -11,6 +11,7 @@ import { getRuntimeStackSetting } from '../utility/DeploymentCenterUtility';
 import { useTranslation } from 'react-i18next';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { ScmType } from '../../../../models/site/config';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
   const { t } = useTranslation();
@@ -19,11 +20,11 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const fetchData = async () => {
-    const runtimeStacksResponse = await deploymentCenterData.getRuntimeStacks(
-      deploymentCenterContext.isLinuxApplication ? AppOs.linux : AppOs.windows
-    );
+    const appOs = siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows;
+    const runtimeStacksResponse = await deploymentCenterData.getRuntimeStacks(appOs);
 
     if (runtimeStacksResponse.metadata.success) {
       setDefaultValues(runtimeStacksResponse.data);
@@ -52,7 +53,7 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
     const defaultStackAndVersionKeys: RuntimeStackSetting =
       deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata && deploymentCenterContext.applicationSettings
         ? getRuntimeStackSetting(
-            deploymentCenterContext.isLinuxApplication,
+            siteStateContext.isLinuxApp,
             deploymentCenterContext.siteConfig,
             deploymentCenterContext.configMetadata,
             deploymentCenterContext.applicationSettings

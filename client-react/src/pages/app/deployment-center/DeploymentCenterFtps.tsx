@@ -15,6 +15,7 @@ import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocusTrapCallout';
 import { Links } from '../../../utils/FwLinks';
+import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
 
 type PasswordFieldType = 'password' | undefined;
 
@@ -22,7 +23,11 @@ const DeploymentCenterFtps: React.FC<
   DeploymentCenterFtpsProps & DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
 > = props => {
   const { t } = useTranslation();
-  const { publishingProfile, publishingUser, resetApplicationPassword, isLoading } = props;
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+
+  const { isLoading } = props;
+  const { publishingProfile, publishingUser, resetApplicationPassword } = deploymentCenterPublishingContext;
 
   const [applicationPasswordType, setApplicationPasswordType] = useState<PasswordFieldType>('password');
   const [providerPasswordType, setProviderPasswordType] = useState<PasswordFieldType>('password');
@@ -32,7 +37,6 @@ const DeploymentCenterFtps: React.FC<
 
   const ftpsEndpoint = publishingProfile && publishingProfile.publishUrl.toLocaleLowerCase().replace('ftp:/', 'ftps:/');
   const webProviderUsername = publishingUser && publishingUser.properties.publishingUserName;
-  const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const siteDescriptor = deploymentCenterContext && deploymentCenterContext.siteDescriptor;
   const sampleAppNameDomain =
@@ -76,9 +80,9 @@ const DeploymentCenterFtps: React.FC<
   };
 
   const disableFtp = () =>
-    deploymentCenterContext.basicPublishingCredentialsPolicies &&
-    deploymentCenterContext.basicPublishingCredentialsPolicies.ftp &&
-    !deploymentCenterContext.basicPublishingCredentialsPolicies.ftp.allow;
+    deploymentCenterPublishingContext.basicPublishingCredentialsPolicies &&
+    deploymentCenterPublishingContext.basicPublishingCredentialsPolicies.ftp &&
+    !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies.ftp.allow;
 
   const getDisabledByFTPPolicyMessage = () => (
     <div className={deploymentCenterContent}>

@@ -19,6 +19,7 @@ import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -26,6 +27,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [showInfoBanner, setShowInfoBanner] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
   const [workflowFilePath, setWorkflowFilePath] = useState<string>('');
@@ -101,7 +103,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           formProps.values.runtimeVersion,
           formProps.values.runtimeRecommendedVersion,
           formProps.values.branch,
-          deploymentCenterContext.isLinuxApplication,
+          siteStateContext.isLinuxApp,
           formProps.values.gitHubPublishProfileSecretGuid,
           deploymentCenterContext.siteDescriptor.site,
           deploymentCenterContext.siteDescriptor.slot

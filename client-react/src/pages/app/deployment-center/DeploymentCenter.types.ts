@@ -1,5 +1,4 @@
-import { ArmObj, ArmArray } from '../../../models/arm-obj';
-import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../../models/site/publish';
+import { ArmArray } from '../../../models/arm-obj';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { ScmType, BuildProvider } from '../../../models/site/config';
@@ -47,9 +46,17 @@ export enum WorkflowFileDeleteOptions {
   Delete = 'Delete',
 }
 
-export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps;
+export interface DeploymentCenterDataLoaderProps {
+  resourceId: string;
+}
 
-export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps;
+export interface RefreshableComponent {
+  refresh: () => void;
+}
+
+export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps & RefreshableComponent;
+
+export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps & RefreshableComponent;
 
 export type DeploymentCenterYupValidationSchemaType<
   T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData
@@ -126,15 +133,10 @@ export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
 
 export interface DeploymentCenterFtpsProps {
   isLoading: boolean;
-  resetApplicationPassword: () => void;
-  publishingCredentials?: ArmObj<PublishingCredentials>;
-  publishingUser?: ArmObj<PublishingUser>;
-  publishingProfile?: PublishingProfile;
 }
 
 export interface DeploymentCenterFormProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
   isLoading: boolean;
-  showPublishProfilePanel: () => void;
   formData?: DeploymentCenterFormData<T>;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType<T>;
 }
@@ -159,7 +161,6 @@ export interface DeploymentCenterCommandBarProps {
 
 export interface DeploymentCenterCodeCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterCodeFormData> {
   isLoading: boolean;
-  showPublishProfilePanel: () => void;
   refresh: () => void;
 }
 
