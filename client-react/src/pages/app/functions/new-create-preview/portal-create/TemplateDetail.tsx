@@ -39,7 +39,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     } else {
       setFunctionsInfo(null);
       LogService.trackEvent(
-        LogCategories.functionCreate,
+        LogCategories.localDevExperience,
         'getFunctionsInfo',
         `Failed to get functions info: ${getErrorMessageOrStringify(functionsInfoResponse.metadata.error)}`
       );
@@ -56,7 +56,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
       } else {
         setBindings(null);
         LogService.trackEvent(
-          LogCategories.functionCreate,
+          LogCategories.localDevExperience,
           'getBindings',
           `Failed to get bindings: ${getErrorMessageOrStringify(bindingPromise.metadata.error)}`
         );
