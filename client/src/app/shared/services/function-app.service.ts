@@ -108,10 +108,8 @@ export class FunctionAppService {
   private retrieveProxies(context: FunctionAppContext, runtimeVersion: string): Observable<any> {
     const headers = this._armService.getHeaders();
     headers['Cache-Control'] = 'no-cache';
-    const url = this._armService.getArmUrl(
-      `${context.site.id}${context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json')}`,
-      this._armService.antaresApiVersion20181101
-    );
+    const resourceId = `${context.site.id}${context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json')}`;
+    const url = this._armService.getArmUrl(resourceId, this._armService.antaresApiVersion20181101);
 
     return this._cacheService.get(url, true, headers).catch(err =>
       err.status === 404
@@ -164,10 +162,8 @@ export class FunctionAppService {
   saveApiProxy(context: FunctionAppContext, jsonString: string, runtimeVersion): Result<Response> {
     const headers = this._armService.getHeaders();
     headers['Cache-Control'] = 'no-cache';
-    const url = this._armService.getArmUrl(
-      `${context.site.id}${context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json')}`,
-      this._armService.antaresApiVersion20181101
-    );
+    const resourceId = `${context.site.id}${context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json')}`;
+    const url = this._armService.getArmUrl(resourceId, this._armService.antaresApiVersion20181101);
 
     return this.getClient(context).execute({ resourceId: context.site.id }, t => this._cacheService.put(url, headers, jsonString));
   }
@@ -581,12 +577,10 @@ export class FunctionAppService {
 
   fireSyncTrigger(context: FunctionAppContext): void {
     if (ArmUtil.isLinuxDynamic(context.site)) {
-      this._cacheService
-        .postArm(`${context.site.id}/hostruntime/admin/host/synctriggers`, true)
-        .subscribe(
-          success => this._logService.verbose(LogCategories.syncTriggers, success),
-          error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error)
-        );
+      this._cacheService.postArm(`${context.site.id}/hostruntime/admin/host/synctriggers`, true).subscribe(
+        success => this._logService.verbose(LogCategories.syncTriggers, success),
+        error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error)
+      );
     } else {
       const url = context.urlTemplates.syncTriggersUrl;
       this.azure
