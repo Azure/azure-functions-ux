@@ -13,6 +13,8 @@ import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { SiteStateContext } from '../../../../SiteState';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarProps> = props => {
   const { isLoading, refresh, formProps } = props;
@@ -24,10 +26,33 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
   const deploymentCenterData = new DeploymentCenterData();
 
   const deployKudu = () => {
+    let repoUrl;
+    switch (formProps.values.sourceProvider) {
+      case ScmType.GitHub:
+        repoUrl = `${DeploymentCenterConstants.githubUri}/${formProps.values.org}/${formProps.values.repo}`;
+        break;
+      case ScmType.BitbucketGit:
+        repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${formProps.values.org}/${formProps.values.repo}`;
+        break;
+      case ScmType.OneDrive:
+      case ScmType.Dropbox:
+      case ScmType.ExternalGit:
+      case ScmType.LocalGit:
+        // TODO: (stpelleg): Pending Implementation of these ScmTypes
+        break;
+      default:
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'DeploymentCenterCodeCommandBar',
+          `Incorrect Source Provider ${formProps.values.sourceProvider}`
+        );
+        throw Error(`Incorrect Source Provider ${formProps.values.sourceProvider}`);
+    }
+
     // (Note: t-kakan): setting isManualIntegration to false for now. In Angular, it is set to this.wizardValues.sourceProvider === 'external'
     // (Note: t-kakan): setting isMercurial to false for now
     const payload: SiteSourceControlRequestBody = {
-      repoUrl: `${DeploymentCenterConstants.githubUri}/${formProps.values.org}/${formProps.values.repo}`,
+      repoUrl: repoUrl,
       branch: formProps.values.branch || 'master',
       isManualIntegration: false,
       isGitHubAction: formProps.values.buildProvider === BuildProvider.GitHubAction,
