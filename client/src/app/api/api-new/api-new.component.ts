@@ -112,6 +112,15 @@ export class ApiNewComponent extends NavigableComponent {
           .concatMap(r => {
             if (r.isSuccessful) {
               this._runtimeVersion = FunctionsVersionInfoHelper.getRuntimeVersionString(r.result.properties.version);
+            } else {
+              this.showComponentError({
+                message:
+                  this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart) +
+                  '\n' +
+                  r.result.properties.errors.reduce((a, b) => `${a}\n${b}`, '\n'),
+                errorId: errorIds.functionRuntimeIsUnableToStart,
+                resourceId: this.context.site.id,
+              });
             }
 
             // Should be okay to query app settings without checkout RBAC/locks since this component

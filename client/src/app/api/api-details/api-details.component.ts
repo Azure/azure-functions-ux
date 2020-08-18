@@ -19,6 +19,8 @@ import { NavigableComponent, ExtendedTreeViewInfo } from '../../shared/component
 import { SiteService } from '../../shared/services/site.service';
 import { PortalService } from '../../shared/services/portal.service';
 import { FunctionsVersionInfoHelper } from '../../shared/models/functions-version-info';
+import { PortalResources } from '../../shared/models/portal-resources';
+import { errorIds } from '../../shared/models/error-ids';
 
 @Component({
   selector: 'api-details',
@@ -80,6 +82,15 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
           .concatMap(r => {
             if (r.isSuccessful) {
               this._runtimeVersion = FunctionsVersionInfoHelper.getRuntimeVersionString(r.result.properties.version);
+            } else {
+              this.showComponentError({
+                message:
+                  this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart) +
+                  '\n' +
+                  r.result.properties.errors.reduce((a, b) => `${a}\n${b}`, '\n'),
+                errorId: errorIds.functionRuntimeIsUnableToStart,
+                resourceId: this.context.site.id,
+              });
             }
             return Observable.zip(
               this._functionAppService.getApiProxies(this.context, this._runtimeVersion),
