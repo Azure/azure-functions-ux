@@ -63,7 +63,6 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
         `Failed to get Bitbucket user details with error: ${getErrorMessage(bitbucketUserResponse.metadata.error)}`
       );
     }
-
     setIsLoading(false);
   };
 
@@ -74,15 +73,14 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
           <div>{`${bitbucketUsername}`}</div>
         </ReactiveFormControl>
       );
-    } else {
-      return (
-        <div className={deploymentCenterInfoBannerDiv}>
-          {
-            //TODO(stpelleg): Implement OAuth #8026655
-          }
-        </div>
-      );
     }
+    return (
+      <div className={deploymentCenterInfoBannerDiv}>
+        {
+          //TODO(stpelleg): Implement OAuth #8026655
+        }
+      </div>
+    );
   };
 
   const getBranchLink = () => {
@@ -97,9 +95,9 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
           <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
         </Link>
       );
-    } else {
-      return t('deploymentCenterErrorFetchingInfo');
     }
+
+    return t('deploymentCenterErrorFetchingInfo');
   };
 
   useEffect(() => {
