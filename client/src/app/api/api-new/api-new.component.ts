@@ -19,6 +19,7 @@ import { SiteService } from '../../shared/services/site.service';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { FunctionService } from 'app/shared/services/function.service';
 import { PortalService } from '../../shared/services/portal.service';
+import { FunctionsVersionInfoHelper } from '../../shared/models/functions-version-info';
 
 @Component({
   selector: 'api-new',
@@ -39,6 +40,7 @@ export class ApiNewComponent extends NavigableComponent {
 
   private _proxiesNode: ProxiesNode;
   private _rrOverrideValue: any;
+  private _runtimeVersion: string;
 
   static validateUrl(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
@@ -101,19 +103,37 @@ export class ApiNewComponent extends NavigableComponent {
           this.appNode = <AppNode>this._proxiesNode.parent;
         }
 
-        return this._functionAppService.getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId()).concatMap(context => {
-          // Should be okay to query app settings without checkout RBAC/locks since this component
-          // shouldn't load unless you have write access.
-          return Observable.zip(
-            this._functionService.getFunctions(context.site.id),
-            this._functionAppService.getApiProxies(context),
-            this._siteService.getAppSettings(context.site.id),
-            (f, p, a) => ({ fcs: f, proxies: p, appSettings: a, context: context })
-          );
-        });
+        return this._functionAppService
+          .getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId())
+          .concatMap(context => {
+            this.context = context;
+            return this._siteService.getHostStatus(context.site.id);
+          })
+          .concatMap(r => {
+            if (r.isSuccessful) {
+              this._runtimeVersion = FunctionsVersionInfoHelper.getRuntimeVersionString(r.result.properties.version);
+            } else {
+              this.showComponentError({
+                message:
+                  this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart) +
+                  '\n' +
+                  r.result.properties.errors.reduce((a, b) => `${a}\n${b}`, '\n'),
+                errorId: errorIds.functionRuntimeIsUnableToStart,
+                resourceId: this.context.site.id,
+              });
+            }
+
+            // Should be okay to query app settings without checkout RBAC/locks since this component
+            // shouldn't load unless you have write access.
+            return Observable.zip(
+              this._functionService.getFunctions(this.context.site.id),
+              this._functionAppService.getApiProxies(this.context, this._runtimeVersion),
+              this._siteService.getAppSettings(this.context.site.id),
+              (f, p, a) => ({ fcs: f, proxies: p, appSettings: a })
+            );
+          });
       })
       .do(res => {
-        this.context = res.context;
         if (res.fcs.isSuccessful) {
           this.functionsInfo = res.fcs.result.value;
         } else {
@@ -186,7 +206,7 @@ export class ApiNewComponent extends NavigableComponent {
       };
 
       this._functionAppService
-        .getApiProxies(this.context)
+        .getApiProxies(this.context, this._runtimeVersion)
         .takeUntil(this.ngUnsubscribe)
         .subscribe(proxies => {
           // TODO: [alrod] handle error
@@ -230,18 +250,20 @@ export class ApiNewComponent extends NavigableComponent {
 
           this.apiProxies.push(newApiProxy);
 
-          this._functionAppService.saveApiProxy(this.context, ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
-            this.clearBusy();
-            this._aiService.trackEvent('/actions/proxy/create');
-            if (this._proxiesNode) {
-              // If someone refreshed the app, it would created a new set of child nodes under the app node.
-              this._proxiesNode = <ProxiesNode>this.appNode.children.find(node => node.title === this._proxiesNode.title);
-              this._proxiesNode.addChild(newApiProxy);
-            } else {
-              // Ibizafication Experience, open the Proxy-List tab
-              this._portalService.closeSelf({ data: { ...newApiProxy } });
-            }
-          });
+          this._functionAppService
+            .saveApiProxy(this.context, ApiProxy.toJson(this.apiProxies, this._translateService), this._runtimeVersion)
+            .subscribe(() => {
+              this.clearBusy();
+              this._aiService.trackEvent('/actions/proxy/create');
+              if (this._proxiesNode) {
+                // If someone refreshed the app, it would created a new set of child nodes under the app node.
+                this._proxiesNode = <ProxiesNode>this.appNode.children.find(node => node.title === this._proxiesNode.title);
+                this._proxiesNode.addChild(newApiProxy);
+              } else {
+                // Ibizafication Experience, open the Proxy-List tab
+                this._portalService.closeSelf({ data: { ...newApiProxy } });
+              }
+            });
         });
     }
   }
