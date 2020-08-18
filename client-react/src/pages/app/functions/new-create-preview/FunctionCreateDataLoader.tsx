@@ -35,6 +35,8 @@ import FunctionCreateData from './FunctionCreate.data';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { ArmObj } from '../../../../models/arm-obj';
 import { KeyValue } from '../../../../models/portal-models';
+import Url from '../../../../utils/url';
+import { HostStatus } from '../../../../models/functions/host-status';
 
 registerIcons({
   icons: {
@@ -61,9 +63,21 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   const [selectedDropdownKey, setSelectedDropdownKey] = useState<DevelopmentExperience | undefined>(undefined);
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
   const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplate | undefined>(undefined);
+  const [templates, setTemplates] = useState<FunctionTemplate[] | undefined | null>(undefined);
+  const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus> | undefined>(undefined);
 
   const onDevelopmentEnvironmentChange = (event: any, option: IDropdownOption) => {
-    setSelectedDropdownKey(option.key as DevelopmentExperience);
+    const key = option.key as DevelopmentExperience;
+
+    // Log if option changed from DevelopInPortal Only
+    if (selectedDropdownKey === DevelopmentExperience.developInPortal) {
+      LogService.trackEvent(LogCategories.localDevExperience, 'FunctionCreateOptionChanged', {
+        resourceId,
+        sessionId: Url.getParameterByName(null, 'sessionId'),
+        optionSelected: key,
+      });
+    }
+    setSelectedDropdownKey(key);
   };
 
   const isVSOptionVisible = () => {
@@ -195,6 +209,12 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     const options = getVisibleDropdownOptions();
     if (options.length > 0) {
       if (options.find(option => option.key === DevelopmentExperience.developInPortal)) {
+        LogService.trackEvent(LogCategories.localDevExperience, 'FunctionPortalCreateDefaulted', {
+          resourceId,
+          sessionId: Url.getParameterByName(null, 'sessionId'),
+          templateCount: !!templates ? templates.length : 0,
+          bundleWarning: !!hostStatus && !hostStatus.properties.version.startsWith('1') && !hostStatus.properties.extensionBundle,
+        });
         setSelectedDropdownKey(DevelopmentExperience.developInPortal);
       } else {
         setSelectedDropdownKey(options[0].key as DevelopmentExperience);
@@ -211,7 +231,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
       const errorMessage = getErrorMessage(updateAppSettingsResponse.metadata.error) || t('configUpdateFailure');
       portalCommunicator.stopNotification(notificationId, false, errorMessage);
       LogService.trackEvent(
-        LogCategories.functionCreate,
+        LogCategories.localDevExperience,
         'updateAppSettings',
         `Failed to update Application Settings: ${getErrorMessageOrStringify(updateAppSettingsResponse.metadata.error)}`
       );
@@ -228,14 +248,24 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         t('createFunctionNotificationDetails').format(functionName)
       );
 
+      LogService.trackEvent(
+        LogCategories.localDevExperience,
+        'FunctionCreateClicked',
+        FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
+      );
       const createFunctionResponse = await FunctionCreateData.createFunction(resourceId, functionName, files, config);
       if (createFunctionResponse.metadata.success) {
+        LogService.trackEvent(
+          LogCategories.localDevExperience,
+          'FunctionCreateSucceeded',
+          FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
+        );
         portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
         const id = `${resourceId}/functions/${functionName}`;
         portalCommunicator.closeSelf(id);
       } else {
         LogService.trackEvent(
-          LogCategories.functionCreate,
+          LogCategories.localDevExperience,
           'createFunction',
           `Failed to create function ${getErrorMessageOrStringify(createFunctionResponse.metadata.error)}`
         );
@@ -310,6 +340,10 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
                   builder={templateDetailFormBuilder}
                   selectedTemplate={selectedTemplate}
                   setSelectedTemplate={setSelectedTemplate}
+                  templates={templates}
+                  setTemplates={setTemplates}
+                  hostStatus={hostStatus}
+                  setHostStatus={setHostStatus}
                 />
               </div>
               <ActionBar
