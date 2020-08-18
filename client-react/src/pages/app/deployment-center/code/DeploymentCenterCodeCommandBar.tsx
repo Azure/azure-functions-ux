@@ -26,33 +26,10 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
   const deploymentCenterData = new DeploymentCenterData();
 
   const deployKudu = () => {
-    let repoUrl;
-    switch (formProps.values.sourceProvider) {
-      case ScmType.GitHub:
-        repoUrl = `${DeploymentCenterConstants.githubUri}/${formProps.values.org}/${formProps.values.repo}`;
-        break;
-      case ScmType.BitbucketGit:
-        repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${formProps.values.org}/${formProps.values.repo}`;
-        break;
-      case ScmType.OneDrive:
-      case ScmType.Dropbox:
-      case ScmType.ExternalGit:
-      case ScmType.LocalGit:
-        // TODO: (stpelleg): Pending Implementation of these ScmTypes
-        break;
-      default:
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterCodeCommandBar',
-          `Incorrect Source Provider ${formProps.values.sourceProvider}`
-        );
-        throw Error(`Incorrect Source Provider ${formProps.values.sourceProvider}`);
-    }
-
     // (Note: t-kakan): setting isManualIntegration to false for now. In Angular, it is set to this.wizardValues.sourceProvider === 'external'
     // (Note: t-kakan): setting isMercurial to false for now
     const payload: SiteSourceControlRequestBody = {
-      repoUrl: repoUrl,
+      repoUrl: getRepoUrl(),
       branch: formProps.values.branch || 'master',
       isManualIntegration: false,
       isGitHubAction: formProps.values.buildProvider === BuildProvider.GitHubAction,
@@ -68,6 +45,29 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
     } else {
       return deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, { properties: payload });
     }
+  };
+
+  const getRepoUrl = (): string => {
+    switch (formProps.values.sourceProvider) {
+      case ScmType.GitHub:
+        return `${DeploymentCenterConstants.githubUri}/${formProps.values.org}/${formProps.values.repo}`;
+      case ScmType.BitbucketGit:
+        return `${DeploymentCenterConstants.bitbucketUrl}/${formProps.values.org}/${formProps.values.repo}`;
+      case ScmType.OneDrive:
+      case ScmType.Dropbox:
+      case ScmType.ExternalGit:
+      case ScmType.LocalGit:
+        // TODO: (stpelleg): Pending Implementation of these ScmTypes
+        break;
+      default:
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'DeploymentCenterCodeCommandBar',
+          `Incorrect Source Provider ${formProps.values.sourceProvider}`
+        );
+        throw Error(`Incorrect Source Provider ${formProps.values.sourceProvider}`);
+    }
+    return '';
   };
 
   const deployGithubActions = async () => {
