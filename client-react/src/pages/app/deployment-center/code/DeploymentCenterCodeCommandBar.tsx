@@ -58,7 +58,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       case ScmType.ExternalGit:
       case ScmType.LocalGit:
         // TODO: (stpelleg): Pending Implementation of these ScmTypes
-        break;
+        throw Error('Not implemented');
       default:
         LogService.error(
           LogCategories.deploymentCenter,
@@ -67,7 +67,6 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
         );
         throw Error(`Incorrect Source Provider ${formProps.values.sourceProvider}`);
     }
-    return '';
   };
 
   const deployGithubActions = async () => {
