@@ -11,11 +11,11 @@ import { Link, Icon } from 'office-ui-fabric-react';
 
 const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
   const { t } = useTranslation();
+  const [repoUrl, setRepoUrl] = useState<string | undefined>(undefined);
   const [org, setOrg] = useState<string>(t('loading'));
   const [repo, setRepo] = useState<string>(t('loading'));
-  const [branch, setBranch] = useState<string | null | undefined>(undefined);
-  const [repoUrl, setRepoUrl] = useState<string | null | undefined>(undefined);
-  const [bitbucketUsername, setBitbucketUsername] = useState<string | null | undefined>(undefined);
+  const [branch, setBranch] = useState<string | undefined>(t('loading'));
+  const [bitbucketUsername, setBitbucketUsername] = useState<string | undefined>(t('loading'));
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterData = new DeploymentCenterData();
@@ -31,7 +31,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
       setBitbucketUsername(bitbucketUserResponse.data.username);
     } else {
       // NOTE(stpelleg): if unsuccessful, assume the user needs to authorize.
-      setBitbucketUsername(null);
+      setBitbucketUsername(undefined);
 
       LogService.error(
         LogCategories.deploymentCenter,
@@ -63,8 +63,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
     } else {
       setOrg(t('deploymentCenterErrorFetchingInfo'));
       setRepo(t('deploymentCenterErrorFetchingInfo'));
-      setBranch(null);
-      setRepoUrl(null);
+      setBranch(t('deploymentCenterErrorFetchingInfo'));
       LogService.error(
         LogCategories.deploymentCenter,
         'DeploymentCenterSourceControls',
@@ -74,9 +73,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
   };
 
   const getSignedInAsComponent = () => {
-    if (bitbucketUsername === undefined) {
-      return t('loading');
-    } else if (bitbucketUsername === null) {
+    if (!bitbucketUsername) {
       return (
         <div className={deploymentCenterInfoBannerDiv}>
           {
@@ -102,7 +99,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
       );
     }
 
-    return branch === undefined ? t('loading') : t('deploymentCenterErrorFetchingInfo');
+    return <div>{`${branch}`}</div>;
   };
 
   useEffect(() => {
