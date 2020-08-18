@@ -12,6 +12,8 @@ import { BroadcastEvent } from './../shared/models/broadcast-event';
 import { ErrorEvent } from './../shared/models/error-event';
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { errorIds } from 'app/shared/models/error-ids';
+import { SiteService } from '../shared/services/site.service';
+import { FunctionsVersionInfoHelper } from '../shared/models/functions-version-info';
 
 export class ProxiesNode extends BaseFunctionsProxiesNode {
   public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies);
@@ -19,12 +21,16 @@ export class ProxiesNode extends BaseFunctionsProxiesNode {
   public newDashboardType = DashboardType.CreateProxyDashboard;
   public requiresAdvancedEditor: boolean = false;
 
+  private _siteService: SiteService;
+
   constructor(sideNav: SideNavComponent, context: FunctionAppContext, parentNode: TreeNode) {
     super(sideNav, context.site.id + '/proxies', context, parentNode, context.site.id + '/proxies/new/proxy');
 
     this.nodeClass += ' collection-node';
     this.iconClass = 'tree-node-collection-icon';
     this.iconUrl = 'image/BulletList.svg';
+
+    this._siteService = sideNav.injector.get(SiteService);
 
     this._functionAppService
       .getFunctionAppEditMode(context)
@@ -106,29 +112,36 @@ export class ProxiesNode extends BaseFunctionsProxiesNode {
     }
 
     if (!this.children || this.children.length === 0) {
-      return this._functionAppService.getApiProxies(this._context).map(response => {
-        const fcNodes = <ProxyNode[]>[];
-        if (response.isSuccessful) {
-          this.requiresAdvancedEditor = false;
-
-          response.result.forEach(proxy => {
-            fcNodes.push(new ProxyNode(this.sideNav, proxy, this._context.site, this));
-          });
-        } else {
-          if (!response.error || response.error.errorId !== errorIds.proxyJsonNotFound) {
-            this.requiresAdvancedEditor = true;
-
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-              errorId: response.error.errorId,
-              message: response.error.message,
-              resourceId: this._context.site.id,
-            });
-          }
+      return this._siteService.getHostStatus(this._context.site.id).concatMap(hostStatusResponse => {
+        let runtimeVersion = '';
+        if (hostStatusResponse.isSuccessful) {
+          runtimeVersion = FunctionsVersionInfoHelper.getRuntimeVersionString(hostStatusResponse.result.properties.version);
         }
 
-        this.children = fcNodes;
+        return this._functionAppService.getApiProxies(this._context, runtimeVersion).map(response => {
+          const fcNodes = <ProxyNode[]>[];
+          if (response.isSuccessful) {
+            this.requiresAdvancedEditor = false;
 
-        return null;
+            response.result.forEach(proxy => {
+              fcNodes.push(new ProxyNode(this.sideNav, proxy, this._context.site, this));
+            });
+          } else {
+            if (!response.error || response.error.errorId !== errorIds.proxyJsonNotFound) {
+              this.requiresAdvancedEditor = true;
+
+              this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                errorId: response.error.errorId,
+                message: response.error.message,
+                resourceId: this._context.site.id,
+              });
+            }
+          }
+
+          this.children = fcNodes;
+
+          return null;
+        });
       });
     } else {
       return Observable.of(null);

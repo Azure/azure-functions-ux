@@ -22,17 +22,30 @@ export interface TemplateListProps {
   formProps: FormikProps<CreateFunctionFormValues>;
   setBuilder: (builder?: CreateFunctionFormBuilder) => void;
   setSelectedTemplate: (template?: FunctionTemplate) => void;
+  setTemplates: (template?: FunctionTemplate[] | null) => void;
+  setHostStatus: (hostStatus?: ArmObj<HostStatus>) => void;
+  templates?: FunctionTemplate[] | null;
+  hostStatus?: ArmObj<HostStatus>;
   selectedTemplate?: FunctionTemplate;
   builder?: CreateFunctionFormBuilder;
 }
 
 const TemplateList: React.FC<TemplateListProps> = props => {
-  const { resourceId, formProps, setBuilder, builder, selectedTemplate, setSelectedTemplate } = props;
+  const {
+    resourceId,
+    formProps,
+    setBuilder,
+    builder,
+    selectedTemplate,
+    setSelectedTemplate,
+    templates,
+    setTemplates,
+    hostStatus,
+    setHostStatus,
+  } = props;
   const { t } = useTranslation();
 
-  const [templates, setTemplates] = useState<FunctionTemplate[] | undefined | null>(undefined);
   const [filter, setFilter] = useState('');
-  const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus> | undefined>(undefined);
 
   const selection = useMemo(
     () =>
@@ -61,7 +74,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
       setHostStatus(hostStatusResponse.data);
     } else {
       LogService.trackEvent(
-        LogCategories.functionCreate,
+        LogCategories.localDevExperience,
         'getHostStatus',
         `Failed to get hostStatus: ${getErrorMessageOrStringify(hostStatusResponse.metadata.error)}`
       );
@@ -75,7 +88,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
     } else {
       setTemplates(null);
       LogService.trackEvent(
-        LogCategories.functionCreate,
+        LogCategories.localDevExperience,
         'getTemplates',
         `Failed to get templates: ${getErrorMessageOrStringify(templateResponse.metadata.error)}`
       );

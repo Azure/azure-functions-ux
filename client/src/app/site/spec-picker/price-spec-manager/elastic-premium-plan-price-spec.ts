@@ -96,13 +96,13 @@ export class ElasticPremiumSmallPlanPriceSpec extends ElasticPremiumPlanPriceSpe
     id: this.skuCode,
     firstParty: [
       {
-        id: SkuCode.ElasticPremium.EPCPU,
-        quantity: (Pricing.secondsInAzureMonth * this._ep1CpuCore) / 100,
+        id: SkuCode.ElasticPremium.EP1CPU,
+        quantity: Pricing.hoursInAzureMonth * this._ep1CpuCore,
         resourceId: null,
       },
       {
-        id: SkuCode.ElasticPremium.EPMemory,
-        quantity: (Pricing.secondsInAzureMonth * this._ep1Memory) / 100,
+        id: SkuCode.ElasticPremium.EP1Memory,
+        quantity: Pricing.hoursInAzureMonth * this._ep1Memory,
         resourceId: null,
       },
     ],
@@ -126,13 +126,13 @@ export class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPlanPriceSp
     id: this.skuCode,
     firstParty: [
       {
-        id: SkuCode.ElasticPremium.EPCPU,
-        quantity: (Pricing.secondsInAzureMonth * this._ep2CpuCore) / 100,
+        id: SkuCode.ElasticPremium.EP2CPU,
+        quantity: Pricing.hoursInAzureMonth * this._ep2CpuCore,
         resourceId: null,
       },
       {
-        id: SkuCode.ElasticPremium.EPMemory,
-        quantity: (Pricing.secondsInAzureMonth * this._ep2Memory) / 100,
+        id: SkuCode.ElasticPremium.EP2Memory,
+        quantity: Pricing.hoursInAzureMonth * this._ep2Memory,
         resourceId: null,
       },
     ],
@@ -156,13 +156,13 @@ export class ElasticPremiumLargePlanPriceSpec extends ElasticPremiumPlanPriceSpe
     id: this.skuCode,
     firstParty: [
       {
-        id: SkuCode.ElasticPremium.EPCPU,
-        quantity: (Pricing.secondsInAzureMonth * this._ep3CpuCore) / 100,
+        id: SkuCode.ElasticPremium.EP3CPU,
+        quantity: Pricing.hoursInAzureMonth * this._ep3CpuCore,
         resourceId: null,
       },
       {
-        id: SkuCode.ElasticPremium.EPMemory,
-        quantity: (Pricing.secondsInAzureMonth * this._ep3Memory) / 100,
+        id: SkuCode.ElasticPremium.EP3Memory,
+        quantity: Pricing.hoursInAzureMonth * this._ep3Memory,
         resourceId: null,
       },
     ],

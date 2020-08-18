@@ -55,7 +55,7 @@ const LocalCreateInstructions: React.FC<LocalCreateInstructionsProps> = props =>
       } else {
         setInstructions(null);
         LogService.trackEvent(
-          LogCategories.functionCreate,
+          LogCategories.localDevExperience,
           'getLocalDevExperienceInstructions',
           `Failed to fetch instructions: ${getErrorMessageOrStringify(localDevExperienceResponse.metadata.error)}`
         );
