@@ -5,6 +5,9 @@ import { FunctionConfig } from '../../../../models/functions/function-config';
 import { ArmObj } from '../../../../models/arm-obj';
 import { KeyValue } from '../../../../models/portal-models';
 import SiteService from '../../../../ApiHelpers/SiteService';
+import { FunctionTemplate } from '../../../../models/functions/function-template';
+import { HostStatus } from '../../../../models/functions/host-status';
+import Url from '../../../../utils/url';
 
 export default class FunctionCreateData {
   public static getTemplates(resourceId: string) {
@@ -48,5 +51,23 @@ export default class FunctionCreateData {
 
   public static getHostStatus(resourceId: string) {
     return FunctionsService.getHostStatus(resourceId);
+  }
+
+  public static getDataForTelemetry(
+    resourceId: string,
+    functionName: string,
+    functionTemplate: FunctionTemplate,
+    hostStatus?: ArmObj<HostStatus>
+  ) {
+    return {
+      resourceId,
+      functionName,
+      language: functionTemplate.language,
+      category: functionTemplate.category,
+      functionTemplateId: functionTemplate.id,
+      extensionBundle: hostStatus ? hostStatus.properties.extensionBundle : '',
+      runtimeVersion: hostStatus ? hostStatus.properties.version : '',
+      sessionId: Url.getParameterByName(null, 'sessionId'),
+    };
   }
 }

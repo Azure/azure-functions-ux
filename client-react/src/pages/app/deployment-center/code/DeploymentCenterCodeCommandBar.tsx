@@ -11,11 +11,15 @@ import { PortalContext } from '../../../../PortalContext';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { SiteStateContext } from '../../../../SiteState';
+import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 
 const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarProps> = props => {
-  const { isLoading, showPublishProfilePanel, refresh, formProps } = props;
+  const { isLoading, refresh, formProps } = props;
   const { t } = useTranslation();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+  const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
 
@@ -50,7 +54,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       formProps.values.runtimeVersion,
       formProps.values.runtimeRecommendedVersion,
       branch,
-      deploymentCenterContext.isLinuxApplication,
+      siteStateContext.isLinuxApp,
       formProps.values.gitHubPublishProfileSecretGuid,
       deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
       deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
@@ -152,7 +156,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
     <DeploymentCenterCommandBar
       saveFunction={saveFunction}
       discardFunction={discardFunction}
-      showPublishProfilePanel={showPublishProfilePanel}
+      showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
       refresh={refresh}
       isLoading={isLoading}
     />

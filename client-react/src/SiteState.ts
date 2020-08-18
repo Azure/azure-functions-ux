@@ -6,6 +6,8 @@ import { Site } from './models/site/site';
 export interface ISiteState {
   stopped: boolean;
   siteAppEditState: FunctionAppEditMode;
+  isLinuxApp: boolean;
+  isContainerApp: boolean;
   resourceId?: string;
   site?: ArmObj<Site>;
 }

@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {
-  DeploymentCenterFormData,
-  DeploymentCenterYupValidationSchemaType,
-  DeploymentProperties,
-  DeploymentCenterCodeFormData,
-  DeploymentCenterContainerFormData,
-} from './DeploymentCenter.types';
+import { DeploymentCenterDataLoaderProps } from './DeploymentCenter.types';
 import DeploymentCenterData from './DeploymentCenter.data';
 import { PortalContext } from '../../../PortalContext';
 import { SiteStateContext } from '../../../SiteState';
@@ -22,24 +16,19 @@ import {
 } from '../../../models/site/publish';
 import { useTranslation } from 'react-i18next';
 import { ArmObj, ArmArray } from '../../../models/arm-obj';
-import DeploymentCenterContainerForm from './container/DeploymentCenterContainerForm';
-import DeploymentCenterCodeForm from './code/DeploymentCenterCodeForm';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
+import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
 import { HttpResponseObject } from '../../../ArmHelper.types';
-import { DeploymentCenterContainerFormBuilder } from './container/DeploymentCenterContainerFormBuilder';
 import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCenterPublishProfilePanel';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
-import { isContainerApp, isLinuxApp } from '../../../utils/arm-utils';
+import { isContainerApp } from '../../../utils/arm-utils';
 import { SiteConfig } from '../../../models/site/config';
 import { KeyValue } from '../../../models/portal-models';
-import { DeploymentCenterCodeFormBuilder } from './code/DeploymentCenterCodeFormBuilder';
 import { SourceControl } from '../../../models/provider';
 import { PublishingCredentialPolicies } from '../../../models/site/site';
-
-export interface DeploymentCenterDataLoaderProps {
-  resourceId: string;
-}
+import DeploymentCenterContainerDataLoader from './container/DeploymentCenterContainerDataLoader';
+import DeploymentCenterCodeDataLoader from './code/DeploymentCenterCodeDataLoader';
 
 enum SourceControlTypes {
   oneDrive = 'onedrive',
@@ -55,30 +44,14 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
   const [hasWritePermission, setHasWritePermission] = useState(false);
-  const [logs, setLogs] = useState<string | undefined>(undefined);
   const [publishingUser, setPublishingUser] = useState<ArmObj<PublishingUser> | undefined>(undefined);
   const [publishingCredentials, setPublishingCredentials] = useState<ArmObj<PublishingCredentials> | undefined>(undefined);
   const [publishingProfile, setPublishingProfile] = useState<PublishingProfile | undefined>(undefined);
   const [siteDescriptor, setSiteDescriptor] = useState<ArmSiteDescriptor | undefined>(undefined);
   const [applicationSettings, setApplicationSettings] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
-  const [containerFormData, setContainerFormData] = useState<DeploymentCenterFormData<DeploymentCenterContainerFormData> | undefined>(
-    undefined
-  );
-  const [containerFormValidationSchema, setContainerFormValidationSchema] = useState<
-    DeploymentCenterYupValidationSchemaType<DeploymentCenterContainerFormData> | undefined
-  >(undefined);
-  const [codeFormData, setCodeFormData] = useState<DeploymentCenterFormData<DeploymentCenterCodeFormData> | undefined>(undefined);
-  const [codeFormValidationSchema, setCodeFormValidationSchema] = useState<
-    DeploymentCenterYupValidationSchemaType<DeploymentCenterCodeFormData> | undefined
-  >(undefined);
   const [isPublishProfilePanelOpen, setIsPublishProfilePanelOpen] = useState<boolean>(false);
-  const [deployments, setDeployments] = useState<ArmArray<DeploymentProperties> | undefined>(undefined);
   const [siteConfig, setSiteConfig] = useState<ArmObj<SiteConfig> | undefined>(undefined);
   const [configMetadata, setConfigMetadata] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
-  const [deploymentsError, setDeploymentsError] = useState<string | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isContainerApplication, setIsContainerApplication] = useState(false);
-  const [isLinuxApplication, setIsLinuxApplication] = useState(false);
   const [oneDriveToken, setOneDriveToken] = useState<string>('');
   const [dropBoxToken, setDropBoxToken] = useState<string>('');
   const [bitbucketToken, setBitbucketToken] = useState<string>('');
@@ -86,9 +59,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [basicPublishingCredentialsPolicies, setBasicPublishingCredentialsPolicies] = useState<PublishingCredentialPolicies | undefined>(
     undefined
   );
-
-  const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
-  const deploymentCenterCodeFormBuilder = new DeploymentCenterCodeFormBuilder(t);
 
   const processPublishProfileResponse = (publishProfileResponse: HttpResponseObject<string>) => {
     if (publishProfileResponse.metadata.success) {
@@ -121,31 +91,24 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   };
 
   const fetchData = async () => {
-    setIsLoading(true);
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
     const getUserSourceControlsRequest = deploymentCenterData.getUserSourceControls();
-    const getContainerLogsRequest = deploymentCenterData.fetchContainerLogs(resourceId);
     const getSiteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
-    const getDeploymentsRequest = deploymentCenterData.getSiteDeployments(resourceId);
     const getConfigMetadataRequest = deploymentCenterData.getConfigMetadata(resourceId);
     const getBasicPublishingCredentialsPoliciesRequest = deploymentCenterData.getBasicPublishingCredentialsPolicies(resourceId);
 
     const [
       writePermissionResponse,
       publishingUserResponse,
-      containerLogsResponse,
       siteConfigResponse,
-      deploymentsResponse,
       configMetadataResponse,
       userSourceControlsResponse,
       basicPublishingCredentialsPoliciesResponse,
     ] = await Promise.all([
       writePermissionRequest,
       getPublishingUserRequest,
-      getContainerLogsRequest,
       getSiteConfigRequest,
-      getDeploymentsRequest,
       getConfigMetadataRequest,
       getUserSourceControlsRequest,
       getBasicPublishingCredentialsPoliciesRequest,
@@ -162,28 +125,8 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     setSiteDescriptor(new ArmSiteDescriptor(resourceId));
     setHasWritePermission(writePermissionResponse);
 
-    if (containerLogsResponse.metadata.success) {
-      setLogs(containerLogsResponse.data);
-    } else {
-      const errorMessage = getErrorMessage(containerLogsResponse.metadata.error);
-      setLogs(
-        errorMessage ? t('deploymentCenterContainerLogsFailedWithError').format(errorMessage) : t('deploymentCenterContainerLogsFailed')
-      );
-    }
-
-    if (deploymentsResponse.metadata.success) {
-      setDeployments(deploymentsResponse.data);
-    } else {
-      const errorMessage = getErrorMessage(deploymentsResponse.metadata.error);
-      setDeploymentsError(
-        errorMessage ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage) : t('deploymentCenterCodeDeploymentsFailed')
-      );
-    }
-
     if (siteConfigResponse.metadata.success) {
       setSiteConfig(siteConfigResponse.data);
-      deploymentCenterContainerFormBuilder.setSiteConfig(siteConfigResponse.data);
-      deploymentCenterCodeFormBuilder.setSiteConfig(siteConfigResponse.data);
     } else {
       LogService.error(
         LogCategories.deploymentCenter,
@@ -194,8 +137,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
 
     if (configMetadataResponse.metadata.success) {
       setConfigMetadata(configMetadataResponse.data);
-      deploymentCenterContainerFormBuilder.setConfigMetadata(configMetadataResponse.data);
-      deploymentCenterCodeFormBuilder.setConfigMetadata(configMetadataResponse.data);
     } else {
       LogService.error(
         LogCategories.deploymentCenter,
@@ -206,8 +147,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
 
     if (publishingUserResponse.metadata.success) {
       setPublishingUser(publishingUserResponse.data);
-      deploymentCenterContainerFormBuilder.setPublishingUser(publishingUserResponse.data);
-      deploymentCenterCodeFormBuilder.setPublishingUser(publishingUserResponse.data);
     } else {
       LogService.error(
         LogCategories.deploymentCenter,
@@ -228,8 +167,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
 
       if (fetchApplicationSettingsResponse.metadata.success) {
         setApplicationSettings(fetchApplicationSettingsResponse.data);
-        deploymentCenterContainerFormBuilder.setApplicationSettings(fetchApplicationSettingsResponse.data);
-        deploymentCenterCodeFormBuilder.setApplicationSettings(fetchApplicationSettingsResponse.data);
       } else {
         LogService.error(
           LogCategories.deploymentCenter,
@@ -249,16 +186,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       }
 
       processPublishProfileResponse(publishProfileResponse);
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
     }
-
-    setContainerFormData(deploymentCenterContainerFormBuilder.generateFormData());
-    setContainerFormValidationSchema(deploymentCenterContainerFormBuilder.generateYupValidationSchema());
-
-    setCodeFormData(deploymentCenterCodeFormBuilder.generateFormData());
-    setCodeFormValidationSchema(deploymentCenterCodeFormBuilder.generateYupValidationSchema());
   };
 
   const setUserControlTokens = (sourceControls: ArmArray<SourceControl>) => {
@@ -287,18 +215,10 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     fetchData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (siteStateContext.site) {
-      setIsContainerApplication(isContainerApp(siteStateContext.site));
-      setIsLinuxApplication(isLinuxApp(siteStateContext.site));
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteStateContext]);
 
   return siteStateContext.site ? (
+    // NOTE(michinoy): Populate common deployment center level properties
     <DeploymentCenterContext.Provider
       value={{
         resourceId,
@@ -306,47 +226,36 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         siteDescriptor,
         siteConfig,
         applicationSettings,
-        isContainerApplication,
-        isLinuxApplication,
         configMetadata,
         oneDriveToken,
         dropBoxToken,
         bitbucketToken,
         gitHubToken,
-        basicPublishingCredentialsPolicies,
         refresh,
       }}>
-      {isContainerApp(siteStateContext.site) ? (
-        <DeploymentCenterContainerForm
-          logs={logs}
-          publishingUser={publishingUser}
-          publishingProfile={publishingProfile}
-          publishingCredentials={publishingCredentials}
-          formData={containerFormData}
-          formValidationSchema={containerFormValidationSchema}
+      {/* NOTE(michinoy): Populate common publishing specific properties */}
+      <DeploymentCenterPublishingContext.Provider
+        value={{
+          basicPublishingCredentialsPolicies,
+          publishingUser,
+          publishingProfile,
+          publishingCredentials,
+          resetApplicationPassword,
+          showPublishProfilePanel,
+        }}>
+        {/* NOTE(michinoy): Load the specific experience based on the app settings */}
+        {isContainerApp(siteStateContext.site) ? (
+          <DeploymentCenterContainerDataLoader resourceId={resourceId} />
+        ) : (
+          <DeploymentCenterCodeDataLoader resourceId={resourceId} />
+        )}
+        {/* NOTE(michinoy): Load the publishing profile panel which is common between both code and container experiences  */}
+        <DeploymentCenterPublishProfilePanel
+          isPanelOpen={isPublishProfilePanelOpen}
+          dismissPanel={dismissPublishProfilePanel}
           resetApplicationPassword={resetApplicationPassword}
-          showPublishProfilePanel={showPublishProfilePanel}
-          isLoading={isLoading}
         />
-      ) : (
-        <DeploymentCenterCodeForm
-          deployments={deployments}
-          deploymentsError={deploymentsError}
-          publishingUser={publishingUser}
-          publishingProfile={publishingProfile}
-          publishingCredentials={publishingCredentials}
-          formData={codeFormData}
-          formValidationSchema={codeFormValidationSchema}
-          resetApplicationPassword={resetApplicationPassword}
-          showPublishProfilePanel={showPublishProfilePanel}
-          isLoading={isLoading}
-        />
-      )}
-      <DeploymentCenterPublishProfilePanel
-        isPanelOpen={isPublishProfilePanelOpen}
-        dismissPanel={dismissPublishProfilePanel}
-        resetApplicationPassword={resetApplicationPassword}
-      />
+      </DeploymentCenterPublishingContext.Provider>
     </DeploymentCenterContext.Provider>
   ) : (
     <LoadingComponent />

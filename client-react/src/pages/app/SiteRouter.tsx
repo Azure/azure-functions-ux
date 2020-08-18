@@ -75,6 +75,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
   const [stopped, setStopped] = useState(false);
   const [siteAppEditState, setSiteAppEditState] = useState<FunctionAppEditMode>(FunctionAppEditMode.ReadWrite);
+  const [isLinuxApplication, setIsLinuxApplication] = useState<boolean>(false);
+  const [isContainerApplication, setIsContainerApplication] = useState<boolean>(false);
 
   const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
     if (isLinuxDynamic(site)) {
@@ -210,6 +212,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       if (siteResponse.metadata.success) {
         setSite(siteResponse.data);
         setStopped(siteResponse.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
+        setIsLinuxApplication(isLinuxApp(siteResponse.data));
+        setIsContainerApplication(isContainerApp(siteResponse.data));
       }
       setSiteAppEditState(functionAppEditMode);
     }
@@ -228,7 +232,15 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             setResourceId(value.token && value.resourceId);
             return (
               value.token && (
-                <SiteStateContext.Provider value={{ site, siteAppEditState, stopped, resourceId }}>
+                <SiteStateContext.Provider
+                  value={{
+                    site,
+                    siteAppEditState,
+                    stopped,
+                    resourceId,
+                    isLinuxApp: isLinuxApplication,
+                    isContainerApp: isContainerApplication,
+                  }}>
                   <Router>
                     {/* NOTE(michinoy): The paths should be always all lowercase. */}
 
