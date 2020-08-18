@@ -7,6 +7,7 @@ import { Injector } from '@angular/core';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Site, HostType } from 'app/shared/models/arm/site';
 import { runtimeIsV2, runtimeIsV3 } from './models/functions-version-info';
+import { FunctionAppRuntimeSetting } from './models/constants';
 
 export class UrlTemplates {
   private configService: ConfigService;
@@ -80,6 +81,17 @@ export class UrlTemplates {
         : `${this.mainSiteUrl}/admin/vfs/site/wwwroot/proxies.json`;
     }
     return `${this.scmUrl}/api/vfs/site/wwwroot/proxies.json`;
+  }
+
+  getProxiesVfsUrl(runtimeVersion: string, endpoint: string): string {
+    switch (runtimeVersion) {
+      case FunctionAppRuntimeSetting.tilda2:
+      case FunctionAppRuntimeSetting.tilda3:
+        return `/hostruntime/admin/vfs/${endpoint}?relativePath=1`;
+      case FunctionAppRuntimeSetting.tilda1:
+      default:
+        return `/extensions/api/vfs/site/wwwroot/${endpoint}`;
+    }
   }
 
   getFunctionUrl(functionName: string, functionEntity?: string): string {

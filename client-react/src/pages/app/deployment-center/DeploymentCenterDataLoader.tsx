@@ -22,7 +22,6 @@ import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingC
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCenterPublishProfilePanel';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
-import { isContainerApp } from '../../../utils/arm-utils';
 import { SiteConfig } from '../../../models/site/config';
 import { KeyValue } from '../../../models/portal-models';
 import { SourceControl } from '../../../models/provider';
@@ -244,7 +243,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           showPublishProfilePanel,
         }}>
         {/* NOTE(michinoy): Load the specific experience based on the app settings */}
-        {isContainerApp(siteStateContext.site) ? (
+        {siteStateContext.isContainerApp ? (
           <DeploymentCenterContainerDataLoader resourceId={resourceId} />
         ) : (
           <DeploymentCenterCodeDataLoader resourceId={resourceId} />

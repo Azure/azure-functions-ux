@@ -42,11 +42,25 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     const runtimeStack = initialValues.currentlySelectedStack;
     if (runtimeStack && functionAppStacksContext.length > 0) {
       setRuntimeStack(runtimeStack);
-      setCurrentStackData(functionAppStacksContext.find(stack => stack.value === runtimeStack));
+      setInitialStackData(runtimeStack);
     }
     const stackVersionProperty = getConfigProperty(runtimeStack);
     if (initialValues.config && initialValues.config && initialValues.config.properties[stackVersionProperty]) {
       setInitialStackVersion(initialValues.config.properties[stackVersionProperty]);
+    }
+  };
+
+  const setInitialStackData = (runtimeStack: string) => {
+    for (const stack of functionAppStacksContext) {
+      for (const majorVersion of stack.majorVersions) {
+        for (const minorVersion of majorVersion.minorVersions) {
+          const settings = isLinux() ? minorVersion.stackSettings.linuxRuntimeSettings : minorVersion.stackSettings.windowsRuntimeSettings;
+          if (!!settings && settings.appSettingsDictionary.FUNCTIONS_WORKER_RUNTIME === runtimeStack) {
+            setCurrentStackData(stack);
+            return;
+          }
+        }
+      }
     }
   };
 
@@ -70,7 +84,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   if (!runtimeStack || isWindowsContainer()) {
     return null;
   }
-  return (
+  return currentStackData || isLinux() ? (
     <>
       <h3>{t('stackSettings')}</h3>
       <div className={settingsWrapper}>
@@ -116,7 +130,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
         )}
       </div>
     </>
-  );
+  ) : null;
 };
 
 export default FunctionAppStackSettings;
