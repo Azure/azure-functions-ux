@@ -5,7 +5,7 @@ import { ScmType, BuildProvider } from '../../../models/site/config';
 import moment from 'moment';
 import { Uri } from 'monaco-editor';
 import { GitHubUser } from '../../../models/github';
-import { IDropdownOption, IChoiceGroupOption } from 'office-ui-fabric-react';
+import { IDropdownOption, IChoiceGroupOption, MessageBarType } from 'office-ui-fabric-react';
 import { BitbucketUser } from '../../../models/bitbucket';
 
 export enum ContainerOptions {
@@ -83,6 +83,7 @@ export interface DeploymentCenterContainerFormData {
   serverUrl: string;
   image: string;
   tag: string;
+  imageAndTag: string; // NOTE(michinoy): In some container forms Image and Tags are separate fields and in others they are same.
   username: string;
   password: string;
   command: string;
@@ -313,4 +314,14 @@ export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterCont
   branchOptions: IDropdownOption[];
   accountStatusMessage?: string;
   accountUser?: BitbucketUser;
+}
+
+export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {
+  fetchImages: (registry: string) => void;
+  fetchTags: (registry: string, image: string) => void;
+  acrRegistryOptions: IDropdownOption[];
+  acrImageOptions: IDropdownOption[];
+  acrTagOptions: IDropdownOption[];
+  acrStatusMessage?: string;
+  acrStatusMessageType?: MessageBarType;
 }
