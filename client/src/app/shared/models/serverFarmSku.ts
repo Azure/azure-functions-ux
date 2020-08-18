@@ -61,7 +61,11 @@ export class SkuCode {
     EP1: 'EP1',
     EP2: 'EP2',
     EP3: 'EP3',
-    EPCPU: 'EP-C',
-    EPMemory: 'EP-M',
+    EP1CPU: 'EP1-C',
+    EP1Memory: 'EP1-M',
+    EP2CPU: 'EP2-C',
+    EP2Memory: 'EP2-M',
+    EP3CPU: 'EP3-C',
+    EP3Memory: 'EP3-M',
   };
 }
