@@ -12,10 +12,11 @@ import { Link, Icon } from 'office-ui-fabric-react';
 const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
   const { t } = useTranslation();
   const [repoUrl, setRepoUrl] = useState<string | undefined>(undefined);
-  const [org, setOrg] = useState<string>(t('loading'));
-  const [repo, setRepo] = useState<string>(t('loading'));
-  const [branch, setBranch] = useState<string | undefined>(t('loading'));
+  const [org, setOrg] = useState<string | undefined>(undefined);
+  const [repo, setRepo] = useState<string | undefined>(undefined);
+  const [branch, setBranch] = useState<string | undefined>(undefined);
   const [bitbucketUsername, setBitbucketUsername] = useState<string | undefined>(t('loading'));
+  const [isSourceControlLoading, setIsSourceControlLoading] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterData = new DeploymentCenterData();
@@ -52,8 +53,8 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
         setOrg(repoUrlSplit[repoUrlSplit.length - 2]);
         setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
       } else {
-        setOrg(t('deploymentCenterErrorFetchingInfo'));
-        setRepo(t('deploymentCenterErrorFetchingInfo'));
+        setOrg('');
+        setRepo('');
         LogService.error(
           LogCategories.deploymentCenter,
           'DeploymentCenterBitbucketConfiguredView',
@@ -70,6 +71,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
         `Failed to get source control details with error: ${getErrorMessage(sourceControlDetailsResponse.metadata.error)}`
       );
     }
+    setIsSourceControlLoading(false);
   };
 
   const getSignedInAsComponent = () => {
@@ -108,6 +110,14 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (isSourceControlLoading) {
+      getSourceControlDetailsResponse();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSourceControlLoading]);
+
   return (
     <>
       <h3>{t('deploymentCenterCodeBitbucketTitle')}</h3>
@@ -116,13 +126,13 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
         <div>{getSignedInAsComponent()}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-organization" label={t('deploymentCenterOAuthOrganization')}>
-        <div>{org}</div>
+        <div>{isSourceControlLoading ? t('loading') : org}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-repository" label={t('deploymentCenterOAuthRepository')}>
-        <div>{repo}</div>
+        <div>{isSourceControlLoading ? t('loading') : repo}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-bitbucket-branch" label={t('deploymentCenterOAuthBranch')}>
-        <div>{getBranchLink()}</div>
+        <div>{isSourceControlLoading ? t('loading') : getBranchLink()}</div>
       </ReactiveFormControl>
     </>
   );
