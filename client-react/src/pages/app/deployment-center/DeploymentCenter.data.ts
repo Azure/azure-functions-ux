@@ -9,6 +9,7 @@ import { AppOsType } from '../../../models/site/site';
 import { GitHubActionWorkflowRequestContent } from '../../../models/github';
 import { ProviderToken } from '../../../models/provider';
 import BitbucketService from '../../../ApiHelpers/BitbucketService';
+import OneDriveService from '../../../ApiHelpers/OneDriveService';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -158,5 +159,17 @@ export default class DeploymentCenterData {
 
   public getBitbucketBranches = (org: string, repo: string, bitbucketToken: string, logger?: (page, response) => void) => {
     return BitbucketService.getBranches(org, repo, bitbucketToken, logger);
+  };
+
+  public getOneDriveUser = (oneDriveToken: string) => {
+    return OneDriveService.getUser(oneDriveToken);
+  };
+
+  public getOneDriveToken = (oneDriveToken: string) => {
+    return OneDriveService.getToken(oneDriveToken);
+  };
+
+  public getOneDriveFolders = (oneDriveToken: string) => {
+    return OneDriveService.getFolders(oneDriveToken);
   };
 }
