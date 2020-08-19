@@ -161,7 +161,9 @@ export class FunctionAppService {
 
   saveApiProxy(context: FunctionAppContext, jsonString: string, runtimeVersion): Result<Response> {
     const headers = this._armService.getHeaders();
-    headers['Cache-Control'] = 'no-cache';
+    headers.delete('If-None-Match');
+    headers.append('Cache-Control', 'no-cache');
+    headers.append('If-Match', '*');
     const resourceId = `${context.site.id}${context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json')}`;
     const url = this._armService.getArmUrl(resourceId, this._armService.antaresApiVersion20181101);
 
