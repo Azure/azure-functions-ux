@@ -153,6 +153,15 @@ export default class DeploymentCenterData {
     return BitbucketService.getToken(redirectUrl);
   };
 
+  public storeBitbucketToken = (providerToken: ProviderToken) => {
+    return ProviderService.updateUserSourceControl(
+      'bitbucket',
+      providerToken.accessToken,
+      providerToken.refreshToken,
+      providerToken.environment
+    );
+  };
+
   public getBitbucketRepositories = (bitbucketToken: string) => {
     return BitbucketService.getRepositories(bitbucketToken);
   };
