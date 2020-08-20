@@ -4,5 +4,6 @@ export interface TopBarNotification {
   message: string;
   iconClass: string;
   learnMoreLink: string;
-  clickCallback: () => void;
+  clickUrl?: string;
+  clickCallback?: () => void;
 }

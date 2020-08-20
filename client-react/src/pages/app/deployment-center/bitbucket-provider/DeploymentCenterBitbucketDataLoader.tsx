@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { BitbucketUser } from '../../../../models/bitbucket';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterFieldProps, AuthorizationResult } from '../DeploymentCenter.types';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import DeploymentCenterBitbucketProvider from './DeploymentCenterBitbucketProvider';
 import DeploymentCenterData from '../DeploymentCenter.data';
@@ -9,6 +9,7 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import BitbucketService from '../../../../ApiHelpers/BitbucketService';
 
 const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -79,8 +80,8 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
       const logger = (page, response) => {
         LogService.error(
           LogCategories.deploymentCenter,
-          'GitHubGetBranches',
-          `Failed to fetch GitHub branches with error: ${getErrorMessage(response.metadata.error)}`
+          'BitbucketGetBranches',
+          `Failed to fetch Bitbucket branches with error: ${getErrorMessage(response.metadata.error)}`
         );
       };
 
@@ -96,7 +97,46 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   };
 
   const authorizeBitbucketAccount = async () => {
-    throw Error('Not implemented');
+    const oauthWindow = window.open(BitbucketService.authorizeUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
+
+    const authPromise = new Promise<AuthorizationResult>(resolve => {
+      setBitbucketAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
+
+      // Check for authorization status every 100 ms.
+      const timerId = setInterval(() => {
+        if (oauthWindow && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
+          resolve({
+            timerId,
+            redirectUrl: oauthWindow.document.URL,
+          });
+        } else if (oauthWindow && oauthWindow.closed) {
+          resolve({
+            timerId,
+          });
+        }
+      }, 100);
+
+      // If no activity after 60 seconds, turn off the timer and close the auth window.
+      setTimeout(() => {
+        resolve({
+          timerId,
+        });
+      }, 60000);
+    });
+
+    return authPromise.then(authorizationResult => {
+      clearInterval(authorizationResult.timerId);
+      oauthWindow && oauthWindow.close();
+
+      if (authorizationResult.redirectUrl) {
+        return deploymentCenterData
+          .getBitbucketToken(authorizationResult.redirectUrl)
+          .then(response => deploymentCenterData.storeBitbucketToken(response.data))
+          .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+      } else {
+        return fetchData();
+      }
+    });
   };
 
   useEffect(() => {
@@ -104,6 +144,12 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext.bitbucketToken]);
 
   useEffect(() => {
     fetchRepositoryOptions();

@@ -12,7 +12,13 @@
             <i [class]="notification.iconClass"></i>
             <span [class.info-link]="!isWarning">{{notification.message}}</span>
         </span>
-        <span *ngIf="!notification.clickCallback">
+        <a *ngIf="notification.clickUrl" [href]="notification.clickUrl" class="link" target="_blank">
+            <span *ngIf="!isWarning" load-image="image/functions.svg" class="info-svg"></span>
+
+            <i [class]="notification.iconClass"></i>
+            <span [class.info-link]="!isWarning">{{notification.message}}</span>
+        </a>
+        <span *ngIf="!notification.clickCallback && !notification.clickUrl">
             <i [class]="notification.iconClass"></i>
             {{notification.message}}
         </span>

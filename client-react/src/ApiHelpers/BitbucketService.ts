@@ -18,7 +18,11 @@ export default class BitbucketService {
   };
 
   public static getToken = (redirectUrl: string): Promise<HttpResponseObject<ProviderToken>> => {
-    throw Error('Not implemented');
+    const data = {
+      redirUrl: redirectUrl,
+    };
+
+    return sendHttpRequest<ProviderToken>({ url: `${Url.serviceHost}auth/bitbucket/getToken`, method: 'POST', data });
   };
 
   public static getRepositories = (bitbucketToken: string, logger?: (page, response) => void): Promise<BitbucketRepository[]> => {

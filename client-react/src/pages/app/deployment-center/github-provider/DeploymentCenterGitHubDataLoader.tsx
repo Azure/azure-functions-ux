@@ -138,7 +138,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
         return deploymentCenterData
           .getGitHubToken(authorizationResult.redirectUrl)
           .then(response => deploymentCenterData.storeGitHubToken(response.data))
-          .then(() => fetchData());
+          .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
       } else {
         return fetchData();
       }
@@ -164,6 +164,12 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext.gitHubToken]);
 
   useEffect(() => {
     fetchOrganizationOptions();
