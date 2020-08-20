@@ -132,7 +132,7 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
         return deploymentCenterData
           .getBitbucketToken(authorizationResult.redirectUrl)
           .then(response => deploymentCenterData.storeBitbucketToken(response.data))
-          .then(() => fetchData());
+          .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
       } else {
         return fetchData();
       }
@@ -144,6 +144,12 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext.bitbucketToken]);
 
   useEffect(() => {
     fetchRepositoryOptions();

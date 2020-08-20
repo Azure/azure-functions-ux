@@ -114,7 +114,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     ]);
 
     if (userSourceControlsResponse.metadata.success) {
-      setUserControlTokens(userSourceControlsResponse.data);
+      setUserSourceControlTokens(userSourceControlsResponse.data);
     }
 
     if (basicPublishingCredentialsPoliciesResponse.metadata.success) {
@@ -188,7 +188,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     }
   };
 
-  const setUserControlTokens = (sourceControls: ArmArray<SourceControl>) => {
+  const setUserSourceControlTokens = (sourceControls: ArmArray<SourceControl>) => {
     const getToken = (sourceControl?: ArmObj<SourceControl>) =>
       sourceControl && sourceControl.properties.token ? sourceControl.properties.token : '';
 
@@ -196,6 +196,13 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     setDropBoxToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.dropBox)));
     setBitbucketToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.bitBucket)));
     setGitHubToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.gitHub)));
+  };
+
+  const refreshUserSourceControlTokens = async () => {
+    const userSourceControlsResponse = await deploymentCenterData.getUserSourceControls();
+    if (userSourceControlsResponse.metadata.success) {
+      setUserSourceControlTokens(userSourceControlsResponse.data);
+    }
   };
 
   const showPublishProfilePanel = () => {
@@ -231,6 +238,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         bitbucketToken,
         gitHubToken,
         refresh,
+        refreshUserSourceControlTokens,
       }}>
       {/* NOTE(michinoy): Populate common publishing specific properties */}
       <DeploymentCenterPublishingContext.Provider
