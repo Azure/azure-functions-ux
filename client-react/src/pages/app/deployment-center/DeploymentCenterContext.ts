@@ -12,6 +12,7 @@ export interface IDeploymentCenterContext {
   bitbucketToken: string;
   gitHubToken: string;
   refresh: () => void;
+  refreshUserSourceControlTokens: () => void;
   siteConfig?: ArmObj<SiteConfig>;
   siteDescriptor?: ArmSiteDescriptor;
   applicationSettings?: ArmObj<KeyValue<string>>;
