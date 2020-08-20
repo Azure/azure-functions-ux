@@ -113,6 +113,7 @@ export class NotificationIds {
   public static ipRestrictions = 'ipRestrictions';
   public static clientCertEnabled = 'clientCertEnabled';
   public static powershellPreview = 'powershellPreview';
+  public static classicDeprecation = 'classicDeprecation';
 }
 
 export class Validations {
