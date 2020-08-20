@@ -11,7 +11,7 @@ import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/Dep
 import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
 import DeploymentCenterCodeBuildRuntimeAndVersion from './DeploymentCenterCodeBuildRuntimeAndVersion';
 import { useTranslation } from 'react-i18next';
-import { getCodeAppWorkflowInformation } from '../utility/GitHubActionUtility';
+import { getCodeAppWorkflowInformation, isWorkflowOptionExistingOrAvailable } from '../utility/GitHubActionUtility';
 import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
@@ -43,9 +43,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     deploymentCenterContext.siteConfig &&
     (deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction ||
       deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHub);
-  const isUsingExistingOrAvailableWorkflowConfig =
-    formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
-    formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs;
+  const isUsingExistingOrAvailableWorkflowConfig = isWorkflowOptionExistingOrAvailable(formProps.values.workflowOption);
 
   const isBitbucketSource = formProps.values.sourceProvider === ScmType.BitbucketGit;
   const isBitbucketSetup =
@@ -97,8 +95,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
     const formFilled =
       formProps.values.workflowOption !== WorkflowOption.None &&
-      (formProps.values.runtimeStack || runtimeInfoOmissionAllowed) &&
-      (formProps.values.runtimeVersion || runtimeInfoOmissionAllowed);
+      ((formProps.values.runtimeStack && formProps.values.runtimeVersion) || runtimeInfoOmissionAllowed);
 
     setIsPreviewFileButtonDisabled(formProps.values.workflowOption === WorkflowOption.None || !formFilled);
     // eslint-disable-next-line react-hooks/exhaustive-deps

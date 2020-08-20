@@ -1,6 +1,10 @@
-import { CodeWorkflowInformation, ContainerWorkflowInformation } from '../DeploymentCenter.types';
+import { CodeWorkflowInformation, ContainerWorkflowInformation, WorkflowOption } from '../DeploymentCenter.types';
 import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
 import { getWorkflowFileName } from './DeploymentCenterUtility';
+
+export const isWorkflowOptionExistingOrAvailable = (workflowOption: string): boolean => {
+  return workflowOption === WorkflowOption.UseExistingWorkflowConfig || workflowOption === WorkflowOption.UseAvailableWorkflowConfigs;
+};
 
 export const getContainerAppWorkflowInformation = (
   serverUrl: string,

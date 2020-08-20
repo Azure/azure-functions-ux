@@ -3,14 +3,10 @@ import { Field } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
 import { IChoiceGroupOptionProps } from 'office-ui-fabric-react';
-import {
-  ContainerDockerAccessTypes,
-  DeploymentCenterFieldProps,
-  DeploymentCenterContainerFormData,
-  WorkflowOption,
-} from '../DeploymentCenter.types';
+import { ContainerDockerAccessTypes, DeploymentCenterFieldProps, DeploymentCenterContainerFormData } from '../DeploymentCenter.types';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { ScmType } from '../../../../models/site/config';
+import { isWorkflowOptionExistingOrAvailable } from '../utility/GitHubActionUtility';
 
 const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
@@ -27,10 +23,7 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
   }, [formProps.values.dockerAccessType]);
 
   useEffect(() => {
-    setIsUsingExistingOrAvailableWorkflowConfig(
-      formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
-        formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs
-    );
+    setIsUsingExistingOrAvailableWorkflowConfig(isWorkflowOptionExistingOrAvailable(formProps.values.workflowOption));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.workflowOption]);

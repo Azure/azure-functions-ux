@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DeploymentCenterContainerAcrSettingsProps, WorkflowOption } from '../DeploymentCenter.types';
+import { DeploymentCenterContainerAcrSettingsProps } from '../DeploymentCenter.types';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../components/form-controls/DropDown';
@@ -7,6 +7,7 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import TextField from '../../../../components/form-controls/TextField';
 import { ScmType } from '../../../../models/site/config';
+import { isWorkflowOptionExistingOrAvailable } from '../utility/GitHubActionUtility';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -56,10 +57,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
   };
 
   useEffect(() => {
-    setIsUsingExistingOrAvailableWorkflowConfig(
-      formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
-        formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs
-    );
+    setIsUsingExistingOrAvailableWorkflowConfig(isWorkflowOptionExistingOrAvailable(formProps.values.workflowOption));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.workflowOption]);

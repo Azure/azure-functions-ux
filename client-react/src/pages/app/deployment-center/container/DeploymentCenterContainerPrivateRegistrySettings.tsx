@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Field } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterFieldProps, DeploymentCenterContainerFormData, WorkflowOption } from '../DeploymentCenter.types';
+import { DeploymentCenterFieldProps, DeploymentCenterContainerFormData } from '../DeploymentCenter.types';
 import { ScmType } from '../../../../models/site/config';
+import { isWorkflowOptionExistingOrAvailable } from '../utility/GitHubActionUtility';
 
 const DeploymentCenterContainerPrivateRegistrySettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
@@ -13,10 +14,7 @@ const DeploymentCenterContainerPrivateRegistrySettings: React.FC<DeploymentCente
   const [isGitHubAction, setIsGitHubAction] = useState(false);
 
   useEffect(() => {
-    setIsUsingExistingOrAvailableWorkflowConfig(
-      formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
-        formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs
-    );
+    setIsUsingExistingOrAvailableWorkflowConfig(isWorkflowOptionExistingOrAvailable(formProps.values.workflowOption));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.workflowOption]);
