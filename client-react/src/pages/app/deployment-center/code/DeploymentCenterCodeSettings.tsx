@@ -48,12 +48,18 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
   useEffect(() => {
     if (deploymentCenterContext.siteDescriptor) {
+      const runtimeInfoAvailable =
+        formProps.values.runtimeStack && formProps.values.runtimeVersion && formProps.values.runtimeRecommendedVersion;
+
       if (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig) {
         setPanelMessage(t('githubActionWorkflowOptionUseExistingMessage'));
         setWorkflowFileContent(githubActionExistingWorkflowContents);
       } else if (formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs) {
         setPanelMessage(t('githubActionWorkflowOptionUseExistingMessageWithoutPreview'));
-      } else if (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) {
+      } else if (
+        (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) &&
+        runtimeInfoAvailable
+      ) {
         const information = getCodeAppWorkflowInformation(
           formProps.values.runtimeStack,
           formProps.values.runtimeVersion,
@@ -72,18 +78,22 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   }, [
     siteStateContext.isLinuxApp,
     deploymentCenterContext.siteDescriptor,
-    formProps.values.workflowOption,
     formProps.values.runtimeStack,
     formProps.values.runtimeVersion,
     formProps.values.runtimeRecommendedVersion,
     formProps.values.branch,
+    formProps.values.workflowOption,
   ]);
 
   useEffect(() => {
+    const runtimeInfoOmissionAllowed =
+      formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs ||
+      formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig;
+
     const formFilled =
-      (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) &&
-      formProps.values.runtimeStack &&
-      formProps.values.runtimeVersion;
+      formProps.values.workflowOption !== WorkflowOption.None &&
+      (formProps.values.runtimeStack || runtimeInfoOmissionAllowed) &&
+      (formProps.values.runtimeVersion || runtimeInfoOmissionAllowed);
 
     setIsPreviewFileButtonDisabled(formProps.values.workflowOption === WorkflowOption.None || !formFilled);
     // eslint-disable-next-line react-hooks/exhaustive-deps
