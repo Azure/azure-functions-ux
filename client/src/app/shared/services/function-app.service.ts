@@ -579,10 +579,12 @@ export class FunctionAppService {
 
   fireSyncTrigger(context: FunctionAppContext): void {
     if (ArmUtil.isLinuxDynamic(context.site)) {
-      this._cacheService.postArm(`${context.site.id}/hostruntime/admin/host/synctriggers`, true).subscribe(
-        success => this._logService.verbose(LogCategories.syncTriggers, success),
-        error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error)
-      );
+      this._cacheService
+        .postArm(`${context.site.id}/hostruntime/admin/host/synctriggers`, true)
+        .subscribe(
+          success => this._logService.verbose(LogCategories.syncTriggers, success),
+          error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error)
+        );
     } else {
       const url = context.urlTemplates.syncTriggersUrl;
       this.azure
