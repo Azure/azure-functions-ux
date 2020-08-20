@@ -182,6 +182,22 @@ export default class FunctionsService {
     });
   }
 
+  public static getStorageContainers(accountName: string, data: any) {
+    return sendHttpRequest<any>({
+      data,
+      url: `${Url.serviceHost}/api/getStorageContainers?accountName=${accountName}`,
+      method: 'POST',
+    });
+  }
+
+  public static getStorageFileShares(accountName: string, data: any) {
+    return sendHttpRequest<any>({
+      data,
+      url: `${Url.serviceHost}/api/getStorageFileShares?accountName=${accountName}`,
+      method: 'POST',
+    });
+  }
+
   private static tryPassThroughController(err: any, url: string, method: Method, headers: KeyValue<string>, body: any) {
     const passthroughBody = {
       url,
