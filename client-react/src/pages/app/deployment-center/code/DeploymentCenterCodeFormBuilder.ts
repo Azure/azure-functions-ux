@@ -11,7 +11,6 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
       runtimeStack: '',
       runtimeVersion: '',
       runtimeRecommendedVersion: '',
-      gitHubPublishProfileSecretGuid: '',
       ...this.generateCommonFormData(),
     };
   }
@@ -23,7 +22,6 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
       runtimeStack: Yup.mixed().notRequired(),
       runtimeVersion: Yup.mixed().notRequired(),
       runtimeRecommendedVersion: Yup.mixed().notRequired(),
-      gitHubPublishProfileSecretGuid: Yup.mixed().notRequired(),
       ...this.generateCommonFormYupValidationSchema(),
     });
   }

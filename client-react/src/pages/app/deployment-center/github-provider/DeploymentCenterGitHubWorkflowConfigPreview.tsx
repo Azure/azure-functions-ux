@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubWorkflowConfigPreviewProps } from '../DeploymentCenter.types';
-import { PanelType, DefaultButton } from 'office-ui-fabric-react';
+import { PanelType, DefaultButton, MessageBarType } from 'office-ui-fabric-react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
+import { panelBanner, deploymentCenterConsole } from '../DeploymentCenter.styles';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitHubWorkflowConfigPreviewProps> = props => {
-  const { isPreviewFileButtonEnabled, getPreviewPanelContent, setShowInfoBanner, workflowFilePath } = props;
+  const { isPreviewFileButtonDisabled, workflowFilePath, workflowFileContent, panelMessage } = props;
   const { t } = useTranslation();
 
   const [isPreviewPanelOpen, setIsPreviewPanelOpen] = useState<boolean>(false);
+  const [showInfoBanner, setShowInfoBanner] = useState(true);
+
+  const closeInfoBanner = () => {
+    setShowInfoBanner(false);
+  };
 
   const dismissPreviewPanel = () => {
     setIsPreviewPanelOpen(false);
-  };
-
-  const showWorkflowFilePath = () => {
-    if (workflowFilePath) {
-      return <p>{`${t('deploymentCenterWorkflowConfigsFilePathLabel')}: ${workflowFilePath}`}</p>;
-    }
   };
 
   return (
@@ -30,13 +31,20 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
           setIsPreviewPanelOpen(true);
           setShowInfoBanner(true);
         }}
-        disabled={!isPreviewFileButtonEnabled()}
+        disabled={isPreviewFileButtonDisabled}
       />
       {isPreviewPanelOpen && (
         <CustomPanel isOpen={isPreviewPanelOpen} onDismiss={dismissPreviewPanel} type={PanelType.medium}>
           <h1>{t('deploymentCenterSettingsWorkflowConfigTitle')}</h1>
-          {showWorkflowFilePath()}
-          {getPreviewPanelContent()}
+          {workflowFilePath && <p>{`${t('deploymentCenterWorkflowConfigsFilePathLabel')}: ${workflowFilePath}`}</p>}
+
+          {showInfoBanner && panelMessage && (
+            <div className={panelBanner}>
+              <CustomBanner message={panelMessage} type={MessageBarType.info} onDismiss={closeInfoBanner} />
+            </div>
+          )}
+
+          {workflowFileContent && <pre className={deploymentCenterConsole}>{workflowFileContent}</pre>}
         </CustomPanel>
       )}
     </>

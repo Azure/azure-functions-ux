@@ -1,8 +1,43 @@
-import { WorkflowInformation } from '../DeploymentCenter.types';
+import { CodeWorkflowInformation, ContainerWorkflowInformation } from '../DeploymentCenter.types';
 import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
 import { getWorkflowFileName } from './DeploymentCenterUtility';
 
-export const getWorkflowInformation = (
+export const getContainerAppWorkflowInformation = (
+  serverUrl: string,
+  image: string,
+  branch: string,
+  publishingProfileSecretNameGuid: string,
+  containerUsernameSecretNameGuid: string,
+  containerPasswordSecretNameGuid: string,
+  siteName: string,
+  slotName: string
+): ContainerWorkflowInformation => {
+  const fileName = getWorkflowFileName(branch, siteName, slotName);
+  const publishingProfileSecretName = `AzureAppService_PublishProfile_${publishingProfileSecretNameGuid}`;
+  const containerUsernameSecretName = `AzureAppService_ContainerUsername_${containerUsernameSecretNameGuid}`;
+  const containerPasswordSecretName = `AzureAppService_ContainerPassword_${containerPasswordSecretNameGuid}`;
+
+  const content = getContainerGithubActionWorkflowDefinition(
+    siteName,
+    slotName,
+    branch,
+    publishingProfileSecretName,
+    containerUsernameSecretName,
+    containerPasswordSecretName,
+    serverUrl,
+    image
+  );
+
+  return {
+    fileName,
+    content,
+    publishingProfileSecretName,
+    containerUsernameSecretName,
+    containerPasswordSecretName,
+  };
+};
+
+export const getCodeAppWorkflowInformation = (
   runtimeStack: string,
   runtimeVersion: string,
   runtimeStackRecommendedVersion: string,
@@ -11,7 +46,7 @@ export const getWorkflowInformation = (
   secretNameGuid: string,
   siteName: string,
   slotName: string
-): WorkflowInformation => {
+): CodeWorkflowInformation => {
   branch = branch || 'master';
   const fileName = getWorkflowFileName(branch, siteName, slotName);
   const secretName = `AzureAppService_PublishProfile_${secretNameGuid}`;
@@ -49,7 +84,7 @@ export const getWorkflowInformation = (
   return {
     fileName,
     secretName,
-    content: content,
+    content,
   };
 };
 
@@ -406,4 +441,62 @@ on:
           slot-name: '${slot}'
           publish-profile: \${{ secrets.${secretName} }}
           package: ./published/`;
+};
+
+// TODO(michinoy): Need to implement templated github action workflow generation.
+// Current reference - https://github.com/Azure/actions-workflow-templates
+const getContainerGithubActionWorkflowDefinition = (
+  siteName: string,
+  slotName: string,
+  branch: string,
+  publishingProfileSecretName: string,
+  containerUsernameSecretName: string,
+  containerPasswordSecretName: string,
+  serverUrl: string,
+  image: string
+) => {
+  const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+  const slot = slotName || 'production';
+  const server = serverUrl.toLocaleLowerCase().replace('https://', '');
+
+  return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - ${webAppName}
+
+on:
+  push:
+    branches:
+      - ${branch}
+
+  jobs:
+    build-and-deploy:
+      runs-on: 'ubuntu-latest'
+
+      steps:
+      - uses: actions/checkout@master
+
+      - uses: azure/docker-login@v1
+        with:
+          login-server: contoso.azurecr.io
+          username: \${{ secrets.${containerUsernameSecretName} }}
+          password: \${{ secrets.${containerPasswordSecretName} }}
+
+        - run: |
+          docker build . -t ${server}/${image}:\${{ github.sha }}
+          docker push ${server}/${image}:\${{ github.sha }}
+
+      - name: Restore NuGet packages
+        run: nuget restore
+
+      - name: Publish to folder
+        run: msbuild /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=./published/ /p:PackageAsSingleFile=false
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: '${siteName}'
+          slot-name: '${slot}'
+          publish-profile: \${{ secrets.${publishingProfileSecretName} }}
+          images: '${server}/${image}:\${{ github.sha }}`;
 };

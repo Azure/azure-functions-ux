@@ -6582,4 +6582,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="developInPortal" xml:space="preserve">
         <value>Develop in portal</value>
     </data>
+    <data name="containerImage" xml:space="preserve">
+        <value>Image name</value>
+    </data>
+    <data name="containerImagePlaceholder" xml:space="preserve">
+        <value>E.g. nginx</value>
+    </data>
 </root>

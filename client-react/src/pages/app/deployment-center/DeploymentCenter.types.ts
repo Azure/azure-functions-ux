@@ -74,6 +74,7 @@ export interface DeploymentCenterCommonFormData {
   org: string;
   repo: string;
   branch: string;
+  gitHubPublishProfileSecretGuid: string;
 }
 
 export interface DeploymentCenterContainerFormData {
@@ -89,6 +90,8 @@ export interface DeploymentCenterContainerFormData {
   command: string;
   cicd: boolean;
   scmType: ScmType;
+  gitHubContainerUsernameSecretGuid: string;
+  gitHubContainerPasswordSecretGuid: string;
 }
 
 export interface DeploymentCenterCodeFormData {
@@ -97,7 +100,6 @@ export interface DeploymentCenterCodeFormData {
   runtimeStack: string;
   runtimeVersion: string;
   runtimeRecommendedVersion: string;
-  gitHubPublishProfileSecretGuid: string;
 }
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
@@ -126,10 +128,11 @@ export interface DeploymentCenterCommitLogsProps {
 }
 
 export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
-  isPreviewFileButtonEnabled: () => boolean;
-  getPreviewPanelContent: () => JSX.Element | undefined;
-  setShowInfoBanner: (showInfoBanner: boolean) => void;
-  workflowFilePath: string;
+  isPreviewFileButtonDisabled: boolean;
+  workflowFilePath?: string;
+  workflowFileContent?: string;
+  panelMessage?: string;
+  panelMessageType?: MessageBarType;
 }
 
 export interface DeploymentCenterFtpsProps {
@@ -274,7 +277,15 @@ export interface RuntimeStackSetting {
   runtimeVersion: string;
 }
 
-export class WorkflowInformation {
+export class ContainerWorkflowInformation {
+  fileName: string;
+  content: string;
+  publishingProfileSecretName: string;
+  containerUsernameSecretName: string;
+  containerPasswordSecretName: string;
+}
+
+export class CodeWorkflowInformation {
   fileName: string;
   secretName: string;
   content: string;
