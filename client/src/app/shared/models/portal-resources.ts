@@ -1840,7 +1840,7 @@ export class PortalResources {
   public static runtimeStackVersion = 'runtimeStackVersion';
   public static functionCreate_extensionBundlesRequired = 'functionCreate_extensionBundlesRequired';
   public static remoteDebuggingNotAvailableOnFlexStamp = 'remoteDebuggingNotAvailableOnFlexStamp';
-  public static tryFunctionsNewExperience = 'tryFunctionsNewExperience';
+  public static classicDeprecation = 'classicDeprecation';
   public static saveAppSettingsTitle = 'saveAppSettingsTitle';
   public static saveAppSettingsMessage = 'saveAppSettingsMessage';
   public static azureFunctionsV1Linux = 'azureFunctionsV1Linux';

@@ -143,20 +143,12 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
         this.notifications = [
           {
-            id: NotificationIds.clientCertEnabled,
-            message: this.ts.instant(PortalResources.tryFunctionsNewExperience),
+            id: NotificationIds.classicDeprecation,
+            message: this.ts.instant(PortalResources.classicDeprecation),
             iconClass: '',
             learnMoreLink: null,
-            level: 'info',
-            clickCallback: () => {
-              const overviewBladeInput = {
-                detailBlade: 'AppsOverviewBlade',
-                detailBladeInputs: {
-                  id: this.context.site.id,
-                },
-              };
-              this._portalService.openBlade(overviewBladeInput, 'top-overview-banner');
-            },
+            level: 'warning',
+            clickUrl: 'https://github.com/Azure/azure-functions/issues',
           },
         ];
 
