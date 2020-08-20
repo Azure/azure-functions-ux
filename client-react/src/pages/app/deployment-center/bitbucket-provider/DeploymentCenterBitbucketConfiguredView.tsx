@@ -7,7 +7,10 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { useTranslation } from 'react-i18next';
 import { additionalTextFieldControl, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import { Link, Icon } from 'office-ui-fabric-react';
+import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
+import BitbucketService from '../../../../ApiHelpers/BitbucketService';
+import { AuthorizationResult } from '../DeploymentCenter.types';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
   const { t } = useTranslation();
@@ -78,9 +81,17 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
     if (!bitbucketUsername) {
       return (
         <div className={deploymentCenterInfoBannerDiv}>
-          {
-            //TODO(stpelleg): Implement OAuth #8026655
-          }
+          <CustomBanner
+            message={
+              <>
+                {`${t('deploymentCenterSettingsConfiguredViewBitbucketNotAuthorized')} `}
+                <Link onClick={authorizeBitbucketAccount} target="_blank">
+                  {t('authorize')}
+                </Link>
+              </>
+            }
+            type={MessageBarType.error}
+          />
         </div>
       );
     }
@@ -102,6 +113,63 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
     }
 
     return <div>{`${branch}`}</div>;
+  };
+
+  const authorizeBitbucketAccount = async () => {
+    // TODO(stpelleg): this is almost duplicate function to what is used in DeploymentCenterBitbucketDataLoader. Look into refactoring
+    const oauthWindow = window.open(BitbucketService.authorizeUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
+
+    const authPromise = new Promise<AuthorizationResult>(resolve => {
+      // Check for authorization status every 100 ms.
+      const timerId = setInterval(() => {
+        if (oauthWindow && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
+          resolve({
+            timerId,
+            redirectUrl: oauthWindow.document.URL,
+          });
+        } else if (oauthWindow && oauthWindow.closed) {
+          resolve({
+            timerId,
+          });
+        }
+      }, 100);
+
+      // If no activity after 60 seconds, turn off the timer and close the auth window.
+      setTimeout(() => {
+        resolve({
+          timerId,
+        });
+      }, 60000);
+    });
+
+    return authPromise.then(authorizationResult => {
+      clearInterval(authorizationResult.timerId);
+      oauthWindow && oauthWindow.close();
+
+      if (authorizationResult.redirectUrl) {
+        return deploymentCenterData
+          .getBitbucketToken(authorizationResult.redirectUrl)
+          .then(response => {
+            if (response.metadata.success) {
+              return deploymentCenterData.storeBitbucketToken(response.data);
+            } else {
+              // NOTE(michinoy): This is all related to the handshake between us and the provider.
+              // If this fails, there isn't much the user can do except retry.
+
+              LogService.error(
+                LogCategories.deploymentCenter,
+                'authorizeBitbucketAccount',
+                `Failed to get token with error: ${getErrorMessage(response.metadata.error)}`
+              );
+
+              return Promise.resolve(null);
+            }
+          })
+          .then(() => getSourceControlDetails());
+      } else {
+        return getSourceControlDetails();
+      }
+    });
   };
 
   useEffect(() => {
