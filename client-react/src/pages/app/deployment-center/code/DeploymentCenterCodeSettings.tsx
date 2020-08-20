@@ -10,28 +10,28 @@ import DeploymentCenterCodeSourceAndBuild from './DeploymentCenterCodeSourceAndB
 import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/DeploymentCenterGitHubWorkflowConfigSelector';
 import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
 import DeploymentCenterCodeBuildRuntimeAndVersion from './DeploymentCenterCodeBuildRuntimeAndVersion';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { deploymentCenterConsole, panelBanner } from '../DeploymentCenter.styles';
-import { MessageBarType, Link } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { getWorkflowInformation } from '../utility/GitHubActionUtility';
+import { getCodeAppWorkflowInformation, isWorkflowOptionExistingOrAvailable } from '../utility/GitHubActionUtility';
 import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { SiteStateContext } from '../../../../SiteState';
+import { Link } from 'office-ui-fabric-react';
 import DeploymentCenterBitbucketConfiguredView from '../bitbucket-provider/DeploymentCenterBitbucketConfiguredView';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
-  const [showInfoBanner, setShowInfoBanner] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
 
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
   const [workflowFilePath, setWorkflowFilePath] = useState<string>('');
+  const [isPreviewFileButtonDisabled, setIsPreviewFileButtonDisabled] = useState(false);
+  const [workflowFileContent, setWorkflowFileContent] = useState('');
+  const [panelMessage, setPanelMessage] = useState('');
 
   const isDeploymentSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.None;
 
@@ -43,67 +43,27 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     deploymentCenterContext.siteConfig &&
     (deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction ||
       deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHub);
-  const isUsingExistingOrAvailableWorkflowConfig =
-    formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
-    formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs;
+  const isUsingExistingOrAvailableWorkflowConfig = isWorkflowOptionExistingOrAvailable(formProps.values.workflowOption);
 
   const isBitbucketSource = formProps.values.sourceProvider === ScmType.BitbucketGit;
   const isBitbucketSetup =
     deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.BitbucketGit;
 
-  const closeInfoBanner = () => {
-    setShowInfoBanner(false);
-  };
-
-  const isPreviewFileButtonEnabled = () => {
-    if (
-      formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs ||
-      formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig
-    ) {
-      return true;
-    }
-    if (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) {
-      if (formProps.values.runtimeStack && formProps.values.runtimeVersion) {
-        return true;
-      }
-    }
-
-    return false;
-  };
-
-  const getPreviewPanelContent = () => {
+  useEffect(() => {
     if (deploymentCenterContext.siteDescriptor) {
+      const runtimeInfoAvailable =
+        formProps.values.runtimeStack && formProps.values.runtimeVersion && formProps.values.runtimeRecommendedVersion;
+
       if (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig) {
-        return (
-          <>
-            {showInfoBanner && (
-              <div className={panelBanner}>
-                <CustomBanner
-                  message={t('githubActionWorkflowOptionUseExistingMessage')}
-                  type={MessageBarType.info}
-                  onDismiss={closeInfoBanner}
-                />
-              </div>
-            )}
-            <pre className={deploymentCenterConsole}>{githubActionExistingWorkflowContents}</pre>
-          </>
-        );
+        setPanelMessage(t('githubActionWorkflowOptionUseExistingMessage'));
+        setWorkflowFileContent(githubActionExistingWorkflowContents);
       } else if (formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs) {
-        return (
-          <>
-            {showInfoBanner && (
-              <div className={panelBanner}>
-                <CustomBanner
-                  message={t('githubActionWorkflowOptionUseExistingMessageWithoutPreview')}
-                  type={MessageBarType.info}
-                  onDismiss={closeInfoBanner}
-                />
-              </div>
-            )}
-          </>
-        );
-      } else if (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) {
-        const information = getWorkflowInformation(
+        setPanelMessage(t('githubActionWorkflowOptionUseExistingMessageWithoutPreview'));
+      } else if (
+        (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) &&
+        runtimeInfoAvailable
+      ) {
+        const information = getCodeAppWorkflowInformation(
           formProps.values.runtimeStack,
           formProps.values.runtimeVersion,
           formProps.values.runtimeRecommendedVersion,
@@ -113,23 +73,33 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           deploymentCenterContext.siteDescriptor.site,
           deploymentCenterContext.siteDescriptor.slot
         );
-        return (
-          <>
-            {showInfoBanner && (
-              <div className={panelBanner}>
-                <CustomBanner
-                  message={t('githubActionWorkflowOptionOverwriteIfConfigExists')}
-                  type={MessageBarType.info}
-                  onDismiss={closeInfoBanner}
-                />
-              </div>
-            )}
-            <pre className={deploymentCenterConsole}>{information.content}</pre>
-          </>
-        );
+        setPanelMessage(t('githubActionWorkflowOptionOverwriteIfConfigExists'));
+        setWorkflowFileContent(information.content);
       }
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    siteStateContext.isLinuxApp,
+    deploymentCenterContext.siteDescriptor,
+    formProps.values.runtimeStack,
+    formProps.values.runtimeVersion,
+    formProps.values.runtimeRecommendedVersion,
+    formProps.values.branch,
+    formProps.values.workflowOption,
+  ]);
+
+  useEffect(() => {
+    const runtimeInfoOmissionAllowed =
+      formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs ||
+      formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig;
+
+    const formFilled =
+      formProps.values.workflowOption !== WorkflowOption.None &&
+      ((formProps.values.runtimeStack && formProps.values.runtimeVersion) || runtimeInfoOmissionAllowed);
+
+    setIsPreviewFileButtonDisabled(formProps.values.workflowOption === WorkflowOption.None || !formFilled);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.workflowOption, formProps.values.runtimeStack, formProps.values.runtimeVersion]);
 
   useEffect(() => {
     if (
@@ -185,10 +155,10 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
                   />
                   {!isUsingExistingOrAvailableWorkflowConfig && <DeploymentCenterCodeBuildRuntimeAndVersion formProps={formProps} />}
                   <DeploymentCenterGitHubWorkflowConfigPreview
-                    getPreviewPanelContent={getPreviewPanelContent}
-                    setShowInfoBanner={setShowInfoBanner}
-                    isPreviewFileButtonEnabled={isPreviewFileButtonEnabled}
+                    isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
                     workflowFilePath={workflowFilePath}
+                    workflowFileContent={workflowFileContent}
+                    panelMessage={panelMessage}
                   />
                 </>
               )}

@@ -26,6 +26,7 @@ export abstract class DeploymentCenterFormBuilder {
       org: '',
       repo: '',
       branch: '',
+      gitHubPublishProfileSecretGuid: '',
     };
   }
 
@@ -54,6 +55,7 @@ export abstract class DeploymentCenterFormBuilder {
       org: Yup.mixed().notRequired(),
       repo: Yup.mixed().notRequired(),
       branch: Yup.mixed().notRequired(),
+      gitHubPublishProfileSecretGuid: Yup.mixed().notRequired(),
     };
   }
 
