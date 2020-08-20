@@ -5694,8 +5694,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Remote debugging is not available for your application. </value>
     </data>
-    <data name="tryFunctionsNewExperience" xml:space="preserve">
-        <value>Try the new Azure Functions management experience</value>
+    <data name="classicDeprecation" xml:space="preserve">
+        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
     </data>
     <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Save changes</value>
