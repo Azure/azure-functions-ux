@@ -161,7 +161,9 @@ export class FunctionAppService {
 
   saveApiProxy(context: FunctionAppContext, jsonString: string, runtimeVersion): Result<Response> {
     const headers = this._armService.getHeaders();
-    headers['Cache-Control'] = 'no-cache';
+    headers.delete('If-None-Match');
+    headers.append('Cache-Control', 'no-cache');
+    headers.append('If-Match', '*');
     const resourceId = `${context.site.id}${context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json')}`;
     const url = this._armService.getArmUrl(resourceId, this._armService.antaresApiVersion20181101);
 
@@ -577,10 +579,12 @@ export class FunctionAppService {
 
   fireSyncTrigger(context: FunctionAppContext): void {
     if (ArmUtil.isLinuxDynamic(context.site)) {
-      this._cacheService.postArm(`${context.site.id}/hostruntime/admin/host/synctriggers`, true).subscribe(
-        success => this._logService.verbose(LogCategories.syncTriggers, success),
-        error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error)
-      );
+      this._cacheService
+        .postArm(`${context.site.id}/hostruntime/admin/host/synctriggers`, true)
+        .subscribe(
+          success => this._logService.verbose(LogCategories.syncTriggers, success),
+          error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error)
+        );
     } else {
       const url = context.urlTemplates.syncTriggersUrl;
       this.azure

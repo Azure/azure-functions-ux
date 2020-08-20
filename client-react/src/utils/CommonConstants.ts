@@ -98,7 +98,7 @@ export class CommonConstants {
   public static readonly AppInsightsEndpoints = {
     public: 'https://api.applicationinsights.io/v1/apps',
     fairfax: 'https://api.applicationinsights.us/v1/apps',
-    mooncake: 'https://api.applicationsinisights.azure.cn/v1/apps',
+    mooncake: 'https://api.applicationinsights.azure.cn/v1/apps',
   };
 
   public static readonly LogLevels = {

@@ -13,6 +13,8 @@ import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { SiteStateContext } from '../../../../SiteState';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarProps> = props => {
   const { isLoading, refresh, formProps } = props;
@@ -27,7 +29,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
     // (Note: t-kakan): setting isManualIntegration to false for now. In Angular, it is set to this.wizardValues.sourceProvider === 'external'
     // (Note: t-kakan): setting isMercurial to false for now
     const payload: SiteSourceControlRequestBody = {
-      repoUrl: `${DeploymentCenterConstants.githubUri}/${formProps.values.org}/${formProps.values.repo}`,
+      repoUrl: getRepoUrl(),
       branch: formProps.values.branch || 'master',
       isManualIntegration: false,
       isGitHubAction: formProps.values.buildProvider === BuildProvider.GitHubAction,
@@ -42,6 +44,28 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       });
     } else {
       return deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, { properties: payload });
+    }
+  };
+
+  const getRepoUrl = (): string => {
+    switch (formProps.values.sourceProvider) {
+      case ScmType.GitHub:
+        return `${DeploymentCenterConstants.githubUri}/${formProps.values.org}/${formProps.values.repo}`;
+      case ScmType.BitbucketGit:
+        return `${DeploymentCenterConstants.bitbucketUrl}/${formProps.values.org}/${formProps.values.repo}`;
+      case ScmType.OneDrive:
+      case ScmType.Dropbox:
+      case ScmType.ExternalGit:
+      case ScmType.LocalGit:
+        // TODO: (stpelleg): Pending Implementation of these ScmTypes
+        throw Error('Not implemented');
+      default:
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'DeploymentCenterCodeCommandBar',
+          `Incorrect Source Provider ${formProps.values.sourceProvider}`
+        );
+        throw Error(`Incorrect Source Provider ${formProps.values.sourceProvider}`);
     }
   };
 

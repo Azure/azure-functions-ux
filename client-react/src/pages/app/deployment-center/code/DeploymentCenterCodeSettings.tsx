@@ -18,6 +18,7 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { SiteStateContext } from '../../../../SiteState';
 import { Link } from 'office-ui-fabric-react';
+import DeploymentCenterBitbucketConfiguredView from '../bitbucket-provider/DeploymentCenterBitbucketConfiguredView';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -32,10 +33,10 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [workflowFileContent, setWorkflowFileContent] = useState('');
   const [panelMessage, setPanelMessage] = useState('');
 
-  const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
-  const isBitbucketSource = formProps.values.sourceProvider === ScmType.BitbucketGit;
-  const isGitHubActionsBuild = formProps.values.buildProvider === BuildProvider.GitHubAction;
   const isDeploymentSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.None;
+
+  const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
+  const isGitHubActionsBuild = formProps.values.buildProvider === BuildProvider.GitHubAction;
   const isGitHubActionsSetup =
     deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
   const isGitHubSourceSetup =
@@ -45,6 +46,10 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const isUsingExistingOrAvailableWorkflowConfig =
     formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
     formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs;
+
+  const isBitbucketSource = formProps.values.sourceProvider === ScmType.BitbucketGit;
+  const isBitbucketSetup =
+    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.BitbucketGit;
 
   useEffect(() => {
     if (deploymentCenterContext.siteDescriptor) {
@@ -135,6 +140,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           </p>
           {!isGitHubActionsSetup && <DeploymentCenterCodeSourceKuduConfiguredView />}
           {isGitHubSourceSetup && <DeploymentCenterGitHubConfiguredView isGitHubActionsSetup={isGitHubActionsSetup} />}
+          {isBitbucketSetup && <DeploymentCenterBitbucketConfiguredView />}
           <DeploymentCenterCodeBuildConfiguredView />
         </>
       ) : (
