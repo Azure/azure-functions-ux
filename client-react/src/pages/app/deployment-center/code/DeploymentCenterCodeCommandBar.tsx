@@ -5,7 +5,7 @@ import { GitHubCommit, GitHubActionWorkflowRequestContent } from '../../../../mo
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
-import { getWorkflowInformation } from '../utility/GitHubActionUtility';
+import { getCodeAppWorkflowInformation } from '../utility/GitHubActionUtility';
 import { getArmToken, getWorkflowFilePath } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import { useTranslation } from 'react-i18next';
@@ -73,7 +73,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
     const repo = `${formProps.values.org}/${formProps.values.repo}`;
     const branch = formProps.values.branch || 'master';
 
-    const workflowInformation = getWorkflowInformation(
+    const workflowInformation = getCodeAppWorkflowInformation(
       formProps.values.runtimeStack,
       formProps.values.runtimeVersion,
       formProps.values.runtimeRecommendedVersion,

@@ -2144,4 +2144,6 @@ export class PortalResources {
   public static detail = 'detail';
   public static detailDescription = 'detailDescription';
   public static developInPortal = 'developInPortal';
+  public static containerImage = 'containerImage';
+  public static containerImagePlaceholder = 'containerImagePlaceholder';
 }

@@ -26,6 +26,8 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       password: '',
       command: '',
       cicd: false,
+      gitHubContainerPasswordSecretGuid: '',
+      gitHubContainerUsernameSecretGuid: '',
       ...this.generateCommonFormData(),
     };
   }
@@ -44,6 +46,8 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       password: Yup.mixed().notRequired(),
       command: Yup.mixed().notRequired(),
       cicd: Yup.mixed().notRequired(),
+      gitHubContainerPasswordSecretGuid: Yup.mixed().notRequired(),
+      gitHubContainerUsernameSecretGuid: Yup.mixed().notRequired(),
       ...this.generateCommonFormYupValidationSchema(),
     });
   }
