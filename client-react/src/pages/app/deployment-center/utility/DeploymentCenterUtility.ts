@@ -30,8 +30,8 @@ const getRuntimeStackVersionForWindows = (stack: string, siteConfig: ArmObj<Site
 };
 
 const getRuntimeStackForWindows = (siteConfig: ArmObj<SiteConfig>, configMetadata: ArmObj<KeyValue<string>>) => {
-  if (configMetadata['CURRENT_STACK']) {
-    const metadataStack = configMetadata['CURRENT_STACK'].toLowerCase();
+  if (configMetadata.properties['CURRENT_STACK']) {
+    const metadataStack = configMetadata.properties['CURRENT_STACK'].toLowerCase();
 
     // NOTE(michinoy): Java is special, so need to handle it carefully. Also in this case, use
     // the string 'java' rather than any of the constants defined as it is not related to any of the
