@@ -104,7 +104,7 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
 
       // Check for authorization status every 100 ms.
       const timerId = setInterval(() => {
-        if (oauthWindow && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
+        if (oauthWindow && oauthWindow.document && oauthWindow.document.URL && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
           resolve({
             timerId,
             redirectUrl: oauthWindow.document.URL,
