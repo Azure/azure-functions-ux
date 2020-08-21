@@ -5691,8 +5691,8 @@
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>远程调试不适用于你的应用。</value>
     </data>
-  <data name="tryFunctionsNewExperience" xml:space="preserve">
-        <value>试用新的 Azure Functions 管理体验</value>
+  <data name="classicDeprecation" xml:space="preserve">
+        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>保存更改</value>
@@ -6219,6 +6219,9 @@
   <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
         <value>GitHub</value>
     </data>
+  <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>注册表设置</value>
     </data>
@@ -6574,6 +6577,12 @@
         <value>我们需要更多信息来创建此函数。</value>
     </data>
   <data name="developInPortal" xml:space="preserve">
-        <value>Develop in portal</value>
+        <value>在门户中开发</value>
+    </data>
+  <data name="containerImage" xml:space="preserve">
+        <value>Image name</value>
+    </data>
+  <data name="containerImagePlaceholder" xml:space="preserve">
+        <value>E.g. nginx</value>
     </data>
 </root>
