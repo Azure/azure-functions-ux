@@ -91,3 +91,41 @@ export interface AppSettingsAsyncData {
 export interface AppSettingsFormProps extends FormikProps<AppSettingsFormValues> {
   asyncData: AppSettingsAsyncData;
 }
+
+export type LeaseDurationType = 'infinite' | 'fixed';
+
+export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | 'broken';
+
+export type LeaseStatusType = 'locked' | 'unlocked';
+
+export type PublicAccessType = 'container' | 'blob';
+
+export interface ContainerProperties {
+  leaseStatus?: LeaseStatusType;
+  leaseState?: LeaseStateType;
+  leaseDuration?: LeaseDurationType;
+  publicAccess?: PublicAccessType;
+  hasImmutabilityPolicy?: boolean;
+  hasLegalHold?: boolean;
+  lastModified: Date;
+  etag: string;
+}
+
+export interface ContainerItem {
+  metadata?: { [propertyName: string]: string };
+  name: string;
+  properties: ContainerProperties;
+}
+
+export interface ShareProperties {
+  lastModified: Date;
+  etag: string;
+  quota: number;
+}
+
+export interface ShareItem {
+  snapshot?: string;
+  metadata?: { [propertyName: string]: string };
+  name: string;
+  properties: ShareProperties;
+}

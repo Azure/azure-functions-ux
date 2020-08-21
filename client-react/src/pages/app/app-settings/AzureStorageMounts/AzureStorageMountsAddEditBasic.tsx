@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { FormAzureStorageMounts } from '../AppSettings.types';
 import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
-import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
-import axios from 'axios';
+import MakeArmCall, { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormikProps, Field } from 'formik';
 import ComboBox from '../../../../components/form-controls/ComboBox';
@@ -15,6 +14,7 @@ import { MessageBarType } from 'office-ui-fabric-react';
 import { StorageType } from '../../../../models/site/config';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../utils/FwLinks';
+import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -76,17 +76,18 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             };
 
             if (supportsBlobStorage) {
-              blobsCall = axios.post(`/api/getStorageContainers?accountName=${values.accountName}`, payload);
+              blobsCall = FunctionsService.getStorageContainers(values.accountName, payload);
             }
 
             let filesCall: any = {
               data: [],
             };
             if (storageAccount.kind !== storageKinds.BlobStorage) {
-              filesCall = axios.post(`/api/getStorageFileShares?accountName=${values.accountName}`, payload);
+              filesCall = FunctionsService.getStorageFileShares(values.accountName, payload);
             }
 
             const [blobs, files] = await Promise.all([blobsCall, filesCall]);
+
             setSharesLoading(false);
             const filesData = files.data || [];
             const blobData = blobs.data || [];
@@ -98,13 +99,30 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               setFieldValue('type', 'AzureBlob');
             }
             if (filesData.length === 0 && blobData.length === 0) {
+              const [blobsFailure, filesFailure] = [!blobs.metadata.success, !files.metadata.success];
+              let error = '';
+
               if (!supportsBlobStorage) {
-                setAccountError(t('noFileShares'));
+                if (filesFailure) {
+                  error = files.metadata.error
+                    ? t('fileSharesFailureWithError').format(getErrorMessageOrStringify(files.metadata.error))
+                    : t('fileSharesFailure');
+                } else {
+                  error = t('noFileShares');
+                }
               } else if (storageAccount.kind === storageKinds.BlobStorage) {
-                setAccountError(t('noBlobs'));
+                if (blobsFailure) {
+                  error = blobs.metadata.error
+                    ? t('blobsFailureWithError').format(getErrorMessageOrStringify(files.metadata.error))
+                    : t('blobsFailure');
+                } else {
+                  error = t('noBlobs');
+                }
               } else {
-                setAccountError(t('noBlobsOrFilesShares'));
+                error = t('noBlobsOrFilesShares');
               }
+
+              setAccountError(error);
             }
           } catch (err) {
             setAccountError(t('noWriteAccessStorageAccount'));

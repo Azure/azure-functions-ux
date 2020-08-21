@@ -2144,6 +2144,11 @@ export class PortalResources {
   public static detail = 'detail';
   public static detailDescription = 'detailDescription';
   public static developInPortal = 'developInPortal';
+  public static fileSharesFailure = 'fileSharesFailure';
+  public static fileSharesFailureWithError = 'fileSharesFailureWithError';
+  public static blobsFailure = 'blobsFailure';
+  public static blobsFailureWithError = 'blobsFailureWithError';
+  public static blobsAndFileSharesFailure = 'blobsAndFileSharesFailure';
   public static containerImage = 'containerImage';
   public static containerImagePlaceholder = 'containerImagePlaceholder';
 }
