@@ -12,6 +12,7 @@ import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
 import { Method } from 'axios';
 import { KeyValue } from '../models/portal-models';
+import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -183,7 +184,7 @@ export default class FunctionsService {
   }
 
   public static getStorageContainers(accountName: string, data: any) {
-    return sendHttpRequest<any>({
+    return sendHttpRequest<ContainerItem[]>({
       data,
       url: `${Url.serviceHost}/api/getStorageContainers?accountName=${accountName}`,
       method: 'POST',
@@ -191,7 +192,7 @@ export default class FunctionsService {
   }
 
   public static getStorageFileShares(accountName: string, data: any) {
-    return sendHttpRequest<any>({
+    return sendHttpRequest<ShareItem[]>({
       data,
       url: `${Url.serviceHost}/api/getStorageFileShares?accountName=${accountName}`,
       method: 'POST',
