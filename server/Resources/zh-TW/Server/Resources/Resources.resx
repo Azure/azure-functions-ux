@@ -5691,8 +5691,8 @@
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>您的應用程式無法使用遠端偵錯。 </value>
     </data>
-  <data name="tryFunctionsNewExperience" xml:space="preserve">
-        <value>嘗試新的 Azure Functions 管理體驗</value>
+  <data name="classicDeprecation" xml:space="preserve">
+        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>儲存變更</value>
@@ -6219,6 +6219,9 @@
   <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
         <value>GitHub</value>
     </data>
+  <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>登錄設定</value>
     </data>
@@ -6562,7 +6565,7 @@
         <value>選取範本</value>
     </data>
   <data name="selectTemplateDescription" xml:space="preserve">
-        <value>Use a template to create a function. Triggers describe the type of events that invoke your functions. </value>
+        <value>使用範本建立函式。觸發程序描述叫用您函式之事件的類型。 </value>
     </data>
   <data name="description" xml:space="preserve">
         <value>描述</value>
@@ -6571,9 +6574,15 @@
         <value>詳細資料</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>We need more information to create the function. </value>
+        <value>我們需要更多資訊，才能建立此函式。 </value>
     </data>
   <data name="developInPortal" xml:space="preserve">
-        <value>Develop in portal</value>
+        <value>在入口網站中開發</value>
+    </data>
+  <data name="containerImage" xml:space="preserve">
+        <value>Image name</value>
+    </data>
+  <data name="containerImagePlaceholder" xml:space="preserve">
+        <value>E.g. nginx</value>
     </data>
 </root>

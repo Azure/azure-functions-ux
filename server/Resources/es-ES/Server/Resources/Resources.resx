@@ -5691,8 +5691,8 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>La depuración remota no está disponible para su aplicación. </value>
     </data>
-  <data name="tryFunctionsNewExperience" xml:space="preserve">
-        <value>Pruebe la nueva experiencia de administración de Azure Functions</value>
+  <data name="classicDeprecation" xml:space="preserve">
+        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Guardar cambios</value>
@@ -6219,6 +6219,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
         <value>GitHub</value>
     </data>
+  <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Configuración del Registro</value>
     </data>
@@ -6562,7 +6565,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Seleccionar una plantilla</value>
     </data>
   <data name="selectTemplateDescription" xml:space="preserve">
-        <value>Use a template to create a function. Triggers describe the type of events that invoke your functions. </value>
+        <value>Use una plantilla para crear una función. Los desencadenadores describen el tipo de eventos que invocan sus funciones. </value>
     </data>
   <data name="description" xml:space="preserve">
         <value>Descripción</value>
@@ -6571,9 +6574,15 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Detalle</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>We need more information to create the function. </value>
+        <value>Necesitamos un poco más de información para crear la función. </value>
     </data>
   <data name="developInPortal" xml:space="preserve">
-        <value>Develop in portal</value>
+        <value>Desarrollar en el portal</value>
+    </data>
+  <data name="containerImage" xml:space="preserve">
+        <value>Image name</value>
+    </data>
+  <data name="containerImagePlaceholder" xml:space="preserve">
+        <value>E.g. nginx</value>
     </data>
 </root>
