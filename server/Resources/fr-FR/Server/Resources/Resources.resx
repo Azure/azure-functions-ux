@@ -5691,8 +5691,8 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Le débogage à distance n'est pas disponible pour votre application. </value>
     </data>
-  <data name="tryFunctionsNewExperience" xml:space="preserve">
-        <value>Essayer la nouvelle expérience de gestion d'Azure Functions</value>
+  <data name="classicDeprecation" xml:space="preserve">
+        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Enregistrer les changements</value>
@@ -6219,6 +6219,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
         <value>GitHub</value>
     </data>
+  <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Paramètres de registre</value>
     </data>
@@ -6550,19 +6553,19 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>La modification d'applications de fonction personnalisées n'est pas prise en charge dans le portail Azure. Utilisez votre environnement de développement local pour modifier cette fonction.</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
-        <value>Select development environment</value>
+        <value>Sélectionner l'environnement de développement</value>
     </data>
   <data name="selectDevelopmentEnvironmentDescription" xml:space="preserve">
-        <value>Instructions will vary based on your development environment. </value>
+        <value>Les instructions varient en fonction de votre environnement de développement. </value>
     </data>
   <data name="developmentEnvironment" xml:space="preserve">
-        <value>Development environment</value>
+        <value>Environnement de développement</value>
     </data>
   <data name="selectTemplate" xml:space="preserve">
         <value>Sélectionner un modèle</value>
     </data>
   <data name="selectTemplateDescription" xml:space="preserve">
-        <value>Use a template to create a function. Triggers describe the type of events that invoke your functions. </value>
+        <value>Utilisez un modèle pour créer une fonction. Les déclencheurs décrivent le type des événements qui appellent vos fonctions. </value>
     </data>
   <data name="description" xml:space="preserve">
         <value>Description</value>
@@ -6571,9 +6574,15 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Détail</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>We need more information to create the function. </value>
+        <value>Nous avons besoin d'autres informations pour créer la fonction. </value>
     </data>
   <data name="developInPortal" xml:space="preserve">
-        <value>Develop in portal</value>
+        <value>Développer dans le portail</value>
+    </data>
+  <data name="containerImage" xml:space="preserve">
+        <value>Image name</value>
+    </data>
+  <data name="containerImagePlaceholder" xml:space="preserve">
+        <value>E.g. nginx</value>
     </data>
 </root>

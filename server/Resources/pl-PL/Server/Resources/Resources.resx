@@ -5691,8 +5691,8 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Debugowanie zdalne nie jest dostępne dla Twojej aplikacji. </value>
     </data>
-  <data name="tryFunctionsNewExperience" xml:space="preserve">
-        <value>Wypróbuj nowe środowisko zarządzania usługi Azure Functions</value>
+  <data name="classicDeprecation" xml:space="preserve">
+        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Zapisz zmiany</value>
@@ -6219,6 +6219,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
         <value>GitHub</value>
     </data>
+  <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Ustawienia rejestru</value>
     </data>
@@ -6571,9 +6574,15 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Szczegół</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>We need more information to create the function. </value>
+        <value>Aby utworzyć funkcję, potrzebujemy więcej informacji.</value>
     </data>
   <data name="developInPortal" xml:space="preserve">
-        <value>Develop in portal</value>
+        <value>Opracuj w portalu</value>
+    </data>
+  <data name="containerImage" xml:space="preserve">
+        <value>Image name</value>
+    </data>
+  <data name="containerImagePlaceholder" xml:space="preserve">
+        <value>E.g. nginx</value>
     </data>
 </root>

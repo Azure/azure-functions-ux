@@ -5691,8 +5691,8 @@
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Удаленная отладка недоступна для вашего приложения. </value>
     </data>
-  <data name="tryFunctionsNewExperience" xml:space="preserve">
-        <value>Попробуйте новый интерфейс управления для Функций Azure</value>
+  <data name="classicDeprecation" xml:space="preserve">
+        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Сохранить изменения</value>
@@ -6219,6 +6219,9 @@
   <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
         <value>GitHub</value>
     </data>
+  <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Параметры реестра</value>
     </data>
@@ -6562,7 +6565,7 @@
         <value>Выберите шаблон</value>
     </data>
   <data name="selectTemplateDescription" xml:space="preserve">
-        <value>Use a template to create a function. Triggers describe the type of events that invoke your functions. </value>
+        <value>Используйте шаблон для создания функции. Триггеры описывают тип событий, вызывающих ваши функции. </value>
     </data>
   <data name="description" xml:space="preserve">
         <value>Описание</value>
@@ -6571,9 +6574,15 @@
         <value>Подробности</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>We need more information to create the function. </value>
+        <value>Требуется больше данных для создания нового функции. </value>
     </data>
   <data name="developInPortal" xml:space="preserve">
-        <value>Develop in portal</value>
+        <value>Разработка на портале</value>
+    </data>
+  <data name="containerImage" xml:space="preserve">
+        <value>Image name</value>
+    </data>
+  <data name="containerImagePlaceholder" xml:space="preserve">
+        <value>E.g. nginx</value>
     </data>
 </root>
