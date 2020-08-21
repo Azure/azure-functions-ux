@@ -16,7 +16,7 @@ import { SiteStateContext } from '../../../../SiteState';
 const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
   const { t } = useTranslation();
   const [defaultStack, setDefaultStack] = useState<string>(t('loading'));
-  const [defaultVersion, setDefaultVersion] = useState<string>(t('loading'));
+  const [defaultVersion, setDefaultVersion] = useState<string | undefined>(t('loading'));
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -45,6 +45,8 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
 
       if (defaultRuntimeVersionOption && defaultRuntimeVersionOption.length === 1) {
         setDefaultVersion(defaultRuntimeVersionOption[0].displayText);
+      } else {
+        setDefaultVersion(undefined);
       }
     }
   };
@@ -84,11 +86,13 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
           <ReactiveFormControl id="deployment-center-code-settings-runtime" label={t('deploymentCenterSettingsRuntimeLabel')}>
             <div>{defaultStack}</div>
           </ReactiveFormControl>
-          <ReactiveFormControl
-            id="deployment-center-code-settings-runtime-version"
-            label={t('deploymentCenterSettingsRuntimeVersionLabel')}>
-            <div>{defaultVersion}</div>
-          </ReactiveFormControl>
+          {defaultVersion && (
+            <ReactiveFormControl
+              id="deployment-center-code-settings-runtime-version"
+              label={t('deploymentCenterSettingsRuntimeVersionLabel')}>
+              <div>{defaultVersion}</div>
+            </ReactiveFormControl>
+          )}
         </>
       );
     }
