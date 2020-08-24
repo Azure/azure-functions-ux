@@ -10,6 +10,7 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import BitbucketService from '../../../../ApiHelpers/BitbucketService';
+import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -96,47 +97,23 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
     }
   };
 
-  const authorizeBitbucketAccount = async () => {
-    const oauthWindow = window.open(BitbucketService.authorizeUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
+  const authorizeBitbucketAccount = () => {
+    authorizeWithProvider(BitbucketService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
+  };
 
-    const authPromise = new Promise<AuthorizationResult>(resolve => {
-      setBitbucketAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
+  const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
+    if (authorizationResult.redirectUrl) {
+      deploymentCenterData
+        .getBitbucketToken(authorizationResult.redirectUrl)
+        .then(response => deploymentCenterData.storeBitbucketToken(response.data))
+        .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+    } else {
+      return fetchData();
+    }
+  };
 
-      // Check for authorization status every 100 ms.
-      const timerId = setInterval(() => {
-        if (oauthWindow && oauthWindow.document && oauthWindow.document.URL && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
-          resolve({
-            timerId,
-            redirectUrl: oauthWindow.document.URL,
-          });
-        } else if (oauthWindow && oauthWindow.closed) {
-          resolve({
-            timerId,
-          });
-        }
-      }, 100);
-
-      // If no activity after 60 seconds, turn off the timer and close the auth window.
-      setTimeout(() => {
-        resolve({
-          timerId,
-        });
-      }, 60000);
-    });
-
-    return authPromise.then(authorizationResult => {
-      clearInterval(authorizationResult.timerId);
-      oauthWindow && oauthWindow.close();
-
-      if (authorizationResult.redirectUrl) {
-        return deploymentCenterData
-          .getBitbucketToken(authorizationResult.redirectUrl)
-          .then(response => deploymentCenterData.storeBitbucketToken(response.data))
-          .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
-      } else {
-        return fetchData();
-      }
-    });
+  const startingAuthCallback = (): void => {
+    setBitbucketAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
   };
 
   useEffect(() => {
