@@ -23,7 +23,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               runtimeVersion: '3.1',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -121,7 +121,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               runtimeVersion: '2.1',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
