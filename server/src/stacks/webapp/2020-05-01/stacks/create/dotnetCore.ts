@@ -15,7 +15,7 @@ export const dotnetCoreCreateStack: WebAppCreateStack = {
           isPreview: false,
           isDeprecated: false,
           isHidden: false,
-          applicationInsightsEnabled: false,
+          applicationInsightsEnabled: true,
           remoteDebuggingEnabled: false,
           runtimeVersion: '3.1',
           sortOrder: 1,
