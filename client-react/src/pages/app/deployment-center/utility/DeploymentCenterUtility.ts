@@ -108,7 +108,7 @@ export const getWorkflowFilePath = (branch: string, siteName: string, slotName?:
 export const authorizeWithProvider = (
   providerAuthUrl: string,
   startingAuth: () => void,
-  authCallback: (authResult: AuthorizationResult) => void
+  completingAuthCallback: (authResult: AuthorizationResult) => void
 ) => {
   const oauthWindow = window.open(providerAuthUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
 
@@ -141,6 +141,6 @@ export const authorizeWithProvider = (
     clearInterval(authorizationResult.timerId);
     oauthWindow && oauthWindow.close();
 
-    authCallback(authorizationResult);
+    completingAuthCallback(authorizationResult);
   });
 };

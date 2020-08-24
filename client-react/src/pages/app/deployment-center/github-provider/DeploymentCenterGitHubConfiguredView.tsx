@@ -78,7 +78,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      return deploymentCenterData
+      deploymentCenterData
         .getGitHubToken(authorizationResult.redirectUrl)
         .then(response => {
           if (response.metadata.success) {

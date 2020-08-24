@@ -122,7 +122,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
 
   const completingAuthCallback = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      return deploymentCenterData
+      deploymentCenterData
         .getBitbucketToken(authorizationResult.redirectUrl)
         .then(response => {
           if (response.metadata.success) {

@@ -103,7 +103,7 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      return deploymentCenterData
+      deploymentCenterData
         .getBitbucketToken(authorizationResult.redirectUrl)
         .then(response => deploymentCenterData.storeBitbucketToken(response.data))
         .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
