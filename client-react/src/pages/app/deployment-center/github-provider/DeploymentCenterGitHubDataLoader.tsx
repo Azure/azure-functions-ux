@@ -10,6 +10,7 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -102,47 +103,23 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setBranchOptions(newBranchOptions);
   };
 
-  const authorizeGitHubAccount = async () => {
-    const oauthWindow = window.open(GitHubService.authorizeUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
+  const authorizeGitHubAccount = () => {
+    authorizeWithProvider(GitHubService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
+  };
 
-    const authPromise = new Promise<AuthorizationResult>(resolve => {
-      setGitHubAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
+  const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
+    if (authorizationResult.redirectUrl) {
+      deploymentCenterData
+        .getGitHubToken(authorizationResult.redirectUrl)
+        .then(response => deploymentCenterData.storeGitHubToken(response.data))
+        .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+    } else {
+      return fetchData();
+    }
+  };
 
-      // Check for authorization status every 100 ms.
-      const timerId = setInterval(() => {
-        if (oauthWindow && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
-          resolve({
-            timerId,
-            redirectUrl: oauthWindow.document.URL,
-          });
-        } else if (oauthWindow && oauthWindow.closed) {
-          resolve({
-            timerId,
-          });
-        }
-      }, 100);
-
-      // If no activity after 60 seconds, turn off the timer and close the auth window.
-      setTimeout(() => {
-        resolve({
-          timerId,
-        });
-      }, 60000);
-    });
-
-    return authPromise.then(authorizationResult => {
-      clearInterval(authorizationResult.timerId);
-      oauthWindow && oauthWindow.close();
-
-      if (authorizationResult.redirectUrl) {
-        return deploymentCenterData
-          .getGitHubToken(authorizationResult.redirectUrl)
-          .then(response => deploymentCenterData.storeGitHubToken(response.data))
-          .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
-      } else {
-        return fetchData();
-      }
-    });
+  const startingAuthCallback = (): void => {
+    setGitHubAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
   };
 
   // TODO(michinoy): We will need to add methods here to manage github specific network calls such as:

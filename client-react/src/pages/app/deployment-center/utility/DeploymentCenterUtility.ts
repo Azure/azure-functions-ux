@@ -1,4 +1,4 @@
-import { RuntimeStackSetting } from '../DeploymentCenter.types';
+import { RuntimeStackSetting, AuthorizationResult } from '../DeploymentCenter.types';
 import { ArmObj } from '../../../../models/arm-obj';
 import { SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
@@ -103,4 +103,44 @@ export const getWorkflowFileName = (branch: string, siteName: string, slotName?:
 
 export const getWorkflowFilePath = (branch: string, siteName: string, slotName?: string): string => {
   return `.github/workflows/${getWorkflowFileName(branch, siteName, slotName)}`;
+};
+
+export const authorizeWithProvider = (
+  providerAuthUrl: string,
+  startingAuth: () => void,
+  completingAuthCallback: (authResult: AuthorizationResult) => void
+) => {
+  const oauthWindow = window.open(providerAuthUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
+
+  const authWindowsPromise = new Promise<AuthorizationResult>(resolve => {
+    startingAuth();
+
+    // Check for authorization status every 100 ms.
+    const timerId = setInterval(() => {
+      if (oauthWindow && oauthWindow.document && oauthWindow.document.URL && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
+        resolve({
+          timerId,
+          redirectUrl: oauthWindow.document.URL,
+        });
+      } else if (oauthWindow && oauthWindow.closed) {
+        resolve({
+          timerId,
+        });
+      }
+    }, 100);
+
+    // If no activity after 60 seconds, turn off the timer and close the auth window.
+    setTimeout(() => {
+      resolve({
+        timerId,
+      });
+    }, 60000);
+  });
+
+  authWindowsPromise.then(authorizationResult => {
+    clearInterval(authorizationResult.timerId);
+    oauthWindow && oauthWindow.close();
+
+    completingAuthCallback(authorizationResult);
+  });
 };
