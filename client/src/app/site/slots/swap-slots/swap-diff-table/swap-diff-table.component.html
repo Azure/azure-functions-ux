@@ -40,10 +40,10 @@
         </tr>
 
         <tr *ngFor="let diff of (loadedOrFailed && diffs ? diffs : [])">
-            <td class="one-quarter-col padded-col">{{ diff.settingName }}</td>
+            <td title="{{ diff.settingName }}" class="one-quarter-col padded-col">{{ diff.settingName }}</td>
             <td class="one-quarter-col padded-col">{{ diff.settingType}}</td>
-            <td class="one-quarter-col padded-col">{{ previewSource ? diff.valueInCurrentSlot : diff.valueInTargetSlot }}</td>
-            <td class="one-quarter-col padded-col">{{ previewSource ? diff.valueInTargetSlot : diff.valueInCurrentSlot }}</td>
+            <td title="{{ previewSource ? diff.valueInCurrentSlot : diff.valueInTargetSlot }}" class="one-quarter-col padded-col">{{ previewSource ? diff.valueInCurrentSlot : diff.valueInTargetSlot }}</td>
+            <td title="{{ previewSource ? diff.valueInTargetSlot : diff.valueInCurrentSlot }}" class="one-quarter-col padded-col">{{ previewSource ? diff.valueInTargetSlot : diff.valueInCurrentSlot }}</td>
         </tr>
 
         <tr *ngIf="loadedOrFailed && diffs && diffs.length === 0">
