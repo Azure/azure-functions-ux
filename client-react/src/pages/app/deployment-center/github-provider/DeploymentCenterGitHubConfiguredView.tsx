@@ -73,10 +73,10 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
   };
 
   const authorizeGitHubAccount = () => {
-    authorizeWithProvider(GitHubService.authorizeUrl, () => {}, authCallBack);
+    authorizeWithProvider(GitHubService.authorizeUrl, () => {}, completingAuthCallBack);
   };
 
-  const authCallBack = (authorizationResult: AuthorizationResult) => {
+  const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
       return deploymentCenterData
         .getGitHubToken(authorizationResult.redirectUrl)

@@ -98,10 +98,10 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   };
 
   const authorizeBitbucketAccount = () => {
-    authorizeWithProvider(BitbucketService.authorizeUrl, startingAuthCallback, authCallBack);
+    authorizeWithProvider(BitbucketService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
   };
 
-  const authCallBack = (authorizationResult: AuthorizationResult) => {
+  const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
       return deploymentCenterData
         .getBitbucketToken(authorizationResult.redirectUrl)

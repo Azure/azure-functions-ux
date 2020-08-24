@@ -117,10 +117,10 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
   };
 
   const authorizeBitbucketAccount = () => {
-    authorizeWithProvider(BitbucketService.authorizeUrl, () => {}, authCallback);
+    authorizeWithProvider(BitbucketService.authorizeUrl, () => {}, completingAuthCallback);
   };
 
-  const authCallback = (authorizationResult: AuthorizationResult) => {
+  const completingAuthCallback = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
       return deploymentCenterData
         .getBitbucketToken(authorizationResult.redirectUrl)

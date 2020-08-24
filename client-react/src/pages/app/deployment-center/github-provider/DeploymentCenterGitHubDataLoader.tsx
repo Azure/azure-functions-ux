@@ -104,10 +104,10 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   };
 
   const authorizeGitHubAccount = () => {
-    authorizeWithProvider(GitHubService.authorizeUrl, startingAuth, authCallBack);
+    authorizeWithProvider(GitHubService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
   };
 
-  const authCallBack = (authorizationResult: AuthorizationResult) => {
+  const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
       return deploymentCenterData
         .getGitHubToken(authorizationResult.redirectUrl)
@@ -118,7 +118,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     }
   };
 
-  const startingAuth = (): void => {
+  const startingAuthCallback = (): void => {
     setGitHubAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
   };
 
