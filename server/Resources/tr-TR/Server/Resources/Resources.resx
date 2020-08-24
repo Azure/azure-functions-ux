@@ -5691,8 +5691,8 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Uzaktan hata ayıklama uygulamanız için kullanılamıyor. </value>
     </data>
-  <data name="tryFunctionsNewExperience" xml:space="preserve">
-        <value>Yeni Azure İşlevleri yönetim deneyimini deneyin</value>
+  <data name="classicDeprecation" xml:space="preserve">
+        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Değişiklikleri kaydet</value>
@@ -6219,6 +6219,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
         <value>GitHub</value>
     </data>
+  <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Kayıt defteri ayarları</value>
     </data>
@@ -6559,10 +6562,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Geliştirme ortamı</value>
     </data>
   <data name="selectTemplate" xml:space="preserve">
-        <value>Bir şablon seçin</value>
+        <value>Şablon seçin</value>
     </data>
   <data name="selectTemplateDescription" xml:space="preserve">
-        <value>Use a template to create a function. Triggers describe the type of events that invoke your functions. </value>
+        <value>İşlev oluşturmak için şablon kullanın. Tetikleyiciler, işlevlerinizi çağıran olayların türünü tanımlar. </value>
     </data>
   <data name="description" xml:space="preserve">
         <value>Açıklama</value>
@@ -6571,9 +6574,15 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Ayrıntı</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>We need more information to create the function. </value>
+        <value>İşlevi oluşturabilmemiz için daha fazla bilgi gerekiyor. </value>
     </data>
   <data name="developInPortal" xml:space="preserve">
-        <value>Develop in portal</value>
+        <value>Portalda geliştir</value>
+    </data>
+  <data name="containerImage" xml:space="preserve">
+        <value>Image name</value>
+    </data>
+  <data name="containerImagePlaceholder" xml:space="preserve">
+        <value>E.g. nginx</value>
     </data>
 </root>

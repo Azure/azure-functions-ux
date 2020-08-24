@@ -5692,8 +5692,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Externe foutopsporing is niet beschikbaar voor uw toepassing. </value>
     </data>
-  <data name="tryFunctionsNewExperience" xml:space="preserve">
-        <value>De nieuwe Azure Functions-beheerervaring uitproberen</value>
+  <data name="classicDeprecation" xml:space="preserve">
+        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Wijzigingen opslaan</value>
@@ -6220,6 +6220,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
         <value>GitHub</value>
     </data>
+  <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Registerinstellingen</value>
     </data>
@@ -6572,9 +6575,15 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Detail</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>We need more information to create the function. </value>
+        <value>Er is meer informatie nodig om de functie te maken. </value>
     </data>
   <data name="developInPortal" xml:space="preserve">
-        <value>Develop in portal</value>
+        <value>Ontwikkelen in portal</value>
+    </data>
+  <data name="containerImage" xml:space="preserve">
+        <value>Image name</value>
+    </data>
+  <data name="containerImagePlaceholder" xml:space="preserve">
+        <value>E.g. nginx</value>
     </data>
 </root>
