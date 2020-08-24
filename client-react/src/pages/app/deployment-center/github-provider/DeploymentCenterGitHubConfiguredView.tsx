@@ -13,6 +13,7 @@ import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 import { SiteStateContext } from '../../../../SiteState';
+import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfiguredViewProps> = props => {
   const { t } = useTranslation();
@@ -71,61 +72,34 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
     setIsLoading(false);
   };
 
-  const authorizeGitHubAccount = async () => {
-    // TODO(t-kakan): this is almost duplicate function to what is used in DeploymentCenterGitHubDataLoader. Look into refactoring
-    const oauthWindow = window.open(GitHubService.authorizeUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
+  const authorizeGitHubAccount = () => {
+    authorizeWithProvider(GitHubService.authorizeUrl, () => {}, authCallBack);
+  };
 
-    const authPromise = new Promise<AuthorizationResult>(resolve => {
-      // Check for authorization status every 100 ms.
-      const timerId = setInterval(() => {
-        if (oauthWindow && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
-          resolve({
-            timerId,
-            redirectUrl: oauthWindow.document.URL,
-          });
-        } else if (oauthWindow && oauthWindow.closed) {
-          resolve({
-            timerId,
-          });
-        }
-      }, 100);
+  const authCallBack = (authorizationResult: AuthorizationResult) => {
+    if (authorizationResult.redirectUrl) {
+      return deploymentCenterData
+        .getGitHubToken(authorizationResult.redirectUrl)
+        .then(response => {
+          if (response.metadata.success) {
+            return deploymentCenterData.storeGitHubToken(response.data);
+          } else {
+            // NOTE(michinoy): This is all related to the handshake between us and the provider.
+            // If this fails, there isn't much the user can do except retry.
 
-      // If no activity after 60 seconds, turn off the timer and close the auth window.
-      setTimeout(() => {
-        resolve({
-          timerId,
-        });
-      }, 60000);
-    });
+            LogService.error(
+              LogCategories.deploymentCenter,
+              'authorizeGitHubAccount',
+              `Failed to get token with error: ${getErrorMessage(response.metadata.error)}`
+            );
 
-    return authPromise.then(authorizationResult => {
-      clearInterval(authorizationResult.timerId);
-      oauthWindow && oauthWindow.close();
-
-      if (authorizationResult.redirectUrl) {
-        return deploymentCenterData
-          .getGitHubToken(authorizationResult.redirectUrl)
-          .then(response => {
-            if (response.metadata.success) {
-              return deploymentCenterData.storeGitHubToken(response.data);
-            } else {
-              // NOTE(michinoy): This is all related to the handshake between us and the provider.
-              // If this fails, there isn't much the user can do except retry.
-
-              LogService.error(
-                LogCategories.deploymentCenter,
-                'authorizeGitHubAccount',
-                `Failed to get token with error: ${getErrorMessage(response.metadata.error)}`
-              );
-
-              return Promise.resolve(null);
-            }
-          })
-          .then(() => getSourceControlDetails());
-      } else {
-        return getSourceControlDetails();
-      }
-    });
+            return Promise.resolve(null);
+          }
+        })
+        .then(() => getSourceControlDetails());
+    } else {
+      return getSourceControlDetails();
+    }
   };
 
   const getSignedInAsComponent = () => {
