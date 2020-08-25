@@ -28,28 +28,34 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<{}> = () => {
   const disconnect = async () => {
     const notificationId = portalContext.startNotification(t('disconnectingDeployment'), t('disconnectingDeployment'));
 
-    // (note: t-kakan): PATCH call to `${resourceId}/config/web`
     const updatePathSiteConfigResponse = await deploymentCenterData.patchSiteConfig(deploymentCenterContext.resourceId, {
       properties: {
         scmType: 'None',
       },
     });
 
-    if (
-      updatePathSiteConfigResponse.metadata.success &&
-      deploymentCenterContext.siteConfig &&
-      deploymentCenterContext.siteConfig.properties.scmType !== ScmType.LocalGit
-    ) {
-      //(note: t-kakan): DELETE call to `${resourceId}/sourcecontrols/web`
-      const deleteSourceControlDetailsResponse = await deploymentCenterData.deleteSourceControlDetails(deploymentCenterContext.resourceId);
-      if (deleteSourceControlDetailsResponse.metadata.success) {
+    if (updatePathSiteConfigResponse.metadata.success && deploymentCenterContext.siteConfig) {
+      if (deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit) {
         portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
         deploymentCenterContext.refresh();
-        return;
+      } else {
+        deleteSourceControls(notificationId);
       }
+    } else {
+      portalContext.stopNotification(notificationId, false, t('disconnectingDeploymentFail'));
     }
+  };
 
-    portalContext.stopNotification(notificationId, false, t('disconnectingDeploymentFail'));
+  const deleteSourceControls = async (notificationId: string) => {
+    //(note: t-kakan): DELETE call to `${resourceId}/sourcecontrols/web`
+    const deleteSourceControlDetailsResponse = await deploymentCenterData.deleteSourceControlDetails(deploymentCenterContext.resourceId);
+
+    if (deleteSourceControlDetailsResponse.metadata.success) {
+      portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
+      deploymentCenterContext.refresh();
+    } else {
+      portalContext.stopNotification(notificationId, false, t('disconnectingDeploymentFail'));
+    }
   };
 
   const getSourceLocation = () => {
