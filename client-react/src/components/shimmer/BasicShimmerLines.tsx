@@ -8,13 +8,14 @@ interface BasicShimmerLines {
 const BasicShimmerLines: React.FC<BasicShimmerLines> = props => {
   const { repeatShimmer } = props;
 
-  const getBasicPattern = () => {
+  const getBasicPattern = (key: string) => {
+    const shimmers = [{ width: '40%' }, { width: '30%' }, { width: '50%' }];
     return (
-      <>
-        <Shimmer width="40%" />
-        <Shimmer width="30%" />
-        <Shimmer width="50%" />
-      </>
+      <div key={key}>
+        {shimmers.map((shimmer, index) => (
+          <Shimmer width={shimmer.width} key={index} />
+        ))}
+      </div>
     );
   };
 
@@ -22,7 +23,7 @@ const BasicShimmerLines: React.FC<BasicShimmerLines> = props => {
     const lines = !!repeatShimmer ? repeatShimmer : 1;
     const elements: JSX.Element[] = [];
     for (let i = 0; i < lines; i += 1) {
-      elements.push(getBasicPattern());
+      elements.push(getBasicPattern(`shimmerGroup-${i}`));
     }
     return elements;
   };
