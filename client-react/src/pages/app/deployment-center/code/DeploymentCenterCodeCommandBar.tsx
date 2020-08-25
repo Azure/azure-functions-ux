@@ -56,9 +56,10 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       case ScmType.OneDrive:
       case ScmType.Dropbox:
       case ScmType.ExternalGit:
-      case ScmType.LocalGit:
         // TODO: (stpelleg): Pending Implementation of these ScmTypes
         throw Error('Not implemented');
+      case ScmType.LocalGit:
+        return '';
       default:
         LogService.error(
           LogCategories.deploymentCenter,

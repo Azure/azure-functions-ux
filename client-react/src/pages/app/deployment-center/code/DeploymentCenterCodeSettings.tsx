@@ -19,6 +19,8 @@ import { learnMoreLinkStyle } from '../../../../components/form-controls/formCon
 import { SiteStateContext } from '../../../../SiteState';
 import { Link } from 'office-ui-fabric-react';
 import DeploymentCenterBitbucketConfiguredView from '../bitbucket-provider/DeploymentCenterBitbucketConfiguredView';
+import DeploymentCenterLocalGitConfiguredView from '../local-git-provider/DeploymentCenterLocalGitConfiguredView';
+import DeploymentCenterLocalGitProvider from '../local-git-provider/DeploymentCenterLocalGitProvider';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -48,6 +50,9 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const isBitbucketSource = formProps.values.sourceProvider === ScmType.BitbucketGit;
   const isBitbucketSetup =
     deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.BitbucketGit;
+
+  const isLocalGitSource = formProps.values.sourceProvider === ScmType.LocalGit;
+  const isLocalGitSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
 
   useEffect(() => {
     if (deploymentCenterContext.siteDescriptor) {
@@ -138,6 +143,8 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {!isGitHubActionsSetup && <DeploymentCenterCodeSourceKuduConfiguredView />}
           {isGitHubSourceSetup && <DeploymentCenterGitHubConfiguredView isGitHubActionsSetup={isGitHubActionsSetup} />}
           {isBitbucketSetup && <DeploymentCenterBitbucketConfiguredView />}
+          {isLocalGitSetup && <DeploymentCenterLocalGitConfiguredView />}
+
           <DeploymentCenterCodeBuildConfiguredView />
         </>
       ) : (
@@ -166,6 +173,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           )}
 
           {isBitbucketSource && <DeploymentCenterBitbucketDataLoader formProps={formProps} />}
+          {isLocalGitSource && <DeploymentCenterLocalGitProvider />}
         </>
       )}
     </>
