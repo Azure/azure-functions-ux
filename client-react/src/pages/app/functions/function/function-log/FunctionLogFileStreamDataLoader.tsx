@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
-import SiteService from '../../../../../ApiHelpers/SiteService';
-import LogService from '../../../../../utils/LogService';
-import { LogCategories } from '../../../../../utils/LogCategories';
 import { LogEntry } from './FunctionLog.types';
 import { useTranslation } from 'react-i18next';
 import FunctionLog from './FunctionLog';
 import Url from '../../../../../utils/url';
 import { processLogs } from './FunctionLogFileStreamData';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { Site } from '../../../../../models/site/site';
+
 interface FunctionLogFileStreamDataLoaderProps {
-  resourceId: string;
+  site: ArmObj<Site>;
   isExpanded: boolean;
   forceMaximized?: boolean;
   toggleExpand?: () => void;
@@ -28,17 +24,14 @@ interface FunctionLogFileStreamDataLoaderProps {
   showLoggingOptionsDropdown?: boolean;
   selectedLoggingOption?: LoggingOptions;
   setSelectedLoggingOption?: (options: LoggingOptions) => void;
+  leftAlignMainToolbarItems?: boolean;
 }
 
 const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderProps> = props => {
-  const { resourceId } = props;
-
-  const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
-  const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
+  const { site } = props;
 
   const { t } = useTranslation();
 
-  const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
   const [xhReq, setXhReq] = useState<XMLHttpRequest | undefined>(undefined);
   const [started, setStarted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
@@ -46,36 +39,18 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const [allLogEntries, setAllLogEntries] = useState<LogEntry[]>([]);
   const [logStreamIndex, setLogStreamIndex] = useState(0);
 
-  const fetchSiteAndOpenStream = async () => {
-    const siteResponse = await SiteService.fetchSite(siteResourceId);
-
-    if (siteResponse.metadata.success && siteResponse.data) {
-      setSite(siteResponse.data);
-      openStream();
-    } else {
-      setErrorMessage(t('feature_logStreamingConnectionError'));
-      LogService.error(
-        LogCategories.functionLog,
-        'fetchSite',
-        `Failed to fetch site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
-      );
-    }
-  };
-
   const openStream = () => {
     setLoadingMessage(t('feature_logStreamingConnecting'));
 
-    if (site) {
-      const logUrl = `${Url.getScmUrl(site)}/api/logstream/application/functions/host`;
-      const token = window.appsvc && window.appsvc.env && window.appsvc.env.armToken;
+    const logUrl = `${Url.getScmUrl(site)}/api/logstream/application/functions/host`;
+    const token = window.appsvc && window.appsvc.env && window.appsvc.env.armToken;
 
-      const newXhReq = new XMLHttpRequest();
-      newXhReq.open('GET', logUrl, true);
-      newXhReq.setRequestHeader('Authorization', `Bearer ${token}`);
-      newXhReq.setRequestHeader('FunctionsPortal', '1');
-      newXhReq.send(null);
-      setXhReq(newXhReq);
-    }
+    const newXhReq = new XMLHttpRequest();
+    newXhReq.open('GET', logUrl, true);
+    newXhReq.setRequestHeader('Authorization', `Bearer ${token}`);
+    newXhReq.setRequestHeader('FunctionsPortal', '1');
+    newXhReq.send(null);
+    setXhReq(newXhReq);
   };
 
   const closeStream = () => {
@@ -134,7 +109,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   };
 
   useEffect(() => {
-    fetchSiteAndOpenStream();
+    openStream();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
