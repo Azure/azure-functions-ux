@@ -36,7 +36,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
   const portalContext = useContext(PortalContext);
   const theme = useContext(ThemeContext);
 
-  const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.invocations);
+  const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.logs);
 
   const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
 
