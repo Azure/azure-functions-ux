@@ -16,6 +16,8 @@ import { DeploymentCenterContext } from './DeploymentCenterContext';
 import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocusTrapCallout';
 import { Links } from '../../../utils/FwLinks';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
+import { ScmType } from '../../../models/site/config';
+import { getGitCloneUri } from './utility/DeploymentCenterUtility';
 
 type PasswordFieldType = 'password' | undefined;
 
@@ -49,6 +51,12 @@ const DeploymentCenterFtps: React.FC<
   const sampleWebProviderDomainUsername = webProviderUsername
     ? `${sampleAppNameDomain}\\${webProviderUsername}`
     : `${sampleAppNameDomain}\\${t('deploymentCenterFtpsUserScopeSampleUsername')}`;
+
+  const isScmLocalGit =
+    deploymentCenterContext &&
+    deploymentCenterContext.siteConfig &&
+    deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
+  const gitCloneUri = getGitCloneUri(deploymentCenterPublishingContext);
 
   const toggleResetCalloutVisibility = () => {
     setIsResetCalloutHidden(!isResetCalloutHidden);
@@ -112,6 +120,17 @@ const DeploymentCenterFtps: React.FC<
           copyButton={true}
           disabled={true}
         />
+
+        {isScmLocalGit && (
+          <TextFieldNoFormik
+            id="deployment-center-localgit-clone-uri"
+            label={t('deploymentCenterCodeLocalGitCloneUri')}
+            widthOverride="100%"
+            value={gitCloneUri ? gitCloneUri : t('deploymentCenterCodeLocalGitFetchCloneUriError')}
+            copyButton={true}
+            disabled={true}
+          />
+        )}
 
         <h3>{t('deploymentCenterFtpsApplicationScopeTitle')}</h3>
         <p>{t('deploymentCenterFtpsApplicationScopeDescription')}</p>

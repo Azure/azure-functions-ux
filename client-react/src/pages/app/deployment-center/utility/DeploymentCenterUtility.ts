@@ -3,6 +3,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
 import { RuntimeStacks, JavaContainers, JavaVersions } from '../../../../utils/stacks-utils';
+import { IDeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 
 export const getRuntimeStackSetting = (
   isLinuxApplication: boolean,
@@ -143,4 +144,20 @@ export const authorizeWithProvider = (
 
     completingAuthCallback(authorizationResult);
   });
+};
+
+export const getGitCloneUri = (deploymentCenterPublishingContext: IDeploymentCenterPublishingContext): string | null => {
+  if (
+    deploymentCenterPublishingContext &&
+    deploymentCenterPublishingContext.publishingCredentials &&
+    deploymentCenterPublishingContext.publishingCredentials.properties &&
+    deploymentCenterPublishingContext.publishingCredentials.name
+  ) {
+    const scmUri = deploymentCenterPublishingContext.publishingCredentials.properties.scmUri.split('@')[1];
+    const siteName = deploymentCenterPublishingContext.publishingCredentials.name;
+
+    return `https://${scmUri}:443/${siteName}.git`;
+  } else {
+    return null;
+  }
 };
