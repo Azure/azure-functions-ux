@@ -2020,6 +2020,11 @@ export class PortalResources {
   public static deploymentCenterContainerGitHubActionsTitle = 'deploymentCenterContainerGitHubActionsTitle';
   public static deploymentCenterCodeGitHubTitle = 'deploymentCenterCodeGitHubTitle';
   public static deploymentCenterCodeBitbucketTitle = 'deploymentCenterCodeBitbucketTitle';
+  public static deploymentCenterCodeLocalGitTitle = 'deploymentCenterCodeLocalGitTitle';
+  public static deploymentCenterCodeLocalGitRepositorySetupMessage = 'deploymentCenterCodeLocalGitRepositorySetupMessage';
+  public static deploymentCenterCodeLocalGitBranchSetupMessage = 'deploymentCenterCodeLocalGitBranchSetupMessage';
+  public static deploymentCenterCodeLocalGitCloneUri = 'deploymentCenterCodeLocalGitCloneUri';
+  public static deploymentCenterCodeLocalGitFetchCloneUriError = 'deploymentCenterCodeLocalGitFetchCloneUriError';
   public static deploymentCenterContainerRegistrySettingsTitle = 'deploymentCenterContainerRegistrySettingsTitle';
   public static deploymentCenterContainerRegistryOptionsLabel = 'deploymentCenterContainerRegistryOptionsLabel';
   public static deploymentCenterContainerRegistrySourceLabel = 'deploymentCenterContainerRegistrySourceLabel';
