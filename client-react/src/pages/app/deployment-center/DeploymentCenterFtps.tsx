@@ -52,10 +52,7 @@ const DeploymentCenterFtps: React.FC<
     ? `${sampleAppNameDomain}\\${webProviderUsername}`
     : `${sampleAppNameDomain}\\${t('deploymentCenterFtpsUserScopeSampleUsername')}`;
 
-  const isScmLocalGit =
-    deploymentCenterContext &&
-    deploymentCenterContext.siteConfig &&
-    deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
+  const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
   const gitCloneUri = getGitCloneUri(deploymentCenterPublishingContext);
 
   const toggleResetCalloutVisibility = () => {

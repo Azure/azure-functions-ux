@@ -15,10 +15,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
-  const isScmLocalGit =
-    deploymentCenterContext &&
-    deploymentCenterContext.siteConfig &&
-    deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
+  const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
 
   const goToSettingsOnClick = () => {
     setSelectedKey('settings');

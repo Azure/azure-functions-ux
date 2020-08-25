@@ -1964,8 +1964,8 @@ export class PortalResources {
   public static deploymentCenterPivotItemSettingsHeaderText = 'deploymentCenterPivotItemSettingsHeaderText';
   public static deploymentCenterPivotItemSettingsAriaLabel = 'deploymentCenterPivotItemSettingsAriaLabel';
   public static deploymentCenterPivotItemFtpsHeaderText = 'deploymentCenterPivotItemFtpsHeaderText';
-  public static deploymentCenterPivotItemGitFtpsHeaderText = 'deploymentCenterPivotItemGitFtpsHeaderText';
   public static deploymentCenterPivotItemFtpsAriaLabel = 'deploymentCenterPivotItemFtpsAriaLabel';
+  public static deploymentCenterPivotItemGitFtpsHeaderText = 'deploymentCenterPivotItemGitFtpsHeaderText';
   public static deploymentCenterPivotItemGitFtpsAriaLabel = 'deploymentCenterPivotItemGitFtpsAriaLabel';
   public static deploymentCenterContainerLogsLoadingAriaValue = 'deploymentCenterContainerLogsLoadingAriaValue';
   public static deploymentCenterContainerLogsLoading = 'deploymentCenterContainerLogsLoading';
