@@ -67,6 +67,9 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus> | undefined>(undefined);
 
   const onDevelopmentEnvironmentChange = (event: any, option: IDropdownOption) => {
+    setSelectedTemplate(undefined);
+    setTemplateDetailFormBuilder(undefined);
+
     const key = option.key as DevelopmentExperience;
 
     // Log if option changed from DevelopInPortal Only
