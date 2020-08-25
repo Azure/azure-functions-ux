@@ -6225,6 +6225,21 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
         <value>Bitbucket</value>
     </data>
+    <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+    <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
+        <value>Your local git repository url will be generated upon completion.</value>
+    </data>
+    <data name="deploymentCenterCodeLocalGitBranchSetupMessage" xml:space="preserve">
+        <value>master</value>
+    </data>
+    <data name="deploymentCenterCodeLocalGitCloneUri" xml:space="preserve">
+        <value>Git Clone Uri</value>
+    </data>
+    <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
+        <value>There was an error fetching the Git Clone Uri</value>
+    </data>
     <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Registry settings</value>
     </data>
