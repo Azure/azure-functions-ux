@@ -25,6 +25,7 @@ interface FunctionLogFileStreamDataLoaderProps {
   selectedLoggingOption?: LoggingOptions;
   setSelectedLoggingOption?: (options: LoggingOptions) => void;
   leftAlignMainToolbarItems?: boolean;
+  customHeight?: number;
 }
 
 const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderProps> = props => {
