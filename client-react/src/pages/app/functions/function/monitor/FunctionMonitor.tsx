@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
-import { paddingStyle, logStyle } from './FunctionMonitor.styles';
+import { paddingStyle } from './FunctionMonitor.styles';
 import { PivotState } from './FunctionMonitor.types';
 import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
 import FunctionInvocationsDataLoader from '../invocations/FunctionInvocationsDataLoader';
@@ -9,7 +9,6 @@ import { AppInsightsComponent, AppInsightsKeyType } from '../../../../../models/
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../models/arm-obj';
 import AppInsightsSetup from './AppInsightsSetup';
-import FunctionLogAppInsightsDataLoader from '../function-log/FunctionLogAppInsightsDataLoader';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { PortalContext } from '../../../../../PortalContext';
 import { bannerLinkStyle } from '../../../../../components/CustomBanner/CustomBanner.styles';
@@ -18,6 +17,7 @@ import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { BindingType } from '../../../../../models/functions/function-binding';
 import FunctionOrchestrationsDataLoader from './tabs/orchestrations/FunctionOrchestrationsDataLoader';
 import FunctionEntitiesDataLoader from './tabs/entities/FunctionEntitiesDataLoader';
+import FunctionLogsDataLoader from './tabs/logs/FunctionLogsDataLoader';
 
 interface FunctionMonitorProps {
   resourceId: string;
@@ -142,15 +142,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
           </PivotItem>
         )}
         <PivotItem itemKey={PivotState.logs} headerText={t('functionMonitor_logs')}>
-          <div style={logStyle}>
-            <FunctionLogAppInsightsDataLoader
-              resourceId={resourceId}
-              isExpanded={true}
-              forceMaximized={true}
-              hideChevron={true}
-              leftAlignMainToolbarItems={true}
-            />
-          </div>
+          <FunctionLogsDataLoader resourceId={resourceId} />
         </PivotItem>
       </Pivot>
     </div>

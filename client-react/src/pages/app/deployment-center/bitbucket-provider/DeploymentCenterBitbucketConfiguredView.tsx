@@ -11,6 +11,7 @@ import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
 import BitbucketService from '../../../../ApiHelpers/BitbucketService';
 import { AuthorizationResult } from '../DeploymentCenter.types';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
   const { t } = useTranslation();
@@ -115,61 +116,34 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
     return <div>{`${branch}`}</div>;
   };
 
-  const authorizeBitbucketAccount = async () => {
-    // TODO(stpelleg): this is almost duplicate function to what is used in DeploymentCenterBitbucketDataLoader. Look into refactoring
-    const oauthWindow = window.open(BitbucketService.authorizeUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
+  const authorizeBitbucketAccount = () => {
+    authorizeWithProvider(BitbucketService.authorizeUrl, () => {}, completingAuthCallback);
+  };
 
-    const authPromise = new Promise<AuthorizationResult>(resolve => {
-      // Check for authorization status every 100 ms.
-      const timerId = setInterval(() => {
-        if (oauthWindow && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
-          resolve({
-            timerId,
-            redirectUrl: oauthWindow.document.URL,
-          });
-        } else if (oauthWindow && oauthWindow.closed) {
-          resolve({
-            timerId,
-          });
-        }
-      }, 100);
+  const completingAuthCallback = (authorizationResult: AuthorizationResult) => {
+    if (authorizationResult.redirectUrl) {
+      deploymentCenterData
+        .getBitbucketToken(authorizationResult.redirectUrl)
+        .then(response => {
+          if (response.metadata.success) {
+            return deploymentCenterData.storeBitbucketToken(response.data);
+          } else {
+            // NOTE(michinoy): This is all related to the handshake between us and the provider.
+            // If this fails, there isn't much the user can do except retry.
 
-      // If no activity after 60 seconds, turn off the timer and close the auth window.
-      setTimeout(() => {
-        resolve({
-          timerId,
-        });
-      }, 60000);
-    });
+            LogService.error(
+              LogCategories.deploymentCenter,
+              'authorizeBitbucketAccount',
+              `Failed to get token with error: ${getErrorMessage(response.metadata.error)}`
+            );
 
-    return authPromise.then(authorizationResult => {
-      clearInterval(authorizationResult.timerId);
-      oauthWindow && oauthWindow.close();
-
-      if (authorizationResult.redirectUrl) {
-        return deploymentCenterData
-          .getBitbucketToken(authorizationResult.redirectUrl)
-          .then(response => {
-            if (response.metadata.success) {
-              return deploymentCenterData.storeBitbucketToken(response.data);
-            } else {
-              // NOTE(michinoy): This is all related to the handshake between us and the provider.
-              // If this fails, there isn't much the user can do except retry.
-
-              LogService.error(
-                LogCategories.deploymentCenter,
-                'authorizeBitbucketAccount',
-                `Failed to get token with error: ${getErrorMessage(response.metadata.error)}`
-              );
-
-              return Promise.resolve(null);
-            }
-          })
-          .then(() => getSourceControlDetails());
-      } else {
-        return getSourceControlDetails();
-      }
-    });
+            return Promise.resolve(null);
+          }
+        })
+        .then(() => getSourceControlDetails());
+    } else {
+      return getSourceControlDetails();
+    }
   };
 
   useEffect(() => {
