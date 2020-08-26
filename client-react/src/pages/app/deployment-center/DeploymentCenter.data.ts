@@ -188,8 +188,8 @@ export default class DeploymentCenterData {
     return ACRService.getRegistries(subscriptionId);
   };
 
-  public getAcrCredentials = (resourceId: string) => {
-    return ACRService.getCredentials(resourceId);
+  public listAcrCredentials = (resourceId: string) => {
+    return ACRService.listCredentials(resourceId);
   };
 
   public updateAcrWebhook = (resourceId: string, name: string, location: string, properties: ACRWebhookPayload) => {

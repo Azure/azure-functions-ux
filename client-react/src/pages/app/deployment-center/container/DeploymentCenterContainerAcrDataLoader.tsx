@@ -57,7 +57,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     const [loginServer, resourceId] = registrySelected.split(':');
 
     if (!registryCredentials.current[loginServer]) {
-      const credentialsResponse = await deploymentCenterData.getAcrCredentials(resourceId);
+      const credentialsResponse = await deploymentCenterData.listAcrCredentials(resourceId);
 
       if (credentialsResponse.metadata.success && credentialsResponse.data.passwords && credentialsResponse.data.passwords.length > 0) {
         registryCredentials.current[loginServer] = credentialsResponse.data;

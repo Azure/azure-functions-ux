@@ -16,7 +16,7 @@ export default class ACRService {
     });
   }
 
-  public static getCredentials(resourceId: string) {
+  public static listCredentials(resourceId: string) {
     return MakeArmCall<ACRCredential>({
       resourceId: `${resourceId}/listCredentials`,
       commandName: 'getCredentials',
