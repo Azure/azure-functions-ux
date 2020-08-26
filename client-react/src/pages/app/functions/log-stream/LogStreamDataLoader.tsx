@@ -12,6 +12,10 @@ import FunctionLogAppInsightsDataLoader from '../../functions/function/function-
 import { paddingStyle } from './LogStream.styles';
 import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import { minimumLogPanelHeight, logCommandBarHeight } from '../function/function-log/FunctionLog.styles';
+import { SiteStateContext } from '../../../../SiteState';
+import { isLinuxDynamic } from '../../../../utils/arm-utils';
+import { LoggingOptions } from '../function/function-editor/FunctionEditor.types';
+import FunctionLogFileStreamDataLoader from '../function/function-log/FunctionLogFileStreamDataLoader';
 
 export interface LogStreamDataLoaderProps {
   resourceId: string;
@@ -19,8 +23,14 @@ export interface LogStreamDataLoaderProps {
 
 const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
   const { resourceId } = props;
-  const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined | null>(undefined);
+
+  const siteStateContext = useContext(SiteStateContext);
   const startupInfoContext = useContext(StartupInfoContext);
+
+  const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined | null>(undefined);
+  const [isFileSystemLoggingAvailable, setIsFileSystemLoggingAvailable] = useState<boolean | undefined>(undefined);
+  const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(undefined);
+
   const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
   const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
 
@@ -71,7 +81,23 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appInsightsComponent]);
 
-  if (appInsightsComponent === undefined) {
+  useEffect(() => {
+    if (siteStateContext.site) {
+      setIsFileSystemLoggingAvailable(!isLinuxDynamic(siteStateContext.site));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [siteStateContext.site]);
+
+  useEffect(() => {
+    if (isFileSystemLoggingAvailable !== undefined) {
+      setSelectedLoggingOption(isFileSystemLoggingAvailable ? LoggingOptions.fileBased : LoggingOptions.appInsights);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFileSystemLoggingAvailable]);
+
+  if (appInsightsComponent === undefined || !siteStateContext.site || selectedLoggingOption === undefined) {
     return <LoadingComponent />;
   }
 
@@ -81,16 +107,35 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
 
   return (
     <div style={paddingStyle}>
-      <FunctionLogAppInsightsDataLoader
-        resourceId={resourceId}
-        isExpanded={true}
-        forceMaximized={true}
-        isResizable={false}
-        hideChevron={true}
-        isScopeFunctionApp={true}
-        leftAlignMainToolbarItems={true}
-        customHeight={window.innerHeight - minimumLogPanelHeight + logCommandBarHeight}
-      />
+      {selectedLoggingOption === LoggingOptions.appInsights && (
+        <FunctionLogAppInsightsDataLoader
+          resourceId={resourceId}
+          isExpanded={true}
+          forceMaximized={true}
+          isResizable={false}
+          hideChevron={true}
+          isScopeFunctionApp={true}
+          leftAlignMainToolbarItems={true}
+          customHeight={window.innerHeight - minimumLogPanelHeight + logCommandBarHeight}
+          showLoggingOptionsDropdown={true}
+          selectedLoggingOption={selectedLoggingOption}
+          setSelectedLoggingOption={setSelectedLoggingOption}
+        />
+      )}
+      {isFileSystemLoggingAvailable && selectedLoggingOption === LoggingOptions.fileBased && (
+        <FunctionLogFileStreamDataLoader
+          site={siteStateContext.site}
+          isExpanded={true}
+          forceMaximized={true}
+          isResizable={false}
+          hideChevron={true}
+          leftAlignMainToolbarItems={true}
+          showLoggingOptionsDropdown={true}
+          customHeight={window.innerHeight - minimumLogPanelHeight + logCommandBarHeight}
+          selectedLoggingOption={selectedLoggingOption}
+          setSelectedLoggingOption={setSelectedLoggingOption}
+        />
+      )}
     </div>
   );
 };
