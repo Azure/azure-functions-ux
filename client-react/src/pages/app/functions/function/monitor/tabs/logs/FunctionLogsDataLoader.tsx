@@ -59,6 +59,7 @@ const FunctionLogsDataLoader: React.FC<FunctionLogsDataLoaderProps> = props => {
           isExpanded={true}
           forceMaximized={true}
           hideChevron={true}
+          hideLiveMetrics={true}
           leftAlignMainToolbarItems={true}
           showLoggingOptionsDropdown={true}
           selectedLoggingOption={selectedLoggingOption}
