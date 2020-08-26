@@ -525,7 +525,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         )}
         {(!showAppInsightsLogs || selectedLoggingOption === LoggingOptions.fileBased) && (
           <FunctionLogFileStreamDataLoader
-            resourceId={functionInfo.id}
+            site={site}
             toggleExpand={toggleLogPanelExpansion}
             isExpanded={logPanelExpanded}
             toggleFullscreen={setLogPanelFullscreen}
