@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import DeploymentCenterFtps from '../DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterCodePivotProps } from '../DeploymentCenter.types';
 import DeploymentCenterCodeLogs from './DeploymentCenterCodeLogs';
 import DeploymentCenterCodeSettings from './DeploymentCenterCodeSettings';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { ScmType } from '../../../../models/site/config';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const { formProps, deployments, deploymentsError, isLoading } = props;
   const { t } = useTranslation();
   const [selectedKey, setSelectedKey] = useState<string>('logs');
+
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
+
+  const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
 
   const goToSettingsOnClick = () => {
     setSelectedKey('settings');
@@ -44,8 +50,8 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
 
       <PivotItem
         itemKey="ftps"
-        headerText={t('deploymentCenterPivotItemFtpsHeaderText')}
-        ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}>
+        headerText={isScmLocalGit ? t('deploymentCenterPivotItemGitFtpsHeaderText') : t('deploymentCenterPivotItemFtpsHeaderText')}
+        ariaLabel={isScmLocalGit ? t('deploymentCenterPivotItemGitFtpsAriaLabel') : t('deploymentCenterPivotItemFtpsAriaLabel')}>
         <DeploymentCenterFtps formProps={formProps} isLoading={isLoading} />
       </PivotItem>
     </Pivot>
