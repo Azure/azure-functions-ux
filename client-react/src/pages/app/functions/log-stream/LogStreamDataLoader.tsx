@@ -129,6 +129,7 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
           forceMaximized={true}
           isResizable={false}
           hideChevron={true}
+          hideLiveMetrics={true}
           leftAlignMainToolbarItems={true}
           customHeight={window.innerHeight - minimumLogPanelHeight + logCommandBarHeight}
           showLoggingOptionsDropdown={true}
