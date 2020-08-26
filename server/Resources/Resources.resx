@@ -6069,6 +6069,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
         <value>FTP or FTPs credentials</value>
     </data>
+    <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
+        <value>Local Git/FTP/FTPs credentials</value>
+    </data>
+    <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
+        <value>Local Git or FTP or FTPs credentials</value>
+    </data>
     <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Loading container logs</value>
     </data>
