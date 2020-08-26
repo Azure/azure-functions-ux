@@ -148,16 +148,16 @@ export const authorizeWithProvider = (
 
 export const getGitCloneUri = (deploymentCenterPublishingContext: IDeploymentCenterPublishingContext): string | null => {
   if (
-    deploymentCenterPublishingContext &&
     deploymentCenterPublishingContext.publishingCredentials &&
     deploymentCenterPublishingContext.publishingCredentials.properties &&
     deploymentCenterPublishingContext.publishingCredentials.name
   ) {
-    const scmUri = deploymentCenterPublishingContext.publishingCredentials.properties.scmUri.split('@')[1];
+    const scmUriParts = deploymentCenterPublishingContext.publishingCredentials.properties.scmUri.split('@');
     const siteName = deploymentCenterPublishingContext.publishingCredentials.name;
 
-    return `https://${scmUri}:443/${siteName}.git`;
-  } else {
-    return null;
+    if (scmUriParts.length >= 2) {
+      return `https://${scmUriParts[1]}:443/${siteName}.git`;
+    }
   }
+  return null;
 };
