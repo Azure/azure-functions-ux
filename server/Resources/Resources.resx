@@ -6243,14 +6243,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeExternalPasswordLabel" xml:space="preserve">
         <value>Password</value>
     </data>
-    <data name="deploymentCenterCodeExternalPrivateRepositoryLabel" xml:space="preserve">
-        <value>Private Repository</value>
+    <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
+        <value>Repository Type</value>
     </data>
-    <data name="deploymentCenterCodeExternalPrivateRepositoryNoOption" xml:space="preserve">
-        <value>No</value>
+    <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
+        <value>Private</value>
     </data>
-    <data name="deploymentCenterCodeExternalPrivateRepositoryYesOption" xml:space="preserve">
-        <value>Yes</value>
+    <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
+        <value>Public</value>
     </data>
     <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Your local git repository url will be generated upon completion.</value>

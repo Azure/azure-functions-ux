@@ -1,6 +1,6 @@
 export type PasswordFieldType = 'password' | undefined;
 
-export enum PrivateRepoOptions {
-  No = 'No',
-  Yes = 'Yes',
+export enum RepoTypeOptions {
+  Private = 'Private',
+  Public = 'Public',
 }

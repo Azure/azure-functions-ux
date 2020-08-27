@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Field } from 'formik';
-import { IChoiceGroupOption, ActionButton } from 'office-ui-fabric-react';
+import { ActionButton } from 'office-ui-fabric-react';
 import TextField from '../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { additionalTextFieldControl } from '../DeploymentCenter.styles';
-import { PasswordFieldType, PrivateRepoOptions } from '../../../../models/external';
+import { PasswordFieldType, RepoTypeOptions } from '../../../../models/external';
 
 const DeploymentCenterExternalProvider: React.FC<{}> = props => {
   const { t } = useTranslation();
 
-  const [selectedRepoPrivate, setSelectedRepoPrivate] = useState<string>(PrivateRepoOptions.No);
+  const [repoType, setRepoType] = useState<RepoTypeOptions>(RepoTypeOptions.Public);
   const [providerPasswordType, setProviderPasswordType] = useState<PasswordFieldType>('password');
 
   const toggleShowProviderPassword = () => {
@@ -32,52 +32,52 @@ const DeploymentCenterExternalProvider: React.FC<{}> = props => {
 
       <Field
         id="deployment-center-settings-external-private-repo"
-        label={t('deploymentCenterCodeExternalPrivateRepositoryLabel')}
-        selectedKey={selectedRepoPrivate}
+        label={t('deploymentCenterCodeExternalRepositoryTypeLabel')}
+        selectedKey={repoType}
         component={RadioButton}
         options={[
           {
-            key: PrivateRepoOptions.No,
-            text: t('deploymentCenterCodeExternalPrivateRepositoryNoOption'),
+            key: RepoTypeOptions.Public,
+            text: t('deploymentCenterCodeExternalPublicRepositoryOption'),
           },
           {
-            key: PrivateRepoOptions.Yes,
-            text: t('deploymentCenterCodeExternalPrivateRepositoryYesOption'),
+            key: RepoTypeOptions.Private,
+            text: t('deploymentCenterCodeExternalPrivateRepositoryOption'),
           },
         ]}
-        onChange={(event: React.FormEvent<HTMLDivElement>, option: IChoiceGroupOption) => {
-          setSelectedRepoPrivate(option.key);
+        onChange={(event: React.FormEvent<HTMLDivElement>, option: any) => {
+          setRepoType(option.key);
         }}
       />
 
-      {selectedRepoPrivate === PrivateRepoOptions.Yes && (
-        <Field
-          id="deployment-center-external-provider-username"
-          label={t('deploymentCenterCodeExternalUsernameLabel')}
-          name="externalUsername"
-          component={TextField}
-        />
-      )}
+      {repoType === RepoTypeOptions.Private && (
+        <>
+          <Field
+            id="deployment-center-external-provider-username"
+            label={t('deploymentCenterCodeExternalUsernameLabel')}
+            name="externalUsername"
+            component={TextField}
+          />
 
-      {selectedRepoPrivate === PrivateRepoOptions.Yes && (
-        <Field
-          id="deployment-center-external-provider-password"
-          label={t('deploymentCenterCodeExternalPasswordLabel')}
-          name="externalPassword"
-          component={TextField}
-          type={providerPasswordType}
-          additionalControls={[
-            <ActionButton
-              id="deployment-center-external-provider-password-visibility-toggle"
-              key="deployment-center-external-provider-password-visibility-toggle"
-              className={additionalTextFieldControl}
-              ariaLabel={providerPasswordType === 'password' ? t('showProviderPasswordAriaLabel') : t('hideProviderPasswordAriaLabel')}
-              onClick={toggleShowProviderPassword}
-              iconProps={{ iconName: providerPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
-              {providerPasswordType === 'password' ? t('show') : t('hide')}
-            </ActionButton>,
-          ]}
-        />
+          <Field
+            id="deployment-center-external-provider-password"
+            label={t('deploymentCenterCodeExternalPasswordLabel')}
+            name="externalPassword"
+            component={TextField}
+            type={providerPasswordType}
+            additionalControls={[
+              <ActionButton
+                id="deployment-center-external-provider-password-visibility-toggle"
+                key="deployment-center-external-provider-password-visibility-toggle"
+                className={additionalTextFieldControl}
+                ariaLabel={providerPasswordType === 'password' ? t('showProviderPasswordAriaLabel') : t('hideProviderPasswordAriaLabel')}
+                onClick={toggleShowProviderPassword}
+                iconProps={{ iconName: providerPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
+                {providerPasswordType === 'password' ? t('show') : t('hide')}
+              </ActionButton>,
+            ]}
+          />
+        </>
       )}
     </>
   );
