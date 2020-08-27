@@ -30,7 +30,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
   const onRegistryChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
     setSelectedRegistry(option.key.toString());
-    formProps.setFieldValue('serverUrl', option.text);
+    formProps.setFieldValue('serverUrl', option.key.toString());
 
     setSelectedImage('');
     formProps.setFieldValue('image', '');
@@ -42,17 +42,17 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
   };
 
   const onImageChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    setSelectedImage(option.text);
+    setSelectedImage(option.key.toString());
     formProps.setFieldValue('image', option.key.toString());
 
     setSelectedTag('');
     formProps.setFieldValue('tag', '');
 
-    fetchTags(formProps.values.org, option.key.toString());
+    fetchTags(formProps.values.serverUrl, option.key.toString());
   };
 
   const onTagChange = async (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    setSelectedTag(option.text);
+    setSelectedTag(option.key.toString());
     formProps.setFieldValue('tag', option.key.toString());
   };
 
@@ -91,7 +91,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         onChange={onRegistryChange}
       />
 
-      {isGitHubAction && !isUsingExistingOrAvailableWorkflowConfig && (
+      {!isUsingExistingOrAvailableWorkflowConfig && (
         <Field
           id="container-acr-image"
           label={t('containerACRImage')}

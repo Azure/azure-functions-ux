@@ -10,6 +10,8 @@ import { GitHubActionWorkflowRequestContent } from '../../../models/github';
 import { ProviderToken } from '../../../models/provider';
 import BitbucketService from '../../../ApiHelpers/BitbucketService';
 import OneDriveService from '../../../ApiHelpers/OneDriveService';
+import ACRService from '../../../ApiHelpers/ACRService';
+import { ACRWebhookPayload } from '../../../models/acr';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -180,5 +182,29 @@ export default class DeploymentCenterData {
 
   public getOneDriveFolders = (oneDriveToken: string) => {
     return OneDriveService.getFolders(oneDriveToken);
+  };
+
+  public getAcrRegistries = (subscriptionId: string) => {
+    return ACRService.getRegistries(subscriptionId);
+  };
+
+  public listAcrCredentials = (resourceId: string) => {
+    return ACRService.listCredentials(resourceId);
+  };
+
+  public updateAcrWebhook = (resourceId: string, name: string, location: string, properties: ACRWebhookPayload) => {
+    return ACRService.updateAcrWebhook(resourceId, name, location, properties);
+  };
+
+  public deleteAcrWebhook = (resourceId: string) => {
+    return ACRService.deleteAcrWebhook(resourceId);
+  };
+
+  public getAcrRepositories = (loginServer: string, username: string, password: string, logger?: (page, error) => void) => {
+    return ACRService.getRepositories(loginServer, username, password, logger);
+  };
+
+  public getAcrTags = (loginServer: string, repository: string, username: string, password: string, logger?: (page, error) => void) => {
+    return ACRService.getTags(loginServer, repository, username, password, logger);
   };
 }
