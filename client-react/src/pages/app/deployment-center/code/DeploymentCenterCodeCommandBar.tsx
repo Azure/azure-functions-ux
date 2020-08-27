@@ -33,7 +33,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       branch: formProps.values.branch || 'master',
       isManualIntegration: isManualIntegration(),
       isGitHubAction: formProps.values.buildProvider === BuildProvider.GitHubAction,
-      isMercurial: formProps.values.sourceProvider === ScmType.ExternalHg,
+      isMercurial: false,
     };
 
     if (formProps.values.sourceProvider === ScmType.LocalGit) {
@@ -56,7 +56,6 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       case ScmType.OneDrive:
       case ScmType.Dropbox:
       case ScmType.ExternalGit:
-      case ScmType.ExternalHg:
         return true;
       default:
         LogService.error(

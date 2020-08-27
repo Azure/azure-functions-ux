@@ -55,8 +55,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const isLocalGitSource = formProps.values.sourceProvider === ScmType.LocalGit;
   const isLocalGitSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
 
-  const isExternalSource =
-    formProps.values.sourceProvider === ScmType.ExternalGit || formProps.values.sourceProvider === ScmType.ExternalHg;
+  const isExternalSource = formProps.values.sourceProvider === ScmType.ExternalGit;
 
   useEffect(() => {
     if (deploymentCenterContext.siteDescriptor) {

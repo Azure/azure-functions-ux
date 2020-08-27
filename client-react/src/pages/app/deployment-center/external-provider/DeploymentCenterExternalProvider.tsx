@@ -26,16 +26,9 @@ const DeploymentCenterExternalProvider: React.FC<{}> = props => {
         label={t('deploymentCenterOAuthRepository')}
         name="repo"
         component={TextField}
-        widthOverride="60%"
       />
 
-      <Field
-        id="deployment-center-settings-branch-option"
-        label={t('deploymentCenterOAuthBranch')}
-        name="branch"
-        component={TextField}
-        widthOverride="60%"
-      />
+      <Field id="deployment-center-settings-branch-option" label={t('deploymentCenterOAuthBranch')} name="branch" component={TextField} />
 
       <Field
         id="deployment-center-settings-external-private-repo"
@@ -63,7 +56,6 @@ const DeploymentCenterExternalProvider: React.FC<{}> = props => {
           label={t('deploymentCenterCodeExternalUsernameLabel')}
           name="externalUsername"
           component={TextField}
-          widthOverride="60%"
         />
       )}
 
@@ -73,7 +65,6 @@ const DeploymentCenterExternalProvider: React.FC<{}> = props => {
           label={t('deploymentCenterCodeExternalPasswordLabel')}
           name="externalPassword"
           component={TextField}
-          widthOverride="60%"
           type={providerPasswordType}
           additionalControls={[
             <ActionButton

@@ -13,7 +13,6 @@ export enum ScmType {
   BitbucketGit = 'BitbucketGit',
   BitbucketHg = 'BitbucketHg',
   ExternalGit = 'ExternalGit',
-  ExternalHg = 'ExternalHg',
   OneDrive = 'OneDrive',
   Vso = 'VSO',
   Vsts = 'VSTS',
