@@ -75,13 +75,17 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     return runtimeStack !== WorkerRuntimeLanguages.custom;
   };
 
+  const isStackSettingsHidden = (runtimeStack: string) => {
+    return runtimeStack === WorkerRuntimeLanguages.dotnet;
+  };
+
   useEffect(() => {
     setInitialData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!runtimeStack || isWindowsContainer()) {
+  if (!runtimeStack || isWindowsContainer() || isStackSettingsHidden(runtimeStack)) {
     return null;
   }
   return currentStackData || isLinux() ? (
