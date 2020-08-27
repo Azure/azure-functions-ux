@@ -13,7 +13,7 @@ export const rubyStack: WebAppStack<WebAppRuntimes> = {
       value: '2',
       minorVersions: [
         {
-          displayText: 'Ruby 2.6 LTS',
+          displayText: 'Ruby 2.6',
           value: '2.6',
           stackSettings: {
             linuxRuntimeSettings: {
@@ -45,7 +45,7 @@ export const rubyStack: WebAppStack<WebAppRuntimes> = {
           },
         },
         {
-          displayText: 'Ruby 2.5 LTS',
+          displayText: 'Ruby 2.5',
           value: '2.5',
           stackSettings: {
             linuxRuntimeSettings: {
@@ -77,7 +77,7 @@ export const rubyStack: WebAppStack<WebAppRuntimes> = {
           },
         },
         {
-          displayText: 'Ruby 2.4 LTS',
+          displayText: 'Ruby 2.4',
           value: '2.4',
           stackSettings: {
             linuxRuntimeSettings: {
@@ -113,7 +113,7 @@ export const rubyStack: WebAppStack<WebAppRuntimes> = {
           },
         },
         {
-          displayText: 'Ruby 2.3 LTS',
+          displayText: 'Ruby 2.3',
           value: '2.3',
           stackSettings: {
             linuxRuntimeSettings: {
