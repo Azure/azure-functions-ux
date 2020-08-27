@@ -31,7 +31,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
     const payload: SiteSourceControlRequestBody = {
       repoUrl: getRepoUrl(),
       branch: formProps.values.branch || 'master',
-      isManualIntegration: false,
+      isManualIntegration: isManualIntegration(),
       isGitHubAction: formProps.values.buildProvider === BuildProvider.GitHubAction,
       isMercurial: false,
     };
@@ -47,6 +47,26 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
     }
   };
 
+  const isManualIntegration = (): boolean => {
+    switch (formProps.values.sourceProvider) {
+      case ScmType.GitHub:
+      case ScmType.BitbucketGit:
+      case ScmType.LocalGit:
+        return false;
+      case ScmType.OneDrive:
+      case ScmType.Dropbox:
+      case ScmType.ExternalGit:
+        return true;
+      default:
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'DeploymentCenterCodeCommandBar',
+          `Incorrect Source Provider ${formProps.values.sourceProvider}`
+        );
+        throw Error(`Incorrect Source Provider ${formProps.values.sourceProvider}`);
+    }
+  };
+
   const getRepoUrl = (): string => {
     switch (formProps.values.sourceProvider) {
       case ScmType.GitHub:
@@ -55,12 +75,17 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
         return `${DeploymentCenterConstants.bitbucketUrl}/${formProps.values.org}/${formProps.values.repo}`;
       case ScmType.OneDrive:
       case ScmType.Dropbox:
-      case ScmType.ExternalGit:
         // TODO: (stpelleg): Pending Implementation of these ScmTypes
         throw Error('Not implemented');
       case ScmType.LocalGit:
         //(note: stpelleg): Local Git does not require a Repo Url
         return '';
+      case ScmType.ExternalGit:
+        if (formProps.values.externalUsername && formProps.values.externalPassword) {
+          const repoPath = formProps.values.repo.toLocaleLowerCase().replace('https://', '');
+          return `https://${formProps.values.externalUsername}:${formProps.values.externalPassword}@${repoPath}`;
+        }
+        return formProps.values.repo;
       default:
         LogService.error(
           LogCategories.deploymentCenter,
