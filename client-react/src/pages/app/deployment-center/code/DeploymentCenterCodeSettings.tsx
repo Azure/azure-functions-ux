@@ -21,6 +21,7 @@ import { Link } from 'office-ui-fabric-react';
 import DeploymentCenterBitbucketConfiguredView from '../bitbucket-provider/DeploymentCenterBitbucketConfiguredView';
 import DeploymentCenterLocalGitConfiguredView from '../local-git-provider/DeploymentCenterLocalGitConfiguredView';
 import DeploymentCenterLocalGitProvider from '../local-git-provider/DeploymentCenterLocalGitProvider';
+import DeploymentCenterExternalProvider from '../external-provider/DeploymentCenterExternalProvider';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -53,6 +54,9 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
   const isLocalGitSource = formProps.values.sourceProvider === ScmType.LocalGit;
   const isLocalGitSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
+
+  const isExternalSource =
+    formProps.values.sourceProvider === ScmType.ExternalGit || formProps.values.sourceProvider === ScmType.ExternalHg;
 
   useEffect(() => {
     if (deploymentCenterContext.siteDescriptor) {
@@ -174,6 +178,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
           {isBitbucketSource && <DeploymentCenterBitbucketDataLoader formProps={formProps} />}
           {isLocalGitSource && <DeploymentCenterLocalGitProvider />}
+          {isExternalSource && <DeploymentCenterExternalProvider />}
         </>
       )}
     </>

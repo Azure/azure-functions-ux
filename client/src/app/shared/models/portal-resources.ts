@@ -2023,6 +2023,12 @@ export class PortalResources {
   public static deploymentCenterCodeGitHubTitle = 'deploymentCenterCodeGitHubTitle';
   public static deploymentCenterCodeBitbucketTitle = 'deploymentCenterCodeBitbucketTitle';
   public static deploymentCenterCodeLocalGitTitle = 'deploymentCenterCodeLocalGitTitle';
+  public static deploymentCenterCodeExternalTitle = 'deploymentCenterCodeExternalTitle';
+  public static deploymentCenterCodeExternalUsernameLabel = 'deploymentCenterCodeExternalUsernameLabel';
+  public static deploymentCenterCodeExternalPasswordLabel = 'deploymentCenterCodeExternalPasswordLabel';
+  public static deploymentCenterCodeExternalPrivateRepositoryLabel = 'deploymentCenterCodeExternalPrivateRepositoryLabel';
+  public static deploymentCenterCodeExternalPrivateRepositoryNoOption = 'deploymentCenterCodeExternalPrivateRepositoryNoOption';
+  public static deploymentCenterCodeExternalPrivateRepositoryYesOption = 'deploymentCenterCodeExternalPrivateRepositoryYesOption';
   public static deploymentCenterCodeLocalGitRepositorySetupMessage = 'deploymentCenterCodeLocalGitRepositorySetupMessage';
   public static deploymentCenterCodeLocalGitBranchSetupMessage = 'deploymentCenterCodeLocalGitBranchSetupMessage';
   public static deploymentCenterCodeLocalGitCloneUri = 'deploymentCenterCodeLocalGitCloneUri';
