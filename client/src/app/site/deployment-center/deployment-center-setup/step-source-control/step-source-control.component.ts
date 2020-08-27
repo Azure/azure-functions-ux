@@ -389,7 +389,7 @@ export class StepSourceControlComponent {
     this.selectedProvider = card;
     const currentFormValues = this._wizardService.wizardValues;
     currentFormValues.sourceProvider = card.id;
-    currentFormValues.buildProvider = card.id == 'github' ? 'github' : 'kudu'; // Not all providers are supported by VSTS, however all providers are supported by kudu so this is a safe default
+    currentFormValues.buildProvider = 'kudu'; // Not all providers are supported by VSTS, however all providers are supported by kudu so this is a safe default
     this._wizardService.wizardValues = currentFormValues;
   }
 
