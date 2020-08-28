@@ -26,8 +26,6 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
   const deploymentCenterData = new DeploymentCenterData();
 
   const deployKudu = () => {
-    // (Note: t-kakan): setting isManualIntegration to false for now. In Angular, it is set to this.wizardValues.sourceProvider === 'external'
-    // (Note: t-kakan): setting isMercurial to false for now
     const payload: SiteSourceControlRequestBody = {
       repoUrl: getRepoUrl(),
       branch: formProps.values.branch || 'master',
