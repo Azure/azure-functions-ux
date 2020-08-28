@@ -168,6 +168,11 @@ export interface DeploymentCenterCodeCommandBarProps extends DeploymentCenterFie
   refresh: () => void;
 }
 
+export interface DeploymentCenterContainerCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {
+  isLoading: boolean;
+  refresh: () => void;
+}
+
 export interface DeploymentCenterPublishProfilePanelProps {
   isPanelOpen: boolean;
   dismissPanel: () => void;
