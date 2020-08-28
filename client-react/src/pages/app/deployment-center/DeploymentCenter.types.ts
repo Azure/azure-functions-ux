@@ -75,6 +75,8 @@ export interface DeploymentCenterCommonFormData {
   repo: string;
   branch: string;
   gitHubPublishProfileSecretGuid: string;
+  externalUsername?: string;
+  externalPassword?: string;
 }
 
 export interface DeploymentCenterContainerFormData {

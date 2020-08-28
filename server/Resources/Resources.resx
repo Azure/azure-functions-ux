@@ -6234,6 +6234,24 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>Local Git</value>
     </data>
+     <data name="deploymentCenterCodeExternalTitle" xml:space="preserve">
+        <value>External</value>
+    </data>
+    <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
+        <value>Username</value>
+    </data>
+    <data name="deploymentCenterCodeExternalPasswordLabel" xml:space="preserve">
+        <value>Password</value>
+    </data>
+    <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
+        <value>Repository Type</value>
+    </data>
+    <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
+        <value>Private</value>
+    </data>
+    <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
+        <value>Public</value>
+    </data>
     <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Your local git repository url will be generated upon completion.</value>
     </data>

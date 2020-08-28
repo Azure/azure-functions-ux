@@ -104,7 +104,7 @@ export function validateRubyStack(stacks) {
   expect(rubyStack.displayText).to.equal('Ruby');
   expect(rubyStack.value).to.equal('ruby');
   expect(rubyStack.preferredOs).to.equal('linux');
-  expect(rubyStack.majorVersions.length).to.equal(4);
+  expect(rubyStack.majorVersions.length).to.equal(1);
   expect(rubyStack).to.deep.equal(hardCodedRubyStack);
 }
 
