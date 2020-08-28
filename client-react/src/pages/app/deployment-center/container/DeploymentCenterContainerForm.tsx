@@ -1,17 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Formik, FormikProps } from 'formik';
 import { DeploymentCenterFormData, DeploymentCenterContainerFormProps, DeploymentCenterContainerFormData } from '../DeploymentCenter.types';
 import { KeyCodes } from 'office-ui-fabric-react';
-import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import DeploymentCenterContainerCommandBar from './DeploymentCenterContainerCommandBar';
 
 const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps> = props => {
   const { t } = useTranslation();
-  const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
 
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
 
@@ -19,14 +17,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     if ((keyEvent.charCode || keyEvent.keyCode) === KeyCodes.enter) {
       keyEvent.preventDefault();
     }
-  };
-
-  const saveFunction = () => {
-    throw Error('not implemented');
-  };
-
-  const discardFunction = () => {
-    throw Error('not implemented');
   };
 
   const refreshFunction = () => {
@@ -53,10 +43,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       {(formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>) => (
         <form onKeyDown={onKeyDown}>
           <div id="deployment-center-command-bar" className={commandBarSticky}>
-            <DeploymentCenterCommandBar
-              saveFunction={saveFunction}
-              discardFunction={discardFunction}
-              showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
+            <DeploymentCenterContainerCommandBar
+              formProps={formProps}
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
               isLoading={props.isLoading}
             />
