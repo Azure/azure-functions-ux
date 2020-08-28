@@ -51,11 +51,7 @@ const DeploymentCenterExternalGitConfiguredView: React.FC<{}> = props => {
   const getBranchLink = () => {
     if (branch && repo) {
       return (
-        <Link
-          key="deployment-center-branch-link"
-          onClick={() => window.open(repo, '_blank')}
-          className={additionalTextFieldControl}
-          aria-label={`${branch}`}>
+        <Link key="deployment-center-branch-link" onClick={() => window.open(repo, '_blank')} className={additionalTextFieldControl}>
           {`${branch} `}
           <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
         </Link>
