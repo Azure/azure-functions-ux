@@ -56,7 +56,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     },
     { key: ScmType.OneDrive, text: t('deploymentCenterCodeSettingsSourceOneDrive') },
     { key: ScmType.Dropbox, text: t('deploymentCenterCodeSettingsSourceDropbox') },
-    { key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternal') },
+    { key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') },
   ];
 
   const updateSelectedBuild = () => {

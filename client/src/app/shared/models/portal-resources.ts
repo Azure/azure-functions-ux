@@ -2023,7 +2023,7 @@ export class PortalResources {
   public static deploymentCenterCodeGitHubTitle = 'deploymentCenterCodeGitHubTitle';
   public static deploymentCenterCodeBitbucketTitle = 'deploymentCenterCodeBitbucketTitle';
   public static deploymentCenterCodeLocalGitTitle = 'deploymentCenterCodeLocalGitTitle';
-  public static deploymentCenterCodeExternalTitle = 'deploymentCenterCodeExternalTitle';
+  public static deploymentCenterCodeExternalGitTitle = 'deploymentCenterCodeExternalGitTitle';
   public static deploymentCenterCodeExternalUsernameLabel = 'deploymentCenterCodeExternalUsernameLabel';
   public static deploymentCenterCodeExternalPasswordLabel = 'deploymentCenterCodeExternalPasswordLabel';
   public static deploymentCenterCodeExternalRepositoryTypeLabel = 'deploymentCenterCodeExternalRepositoryTypeLabel';
@@ -2091,7 +2091,7 @@ export class PortalResources {
   public static deploymentCenterCodeSettingsSourceLocalGit = 'deploymentCenterCodeSettingsSourceLocalGit';
   public static deploymentCenterCodeSettingsSourceOneDrive = 'deploymentCenterCodeSettingsSourceOneDrive';
   public static deploymentCenterCodeSettingsSourceDropbox = 'deploymentCenterCodeSettingsSourceDropbox';
-  public static deploymentCenterCodeSettingsSourceExternal = 'deploymentCenterCodeSettingsSourceExternal';
+  public static deploymentCenterCodeSettingsSourceExternalGit = 'deploymentCenterCodeSettingsSourceExternalGit';
   public static deploymentCenterCodeSettingsBuildGitHubAction = 'deploymentCenterCodeSettingsBuildGitHubAction';
   public static deploymentCenterCodeSettingsBuildKudu = 'deploymentCenterCodeSettingsBuildKudu';
   public static leaveFeedback = 'leaveFeedback';

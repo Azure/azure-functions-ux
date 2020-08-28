@@ -19,7 +19,7 @@ const DeploymentCenterExternalProvider: React.FC<{}> = props => {
 
   return (
     <>
-      <h3>{t('deploymentCenterCodeExternalTitle')}</h3>
+      <h3>{t('deploymentCenterCodeExternalGitTitle')}</h3>
 
       <Field
         id="deployment-center-settings-repository-option"
