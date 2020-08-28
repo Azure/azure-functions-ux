@@ -1,5 +1,6 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
+import { isWorkflowApp } from '../arm-utils';
 export class FunctionAppEnvironment extends Environment {
   public name = 'FunctionApp';
 
@@ -73,7 +74,7 @@ export class FunctionAppEnvironment extends Environment {
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     if (input && input.site && input.site.kind) {
-      return input.site.kind.toLowerCase().includes('functionapp') && !input.site.kind.toLowerCase().includes('functionapp,workflowapp');
+      return input.site.kind.toLowerCase().includes('functionapp') && !isWorkflowApp(input.site);
     }
 
     return false;
