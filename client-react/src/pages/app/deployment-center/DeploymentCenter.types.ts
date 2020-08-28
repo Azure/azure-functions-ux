@@ -25,6 +25,11 @@ export enum ContainerDockerAccessTypes {
   private = 'private',
 }
 
+export enum ContinuousDeploymentOption {
+  on = 'on',
+  off = 'off',
+}
+
 export enum DeploymentStatus {
   Pending,
   Building,
@@ -94,6 +99,7 @@ export interface DeploymentCenterContainerFormData {
   scmType: ScmType;
   gitHubContainerUsernameSecretGuid: string;
   gitHubContainerPasswordSecretGuid: string;
+  continuousDeploymentOption: ContinuousDeploymentOption;
 }
 
 export interface DeploymentCenterCodeFormData {
