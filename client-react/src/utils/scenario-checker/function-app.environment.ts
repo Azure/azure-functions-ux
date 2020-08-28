@@ -73,7 +73,7 @@ export class FunctionAppEnvironment extends Environment {
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     if (input && input.site && input.site.kind) {
-      return input.site.kind.toLowerCase().includes('functionapp');
+      return input.site.kind.toLowerCase().includes('functionapp') && !input.site.kind.toLowerCase().includes('functionapp,workflowapp');
     }
 
     return false;

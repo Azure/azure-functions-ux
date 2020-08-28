@@ -10,6 +10,7 @@ import { FunctionAppEnvironment } from './function-app.environment';
 import { WindowsCode } from './windows-code.environment';
 import { ContainerApp } from './container.environment';
 import { ElasticPremiumAppEnvironment } from './elastic-premium.environment';
+import { WorkflowAppEnvironment } from './workflow-app.environment';
 
 export interface IScenarioService {
   checkScenario(id: string, input?: ScenarioCheckInput): ScenarioCheckResult;
@@ -31,6 +32,7 @@ export class ScenarioService {
       new WindowsCode(t),
       new ContainerApp(t),
       new ElasticPremiumAppEnvironment(t),
+      new WorkflowAppEnvironment(t),
     ];
     // National cloud environments inherit from AzureEnvironment so we ensure there
     // aren't duplicates to reduce the chance of conflicts in behavior.
