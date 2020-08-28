@@ -33,6 +33,10 @@ export function isXenonApp(obj: ArmObj<Site>): boolean {
   return AppKind.hasKinds(obj, ['xenon']);
 }
 
+export function isWorkflowApp(obj: ArmObj<any>): boolean {
+  return AppKind.hasKinds(obj, ['functionapp,workflowapp']);
+}
+
 export function mapResourcesTopologyToArmObjects<T>(columns: ResourceGraphColumn[], rows: any[][]): ArmObj<T>[] {
   const idIndex = columns.findIndex(col => col.name.toLowerCase() === 'id');
   const nameIndex = columns.findIndex(col => col.name.toLowerCase() === 'name');
