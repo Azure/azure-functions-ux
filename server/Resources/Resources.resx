@@ -6234,8 +6234,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>Local Git</value>
     </data>
-     <data name="deploymentCenterCodeExternalTitle" xml:space="preserve">
-        <value>External</value>
+     <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
+        <value>External Git</value>
     </data>
     <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
         <value>Username</value>
@@ -6435,8 +6435,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
         <value>Dropbox</value>
     </data>
-    <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
-        <value>External</value>
+    <data name="deploymentCenterCodeSettingsSourceExternalGit" xml:space="preserve">
+        <value>External Git</value>
     </data>
     <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
         <value>GitHub Actions</value>
