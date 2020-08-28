@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import { Guid } from '../../../../utils/Guid';
 import { getContainerAppWorkflowInformation } from '../utility/GitHubActionUtility';
+import DeploymentCenterContainerContinuousDeploymentSettings from './DeploymentCenterContainerContinuousDeploymentSettings';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
@@ -171,6 +172,8 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
           panelMessage={panelMessage}
         />
       )}
+
+      {!isGitHubActionEnabled && <DeploymentCenterContainerContinuousDeploymentSettings {...props} />}
     </>
   );
 };

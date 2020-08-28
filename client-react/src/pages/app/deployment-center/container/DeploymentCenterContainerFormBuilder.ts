@@ -6,6 +6,7 @@ import {
   ContainerDockerAccessTypes,
   DeploymentCenterYupValidationSchemaType,
   DeploymentCenterContainerFormData,
+  ContinuousDeploymentOption,
 } from '../DeploymentCenter.types';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import * as Yup from 'yup';
@@ -28,6 +29,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       cicd: false,
       gitHubContainerPasswordSecretGuid: '',
       gitHubContainerUsernameSecretGuid: '',
+      continuousDeploymentOption: ContinuousDeploymentOption.off,
       ...this.generateCommonFormData(),
     };
   }
@@ -48,6 +50,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       cicd: Yup.mixed().notRequired(),
       gitHubContainerPasswordSecretGuid: Yup.mixed().notRequired(),
       gitHubContainerUsernameSecretGuid: Yup.mixed().notRequired(),
+      continuousDeploymentOption: Yup.mixed().required(),
       ...this.generateCommonFormYupValidationSchema(),
     });
   }
