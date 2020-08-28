@@ -65,7 +65,7 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<{}> = () => {
       case ScmType.BitbucketHg:
         return t('deploymentCenterCodeSettingsSourceBitbucket');
       case ScmType.ExternalGit:
-        return t('deploymentCenterCodeSettingsSourceExternal');
+        return t('deploymentCenterCodeSettingsSourceExternalGit');
       case ScmType.GitHub:
         return t('deploymentCenterCodeSettingsSourceGitHub');
       case ScmType.LocalGit:

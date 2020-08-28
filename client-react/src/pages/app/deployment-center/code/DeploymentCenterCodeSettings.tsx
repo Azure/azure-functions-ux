@@ -20,6 +20,7 @@ import { SiteStateContext } from '../../../../SiteState';
 import { Link } from 'office-ui-fabric-react';
 import DeploymentCenterBitbucketConfiguredView from '../bitbucket-provider/DeploymentCenterBitbucketConfiguredView';
 import DeploymentCenterLocalGitConfiguredView from '../local-git-provider/DeploymentCenterLocalGitConfiguredView';
+import DeploymentCenterExternalConfiguredView from '../external-provider/DeploymentCenterExternalConfiguredView';
 import DeploymentCenterLocalGitProvider from '../local-git-provider/DeploymentCenterLocalGitProvider';
 import DeploymentCenterExternalProvider from '../external-provider/DeploymentCenterExternalProvider';
 
@@ -55,7 +56,9 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const isLocalGitSource = formProps.values.sourceProvider === ScmType.LocalGit;
   const isLocalGitSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
 
-  const isExternalSource = formProps.values.sourceProvider === ScmType.ExternalGit;
+  const isExternalGitSource = formProps.values.sourceProvider === ScmType.ExternalGit;
+  const isExternalGitSetup =
+    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.ExternalGit;
 
   useEffect(() => {
     if (deploymentCenterContext.siteDescriptor) {
@@ -147,6 +150,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {isGitHubSourceSetup && <DeploymentCenterGitHubConfiguredView isGitHubActionsSetup={isGitHubActionsSetup} />}
           {isBitbucketSetup && <DeploymentCenterBitbucketConfiguredView />}
           {isLocalGitSetup && <DeploymentCenterLocalGitConfiguredView />}
+          {isExternalGitSetup && <DeploymentCenterExternalConfiguredView />}
 
           <DeploymentCenterCodeBuildConfiguredView />
         </>
@@ -177,7 +181,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
           {isBitbucketSource && <DeploymentCenterBitbucketDataLoader formProps={formProps} />}
           {isLocalGitSource && <DeploymentCenterLocalGitProvider />}
-          {isExternalSource && <DeploymentCenterExternalProvider />}
+          {isExternalGitSource && <DeploymentCenterExternalProvider />}
         </>
       )}
     </>
