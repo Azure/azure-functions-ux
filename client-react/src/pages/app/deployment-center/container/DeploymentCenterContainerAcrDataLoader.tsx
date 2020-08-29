@@ -34,7 +34,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         const dropdownOptions = registriesResponse.data.value
           .filter(registry => registry.properties.adminUserEnabled)
           .map(registry => ({
-            key: `${registry.properties.loginServer}:${registry.id}`,
+            key: `${registry.properties.loginServer}:${registry.id}:${registry.location}`,
             text: registry.name,
           }));
 
@@ -49,12 +49,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     }
   };
 
-  const fetchRepositories = async (registrySelected: string) => {
+  const fetchRepositories = async (loginServer: string, resourceId: string) => {
     setAcrTagOptions([]);
     setAcrStatusMessage(undefined);
     setAcrStatusMessageType(undefined);
-
-    const [loginServer, resourceId] = registrySelected.split(':');
 
     if (!registryCredentials.current[loginServer]) {
       const credentialsResponse = await deploymentCenterData.listAcrCredentials(resourceId);
@@ -91,11 +89,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     }
   };
 
-  const fetchTags = async (registrySelected: string, imageSelected: string) => {
+  const fetchTags = async (loginServer: string, imageSelected: string) => {
     setAcrStatusMessage(undefined);
     setAcrStatusMessageType(undefined);
 
-    const loginServer = registrySelected.split(':')[0];
     const credentials = registryCredentials.current[loginServer];
 
     if (credentials) {

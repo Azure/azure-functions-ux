@@ -2164,4 +2164,8 @@ export class PortalResources {
   public static blobsAndFileSharesFailure = 'blobsAndFileSharesFailure';
   public static containerImage = 'containerImage';
   public static containerImagePlaceholder = 'containerImagePlaceholder';
+  public static savingContainerConfiguration = 'savingContainerConfiguration';
+  public static savingContainerConfigurationSuccess = 'savingContainerConfigurationSuccess';
+  public static savingContainerConfigurationFailed = 'savingContainerConfigurationFailed';
+  public static savingContainerConfigurationFailedWithStatusMessage = 'savingContainerConfigurationFailedWithStatusMessage';
 }

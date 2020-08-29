@@ -30,7 +30,11 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
   const onRegistryChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
     setSelectedRegistry(option.key.toString());
-    formProps.setFieldValue('serverUrl', option.key.toString());
+    const [loginServer, resourceId, location] = option.key.toString().split(':');
+    const serverUrl = `https://${loginServer}`;
+    formProps.setFieldValue('serverUrl', serverUrl.toLocaleLowerCase());
+    formProps.setFieldValue('acrResourceId', resourceId.toLocaleLowerCase());
+    formProps.setFieldValue('acrResourceLocation', location);
 
     setSelectedImage('');
     formProps.setFieldValue('image', '');
@@ -38,7 +42,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     setSelectedTag('');
     formProps.setFieldValue('tag', '');
 
-    fetchImages(option.key.toString());
+    fetchImages(loginServer, resourceId);
   };
 
   const onImageChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
@@ -48,7 +52,8 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     setSelectedTag('');
     formProps.setFieldValue('tag', '');
 
-    fetchTags(formProps.values.serverUrl, option.key.toString());
+    const loginServer = formProps.values.serverUrl.replace('https://', '');
+    fetchTags(loginServer, option.key.toString());
   };
 
   const onTagChange = async (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
