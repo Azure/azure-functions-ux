@@ -7,7 +7,7 @@ import { SiteStateContext } from '../../../SiteState';
 import { DeploymentCenterCommandBarProps } from './DeploymentCenter.types';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, isLoading } = props;
+  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, sync, isLoading } = props;
   const { t } = useTranslation();
   const siteStateContext = useContext(SiteStateContext);
 
@@ -28,62 +28,79 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     return !isSiteLoaded() || isLoading;
   };
 
-  const commandBarItems: ICommandBarItemProps[] = [
-    {
-      key: 'save',
-      name: t('save'),
-      iconProps: {
-        iconName: 'Save',
+  const getCommandBarItems = (): ICommandBarItemProps[] => {
+    const commandBarItems: ICommandBarItemProps[] = [
+      {
+        key: 'save',
+        name: t('save'),
+        iconProps: {
+          iconName: 'Save',
+        },
+        ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
+        disabled: isDisabledOnReload(),
+        onClick: saveFunction,
       },
-      ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
-      disabled: isDisabledOnReload(),
-      onClick: saveFunction,
-    },
-    {
-      key: 'discard',
-      name: t('discard'),
-      iconProps: {
-        iconName: 'Cancel',
+      {
+        key: 'discard',
+        name: t('discard'),
+        iconProps: {
+          iconName: 'Cancel',
+        },
+        ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
+        disabled: isDisabledOnReload(),
+        onClick: discardFunction,
       },
-      ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
-      disabled: isDisabledOnReload(),
-      onClick: discardFunction,
-    },
-    {
-      key: 'browse',
-      name: t('browse'),
-      iconProps: {
-        iconName: 'OpenInNewTab',
+      {
+        key: 'browse',
+        name: t('browse'),
+        iconProps: {
+          iconName: 'OpenInNewTab',
+        },
+        ariaLabel: t('deploymentCenterBrowseCommandAriaLabel'),
+        disabled: !isSiteLoaded() || !isBrowseEnabled(),
+        onClick: onBrowseClick,
       },
-      ariaLabel: t('deploymentCenterBrowseCommandAriaLabel'),
-      disabled: !isSiteLoaded() || !isBrowseEnabled(),
-      onClick: onBrowseClick,
-    },
-    {
-      key: 'managePublishProfile',
-      name: t('managePublishProfile'),
-      iconProps: {
-        iconName: 'FileCode',
+      {
+        key: 'managePublishProfile',
+        name: t('managePublishProfile'),
+        iconProps: {
+          iconName: 'FileCode',
+        },
+        ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
+        disabled: !isSiteLoaded(),
+        onClick: showPublishProfilePanel,
       },
-      ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
-      disabled: !isSiteLoaded(),
-      onClick: showPublishProfilePanel,
-    },
-    {
-      key: 'refresh',
-      name: t('refresh'),
-      iconProps: {
-        iconName: 'Refresh',
+      {
+        key: 'refresh',
+        name: t('refresh'),
+        iconProps: {
+          iconName: 'Refresh',
+        },
+        ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
+        disabled: isDisabledOnReload(),
+        onClick: refresh,
       },
-      ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
-      disabled: isDisabledOnReload(),
-      onClick: refresh,
-    },
-  ];
+    ];
+
+    if (!siteStateContext.isContainerApp) {
+      commandBarItems.push({
+        key: 'sync',
+        name: t('sync'),
+        iconProps: {
+          iconName: 'Sync',
+        },
+        ariaLabel: t('deploymentCenterSyncCommandAriaLabel'),
+        disabled: isDisabledOnReload(),
+        onClick: sync,
+      });
+    }
+
+    return commandBarItems;
+  };
 
   return (
     <CommandBar
-      items={commandBarItems}
+      items={getCommandBarItems()}
       role="nav"
       styles={CommandBarStyles}
       ariaLabel={t('deploymentCenterCommandBarAriaLabel')}

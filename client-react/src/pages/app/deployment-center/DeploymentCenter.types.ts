@@ -163,11 +163,13 @@ export interface DeploymentCenterCommandBarProps {
   discardFunction: () => void;
   showPublishProfilePanel: () => void;
   refresh: () => void;
+  sync?: () => void;
 }
 
 export interface DeploymentCenterCodeCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterCodeFormData> {
   isLoading: boolean;
   refresh: () => void;
+  sync: () => void;
 }
 
 export interface DeploymentCenterContainerCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {
