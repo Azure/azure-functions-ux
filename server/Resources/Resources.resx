@@ -6277,7 +6277,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Synchronization Request Submitted</value>
     </data>
     <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
-        <value>`The repository for web app ${0} is being updated`</value>
+        <value>The repository for web app {0} is being updated</value>
     </data>
     <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
         <value>The repository for web app {0} has been updated successfully</value>
@@ -6288,7 +6288,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
         <value>Failed to sync</value>
     </data>
-
     <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Registry settings</value>
     </data>

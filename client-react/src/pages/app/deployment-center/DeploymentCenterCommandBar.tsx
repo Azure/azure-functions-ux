@@ -28,71 +28,95 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     return !isSiteLoaded() || isLoading;
   };
 
+  const getSaveButton = (): ICommandBarItemProps => {
+    return {
+      key: 'save',
+      name: t('save'),
+      iconProps: {
+        iconName: 'Save',
+      },
+      ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
+      disabled: isDisabledOnReload(),
+      onClick: saveFunction,
+    };
+  };
+
+  const getDiscardButton = (): ICommandBarItemProps => {
+    return {
+      key: 'discard',
+      name: t('discard'),
+      iconProps: {
+        iconName: 'Cancel',
+      },
+      ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
+      disabled: isDisabledOnReload(),
+      onClick: discardFunction,
+    };
+  };
+
+  const getBrowseButton = (): ICommandBarItemProps => {
+    return {
+      key: 'browse',
+      name: t('browse'),
+      iconProps: {
+        iconName: 'OpenInNewTab',
+      },
+      ariaLabel: t('deploymentCenterBrowseCommandAriaLabel'),
+      disabled: !isSiteLoaded() || !isBrowseEnabled(),
+      onClick: onBrowseClick,
+    };
+  };
+
+  const getManagePublishProfileButton = (): ICommandBarItemProps => {
+    return {
+      key: 'managePublishProfile',
+      name: t('managePublishProfile'),
+      iconProps: {
+        iconName: 'FileCode',
+      },
+      ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
+      disabled: !isSiteLoaded(),
+      onClick: showPublishProfilePanel,
+    };
+  };
+
+  const getRefreshButton = (): ICommandBarItemProps => {
+    return {
+      key: 'refresh',
+      name: t('refresh'),
+      iconProps: {
+        iconName: 'Refresh',
+      },
+      ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
+      disabled: isDisabledOnReload(),
+      onClick: refresh,
+    };
+  };
+
+  const getSyncButton = (): ICommandBarItemProps => {
+    return {
+      key: 'sync',
+      name: t('sync'),
+      iconProps: {
+        iconName: 'Sync',
+      },
+      ariaLabel: t('deploymentCenterSyncCommandAriaLabel'),
+      disabled: isDisabledOnReload(),
+      onClick: sync,
+    };
+  };
+
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     const commandBarItems: ICommandBarItemProps[] = [
-      {
-        key: 'save',
-        name: t('save'),
-        iconProps: {
-          iconName: 'Save',
-        },
-        ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
-        disabled: isDisabledOnReload(),
-        onClick: saveFunction,
-      },
-      {
-        key: 'discard',
-        name: t('discard'),
-        iconProps: {
-          iconName: 'Cancel',
-        },
-        ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
-        disabled: isDisabledOnReload(),
-        onClick: discardFunction,
-      },
-      {
-        key: 'browse',
-        name: t('browse'),
-        iconProps: {
-          iconName: 'OpenInNewTab',
-        },
-        ariaLabel: t('deploymentCenterBrowseCommandAriaLabel'),
-        disabled: !isSiteLoaded() || !isBrowseEnabled(),
-        onClick: onBrowseClick,
-      },
-      {
-        key: 'managePublishProfile',
-        name: t('managePublishProfile'),
-        iconProps: {
-          iconName: 'FileCode',
-        },
-        ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
-        disabled: !isSiteLoaded(),
-        onClick: showPublishProfilePanel,
-      },
-      {
-        key: 'refresh',
-        name: t('refresh'),
-        iconProps: {
-          iconName: 'Refresh',
-        },
-        ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
-        disabled: isDisabledOnReload(),
-        onClick: refresh,
-      },
+      getSaveButton(),
+      getDiscardButton(),
+      getBrowseButton(),
+      getManagePublishProfileButton(),
+      getRefreshButton(),
     ];
 
     if (!siteStateContext.isContainerApp) {
-      commandBarItems.push({
-        key: 'sync',
-        name: t('sync'),
-        iconProps: {
-          iconName: 'Sync',
-        },
-        ariaLabel: t('deploymentCenterSyncCommandAriaLabel'),
-        disabled: isDisabledOnReload(),
-        onClick: sync,
-      });
+      commandBarItems.push(getSyncButton());
     }
 
     return commandBarItems;
