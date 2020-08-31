@@ -538,6 +538,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             showLoggingOptionsDropdown={showLoggingOptionsDropdown}
             selectedLoggingOption={selectedLoggingOption}
             setSelectedLoggingOption={setSelectedLoggingOption}
+            functionName={functionInfo.properties.name}
           />
         )}
       </div>

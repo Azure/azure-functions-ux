@@ -26,10 +26,11 @@ interface FunctionLogFileStreamDataLoaderProps {
   setSelectedLoggingOption?: (options: LoggingOptions) => void;
   leftAlignMainToolbarItems?: boolean;
   customHeight?: number;
+  functionName?: string;
 }
 
 const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderProps> = props => {
-  const { site } = props;
+  const { site, functionName } = props;
 
   const { t } = useTranslation();
 
@@ -43,7 +44,9 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const openStream = () => {
     setLoadingMessage(t('feature_logStreamingConnecting'));
 
-    const logUrl = `${Url.getScmUrl(site)}/api/logstream/application/functions/host`;
+    const logUrl = functionName
+      ? `${Url.getScmUrl(site)}/api/logstream/application/functions/function/${functionName}`
+      : `${Url.getScmUrl(site)}/api/logstream/application/functions/host`;
     const token = window.appsvc && window.appsvc.env && window.appsvc.env.armToken;
 
     const newXhReq = new XMLHttpRequest();
