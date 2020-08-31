@@ -28,6 +28,22 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     return !isSiteLoaded() || isLoading;
   };
 
+  const getCommandBarItems = (): ICommandBarItemProps[] => {
+    const commandBarItems: ICommandBarItemProps[] = [
+      getSaveButton(),
+      getDiscardButton(),
+      getBrowseButton(),
+      getManagePublishProfileButton(),
+      getRefreshButton(),
+    ];
+
+    if (!siteStateContext.isContainerApp) {
+      commandBarItems.push(getSyncButton());
+    }
+
+    return commandBarItems;
+  };
+
   const getSaveButton = (): ICommandBarItemProps => {
     return {
       key: 'save',
@@ -104,22 +120,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       disabled: isDisabledOnReload(),
       onClick: sync,
     };
-  };
-
-  const getCommandBarItems = (): ICommandBarItemProps[] => {
-    const commandBarItems: ICommandBarItemProps[] = [
-      getSaveButton(),
-      getDiscardButton(),
-      getBrowseButton(),
-      getManagePublishProfileButton(),
-      getRefreshButton(),
-    ];
-
-    if (!siteStateContext.isContainerApp) {
-      commandBarItems.push(getSyncButton());
-    }
-
-    return commandBarItems;
   };
 
   return (
