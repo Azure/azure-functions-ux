@@ -4,6 +4,8 @@ import { SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
 import { RuntimeStacks, JavaContainers, JavaVersions } from '../../../../utils/stacks-utils';
 import { IDeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
+import { PublishingCredentials } from '../../../../models/site/publish';
 
 export const getRuntimeStackSetting = (
   isLinuxApplication: boolean,
@@ -160,4 +162,28 @@ export const getGitCloneUri = (deploymentCenterPublishingContext: IDeploymentCen
     }
   }
   return null;
+};
+
+export const getAppDockerWebhookUrl = (publishingCredentialsArmObj: ArmObj<PublishingCredentials>) => {
+  if (publishingCredentialsArmObj.properties.scmUri) {
+    return `${publishingCredentialsArmObj.properties.scmUri}/docker/hook`;
+  }
+
+  return '';
+};
+
+export const getAcrWebhookName = (siteDescriptor: ArmSiteDescriptor) => {
+  // NOTE(michinoy): The name has to follow a certain pattern expected by the ACR webhook API contract
+  // https://docs.microsoft.com/en-us/rest/api/containerregistry/webhooks/update
+  // Requirements - only alpha numeric characters, length between 5 - 50 characters.
+  const acrWebhookNameRegex = /[^a-zA-Z0-9]/g;
+  const acrWebhookNameMaxLength = 50;
+
+  let resourceName = siteDescriptor.site.replace(acrWebhookNameRegex, '');
+
+  if (siteDescriptor.slot) {
+    resourceName += siteDescriptor.slot.replace(acrWebhookNameRegex, '');
+  }
+
+  return `webapp${resourceName}`.substring(0, acrWebhookNameMaxLength);
 };

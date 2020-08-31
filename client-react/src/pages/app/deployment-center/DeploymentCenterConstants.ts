@@ -46,4 +46,25 @@ export class DeploymentCenterConstants {
   public static readonly EmptyGuid = '00000000-0000-0000-0000-000000000000';
 
   public static readonly protectedBranchSelectedLink = 'https://go.microsoft.com/fwlink/?linkid=2120729';
+
+  // Container/Docker constants
+  public static readonly dockerPrefix = 'DOCKER';
+  public static readonly composePrefix = 'COMPOSE';
+  public static readonly kubernetesPrefix = 'KUBE';
+  public static readonly dockerHubUrl = 'https://index.docker.io';
+  public static readonly microsoftMcrUrl = 'https://mcr.microsoft.com';
+  public static readonly acrUriBody = 'azurecr';
+  public static readonly acrUriHost = 'azurecr.io';
+  public static readonly imageNameSetting = 'DOCKER_CUSTOM_IMAGE_NAME';
+  public static readonly serverUrlSetting = 'DOCKER_REGISTRY_SERVER_URL';
+  public static readonly usernameSetting = 'DOCKER_REGISTRY_SERVER_USERNAME';
+  public static readonly passwordSetting = 'DOCKER_REGISTRY_SERVER_PASSWORD';
+  public static readonly runCommandSetting = 'DOCKER_CUSTOM_IMAGE_RUN_COMMAND';
+  public static readonly appServiceStorageSetting = 'WEBSITES_ENABLE_APP_SERVICE_STORAGE';
+  public static readonly enableCISetting = 'DOCKER_ENABLE_CI';
+  public static readonly containerWinRmEnabled = 'CONTAINER_WINRM_ENABLED';
+  public static readonly createAcrFwLink = 'https://go.microsoft.com/fwlink/?linkid=852293';
+  public static readonly singleContainerQSLink = 'https://go.microsoft.com/fwlink/?linkid=873144';
+  public static readonly dockerComposeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873149';
+  public static readonly kubeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873150';
 }
