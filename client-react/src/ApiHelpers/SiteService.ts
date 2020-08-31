@@ -129,6 +129,11 @@ export default class SiteService {
     });
   };
 
+  public static syncSourceControls = (resourceId: string) => {
+    const id = `${resourceId}/sync`;
+    return MakeArmCall<void>({ method: 'POST', resourceId: id, commandName: 'syncSourceControls' });
+  };
+
   public static patchSiteConfig = (resourceId: string, body: any) => {
     return MakeArmCall<void>({
       method: 'PATCH',

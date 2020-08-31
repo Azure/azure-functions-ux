@@ -7,7 +7,7 @@ import { SiteStateContext } from '../../../SiteState';
 import { DeploymentCenterCommandBarProps } from './DeploymentCenter.types';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, isLoading } = props;
+  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, sync, isLoading } = props;
   const { t } = useTranslation();
   const siteStateContext = useContext(SiteStateContext);
 
@@ -28,8 +28,24 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     return !isSiteLoaded() || isLoading;
   };
 
-  const commandBarItems: ICommandBarItemProps[] = [
-    {
+  const getCommandBarItems = (): ICommandBarItemProps[] => {
+    const commandBarItems: ICommandBarItemProps[] = [
+      getSaveButton(),
+      getDiscardButton(),
+      getBrowseButton(),
+      getManagePublishProfileButton(),
+      getRefreshButton(),
+    ];
+
+    if (!siteStateContext.isContainerApp) {
+      commandBarItems.push(getSyncButton());
+    }
+
+    return commandBarItems;
+  };
+
+  const getSaveButton = (): ICommandBarItemProps => {
+    return {
       key: 'save',
       name: t('save'),
       iconProps: {
@@ -38,8 +54,11 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
       disabled: isDisabledOnReload(),
       onClick: saveFunction,
-    },
-    {
+    };
+  };
+
+  const getDiscardButton = (): ICommandBarItemProps => {
+    return {
       key: 'discard',
       name: t('discard'),
       iconProps: {
@@ -48,8 +67,11 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
       disabled: isDisabledOnReload(),
       onClick: discardFunction,
-    },
-    {
+    };
+  };
+
+  const getBrowseButton = (): ICommandBarItemProps => {
+    return {
       key: 'browse',
       name: t('browse'),
       iconProps: {
@@ -58,8 +80,11 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       ariaLabel: t('deploymentCenterBrowseCommandAriaLabel'),
       disabled: !isSiteLoaded() || !isBrowseEnabled(),
       onClick: onBrowseClick,
-    },
-    {
+    };
+  };
+
+  const getManagePublishProfileButton = (): ICommandBarItemProps => {
+    return {
       key: 'managePublishProfile',
       name: t('managePublishProfile'),
       iconProps: {
@@ -68,8 +93,11 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
       disabled: !isSiteLoaded(),
       onClick: showPublishProfilePanel,
-    },
-    {
+    };
+  };
+
+  const getRefreshButton = (): ICommandBarItemProps => {
+    return {
       key: 'refresh',
       name: t('refresh'),
       iconProps: {
@@ -78,12 +106,25 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
       disabled: isDisabledOnReload(),
       onClick: refresh,
-    },
-  ];
+    };
+  };
+
+  const getSyncButton = (): ICommandBarItemProps => {
+    return {
+      key: 'sync',
+      name: t('sync'),
+      iconProps: {
+        iconName: 'Sync',
+      },
+      ariaLabel: t('deploymentCenterSyncCommandAriaLabel'),
+      disabled: isDisabledOnReload(),
+      onClick: sync,
+    };
+  };
 
   return (
     <CommandBar
-      items={commandBarItems}
+      items={getCommandBarItems()}
       role="nav"
       styles={CommandBarStyles}
       ariaLabel={t('deploymentCenterCommandBarAriaLabel')}

@@ -6,6 +6,7 @@ import LoadingComponent from '../../../../../../../components/Loading/LoadingCom
 import FunctionLogFileStreamDataLoader from '../../../function-log/FunctionLogFileStreamDataLoader';
 import FunctionLogAppInsightsDataLoader from '../../../function-log/FunctionLogAppInsightsDataLoader';
 import { SiteStateContext } from '../../../../../../../SiteState';
+import { ArmFunctionDescriptor } from '../../../../../../../utils/resourceDescriptors';
 
 interface FunctionLogsDataLoaderProps {
   resourceId: string;
@@ -18,6 +19,8 @@ const FunctionLogsDataLoader: React.FC<FunctionLogsDataLoaderProps> = props => {
 
   const [isFileSystemLoggingAvailable, setIsFileSystemLoggingAvailable] = useState<boolean | undefined>(undefined);
   const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(undefined);
+
+  const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
 
   useEffect(() => {
     if (siteStateContext.site) {
@@ -64,6 +67,7 @@ const FunctionLogsDataLoader: React.FC<FunctionLogsDataLoaderProps> = props => {
           showLoggingOptionsDropdown={true}
           selectedLoggingOption={selectedLoggingOption}
           setSelectedLoggingOption={setSelectedLoggingOption}
+          functionName={armFunctionDescriptor.name}
         />
       )}
     </div>
