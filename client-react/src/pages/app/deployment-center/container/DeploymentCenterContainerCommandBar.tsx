@@ -16,6 +16,8 @@ import { ScmType } from '../../../../models/site/config';
 import { PortalContext } from '../../../../PortalContext';
 import { useTranslation } from 'react-i18next';
 import { SiteStateContext } from '../../../../SiteState';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 const DeploymentCenterContainerCommandBar: React.FC<DeploymentCenterContainerCommandBarProps> = props => {
   const { refresh, isLoading, formProps } = props;
@@ -66,7 +68,7 @@ const DeploymentCenterContainerCommandBar: React.FC<DeploymentCenterContainerCom
     } else if (formProps.values.registrySource === ContainerRegistrySources.privateRegistry) {
       return `${prefix}|${serverUrl}/${formProps.values.imageAndTag}`;
     } else {
-      return `$${prefix}|${formProps.values.imageAndTag}`;
+      return `${prefix}|${formProps.values.imageAndTag}`;
     }
   };
 
@@ -79,6 +81,11 @@ const DeploymentCenterContainerCommandBar: React.FC<DeploymentCenterContainerCom
       case ContainerOptions.kubernetes:
         return DeploymentCenterConstants.kubernetesPrefix;
       default:
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'DeploymentCenterContainerCommandBar',
+          `Incorrect container option provided ${formProps.values.option}`
+        );
         throw Error(`Invalid container option '${formProps.values.option}'`);
     }
   };
