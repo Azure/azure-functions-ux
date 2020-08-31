@@ -17,7 +17,7 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 
 const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarProps> = props => {
-  const { isLoading, refresh, formProps } = props;
+  const { isLoading, refresh, sync, formProps } = props;
   const { t } = useTranslation();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
@@ -208,6 +208,7 @@ const DeploymentCenterCodeCommandBar: React.FC<DeploymentCenterCodeCommandBarPro
       showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
       refresh={refresh}
       isLoading={isLoading}
+      sync={sync}
     />
   );
 };
