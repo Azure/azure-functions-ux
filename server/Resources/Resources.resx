@@ -6666,4 +6666,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerImagePlaceholder" xml:space="preserve">
         <value>E.g. nginx</value>
     </data>
+    <data name="savingContainerConfiguration" xml:space="preserve">
+        <value>Saving container configuration</value>
+    </data>
+    <data name="savingContainerConfigurationSuccess" xml:space="preserve">
+        <value>Successfully saved container configuration</value>
+    </data>
+    <data name="savingContainerConfigurationFailed" xml:space="preserve">
+        <value>Failed to save container configuration</value>
+    </data>
+    <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
+        <value>Failed to save container configuration: {0}</value>
+    </data>
 </root>

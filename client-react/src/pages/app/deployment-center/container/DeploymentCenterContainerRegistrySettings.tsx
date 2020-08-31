@@ -6,13 +6,21 @@ import {
   DeploymentCenterContainerFormData,
 } from '../DeploymentCenter.types';
 import { useTranslation } from 'react-i18next';
-import { IChoiceGroupOptionProps } from 'office-ui-fabric-react';
+import { IChoiceGroupOptionProps, IDropdownOption } from 'office-ui-fabric-react';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
 const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
+
+  const onRegistrySourceChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
+    formProps.setFieldValue('registrySource', option.key.toString());
+    if (option.key.toString() === ContainerRegistrySources.docker) {
+      formProps.setFieldValue('serverUrl', DeploymentCenterConstants.dockerHubUrl);
+    }
+  };
 
   const getContainerOptions = (): IChoiceGroupOptionProps[] => {
     const options: IChoiceGroupOptionProps[] = [
@@ -68,6 +76,7 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
         component={Dropdown}
         options={sourceTypes}
         label={t('deploymentCenterContainerRegistrySourceLabel')}
+        onChange={onRegistrySourceChange}
       />
     </>
   );
