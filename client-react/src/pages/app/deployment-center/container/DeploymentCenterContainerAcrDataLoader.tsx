@@ -74,6 +74,9 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       const username = credentials.username;
       const password = credentials.passwords[0].value;
 
+      props.formProps.setFieldValue('username', username);
+      props.formProps.setFieldValue('password', password);
+
       const repositoriesResponse = await deploymentCenterData.getAcrRepositories(loginServer, username, password);
 
       const repositoryOptions: IDropdownOption[] = [];

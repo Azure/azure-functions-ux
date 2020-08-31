@@ -190,6 +190,8 @@ const DeploymentCenterContainerCommandBar: React.FC<DeploymentCenterContainerCom
       // Also no need to check the status.
       manageAcrWebhook();
     }
+
+    portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
   };
 
   const getLatestAppSettings = (existingAppSettings: { [name: string]: string }): { [name: string]: string } => {
