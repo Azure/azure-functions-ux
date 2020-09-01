@@ -2162,7 +2162,7 @@ export class PortalResources {
   public static selectTemplate = 'selectTemplate';
   public static selectTemplateDescription = 'selectTemplateDescription';
   public static description = 'description';
-  public static detail = 'detail';
+  public static templateDetails = 'templateDetails';
   public static detailDescription = 'detailDescription';
   public static developInPortal = 'developInPortal';
   public static fileSharesFailure = 'fileSharesFailure';
