@@ -18,7 +18,7 @@ export interface StatusMessage {
 
 interface ActionBarButtonProps {
   id: string;
-  title: string;
+  title: string | JSX.Element;
   disable: boolean;
   onClick: () => void;
 }
@@ -40,7 +40,7 @@ const elementWrapperStyle = (theme: ThemeExtended, fullPageHeight?: boolean) =>
     left: '0px',
     right: '0px',
     overflow: 'hidden',
-    borderTop: `1px solid ${theme.palette.neutralDark}`,
+    borderTop: `1px solid rgba(127, 127, 127, 0.7)`,
     zIndex: 1,
     background: theme.semanticColors.bodyFrameBackground,
   });
@@ -93,6 +93,9 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({
 }) => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
+
+  const primaryButtonTitle = primaryButton.title;
+
   return (
     <div className={elementWrapperStyle(theme, fullPageHeight)}>
       <div className={buttonsWrapperStyle}>
@@ -101,7 +104,7 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({
           className={buttonStyle(theme, true)}
           onClick={primaryButton.onClick}
           disabled={primaryButton.disable}>
-          {t(primaryButton.title)}
+          {typeof primaryButtonTitle !== 'string' ? primaryButtonTitle : t(primaryButtonTitle)}
         </PrimaryButton>
         {secondaryButton && (
           <DefaultButton

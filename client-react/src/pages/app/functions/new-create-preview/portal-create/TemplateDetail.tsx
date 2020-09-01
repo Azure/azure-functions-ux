@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'office-ui-fabric-react';
 import { FunctionTemplate } from '../../../../../models/functions/function-template';
@@ -15,6 +15,7 @@ import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../commo
 import { FormikProps } from 'formik';
 import { detailContainerStyle } from '../FunctionCreate.styles';
 import BasicShimmerLines from '../../../../../components/shimmer/BasicShimmerLines';
+import { FunctionCreateContext } from '../FunctionCreateContext';
 
 export interface TemplateDetailProps {
   resourceId: string;
@@ -30,6 +31,8 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
 
   const [functionsInfo, setFunctionsInfo] = useState<ArmObj<FunctionInfo>[] | undefined | null>(undefined);
   const [bindings, setBindings] = useState<Binding[] | undefined | null>(undefined);
+
+  const functionCreateContext = useContext(FunctionCreateContext);
 
   const fetchFunctionInfo = async () => {
     const functionsInfoResponse = await FunctionsService.getFunctions(resourceId);
@@ -121,7 +124,11 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
   };
 
   const getDetails = () => {
-    return !functionsInfo || !bindings || !builder ? <BasicShimmerLines /> : builder.getFields(formProps, false);
+    return !functionsInfo || !bindings || !builder ? (
+      <BasicShimmerLines />
+    ) : (
+      builder.getFields(formProps, !!functionCreateContext.creatingFunction)
+    );
   };
 
   useEffect(() => {
@@ -150,7 +157,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     <div className={detailContainerStyle}>
       <h3>{t('detail')}</h3>
       <p>
-        {t('detailDescription')}
+        {t('detailDescription').format(selectedTemplate.name)}
         {/* TODO(krmitta): Add learn more link */}
         <Link>{t('learnMore')}</Link>
       </p>

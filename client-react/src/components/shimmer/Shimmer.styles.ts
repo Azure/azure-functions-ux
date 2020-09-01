@@ -1,4 +1,5 @@
 import { mergeStyles } from 'office-ui-fabric-react';
+import { style } from 'typestyle';
 
 export const wrapperClass = mergeStyles({
   selectors: {
@@ -9,3 +10,7 @@ export const wrapperClass = mergeStyles({
 });
 
 export const wrapperStyle = { display: 'flex' };
+
+export const shimmerStyle = style({
+  marginTop: '10px',
+});
