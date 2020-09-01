@@ -55,6 +55,8 @@ export const buttonStyle = (theme: ThemeExtended, isPrimary: boolean) =>
   style({
     marginLeft: '16px',
     marginTop: '2px',
+    padding: '3px 20px',
+    height: '24px',
     $nest: {
       '&:focus': {
         $nest: {

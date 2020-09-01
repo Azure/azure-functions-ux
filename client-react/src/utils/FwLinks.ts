@@ -34,6 +34,7 @@ export const Links = {
   quickstartViewDocumentation: 'https://go.microsoft.com/fwlink/?linkid=2119201',
   bindingDirectionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2121806&clcid=0x409',
   ftpDisabledByPolicyLink: 'https://go.microsoft.com/fwlink/?linkid=2137907',
+  functionRuntimeV2UpgradeLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141453',
 };
 
 export const DeploymentCenterLinks = {
