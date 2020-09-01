@@ -6636,11 +6636,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="description" xml:space="preserve">
         <value>Description</value>
     </data>
-    <data name="detail" xml:space="preserve">
-        <value>Detail</value>
+    <data name="templateDetails" xml:space="preserve">
+        <value>Template details</value>
     </data>
     <data name="detailDescription" xml:space="preserve">
-        <value>We need more information to create the function. </value>
+        <value>We need more information to create the {0} function. </value>
     </data>
     <data name="developInPortal" xml:space="preserve">
         <value>Develop in portal</value>

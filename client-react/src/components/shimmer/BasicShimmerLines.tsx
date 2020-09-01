@@ -1,5 +1,5 @@
 import React from 'react';
-import { wrapperClass } from './Shimmer.styles';
+import { wrapperClass, shimmerStyle } from './Shimmer.styles';
 import { Shimmer, Fabric } from 'office-ui-fabric-react';
 interface BasicShimmerLines {
   repeatShimmer?: number;
@@ -13,7 +13,7 @@ const BasicShimmerLines: React.FC<BasicShimmerLines> = props => {
     return (
       <div key={key}>
         {shimmers.map((shimmer, index) => (
-          <Shimmer width={shimmer.width} key={index} />
+          <Shimmer width={shimmer.width} key={index} className={shimmerStyle} />
         ))}
       </div>
     );

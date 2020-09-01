@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useContext } from 'react';
 import { FunctionTemplate } from '../../../../../models/functions/function-template';
 import { useTranslation } from 'react-i18next';
 import TemplateDetail from './TemplateDetail';
@@ -8,7 +8,13 @@ import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper'
 import FunctionCreateData from '../FunctionCreate.data';
 import { Link, DetailsListLayoutMode, SelectionMode, CheckboxVisibility, IColumn, Selection, SearchBox } from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { templateListStyle, templateListNameColumnStyle, filterTextFieldStyle, containerStyle } from '../FunctionCreate.styles';
+import {
+  templateListStyle,
+  templateListNameColumnStyle,
+  filterTextFieldStyle,
+  containerStyle,
+  tableRowStyle,
+} from '../FunctionCreate.styles';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
 import { FormikProps } from 'formik';
 import { ArmObj } from '../../../../../models/arm-obj';
@@ -16,6 +22,8 @@ import { HostStatus } from '../../../../../models/functions/host-status';
 import StringUtils from '../../../../../utils/string';
 import { RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
 import { sortTemplate } from '../FunctionCreate.types';
+import { FunctionCreateContext } from '../FunctionCreateContext';
+import { ThemeContext } from '../../../../../ThemeContext';
 
 export interface TemplateListProps {
   resourceId: string;
@@ -46,6 +54,9 @@ const TemplateList: React.FC<TemplateListProps> = props => {
   const { t } = useTranslation();
 
   const [filter, setFilter] = useState('');
+
+  const functionCreateContext = useContext(FunctionCreateContext);
+  const theme = useContext(ThemeContext);
 
   const selection = useMemo(
     () =>
@@ -156,6 +167,21 @@ const TemplateList: React.FC<TemplateListProps> = props => {
     }
   };
 
+  const isDisabled = () => {
+    return !!functionCreateContext.creatingFunction;
+  };
+
+  const onRenderRow = (rowProps, defaultRenderer) => {
+    return (
+      <div>
+        {defaultRenderer({
+          ...rowProps,
+          styles: tableRowStyle(theme, !!selectedTemplate && rowProps.item.id === selectedTemplate.id, isDisabled()),
+        })}
+      </div>
+    );
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -177,6 +203,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
         placeholder={t('filter')}
         value={filter}
         onChange={newValue => setFilter(newValue)}
+        disabled={isDisabled()}
       />
       {templates !== null ? (
         <DisplayTableWithCommandBar
@@ -193,6 +220,8 @@ const TemplateList: React.FC<TemplateListProps> = props => {
           className={templateListStyle}
           onItemInvoked={onItemInvoked}
           shimmer={{ lines: 2, show: !templates }}
+          disableSelectionZone={isDisabled()}
+          onRenderRow={onRenderRow}
         />
       ) : (
         <>{/**TODO (krmitta): Add Error Banner here**/}</>
