@@ -155,7 +155,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     <>{/** TODO(krmitta): Add banner when call fails */}</>
   ) : (
     <div className={detailContainerStyle}>
-      <h3>{t('detail')}</h3>
+      <h3>{t('templateDetails')}</h3>
       <p>
         {t('detailDescription').format(selectedTemplate.name)}
         {/* TODO(krmitta): Add learn more link */}
