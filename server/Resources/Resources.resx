@@ -6678,4 +6678,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
         <value>Failed to save container configuration: {0}</value>
     </data>
+    <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
+        <value>Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.</value>
+    </data>
 </root>

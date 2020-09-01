@@ -7,10 +7,12 @@ import { MessageBarType } from 'office-ui-fabric-react';
 import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../../../../models/functions/runtime-extension';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { PermissionsContext } from '../Contexts';
+import { Links } from '../../../../utils/FwLinks';
 
 interface MessageBarInfo {
   messageText: string;
   messageType?: MessageBarType;
+  learnMoreLink?: string;
 }
 
 enum ComparisonResult {
@@ -86,16 +88,28 @@ const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = p
     const comparison = compareConfiguredAndRunningVersions();
     switch (comparison) {
       case ComparisonResult.ExactMatch:
-        messageBarInfo = {
-          messageText: t('functionsRuntimeVersionNeedsUpdateWarning').format(exactRuntimeVersion),
-          messageType: MessageBarType.warning,
-        };
+        messageBarInfo = isRuntimeVersionV2()
+          ? {
+              messageText: t('functionsRuntimeVersionNeedsUpdateWarningForV2').format(exactRuntimeVersion),
+              messageType: MessageBarType.warning,
+              learnMoreLink: isRuntimeVersionV2() ? Links.functionRuntimeV2UpgradeLearnMore : undefined,
+            }
+          : {
+              messageText: t('functionsRuntimeVersionNeedsUpdateWarning').format(exactRuntimeVersion),
+              messageType: MessageBarType.warning,
+            };
         break;
       case ComparisonResult.PartialMatch:
-        messageBarInfo = {
-          messageText: t('functionsRuntimeVersionNeedsUpdateWarning').format(`${exactRuntimeVersion} (${initialRuntimeVersion})`),
-          messageType: MessageBarType.warning,
-        };
+        messageBarInfo = isRuntimeVersionV2()
+          ? {
+              messageText: t('functionsRuntimeVersionNeedsUpdateWarningForV2').format(`${exactRuntimeVersion} (${initialRuntimeVersion})`),
+              messageType: MessageBarType.warning,
+              learnMoreLink: isRuntimeVersionV2() ? Links.functionRuntimeV2UpgradeLearnMore : undefined,
+            }
+          : {
+              messageText: t('functionsRuntimeVersionNeedsUpdateWarning').format(`${exactRuntimeVersion} (${initialRuntimeVersion})`),
+              messageType: MessageBarType.warning,
+            };
         break;
       case ComparisonResult.NoMatch:
         messageBarInfo = {
@@ -105,6 +119,10 @@ const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = p
         break;
     }
     return messageBarInfo;
+  };
+
+  const isRuntimeVersionV2 = () => {
+    return exactRuntimeVersion.startsWith('2.0');
   };
 
   const compareConfiguredAndRunningVersions = (): ComparisonResult => {
@@ -129,7 +147,11 @@ const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = p
 
   const initialVersionToLowerTrimmed = (initialRuntimeVersion || '').toLowerCase().replace(/^\s*|\s*$/g, '');
 
-  const { messageText, messageType } = getVersionMessageBar() as { messageText: string; messageType?: MessageBarType };
+  const { messageText, messageType, learnMoreLink } = getVersionMessageBar() as {
+    messageText: string;
+    messageType?: MessageBarType;
+    learnMoreLink?: string;
+  };
 
   if (!messageText) {
     return null;
@@ -141,6 +163,7 @@ const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = p
       message={messageText}
       type={messageType || MessageBarType.info}
       undocked={true}
+      learnMoreLink={learnMoreLink}
     />
   );
 };
