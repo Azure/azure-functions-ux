@@ -84,20 +84,38 @@ export interface DeploymentCenterCommonFormData {
   externalPassword?: string;
 }
 
-export interface DeploymentCenterContainerFormData {
+export interface AcrFormData {
+  acrLoginServer: string;
+  acrImage: string;
+  acrTag: string;
+  acrUsername: string;
+  acrPassword: string;
+  acrComposeYml: string;
+  acrResourceId: string;
+  acrLocation: string;
+}
+
+export interface DockerHubFormData {
+  dockerHubAccessType: ContainerDockerAccessTypes;
+  dockerHubImageAndTag: string;
+  dockerHubUsername: string;
+  dockerHubPassword: string;
+  dockerHubComposeYml: string;
+}
+
+export interface PrivateRegistryFormData {
+  privateRegistryServerUrl: string;
+  privateRegistryImageAndTag: string;
+  privateRegistryUsername: string;
+  privateRegistryPassword: string;
+  privateRegistryComposeYml: string;
+}
+
+export interface DeploymentCenterContainerFormData extends AcrFormData, DockerHubFormData, PrivateRegistryFormData {
   option: ContainerOptions;
   registrySource: ContainerRegistrySources;
-  dockerAccessType: ContainerDockerAccessTypes;
-  serverUrl: string;
-  image: string;
-  tag: string;
-  imageAndTag: string; // NOTE(michinoy): In some container forms Image and Tags are separate fields and in others they are same.
-  username: string;
-  password: string;
-  command: string;
   scmType: ScmType;
-  acrResourceId: string;
-  acrResourceLocation: string;
+  command: string;
   gitHubContainerUsernameSecretGuid: string;
   gitHubContainerPasswordSecretGuid: string;
   continuousDeploymentOption: ContinuousDeploymentOption;
@@ -344,8 +362,8 @@ export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterCont
 }
 
 export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {
-  fetchImages: (loginServer: string, resourceId: string) => void;
-  fetchTags: (loginServer: string, image: string) => void;
+  fetchImages: (loginServer: string) => void;
+  fetchTags: (image: string) => void;
   acrRegistryOptions: IDropdownOption[];
   acrImageOptions: IDropdownOption[];
   acrTagOptions: IDropdownOption[];
