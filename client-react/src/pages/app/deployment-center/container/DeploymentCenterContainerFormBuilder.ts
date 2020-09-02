@@ -108,9 +108,9 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   private _getContainerRegistrySource(): ContainerRegistrySources {
     const serverUrl = this._getServerUrl().toLocaleLowerCase();
 
-    if (serverUrl && serverUrl.indexOf(DeploymentCenterConstants.acrUriHost) > -1) {
+    if (this._isServerUrlAcr(serverUrl)) {
       return ContainerRegistrySources.acr;
-    } else if (serverUrl && serverUrl.indexOf(DeploymentCenterConstants.dockerHubUrl) > -1) {
+    } else if (this._isServerUrlDockerHub(serverUrl)) {
       return ContainerRegistrySources.docker;
     } else {
       return ContainerRegistrySources.privateRegistry;
@@ -177,7 +177,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getAcrFormData(serverUrl: string, username: string, password: string, fxVersionParts: FxVersionParts): AcrFormData {
-    if (serverUrl.toLocaleLowerCase().indexOf(DeploymentCenterConstants.acrUriHost) > -1) {
+    if (this._isServerUrlAcr(serverUrl)) {
       return {
         acrLoginServer: fxVersionParts.server.toLocaleLowerCase(),
         acrImage: fxVersionParts.image,
@@ -203,7 +203,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getDockerHubFormData(serverUrl: string, username: string, password: string, fxVersionParts: FxVersionParts): DockerHubFormData {
-    if (serverUrl.toLocaleLowerCase() === DeploymentCenterConstants.dockerHubUrl) {
+    if (this._isServerUrlDockerHub(serverUrl)) {
       return {
         dockerHubImageAndTag: fxVersionParts.tag ? `${fxVersionParts.image}:${fxVersionParts.tag}` : fxVersionParts.image,
         dockerHubComposeYml: fxVersionParts.composeYml,
@@ -228,10 +228,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     password: string,
     fxVersionParts: FxVersionParts
   ): PrivateRegistryFormData {
-    if (
-      serverUrl.toLocaleLowerCase().indexOf(DeploymentCenterConstants.acrUriHost) === -1 &&
-      serverUrl.toLocaleLowerCase() !== DeploymentCenterConstants.dockerHubUrl
-    ) {
+    if (this._isServerUrlAcr(serverUrl) && this._isServerUrlDockerHub(serverUrl)) {
       return {
         privateRegistryServerUrl: serverUrl,
         privateRegistryImageAndTag: fxVersionParts.tag ? `${fxVersionParts.image}:${fxVersionParts.tag}` : fxVersionParts.image,
@@ -248,5 +245,13 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         privateRegistryPassword: '',
       };
     }
+  }
+
+  private _isServerUrlAcr(serverUrl: string): boolean {
+    return !!serverUrl && serverUrl.toLocaleLowerCase().indexOf(DeploymentCenterConstants.acrUriHost) > -1;
+  }
+
+  private _isServerUrlDockerHub(serverUrl: string): boolean {
+    return !!serverUrl && serverUrl.toLocaleLowerCase().indexOf(DeploymentCenterConstants.dockerHubUrl) > -1;
   }
 }
