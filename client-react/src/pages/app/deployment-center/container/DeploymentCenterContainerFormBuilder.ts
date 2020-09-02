@@ -96,9 +96,8 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
 
   private _getContainerOption(): ContainerOptions {
     const fxVersion = this._siteConfig.properties.linuxFxVersion || this._siteConfig.properties.windowsFxVersion;
-    const fxVersionParts = fxVersion ? fxVersion.split('|') : [];
 
-    if (fxVersionParts[0].toLocaleLowerCase() === DeploymentCenterConstants.composePrefix) {
+    if (this._isComposeContainerOption(fxVersion)) {
       return ContainerOptions.compose;
     } else {
       return ContainerOptions.docker;
@@ -106,7 +105,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getContainerRegistrySource(): ContainerRegistrySources {
-    const serverUrl = this._getServerUrl().toLocaleLowerCase();
+    const serverUrl = this._getServerUrl();
 
     if (this._isServerUrlAcr(serverUrl)) {
       return ContainerRegistrySources.acr;
@@ -119,7 +118,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
 
   private _getServerUrl(): string {
     const value = this._applicationSettings && this._applicationSettings.properties[DeploymentCenterConstants.serverUrlSetting];
-    return value ? value : '';
+    return value.toLocaleLowerCase() ? value : '';
   }
 
   private _getUsername(): string {
@@ -151,7 +150,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       throw Error(`Incorrect fxVersion set in the site config: ${fxVersion}`);
     }
 
-    if (fxVersionParts[0].toLocaleLowerCase() === DeploymentCenterConstants.composePrefix.toLocaleLowerCase()) {
+    if (this._isComposeContainerOption(fxVersion)) {
       return {
         server: '',
         image: '',
@@ -248,10 +247,15 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _isServerUrlAcr(serverUrl: string): boolean {
-    return !!serverUrl && serverUrl.toLocaleLowerCase().indexOf(DeploymentCenterConstants.acrUriHost) > -1;
+    return !!serverUrl && serverUrl.indexOf(DeploymentCenterConstants.acrUriHost) > -1;
   }
 
   private _isServerUrlDockerHub(serverUrl: string): boolean {
-    return !!serverUrl && serverUrl.toLocaleLowerCase().indexOf(DeploymentCenterConstants.dockerHubUrl) > -1;
+    return !!serverUrl && serverUrl.indexOf(DeploymentCenterConstants.dockerHubUrl) > -1;
+  }
+
+  private _isComposeContainerOption(fxVersion: string): boolean {
+    const fxVersionParts = fxVersion ? fxVersion.split('|') : [];
+    return fxVersionParts[0].toLocaleLowerCase() === DeploymentCenterConstants.composePrefix.toLocaleLowerCase();
   }
 }
