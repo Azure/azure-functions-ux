@@ -227,7 +227,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     password: string,
     fxVersionParts: FxVersionParts
   ): PrivateRegistryFormData {
-    if (this._isServerUrlAcr(serverUrl) && this._isServerUrlDockerHub(serverUrl)) {
+    if (!this._isServerUrlAcr(serverUrl) && !this._isServerUrlDockerHub(serverUrl)) {
       return {
         privateRegistryServerUrl: serverUrl,
         privateRegistryImageAndTag: fxVersionParts.tag ? `${fxVersionParts.image}:${fxVersionParts.tag}` : fxVersionParts.image,
