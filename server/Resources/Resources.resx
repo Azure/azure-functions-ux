@@ -6192,6 +6192,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="usernameLengthRequirements" xml:space="preserve">
         <value>The username must be at least {0} characters in length.</value>
     </data>
+    <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
+        <value>This field is required</value>
+    </data>
+    <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
+        <value>The repository must begin with {0}</value>
+    </data>
     <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Use these settings to configure your container app deployment model and registry. We recommend GitHub Actions for greater operational efficiency.</value>
     </data>

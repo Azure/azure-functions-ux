@@ -1,10 +1,11 @@
 import { ArmObj } from '../../../models/arm-obj';
 import { PublishingUser } from '../../../models/site/publish';
-import { SiteConfig } from '../../../models/site/config';
+import { SiteConfig, BuildProvider, ScmType } from '../../../models/site/config';
 import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, WorkflowOption } from './DeploymentCenter.types';
 import i18next from 'i18next';
 import { KeyValue } from '../../../models/portal-models';
 import * as Yup from 'yup';
+import { RepoTypeOptions } from '../../../models/external';
 
 export abstract class DeploymentCenterFormBuilder {
   protected _publishingUser: ArmObj<PublishingUser>;
@@ -19,7 +20,10 @@ export abstract class DeploymentCenterFormBuilder {
 
   protected generateCommonFormData() {
     return {
-      publishingUsername: this._publishingUser ? this._publishingUser.properties.publishingUserName : '',
+      publishingUsername:
+        this._publishingUser && this._publishingUser.properties.publishingUserName
+          ? this._publishingUser.properties.publishingUserName
+          : '',
       publishingPassword: '',
       publishingConfirmPassword: '',
       workflowOption: WorkflowOption.None,
@@ -27,6 +31,7 @@ export abstract class DeploymentCenterFormBuilder {
       repo: '',
       branch: '',
       gitHubPublishProfileSecretGuid: '',
+      externalRepoType: RepoTypeOptions.Public,
     };
   }
 
@@ -50,12 +55,46 @@ export abstract class DeploymentCenterFormBuilder {
       publishingConfirmPassword: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
         return !this.parent.publishingPassword || this.parent.publishingPassword === value;
       }),
-      // TODO(t-kakan): Need to do correct validation in later PR for DeploymentCenterFormBuilder, DeploymentCenterCodeFormBuilder, DeploymentCenterContainerFormBuilder,
-      workflowOption: Yup.mixed().notRequired(),
-      org: Yup.mixed().notRequired(),
-      repo: Yup.mixed().notRequired(),
-      branch: Yup.mixed().notRequired(),
+      workflowOption: Yup.mixed().test('Workflow option needed', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.buildProvider === BuildProvider.GitHubAction
+          ? this.parent.branch && this.parent.workflowOption !== 'none'
+          : true;
+      }),
+      org: Yup.mixed().test('Organization Needed', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.sourceProvider === ScmType.GitHubAction ||
+          this.parent.sourceProvider === ScmType.GitHub ||
+          this.parent.sourceProvider === ScmType.BitbucketGit
+          ? !!value
+          : true;
+      }),
+      repo: Yup.mixed()
+        .test('Repository Needed', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return this.parent.sourceProvider === ScmType.GitHubAction ||
+            this.parent.sourceProvider === ScmType.GitHub ||
+            this.parent.sourceProvider === ScmType.BitbucketGit ||
+            this.parent.sourceProvider === ScmType.ExternalGit
+            ? !!value
+            : true;
+        })
+        .test('Repository must be a url', this._t('deploymentCenterExternalRepoMessage').format('https://'), function(value) {
+          return this.parent.sourceProvider === ScmType.ExternalGit ? !!value && this.parent.repo.startsWith('https://') : true;
+        }),
+      branch: Yup.mixed().test('Branch Needed', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.sourceProvider === ScmType.GitHubAction ||
+          this.parent.sourceProvider === ScmType.GitHub ||
+          this.parent.sourceProvider === ScmType.BitbucketGit ||
+          this.parent.sourceProvider === ScmType.ExternalGit
+          ? !!value
+          : true;
+      }),
       gitHubPublishProfileSecretGuid: Yup.mixed().notRequired(),
+      externalUsername: Yup.mixed().test('External Username Needed', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.externalRepoType === RepoTypeOptions.Private ? !!value : true;
+      }),
+      externalPassword: Yup.mixed().test('External Password Needed', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.externalRepoType === RepoTypeOptions.Private ? !!value : true;
+      }),
+      externalRepoType: Yup.mixed().notRequired(),
     };
   }
 

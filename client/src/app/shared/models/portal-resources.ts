@@ -2006,6 +2006,8 @@ export class PortalResources {
   public static resetPublishProfileConfirmationTitle = 'resetPublishProfileConfirmationTitle';
   public static resetPublishProfileConfirmationDescription = 'resetPublishProfileConfirmationDescription';
   public static usernameLengthRequirements = 'usernameLengthRequirements';
+  public static deploymentCenterFieldRequiredMessage = 'deploymentCenterFieldRequiredMessage';
+  public static deploymentCenterExternalRepoMessage = 'deploymentCenterExternalRepoMessage';
   public static deploymentCenterContainerSettingsDescription = 'deploymentCenterContainerSettingsDescription';
   public static deploymentCenterCodeSettingsDescription = 'deploymentCenterCodeSettingsDescription';
   public static deploymentCenterSettingsSourceLabel = 'deploymentCenterSettingsSourceLabel';

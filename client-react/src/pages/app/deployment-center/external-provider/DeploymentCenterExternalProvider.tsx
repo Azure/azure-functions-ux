@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Field } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react';
 import TextField from '../../../../components/form-controls/TextField';
@@ -6,8 +6,10 @@ import { useTranslation } from 'react-i18next';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { additionalTextFieldControl } from '../DeploymentCenter.styles';
 import { PasswordFieldType, RepoTypeOptions } from '../../../../models/external';
+import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 
-const DeploymentCenterExternalProvider: React.FC<{}> = props => {
+const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
+  const { formProps } = props;
   const { t } = useTranslation();
 
   const [repoType, setRepoType] = useState<RepoTypeOptions>(RepoTypeOptions.Public);
@@ -16,6 +18,13 @@ const DeploymentCenterExternalProvider: React.FC<{}> = props => {
   const toggleShowProviderPassword = () => {
     setProviderPasswordType(!providerPasswordType ? 'password' : undefined);
   };
+
+  useEffect(() => {
+    if (formProps) {
+      setRepoType(formProps.values.externalRepoType);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps && formProps.values.externalRepoType]);
 
   return (
     <>
@@ -33,7 +42,7 @@ const DeploymentCenterExternalProvider: React.FC<{}> = props => {
       <Field
         id="deployment-center-settings-external-private-repo"
         label={t('deploymentCenterCodeExternalRepositoryTypeLabel')}
-        selectedKey={repoType}
+        name="externalRepoType"
         component={RadioButton}
         options={[
           {
@@ -45,9 +54,6 @@ const DeploymentCenterExternalProvider: React.FC<{}> = props => {
             text: t('deploymentCenterCodeExternalPrivateRepositoryOption'),
           },
         ]}
-        onChange={(event: React.FormEvent<HTMLDivElement>, option: any) => {
-          setRepoType(option.key);
-        }}
       />
 
       {repoType === RepoTypeOptions.Private && (

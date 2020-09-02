@@ -7,6 +7,7 @@ import { Uri } from 'monaco-editor';
 import { GitHubUser } from '../../../models/github';
 import { IDropdownOption, IChoiceGroupOption, MessageBarType } from 'office-ui-fabric-react';
 import { BitbucketUser } from '../../../models/bitbucket';
+import { RepoTypeOptions } from '../../../models/external';
 
 export enum ContainerOptions {
   docker = 'docker',
@@ -80,6 +81,7 @@ export interface DeploymentCenterCommonFormData {
   repo: string;
   branch: string;
   gitHubPublishProfileSecretGuid: string;
+  externalRepoType: RepoTypeOptions;
   externalUsername?: string;
   externalPassword?: string;
 }
