@@ -6196,7 +6196,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>This field is required</value>
     </data>
     <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
-        <value>The repository must begin with {0}</value>
+        <value>The repository must begin with https://</value>
     </data>
     <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Use these settings to configure your container app deployment model and registry. We recommend GitHub Actions for greater operational efficiency.</value>

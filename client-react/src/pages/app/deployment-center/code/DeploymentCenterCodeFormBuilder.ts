@@ -17,14 +17,14 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
 
   public generateYupValidationSchema(): DeploymentCenterYupValidationSchemaType<DeploymentCenterCodeFormData> {
     return Yup.object().shape({
-      sourceProvider: Yup.mixed().test('sourceProviderTest', 'Need Source Provider', value => {
+      sourceProvider: Yup.mixed().test('sourceProviderRequired', this._t('deploymentCenterFieldRequiredMessage'), value => {
         return value !== ScmType.None;
       }),
       buildProvider: Yup.mixed().required(),
-      runtimeStack: Yup.mixed().test('runtimeStackTest', 'Need Runtime Stack', function(value) {
+      runtimeStack: Yup.mixed().test('runtimeStackRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.buildProvider === BuildProvider.GitHubAction ? !!value : true;
       }),
-      runtimeVersion: Yup.mixed().test('runtimeStackVersion', 'Need Runtime Stack Version', function(value) {
+      runtimeVersion: Yup.mixed().test('runtimeVersionRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.buildProvider === BuildProvider.GitHubAction ? !!value : true;
       }),
       runtimeRecommendedVersion: Yup.mixed().notRequired(),
