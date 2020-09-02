@@ -7,7 +7,14 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ACRCredential } from '../../../../models/acr';
 
+interface RegistryIdentifiers {
+  resourceId: string;
+  location: string;
+  credential?: ACRCredential;
+}
+
 const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
+  const { formProps } = props;
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
@@ -16,9 +23,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const [acrTagOptions, setAcrTagOptions] = useState<IDropdownOption[]>([]);
   const [acrStatusMessage, setAcrStatusMessage] = useState<string | undefined>(undefined);
   const [acrStatusMessageType, setAcrStatusMessageType] = useState<MessageBarType | undefined>(undefined);
-  const registryCredentials = useRef<{ [key: string]: ACRCredential }>({});
+  const registryIdentifiers = useRef<{ [key: string]: RegistryIdentifiers }>({});
 
   const fetchData = () => {
+    registryIdentifiers.current = {};
     setAcrRegistryOptions([]);
     setAcrImageOptions([]);
     setAcrTagOptions([]);
@@ -31,12 +39,20 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     if (deploymentCenterContext.siteDescriptor) {
       const registriesResponse = await deploymentCenterData.getAcrRegistries(deploymentCenterContext.siteDescriptor.subscription);
       if (registriesResponse.metadata.success && registriesResponse.data) {
-        const dropdownOptions = registriesResponse.data.value
-          .filter(registry => registry.properties.adminUserEnabled)
-          .map(registry => ({
-            key: `${registry.properties.loginServer}:${registry.id}:${registry.location}`,
+        const adminEnabledRegistries = registriesResponse.data.value.filter(registry => registry.properties.adminUserEnabled);
+        const dropdownOptions: IDropdownOption[] = [];
+
+        adminEnabledRegistries.forEach(registry => {
+          registryIdentifiers.current[registry.properties.loginServer.toLocaleLowerCase()] = {
+            resourceId: registry.id,
+            location: registry.location,
+          };
+
+          dropdownOptions.push({
+            key: registry.properties.loginServer.toLocaleLowerCase(),
             text: registry.name,
-          }));
+          });
+        });
 
         setAcrRegistryOptions(dropdownOptions);
       } else {
@@ -49,16 +65,18 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     }
   };
 
-  const fetchRepositories = async (loginServer: string, resourceId: string) => {
+  const fetchRepositories = async (loginServer: string) => {
     setAcrTagOptions([]);
     setAcrStatusMessage(undefined);
     setAcrStatusMessageType(undefined);
 
-    if (!registryCredentials.current[loginServer]) {
-      const credentialsResponse = await deploymentCenterData.listAcrCredentials(resourceId);
+    const selectedRegistryIdentifier = registryIdentifiers.current[loginServer];
+
+    if (!selectedRegistryIdentifier.credential) {
+      const credentialsResponse = await deploymentCenterData.listAcrCredentials(selectedRegistryIdentifier.resourceId);
 
       if (credentialsResponse.metadata.success && credentialsResponse.data.passwords && credentialsResponse.data.passwords.length > 0) {
-        registryCredentials.current[loginServer] = credentialsResponse.data;
+        selectedRegistryIdentifier.credential = credentialsResponse.data;
       } else {
         const errorMessage = getErrorMessage(credentialsResponse.metadata.error);
         if (errorMessage) {
@@ -68,14 +86,11 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       }
     }
 
-    const credentials = registryCredentials.current[loginServer];
+    const credentials = selectedRegistryIdentifier.credential;
 
     if (credentials) {
       const username = credentials.username;
       const password = credentials.passwords[0].value;
-
-      props.formProps.setFieldValue('username', username);
-      props.formProps.setFieldValue('password', password);
 
       const repositoriesResponse = await deploymentCenterData.getAcrRepositories(loginServer, username, password);
 
@@ -88,15 +103,21 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         repositoryOptions.push(...dropdownOptions);
       });
 
+      formProps.setFieldValue('acrResourceId', selectedRegistryIdentifier.resourceId);
+      formProps.setFieldValue('acrLocation', selectedRegistryIdentifier.location);
+      formProps.setFieldValue('acrUsername', username);
+      formProps.setFieldValue('acrPassword', password);
+
       setAcrImageOptions(repositoryOptions);
     }
   };
 
-  const fetchTags = async (loginServer: string, imageSelected: string) => {
+  const fetchTags = async (imageSelected: string) => {
     setAcrStatusMessage(undefined);
     setAcrStatusMessageType(undefined);
 
-    const credentials = registryCredentials.current[loginServer];
+    const loginServer = formProps.values.acrLoginServer;
+    const credentials = registryIdentifiers.current[loginServer].credential;
 
     if (credentials) {
       const username = credentials.username;
@@ -120,6 +141,22 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterContext]);
+
+  useEffect(() => {
+    if (registryIdentifiers.current[formProps.values.acrLoginServer]) {
+      fetchRepositories(formProps.values.acrLoginServer);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [registryIdentifiers.current[formProps.values.acrLoginServer], formProps.values.acrLoginServer]);
+
+  useEffect(() => {
+    if (registryIdentifiers.current[formProps.values.acrLoginServer] && formProps.values.acrImage) {
+      fetchTags(formProps.values.acrImage);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [registryIdentifiers.current[formProps.values.acrLoginServer], formProps.values.acrLoginServer, formProps.values.acrImage]);
 
   return (
     <DeploymentCenterContainerAcrSettings

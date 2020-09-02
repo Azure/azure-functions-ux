@@ -17,10 +17,10 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
   const [isPrivateConfiguration, setIsPrivateConfiguration] = useState(false);
 
   useEffect(() => {
-    setIsPrivateConfiguration(formProps.values.dockerAccessType === ContainerDockerAccessTypes.private);
+    setIsPrivateConfiguration(formProps.values.dockerHubAccessType === ContainerDockerAccessTypes.private);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formProps.values.dockerAccessType]);
+  }, [formProps.values.dockerHubAccessType]);
 
   useEffect(() => {
     setIsUsingExistingOrAvailableWorkflowConfig(isWorkflowOptionExistingOrAvailable(formProps.values.workflowOption));
@@ -58,7 +58,7 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
       {!isGitHubAction && (
         <Field
           id="container-dockerHub-accessType"
-          name="dockerAccessType"
+          name="dockerHubAccessType"
           component={Dropdown}
           options={accessTypes}
           label={t('containerRepositoryAccess')}
@@ -67,31 +67,23 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
 
       {(isPrivateConfiguration || isGitHubAction) && (
         <>
-          <Field id="container-dockerHub-username" name="username" component={TextField} label={t('containerLogin')} />
+          <Field id="container-dockerHub-username" name="dockerHubUsername" component={TextField} label={t('containerLogin')} />
 
-          <Field id="container-dockerHub-password" name="password" component={TextField} label={t('containerPassword')} />
+          <Field id="container-dockerHub-password" name="dockerHubPassword" component={TextField} label={t('containerPassword')} />
         </>
       )}
 
-      {isGitHubAction && !isUsingExistingOrAvailableWorkflowConfig && (
-        <Field
-          id="container-dockerHub-image"
-          name="image"
-          component={TextField}
-          label={t('containerImage')}
-          placeholder={t('containerImagePlaceholder')}
-        />
-      )}
-
-      {!isGitHubAction && (
-        <Field
-          id="container-dockerHub-imageAndTag"
-          name="imageAndTag"
-          component={TextField}
-          label={t('containerImageAndTag')}
-          placeholder={t('containerImageAndTagPlaceholder')}
-        />
-      )}
+      <Field
+        id="container-dockerHub-imageAndTag"
+        name="dockerHubImageAndTag"
+        component={TextField}
+        label={isGitHubAction && !isUsingExistingOrAvailableWorkflowConfig ? t('containerImage') : t('containerImageAndTag')}
+        placeholder={
+          isGitHubAction && !isUsingExistingOrAvailableWorkflowConfig
+            ? t('containerImagePlaceholder')
+            : t('containerImageAndTagPlaceholder')
+        }
+      />
 
       <Field id="container-dockerHub-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
     </>
