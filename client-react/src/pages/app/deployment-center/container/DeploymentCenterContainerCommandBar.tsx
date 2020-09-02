@@ -36,39 +36,61 @@ const DeploymentCenterContainerCommandBar: React.FC<DeploymentCenterContainerCom
       appSettings[DeploymentCenterConstants.enableCISetting] = 'true';
     }
 
-    if (formProps.values.username) {
-      appSettings[DeploymentCenterConstants.usernameSetting] = formProps.values.username;
-    }
-
-    if (formProps.values.password) {
-      appSettings[DeploymentCenterConstants.passwordSetting] = formProps.values.password;
-    }
-
-    if (formProps.values.serverUrl) {
-      appSettings[DeploymentCenterConstants.serverUrlSetting] = formProps.values.serverUrl;
-    }
+    appSettings[DeploymentCenterConstants.usernameSetting] = getUsername();
+    appSettings[DeploymentCenterConstants.passwordSetting] = getPassword();
+    appSettings[DeploymentCenterConstants.serverUrlSetting] = getServerUrl();
 
     return appSettings;
+  };
+
+  const getServerUrl = (): string => {
+    if (formProps.values.registrySource === ContainerRegistrySources.acr) {
+      return `https://${formProps.values.acrLoginServer}'`;
+    } else if (formProps.values.registrySource === ContainerRegistrySources.privateRegistry) {
+      return formProps.values.privateRegistryServerUrl;
+    } else {
+      return DeploymentCenterConstants.dockerHubUrl;
+    }
+  };
+
+  const getUsername = (): string => {
+    if (formProps.values.registrySource === ContainerRegistrySources.acr) {
+      return formProps.values.acrUsername;
+    } else if (formProps.values.registrySource === ContainerRegistrySources.privateRegistry) {
+      return formProps.values.privateRegistryUsername;
+    } else {
+      return formProps.values.privateRegistryUsername;
+    }
+  };
+
+  const getPassword = (): string => {
+    if (formProps.values.registrySource === ContainerRegistrySources.acr) {
+      return formProps.values.acrPassword;
+    } else if (formProps.values.registrySource === ContainerRegistrySources.privateRegistry) {
+      return formProps.values.privateRegistryPassword;
+    } else {
+      return formProps.values.privateRegistryPassword;
+    }
   };
 
   const getFxVersion = (): string => {
     const prefix = getFxVersionPrefix();
 
     if (formProps.values.option === ContainerOptions.docker) {
-      const serverUrl = formProps.values.serverUrl.toLocaleLowerCase().replace('https://', '');
-      return getDockerFxVersion(prefix, serverUrl);
+      return getDockerFxVersion(prefix);
     } else {
       throw Error('Not implemented');
     }
   };
 
-  const getDockerFxVersion = (prefix: string, serverUrl: string) => {
+  const getDockerFxVersion = (prefix: string) => {
     if (formProps.values.registrySource === ContainerRegistrySources.acr) {
-      return `${prefix}|${serverUrl}/${formProps.values.image}:${formProps.values.tag}`;
+      return `${prefix}|${formProps.values.acrLoginServer}/${formProps.values.acrImage}:${formProps.values.acrTag}`;
     } else if (formProps.values.registrySource === ContainerRegistrySources.privateRegistry) {
-      return `${prefix}|${serverUrl}/${formProps.values.imageAndTag}`;
+      const server = formProps.values.privateRegistryServerUrl.toLocaleLowerCase().replace('https://', '');
+      return `${prefix}|${server}/${formProps.values.privateRegistryImageAndTag}`;
     } else {
-      return `${prefix}|${formProps.values.imageAndTag}`;
+      return `${prefix}|${formProps.values.dockerHubImageAndTag}`;
     }
   };
 
@@ -101,16 +123,11 @@ const DeploymentCenterContainerCommandBar: React.FC<DeploymentCenterContainerCom
   const updateAcrWebhook = async () => {
     const webhookPayload = getAcrWebhookRegistrationPayload();
 
-    if (
-      webhookPayload &&
-      formProps.values.acrResourceId &&
-      formProps.values.acrResourceLocation &&
-      deploymentCenterContext.siteDescriptor
-    ) {
+    if (webhookPayload && formProps.values.acrResourceId && formProps.values.acrLocation && deploymentCenterContext.siteDescriptor) {
       const webhookName = getAcrWebhookName(deploymentCenterContext.siteDescriptor);
       const webhookResourceId = `${formProps.values.acrResourceId}/webhooks/${webhookName}`;
 
-      return deploymentCenterData.updateAcrWebhook(webhookResourceId, webhookName, formProps.values.acrResourceLocation, webhookPayload);
+      return deploymentCenterData.updateAcrWebhook(webhookResourceId, webhookName, formProps.values.acrLocation, webhookPayload);
     }
 
     return Promise.resolve(null);
@@ -122,8 +139,8 @@ const DeploymentCenterContainerCommandBar: React.FC<DeploymentCenterContainerCom
 
       // NOTE(michinoy): In a multi-container configuration there is no way to detect the repository and tag as there are multiple configurations.
       // In this case the scope should be set to an empty string
-      const acrTag = formProps.values.option === ContainerOptions.docker ? formProps.values.tag : '';
-      const acrRepository = formProps.values.option === ContainerOptions.docker ? formProps.values.image : '';
+      const acrTag = formProps.values.option === ContainerOptions.docker ? formProps.values.acrTag : '';
+      const acrRepository = formProps.values.option === ContainerOptions.docker ? formProps.values.acrImage : '';
 
       let scope = '';
       if (acrRepository) {

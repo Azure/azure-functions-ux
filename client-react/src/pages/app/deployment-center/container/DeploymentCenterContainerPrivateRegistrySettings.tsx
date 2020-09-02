@@ -37,35 +37,27 @@ const DeploymentCenterContainerPrivateRegistrySettings: React.FC<DeploymentCente
     <>
       <Field
         id="container-privateRegistry-serverUrl"
-        name="serverUrl"
+        name="privateRegistryServerUrl"
         component={TextField}
         label={t('containerServerURL')}
         placeholder={t('containerServerURLPlaceholder')}
       />
 
-      <Field id="container-privateRegistry-username" name="username" component={TextField} label={t('containerLogin')} />
+      <Field id="container-privateRegistry-username" name="privateRegistryUsername" component={TextField} label={t('containerLogin')} />
 
-      <Field id="container-privateRegistry-password" name="password" component={TextField} label={t('containerPassword')} />
+      <Field id="container-privateRegistry-password" name="privateRegistryPassword" component={TextField} label={t('containerPassword')} />
 
-      {isGitHubAction && !isUsingExistingOrAvailableWorkflowConfig && (
-        <Field
-          id="container-privateRegistry-image"
-          name="image"
-          component={TextField}
-          label={t('containerImage')}
-          placeholder={t('containerImagePlaceholder')}
-        />
-      )}
-
-      {!isGitHubAction && (
-        <Field
-          id="container-privateRegistry-imageAndTag"
-          name="imageAndTag"
-          component={TextField}
-          label={t('containerImageAndTag')}
-          placeholder={t('containerImageAndTagPlaceholder')}
-        />
-      )}
+      <Field
+        id="container-privateRegistry-imageAndTag"
+        name="privateRegistryImageAndTag"
+        component={TextField}
+        label={isGitHubAction && !isUsingExistingOrAvailableWorkflowConfig ? t('containerImage') : t('containerImageAndTag')}
+        placeholder={
+          isGitHubAction && !isUsingExistingOrAvailableWorkflowConfig
+            ? t('containerImagePlaceholder')
+            : t('containerImageAndTagPlaceholder')
+        }
+      />
 
       <Field id="container-privateRegistry-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
     </>
