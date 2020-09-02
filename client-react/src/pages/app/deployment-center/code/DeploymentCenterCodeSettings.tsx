@@ -181,7 +181,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
           {isBitbucketSource && <DeploymentCenterBitbucketDataLoader formProps={formProps} />}
           {isLocalGitSource && <DeploymentCenterLocalGitProvider />}
-          {isExternalGitSource && <DeploymentCenterExternalProvider />}
+          {isExternalGitSource && <DeploymentCenterExternalProvider formProps={formProps} />}
         </>
       )}
     </>
