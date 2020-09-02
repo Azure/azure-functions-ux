@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, IDropdownOption, ResponsiveMode, registerIcons, Icon } from 'office-ui-fabric-react';
+import { Link, IDropdownOption, ResponsiveMode, registerIcons, Icon, Spinner } from 'office-ui-fabric-react';
 import {
   containerStyle,
   developmentEnvironmentStyle,
@@ -37,6 +37,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { KeyValue } from '../../../../models/portal-models';
 import Url from '../../../../utils/url';
 import { HostStatus } from '../../../../models/functions/host-status';
+import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateContext';
 
 registerIcons({
   icons: {
@@ -65,6 +66,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplate | undefined>(undefined);
   const [templates, setTemplates] = useState<FunctionTemplate[] | undefined | null>(undefined);
   const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus> | undefined>(undefined);
+  const [creatingFunction, setCreatingFunction] = useState(false);
 
   const onDevelopmentEnvironmentChange = (event: any, option: IDropdownOption) => {
     setSelectedTemplate(undefined);
@@ -243,6 +245,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
 
   const addFunction = async (formValues: CreateFunctionFormValues) => {
     if (selectedTemplate) {
+      setCreatingFunction(true);
       const config = FunctionCreateData.buildFunctionConfig(selectedTemplate.bindings || [], formValues);
       const { functionName } = formValues;
       const { files } = selectedTemplate;
@@ -321,16 +324,16 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         {(formProps: FormikProps<CreateFunctionFormValues>) => {
           const actionBarPrimaryButtonProps = {
             id: 'add',
-            title: t('add'),
+            title: creatingFunction ? <Spinner /> : t('add'),
             onClick: formProps.submitForm,
-            disable: !initialFormValues,
+            disable: !initialFormValues || creatingFunction,
           };
 
           const actionBarSecondaryButtonProps = {
             id: 'cancel',
             title: t('cancel'),
             onClick: cancel,
-            disable: false,
+            disable: creatingFunction,
           };
 
           return (
@@ -383,30 +386,33 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   }, []);
 
   return getVisibleDropdownOptions().length > 0 && selectedDropdownKey ? (
-    <div>
-      <div className={containerStyle}>
-        <h3 className={selectDevelopmentEnvironmentHeaderStyle}>{t('selectDevelopmentEnvironment')}</h3>
-        <p className={selectDevelopmentEnvironmentDescriptionStyle}>
-          {t('selectDevelopmentEnvironmentDescription')}
-          {/* TODO(krmitta): Add learn more link */}
-          <Link>{t('learnMore')}</Link>
-        </p>
-        <DropdownNoFormik
-          label={t('developmentEnvironment')}
-          id="function-create-development-environment"
-          options={getVisibleDropdownOptions()}
-          onChange={onDevelopmentEnvironmentChange}
-          responsiveMode={ResponsiveMode.large}
-          onRenderOption={onRenderOption}
-          onRenderTitle={onRenderTitle}
-          customLabelClassName={developmentEnvironmentStyle}
-          layout={Layout.Horizontal}
-          widthOverride="80%"
-          selectedKey={selectedDropdownKey}
-        />
+    <FunctionCreateContext.Provider value={{ creatingFunction } as IFunctionCreateContext}>
+      <div>
+        <div className={containerStyle}>
+          <h3 className={selectDevelopmentEnvironmentHeaderStyle}>{t('selectDevelopmentEnvironment')}</h3>
+          <p className={selectDevelopmentEnvironmentDescriptionStyle}>
+            {t('selectDevelopmentEnvironmentDescription')}
+            {/* TODO(krmitta): Add learn more link */}
+            <Link>{t('learnMore')}</Link>
+          </p>
+          <DropdownNoFormik
+            label={t('developmentEnvironment')}
+            id="function-create-development-environment"
+            options={getVisibleDropdownOptions()}
+            onChange={onDevelopmentEnvironmentChange}
+            responsiveMode={ResponsiveMode.large}
+            onRenderOption={onRenderOption}
+            onRenderTitle={onRenderTitle}
+            customLabelClassName={developmentEnvironmentStyle}
+            layout={Layout.Horizontal}
+            widthOverride="80%"
+            selectedKey={selectedDropdownKey}
+            disabled={creatingFunction}
+          />
+        </div>
+        {selectedDropdownKey === DevelopmentExperience.developInPortal ? getPortalCreateComponent() : getLocalCreateComponent()}
       </div>
-      {selectedDropdownKey === DevelopmentExperience.developInPortal ? getPortalCreateComponent() : getLocalCreateComponent()}
-    </div>
+    </FunctionCreateContext.Provider>
   ) : null;
 };
 

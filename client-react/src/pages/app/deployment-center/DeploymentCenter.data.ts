@@ -12,6 +12,7 @@ import BitbucketService from '../../../ApiHelpers/BitbucketService';
 import OneDriveService from '../../../ApiHelpers/OneDriveService';
 import ACRService from '../../../ApiHelpers/ACRService';
 import { ACRWebhookPayload } from '../../../models/acr';
+import { SiteConfig } from '../../../models/site/config';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -206,5 +207,13 @@ export default class DeploymentCenterData {
 
   public getAcrTags = (loginServer: string, repository: string, username: string, password: string, logger?: (page, error) => void) => {
     return ACRService.getTags(loginServer, repository, username, password, logger);
+  };
+
+  public updateSiteConfig = (resourceId: string, config: ArmObj<SiteConfig>) => {
+    return SiteService.updateWebConfig(resourceId, config);
+  };
+
+  public updateApplicationSettings = (resourceId: string, appSettings: ArmObj<{ [name: string]: string }>) => {
+    return SiteService.updateApplicationSettings(resourceId, appSettings);
   };
 }

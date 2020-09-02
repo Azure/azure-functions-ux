@@ -7,6 +7,7 @@ import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoF
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { additionalTextFieldControl } from '../DeploymentCenter.styles';
 import { ActionButton } from 'office-ui-fabric-react';
+import { getAppDockerWebhookUrl } from '../utility/DeploymentCenterUtility';
 
 type WebhookFieldType = 'password' | undefined;
 
@@ -47,12 +48,8 @@ const DeploymentCenterContainerContinuousDeploymentSettings: React.FC<
   ];
 
   useEffect(() => {
-    if (
-      deploymentCenterPublishingContext &&
-      deploymentCenterPublishingContext.publishingCredentials &&
-      deploymentCenterPublishingContext.publishingCredentials.properties.scmUri
-    ) {
-      setWebhookUrl(`${deploymentCenterPublishingContext.publishingCredentials.properties.scmUri}/docker/hook`);
+    if (deploymentCenterPublishingContext && deploymentCenterPublishingContext.publishingCredentials) {
+      setWebhookUrl(getAppDockerWebhookUrl(deploymentCenterPublishingContext.publishingCredentials));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterPublishingContext.publishingCredentials]);

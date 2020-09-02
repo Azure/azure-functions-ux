@@ -1,4 +1,5 @@
 import { style } from 'typestyle';
+import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 
 export const containerStyle = style({
   padding: '5px 25px',
@@ -52,3 +53,12 @@ export const developInPortalIconStyle = style({
   color: '#0078D4',
   marginRight: '6px',
 });
+
+export const tableRowStyle = (theme: ThemeExtended, isSelected: boolean, isDisabled: boolean) => {
+  return {
+    root: {
+      background: isSelected ? theme.semanticColors.itemBackgroundOnSelect : theme.semanticColors.background,
+      cursor: isDisabled ? 'not-allowed' : 'pointer',
+    },
+  };
+};

@@ -97,8 +97,9 @@ export interface DeploymentCenterContainerFormData {
   username: string;
   password: string;
   command: string;
-  cicd: boolean;
   scmType: ScmType;
+  acrResourceId: string;
+  acrResourceLocation: string;
   gitHubContainerUsernameSecretGuid: string;
   gitHubContainerPasswordSecretGuid: string;
   continuousDeploymentOption: ContinuousDeploymentOption;
@@ -345,8 +346,8 @@ export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterCont
 }
 
 export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {
-  fetchImages: (registry: string) => void;
-  fetchTags: (registry: string, image: string) => void;
+  fetchImages: (loginServer: string, resourceId: string) => void;
+  fetchTags: (loginServer: string, image: string) => void;
   acrRegistryOptions: IDropdownOption[];
   acrImageOptions: IDropdownOption[];
   acrTagOptions: IDropdownOption[];

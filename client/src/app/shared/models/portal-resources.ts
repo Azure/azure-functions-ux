@@ -2164,7 +2164,7 @@ export class PortalResources {
   public static selectTemplate = 'selectTemplate';
   public static selectTemplateDescription = 'selectTemplateDescription';
   public static description = 'description';
-  public static detail = 'detail';
+  public static templateDetails = 'templateDetails';
   public static detailDescription = 'detailDescription';
   public static developInPortal = 'developInPortal';
   public static fileSharesFailure = 'fileSharesFailure';
@@ -2174,4 +2174,9 @@ export class PortalResources {
   public static blobsAndFileSharesFailure = 'blobsAndFileSharesFailure';
   public static containerImage = 'containerImage';
   public static containerImagePlaceholder = 'containerImagePlaceholder';
+  public static savingContainerConfiguration = 'savingContainerConfiguration';
+  public static savingContainerConfigurationSuccess = 'savingContainerConfigurationSuccess';
+  public static savingContainerConfigurationFailed = 'savingContainerConfigurationFailed';
+  public static savingContainerConfigurationFailedWithStatusMessage = 'savingContainerConfigurationFailedWithStatusMessage';
+  public static functionsRuntimeVersionNeedsUpdateWarningForV2 = 'functionsRuntimeVersionNeedsUpdateWarningForV2';
 }
