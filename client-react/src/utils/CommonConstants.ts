@@ -118,25 +118,6 @@ export class CommonConstants {
 
   public static readonly newLine = '\n';
 
-  public static ContainerConstants = {
-    dockerHubUrl: 'https://index.docker.io',
-    microsoftMcrUrl: 'https://mcr.microsoft.com',
-    acrUriBody: 'azurecr',
-    acrUriHost: 'azurecr.io',
-    imageNameSetting: 'DOCKER_CUSTOM_IMAGE_NAME',
-    serverUrlSetting: 'DOCKER_REGISTRY_SERVER_URL',
-    usernameSetting: 'DOCKER_REGISTRY_SERVER_USERNAME',
-    passwordSetting: 'DOCKER_REGISTRY_SERVER_PASSWORD',
-    runCommandSetting: 'DOCKER_CUSTOM_IMAGE_RUN_COMMAND',
-    appServiceStorageSetting: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE',
-    enableCISetting: 'DOCKER_ENABLE_CI',
-    containerWinRmEnabled: 'CONTAINER_WINRM_ENABLED',
-    createAcrFwLink: 'https://go.microsoft.com/fwlink/?linkid=852293',
-    singleContainerQSLink: 'https://go.microsoft.com/fwlink/?linkid=873144',
-    dockerComposeQSLink: 'https://go.microsoft.com/fwlink/?linkid=873149',
-    kubeQSLink: 'https://go.microsoft.com/fwlink/?linkid=873150',
-  };
-
   public static AppKeys = {
     master: 'master',
     eventGridV1: 'eventgridextensionconfig_extension',

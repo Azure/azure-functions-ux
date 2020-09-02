@@ -4,62 +4,16 @@ import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { IDropdownOption } from 'office-ui-fabric-react';
 import TextField from '../../../../components/form-controls/TextField';
 import { ScmType } from '../../../../models/site/config';
 import { isWorkflowOptionExistingOrAvailable } from '../utility/GitHubActionUtility';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
-  const {
-    fetchImages,
-    fetchTags,
-    acrRegistryOptions,
-    acrImageOptions,
-    acrTagOptions,
-    acrStatusMessage,
-    acrStatusMessageType,
-    formProps,
-  } = props;
+  const { acrRegistryOptions, acrImageOptions, acrTagOptions, acrStatusMessage, acrStatusMessageType, formProps } = props;
   const { t } = useTranslation();
 
-  const [selectedRegistry, setSelectedRegistry] = useState<string>('');
-  const [selectedImage, setSelectedImage] = useState<string>('');
-  const [selectedTag, setSelectedTag] = useState<string>('');
   const [isUsingExistingOrAvailableWorkflowConfig, setIsUsingExistingOrAvailableWorkflowConfig] = useState(false);
   const [isGitHubAction, setIsGitHubAction] = useState(false);
-
-  const onRegistryChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    setSelectedRegistry(option.key.toString());
-    const [loginServer, resourceId, location] = option.key.toString().split(':');
-    const serverUrl = `https://${loginServer}`;
-    formProps.setFieldValue('serverUrl', serverUrl.toLocaleLowerCase());
-    formProps.setFieldValue('acrResourceId', resourceId.toLocaleLowerCase());
-    formProps.setFieldValue('acrResourceLocation', location);
-
-    setSelectedImage('');
-    formProps.setFieldValue('image', '');
-
-    setSelectedTag('');
-    formProps.setFieldValue('tag', '');
-
-    fetchImages(loginServer, resourceId);
-  };
-
-  const onImageChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    setSelectedImage(option.key.toString());
-    formProps.setFieldValue('image', option.key.toString());
-
-    setSelectedTag('');
-    formProps.setFieldValue('tag', '');
-
-    const loginServer = formProps.values.serverUrl.replace('https://', '');
-    fetchTags(loginServer, option.key.toString());
-  };
-
-  const onTagChange = async (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    setSelectedTag(option.key.toString());
-    formProps.setFieldValue('tag', option.key.toString());
-  };
 
   useEffect(() => {
     setIsUsingExistingOrAvailableWorkflowConfig(isWorkflowOptionExistingOrAvailable(formProps.values.workflowOption));
@@ -88,24 +42,22 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
       <Field
         id="container-acr-repository"
         label={t('containerACRRegistry')}
-        name="serverUrl"
+        name="acrLoginServer"
+        defaultSelectedKey={formProps.values.acrLoginServer}
         component={Dropdown}
         displayInVerticalLayout={true}
         options={acrRegistryOptions}
-        selectedKey={selectedRegistry}
-        onChange={onRegistryChange}
       />
 
       {!isUsingExistingOrAvailableWorkflowConfig && (
         <Field
           id="container-acr-image"
           label={t('containerACRImage')}
-          name="image"
+          name="acrImage"
+          defaultSelectedKey={formProps.values.acrImage}
           component={Dropdown}
           displayInVerticalLayout={true}
           options={acrImageOptions}
-          selectedKey={selectedImage}
-          onChange={onImageChange}
         />
       )}
 
@@ -113,12 +65,11 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         <Field
           id="container-acr-tag"
           label={t('containerACRTag')}
-          name="tag"
+          name="acrTag"
+          defaultSelectedKey={formProps.values.acrTag}
           component={Dropdown}
           displayInVerticalLayout={true}
           options={acrTagOptions}
-          selectedKey={selectedTag}
-          onChange={onTagChange}
         />
       )}
 

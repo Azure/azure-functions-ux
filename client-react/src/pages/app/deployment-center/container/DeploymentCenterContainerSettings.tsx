@@ -20,6 +20,7 @@ import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import { Guid } from '../../../../utils/Guid';
 import { getContainerAppWorkflowInformation } from '../utility/GitHubActionUtility';
 import DeploymentCenterContainerContinuousDeploymentSettings from './DeploymentCenterContainerContinuousDeploymentSettings';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
@@ -29,6 +30,15 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const [isPreviewFileButtonDisabled, setIsPreviewFileButtonDisabled] = useState(false);
   const [workflowFileContent, setWorkflowFileContent] = useState('');
   const [panelMessage, setPanelMessage] = useState('');
+
+  // NOTE(michinoy): The serverUrl, image, username, and password are retrieved from  one of three sources:
+  // acr, dockerHub, or privateRegistry.
+  // These values are used in combination with GitHub Action workflow selection to show the preview panel for the
+  // workflow file. Using useState hooks here to aggregate each property from their respective sources.
+  const [serverUrl, setServerUrl] = useState('');
+  const [image, setImage] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, SetPassword] = useState('');
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
@@ -46,8 +56,8 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
         setPanelMessage(t('githubActionWorkflowOptionUseExistingMessageWithoutPreview'));
       } else if (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) {
         const information = getContainerAppWorkflowInformation(
-          formProps.values.serverUrl,
-          formProps.values.image,
+          serverUrl,
+          image,
           formProps.values.branch,
           formProps.values.gitHubPublishProfileSecretGuid,
           formProps.values.gitHubContainerUsernameSecretGuid,
@@ -60,13 +70,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    deploymentCenterContext.siteDescriptor,
-    formProps.values.workflowOption,
-    formProps.values.serverUrl,
-    formProps.values.image,
-    formProps.values.branch,
-  ]);
+  }, [deploymentCenterContext.siteDescriptor, formProps.values.branch, formProps.values.workflowOption, serverUrl, image]);
 
   useEffect(() => {
     const imageOmissionAllowed =
@@ -74,20 +78,75 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
       formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig;
 
     const formFilled =
-      formProps.values.workflowOption !== WorkflowOption.None &&
-      formProps.values.serverUrl &&
-      formProps.values.username &&
-      formProps.values.password &&
-      (formProps.values.image || imageOmissionAllowed);
+      formProps.values.workflowOption !== WorkflowOption.None && serverUrl && username && password && (image || imageOmissionAllowed);
 
     setIsPreviewFileButtonDisabled(formProps.values.workflowOption === WorkflowOption.None || !formFilled);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.workflowOption, serverUrl, image, username, password]);
+
+  useEffect(() => {
+    if (formProps.values.registrySource === ContainerRegistrySources.acr) {
+      setServerUrl(`https://${formProps.values.acrLoginServer}`);
+    } else if (formProps.values.registrySource === ContainerRegistrySources.privateRegistry) {
+      setServerUrl(formProps.values.privateRegistryServerUrl);
+    } else {
+      setServerUrl(DeploymentCenterConstants.dockerHubUrl);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.registrySource, formProps.values.acrLoginServer, formProps.values.privateRegistryServerUrl]);
+
+  useEffect(() => {
+    if (formProps.values.registrySource === ContainerRegistrySources.acr) {
+      setImage(formProps.values.acrImage);
+    } else if (formProps.values.registrySource === ContainerRegistrySources.privateRegistry) {
+      const imageAndTagParts = formProps.values.privateRegistryImageAndTag.split(':');
+      setImage(imageAndTagParts[0]);
+    } else {
+      const imageAndTagParts = formProps.values.dockerHubImageAndTag.split(':');
+      setImage(imageAndTagParts[0]);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    formProps.values.workflowOption,
-    formProps.values.serverUrl,
-    formProps.values.username,
-    formProps.values.password,
-    formProps.values.image,
+    formProps.values.registrySource,
+    formProps.values.acrImage,
+    formProps.values.dockerHubImageAndTag,
+    formProps.values.privateRegistryImageAndTag,
+  ]);
+
+  useEffect(() => {
+    if (formProps.values.registrySource === ContainerRegistrySources.acr) {
+      setUsername(formProps.values.acrUsername);
+    } else if (formProps.values.registrySource === ContainerRegistrySources.privateRegistry) {
+      setUsername(formProps.values.privateRegistryUsername);
+    } else {
+      setUsername(formProps.values.dockerHubUsername);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    formProps.values.registrySource,
+    formProps.values.acrUsername,
+    formProps.values.dockerHubUsername,
+    formProps.values.privateRegistryUsername,
+  ]);
+
+  useEffect(() => {
+    if (formProps.values.registrySource === ContainerRegistrySources.acr) {
+      SetPassword(formProps.values.acrPassword);
+    } else if (formProps.values.registrySource === ContainerRegistrySources.privateRegistry) {
+      SetPassword(formProps.values.privateRegistryPassword);
+    } else {
+      SetPassword(formProps.values.dockerHubPassword);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    formProps.values.registrySource,
+    formProps.values.acrPassword,
+    formProps.values.dockerHubPassword,
+    formProps.values.privateRegistryPassword,
   ]);
 
   useEffect(() => {
