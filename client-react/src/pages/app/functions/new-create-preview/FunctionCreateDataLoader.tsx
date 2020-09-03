@@ -38,6 +38,7 @@ import { KeyValue } from '../../../../models/portal-models';
 import Url from '../../../../utils/url';
 import { HostStatus } from '../../../../models/functions/host-status';
 import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateContext';
+import { Links } from '../../../../utils/FwLinks';
 
 registerIcons({
   icons: {
@@ -392,8 +393,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
           <h3 className={selectDevelopmentEnvironmentHeaderStyle}>{t('selectDevelopmentEnvironment')}</h3>
           <p className={selectDevelopmentEnvironmentDescriptionStyle}>
             {t('selectDevelopmentEnvironmentDescription')}
-            {/* TODO(krmitta): Add learn more link */}
-            <Link>{t('learnMore')}</Link>
+            <Link href={Links.functionCreateSummaryLearnMore}>{t('learnMore')}</Link>
           </p>
           <DropdownNoFormik
             label={t('developmentEnvironment')}
