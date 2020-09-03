@@ -35,6 +35,9 @@ export const Links = {
   bindingDirectionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2121806&clcid=0x409',
   ftpDisabledByPolicyLink: 'https://go.microsoft.com/fwlink/?linkid=2137907',
   functionRuntimeV2UpgradeLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141453',
+  functionCreateSummaryLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141649',
+  functionCreateTemplateLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141650',
+  functionCreateBindingsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141857',
 };
 
 export const DeploymentCenterLinks = {

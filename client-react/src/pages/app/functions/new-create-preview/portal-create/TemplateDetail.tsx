@@ -16,6 +16,7 @@ import { FormikProps } from 'formik';
 import { detailContainerStyle } from '../FunctionCreate.styles';
 import BasicShimmerLines from '../../../../../components/shimmer/BasicShimmerLines';
 import { FunctionCreateContext } from '../FunctionCreateContext';
+import { Links } from '../../../../../utils/FwLinks';
 
 export interface TemplateDetailProps {
   resourceId: string;
@@ -158,8 +159,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
       <h3>{t('templateDetails')}</h3>
       <p>
         {t('detailDescription').format(selectedTemplate.name)}
-        {/* TODO(krmitta): Add learn more link */}
-        <Link>{t('learnMore')}</Link>
+        <Link href={Links.functionCreateBindingsLearnMore}>{t('learnMore')}</Link>
       </p>
       {getDetails()}
     </div>
