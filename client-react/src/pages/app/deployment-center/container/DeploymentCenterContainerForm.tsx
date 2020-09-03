@@ -275,7 +275,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       onSubmit={onSubmit}
       enableReinitialize={true}
       validateOnBlur={false}
-      validateOnChange={true}
+      validateOnChange={false}
       validationSchema={props.formValidationSchema}>
       {(formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>) => (
         <form onKeyDown={onKeyDown}>
