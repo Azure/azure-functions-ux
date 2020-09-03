@@ -47,13 +47,13 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
 
   public generateYupValidationSchema(): DeploymentCenterYupValidationSchemaType<DeploymentCenterContainerFormData> {
     return Yup.object().shape({
-      scmType: Yup.mixed().required(),
-      option: Yup.mixed().notRequired(),
-      registrySource: Yup.mixed().notRequired(),
+      scmType: Yup.mixed().required(this._t('deploymentCenterFieldRequiredMessage')),
+      option: Yup.mixed().required(this._t('deploymentCenterFieldRequiredMessage')),
+      registrySource: Yup.mixed().required(this._t('deploymentCenterFieldRequiredMessage')),
       command: Yup.mixed().notRequired(),
       gitHubContainerPasswordSecretGuid: Yup.mixed().notRequired(),
       gitHubContainerUsernameSecretGuid: Yup.mixed().notRequired(),
-      continuousDeploymentOption: Yup.mixed().required(),
+      continuousDeploymentOption: Yup.mixed().required(this._t('deploymentCenterFieldRequiredMessage')),
       ...this._getAcrFormValidationSchema(),
       ...this._getDockerHubFormValidationSchema(),
       ...this._getPrivateRegistryFormValidationSchema(),
@@ -63,10 +63,20 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
 
   private _getAcrFormValidationSchema(): Yup.ObjectSchemaDefinition<AcrFormData> {
     return {
-      acrLoginServer: Yup.mixed().notRequired(),
-      acrImage: Yup.mixed().notRequired(),
-      acrTag: Yup.mixed().notRequired(),
-      acrComposeYml: Yup.mixed().notRequired(),
+      acrLoginServer: Yup.mixed().test('acrLoginServerRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.registrySource === ContainerRegistrySources.acr ? !!value : true;
+      }),
+      acrImage: Yup.mixed().test('acrImageRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.registrySource === ContainerRegistrySources.acr ? !!value : true;
+      }),
+      acrTag: Yup.mixed().test('acrTagRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.registrySource === ContainerRegistrySources.acr ? !!value : true;
+      }),
+      acrComposeYml: Yup.mixed().test('acrComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.registrySource === ContainerRegistrySources.acr && this.parent.options === ContainerOptions.compose
+          ? !!value
+          : true;
+      }),
       acrUsername: Yup.mixed().notRequired(),
       acrPassword: Yup.mixed().notRequired(),
       acrResourceId: Yup.mixed().notRequired(),
@@ -76,21 +86,67 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
 
   private _getDockerHubFormValidationSchema(): Yup.ObjectSchemaDefinition<DockerHubFormData> {
     return {
-      dockerHubImageAndTag: Yup.mixed().notRequired(),
-      dockerHubComposeYml: Yup.mixed().notRequired(),
-      dockerHubAccessType: Yup.mixed().notRequired(),
-      dockerHubUsername: Yup.mixed().notRequired(),
-      dockerHubPassword: Yup.mixed().notRequired(),
+      dockerHubImageAndTag: Yup.mixed().test('dockerHubImageAndTagRequired', this._t('deploymentCenterFieldRequiredMessage'), function(
+        value
+      ) {
+        return this.parent.registrySource === ContainerRegistrySources.docker ? !!value : true;
+      }),
+      dockerHubComposeYml: Yup.mixed().test('dockerHubComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(
+        value
+      ) {
+        return this.parent.registrySource === ContainerRegistrySources.docker && this.parent.options === ContainerOptions.compose
+          ? !!value
+          : true;
+      }),
+      dockerHubAccessType: Yup.mixed().required(this._t('deploymentCenterFieldRequiredMessage')),
+      dockerHubUsername: Yup.mixed().test('dockerHubUsernameRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.dockerHubAccessType === ContainerDockerAccessTypes.private ? !!value : true;
+      }),
+      dockerHubPassword: Yup.mixed().test('dockerHubPasswordRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.dockerHubAccessType === ContainerDockerAccessTypes.private ? !!value : true;
+      }),
     };
   }
 
   private _getPrivateRegistryFormValidationSchema(): Yup.ObjectSchemaDefinition<PrivateRegistryFormData> {
     return {
-      privateRegistryServerUrl: Yup.mixed().notRequired(),
-      privateRegistryImageAndTag: Yup.mixed().notRequired(),
-      privateRegistryComposeYml: Yup.mixed().notRequired(),
-      privateRegistryUsername: Yup.mixed().notRequired(),
-      privateRegistryPassword: Yup.mixed().notRequired(),
+      privateRegistryServerUrl: Yup.mixed()
+        .test('privateRegistryServerUrlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return this.parent.registrySource === ContainerRegistrySources.privateRegistry ? !!value : true;
+        })
+        .test('privateRegistryServerUrlIsUrl', this._t('deploymentCenterServerUrlIsUrl'), function(value) {
+          return this.parent.registrySource === ContainerRegistrySources.privateRegistry ? !!value && value.startsWith('https://') : true;
+        }),
+      privateRegistryImageAndTag: Yup.mixed().test(
+        'privateRegistryImageAndTagRequired',
+        this._t('deploymentCenterFieldRequiredMessage'),
+        function(value) {
+          return this.parent.registrySource === ContainerRegistrySources.privateRegistry ? !!value : true;
+        }
+      ),
+      privateRegistryComposeYml: Yup.mixed().test(
+        'privateRegistryComposeYmlRequired',
+        this._t('deploymentCenterFieldRequiredMessage'),
+        function(value) {
+          return this.parent.registrySource === ContainerRegistrySources.docker && this.parent.options === ContainerOptions.compose
+            ? !!value
+            : true;
+        }
+      ),
+      privateRegistryUsername: Yup.mixed().test(
+        'privateRegistryUsernameRequired',
+        this._t('deploymentCenterFieldRequiredMessage'),
+        function(value) {
+          return !!this.parent.privateRegistryPassword ? !!value : true;
+        }
+      ),
+      privateRegistryPassword: Yup.mixed().test(
+        'privateRegistryPasswordRequired',
+        this._t('deploymentCenterFieldRequiredMessage'),
+        function(value) {
+          return !!this.parent.privateRegistryUsername ? !!value : true;
+        }
+      ),
     };
   }
 

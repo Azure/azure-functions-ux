@@ -6687,4 +6687,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
         <value>Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.</value>
     </data>
+    <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
+        <value>The server URL must begin with https://</value>
+    </data>
 </root>

@@ -2179,4 +2179,5 @@ export class PortalResources {
   public static savingContainerConfigurationFailed = 'savingContainerConfigurationFailed';
   public static savingContainerConfigurationFailedWithStatusMessage = 'savingContainerConfigurationFailedWithStatusMessage';
   public static functionsRuntimeVersionNeedsUpdateWarningForV2 = 'functionsRuntimeVersionNeedsUpdateWarningForV2';
+  public static deploymentCenterServerUrlIsUrl = 'deploymentCenterServerUrlIsUrl';
 }
