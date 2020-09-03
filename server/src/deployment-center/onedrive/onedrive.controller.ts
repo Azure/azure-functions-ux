@@ -6,7 +6,7 @@ import { GUID } from '../../utilities/guid';
 import { HttpService } from '../../shared/http/http.service';
 @Controller()
 export class OnedriveController {
-  constructor(private dcService: DeploymentCenterService, private loggingService: LoggingService, private httpService: HttpService) { }
+  constructor(private dcService: DeploymentCenterService, private loggingService: LoggingService, private httpService: HttpService) {}
 
   @Post('api/onedrive/passthrough')
   @HttpCode(200)
@@ -39,9 +39,9 @@ export class OnedriveController {
 
     res.redirect(
       `https://login.live.com/oauth20_authorize.srf?client_id=${
-      process.env.ONEDRIVE_CLIENT_ID
+        process.env.ONEDRIVE_CLIENT_ID
       }&scope=offline_access,onedrive.appfolder&response_type=code&redirect_uri=${
-      process.env.ONEDRIVE_REDIRECT_URL
+        process.env.ONEDRIVE_REDIRECT_URL
       }&state=${this.dcService.hashStateGuid(stateKey).substr(0, 10)}`
     );
   }
@@ -68,7 +68,7 @@ export class OnedriveController {
       const r = await this.httpService.post<{ access_token: string; refresh_token: string }>(
         'https://login.live.com/oauth20_token.srf',
         `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.ONEDRIVE_REDIRECT_URL}&client_id=${
-        process.env.ONEDRIVE_CLIENT_ID
+          process.env.ONEDRIVE_CLIENT_ID
         }&client_secret=${process.env.ONEDRIVE_CLIENT_SECRET}`,
         {
           headers: {
@@ -79,9 +79,9 @@ export class OnedriveController {
 
       return {
         accessToken: r.data.access_token,
-        refreshToken: null,
-        environment: null
-      }
+        refreshToken: r.data.refresh_token,
+        environment: null,
+      };
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
