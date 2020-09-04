@@ -44,6 +44,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const siteStateContext = useContext(SiteStateContext);
   const [hasWritePermission, setHasWritePermission] = useState(false);
   const [publishingUser, setPublishingUser] = useState<ArmObj<PublishingUser> | undefined>(undefined);
+  const [publishingUserFetchFailedMessage, setPublishingUserFetchFailedMessage] = useState<string>('');
   const [publishingCredentials, setPublishingCredentials] = useState<ArmObj<PublishingCredentials> | undefined>(undefined);
   const [publishingProfile, setPublishingProfile] = useState<PublishingProfile | undefined>(undefined);
   const [siteDescriptor, setSiteDescriptor] = useState<ArmSiteDescriptor | undefined>(undefined);
@@ -147,6 +148,9 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     if (publishingUserResponse.metadata.success) {
       setPublishingUser(publishingUserResponse.data);
     } else {
+      setPublishingUserFetchFailedMessage(
+        t('publishingUserFetchFailedMessage').format(getErrorMessage(publishingUserResponse.metadata.error))
+      );
       LogService.error(
         LogCategories.deploymentCenter,
         'DeploymentCenterFtpsDataLoader',
@@ -247,6 +251,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           publishingUser,
           publishingProfile,
           publishingCredentials,
+          publishingUserFetchFailedMessage,
           resetApplicationPassword,
           showPublishProfilePanel,
         }}>

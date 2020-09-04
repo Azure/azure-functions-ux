@@ -6147,6 +6147,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
         <value>Write permission on the site or the slot is required to view credentials.</value>
     </data>
+    <data name="deploymentCenterPublishingUserLoadingMessage" xml:space="preserve">
+        <value>Loading user credentials</value>
+    </data>
+    <data name="deploymentCenterPublishingUserLoadingAriaLabel" xml:space="preserve">
+        <value>Loading user credentials</value>
+    </data>
+    <data name="publishingUserFetchFailedMessage" xml:space="preserve">
+        <value>Failed to download publishing user information: {0}</value>
+    </data>
     <data name="appKeys_hostKeys_description" xml:space="preserve">
         <value>Use Host keys with your clients to access all your HTTP functions in the app. _master key grants admin access to Functions Runtime APIs.</value>
     </data>
