@@ -1,38 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
-import { PrimaryButton, Label, Link, MessageBarType } from 'office-ui-fabric-react';
+import { PrimaryButton, Label, Link } from 'office-ui-fabric-react';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { additionalTextFieldControl } from '../DeploymentCenter.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
+import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 
 const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProps> = props => {
-  const {
-    accountUser,
-    accountStatusMessage,
-    authorizeAccount,
-  } = props;
+  const { accountUser, accountStatusMessage, authorizeAccount } = props;
   const { t } = useTranslation();
-
-  const [showInfoBanner, setShowInfoBanner] = useState(true);
-
-  const closeInfoBanner = () => {
-    setShowInfoBanner(false);
-  };
 
   const gitHubAccountControls = accountUser ? (
     <>
-      {showInfoBanner && (
-        <div className={deploymentCenterInfoBannerDiv}>
-          <CustomBanner
-            message={t('deploymentCenterConfigureGitHubPermissions')}
-            type={MessageBarType.info}
-            learnMoreLink={DeploymentCenterLinks.configureDeployment}
-            onDismiss={closeInfoBanner}
-          />
-        </div>
-      )}
+      <p>
+        <span id="deployment-center-github-permissions-message">{t('deploymentCenterConfigureGitHubPermissions')}</span>
+        <Link
+          id="deployment-center-github-permissions-learnMore"
+          href={DeploymentCenterLinks.configureDeployment}
+          target="_blank"
+          className={learnMoreLinkStyle}
+          aria-labelledby="deployment-center-github-permissions-message">
+          {` ${t('learnMore')}`}
+        </Link>
+      </p>
 
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
         <div>
@@ -48,10 +39,10 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
       </ReactiveFormControl>
     </>
   ) : (
-      <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeAccount}>
-        {t('deploymentCenterOAuthAuthorize')}
-      </PrimaryButton>
-    );
+    <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeAccount}>
+      {t('deploymentCenterOAuthAuthorize')}
+    </PrimaryButton>
+  );
 
   const accountStatusMessageControl = <Label>{accountStatusMessage}</Label>;
 

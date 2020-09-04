@@ -5692,7 +5692,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Debugowanie zdalne nie jest dostępne dla Twojej aplikacji. </value>
     </data>
   <data name="classicDeprecation" xml:space="preserve">
-        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
+        <value>Klasyczne środowisko zarządzania usługi Azure Functions jest przestarzałe i zostanie wyłączone w październiku 2020 r. Jeśli występują problemy z nowym środowiskiem, kliknij tutaj, aby zgłosić problem.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Zapisz zmiany</value>
@@ -5964,6 +5964,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Polecenie odświeżania centrum wdrażania</value>
     </data>
+  <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
+        <value>Polecenie synchronizacji centrum wdrażania</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Błąd podczas pobierania informacji</value>
     </data>
@@ -6066,6 +6069,12 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
         <value>Poświadczenia FTP lub FTPS</value>
     </data>
+  <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
+        <value>Poświadczenia lokalnego systemu Git albo serwera FTP/FTPs</value>
+    </data>
+  <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
+        <value>Poświadczenia lokalnego systemu Git albo serwera FTP lub FTPs</value>
+    </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Ładowanie dzienników kontenerów</value>
     </data>
@@ -6089,6 +6098,12 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Wszystkie niezapisane zmiany zostaną utracone podczas odświeżania. Czy na pewno chcesz kontynuować?</value>
+    </data>
+  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+        <value>Czy na pewno chcesz wykonać synchronizację?</value>
+    </data>
+  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
+        <value>Wykonanie operacji synchronizacji spowoduje anulowanie istniejącej operacji wdrażania w toku i utworzenie nowej</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Dodaj ustawienie aplikacji</value>
@@ -6174,6 +6189,12 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>Minimalna długość nazwy użytkownika w znakach: {0}.</value>
     </data>
+  <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
+        <value>To pole jest wymagane</value>
+    </data>
+  <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
+        <value>The repository must begin with https://</value>
+    </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Skonfiguruj rejestr i model wdrożenia aplikacji kontenera. Zalecamy użycie usługi GitHub Actions, aby zwiększyć efektywność operacyjną.</value>
     </data>
@@ -6221,6 +6242,54 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
         <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
+        <value>Lokalny system Git</value>
+    </data>
+  <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
+        <value>Zewnętrzne repozytorium Git</value>
+    </data>
+  <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
+        <value>Nazwa użytkownika</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPasswordLabel" xml:space="preserve">
+        <value>Hasło</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
+        <value>Typ repozytorium</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
+        <value>Prywatne</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
+        <value>Publiczne</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
+        <value>Adres URL lokalnego repozytorium Git zostanie wygenerowany po zakończeniu.</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitBranchSetupMessage" xml:space="preserve">
+        <value>wzorzec</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitCloneUri" xml:space="preserve">
+        <value>Identyfikator URI klona usługi Git</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
+        <value>Wystąpił błąd podczas pobierania identyfikatora URI klona usługi Git</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
+        <value>Przesłano żądanie synchronizacji</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+        <value>Trwa aktualizowanie repozytorium dla aplikacji internetowej {0}.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+        <value>Repozytorium dla aplikacji internetowej {0} zostało pomyślnie zaktualizowane</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
+        <value>Nie udało się wykonać synchronizacji: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
+        <value>Nie udało się wykonać synchronizacji</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Ustawienia rejestru</value>
@@ -6393,8 +6462,8 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
         <value>Dropbox</value>
     </data>
-  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
-        <value>Zewnętrzne</value>
+  <data name="deploymentCenterCodeSettingsSourceExternalGit" xml:space="preserve">
+        <value>Zewnętrzne repozytorium Git</value>
     </data>
   <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
         <value>GitHub Actions</value>
@@ -6570,19 +6639,52 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="description" xml:space="preserve">
         <value>Opis</value>
     </data>
-  <data name="detail" xml:space="preserve">
-        <value>Szczegół</value>
+  <data name="templateDetails" xml:space="preserve">
+        <value>Szczegóły szablonu</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>Aby utworzyć funkcję, potrzebujemy więcej informacji.</value>
+        <value>Aby utworzyć funkcję {0}, potrzebujemy więcej informacji.</value>
     </data>
   <data name="developInPortal" xml:space="preserve">
         <value>Opracuj w portalu</value>
     </data>
+  <data name="fileSharesFailure" xml:space="preserve">
+        <value>Nie można pobrać udziałów plików znajdujących się na koncie magazynu</value>
+    </data>
+  <data name="fileSharesFailureWithError" xml:space="preserve">
+        <value>Nie można pobrać udziałów plików znajdujących się na koncie magazynu. Błąd: {0}</value>
+    </data>
+  <data name="blobsFailure" xml:space="preserve">
+        <value>Nie można pobrać obiektów blob znajdujących się na koncie magazynu</value>
+    </data>
+  <data name="blobsFailureWithError" xml:space="preserve">
+        <value>Nie można pobrać obiektów blob znajdujących się na koncie magazynu. Błąd: {0}</value>
+    </data>
+  <data name="blobsAndFileSharesFailure" xml:space="preserve">
+        <value>Nie można pobrać obiektów blob i udziałów plików znajdujących się na koncie magazynu</value>
+    </data>
   <data name="containerImage" xml:space="preserve">
-        <value>Image name</value>
+        <value>Nazwa obrazu</value>
     </data>
   <data name="containerImagePlaceholder" xml:space="preserve">
-        <value>E.g. nginx</value>
+        <value>Na przykład nginx</value>
+    </data>
+  <data name="savingContainerConfiguration" xml:space="preserve">
+        <value>Zapisywanie konfiguracji kontenera</value>
+    </data>
+  <data name="savingContainerConfigurationSuccess" xml:space="preserve">
+        <value>Pomyślnie zapisano konfigurację kontenera</value>
+    </data>
+  <data name="savingContainerConfigurationFailed" xml:space="preserve">
+        <value>Nie udało się zapisać konfiguracji kontenera</value>
+    </data>
+  <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
+        <value>Nie udało się zapisać konfiguracji kontenera: {0}</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
+        <value>Aplikacja jest obecnie przypięta do wersji środowiska uruchomieniowego „{0}” i nie będzie już odbierać uaktualnień zabezpieczeń po październiku 2020. Zaleca się uaktualnienie do najnowszej wersji środowiska uruchomieniowego. Zapoznaj się z tym artykułem, aby uzyskać więcej informacji.</value>
+    </data>
+  <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
+        <value>The server URL must begin with https://</value>
     </data>
 </root>
