@@ -54,8 +54,6 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       text: t('deploymentCenterCodeSettingsSourceManualDeploymentHeader'),
       itemType: DropdownMenuItemType.Header,
     },
-    { key: ScmType.OneDrive, text: t('deploymentCenterCodeSettingsSourceOneDrive') },
-    { key: ScmType.Dropbox, text: t('deploymentCenterCodeSettingsSourceDropbox') },
     { key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') },
   ];
 
