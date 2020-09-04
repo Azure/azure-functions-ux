@@ -6,6 +6,7 @@ import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../
 export interface IDeploymentCenterPublishingContext {
   showPublishProfilePanel: () => void;
   resetApplicationPassword: () => void;
+  publishingUserFetchFailedMessage: string;
   basicPublishingCredentialsPolicies?: PublishingCredentialPolicies;
   publishingCredentials?: ArmObj<PublishingCredentials>;
   publishingUser?: ArmObj<PublishingUser>;
