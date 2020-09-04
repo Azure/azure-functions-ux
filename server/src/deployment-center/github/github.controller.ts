@@ -65,32 +65,26 @@ export class GithubController {
     const publishProfileRequest = this.dcService.getSitePublishProfile(authToken, content.resourceId);
     const publicKeyRequest = this._getGitHubRepoPublicKey(gitHubToken, content.commit.repoName);
     const [publishProfile, publicKey] = await Promise.all([publishProfileRequest, publicKeyRequest]);
-    await this._putGitHubRepoSecret(gitHubToken, publicKey, content.commit.repoName, content.secretName, publishProfile);
+
+    const {
+      commit,
+      secretName,
+      containerUsernameSecretName,
+      containerUsernameSecretValue,
+      containerPasswordSecretName,
+      containerPasswordSecretValue,
+    } = content;
 
     // NOTE(michinoy): If this is a setup for containers, the username and passwords also need to be stored as secrets
     // along with the publish profile.
-    if (
-      content.containerUsernameSecretName &&
-      content.containerUsernameSecretValue &&
-      content.containerPasswordSecretName &&
-      content.containerPasswordSecretValue
-    ) {
+    if (containerUsernameSecretName && containerUsernameSecretValue && containerPasswordSecretName && containerPasswordSecretValue) {
       await Promise.all([
-        this._putGitHubRepoSecret(
-          gitHubToken,
-          publicKey,
-          content.commit.repoName,
-          content.containerUsernameSecretName,
-          content.containerUsernameSecretValue
-        ),
-        this._putGitHubRepoSecret(
-          gitHubToken,
-          publicKey,
-          content.commit.repoName,
-          content.containerPasswordSecretName,
-          content.containerPasswordSecretValue
-        ),
+        this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, publishProfile),
+        this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, containerUsernameSecretName, containerUsernameSecretValue),
+        this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, containerPasswordSecretName, containerPasswordSecretValue),
       ]);
+    } else {
+      await this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, publishProfile);
     }
 
     await this._commitFile(gitHubToken, content);

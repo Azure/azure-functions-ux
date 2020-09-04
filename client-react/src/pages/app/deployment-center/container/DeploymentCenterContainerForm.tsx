@@ -7,6 +7,7 @@ import {
   ContinuousDeploymentOption,
   ContainerRegistrySources,
   ContainerOptions,
+  SiteSourceControlRequestBody,
 } from '../DeploymentCenter.types';
 import { KeyCodes } from 'office-ui-fabric-react';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
@@ -376,37 +377,72 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     return deploymentCenterData.createOrUpdateActionWorkflow(getArmToken(), deploymentCenterContext.gitHubToken, requestContent);
   };
 
+  const updateSourceControlDetails = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+    const payload: SiteSourceControlRequestBody = {
+      repoUrl: `${DeploymentCenterConstants.githubUri}/${values.org}/${values.repo}`,
+      branch: values.branch || 'master',
+      isManualIntegration: false,
+      isGitHubAction: true,
+      isMercurial: false,
+    };
+
+    return deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, { properties: payload });
+  };
+
+  const updateApplicationProperties = async (
+    values: DeploymentCenterFormData<DeploymentCenterContainerFormData>
+  ): Promise<ResponseResult> => {
+    const responseResult = {
+      success: true,
+      error: null,
+    };
+
+    const updateSourceControlDetailsResponse = await updateSourceControlDetails(values);
+
+    if (updateSourceControlDetailsResponse.metadata.success) {
+      // NOTE(michinoy): Do not make the call to update sourcecontrols API and site config parallel.
+      // Internally the sourcecontrols API update the site config object, so this is to prevent any
+      // locking issues on that object.
+      const [updateAppSettingsResponse, updateSiteConfigResponse] = await Promise.all([
+        updateAppSettings(values),
+        updateSiteConfig(values),
+      ]);
+
+      if (!updateAppSettingsResponse.success) {
+        responseResult.success = false;
+        responseResult.error = updateAppSettingsResponse.error;
+      }
+
+      if (!updateSiteConfigResponse.success) {
+        responseResult.success = false;
+        responseResult.error = updateSiteConfigResponse.error;
+      }
+    } else {
+      responseResult.success = false;
+      responseResult.error = updateSourceControlDetailsResponse.metadata.error;
+    }
+
+    return responseResult;
+  };
+
   const saveGithubActionContainerSettings = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
     const notificationId = portalContext.startNotification(t('savingContainerConfiguration'), t('savingContainerConfiguration'));
 
     const updateGitHubActionSettingsResponse = await updateGitHubActionSettings(values);
 
     if (updateGitHubActionSettingsResponse.metadata.success) {
-      const [updateAppSettingsResponse, updateSiteConfigResponse] = await Promise.all([
-        updateAppSettings(values),
-        updateSiteConfig(values),
-      ]);
+      const updateApplicationPropertiesResponse = await updateApplicationProperties(values);
 
-      if (updateAppSettingsResponse.success && updateSiteConfigResponse.success) {
+      if (updateApplicationPropertiesResponse.success) {
         portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
       } else {
         portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
 
-        if (!updateAppSettingsResponse.success) {
-          LogService.error(
-            LogCategories.deploymentCenter,
-            'DeploymentCenterContainerForm',
-            `Failed to update app settings with error: ${getErrorMessage(updateAppSettingsResponse.error)}`
-          );
-        }
-
-        if (!updateSiteConfigResponse.success) {
-          LogService.error(
-            LogCategories.deploymentCenter,
-            'DeploymentCenterContainerForm',
-            `Failed to update site config with error: ${getErrorMessage(updateSiteConfigResponse.error)}`
-          );
-        }
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'DeploymentCenterContainerForm',
+          `Failed to update app settings with error: ${getErrorMessage(updateApplicationPropertiesResponse.error)}`
+        );
       }
     } else {
       portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
