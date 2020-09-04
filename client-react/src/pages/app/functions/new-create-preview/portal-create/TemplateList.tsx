@@ -24,6 +24,7 @@ import { RuntimeExtensionMajorVersions } from '../../../../../models/functions/r
 import { sortTemplate } from '../FunctionCreate.types';
 import { FunctionCreateContext } from '../FunctionCreateContext';
 import { ThemeContext } from '../../../../../ThemeContext';
+import { Links } from '../../../../../utils/FwLinks';
 
 export interface TemplateListProps {
   resourceId: string;
@@ -192,8 +193,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
       <h3>{t('selectTemplate')}</h3>
       <p>
         {t('selectTemplateDescription')}
-        {/* TODO(krmitta): Add learn more link */}
-        <Link>{t('learnMore')}</Link>
+        <Link href={Links.functionCreateTemplateLearnMore}>{t('learnMore')}</Link>
       </p>
       <SearchBox
         id="filter-template-text-field"

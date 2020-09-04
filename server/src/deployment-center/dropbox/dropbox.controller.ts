@@ -14,7 +14,7 @@ export class DropboxController {
     private configService: ConfigService,
     private loggingService: LoggingService,
     private httpService: HttpService
-  ) { }
+  ) {}
 
   @Post('api/dropbox/passthrough')
   @HttpCode(200)
@@ -80,7 +80,7 @@ export class DropboxController {
       const r = await this.httpService.post<{ access_token: string }>(
         'https://api.dropbox.com/oauth2/token',
         `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.DROPBOX_REDIRECT_URL}&client_id=${
-        process.env.DROPBOX_CLIENT_ID
+          process.env.DROPBOX_CLIENT_ID
         }&client_secret=${process.env.DROPBOX_CLIENT_SECRET}`,
         {
           headers: {
@@ -90,9 +90,9 @@ export class DropboxController {
       );
       return {
         accessToken: r.data.access_token,
-        refreshToken: null,
-        environment: null
-      }
+        refreshToken: '',
+        environment: null,
+      };
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
