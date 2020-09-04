@@ -61,7 +61,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
       return values.privateRegistryUsername;
     } else {
-      return values.privateRegistryUsername;
+      return values.dockerHubUsername;
     }
   };
 
@@ -71,7 +71,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
       return values.privateRegistryPassword;
     } else {
-      return values.privateRegistryPassword;
+      return values.dockerHubPassword;
     }
   };
 
@@ -243,16 +243,10 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     if (siteConfigResponse.metadata.success) {
       siteConfigResponse.data.properties.appCommandLine = values.command;
 
-      if (values.scmType !== ScmType.GitHubAction) {
-        if (siteContext.isLinuxApp) {
-          siteConfigResponse.data.properties.linuxFxVersion = getFxVersion(values);
-        } else {
-          siteConfigResponse.data.properties.windowsFxVersion = getFxVersion(values);
-        }
+      if (siteContext.isLinuxApp) {
+        siteConfigResponse.data.properties.linuxFxVersion = getFxVersion(values);
       } else {
-        // NOTE(michinoy): If configuring using GitHub Action, the FxVersion property is setup by the workflow itself.
-        siteConfigResponse.data.properties.linuxFxVersion = '';
-        siteConfigResponse.data.properties.windowsFxVersion = '';
+        siteConfigResponse.data.properties.windowsFxVersion = getFxVersion(values);
       }
 
       const saveSiteConfigResponse = await deploymentCenterData.updateSiteConfig(resourceId, siteConfigResponse.data);
