@@ -5693,7 +5693,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Externe foutopsporing is niet beschikbaar voor uw toepassing. </value>
     </data>
   <data name="classicDeprecation" xml:space="preserve">
-        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
+        <value>De klassieke Azure Functions-beheerervaring is afgeschaft en wordt in oktober 2020 offline genomen. Als u problemen ondervindt met de nieuwe ervaring, klikt u hier om een probleem op te lossen.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Wijzigingen opslaan</value>
@@ -5965,6 +5965,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Opdracht voor vernieuwen voor Implementatiecentrum</value>
     </data>
+  <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
+        <value>Opdracht voor synchroniseren van het implementatiecentrum</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Fout bij het ophalen van gegevens</value>
     </data>
@@ -6067,6 +6070,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
         <value>FTP- of FTPs-referenties</value>
     </data>
+  <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
+        <value>Referenties van lokale Git/FTP/FTP's</value>
+    </data>
+  <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
+        <value>Referenties van lokale Git of FTP of FTP's</value>
+    </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Containerlogboeken laden</value>
     </data>
@@ -6090,6 +6099,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Alle niet-opgeslagen wijzigingen gaan verloren bij het vernieuwen. Weet u zeker dat u wilt doorgaan?</value>
+    </data>
+  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+        <value>Weet u zeker dat u wilt synchroniseren?</value>
+    </data>
+  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
+        <value>Als u een synchronisatiebewerking uitvoert, worden alle actieve implementatiebewerkingen geannuleerd en wordt er een nieuwe gemaakt</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Toepassingsinstelling toevoegen</value>
@@ -6175,6 +6190,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>De gebruikersnaam moet ten minste uit {0} tekens bestaan.</value>
     </data>
+  <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
+        <value>Dit veld is vereist</value>
+    </data>
+  <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
+        <value>The repository must begin with https://</value>
+    </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Gebruik deze instellingen om het implementatiemodel en register voor uw container-app te configureren. GitHub Actions wordt aanbevolen voor een betere operationele efficiëntie.</value>
     </data>
@@ -6222,6 +6243,54 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
         <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
+        <value>Lokale Git-opslagplaats</value>
+    </data>
+  <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
+        <value>Externe Git</value>
+    </data>
+  <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
+        <value>Gebruikersnaam</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPasswordLabel" xml:space="preserve">
+        <value>Wachtwoord</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
+        <value>Type opslagplaats</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
+        <value>Privé</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
+        <value>Openbaar</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
+        <value>De URL van uw Lokale Git-opslagplaats wordt gegenereerd na voltooiing.</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitBranchSetupMessage" xml:space="preserve">
+        <value>master</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitCloneUri" xml:space="preserve">
+        <value>Kloon-URI voor Git</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
+        <value>Er is een fout opgetreden bij het ophalen van de kloon-URI voor Git</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
+        <value>De synchronisatieaanvraag is verzonden</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+        <value>De opslagplaats voor web-app {0} wordt bijgewerkt.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+        <value>De opslagplaats voor de web-app {0} is bijgewerkt</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
+        <value>Kan de synchronisatie niet uitvoeren: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
+        <value>Kan de synchronisatie niet uitvoeren</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Registerinstellingen</value>
@@ -6394,8 +6463,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
         <value>Dropbox</value>
     </data>
-  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
-        <value>Extern</value>
+  <data name="deploymentCenterCodeSettingsSourceExternalGit" xml:space="preserve">
+        <value>Externe Git</value>
     </data>
   <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
         <value>GitHub Actions</value>
@@ -6571,19 +6640,52 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="description" xml:space="preserve">
         <value>Beschrijving</value>
     </data>
-  <data name="detail" xml:space="preserve">
-        <value>Detail</value>
+  <data name="templateDetails" xml:space="preserve">
+        <value>Sjabloondetails</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>Er is meer informatie nodig om de functie te maken. </value>
+        <value>Er is meer informatie nodig om de functie {0} te maken. </value>
     </data>
   <data name="developInPortal" xml:space="preserve">
         <value>Ontwikkelen in portal</value>
     </data>
+  <data name="fileSharesFailure" xml:space="preserve">
+        <value>Kan de bestandsshares in het opslagaccount niet ophalen</value>
+    </data>
+  <data name="fileSharesFailureWithError" xml:space="preserve">
+        <value>Kan de bestandsshares niet ophalen in het opslagaccount met fout: {0}</value>
+    </data>
+  <data name="blobsFailure" xml:space="preserve">
+        <value>Kan de blobs in het opslagaccount niet ophalen</value>
+    </data>
+  <data name="blobsFailureWithError" xml:space="preserve">
+        <value>Kan de blobs niet ophalen in het opslagaccount met fout: {0}</value>
+    </data>
+  <data name="blobsAndFileSharesFailure" xml:space="preserve">
+        <value>Kan de blobs en bestandsshares in het opslagaccount niet ophalen</value>
+    </data>
   <data name="containerImage" xml:space="preserve">
-        <value>Image name</value>
+        <value>Naam van installatiekopie</value>
     </data>
   <data name="containerImagePlaceholder" xml:space="preserve">
-        <value>E.g. nginx</value>
+        <value>Bijvoorbeeld nginx</value>
+    </data>
+  <data name="savingContainerConfiguration" xml:space="preserve">
+        <value>Containerconfiguratie opslaan</value>
+    </data>
+  <data name="savingContainerConfigurationSuccess" xml:space="preserve">
+        <value>De containerconfiguratie is opgeslagen</value>
+    </data>
+  <data name="savingContainerConfigurationFailed" xml:space="preserve">
+        <value>Kan de containerconfiguratie niet opslaan</value>
+    </data>
+  <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
+        <value>Kan de containerconfiguratie niet opslaan: {0}</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
+        <value>Uw app is momenteel vastgemaakt aan runtimeversie {0} en ontvangt geen beveiligingsupgrades meer na oktober 2020. U kunt het beste een upgrade uitvoeren naar de nieuwste versie van de runtime. Raadpleeg dit artikel voor meer informatie.</value>
+    </data>
+  <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
+        <value>The server URL must begin with https://</value>
     </data>
 </root>

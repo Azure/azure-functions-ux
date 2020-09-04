@@ -5692,7 +5692,7 @@
         <value>Удаленная отладка недоступна для вашего приложения. </value>
     </data>
   <data name="classicDeprecation" xml:space="preserve">
-        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
+        <value>Классический интерфейс управления Функциями Azure устарел и станет недоступным в октябре 2020 г.  Если у вас возникли проблемы с новым интерфейсом, щелкните здесь, чтобы отправить сообщение о проблеме.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Сохранить изменения</value>
@@ -5964,6 +5964,9 @@
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Команда обновления в Центре развертывания</value>
     </data>
+  <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
+        <value>Команда синхронизации в Центре развертывания</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Ошибка при получении сведений</value>
     </data>
@@ -6066,6 +6069,12 @@
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
         <value>Учетные данные FTP или FTPS</value>
     </data>
+  <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
+        <value>Локальные учетные данные Git/FTP/FTPS</value>
+    </data>
+  <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
+        <value>Локальные учетные данные Git, FTP или FTPS</value>
+    </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Загрузка журналов контейнера</value>
     </data>
@@ -6089,6 +6098,12 @@
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>При обновлении все несохраненные изменения будут потеряны. Вы действительно хотите продолжить?</value>
+    </data>
+  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+        <value>Вы действительно хотите выполнить синхронизацию?</value>
+    </data>
+  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
+        <value>Выполнение операции синхронизации приведет к отмене всех выполняющихся операций развертывания и созданию новой.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Добавление параметра приложения</value>
@@ -6174,6 +6189,12 @@
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>Длина имени пользователя в символах должна составлять по меньшей мере {0}.</value>
     </data>
+  <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
+        <value>Это обязательное поле</value>
+    </data>
+  <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
+        <value>The repository must begin with https://</value>
+    </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Используйте эти параметры для настройки реестра и модели развертывания приложений контейнера. Рекомендуем использовать GitHub Actions для более эффективной работы.</value>
     </data>
@@ -6221,6 +6242,54 @@
     </data>
   <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
         <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
+        <value>Локальный репозиторий Git</value>
+    </data>
+  <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
+        <value>Внешний репозиторий Git</value>
+    </data>
+  <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
+        <value>Имя пользователя</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPasswordLabel" xml:space="preserve">
+        <value>Пароль</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
+        <value>Тип репозитория</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
+        <value>Частный</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
+        <value>Общедоступный</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
+        <value>По завершении будет создан URL-адрес вашего локального репозитория Git.</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitBranchSetupMessage" xml:space="preserve">
+        <value>главная</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitCloneUri" xml:space="preserve">
+        <value>URI клона Git</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
+        <value>Ошибка при получении URI клона Git.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
+        <value>Запрос на синхронизацию отправлен.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+        <value>Обновляется репозиторий для веб-приложения {0}</value>
+    </data>
+  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+        <value>Репозиторий для веб-приложения {0} обновлен.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
+        <value>Не удалось синхронизировать: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
+        <value>Не удалось выполнить синхронизацию.</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Параметры реестра</value>
@@ -6393,8 +6462,8 @@
   <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
         <value>Dropbox</value>
     </data>
-  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
-        <value>Внешний</value>
+  <data name="deploymentCenterCodeSettingsSourceExternalGit" xml:space="preserve">
+        <value>Внешний репозиторий Git</value>
     </data>
   <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
         <value>GitHub Actions</value>
@@ -6570,19 +6639,52 @@
   <data name="description" xml:space="preserve">
         <value>Описание</value>
     </data>
-  <data name="detail" xml:space="preserve">
-        <value>Подробности</value>
+  <data name="templateDetails" xml:space="preserve">
+        <value>Данные шаблона</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>Требуется больше данных для создания нового функции. </value>
+        <value>We need more information to create the {0} function. </value>
     </data>
   <data name="developInPortal" xml:space="preserve">
         <value>Разработка на портале</value>
     </data>
+  <data name="fileSharesFailure" xml:space="preserve">
+        <value>Не удалось получить общие папки в учетной записи хранения.</value>
+    </data>
+  <data name="fileSharesFailureWithError" xml:space="preserve">
+        <value>Не удалось получить общие папки в учетной записи хранения, ошибка: {0}</value>
+    </data>
+  <data name="blobsFailure" xml:space="preserve">
+        <value>Не удалось получить BLOB-объекты в учетной записи хранения.</value>
+    </data>
+  <data name="blobsFailureWithError" xml:space="preserve">
+        <value>Не удалось получить BLOB-объекты в учетной записи хранения, ошибка: {0}</value>
+    </data>
+  <data name="blobsAndFileSharesFailure" xml:space="preserve">
+        <value>Не удалось получить BLOB-объекты и общие папки в учетной записи хранения.</value>
+    </data>
   <data name="containerImage" xml:space="preserve">
-        <value>Image name</value>
+        <value>Имя образа</value>
     </data>
   <data name="containerImagePlaceholder" xml:space="preserve">
-        <value>E.g. nginx</value>
+        <value>Например, nginx</value>
+    </data>
+  <data name="savingContainerConfiguration" xml:space="preserve">
+        <value>Сохранение конфигурации контейнера.</value>
+    </data>
+  <data name="savingContainerConfigurationSuccess" xml:space="preserve">
+        <value>Конфигурация контейнера сохранена.</value>
+    </data>
+  <data name="savingContainerConfigurationFailed" xml:space="preserve">
+        <value>Не удалось сохранить конфигурацию контейнера.</value>
+    </data>
+  <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
+        <value>Не удалось сохранить конфигурацию контейнера: {0}</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
+        <value>Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.</value>
+    </data>
+  <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
+        <value>The server URL must begin with https://</value>
     </data>
 </root>
