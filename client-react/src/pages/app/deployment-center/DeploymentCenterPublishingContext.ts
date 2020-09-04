@@ -10,6 +10,7 @@ export interface IDeploymentCenterPublishingContext {
   publishingCredentials?: ArmObj<PublishingCredentials>;
   publishingUser?: ArmObj<PublishingUser>;
   publishingProfile?: PublishingProfile;
+  publishingUserFetchFailedMessage: string;
 }
 
 export const DeploymentCenterPublishingContext = React.createContext<IDeploymentCenterPublishingContext>(
