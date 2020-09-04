@@ -28,8 +28,8 @@ const DeploymentCenterPublishingUser: React.FC<
   const [providerPasswordType, setProviderPasswordType] = useState<PasswordFieldType>('password');
   const [providerConfirmPasswordType, setProviderConfirmPasswordType] = useState<PasswordFieldType>('password');
 
-  const publishingUserLoading = !publishingUser && publishingUserFetchFailedMessage === '';
-  const publishingUserError = !publishingUser && publishingUserFetchFailedMessage !== '';
+  const publishingUserLoading = !publishingUser && !publishingUserFetchFailedMessage;
+  const publishingUserError = !publishingUser && publishingUserFetchFailedMessage;
   const webProviderUsername = publishingUser && publishingUser.properties.publishingUserName;
 
   const siteDescriptor = deploymentCenterContext && deploymentCenterContext.siteDescriptor;
