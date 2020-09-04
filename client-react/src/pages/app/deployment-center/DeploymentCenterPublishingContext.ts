@@ -6,11 +6,11 @@ import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../
 export interface IDeploymentCenterPublishingContext {
   showPublishProfilePanel: () => void;
   resetApplicationPassword: () => void;
+  publishingUserFetchFailedMessage: string;
   basicPublishingCredentialsPolicies?: PublishingCredentialPolicies;
   publishingCredentials?: ArmObj<PublishingCredentials>;
   publishingUser?: ArmObj<PublishingUser>;
   publishingProfile?: PublishingProfile;
-  publishingUserFetchFailedMessage: string;
 }
 
 export const DeploymentCenterPublishingContext = React.createContext<IDeploymentCenterPublishingContext>(
