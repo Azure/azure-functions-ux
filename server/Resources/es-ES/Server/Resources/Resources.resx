@@ -5692,7 +5692,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>La depuración remota no está disponible para su aplicación. </value>
     </data>
   <data name="classicDeprecation" xml:space="preserve">
-        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
+        <value>La experiencia clásica de administración de Azure Functions está en desuso y se desconectará en octubre de 2020. Si tiene problemas con la nueva experiencia, haga clic aquí para registrar una incidencia.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Guardar cambios</value>
@@ -5964,6 +5964,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Comando de actualización del centro de implementación</value>
     </data>
+  <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
+        <value>Comando de sincronización del centro de implementación</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Error al capturar la información</value>
     </data>
@@ -6066,6 +6069,12 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
         <value>Credenciales de FTP o FTPS</value>
     </data>
+  <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
+        <value>Credenciales de Git/FTP/FTPS locales</value>
+    </data>
+  <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
+        <value>Credenciales de Git, FTP o FTPS locales</value>
+    </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Cargando registros de contenedor</value>
     </data>
@@ -6089,6 +6098,12 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Al actualizar, se perderán los cambios que no haya guardado. ¿Está seguro de que quiere continuar?</value>
+    </data>
+  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+        <value>¿Está seguro de que quiere realizar la sincronización?</value>
+    </data>
+  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
+        <value>Al realizar una operación de sincronización, se cancelará cualquier operación de implementación existente en curso y se creará una nueva.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Agregar configuración de aplicación</value>
@@ -6174,6 +6189,12 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>El nombre de usuario debe tener al menos {0} caracteres.</value>
     </data>
+  <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
+        <value>Este campo es obligatorio</value>
+    </data>
+  <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
+        <value>The repository must begin with https://</value>
+    </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Use esta configuración para configurar el modelo y el registro de implementación de aplicaciones de contenedor. Es recomendable usar Acciones de GitHub para obtener una mayor eficacia operativa.</value>
     </data>
@@ -6221,6 +6242,54 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
         <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
+        <value>GIT local</value>
+    </data>
+  <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
+        <value>Git externo</value>
+    </data>
+  <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
+        <value>Nombre de usuario</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPasswordLabel" xml:space="preserve">
+        <value>Contraseña</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
+        <value>Tipo de repositorio</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
+        <value>Privado</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
+        <value>Público</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
+        <value>La dirección URL del repositorio GIT local se generará cuando se complete.</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitBranchSetupMessage" xml:space="preserve">
+        <value>maestro</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitCloneUri" xml:space="preserve">
+        <value>URI de Git Clone</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
+        <value>Se produjo un error al capturar el URI de Git Clone.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
+        <value>Solicitud de sincronización enviada</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+        <value>El repositorio para la aplicación web {0} se está actualizando.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+        <value>El repositorio para la aplicación web {0} se actualizó correctamente.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
+        <value>No se pudo sincronizar: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
+        <value>No se pudo realizar la sincronización</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Configuración del Registro</value>
@@ -6393,8 +6462,8 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
         <value>Dropbox</value>
     </data>
-  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
-        <value>Externo</value>
+  <data name="deploymentCenterCodeSettingsSourceExternalGit" xml:space="preserve">
+        <value>Git externo</value>
     </data>
   <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
         <value>Acciones de GitHub</value>
@@ -6570,19 +6639,52 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="description" xml:space="preserve">
         <value>Descripción</value>
     </data>
-  <data name="detail" xml:space="preserve">
-        <value>Detalle</value>
+  <data name="templateDetails" xml:space="preserve">
+        <value>Detalles de la plantilla</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>Necesitamos un poco más de información para crear la función. </value>
+        <value>Necesitamos un poco más de información para crear la función {0}. </value>
     </data>
   <data name="developInPortal" xml:space="preserve">
         <value>Desarrollar en el portal</value>
     </data>
+  <data name="fileSharesFailure" xml:space="preserve">
+        <value>No se pudieron capturar recursos compartidos de archivos en la cuenta de almacenamiento.</value>
+    </data>
+  <data name="fileSharesFailureWithError" xml:space="preserve">
+        <value>No se pudieron capturar recursos compartidos de archivos en la cuenta de almacenamiento debido al error siguiente: {0}.</value>
+    </data>
+  <data name="blobsFailure" xml:space="preserve">
+        <value>No se pudieron capturar blobs en la cuenta de almacenamiento.</value>
+    </data>
+  <data name="blobsFailureWithError" xml:space="preserve">
+        <value>No se pudieron capturar blobs en la cuenta de almacenamiento debido al error siguiente: {0}.</value>
+    </data>
+  <data name="blobsAndFileSharesFailure" xml:space="preserve">
+        <value>No se pudieron capturar blobs ni recursos compartidos de archivos en la cuenta de almacenamiento.</value>
+    </data>
   <data name="containerImage" xml:space="preserve">
-        <value>Image name</value>
+        <value>Nombre de la imagen</value>
     </data>
   <data name="containerImagePlaceholder" xml:space="preserve">
-        <value>E.g. nginx</value>
+        <value>Por ejemplo, nginx</value>
+    </data>
+  <data name="savingContainerConfiguration" xml:space="preserve">
+        <value>Guardando configuración del contenedor</value>
+    </data>
+  <data name="savingContainerConfigurationSuccess" xml:space="preserve">
+        <value>La configuración del contenedor se guardó correctamente.</value>
+    </data>
+  <data name="savingContainerConfigurationFailed" xml:space="preserve">
+        <value>No se pudo guardar la configuración del contenedor.</value>
+    </data>
+  <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
+        <value>No se pudo guardar la configuración del contenedor: {0}</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
+        <value>Actualmente, la aplicación está anclada a la versión del entorno de ejecución "{0}" y ya no recibirá actualizaciones de seguridad después de octubre de 2020. Le recomendamos que actualice el entorno de ejecución a la versión más reciente. Consulte este artículo para obtener más información.</value>
+    </data>
+  <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
+        <value>The server URL must begin with https://</value>
     </data>
 </root>

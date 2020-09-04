@@ -5692,7 +5692,7 @@
         <value>お使いのアプリケーションではリモート デバッグを利用できません。 </value>
     </data>
   <data name="classicDeprecation" xml:space="preserve">
-        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
+        <value>従来の Azure Functions 管理エクスペリエンスは非推奨化され、2020 年 10 月にオフラインになります。新しいエクスペリエンスで問題が発生している場合は、こちらをクリックしてイシューを送信してください。</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>変更の保存</value>
@@ -5964,6 +5964,9 @@
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>デプロイ センターの更新コマンド</value>
     </data>
+  <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
+        <value>デプロイ センターの同期コマンド</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>情報のフェッチでエラーが発生しました</value>
     </data>
@@ -6066,6 +6069,12 @@
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
         <value>FTP または FTPS の資格情報</value>
     </data>
+  <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
+        <value>ローカル Git、FTP、FTPS の資格情報</value>
+    </data>
+  <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
+        <value>ローカル Git、FTP、FTPS の資格情報</value>
+    </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>コンテナー ログを読み込んでいます</value>
     </data>
@@ -6089,6 +6098,12 @@
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>更新すると、保存されていない変更はすべて失われます。続行しますか?</value>
+    </data>
+  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+        <value>同期しますか?</value>
+    </data>
+  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
+        <value>同期操作を実行すると、進行中の既存のデプロイ操作がすべて取り消され、新規作成されます</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>アプリケーション設定の追加</value>
@@ -6174,6 +6189,12 @@
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>ユーザー名の長さは {0} 文字以上でなければなりません。</value>
     </data>
+  <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
+        <value>このフィールドは必須項目です</value>
+    </data>
+  <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
+        <value>The repository must begin with https://</value>
+    </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>コンテナー アプリのデプロイ モデルとレジストリを構成するには、これらの設定を使用します。操作の効率を向上させるために GitHub Actions をお勧めします。</value>
     </data>
@@ -6221,6 +6242,54 @@
     </data>
   <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
         <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
+        <value>ローカル Git</value>
+    </data>
+  <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
+        <value>外部 Git</value>
+    </data>
+  <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
+        <value>ユーザー名</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPasswordLabel" xml:space="preserve">
+        <value>パスワード</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
+        <value>リポジトリの種類</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
+        <value>プライベート</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
+        <value>パブリック</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
+        <value>完了時に、ローカル Git リポジトリ URL が生成されます。</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitBranchSetupMessage" xml:space="preserve">
+        <value>マスター</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitCloneUri" xml:space="preserve">
+        <value>Git Clone URI</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
+        <value>Git Clone URI のフェッチでエラーが発生しました</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
+        <value>同期要求を送信しました</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+        <value>Web アプリ {0} のリポジトリを更新しています</value>
+    </data>
+  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+        <value>Web アプリ {0} のリポジトリが正常に更新されました</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
+        <value>Failed to sync: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
+        <value>Failed to sync</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>レジストリの設定</value>
@@ -6393,8 +6462,8 @@
   <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
         <value>Dropbox</value>
     </data>
-  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
-        <value>外部</value>
+  <data name="deploymentCenterCodeSettingsSourceExternalGit" xml:space="preserve">
+        <value>外部 Git</value>
     </data>
   <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
         <value>GitHub Actions</value>
@@ -6570,19 +6639,52 @@
   <data name="description" xml:space="preserve">
         <value>説明</value>
     </data>
-  <data name="detail" xml:space="preserve">
-        <value>詳細</value>
+  <data name="templateDetails" xml:space="preserve">
+        <value>テンプレートの詳細</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>関数を作成するには、さらに情報が必要です。</value>
+        <value>{0} 関数を作成するには、さらに情報が必要です。</value>
     </data>
   <data name="developInPortal" xml:space="preserve">
         <value>ポータルでの開発</value>
     </data>
+  <data name="fileSharesFailure" xml:space="preserve">
+        <value>ストレージ アカウントのファイル共有をフェッチできませんでした</value>
+    </data>
+  <data name="fileSharesFailureWithError" xml:space="preserve">
+        <value>ストレージ アカウントのファイル共有をフェッチできませんでした。エラー: {0}</value>
+    </data>
+  <data name="blobsFailure" xml:space="preserve">
+        <value>ストレージ アカウントの BLOB をフェッチできませんでした</value>
+    </data>
+  <data name="blobsFailureWithError" xml:space="preserve">
+        <value>ストレージ アカウントの BLOB をフェッチできませんでした。エラー: {0}</value>
+    </data>
+  <data name="blobsAndFileSharesFailure" xml:space="preserve">
+        <value>ストレージ アカウントの BLOB とファイル共有をフェッチできませんでした</value>
+    </data>
   <data name="containerImage" xml:space="preserve">
-        <value>Image name</value>
+        <value>イメージ名</value>
     </data>
   <data name="containerImagePlaceholder" xml:space="preserve">
-        <value>E.g. nginx</value>
+        <value>例: nginx</value>
+    </data>
+  <data name="savingContainerConfiguration" xml:space="preserve">
+        <value>コンテナーの構成を保存しています</value>
+    </data>
+  <data name="savingContainerConfigurationSuccess" xml:space="preserve">
+        <value>コンテナーの構成が正常に保存されました</value>
+    </data>
+  <data name="savingContainerConfigurationFailed" xml:space="preserve">
+        <value>Failed to save container configuration</value>
+    </data>
+  <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
+        <value>Failed to save container configuration: {0}</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
+        <value>現在、アプリはランタイム バージョン '{0}' にピン留めされており、2020 年 10 月以降セキュリティ アップグレードを受け取らなくなります。最新バージョンのランタイムにアップグレードすることをお勧めします。詳細については、この記事を参照してください。</value>
+    </data>
+  <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
+        <value>The server URL must begin with https://</value>
     </data>
 </root>

@@ -5692,7 +5692,7 @@
         <value>远程调试不适用于你的应用。</value>
     </data>
   <data name="classicDeprecation" xml:space="preserve">
-        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
+        <value>经典 Azure Functions 管理体验已弃用，并将于 2020 年 10 月下线。如果你在使用新体验时遇到了问题，请单击此处提交问题。</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>保存更改</value>
@@ -5964,6 +5964,9 @@
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>部署中心刷新命令</value>
     </data>
+  <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
+        <value>部署中心同步命令</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>提取信息时出错</value>
     </data>
@@ -6066,6 +6069,12 @@
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
         <value>FTP 或 FTPS 凭据</value>
     </data>
+  <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
+        <value>本地 Git/FTP/FTPS 凭据</value>
+    </data>
+  <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
+        <value>本地 Git、FTP 或 FTPS 凭据</value>
+    </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>正在加载容器日志</value>
     </data>
@@ -6089,6 +6098,12 @@
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>刷新时，所有未保存的更改都将丢失。是否确实要继续?</value>
+    </data>
+  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+        <value>是否确定要同步?</value>
+    </data>
+  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
+        <value>执行同步操作将取消正在进行的任何现有部署操作，并创建一个新的部署操作</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>添加应用程序设置</value>
@@ -6174,6 +6189,12 @@
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>用户名的长度至少必须为 {0} 个字符。</value>
     </data>
+  <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
+        <value>此字段是必需的</value>
+    </data>
+  <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
+        <value>The repository must begin with https://</value>
+    </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>使用这些设置来配置容器应用部署模型和注册表。建议使用 GitHub Actions 来提高运行效率。</value>
     </data>
@@ -6221,6 +6242,54 @@
     </data>
   <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
         <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
+        <value>本地 Git</value>
+    </data>
+  <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
+        <value>外部 Git</value>
+    </data>
+  <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
+        <value>用户名</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPasswordLabel" xml:space="preserve">
+        <value>密码</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
+        <value>存储库类型</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
+        <value>专用</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
+        <value>公共</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
+        <value>完成时会生成本地 GIT 存储库 URL。</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitBranchSetupMessage" xml:space="preserve">
+        <value>主分支</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitCloneUri" xml:space="preserve">
+        <value>Git 克隆 URI</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
+        <value>提取 Git 克隆 URI 时出错</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
+        <value>已提交同步请求</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+        <value>正在更新 Web 应用 {0} 的存储库</value>
+    </data>
+  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+        <value>已成功更新 Web 应用 {0} 的存储库</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
+        <value>无法同步: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
+        <value>无法同步</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>注册表设置</value>
@@ -6393,8 +6462,8 @@
   <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
         <value>Dropbox</value>
     </data>
-  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
-        <value>外部</value>
+  <data name="deploymentCenterCodeSettingsSourceExternalGit" xml:space="preserve">
+        <value>外部 Git</value>
     </data>
   <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
         <value>GitHub Actions</value>
@@ -6570,19 +6639,52 @@
   <data name="description" xml:space="preserve">
         <value>说明</value>
     </data>
-  <data name="detail" xml:space="preserve">
-        <value>详细信息</value>
+  <data name="templateDetails" xml:space="preserve">
+        <value>模板详细信息</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>我们需要更多信息来创建此函数。</value>
+        <value>我们需要更多信息来创建 {0} 函数。</value>
     </data>
   <data name="developInPortal" xml:space="preserve">
         <value>在门户中开发</value>
     </data>
+  <data name="fileSharesFailure" xml:space="preserve">
+        <value>无法提取存储帐户中的文件共享</value>
+    </data>
+  <data name="fileSharesFailureWithError" xml:space="preserve">
+        <value>无法提取存储帐户中的文件共享，出现错误 {0}</value>
+    </data>
+  <data name="blobsFailure" xml:space="preserve">
+        <value>无法提取存储帐户中的 blob</value>
+    </data>
+  <data name="blobsFailureWithError" xml:space="preserve">
+        <value>无法提取存储帐户中的 blob，出现错误 {0}</value>
+    </data>
+  <data name="blobsAndFileSharesFailure" xml:space="preserve">
+        <value>无法提取存储帐户中的 blob 和文件共享</value>
+    </data>
   <data name="containerImage" xml:space="preserve">
-        <value>Image name</value>
+        <value>映像名称</value>
     </data>
   <data name="containerImagePlaceholder" xml:space="preserve">
-        <value>E.g. nginx</value>
+        <value>例如，nginx</value>
+    </data>
+  <data name="savingContainerConfiguration" xml:space="preserve">
+        <value>正在保存容器配置</value>
+    </data>
+  <data name="savingContainerConfigurationSuccess" xml:space="preserve">
+        <value>已成功保存容器配置</value>
+    </data>
+  <data name="savingContainerConfigurationFailed" xml:space="preserve">
+        <value>无法保存容器配置</value>
+    </data>
+  <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
+        <value>无法保存容器配置: {0}</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
+        <value>你的应用目前已固定到运行时版本“{0}”，并且在 2020 年 10 月之后将不再接受安全升级。建议升级到最新版本的运行时。有关详细信息，请参阅这篇文章。</value>
+    </data>
+  <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
+        <value>The server URL must begin with https://</value>
     </data>
 </root>
