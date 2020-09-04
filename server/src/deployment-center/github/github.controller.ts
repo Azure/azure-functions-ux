@@ -58,7 +58,7 @@ export class GithubController {
     @Body('gitHubToken') gitHubToken: string,
     @Body('content') content: GitHubActionWorkflowRequestContent
   ) {
-    // NOTE(michinoy): In order for the action workflow to succesfully execute, it needs to have the secret allowing access
+    // NOTE(michinoy): In order for the action workflow to successfully execute, it needs to have the secret allowing access
     // to the web app. This secret is the publish profile. This one method will retrieve publish profile, encrypt it, put it
     // as a GitHub secret, and then publish the workflow file.
 
@@ -66,6 +66,33 @@ export class GithubController {
     const publicKeyRequest = this._getGitHubRepoPublicKey(gitHubToken, content.commit.repoName);
     const [publishProfile, publicKey] = await Promise.all([publishProfileRequest, publicKeyRequest]);
     await this._putGitHubRepoSecret(gitHubToken, publicKey, content.commit.repoName, content.secretName, publishProfile);
+
+    // NOTE(michinoy): If this is a setup for containers, the username and passwords also need to be stored as secrets
+    // along with the publish profile.
+    if (
+      content.containerUsernameSecretName &&
+      content.containerUsernameSecretValue &&
+      content.containerPasswordSecretName &&
+      content.containerPasswordSecretValue
+    ) {
+      await Promise.all([
+        this._putGitHubRepoSecret(
+          gitHubToken,
+          publicKey,
+          content.commit.repoName,
+          content.containerUsernameSecretName,
+          content.containerUsernameSecretValue
+        ),
+        this._putGitHubRepoSecret(
+          gitHubToken,
+          publicKey,
+          content.commit.repoName,
+          content.containerPasswordSecretName,
+          content.containerPasswordSecretValue
+        ),
+      ]);
+    }
+
     await this._commitFile(gitHubToken, content);
   }
 

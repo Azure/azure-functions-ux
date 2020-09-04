@@ -147,6 +147,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       deploymentCenterContext.gitHubToken
     );
 
+    // NOTE(michinoy): A failure here means the file does not exist and we do not need to copy over the sha.
+    // No need to log anything.
     if (workflowConfigurationResponse.metadata.success) {
       commitInfo.sha = workflowConfigurationResponse.data.sha;
     }
