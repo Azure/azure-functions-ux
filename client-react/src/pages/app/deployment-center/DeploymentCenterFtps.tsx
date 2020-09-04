@@ -31,7 +31,6 @@ const DeploymentCenterFtps: React.FC<
   const { publishingProfile, resetApplicationPassword } = deploymentCenterPublishingContext;
 
   const [applicationPasswordType, setApplicationPasswordType] = useState<PasswordFieldType>('password');
-
   const [isResetCalloutHidden, setIsResetCalloutHidden] = useState<boolean>(true);
   const [showBlockedBanner, setShowBlockedBanner] = useState(true);
 
