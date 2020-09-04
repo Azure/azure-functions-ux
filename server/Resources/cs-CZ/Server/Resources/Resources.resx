@@ -5692,7 +5692,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Vzdálené ladění není pro vaši aplikaci k dispozici. </value>
     </data>
   <data name="classicDeprecation" xml:space="preserve">
-        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
+        <value>Klasické prostředí pro správu Azure Functions je zastaralé a v říjnu 2020 se vypne. Pokud máte nějaké problémy s novým prostředím, klikněte prosím sem a uveďte konkrétní problém.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Uložit změny</value>
@@ -5964,6 +5964,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Příkaz pro aktualizaci v centru Deployment Center</value>
     </data>
+  <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
+        <value>Příkaz pro synchronizaci v centru Deployment Center</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Při načítání informací došlo k chybě.</value>
     </data>
@@ -6066,6 +6069,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
         <value>Přihlašovací údaje k FTP nebo FTPS</value>
     </data>
+  <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
+        <value>Přihlašovací údaje k místnímu Gitu / FTP / FTPS</value>
+    </data>
+  <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
+        <value>Přihlašovací údaje k místnímu Gitu, FTP nebo FTPS</value>
+    </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Načítají se protokoly kontejnerů</value>
     </data>
@@ -6089,6 +6098,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Při aktualizaci se ztratí všechny neuložené změny. Opravdu chcete pokračovat?</value>
+    </data>
+  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+        <value>Opravdu chcete provést synchronizaci?</value>
+    </data>
+  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
+        <value>Když se provede operace synchronizace, zruší se všechny stávající probíhající operace nasazení a vytvoří se nová.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Přidat nastavení aplikace</value>
@@ -6174,6 +6189,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>Uživatelské jméno musí mít délku nejméně {0} znaků.</value>
     </data>
+  <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
+        <value>Toto pole je povinné.</value>
+    </data>
+  <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
+        <value>Úložiště musí začínat na https://.</value>
+    </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Pomocí těchto nastavení můžete nakonfigurovat model nasazení kontejnerové aplikace a registr. Pro větší operační efektivitu doporučujeme GitHub Actions.</value>
     </data>
@@ -6221,6 +6242,54 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
         <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
+        <value>Místní Git</value>
+    </data>
+  <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
+        <value>Externí Git</value>
+    </data>
+  <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
+        <value>Uživatelské jméno</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPasswordLabel" xml:space="preserve">
+        <value>Heslo</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
+        <value>Typ úložiště</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
+        <value>Privátní</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
+        <value>Veřejné</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
+        <value>Adresa URL vašeho místního úložiště Git se vygeneruje po dokončení.</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitBranchSetupMessage" xml:space="preserve">
+        <value>hlavní</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitCloneUri" xml:space="preserve">
+        <value>Identifikátor URI klonu Gitu</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
+        <value>Při načítání identifikátoru URI klonu Gitu došlo k chybě.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
+        <value>Žádost o synchronizaci se odeslala.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+        <value>Úložiště pro webovou aplikaci {0} se právě aktualizuje.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+        <value>Úložiště pro webovou aplikaci {0} se úspěšně aktualizovalo.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
+        <value>Nepovedlo se synchronizovat: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
+        <value>Nepovedlo se synchronizovat</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Nastavení registru</value>
@@ -6393,8 +6462,8 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
         <value>Dropbox</value>
     </data>
-  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
-        <value>Externí</value>
+  <data name="deploymentCenterCodeSettingsSourceExternalGit" xml:space="preserve">
+        <value>Externí Git</value>
     </data>
   <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
         <value>GitHub Actions</value>
@@ -6570,19 +6639,52 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="description" xml:space="preserve">
         <value>Popis</value>
     </data>
-  <data name="detail" xml:space="preserve">
-        <value>Podrobnosti</value>
+  <data name="templateDetails" xml:space="preserve">
+        <value>Podrobnosti o šabloně</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>Abychom mohli funkci vytvořit, potřebujeme více informací. </value>
+        <value>Abychom mohli funkci {0} vytvořit, potřebujeme více informací. </value>
     </data>
   <data name="developInPortal" xml:space="preserve">
         <value>Vývoj na portálu</value>
     </data>
+  <data name="fileSharesFailure" xml:space="preserve">
+        <value>Nepovedlo se načíst sdílené složky v účtu úložiště.</value>
+    </data>
+  <data name="fileSharesFailureWithError" xml:space="preserve">
+        <value>Nepovedlo se načíst sdílené složky v účtu úložiště, protože došlo k chybě: {0}</value>
+    </data>
+  <data name="blobsFailure" xml:space="preserve">
+        <value>Nepovedlo se načíst objekty blob v účtu úložiště.</value>
+    </data>
+  <data name="blobsFailureWithError" xml:space="preserve">
+        <value>Nepovedlo se načíst objekty blob v účtu úložiště, protože došlo k chybě: {0}</value>
+    </data>
+  <data name="blobsAndFileSharesFailure" xml:space="preserve">
+        <value>Nepovedlo se načíst objekty blob a sdílené složky v účtu úložiště.</value>
+    </data>
   <data name="containerImage" xml:space="preserve">
-        <value>Image name</value>
+        <value>Název image</value>
     </data>
   <data name="containerImagePlaceholder" xml:space="preserve">
-        <value>E.g. nginx</value>
+        <value>Např. nginx</value>
+    </data>
+  <data name="savingContainerConfiguration" xml:space="preserve">
+        <value>Ukládá se konfigurace kontejneru.</value>
+    </data>
+  <data name="savingContainerConfigurationSuccess" xml:space="preserve">
+        <value>Konfigurace kontejneru se úspěšně uložila.</value>
+    </data>
+  <data name="savingContainerConfigurationFailed" xml:space="preserve">
+        <value>Nepovedlo se uložit konfiguraci kontejneru.</value>
+    </data>
+  <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
+        <value>Nepovedlo se uložit konfiguraci kontejneru: {0}</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
+        <value>Vaše aplikace je momentálně připnutá k verzi modulu runtime {0} a od listopadu 2020 už nebude dostávat upgrady zabezpečení. Doporučuje se upgradovat na nejnovější verzi modulu runtime. Další informace najdete v tomto článku.</value>
+    </data>
+  <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
+        <value>The server URL must begin with https://</value>
     </data>
 </root>

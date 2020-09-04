@@ -5692,7 +5692,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Le débogage à distance n'est pas disponible pour votre application. </value>
     </data>
   <data name="classicDeprecation" xml:space="preserve">
-        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
+        <value>L'expérience de gestion Azure Functions classique est dépréciée et sera désactivée en octobre 2020. Si vous rencontrez des difficultés avec la nouvelle expérience, cliquez ici pour signaler votre problème.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Enregistrer les changements</value>
@@ -5964,6 +5964,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Commande d'actualisation du centre de déploiement</value>
     </data>
+  <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
+        <value>Commande de synchronisation du centre de déploiement</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Erreur de récupération des informations</value>
     </data>
@@ -6066,6 +6069,12 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
         <value>Informations d'identification FTP ou FTPS</value>
     </data>
+  <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
+        <value>Informations d'identification Git local/FTP/FTPs</value>
+    </data>
+  <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
+        <value>Informations d'identification Git local ou FTP ou FTPs</value>
+    </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Chargement des journaux de conteneur</value>
     </data>
@@ -6089,6 +6098,12 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Les modifications non enregistrées seront perdues à l'issue de l'actualisation. Voulez-vous continuer ?</value>
+    </data>
+  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+        <value>Voulez-vous vraiment lancer la synchronisation ?</value>
+    </data>
+  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
+        <value>L'exécution d'une opération de synchronisation annule toute opération de déploiement en cours et en crée une autre</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Ajouter un paramètre d'application</value>
@@ -6174,6 +6189,12 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>Le nom d'utilisateur doit avoir au moins {0} caractères.</value>
     </data>
+  <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
+        <value>Ce champ est obligatoire</value>
+    </data>
+  <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
+        <value>The repository must begin with https://</value>
+    </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Utilisez ces paramètres pour configurer votre modèle et votre registre de déploiement d'application conteneur. Nous recommandons GitHub Actions pour une plus grande efficacité opérationnelle.</value>
     </data>
@@ -6221,6 +6242,54 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
         <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
+        <value>Git local</value>
+    </data>
+  <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
+        <value>Git externe</value>
+    </data>
+  <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
+        <value>Nom d'utilisateur</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPasswordLabel" xml:space="preserve">
+        <value>Mot de passe</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
+        <value>Type de dépôt</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
+        <value>Privé</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
+        <value>Public</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
+        <value>Votre URL de dépôt Git local sera générée une fois l'opération terminée.</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitBranchSetupMessage" xml:space="preserve">
+        <value>maître</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitCloneUri" xml:space="preserve">
+        <value>URI Git Clone</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
+        <value>Une erreur s'est produite pendant la récupération de l'URI Git Clone</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
+        <value>Demande de synchronisation envoyée</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+        <value>Le référentiel de l’application web {0} est actuellement mis à jour</value>
+    </data>
+  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+        <value>Le dépôt de l'application web {0} a été mis à jour</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
+        <value>Échec de synchronisation : {0}</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
+        <value>Échec de synchronisation</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Paramètres de registre</value>
@@ -6393,8 +6462,8 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
         <value>Dropbox</value>
     </data>
-  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
-        <value>Externe</value>
+  <data name="deploymentCenterCodeSettingsSourceExternalGit" xml:space="preserve">
+        <value>Git externe</value>
     </data>
   <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
         <value>GitHub Actions</value>
@@ -6570,19 +6639,52 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="description" xml:space="preserve">
         <value>Description</value>
     </data>
-  <data name="detail" xml:space="preserve">
-        <value>Détail</value>
+  <data name="templateDetails" xml:space="preserve">
+        <value>Détails du modèle</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>Nous avons besoin d'autres informations pour créer la fonction. </value>
+        <value>We need more information to create the {0} function. </value>
     </data>
   <data name="developInPortal" xml:space="preserve">
         <value>Développer dans le portail</value>
     </data>
+  <data name="fileSharesFailure" xml:space="preserve">
+        <value>Échec de récupération (fetch) des partages de fichiers dans le compte de stockage</value>
+    </data>
+  <data name="fileSharesFailureWithError" xml:space="preserve">
+        <value>Échec de récupération (fetch) des partages de fichiers dans le compte de stockage avec l'erreur : {0}</value>
+    </data>
+  <data name="blobsFailure" xml:space="preserve">
+        <value>Échec de récupération (fetch) des blobs dans le compte de stockage</value>
+    </data>
+  <data name="blobsFailureWithError" xml:space="preserve">
+        <value>Échec de récupération (fetch) des blob dans le compte de stockage avec l'erreur : {0}</value>
+    </data>
+  <data name="blobsAndFileSharesFailure" xml:space="preserve">
+        <value>Échec de récupération (fetch) des blobs et des partages de fichiers dans le compte de stockage</value>
+    </data>
   <data name="containerImage" xml:space="preserve">
-        <value>Image name</value>
+        <value>Nom de l'image</value>
     </data>
   <data name="containerImagePlaceholder" xml:space="preserve">
-        <value>E.g. nginx</value>
+        <value>Par exemple, nginx</value>
+    </data>
+  <data name="savingContainerConfiguration" xml:space="preserve">
+        <value>Enregistrement de la configuration de conteneur</value>
+    </data>
+  <data name="savingContainerConfigurationSuccess" xml:space="preserve">
+        <value>Configuration de conteneur enregistrée</value>
+    </data>
+  <data name="savingContainerConfigurationFailed" xml:space="preserve">
+        <value>L'enregistrement de la configuration de conteneur a échoué</value>
+    </data>
+  <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
+        <value>L'enregistrement de la configuration de conteneur a échoué : {0}</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
+        <value>Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.</value>
+    </data>
+  <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
+        <value>The server URL must begin with https://</value>
     </data>
 </root>
