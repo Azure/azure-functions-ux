@@ -45,7 +45,6 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       itemType: DropdownMenuItemType.Header,
     },
     { key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') },
-    { key: ScmType.Vso, text: t('deploymentCenterCodeSettingsSourceAzureRepos') },
     { key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') },
     { key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') },
     { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
@@ -54,8 +53,6 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       text: t('deploymentCenterCodeSettingsSourceManualDeploymentHeader'),
       itemType: DropdownMenuItemType.Header,
     },
-    { key: ScmType.OneDrive, text: t('deploymentCenterCodeSettingsSourceOneDrive') },
-    { key: ScmType.Dropbox, text: t('deploymentCenterCodeSettingsSourceDropbox') },
     { key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') },
   ];
 
