@@ -293,9 +293,8 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     if (!!formValues) {
       if (formValues.newAppSettings) {
         updateAppSettings(formValues.newAppSettings);
-      } else {
-        addFunction(formValues);
       }
+      addFunction(formValues);
     }
   };
 
