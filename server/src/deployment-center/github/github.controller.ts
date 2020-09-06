@@ -58,14 +58,35 @@ export class GithubController {
     @Body('gitHubToken') gitHubToken: string,
     @Body('content') content: GitHubActionWorkflowRequestContent
   ) {
-    // NOTE(michinoy): In order for the action workflow to succesfully execute, it needs to have the secret allowing access
+    // NOTE(michinoy): In order for the action workflow to successfully execute, it needs to have the secret allowing access
     // to the web app. This secret is the publish profile. This one method will retrieve publish profile, encrypt it, put it
     // as a GitHub secret, and then publish the workflow file.
 
     const publishProfileRequest = this.dcService.getSitePublishProfile(authToken, content.resourceId);
     const publicKeyRequest = this._getGitHubRepoPublicKey(gitHubToken, content.commit.repoName);
     const [publishProfile, publicKey] = await Promise.all([publishProfileRequest, publicKeyRequest]);
-    await this._putGitHubRepoSecret(gitHubToken, publicKey, content.commit.repoName, content.secretName, publishProfile);
+
+    const {
+      commit,
+      secretName,
+      containerUsernameSecretName,
+      containerUsernameSecretValue,
+      containerPasswordSecretName,
+      containerPasswordSecretValue,
+    } = content;
+
+    // NOTE(michinoy): If this is a setup for containers, the username and passwords also need to be stored as secrets
+    // along with the publish profile.
+    if (containerUsernameSecretName && containerUsernameSecretValue && containerPasswordSecretName && containerPasswordSecretValue) {
+      await Promise.all([
+        this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, publishProfile),
+        this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, containerUsernameSecretName, containerUsernameSecretValue),
+        this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, containerPasswordSecretName, containerPasswordSecretValue),
+      ]);
+    } else {
+      await this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, publishProfile);
+    }
+
     await this._commitFile(gitHubToken, content);
   }
 
