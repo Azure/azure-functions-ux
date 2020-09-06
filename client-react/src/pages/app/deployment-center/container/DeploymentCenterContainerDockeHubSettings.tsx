@@ -73,17 +73,15 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
         </>
       )}
 
-      <Field
-        id="container-dockerHub-imageAndTag"
-        name="dockerHubImageAndTag"
-        component={TextField}
-        label={isGitHubAction && !isUsingExistingOrAvailableWorkflowConfig ? t('containerImage') : t('containerImageAndTag')}
-        placeholder={
-          isGitHubAction && !isUsingExistingOrAvailableWorkflowConfig
-            ? t('containerImagePlaceholder')
-            : t('containerImageAndTagPlaceholder')
-        }
-      />
+      {!isUsingExistingOrAvailableWorkflowConfig && (
+        <Field
+          id="container-dockerHub-imageAndTag"
+          name="dockerHubImageAndTag"
+          component={TextField}
+          label={isGitHubAction ? t('containerImage') : t('containerImageAndTag')}
+          placeholder={isGitHubAction ? t('containerImagePlaceholder') : t('containerImageAndTagPlaceholder')}
+        />
+      )}
 
       <Field id="container-dockerHub-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
     </>

@@ -7,6 +7,8 @@ import {
   ContinuousDeploymentOption,
   ContainerRegistrySources,
   ContainerOptions,
+  SiteSourceControlRequestBody,
+  WorkflowOption,
 } from '../DeploymentCenter.types';
 import { KeyCodes } from 'office-ui-fabric-react';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
@@ -21,10 +23,18 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
-import { getAcrWebhookName, getAppDockerWebhookUrl } from '../utility/DeploymentCenterUtility';
+import { getAcrWebhookName, getAppDockerWebhookUrl, getWorkflowFilePath, getArmToken } from '../utility/DeploymentCenterUtility';
 import { ACRWebhookPayload } from '../../../../models/acr';
 import { ScmType } from '../../../../models/site/config';
 import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { getContainerAppWorkflowInformation } from '../utility/GitHubActionUtility';
+import { GitHubCommit, GitHubActionWorkflowRequestContent } from '../../../../models/github';
+
+interface ResponseResult {
+  success: boolean;
+  error?: any; //NOTE(michinoy): This needs to remain as 'any' as we do not know the schema of the error object
+}
 
 const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps> = props => {
   const { t } = useTranslation();
@@ -35,20 +45,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   const portalContext = useContext(PortalContext);
   const siteContext = useContext(SiteStateContext);
   const deploymentCenterData = new DeploymentCenterData();
-
-  const getAppSettings = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>): { [name: string]: string } => {
-    const appSettings = {};
-
-    if (values.continuousDeploymentOption === ContinuousDeploymentOption.on) {
-      appSettings[DeploymentCenterConstants.enableCISetting] = 'true';
-    }
-
-    appSettings[DeploymentCenterConstants.usernameSetting] = getUsername(values);
-    appSettings[DeploymentCenterConstants.passwordSetting] = getPassword(values);
-    appSettings[DeploymentCenterConstants.serverUrlSetting] = getServerUrl(values);
-
-    return appSettings;
-  };
 
   const getServerUrl = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>): string => {
     if (values.registrySource === ContainerRegistrySources.acr) {
@@ -66,7 +62,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
       return values.privateRegistryUsername;
     } else {
-      return values.privateRegistryUsername;
+      return values.dockerHubUsername;
     }
   };
 
@@ -76,7 +72,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
       return values.privateRegistryPassword;
     } else {
-      return values.privateRegistryPassword;
+      return values.dockerHubPassword;
     }
   };
 
@@ -183,48 +179,18 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     return Promise.resolve(null);
   };
 
-  const saveDirectRegistrySettings = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
-    const notificationId = portalContext.startNotification(t('savingContainerConfiguration'), t('savingContainerConfiguration'));
-    const resourceId = siteContext.resourceId || '';
+  const getAppSettings = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>): { [name: string]: string } => {
+    const appSettings = {};
 
-    // Get the latest app settings and site config.
-    const appSettingRequest = deploymentCenterData.fetchApplicationSettings(resourceId);
-    const siteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
-
-    const [appSettingsResponse, siteConfigResponse] = await Promise.all([appSettingRequest, siteConfigRequest]);
-
-    if (!appSettingsResponse.metadata.success || !siteConfigResponse.metadata.success) {
-      portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
-      return;
+    if (values.scmType !== ScmType.GitHubAction && values.continuousDeploymentOption === ContinuousDeploymentOption.on) {
+      appSettings[DeploymentCenterConstants.enableCISetting] = 'true';
     }
 
-    // Update the app settings and site config with the container configuration
-    appSettingsResponse.data.properties = getLatestAppSettings(appSettingsResponse.data.properties, values);
-    siteConfigResponse.data.properties.appCommandLine = values.command;
+    appSettings[DeploymentCenterConstants.usernameSetting] = getUsername(values);
+    appSettings[DeploymentCenterConstants.passwordSetting] = getPassword(values);
+    appSettings[DeploymentCenterConstants.serverUrlSetting] = getServerUrl(values);
 
-    if (siteContext.isLinuxApp) {
-      siteConfigResponse.data.properties.linuxFxVersion = getFxVersion(values);
-    } else {
-      siteConfigResponse.data.properties.windowsFxVersion = getFxVersion(values);
-    }
-
-    const saveAppSettingsRequest = deploymentCenterData.updateApplicationSettings(resourceId, appSettingsResponse.data);
-    const saveSiteConfigRequest = deploymentCenterData.updateSiteConfig(resourceId, siteConfigResponse.data);
-
-    const [saveAppSettingsReResponse, saveSiteConfigResponse] = await Promise.all([saveAppSettingsRequest, saveSiteConfigRequest]);
-
-    if (!saveAppSettingsReResponse.metadata.success || !saveSiteConfigResponse.metadata.success) {
-      portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
-      return;
-    }
-
-    if (values.registrySource === ContainerRegistrySources.acr) {
-      // NOTE(michinoy): The registration of webhook should be a fire and forget operation. No need to wait on it.
-      // Also no need to check the status.
-      manageAcrWebhook(values);
-    }
-
-    portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
+    return appSettings;
   };
 
   const getLatestAppSettings = (
@@ -234,7 +200,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     const containerAppSettings = getAppSettings(values);
 
     delete existingAppSettings[DeploymentCenterConstants.serverUrlSetting];
-    delete existingAppSettings[DeploymentCenterConstants.imageNameSetting];
     delete existingAppSettings[DeploymentCenterConstants.usernameSetting];
     delete existingAppSettings[DeploymentCenterConstants.passwordSetting];
     delete existingAppSettings[DeploymentCenterConstants.enableCISetting];
@@ -242,8 +207,263 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     return { ...existingAppSettings, ...containerAppSettings };
   };
 
+  const updateAppSettings = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>): Promise<ResponseResult> => {
+    const resourceId = siteContext.resourceId || '';
+    const responseResult = {
+      success: true,
+      error: null,
+    };
+
+    const appSettingsResponse = await deploymentCenterData.fetchApplicationSettings(resourceId);
+
+    if (appSettingsResponse.metadata.success) {
+      appSettingsResponse.data.properties = getLatestAppSettings(appSettingsResponse.data.properties, values);
+      const saveAppSettingsResponse = await deploymentCenterData.updateApplicationSettings(resourceId, appSettingsResponse.data);
+
+      if (!saveAppSettingsResponse.metadata.success) {
+        responseResult.success = false;
+        responseResult.error = saveAppSettingsResponse.metadata.error;
+      }
+    } else {
+      responseResult.success = false;
+      responseResult.error = appSettingsResponse.metadata.error;
+    }
+
+    return responseResult;
+  };
+
+  const updateSiteConfig = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>): Promise<ResponseResult> => {
+    const resourceId = siteContext.resourceId || '';
+    const responseResult = {
+      success: true,
+      error: null,
+    };
+
+    const siteConfigResponse = await deploymentCenterData.getSiteConfig(resourceId);
+
+    if (siteConfigResponse.metadata.success) {
+      siteConfigResponse.data.properties.appCommandLine = values.command;
+
+      if (siteContext.isLinuxApp) {
+        siteConfigResponse.data.properties.linuxFxVersion = getFxVersion(values);
+      } else {
+        siteConfigResponse.data.properties.windowsFxVersion = getFxVersion(values);
+      }
+
+      const saveSiteConfigResponse = await deploymentCenterData.updateSiteConfig(resourceId, siteConfigResponse.data);
+      if (!saveSiteConfigResponse.metadata.success) {
+        responseResult.success = false;
+        responseResult.error = saveSiteConfigResponse.metadata.error;
+      }
+    } else {
+      responseResult.success = false;
+      responseResult.error = siteConfigResponse.metadata.error;
+    }
+
+    return responseResult;
+  };
+
+  const saveDirectRegistrySettings = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+    const notificationId = portalContext.startNotification(t('savingContainerConfiguration'), t('savingContainerConfiguration'));
+
+    const [updateAppSettingsResponse, updateSiteConfigResponse] = await Promise.all([updateAppSettings(values), updateSiteConfig(values)]);
+
+    if (updateAppSettingsResponse.success && updateSiteConfigResponse.success) {
+      if (values.registrySource === ContainerRegistrySources.acr) {
+        // NOTE(michinoy): The registration of webhook should be a fire and forget operation. No need to wait on it.
+        // Also no need to check the status.
+        manageAcrWebhook(values);
+      }
+
+      portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
+    } else {
+      portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
+
+      if (!updateAppSettingsResponse.success) {
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'DeploymentCenterContainerForm',
+          `Failed to update app settings with error: ${getErrorMessage(updateAppSettingsResponse.error)}`
+        );
+      }
+
+      if (!updateSiteConfigResponse.success) {
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'DeploymentCenterContainerForm',
+          `Failed to update site config with error: ${getErrorMessage(updateSiteConfigResponse.error)}`
+        );
+      }
+    }
+  };
+
+  const getImageForGitHubAction = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+    let imageValue = '';
+    if (values.registrySource === ContainerRegistrySources.acr) {
+      imageValue = values.acrImage;
+    } else if (values.registrySource === ContainerRegistrySources.docker) {
+      imageValue = values.dockerHubImageAndTag;
+    } else {
+      imageValue = values.privateRegistryImageAndTag;
+    }
+
+    return imageValue.split(':')[0];
+  };
+
+  const updateGitHubActionSettings = async (
+    values: DeploymentCenterFormData<DeploymentCenterContainerFormData>
+  ): Promise<ResponseResult> => {
+    if (
+      values.workflowOption === WorkflowOption.None ||
+      values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs ||
+      values.workflowOption === WorkflowOption.UseExistingWorkflowConfig
+    ) {
+      return {
+        success: true,
+      };
+    }
+
+    const repo = `${values.org}/${values.repo}`;
+    const branch = values.branch || 'master';
+
+    const serverUrl = getServerUrl(values);
+    const image = getImageForGitHubAction(values);
+
+    const workflowInformation = getContainerAppWorkflowInformation(
+      serverUrl,
+      image,
+      branch,
+      values.gitHubPublishProfileSecretGuid,
+      values.gitHubContainerUsernameSecretGuid,
+      values.gitHubContainerPasswordSecretGuid,
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+    );
+
+    const commitInfo: GitHubCommit = {
+      repoName: repo,
+      branchName: branch,
+      filePath: getWorkflowFilePath(
+        branch,
+        deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+        deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+      ),
+      message: t('githubActionWorkflowCommitMessage'),
+      contentBase64Encoded: btoa(workflowInformation.content),
+      committer: {
+        name: 'Azure App Service',
+        email: 'donotreply@microsoft.com',
+      },
+    };
+
+    const workflowConfigurationResponse = await deploymentCenterData.getWorkflowConfiguration(
+      values.org,
+      values.repo,
+      branch,
+      commitInfo.filePath,
+      deploymentCenterContext.gitHubToken
+    );
+
+    // NOTE(michinoy): A failure here means the file does not exist and we do not need to copy over the sha.
+    // No need to log anything.
+    if (workflowConfigurationResponse.metadata.success) {
+      commitInfo.sha = workflowConfigurationResponse.data.sha;
+    }
+
+    const requestContent: GitHubActionWorkflowRequestContent = {
+      resourceId: deploymentCenterContext.resourceId,
+      secretName: workflowInformation.publishingProfileSecretName,
+
+      containerUsernameSecretName: workflowInformation.containerUsernameSecretName,
+      containerUsernameSecretValue: getUsername(values),
+      containerPasswordSecretName: workflowInformation.containerPasswordSecretName,
+      containerPasswordSecretValue: getPassword(values),
+      commit: commitInfo,
+    };
+
+    const response = await deploymentCenterData.createOrUpdateActionWorkflow(
+      getArmToken(),
+      deploymentCenterContext.gitHubToken,
+      requestContent
+    );
+
+    return {
+      success: response.metadata.success,
+      error: response.metadata.error,
+    };
+  };
+
+  const updateSourceControlDetails = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+    const payload: SiteSourceControlRequestBody = {
+      repoUrl: `${DeploymentCenterConstants.githubUri}/${values.org}/${values.repo}`,
+      branch: values.branch || 'master',
+      isManualIntegration: false,
+      isGitHubAction: true,
+      isMercurial: false,
+    };
+
+    return deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, { properties: payload });
+  };
+
+  const updateApplicationProperties = async (
+    values: DeploymentCenterFormData<DeploymentCenterContainerFormData>
+  ): Promise<ResponseResult> => {
+    const responseResult = {
+      success: true,
+      error: null,
+    };
+
+    const updateSourceControlDetailsResponse = await updateSourceControlDetails(values);
+
+    if (updateSourceControlDetailsResponse.metadata.success) {
+      // NOTE(michinoy): Do not make the call to update sourcecontrols API and site config parallel.
+      // Internally the sourcecontrols API update the site config object, so this is to prevent any
+      // locking issues on that object.
+      const [updateAppSettingsResponse, updateSiteConfigResponse] = await Promise.all([
+        updateAppSettings(values),
+        updateSiteConfig(values),
+      ]);
+
+      if (!updateAppSettingsResponse.success) {
+        responseResult.success = false;
+        responseResult.error = updateAppSettingsResponse.error;
+      }
+
+      if (!updateSiteConfigResponse.success) {
+        responseResult.success = false;
+        responseResult.error = updateSiteConfigResponse.error;
+      }
+    } else {
+      responseResult.success = false;
+      responseResult.error = updateSourceControlDetailsResponse.metadata.error;
+    }
+
+    return responseResult;
+  };
+
   const saveGithubActionContainerSettings = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
-    throw Error('Not implemented');
+    const notificationId = portalContext.startNotification(t('savingContainerConfiguration'), t('savingContainerConfiguration'));
+
+    const updateGitHubActionSettingsResponse = await updateGitHubActionSettings(values);
+
+    if (updateGitHubActionSettingsResponse.success) {
+      const updateApplicationPropertiesResponse = await updateApplicationProperties(values);
+
+      if (updateApplicationPropertiesResponse.success) {
+        portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
+      } else {
+        portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
+
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'DeploymentCenterContainerForm',
+          `Failed to update app settings with error: ${getErrorMessage(updateApplicationPropertiesResponse.error)}`
+        );
+      }
+    } else {
+      portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
+      LogService.error(LogCategories.deploymentCenter, 'DeploymentCenterContainerForm', 'Failed to save GitHub Action settings.');
+    }
   };
 
   const onKeyDown = keyEvent => {
