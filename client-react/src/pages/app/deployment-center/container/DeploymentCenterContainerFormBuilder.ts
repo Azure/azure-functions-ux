@@ -192,6 +192,16 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getFxVersionParts(): FxVersionParts {
+    if (!this._siteConfig) {
+      return {
+        server: '',
+        image: '',
+        tag: '',
+        containerOption: ContainerOptions.docker,
+        composeYml: '',
+      };
+    }
+
     // NOTE(michinoy): Depending on the OS you would either have linuxFxVersion or windowsFxVersion.
     // Depending on the container option (single/docker or compose) the fxVersion value could either contain
     // the registry source or an encoded yml file (yeah I know!). Following are some examples:

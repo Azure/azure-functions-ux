@@ -8,6 +8,7 @@ import {
   ContainerRegistrySources,
   ContainerOptions,
   SiteSourceControlRequestBody,
+  WorkflowOption,
 } from '../DeploymentCenter.types';
 import { KeyCodes } from 'office-ui-fabric-react';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
@@ -309,7 +310,19 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     return imageValue.split(':')[0];
   };
 
-  const updateGitHubActionSettings = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+  const updateGitHubActionSettings = async (
+    values: DeploymentCenterFormData<DeploymentCenterContainerFormData>
+  ): Promise<ResponseResult> => {
+    if (
+      values.workflowOption === WorkflowOption.None ||
+      values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs ||
+      values.workflowOption === WorkflowOption.UseExistingWorkflowConfig
+    ) {
+      return {
+        success: true,
+      };
+    }
+
     const repo = `${values.org}/${values.repo}`;
     const branch = values.branch || 'master';
 
@@ -368,7 +381,16 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       commit: commitInfo,
     };
 
-    return deploymentCenterData.createOrUpdateActionWorkflow(getArmToken(), deploymentCenterContext.gitHubToken, requestContent);
+    const response = await deploymentCenterData.createOrUpdateActionWorkflow(
+      getArmToken(),
+      deploymentCenterContext.gitHubToken,
+      requestContent
+    );
+
+    return {
+      success: response.metadata.success,
+      error: response.metadata.error,
+    };
   };
 
   const updateSourceControlDetails = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
@@ -424,7 +446,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
     const updateGitHubActionSettingsResponse = await updateGitHubActionSettings(values);
 
-    if (updateGitHubActionSettingsResponse.metadata.success) {
+    if (updateGitHubActionSettingsResponse.success) {
       const updateApplicationPropertiesResponse = await updateApplicationProperties(values);
 
       if (updateApplicationPropertiesResponse.success) {
