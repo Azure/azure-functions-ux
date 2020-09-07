@@ -21,6 +21,8 @@ import { Guid } from '../../../../utils/Guid';
 import { getContainerAppWorkflowInformation } from '../utility/GitHubActionUtility';
 import DeploymentCenterContainerContinuousDeploymentSettings from './DeploymentCenterContainerContinuousDeploymentSettings';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentCenterGitHubConfiguredView';
+import DeploymentCenterContainerSettingsConfiguredView from './DeploymentCenterContainerSettingsConfiguredView';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
@@ -30,6 +32,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const [isPreviewFileButtonDisabled, setIsPreviewFileButtonDisabled] = useState(false);
   const [workflowFileContent, setWorkflowFileContent] = useState('');
   const [panelMessage, setPanelMessage] = useState('');
+  const [showConfiguredView, setShowConfiguredView] = useState(false);
 
   // NOTE(michinoy): The serverUrl, image, username, and password are retrieved from  one of three sources:
   // acr, dockerHub, or privateRegistry.
@@ -201,40 +204,65 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.scmType]);
 
-  return (
-    <>
-      <DeploymentCenterContainerSource />
+  useEffect(() => {
+    if (
+      deploymentCenterContext &&
+      deploymentCenterContext.siteConfig &&
+      deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction
+    ) {
+      setShowConfiguredView(true);
+    }
 
-      {isGitHubActionEnabled && (
-        <>
-          <DeploymentCenterGitHubDataLoader formProps={formProps} />{' '}
-          <DeploymentCenterGitHubWorkflowConfigSelector
-            formProps={formProps}
-            setGithubActionExistingWorkflowContents={setGithubActionExistingWorkflowContents}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext.siteConfig]);
+
+  const setupView = () => {
+    return (
+      <>
+        <DeploymentCenterContainerSource />
+
+        {isGitHubActionEnabled && (
+          <>
+            <DeploymentCenterGitHubDataLoader formProps={formProps} />{' '}
+            <DeploymentCenterGitHubWorkflowConfigSelector
+              formProps={formProps}
+              setGithubActionExistingWorkflowContents={setGithubActionExistingWorkflowContents}
+            />
+          </>
+        )}
+
+        <DeploymentCenterContainerRegistrySettings {...props} />
+
+        {isAcrConfigured && <DeploymentCenterContainerAcrDataLoader {...props} />}
+
+        {isDockerHubConfigured && <DeploymentCenterContainerDockerHubSettings {...props} />}
+
+        {isPrivateRegistryConfigured && <DeploymentCenterContainerPrivateRegistrySettings {...props} />}
+
+        {isGitHubActionEnabled && (
+          <DeploymentCenterGitHubWorkflowConfigPreview
+            isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
+            workflowFilePath={workflowFilePath}
+            workflowFileContent={workflowFileContent}
+            panelMessage={panelMessage}
           />
-        </>
-      )}
+        )}
 
-      <DeploymentCenterContainerRegistrySettings {...props} />
+        {!isGitHubActionEnabled && <DeploymentCenterContainerContinuousDeploymentSettings {...props} />}
+      </>
+    );
+  };
 
-      {isAcrConfigured && <DeploymentCenterContainerAcrDataLoader {...props} />}
+  const configuredView = () => {
+    return (
+      <>
+        <DeploymentCenterGitHubConfiguredView isGitHubActionsSetup={true} />
+        <DeploymentCenterContainerSettingsConfiguredView />
+      </>
+    );
+  };
 
-      {isDockerHubConfigured && <DeploymentCenterContainerDockerHubSettings {...props} />}
-
-      {isPrivateRegistryConfigured && <DeploymentCenterContainerPrivateRegistrySettings {...props} />}
-
-      {isGitHubActionEnabled && (
-        <DeploymentCenterGitHubWorkflowConfigPreview
-          isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
-          workflowFilePath={workflowFilePath}
-          workflowFileContent={workflowFileContent}
-          panelMessage={panelMessage}
-        />
-      )}
-
-      {!isGitHubActionEnabled && <DeploymentCenterContainerContinuousDeploymentSettings {...props} />}
-    </>
-  );
+  return showConfiguredView ? configuredView() : setupView();
 };
 
 export default DeploymentCenterContainerSettings;
