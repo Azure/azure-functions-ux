@@ -9,7 +9,7 @@ import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { ScmType } from '../../../models/site/config';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, sync, isLoading } = props;
+  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, sync, isLoading, isDirty } = props;
   const { t } = useTranslation();
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -65,7 +65,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Save',
       },
       ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
-      disabled: isDisabledOnReload(),
+      disabled: isDisabledOnReload() || !isDirty,
       onClick: saveFunction,
     };
   };
@@ -78,7 +78,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Cancel',
       },
       ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
-      disabled: isDisabledOnReload(),
+      disabled: isDisabledOnReload() || !isDirty,
       onClick: discardFunction,
     };
   };
