@@ -7,7 +7,17 @@ import Dropdown from '../../../../components/form-controls/DropDown';
 import { useTranslation } from 'react-i18next';
 
 const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProviderProps> = props => {
-  const { formProps, fetchRepositoriesInOrganization, fetchBranchOptions, organizationOptions, repositoryOptions, branchOptions } = props;
+  const {
+    formProps,
+    fetchRepositoriesInOrganization,
+    fetchBranchOptions,
+    organizationOptions,
+    repositoryOptions,
+    branchOptions,
+    loadingOrganizations,
+    loadingRepositories,
+    loadingBranches,
+  } = props;
 
   const { t } = useTranslation();
 
@@ -62,6 +72,7 @@ const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProvi
             selectedKey={selectedOrg}
             required={true}
             onChange={onOrganizationChange}
+            isLoading={loadingOrganizations}
           />
           <Field
             id="deployment-center-settings-repository-option"
@@ -74,6 +85,7 @@ const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProvi
             selectedKey={selectedRepo}
             required={true}
             onChange={onRepositoryChange}
+            isLoading={loadingRepositories}
           />
           <Field
             id="deployment-center-settings-branch-option"
@@ -86,6 +98,7 @@ const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProvi
             selectedKey={selectedBranch}
             required={true}
             onChange={onBranchChange}
+            isLoading={loadingBranches}
           />
         </>
       )}

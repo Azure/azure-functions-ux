@@ -23,6 +23,9 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const [acrTagOptions, setAcrTagOptions] = useState<IDropdownOption[]>([]);
   const [acrStatusMessage, setAcrStatusMessage] = useState<string | undefined>(undefined);
   const [acrStatusMessageType, setAcrStatusMessageType] = useState<MessageBarType | undefined>(undefined);
+  const [loadingRegistryOptions, setLoadingRegistryOptions] = useState(false);
+  const [loadingImageOptions, setLoadingImageOptions] = useState(false);
+  const [loadingTagOptions, setLoadingTagOptions] = useState(false);
   const registryIdentifiers = useRef<{ [key: string]: RegistryIdentifiers }>({});
 
   const fetchData = () => {
@@ -37,6 +40,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
   const fetchRegistries = async () => {
     if (deploymentCenterContext.siteDescriptor) {
+      setLoadingRegistryOptions(true);
       const registriesResponse = await deploymentCenterData.getAcrRegistries(deploymentCenterContext.siteDescriptor.subscription);
       if (registriesResponse.metadata.success && registriesResponse.data) {
         const adminEnabledRegistries = registriesResponse.data.value.filter(registry => registry.properties.adminUserEnabled);
@@ -63,9 +67,12 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         }
       }
     }
+
+    setLoadingRegistryOptions(false);
   };
 
   const fetchRepositories = async (loginServer: string) => {
+    setLoadingImageOptions(true);
     setAcrTagOptions([]);
     setAcrStatusMessage(undefined);
     setAcrStatusMessageType(undefined);
@@ -110,9 +117,12 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
       setAcrImageOptions(repositoryOptions);
     }
+
+    setLoadingImageOptions(false);
   };
 
   const fetchTags = async (imageSelected: string) => {
+    setLoadingTagOptions(true);
     setAcrStatusMessage(undefined);
     setAcrStatusMessageType(undefined);
 
@@ -134,6 +144,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
       setAcrTagOptions(tagOptions);
     }
+    setLoadingTagOptions(false);
   };
 
   useEffect(() => {
@@ -166,6 +177,9 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       acrRegistryOptions={acrRegistryOptions}
       acrImageOptions={acrImageOptions}
       acrTagOptions={acrTagOptions}
+      loadingRegistryOptions={loadingRegistryOptions}
+      loadingImageOptions={loadingImageOptions}
+      loadingTagOptions={loadingTagOptions}
       acrStatusMessage={acrStatusMessage}
       acrStatusMessageType={acrStatusMessageType}
     />
