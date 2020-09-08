@@ -22,7 +22,7 @@ import { getContainerAppWorkflowInformation } from '../utility/GitHubActionUtili
 import DeploymentCenterContainerContinuousDeploymentSettings from './DeploymentCenterContainerContinuousDeploymentSettings';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentCenterGitHubConfiguredView';
-import DeploymentCenterContainerSettingsConfiguredView from './DeploymentCenterContainerSettingsConfiguredView';
+import DeploymentCenterContainerSettingsReadOnlyView from './DeploymentCenterContainerSettingsReadOnlyView';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
@@ -32,7 +32,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const [isPreviewFileButtonDisabled, setIsPreviewFileButtonDisabled] = useState(false);
   const [workflowFileContent, setWorkflowFileContent] = useState('');
   const [panelMessage, setPanelMessage] = useState('');
-  const [showConfiguredView, setShowConfiguredView] = useState(false);
+  const [showGitHubActionReadOnlyView, setShowGitHubActionReadOnlyView] = useState(false);
 
   // NOTE(michinoy): The serverUrl, image, username, and password are retrieved from  one of three sources:
   // acr, dockerHub, or privateRegistry.
@@ -45,7 +45,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
-  const isGitHubActionEnabled = formProps.values.scmType === ScmType.GitHubAction;
+  const isGitHubActionSelected = formProps.values.scmType === ScmType.GitHubAction;
   const isAcrConfigured = formProps.values.registrySource === ContainerRegistrySources.acr;
   const isDockerHubConfigured = formProps.values.registrySource === ContainerRegistrySources.docker;
   const isPrivateRegistryConfigured = formProps.values.registrySource === ContainerRegistrySources.privateRegistry;
@@ -210,18 +210,18 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
       deploymentCenterContext.siteConfig &&
       deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction
     ) {
-      setShowConfiguredView(true);
+      setShowGitHubActionReadOnlyView(true);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterContext.siteConfig]);
 
-  const setupView = () => {
+  const renderSetupView = () => {
     return (
       <>
         <DeploymentCenterContainerSource />
 
-        {isGitHubActionEnabled && (
+        {isGitHubActionSelected && (
           <>
             <DeploymentCenterGitHubDataLoader formProps={formProps} />{' '}
             <DeploymentCenterGitHubWorkflowConfigSelector
@@ -239,7 +239,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
 
         {isPrivateRegistryConfigured && <DeploymentCenterContainerPrivateRegistrySettings {...props} />}
 
-        {isGitHubActionEnabled && (
+        {isGitHubActionSelected && (
           <DeploymentCenterGitHubWorkflowConfigPreview
             isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
             workflowFilePath={workflowFilePath}
@@ -248,21 +248,21 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
           />
         )}
 
-        {!isGitHubActionEnabled && <DeploymentCenterContainerContinuousDeploymentSettings {...props} />}
+        {!isGitHubActionSelected && <DeploymentCenterContainerContinuousDeploymentSettings {...props} />}
       </>
     );
   };
 
-  const configuredView = () => {
+  const renderGitHubActionReadOnlyView = () => {
     return (
       <>
         <DeploymentCenterGitHubConfiguredView isGitHubActionsSetup={true} />
-        <DeploymentCenterContainerSettingsConfiguredView />
+        <DeploymentCenterContainerSettingsReadOnlyView />
       </>
     );
   };
 
-  return showConfiguredView ? configuredView() : setupView();
+  return showGitHubActionReadOnlyView ? renderGitHubActionReadOnlyView() : renderSetupView();
 };
 
 export default DeploymentCenterContainerSettings;
