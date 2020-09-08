@@ -287,7 +287,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
                 onClick: hideRefreshConfirmDialog,
               }}
               title={t('staticSite_refreshConfirmTitle')}
-              content={t('staticSite_refreshConfirmMessage')}
+              content={t('staticSite_dataLossMessage')}
               hidden={!isRefreshConfirmDialogVisible}
               onDismiss={hideRefreshConfirmDialog}
             />
@@ -320,7 +320,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
                 onClick: hideDiscardConfirmDialog,
               }}
               title={t('staticSite_discardConfirmTitle')}
-              content={t('staticSite_discardConfirmMessage')}
+              content={t('staticSite_dataLossMessage')}
               hidden={!isDiscardConfirmDialogVisible}
               onDismiss={hideDiscardConfirmDialog}
             />

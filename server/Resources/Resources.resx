@@ -6099,9 +6099,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
         <value>Are you sure you want to refresh?</value>
     </data>
-    <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
-        <value>All unsaved changes will be lost.</value>
-    </data>
     <data name="staticSite_syncConfirmTitle" xml:space="preserve">
         <value>Are you sure you want to sync?</value>
     </data>
@@ -6111,7 +6108,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_discardConfirmTitle" xml:space="preserve">
         <value>Are you sure you want to discard?</value>
     </data>
-    <data name="staticSite_discardConfirmMessage" xml:space="preserve">
+    <data name="staticSite_dataLossMessage" xml:space="preserve">
         <value>All unsaved changes will be lost.</value>
     </data>
     <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">

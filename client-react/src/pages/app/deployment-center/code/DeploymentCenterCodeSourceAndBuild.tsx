@@ -76,19 +76,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   useEffect(() => {
     if (formProps.values.sourceProvider !== ScmType.None) {
-      if (formProps.values.sourceProvider !== ScmType.GitHub) {
-        setSelectedBuild(BuildProvider.AppServiceBuildService);
-        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
-      } else {
-        setSelectedBuild(BuildProvider.GitHubAction);
-        formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
-        formProps.setFieldValue(
-          'gitHubPublishProfileSecretGuid',
-          Guid.newGuid()
-            .toLowerCase()
-            .replace(/[-]/g, '')
-        );
-      }
+      setSourceBuildProvider();
     } else {
       formProps.setFieldValue('buildProvider', BuildProvider.None);
     }
@@ -99,6 +87,22 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.sourceProvider]);
+
+  const setSourceBuildProvider = () => {
+    if (formProps.values.sourceProvider !== ScmType.GitHub) {
+      setSelectedBuild(BuildProvider.AppServiceBuildService);
+      formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
+    } else {
+      setSelectedBuild(BuildProvider.GitHubAction);
+      formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
+      formProps.setFieldValue(
+        'gitHubPublishProfileSecretGuid',
+        Guid.newGuid()
+          .toLowerCase()
+          .replace(/[-]/g, '')
+      );
+    }
+  };
 
   const isSourceSelected = formProps.values.sourceProvider !== ScmType.None;
   const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
