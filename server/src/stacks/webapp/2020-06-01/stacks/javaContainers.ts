@@ -65,6 +65,22 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
       ],
     },
     {
+      displayText: 'JBoss EAP',
+      value: 'jbosseap',
+      minorVersions: [
+        {
+          displayText: 'JBoss EAP 7.2',
+          value: '7.2',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: '?',
+              isPreview: true,
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: 'Tomcat 9.0',
       value: 'tomcat9.0',
       minorVersions: [

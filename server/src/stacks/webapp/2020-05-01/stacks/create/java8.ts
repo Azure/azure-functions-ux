@@ -8,7 +8,7 @@ export const java8CreateStack: WebAppCreateStack = {
     {
       displayText: 'Tomcat 8.5',
       value: 'Tomcat8.5Auto',
-      sortOrder: 2,
+      sortOrder: 3,
       supportedPlatforms: [
         {
           os: 'linux',
@@ -43,7 +43,7 @@ export const java8CreateStack: WebAppCreateStack = {
     {
       displayText: 'Tomcat 9.0',
       value: 'Tomcat9.0Auto',
-      sortOrder: 1,
+      sortOrder: 2,
       supportedPlatforms: [
         {
           os: 'linux',
@@ -68,6 +68,27 @@ export const java8CreateStack: WebAppCreateStack = {
           remoteDebuggingEnabled: false,
           runtimeVersion: '1.8|Tomcat|9.0',
           sortOrder: 1,
+          githubActionSettings: {
+            supported: true,
+            recommendedVersion: '8',
+          },
+        },
+      ],
+    },
+    {
+      displayText: 'JBoss EAP 7.2',
+      value: 'jbosseap7.2',
+      sortOrder: 2,
+      supportedPlatforms: [
+        {
+          os: 'linux',
+          isPreview: true,
+          isDeprecated: false,
+          isHidden: false,
+          applicationInsightsEnabled: false,
+          remoteDebuggingEnabled: false,
+          runtimeVersion: '?',
+          sortOrder: 0,
           githubActionSettings: {
             supported: true,
             recommendedVersion: '8',

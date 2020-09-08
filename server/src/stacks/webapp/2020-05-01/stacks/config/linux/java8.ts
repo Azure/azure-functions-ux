@@ -79,6 +79,23 @@ export const java8LinuxConfigStack: WebAppConfigStack = {
         isHidden: false,
       },
       {
+        displayVersion: 'JBoss EAP 7.2',
+        runtimeVersion: '?',
+        isDefault: false,
+        minorVersions: [
+          {
+            displayVersion: '7.2',
+            runtimeVersion: '?',
+            isDefault: true,
+            isRemoteDebuggingEnabled: false,
+          },
+        ],
+        applicationInsights: true,
+        isPreview: true,
+        isDeprecated: false,
+        isHidden: false,
+      },
+      {
         displayVersion: 'WildFly 14 - Preview',
         runtimeVersion: 'WILDFLY|14-jre8',
         isDefault: true,
