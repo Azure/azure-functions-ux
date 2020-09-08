@@ -33,8 +33,11 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
 
   const isSyncDisabled = () => {
     return (
-      (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction) ||
-      (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None)
+      isDisabledOnReload() ||
+      (deploymentCenterContext.siteConfig &&
+        (deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit ||
+          deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction ||
+          deploymentCenterContext.siteConfig.properties.scmType === ScmType.None))
     );
   };
 
@@ -127,7 +130,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Sync',
       },
       ariaLabel: t('deploymentCenterSyncCommandAriaLabel'),
-      disabled: isDisabledOnReload() || isSyncDisabled(),
+      disabled: isSyncDisabled(),
       onClick: sync,
     };
   };
