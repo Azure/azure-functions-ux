@@ -174,7 +174,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
 
   private _getServerUrl(): string {
     const value = this._applicationSettings && this._applicationSettings.properties[DeploymentCenterConstants.serverUrlSetting];
-    return value.toLocaleLowerCase() ? value : '';
+    return value ? value.toLocaleLowerCase() : '';
   }
 
   private _getUsername(): string {
