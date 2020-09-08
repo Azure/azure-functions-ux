@@ -5,11 +5,14 @@ import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { SiteStateContext } from '../../../SiteState';
 import { DeploymentCenterCommandBarProps } from './DeploymentCenter.types';
+import { DeploymentCenterContext } from './DeploymentCenterContext';
+import { ScmType } from '../../../models/site/config';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
   const { saveFunction, discardFunction, showPublishProfilePanel, refresh, sync, isLoading } = props;
   const { t } = useTranslation();
   const siteStateContext = useContext(SiteStateContext);
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const isSiteLoaded = () => {
     return siteStateContext.site && siteStateContext.site.properties;
@@ -26,6 +29,13 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
 
   const isDisabledOnReload = () => {
     return !isSiteLoaded() || isLoading;
+  };
+
+  const isSyncDisabled = () => {
+    return (
+      (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction) ||
+      (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None)
+    );
   };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
@@ -117,7 +127,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Sync',
       },
       ariaLabel: t('deploymentCenterSyncCommandAriaLabel'),
-      disabled: isDisabledOnReload(),
+      disabled: isDisabledOnReload() || isSyncDisabled(),
       onClick: sync,
     };
   };

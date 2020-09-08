@@ -287,12 +287,12 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             />
             <ConfirmDialog
               primaryActionButton={{
-                title: t('ok'),
-                onClick: syncFunction,
-              }}
-              defaultActionButton={{
                 title: t('cancel'),
                 onClick: hideSyncConfirmDialog,
+              }}
+              defaultActionButton={{
+                title: t('ok'),
+                onClick: syncFunction,
               }}
               title={t('staticSite_syncConfirmTitle')}
               content={t('staticSite_syncConfirmMessage')}
