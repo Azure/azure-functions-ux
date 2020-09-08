@@ -32,6 +32,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const { t } = useTranslation();
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
   const [isSyncConfirmDialogVisible, setIsSyncConfirmDialogVisible] = useState(false);
+  const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
 
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
@@ -250,6 +251,10 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     setIsSyncConfirmDialogVisible(false);
   };
 
+  const hideDiscardConfirmDialog = () => {
+    setIsDiscardConfirmDialogVisible(false);
+  };
+
   return (
     <Formik
       initialValues={props.formData}
@@ -262,10 +267,11 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         <form onKeyDown={onKeyDown}>
           <div id="deployment-center-command-bar" className={commandBarSticky}>
             <DeploymentCenterCommandBar
+              isDirty={formProps.dirty}
               isLoading={props.isLoading}
               saveFunction={formProps.submitForm}
-              discardFunction={formProps.resetForm}
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
+              discardFunction={() => setIsDiscardConfirmDialogVisible(true)}
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
               sync={() => setIsSyncConfirmDialogVisible(true)}
             />
@@ -298,6 +304,25 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
               content={t('staticSite_syncConfirmMessage')}
               hidden={!isSyncConfirmDialogVisible}
               onDismiss={hideSyncConfirmDialog}
+            />
+            <ConfirmDialog
+              primaryActionButton={{
+                title: t('ok'),
+                onClick: () => {
+                  formProps.resetForm();
+                  formProps.values.sourceProvider = ScmType.None;
+                  formProps.values.buildProvider = BuildProvider.None;
+                  hideDiscardConfirmDialog();
+                },
+              }}
+              defaultActionButton={{
+                title: t('cancel'),
+                onClick: hideDiscardConfirmDialog,
+              }}
+              title={t('staticSite_discardConfirmTitle')}
+              content={t('staticSite_discardConfirmMessage')}
+              hidden={!isDiscardConfirmDialogVisible}
+              onDismiss={hideDiscardConfirmDialog}
             />
           </>
           <div className={pivotContent}>

@@ -506,6 +506,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
               isLoading={props.isLoading}
+              isDirty={formProps.dirty}
             />
           </div>
           <>

@@ -56,13 +56,6 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     { key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') },
   ];
 
-  const onSourceChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    formProps.setFieldValue('sourceProvider', option.key.toString());
-    formProps.setFieldValue('org', '');
-    formProps.setFieldValue('repo', '');
-    formProps.setFieldValue('branch', '');
-  };
-
   const updateSelectedBuild = () => {
     setSelectedBuild(selectedBuildChoice);
     formProps.setFieldValue('buildProvider', selectedBuildChoice);
@@ -82,19 +75,28 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   };
 
   useEffect(() => {
-    if (formProps.values.sourceProvider !== ScmType.GitHub) {
-      setSelectedBuild(BuildProvider.AppServiceBuildService);
-      formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
+    if (formProps.values.sourceProvider !== ScmType.None) {
+      if (formProps.values.sourceProvider !== ScmType.GitHub) {
+        setSelectedBuild(BuildProvider.AppServiceBuildService);
+        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
+      } else {
+        setSelectedBuild(BuildProvider.GitHubAction);
+        formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
+        formProps.setFieldValue(
+          'gitHubPublishProfileSecretGuid',
+          Guid.newGuid()
+            .toLowerCase()
+            .replace(/[-]/g, '')
+        );
+      }
     } else {
-      setSelectedBuild(BuildProvider.GitHubAction);
-      formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
-      formProps.setFieldValue(
-        'gitHubPublishProfileSecretGuid',
-        Guid.newGuid()
-          .toLowerCase()
-          .replace(/[-]/g, '')
-      );
+      formProps.setFieldValue('buildProvider', BuildProvider.None);
     }
+
+    formProps.setFieldValue('org', '');
+    formProps.setFieldValue('repo', '');
+    formProps.setFieldValue('branch', '');
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.sourceProvider]);
 
@@ -150,7 +152,6 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         displayInVerticalLayout={true}
         options={sourceOptions}
         required={true}
-        onChange={onSourceChange}
       />
 
       {isSourceSelected &&
