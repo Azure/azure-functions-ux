@@ -9,7 +9,17 @@ import { ScmType } from '../../../../models/site/config';
 import { isWorkflowOptionExistingOrAvailable } from '../utility/GitHubActionUtility';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
-  const { acrRegistryOptions, acrImageOptions, acrTagOptions, acrStatusMessage, acrStatusMessageType, formProps } = props;
+  const {
+    acrRegistryOptions,
+    acrImageOptions,
+    acrTagOptions,
+    acrStatusMessage,
+    acrStatusMessageType,
+    formProps,
+    loadingRegistryOptions: loadingAcrRegistryOptions,
+    loadingImageOptions,
+    loadingTagOptions,
+  } = props;
   const { t } = useTranslation();
 
   const [isUsingExistingOrAvailableWorkflowConfig, setIsUsingExistingOrAvailableWorkflowConfig] = useState(false);
@@ -47,6 +57,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         component={Dropdown}
         displayInVerticalLayout={true}
         options={acrRegistryOptions}
+        isLoading={loadingAcrRegistryOptions}
       />
 
       {!isUsingExistingOrAvailableWorkflowConfig && (
@@ -58,6 +69,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
           component={Dropdown}
           displayInVerticalLayout={true}
           options={acrImageOptions}
+          isLoading={loadingImageOptions}
         />
       )}
 
@@ -70,6 +82,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
           component={Dropdown}
           displayInVerticalLayout={true}
           options={acrTagOptions}
+          isLoading={loadingTagOptions}
         />
       )}
 

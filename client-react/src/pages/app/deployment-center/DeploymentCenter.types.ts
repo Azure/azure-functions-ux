@@ -223,6 +223,9 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   organizationOptions: IDropdownOption[];
   repositoryOptions: IDropdownOption[];
   branchOptions: IDropdownOption[];
+  loadingOrganizations: boolean;
+  loadingRepositories: boolean;
+  loadingBranches: boolean;
   accountStatusMessage?: string;
   accountUser?: GitHubUser;
 }
@@ -360,6 +363,9 @@ export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterCont
   organizationOptions: IDropdownOption[];
   repositoryOptions: IDropdownOption[];
   branchOptions: IDropdownOption[];
+  loadingOrganizations: boolean;
+  loadingRepositories: boolean;
+  loadingBranches: boolean;
   accountStatusMessage?: string;
   accountUser?: BitbucketUser;
 }
@@ -370,6 +376,9 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   acrRegistryOptions: IDropdownOption[];
   acrImageOptions: IDropdownOption[];
   acrTagOptions: IDropdownOption[];
+  loadingRegistryOptions: boolean;
+  loadingImageOptions: boolean;
+  loadingTagOptions: boolean;
   acrStatusMessage?: string;
   acrStatusMessageType?: MessageBarType;
 }
