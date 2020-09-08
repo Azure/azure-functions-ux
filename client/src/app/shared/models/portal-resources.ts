@@ -1976,8 +1976,11 @@ export class PortalResources {
   public static invocationTracesTableDescription = 'invocationTracesTableDescription';
   public static staticSite_refreshConfirmTitle = 'staticSite_refreshConfirmTitle';
   public static staticSite_refreshConfirmMessage = 'staticSite_refreshConfirmMessage';
-  public static staticSite_syncConfirmTitle = 'staticSite_syncConfirmTitle';
-  public static staticSite_syncConfirmMessage = 'staticSite_syncConfirmMessage';
+  public static deploymentCenterRefreshConfirmTitle = 'deploymentCenterRefreshConfirmTitle';
+  public static deploymentCenterSyncConfirmTitle = 'deploymentCenterSyncConfirmTitle';
+  public static deploymentCenterSyncConfirmMessage = 'deploymentCenterSyncConfirmMessage';
+  public static deploymentCenterDiscardConfirmTitle = 'deploymentCenterDiscardConfirmTitle';
+  public static deploymentCenterDataLossMessage = 'deploymentCenterDataLossMessage';
   public static staticSite_addApplicationSettingHeader = 'staticSite_addApplicationSettingHeader';
   public static staticSite_editApplicationSettingHeader = 'staticSite_editApplicationSettingHeader';
   public static deploymentCenterFtpsDescription = 'deploymentCenterFtpsDescription';

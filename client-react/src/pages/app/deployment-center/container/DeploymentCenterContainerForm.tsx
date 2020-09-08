@@ -506,6 +506,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
               isLoading={props.isLoading}
+              isDirty={formProps.dirty}
             />
           </div>
           <>
@@ -518,8 +519,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
                 title: t('cancel'),
                 onClick: hideRefreshConfirmDialog,
               }}
-              title={t('staticSite_refreshConfirmTitle')}
-              content={t('staticSite_refreshConfirmMessage')}
+              title={t('deploymentCenterRefreshConfirmTitle')}
+              content={t('deploymentCenterDataLossMessage')}
               hidden={!isRefreshConfirmDialogVisible}
               onDismiss={hideRefreshConfirmDialog}
             />
