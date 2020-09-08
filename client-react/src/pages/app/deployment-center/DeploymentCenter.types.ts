@@ -222,6 +222,9 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   organizationOptions: IDropdownOption[];
   repositoryOptions: IDropdownOption[];
   branchOptions: IDropdownOption[];
+  loadingOrganizations: boolean;
+  loadingRepositories: boolean;
+  loadingBranches: boolean;
   accountStatusMessage?: string;
   accountUser?: GitHubUser;
 }

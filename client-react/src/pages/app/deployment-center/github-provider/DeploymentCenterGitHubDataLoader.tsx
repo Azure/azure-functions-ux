@@ -27,8 +27,12 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [organizationOptions, setOrganizationOptions] = useState<IDropdownOption[]>([]);
   const [repositoryOptions, setRepositoryOptions] = useState<IDropdownOption[]>([]);
   const [branchOptions, setBranchOptions] = useState<IDropdownOption[]>([]);
+  const [loadingOrganizations, setLoadingOrganizations] = useState(false);
+  const [loadingRepositories, setLoadingRepositories] = useState(false);
+  const [loadingBranches, setLoadingBranches] = useState(false);
 
   const fetchOrganizationOptions = async () => {
+    setLoadingOrganizations(true);
     setOrganizationOptions([]);
     setRepositoryOptions([]);
     setBranchOptions([]);
@@ -53,9 +57,11 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     }
 
     setOrganizationOptions(newOrganizationOptions);
+    setLoadingOrganizations(false);
   };
 
   const fetchRepositoryOptions = async (repositories_url: string) => {
+    setLoadingRepositories(true);
     setRepositoryOptions([]);
     setBranchOptions([]);
 
@@ -80,9 +86,11 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       .map(repo => ({ key: repo.name, text: repo.name }));
 
     setRepositoryOptions(newRepositoryOptions);
+    setLoadingRepositories(false);
   };
 
   const fetchBranchOptions = async (org: string, repo: string) => {
+    setLoadingBranches(true);
     setBranchOptions([]);
 
     const gitHubBranches = await deploymentCenterData.getGitHubBranches(
@@ -101,6 +109,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     const newBranchOptions: IDropdownOption[] = gitHubBranches.map(branch => ({ key: branch.name, text: branch.name }));
 
     setBranchOptions(newBranchOptions);
+    setLoadingBranches(false);
   };
 
   const authorizeGitHubAccount = () => {
@@ -165,6 +174,9 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       organizationOptions={organizationOptions}
       repositoryOptions={repositoryOptions}
       branchOptions={branchOptions}
+      loadingOrganizations={loadingOrganizations}
+      loadingRepositories={loadingRepositories}
+      loadingBranches={loadingBranches}
     />
   );
 };
