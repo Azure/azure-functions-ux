@@ -7,6 +7,7 @@ import DropdownNoFormik from './DropDownnoFormik';
 import { Layout } from './ReactiveFormControl';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react';
 import { style } from 'typestyle';
+import { useTranslation } from 'react-i18next';
 
 export interface CustomDropdownProps {
   id: string;
@@ -21,17 +22,14 @@ export interface CustomDropdownProps {
   isLoading?: boolean;
 }
 
-export const LoadingDropdownStyle = style({
-  display: 'flex',
-});
-
 export const LoadingDropdownSpinnerStyle = style({
-  marginLeft: '10px',
-  marginBottom: '14px',
+  marginTop: '4px',
 });
 
 const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
   const { field, form, multiSelect, isLoading } = props;
+
+  const { t } = useTranslation();
 
   const modeSpecificProps = multiSelect
     ? {
@@ -61,24 +59,26 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
 
   const errorMessage = get(form.errors, field.name, '') as string;
 
-  return isLoading ? (
-    <div className={LoadingDropdownStyle}>
-      <DropdownNoFormik
-        disabled={true}
-        // Overriding default dropdown to panel transfer due to many of our dropdown existing in panels
-        // https://github.com/OfficeDev/office-ui-fabric-react/commit/1aa8ab4e9e16ecc17d8e90c1374c0958eba77ee3#diff-406409baf14f369160f322b075e148d4
-        responsiveMode={ResponsiveMode.large}
-        {...modeSpecificProps}
-      />
-      <Spinner className={LoadingDropdownSpinnerStyle} size={SpinnerSize.small} ariaLive="assertive" />
-    </div>
-  ) : (
+  const loadingProps = isLoading
+    ? {
+        onRenderCaretDown: () => {
+          return <Spinner className={LoadingDropdownSpinnerStyle} size={SpinnerSize.xSmall} ariaLive="assertive" />;
+        },
+        onRenderPlaceholder: () => {
+          return <>{t('Loading')}</>;
+        },
+      }
+    : {};
+
+  return (
     <DropdownNoFormik
       onBlur={field.onBlur}
       errorMessage={errorMessage}
       // Overriding default dropdown to panel transfer due to many of our dropdown existing in panels
       // https://github.com/OfficeDev/office-ui-fabric-react/commit/1aa8ab4e9e16ecc17d8e90c1374c0958eba77ee3#diff-406409baf14f369160f322b075e148d4
       responsiveMode={ResponsiveMode.large}
+      disabled={isLoading || props.disabled}
+      {...loadingProps}
       {...modeSpecificProps}
     />
   );
