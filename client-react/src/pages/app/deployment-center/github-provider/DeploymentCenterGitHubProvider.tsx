@@ -19,6 +19,9 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
     organizationOptions,
     repositoryOptions,
     branchOptions,
+    loadingOrganizations,
+    loadingRepositories,
+    loadingBranches,
   } = props;
 
   const [selectedOrg, setSelectedOrg] = useState<string>('');
@@ -72,6 +75,7 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
             selectedKey={selectedOrg}
             required={true}
             onChange={onOrganizationChange}
+            isLoading={loadingOrganizations}
           />
           <Field
             id="deployment-center-settings-repository-option"
@@ -84,6 +88,7 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
             selectedKey={selectedRepo}
             required={true}
             onChange={onRepositoryChange}
+            isLoading={loadingRepositories}
           />
           <Field
             id="deployment-center-settings-branch-option"
@@ -96,6 +101,7 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
             selectedKey={selectedBranch}
             required={true}
             onChange={onBranchChange}
+            isLoading={loadingBranches}
           />
         </>
       )}
