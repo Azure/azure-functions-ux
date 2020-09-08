@@ -27,6 +27,9 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   const [organizationOptions, setOrganizationOptions] = useState<IDropdownOption[]>([]);
   const [repositoryOptions, setRepositoryOptions] = useState<IDropdownOption[]>([]);
   const [branchOptions, setBranchOptions] = useState<IDropdownOption[]>([]);
+  const [loadingOrganizations, setLoadingOrganizations] = useState(false);
+  const [loadingRepositories, setLoadingRepositories] = useState(false);
+  const [loadingBranches, setLoadingBranches] = useState(false);
 
   const orgToReposMapping = useRef<{ [key: string]: IDropdownOption[] }>({});
 
@@ -44,7 +47,8 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
     setBitbucketAccountStatusMessage(undefined);
   };
 
-  const fetchRepositoryOptions = async () => {
+  const fetchOrgAndRepoOptions = async () => {
+    setLoadingOrganizations(true);
     const newOrgToReposMapping = {};
     setOrganizationOptions([]);
     setRepositoryOptions([]);
@@ -67,14 +71,18 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
     orgToReposMapping.current = newOrgToReposMapping;
     const newOrgOptions: IDropdownOption[] = Object.keys(orgToReposMapping.current).map(org => ({ key: org, text: org }));
     setOrganizationOptions(newOrgOptions);
+    setLoadingOrganizations(false);
   };
 
   const fetchRepositoriesInOrganization = (org: string) => {
+    setLoadingRepositories(true);
     setRepositoryOptions(orgToReposMapping.current[org]);
+    setLoadingRepositories(false);
     setBranchOptions([]);
   };
 
   const fetchBranchOptions = async (org: string, repo: string) => {
+    setLoadingBranches(true);
     setBranchOptions([]);
 
     if (bitbucketUser && organizationOptions && repositoryOptions) {
@@ -95,6 +103,8 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
       const newBranchOptions: IDropdownOption[] = bitbucketBranchesResponse.map(branch => ({ key: branch.name, text: branch.name }));
       setBranchOptions(newBranchOptions);
     }
+
+    setLoadingBranches(false);
   };
 
   const authorizeBitbucketAccount = () => {
@@ -129,7 +139,7 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   }, [deploymentCenterContext.bitbucketToken]);
 
   useEffect(() => {
-    fetchRepositoryOptions();
+    fetchOrgAndRepoOptions();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bitbucketUser]);
@@ -145,6 +155,9 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
       organizationOptions={organizationOptions}
       repositoryOptions={repositoryOptions}
       branchOptions={branchOptions}
+      loadingOrganizations={loadingOrganizations}
+      loadingRepositories={loadingRepositories}
+      loadingBranches={loadingBranches}
     />
   );
 };
