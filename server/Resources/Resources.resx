@@ -6097,18 +6097,24 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>The twenty most recent function invocation traces. For more advanced analysis, run the query in Application Insights.</value>
     </data>
     <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
+        <value>Refresh application settings</value>
+    </data>
+    <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
+        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
+    </data>
+    <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
         <value>Are you sure you want to refresh?</value>
     </data>
-    <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+    <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
         <value>Are you sure you want to sync?</value>
     </data>
-    <data name="staticSite_syncConfirmMessage" xml:space="preserve">
+    <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
         <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
     </data>
-    <data name="staticSite_discardConfirmTitle" xml:space="preserve">
+    <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Are you sure you want to discard?</value>
     </data>
-    <data name="staticSite_dataLossMessage" xml:space="preserve">
+    <data name="deploymentCenterDataLossMessage" xml:space="preserve">
         <value>All unsaved changes will be lost.</value>
     </data>
     <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">

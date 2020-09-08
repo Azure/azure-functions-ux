@@ -519,8 +519,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
                 title: t('cancel'),
                 onClick: hideRefreshConfirmDialog,
               }}
-              title={t('staticSite_refreshConfirmTitle')}
-              content={t('staticSite_refreshConfirmMessage')}
+              title={t('deploymentCenterRefreshConfirmTitle')}
+              content={t('deploymentCenterDataLossMessage')}
               hidden={!isRefreshConfirmDialogVisible}
               onDismiss={hideRefreshConfirmDialog}
             />

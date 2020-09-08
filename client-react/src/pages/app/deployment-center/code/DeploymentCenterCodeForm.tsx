@@ -286,8 +286,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
                 title: t('cancel'),
                 onClick: hideRefreshConfirmDialog,
               }}
-              title={t('staticSite_refreshConfirmTitle')}
-              content={t('staticSite_dataLossMessage')}
+              title={t('deploymentCenterRefreshConfirmTitle')}
+              content={t('deploymentCenterDataLossMessage')}
               hidden={!isRefreshConfirmDialogVisible}
               onDismiss={hideRefreshConfirmDialog}
             />
@@ -300,8 +300,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
                 title: t('ok'),
                 onClick: syncFunction,
               }}
-              title={t('staticSite_syncConfirmTitle')}
-              content={t('staticSite_syncConfirmMessage')}
+              title={t('deploymentCenterSyncConfirmTitle')}
+              content={t('deploymentCenterSyncConfirmMessage')}
               hidden={!isSyncConfirmDialogVisible}
               onDismiss={hideSyncConfirmDialog}
             />
@@ -319,8 +319,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
                 title: t('cancel'),
                 onClick: hideDiscardConfirmDialog,
               }}
-              title={t('staticSite_discardConfirmTitle')}
-              content={t('staticSite_dataLossMessage')}
+              title={t('deploymentCenterDiscardConfirmTitle')}
+              content={t('deploymentCenterDataLossMessage')}
               hidden={!isDiscardConfirmDialogVisible}
               onDismiss={hideDiscardConfirmDialog}
             />
