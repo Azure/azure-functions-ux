@@ -14,7 +14,6 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
   const { formProps, setGithubActionExistingWorkflowContents } = props;
   const { t } = useTranslation();
 
-  const [selectedWorkflowConfigOption, setSelectedWorkflowConfigOption] = useState<WorkflowOption | undefined>(undefined);
   const [showWorkflowConfigDropdown, setShowWorkflowConfigDropdown] = useState<boolean>(false);
   const [workflowConfigDropdownOptions, setWorkflowConfigDropdownOptions] = useState<IDropdownOption[] | undefined>(undefined);
   const [workflowFileExistsWarningMessage, setWorkflowFileExistsWarningMessage] = useState<string | undefined>(undefined);
@@ -47,11 +46,6 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
 
   const closeWarningBanner = () => {
     setShowWarningBanner(false);
-  };
-
-  const onWorkflowOptionChange = (event: React.FormEvent<HTMLDivElement>, option: WorkflowDropdownOption) => {
-    setSelectedWorkflowConfigOption(option.workflowOption);
-    formProps.setFieldValue('workflowOption', option.workflowOption);
   };
 
   const fetchWorkflowConfiguration = async (org: string, repo: string, branch: string) => {
@@ -113,7 +107,6 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
       } else {
         setShowWarningBanner(false);
         setWorkflowFileExistsWarningMessage(undefined);
-        setSelectedWorkflowConfigOption(WorkflowOption.Add);
         formProps.setFieldValue('workflowOption', WorkflowOption.Add);
       }
     }
@@ -122,13 +115,11 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
 
   useEffect(() => {
     setShowWorkflowConfigDropdown(false);
-    setSelectedWorkflowConfigOption(WorkflowOption.None);
-    formProps.setFieldValue('workflowOption', WorkflowOption.None);
-    if (formProps.values.branch !== '') {
+    if (formProps.values.org && formProps.values.repo && formProps.values.branch) {
       fetchWorkflowConfiguration(formProps.values.org, formProps.values.repo, formProps.values.branch);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formProps.values.branch]);
+  }, [formProps.values.org, formProps.values.repo, formProps.values.branch]);
 
   return (
     <>
@@ -150,12 +141,11 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
             label={t('githubActionWorkflowOption')}
             placeholder={t('deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder')}
             name="workflowOption"
+            defaultSelectedKey={formProps.values.workflowOption}
             component={Dropdown}
             displayInVerticalLayout={true}
             options={workflowConfigDropdownOptions}
-            selectedKey={selectedWorkflowConfigOption}
             required={true}
-            onChange={onWorkflowOptionChange}
           />
         </>
       )}
