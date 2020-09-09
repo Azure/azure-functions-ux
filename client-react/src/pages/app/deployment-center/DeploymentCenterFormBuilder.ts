@@ -31,7 +31,7 @@ export abstract class DeploymentCenterFormBuilder {
       repo: '',
       branch: '',
       gitHubUser: undefined,
-      bitBucketUser: undefined,
+      bitbucketUser: undefined,
       gitHubPublishProfileSecretGuid: '',
       externalRepoType: RepoTypeOptions.Public,
     };
@@ -90,7 +90,7 @@ export abstract class DeploymentCenterFormBuilder {
           : true;
       }),
       gitHubUser: Yup.mixed().notRequired(),
-      bitBucketUser: Yup.mixed().notRequired(),
+      bitbucketUser: Yup.mixed().notRequired(),
       gitHubPublishProfileSecretGuid: Yup.mixed().notRequired(),
       externalUsername: Yup.mixed().test('externalUsernameRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.externalRepoType === RepoTypeOptions.Private ? !!value : true;

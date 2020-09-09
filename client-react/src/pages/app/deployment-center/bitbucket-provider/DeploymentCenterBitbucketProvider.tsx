@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DeploymentCenterBitbucketProviderProps } from '../DeploymentCenter.types';
 import DeploymentCenterBitbucketAccount from './DeploymentCenterBitbucketAccount';
 import { Field } from 'formik';
-import { IDropdownOption } from 'office-ui-fabric-react';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { useTranslation } from 'react-i18next';
 
 const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProviderProps> = props => {
   const {
     formProps,
-    fetchRepositoriesInOrganization,
-    fetchBranchOptions,
+    accountUser,
     organizationOptions,
     repositoryOptions,
     branchOptions,
@@ -21,45 +19,13 @@ const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProvi
 
   const { t } = useTranslation();
 
-  const [selectedOrg, setSelectedOrg] = useState<string>('');
-  const [selectedRepo, setSelectedRepo] = useState<string>('');
-  const [selectedBranch, setSelectedBranch] = useState<string>('');
-
-  const onOrganizationChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    setSelectedOrg(option.key.toString());
-    formProps.setFieldValue('org', option.text);
-
-    setSelectedRepo('');
-    formProps.setFieldValue('repo', '');
-
-    setSelectedBranch('');
-    formProps.setFieldValue('branch', '');
-
-    fetchRepositoriesInOrganization(option.key.toString());
-  };
-
-  const onRepositoryChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    setSelectedRepo(option.text);
-    formProps.setFieldValue('repo', option.key.toString());
-
-    setSelectedBranch('');
-    formProps.setFieldValue('branch', '');
-
-    fetchBranchOptions(formProps.values.org, option.key.toString());
-  };
-
-  const onBranchChange = async (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    setSelectedBranch(option.text);
-    formProps.setFieldValue('branch', option.key.toString());
-  };
-
   return (
     <>
       <h3>{t('deploymentCenterCodeBitbucketTitle')}</h3>
 
       <DeploymentCenterBitbucketAccount {...props} />
 
-      {props.accountUser && (
+      {accountUser && accountUser.username && (
         <>
           <Field
             id="deployment-center-settings-organization-option"
@@ -69,9 +35,8 @@ const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProvi
             component={Dropdown}
             displayInVerticalLayout={true}
             options={organizationOptions}
-            selectedKey={selectedOrg}
+            defaultSelectedKey={formProps.values.org}
             required={true}
-            onChange={onOrganizationChange}
             isLoading={loadingOrganizations}
           />
           <Field
@@ -82,9 +47,8 @@ const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProvi
             component={Dropdown}
             displayInVerticalLayout={true}
             options={repositoryOptions}
-            selectedKey={selectedRepo}
+            defaultSelectedKey={formProps.values.repo}
             required={true}
-            onChange={onRepositoryChange}
             isLoading={loadingRepositories}
           />
           <Field
@@ -95,9 +59,8 @@ const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProvi
             component={Dropdown}
             displayInVerticalLayout={true}
             options={branchOptions}
-            selectedKey={selectedBranch}
+            defaultSelectedKey={formProps.values.branch}
             required={true}
-            onChange={onBranchChange}
             isLoading={loadingBranches}
           />
         </>
