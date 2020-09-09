@@ -80,20 +80,23 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     } else {
       // NOTE(michinoy): If the source provider is set to None, it means either an initial load or discard.
       // only clear the values in that case.
-      formProps.setFieldValue('buildProvider', BuildProvider.None);
-      formProps.setFieldValue('org', '');
-      formProps.setFieldValue('repo', '');
-      formProps.setFieldValue('branch', '');
+      clearBuildAndRepoFields();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.sourceProvider]);
 
+  const clearBuildAndRepoFields = () => {
+    formProps.setFieldValue('buildProvider', BuildProvider.None);
+    formProps.setFieldValue('org', '');
+    formProps.setFieldValue('repo', '');
+    formProps.setFieldValue('branch', '');
+  };
+
   const setSourceBuildProvider = () => {
+    // NOTE(michinoy): If the build provider is already set, do not change it.
+    // This might mean that the user has switched tabs and returned to this experience.
     if (formProps.values.buildProvider === BuildProvider.None) {
-      if (formProps.values.sourceProvider !== ScmType.GitHub) {
-        setSelectedBuild(BuildProvider.AppServiceBuildService);
-        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
-      } else {
+      if (formProps.values.sourceProvider === ScmType.GitHub) {
         setSelectedBuild(BuildProvider.GitHubAction);
         formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
         formProps.setFieldValue(
@@ -102,6 +105,9 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
             .toLowerCase()
             .replace(/[-]/g, '')
         );
+      } else {
+        setSelectedBuild(BuildProvider.AppServiceBuildService);
+        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
       }
     }
   };
