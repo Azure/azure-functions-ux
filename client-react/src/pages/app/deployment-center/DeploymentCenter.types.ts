@@ -84,6 +84,8 @@ export interface DeploymentCenterCommonFormData {
   externalRepoType: RepoTypeOptions;
   externalUsername?: string;
   externalPassword?: string;
+  gitHubUser?: GitHubUser;
+  bitBuckerUser?: BitbucketUser;
 }
 
 export interface AcrFormData {

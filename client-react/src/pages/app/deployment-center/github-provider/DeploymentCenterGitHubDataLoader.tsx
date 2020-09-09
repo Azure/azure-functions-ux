@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import DeploymentCenterGitHubProvider from './DeploymentCenterGitHubProvider';
 import { GitHubUser } from '../../../../models/github';
 import { useTranslation } from 'react-i18next';
@@ -31,8 +31,11 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [loadingRepositories, setLoadingRepositories] = useState(false);
   const [loadingBranches, setLoadingBranches] = useState(false);
 
+  const gitHubOrgToUrlMapping = useRef<{ [key: string]: string }>({});
+
   const fetchOrganizationOptions = async () => {
     setLoadingOrganizations(true);
+    gitHubOrgToUrlMapping.current = {};
     setOrganizationOptions([]);
     setRepositoryOptions([]);
     setBranchOptions([]);
@@ -43,7 +46,11 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
       if (gitHubOrganizationsResponse.metadata.success) {
         gitHubOrganizationsResponse.data.forEach(org => {
-          newOrganizationOptions.push({ key: org.url, text: org.login });
+          newOrganizationOptions.push({ key: org.login, text: org.login });
+
+          if (!gitHubOrgToUrlMapping.current[org.login]) {
+            gitHubOrgToUrlMapping.current[org.login] = org.url;
+          }
         });
       } else {
         LogService.error(
@@ -53,11 +60,20 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
         );
       }
 
-      newOrganizationOptions.push({ key: gitHubUser.repos_url, text: gitHubUser.login });
+      newOrganizationOptions.push({ key: gitHubUser.login, text: gitHubUser.login });
+
+      if (!gitHubOrgToUrlMapping.current[gitHubUser.login]) {
+        gitHubOrgToUrlMapping.current[gitHubUser.login] = gitHubUser.repos_url;
+      }
     }
 
     setOrganizationOptions(newOrganizationOptions);
     setLoadingOrganizations(false);
+
+    // If the form props already contains selected data, set the default to that value.
+    if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
+      fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org]);
+    }
   };
 
   const fetchRepositoryOptions = async (repositories_url: string) => {
@@ -87,6 +103,11 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
     setRepositoryOptions(newRepositoryOptions);
     setLoadingRepositories(false);
+
+    // If the form props already contains selected data, set the default to that value.
+    if (formProps.values.org && formProps.values.repo) {
+      fetchBranchOptions(formProps.values.org, formProps.values.repo);
+    }
   };
 
   const fetchBranchOptions = async (org: string, repo: string) => {
@@ -142,17 +163,17 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     if (gitHubUserResponse.metadata.success && gitHubUserResponse.data.login) {
       // NOTE(michinoy): if unsuccessful, assume the user needs to authorize.
       setGitHubUser(gitHubUserResponse.data);
+      formProps.setFieldValue('gitHubUser', gitHubUserResponse.data);
     }
   };
 
   useEffect(() => {
-    fetchData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    fetchData();
+    if (!formProps.values.gitHubUser) {
+      fetchData();
+    } else {
+      setGitHubUser(formProps.values.gitHubUser);
+      setGitHubAccountStatusMessage(undefined);
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterContext.gitHubToken]);
@@ -162,6 +183,22 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gitHubUser]);
+
+  useEffect(() => {
+    if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
+      fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org]);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.org]);
+
+  useEffect(() => {
+    if (formProps.values.org && formProps.values.repo) {
+      fetchBranchOptions(formProps.values.org, formProps.values.repo);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.repo]);
 
   return (
     <DeploymentCenterGitHubProvider
