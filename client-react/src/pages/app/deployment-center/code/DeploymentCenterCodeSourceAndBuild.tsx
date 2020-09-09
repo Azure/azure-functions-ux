@@ -78,29 +78,37 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     if (formProps.values.sourceProvider !== ScmType.None) {
       setSourceBuildProvider();
     } else {
-      formProps.setFieldValue('buildProvider', BuildProvider.None);
+      // NOTE(michinoy): If the source provider is set to None, it means either an initial load or discard.
+      // only clear the values in that case.
+      clearBuildAndRepoFields();
     }
-
-    formProps.setFieldValue('org', '');
-    formProps.setFieldValue('repo', '');
-    formProps.setFieldValue('branch', '');
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.sourceProvider]);
 
+  const clearBuildAndRepoFields = () => {
+    formProps.setFieldValue('buildProvider', BuildProvider.None);
+    formProps.setFieldValue('org', '');
+    formProps.setFieldValue('repo', '');
+    formProps.setFieldValue('branch', '');
+  };
+
   const setSourceBuildProvider = () => {
-    if (formProps.values.sourceProvider !== ScmType.GitHub) {
-      setSelectedBuild(BuildProvider.AppServiceBuildService);
-      formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
-    } else {
-      setSelectedBuild(BuildProvider.GitHubAction);
-      formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
-      formProps.setFieldValue(
-        'gitHubPublishProfileSecretGuid',
-        Guid.newGuid()
-          .toLowerCase()
-          .replace(/[-]/g, '')
-      );
+    // NOTE(michinoy): If the build provider is already set, do not change it.
+    // This might mean that the user has switched tabs and returned to this experience.
+    if (formProps.values.buildProvider === BuildProvider.None) {
+      if (formProps.values.sourceProvider === ScmType.GitHub) {
+        setSelectedBuild(BuildProvider.GitHubAction);
+        formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
+        formProps.setFieldValue(
+          'gitHubPublishProfileSecretGuid',
+          Guid.newGuid()
+            .toLowerCase()
+            .replace(/[-]/g, '')
+        );
+      } else {
+        setSelectedBuild(BuildProvider.AppServiceBuildService);
+        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
+      }
     }
   };
 
