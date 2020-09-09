@@ -26,7 +26,7 @@ export const getStacksSummaryForDropdown = (stack: WebAppStack | FunctionAppStac
 export class JavaVersions {
   public static WindowsVersion8 = '1.8';
   public static WindowsVersion11 = '11';
-  public static LinuxVersion8 = 'java8';
+  public static LinuxVersion8 = 'jre8';
   public static LinuxVersion11 = 'java11';
 }
 
