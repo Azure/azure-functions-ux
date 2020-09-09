@@ -59,6 +59,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         });
 
         setAcrRegistryOptions(dropdownOptions);
+
+        if (formProps.values.acrLoginServer) {
+          fetchRepositories(formProps.values.acrLoginServer);
+        }
       } else {
         const errorMessage = getErrorMessage(registriesResponse.metadata.error);
         if (errorMessage) {
@@ -116,6 +120,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       formProps.setFieldValue('acrPassword', password);
 
       setAcrImageOptions(repositoryOptions);
+
+      if (formProps.values.acrImage) {
+        fetchTags(formProps.values.acrImage);
+      }
     }
 
     setLoadingImageOptions(false);
