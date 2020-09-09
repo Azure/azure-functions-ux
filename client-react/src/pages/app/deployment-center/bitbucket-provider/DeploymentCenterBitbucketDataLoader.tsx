@@ -34,22 +34,20 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   const orgToReposMapping = useRef<{ [key: string]: IDropdownOption[] }>({});
 
   const fetchData = async () => {
-    if (deploymentCenterContext.bitbucketToken) {
-      setBitbucketUser(undefined);
+    const bitbucketUserResponse = await deploymentCenterData.getBitbucketUser(deploymentCenterContext.bitbucketToken);
 
-      const bitbucketUserResponse = await deploymentCenterData.getBitbucketUser(deploymentCenterContext.bitbucketToken);
-
-      if (bitbucketUserResponse.metadata.success && bitbucketUserResponse.data.username) {
-        // NOTE(stpelleg): if unsuccessful, assume the user needs to authorize.
-        setBitbucketUser(bitbucketUserResponse.data);
-      }
-    }
     setBitbucketAccountStatusMessage(undefined);
+
+    if (bitbucketUserResponse.metadata.success && bitbucketUserResponse.data.username) {
+      // NOTE(stpelleg): if unsuccessful, assume the user needs to authorize.
+      setBitbucketUser(bitbucketUserResponse.data);
+      formProps.setFieldValue('bitbucketUser', bitbucketUserResponse.data);
+    }
   };
 
   const fetchOrgAndRepoOptions = async () => {
     setLoadingOrganizations(true);
-    const newOrgToReposMapping = {};
+    orgToReposMapping.current = {};
     setOrganizationOptions([]);
     setRepositoryOptions([]);
     setBranchOptions([]);
@@ -60,18 +58,22 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
         const repoNameParts = repository.full_name.split('/');
         const [org, repo] = repoNameParts;
 
-        if (newOrgToReposMapping[org]) {
-          newOrgToReposMapping[org].push({ key: repo, text: repo });
+        if (orgToReposMapping.current[org]) {
+          orgToReposMapping.current[org].push({ key: repo, text: repo });
         } else {
-          newOrgToReposMapping[org] = [{ key: repo, text: repo }];
+          orgToReposMapping.current[org] = [{ key: repo, text: repo }];
         }
       });
     }
 
-    orgToReposMapping.current = newOrgToReposMapping;
     const newOrgOptions: IDropdownOption[] = Object.keys(orgToReposMapping.current).map(org => ({ key: org, text: org }));
     setOrganizationOptions(newOrgOptions);
     setLoadingOrganizations(false);
+
+    // If the form props already contains selected data, set the default to that value.
+    if (formProps.values.org && orgToReposMapping.current[formProps.values.org]) {
+      fetchRepositoriesInOrganization(formProps.values.org);
+    }
   };
 
   const fetchRepositoriesInOrganization = (org: string) => {
@@ -79,6 +81,11 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
     setRepositoryOptions(orgToReposMapping.current[org]);
     setLoadingRepositories(false);
     setBranchOptions([]);
+
+    // If the form props already contains selected data, set the default to that value.
+    if (formProps.values.org && formProps.values.repo) {
+      fetchBranchOptions(formProps.values.org, formProps.values.repo);
+    }
   };
 
   const fetchBranchOptions = async (org: string, repo: string) => {
@@ -127,14 +134,12 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   };
 
   useEffect(() => {
-    fetchData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-
+    if (!formProps.values.bitbucketUser) {
+      fetchData();
+    } else {
+      setBitbucketUser(formProps.values.bitbucketUser);
+      setBitbucketAccountStatusMessage(undefined);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterContext.bitbucketToken]);
 
@@ -144,14 +149,28 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bitbucketUser]);
 
+  useEffect(() => {
+    if (formProps.values.org && orgToReposMapping.current[formProps.values.org]) {
+      fetchRepositoriesInOrganization(formProps.values.org);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.org]);
+
+  useEffect(() => {
+    if (formProps.values.org && formProps.values.repo) {
+      fetchBranchOptions(formProps.values.org, formProps.values.repo);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.repo]);
+
   return (
     <DeploymentCenterBitbucketProvider
       formProps={formProps}
       accountUser={bitbucketUser}
       accountStatusMessage={bitbucketAccountStatusMessage}
       authorizeAccount={authorizeBitbucketAccount}
-      fetchRepositoriesInOrganization={fetchRepositoriesInOrganization}
-      fetchBranchOptions={fetchBranchOptions}
       organizationOptions={organizationOptions}
       repositoryOptions={repositoryOptions}
       branchOptions={branchOptions}

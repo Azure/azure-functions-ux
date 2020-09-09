@@ -85,7 +85,7 @@ export interface DeploymentCenterCommonFormData {
   externalUsername?: string;
   externalPassword?: string;
   gitHubUser?: GitHubUser;
-  bitBuckerUser?: BitbucketUser;
+  bitbucketUser?: BitbucketUser;
 }
 
 export interface AcrFormData {
@@ -358,8 +358,6 @@ export interface SiteSourceControlRequestBody {
 export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
   extends DeploymentCenterFieldProps<T> {
   authorizeAccount: () => void;
-  fetchRepositoriesInOrganization: (org: string) => void;
-  fetchBranchOptions: (org: string, repo: string) => void;
   organizationOptions: IDropdownOption[];
   repositoryOptions: IDropdownOption[];
   branchOptions: IDropdownOption[];
