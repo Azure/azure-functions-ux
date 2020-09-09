@@ -76,7 +76,7 @@ export const java8CreateStack: WebAppCreateStack = {
       ],
     },
     {
-      displayText: 'JBoss EAP 7.2',
+      displayText: 'JBoss EAP 7.2 (Preview)',
       value: 'jbosseap7.2',
       sortOrder: 2,
       supportedPlatforms: [
@@ -87,7 +87,7 @@ export const java8CreateStack: WebAppCreateStack = {
           isHidden: false,
           applicationInsightsEnabled: false,
           remoteDebuggingEnabled: false,
-          runtimeVersion: '?',
+          runtimeVersion: 'JBOSSEAP|7.2-java8',
           sortOrder: 0,
           githubActionSettings: {
             supported: true,

@@ -125,7 +125,7 @@ export function validateJava8CreateStack(stacks) {
   expect(javaStack.displayText).to.equal('Java 8');
   expect(javaStack.value).to.equal('Java-8');
   expect(javaStack.sortOrder).to.equal(6);
-  expect(javaStack.versions.length).to.equal(3);
+  expect(javaStack.versions.length).to.equal(4);
   expect(javaStack).to.deep.equal(java8CreateStack);
 }
 
@@ -280,7 +280,7 @@ export function validateJava8LinuxConfigStack(stacks) {
   expect(javaStack.type).to.equal('Microsoft.Web/availableStacks?osTypeSelected=Linux');
   expect(javaStack.properties.name).to.equal('java8');
   expect(javaStack.properties.display).to.equal('Java 8');
-  expect(javaStack.properties.majorVersions.length).to.equal(4);
+  expect(javaStack.properties.majorVersions.length).to.equal(5);
   expect(javaStack).to.deep.equal(java8LinuxConfigStack);
 }
 

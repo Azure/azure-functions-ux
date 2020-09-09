@@ -79,13 +79,13 @@ export const java8LinuxConfigStack: WebAppConfigStack = {
         isHidden: false,
       },
       {
-        displayVersion: 'JBoss EAP 7.2',
+        displayVersion: 'JBoss EAP 7.2 - Preview',
         runtimeVersion: '?',
         isDefault: false,
         minorVersions: [
           {
             displayVersion: '7.2',
-            runtimeVersion: '?',
+            runtimeVersion: 'JBOSSEAP|7.2-java8',
             isDefault: true,
             isRemoteDebuggingEnabled: false,
           },

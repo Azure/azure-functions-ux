@@ -124,6 +124,6 @@ export function validateJavaContainersStack(stacks) {
   expect(javaContainersStack.displayText).to.equal('Java Containers');
   expect(javaContainersStack.value).to.equal('javacontainers');
   expect(javaContainersStack.preferredOs).to.equal(undefined);
-  expect(javaContainersStack.majorVersions.length).to.equal(8);
+  expect(javaContainersStack.majorVersions.length).to.equal(9);
   expect(javaContainersStack).to.deep.equal(hardCodedJavaContainersStack);
 }

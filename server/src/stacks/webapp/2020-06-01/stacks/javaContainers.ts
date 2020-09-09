@@ -73,7 +73,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
           value: '7.2',
           stackSettings: {
             linuxContainerSettings: {
-              java8Runtime: '?',
+              java8Runtime: 'JBOSSEAP|7.2-java8',
               isPreview: true,
             },
           },
