@@ -4,7 +4,7 @@
 
 次のコマンドを実行して、Core Tools パッケージをインストールします。
 
-<MarkdownHighlighter> npm install -g azure-functions-core-tools</MarkdownHighlighter>
+<MarkdownHighlighter> npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### Azure Functions プロジェクトの作成

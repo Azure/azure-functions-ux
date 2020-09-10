@@ -4,7 +4,7 @@ Než budete moct začít pracovat, měli byste <a href="https://go.microsoft.com
 
 Pomocí následujícího příkazu nainstalujte balíček Core Tools:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 Sada Core Tools používá architekturu <a href="https://go.microsoft.com/fwlink/?linkid=2016373" target="_blank">.NET Core 2.1</a>, proto byste měli nainstalovat i tu.
 

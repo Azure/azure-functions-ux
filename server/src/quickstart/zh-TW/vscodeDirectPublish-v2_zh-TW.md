@@ -4,16 +4,16 @@
 
 執行下列命令，安裝 Core Tools 套件:
 
-``` npm install -g azure-functions-core-tools ```
+`npm install -g azure-functions-core-tools@3 --unsafe-perm true`
 
 Core Tools 會使用到 <a href="https://go.microsoft.com/fwlink/?linkid=2016373" target="_blank">.NET Core 2.1</a>，因此也應安裝該應用程式。
 
-接著請<a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">為 Visual Studio Code 安裝 Azure Functions 延伸模組</a>。安裝該延伸模組之後，按一下活動列中的 Azure 標誌。在 \[Azure:Functions]**** 下，按一下 \[登入 Azure ...]****，然後依照畫面上的指示進行。
+接著請<a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">為 Visual Studio Code 安裝 Azure Functions 延伸模組</a>。安裝該延伸模組之後，按一下活動列中的 Azure 標誌。在 \[Azure:Functions]\***\* 下，按一下 \[登入 Azure ...]\*\***，然後依照畫面上的指示進行。
 
 <br/>
 # 建立 Azure Functions 專案
 
-在 \[Azure: Functions] ****面板中，按一下**建立新專案...**圖示。
+在 \[Azure: Functions] \***\*面板中，按一下**建立新專案...\*\*圖示。
 
 隨即會出現提示，要求您選擇應用程式的目錄。請選擇空的目錄。
 
@@ -22,7 +22,7 @@ Core Tools 會使用到 <a href="https://go.microsoft.com/fwlink/?linkid=2016373
 <br/>
 # 建立函式
 
-在 \[Azure: Functions] ****面板中，按一下**建立函式...**圖示。
+在 \[Azure: Functions] \***\*面板中，按一下**建立函式...\*\*圖示。
 
 隨即會出現提示，要求您選擇函式的範本。我們建議從 HTTP 觸發程序開始使用。
 
@@ -38,6 +38,6 @@ Core Tools 會使用到 <a href="https://go.microsoft.com/fwlink/?linkid=2016373
 <br/>
 # 將程式碼部署至 Azure
 
-在 \[Azure: Functions] ****面板中，按一下**部署至函式應用程式…**圖示 (藍色向上鍵)。
+在 \[Azure: Functions] \***\*面板中，按一下**部署至函式應用程式…\*\*圖示 (藍色向上鍵)。
 
 出現提示，要求您選取函式應用程式時，請選擇 {functionAppName}。

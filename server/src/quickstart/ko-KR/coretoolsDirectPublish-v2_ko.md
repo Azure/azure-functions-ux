@@ -4,7 +4,7 @@
 
 다음 명령을 실행하여 Core Tools 패키지를 설치합니다.
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### Azure Functions 프로젝트 생성

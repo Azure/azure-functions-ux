@@ -4,7 +4,7 @@ Innan du kan komma igång bör du <a href="https://go.microsoft.com/fwlink/?link
 
 Kör följande kommando för att installera Core Tools-paketet:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 Kärnverktygen använder <a href="https://go.microsoft.com/fwlink/?linkid=2016373" target="_blank">.NET Core 2,1</a> så du bör installera det också.
 

@@ -4,7 +4,7 @@ Przed rozpoczęciem należy <a href="https://go.microsoft.com/fwlink/?linkid=201
 
 Uruchom następujące polecenie, aby zainstalować pakiet Core Tools:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### Tworzenie projektu usługi Azure Functions
