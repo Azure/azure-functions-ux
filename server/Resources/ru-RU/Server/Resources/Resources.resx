@@ -6099,11 +6099,20 @@
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>При обновлении все несохраненные изменения будут потеряны. Вы действительно хотите продолжить?</value>
     </data>
-  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+  <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to refresh?</value>
+    </data>
+  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
         <value>Вы действительно хотите выполнить синхронизацию?</value>
     </data>
-  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
-        <value>Выполнение операции синхронизации приведет к отмене всех выполняющихся операций развертывания и созданию новой.</value>
+  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
+        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+    </data>
+  <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to discard?</value>
+    </data>
+  <data name="deploymentCenterDataLossMessage" xml:space="preserve">
+        <value>All unsaved changes will be lost.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Добавление параметра приложения</value>
@@ -6143,6 +6152,15 @@
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
         <value>Для просмотра учетных данных необходимо разрешение на запись для сайта или слота.</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingMessage" xml:space="preserve">
+        <value>Идет загрузка учетных данных пользователя.</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingAriaLabel" xml:space="preserve">
+        <value>Идет загрузка учетных данных пользователя.</value>
+    </data>
+  <data name="publishingUserFetchFailedMessage" xml:space="preserve">
+        <value>Не удалось скачать сведения о пользователе публикации: {0}</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
         <value>Используйте в своих клиентах ключи узла для доступа ко всем HTTP-функциям в приложении. Ключ _master предоставляет административный доступ к API среды выполнения Функций.</value>
@@ -6184,7 +6202,7 @@
         <value>Сбросить пароль для профиля публикации приложения?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>При сбросе пароля профиля все внешние интеграции с использованием профиля публикации перестанут работать.</value>
+        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>Длина имени пользователя в символах должна составлять по меньшей мере {0}.</value>
@@ -6193,7 +6211,7 @@
         <value>Это обязательное поле</value>
     </data>
   <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
-        <value>The repository must begin with https://</value>
+        <value>Репозиторий должен начинаться с https://.</value>
     </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Используйте эти параметры для настройки реестра и модели развертывания приложений контейнера. Рекомендуем использовать GitHub Actions для более эффективной работы.</value>
@@ -6643,7 +6661,7 @@
         <value>Данные шаблона</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>We need more information to create the {0} function. </value>
+        <value>Требуются дополнительные данные для создания функции {0}. </value>
     </data>
   <data name="developInPortal" xml:space="preserve">
         <value>Разработка на портале</value>
@@ -6682,9 +6700,24 @@
         <value>Не удалось сохранить конфигурацию контейнера: {0}</value>
     </data>
   <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.</value>
+        <value>Ваше приложение сейчас закреплено в версии среды выполнения "{0}" и больше не будет получать обновления для системы безопасности после октября 2020 г. Рекомендуем обновить среду выполнения до последней версии. См. дополнительные сведения в этой статье.</value>
     </data>
   <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
-        <value>The server URL must begin with https://</value>
+        <value>URL-адрес сервера должен начинаться с https://.</value>
+    </data>
+  <data name="pricing_pv3NotAvailable" xml:space="preserve">
+        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    </data>
+  <data name="hyperVIsolation" xml:space="preserve">
+        <value>Hyper-V Isolation</value>
+    </data>
+  <data name="hyperVIsolationDesc" xml:space="preserve">
+        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+    </data>
+  <data name="pricing_ACU_Pv3" xml:space="preserve">
+        <value>{0} minimum ACU/vCore</value>
+    </data>
+  <data name="pricing_vCores" xml:space="preserve">
+        <value>{0} vCores</value>
     </data>
 </root>
