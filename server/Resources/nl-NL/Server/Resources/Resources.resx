@@ -6100,11 +6100,20 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Alle niet-opgeslagen wijzigingen gaan verloren bij het vernieuwen. Weet u zeker dat u wilt doorgaan?</value>
     </data>
-  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+  <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to refresh?</value>
+    </data>
+  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
         <value>Weet u zeker dat u wilt synchroniseren?</value>
     </data>
-  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
-        <value>Als u een synchronisatiebewerking uitvoert, worden alle actieve implementatiebewerkingen geannuleerd en wordt er een nieuwe gemaakt</value>
+  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
+        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+    </data>
+  <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to discard?</value>
+    </data>
+  <data name="deploymentCenterDataLossMessage" xml:space="preserve">
+        <value>All unsaved changes will be lost.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Toepassingsinstelling toevoegen</value>
@@ -6144,6 +6153,15 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
         <value>Er is een schrijfmachtiging voor de site of de sleuf vereist om referenties weer te geven.</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingMessage" xml:space="preserve">
+        <value>Gebruikersreferenties laden</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingAriaLabel" xml:space="preserve">
+        <value>Gebruikersreferenties laden</value>
+    </data>
+  <data name="publishingUserFetchFailedMessage" xml:space="preserve">
+        <value>Kan de gebruikersgegevens voor publiceren niet downloaden: {0}</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
         <value>Gebruik hostsleutels voor uw clients om alle HTTP-functies in de app te gebruiken. De sleutel _master biedt beheerderstoegang tot de API's van de Functions-runtime.</value>
@@ -6185,7 +6203,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Wachtwoord voor toepassingspublicatieprofiel opnieuw instellen?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>Als het profielwachtwoord opnieuw wordt ingesteld, werken externe integraties via het publicatieprofiel niet meer.</value>
+        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>De gebruikersnaam moet ten minste uit {0} tekens bestaan.</value>
@@ -6194,7 +6212,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Dit veld is vereist</value>
     </data>
   <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
-        <value>The repository must begin with https://</value>
+        <value>De opslagplaats moet beginnen met https://</value>
     </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Gebruik deze instellingen om het implementatiemodel en register voor uw container-app te configureren. GitHub Actions wordt aanbevolen voor een betere operationele efficiëntie.</value>
@@ -6686,6 +6704,21 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Uw app is momenteel vastgemaakt aan runtimeversie {0} en ontvangt geen beveiligingsupgrades meer na oktober 2020. U kunt het beste een upgrade uitvoeren naar de nieuwste versie van de runtime. Raadpleeg dit artikel voor meer informatie.</value>
     </data>
   <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
-        <value>The server URL must begin with https://</value>
+        <value>De URL van de server moet beginnen met https://</value>
+    </data>
+  <data name="pricing_pv3NotAvailable" xml:space="preserve">
+        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    </data>
+  <data name="hyperVIsolation" xml:space="preserve">
+        <value>Hyper-V Isolation</value>
+    </data>
+  <data name="hyperVIsolationDesc" xml:space="preserve">
+        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+    </data>
+  <data name="pricing_ACU_Pv3" xml:space="preserve">
+        <value>{0} minimum ACU/vCore</value>
+    </data>
+  <data name="pricing_vCores" xml:space="preserve">
+        <value>{0} vCores</value>
     </data>
 </root>

@@ -6099,11 +6099,20 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Al actualizar, se perderán los cambios que no haya guardado. ¿Está seguro de que quiere continuar?</value>
     </data>
-  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+  <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to refresh?</value>
+    </data>
+  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
         <value>¿Está seguro de que quiere realizar la sincronización?</value>
     </data>
-  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
-        <value>Al realizar una operación de sincronización, se cancelará cualquier operación de implementación existente en curso y se creará una nueva.</value>
+  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
+        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+    </data>
+  <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to discard?</value>
+    </data>
+  <data name="deploymentCenterDataLossMessage" xml:space="preserve">
+        <value>All unsaved changes will be lost.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Agregar configuración de aplicación</value>
@@ -6143,6 +6152,15 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
         <value>Se requiere permiso de escritura en el sitio o la ranura para ver las credenciales.</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingMessage" xml:space="preserve">
+        <value>Cargando las credenciales del usuario</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingAriaLabel" xml:space="preserve">
+        <value>Cargando las credenciales del usuario</value>
+    </data>
+  <data name="publishingUserFetchFailedMessage" xml:space="preserve">
+        <value>No se pudo descargar la información del usuario de publicación {0}.</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
         <value>Use las claves de host con los clientes para acceder a todas las funciones HTTP de la aplicación. La clave _master concede acceso de administrador a las API de Functions Runtime.</value>
@@ -6184,7 +6202,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>¿Quiere restablecer la contraseña del perfil de publicación de la aplicación?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>Al restablecer la contraseña del perfil, todas las integraciones externas que dependan del perfil de publicación dejarán de funcionar.</value>
+        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>El nombre de usuario debe tener al menos {0} caracteres.</value>
@@ -6193,7 +6211,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Este campo es obligatorio</value>
     </data>
   <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
-        <value>The repository must begin with https://</value>
+        <value>El repositorio debe comenzar con https://</value>
     </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Use esta configuración para configurar el modelo y el registro de implementación de aplicaciones de contenedor. Es recomendable usar Acciones de GitHub para obtener una mayor eficacia operativa.</value>
@@ -6685,6 +6703,21 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Actualmente, la aplicación está anclada a la versión del entorno de ejecución "{0}" y ya no recibirá actualizaciones de seguridad después de octubre de 2020. Le recomendamos que actualice el entorno de ejecución a la versión más reciente. Consulte este artículo para obtener más información.</value>
     </data>
   <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
-        <value>The server URL must begin with https://</value>
+        <value>La URL del servidor debe comenzar con https://.</value>
+    </data>
+  <data name="pricing_pv3NotAvailable" xml:space="preserve">
+        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    </data>
+  <data name="hyperVIsolation" xml:space="preserve">
+        <value>Hyper-V Isolation</value>
+    </data>
+  <data name="hyperVIsolationDesc" xml:space="preserve">
+        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+    </data>
+  <data name="pricing_ACU_Pv3" xml:space="preserve">
+        <value>{0} minimum ACU/vCore</value>
+    </data>
+  <data name="pricing_vCores" xml:space="preserve">
+        <value>{0} vCores</value>
     </data>
 </root>
