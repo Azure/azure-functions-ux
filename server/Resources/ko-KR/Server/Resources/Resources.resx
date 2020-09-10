@@ -6099,11 +6099,20 @@
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>새로 고치면 저장하지 않은 모든 변경 내용이 손실됩니다. 계속하시겠습니까?</value>
     </data>
-  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+  <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to refresh?</value>
+    </data>
+  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
         <value>동기화하시겠습니까?</value>
     </data>
-  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
-        <value>동기화 작업을 수행하면 진행 중인 기존 배포 작업이 취소되고 새로 만들어집니다.</value>
+  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
+        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+    </data>
+  <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to discard?</value>
+    </data>
+  <data name="deploymentCenterDataLossMessage" xml:space="preserve">
+        <value>All unsaved changes will be lost.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>애플리케이션 설정 추가</value>
@@ -6143,6 +6152,15 @@
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
         <value>자격 증명을 보려면 사이트 또는 슬롯에 대한 쓰기 권한이 필요합니다.</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingMessage" xml:space="preserve">
+        <value>사용자 자격 증명 로드 중</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingAriaLabel" xml:space="preserve">
+        <value>사용자 자격 증명 로드 중</value>
+    </data>
+  <data name="publishingUserFetchFailedMessage" xml:space="preserve">
+        <value>게시 사용자 정보를 다운로드하지 못함: {0}</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
         <value>클라이언트에 호스트 키를 사용하여 앱의 모든 HTTP 함수에 액세스합니다. _master 키는 함수 런타임 API에 대한 관리자 액세스 권한을 부여합니다.</value>
@@ -6193,7 +6211,7 @@
         <value>이 필드는 필수입니다.</value>
     </data>
   <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
-        <value>The repository must begin with https://</value>
+        <value>리포지토리는 https://로 시작해야 합니다.</value>
     </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>이 설정을 사용하여 컨테이너 앱 배포 모델 및 레지스트리를 구성하세요. 작업 효율성을 높이기 위해 GitHub Actions를 사용하는 것이 좋습니다.</value>
@@ -6685,6 +6703,21 @@
         <value>현재 앱이 런타임 버전 '{0}'에 고정되어 있으며, 2020년 10월 이후 보안 업그레이드를 더 이상 받지 않습니다. 최신 버전의 런타임으로 업그레이드하는 것이 좋습니다. 자세한 내용은 이 문서를 참조하세요.</value>
     </data>
   <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
-        <value>The server URL must begin with https://</value>
+        <value>서버 URL은 https://로 시작해야 합니다.</value>
+    </data>
+  <data name="pricing_pv3NotAvailable" xml:space="preserve">
+        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    </data>
+  <data name="hyperVIsolation" xml:space="preserve">
+        <value>Hyper-V Isolation</value>
+    </data>
+  <data name="hyperVIsolationDesc" xml:space="preserve">
+        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+    </data>
+  <data name="pricing_ACU_Pv3" xml:space="preserve">
+        <value>{0} minimum ACU/vCore</value>
+    </data>
+  <data name="pricing_vCores" xml:space="preserve">
+        <value>{0} vCores</value>
     </data>
 </root>

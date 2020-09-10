@@ -6099,11 +6099,20 @@
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>任何未儲存的變更都會在重新整理時遺失。確定要繼續嗎?</value>
     </data>
-  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+  <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to refresh?</value>
+    </data>
+  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
         <value>確定要同步嗎?</value>
     </data>
-  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
-        <value>執行同步作業將會取消任何目前正在執行的部署作業，並建立一個新的部署作業</value>
+  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
+        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+    </data>
+  <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to discard?</value>
+    </data>
+  <data name="deploymentCenterDataLossMessage" xml:space="preserve">
+        <value>All unsaved changes will be lost.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>新增應用程式設定</value>
@@ -6143,6 +6152,15 @@
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
         <value>需要網站或位置的寫入權限，才能檢視認證。</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingMessage" xml:space="preserve">
+        <value>正在載入使用者認證</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingAriaLabel" xml:space="preserve">
+        <value>正在載入使用者認證</value>
+    </data>
+  <data name="publishingUserFetchFailedMessage" xml:space="preserve">
+        <value>無法下載發行使用者資訊: {0}</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
         <value>在用戶端使用主機金鑰來存取您應用程式中的所有 HTTP 函式。_master 金鑰會授與系統管理員 Functions 執行階段 API 的存取權。</value>
@@ -6184,7 +6202,7 @@
         <value>要重設應用程式發行設定檔密碼嗎?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>重設設定檔密碼，將會停止執行透過發行設定檔進行的任何外部整合。</value>
+        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>使用者名稱的長度至少須為 {0} 個字元。</value>
@@ -6193,7 +6211,7 @@
         <value>這是必要欄位</value>
     </data>
   <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
-        <value>The repository must begin with https://</value>
+        <value>存放庫必須以 https:// 為開頭</value>
     </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>使用這些設定對您的容器應用程式部署模型與登錄進行設定。建議您使用 GitHub Actions 以提高作業效率。</value>
@@ -6643,7 +6661,7 @@
         <value>範本詳細資料</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>We need more information to create the {0} function. </value>
+        <value>我們需要更多資訊，才能建立 {0} 函式。</value>
     </data>
   <data name="developInPortal" xml:space="preserve">
         <value>在入口網站中開發</value>
@@ -6682,9 +6700,24 @@
         <value>無法儲存容器設定: {0}</value>
     </data>
   <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.</value>
+        <value>您的應用程式目前已鎖定為執行階段版本 '{0}'，並且於 2020 年 10 月後將不再收到安全性升級。建議您升級至最新版本的執行階段。如需詳細資訊，請參閱此文章。</value>
     </data>
   <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
-        <value>The server URL must begin with https://</value>
+        <value>Server URL 開頭必須為 https://</value>
+    </data>
+  <data name="pricing_pv3NotAvailable" xml:space="preserve">
+        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    </data>
+  <data name="hyperVIsolation" xml:space="preserve">
+        <value>Hyper-V Isolation</value>
+    </data>
+  <data name="hyperVIsolationDesc" xml:space="preserve">
+        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+    </data>
+  <data name="pricing_ACU_Pv3" xml:space="preserve">
+        <value>{0} minimum ACU/vCore</value>
+    </data>
+  <data name="pricing_vCores" xml:space="preserve">
+        <value>{0} vCores</value>
     </data>
 </root>
