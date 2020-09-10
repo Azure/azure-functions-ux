@@ -4,7 +4,7 @@
 
 Чтобы установить пакет Core Tools, выполните следующую команду:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 Core Tools использует платформу <a href="https://go.microsoft.com/fwlink/?linkid=2016373" target="_blank">.NET Core 2.1</a>, поэтому нужно установить и ее тоже.
 

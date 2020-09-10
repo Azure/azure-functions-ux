@@ -4,7 +4,7 @@
 
 執行下列命令，安裝 Core Tools 套件:
 
-</MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
+</MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### 建立 Azure Functions 專案

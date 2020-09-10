@@ -4,7 +4,7 @@
 
 次のコマンドを実行して、Core Tools パッケージをインストールします。
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 Core Tools では <a href="https://go.microsoft.com/fwlink/?linkid=2016373" target="_blank">.NET Core 2.1</a> を使用するので、それをインストールする必要もあります。
 
