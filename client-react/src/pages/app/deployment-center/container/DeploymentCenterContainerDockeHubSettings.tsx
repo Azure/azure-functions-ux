@@ -6,13 +6,11 @@ import { IChoiceGroupOptionProps } from 'office-ui-fabric-react';
 import { ContainerDockerAccessTypes, DeploymentCenterFieldProps, DeploymentCenterContainerFormData } from '../DeploymentCenter.types';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { ScmType } from '../../../../models/site/config';
-import { isWorkflowOptionExistingOrAvailable } from '../utility/GitHubActionUtility';
 
 const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
 
-  const [isUsingExistingOrAvailableWorkflowConfig, setIsUsingExistingOrAvailableWorkflowConfig] = useState(false);
   const [isGitHubAction, setIsGitHubAction] = useState(false);
   const [isPrivateConfiguration, setIsPrivateConfiguration] = useState(false);
 
@@ -21,12 +19,6 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.dockerHubAccessType]);
-
-  useEffect(() => {
-    setIsUsingExistingOrAvailableWorkflowConfig(isWorkflowOptionExistingOrAvailable(formProps.values.workflowOption));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formProps.values.workflowOption]);
 
   useEffect(() => {
     setIsGitHubAction(formProps.values.scmType === ScmType.GitHubAction);
@@ -73,15 +65,13 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
         </>
       )}
 
-      {!isUsingExistingOrAvailableWorkflowConfig && (
-        <Field
-          id="container-dockerHub-imageAndTag"
-          name="dockerHubImageAndTag"
-          component={TextField}
-          label={isGitHubAction ? t('containerImage') : t('containerImageAndTag')}
-          placeholder={isGitHubAction ? t('containerImagePlaceholder') : t('containerImageAndTagPlaceholder')}
-        />
-      )}
+      <Field
+        id="container-dockerHub-imageAndTag"
+        name="dockerHubImageAndTag"
+        component={TextField}
+        label={t('containerImageAndTag')}
+        placeholder={t('containerImageAndTagPlaceholder')}
+      />
 
       <Field id="container-dockerHub-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
     </>
