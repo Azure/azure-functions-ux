@@ -55,6 +55,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
 
   const disconnectCallback = async (deleteWorkflowDuringDisconnect: boolean) => {
     const notificationId = portalContext.startNotification(t('disconnectingDeployment'), t('disconnectingDeployment'));
+    dismissDisconnectPanel();
 
     let deploymentDisconnectStatus = await deleteWorkflowFileIfNeeded(deleteWorkflowDuringDisconnect);
     deploymentDisconnectStatus = await clearSCMSettings(deleteWorkflowDuringDisconnect, deploymentDisconnectStatus);

@@ -205,13 +205,12 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   }, [formProps.values.scmType]);
 
   useEffect(() => {
-    if (
-      deploymentCenterContext &&
-      deploymentCenterContext.siteConfig &&
-      deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction
-    ) {
-      setShowGitHubActionReadOnlyView(true);
-    }
+    const showReadOnlyView =
+      !!deploymentCenterContext &&
+      !!deploymentCenterContext.siteConfig &&
+      deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+
+    setShowGitHubActionReadOnlyView(showReadOnlyView);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterContext.siteConfig]);
