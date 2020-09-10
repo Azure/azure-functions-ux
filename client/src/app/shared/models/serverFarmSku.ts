@@ -10,6 +10,7 @@ export class Tier {
   public static readonly dynamic = 'Dynamic';
   public static readonly elasticPremium = 'ElasticPremium';
   public static readonly elasticIsolated = 'ElasticIsolated';
+  public static readonly premiumV3 = 'PremiumV3';
 }
 
 export class SkuCode {
@@ -67,5 +68,11 @@ export class SkuCode {
     EP2Memory: 'EP2-M',
     EP3CPU: 'EP3-C',
     EP3Memory: 'EP3-M',
+  };
+
+  public static readonly PremiumV3 = {
+    P1V3: 'P1V3',
+    P2V3: 'P2V3',
+    P3V3: 'P3V3',
   };
 }
