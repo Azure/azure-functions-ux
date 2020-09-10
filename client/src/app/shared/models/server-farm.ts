@@ -4,4 +4,8 @@ export interface ServerFarm {
   provisioningState?: 'InProgress' | 'Succeeded' | 'Failed';
   hyperV?: boolean;
   numberOfWorkers?: number;
+  sku?: {
+    name: string;
+    tier: string;
+  };
 }

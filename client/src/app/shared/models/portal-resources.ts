@@ -2186,4 +2186,9 @@ export class PortalResources {
   public static savingContainerConfigurationFailedWithStatusMessage = 'savingContainerConfigurationFailedWithStatusMessage';
   public static functionsRuntimeVersionNeedsUpdateWarningForV2 = 'functionsRuntimeVersionNeedsUpdateWarningForV2';
   public static deploymentCenterServerUrlIsUrl = 'deploymentCenterServerUrlIsUrl';
+  public static pricing_pv3NotAvailable = 'pricing_pv3NotAvailable';
+  public static hyperVIsolation = 'hyperVIsolation';
+  public static hyperVIsolationDesc = 'hyperVIsolationDesc';
+  public static pricing_ACU_Pv3 = 'pricing_ACU_Pv3';
+  public static pricing_vCores = 'pricing_vCores';
 }
