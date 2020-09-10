@@ -482,7 +482,7 @@ on:
 
       - uses: azure/docker-login@v1
         with:
-          login-server: contoso.azurecr.io
+          login-server: ${server}
           username: \${{ secrets.${containerUsernameSecretName} }}
           password: \${{ secrets.${containerPasswordSecretName} }}
 
