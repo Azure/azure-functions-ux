@@ -478,7 +478,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   };
 
   const onSubmit = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
-    await Promise.all([updateDeploymentConfigurations(values), updatePublishingUsernamePassword(values)]);
+    await Promise.all([updateDeploymentConfigurations(values), updatePublishingUser(values)]);
     deploymentCenterContext.refresh();
     props.refresh();
   };
@@ -497,7 +497,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     }
   };
 
-  const updatePublishingUsernamePassword = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+  const updatePublishingUser = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
     const currentUser = deploymentCenterPublishingContext.publishingUser;
     if (
       (currentUser && currentUser.properties.publishingUserName !== values.publishingUsername) ||
