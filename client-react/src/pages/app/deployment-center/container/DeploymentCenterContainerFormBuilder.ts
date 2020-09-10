@@ -151,13 +151,9 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getContainerOption(): ContainerOptions {
-    const fxVersion = this._siteConfig.properties.linuxFxVersion || this._siteConfig.properties.windowsFxVersion;
-
-    if (this._isComposeContainerOption(fxVersion)) {
-      return ContainerOptions.compose;
-    } else {
-      return ContainerOptions.docker;
-    }
+    // TODO(michinoy): For now we will only support docker (single container) option. See following work item for enabling compose:
+    // https://msazure.visualstudio.com/Antares/_workitems/edit/8238865
+    return ContainerOptions.docker;
   }
 
   private _getContainerRegistrySource(): ContainerRegistrySources {

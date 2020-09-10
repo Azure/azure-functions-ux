@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  DeploymentCenterFieldProps,
-  ContainerOptions,
-  ContainerRegistrySources,
-  DeploymentCenterContainerFormData,
-} from '../DeploymentCenter.types';
+import { DeploymentCenterFieldProps, ContainerRegistrySources, DeploymentCenterContainerFormData } from '../DeploymentCenter.types';
 import { useTranslation } from 'react-i18next';
 import { IChoiceGroupOptionProps, IDropdownOption } from 'office-ui-fabric-react';
 import { Field } from 'formik';
@@ -20,29 +15,6 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
     if (option.key.toString() === ContainerRegistrySources.docker) {
       formProps.setFieldValue('serverUrl', DeploymentCenterConstants.dockerHubUrl);
     }
-  };
-
-  const getContainerOptions = (): IChoiceGroupOptionProps[] => {
-    const options: IChoiceGroupOptionProps[] = [
-      {
-        key: ContainerOptions.docker,
-        text: t('singleContainerTitle'),
-      },
-      {
-        key: ContainerOptions.compose,
-        text: t('dockerComposeContainerTitle'),
-      },
-    ];
-
-    // NOTE(michinoy): Kubernetes support is currently deprecated, so only show IF the user has a kubernetes based app
-    if (formProps.initialValues.option === ContainerOptions.kubernetes) {
-      options.push({
-        key: ContainerOptions.kubernetes,
-        text: t('kubernetesContainerTitle'),
-      });
-    }
-
-    return options;
   };
 
   const sourceTypes: IChoiceGroupOptionProps[] = [
@@ -63,13 +35,12 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
   return (
     <>
       <h3>{t('deploymentCenterContainerRegistrySettingsTitle')}</h3>
-      <Field
-        id="deployment-center-container-registry-option"
-        name="option"
-        component={Dropdown}
-        options={getContainerOptions()}
-        label={t('deploymentCenterContainerRegistryOptionsLabel')}
-      />
+
+      {/*
+      TODO(michinoy): For now we will only support docker (single container) option. See following work item for enabling compose:
+      https://msazure.visualstudio.com/Antares/_workitems/edit/8238865
+      */}
+
       <Field
         id="deployment-center-container-registry-source"
         name="registrySource"
