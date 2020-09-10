@@ -477,12 +477,13 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     props.refresh();
   };
 
-  const onSubmit = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+  const onSubmit = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
     if (values.scmType === ScmType.GitHubAction) {
-      saveGithubActionContainerSettings(values);
+      await saveGithubActionContainerSettings(values);
     } else {
-      saveDirectRegistrySettings(values);
+      await saveDirectRegistrySettings(values);
     }
+    props.refresh();
   };
 
   const hideRefreshConfirmDialog = () => {
