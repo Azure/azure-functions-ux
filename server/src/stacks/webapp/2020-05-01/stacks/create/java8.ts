@@ -78,7 +78,7 @@ export const java8CreateStack: WebAppCreateStack = {
     {
       displayText: 'JBoss EAP 7.2 (Preview)',
       value: 'jbosseap7.2',
-      sortOrder: 2,
+      sortOrder: 1,
       supportedPlatforms: [
         {
           os: 'linux',
