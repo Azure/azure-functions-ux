@@ -50,13 +50,9 @@ export abstract class DeploymentCenterFormBuilder {
         .test('validatePublishingUsername', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
           return value || !this.parent.publishingPassword;
         }),
-      publishingPassword: Yup.string()
-        .test('publishingPasswordRequirements', this._t('userCredsError'), value => {
-          return !value || passwordMinimumRequirementsRegex.test(value);
-        })
-        .test('validatePublishingUsername', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-          return value || !this.parent.publishingUsername;
-        }),
+      publishingPassword: Yup.string().test('publishingPasswordRequirements', this._t('userCredsError'), value => {
+        return !value || passwordMinimumRequirementsRegex.test(value);
+      }),
       // NOTE(michinoy): Cannot use the arrow operator for the test function as 'this' context is required.
       publishingConfirmPassword: Yup.string().test('validatePublishingConfirmPassword', this._t('nomatchpassword'), function(value) {
         return !this.parent.publishingPassword || this.parent.publishingPassword === value;

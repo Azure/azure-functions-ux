@@ -1245,6 +1245,10 @@ export class PortalResources {
   public static settingupDeploymentSuccess = 'settingupDeploymentSuccess';
   public static settingupDeploymentFail = 'settingupDeploymentFail';
   public static settingupDeploymentFailWithStatusMessage = 'settingupDeploymentFailWithStatusMessage';
+  public static UpdatingPublishingUserFailWithStatusMessage = 'UpdatingPublishingUserFailWithStatusMessage';
+  public static UpdatingPublishingUserFail = 'UpdatingPublishingUserFail';
+  public static UpdatingPublishingUserSuccess = 'UpdatingPublishingUserSuccess';
+  public static UpdatingPublishingUser = 'UpdatingPublishingUser';
   public static noPermissionsToCreateApp = 'noPermissionsToCreateApp';
   public static disconnectingDeployment = 'disconnectingDeployment';
   public static disconnectingDeploymentSuccess = 'disconnectingDeploymentSuccess';
