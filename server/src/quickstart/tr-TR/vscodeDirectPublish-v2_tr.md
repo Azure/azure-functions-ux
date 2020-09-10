@@ -4,7 +4,7 @@ Başlamadan önce, <a href="https://go.microsoft.com/fwlink/?linkid=2016593" tar
 
 Core Tools paketini yüklemek için aşağıdaki komutu çalıştırın:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 Core Tools <a href="https://go.microsoft.com/fwlink/?linkid=2016373" target="_blank">.NET Core 2.1</a> kullandığından, sizin de bunu yüklemeniz gerekir.
 

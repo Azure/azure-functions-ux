@@ -4,7 +4,7 @@ Antes de comenzar a trabajar, debe <a href="https://go.microsoft.com/fwlink/?lin
 
 Ejecute el siguiente comando para instalar el paquete de Core Tools:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 Core Tools usa <a href="https://go.microsoft.com/fwlink/?linkid=2016373" target="_blank">.NET Core 2.1</a>, así que debería instalar también esta plataforma.
 

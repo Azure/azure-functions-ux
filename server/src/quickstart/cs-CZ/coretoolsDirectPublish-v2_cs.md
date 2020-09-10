@@ -4,7 +4,7 @@ Než budete moct začít pracovat, měli byste <a href="https://go.microsoft.com
 
 Pomocí následujícího příkazu nainstalujte balíček Core Tools:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### Vytvoření projektu Azure Functions

@@ -4,7 +4,7 @@
 
 运行以下命令以安装 Core Tools 包：
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### 创建 Azure Functions 项目
@@ -33,7 +33,7 @@
 
 该运行时将为任何 HTTP 函数输出 URL，可以在浏览器的地址栏中复制和运行该 URL。
 
-若要停止调试，请在终端使用 Ctrl-C****。
+若要停止调试，请在终端使用 Ctrl-C\*\*\*\*。
 
 <br/>
 ### 将代码部署到 Azure

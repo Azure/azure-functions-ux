@@ -4,7 +4,7 @@ Başlamadan önce, <a href="https://go.microsoft.com/fwlink/?linkid=2016373" tar
 
 Core Tools paketini yüklemek için aşağıdaki komutu çalıştırın:
 
-<MarkdownHighlighter> npm install -g azure-functions-core-tools</MarkdownHighlighter>
+<MarkdownHighlighter> npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### Azure İşlevleri projesi oluşturma
