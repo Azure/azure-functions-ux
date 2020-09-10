@@ -3875,6 +3875,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>Failed to set up deployment: {0}</value>
     </data>
+    <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>Failed to update publishing user credentials: {0}</value>
+    </data>
+    <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>Failed to update publishing user credentials</value>
+    </data>
+    <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>Successfully updated publishing user credentials</value>
+    </data>
+    <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>Updating publishing user credentials</value>
+    </data>
     <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>You can't register a new application in Azure Active Directory. Learn more: https://go.microsoft.com/fwlink/?linkid=843472. More details: {0}</value>
     </data>
