@@ -17,8 +17,12 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
 
   public generateYupValidationSchema(): DeploymentCenterYupValidationSchemaType<DeploymentCenterCodeFormData> {
     return Yup.object().shape({
-      sourceProvider: Yup.mixed().test('sourceProviderRequired', this._t('deploymentCenterFieldRequiredMessage'), value => {
-        return value !== ScmType.None;
+      sourceProvider: Yup.mixed().test('sourceProviderRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return (
+          value !== ScmType.None ||
+          (value === ScmType.None &&
+            (this.parent.publishingUsername && this.parent.publishingPassword && this.parent.publishingConfirmPassword))
+        );
       }),
       buildProvider: Yup.mixed().required(),
       runtimeStack: Yup.mixed().test('runtimeStackRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {

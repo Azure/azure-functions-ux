@@ -478,12 +478,45 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   };
 
   const onSubmit = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
-    if (values.scmType === ScmType.GitHubAction) {
-      await saveGithubActionContainerSettings(values);
-    } else {
-      await saveDirectRegistrySettings(values);
-    }
+    await Promise.all([updateDeploymentConfigurations(values), updatePublishingUsernamePassword(values)]);
+    deploymentCenterContext.refresh();
     props.refresh();
+  };
+
+  const updateDeploymentConfigurations = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+    // Only do the save if scmtype in the config is set to none.
+    // If the scmtype in the config is not none, the user should be doing a disconnect operation first.
+    // This check is in place, because the use could set the form props ina dirty state by just modifying the
+    // publishing user information.
+    if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None) {
+      if (values.scmType === ScmType.GitHubAction) {
+        await saveGithubActionContainerSettings(values);
+      } else {
+        await saveDirectRegistrySettings(values);
+      }
+    }
+  };
+
+  const updatePublishingUsernamePassword = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+    const currentUser = deploymentCenterPublishingContext.publishingUser;
+    if (
+      (currentUser && currentUser.properties.publishingUserName !== values.publishingUsername) ||
+      (currentUser && values.publishingPassword && currentUser.properties.publishingPassword !== values.publishingPassword)
+    ) {
+      const notificationId = portalContext.startNotification(t('UpdatingPublishingUser'), t('UpdatingPublishingUser'));
+      currentUser.properties.publishingUserName = values.publishingUsername;
+      currentUser.properties.publishingPassword = values.publishingPassword;
+      const publishingUserResponse = await deploymentCenterData.updatePublishingUser(currentUser);
+
+      if (publishingUserResponse.metadata.success) {
+        portalContext.stopNotification(notificationId, true, t('UpdatingPublishingUserSuccess'));
+      } else {
+        const errorMessage = getErrorMessage(publishingUserResponse.metadata.error);
+        errorMessage
+          ? portalContext.stopNotification(notificationId, false, t('UpdatingPublishingUserFailWithStatusMessage').format(errorMessage))
+          : portalContext.stopNotification(notificationId, false, t('UpdatingPublishingUserFail'));
+      }
+    }
   };
 
   const hideRefreshConfirmDialog = () => {
