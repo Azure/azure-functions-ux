@@ -43,16 +43,20 @@ export abstract class DeploymentCenterFormBuilder {
     const usernameMinLength = 3;
 
     return {
-      publishingUsername: Yup.string().test(
-        'usernameMinCharsIfEntered',
-        this._t('usernameLengthRequirements').format(usernameMinLength),
-        value => {
+      publishingUsername: Yup.string()
+        .test('usernameMinCharsIfEntered', this._t('usernameLengthRequirements').format(usernameMinLength), value => {
           return !value || value.length >= usernameMinLength;
-        }
-      ),
-      publishingPassword: Yup.string().test('validatePublishingPassword', this._t('userCredsError'), value => {
-        return !value || passwordMinimumRequirementsRegex.test(value);
-      }),
+        })
+        .test('validatePublishingUsername', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return value || !this.parent.publishingPassword;
+        }),
+      publishingPassword: Yup.string()
+        .test('publishingPasswordRequirements', this._t('userCredsError'), value => {
+          return !value || passwordMinimumRequirementsRegex.test(value);
+        })
+        .test('validatePublishingUsername', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return value || !this.parent.publishingUsername;
+        }),
       // NOTE(michinoy): Cannot use the arrow operator for the test function as 'this' context is required.
       publishingConfirmPassword: Yup.string().test('validatePublishingConfirmPassword', this._t('nomatchpassword'), function(value) {
         return !this.parent.publishingPassword || this.parent.publishingPassword === value;
