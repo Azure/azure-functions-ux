@@ -91,9 +91,9 @@ export class PremiumV3SmallPlanPriceSpec extends PremiumV3PlanPriceSpec {
   skuCode = SkuCode.PremiumV3.P1V3;
   legacySkuName = SkuCode.PremiumV3.P1V3;
   topLevelFeatures = [
-    this._ts.instant(PortalResources.pricing_ACU_Pv3).format('195'),
-    this._ts.instant(PortalResources.pricing_memory).format('8'),
-    this._ts.instant(PortalResources.pricing_vCores).format('1'),
+    this._ts.instant(PortalResources.pricing_ACU_Pv3).format(195),
+    this._ts.instant(PortalResources.pricing_memory).format(8),
+    this._ts.instant(PortalResources.pricing_vCores).format(1),
   ];
 
   meterFriendlyName = 'Premium V3 Small App Service Hours';
@@ -114,9 +114,9 @@ export class PremiumV3MediumPlanPriceSpec extends PremiumV3PlanPriceSpec {
   skuCode = SkuCode.PremiumV3.P2V3;
   legacySkuName = SkuCode.PremiumV3.P2V3;
   topLevelFeatures = [
-    this._ts.instant(PortalResources.pricing_ACU_Pv3).format('195'),
-    this._ts.instant(PortalResources.pricing_memory).format('16'),
-    this._ts.instant(PortalResources.pricing_vCores).format('2'),
+    this._ts.instant(PortalResources.pricing_ACU_Pv3).format(195),
+    this._ts.instant(PortalResources.pricing_memory).format(16),
+    this._ts.instant(PortalResources.pricing_vCores).format(2),
   ];
 
   meterFriendlyName = 'Premium V2 Medium App Service Hours';
@@ -137,9 +137,9 @@ export class PremiumV3LargePlanPriceSpec extends PremiumV3PlanPriceSpec {
   skuCode = SkuCode.PremiumV3.P3V3;
   legacySkuName = SkuCode.PremiumV3.P3V3;
   topLevelFeatures = [
-    this._ts.instant(PortalResources.pricing_ACU_Pv3).format('195'),
-    this._ts.instant(PortalResources.pricing_memory).format('32'),
-    this._ts.instant(PortalResources.pricing_vCores).format('4'),
+    this._ts.instant(PortalResources.pricing_ACU_Pv3).format(195),
+    this._ts.instant(PortalResources.pricing_memory).format(32),
+    this._ts.instant(PortalResources.pricing_vCores).format(4),
   ];
 
   meterFriendlyName = 'Premium V3 Large App Service Hours';
