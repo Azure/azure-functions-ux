@@ -56,13 +56,6 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     { key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') },
   ];
 
-  const onSourceChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    formProps.setFieldValue('sourceProvider', option.key.toString());
-    formProps.setFieldValue('org', '');
-    formProps.setFieldValue('repo', '');
-    formProps.setFieldValue('branch', '');
-  };
-
   const updateSelectedBuild = () => {
     setSelectedBuild(selectedBuildChoice);
     formProps.setFieldValue('buildProvider', selectedBuildChoice);
@@ -82,21 +75,42 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   };
 
   useEffect(() => {
-    if (formProps.values.sourceProvider !== ScmType.GitHub) {
-      setSelectedBuild(BuildProvider.AppServiceBuildService);
-      formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
+    if (formProps.values.sourceProvider !== ScmType.None) {
+      setSourceBuildProvider();
     } else {
-      setSelectedBuild(BuildProvider.GitHubAction);
-      formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
-      formProps.setFieldValue(
-        'gitHubPublishProfileSecretGuid',
-        Guid.newGuid()
-          .toLowerCase()
-          .replace(/[-]/g, '')
-      );
+      // NOTE(michinoy): If the source provider is set to None, it means either an initial load or discard.
+      // only clear the values in that case.
+      clearBuildAndRepoFields();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.sourceProvider]);
+
+  const clearBuildAndRepoFields = () => {
+    formProps.setFieldValue('buildProvider', BuildProvider.None);
+    formProps.setFieldValue('org', '');
+    formProps.setFieldValue('repo', '');
+    formProps.setFieldValue('branch', '');
+  };
+
+  const setSourceBuildProvider = () => {
+    // NOTE(michinoy): If the build provider is already set, do not change it.
+    // This might mean that the user has switched tabs and returned to this experience.
+    if (formProps.values.buildProvider === BuildProvider.None) {
+      if (formProps.values.sourceProvider === ScmType.GitHub) {
+        setSelectedBuild(BuildProvider.GitHubAction);
+        formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
+        formProps.setFieldValue(
+          'gitHubPublishProfileSecretGuid',
+          Guid.newGuid()
+            .toLowerCase()
+            .replace(/[-]/g, '')
+        );
+      } else {
+        setSelectedBuild(BuildProvider.AppServiceBuildService);
+        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
+      }
+    }
+  };
 
   const isSourceSelected = formProps.values.sourceProvider !== ScmType.None;
   const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
@@ -150,7 +164,6 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         displayInVerticalLayout={true}
         options={sourceOptions}
         required={true}
-        onChange={onSourceChange}
       />
 
       {isSourceSelected &&

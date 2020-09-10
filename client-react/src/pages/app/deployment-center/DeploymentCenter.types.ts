@@ -84,6 +84,8 @@ export interface DeploymentCenterCommonFormData {
   externalRepoType: RepoTypeOptions;
   externalUsername?: string;
   externalPassword?: string;
+  gitHubUser?: GitHubUser;
+  bitbucketUser?: BitbucketUser;
 }
 
 export interface AcrFormData {
@@ -186,6 +188,7 @@ export type DeploymentCenterCodePivotProps = DeploymentCenterCodeFormProps & Dep
 
 export interface DeploymentCenterCommandBarProps {
   isLoading: boolean;
+  isDirty: boolean;
   saveFunction: () => void;
   discardFunction: () => void;
   showPublishProfilePanel: () => void;
@@ -217,8 +220,6 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
 export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
   extends DeploymentCenterFieldProps<T> {
   authorizeAccount: () => void;
-  fetchRepositoryOptions: (repositories_url: string) => void;
-  fetchBranchOptions: (org: string, repo: string) => void;
   organizationOptions: IDropdownOption[];
   repositoryOptions: IDropdownOption[];
   branchOptions: IDropdownOption[];
@@ -357,8 +358,6 @@ export interface SiteSourceControlRequestBody {
 export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
   extends DeploymentCenterFieldProps<T> {
   authorizeAccount: () => void;
-  fetchRepositoriesInOrganization: (org: string) => void;
-  fetchBranchOptions: (org: string, repo: string) => void;
   organizationOptions: IDropdownOption[];
   repositoryOptions: IDropdownOption[];
   branchOptions: IDropdownOption[];
