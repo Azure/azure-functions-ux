@@ -60,7 +60,7 @@ export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
     const enablePv3Skus = Url.getFeatureValue(FeatureFlags.enablePv3Skus) === 'true';
     if (enablePv3Skus) {
       // NOTE(shimedh): Only show premium container for existing xenon apps if sku is set to premiumContainer.
-      if (input.plan && input.plan.properties.hyperV && input.plan.properties.sku.tier === Tier.premiumContainer) {
+      if (input.plan && input.plan.properties.hyperV && input.plan.sku.tier === Tier.premiumContainer) {
         this.state = 'enabled';
       } else {
         this.state = 'hidden';

@@ -81,7 +81,7 @@ export abstract class PremiumV3PlanPriceSpec extends DV3SeriesPriceSpec {
       !enablePv3Skus ||
       (enablePv3Skus &&
         (!!plan.properties.hostingEnvironmentProfile ||
-          (plan.properties.hyperV && plan.properties.sku.tier === Tier.premiumContainer) ||
+          (plan.properties.hyperV && plan.sku.tier === Tier.premiumContainer) ||
           AppKind.hasAnyKind(plan, [Kinds.elastic])))
     );
   }
