@@ -24,7 +24,11 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
-import { getCodeAppWorkflowInformation } from '../utility/GitHubActionUtility';
+import {
+  getCodeAppWorkflowInformation,
+  isApiSyncError,
+  updateGitHubActionSourceControlPropertiesManually,
+} from '../utility/GitHubActionUtility';
 import { getWorkflowFilePath, getArmToken } from '../utility/DeploymentCenterUtility';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 
@@ -40,7 +44,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const deploymentCenterData = new DeploymentCenterData();
 
-  const deployKudu = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+  const deployKudu = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
     const payload: SiteSourceControlRequestBody = {
       repoUrl: getRepoUrl(values),
       branch: values.branch || 'master',
@@ -56,7 +60,25 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
-      return deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, { properties: payload });
+      const updateSourceControlResponse = await deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, {
+        properties: payload,
+      });
+
+      if (
+        !updateSourceControlResponse.metadata.success &&
+        payload.isGitHubAction &&
+        isApiSyncError(updateSourceControlResponse.metadata.error)
+      ) {
+        // NOTE(michinoy): If the save operation was being done for GitHub Action, and
+        // we are experiencing the API sync error, populate the source controls properties
+        // manually.
+        // This strictly a workaround and once all the APIs are sync this code can be removed.
+
+        LogService.error(LogCategories.deploymentCenter, 'apiSyncErrorWorkaround', { resourceId: deploymentCenterContext.resourceId });
+        return updateGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId, payload);
+      } else {
+        return updateSourceControlResponse;
+      }
     }
   };
 
