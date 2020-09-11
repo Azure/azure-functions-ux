@@ -28,7 +28,11 @@ import { ACRWebhookPayload } from '../../../../models/acr';
 import { ScmType } from '../../../../models/site/config';
 import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { getContainerAppWorkflowInformation } from '../utility/GitHubActionUtility';
+import {
+  getContainerAppWorkflowInformation,
+  isApiSyncError,
+  updateGitHubActionSourceControlPropertiesManually,
+} from '../utility/GitHubActionUtility';
 import { GitHubCommit, GitHubActionWorkflowRequestContent } from '../../../../models/github';
 
 interface ResponseResult {
@@ -40,6 +44,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   const { t } = useTranslation();
 
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
+  const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
+
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const portalContext = useContext(PortalContext);
@@ -393,7 +399,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     };
   };
 
-  const updateSourceControlDetails = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+  const updateSourceControlDetails = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
     const payload: SiteSourceControlRequestBody = {
       repoUrl: `${DeploymentCenterConstants.githubUri}/${values.org}/${values.repo}`,
       branch: values.branch || 'master',
@@ -402,7 +408,25 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       isMercurial: false,
     };
 
-    return deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, { properties: payload });
+    const updateSourceControlResponse = await deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, {
+      properties: payload,
+    });
+
+    if (
+      !updateSourceControlResponse.metadata.success &&
+      payload.isGitHubAction &&
+      isApiSyncError(updateSourceControlResponse.metadata.error)
+    ) {
+      // NOTE(michinoy): If the save operation was being done for GitHub Action, and
+      // we are experiencing the API sync error, populate the source controls properties
+      // manually.
+      // This strictly a workaround and once all the APIs are sync this code can be removed.
+
+      LogService.error(LogCategories.deploymentCenter, 'apiSyncErrorWorkaround', { resourceId: deploymentCenterContext.resourceId });
+      return updateGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId, payload);
+    } else {
+      return updateSourceControlResponse;
+    }
   };
 
   const updateApplicationProperties = async (
@@ -523,6 +547,10 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     setIsRefreshConfirmDialogVisible(false);
   };
 
+  const hideDiscardConfirmDialog = () => {
+    setIsDiscardConfirmDialogVisible(false);
+  };
+
   return (
     <Formik
       initialValues={props.formData}
@@ -536,7 +564,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
           <div id="deployment-center-command-bar" className={commandBarSticky}>
             <DeploymentCenterCommandBar
               saveFunction={formProps.submitForm}
-              discardFunction={formProps.resetForm}
+              discardFunction={() => setIsDiscardConfirmDialogVisible(true)}
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
               isLoading={props.isLoading}
@@ -557,6 +585,24 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               content={t('deploymentCenterDataLossMessage')}
               hidden={!isRefreshConfirmDialogVisible}
               onDismiss={hideRefreshConfirmDialog}
+            />
+
+            <ConfirmDialog
+              primaryActionButton={{
+                title: t('ok'),
+                onClick: () => {
+                  formProps.resetForm();
+                  hideDiscardConfirmDialog();
+                },
+              }}
+              defaultActionButton={{
+                title: t('cancel'),
+                onClick: hideDiscardConfirmDialog,
+              }}
+              title={t('deploymentCenterDiscardConfirmTitle')}
+              content={t('deploymentCenterDataLossMessage')}
+              hidden={!isDiscardConfirmDialogVisible}
+              onDismiss={hideDiscardConfirmDialog}
             />
           </>
           <div className={pivotContent}>

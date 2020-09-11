@@ -13,6 +13,7 @@ import OneDriveService from '../../../ApiHelpers/OneDriveService';
 import ACRService from '../../../ApiHelpers/ACRService';
 import { ACRWebhookPayload } from '../../../models/acr';
 import { SiteConfig } from '../../../models/site/config';
+import { KeyValue } from '../../../models/portal-models';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -49,6 +50,10 @@ export default class DeploymentCenterData {
 
   public getConfigMetadata = (resourceId: string) => {
     return SiteService.fetchMetadata(resourceId);
+  };
+
+  public updateConfigMetadata = (resourceId: string, properties: KeyValue<string>) => {
+    return SiteService.updateMetadata(resourceId, properties);
   };
 
   public getSiteDeployments = (resourceId: string) => {
