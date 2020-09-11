@@ -35,9 +35,16 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
         label={t('deploymentCenterOAuthRepository')}
         name="repo"
         component={TextField}
+        placeholder={t('deploymentCenterCodeExternalRepositoryPlaceholder')}
       />
 
-      <Field id="deployment-center-settings-branch-option" label={t('deploymentCenterOAuthBranch')} name="branch" component={TextField} />
+      <Field
+        id="deployment-center-settings-branch-option"
+        label={t('deploymentCenterOAuthBranch')}
+        name="branch"
+        component={TextField}
+        placeholder={t('deploymentCenterCodeExternalBranchPlaceholder')}
+      />
 
       <Field
         id="deployment-center-settings-external-private-repo"

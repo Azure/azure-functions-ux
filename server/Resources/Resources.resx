@@ -6291,6 +6291,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>Repository Type</value>
     </data>
+    <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+    <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>main</value>
+    </data>
     <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>Private</value>
     </data>
