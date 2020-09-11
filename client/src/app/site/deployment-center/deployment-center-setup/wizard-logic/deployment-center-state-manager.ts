@@ -338,34 +338,69 @@ export class DeploymentCenterStateManager implements OnDestroy {
   }
 
   private _updateGitHubActionSourceControlPropertiesManually(sourceSettingsPayload: SourceSettings) {
-    const updateSiteConfig = this._cacheService
+    return this._fetchMetadata()
+      .switchMap(r => {
+        if (r && r.result && r.result.properties) {
+          return this._updateMetadata(r.result.properties, sourceSettingsPayload);
+        } else {
+          return Observable.throw(r);
+        }
+      })
+      .switchMap(r => {
+        if (r && r.status === 200) {
+          return this._patchSiteConfigForGitHubAction();
+        } else {
+          return Observable.throw(r);
+        }
+      })
+      .catch(r => Observable.throw(r))
+      .map(r => r.json());
+  }
+
+  private _updateMetadata(properties: { [key: string]: string }, sourceSettingsPayload: SourceSettings) {
+    delete properties['RepoUrl'];
+    delete properties['ScmUri'];
+    delete properties['CloneUri'];
+    delete properties['branch'];
+
+    properties['RepoUrl'] = sourceSettingsPayload.repoUrl;
+    properties['branch'] = sourceSettingsPayload.branch;
+
+    return this._cacheService
+      .putArm(`${this._resourceId}/config/metadata`, ARMApiVersions.antaresApiVersion20181101, { properties })
+      .catch(err => {
+        this._logService.error(LogCategories.cicd, 'apiSyncErrorWorkaround-update-metadata-failure', {
+          resourceId: this._resourceId,
+          error: err,
+        });
+        return Observable.throw(err);
+      });
+  }
+
+  private _fetchMetadata() {
+    return this._siteService.fetchSiteConfigMetadata(this._resourceId).catch(err => {
+      this._logService.error(LogCategories.cicd, 'apiSyncErrorWorkaround-fetch-metadata-failure', {
+        resourceId: this._resourceId,
+        error: err,
+      });
+      return Observable.throw(err);
+    });
+  }
+
+  private _patchSiteConfigForGitHubAction() {
+    return this._cacheService
       .patchArm(`${this._resourceId}/config/web`, ARMApiVersions.antaresApiVersion20181101, {
         properties: {
           scmType: 'GitHubAction',
         },
       })
-      .map(r => r.json());
-
-    const updateMetadata = this._siteService.fetchSiteConfigMetadata(this._resourceId).switchMap(r => {
-      if (r.isSuccessful) {
-        const properties = r.result.properties;
-        delete properties['RepoUrl'];
-        delete properties['ScmUri'];
-        delete properties['CloneUri'];
-        delete properties['branch'];
-
-        properties['RepoUrl'] = sourceSettingsPayload.repoUrl;
-        properties['branch'] = sourceSettingsPayload.branch;
-
-        return this._cacheService
-          .putArm(`${this._resourceId}/config/metadata`, ARMApiVersions.antaresApiVersion20181101, { properties })
-          .map(r => r.json());
-      } else {
-        return Observable.throw(r.error);
-      }
-    });
-
-    return forkJoin(updateSiteConfig, updateMetadata);
+      .catch(err => {
+        this._logService.error(LogCategories.cicd, 'apiSyncErrorWorkaround-sitConfig-patch-failure', {
+          resourceId: this._resourceId,
+          error: err,
+        });
+        return Observable.throw(err);
+      });
   }
 
   // Detect the specific error which is indicative of Ant89 Geo/Stamp sync issues.
