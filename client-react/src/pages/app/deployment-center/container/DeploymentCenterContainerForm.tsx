@@ -40,6 +40,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   const { t } = useTranslation();
 
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
+  const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
+
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const portalContext = useContext(PortalContext);
@@ -523,6 +525,10 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     setIsRefreshConfirmDialogVisible(false);
   };
 
+  const hideDiscardConfirmDialog = () => {
+    setIsDiscardConfirmDialogVisible(false);
+  };
+
   return (
     <Formik
       initialValues={props.formData}
@@ -536,7 +542,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
           <div id="deployment-center-command-bar" className={commandBarSticky}>
             <DeploymentCenterCommandBar
               saveFunction={formProps.submitForm}
-              discardFunction={formProps.resetForm}
+              discardFunction={() => setIsDiscardConfirmDialogVisible(true)}
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
               isLoading={props.isLoading}
@@ -557,6 +563,24 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               content={t('deploymentCenterDataLossMessage')}
               hidden={!isRefreshConfirmDialogVisible}
               onDismiss={hideRefreshConfirmDialog}
+            />
+
+            <ConfirmDialog
+              primaryActionButton={{
+                title: t('ok'),
+                onClick: () => {
+                  formProps.resetForm();
+                  hideDiscardConfirmDialog();
+                },
+              }}
+              defaultActionButton={{
+                title: t('cancel'),
+                onClick: hideDiscardConfirmDialog,
+              }}
+              title={t('deploymentCenterDiscardConfirmTitle')}
+              content={t('deploymentCenterDataLossMessage')}
+              hidden={!isDiscardConfirmDialogVisible}
+              onDismiss={hideDiscardConfirmDialog}
             />
           </>
           <div className={pivotContent}>
