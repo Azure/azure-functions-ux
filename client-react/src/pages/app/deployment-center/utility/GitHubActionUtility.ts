@@ -1,6 +1,63 @@
-import { CodeWorkflowInformation, ContainerWorkflowInformation, WorkflowOption } from '../DeploymentCenter.types';
+import {
+  CodeWorkflowInformation,
+  ContainerWorkflowInformation,
+  WorkflowOption,
+  SiteSourceControlRequestBody,
+} from '../DeploymentCenter.types';
 import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
 import { getWorkflowFileName } from './DeploymentCenterUtility';
+import DeploymentCenterData from '../DeploymentCenter.data';
+
+export const updateGitHubActionSourceControlPropertiesManually = async (
+  deploymentCenterData: DeploymentCenterData,
+  resourceId: string,
+  payload: SiteSourceControlRequestBody
+) => {
+  const fetchExistingMetadataResponse = await deploymentCenterData.getConfigMetadata(resourceId);
+
+  if (fetchExistingMetadataResponse.metadata.success) {
+    const properties = fetchExistingMetadataResponse.data.properties;
+    delete properties['RepoUrl'];
+    delete properties['ScmUri'];
+    delete properties['CloneUri'];
+    delete properties['branch'];
+
+    properties['RepoUrl'] = payload.repoUrl;
+    properties['branch'] = payload.branch;
+
+    const updateMetadataRequest = deploymentCenterData.updateConfigMetadata(resourceId, properties);
+    const patchSiteConfigRequest = deploymentCenterData.patchSiteConfig(resourceId, {
+      properties: {
+        scmType: 'GitHubAction',
+      },
+    });
+
+    const [updateMetadataResponse, patchSiteConfigResponse] = await Promise.all([updateMetadataRequest, patchSiteConfigRequest]);
+
+    if (updateMetadataResponse.metadata.success && patchSiteConfigResponse.metadata.success) {
+      return patchSiteConfigResponse;
+    } else {
+      if (!updateMetadataResponse.metadata.success) {
+        return updateMetadataResponse;
+      } else {
+        return patchSiteConfigResponse;
+      }
+    }
+  } else {
+    return fetchExistingMetadataResponse;
+  }
+};
+
+// Detect the specific error which is indicative of Ant89 Geo/Stamp sync issues.
+export const isApiSyncError = (error?: any): boolean => {
+  return (
+    error &&
+    error.Message &&
+    error.Message.indexOf &&
+    error.Message.indexOf('500 (InternalServerError)') > -1 &&
+    error.Message.indexOf('GeoRegionServiceClient') > -1
+  );
+};
 
 export const isWorkflowOptionExistingOrAvailable = (workflowOption: string): boolean => {
   return workflowOption === WorkflowOption.UseExistingWorkflowConfig || workflowOption === WorkflowOption.UseAvailableWorkflowConfigs;
