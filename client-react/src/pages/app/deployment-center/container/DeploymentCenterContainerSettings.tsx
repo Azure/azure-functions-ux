@@ -100,12 +100,15 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   }, [formProps.values.registrySource, formProps.values.acrLoginServer, formProps.values.privateRegistryServerUrl]);
 
   useEffect(() => {
-    if (formProps.values.registrySource === ContainerRegistrySources.acr) {
+    if (formProps.values.registrySource === ContainerRegistrySources.acr && formProps.values.acrImage) {
       setImage(formProps.values.acrImage);
-    } else if (formProps.values.registrySource === ContainerRegistrySources.privateRegistry) {
+    } else if (
+      formProps.values.registrySource === ContainerRegistrySources.privateRegistry &&
+      formProps.values.privateRegistryImageAndTag
+    ) {
       const imageAndTagParts = formProps.values.privateRegistryImageAndTag.split(':');
       setImage(imageAndTagParts[0]);
-    } else {
+    } else if (formProps.values.dockerHubImageAndTag) {
       const imageAndTagParts = formProps.values.dockerHubImageAndTag.split(':');
       setImage(imageAndTagParts[0]);
     }

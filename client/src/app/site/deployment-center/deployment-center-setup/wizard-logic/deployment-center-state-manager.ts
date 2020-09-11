@@ -5,6 +5,7 @@ import {
   PermissionsResultCreationParameters,
   PermissionsResult,
   ProvisioningConfigurationV2,
+  SourceSettings,
 } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from '../../../../shared/services/cache.service';
@@ -21,6 +22,7 @@ import {
   JavaVersions,
   JavaContainers,
   DeploymentCenterConstants,
+  LogCategories,
 } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
@@ -41,6 +43,7 @@ import { SubscriptionService } from 'app/shared/services/subscription.service';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { WorkflowOptions } from '../../Models/deployment-enums';
 import { BehaviorSubject } from 'rxjs';
+import { LogService } from '../../../../shared/services/log.service';
 
 const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
 
@@ -87,7 +90,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _portalService: PortalService,
     private _scenarioService: ScenarioService,
     private _githubService: GithubService,
-    siteService: SiteService,
+    private _logService: LogService,
+    private _siteService: SiteService,
     userService: UserService,
     subscriptionService: SubscriptionService
   ) {
@@ -106,10 +110,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
           .replace(/[-]/g, '');
 
         return forkJoin(
-          siteService.getSite(this._resourceId),
-          siteService.getSiteConfig(this._resourceId),
-          siteService.getAppSettings(this._resourceId),
-          siteService.fetchSiteConfigMetadata(this._resourceId),
+          this._siteService.getSite(this._resourceId),
+          this._siteService.getSiteConfig(this._resourceId),
+          this._siteService.getAppSettings(this._resourceId),
+          this._siteService.fetchSiteConfigMetadata(this._resourceId),
           subscriptionService.getSubscription(siteDescriptor.subscription)
         );
       })
@@ -316,8 +320,62 @@ export class DeploymentCenterStateManager implements OnDestroy {
         .putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.antaresApiVersion20181101, {
           properties: payload,
         })
-        .map(r => r.json());
+        .map(r => r.json())
+        .catch((err, _) => {
+          if (payload.isGitHubAction && this._isApiSyncError(err.json())) {
+            // NOTE(michinoy): If the save operation was being done for GitHub Action, and
+            // we are experiencing the API sync error, populate the source controls properties
+            // manually.
+
+            this._logService.error(LogCategories.cicd, 'apiSyncErrorWorkaround', { resourceId: this._resourceId });
+
+            return this._updateGitHubActionSourceControlPropertiesManually(payload);
+          } else {
+            return Observable.throw(err);
+          }
+        });
     }
+  }
+
+  private _updateGitHubActionSourceControlPropertiesManually(sourceSettingsPayload: SourceSettings) {
+    const updateSiteConfig = this._cacheService
+      .patchArm(`${this._resourceId}/config/web`, ARMApiVersions.antaresApiVersion20181101, {
+        properties: {
+          scmType: 'GitHubAction',
+        },
+      })
+      .map(r => r.json());
+
+    const updateMetadata = this._siteService.fetchSiteConfigMetadata(this._resourceId).switchMap(r => {
+      if (r.isSuccessful) {
+        const properties = r.result.properties;
+        delete properties['RepoUrl'];
+        delete properties['ScmUri'];
+        delete properties['CloneUri'];
+        delete properties['branch'];
+
+        properties['RepoUrl'] = sourceSettingsPayload.repoUrl;
+        properties['branch'] = sourceSettingsPayload.branch;
+
+        return this._cacheService
+          .putArm(`${this._resourceId}/config/metadata`, ARMApiVersions.antaresApiVersion20181101, { properties })
+          .map(r => r.json());
+      } else {
+        return Observable.throw(r.error);
+      }
+    });
+
+    return forkJoin(updateSiteConfig, updateMetadata);
+  }
+
+  // Detect the specific error which is indicative of Ant89 Geo/Stamp sync issues.
+  private _isApiSyncError(error: any): boolean {
+    return (
+      error.Message &&
+      error.Message.indexOf &&
+      error.Message.indexOf('500 (InternalServerError)') > -1 &&
+      error.Message.indexOf('GeoRegionServiceClient') > -1
+    );
   }
 
   private _deployVsts() {
