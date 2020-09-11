@@ -6099,11 +6099,20 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Při aktualizaci se ztratí všechny neuložené změny. Opravdu chcete pokračovat?</value>
     </data>
-  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+  <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
+        <value>Opravdu chcete provést aktualizaci?</value>
+    </data>
+  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
         <value>Opravdu chcete provést synchronizaci?</value>
     </data>
-  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
+  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
         <value>Když se provede operace synchronizace, zruší se všechny stávající probíhající operace nasazení a vytvoří se nová.</value>
+    </data>
+  <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
+        <value>Opravdu to chcete zahodit?</value>
+    </data>
+  <data name="deploymentCenterDataLossMessage" xml:space="preserve">
+        <value>Všechny neuložené změny se ztratí.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Přidat nastavení aplikace</value>
@@ -6143,6 +6152,15 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
         <value>K zobrazení přihlašovacích údajů se vyžadují oprávnění k zápisu na webu nebo ve slotu.</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingMessage" xml:space="preserve">
+        <value>Načítají se přihlašovací údaje uživatele.</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingAriaLabel" xml:space="preserve">
+        <value>Načítají se přihlašovací údaje uživatele.</value>
+    </data>
+  <data name="publishingUserFetchFailedMessage" xml:space="preserve">
+        <value>Nepovedlo se stáhnout informace o publikujícím uživateli: {0}</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
         <value>Pokud chcete získat přístup ke všem funkcím HTTP v aplikaci, použijte u svých klientů klíče hostitelů. Klíč _master udělí správci přístup k rozhraním API Modulu runtime služby Functions.</value>
@@ -6685,6 +6703,21 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Vaše aplikace je momentálně připnutá k verzi modulu runtime {0} a od listopadu 2020 už nebude dostávat upgrady zabezpečení. Doporučuje se upgradovat na nejnovější verzi modulu runtime. Další informace najdete v tomto článku.</value>
     </data>
   <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
-        <value>The server URL must begin with https://</value>
+        <value>Adresa URL serveru musí začínat https://.</value>
+    </data>
+  <data name="pricing_pv3NotAvailable" xml:space="preserve">
+        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    </data>
+  <data name="hyperVIsolation" xml:space="preserve">
+        <value>Hyper-V Isolation</value>
+    </data>
+  <data name="hyperVIsolationDesc" xml:space="preserve">
+        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+    </data>
+  <data name="pricing_ACU_Pv3" xml:space="preserve">
+        <value>{0} minimum ACU/vCore</value>
+    </data>
+  <data name="pricing_vCores" xml:space="preserve">
+        <value>{0} vCores</value>
     </data>
 </root>

@@ -139,7 +139,7 @@ export default class SiteService {
       method: 'PATCH',
       resourceId: `${resourceId}/config/web`,
       body: body,
-      commandName: 'updatePathSiteConfig',
+      commandName: 'patchSiteConfig',
       apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
     });
   };
@@ -162,6 +162,21 @@ export default class SiteService {
   public static fetchMetadata = async (resourceId: string) => {
     const id = `${resourceId}/config/metadata/list`;
     const result = await MakeArmCall<ArmObj<KeyValue<string>>>({ resourceId: id, commandName: 'fetchMetadata', method: 'POST' });
+    LogService.trackEvent('site-service', 'metadataLoaded', {
+      success: result.metadata.success,
+      resultCount: result.data && Object.keys(result.data.properties).length,
+    });
+    return result;
+  };
+
+  public static updateMetadata = async (resourceId: string, properties: KeyValue<string>) => {
+    const id = `${resourceId}/config/metadata`;
+    const result = await MakeArmCall<any>({
+      resourceId: id,
+      commandName: 'updateMetadata',
+      method: 'PUT',
+      body: { properties },
+    });
     LogService.trackEvent('site-service', 'metadataLoaded', {
       success: result.metadata.success,
       resultCount: result.data && Object.keys(result.data.properties).length,

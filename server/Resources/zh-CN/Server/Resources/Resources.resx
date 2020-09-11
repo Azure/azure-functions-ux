@@ -6099,11 +6099,20 @@
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>刷新时，所有未保存的更改都将丢失。是否确实要继续?</value>
     </data>
-  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+  <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to refresh?</value>
+    </data>
+  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
         <value>是否确定要同步?</value>
     </data>
-  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
-        <value>执行同步操作将取消正在进行的任何现有部署操作，并创建一个新的部署操作</value>
+  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
+        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+    </data>
+  <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to discard?</value>
+    </data>
+  <data name="deploymentCenterDataLossMessage" xml:space="preserve">
+        <value>All unsaved changes will be lost.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>添加应用程序设置</value>
@@ -6143,6 +6152,15 @@
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
         <value>必须在站点或槽位上拥有写入权限，才能查看凭据。</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingMessage" xml:space="preserve">
+        <value>正在加载用户凭据</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingAriaLabel" xml:space="preserve">
+        <value>正在加载用户凭据</value>
+    </data>
+  <data name="publishingUserFetchFailedMessage" xml:space="preserve">
+        <value>无法下载发布用户信息: {0}</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
         <value>将主机密钥与客户端结合使用，以访问应用中的所有 HTTP 函数。_master 密钥授予对函数运行时 API 的管理员访问权限。</value>
@@ -6184,7 +6202,7 @@
         <value>重置应用程序发布配置文件密码?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>通过重置配置文件密码，任何通过发布配置文件进行的外部集成都会卡住。</value>
+        <value>通过重置配置文件密码，任何通过发布配置文件进行的外部集成都会失效。</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>用户名的长度至少必须为 {0} 个字符。</value>
@@ -6193,7 +6211,7 @@
         <value>此字段是必需的</value>
     </data>
   <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
-        <value>The repository must begin with https://</value>
+        <value>存储库必须以 https:// 开头</value>
     </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>使用这些设置来配置容器应用部署模型和注册表。建议使用 GitHub Actions 来提高运行效率。</value>
@@ -6685,6 +6703,21 @@
         <value>你的应用目前已固定到运行时版本“{0}”，并且在 2020 年 10 月之后将不再接受安全升级。建议升级到最新版本的运行时。有关详细信息，请参阅这篇文章。</value>
     </data>
   <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
-        <value>The server URL must begin with https://</value>
+        <value>服务器 URL 必须以 https:// 开头</value>
+    </data>
+  <data name="pricing_pv3NotAvailable" xml:space="preserve">
+        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    </data>
+  <data name="hyperVIsolation" xml:space="preserve">
+        <value>Hyper-V Isolation</value>
+    </data>
+  <data name="hyperVIsolationDesc" xml:space="preserve">
+        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+    </data>
+  <data name="pricing_ACU_Pv3" xml:space="preserve">
+        <value>{0} minimum ACU/vCore</value>
+    </data>
+  <data name="pricing_vCores" xml:space="preserve">
+        <value>{0} vCores</value>
     </data>
 </root>

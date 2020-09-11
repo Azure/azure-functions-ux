@@ -6099,11 +6099,20 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Beim Aktualisieren gehen sämtliche nicht gespeicherten Änderungen verloren. Möchten Sie fortfahren?</value>
     </data>
-  <data name="staticSite_syncConfirmTitle" xml:space="preserve">
+  <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
+        <value>Möchten Sie eine Aktualisierung durchführen?</value>
+    </data>
+  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
         <value>Möchten Sie die Synchronisierung durchführen?</value>
     </data>
-  <data name="staticSite_syncConfirmMessage" xml:space="preserve">
-        <value>Durch das Ausführen eines Synchronisierungsvorgangs wird ein ggf. vorhandener aktueller Bereitstellungsvorgang beendet und ein neuer Vorgang erstellt.</value>
+  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
+        <value>Durch das Ausführen einer Synchronisierung wird ein ggf. zurzeit ausgeführter Bereitstellungsvorgang beendet und ein neuer Vorgang erstellt.</value>
+    </data>
+  <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
+        <value>Möchten Sie den Vorgang zum Verwerfen ausführen?</value>
+    </data>
+  <data name="deploymentCenterDataLossMessage" xml:space="preserve">
+        <value>Alle nicht gespeicherten Änderungen gehen verloren.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Anwendungseinstellung hinzufügen</value>
@@ -6143,6 +6152,15 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
         <value>Zum Anzeigen von Anmeldeinformationen ist eine Schreibberechtigung für die Website oder den Slot erforderlich.</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingMessage" xml:space="preserve">
+        <value>Benutzeranmeldeinformationen werden geladen.</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingAriaLabel" xml:space="preserve">
+        <value>Benutzeranmeldeinformationen werden geladen.</value>
+    </data>
+  <data name="publishingUserFetchFailedMessage" xml:space="preserve">
+        <value>Fehler beim Herunterladen der Informationen zum veröffentlichenden Benutzer: {0}</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
         <value>Verwenden Sie Hostschlüssel für Ihre Clients, um auf alle HTTP-Funktionen in der App zuzugreifen. Der Schlüssel "_master" gewährt Administratorzugriff auf Functions-Runtime-APIs.</value>
@@ -6184,7 +6202,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Kennwort für das Anwendungsveröffentlichungsprofil zurücksetzen?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>Durch das Zurücksetzen des Profilkennworts wird die Ausführung aller externen Integrationen über das Veröffentlichungsprofil angehalten.</value>
+        <value>Durch das Zurücksetzen des Profilkennworts wird die Ausführung aller externen Integrationen über das Veröffentlichungsprofil beendet.</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>Der Benutzername muss mindestens {0} Zeichen umfassen.</value>
@@ -6193,7 +6211,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Dieses Feld ist erforderlich.</value>
     </data>
   <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
-        <value>The repository must begin with https://</value>
+        <value>Das Repository muss mit "https://" beginnen.</value>
     </data>
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Verwenden Sie diese Einstellungen zum Konfigurieren des Bereitstellungsmodells und der Registrierung Ihrer Container-App. Wir empfehlen GitHub Actions für mehr Betriebseffizienz.</value>
@@ -6643,7 +6661,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Vorlagendetails</value>
     </data>
   <data name="detailDescription" xml:space="preserve">
-        <value>We need more information to create the {0} function. </value>
+        <value>Wir benötigen weitere Informationen zum Erstellen der Funktion "{0}". </value>
     </data>
   <data name="developInPortal" xml:space="preserve">
         <value>Im Portal entwickeln</value>
@@ -6682,9 +6700,24 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Fehler beim Speichern der Containerkonfiguration: {0}</value>
     </data>
   <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.</value>
+        <value>Ihre App ist derzeit auf die Runtimeversion "{0}" festgelegt und wird nach Oktober 2020 keine weiteren Sicherheitsupgrades erhalten. Es wird empfohlen, ein Upgrade auf die neueste Version der Runtime durchzuführen. Weitere Informationen finden Sie in diesem Artikel.</value>
     </data>
   <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
-        <value>The server URL must begin with https://</value>
+        <value>Die Server-URL muss mit "https://" beginnen.</value>
+    </data>
+  <data name="pricing_pv3NotAvailable" xml:space="preserve">
+        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    </data>
+  <data name="hyperVIsolation" xml:space="preserve">
+        <value>Hyper-V Isolation</value>
+    </data>
+  <data name="hyperVIsolationDesc" xml:space="preserve">
+        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+    </data>
+  <data name="pricing_ACU_Pv3" xml:space="preserve">
+        <value>{0} minimum ACU/vCore</value>
+    </data>
+  <data name="pricing_vCores" xml:space="preserve">
+        <value>{0} vCores</value>
     </data>
 </root>
