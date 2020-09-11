@@ -2042,6 +2042,8 @@ export class PortalResources {
   public static deploymentCenterCodeExternalUsernameLabel = 'deploymentCenterCodeExternalUsernameLabel';
   public static deploymentCenterCodeExternalPasswordLabel = 'deploymentCenterCodeExternalPasswordLabel';
   public static deploymentCenterCodeExternalRepositoryTypeLabel = 'deploymentCenterCodeExternalRepositoryTypeLabel';
+  public static deploymentCenterCodeExternalRepositoryPlaceholder = 'deploymentCenterCodeExternalRepositoryPlaceholder';
+  public static deploymentCenterCodeExternalBranchPlaceholder = 'deploymentCenterCodeExternalBranchPlaceholder';
   public static deploymentCenterCodeExternalPrivateRepositoryOption = 'deploymentCenterCodeExternalPrivateRepositoryOption';
   public static deploymentCenterCodeExternalPublicRepositoryOption = 'deploymentCenterCodeExternalPublicRepositoryOption';
   public static deploymentCenterCodeLocalGitRepositorySetupMessage = 'deploymentCenterCodeLocalGitRepositorySetupMessage';
