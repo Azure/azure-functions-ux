@@ -46,6 +46,7 @@ const DeploymentCenterContainerSource: React.FC<{}> = props => {
         component={RadioButton}
         displayInVerticalLayout={true}
         options={options}
+        defaultSelectedKey={ScmType.None}
         required={true}
       />
     </>
