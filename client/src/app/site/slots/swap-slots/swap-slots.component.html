@@ -133,7 +133,7 @@
             {{ 'swapWithPreviewLabel' | translate }}
           </label>
           <info-box
-            *ngIf="swapForm && swapForm.errors !== null && swapForm.errors['authMultiPhaseConflict']"
+            *ngIf="swapForm && swapForm.errors && swapForm.errors['authMultiPhaseConflict']"
             typeClass="warning"
             [infoText]="swapForm.errors['authMultiPhaseConflict'] | translate"
           >
