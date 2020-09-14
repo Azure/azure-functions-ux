@@ -1,5 +1,5 @@
 import { Label, Link, Stack, TooltipHost, TooltipOverflowMode } from 'office-ui-fabric-react';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';
 import { style } from 'typestyle';
@@ -9,6 +9,8 @@ import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../ThemeContext';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 import UpsellIcon from '../TooltipIcons/UpsellIcon';
+import IconButton from '../IconButton/IconButton';
+import { TextUtilitiesService } from '../../utils/textUtilities';
 import {
   controlContainerStyle,
   formLabelStyle,
@@ -19,6 +21,7 @@ import {
   tooltipStyle,
   upsellIconStyle,
   stackControlStyle,
+  copyButtonStyle,
 } from './formControl.override.styles';
 
 export enum Layout {
@@ -41,6 +44,7 @@ interface ReactiveFormControlProps {
   required?: boolean;
   multiline?: boolean;
   pushContentRight?: boolean;
+  copyValue?: string;
 }
 
 const ReactiveFormControl = (props: ReactiveFormControlProps) => {
@@ -59,13 +63,33 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
     required,
     multiline,
     pushContentRight,
+    copyValue,
   } = props;
 
   const { width } = useWindowSize();
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
+  const [copied, setCopied] = useState(false);
   const fullPage = width > 1000;
   const horizontal = layout ? layout !== Layout.Vertical : fullPage;
+
+  const copyToClipboard = (event: React.MouseEvent<any>) => {
+    if (!!event) {
+      event.stopPropagation();
+    }
+    TextUtilitiesService.copyContentToClipboard(copyValue || '');
+    setCopied(true);
+  };
+
+  const getCopiedLabel = () => {
+    return copied ? t('copypre_copied') : t('copypre_copyClipboard');
+  };
+
+  const changeCopiedLabel = isToolTipVisible => {
+    if (copied && !isToolTipVisible) {
+      setCopied(false);
+    }
+  };
 
   return (
     <Stack
@@ -119,6 +143,21 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
               </div>
             </Stack>
           </div>
+        )}
+      </Stack>
+      <Stack gap={0} horizontalAlign="start">
+        {copyValue && (
+          <TooltipHost
+            content={getCopiedLabel()}
+            calloutProps={{ gapSpace: 0 }}
+            onTooltipToggle={isVisible => changeCopiedLabel(isVisible)}>
+            <IconButton
+              id={`${id}-copy-button`}
+              iconProps={{ iconName: 'Copy', styles: copyButtonStyle }}
+              onClick={copyToClipboard}
+              ariaLabel={getCopiedLabel()}
+            />
+          </TooltipHost>
         )}
       </Stack>
     </Stack>

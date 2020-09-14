@@ -93,22 +93,18 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   };
 
   const setSourceBuildProvider = () => {
-    // NOTE(michinoy): If the build provider is already set, do not change it.
-    // This might mean that the user has switched tabs and returned to this experience.
-    if (formProps.values.buildProvider === BuildProvider.None) {
-      if (formProps.values.sourceProvider === ScmType.GitHub) {
-        setSelectedBuild(BuildProvider.GitHubAction);
-        formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
-        formProps.setFieldValue(
-          'gitHubPublishProfileSecretGuid',
-          Guid.newGuid()
-            .toLowerCase()
-            .replace(/[-]/g, '')
-        );
-      } else {
-        setSelectedBuild(BuildProvider.AppServiceBuildService);
-        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
-      }
+    if (formProps.values.sourceProvider === ScmType.GitHub) {
+      setSelectedBuild(BuildProvider.GitHubAction);
+      formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
+      formProps.setFieldValue(
+        'gitHubPublishProfileSecretGuid',
+        Guid.newGuid()
+          .toLowerCase()
+          .replace(/[-]/g, '')
+      );
+    } else {
+      setSelectedBuild(BuildProvider.AppServiceBuildService);
+      formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
     }
   };
 
