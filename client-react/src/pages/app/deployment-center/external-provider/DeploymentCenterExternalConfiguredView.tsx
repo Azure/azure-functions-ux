@@ -9,7 +9,7 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
-const DeploymentCenterExternalGitConfiguredView: React.FC<{}> = props => {
+const DeploymentCenterExternalConfiguredView: React.FC<{}> = props => {
   const { t } = useTranslation();
 
   const [repo, setRepo] = useState<string | undefined>(undefined);
@@ -93,4 +93,4 @@ const DeploymentCenterExternalGitConfiguredView: React.FC<{}> = props => {
   );
 };
 
-export default DeploymentCenterExternalGitConfiguredView;
+export default DeploymentCenterExternalConfiguredView;
