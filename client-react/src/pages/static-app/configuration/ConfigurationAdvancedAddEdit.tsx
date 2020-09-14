@@ -71,8 +71,8 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
   const getUpdatedEnvironmentVariablesWithAllProperties = (newEnvironmentVariables: EnvironmentVariable[]) => {
     return newEnvironmentVariables.map(newEnvironmentVariable => {
       for (const environmentVariable of environmentVariables) {
-        if (environmentVariable.name.toLocaleLowerCase() === environmentVariable.name.toLocaleLowerCase()) {
-          environmentVariable.checked = environmentVariable.checked;
+        if (environmentVariable.name.toLocaleLowerCase() === newEnvironmentVariable.name.toLocaleLowerCase()) {
+          newEnvironmentVariable.checked = environmentVariable.checked;
         }
       }
       return newEnvironmentVariable;
