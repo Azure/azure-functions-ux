@@ -148,7 +148,7 @@ export const authorizeWithProvider = (
   });
 };
 
-export const getGitCloneUri = (deploymentCenterPublishingContext: IDeploymentCenterPublishingContext): string | null => {
+export const getGitCloneUri = (deploymentCenterPublishingContext: IDeploymentCenterPublishingContext): string | undefined => {
   if (
     deploymentCenterPublishingContext.publishingCredentials &&
     deploymentCenterPublishingContext.publishingCredentials.properties &&
@@ -161,7 +161,7 @@ export const getGitCloneUri = (deploymentCenterPublishingContext: IDeploymentCen
       return `https://${scmUriParts[1]}:443/${siteName}.git`;
     }
   }
-  return null;
+  return undefined;
 };
 
 export const getAppDockerWebhookUrl = (publishingCredentialsArmObj: ArmObj<PublishingCredentials>) => {
