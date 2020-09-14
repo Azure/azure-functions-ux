@@ -13,7 +13,11 @@ const DeploymentCenterLocalGitConfiguredView: React.FC<{}> = props => {
     <>
       <h3>{t('deploymentCenterCodeLocalGitTitle')}</h3>
 
-      <ReactiveFormControl id="deployment-center-localgit-clone-uri" label={t('deploymentCenterCodeLocalGitCloneUri')}>
+      <ReactiveFormControl
+        id="deployment-center-localgit-clone-uri"
+        label={t('deploymentCenterCodeLocalGitCloneUri')}
+        copyButton={!!gitCloneUri}
+        copyValue={gitCloneUri ? gitCloneUri : ''}>
         <div>{gitCloneUri ? gitCloneUri : t('deploymentCenterCodeLocalGitFetchCloneUriError')}</div>
       </ReactiveFormControl>
     </>
