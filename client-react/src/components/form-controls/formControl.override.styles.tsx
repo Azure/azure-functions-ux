@@ -114,4 +114,5 @@ export const stackControlStyle = () =>
   style({
     paddingTop: '5px',
     paddingBottom: '5px',
+    width: '100%',
   });
