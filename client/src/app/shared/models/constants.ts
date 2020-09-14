@@ -647,8 +647,6 @@ export enum SwapOperationType {
 }
 
 export class FeatureFlags {
-  public static UseNewSlotsBlade = 'UseNewSlotsBlade';
-  public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
   public static AllowFreeLinux = 'allowfreelinux';
   public static enablePublishProfileBasedDeployment = 'enablePublishProfileBasedDeployment';
