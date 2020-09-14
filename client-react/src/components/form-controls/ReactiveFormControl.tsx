@@ -44,8 +44,7 @@ interface ReactiveFormControlProps {
   required?: boolean;
   multiline?: boolean;
   pushContentRight?: boolean;
-  copyButton?: boolean;
-  copyValue?: string | undefined;
+  copyValue?: string;
 }
 
 const ReactiveFormControl = (props: ReactiveFormControlProps) => {
@@ -64,7 +63,6 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
     required,
     multiline,
     pushContentRight,
-    copyButton,
     copyValue,
   } = props;
 
@@ -148,7 +146,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
         )}
       </Stack>
       <Stack gap={0} horizontalAlign="start">
-        {copyButton && (
+        {copyValue && (
           <TooltipHost
             content={getCopiedLabel()}
             calloutProps={{ gapSpace: 0 }}
