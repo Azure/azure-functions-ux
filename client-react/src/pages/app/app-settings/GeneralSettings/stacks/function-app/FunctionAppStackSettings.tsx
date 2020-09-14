@@ -83,7 +83,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     setInitialData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [initialValues]);
 
   if (!runtimeStack || isWindowsContainer() || isStackSettingsHidden(runtimeStack)) {
     return null;
