@@ -1,9 +1,7 @@
 import { Url } from './url';
 
 export class FlightingUtil {
-  public static Features = {
-    NewDeploymentSlots: 'NewDeploymentSlots',
-  };
+  public static Features = {};
 
   private static config = {};
 
