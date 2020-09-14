@@ -75,8 +75,68 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     return runtimeStack !== WorkerRuntimeLanguages.custom;
   };
 
-  const isStackSettingsHidden = (runtimeStack: string) => {
+  const isDotNetApp = (runtimeStack: string) => {
     return runtimeStack === WorkerRuntimeLanguages.dotnet;
+  };
+
+  const isStackDropdownComponentVisible = () => {
+    return (
+      siteStateContext.site && !isContainerApp(siteStateContext.site) && runtimeStack && !isDotNetApp(runtimeStack) && currentStackData
+    );
+  };
+
+  const getStackDropdownComponent = () => {
+    return (
+      siteStateContext.site &&
+      !isContainerApp(siteStateContext.site) &&
+      runtimeStack &&
+      !isDotNetApp(runtimeStack) &&
+      currentStackData && (
+        <>
+          <DropdownNoFormik
+            id="function-app-stack"
+            selectedKey={runtimeStack}
+            disabled={true}
+            onChange={() => {}}
+            options={[{ key: runtimeStack, text: currentStackData.displayText }]}
+            label={t('stack')}
+          />
+          {isMajorVersionVisible() && (
+            <Field
+              id="function-app-stack-major-version"
+              name={`config.properties.${getConfigProperty(runtimeStack)}`}
+              dirty={isVersionDirty()}
+              component={Dropdown}
+              disabled={disableAllControls}
+              label={t('versionLabel').format(currentStackData.displayText)}
+              options={getStackVersionDropdownOptions(
+                currentStackData,
+                runtimeMajorVersion,
+                isLinux() ? AppStackOs.linux : AppStackOs.windows
+              )}
+            />
+          )}
+        </>
+      )
+    );
+  };
+
+  const getStartupCommandComponent = () => {
+    return (
+      isLinux() && (
+        <Field
+          id="linux-function-app-appCommandLine"
+          name="config.properties.appCommandLine"
+          component={TextField}
+          dirty={values.config.properties.appCommandLine !== initialValues.config.properties.appCommandLine}
+          disabled={disableAllControls}
+          label={t('appCommandLineLabel')}
+          infoBubbleMessage={t('appCommandLineLabelHelpNoLink')}
+          learnMoreLink={Links.linuxContainersLearnMore}
+          style={{ marginLeft: '1px', marginTop: '1px' }} // Not sure why but left border disappears without margin and for small windows the top also disappears
+        />
+      )
+    );
   };
 
   useEffect(() => {
@@ -85,53 +145,15 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!runtimeStack || isWindowsContainer() || isStackSettingsHidden(runtimeStack)) {
+  if (isWindowsContainer()) {
     return null;
   }
-  return currentStackData || isLinux() ? (
+  return isStackDropdownComponentVisible() || isLinux() ? (
     <>
       <h3>{t('stackSettings')}</h3>
       <div className={settingsWrapper}>
-        {siteStateContext.site && currentStackData && !isContainerApp(siteStateContext.site) && (
-          <>
-            <DropdownNoFormik
-              id="function-app-stack"
-              selectedKey={runtimeStack}
-              disabled={true}
-              onChange={() => {}}
-              options={[{ key: runtimeStack, text: currentStackData.displayText }]}
-              label={t('stack')}
-            />
-            {isMajorVersionVisible() && (
-              <Field
-                id="function-app-stack-major-version"
-                name={`config.properties.${getConfigProperty(runtimeStack)}`}
-                dirty={isVersionDirty()}
-                component={Dropdown}
-                disabled={disableAllControls}
-                label={t('versionLabel').format(currentStackData.displayText)}
-                options={getStackVersionDropdownOptions(
-                  currentStackData,
-                  runtimeMajorVersion,
-                  isLinux() ? AppStackOs.linux : AppStackOs.windows
-                )}
-              />
-            )}
-          </>
-        )}
-        {isLinux() && (
-          <Field
-            id="linux-function-app-appCommandLine"
-            name="config.properties.appCommandLine"
-            component={TextField}
-            dirty={values.config.properties.appCommandLine !== initialValues.config.properties.appCommandLine}
-            disabled={disableAllControls}
-            label={t('appCommandLineLabel')}
-            infoBubbleMessage={t('appCommandLineLabelHelpNoLink')}
-            learnMoreLink={Links.linuxContainersLearnMore}
-            style={{ marginLeft: '1px', marginTop: '1px' }} // Not sure why but left border disappears without margin and for small windows the top also disappears
-          />
-        )}
+        {getStackDropdownComponent()}
+        {getStartupCommandComponent()}
       </div>
     </>
   ) : null;
