@@ -29,7 +29,7 @@ import {
   isApiSyncError,
   updateGitHubActionSourceControlPropertiesManually,
 } from '../utility/GitHubActionUtility';
-import { getWorkflowFilePath, getArmToken } from '../utility/DeploymentCenterUtility';
+import { getWorkflowFilePath, getArmToken, getLogId } from '../utility/DeploymentCenterUtility';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
@@ -70,13 +70,20 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         isApiSyncError(updateSourceControlResponse.metadata.error)
       ) {
         // NOTE(michinoy): If the save operation was being done for GitHub Action, and
-        // we are experiencing the API sync error, populate the source controls properties
-        // manually.
-        // This strictly a workaround and once all the APIs are sync this code can be removed.
+        // we are experiencing the GeoRegionalService API error (500), run through the
+        // workaround.
+        LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeForm', 'deployKudu-apiSyncErrorWorkaround'), {
+          resourceId: deploymentCenterContext.resourceId,
+        });
 
-        LogService.error(LogCategories.deploymentCenter, 'apiSyncErrorWorkaround', { resourceId: deploymentCenterContext.resourceId });
         return updateGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId, payload);
       } else {
+        if (!updateSourceControlResponse.metadata.success) {
+          LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeForm', 'deployKudu'), {
+            resourceId: deploymentCenterContext.resourceId,
+          });
+        }
+
         return updateSourceControlResponse;
       }
     }
@@ -186,6 +193,29 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   };
 
   const deploy = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+    const {
+      sourceProvider,
+      buildProvider,
+      org,
+      repo,
+      branch,
+      workflowOption,
+      runtimeStack,
+      runtimeVersion,
+      runtimeRecommendedVersion,
+    } = values;
+    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'deploy'), {
+      sourceProvider,
+      buildProvider,
+      org,
+      repo,
+      branch,
+      workflowOption,
+      runtimeStack,
+      runtimeVersion,
+      runtimeRecommendedVersion,
+    });
+
     // NOTE(michinoy): Only initiate writing a workflow configuration file if the branch does not already have it OR
     // the user opted to overwrite it.
     if (
@@ -194,6 +224,10 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     ) {
       const gitHubActionDeployResponse = await deployGithubActions(values);
       if (!gitHubActionDeployResponse.metadata.success) {
+        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'deploy'), {
+          error: gitHubActionDeployResponse.metadata.error,
+        });
+
         return gitHubActionDeployResponse;
       }
     }
@@ -256,6 +290,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       (currentUser && currentUser.properties.publishingUserName !== values.publishingUsername) ||
       (currentUser && values.publishingPassword && currentUser.properties.publishingPassword !== values.publishingPassword)
     ) {
+      LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'updatePublishingUser'), {});
+
       const notificationId = portalContext.startNotification(t('UpdatingPublishingUser'), t('UpdatingPublishingUser'));
       currentUser.properties.publishingUserName = values.publishingUsername;
       currentUser.properties.publishingPassword = values.publishingPassword;
@@ -268,6 +304,10 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         errorMessage
           ? portalContext.stopNotification(notificationId, false, t('UpdatingPublishingUserFailWithStatusMessage').format(errorMessage))
           : portalContext.stopNotification(notificationId, false, t('UpdatingPublishingUserFail'));
+
+        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'updatePublishingUser'), {
+          errorMessage,
+        });
       }
     }
   };
@@ -288,6 +328,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   };
 
   const syncFunction = async () => {
+    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'syncFunction'), {});
+
     hideSyncConfirmDialog();
     const siteName = siteStateContext && siteStateContext.site ? siteStateContext.site.name : '';
     const notificationId = portalContext.startNotification(
@@ -302,6 +344,10 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       errorMessage
         ? portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeSyncFailWithStatusMessage').format(errorMessage))
         : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeSyncFail'));
+
+      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'syncFunction'), {
+        errorMessage,
+      });
     }
   };
 

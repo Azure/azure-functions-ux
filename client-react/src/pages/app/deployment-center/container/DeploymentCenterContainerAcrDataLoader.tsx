@@ -6,6 +6,9 @@ import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ACRCredential } from '../../../../models/acr';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
+import { getLogId } from '../utility/DeploymentCenterUtility';
 
 interface RegistryIdentifiers {
   resourceId: string;
@@ -69,6 +72,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
           setAcrStatusMessage(errorMessage);
           setAcrStatusMessageType(MessageBarType.error);
         }
+
+        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerAcrDataLoader', 'fetchRegistries'), {
+          error: registriesResponse.metadata.error,
+        });
       }
     }
 
@@ -94,6 +101,14 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
           setAcrStatusMessage(errorMessage);
           setAcrStatusMessageType(MessageBarType.error);
         }
+
+        LogService.error(
+          LogCategories.deploymentCenter,
+          getLogId('DeploymentCenterContainerAcrDataLoader', 'fetchRepositories-credentials'),
+          {
+            error: credentialsResponse.metadata.error,
+          }
+        );
       }
     }
 
@@ -103,7 +118,12 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       const username = credentials.username;
       const password = credentials.passwords[0].value;
 
-      const repositoriesResponse = await deploymentCenterData.getAcrRepositories(loginServer, username, password);
+      const repositoriesResponse = await deploymentCenterData.getAcrRepositories(loginServer, username, password, (page, response) => {
+        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerAcrDataLoader', 'fetchRepositories'), {
+          page,
+          error: response && response.metadata && response.metadata.error,
+        });
+      });
 
       const repositoryOptions: IDropdownOption[] = [];
       repositoriesResponse.forEach(response => {
@@ -141,7 +161,12 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       const username = credentials.username;
       const password = credentials.passwords[0].value;
 
-      const tagsResponse = await deploymentCenterData.getAcrTags(loginServer, imageSelected, username, password);
+      const tagsResponse = await deploymentCenterData.getAcrTags(loginServer, imageSelected, username, password, (page, response) => {
+        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerAcrDataLoader', 'fetchTags'), {
+          page,
+          error: response && response.metadata && response.metadata.error,
+        });
+      });
 
       const tagOptions: IDropdownOption[] = [];
       tagsResponse.forEach(response => {

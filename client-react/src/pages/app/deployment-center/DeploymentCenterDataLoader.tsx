@@ -28,6 +28,7 @@ import { SourceControl } from '../../../models/provider';
 import { PublishingCredentialPolicies } from '../../../models/site/site';
 import DeploymentCenterContainerDataLoader from './container/DeploymentCenterContainerDataLoader';
 import DeploymentCenterCodeDataLoader from './code/DeploymentCenterCodeDataLoader';
+import { getLogId } from './utility/DeploymentCenterUtility';
 
 enum SourceControlTypes {
   oneDrive = 'onedrive',
@@ -65,11 +66,9 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       const publishingProfiles = parsePublishProfileXml(publishProfileResponse.data);
       setPublishingProfile(publishingProfiles.filter(profile => profile.publishMethod === PublishMethod.FTP)[0]);
     } else {
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterFtpsDataLoader',
-        `Failed to fetch publish profile with error: ${getErrorMessage(publishProfileResponse.metadata.error)}`
-      );
+      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterDataLoader', 'processPublishProfileResponse'), {
+        error: publishProfileResponse.metadata.error,
+      });
     }
   };
 
@@ -86,11 +85,16 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       processPublishProfileResponse(publishProfileResponse);
       portalContext.stopNotification(notificationId, true, t('siteSummary_resetProfileNotifySuccess'));
     } else {
+      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterDataLoader', 'resetApplicationPassword'), {
+        error: resetResponse.metadata.error,
+      });
       portalContext.stopNotification(notificationId, false, t('siteSummary_resetProfileNotifyFail'));
     }
   };
 
   const fetchData = async () => {
+    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterDataLoader', 'fetchData'), {});
+
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
     const getUserSourceControlsRequest = deploymentCenterData.getUserSourceControls();
@@ -130,7 +134,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     } else {
       LogService.error(
         LogCategories.deploymentCenter,
-        'DeploymentCenterFtpsDataLoader',
+        getLogId('DeploymentCenterDataLoader', 'fetchData'),
         `Failed to get site config with error: ${getErrorMessage(siteConfigResponse.metadata.error)}`
       );
     }
@@ -140,7 +144,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     } else {
       LogService.error(
         LogCategories.deploymentCenter,
-        'DeploymentCenterFtpsDataLoader',
+        getLogId('DeploymentCenterDataLoader', 'fetchData'),
         `Failed to get site metadata with error: ${getErrorMessage(configMetadataResponse.metadata.error)}`
       );
     }
@@ -153,7 +157,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       );
       LogService.error(
         LogCategories.deploymentCenter,
-        'DeploymentCenterFtpsDataLoader',
+        getLogId('DeploymentCenterDataLoader', 'fetchData'),
         `Failed to fetch publishing user with error: ${getErrorMessage(publishingUserResponse.metadata.error)}`
       );
     }
