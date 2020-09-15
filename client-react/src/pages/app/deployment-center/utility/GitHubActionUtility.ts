@@ -5,47 +5,62 @@ import {
   SiteSourceControlRequestBody,
 } from '../DeploymentCenter.types';
 import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
-import { getWorkflowFileName } from './DeploymentCenterUtility';
+import { getWorkflowFileName, getLogId } from './DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 export const updateGitHubActionSourceControlPropertiesManually = async (
   deploymentCenterData: DeploymentCenterData,
   resourceId: string,
   payload: SiteSourceControlRequestBody
 ) => {
+  // NOTE(michinoy): To be on the safe side, the update operations should be sequential rather than
+  // parallel. The reason behind this is because incase the metadata update fails, but the scmtype is updated
+  // the /sourcecontrols API GET will start failing.
+
   const fetchExistingMetadataResponse = await deploymentCenterData.getConfigMetadata(resourceId);
 
-  if (fetchExistingMetadataResponse.metadata.success) {
-    const properties = fetchExistingMetadataResponse.data.properties;
-    delete properties['RepoUrl'];
-    delete properties['ScmUri'];
-    delete properties['CloneUri'];
-    delete properties['branch'];
-
-    properties['RepoUrl'] = payload.repoUrl;
-    properties['branch'] = payload.branch;
-
-    const updateMetadataRequest = deploymentCenterData.updateConfigMetadata(resourceId, properties);
-    const patchSiteConfigRequest = deploymentCenterData.patchSiteConfig(resourceId, {
-      properties: {
-        scmType: 'GitHubAction',
-      },
+  if (!fetchExistingMetadataResponse.metadata.success) {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
+      error: fetchExistingMetadataResponse.metadata.error,
     });
 
-    const [updateMetadataResponse, patchSiteConfigResponse] = await Promise.all([updateMetadataRequest, patchSiteConfigRequest]);
-
-    if (updateMetadataResponse.metadata.success && patchSiteConfigResponse.metadata.success) {
-      return patchSiteConfigResponse;
-    } else {
-      if (!updateMetadataResponse.metadata.success) {
-        return updateMetadataResponse;
-      } else {
-        return patchSiteConfigResponse;
-      }
-    }
-  } else {
     return fetchExistingMetadataResponse;
   }
+
+  const properties = fetchExistingMetadataResponse.data.properties;
+  delete properties['RepoUrl'];
+  delete properties['ScmUri'];
+  delete properties['CloneUri'];
+  delete properties['branch'];
+
+  properties['RepoUrl'] = payload.repoUrl;
+  properties['branch'] = payload.branch;
+
+  const updateMetadataResponse = await deploymentCenterData.updateConfigMetadata(resourceId, properties);
+
+  if (!updateMetadataResponse.metadata.success) {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
+      error: updateMetadataResponse.metadata.error,
+    });
+
+    return updateMetadataResponse;
+  }
+
+  const patchSiteConfigResponse = await deploymentCenterData.patchSiteConfig(resourceId, {
+    properties: {
+      scmType: 'GitHubAction',
+    },
+  });
+
+  if (!patchSiteConfigResponse.metadata.success) {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
+      error: patchSiteConfigResponse.metadata.error,
+    });
+  }
+
+  return patchSiteConfigResponse;
 };
 
 // Detect the specific error which is indicative of Ant89 Geo/Stamp sync issues.
