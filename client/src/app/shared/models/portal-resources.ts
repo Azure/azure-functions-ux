@@ -2119,6 +2119,8 @@ export class PortalResources {
   public static leaveFeedback = 'leaveFeedback';
   public static functionLogsFeedbackCESQuestion = 'functionLogsFeedbackCESQuestion';
   public static functionLogsFeedbackCVAQuestion = 'functionLogsFeedbackCVAQuestion';
+  public static deploymentCenterFeedbackCESQuestion = 'deploymentCenterFeedbackCESQuestion';
+  public static deploymentCenterFeedbackCVAQuestion = 'deploymentCenterFeedbackCVAQuestion';
   public static deploymentCenterConfigureGitHubPermissions = 'deploymentCenterConfigureGitHubPermissions';
   public static deploymentCenterProdSlotWarning = 'deploymentCenterProdSlotWarning';
   public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
