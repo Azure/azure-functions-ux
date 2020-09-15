@@ -8,9 +8,8 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import BitbucketService from '../../../../ApiHelpers/BitbucketService';
-import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
+import { authorizeWithProvider, getLogId } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -54,6 +53,7 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
 
     if (bitbucketUser) {
       const bitbucketRepositoriesResponse = await deploymentCenterData.getBitbucketRepositories(deploymentCenterContext.bitbucketToken);
+
       bitbucketRepositoriesResponse.forEach(repository => {
         const repoNameParts = repository.full_name.split('/');
         const [org, repo] = repoNameParts;
@@ -96,8 +96,11 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
       const logger = (page, response) => {
         LogService.error(
           LogCategories.deploymentCenter,
-          'BitbucketGetBranches',
-          `Failed to fetch Bitbucket branches with error: ${getErrorMessage(response.metadata.error)}`
+          getLogId('DeploymentCenterBitbucketDataLoader', 'DeploymentCenterBitbucketDataLoader'),
+          {
+            page,
+            error: response && response.metadata && response.metadata.error,
+          }
         );
       };
 
