@@ -41,6 +41,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         displayInVerticalLayout={true}
         options={acrRegistryOptions}
         isLoading={loadingAcrRegistryOptions}
+        required={true}
       />
 
       <Field
@@ -52,6 +53,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         displayInVerticalLayout={true}
         options={acrImageOptions}
         isLoading={loadingImageOptions}
+        required={true}
       />
 
       <Field
@@ -63,6 +65,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         displayInVerticalLayout={true}
         options={acrTagOptions}
         isLoading={loadingTagOptions}
+        required={true}
       />
 
       <Field id="container-acr-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
