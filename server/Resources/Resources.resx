@@ -6519,6 +6519,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>How valuable is the new logs feature backed by Application Insights?</value>
     </data>
+    <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>How easy or difficult is it to use this improved App Service deployment center page?</value>
+    </data>
+    <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>How valuable is this improved App Service deployment center page?</value>
+    </data>
     <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.</value>
     </data>

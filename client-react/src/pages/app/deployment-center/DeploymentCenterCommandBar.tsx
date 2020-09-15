@@ -7,10 +7,12 @@ import { SiteStateContext } from '../../../SiteState';
 import { DeploymentCenterCommandBarProps } from './DeploymentCenter.types';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { ScmType } from '../../../models/site/config';
+import { PortalContext } from '../../../PortalContext';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
   const { saveFunction, discardFunction, showPublishProfilePanel, refresh, sync, isLoading, isDirty } = props;
   const { t } = useTranslation();
+  const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
@@ -41,6 +43,26 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     );
   };
 
+  const openFeedbackBlade = () => {
+    const featureName = 'DeploymentCenter';
+    portalContext.openBlade(
+      {
+        detailBlade: 'InProductFeedbackBlade',
+        extension: 'HubsExtension',
+        openAsContextBlade: true,
+        detailBladeInputs: {
+          bladeName: `${featureName}`,
+          cesQuestion: t('deploymentCenterFeedbackCESQuestion'),
+          cvaQuestion: t('deploymentCenterFeedbackCVAQuestion'),
+          extensionName: 'WebsitesExtension',
+          featureName: `${featureName}`,
+          surveyId: `${featureName}-0920`,
+        },
+      },
+      'deployment-center'
+    );
+  };
+
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     const commandBarItems: ICommandBarItemProps[] = [
       getSaveButton(),
@@ -53,6 +75,8 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     if (!siteStateContext.isContainerApp) {
       commandBarItems.push(getSyncButton());
     }
+
+    commandBarItems.push(getFeedbackItem());
 
     return commandBarItems;
   };
@@ -132,6 +156,19 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       ariaLabel: t('deploymentCenterSyncCommandAriaLabel'),
       disabled: isSyncDisabled(),
       onClick: sync,
+    };
+  };
+
+  const getFeedbackItem = (): ICommandBarItemProps => {
+    return {
+      key: 'feedback',
+      name: t('leaveFeedback'),
+      iconProps: {
+        iconName: 'Heart',
+      },
+      disabled: false,
+      ariaLabel: t('leaveFeedback'),
+      onClick: openFeedbackBlade,
     };
   };
 
