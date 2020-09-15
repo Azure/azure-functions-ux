@@ -21,7 +21,7 @@ export abstract class PremiumV3PlanPriceSpec extends DV3SeriesPriceSpec {
     {
       iconUrl: 'image/scale-up.svg',
       title: this._ts.instant(PortalResources.pricing_autoScale),
-      description: this._ts.instant(PortalResources.pricing_scaleDesc).format(20),
+      description: this._ts.instant(PortalResources.pricing_scaleDesc).format(30),
     },
     {
       iconUrl: 'image/slots.svg',

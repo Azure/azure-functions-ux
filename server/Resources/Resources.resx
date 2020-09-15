@@ -6742,9 +6742,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Windows containers are secured using Hyper-V isolation mode.</value>
     </data>
     <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>{0} minimum ACU/vCPU</value>
     </data>
     <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} vCPU</value>
     </data>
 </root>
