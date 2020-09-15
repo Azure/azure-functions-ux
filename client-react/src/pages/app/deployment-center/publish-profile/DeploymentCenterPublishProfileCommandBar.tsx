@@ -10,7 +10,7 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { getLogId } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublishProfileCommandBarProps> = props => {
   const { resetApplicationPassword } = props;
@@ -29,11 +29,9 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
       portalContext.stopNotification(notificationId, true, t('downloadingPublishProfileSucceeded'));
     } else {
       portalContext.stopNotification(notificationId, false, t('downloadingPublishProfileFailed'));
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterPublishProfileCommandBar',
-        `Failed to fetch publish profile with error: ${getErrorMessage(getPublishProfileResponse.metadata.error)}`
-      );
+      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterPublishProfileCommandBar', 'downloadProfile'), {
+        error: getPublishProfileResponse.metadata.error,
+      });
     }
   };
 
@@ -53,6 +51,7 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
   };
 
   const resetProfile = () => {
+    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterPublishProfileCommandBar', 'resetProfile'), {});
     resetApplicationPassword();
     setIsResetCalloutHidden(true);
   };
