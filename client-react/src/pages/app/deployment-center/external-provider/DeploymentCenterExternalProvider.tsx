@@ -28,6 +28,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
         label={t('deploymentCenterOAuthRepository')}
         name="repo"
         component={TextField}
+        required={true}
         placeholder={t('deploymentCenterCodeExternalRepositoryPlaceholder')}
       />
 
@@ -36,6 +37,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
         label={t('deploymentCenterOAuthBranch')}
         name="branch"
         component={TextField}
+        required={true}
         placeholder={t('deploymentCenterCodeExternalBranchPlaceholder')}
       />
 
@@ -62,6 +64,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
             id="deployment-center-external-provider-username"
             label={t('deploymentCenterCodeExternalUsernameLabel')}
             name="externalUsername"
+            required={true}
             component={TextField}
           />
 
@@ -70,6 +73,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
             label={t('deploymentCenterCodeExternalPasswordLabel')}
             name="externalPassword"
             component={TextField}
+            required={true}
             type="password"
           />
         </>
