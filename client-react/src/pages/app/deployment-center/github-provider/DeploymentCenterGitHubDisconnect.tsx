@@ -11,10 +11,12 @@ import {
   WorkflowFileDeleteOptions,
   WorkflowChoiceGroupOption,
 } from '../DeploymentCenter.types';
-import { getWorkflowFileName, getWorkflowFilePath } from '../utility/DeploymentCenterUtility';
+import { getWorkflowFileName, getWorkflowFilePath, getLogId } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import ActionBar from '../../../../components/ActionBar';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnectProps> = props => {
   const { branch, org, repo, repoUrl } = props;
@@ -57,6 +59,10 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     const notificationId = portalContext.startNotification(t('disconnectingDeployment'), t('disconnectingDeployment'));
     dismissDisconnectPanel();
 
+    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterGitHubDisconnect', 'disconnectCallback'), {
+      deleteWorkflowDuringDisconnect,
+    });
+
     let deploymentDisconnectStatus = await deleteWorkflowFileIfNeeded(deleteWorkflowDuringDisconnect);
     deploymentDisconnectStatus = await clearSCMSettings(deleteWorkflowDuringDisconnect, deploymentDisconnectStatus);
 
@@ -76,6 +82,10 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     if (deploymentDisconnectStatus.isSuccessful) {
       const deleteSourceControlDetailsResponse = await deploymentCenterData.deleteSourceControlDetails(deploymentCenterContext.resourceId);
       if (!deleteSourceControlDetailsResponse.metadata.success) {
+        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterGitHubDisconnect', 'clearSCMSettings'), {
+          error: deleteSourceControlDetailsResponse.metadata.error,
+        });
+
         const failedStatus: DeploymentDisconnectStatus = {
           step: DeployDisconnectStep.ClearSCMSettings,
           isSuccessful: false,
@@ -137,6 +147,9 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
           return successStatus;
         } else {
           if (deleteWorkflowFileResponse) {
+            LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterGitHubDisconnect', 'deleteWorkflowFileIfNeeded'), {
+              error: deleteWorkflowFileResponse.metadata.error,
+            });
             failedStatus.error = deleteWorkflowFileResponse.metadata.error;
           }
           return failedStatus;

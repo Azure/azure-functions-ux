@@ -13,6 +13,9 @@ import { DeploymentCenterContainerFormBuilder } from '../container/DeploymentCen
 import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DeploymentCenterContainerForm from './DeploymentCenterContainerForm';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
+import { getLogId } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
   const { resourceId } = props;
@@ -45,6 +48,10 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
       setLogs(
         errorMessage ? t('deploymentCenterContainerLogsFailedWithError').format(errorMessage) : t('deploymentCenterContainerLogsFailed')
       );
+
+      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerDataLoader', 'updatePublishingUser'), {
+        error: containerLogsResponse.metadata.error,
+      });
     }
 
     setIsLoading(false);
@@ -67,8 +74,11 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
       deploymentCenterContainerFormBuilder.setPublishingUser(deploymentCenterPublishingContext.publishingUser);
     }
 
+    const formData = deploymentCenterContainerFormBuilder.generateFormData();
     setContainerFormData(deploymentCenterContainerFormBuilder.generateFormData());
     setContainerFormValidationSchema(deploymentCenterContainerFormBuilder.generateYupValidationSchema());
+
+    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerDataLoader', 'generateForm'), formData);
   };
 
   const refresh = () => {

@@ -7,6 +7,10 @@ import { IDeploymentCenterPublishingContext } from '../DeploymentCenterPublishin
 import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 import { PublishingCredentials } from '../../../../models/site/publish';
 
+export const getLogId = (component: string, event: string): string => {
+  return `${component}/${event}`;
+};
+
 export const getRuntimeStackSetting = (
   isLinuxApplication: boolean,
   siteConfig: ArmObj<SiteConfig>,
