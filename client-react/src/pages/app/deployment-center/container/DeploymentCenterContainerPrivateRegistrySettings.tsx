@@ -22,6 +22,7 @@ const DeploymentCenterContainerPrivateRegistrySettings: React.FC<{}> = props => 
         component={TextField}
         label={t('containerServerURL')}
         placeholder={t('containerServerURLPlaceholder')}
+        required={true}
       />
 
       <Field id="container-privateRegistry-username" name="privateRegistryUsername" component={TextField} label={t('containerLogin')} />
@@ -34,6 +35,7 @@ const DeploymentCenterContainerPrivateRegistrySettings: React.FC<{}> = props => 
         component={TextField}
         label={t('containerImageAndTag')}
         placeholder={t('containerImageAndTagPlaceholder')}
+        required={true}
       />
 
       <Field id="container-privateRegistry-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
