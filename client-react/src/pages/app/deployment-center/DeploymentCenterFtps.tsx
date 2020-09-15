@@ -15,8 +15,10 @@ import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocu
 import { Links } from '../../../utils/FwLinks';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
 import { ScmType } from '../../../models/site/config';
-import { getGitCloneUri } from './utility/DeploymentCenterUtility';
+import { getGitCloneUri, getLogId } from './utility/DeploymentCenterUtility';
 import DeploymentCenterPublishingUser from './DeploymentCenterPublishingUser';
+import LogService from '../../../utils/LogService';
+import { LogCategories } from '../../../utils/LogCategories';
 
 type PasswordFieldType = 'password' | undefined;
 
@@ -43,6 +45,8 @@ const DeploymentCenterFtps: React.FC<
   };
 
   const resetApplicationPasswordFromCallout = () => {
+    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterFtps', 'resetApplicationPasswordFromCallout'), {});
+
     resetApplicationPassword();
     setIsResetCalloutHidden(true);
   };

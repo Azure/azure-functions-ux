@@ -7,6 +7,9 @@ import DeploymentCenterCodeLogs from './DeploymentCenterCodeLogs';
 import DeploymentCenterCodeSettings from './DeploymentCenterCodeSettings';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { ScmType } from '../../../../models/site/config';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
+import { getLogId } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const { formProps, deployments, deploymentsError, isLoading } = props;
@@ -23,6 +26,10 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
 
   const onLinkClick = (item: PivotItem) => {
     if (item.props.itemKey) {
+      LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodePivot', 'onLinkClick'), {
+        key: item.props.itemKey,
+      });
+
       setSelectedKey(item.props.itemKey);
     }
   };

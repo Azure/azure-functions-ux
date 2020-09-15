@@ -15,6 +15,9 @@ import { useTranslation } from 'react-i18next';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DeploymentCenterCodeForm from './DeploymentCenterCodeForm';
+import LogService from '../../../../utils/LogService';
+import { getLogId } from '../utility/DeploymentCenterUtility';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
   const { resourceId } = props;
@@ -36,6 +39,8 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
   >(undefined);
 
   const fetchData = async () => {
+    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataLoader', 'fetchData'), {});
+
     const deploymentsResponse = await deploymentCenterData.getSiteDeployments(resourceId);
 
     if (deploymentsResponse.metadata.success) {
@@ -45,6 +50,10 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
       setDeploymentsError(
         errorMessage ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage) : t('deploymentCenterCodeDeploymentsFailed')
       );
+
+      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataLoader', 'fetchData'), {
+        error: deploymentsResponse.metadata.error,
+      });
     }
 
     setIsLoading(false);
@@ -67,8 +76,11 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
       deploymentCenterCodeFormBuilder.setPublishingUser(deploymentCenterPublishingContext.publishingUser);
     }
 
-    setCodeFormData(deploymentCenterCodeFormBuilder.generateFormData());
+    const formData = deploymentCenterCodeFormBuilder.generateFormData();
+    setCodeFormData(formData);
     setCodeFormValidationSchema(deploymentCenterCodeFormBuilder.generateYupValidationSchema());
+
+    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataLoader', 'generateForm'), formData);
   };
 
   const refresh = () => {

@@ -23,7 +23,7 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
-import { getAcrWebhookName, getAppDockerWebhookUrl, getWorkflowFilePath, getArmToken } from '../utility/DeploymentCenterUtility';
+import { getAcrWebhookName, getAppDockerWebhookUrl, getWorkflowFilePath, getArmToken, getLogId } from '../utility/DeploymentCenterUtility';
 import { ACRWebhookPayload } from '../../../../models/acr';
 import { ScmType } from '../../../../models/site/config';
 import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
@@ -231,6 +231,10 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         responseResult.error = saveAppSettingsResponse.metadata.error;
       }
     } else {
+      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updateAppSettings'), {
+        error: appSettingsResponse.metadata.error,
+      });
+
       responseResult.success = false;
       responseResult.error = appSettingsResponse.metadata.error;
     }
@@ -262,6 +266,10 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         responseResult.error = saveSiteConfigResponse.metadata.error;
       }
     } else {
+      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updateSiteConfig'), {
+        error: siteConfigResponse.metadata.error,
+      });
+
       responseResult.success = false;
       responseResult.error = siteConfigResponse.metadata.error;
     }
@@ -284,22 +292,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
     } else {
       portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
-
-      if (!updateAppSettingsResponse.success) {
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterContainerForm',
-          `Failed to update app settings with error: ${getErrorMessage(updateAppSettingsResponse.error)}`
-        );
-      }
-
-      if (!updateSiteConfigResponse.success) {
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterContainerForm',
-          `Failed to update site config with error: ${getErrorMessage(updateSiteConfigResponse.error)}`
-        );
-      }
     }
   };
 
@@ -393,6 +385,12 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       requestContent
     );
 
+    if (!response.metadata.success) {
+      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updateGitHubActionSettings'), {
+        error: response.metadata.error,
+      });
+    }
+
     return {
       success: response.metadata.success,
       error: response.metadata.error,
@@ -422,7 +420,12 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       // manually.
       // This strictly a workaround and once all the APIs are sync this code can be removed.
 
-      LogService.error(LogCategories.deploymentCenter, 'apiSyncErrorWorkaround', { resourceId: deploymentCenterContext.resourceId });
+      LogService.trackEvent(
+        LogCategories.deploymentCenter,
+        getLogId('DeploymentCenterContainerForm', 'updateSourceControlDetails-apiSyncErrorWorkaround'),
+        { resourceId: deploymentCenterContext.resourceId }
+      );
+
       return updateGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId, payload);
     } else {
       return updateSourceControlResponse;
@@ -477,16 +480,9 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
       } else {
         portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
-
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterContainerForm',
-          `Failed to update app settings with error: ${getErrorMessage(updateApplicationPropertiesResponse.error)}`
-        );
       }
     } else {
       portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
-      LogService.error(LogCategories.deploymentCenter, 'DeploymentCenterContainerForm', 'Failed to save GitHub Action settings.');
     }
   };
 
@@ -508,6 +504,16 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   };
 
   const updateDeploymentConfigurations = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+    const { org, repo, branch, workflowOption, registrySource, option } = values;
+    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updateDeploymentConfigurations'), {
+      org,
+      repo,
+      branch,
+      workflowOption,
+      registrySource,
+      option,
+    });
+
     // Only do the save if scmtype in the config is set to none.
     // If the scmtype in the config is not none, the user should be doing a disconnect operation first.
     // This check is in place, because the use could set the form props ina dirty state by just modifying the
@@ -527,6 +533,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       (currentUser && currentUser.properties.publishingUserName !== values.publishingUsername) ||
       (currentUser && values.publishingPassword && currentUser.properties.publishingPassword !== values.publishingPassword)
     ) {
+      LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updatePublishingUser'), {});
+
       const notificationId = portalContext.startNotification(t('UpdatingPublishingUser'), t('UpdatingPublishingUser'));
       currentUser.properties.publishingUserName = values.publishingUsername;
       currentUser.properties.publishingPassword = values.publishingPassword;
@@ -539,6 +547,10 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         errorMessage
           ? portalContext.stopNotification(notificationId, false, t('UpdatingPublishingUserFailWithStatusMessage').format(errorMessage))
           : portalContext.stopNotification(notificationId, false, t('UpdatingPublishingUserFail'));
+
+        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updatePublishingUser'), {
+          error: publishingUserResponse.metadata.error,
+        });
       }
     }
   };

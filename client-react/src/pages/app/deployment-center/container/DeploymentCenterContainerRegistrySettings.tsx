@@ -5,12 +5,19 @@ import { IChoiceGroupOptionProps, IDropdownOption } from 'office-ui-fabric-react
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
+import { getLogId } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
 
   const onRegistrySourceChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
+    LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerRegistrySettings', 'onRegistrySourceChange'), {
+      registrySource: option.key.toString(),
+    });
+
     formProps.setFieldValue('registrySource', option.key.toString());
     if (option.key.toString() === ContainerRegistrySources.docker) {
       formProps.setFieldValue('serverUrl', DeploymentCenterConstants.dockerHubUrl);
