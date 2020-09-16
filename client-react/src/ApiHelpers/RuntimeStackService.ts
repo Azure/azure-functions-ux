@@ -13,7 +13,7 @@ export default class RuntimeStackService {
     return sendHttpRequest<WebAppStack[]>({
       url: `${Url.serviceHost}stacks/webAppStacks?os=${stacksOs}&api-version=${
         CommonConstants.ApiVersions.stacksApiVersion20200601
-      }&removeHiddenStacks=${!Url.getFeatureValue(CommonConstants.FeatureFlags.showHiddenStacks)}`,
+      }&removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       method: 'GET',
     }).then(result => {
       const success = result.metadata.success && !!result.data;
@@ -33,7 +33,7 @@ export default class RuntimeStackService {
     return sendHttpRequest<FunctionAppStack[]>({
       url: `${Url.serviceHost}stacks/functionAppStacks?os=${stacksOs}&api-version=${
         CommonConstants.ApiVersions.stacksApiVersion20200601
-      }&removeHiddenStacks=${!Url.getFeatureValue(CommonConstants.FeatureFlags.showHiddenStacks)}`,
+      }&removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       method: 'GET',
     }).then(result => {
       const success = result.metadata.success && !!result.data;
@@ -54,5 +54,10 @@ export default class RuntimeStackService {
       url: `${Url.serviceHost}stacks/webAppGitHubActionStacks?os=${stacksOs}&api-version=${CommonConstants.ApiVersions.stacksApiVersion20200501}`,
       method: 'POST',
     });
+  };
+
+  private static _isShowHiddenStackFlagPassed = () => {
+    const flagValue = Url.getFeatureValue(CommonConstants.FeatureFlags.showHiddenStacks);
+    return flagValue && flagValue.toLocaleLowerCase() === 'true';
   };
 }
