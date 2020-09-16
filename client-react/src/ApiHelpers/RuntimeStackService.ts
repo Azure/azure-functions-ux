@@ -13,7 +13,7 @@ export default class RuntimeStackService {
     return sendHttpRequest<WebAppStack[]>({
       url: `${Url.serviceHost}stacks/webAppStacks?os=${stacksOs}&api-version=${
         CommonConstants.ApiVersions.stacksApiVersion20200601
-      }&removeHiddenStacks=${!!Url.getFeatureValue(CommonConstants.FeatureFlags.showHiddenStacks)}`,
+      }&removeHiddenStacks=${!Url.getFeatureValue(CommonConstants.FeatureFlags.showHiddenStacks)}`,
       method: 'GET',
     }).then(result => {
       const success = result.metadata.success && !!result.data;
@@ -33,7 +33,7 @@ export default class RuntimeStackService {
     return sendHttpRequest<FunctionAppStack[]>({
       url: `${Url.serviceHost}stacks/functionAppStacks?os=${stacksOs}&api-version=${
         CommonConstants.ApiVersions.stacksApiVersion20200601
-      }&removeHiddenStacks=${!!Url.getFeatureValue(CommonConstants.FeatureFlags.showHiddenStacks)}`,
+      }&removeHiddenStacks=${!Url.getFeatureValue(CommonConstants.FeatureFlags.showHiddenStacks)}`,
       method: 'GET',
     }).then(result => {
       const success = result.metadata.success && !!result.data;
