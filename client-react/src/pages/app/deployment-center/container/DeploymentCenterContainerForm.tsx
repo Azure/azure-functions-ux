@@ -54,7 +54,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
   const getServerUrl = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>): string => {
     if (values.registrySource === ContainerRegistrySources.acr) {
-      return `https://${values.acrLoginServer}'`;
+      return `https://${values.acrLoginServer}`;
     } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
       return values.privateRegistryServerUrl;
     } else {
