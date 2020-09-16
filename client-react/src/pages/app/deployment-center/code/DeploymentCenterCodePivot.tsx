@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react';
-import { Pivot, PivotItem } from 'office-ui-fabric-react';
+import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react';
 import DeploymentCenterFtps from '../DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterCodePivotProps } from '../DeploymentCenter.types';
 import DeploymentCenterCodeLogs from './DeploymentCenterCodeLogs';
 import DeploymentCenterCodeSettings from './DeploymentCenterCodeSettings';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { ScmType } from '../../../../models/site/config';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { getLogId } from '../utility/DeploymentCenterUtility';
+import { ScmType, BuildProvider } from '../../../../models/site/config';
+import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
+import { ThemeContext } from '../../../../ThemeContext';
+import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const { formProps, deployments, deploymentsError, isLoading } = props;
@@ -17,6 +17,8 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
   const [selectedKey, setSelectedKey] = useState<string>('logs');
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+  const theme = useContext(ThemeContext);
 
   const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
 
@@ -26,12 +28,27 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
 
   const onLinkClick = (item: PivotItem) => {
     if (item.props.itemKey) {
-      LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodePivot', 'onLinkClick'), {
-        key: item.props.itemKey,
-      });
-
       setSelectedKey(item.props.itemKey);
     }
+  };
+
+  const settingsDirty = (): boolean => {
+    return (
+      formProps.values.buildProvider !== BuildProvider.None &&
+      !!deploymentCenterContext.siteConfig &&
+      deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
+    );
+  };
+
+  const ftpsDirty = (): boolean => {
+    const currentUser = deploymentCenterPublishingContext.publishingUser;
+
+    return (
+      (!!currentUser && currentUser.properties.publishingUserName !== formProps.values.publishingUsername) ||
+      (!!currentUser &&
+        !!formProps.values.publishingPassword &&
+        currentUser.properties.publishingPassword !== formProps.values.publishingPassword)
+    );
   };
 
   return (
@@ -51,14 +68,20 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
       <PivotItem
         itemKey="settings"
         headerText={t('deploymentCenterPivotItemSettingsHeaderText')}
-        ariaLabel={t('deploymentCenterPivotItemSettingsAriaLabel')}>
+        ariaLabel={t('deploymentCenterPivotItemSettingsAriaLabel')}
+        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+          CustomTabRenderer(link, defaultRenderer, theme, settingsDirty, t('modifiedTag'))
+        }>
         <DeploymentCenterCodeSettings formProps={formProps} />
       </PivotItem>
 
       <PivotItem
         itemKey="ftps"
         headerText={isScmLocalGit ? t('deploymentCenterPivotItemGitFtpsHeaderText') : t('deploymentCenterPivotItemFtpsHeaderText')}
-        ariaLabel={isScmLocalGit ? t('deploymentCenterPivotItemGitFtpsAriaLabel') : t('deploymentCenterPivotItemFtpsAriaLabel')}>
+        ariaLabel={isScmLocalGit ? t('deploymentCenterPivotItemGitFtpsAriaLabel') : t('deploymentCenterPivotItemFtpsAriaLabel')}
+        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+          CustomTabRenderer(link, defaultRenderer, theme, ftpsDirty, t('modifiedTag'))
+        }>
         <DeploymentCenterFtps formProps={formProps} isLoading={isLoading} />
       </PivotItem>
     </Pivot>
