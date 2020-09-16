@@ -6747,4 +6747,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="pricing_vCores" xml:space="preserve">
         <value>{0} vCPU</value>
     </data>
+    <data name="functionInfoFetchError" xml:space="preserve">
+        <value>Unable to fetch your function</value>
+    </data>
 </root>
