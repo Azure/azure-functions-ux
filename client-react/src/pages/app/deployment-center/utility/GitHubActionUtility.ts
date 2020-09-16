@@ -275,7 +275,7 @@ jobs:
         app-name: '${webAppName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: '.\\myapp.zip'`;
+        package: '.\\app.zip'`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
