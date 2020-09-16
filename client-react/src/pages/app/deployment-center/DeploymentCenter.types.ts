@@ -160,8 +160,8 @@ export interface DeploymentCenterCommitLogsProps {
 
 export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
   isPreviewFileButtonDisabled: boolean;
+  getWorkflowFileContent: () => string;
   workflowFilePath?: string;
-  workflowFileContent?: string;
   panelMessage?: string;
   panelMessageType?: MessageBarType;
 }

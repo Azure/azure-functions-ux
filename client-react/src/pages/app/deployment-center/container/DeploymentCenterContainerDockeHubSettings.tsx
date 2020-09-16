@@ -54,14 +54,27 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
           component={Dropdown}
           options={accessTypes}
           label={t('containerRepositoryAccess')}
+          required={true}
         />
       )}
 
       {(isPrivateConfiguration || isGitHubAction) && (
         <>
-          <Field id="container-dockerHub-username" name="dockerHubUsername" component={TextField} label={t('containerLogin')} />
+          <Field
+            id="container-dockerHub-username"
+            name="dockerHubUsername"
+            component={TextField}
+            label={t('containerLogin')}
+            required={true}
+          />
 
-          <Field id="container-dockerHub-password" name="dockerHubPassword" component={TextField} label={t('containerPassword')} />
+          <Field
+            id="container-dockerHub-password"
+            name="dockerHubPassword"
+            component={TextField}
+            label={t('containerPassword')}
+            required={true}
+          />
         </>
       )}
 
@@ -71,6 +84,7 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
         component={TextField}
         label={t('containerImageAndTag')}
         placeholder={t('containerImageAndTagPlaceholder')}
+        required={true}
       />
 
       <Field id="container-dockerHub-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
