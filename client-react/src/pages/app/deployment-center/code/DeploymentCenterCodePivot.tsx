@@ -32,7 +32,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
     }
   };
 
-  const settingsDirty = (): boolean => {
+  const isSettingsDirty = (): boolean => {
     return (
       formProps.values.buildProvider !== BuildProvider.None &&
       !!deploymentCenterContext.siteConfig &&
@@ -40,14 +40,13 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
     );
   };
 
-  const ftpsDirty = (): boolean => {
+  const isFtpsDirty = (): boolean => {
     const currentUser = deploymentCenterPublishingContext.publishingUser;
 
     return (
-      (!!currentUser && currentUser.properties.publishingUserName !== formProps.values.publishingUsername) ||
-      (!!currentUser &&
-        !!formProps.values.publishingPassword &&
-        currentUser.properties.publishingPassword !== formProps.values.publishingPassword)
+      !!currentUser &&
+      (currentUser.properties.publishingUserName !== formProps.values.publishingUsername ||
+        (!!formProps.values.publishingPassword && currentUser.properties.publishingPassword !== formProps.values.publishingPassword))
     );
   };
 
@@ -70,7 +69,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
         headerText={t('deploymentCenterPivotItemSettingsHeaderText')}
         ariaLabel={t('deploymentCenterPivotItemSettingsAriaLabel')}
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, settingsDirty, t('modifiedTag'))
+          CustomTabRenderer(link, defaultRenderer, theme, isSettingsDirty, t('modifiedTag'))
         }>
         <DeploymentCenterCodeSettings formProps={formProps} />
       </PivotItem>
@@ -80,7 +79,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
         headerText={isScmLocalGit ? t('deploymentCenterPivotItemGitFtpsHeaderText') : t('deploymentCenterPivotItemFtpsHeaderText')}
         ariaLabel={isScmLocalGit ? t('deploymentCenterPivotItemGitFtpsAriaLabel') : t('deploymentCenterPivotItemFtpsAriaLabel')}
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, ftpsDirty, t('modifiedTag'))
+          CustomTabRenderer(link, defaultRenderer, theme, isFtpsDirty, t('modifiedTag'))
         }>
         <DeploymentCenterFtps formProps={formProps} isLoading={isLoading} />
       </PivotItem>

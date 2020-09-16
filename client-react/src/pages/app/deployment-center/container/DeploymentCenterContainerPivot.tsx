@@ -19,18 +19,17 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const theme = useContext(ThemeContext);
 
-  const settingsDirty = (): boolean => {
+  const isSettingsDirty = (): boolean => {
     return !!deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None;
   };
 
-  const ftpsDirty = (): boolean => {
+  const isFtpsDirty = (): boolean => {
     const currentUser = deploymentCenterPublishingContext.publishingUser;
 
     return (
-      (!!currentUser && currentUser.properties.publishingUserName !== formProps.values.publishingUsername) ||
-      (!!currentUser &&
-        !!formProps.values.publishingPassword &&
-        currentUser.properties.publishingPassword !== formProps.values.publishingPassword)
+      !!currentUser &&
+      (currentUser.properties.publishingUserName !== formProps.values.publishingUsername ||
+        (!!formProps.values.publishingPassword && currentUser.properties.publishingPassword !== formProps.values.publishingPassword))
     );
   };
 
@@ -44,7 +43,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
         headerText={t('deploymentCenterPivotItemSettingsHeaderText')}
         ariaLabel={t('deploymentCenterPivotItemSettingsAriaLabel')}
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, settingsDirty, t('modifiedTag'))
+          CustomTabRenderer(link, defaultRenderer, theme, isSettingsDirty, t('modifiedTag'))
         }>
         <DeploymentCenterContainerSettings formProps={formProps} />
       </PivotItem>
@@ -53,7 +52,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
         headerText={t('deploymentCenterPivotItemFtpsHeaderText')}
         ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, ftpsDirty, t('modifiedTag'))
+          CustomTabRenderer(link, defaultRenderer, theme, isFtpsDirty, t('modifiedTag'))
         }>
         <DeploymentCenterFtps formProps={formProps} isLoading={isLoading} />
       </PivotItem>
