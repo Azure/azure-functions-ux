@@ -27,6 +27,9 @@ import { KeyValue } from '../../../../../models/portal-models';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../../../ArmHelper.types';
 import StringUtils from '../../../../../utils/string';
+import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
+import { MessageBarType } from 'office-ui-fabric-react';
+import { useTranslation } from 'react-i18next';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -56,6 +59,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
+
+  const { t } = useTranslation();
 
   const isHttpOrWebHookFunction = !!functionInfo && functionEditorData.isHttpOrWebHookFunction(functionInfo);
 
@@ -388,17 +393,52 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const getAndSetTestData = async () => {
-    if (!!functionInfo && !!hostKeys && !!functionInfo.properties.test_data_href) {
-      const headers = getAuthorizationHeaders();
-      const testDataResponse = await FunctionsService.getDataFromFunctionHref(functionInfo.properties.test_data_href, 'GET', headers);
-      if (testDataResponse.metadata.success) {
-        let data = testDataResponse.data;
+    if (!!functionInfo && !!site && !!functionInfo.properties.test_data_href) {
+      const testDataHrefObjects = functionInfo.properties.test_data_href.split('/vfs/');
+      let testDataResponseSuccess = false;
+      let testData;
+
+      if (testDataHrefObjects.length === 2) {
+        const vfsArmTestDataResponse = await FunctionsService.getTestDataOverVfsArm(site.id, testDataHrefObjects[1], runtimeVersion);
+        if (vfsArmTestDataResponse.metadata.success) {
+          testDataResponseSuccess = true;
+          testData = vfsArmTestDataResponse.data;
+        } else {
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'GetTestDataUsingVfsApi',
+            `Failed to get test data from VFS API: ${getErrorMessageOrStringify(vfsArmTestDataResponse.metadata.error)}`
+          );
+        }
+      }
+
+      // Note (krmitta): Almost always we should be able to get the test_data through VFS Arm.
+      // Adding the below fallback logic just on the off-chance that it doesn't.
+      if (!testDataResponseSuccess) {
+        const headers = getAuthorizationHeaders();
+        const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(
+          functionInfo.properties.test_data_href,
+          'GET',
+          headers
+        );
+        if (functionHrefTestDataResponse.metadata.success) {
+          testData = functionHrefTestDataResponse.data;
+        } else {
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'GetTestDataUsingFunctionHref',
+            `Failed to get test data: ${getErrorMessageOrStringify(functionHrefTestDataResponse.metadata.error)}`
+          );
+        }
+      }
+
+      if (!!testData) {
         try {
-          data = StringUtils.stringifyJsonForEditor(testDataResponse.data);
+          testData = StringUtils.stringifyJsonForEditor(testData);
         } catch (err) {
           LogService.error(LogCategories.FunctionEdit, 'invalid-test-data', err);
         }
-        setTestData(data as string);
+        setTestData(testData as string);
       }
     }
   };
@@ -463,30 +503,34 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [functionInfo, hostKeys]);
   // TODO (krmitta): Show a loading error message site or functionInfo call fails
-  if (initialLoading || !site || !functionInfo) {
+  if (initialLoading || !site) {
     return <LoadingComponent />;
   }
   return (
     <FunctionEditorContext.Provider value={functionEditorData}>
-      <div style={showTestPanel ? shrinkEditorStyle(window.innerWidth) : undefined}>
-        <FunctionEditor
-          functionInfo={functionInfo}
-          site={site}
-          run={run}
-          fileList={fileList}
-          runtimeVersion={runtimeVersion}
-          responseContent={responseContent}
-          functionRunning={functionRunning}
-          urlObjs={[...functionUrls, ...hostUrls, ...systemUrls]}
-          showTestPanel={showTestPanel}
-          setShowTestPanel={setShowTestPanel}
-          testData={testData}
-          refresh={refresh}
-          isRefreshing={isRefreshing}
-          xFunctionKey={getDefaultXFunctionKey()}
-          getFunctionUrl={getFunctionUrl}
-        />
-      </div>
+      {!!functionInfo ? (
+        <div style={showTestPanel ? shrinkEditorStyle(window.innerWidth) : undefined}>
+          <FunctionEditor
+            functionInfo={functionInfo}
+            site={site}
+            run={run}
+            fileList={fileList}
+            runtimeVersion={runtimeVersion}
+            responseContent={responseContent}
+            functionRunning={functionRunning}
+            urlObjs={[...functionUrls, ...hostUrls, ...systemUrls]}
+            showTestPanel={showTestPanel}
+            setShowTestPanel={setShowTestPanel}
+            testData={testData}
+            refresh={refresh}
+            isRefreshing={isRefreshing}
+            xFunctionKey={getDefaultXFunctionKey()}
+            getFunctionUrl={getFunctionUrl}
+          />
+        </div>
+      ) : (
+        <CustomBanner message={t('functionInfoFetchError')} type={MessageBarType.error} />
+      )}
       {isRefreshing && <LoadingComponent overlay={true} />}
     </FunctionEditorContext.Provider>
   );
