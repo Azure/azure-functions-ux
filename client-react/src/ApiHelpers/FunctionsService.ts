@@ -183,6 +183,31 @@ export default class FunctionsService {
     });
   }
 
+  public static getTestDataOverVfsArm(resourceId: string, fileEndpoint: string, runtimeVersion?: string) {
+    const headers = FunctionsService._addOrGetVfsHeaders();
+    let uri;
+
+    switch (runtimeVersion) {
+      case RuntimeExtensionCustomVersions.beta:
+      case RuntimeExtensionMajorVersions.v2:
+      case RuntimeExtensionMajorVersions.v3: {
+        uri = `/hostruntime/admin/vfs/${fileEndpoint}?relativePath=1`;
+        break;
+      }
+      case RuntimeExtensionMajorVersions.v1:
+      default:
+        uri = `/extensions/api/vfs/${fileEndpoint}`;
+    }
+
+    return MakeArmCall<VfsObject[] | string>({
+      headers,
+      resourceId: `${resourceId}${uri}`,
+      commandName: 'getTestDataOverVfsArm',
+      method: 'GET',
+      skipBatching: true, // Batch API doesn't accept no-cache headers
+    });
+  }
+
   public static getStorageContainers(accountName: string, data: any) {
     return sendHttpRequest<ContainerItem[]>({
       data,

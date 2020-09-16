@@ -388,17 +388,48 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const getAndSetTestData = async () => {
-    if (!!functionInfo && !!hostKeys && !!functionInfo.properties.test_data_href) {
-      const headers = getAuthorizationHeaders();
-      const testDataResponse = await FunctionsService.getDataFromFunctionHref(functionInfo.properties.test_data_href, 'GET', headers);
-      if (testDataResponse.metadata.success) {
-        let data = testDataResponse.data;
+    if (!!functionInfo && !!site && !!functionInfo.properties.test_data_href) {
+      const testDataHrefObjects = functionInfo.properties.test_data_href.split('/vfs/');
+      let testDataResponseSuccess = false;
+      let testData;
+
+      if (testDataHrefObjects.length === 2) {
+        const testDataResponse = await FunctionsService.getTestDataOverVfsArm(site.id, testDataHrefObjects[1], runtimeVersion);
+        if (testDataResponse.metadata.success) {
+          testDataResponseSuccess = true;
+          testData = testDataResponse.data;
+        } else {
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'GetTestDataVfsApi',
+            `Failed to get test data from VFS API: ${getErrorMessageOrStringify(testDataResponse.metadata.error)}`
+          );
+        }
+      }
+
+      // Note (krmitta): Almost always we should be able to get the test_data through VFS Arm.
+      // Adding the below fallback logic just on the off-chance that it doesn't.
+      if (!testDataResponseSuccess) {
+        const headers = getAuthorizationHeaders();
+        const testDataResponse = await FunctionsService.getDataFromFunctionHref(functionInfo.properties.test_data_href, 'GET', headers);
+        if (testDataResponse.metadata.success) {
+          testData = testDataResponse.data;
+        } else {
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'GetTestData',
+            `Failed to get test data: ${getErrorMessageOrStringify(testDataResponse.metadata.error)}`
+          );
+        }
+      }
+
+      if (!!testData) {
         try {
-          data = StringUtils.stringifyJsonForEditor(testDataResponse.data);
+          testData = StringUtils.stringifyJsonForEditor(testData);
         } catch (err) {
           LogService.error(LogCategories.FunctionEdit, 'invalid-test-data', err);
         }
-        setTestData(data as string);
+        setTestData(testData as string);
       }
     }
   };
