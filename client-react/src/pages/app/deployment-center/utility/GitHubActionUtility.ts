@@ -218,7 +218,7 @@ jobs:
         npm run test --if-present
 
     - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: '${webAppName}'
         slot-name: '${slot}'
@@ -263,18 +263,19 @@ jobs:
     - name: Install Python dependencies
       run: |
         python3 -m venv env
-        source env/bin/activate
+        .\\env\\Scripts\\activate
         pip install -r requirements.txt
+
     - name: Zip the application files
-      run: zip -r myapp.zip .
+      run: Compress-Archive .\\* app.zip
 
     - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: '${webAppName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: './myapp.zip'`;
+        package: '.\\myapp.zip'`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -312,13 +313,13 @@ jobs:
         python-version: '${runtimeStackVersion}'
 
     - name: Build using AppService-Build
-      uses: azure/appservice-build@v1
+      uses: azure/appservice-build@v2
       with:
         platform: python
         platform-version: '${runtimeStackVersion}'
 
     - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: '${webAppName}'
         slot-name: '${slot}'
@@ -367,7 +368,7 @@ jobs:
       run: dotnet publish -c Release -o \${{env.DOTNET_ROOT}}/myapp
 
     - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: '${webAppName}'
         slot-name: '${slot}'
@@ -414,7 +415,7 @@ jobs:
       run: mvn clean install
 
     - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: '${webAppName}'
         slot-name: '${slot}'
@@ -461,7 +462,7 @@ jobs:
       run: mvn clean install
 
     - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
