@@ -30,7 +30,6 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
   const [workflowFilePath, setWorkflowFilePath] = useState<string>('');
   const [isPreviewFileButtonDisabled, setIsPreviewFileButtonDisabled] = useState(false);
-  const [workflowFileContent, setWorkflowFileContent] = useState('');
   const [panelMessage, setPanelMessage] = useState('');
   const [showGitHubActionReadOnlyView, setShowGitHubActionReadOnlyView] = useState(false);
 
@@ -50,13 +49,10 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const isDockerHubConfigured = formProps.values.registrySource === ContainerRegistrySources.docker;
   const isPrivateRegistryConfigured = formProps.values.registrySource === ContainerRegistrySources.privateRegistry;
 
-  useEffect(() => {
+  const getWorkflowFileContent = () => {
     if (deploymentCenterContext.siteDescriptor) {
       if (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig) {
-        setPanelMessage(t('githubActionWorkflowOptionUseExistingMessage'));
-        setWorkflowFileContent(githubActionExistingWorkflowContents);
-      } else if (formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs) {
-        setPanelMessage(t('githubActionWorkflowOptionUseExistingMessageWithoutPreview'));
+        return githubActionExistingWorkflowContents;
       } else if (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) {
         const information = getContainerAppWorkflowInformation(
           serverUrl,
@@ -68,24 +64,36 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
           deploymentCenterContext.siteDescriptor.site,
           deploymentCenterContext.siteDescriptor.slot
         );
-        setPanelMessage(t('githubActionWorkflowOptionOverwriteIfConfigExists'));
-        setWorkflowFileContent(information.content);
+
+        return information.content;
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext.siteDescriptor, formProps.values.branch, formProps.values.workflowOption, serverUrl, image]);
+
+    return '';
+  };
 
   useEffect(() => {
-    const imageOmissionAllowed =
+    if (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig) {
+      setPanelMessage(t('githubActionWorkflowOptionUseExistingMessage'));
+    } else if (formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs) {
+      setPanelMessage(t('githubActionWorkflowOptionUseExistingMessageWithoutPreview'));
+    } else if (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) {
+      setPanelMessage(t('githubActionWorkflowOptionOverwriteIfConfigExists'));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.workflowOption]);
+
+  useEffect(() => {
+    const useAvailableOrExisting =
       formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs ||
-      formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig;
+      (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig && githubActionExistingWorkflowContents);
 
     const formFilled =
-      formProps.values.workflowOption !== WorkflowOption.None && serverUrl && username && password && (image || imageOmissionAllowed);
+      (formProps.values.workflowOption !== WorkflowOption.None && serverUrl && username && password && image) || useAvailableOrExisting;
 
     setIsPreviewFileButtonDisabled(formProps.values.workflowOption === WorkflowOption.None || !formFilled);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formProps.values.workflowOption, serverUrl, image, username, password]);
+  }, [formProps.values.workflowOption, githubActionExistingWorkflowContents, serverUrl, image, username, password]);
 
   useEffect(() => {
     if (formProps.values.registrySource === ContainerRegistrySources.acr) {
@@ -244,8 +252,8 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
         {isGitHubActionSelected && (
           <DeploymentCenterGitHubWorkflowConfigPreview
             isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
+            getWorkflowFileContent={getWorkflowFileContent}
             workflowFilePath={workflowFilePath}
-            workflowFileContent={workflowFileContent}
             panelMessage={panelMessage}
           />
         )}
