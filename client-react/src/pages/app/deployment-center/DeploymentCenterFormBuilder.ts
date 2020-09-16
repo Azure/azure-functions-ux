@@ -24,7 +24,10 @@ export abstract class DeploymentCenterFormBuilder {
         this._publishingUser && this._publishingUser.properties.publishingUserName
           ? this._publishingUser.properties.publishingUserName
           : '',
-      publishingPassword: '',
+      publishingPassword:
+        this._publishingUser && this._publishingUser.properties.publishingPassword
+          ? this._publishingUser.properties.publishingPassword
+          : '',
       publishingConfirmPassword: '',
       workflowOption: WorkflowOption.None,
       org: '',
