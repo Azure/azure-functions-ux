@@ -2199,4 +2199,5 @@ export class PortalResources {
   public static hyperVIsolationDesc = 'hyperVIsolationDesc';
   public static pricing_ACU_Pv3 = 'pricing_ACU_Pv3';
   public static pricing_vCores = 'pricing_vCores';
+  public static functionInfoFetchError = 'functionInfoFetchError';
 }
