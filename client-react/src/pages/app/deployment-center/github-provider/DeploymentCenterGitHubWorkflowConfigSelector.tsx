@@ -77,6 +77,8 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         getWorkflowConfigurationRequest,
       ]);
 
+      setGithubActionExistingWorkflowContents('');
+
       if (appWorkflowConfigurationResponse.metadata.success) {
         setShowWarningBanner(true);
         setWorkflowFileExistsWarningMessage(
@@ -88,8 +90,6 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
 
         if (appWorkflowConfigurationResponse.data.content) {
           setGithubActionExistingWorkflowContents(atob(appWorkflowConfigurationResponse.data.content));
-        } else {
-          setGithubActionExistingWorkflowContents('');
         }
 
         setWorkflowConfigDropdownOptions(overwriteOrUseExistingOptions);

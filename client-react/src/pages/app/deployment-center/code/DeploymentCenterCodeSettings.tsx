@@ -34,7 +34,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
   const [workflowFilePath, setWorkflowFilePath] = useState<string>('');
   const [isPreviewFileButtonDisabled, setIsPreviewFileButtonDisabled] = useState(false);
-  const [workflowFileContent, setWorkflowFileContent] = useState('');
   const [panelMessage, setPanelMessage] = useState('');
 
   const isDeploymentSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.None;
@@ -60,16 +59,12 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const isExternalGitSetup =
     deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.ExternalGit;
 
-  useEffect(() => {
+  const getWorkflowFileContent = () => {
     if (deploymentCenterContext.siteDescriptor) {
-      const runtimeInfoAvailable =
-        formProps.values.runtimeStack && formProps.values.runtimeVersion && formProps.values.runtimeRecommendedVersion;
+      const runtimeInfoAvailable = formProps.values.runtimeStack && formProps.values.runtimeVersion;
 
       if (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig) {
-        setPanelMessage(t('githubActionWorkflowOptionUseExistingMessage'));
-        setWorkflowFileContent(githubActionExistingWorkflowContents);
-      } else if (formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs) {
-        setPanelMessage(t('githubActionWorkflowOptionUseExistingMessageWithoutPreview'));
+        return githubActionExistingWorkflowContents;
       } else if (
         (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) &&
         runtimeInfoAvailable
@@ -84,25 +79,28 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           deploymentCenterContext.siteDescriptor.site,
           deploymentCenterContext.siteDescriptor.slot
         );
-        setPanelMessage(t('githubActionWorkflowOptionOverwriteIfConfigExists'));
-        setWorkflowFileContent(information.content);
+        return information.content;
       }
     }
+
+    return '';
+  };
+
+  useEffect(() => {
+    if (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig) {
+      setPanelMessage(t('githubActionWorkflowOptionUseExistingMessage'));
+    } else if (formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs) {
+      setPanelMessage(t('githubActionWorkflowOptionUseExistingMessageWithoutPreview'));
+    } else if (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) {
+      setPanelMessage(t('githubActionWorkflowOptionOverwriteIfConfigExists'));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    siteStateContext.isLinuxApp,
-    deploymentCenterContext.siteDescriptor,
-    formProps.values.runtimeStack,
-    formProps.values.runtimeVersion,
-    formProps.values.runtimeRecommendedVersion,
-    formProps.values.branch,
-    formProps.values.workflowOption,
-  ]);
+  }, [formProps.values.workflowOption]);
 
   useEffect(() => {
     const runtimeInfoOmissionAllowed =
       formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs ||
-      formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig;
+      (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig && githubActionExistingWorkflowContents);
 
     const formFilled =
       formProps.values.workflowOption !== WorkflowOption.None &&
@@ -110,7 +108,12 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
     setIsPreviewFileButtonDisabled(formProps.values.workflowOption === WorkflowOption.None || !formFilled);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formProps.values.workflowOption, formProps.values.runtimeStack, formProps.values.runtimeVersion]);
+  }, [
+    formProps.values.workflowOption,
+    githubActionExistingWorkflowContents,
+    formProps.values.runtimeStack,
+    formProps.values.runtimeVersion,
+  ]);
 
   useEffect(() => {
     if (
@@ -170,8 +173,8 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
                   {!isUsingExistingOrAvailableWorkflowConfig && <DeploymentCenterCodeBuildRuntimeAndVersion formProps={formProps} />}
                   <DeploymentCenterGitHubWorkflowConfigPreview
                     isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
+                    getWorkflowFileContent={getWorkflowFileContent}
                     workflowFilePath={workflowFilePath}
-                    workflowFileContent={workflowFileContent}
                     panelMessage={panelMessage}
                   />
                 </>
