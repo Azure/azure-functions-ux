@@ -7,7 +7,7 @@ import { panelBanner, deploymentCenterConsole } from '../DeploymentCenter.styles
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitHubWorkflowConfigPreviewProps> = props => {
-  const { isPreviewFileButtonDisabled, workflowFilePath, workflowFileContent, panelMessage } = props;
+  const { isPreviewFileButtonDisabled, getWorkflowFileContent, workflowFilePath, panelMessage } = props;
   const { t } = useTranslation();
 
   const [isPreviewPanelOpen, setIsPreviewPanelOpen] = useState<boolean>(false);
@@ -20,6 +20,8 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
   const dismissPreviewPanel = () => {
     setIsPreviewPanelOpen(false);
   };
+
+  const workflowFileContent = getWorkflowFileContent();
 
   return (
     <>
