@@ -394,15 +394,15 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       let testData;
 
       if (testDataHrefObjects.length === 2) {
-        const testDataResponse = await FunctionsService.getTestDataOverVfsArm(site.id, testDataHrefObjects[1], runtimeVersion);
-        if (testDataResponse.metadata.success) {
+        const vfsArmTestDataResponse = await FunctionsService.getTestDataOverVfsArm(site.id, testDataHrefObjects[1], runtimeVersion);
+        if (vfsArmTestDataResponse.metadata.success) {
           testDataResponseSuccess = true;
-          testData = testDataResponse.data;
+          testData = vfsArmTestDataResponse.data;
         } else {
           LogService.error(
             LogCategories.FunctionEdit,
-            'GetTestDataVfsApi',
-            `Failed to get test data from VFS API: ${getErrorMessageOrStringify(testDataResponse.metadata.error)}`
+            'GetTestDataUsingVfsApi',
+            `Failed to get test data from VFS API: ${getErrorMessageOrStringify(vfsArmTestDataResponse.metadata.error)}`
           );
         }
       }
@@ -411,14 +411,18 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       // Adding the below fallback logic just on the off-chance that it doesn't.
       if (!testDataResponseSuccess) {
         const headers = getAuthorizationHeaders();
-        const testDataResponse = await FunctionsService.getDataFromFunctionHref(functionInfo.properties.test_data_href, 'GET', headers);
-        if (testDataResponse.metadata.success) {
-          testData = testDataResponse.data;
+        const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(
+          functionInfo.properties.test_data_href,
+          'GET',
+          headers
+        );
+        if (functionHrefTestDataResponse.metadata.success) {
+          testData = functionHrefTestDataResponse.data;
         } else {
           LogService.error(
             LogCategories.FunctionEdit,
-            'GetTestData',
-            `Failed to get test data: ${getErrorMessageOrStringify(testDataResponse.metadata.error)}`
+            'GetTestDataUsingFunctionHref',
+            `Failed to get test data: ${getErrorMessageOrStringify(functionHrefTestDataResponse.metadata.error)}`
           );
         }
       }
