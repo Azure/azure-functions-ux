@@ -288,7 +288,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   };
 
   const openFeedbackBlade = () => {
-    const featureName = 'FunctionLogs';
+    const featureName = selectedLoggingOption === LoggingOptions.appInsights ? 'FunctionLogs - AppInsights' : 'FunctionLogs - FileBased';
     portalContext.openBlade(
       {
         detailBlade: 'InProductFeedbackBlade',
