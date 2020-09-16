@@ -40,6 +40,7 @@ export class CommonConstants {
   public static readonly FeatureFlags = {
     AllowFreeLinux: 'allowfreelinux',
     UseNewStacksApi: 'usenewstacksapi',
+    removeHiddenStacks: 'removeHiddenStacks',
   };
 
   public static readonly AppDensityLimit = 8;
