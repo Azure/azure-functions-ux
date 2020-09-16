@@ -95,7 +95,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
   }, [values.config.properties.linuxFxVersion]);
   return (
     <>
-      {runtimeStack && scenarioService.checkScenario(ScenarioIds.linuxAppRuntime, { site }).status !== 'disabled' && (
+      {scenarioService.checkScenario(ScenarioIds.linuxAppRuntime, { site }).status !== 'disabled' && (
         <>
           <DropdownNoFormik
             selectedKey={runtimeStack}
@@ -106,32 +106,33 @@ const LinuxStacks: React.FC<PropsType> = props => {
             label={t('stack')}
             id="linux-fx-version-runtime"
           />
-          {runtimeStack !== LINUXJAVASTACKKEY ? (
-            <>
-              <DropdownNoFormik
-                selectedKey={majorVersionRuntime || ''}
-                dirty={isMajorVersionDirty()}
-                onChange={(e, newVal) => onMajorVersionChange(newVal.key)}
-                options={getMajorVersions(stacks, runtimeStack, t)}
-                disabled={disableAllControls}
-                label={t('majorVersion')}
-                id="linux-fx-version-major-version"
-              />
-              {majorVersionRuntime && (
-                <Field
-                  name="config.properties.linuxFxVersion"
-                  dirty={isMinorVersionDirty()}
-                  component={Dropdown}
+          {runtimeStack &&
+            (runtimeStack !== LINUXJAVASTACKKEY ? (
+              <>
+                <DropdownNoFormik
+                  selectedKey={majorVersionRuntime || ''}
+                  dirty={isMajorVersionDirty()}
+                  onChange={(e, newVal) => onMajorVersionChange(newVal.key)}
+                  options={getMajorVersions(stacks, runtimeStack, t)}
                   disabled={disableAllControls}
-                  label={t('minorVersion')}
-                  id="linux-fx-version-minor-version"
-                  options={getMinorVersions(stacks, runtimeStack, majorVersionRuntime, t)}
+                  label={t('majorVersion')}
+                  id="linux-fx-version-major-version"
                 />
-              )}
-            </>
-          ) : (
-            <JavaStack {...props} />
-          )}
+                {majorVersionRuntime && (
+                  <Field
+                    name="config.properties.linuxFxVersion"
+                    dirty={isMinorVersionDirty()}
+                    component={Dropdown}
+                    disabled={disableAllControls}
+                    label={t('minorVersion')}
+                    id="linux-fx-version-minor-version"
+                    options={getMinorVersions(stacks, runtimeStack, majorVersionRuntime, t)}
+                  />
+                )}
+              </>
+            ) : (
+              <JavaStack {...props} />
+            ))}
         </>
       )}
       <Field
