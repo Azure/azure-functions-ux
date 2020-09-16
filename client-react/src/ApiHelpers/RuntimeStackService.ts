@@ -30,7 +30,7 @@ export default class RuntimeStackService {
   public static getFunctionAppConfigurationStacks = (stacksOs: AppStackOs) => {
     return sendHttpRequest<FunctionAppStack[]>({
       url: `${Url.serviceHost}stacks/functionAppStacks?os=${stacksOs}&api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}${
-        Url.getFeatureValue(CommonConstants.FeatureFlags.removeHiddenStacks) ? '&removeHiddenStacks=true' : ''
+        Url.getFeatureValue(CommonConstants.FeatureFlags.showHiddenStacks) ? '&removeHiddenStacks=false' : ''
       }`,
       method: 'GET',
     }).then(result => {
