@@ -23,6 +23,7 @@ import DeploymentCenterContainerContinuousDeploymentSettings from './DeploymentC
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentCenterGitHubConfiguredView';
 import DeploymentCenterContainerSettingsReadOnlyView from './DeploymentCenterContainerSettingsReadOnlyView';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
@@ -32,6 +33,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const [isPreviewFileButtonDisabled, setIsPreviewFileButtonDisabled] = useState(false);
   const [panelMessage, setPanelMessage] = useState('');
   const [showGitHubActionReadOnlyView, setShowGitHubActionReadOnlyView] = useState(false);
+  const [showSourceSelectionOption, setShowSourceSelectionOption] = useState(false);
 
   // NOTE(michinoy): The serverUrl, image, username, and password are retrieved from  one of three sources:
   // acr, dockerHub, or privateRegistry.
@@ -43,6 +45,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const [password, SetPassword] = useState('');
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const isGitHubActionSelected = formProps.values.scmType === ScmType.GitHubAction;
   const isAcrConfigured = formProps.values.registrySource === ContainerRegistrySources.acr;
@@ -226,10 +229,16 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterContext.siteConfig]);
 
+  useEffect(() => {
+    setShowSourceSelectionOption(siteStateContext && siteStateContext.isLinuxApp);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [siteStateContext]);
+
   const renderSetupView = () => {
     return (
       <>
-        <DeploymentCenterContainerSource />
+        {showSourceSelectionOption && <DeploymentCenterContainerSource />}
 
         {isGitHubActionSelected && (
           <>
