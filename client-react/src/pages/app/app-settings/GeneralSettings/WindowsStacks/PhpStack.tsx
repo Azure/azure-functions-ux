@@ -18,7 +18,7 @@ const PhpStack: React.SFC<StackProps> = props => {
   if (!phpStack) {
     return null;
   }
-  const phpVersions = getStacksSummaryForDropdown(phpStack, AppStackOs.windows);
+  const phpVersions = getStacksSummaryForDropdown(phpStack, AppStackOs.windows, t);
   phpVersions.push({ key: '', text: t('off') });
 
   return (
