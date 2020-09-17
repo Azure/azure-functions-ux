@@ -23,7 +23,7 @@ export default class AppKeysData {
   };
 
   public createKey = (resourceId: string, keyName: string, keyValue: string, keyType: AppKeysTypes) => {
-    AppKeyService.createKey(resourceId, keyType, keyName, keyValue);
+    return AppKeyService.createKey(resourceId, keyType, keyName, keyValue);
   };
 
   private _retrieveHostKeys = (keys: AppKeysInfo | null): AppKeysModel[] => {
