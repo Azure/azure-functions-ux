@@ -148,7 +148,7 @@ export class StacksController {
   private _validateRemoveDeprecatedStacks(removeDeprecatedStacks?: string) {
     if (removeDeprecatedStacks && removeDeprecatedStacks.toLowerCase() !== 'true' && removeDeprecatedStacks.toLowerCase() !== 'false') {
       throw new HttpException(
-        `Incorrect removeHiddenStacks '${removeDeprecatedStacks}' provided. Allowed removeDeprecatedStacks values are 'true' or 'false'.`,
+        `Incorrect removeDeprecatedStacks '${removeDeprecatedStacks}' provided. Allowed removeDeprecatedStacks values are 'true' or 'false'.`,
         400
       );
     }
@@ -157,7 +157,7 @@ export class StacksController {
   private _validateRemovePreviewStacks(removePreviewStacks?: string) {
     if (removePreviewStacks && removePreviewStacks.toLowerCase() !== 'true' && removePreviewStacks.toLowerCase() !== 'false') {
       throw new HttpException(
-        `Incorrect removeHiddenStacks '${removePreviewStacks}' provided. Allowed removePreviewStacks values are 'true' or 'false'.`,
+        `Incorrect removePreviewStacks '${removePreviewStacks}' provided. Allowed removePreviewStacks values are 'true' or 'false'.`,
         400
       );
     }
