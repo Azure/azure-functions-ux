@@ -23,23 +23,23 @@ export const getStacksSummaryForDropdown = (stack: WebAppStack | FunctionAppStac
   return options;
 };
 
-export class JavaVersions {
-  public static WindowsVersion8 = '1.8';
-  public static WindowsVersion11 = '11';
-  public static LinuxVersion8 = 'jre8';
-  public static LinuxVersion11 = 'java11';
-}
+export const JavaVersions = {
+  WindowsVersion8: '1.8',
+  WindowsVersion11: '11',
+  LinuxVersion8: 'jre8',
+  LinuxVersion11: 'java11',
+};
 
-export class JavaContainers {
-  public static JavaSE = 'java';
-  public static Tomcat = 'tomcat';
-}
+export const JavaContainers = {
+  JavaSE: 'java',
+  Tomcat: 'tomcat',
+};
 
-export class RuntimeStacks {
-  public static aspnet = 'asp.net';
-  public static node = 'node';
-  public static python = 'python';
-  public static dotnetcore = 'dotnetcore';
-  public static java8 = 'java-8';
-  public static java11 = 'java-11';
-}
+export const RuntimeStacks = {
+  aspnet: 'asp.net',
+  node: 'node',
+  python: 'python',
+  dotnetcore: 'dotnetcore',
+  java8: 'java-8',
+  java11: 'java-11',
+};
