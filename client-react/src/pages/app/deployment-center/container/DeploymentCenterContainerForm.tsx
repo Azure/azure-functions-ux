@@ -504,14 +504,17 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   };
 
   const updateDeploymentConfigurations = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
-    const { org, repo, branch, workflowOption, registrySource, option } = values;
+    const { scmType, org, repo, branch, workflowOption, registrySource, option, acrLoginServer, privateRegistryServerUrl } = values;
     LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updateDeploymentConfigurations'), {
+      scmType,
       org,
       repo,
       branch,
       workflowOption,
       registrySource,
       option,
+      acrLoginServer,
+      privateRegistryServerUrl,
     });
 
     // Only do the save if scmtype in the config is set to none.
