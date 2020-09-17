@@ -6,7 +6,7 @@ import { LogCategories } from '../../../../../utils/LogCategories';
 
 export const LINUXJAVASTACKKEY = 'java';
 export const LINUXJAVACONTAINERKEY = 'javacontainers';
-export const ENDOFLIFEMAXSECONDS = 60 * 24 * 60 * 60;
+export const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
 
 interface VersionDetails {
   runtimeStackName: string;
