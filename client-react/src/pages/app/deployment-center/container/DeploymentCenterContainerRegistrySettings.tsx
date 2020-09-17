@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { IChoiceGroupOptionProps, IDropdownOption } from 'office-ui-fabric-react';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
-import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getLogId } from '../utility/DeploymentCenterUtility';
@@ -19,9 +18,6 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
     });
 
     formProps.setFieldValue('registrySource', option.key.toString());
-    if (option.key.toString() === ContainerRegistrySources.docker) {
-      formProps.setFieldValue('serverUrl', DeploymentCenterConstants.dockerHubUrl);
-    }
   };
 
   const sourceTypes: IChoiceGroupOptionProps[] = [

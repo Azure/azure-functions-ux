@@ -8,7 +8,7 @@ import {
 } from '../DeploymentCenter.types';
 import { ScmType } from '../../../../models/site/config';
 import DeploymentCenterContainerRegistrySettings from './DeploymentCenterContainerRegistrySettings';
-import DeploymentCenterContainerDockerHubSettings from './DeploymentCenterContainerDockeHubSettings';
+import DeploymentCenterContainerDockerHubSettings from './DeploymentCenterContainerDockerHubSettings';
 import DeploymentCenterContainerPrivateRegistrySettings from './DeploymentCenterContainerPrivateRegistrySettings';
 import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
 import DeploymentCenterContainerAcrDataLoader from './DeploymentCenterContainerAcrDataLoader';
@@ -104,7 +104,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
     } else if (formProps.values.registrySource === ContainerRegistrySources.privateRegistry) {
       setServerUrl(formProps.values.privateRegistryServerUrl);
     } else {
-      setServerUrl(DeploymentCenterConstants.dockerHubUrl);
+      setServerUrl(DeploymentCenterConstants.dockerHubServerUrl);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

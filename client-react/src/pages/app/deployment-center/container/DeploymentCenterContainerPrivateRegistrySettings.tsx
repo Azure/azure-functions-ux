@@ -27,7 +27,13 @@ const DeploymentCenterContainerPrivateRegistrySettings: React.FC<{}> = props => 
 
       <Field id="container-privateRegistry-username" name="privateRegistryUsername" component={TextField} label={t('containerLogin')} />
 
-      <Field id="container-privateRegistry-password" name="privateRegistryPassword" component={TextField} label={t('containerPassword')} />
+      <Field
+        id="container-privateRegistry-password"
+        name="privateRegistryPassword"
+        component={TextField}
+        label={t('containerPassword')}
+        type="password"
+      />
 
       <Field
         id="container-privateRegistry-imageAndTag"
