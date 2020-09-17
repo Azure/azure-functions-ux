@@ -1,7 +1,7 @@
 import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
-const ruby2Point4EOL = new Date(2020, 4, 1);
-const ruby2Point3EOL = new Date(2019, 3, 31);
+const ruby2Point4EOL = new Date(2020, 4, 1).toString();
+const ruby2Point3EOL = new Date(2019, 3, 31).toString();
 
 export const rubyStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Ruby',
