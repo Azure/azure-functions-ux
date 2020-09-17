@@ -9,6 +9,7 @@ import { getWorkflowFileName, getLogId } from './DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
 export const updateGitHubActionSourceControlPropertiesManually = async (
   deploymentCenterData: DeploymentCenterData,
@@ -534,7 +535,9 @@ const getContainerGithubActionWorkflowDefinition = (
 ) => {
   const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
   const slot = slotName || 'production';
-  const server = serverUrl.toLocaleLowerCase().replace('https://', '');
+  const serverUrlLower = serverUrl.toLocaleLowerCase();
+  const loginServer = serverUrlLower.indexOf(DeploymentCenterConstants.dockerHubUrl) > -1 ? `${serverUrlLower}/v1/` : serverUrlLower;
+  const server = serverUrlLower.replace('https://', '');
 
   return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
@@ -555,13 +558,13 @@ jobs:
 
     - uses: azure/docker-login@v1
       with:
-        login-server: ${server}
+        login-server: ${loginServer}
         username: \${{ secrets.${containerUsernameSecretName} }}
         password: \${{ secrets.${containerPasswordSecretName} }}
 
     - run: |
-      docker build . -t ${server}/${image}:\${{ github.sha }}
-      docker push ${server}/${image}:\${{ github.sha }}
+      docker build . -t ${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
+      docker push ${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
