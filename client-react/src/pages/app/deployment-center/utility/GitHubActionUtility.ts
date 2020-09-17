@@ -492,32 +492,32 @@ on:
     branches:
       - ${branch}
 
-  jobs:
-    build-and-deploy:
-      runs-on: 'windows-latest'
+jobs:
+  build-and-deploy:
+    runs-on: 'windows-latest'
 
-      steps:
-      - uses: actions/checkout@master
+    steps:
+    - uses: actions/checkout@master
 
-      - name: Setup MSBuild path
-        uses: microsoft/setup-msbuild@v1.0.0
+    - name: Setup MSBuild path
+      uses: microsoft/setup-msbuild@v1.0.0
 
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.2
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
 
-      - name: Restore NuGet packages
-        run: nuget restore
+    - name: Restore NuGet packages
+      run: nuget restore
 
-      - name: Publish to folder
-        run: msbuild /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=./published/ /p:PackageAsSingleFile=false
+    - name: Publish to folder
+      run: msbuild /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=./published/ /p:PackageAsSingleFile=false
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: '${siteName}'
-          slot-name: '${slot}'
-          publish-profile: \${{ secrets.${secretName} }}
-          package: ./published/`;
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: '${siteName}'
+        slot-name: '${slot}'
+        publish-profile: \${{ secrets.${secretName} }}
+        package: ./published/`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -546,34 +546,28 @@ on:
     branches:
       - ${branch}
 
-  jobs:
-    build-and-deploy:
-      runs-on: 'ubuntu-latest'
+jobs:
+  build-and-deploy:
+    runs-on: 'ubuntu-latest'
 
-      steps:
-      - uses: actions/checkout@master
+    steps:
+    - uses: actions/checkout@master
 
-      - uses: azure/docker-login@v1
-        with:
-          login-server: ${server}
-          username: \${{ secrets.${containerUsernameSecretName} }}
-          password: \${{ secrets.${containerPasswordSecretName} }}
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ${server}
+        username: \${{ secrets.${containerUsernameSecretName} }}
+        password: \${{ secrets.${containerPasswordSecretName} }}
 
-        - run: |
-          docker build . -t ${server}/${image}:\${{ github.sha }}
-          docker push ${server}/${image}:\${{ github.sha }}
+    - run: |
+      docker build . -t ${server}/${image}:\${{ github.sha }}
+      docker push ${server}/${image}:\${{ github.sha }}
 
-      - name: Restore NuGet packages
-        run: nuget restore
-
-      - name: Publish to folder
-        run: msbuild /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=./published/ /p:PackageAsSingleFile=false
-
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: '${siteName}'
-          slot-name: '${slot}'
-          publish-profile: \${{ secrets.${publishingProfileSecretName} }}
-          images: '${server}/${image}:\${{ github.sha }}`;
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: '${siteName}'
+        slot-name: '${slot}'
+        publish-profile: \${{ secrets.${publishingProfileSecretName} }}
+        images: '${server}/${image}:\${{ github.sha }}'`;
 };
