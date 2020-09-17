@@ -9,6 +9,7 @@ import { getWorkflowFileName, getLogId } from './DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
 export const updateGitHubActionSourceControlPropertiesManually = async (
   deploymentCenterData: DeploymentCenterData,
@@ -218,7 +219,7 @@ jobs:
         npm run test --if-present
 
     - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: '${webAppName}'
         slot-name: '${slot}'
@@ -262,19 +263,20 @@ jobs:
 
     - name: Install Python dependencies
       run: |
-        python3 -m venv env
-        source env/bin/activate
+        python -m venv env
+        .\\env\\Scripts\\activate
         pip install -r requirements.txt
+
     - name: Zip the application files
-      run: zip -r myapp.zip .
+      run: Compress-Archive .\\* app.zip
 
     - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: '${webAppName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: './myapp.zip'`;
+        package: '.\\app.zip'`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -312,13 +314,13 @@ jobs:
         python-version: '${runtimeStackVersion}'
 
     - name: Build using AppService-Build
-      uses: azure/appservice-build@v1
+      uses: azure/appservice-build@v2
       with:
         platform: python
         platform-version: '${runtimeStackVersion}'
 
     - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: '${webAppName}'
         slot-name: '${slot}'
@@ -367,7 +369,7 @@ jobs:
       run: dotnet publish -c Release -o \${{env.DOTNET_ROOT}}/myapp
 
     - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: '${webAppName}'
         slot-name: '${slot}'
@@ -414,7 +416,7 @@ jobs:
       run: mvn clean install
 
     - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: '${webAppName}'
         slot-name: '${slot}'
@@ -461,7 +463,7 @@ jobs:
       run: mvn clean install
 
     - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
@@ -491,32 +493,32 @@ on:
     branches:
       - ${branch}
 
-  jobs:
-    build-and-deploy:
-      runs-on: 'windows-latest'
+jobs:
+  build-and-deploy:
+    runs-on: 'windows-latest'
 
-      steps:
-      - uses: actions/checkout@master
+    steps:
+    - uses: actions/checkout@master
 
-      - name: Setup MSBuild path
-        uses: microsoft/setup-msbuild@v1.0.0
+    - name: Setup MSBuild path
+      uses: microsoft/setup-msbuild@v1.0.0
 
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.2
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
 
-      - name: Restore NuGet packages
-        run: nuget restore
+    - name: Restore NuGet packages
+      run: nuget restore
 
-      - name: Publish to folder
-        run: msbuild /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=./published/ /p:PackageAsSingleFile=false
+    - name: Publish to folder
+      run: msbuild /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=./published/ /p:PackageAsSingleFile=false
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: '${siteName}'
-          slot-name: '${slot}'
-          publish-profile: \${{ secrets.${secretName} }}
-          package: ./published/`;
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: '${siteName}'
+        slot-name: '${slot}'
+        publish-profile: \${{ secrets.${secretName} }}
+        package: ./published/`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -533,7 +535,9 @@ const getContainerGithubActionWorkflowDefinition = (
 ) => {
   const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
   const slot = slotName || 'production';
-  const server = serverUrl.toLocaleLowerCase().replace('https://', '');
+  const serverUrlLower = serverUrl.toLocaleLowerCase();
+  const loginServer = serverUrlLower.indexOf(DeploymentCenterConstants.dockerHubUrl) > -1 ? `${serverUrlLower}/v1/` : serverUrlLower;
+  const server = serverUrlLower.replace('https://', '');
 
   return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
@@ -545,34 +549,28 @@ on:
     branches:
       - ${branch}
 
-  jobs:
-    build-and-deploy:
-      runs-on: 'ubuntu-latest'
+jobs:
+  build-and-deploy:
+    runs-on: 'ubuntu-latest'
 
-      steps:
-      - uses: actions/checkout@master
+    steps:
+    - uses: actions/checkout@master
 
-      - uses: azure/docker-login@v1
-        with:
-          login-server: ${server}
-          username: \${{ secrets.${containerUsernameSecretName} }}
-          password: \${{ secrets.${containerPasswordSecretName} }}
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ${loginServer}
+        username: \${{ secrets.${containerUsernameSecretName} }}
+        password: \${{ secrets.${containerPasswordSecretName} }}
 
-        - run: |
-          docker build . -t ${server}/${image}:\${{ github.sha }}
-          docker push ${server}/${image}:\${{ github.sha }}
+    - run: |
+      docker build . -t ${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
+      docker push ${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
 
-      - name: Restore NuGet packages
-        run: nuget restore
-
-      - name: Publish to folder
-        run: msbuild /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=./published/ /p:PackageAsSingleFile=false
-
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: '${siteName}'
-          slot-name: '${slot}'
-          publish-profile: \${{ secrets.${publishingProfileSecretName} }}
-          images: '${server}/${image}:\${{ github.sha }}`;
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: '${siteName}'
+        slot-name: '${slot}'
+        publish-profile: \${{ secrets.${publishingProfileSecretName} }}
+        images: '${server}/${image}:\${{ github.sha }}'`;
 };
