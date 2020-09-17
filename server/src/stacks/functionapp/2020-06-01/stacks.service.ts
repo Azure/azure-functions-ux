@@ -11,7 +11,13 @@ import { customStack } from './stacks/custom';
 
 @Injectable()
 export class FunctionAppStacksService20200601 {
-  getStacks(os?: Os, stackValue?: StackValue, removeHiddenStacks?: boolean): FunctionAppStack[] {
+  getStacks(
+    os?: Os,
+    stackValue?: StackValue,
+    removeHiddenStacks?: boolean,
+    removeDeprecatedStacks?: boolean,
+    removePreviewStacks?: boolean
+  ): FunctionAppStack[] {
     const dotnetCoreStackCopy = JSON.parse(JSON.stringify(dotnetCoreStack));
     const nodeStackCopy = JSON.parse(JSON.stringify(nodeStack));
     const pythonStackCopy = JSON.parse(JSON.stringify(pythonStack));
@@ -34,22 +40,42 @@ export class FunctionAppStacksService20200601 {
       stacks = [stacks.find(stack => stack.value === stackValue)];
     }
 
-    return !os && !removeHiddenStacks ? stacks : this._filterStacks(stacks, os, removeHiddenStacks);
+    return !os && !removeHiddenStacks && !removeDeprecatedStacks && !removePreviewStacks
+      ? stacks
+      : this._filterStacks(stacks, os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks);
   }
 
-  private _filterStacks(stacks: FunctionAppStack[], os?: Os, removeHiddenStacks?: boolean): FunctionAppStack[] {
+  private _filterStacks(
+    stacks: FunctionAppStack[],
+    os?: Os,
+    removeHiddenStacks?: boolean,
+    removeDeprecatedStacks?: boolean,
+    removePreviewStacks?: boolean
+  ): FunctionAppStack[] {
     stacks.forEach((stack, i) => {
       stack.majorVersions.forEach((majorVersion, j) => {
         majorVersion.minorVersions.forEach((minorVersion, k) => {
-          // Set Runtimes Settings as undefined if they do not meet filters
-          this._setUndefinedByOs(stacks, i, j, k, os);
-          this._setUndefinedByHidden(stacks, i, j, k, removeHiddenStacks);
+          // Remove runtime settings if they do not meet filters
+          if (os) {
+            this._removeUnsupportedOsRuntimeSettings(stacks, i, j, k, os);
+          }
+          if (removeHiddenStacks) {
+            this._removeHiddenRuntimeSettings(stacks, i, j, k);
+          }
+          if (removeDeprecatedStacks) {
+            this._removeDeprecatedRuntimeSettings(stacks, i, j, k);
+          }
+          if (removePreviewStacks) {
+            this._removePreviewRuntimeSettings(stacks, i, j, k);
+          }
         });
+
         // Remove Minor Versions without Runtime Settings
         ArrayUtil.remove<FunctionAppMinorVersion>(majorVersion.minorVersions, minorVersion => {
           return !minorVersion.stackSettings.windowsRuntimeSettings && !minorVersion.stackSettings.linuxRuntimeSettings;
         });
       });
+
       // Remove Major Versions without Minor Versions
       ArrayUtil.remove<FunctionAppMajorVersion>(stack.majorVersions, majorVersion => {
         return majorVersion.minorVersions.length === 0;
@@ -61,26 +87,50 @@ export class FunctionAppStacksService20200601 {
     return stacks;
   }
 
-  private _setUndefinedByOs(stacks: FunctionAppStack[], i: number, j: number, k: number, os?: Os): void {
+  private _removeUnsupportedOsRuntimeSettings(stacks: FunctionAppStack[], i: number, j: number, k: number, os: Os): void {
     if (os === 'linux') {
-      stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings = undefined;
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
     } else if (os === 'windows') {
-      stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings = undefined;
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
     }
   }
 
-  private _setUndefinedByHidden(stacks: FunctionAppStack[], i: number, j: number, k: number, removeHiddenStacks?: boolean): void {
-    if (removeHiddenStacks) {
-      const windowsRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
-      const linuxRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+  private _removeHiddenRuntimeSettings(stacks: FunctionAppStack[], i: number, j: number, k: number): void {
+    const windowsRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+    const linuxRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
 
-      if (windowsRuntimeSettings && windowsRuntimeSettings.isHidden) {
-        stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings = undefined;
-      }
+    if (windowsRuntimeSettings && windowsRuntimeSettings.isHidden) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+    }
 
-      if (linuxRuntimeSettings && linuxRuntimeSettings.isHidden) {
-        stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings = undefined;
-      }
+    if (linuxRuntimeSettings && linuxRuntimeSettings.isHidden) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+    }
+  }
+
+  private _removeDeprecatedRuntimeSettings(stacks: FunctionAppStack[], i: number, j: number, k: number): void {
+    const windowsRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+    const linuxRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+
+    if (windowsRuntimeSettings && windowsRuntimeSettings.isDeprecated) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+    }
+
+    if (linuxRuntimeSettings && linuxRuntimeSettings.isDeprecated) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+    }
+  }
+
+  private _removePreviewRuntimeSettings(stacks: FunctionAppStack[], i: number, j: number, k: number): void {
+    const windowsRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+    const linuxRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+
+    if (windowsRuntimeSettings && windowsRuntimeSettings.isPreview) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+    }
+
+    if (linuxRuntimeSettings && linuxRuntimeSettings.isPreview) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
     }
   }
 }

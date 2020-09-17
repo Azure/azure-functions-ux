@@ -29,6 +29,16 @@ export function validateNotHiddenStacks(stacks) {
   validateStacksAreNotHidden(stacks);
 }
 
+export function validateNotDeprecatedStacks(stacks) {
+  validateNotDeprecatedStacksLength(stacks);
+  validateStacksAreNotDeprecated(stacks);
+}
+
+export function validateNotPreviewStacks(stacks) {
+  validateNotPreviewStacksLength(stacks);
+  validateStacksAreNotPreview(stacks);
+}
+
 function validateWindowsStacksLength(stacks) {
   expect(stacks).to.be.an('array');
   expect(stacks.length).to.equal(6);
@@ -40,6 +50,16 @@ function validateLinuxStacksLength(stacks) {
 }
 
 function validateNotHiddenStacksLength(stacks) {
+  expect(stacks).to.be.an('array');
+  expect(stacks.length).to.equal(6);
+}
+
+function validateNotDeprecatedStacksLength(stacks) {
+  expect(stacks).to.be.an('array');
+  expect(stacks.length).to.equal(7);
+}
+
+function validateNotPreviewStacksLength(stacks) {
   expect(stacks).to.be.an('array');
   expect(stacks.length).to.equal(6);
 }
@@ -71,6 +91,40 @@ function validateStacksAreNotHidden(stacks) {
         }
         if (minorVersion.stackSettings.linuxRuntimeSettings) {
           expect(minorVersion.stackSettings.linuxRuntimeSettings).to.not.have.property('isHidden', true);
+        }
+      });
+    });
+  });
+}
+
+function validateStacksAreNotDeprecated(stacks) {
+  stacks.forEach(stack => {
+    expect(stack.majorVersions).to.be.an('array');
+    stack.majorVersions.forEach(majorVersion => {
+      expect(majorVersion.minorVersions).to.be.an('array');
+      majorVersion.minorVersions.forEach(minorVersion => {
+        if (minorVersion.stackSettings.windowsRuntimeSettings) {
+          expect(minorVersion.stackSettings.windowsRuntimeSettings).to.not.have.property('isDeprecated', true);
+        }
+        if (minorVersion.stackSettings.linuxRuntimeSettings) {
+          expect(minorVersion.stackSettings.linuxRuntimeSettings).to.not.have.property('isDeprecated', true);
+        }
+      });
+    });
+  });
+}
+
+function validateStacksAreNotPreview(stacks) {
+  stacks.forEach(stack => {
+    expect(stack.majorVersions).to.be.an('array');
+    stack.majorVersions.forEach(majorVersion => {
+      expect(majorVersion.minorVersions).to.be.an('array');
+      majorVersion.minorVersions.forEach(minorVersion => {
+        if (minorVersion.stackSettings.windowsRuntimeSettings) {
+          expect(minorVersion.stackSettings.windowsRuntimeSettings).to.not.have.property('isPreview', true);
+        }
+        if (minorVersion.stackSettings.linuxRuntimeSettings) {
+          expect(minorVersion.stackSettings.linuxRuntimeSettings).to.not.have.property('isPreview', true);
         }
       });
     });
