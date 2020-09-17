@@ -31,7 +31,7 @@ const DotNetStack: React.SFC<StackProps> = props => {
       label={t('netFrameWorkVersionLabel')}
       id="netValidationVersion"
       disabled={disableAllControls}
-      options={getStacksSummaryForDropdown(aspNetStack, AppStackOs.windows)}
+      options={getStacksSummaryForDropdown(aspNetStack, AppStackOs.windows, t)}
     />
   );
 };
