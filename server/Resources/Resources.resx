@@ -6750,4 +6750,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionInfoFetchError" xml:space="preserve">
         <value>Unable to fetch your function</value>
     </data>
+    <data name="32Bit" xml:space="preserve">
+        <value>32 Bit</value>
+    </data>
+    <data name="64Bit" xml:space="preserve">
+        <value>64 Bit</value>
+    </data>
 </root>

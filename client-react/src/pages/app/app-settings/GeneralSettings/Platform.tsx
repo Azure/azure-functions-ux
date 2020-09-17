@@ -41,11 +41,11 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           options={[
             {
               key: true,
-              text: '32 Bit',
+              text: t('32Bit'),
             },
             {
               key: false,
-              text: '64 Bit',
+              text: t('64Bit'),
             },
           ]}
         />
