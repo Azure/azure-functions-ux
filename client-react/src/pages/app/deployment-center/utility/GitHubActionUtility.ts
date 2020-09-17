@@ -510,7 +510,7 @@ jobs:
       run: nuget restore
 
     - name: Publish to folder
-      run: msbuild /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=./published/ /p:PackageAsSingleFile=false
+      run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\\published\\"
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
@@ -518,7 +518,7 @@ jobs:
         app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: ./published/`;
+        package: \\published\\`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
