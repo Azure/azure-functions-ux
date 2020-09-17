@@ -4,6 +4,7 @@ import { SiteConfig } from '../../../../../models/site/config';
 import i18next from 'i18next';
 import { AppStackOs, AppStackMajorVersion } from '../../../../../models/stacks/app-stacks';
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
+import { getMinorVersionText } from '../LinuxStacks/LinuxStacks.data';
 
 export const getJavaStack = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'java');
 export const getJavaContainers = (stacks: WebAppStack[]) => stacks.find(x => x.value === 'javacontainers');
@@ -72,9 +73,7 @@ export const getJavaMinorVersionAsDropdownOptions = (
           key: minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
             ? minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
             : minorVersion.value,
-          text: minorVersion.stackSettings.windowsRuntimeSettings.isAutoUpdate
-            ? t('stackVersionAutoUpdate').format(minorVersion.displayText)
-            : minorVersion.displayText,
+          text: getMinorVersionText(minorVersion.displayText, t, minorVersion.stackSettings.windowsRuntimeSettings),
         });
       }
     });
