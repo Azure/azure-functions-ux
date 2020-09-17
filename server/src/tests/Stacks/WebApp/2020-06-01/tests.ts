@@ -3,14 +3,22 @@ import {
   validateAllStackLength,
   validateWindowsStacks,
   validateLinuxStacks,
-  validateASPStack,
-  validateNodeStack,
-  validatePythonStack,
-  validatePHPStack,
-  validateDotnetCoreStack,
-  validateRubyStack,
-  validateJavaStack,
-  validateJavaContainersStack,
+  validateASPInStacks,
+  validateASPFilter,
+  validateNodeInStacks,
+  validateNodeFilter,
+  validatePythonInStacks,
+  validatePythonFilter,
+  validatePHPInStacks,
+  validatePHPFilter,
+  validateDotnetCoreInStacks,
+  validateDotnetCoreFilter,
+  validateRubyInStacks,
+  validateRubyFilter,
+  validateJavaInStacks,
+  validateJavaFilter,
+  validateJavaContainersInStacks,
+  validateJavaContainersFilter,
 } from './validations';
 
 const webAppStacksService = new WebAppStacksService20200601();
@@ -47,7 +55,16 @@ describe('WebApp Stacks Test 2020-06-01', () => {
   describe('Test the ASP stack', () => {
     it('should validate the ASP stack', done => {
       const stacks = webAppStacksService.getStacks();
-      validateASPStack(stacks);
+      validateASPInStacks(stacks);
+      done();
+    });
+  });
+
+  // Test ASP stack filter
+  describe('Test the ASP stack filter', () => {
+    it('should validate the ASP stack filter', done => {
+      const stacks = webAppStacksService.getStacks(undefined, 'aspnet');
+      validateASPFilter(stacks);
       done();
     });
   });
@@ -56,7 +73,16 @@ describe('WebApp Stacks Test 2020-06-01', () => {
   describe('Test the Node stack', () => {
     it('should validate the Node stack', done => {
       const stacks = webAppStacksService.getStacks();
-      validateNodeStack(stacks);
+      validateNodeInStacks(stacks);
+      done();
+    });
+  });
+
+  // Test Node stack filter
+  describe('Test the Node stack filter', () => {
+    it('should validate the Node stack filter', done => {
+      const stacks = webAppStacksService.getStacks(undefined, 'node');
+      validateNodeFilter(stacks);
       done();
     });
   });
@@ -65,7 +91,16 @@ describe('WebApp Stacks Test 2020-06-01', () => {
   describe('Test the Python stack', () => {
     it('should validate the Python stack', done => {
       const stacks = webAppStacksService.getStacks();
-      validatePythonStack(stacks);
+      validatePythonInStacks(stacks);
+      done();
+    });
+  });
+
+  // Test Python stack filter
+  describe('Test the Python stack filter', () => {
+    it('should validate the Python stack filter', done => {
+      const stacks = webAppStacksService.getStacks(undefined, 'python');
+      validatePythonFilter(stacks);
       done();
     });
   });
@@ -74,7 +109,16 @@ describe('WebApp Stacks Test 2020-06-01', () => {
   describe('Test the PHP stack', () => {
     it('should validate the PHP stack', done => {
       const stacks = webAppStacksService.getStacks();
-      validatePHPStack(stacks);
+      validatePHPInStacks(stacks);
+      done();
+    });
+  });
+
+  // Test PHP stack filter
+  describe('Test the PHP stack filter', () => {
+    it('should validate the PHP stack filter', done => {
+      const stacks = webAppStacksService.getStacks(undefined, 'php');
+      validatePHPFilter(stacks);
       done();
     });
   });
@@ -83,7 +127,16 @@ describe('WebApp Stacks Test 2020-06-01', () => {
   describe('Test the .NET Core stack', () => {
     it('should validate the .NET Core stack', done => {
       const stacks = webAppStacksService.getStacks();
-      validateDotnetCoreStack(stacks);
+      validateDotnetCoreInStacks(stacks);
+      done();
+    });
+  });
+
+  // Test .NET Core stack filter
+  describe('Test the .NET Core stack filter', () => {
+    it('should validate the .NET Core stack filter', done => {
+      const stacks = webAppStacksService.getStacks(undefined, 'dotnetcore');
+      validateDotnetCoreFilter(stacks);
       done();
     });
   });
@@ -92,7 +145,16 @@ describe('WebApp Stacks Test 2020-06-01', () => {
   describe('Test the Ruby stack', () => {
     it('should validate the Ruby stack', done => {
       const stacks = webAppStacksService.getStacks();
-      validateRubyStack(stacks);
+      validateRubyInStacks(stacks);
+      done();
+    });
+  });
+
+  // Test Ruby stack filter
+  describe('Test the Ruby stack filter', () => {
+    it('should validate the Ruby stack filter', done => {
+      const stacks = webAppStacksService.getStacks(undefined, 'ruby');
+      validateRubyFilter(stacks);
       done();
     });
   });
@@ -101,7 +163,16 @@ describe('WebApp Stacks Test 2020-06-01', () => {
   describe('Test the Java stack', () => {
     it('should validate the Java stack', done => {
       const stacks = webAppStacksService.getStacks();
-      validateJavaStack(stacks);
+      validateJavaInStacks(stacks);
+      done();
+    });
+  });
+
+  // Test Java stack filter
+  describe('Test the Java stack filter', () => {
+    it('should validate the Java stack filter', done => {
+      const stacks = webAppStacksService.getStacks(undefined, 'java');
+      validateJavaFilter(stacks);
       done();
     });
   });
@@ -110,7 +181,16 @@ describe('WebApp Stacks Test 2020-06-01', () => {
   describe('Test the Java Containers stack', () => {
     it('should validate the Java Containers stack', done => {
       const stacks = webAppStacksService.getStacks();
-      validateJavaContainersStack(stacks);
+      validateJavaContainersInStacks(stacks);
+      done();
+    });
+  });
+
+  // Test Java Containers stack filter
+  describe('Test the Java Containers stack filter', () => {
+    it('should validate the Java Containers stack filter', done => {
+      const stacks = webAppStacksService.getStacks(undefined, 'javacontainers');
+      validateJavaContainersFilter(stacks);
       done();
     });
   });

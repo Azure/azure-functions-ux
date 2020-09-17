@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { WebAppStack, WebAppRuntimes, WebAppMajorVersion, JavaContainers, WebAppMinorVersion } from './stack.model';
+import { WebAppStack, WebAppRuntimes, WebAppMajorVersion, JavaContainers, WebAppMinorVersion, StackValue } from './stack.model';
 import { dotnetCoreStack } from './stacks/dotnetCore';
 import { javaStack } from './stacks/java';
 import { aspDotnetStack } from './stacks/aspDotnet';
@@ -8,177 +8,86 @@ import { rubyStack } from './stacks/ruby';
 import { pythonStack } from './stacks/python';
 import { phpStack } from './stacks/php';
 import { javaContainersStack } from './stacks/javaContainers';
+import { ArrayUtil } from '../../../utilities/array.util';
 
 @Injectable()
 export class WebAppStacksService20200601 {
-  getStacks(os?: 'linux' | 'windows'): WebAppStack<WebAppRuntimes | JavaContainers>[] {
-    const runtimeStacks = [aspDotnetStack, nodeStack, pythonStack, phpStack, dotnetCoreStack, rubyStack, javaStack];
-    const containerStacks = [javaContainersStack];
+  getStacks(os?: 'linux' | 'windows', stackValue?: StackValue): WebAppStack<WebAppRuntimes | JavaContainers>[] {
+    const aspDotnetStackCopy = JSON.parse(JSON.stringify(aspDotnetStack));
+    const nodeStackCopy = JSON.parse(JSON.stringify(nodeStack));
+    const pythonStackCopy = JSON.parse(JSON.stringify(pythonStack));
+    const phpStackCopy = JSON.parse(JSON.stringify(phpStack));
+    const dotnetCoreStackCopy = JSON.parse(JSON.stringify(dotnetCoreStack));
+    const rubyStackCopy = JSON.parse(JSON.stringify(rubyStack));
+    const javaStackCopy = JSON.parse(JSON.stringify(javaStack));
+    const javaContainersStackCopy = JSON.parse(JSON.stringify(javaContainersStack));
 
-    if (!os) {
-      const allStacks: WebAppStack<WebAppRuntimes | JavaContainers>[] = [...runtimeStacks, ...containerStacks];
-      return allStacks;
-    }
-
-    const filteredStacks: WebAppStack<WebAppRuntimes | JavaContainers>[] = [
-      ...this._filterRuntimeStacks(runtimeStacks, os),
-      ...this._filterContainerStacks(containerStacks, os),
+    let stacks: WebAppStack<WebAppRuntimes & JavaContainers>[] = [
+      aspDotnetStackCopy,
+      nodeStackCopy,
+      pythonStackCopy,
+      phpStackCopy,
+      dotnetCoreStackCopy,
+      rubyStackCopy,
+      javaStackCopy,
+      javaContainersStackCopy,
     ];
-    return filteredStacks;
+
+    if (stackValue) {
+      stacks = [stacks.find(stack => stack.value === stackValue)];
+    }
+
+    return !os ? stacks : this._filterStacks(stacks, os);
   }
 
-  private _filterRuntimeStacks(
-    stacks: WebAppStack<WebAppRuntimes>[],
-    os: 'linux' | 'windows'
-  ): WebAppStack<WebAppRuntimes | JavaContainers>[] {
-    const filteredStacks: WebAppStack<WebAppRuntimes | JavaContainers>[] = [];
-    stacks.forEach(stack => {
-      const newStack = this._buildNewStack(stack);
-      stack.majorVersions.forEach(majorVersion => {
-        const newMajorVersion = this._buildNewMajorVersion(majorVersion);
-        majorVersion.minorVersions.forEach(minorVersion => {
-          this._addCorrectMinorVersionsForRuntime(newMajorVersion, minorVersion, os);
+  private _filterStacks(
+    stacks: WebAppStack<WebAppRuntimes & JavaContainers>[],
+    os?: 'linux' | 'windows'
+  ): WebAppStack<WebAppRuntimes & JavaContainers>[] {
+    stacks.forEach((stack, i) => {
+      stack.majorVersions.forEach((majorVersion, j) => {
+        majorVersion.minorVersions.forEach((minorVersion, k) => {
+          // Remove runtime settings and container settings if they do not meet filters
+          if (os) {
+            this._removeUnsupportedOsRuntimeAndContainerSettings(stacks, i, j, k, os);
+          }
         });
-        this._addMajorVersion(newStack, newMajorVersion);
-      });
-      this._addStack(filteredStacks, newStack);
-    });
-    return filteredStacks;
-  }
 
-  private _filterContainerStacks(
-    stacks: WebAppStack<JavaContainers>[],
-    os: 'linux' | 'windows'
-  ): WebAppStack<WebAppRuntimes | JavaContainers>[] {
-    const filteredStacks: WebAppStack<WebAppRuntimes | JavaContainers>[] = [];
-    stacks.forEach(runtimeStack => {
-      const newStack = this._buildNewStack(runtimeStack);
-      runtimeStack.majorVersions.forEach(majorVersion => {
-        const newMajorVersion = this._buildNewMajorVersion(majorVersion);
-        majorVersion.minorVersions.forEach(minorVersion => {
-          this._addCorrectMinorVersionsForContainer(newMajorVersion, minorVersion, os);
+        // Remove Minor Versions without Runtime Settings and Container Settings
+        ArrayUtil.remove<WebAppMinorVersion<WebAppRuntimes & JavaContainers>>(majorVersion.minorVersions, minorVersion => {
+          return (
+            !minorVersion.stackSettings.windowsRuntimeSettings &&
+            !minorVersion.stackSettings.linuxRuntimeSettings &&
+            !minorVersion.stackSettings.windowsContainerSettings &&
+            !minorVersion.stackSettings.linuxContainerSettings
+          );
         });
-        this._addMajorVersion(newStack, newMajorVersion);
       });
-      this._addStack(filteredStacks, newStack);
+
+      // Remove Major Versions without Minor Versions
+      ArrayUtil.remove<WebAppMajorVersion<WebAppRuntimes & JavaContainers>>(stack.majorVersions, majorVersion => {
+        return majorVersion.minorVersions.length === 0;
+      });
     });
-    return filteredStacks;
+
+    // Remove Stacks without Major Versions
+    ArrayUtil.remove<WebAppStack<WebAppRuntimes & JavaContainers>>(stacks, stack => stack.majorVersions.length === 0);
+    return stacks;
   }
 
-  private _buildNewStack(stack: WebAppStack<WebAppRuntimes | JavaContainers>): WebAppStack<WebAppRuntimes | JavaContainers> {
-    return {
-      displayText: stack.displayText,
-      value: stack.value,
-      preferredOs: stack.preferredOs,
-      majorVersions: [],
-    };
-  }
-
-  private _buildNewMajorVersion(
-    majorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>
-  ): WebAppMajorVersion<WebAppRuntimes | JavaContainers> {
-    return {
-      displayText: majorVersion.displayText,
-      value: majorVersion.value,
-      minorVersions: [],
-    };
-  }
-
-  private _addMajorVersion(
-    newStack: WebAppStack<WebAppRuntimes | JavaContainers>,
-    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>
-  ) {
-    if (newMajorVersion.minorVersions.length > 0) {
-      newStack.majorVersions.push(newMajorVersion);
-    }
-  }
-
-  private _addStack(
-    filteredStacks: WebAppStack<WebAppRuntimes | JavaContainers>[],
-    newStack: WebAppStack<WebAppRuntimes | JavaContainers>
-  ) {
-    if (newStack.majorVersions.length > 0) {
-      filteredStacks.push(newStack);
-    }
-  }
-
-  private _addCorrectMinorVersionsForRuntime(
-    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>,
-    minorVersion: WebAppMinorVersion<WebAppRuntimes>,
+  private _removeUnsupportedOsRuntimeAndContainerSettings(
+    stacks: WebAppStack<WebAppRuntimes & JavaContainers>[],
+    i: number,
+    j: number,
+    k: number,
     os: 'linux' | 'windows'
-  ) {
-    if (os === 'linux' && minorVersion.stackSettings.linuxRuntimeSettings !== undefined) {
-      this._addNewMinorVersionLinuxRuntime(newMajorVersion, minorVersion);
-    } else if (os === 'windows' && minorVersion.stackSettings.windowsRuntimeSettings !== undefined) {
-      this._addNewMinorVersionWindowsRuntime(newMajorVersion, minorVersion);
+  ): void {
+    if (os === 'linux') {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsContainerSettings;
+    } else if (os === 'windows') {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxContainerSettings;
     }
-  }
-
-  private _addNewMinorVersionLinuxRuntime(
-    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>,
-    minorVersion: WebAppMinorVersion<WebAppRuntimes>
-  ) {
-    const newMinorVersion: WebAppMinorVersion<WebAppRuntimes> = {
-      displayText: minorVersion.displayText,
-      value: minorVersion.value,
-      stackSettings: {
-        linuxRuntimeSettings: minorVersion.stackSettings.linuxRuntimeSettings,
-      },
-    };
-    newMajorVersion.minorVersions.push(newMinorVersion);
-  }
-
-  private _addNewMinorVersionWindowsRuntime(
-    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>,
-    minorVersion: WebAppMinorVersion<WebAppRuntimes>
-  ) {
-    const newMinorVersion: WebAppMinorVersion<WebAppRuntimes> = {
-      displayText: minorVersion.displayText,
-      value: minorVersion.value,
-      stackSettings: {
-        windowsRuntimeSettings: minorVersion.stackSettings.windowsRuntimeSettings,
-      },
-    };
-    newMajorVersion.minorVersions.push(newMinorVersion);
-  }
-
-  private _addCorrectMinorVersionsForContainer(
-    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>,
-    minorVersion: WebAppMinorVersion<JavaContainers>,
-    os: 'linux' | 'windows'
-  ) {
-    if (os === 'linux' && minorVersion.stackSettings.linuxContainerSettings !== undefined) {
-      this._addNewMinorVersionLinuxContainer(newMajorVersion, minorVersion);
-    } else if (os === 'windows' && minorVersion.stackSettings.windowsContainerSettings !== undefined) {
-      this._addNewMinorVersionWindowsContainer(newMajorVersion, minorVersion);
-    }
-  }
-
-  private _addNewMinorVersionLinuxContainer(
-    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>,
-    minorVersion: WebAppMinorVersion<JavaContainers>
-  ) {
-    const newMinorVersion: WebAppMinorVersion<JavaContainers> = {
-      displayText: minorVersion.displayText,
-      value: minorVersion.value,
-      stackSettings: {
-        linuxContainerSettings: minorVersion.stackSettings.linuxContainerSettings,
-      },
-    };
-    newMajorVersion.minorVersions.push(newMinorVersion);
-  }
-
-  private _addNewMinorVersionWindowsContainer(
-    newMajorVersion: WebAppMajorVersion<WebAppRuntimes | JavaContainers>,
-    minorVersion: WebAppMinorVersion<JavaContainers>
-  ) {
-    const newMinorVersion: WebAppMinorVersion<JavaContainers> = {
-      displayText: minorVersion.displayText,
-      value: minorVersion.value,
-      stackSettings: {
-        windowsContainerSettings: minorVersion.stackSettings.windowsContainerSettings,
-      },
-    };
-    newMajorVersion.minorVersions.push(newMinorVersion);
   }
 }

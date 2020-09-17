@@ -1,6 +1,6 @@
 import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
-const python2EOL = new Date(2020, 1, 1);
+const python2EOL = new Date(2020, 1, 1).toString();
 
 export const pythonStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Python',

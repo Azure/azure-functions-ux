@@ -1,10 +1,10 @@
 import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
-const php7Point3EOL = new Date(2021, 11, 28);
-const php7Point2EOL = new Date(2020, 11, 30);
-const php7Point1EOL = new Date(2020, 2, 1);
-const php7Point0EOL = new Date(2020, 2, 1);
-const php5Point6EOL = new Date(2021, 2, 1);
+const php7Point3EOL = new Date(2021, 11, 28).toString();
+const php7Point2EOL = new Date(2020, 11, 30).toString();
+const php7Point1EOL = new Date(2020, 2, 1).toString();
+const php7Point0EOL = new Date(2020, 2, 1).toString();
+const php5Point6EOL = new Date(2021, 2, 1).toString();
 
 export const phpStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'PHP',

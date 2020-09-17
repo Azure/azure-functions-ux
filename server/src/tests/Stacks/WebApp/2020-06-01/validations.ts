@@ -48,9 +48,22 @@ function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
   });
 }
 
-export function validateASPStack(stacks) {
+function validateFilterStackLength(stacks) {
+  expect(stacks).to.be.an('array');
+  expect(stacks.length).to.equal(1);
+}
+
+export function validateASPInStacks(stacks) {
   validateAllStackLength(stacks);
-  const aspDotnetStack = stacks[0];
+  validateASPStack(stacks[0]);
+}
+
+export function validateASPFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validateASPStack(stacks[0]);
+}
+
+function validateASPStack(aspDotnetStack) {
   expect(aspDotnetStack.displayText).to.equal('ASP.NET');
   expect(aspDotnetStack.value).to.equal('aspnet');
   expect(aspDotnetStack.preferredOs).to.equal('windows');
@@ -58,9 +71,17 @@ export function validateASPStack(stacks) {
   expect(aspDotnetStack).to.deep.equal(hardCodedAspDotnetStack);
 }
 
-export function validateNodeStack(stacks) {
+export function validateNodeInStacks(stacks) {
   validateAllStackLength(stacks);
-  const nodeStack = stacks[1];
+  validateNodeStack(stacks[1]);
+}
+
+export function validateNodeFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validateNodeStack(stacks[0]);
+}
+
+function validateNodeStack(nodeStack) {
   expect(nodeStack.displayText).to.equal('Node');
   expect(nodeStack.value).to.equal('node');
   expect(nodeStack.preferredOs).to.equal('linux');
@@ -68,9 +89,17 @@ export function validateNodeStack(stacks) {
   expect(nodeStack).to.deep.equal(hardCodedNodeStack);
 }
 
-export function validatePythonStack(stacks) {
+export function validatePythonInStacks(stacks) {
   validateAllStackLength(stacks);
-  const pythonStack = stacks[2];
+  validatePythonStack(stacks[2]);
+}
+
+export function validatePythonFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validatePythonStack(stacks[0]);
+}
+
+function validatePythonStack(pythonStack) {
   expect(pythonStack.displayText).to.equal('Python');
   expect(pythonStack.value).to.equal('python');
   expect(pythonStack.preferredOs).to.equal('linux');
@@ -78,9 +107,17 @@ export function validatePythonStack(stacks) {
   expect(pythonStack).to.deep.equal(hardCodedPythonStack);
 }
 
-export function validatePHPStack(stacks) {
+export function validatePHPInStacks(stacks) {
   validateAllStackLength(stacks);
-  const phpStack = stacks[3];
+  validatePHPStack(stacks[3]);
+}
+
+export function validatePHPFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validatePHPStack(stacks[0]);
+}
+
+function validatePHPStack(phpStack) {
   expect(phpStack.displayText).to.equal('PHP');
   expect(phpStack.value).to.equal('php');
   expect(phpStack.preferredOs).to.equal('linux');
@@ -88,9 +125,17 @@ export function validatePHPStack(stacks) {
   expect(phpStack).to.deep.equal(hardCodedPhpStack);
 }
 
-export function validateDotnetCoreStack(stacks) {
+export function validateDotnetCoreInStacks(stacks) {
   validateAllStackLength(stacks);
-  const dotnetCoreStack = stacks[4];
+  validateDotnetCoreStack(stacks[4]);
+}
+
+export function validateDotnetCoreFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validateDotnetCoreStack(stacks[0]);
+}
+
+function validateDotnetCoreStack(dotnetCoreStack) {
   expect(dotnetCoreStack.displayText).to.equal('.NET Core');
   expect(dotnetCoreStack.value).to.equal('dotnetcore');
   expect(dotnetCoreStack.preferredOs).to.equal('windows');
@@ -98,9 +143,17 @@ export function validateDotnetCoreStack(stacks) {
   expect(dotnetCoreStack).to.deep.equal(hardCodedDotnetCoreStack);
 }
 
-export function validateRubyStack(stacks) {
+export function validateRubyInStacks(stacks) {
   validateAllStackLength(stacks);
-  const rubyStack = stacks[5];
+  validateRubyStack(stacks[5]);
+}
+
+export function validateRubyFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validateRubyStack(stacks[0]);
+}
+
+function validateRubyStack(rubyStack) {
   expect(rubyStack.displayText).to.equal('Ruby');
   expect(rubyStack.value).to.equal('ruby');
   expect(rubyStack.preferredOs).to.equal('linux');
@@ -108,9 +161,17 @@ export function validateRubyStack(stacks) {
   expect(rubyStack).to.deep.equal(hardCodedRubyStack);
 }
 
-export function validateJavaStack(stacks) {
+export function validateJavaInStacks(stacks) {
   validateAllStackLength(stacks);
-  const javaStack = stacks[6];
+  validateJavaStack(stacks[6]);
+}
+
+export function validateJavaFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validateJavaStack(stacks[0]);
+}
+
+function validateJavaStack(javaStack) {
   expect(javaStack.displayText).to.equal('Java');
   expect(javaStack.value).to.equal('java');
   expect(javaStack.preferredOs).to.equal('linux');
@@ -118,9 +179,17 @@ export function validateJavaStack(stacks) {
   expect(javaStack).to.deep.equal(hardCodedJavaStack);
 }
 
-export function validateJavaContainersStack(stacks) {
+export function validateJavaContainersInStacks(stacks) {
   validateAllStackLength(stacks);
-  const javaContainersStack = stacks[7];
+  validateJavaContainersStack(stacks[7]);
+}
+
+export function validateJavaContainersFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validateJavaContainersStack(stacks[0]);
+}
+
+function validateJavaContainersStack(javaContainersStack) {
   expect(javaContainersStack.displayText).to.equal('Java Containers');
   expect(javaContainersStack.value).to.equal('javacontainers');
   expect(javaContainersStack.preferredOs).to.equal(undefined);
