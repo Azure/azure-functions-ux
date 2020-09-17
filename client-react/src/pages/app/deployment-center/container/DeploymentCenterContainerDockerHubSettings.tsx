@@ -74,6 +74,7 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
             component={TextField}
             label={t('containerPassword')}
             required={true}
+            type="password"
           />
         </>
       )}
