@@ -75,7 +75,7 @@ export const isStackVersionEndOfLife = (endOfLifeDate?: string): boolean => {
   try {
     return !!endOfLifeDate && Date.parse(endOfLifeDate) <= getDateAfterXSeconds(ENDOFLIFEMAXSECONDS).getSeconds();
   } catch (err) {
-    LogService.error(LogCategories.appSettings, 'unable to parse endOfLifeDate', err);
+    LogService.error(LogCategories.appSettings, 'StackSettings', err);
     return false;
   }
 };
