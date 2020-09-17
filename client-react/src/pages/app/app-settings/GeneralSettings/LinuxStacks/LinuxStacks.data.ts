@@ -73,7 +73,7 @@ export const getMinorVersionText = (text: string, t: i18next.TFunction, settings
 
 export const isStackVersionEndOfLife = (endOfLifeDate?: string): boolean => {
   try {
-    return !!endOfLifeDate && Date.parse(endOfLifeDate) > getDateAfterXSeconds(ENDOFLIFEMAXSECONDS).getSeconds()Date.parse(settings.endOfLifeDate) <= getDateAfterXSeconds(ENDOFLIFEMAXSECONDS).getSeconds();
+    return !!endOfLifeDate && Date.parse(endOfLifeDate) <= getDateAfterXSeconds(ENDOFLIFEMAXSECONDS).getSeconds();
   } catch (err) {
     LogService.error(LogCategories.appSettings, 'unable to parse endOfLifeDate', err);
     return false;
