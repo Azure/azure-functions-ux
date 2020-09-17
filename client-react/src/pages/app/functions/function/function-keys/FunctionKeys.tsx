@@ -34,7 +34,7 @@ import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import { PortalContext } from '../../../../../PortalContext';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { getErrorMessageOrStringify, getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
 import { filterTextFieldStyle } from '../../../../../components/form-controls/formControl.override.styles';
 import TextFieldNoFormik from '../../../../../components/form-controls/TextFieldNoFormik';
 
@@ -264,7 +264,25 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
 
   const createFunctionKey = async (key: FunctionKeysModel) => {
     setRefreshLoading(true);
-    await functionKeysContext.createKey(resourceId, key.name, key.value);
+    const keyName = key.name;
+    const notificationId = portalCommunicator.startNotification(
+      t('createFunctionKeyNotification'),
+      t('createKeyNotificationDetails').format(keyName)
+    );
+    const createKeyResponse = await functionKeysContext.createKey(resourceId, keyName, key.value);
+    if (createKeyResponse.metadata.success) {
+      portalCommunicator.stopNotification(notificationId, true, t('createKeyNotificationSuccess').format(keyName));
+    } else {
+      const errorMessage = getErrorMessage(createKeyResponse.metadata.error);
+      portalCommunicator.stopNotification(
+        notificationId,
+        false,
+        errorMessage
+          ? t('createKeyNotificationFailedDetails').format(keyName, errorMessage)
+          : t('createKeyNotificationFailed').format(keyName)
+      );
+    }
+
     refreshData();
   };
 
