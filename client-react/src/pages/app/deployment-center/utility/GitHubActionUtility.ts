@@ -563,7 +563,7 @@ jobs:
 
     - uses: azure/docker-login@v1
       with:
-        login-server: ${loginServer}
+        login-server: ${loginServer}/
         username: \${{ secrets.${containerUsernameSecretName} }}
         password: \${{ secrets.${containerPasswordSecretName} }}
 
