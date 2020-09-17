@@ -60,16 +60,23 @@ export class StacksController {
     @Query('api-version') apiVersion: string,
     @Query('os') os?: Os,
     @Query('stack') stack?: StackValue,
-    @Query('removeHiddenStacks') removeHiddenStacks?: string
+    @Query('removeHiddenStacks') removeHiddenStacks?: string,
+    @Query('removeDeprecatedStacks') removeDeprecatedStacks?: string,
+    @Query('removePreviewStacks') removePreviewStacks?: string
   ) {
     this._validateApiVersion(apiVersion, [Versions.version20200601]);
     this._validateOs(os);
     this._validateStack(stack);
     this._validateRemoveHiddenStacks(removeHiddenStacks);
+    this._validateRemoveDeprecatedStacks(removeDeprecatedStacks);
+    this._validateRemovePreviewStacks(removePreviewStacks);
+
     const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
+    const removeDeprecated = removeDeprecatedStacks && removeDeprecatedStacks.toLowerCase() === 'true';
+    const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
 
     if (apiVersion === Versions.version20200601) {
-      return this._stackFunctionAppService20200601.getStacks(os, stack, removeHidden);
+      return this._stackFunctionAppService20200601.getStacks(os, stack, removeHidden, removeDeprecated, removePreview);
     }
   }
 
@@ -110,6 +117,24 @@ export class StacksController {
     if (removeHiddenStacks && removeHiddenStacks.toLowerCase() !== 'true' && removeHiddenStacks.toLowerCase() !== 'false') {
       throw new HttpException(
         `Incorrect removeHiddenStacks '${removeHiddenStacks}' provided. Allowed removeHiddenStacks values are 'true' or 'false'.`,
+        400
+      );
+    }
+  }
+
+  private _validateRemoveDeprecatedStacks(removeDeprecatedStacks?: string) {
+    if (removeDeprecatedStacks && removeDeprecatedStacks.toLowerCase() !== 'true' && removeDeprecatedStacks.toLowerCase() !== 'false') {
+      throw new HttpException(
+        `Incorrect removeHiddenStacks '${removeDeprecatedStacks}' provided. Allowed removeDeprecatedStacks values are 'true' or 'false'.`,
+        400
+      );
+    }
+  }
+
+  private _validateRemovePreviewStacks(removePreviewStacks?: string) {
+    if (removePreviewStacks && removePreviewStacks.toLowerCase() !== 'true' && removePreviewStacks.toLowerCase() !== 'false') {
+      throw new HttpException(
+        `Incorrect removeHiddenStacks '${removePreviewStacks}' provided. Allowed removePreviewStacks values are 'true' or 'false'.`,
         400
       );
     }
