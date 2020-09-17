@@ -48,6 +48,105 @@ function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
   });
 }
 
+export function validateNotHiddenStacks(stacks) {
+  validateNotHiddenStacksLength(stacks);
+  validateStacksAreNotHidden(stacks);
+}
+
+function validateNotHiddenStacksLength(stacks) {
+  expect(stacks).to.be.an('array');
+  expect(stacks.length).to.equal(8);
+}
+
+function validateStacksAreNotHidden(stacks) {
+  stacks.forEach(stack => {
+    expect(stack.majorVersions).to.be.an('array');
+    stack.majorVersions.forEach(majorVersion => {
+      expect(majorVersion.minorVersions).to.be.an('array');
+      majorVersion.minorVersions.forEach(minorVersion => {
+        if (minorVersion.stackSettings.windowsRuntimeSettings) {
+          expect(minorVersion.stackSettings.windowsRuntimeSettings).to.not.have.property('isHidden', true);
+        }
+        if (minorVersion.stackSettings.linuxRuntimeSettings) {
+          expect(minorVersion.stackSettings.linuxRuntimeSettings).to.not.have.property('isHidden', true);
+        }
+        if (minorVersion.stackSettings.windowsContainerSettings) {
+          expect(minorVersion.stackSettings.windowsContainerSettings).to.not.have.property('isHidden', true);
+        }
+        if (minorVersion.stackSettings.linuxContainerSettings) {
+          expect(minorVersion.stackSettings.linuxContainerSettings).to.not.have.property('isHidden', true);
+        }
+      });
+    });
+  });
+}
+
+export function validateNotDeprecatedStacks(stacks) {
+  validateNotDeprecatedStacksLength(stacks);
+  validateStacksAreNotDeprecated(stacks);
+}
+
+function validateNotDeprecatedStacksLength(stacks) {
+  expect(stacks).to.be.an('array');
+  expect(stacks.length).to.equal(8);
+}
+
+function validateStacksAreNotDeprecated(stacks) {
+  stacks.forEach(stack => {
+    expect(stack.majorVersions).to.be.an('array');
+    stack.majorVersions.forEach(majorVersion => {
+      expect(majorVersion.minorVersions).to.be.an('array');
+      majorVersion.minorVersions.forEach(minorVersion => {
+        if (minorVersion.stackSettings.windowsRuntimeSettings) {
+          expect(minorVersion.stackSettings.windowsRuntimeSettings).to.not.have.property('isDeprecated', true);
+        }
+        if (minorVersion.stackSettings.linuxRuntimeSettings) {
+          expect(minorVersion.stackSettings.linuxRuntimeSettings).to.not.have.property('isDeprecated', true);
+        }
+        if (minorVersion.stackSettings.windowsContainerSettings) {
+          expect(minorVersion.stackSettings.windowsContainerSettings).to.not.have.property('isDeprecated', true);
+        }
+        if (minorVersion.stackSettings.linuxContainerSettings) {
+          expect(minorVersion.stackSettings.linuxContainerSettings).to.not.have.property('isDeprecated', true);
+        }
+      });
+    });
+  });
+}
+
+export function validateNotPreviewStacks(stacks) {
+  validateNotPreviewStacksLength(stacks);
+  validateStacksAreNotPreview(stacks);
+}
+
+function validateNotPreviewStacksLength(stacks) {
+  expect(stacks).to.be.an('array');
+  expect(stacks.length).to.equal(8);
+}
+
+function validateStacksAreNotPreview(stacks) {
+  stacks.forEach(stack => {
+    expect(stack.majorVersions).to.be.an('array');
+    stack.majorVersions.forEach(majorVersion => {
+      expect(majorVersion.minorVersions).to.be.an('array');
+      majorVersion.minorVersions.forEach(minorVersion => {
+        if (minorVersion.stackSettings.windowsRuntimeSettings) {
+          expect(minorVersion.stackSettings.windowsRuntimeSettings).to.not.have.property('isPreview', true);
+        }
+        if (minorVersion.stackSettings.linuxRuntimeSettings) {
+          expect(minorVersion.stackSettings.linuxRuntimeSettings).to.not.have.property('isPreview', true);
+        }
+        if (minorVersion.stackSettings.windowsContainerSettings) {
+          expect(minorVersion.stackSettings.windowsContainerSettings).to.not.have.property('isPreview', true);
+        }
+        if (minorVersion.stackSettings.linuxContainerSettings) {
+          expect(minorVersion.stackSettings.linuxContainerSettings).to.not.have.property('isPreview', true);
+        }
+      });
+    });
+  });
+}
+
 function validateFilterStackLength(stacks) {
   expect(stacks).to.be.an('array');
   expect(stacks.length).to.equal(1);

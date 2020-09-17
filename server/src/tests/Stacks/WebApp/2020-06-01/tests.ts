@@ -3,6 +3,9 @@ import {
   validateAllStackLength,
   validateWindowsStacks,
   validateLinuxStacks,
+  validateNotHiddenStacks,
+  validateNotDeprecatedStacks,
+  validateNotPreviewStacks,
   validateASPInStacks,
   validateASPFilter,
   validateNodeInStacks,
@@ -47,6 +50,33 @@ describe('WebApp Stacks Test 2020-06-01', () => {
     it('should validate all stacks with linux are returned', done => {
       const stacks = webAppStacksService.getStacks('linux');
       validateLinuxStacks(stacks);
+      done();
+    });
+  });
+
+  // Test length of not hidden stacks
+  describe('Test remove hidden stacks', () => {
+    it('should validate no stacks with hidden are returned', done => {
+      const stacks = webAppStacksService.getStacks(undefined, undefined, true);
+      validateNotHiddenStacks(stacks);
+      done();
+    });
+  });
+
+  // Test length of not deprecated stacks
+  describe('Test remove deprecated stacks', () => {
+    it('should validate no stacks with deprecated are returned', done => {
+      const stacks = webAppStacksService.getStacks(undefined, undefined, undefined, true);
+      validateNotDeprecatedStacks(stacks);
+      done();
+    });
+  });
+
+  // Test length of not preview stacks
+  describe('Test remove preview stacks', () => {
+    it('should validate no stacks with preview are returned', done => {
+      const stacks = webAppStacksService.getStacks(undefined, undefined, undefined, undefined, true);
+      validateNotPreviewStacks(stacks);
       done();
     });
   });

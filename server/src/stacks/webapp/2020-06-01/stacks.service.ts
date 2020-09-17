@@ -12,7 +12,13 @@ import { ArrayUtil } from '../../../utilities/array.util';
 
 @Injectable()
 export class WebAppStacksService20200601 {
-  getStacks(os?: 'linux' | 'windows', stackValue?: StackValue): WebAppStack<WebAppRuntimes | JavaContainers>[] {
+  getStacks(
+    os?: 'linux' | 'windows',
+    stackValue?: StackValue,
+    removeHiddenStacks?: boolean,
+    removeDeprecatedStacks?: boolean,
+    removePreviewStacks?: boolean
+  ): WebAppStack<WebAppRuntimes | JavaContainers>[] {
     const aspDotnetStackCopy = JSON.parse(JSON.stringify(aspDotnetStack));
     const nodeStackCopy = JSON.parse(JSON.stringify(nodeStack));
     const pythonStackCopy = JSON.parse(JSON.stringify(pythonStack));
@@ -37,19 +43,33 @@ export class WebAppStacksService20200601 {
       stacks = [stacks.find(stack => stack.value === stackValue)];
     }
 
-    return !os ? stacks : this._filterStacks(stacks, os);
+    return !os && !removeHiddenStacks && !removeDeprecatedStacks && !removePreviewStacks
+      ? stacks
+      : this._filterStacks(stacks, os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks);
   }
 
   private _filterStacks(
-    stacks: WebAppStack<WebAppRuntimes & JavaContainers>[],
-    os?: 'linux' | 'windows'
-  ): WebAppStack<WebAppRuntimes & JavaContainers>[] {
+    stacks: WebAppStack<WebAppRuntimes | JavaContainers>[],
+    os?: 'linux' | 'windows',
+    removeHiddenStacks?: boolean,
+    removeDeprecatedStacks?: boolean,
+    removePreviewStacks?: boolean
+  ): WebAppStack<WebAppRuntimes | JavaContainers>[] {
     stacks.forEach((stack, i) => {
       stack.majorVersions.forEach((majorVersion, j) => {
         majorVersion.minorVersions.forEach((minorVersion, k) => {
           // Remove runtime settings and container settings if they do not meet filters
           if (os) {
             this._removeUnsupportedOsRuntimeAndContainerSettings(stacks, i, j, k, os);
+          }
+          if (removeHiddenStacks) {
+            this._removeHiddenRuntimeAndContainerSettings(stacks, i, j, k);
+          }
+          if (removeDeprecatedStacks) {
+            this._removeDeprecatedRuntimeAndContainerSettings(stacks, i, j, k);
+          }
+          if (removePreviewStacks) {
+            this._removePreviewRuntimeAndContainerSettings(stacks, i, j, k);
           }
         });
 
@@ -65,13 +85,13 @@ export class WebAppStacksService20200601 {
       });
 
       // Remove Major Versions without Minor Versions
-      ArrayUtil.remove<WebAppMajorVersion<WebAppRuntimes & JavaContainers>>(stack.majorVersions, majorVersion => {
+      ArrayUtil.remove<WebAppMajorVersion<WebAppRuntimes | JavaContainers>>(stack.majorVersions, majorVersion => {
         return majorVersion.minorVersions.length === 0;
       });
     });
 
     // Remove Stacks without Major Versions
-    ArrayUtil.remove<WebAppStack<WebAppRuntimes & JavaContainers>>(stacks, stack => stack.majorVersions.length === 0);
+    ArrayUtil.remove<WebAppStack<WebAppRuntimes | JavaContainers>>(stacks, stack => stack.majorVersions.length === 0);
     return stacks;
   }
 
@@ -87,6 +107,90 @@ export class WebAppStacksService20200601 {
       delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsContainerSettings;
     } else if (os === 'windows') {
       delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxContainerSettings;
+    }
+  }
+
+  private _removeHiddenRuntimeAndContainerSettings(
+    stacks: WebAppStack<WebAppRuntimes & JavaContainers>[],
+    i: number,
+    j: number,
+    k: number
+  ): void {
+    const windowsRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+    const linuxRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+    const windowsContainerSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsContainerSettings;
+    const linuxContainerSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxContainerSettings;
+
+    if (windowsRuntimeSettings && windowsRuntimeSettings.isHidden) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+    }
+
+    if (linuxRuntimeSettings && linuxRuntimeSettings.isHidden) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+    }
+
+    if (windowsContainerSettings && windowsContainerSettings.isHidden) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsContainerSettings;
+    }
+
+    if (linuxContainerSettings && linuxContainerSettings.isHidden) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxContainerSettings;
+    }
+  }
+
+  private _removeDeprecatedRuntimeAndContainerSettings(
+    stacks: WebAppStack<WebAppRuntimes & JavaContainers>[],
+    i: number,
+    j: number,
+    k: number
+  ): void {
+    const windowsRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+    const linuxRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+    const windowsContainerSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsContainerSettings;
+    const linuxContainerSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxContainerSettings;
+
+    if (windowsRuntimeSettings && windowsRuntimeSettings.isDeprecated) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+    }
+
+    if (linuxRuntimeSettings && linuxRuntimeSettings.isDeprecated) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+    }
+
+    if (windowsContainerSettings && windowsContainerSettings.isDeprecated) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsContainerSettings;
+    }
+
+    if (linuxContainerSettings && linuxContainerSettings.isDeprecated) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxContainerSettings;
+    }
+  }
+
+  private _removePreviewRuntimeAndContainerSettings(
+    stacks: WebAppStack<WebAppRuntimes & JavaContainers>[],
+    i: number,
+    j: number,
+    k: number
+  ): void {
+    const windowsRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+    const linuxRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+    const windowsContainerSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsContainerSettings;
+    const linuxContainerSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxContainerSettings;
+
+    if (windowsRuntimeSettings && windowsRuntimeSettings.isPreview) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+    }
+
+    if (linuxRuntimeSettings && linuxRuntimeSettings.isPreview) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+    }
+
+    if (windowsContainerSettings && windowsContainerSettings.isPreview) {
+      delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsContainerSettings;
+    }
+
+    if (linuxContainerSettings && linuxContainerSettings.isPreview) {
       delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxContainerSettings;
     }
   }

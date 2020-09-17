@@ -82,13 +82,27 @@ export class StacksController {
   }
 
   @Get('webAppStacks')
-  webAppStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows', @Query('stack') stack?: WebAppStackValue) {
+  webAppStacks(
+    @Query('api-version') apiVersion: string,
+    @Query('os') os?: 'linux' | 'windows',
+    @Query('stack') stack?: WebAppStackValue,
+    @Query('removeHiddenStacks') removeHiddenStacks?: string,
+    @Query('removeDeprecatedStacks') removeDeprecatedStacks?: string,
+    @Query('removePreviewStacks') removePreviewStacks?: string
+  ) {
     this._validateApiVersion(apiVersion, [Versions.version20200601]);
     this._validateOs(os);
     this._validateWebAppStack(stack);
+    this._validateRemoveHiddenStacks(removeHiddenStacks);
+    this._validateRemoveDeprecatedStacks(removeDeprecatedStacks);
+    this._validateRemovePreviewStacks(removePreviewStacks);
+
+    const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
+    const removeDeprecated = removeDeprecatedStacks && removeDeprecatedStacks.toLowerCase() === 'true';
+    const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
 
     if (apiVersion === Versions.version20200601) {
-      return this._stackWebAppService20200601.getStacks(os, stack);
+      return this._stackWebAppService20200601.getStacks(os, stack, removeHidden, removeDeprecated, removePreview);
     }
   }
 
