@@ -7,6 +7,10 @@ import { processLogs } from './FunctionLogFileStreamData';
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { Site } from '../../../../../models/site/site';
+import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import LogService from '../../../../../utils/LogService';
+import { LogCategories } from '../../../../../utils/LogCategories';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 
 interface FunctionLogFileStreamDataLoaderProps {
   site: ArmObj<Site>;
@@ -41,20 +45,30 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const [allLogEntries, setAllLogEntries] = useState<LogEntry[]>([]);
   const [logStreamIndex, setLogStreamIndex] = useState(0);
 
-  const openStream = () => {
+  const openStream = async () => {
     setLoadingMessage(t('feature_logStreamingConnecting'));
+    const hostStatusResult = await FunctionsService.getHostStatus(site.id);
 
-    const logUrl = functionName
-      ? `${Url.getScmUrl(site)}/api/logstream/application/functions/function/${functionName}`
-      : `${Url.getScmUrl(site)}/api/logstream/application/functions/host`;
-    const token = window.appsvc && window.appsvc.env && window.appsvc.env.armToken;
+    if (hostStatusResult.metadata.success) {
+      const logUrl = functionName
+        ? `${Url.getScmUrl(site)}/api/logstream/application/functions/function/${functionName}`
+        : `${Url.getScmUrl(site)}/api/logstream/application/functions/host`;
+      const token = window.appsvc && window.appsvc.env && window.appsvc.env.armToken;
 
-    const newXhReq = new XMLHttpRequest();
-    newXhReq.open('GET', logUrl, true);
-    newXhReq.setRequestHeader('Authorization', `Bearer ${token}`);
-    newXhReq.setRequestHeader('FunctionsPortal', '1');
-    newXhReq.send(null);
-    setXhReq(newXhReq);
+      const newXhReq = new XMLHttpRequest();
+      newXhReq.open('GET', logUrl, true);
+      newXhReq.setRequestHeader('Authorization', `Bearer ${token}`);
+      newXhReq.setRequestHeader('FunctionsPortal', '1');
+      newXhReq.send(null);
+      setXhReq(newXhReq);
+    } else {
+      setErrorMessage(t('feature_logStreamingConnectionError'));
+      LogService.error(
+        LogCategories.functionLog,
+        'getHostStatus',
+        `Failed to get host status: ${getErrorMessageOrStringify(hostStatusResult.metadata.error)}`
+      );
+    }
   };
 
   const closeStream = () => {
