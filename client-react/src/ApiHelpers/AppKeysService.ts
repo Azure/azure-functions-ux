@@ -1,5 +1,5 @@
+import { UntrackedArmObj } from '../models/arm-obj';
 import { AppKeysInfo, AppKeysTypes } from '../pages/app/functions/app-keys/AppKeys.types';
-import { ArmObj } from '../models/arm-obj';
 import MakeArmCall from './ArmHelper';
 
 export default class AppKeyService {
@@ -15,14 +15,12 @@ export default class AppKeyService {
   public static createKey = (resourceId: string, keyType: AppKeysTypes, keyName: string, keyValue: string) => {
     const body = {
       id: '',
-      location: '',
-      name: '',
       properties: keyName && keyValue ? { name: keyName, value: keyValue } : {},
     };
 
     const id = `${resourceId}/host/default/${keyType}/${keyName}`;
 
-    return MakeArmCall<ArmObj<{ name?: string; value?: string }>>({
+    return MakeArmCall<UntrackedArmObj<{ name?: string; value?: string }>>({
       resourceId: id,
       commandName: 'createAppKey',
       method: 'PUT',
