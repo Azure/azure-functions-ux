@@ -25,6 +25,35 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
             },
           },
         },
+        {
+          displayText: 'Java SE 11.0.6',
+          value: '11.0.6',
+          stackSettings: {
+            linuxContainerSettings: {
+              // Note (allisonm): This doesn't have suffix of -java11 since setting to 11.0.6 prevents auto-updates
+              java11Runtime: 'JAVA|11.0.6',
+            },
+          },
+        },
+        {
+          displayText: 'Java SE 11.0.5',
+          value: '11.0.5',
+          stackSettings: {
+            linuxContainerSettings: {
+              // Note (allisonm): This doesn't have suffix of -java11 since setting to 11.0.5 prevents auto-updates
+              java11Runtime: 'JAVA|11.0.5',
+            },
+          },
+        },
+        {
+          displayText: 'Java SE 8u232',
+          value: '8u232',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JAVA|8u232',
+            },
+          },
+        },
       ],
     },
     {
