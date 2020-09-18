@@ -225,7 +225,7 @@ export function validateNodeLinuxConfigStack(stacks) {
   expect(nodeStack.type).to.equal('Microsoft.Web/availableStacks?osTypeSelected=Linux');
   expect(nodeStack.properties.name).to.equal('node');
   expect(nodeStack.properties.display).to.equal('Node');
-  expect(nodeStack.properties.majorVersions.length).to.equal(27);
+  expect(nodeStack.properties.majorVersions.length).to.equal(28);
   expect(nodeStack).to.deep.equal(nodeLinuxConfigStack);
 }
 
