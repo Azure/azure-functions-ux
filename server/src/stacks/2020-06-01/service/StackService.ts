@@ -15,9 +15,9 @@ import { aspDotnetStack as aspDotnetWebAppStack } from '../stacks/web-app-stacks
 import { nodeStack as nodeWebAppStack } from '../stacks/web-app-stacks/Node';
 import { pythonStack as pythonWebAppStack } from '../stacks/web-app-stacks/Python';
 import { phpStack as phpWebAppStack } from '../stacks/web-app-stacks/Php';
-import { rubyStack as rubyWebAppStack } from '../../webapp/2020-06-01/stacks/Ruby';
-import { dotnetCoreStack as dotnetCoreWebAppStack } from '../../webapp/2020-06-01/stacks/DotnetCore';
-import { javaStack as javaWebAppStack } from '../../webapp/2020-06-01/stacks/Java';
+import { rubyStack as rubyWebAppStack } from '../stacks/web-app-stacks/Ruby';
+import { dotnetCoreStack as dotnetCoreWebAppStack } from '../stacks/web-app-stacks/DotnetCore';
+import { javaStack as javaWebAppStack } from '../stacks/web-app-stacks/Java';
 import { javaContainersStack as javaContainersWebAppStack } from '../stacks/web-app-stacks/JavaContainers';
 
 @Injectable()
