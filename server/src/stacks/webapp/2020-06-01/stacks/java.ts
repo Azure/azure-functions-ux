@@ -1,9 +1,9 @@
 import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
 // EOL source: https://docs.microsoft.com/en-us/java/azure/jdk/?view=azure-java-stable#supported-java-versions-and-update-schedule
-const java11EOL = new Date(2026, 9);
-const java8EOL = new Date(2025, 3);
-const java7EOL = new Date(2023, 7);
+const java11EOL = new Date(2026, 9).toString();
+const java8EOL = new Date(2025, 3).toString();
+const java7EOL = new Date(2023, 7).toString();
 
 export const javaStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Java',
@@ -19,7 +19,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
           value: '11.0',
           stackSettings: {
             linuxRuntimeSettings: {
-              runtimeVersion: undefined,
+              runtimeVersion: '',
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -51,7 +51,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
           value: '11.0.5',
           stackSettings: {
             linuxRuntimeSettings: {
-              runtimeVersion: undefined,
+              runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -123,7 +123,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
           value: '8.0',
           stackSettings: {
             linuxRuntimeSettings: {
-              runtimeVersion: undefined,
+              runtimeVersion: '',
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -155,7 +155,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
           value: '8.0.232',
           stackSettings: {
             linuxRuntimeSettings: {
-              runtimeVersion: undefined,
+              runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,

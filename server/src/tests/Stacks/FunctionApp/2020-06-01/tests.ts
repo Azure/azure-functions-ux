@@ -4,6 +4,8 @@ import {
   validateWindowsStacks,
   validateLinuxStacks,
   validateNotHiddenStacks,
+  validateNotDeprecatedStacks,
+  validateNotPreviewStacks,
   validateDotnetCoreInStacks,
   validateNodeInStacks,
   validatePythonInStacks,
@@ -32,8 +34,8 @@ describe('FunctionApp Stacks Test 2020-06-01', () => {
     });
   });
 
-  // Test length of windows stacks
-  describe('Test windows stack length', () => {
+  // Test windows stacks
+  describe('Test windows stacks', () => {
     it('should validate all stacks with windows are returned', done => {
       const stacks = functionAppStacksService.getStacks('windows');
       validateWindowsStacks(stacks);
@@ -41,8 +43,8 @@ describe('FunctionApp Stacks Test 2020-06-01', () => {
     });
   });
 
-  // Test length of linux stacks
-  describe('Test linux stack length', () => {
+  // Test linux stacks
+  describe('Test linux stacks', () => {
     it('should validate all stacks with linux are returned', done => {
       const stacks = functionAppStacksService.getStacks('linux');
       validateLinuxStacks(stacks);
@@ -51,10 +53,28 @@ describe('FunctionApp Stacks Test 2020-06-01', () => {
   });
 
   // Test length of not hidden stacks
-  describe('Test remove hidden stack length', () => {
+  describe('Test remove hidden stacks', () => {
     it('should validate no stacks with hidden are returned', done => {
       const stacks = functionAppStacksService.getStacks(undefined, undefined, true);
       validateNotHiddenStacks(stacks);
+      done();
+    });
+  });
+
+  // Test length of not deprecated stacks
+  describe('Test remove deprecated stacks', () => {
+    it('should validate no stacks with deprecated are returned', done => {
+      const stacks = functionAppStacksService.getStacks(undefined, undefined, undefined, true);
+      validateNotDeprecatedStacks(stacks);
+      done();
+    });
+  });
+
+  // Test length of not preview stacks
+  describe('Test remove preview stacks', () => {
+    it('should validate no stacks with preview are returned', done => {
+      const stacks = functionAppStacksService.getStacks(undefined, undefined, undefined, undefined, true);
+      validateNotPreviewStacks(stacks);
       done();
     });
   });

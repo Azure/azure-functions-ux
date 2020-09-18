@@ -1,8 +1,9 @@
 // NOTE (allisonm): Any change to existing properties requires a new API version!
+export type StackValue = 'aspnet' | 'dotnetcore' | 'java' | 'javacontainers' | 'node' | 'php' | 'python' | 'ruby';
 
 export interface WebAppStack<T extends WebAppRuntimes | JavaContainers> {
   displayText: string;
-  value: string;
+  value: StackValue;
   majorVersions: WebAppMajorVersion<T>[];
   preferredOs?: 'linux' | 'windows';
 }
@@ -60,6 +61,6 @@ export interface CommonSettings {
   isPreview?: boolean; // Stack should be labeled as 'preview'
   isDeprecated?: boolean; // Stack should be hidden unless user is already running that stack
   isHidden?: boolean; // Stack should be hidden unless a feature flag is used
-  endOfLifeDate?: Date; // Stack end of life date
+  endOfLifeDate?: string; // Stack end of life date
   isAutoUpdate?: boolean; // Stack should be labeled as 'auto-update'
 }
