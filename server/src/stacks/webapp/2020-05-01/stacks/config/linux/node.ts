@@ -27,6 +27,23 @@ export const nodeLinuxConfigStack: WebAppConfigStack = {
         isHidden: false,
       },
       {
+        displayVersion: '14 LTS',
+        runtimeVersion: 'NODE|14-lts',
+        isDefault: false,
+        minorVersions: [
+          {
+            displayVersion: '14 LTS',
+            runtimeVersion: 'NODE|14-lts',
+            isDefault: true,
+            isRemoteDebuggingEnabled: true,
+          },
+        ],
+        applicationInsights: true,
+        isPreview: true,
+        isDeprecated: false,
+        isHidden: true,
+      },
+      {
         displayVersion: '12 LTS',
         runtimeVersion: 'NODE|12-lts',
         isDefault: true,
