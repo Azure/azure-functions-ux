@@ -25,7 +25,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
         (formProps.values.registrySource === ContainerRegistrySources.privateRegistry && isPrivateRegistrySettingsDirty()) ||
         (formProps.values.registrySource === ContainerRegistrySources.docker && isDockerSettingsDirty()) ||
         (formProps.values.registrySource === ContainerRegistrySources.acr && isAcrSettingsDirty())) &&
-      (!!deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None)
+      !!deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
     );
   };
 
