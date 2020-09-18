@@ -14,6 +14,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'JAVA',
+              // note (allisonm): for Java SE the java container version doesn't matter
               javaContainerVersion: 'SE',
               isAutoUpdate: true,
             },
