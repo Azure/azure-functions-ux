@@ -353,6 +353,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
               javaContainer: 'JETTY',
               javaContainerVersion: '9.3',
               isAutoUpdate: true,
+              isDeprecated: true,
             },
           },
         },
@@ -363,6 +364,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
             windowsContainerSettings: {
               javaContainer: 'JETTY',
               javaContainerVersion: '9.3.25',
+              isDeprecated: true,
             },
           },
         },
@@ -373,6 +375,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
             windowsContainerSettings: {
               javaContainer: 'JETTY',
               javaContainerVersion: '9.3.13',
+              isDeprecated: true,
             },
           },
         },
@@ -390,6 +393,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
               javaContainer: 'JETTY',
               javaContainerVersion: '9.1',
               isAutoUpdate: true,
+              isDeprecated: true,
             },
           },
         },
@@ -400,6 +404,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
             windowsContainerSettings: {
               javaContainer: 'JETTY',
               javaContainerVersion: '9.1.0',
+              isDeprecated: true,
             },
           },
         },
