@@ -184,7 +184,7 @@ function validateNodeStack(nodeStack) {
   expect(nodeStack.displayText).to.equal('Node');
   expect(nodeStack.value).to.equal('node');
   expect(nodeStack.preferredOs).to.equal('linux');
-  expect(nodeStack.majorVersions.length).to.equal(8);
+  expect(nodeStack.majorVersions.length).to.equal(9);
   expect(nodeStack).to.deep.equal(hardCodedNodeStack);
 }
 
