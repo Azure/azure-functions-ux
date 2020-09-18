@@ -4,7 +4,7 @@ import { FunctionAppStackValue } from './2020-06-01/models/FunctionAppStackModel
 import { WebAppStackValue } from './2020-06-01/models/WebAppStackModel';
 
 export function validateOs(os?: AppStackOs) {
-  if (os && os.toLowerCase() !== 'linux' && os.toLowerCase() !== 'windows') {
+  if (os && os !== 'linux' && os !== 'windows') {
     throw new HttpException(`Incorrect os '${os}' provided. Allowed os values are 'linux' or 'windows'.`, 400);
   }
 }
