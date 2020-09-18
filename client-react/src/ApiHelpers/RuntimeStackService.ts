@@ -11,9 +11,7 @@ import { AppStackOs } from '../models/stacks/app-stacks';
 export default class RuntimeStackService {
   public static getWebAppConfigurationStacks = (stacksOs: AppStackOs) => {
     return sendHttpRequest<WebAppStack[]>({
-      url: `${Url.serviceHost}stacks/webAppStacks?os=${stacksOs}&api-version=${
-        CommonConstants.ApiVersions.stacksApiVersion20200601
-      }&removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
+      url: `${Url.serviceHost}stacks/webAppStacks?${RuntimeStackService._getStackUrlParameter(stacksOs)}`,
       method: 'GET',
     }).then(result => {
       const success = result.metadata.success && !!result.data;
@@ -31,9 +29,7 @@ export default class RuntimeStackService {
 
   public static getFunctionAppConfigurationStacks = (stacksOs: AppStackOs) => {
     return sendHttpRequest<FunctionAppStack[]>({
-      url: `${Url.serviceHost}stacks/functionAppStacks?os=${stacksOs}&api-version=${
-        CommonConstants.ApiVersions.stacksApiVersion20200601
-      }&removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
+      url: `${Url.serviceHost}stacks/functionAppStacks?${RuntimeStackService._getStackUrlParameter(stacksOs)}`,
       method: 'GET',
     }).then(result => {
       const success = result.metadata.success && !!result.data;
@@ -54,6 +50,12 @@ export default class RuntimeStackService {
       url: `${Url.serviceHost}stacks/webAppGitHubActionStacks?os=${stacksOs}&api-version=${CommonConstants.ApiVersions.stacksApiVersion20200501}`,
       method: 'POST',
     });
+  };
+
+  private static _getStackUrlParameter = (stacksOs: AppStackOs, showDeprecatedStack?: boolean) => {
+    return `api-version=${
+      CommonConstants.ApiVersions.stacksApiVersion20200601
+    }&os=${stacksOs}&removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}&removeDeprecatedStacks=${!showDeprecatedStack}`;
   };
 
   private static _isShowHiddenStackFlagPassed = () => {

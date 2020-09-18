@@ -2207,4 +2207,6 @@ export class PortalResources {
   public static createKeyNotificationSuccess = 'createKeyNotificationSuccess';
   public static createKeyNotificationFailed = 'createKeyNotificationFailed';
   public static createKeyNotificationFailedDetails = 'createKeyNotificationFailedDetails';
+  public static stackVersionDeprecated = 'stackVersionDeprecated';
+  public static stackVersionPreview = 'stackVersionPreview';
 }
