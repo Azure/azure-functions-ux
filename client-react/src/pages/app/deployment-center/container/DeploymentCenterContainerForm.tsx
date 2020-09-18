@@ -9,6 +9,7 @@ import {
   ContainerOptions,
   SiteSourceControlRequestBody,
   WorkflowOption,
+  ContainerDockerAccessTypes,
 } from '../DeploymentCenter.types';
 import { KeyCodes } from 'office-ui-fabric-react';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
@@ -58,7 +59,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
       return values.privateRegistryServerUrl;
     } else {
-      return DeploymentCenterConstants.dockerHubUrl;
+      return DeploymentCenterConstants.dockerHubServerUrl;
     }
   };
 
@@ -99,7 +100,9 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       const server = values.privateRegistryServerUrl.toLocaleLowerCase().replace('https://', '');
       return `${prefix}|${server}/${values.privateRegistryImageAndTag}`;
     } else {
-      return `${prefix}|${values.dockerHubImageAndTag}`;
+      return values.dockerHubAccessType === ContainerDockerAccessTypes.public
+        ? `${prefix}|${values.dockerHubImageAndTag}`
+        : `${prefix}|${values.dockerHubUsername}/${values.dockerHubImageAndTag}`;
     }
   };
 
@@ -504,14 +507,17 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   };
 
   const updateDeploymentConfigurations = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
-    const { org, repo, branch, workflowOption, registrySource, option } = values;
+    const { scmType, org, repo, branch, workflowOption, registrySource, option, acrLoginServer, privateRegistryServerUrl } = values;
     LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updateDeploymentConfigurations'), {
+      scmType,
       org,
       repo,
       branch,
       workflowOption,
       registrySource,
       option,
+      acrLoginServer,
+      privateRegistryServerUrl,
     });
 
     // Only do the save if scmtype in the config is set to none.

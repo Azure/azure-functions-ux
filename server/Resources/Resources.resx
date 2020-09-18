@@ -6750,4 +6750,31 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionInfoFetchError" xml:space="preserve">
         <value>Unable to fetch your function</value>
     </data>
+    <data name="createHostKeyNotification" xml:space="preserve">
+        <value>Creating host key</value>
+    </data>
+    <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>Creating system key</value>
+    </data>
+    <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>Creating function key</value>
+    </data>
+    <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>Creating {0}</value>
+    </data>
+    <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>Successfully created {0}</value>
+    </data>
+    <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>Failed to create {0}</value>
+    </data>
+    <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>Failed to create {0}: {1}</value>
+    </data>
+    <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (deprecated)</value>
+    </data>
+    <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (preview)</value>
+    </data>
 </root>

@@ -510,7 +510,7 @@ jobs:
       run: nuget restore
 
     - name: Publish to folder
-      run: msbuild /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=./published/ /p:PackageAsSingleFile=false
+      run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\\published\\"
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
@@ -518,7 +518,7 @@ jobs:
         app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: ./published/`;
+        package: \\published\\`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -535,9 +535,14 @@ const getContainerGithubActionWorkflowDefinition = (
 ) => {
   const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
   const slot = slotName || 'production';
-  const serverUrlLower = serverUrl.toLocaleLowerCase();
-  const loginServer = serverUrlLower.indexOf(DeploymentCenterConstants.dockerHubUrl) > -1 ? `${serverUrlLower}/v1/` : serverUrlLower;
-  const server = serverUrlLower.replace('https://', '');
+  const loginServer = serverUrl.toLocaleLowerCase();
+
+  // NOTE(michinoy): For dockerHub the server URL contains /v1 at the end.
+  // The server used in the image should not have that part.
+  const server =
+    loginServer.indexOf(DeploymentCenterConstants.dockerHubServerUrlHost) > -1
+      ? DeploymentCenterConstants.dockerHubServerUrlHost
+      : loginServer.replace('https://', '');
 
   return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
@@ -558,13 +563,13 @@ jobs:
 
     - uses: azure/docker-login@v1
       with:
-        login-server: ${loginServer}
+        login-server: ${loginServer}/
         username: \${{ secrets.${containerUsernameSecretName} }}
         password: \${{ secrets.${containerPasswordSecretName} }}
 
     - run: |
-      docker build . -t ${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
-      docker push ${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
+        docker build . -t ${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
+        docker push ${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
@@ -572,5 +577,5 @@ jobs:
         app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${publishingProfileSecretName} }}
-        images: '${server}/${image}:\${{ github.sha }}'`;
+        images: '${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}'`;
 };

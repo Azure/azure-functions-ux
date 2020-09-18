@@ -25,7 +25,7 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
   if (!pythonStack) {
     return null;
   }
-  const pythonVersions = getStacksSummaryForDropdown(pythonStack, AppStackOs.windows);
+  const pythonVersions = getStacksSummaryForDropdown(pythonStack, AppStackOs.windows, t);
   pythonVersions.push({ key: '', text: t('off') });
 
   return (

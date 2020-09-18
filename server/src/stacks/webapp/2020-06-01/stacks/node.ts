@@ -1,12 +1,13 @@
 import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
-const node12EOL = new Date(2022, 4, 1);
-const node10EOL = new Date(2021, 4, 1);
-const node9EOL = new Date(2019, 6, 30);
-const node8EOL = new Date(2019, 12, 31);
-const node7EOL = new Date(2017, 6, 30);
-const node6EOL = new Date(2019, 4, 30);
-const node4EOL = new Date(2018, 4, 30);
+const node14EOL = new Date(2023, 4, 30).toString();
+const node12EOL = new Date(2022, 4, 1).toString();
+const node10EOL = new Date(2021, 4, 1).toString();
+const node9EOL = new Date(2019, 6, 30).toString();
+const node8EOL = new Date(2019, 12, 31).toString();
+const node7EOL = new Date(2017, 6, 30).toString();
+const node6EOL = new Date(2019, 4, 30).toString();
+const node4EOL = new Date(2018, 4, 30).toString();
 
 export const nodeStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Node',
@@ -31,6 +32,32 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+            },
+          },
+        },
+      ],
+    },
+    {
+      displayText: 'Node 14',
+      value: '14',
+      minorVersions: [
+        {
+          displayText: 'Node 14 LTS',
+          value: '14-lts',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              runtimeVersion: 'NODE|14-lts',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '14.x',
+              },
+              isHidden: true,
+              isPreview: true,
+              endOfLifeDate: node14EOL,
             },
           },
         },

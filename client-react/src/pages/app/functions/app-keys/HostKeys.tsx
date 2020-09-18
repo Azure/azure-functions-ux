@@ -29,6 +29,8 @@ import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { ThemeContext } from '../../../../ThemeContext';
 import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import { PortalContext } from '../../../../PortalContext';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 interface HostKeysProps {
   resourceId: string;
@@ -52,6 +54,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
   const { t } = useTranslation();
   const appKeysContext = useContext(AppKeysContext);
   const theme = useContext(ThemeContext);
+  const portalCommunicator = useContext(PortalContext);
 
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(hostKeys.map(h => h.name))]);
@@ -248,8 +251,26 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     ];
   };
 
-  const createHostKey = (key: AppKeysModel) => {
-    appKeysContext.createKey(resourceId, key.name, key.value, AppKeysTypes.functionKeys);
+  const createHostKey = async (key: AppKeysModel) => {
+    const keyName = key.name;
+    const notificationId = portalCommunicator.startNotification(
+      t('createHostKeyNotification'),
+      t('createKeyNotificationDetails').format(keyName)
+    );
+    const createKeyResponse = await appKeysContext.createKey(resourceId, keyName, key.value, AppKeysTypes.functionKeys);
+    if (createKeyResponse.metadata.success) {
+      portalCommunicator.stopNotification(notificationId, true, t('createKeyNotificationSuccess').format(keyName));
+    } else {
+      const errorMessage = getErrorMessage(createKeyResponse.metadata.error);
+      portalCommunicator.stopNotification(
+        notificationId,
+        false,
+        errorMessage
+          ? t('createKeyNotificationFailedDetails').format(keyName, errorMessage)
+          : t('createKeyNotificationFailed').format(keyName)
+      );
+    }
+
     onClosePanel();
     refreshData();
   };

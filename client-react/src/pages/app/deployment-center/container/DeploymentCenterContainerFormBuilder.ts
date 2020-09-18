@@ -202,6 +202,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     // Depending on the container option (single/docker or compose) the fxVersion value could either contain
     // the registry source or an encoded yml file (yeah I know!). Following are some examples:
     // compose fxVersion: COMPOSE|<base64Encoded string>
+    // docker fxVersion with serverPath and username: DOCKER|<serverPath>/<username>/<imageName>:<tag>
     // docker fxVersion with serverPath: DOCKER|<serverPath>/<imageName>:<tag>
     // docker fxVersion without serverPath: DOCKER|<imageName>:<tag>
     // docker fxVersion without tag: DOCKER|<image>
@@ -224,8 +225,14 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       const registryParts = fxVersionParts[1].split(':');
       const imageParts = registryParts[0].split('/');
       const tag = registryParts[1] ? registryParts[1] : '';
-      const image = imageParts.length > 1 ? imageParts[1] : imageParts[0];
       const server = imageParts.length > 1 ? imageParts[0] : '';
+
+      let image = imageParts[0];
+      if (imageParts.length > 2) {
+        image = imageParts[2];
+      } else if (imageParts.length > 1) {
+        image = imageParts[1];
+      }
 
       return {
         server,
@@ -265,10 +272,12 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
 
   private _getDockerHubFormData(serverUrl: string, username: string, password: string, fxVersionParts: FxVersionParts): DockerHubFormData {
     if (this._isServerUrlDockerHub(serverUrl)) {
+      const dockerHubAccessType = username && password ? ContainerDockerAccessTypes.private : ContainerDockerAccessTypes.public;
+
       return {
         dockerHubImageAndTag: fxVersionParts.tag ? `${fxVersionParts.image}:${fxVersionParts.tag}` : fxVersionParts.image,
         dockerHubComposeYml: fxVersionParts.composeYml,
-        dockerHubAccessType: username && password ? ContainerDockerAccessTypes.private : ContainerDockerAccessTypes.public,
+        dockerHubAccessType: dockerHubAccessType,
         dockerHubUsername: username,
         dockerHubPassword: password,
       };
@@ -313,7 +322,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _isServerUrlDockerHub(serverUrl: string): boolean {
-    return !!serverUrl && serverUrl.indexOf(DeploymentCenterConstants.dockerHubUrl) > -1;
+    return !!serverUrl && serverUrl.indexOf(DeploymentCenterConstants.dockerHubServerUrlHost) > -1;
   }
 
   private _isComposeContainerOption(fxVersion: string): boolean {
