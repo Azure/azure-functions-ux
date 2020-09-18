@@ -52,19 +52,14 @@ export default class RuntimeStackService {
     });
   };
 
-  private static _getStackUrlParameter = (stacksOs: AppStackOs) => {
-    return `os=${stacksOs}&api-version=${
+  private static _getStackUrlParameter = (stacksOs: AppStackOs, showDeprecatedStack?: boolean) => {
+    return `api-version=${
       CommonConstants.ApiVersions.stacksApiVersion20200601
-    }&removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}&removeDeprecatedStacks=${!RuntimeStackService._isShowDeprecatedStackFlagPassed()}`;
+    }&os=${stacksOs}&removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}&removeDeprecatedStacks=${!showDeprecatedStack}`;
   };
 
   private static _isShowHiddenStackFlagPassed = () => {
     const flagValue = Url.getFeatureValue(CommonConstants.FeatureFlags.showHiddenStacks);
-    return flagValue && flagValue.toLocaleLowerCase() === 'true';
-  };
-
-  private static _isShowDeprecatedStackFlagPassed = () => {
-    const flagValue = Url.getFeatureValue(CommonConstants.FeatureFlags.showDeprecatedStacks);
     return flagValue && flagValue.toLocaleLowerCase() === 'true';
   };
 }

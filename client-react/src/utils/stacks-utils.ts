@@ -7,7 +7,7 @@ import LogService from './LogService';
 import { LogCategories } from './LogCategories';
 import { getDateAfterXSeconds } from './DateUtilities';
 
-export const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
+const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
 
 export const getStacksSummaryForDropdown = (
   stack: WebAppStack | FunctionAppStack,
@@ -38,17 +38,21 @@ export const getMinorVersionText = (text: string, t: i18next.TFunction, settings
     if (settings.isAutoUpdate) {
       return t('stackVersionAutoUpdate').format(text);
     }
+    if (isStackVersionDeprecated(settings)) {
+      return t('stackVersionDeprecated').format(text);
+    }
     if (isStackVersionEndOfLife(settings.endOfLifeDate)) {
       return t('endOfLifeTagTemplate').format(text);
-    }
-    if (settings.isDeprecated) {
-      return t('stackVersionDeprecated').format(text);
     }
     if (settings.isPreview) {
       return t('stackVersionPreview').format(text);
     }
   }
   return text;
+};
+
+export const isStackVersionDeprecated = (settings: WebAppRuntimeSettings) => {
+  return settings.isDeprecated || (!!settings.endOfLifeDate && Date.parse(settings.endOfLifeDate) > Date.now());
 };
 
 export const isStackVersionEndOfLife = (endOfLifeDate?: string): boolean => {
