@@ -35,7 +35,7 @@ export class StacksController {
     this._validateOs(os);
 
     if (apiVersion === Versions.version20200501) {
-      return this._stackService20200501.getGitHubActionStacks(os);
+      return this._stackService20200501.getWebAppGitHubActionStacks(os);
     }
   }
 

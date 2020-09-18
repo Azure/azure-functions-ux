@@ -73,7 +73,7 @@ describe('WebApp Stacks Test 2020-05-01', () => {
   // Test length of github action stacks
   describe('Test GitHub Actions stack length', () => {
     it('should validate all GitHub Action stacks are returned', done => {
-      const stacks = stacksService.getGitHubActionStacks();
+      const stacks = stacksService.getWebAppGitHubActionStacks();
       validateGithubActionStackLength(stacks);
       done();
     });
@@ -82,7 +82,7 @@ describe('WebApp Stacks Test 2020-05-01', () => {
   // Test length of github action stacks windows
   describe('Test GitHub Actions stack length for Windows', () => {
     it('should validate all GitHub Action stacks with windows are returned', done => {
-      const stacks = stacksService.getGitHubActionStacks('windows');
+      const stacks = stacksService.getWebAppGitHubActionStacks('windows');
       validateGithubActionWindowsStackLength(stacks);
       done();
     });
@@ -91,7 +91,7 @@ describe('WebApp Stacks Test 2020-05-01', () => {
   // Test length of github action stacks linux
   describe('Test GitHub Actions stack length for Linux', () => {
     it('should validate all GitHub Action stacks with linux are returned', done => {
-      const stacks = stacksService.getGitHubActionStacks('linux');
+      const stacks = stacksService.getWebAppGitHubActionStacks('linux');
       validateGithubActionLinuxStackLength(stacks);
       done();
     });

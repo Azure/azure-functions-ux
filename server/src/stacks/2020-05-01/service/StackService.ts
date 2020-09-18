@@ -146,7 +146,7 @@ export class StacksService20200501 {
     return stacks;
   }
 
-  getGitHubActionStacks(os?: 'linux' | 'windows'): WebAppCreateStack[] {
+  getWebAppGitHubActionStacks(os?: 'linux' | 'windows'): WebAppCreateStack[] {
     const stacks = this.getWebAppCreateStacks(os);
 
     // remove all supported platforms which are not github action supported.
