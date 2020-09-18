@@ -52,7 +52,7 @@ export const getMinorVersionText = (text: string, t: i18next.TFunction, settings
 };
 
 export const isStackVersionDeprecated = (settings: WebAppRuntimeSettings) => {
-  return settings.isDeprecated || (!!settings.endOfLifeDate && Date.parse(settings.endOfLifeDate) > Date.now());
+  return settings.isDeprecated || (!!settings.endOfLifeDate && Date.parse(settings.endOfLifeDate) < Date.now());
 };
 
 export const isStackVersionEndOfLife = (endOfLifeDate?: string): boolean => {
