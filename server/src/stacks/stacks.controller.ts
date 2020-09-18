@@ -2,18 +2,17 @@ import { Controller, Query, HttpException, Post, Get } from '@nestjs/common';
 import { Versions, WebAppVersions } from './versions';
 import { FunctionAppStacksService20200501 } from './functionapp/2020-05-01/stacks.service';
 import { WebAppStacksService20200501 } from './webapp/2020-05-01/stacks.service';
-import { WebAppStacksService20200601 } from './webapp/2020-06-01/stacks.service';
-import { FunctionAppStacksService20200601 } from './functionapp/2020-06-01/stacks.service';
-import { Os, StackValue as FunctionAppStackValue } from './functionapp/2020-06-01/stack.model';
-import { StackValue as WebAppStackValue } from './webapp/2020-06-01/stack.model';
+import { StacksService20200601 } from './2020-06-01/service/StackService';
+import { AppStackOs } from './2020-06-01/models/AppStackModel';
+import { FunctionAppStackValue } from './2020-06-01/models/FunctionAppStackModel';
+import { WebAppStackValue } from './2020-06-01/models/WebAppStackModel';
 
 @Controller('stacks')
 export class StacksController {
   constructor(
     private _stackWebAppService20200501: WebAppStacksService20200501,
     private _stackFunctionAppService20200501: FunctionAppStacksService20200501,
-    private _stackWebAppService20200601: WebAppStacksService20200601,
-    private _stackFunctionAppService20200601: FunctionAppStacksService20200601
+    private _stackService20200601: StacksService20200601
   ) {}
 
   @Post('webAppCreateStacks')
@@ -59,7 +58,7 @@ export class StacksController {
   @Get('functionAppStacks')
   functionAppStacks(
     @Query('api-version') apiVersion: string,
-    @Query('os') os?: Os,
+    @Query('os') os?: AppStackOs,
     @Query('stack') stack?: FunctionAppStackValue,
     @Query('removeHiddenStacks') removeHiddenStacks?: string,
     @Query('removeDeprecatedStacks') removeDeprecatedStacks?: string,
@@ -77,14 +76,14 @@ export class StacksController {
     const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
 
     if (apiVersion === Versions.version20200601) {
-      return this._stackFunctionAppService20200601.getStacks(os, stack, removeHidden, removeDeprecated, removePreview);
+      return this._stackService20200601.getFunctionAppStacks(os, stack, removeHidden, removeDeprecated, removePreview);
     }
   }
 
   @Get('webAppStacks')
   webAppStacks(
     @Query('api-version') apiVersion: string,
-    @Query('os') os?: 'linux' | 'windows',
+    @Query('os') os?: AppStackOs,
     @Query('stack') stack?: WebAppStackValue,
     @Query('removeHiddenStacks') removeHiddenStacks?: string,
     @Query('removeDeprecatedStacks') removeDeprecatedStacks?: string,
@@ -102,12 +101,12 @@ export class StacksController {
     const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
 
     if (apiVersion === Versions.version20200601) {
-      return this._stackWebAppService20200601.getStacks(os, stack, removeHidden, removeDeprecated, removePreview);
+      return this._stackService20200601.getWebAppStacks(os, stack, removeHidden, removeDeprecated, removePreview);
     }
   }
 
-  private _validateOs(os?: 'linux' | 'windows') {
-    if (os && os !== 'linux' && os !== 'windows') {
+  private _validateOs(os?: AppStackOs) {
+    if (os && os.toLowerCase() !== 'linux' && os.toLowerCase() !== 'windows') {
       throw new HttpException(`Incorrect os '${os}' provided. Allowed os values are 'linux' or 'windows'.`, 400);
     }
   }
