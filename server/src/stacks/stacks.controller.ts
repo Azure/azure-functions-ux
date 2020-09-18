@@ -1,7 +1,6 @@
 import { Controller, Query, HttpException, Post, Get } from '@nestjs/common';
-import { Versions, WebAppVersions } from './versions';
-import { FunctionAppStacksService20200501 } from './functionapp/2020-05-01/stacks.service';
-import { WebAppStacksService20200501 } from './webapp/2020-05-01/stacks.service';
+import { Versions } from './versions';
+import { StacksService20200501 } from './2020-05-01/service/StackService';
 import { StacksService20200601 } from './2020-06-01/service/StackService';
 import { AppStackOs } from './2020-06-01/models/AppStackModel';
 import { FunctionAppStackValue } from './2020-06-01/models/FunctionAppStackModel';
@@ -9,38 +8,34 @@ import { WebAppStackValue } from './2020-06-01/models/WebAppStackModel';
 
 @Controller('stacks')
 export class StacksController {
-  constructor(
-    private _stackWebAppService20200501: WebAppStacksService20200501,
-    private _stackFunctionAppService20200501: FunctionAppStacksService20200501,
-    private _stackService20200601: StacksService20200601
-  ) {}
+  constructor(private _stackService20200501: StacksService20200501, private _stackService20200601: StacksService20200601) {}
 
   @Post('webAppCreateStacks')
   webAppCreateStacks(@Query('api-version') apiVersion: string) {
-    this._validateApiVersion(apiVersion, WebAppVersions);
+    this._validateApiVersion(apiVersion, [Versions.version20200501]);
 
     if (apiVersion === Versions.version20200501) {
-      return this._stackWebAppService20200501.getCreateStacks();
+      return this._stackService20200501.getWebAppCreateStacks();
     }
   }
 
   @Post('webAppConfigStacks')
   webAppConfigStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
-    this._validateApiVersion(apiVersion, WebAppVersions);
+    this._validateApiVersion(apiVersion, [Versions.version20200501]);
     this._validateOs(os);
 
     if (apiVersion === Versions.version20200501) {
-      return this._stackWebAppService20200501.getConfigStacks(os);
+      return this._stackService20200501.getWebAppConfigStacks(os);
     }
   }
 
   @Post('webAppGitHubActionStacks')
   webAppGitHubActionStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
-    this._validateApiVersion(apiVersion, WebAppVersions);
+    this._validateApiVersion(apiVersion, [Versions.version20200501]);
     this._validateOs(os);
 
     if (apiVersion === Versions.version20200501) {
-      return this._stackWebAppService20200501.getGitHubActionStacks(os);
+      return this._stackService20200501.getGitHubActionStacks(os);
     }
   }
 
@@ -51,7 +46,7 @@ export class StacksController {
     const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
 
     if (apiVersion === Versions.version20200501) {
-      return this._stackFunctionAppService20200501.getStacks(removeHidden);
+      return this._stackService20200501.getFunctionAppStacks(removeHidden);
     }
   }
 
