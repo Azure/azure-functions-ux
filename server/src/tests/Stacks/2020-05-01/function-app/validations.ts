@@ -1,10 +1,10 @@
 import * as chai from 'chai';
-import { dotnetCoreStack as hardCodedDotnetCoreStack } from './../../../../stacks/functionapp/2020-05-01/stacks/dotnetCore';
-import { nodeStack as hardCodedNodeStack } from './../../../../stacks/functionapp/2020-05-01/stacks/node';
-import { pythonStack as hardCodedPythonStack } from './../../../../stacks/functionapp/2020-05-01/stacks/python';
-import { javaStack as hardCodedJavaStack } from './../../../../stacks/functionapp/2020-05-01/stacks/java';
-import { powershellStack as hardCodedPowershellStack } from './../../../../stacks/functionapp/2020-05-01/stacks/powershell';
-import { customStack as hardCodedCustomStack } from './../../../../stacks/functionapp/2020-05-01/stacks/custom';
+import { dotnetCoreStack as hardCodedDotnetCoreStack } from './../../../../stacks/2020-05-01/stacks/function-app-stacks/DotnetCore';
+import { nodeStack as hardCodedNodeStack } from './../../../../stacks/2020-05-01/stacks/function-app-stacks/Node';
+import { pythonStack as hardCodedPythonStack } from './../../../../stacks/2020-05-01/stacks/function-app-stacks/Python';
+import { javaStack as hardCodedJavaStack } from './../../../../stacks/2020-05-01/stacks/function-app-stacks/Java';
+import { powershellStack as hardCodedPowershellStack } from './../../../../stacks/2020-05-01/stacks/function-app-stacks/Powershell';
+import { customStack as hardCodedCustomStack } from './../../../../stacks/2020-05-01/stacks/function-app-stacks/Custom';
 
 const expect = chai.expect;
 
