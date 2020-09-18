@@ -200,7 +200,7 @@ export const javaContainerWindowsConfigStack: WebAppConfigStack = {
             ],
             applicationInsights: false,
             isPreview: false,
-            isDeprecated: false,
+            isDeprecated: true,
             isHidden: false,
           },
           {
@@ -223,7 +223,7 @@ export const javaContainerWindowsConfigStack: WebAppConfigStack = {
             ],
             applicationInsights: false,
             isPreview: false,
-            isDeprecated: false,
+            isDeprecated: true,
             isHidden: false,
           },
         ],
