@@ -6771,4 +6771,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="createKeyNotificationFailedDetails" xml:space="preserve">
         <value>Failed to create {0}: {1}</value>
     </data>
+    <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (deprecated)</value>
+    </data>
+    <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (preview)</value>
+    </data>
 </root>

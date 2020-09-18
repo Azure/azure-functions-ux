@@ -1,9 +1,13 @@
-import { WebAppStack } from '../models/stacks/web-app-stacks';
+import { WebAppStack, WebAppRuntimeSettings } from '../models/stacks/web-app-stacks';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import { AppStackOs } from '../models/stacks/app-stacks';
 import { FunctionAppStack } from '../models/stacks/function-app-stacks';
-import { getMinorVersionText } from '../pages/app/app-settings/GeneralSettings/LinuxStacks/LinuxStacks.data';
 import i18next from 'i18next';
+import LogService from './LogService';
+import { LogCategories } from './LogCategories';
+import { getDateAfterXSeconds } from './DateUtilities';
+
+const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
 
 export const getStacksSummaryForDropdown = (
   stack: WebAppStack | FunctionAppStack,
@@ -27,6 +31,37 @@ export const getStacksSummaryForDropdown = (
     });
   });
   return options;
+};
+
+export const getMinorVersionText = (text: string, t: i18next.TFunction, settings?: WebAppRuntimeSettings) => {
+  if (!!settings) {
+    if (settings.isAutoUpdate) {
+      return t('stackVersionAutoUpdate').format(text);
+    }
+    if (isStackVersionDeprecated(settings)) {
+      return t('stackVersionDeprecated').format(text);
+    }
+    if (isStackVersionEndOfLife(settings.endOfLifeDate)) {
+      return t('endOfLifeTagTemplate').format(text);
+    }
+    if (settings.isPreview) {
+      return t('stackVersionPreview').format(text);
+    }
+  }
+  return text;
+};
+
+export const isStackVersionDeprecated = (settings: WebAppRuntimeSettings) => {
+  return settings.isDeprecated || (!!settings.endOfLifeDate && Date.parse(settings.endOfLifeDate) < Date.now());
+};
+
+export const isStackVersionEndOfLife = (endOfLifeDate?: string): boolean => {
+  try {
+    return !!endOfLifeDate && Date.parse(endOfLifeDate) <= getDateAfterXSeconds(ENDOFLIFEMAXSECONDS).getSeconds();
+  } catch (err) {
+    LogService.error(LogCategories.appSettings, 'StackSettings', err);
+    return false;
+  }
 };
 
 export class JavaVersions {

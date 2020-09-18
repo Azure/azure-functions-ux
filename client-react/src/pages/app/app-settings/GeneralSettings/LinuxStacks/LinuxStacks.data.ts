@@ -1,12 +1,9 @@
 import i18next from 'i18next';
-import { WebAppStack, WebAppRuntimeSettings } from '../../../../../models/stacks/web-app-stacks';
-import { getDateAfterXSeconds } from '../../../../../utils/DateUtilities';
-import LogService from '../../../../../utils/LogService';
-import { LogCategories } from '../../../../../utils/LogCategories';
+import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
+import { getMinorVersionText } from '../../../../../utils/stacks-utils';
 
 export const LINUXJAVASTACKKEY = 'java';
 export const LINUXJAVACONTAINERKEY = 'javacontainers';
-export const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
 
 interface VersionDetails {
   runtimeStackName: string;
@@ -57,27 +54,6 @@ export const getMinorVersions = (builtInStacks: WebAppStack[], stack: string, ma
       key: settings && settings.runtimeVersion ? settings.runtimeVersion.toLocaleLowerCase() : minVer.value,
     };
   });
-};
-
-export const getMinorVersionText = (text: string, t: i18next.TFunction, settings?: WebAppRuntimeSettings) => {
-  if (!!settings) {
-    if (settings.isAutoUpdate) {
-      return t('stackVersionAutoUpdate').format(text);
-    }
-    if (isStackVersionEndOfLife(settings.endOfLifeDate)) {
-      return t('endOfLifeTagTemplate').format(text);
-    }
-  }
-  return text;
-};
-
-export const isStackVersionEndOfLife = (endOfLifeDate?: string): boolean => {
-  try {
-    return !!endOfLifeDate && Date.parse(endOfLifeDate) <= getDateAfterXSeconds(ENDOFLIFEMAXSECONDS).getSeconds();
-  } catch (err) {
-    LogService.error(LogCategories.appSettings, 'StackSettings', err);
-    return false;
-  }
 };
 
 export const getVersionDetails = (builtInStacks: WebAppStack[], version: string): VersionDetails => {
