@@ -1,12 +1,12 @@
 import * as chai from 'chai';
-import { aspDotnetStack as hardCodedAspDotnetStack } from './../../../../stacks/webapp/2020-06-01/stacks/aspDotnet';
-import { nodeStack as hardCodedNodeStack } from './../../../../stacks/webapp/2020-06-01/stacks/node';
-import { pythonStack as hardCodedPythonStack } from './../../../../stacks/webapp/2020-06-01/stacks/python';
-import { phpStack as hardCodedPhpStack } from './../../../../stacks/webapp/2020-06-01/stacks/php';
-import { dotnetCoreStack as hardCodedDotnetCoreStack } from './../../../../stacks/webapp/2020-06-01/stacks/dotnetCore';
-import { rubyStack as hardCodedRubyStack } from './../../../../stacks/webapp/2020-06-01/stacks/ruby';
-import { javaStack as hardCodedJavaStack } from './../../../../stacks/webapp/2020-06-01/stacks/java';
-import { javaContainersStack as hardCodedJavaContainersStack } from './../../../../stacks/webapp/2020-06-01/stacks/javaContainers';
+import { aspDotnetStack as hardCodedAspDotnetStack } from './../../../../stacks/2020-06-01/stacks/web-app-stacks/AspDotnet';
+import { nodeStack as hardCodedNodeStack } from './../../../../stacks/2020-06-01/stacks/web-app-stacks/Node';
+import { pythonStack as hardCodedPythonStack } from './../../../../stacks/2020-06-01/stacks/web-app-stacks/Python';
+import { phpStack as hardCodedPhpStack } from './../../../../stacks/2020-06-01/stacks/web-app-stacks/Php';
+import { dotnetCoreStack as hardCodedDotnetCoreStack } from './../../../../stacks/2020-06-01/stacks/web-app-stacks/DotnetCore';
+import { rubyStack as hardCodedRubyStack } from './../../../../stacks/2020-06-01/stacks/web-app-stacks/Ruby';
+import { javaStack as hardCodedJavaStack } from './../../../../stacks/2020-06-01/stacks/web-app-stacks/Java';
+import { javaContainersStack as hardCodedJavaContainersStack } from './../../../../stacks/2020-06-01/stacks/web-app-stacks/JavaContainers';
 
 const expect = chai.expect;
 
