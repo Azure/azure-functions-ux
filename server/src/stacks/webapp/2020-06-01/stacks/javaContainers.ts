@@ -9,11 +9,18 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
       value: 'javase',
       minorVersions: [
         {
-          displayText: 'Java SE 11',
-          value: '11',
+          displayText: 'Java SE',
+          value: 'SE',
           stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'JAVA',
+              // note (allisonm): for Java SE the java container version doesn't matter
+              javaContainerVersion: 'SE',
+              isAutoUpdate: true,
+            },
             linuxContainerSettings: {
               java11Runtime: 'JAVA|11-java11',
+              java8Runtime: 'JAVA|8-jre8',
               isAutoUpdate: true,
             },
           },
@@ -35,21 +42,6 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
             linuxContainerSettings: {
               // Note (allisonm): This doesn't have suffix of -java11 since setting to 11.0.5 prevents auto-updates
               java11Runtime: 'JAVA|11.0.5',
-            },
-          },
-        },
-        {
-          displayText: 'Java SE 8',
-          value: '8',
-          stackSettings: {
-            windowsContainerSettings: {
-              javaContainer: 'JAVA',
-              javaContainerVersion: '8',
-              isAutoUpdate: true,
-            },
-            linuxContainerSettings: {
-              java8Runtime: 'JAVA|8-jre8',
-              isAutoUpdate: true,
             },
           },
         },
