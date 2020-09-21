@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl } from '../DeploymentCenter.styles';
 import { Link, Icon } from 'office-ui-fabric-react';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
@@ -51,7 +50,7 @@ const DeploymentCenterExternalConfiguredView: React.FC<{}> = props => {
   const getBranchLink = () => {
     if (branch && repo) {
       return (
-        <Link key="deployment-center-branch-link" onClick={() => window.open(repo, '_blank')} className={additionalTextFieldControl}>
+        <Link key="deployment-center-branch-link" onClick={() => window.open(repo, '_blank')}>
           {`${branch} `}
           <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
         </Link>

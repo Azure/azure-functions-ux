@@ -6,7 +6,7 @@ import LogService from '../../../../utils/LogService';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { useTranslation } from 'react-i18next';
-import { additionalTextFieldControl, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
 import BitbucketService from '../../../../ApiHelpers/BitbucketService';
 import { AuthorizationResult } from '../DeploymentCenter.types';
@@ -102,11 +102,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<{}> = props => {
   const getBranchLink = () => {
     if (branch && repoUrl) {
       return (
-        <Link
-          key="deployment-center-branch-link"
-          onClick={() => window.open(repoUrl, '_blank')}
-          className={additionalTextFieldControl}
-          aria-label={`${branch}`}>
+        <Link key="deployment-center-branch-link" onClick={() => window.open(repoUrl, '_blank')} aria-label={`${branch}`}>
           {`${branch} `}
           <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
         </Link>
