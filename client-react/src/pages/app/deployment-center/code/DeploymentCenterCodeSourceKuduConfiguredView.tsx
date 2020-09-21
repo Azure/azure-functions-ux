@@ -6,7 +6,7 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { ScmType } from '../../../../models/site/config';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { Link, Icon } from 'office-ui-fabric-react';
-import { additionalTextFieldControl } from '../DeploymentCenter.styles';
+import { disconnectLink } from '../DeploymentCenter.styles';
 import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<{}> = () => {
@@ -88,7 +88,7 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<{}> = () => {
         <Link
           key="deployment-center-disconnect-link"
           onClick={showRefreshConfirmDialog}
-          className={additionalTextFieldControl}
+          className={disconnectLink}
           aria-label={t('disconnect')}>
           <Icon iconName={'PlugDisconnected'} />
           {` ${t('disconnect')}`}
