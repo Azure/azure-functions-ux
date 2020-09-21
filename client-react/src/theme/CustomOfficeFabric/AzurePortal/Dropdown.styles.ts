@@ -150,7 +150,7 @@ export const DropDownStyles = props => {
     dropdownItemHeader: [
       globalClassnames.dropdownItemHeader,
       {
-        ...fonts.medium,
+        ...fonts.smallPlus,
         fontWeight: 'bold',
         color: semanticColors.hyperlinkText,
         height: DROPDOWN_ITEMHEIGHT,
