@@ -49,15 +49,16 @@ export class HomeServiceProd extends HomeService implements OnModuleInit {
 
     if (await exists(reactHtmlFilePath)) {
       const html = await readFile(reactHtmlFilePath, { encoding: 'utf8' });
-      const scriptTagFormat = `<script type="text\/javascript" id='appsvcConfig'>{0}<\/script>`;
+      const scriptTagRegex = `<script type="text\/javascript" id="appsvcConfig">.*<\/script>`;
+      const scriptTagFormat = `<script type="text/javascript" id="appsvcConfig">{0}</script>`;
 
       try {
-        const regex = new RegExp(scriptTagFormat.replace('{0}', '.*'), 'gis');
+        const regex = new RegExp(scriptTagRegex);
         const config = this._configService.staticReactConfig;
 
         const configString = `window.appsvc = ${JSON.stringify(config)}`;
-        const scriptTagString = scriptTagFormat.replace('{0}', configString);
-        newHtml = html.replace(regex, scriptTagString);
+        const newScriptTagString = scriptTagFormat.replace('{0}', configString);
+        newHtml = html.replace(regex, newScriptTagString);
 
         this._logService.trackEvent('React-Transform', { success: 'true', error: null });
       } catch (e) {
