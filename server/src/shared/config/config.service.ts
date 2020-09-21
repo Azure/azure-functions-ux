@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { HttpService } from '../../shared/http/http.service';
-import { StaticConfig } from '../../types/config';
+import { StaticAngularConfig, StaticReactConfig } from '../../types/config';
 export const KeyvaultApiVersion = '2016-10-01';
 export const KeyvaultUri = 'https://vault.azure.net';
 
@@ -23,7 +23,7 @@ export class ConfigService implements OnModuleInit {
     return process.env[key];
   }
 
-  get staticConfig(): StaticConfig {
+  get staticAngularConfig(): StaticAngularConfig {
     return {
       config: {
         env: {
@@ -42,6 +42,19 @@ export class ConfigService implements OnModuleInit {
       },
     };
   }
+
+  get staticReactConfig(): StaticReactConfig {
+    return {
+      env: {
+        appName: process.env.WEBSITE_SITE_NAME,
+        hostName: process.env.WEBSITE_HOSTNAME,
+        cloud: 'public',
+        acceptedOriginsSuffix: ['portal.azure.com'],
+      },
+      version: process.env.VERSION,
+    };
+  }
+
   private async getAADTokenFromMSI(endpoint: string, secret: string, resource: string) {
     const apiVersion = '2017-09-01';
 

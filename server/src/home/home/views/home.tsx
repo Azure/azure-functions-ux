@@ -3,7 +3,7 @@ import { Head as AzureHead } from './azure/Head';
 import { Body as AzureBody } from './azure/Body';
 import { Head as LocalHead } from './local/Head';
 import { Body as LocalBody } from './local/Body';
-import { HomeConfig } from 'src/types/config';
+import { AngularHomeConfig } from 'src/types/config';
 declare global {
   namespace JSX {
     interface IntrinsicElements {
@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-export const Home = (props: HomeConfig) => {
+export const Home = (props: AngularHomeConfig) => {
   return (
     <html lang="en">
       <head title="Azure Functions">

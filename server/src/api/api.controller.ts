@@ -1,4 +1,7 @@
 import { Controller, Get, Post, Query, HttpCode } from '@nestjs/common';
+import { exists, readFile } from 'async-file';
+import { join, normalize } from 'path';
+import { Builder, parseString, parseStringPromise } from 'xml2js';
 import { ConfigService } from '../shared/config/config.service';
 import { ResourcesService } from './resources/resources.service';
 
@@ -9,6 +12,27 @@ export class ApiController {
   @Get('ping')
   @HttpCode(200)
   async ping() {
+    // etodo: REMOVE
+    // const reactHtmlFile = normalize('D:\\git\\azure-functions-ux\\client-react\\public\\index.html');
+    // if (await exists(reactHtmlFile)) {
+    //   const html = await readFile(reactHtmlFile, { encoding: 'utf8' });
+
+    //   const scriptTagFormat = `<script type="text\/javascript" id='appsvcConfig'>{0}<\/script>`;
+
+    //   try {
+    //     const regex = new RegExp(scriptTagFormat.replace('{0}', '.*'), 'gis');
+    //     const config = this.config.staticReactConfig;
+
+    //     const configString = `window.appsvc = ${JSON.stringify(config)}`;
+    //     const scriptTagString = scriptTagFormat.replace('{0}', configString);
+    //     const newHtml = html.replace(regex, scriptTagString);
+    //     console.log(newHtml);
+
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // }
+
     return 'success';
   }
 

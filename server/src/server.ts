@@ -43,6 +43,8 @@ async function bootstrap() {
     });
   }
 
+  // this should only apply to local development.  In Azure we rely on cors rules defined by the web app
+  app.enableCors();
   app.useStaticAssets(join(__dirname, 'public'));
   app.useStaticAssets(join(__dirname, 'public', 'react'));
   app.use(
