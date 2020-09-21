@@ -22,12 +22,14 @@ export interface AngularHomeConfig extends StaticAngularConfig {
   clientOptimizationsOff: boolean;
 }
 
+export type CloudType = 'onprem' | 'public' | 'fairfax' | 'mooncake' | 'blackforest' | 'usnat' | 'ussec';
+
 export interface ReactEnvironment {
   hostName: string;
   azureResourceManagerEndpoint?: string;
   armToken?: string;
   appName: string;
-  cloud: 'onprem' | 'public' | 'fairfax' | 'mooncake' | 'blackforest' | 'usnat' | 'ussec';
+  cloud: CloudType;
   acceptedOriginsSuffix: string[];
 }
 

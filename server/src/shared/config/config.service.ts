@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { HttpService } from '../../shared/http/http.service';
-import { StaticAngularConfig, StaticReactConfig } from '../../types/config';
+import { CloudType, StaticAngularConfig, StaticReactConfig } from '../../types/config';
 export const KeyvaultApiVersion = '2016-10-01';
 export const KeyvaultUri = 'https://vault.azure.net';
 
@@ -44,12 +44,18 @@ export class ConfigService implements OnModuleInit {
   }
 
   get staticReactConfig(): StaticReactConfig {
+    const acceptedOriginsString = process.env.APPSVC_ACCEPTED_ORIGINS_SUFFIX;
+    let acceptedOrigins: string[] = [];
+    if (acceptedOriginsString) {
+      acceptedOrigins = acceptedOriginsString.split(',');
+    }
+
     return {
       env: {
         appName: process.env.WEBSITE_SITE_NAME,
         hostName: process.env.WEBSITE_HOSTNAME,
-        cloud: 'public',
-        acceptedOriginsSuffix: ['portal.azure.com'],
+        cloud: process.env.APPSVC_CLOUD as CloudType,
+        acceptedOriginsSuffix: acceptedOrigins,
       },
       version: process.env.VERSION,
     };
