@@ -1,7 +1,4 @@
 import { Controller, Get, Post, Query, HttpCode } from '@nestjs/common';
-import { exists, readFile } from 'async-file';
-import { join, normalize } from 'path';
-import { Builder, parseString, parseStringPromise } from 'xml2js';
 import { ConfigService } from '../shared/config/config.service';
 import { ResourcesService } from './resources/resources.service';
 
