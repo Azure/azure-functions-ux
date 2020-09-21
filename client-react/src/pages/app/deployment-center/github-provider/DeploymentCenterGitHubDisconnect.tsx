@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { useTranslation } from 'react-i18next';
-import { additionalTextFieldControl, choiceGroupSubLabel } from '../DeploymentCenter.styles';
+import { choiceGroupSubLabel, disconnectLink } from '../DeploymentCenter.styles';
 import { Link, Icon, PanelType, ChoiceGroup, ProgressIndicator } from 'office-ui-fabric-react';
 import {
   DeploymentCenterGitHubDisconnectProps,
@@ -257,11 +257,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
 
   return (
     <>
-      <Link
-        key="deployment-center-disconnect-link"
-        onClick={showDisconnectPanel}
-        className={additionalTextFieldControl}
-        aria-label={t('disconnect')}>
+      <Link key="deployment-center-disconnect-link" onClick={showDisconnectPanel} className={disconnectLink} aria-label={t('disconnect')}>
         <Icon iconName={'PlugDisconnected'} />
         {` ${t('disconnect')}`}
       </Link>
