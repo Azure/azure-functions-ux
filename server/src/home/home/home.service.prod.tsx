@@ -22,7 +22,7 @@ export class HomeServiceProd extends HomeService implements OnModuleInit {
       this.angularConfig = config;
     }
 
-    this._initializeReactHtml();
+    await this._initializeReactHtml();
   }
 
   getAngularHomeHtml = (optimized?: string) => {
