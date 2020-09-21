@@ -54,6 +54,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
         // We should show any host status errors, but still try to connect to logstream
         setErrorMessage(hostStatusResult.data.properties.errors.join('\n'));
       } else {
+        // Incase the user tries to reconnect, we should set to undefined if errors are no longer present
         setErrorMessage(undefined);
       }
 
