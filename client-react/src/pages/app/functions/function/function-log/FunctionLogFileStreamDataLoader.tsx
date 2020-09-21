@@ -50,6 +50,11 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
     const hostStatusResult = await FunctionsService.getHostStatus(site.id);
 
     if (hostStatusResult.metadata.success) {
+      if (hostStatusResult.data.properties.errors) {
+        // We should show any host status errors, but still try to connect to logstream
+        setErrorMessage(hostStatusResult.data.properties.errors.join('\n'));
+      }
+
       const logUrl = functionName
         ? `${Url.getScmUrl(site)}/api/logstream/application/functions/function/${functionName}`
         : `${Url.getScmUrl(site)}/api/logstream/application/functions/host`;
