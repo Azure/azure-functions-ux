@@ -87,3 +87,8 @@ export const choiceGroupSubLabel = style({
 export const panelBanner = style({
   position: 'relative',
 });
+
+export const disconnectLink = style({
+  marginTop: '5px',
+  width: '100%',
+});
