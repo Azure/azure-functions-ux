@@ -52,7 +52,7 @@ export const DropDownStyles = props => {
   const dropdownItemStyle: IStyle = [
     GlobalClassNames.dropdownItem,
     {
-      ...fonts.small,
+      ...fonts.medium,
       backgroundColor: 'transparent',
       boxSizing: 'border-box',
       color: semanticColors.textColor,
@@ -88,7 +88,7 @@ export const DropDownStyles = props => {
     ],
     dropdown: [
       {
-        ...fonts.small,
+        ...fonts.medium,
         color: semanticColors.textColor,
         selectors: {
           [`&:hover .${globalClassnames.title}`]: [{ borderColor: semanticColors.standardControlOutlineHover }],
@@ -150,7 +150,7 @@ export const DropDownStyles = props => {
     dropdownItemHeader: [
       globalClassnames.dropdownItemHeader,
       {
-        ...fonts.small,
+        ...fonts.smallPlus,
         fontWeight: 'bold',
         color: semanticColors.hyperlinkText,
         height: DROPDOWN_ITEMHEIGHT,
