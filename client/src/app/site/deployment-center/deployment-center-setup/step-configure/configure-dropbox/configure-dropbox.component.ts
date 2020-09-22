@@ -64,15 +64,16 @@ export class ConfigureDropboxComponent implements OnInit, OnDestroy {
   public fillDropboxFolders() {
     this.foldersLoading = true;
     this.folderList = [];
+    const dropboxToken = this.wizard.dropBoxToken$.getValue();
 
-    if (this.wizard.dropBoxToken$.getValue()) {
+    if (!dropboxToken) {
       return Observable.of(null);
     }
 
     return this._cacheService
       .post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
         url: `${DeploymentCenterConstants.dropboxApiUrl}/files/list_folder`,
-        dropBoxToken: this.wizard.dropBoxToken$.getValue(),
+        dropBoxToken: dropboxToken,
         arg: {
           path: '',
         },
