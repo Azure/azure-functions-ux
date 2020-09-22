@@ -1,4 +1,4 @@
-import { Links, FeatureFlags } from 'app/shared/models/constants';
+import { Links, FeatureFlags /*LogCategories*/ } from 'app/shared/models/constants';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { FreePlanPriceSpec } from './free-plan-price-spec';
 import { SharedPlanPriceSpec } from './shared-plan-price-spec';
@@ -28,6 +28,7 @@ import { PricingTier } from 'app/shared/models/arm/pricingtier';
 import { ArmArrayResult } from 'app/shared/models/arm/arm-obj';
 import { Url } from 'app/shared/Utilities/url';
 import { FlightingUtil } from '../../../../app/shared/Utilities/flighting-utility';
+// import { LogService } from '../../../shared/services/log.service';
 
 export enum BannerMessageLevel {
   ERROR = 'error',
@@ -79,10 +80,12 @@ export abstract class PriceSpecGroup {
   isExpanded = false;
 
   protected ts: TranslateService;
+  // protected logService: LogService;
 
   constructor(protected injector: Injector, protected specManager: PlanPriceSpecManager) {
     this.ts = injector.get(TranslateService);
     this.emptyInfoLinkText = this.ts.instant(PortalResources.clickToLearnMore);
+    // this.logService = injector.get(LogService);
   }
 
   abstract initialize(input: PriceSpecInput);
@@ -265,11 +268,17 @@ export class ProdSpecGroup extends PriceSpecGroup {
     }
 
     const isPartOfPv2Experiment = FlightingUtil.checkSubscriptionInFlight(input.subscriptionId, FlightingUtil.Features.Pv2Experimentation);
+    const isLinux = (input.specPickerInput.data && input.specPickerInput.data.isLinux) || ArmUtil.isLinuxApp(input.plan);
 
     // NOTE(michinoy): The OS type determines whether standard small plan is recommended or additional pricing tier.
     // NOTE(shimedh): If subscription is part of PV2 experiment flighting we always add standard small plan in additional pricing tier irrespective of OS.
-    if (isPartOfPv2Experiment || (input.specPickerInput.data && input.specPickerInput.data.isLinux) || ArmUtil.isLinuxApp(input.plan)) {
+    if (isPartOfPv2Experiment || isLinux) {
       this.additionalSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
+      /*this.logService.debug(LogCategories.specPickerPv2Experiment, {
+        subscriptionId: input.subscriptionId,
+        isLinux: isLinux,
+        isPartOfPv2Experiment: isPartOfPv2Experiment,
+      });*/
     } else {
       this.recommendedSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
     }

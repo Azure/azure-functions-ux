@@ -387,6 +387,7 @@ export class LogCategories {
   public static readonly byos = 'byos';
   public static readonly portalServiceHasPermission = 'PortalServiceHasPermission';
   public static readonly portalServiceHasLock = 'PortalServiceHasLock';
+  public static readonly specPickerPv2Experiment = 'specPickerPv2Experiment';
 }
 
 export class ARMApiVersions {
