@@ -1,9 +1,18 @@
 import { Url } from './url';
+import { FeatureFlags } from './../../shared/models/constants';
 
 export class FlightingUtil {
-  public static Features = {};
+  public static Features = {
+    Pv2Experimentation: 'Pv2Experimentation',
+  };
 
-  private static config = {};
+  private static config = {
+    Pv2Experimentation: {
+      seed: 583578957,
+      percentofUsers: 25,
+      forceOnFlag: FeatureFlags.EnablePv2Experiment,
+    },
+  };
 
   /*
    * Subscription = hash key

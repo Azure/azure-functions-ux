@@ -654,6 +654,7 @@ export class FeatureFlags {
   public static authTokenOverride = 'authTokenOverride';
   public static EnableAIOnNationalCloud = 'EnableAIOnNationalCloud';
   public static enablePv3Skus = 'enablePv3Skus';
+  public static EnablePv2Experiment = 'EnablePv2Experiment';
 }
 
 export class SupportedFeatures {

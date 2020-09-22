@@ -27,6 +27,7 @@ import { GenericPlanPriceSpec } from './generic-plan-price-spec';
 import { PricingTier } from 'app/shared/models/arm/pricingtier';
 import { ArmArrayResult } from 'app/shared/models/arm/arm-obj';
 import { Url } from 'app/shared/Utilities/url';
+import { FlightingUtil } from '../../../../app/shared/Utilities/flighting-utility';
 
 export enum BannerMessageLevel {
   ERROR = 'error',
@@ -263,8 +264,11 @@ export class ProdSpecGroup extends PriceSpecGroup {
       }
     }
 
+    const isPartOfPv2Experiment = FlightingUtil.checkSubscriptionInFlight(input.subscriptionId, FlightingUtil.Features.Pv2Experimentation);
+
     // NOTE(michinoy): The OS type determines whether standard small plan is recommended or additional pricing tier.
-    if ((input.specPickerInput.data && input.specPickerInput.data.isLinux) || ArmUtil.isLinuxApp(input.plan)) {
+    // NOTE(shimedh): If subscription is part of PV2 experiment flighting we always add standard small plan in additional pricing tier irrespective of OS.
+    if (isPartOfPv2Experiment || (input.specPickerInput.data && input.specPickerInput.data.isLinux) || ArmUtil.isLinuxApp(input.plan)) {
       this.additionalSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
     } else {
       this.recommendedSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
