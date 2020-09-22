@@ -6777,4 +6777,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="stackVersionPreview" xml:space="preserve">
         <value>{0} (preview)</value>
     </data>
+    <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>Mount path cannot be '/'</value>
+    </data>
 </root>
