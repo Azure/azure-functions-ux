@@ -377,6 +377,16 @@ export function getConfigWithStackSettings(config: SiteConfig, values: AppSettin
     configCopy.javaContainerVersion = '';
     configCopy.javaVersion = '';
   }
+
+  // NOTE (krmitta): We need to explicitly mark node and php versions as null,
+  // whenever these are empty since it prevents the backend from disabling the alwaysOn property.
+  if (configCopy.phpVersion === '') {
+    configCopy.phpVersion = null;
+  }
+
+  if (configCopy.nodeVersion === '') {
+    configCopy.nodeVersion = null;
+  }
   return configCopy;
 }
 
