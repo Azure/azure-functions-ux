@@ -2209,4 +2209,5 @@ export class PortalResources {
   public static createKeyNotificationFailedDetails = 'createKeyNotificationFailedDetails';
   public static stackVersionDeprecated = 'stackVersionDeprecated';
   public static stackVersionPreview = 'stackVersionPreview';
+  public static validation_mountPathNotRoot = 'validation_mountPathNotRoot';
 }

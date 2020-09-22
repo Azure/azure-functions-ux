@@ -387,6 +387,7 @@ export class LogCategories {
   public static readonly byos = 'byos';
   public static readonly portalServiceHasPermission = 'PortalServiceHasPermission';
   public static readonly portalServiceHasLock = 'PortalServiceHasLock';
+  public static readonly specPickerPv2Experiment = 'specPickerPv2Experiment';
 }
 
 export class ARMApiVersions {
@@ -654,6 +655,8 @@ export class FeatureFlags {
   public static authTokenOverride = 'authTokenOverride';
   public static EnableAIOnNationalCloud = 'EnableAIOnNationalCloud';
   public static enablePv3Skus = 'enablePv3Skus';
+  public static EnablePv2Experiment = 'EnablePv2Experiment';
+  public static DisablePv2Experiment = 'DisablePv2Experiment';
 }
 
 export class SupportedFeatures {

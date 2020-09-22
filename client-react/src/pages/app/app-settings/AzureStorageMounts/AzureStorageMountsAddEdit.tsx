@@ -65,6 +65,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       .max(mountPathMaxLength, t('validation_fieldMaxCharacters').format(mountPathMaxLength))
       .matches(mountPathRegex, t('validation_mountNameAllowedCharacters'))
       .test('cannotMountHomeDirectory', t('validation_mountPathNotHome'), (value: string) => value !== '/home')
+      .test('cannotMountRootDirectory', t('validation_mountPathNotRoot'), (value: string) => value !== '/')
       .test('uniqueMountPath', t('mouthPathMustBeUnique'), value => {
         return (
           !value ||
