@@ -14,7 +14,7 @@ export class HomeServiceDev extends HomeService {
   getAngularHomeHtml = (optimized?: string) => {
     const html = ReactDOMServer.renderToString(
       <Home
-        {...this.configService.staticConfig}
+        {...this.configService.staticAngularConfig}
         version={this.configService.get('VERSION')}
         versionConfig={null}
         clientOptimizationsOff={!!(optimized && optimized.toLowerCase() === 'false')}
