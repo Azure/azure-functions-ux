@@ -27,7 +27,7 @@ import { GenericPlanPriceSpec } from './generic-plan-price-spec';
 import { PricingTier } from 'app/shared/models/arm/pricingtier';
 import { ArmArrayResult } from 'app/shared/models/arm/arm-obj';
 import { Url } from 'app/shared/Utilities/url';
-import { FlightingUtil } from '../../../../app/shared/Utilities/flighting-utility';
+import { FlightingUtil } from '../../../shared/Utilities/flighting-utility';
 // import { LogService } from '../../../shared/services/log.service';
 
 export enum BannerMessageLevel {

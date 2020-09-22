@@ -1,5 +1,5 @@
 import { Url } from './url';
-import { FeatureFlags } from './../../shared/models/constants';
+import { FeatureFlags } from '../models/constants';
 
 export class FlightingUtil {
   public static Features = {
