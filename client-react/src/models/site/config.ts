@@ -28,9 +28,9 @@ export interface SiteConfig {
   numberOfWorkers: number;
   defaultDocuments: string[];
   netFrameworkVersion: string;
-  phpVersion: string;
+  phpVersion: string | null;
   pythonVersion: string;
-  nodeVersion: string;
+  nodeVersion: string | null;
   windowsFxVersion: string;
   linuxFxVersion: string;
   minTlsVersion: string;
