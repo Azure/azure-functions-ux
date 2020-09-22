@@ -9,8 +9,9 @@ export class FlightingUtil {
   private static config = {
     Pv2Experimentation: {
       seed: 583578957,
-      percentofUsers: 100,
+      percentofUsers: 25,
       forceOnFlag: FeatureFlags.EnablePv2Experiment,
+      forceOffFlag: FeatureFlags.DisablePv2Experiment,
     },
   };
 
