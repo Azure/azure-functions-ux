@@ -40,9 +40,9 @@ export abstract class DV3SeriesPriceSpec extends PriceSpec {
     return Observable.of(null);
   }
 
-  private _checkIfSkuEnabledInRegion(subscriptionId: ResourceId, location: string, isLinux: boolean) {
+  private _checkIfSkuEnabledInRegion(subscriptionId: ResourceId, location: string, isLinux: boolean, isXenonWorkersEnabled: boolean) {
     if (this.state !== 'hidden' && this.state !== 'disabled') {
-      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this._sku, isLinux).do(geoRegions => {
+      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this._sku, isLinux, isXenonWorkersEnabled).do(geoRegions => {
         if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
           this.state = 'disabled';
           this.disabledMessage = this._skuNotAvailableMessage;
@@ -73,14 +73,16 @@ export abstract class DV3SeriesPriceSpec extends PriceSpec {
         return this.checkIfDreamspark(input.subscriptionId);
       });
     } else if (input.specPickerInput.data) {
-      this._updateHardwareItemsList(input.specPickerInput.data.hyperV || input.specPickerInput.data.isXenon);
+      const isXenon = input.specPickerInput.data.hyperV || input.specPickerInput.data.isXenon;
+      this._updateHardwareItemsList(isXenon);
       this.state = this._shouldHideForNewPlan(input.specPickerInput.data) ? 'hidden' : this.state;
 
       return this.checkIfDreamspark(input.subscriptionId).switchMap(_ => {
         return this._checkIfSkuEnabledInRegion(
           input.subscriptionId,
           input.specPickerInput.data.location,
-          input.specPickerInput.data.isLinux
+          input.specPickerInput.data.isLinux,
+          isXenon
         );
       });
     }
