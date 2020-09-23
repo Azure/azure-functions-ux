@@ -51,7 +51,7 @@ export class StacksService20200601 {
       stacks = [stacks.find(stack => stack.value === stackValue)];
     }
 
-    return !os && !removeHiddenStacks && !removeDeprecatedStacks && !removePreviewStacks
+    return this._hasNoFilterFlags(os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks)
       ? stacks
       : filterFunctionAppStacks(stacks, os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks);
   }
@@ -87,8 +87,17 @@ export class StacksService20200601 {
       stacks = [stacks.find(stack => stack.value === stackValue)];
     }
 
-    return !os && !removeHiddenStacks && !removeDeprecatedStacks && !removePreviewStacks
+    return this._hasNoFilterFlags(os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks)
       ? stacks
       : filterWebAppStacks(stacks, os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks);
+  }
+
+  private _hasNoFilterFlags(
+    os?: AppStackOs,
+    removeHiddenStacks?: boolean,
+    removeDeprecatedStacks?: boolean,
+    removePreviewStacks?: boolean
+  ): boolean {
+    return !os && !removeHiddenStacks && !removeDeprecatedStacks && !removePreviewStacks;
   }
 }
