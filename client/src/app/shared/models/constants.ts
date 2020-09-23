@@ -60,7 +60,6 @@ export class Constants {
   public static WebhookHandlerFunctionName = 'RefreshO365Subscriptions';
   public static WebhookHandlerFunctionId = 'TimerTrigger-CSharpWebhookHandler';
   public static WebhookFunctionName = 'MSGraphWebhook';
-  public static appDensityLimit = 8;
   public static defaultFunctionAppDockerImage = 'DOCKER|mcr.microsoft.com/azure-functions/dotnet:2.0-appservice-quickstart';
 }
 
