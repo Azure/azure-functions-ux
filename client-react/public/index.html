@@ -21,6 +21,24 @@
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
+
+  <!-- This script block is replaced during Node initialization when run from within Azure.  See home.service.prod.tsx -->
+  <!-- NOTE - IF YOU CHANGE THIS SCRIPT BLOCK, MAKE SURE YOU VALIDATE THAT THE VALUES ARE REPLACED PROPERLY
+       AFTER DEPLOYING TO AZURE FOR ALL CLOUDS SINCE IT HAS DEPENDENCIES ON HAVING PROPER CONFIGURATION
+       FOR EACH DEPLOYMENT PIPELINE -->
+  <script type="text/javascript" id="appsvcConfig">
+window.appsvc = {
+  version: '',
+  env: {
+    hostName: '',
+    appName: '',
+    azureResourceManagerEndpoint: '',
+    cloud: 'public',
+    acceptedOriginsSuffix: ['portal.azure.com']
+  },
+};
+  </script>
+
   <div id="root"></div>
   <!--
       This HTML file is a template.

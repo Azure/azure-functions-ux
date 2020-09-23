@@ -15,12 +15,13 @@ import { Subject } from 'rxjs/Subject';
 import { SpecCostQueryInput } from '../../site/spec-picker/price-spec-manager/billing-models';
 import { OsType } from '../models/arm/stacks';
 import { Site } from './../models/arm/site';
+import { ServerFarmRecommendation } from './../models/arm/serverfarm-recommendation';
 
 export interface IPlanService {
   getPlan(resourceId: ResourceId, force?: boolean): Result<ArmObj<ServerFarm>>;
   updatePlan(plan: ArmObj<ServerFarm>);
   getAvailableSkusForPlan(resourceId: ResourceId): Observable<AvailableSku[]>;
-  getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean);
+  getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean, isXenonWorkersEnabled: boolean);
   getBillingMeters(subscriptionId: string, osType: OsType, location?: string): Observable<ArmObj<BillingMeter>[]>;
 }
 
@@ -92,10 +93,10 @@ export class PlanService implements IPlanService {
     return this._client.execute({ resourceId: resourceId }, t => getSkus).map(r => r.result.json().value);
   }
 
-  getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean) {
+  getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean, isXenonWorkersEnabled: boolean) {
     return Observable.zip(
       this._getProviderLocations(subscriptionId, 'serverFarms'),
-      this._getAllGeoRegionsForSku(subscriptionId, sku, isLinux)
+      this._getAllGeoRegionsForSku(subscriptionId, sku, isLinux, isXenonWorkersEnabled)
     ).map(r => {
       return this._getAvailableGeoRegionsList(r[1], r[0]);
     });
@@ -148,6 +149,21 @@ export class PlanService implements IPlanService {
     return this._client.execute({ resourceId: resourceId }, t => getServerFarmSites);
   }
 
+  getServerFarmRecommendations(resourceId: ResourceId, force = false): Result<ArmArrayResult<ServerFarmRecommendation>> {
+    const getServerFarmRecommendations = this._cacheService
+      .getArm(`${resourceId}/recommendations`, force)
+      .expand(response => {
+        const nextLink = response.json().nextLink;
+        if (nextLink) {
+          return this._cacheService.get(nextLink, force);
+        } else {
+          return Observable.empty();
+        }
+      })
+      .map(r => r.json());
+    return this._client.execute({ resourceId: resourceId }, t => getServerFarmRecommendations);
+  }
+
   private _getProviderLocations(subscriptionId: string, resourceType: string): Observable<string[]> {
     const getProviderInfo = this._cacheService.getArm(
       `/subscriptions/${subscriptionId}/providers/microsoft.web`,
@@ -163,10 +179,17 @@ export class PlanService implements IPlanService {
       });
   }
 
-  private _getAllGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean): Observable<ArmObj<GeoRegion>[]> {
+  private _getAllGeoRegionsForSku(
+    subscriptionId: string,
+    sku: string,
+    isLinux: boolean,
+    isXenonWorkersEnabled: boolean
+  ): Observable<ArmObj<GeoRegion>[]> {
     let id = `/subscriptions/${subscriptionId}/providers/microsoft.web/georegions?sku=${sku}`;
     if (isLinux) {
       id += '&linuxWorkersEnabled=true';
+    } else if (isXenonWorkersEnabled) {
+      id += '&xenonWorkersEnabled=true';
     }
 
     const getRegionsForSku = this._cacheService.getArm(id);

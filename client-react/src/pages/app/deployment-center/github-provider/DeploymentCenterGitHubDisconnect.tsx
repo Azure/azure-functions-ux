@@ -149,7 +149,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
         } else {
           if (deleteWorkflowFileResponse) {
             LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterGitHubDisconnect', 'deleteWorkflowFileIfNeeded'), {
-              error: deleteWorkflowFileResponse.metadata.error,
+              error: JSON.stringify(deleteWorkflowFileResponse.metadata.error),
             });
             failedStatus.error = deleteWorkflowFileResponse.metadata.error;
           }

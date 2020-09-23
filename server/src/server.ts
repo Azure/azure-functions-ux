@@ -43,6 +43,8 @@ async function bootstrap() {
     });
   }
 
+  // This only applies to local development.  In Azure the CORS rules defined on the app takes precedence
+  app.enableCors();
   app.useStaticAssets(join(__dirname, 'public'));
   app.useStaticAssets(join(__dirname, 'public', 'react'));
   app.use(

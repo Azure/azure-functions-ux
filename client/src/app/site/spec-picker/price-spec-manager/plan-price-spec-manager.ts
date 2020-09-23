@@ -31,12 +31,13 @@ import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
-import { LogCategories, Links, ScenarioIds, Constants } from '../../../shared/models/constants';
+import { LogCategories, Links, ScenarioIds } from '../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { AppKind } from 'app/shared/Utilities/app-kind';
 import { BillingService } from 'app/shared/services/billing.service';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
+import { ServerFarmRecommendation, RecommendationRuleNames } from '../../../shared/models/arm/serverfarm-recommendation';
 
 export interface SpecPickerInput<T> {
   id: ResourceId;
@@ -95,7 +96,7 @@ export class PlanPriceSpecManager {
   private _subscriptionId: string;
   private _inputs: SpecPickerInput<PlanSpecPickerData>;
   private _ngUnsubscribe$ = new Subject();
-  private _numberOfSites = 0;
+  private _appDensityWarningMessage = null;
   private _stampIpAddresses: StampIpAddresses;
 
   constructor(
@@ -161,7 +162,7 @@ export class PlanPriceSpecManager {
         return specInitCalls.length > 0 ? Observable.zip(...specInitCalls) : Observable.of(null);
       })
       .do(() => {
-        return this._getServerFarmSites(inputs);
+        return Observable.zip(this._getServerFarmSites(inputs), this._getServerFarmRecommendations(inputs)).subscribe();
       });
   }
 
@@ -475,7 +476,7 @@ export class PlanPriceSpecManager {
     return (
       this._scenarioService.checkScenario(ScenarioIds.appDensity).status !== 'disabled' &&
       this._isAppDensitySkuCode(skuCode) &&
-      this._numberOfSites >= Constants.appDensityLimit
+      !!this._appDensityWarningMessage
     );
   }
 
@@ -495,7 +496,7 @@ export class PlanPriceSpecManager {
   private _updateAppDensityStatusMessage(spec: PriceSpec) {
     if (this._shouldShowAppDensityWarning(spec.skuCode)) {
       this._specPicker.statusMessage = {
-        message: this._ts.instant(PortalResources.pricing_appDensityWarningMessage).format(this._plan.name),
+        message: this._appDensityWarningMessage,
         level: 'warning',
         infoLink: Links.appDensityWarningLink,
         infoLinkAriaLabel: this._ts.instant(PortalResources.pricing_appDensityWarningMessageAriaLabel),
@@ -571,25 +572,44 @@ export class PlanPriceSpecManager {
 
   private _getServerFarmSites(inputs: SpecPickerInput<PlanSpecPickerData>) {
     if (this._isUpdateScenario(inputs)) {
-      this._numberOfSites = 0;
       this._stampIpAddresses = null;
-      return this._planService.getServerFarmSites(inputs.id, true).subscribe(
-        response => {
-          if (response.isSuccessful) {
-            this._numberOfSites = this._numberOfSites + response.result.value.length;
-            this._stampIpAddresses = {
-              inboundIpAddress: response.result.value[0].properties.inboundIpAddress,
-              outboundIpAddresses: response.result.value[0].properties.outboundIpAddresses,
-              possibleInboundIpAddresses: response.result.value[0].properties.possibleInboundIpAddresses,
-              possibleOutboundIpAddresses: response.result.value[0].properties.possibleOutboundIpAddresses,
-            };
-          }
-        },
-        null,
-        () => {
-          this._updateAppDensityStatusMessage(this.selectedSpecGroup.selectedSpec);
+      return this._planService.getServerFarmSites(inputs.id, true).switchMap(response => {
+        if (response.isSuccessful) {
+          this._stampIpAddresses = {
+            inboundIpAddress: response.result.value[0].properties.inboundIpAddress,
+            outboundIpAddresses: response.result.value[0].properties.outboundIpAddresses,
+            possibleInboundIpAddresses: response.result.value[0].properties.possibleInboundIpAddresses,
+            possibleOutboundIpAddresses: response.result.value[0].properties.possibleOutboundIpAddresses,
+          };
         }
-      );
+        return Observable.of(response);
+      });
+    }
+
+    return Observable.of(null);
+  }
+
+  private _getServerFarmRecommendations(inputs: SpecPickerInput<PlanSpecPickerData>) {
+    if (this._isUpdateScenario(inputs)) {
+      this._appDensityWarningMessage = null;
+      return this._planService
+        .getServerFarmRecommendations(inputs.id, true)
+        .switchMap(response => {
+          if (response.isSuccessful && response.result.value.length > 0) {
+            const results = response.result.value;
+            const appDensityRecommendationIndex = results.findIndex((result: ArmObj<ServerFarmRecommendation>) => {
+              return result.properties.ruleName.toLocaleLowerCase() === RecommendationRuleNames.AppDensity.toLocaleLowerCase();
+            });
+
+            if (appDensityRecommendationIndex > -1) {
+              this._appDensityWarningMessage = results[appDensityRecommendationIndex].properties.message;
+            }
+          }
+          return Observable.of(response);
+        })
+        .do(() => {
+          this._updateAppDensityStatusMessage(this.selectedSpecGroup.selectedSpec);
+        });
     }
 
     return Observable.of(null);
