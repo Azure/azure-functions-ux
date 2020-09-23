@@ -69,6 +69,7 @@ export class StacksController {
     }
   }
 
+  // Note (allisonm): 2020-05-01 should not be used, please use 2020-06-01 instead
   @Post('webAppCreateStacks')
   webAppCreateStacks(@Query('api-version') apiVersion: string) {
     validateApiVersion(apiVersion, [Versions.version20200501]);
