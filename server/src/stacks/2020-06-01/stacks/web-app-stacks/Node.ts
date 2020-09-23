@@ -165,6 +165,7 @@ export const nodeStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '10.15.2',
               isPreview: true,
+              isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
