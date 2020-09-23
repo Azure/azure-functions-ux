@@ -239,6 +239,7 @@ export interface DeploymentCenterGitHubDisconnectProps {
   org: string;
   repo: string;
   repoUrl: string;
+  formProps: FormikProps<DeploymentCenterFormData<any>>;
 }
 
 export interface DeploymentCenterCodeBuildCalloutProps {

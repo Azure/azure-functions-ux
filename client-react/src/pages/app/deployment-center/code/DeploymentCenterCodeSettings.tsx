@@ -149,11 +149,11 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
               {` ${t('learnMore')}`}
             </Link>
           </p>
-          {!isGitHubActionsSetup && <DeploymentCenterCodeSourceKuduConfiguredView />}
-          {isGitHubSourceSetup && <DeploymentCenterGitHubConfiguredView isGitHubActionsSetup={isGitHubActionsSetup} />}
-          {isBitbucketSetup && <DeploymentCenterBitbucketConfiguredView />}
+          {!isGitHubActionsSetup && <DeploymentCenterCodeSourceKuduConfiguredView formProps={formProps} />}
+          {isGitHubSourceSetup && <DeploymentCenterGitHubConfiguredView formProps={formProps} />}
+          {isBitbucketSetup && <DeploymentCenterBitbucketConfiguredView formProps={formProps} />}
           {isLocalGitSetup && <DeploymentCenterLocalGitConfiguredView />}
-          {isExternalGitSetup && <DeploymentCenterExternalConfiguredView />}
+          {isExternalGitSetup && <DeploymentCenterExternalConfiguredView formProps={formProps} />}
 
           <DeploymentCenterCodeBuildConfiguredView />
         </>

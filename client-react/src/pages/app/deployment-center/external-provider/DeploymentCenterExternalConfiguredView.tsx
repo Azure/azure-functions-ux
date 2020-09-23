@@ -7,8 +7,10 @@ import { Link, Icon } from 'office-ui-fabric-react';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
 
-const DeploymentCenterExternalConfiguredView: React.FC<{}> = props => {
+const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
+  const { formProps } = props;
   const { t } = useTranslation();
 
   const [repo, setRepo] = useState<string | undefined>(undefined);
@@ -60,6 +62,33 @@ const DeploymentCenterExternalConfiguredView: React.FC<{}> = props => {
     return <div>{`${branch}`}</div>;
   };
 
+  const getExternalUsernameComponent = () => {
+    if (isSourceControlLoading && formProps && formProps.values.externalUsername) {
+      return formProps.values.externalUsername;
+    } else if (isSourceControlLoading && (!formProps || !formProps.values.repo)) {
+      return t('loading');
+    }
+    return externalUsername;
+  };
+
+  const getRepoComponent = () => {
+    if (isSourceControlLoading && formProps && formProps.values.repo) {
+      return formProps.values.repo;
+    } else if (isSourceControlLoading && (!formProps || !formProps.values.repo)) {
+      return t('loading');
+    }
+    return repo;
+  };
+
+  const getBranchComponent = () => {
+    if (isSourceControlLoading && formProps && formProps.values.branch) {
+      return formProps.values.branch;
+    } else if (isSourceControlLoading && (!formProps || !formProps.values.branch)) {
+      return t('loading');
+    }
+    return getBranchLink();
+  };
+
   useEffect(() => {
     getSourceControlDetails();
 
@@ -77,16 +106,16 @@ const DeploymentCenterExternalConfiguredView: React.FC<{}> = props => {
   return (
     <>
       <h3>{t('deploymentCenterCodeExternalGitTitle')}</h3>
-      {externalUsername && (
+      {(externalUsername || (formProps && formProps.values.externalUsername)) && (
         <ReactiveFormControl id="deployment-center-username" label={t('deploymentCenterCodeExternalUsernameLabel')}>
-          <div>{isSourceControlLoading ? t('loading') : externalUsername}</div>
+          <div>{getExternalUsernameComponent()}</div>
         </ReactiveFormControl>
       )}
       <ReactiveFormControl id="deployment-center-repository" label={t('deploymentCenterOAuthRepository')}>
-        <div>{isSourceControlLoading ? t('loading') : repo}</div>
+        <div>{getRepoComponent()}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-branch" label={t('deploymentCenterOAuthBranch')}>
-        <div>{isSourceControlLoading ? t('loading') : getBranchLink()}</div>
+        <div>{getBranchComponent()}</div>
       </ReactiveFormControl>
     </>
   );

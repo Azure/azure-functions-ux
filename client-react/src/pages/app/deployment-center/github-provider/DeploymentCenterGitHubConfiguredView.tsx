@@ -8,16 +8,24 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
-import { AuthorizationResult, DeploymentCenterGitHubConfiguredViewProps } from '../DeploymentCenter.types';
+import {
+  AuthorizationResult,
+  DeploymentCenterFieldProps,
+  DeploymentCenterCodeFormData,
+  DeploymentCenterContainerFormData,
+} from '../DeploymentCenter.types';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 import { SiteStateContext } from '../../../../SiteState';
 import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
+import { ScmType } from '../../../../models/site/config';
 
-const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfiguredViewProps> = props => {
+const DeploymentCenterGitHubConfiguredView: React.FC<
+  DeploymentCenterFieldProps<DeploymentCenterCodeFormData | DeploymentCenterContainerFormData>
+> = props => {
   const { t } = useTranslation();
-  const { isGitHubActionsSetup } = props;
+  const { formProps } = props;
   const [org, setOrg] = useState<string | undefined>(undefined);
   const [repo, setRepo] = useState<string | undefined>(undefined);
   const [branch, setBranch] = useState<string | undefined>(undefined);
@@ -28,6 +36,8 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterData = new DeploymentCenterData();
+  const isGitHubActionsSetup =
+    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
 
   const getSourceControlDetails = async () => {
     setIsLoading(true);
@@ -104,28 +114,23 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
 
   const getSignedInAsComponent = () => {
     if (gitHubUsername) {
-      return (
-        <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
-          <div>{`${gitHubUsername}`}</div>
-        </ReactiveFormControl>
-      );
-    } else {
-      return (
-        <div className={deploymentCenterInfoBannerDiv}>
-          <CustomBanner
-            message={
-              <>
-                {`${t('deploymentCenterSettingsConfiguredViewGitHubNotAuthorized')} `}
-                <Link onClick={authorizeGitHubAccount} target="_blank">
-                  {t('authorize')}
-                </Link>
-              </>
-            }
-            type={MessageBarType.error}
-          />
-        </div>
-      );
+      return <div>{gitHubUsername}</div>;
     }
+    return (
+      <div className={deploymentCenterInfoBannerDiv}>
+        <CustomBanner
+          message={
+            <>
+              {`${t('deploymentCenterSettingsConfiguredViewUserNotAuthorized')} `}
+              <Link onClick={authorizeGitHubAccount} target="_blank">
+                {t('authorize')}
+              </Link>
+            </>
+          }
+          type={MessageBarType.error}
+        />
+      </div>
+    );
   };
 
   const getBranchLink = () => {
@@ -141,6 +146,42 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
     }
   };
 
+  const getUsernameComponent = () => {
+    if (isLoading && formProps && formProps.values.gitHubUser && formProps.values.gitHubUser.login) {
+      return <div>{formProps.values.gitHubUser.login}</div>;
+    } else if (isLoading && (!formProps || !formProps.values.gitHubUser || !formProps.values.gitHubUser.login)) {
+      return <div>{t('loading')}</div>;
+    }
+    return getSignedInAsComponent();
+  };
+
+  const getOrgComponent = () => {
+    if (isLoading && formProps && formProps.values.org) {
+      return formProps.values.org;
+    } else if (isLoading && (!formProps || !formProps.values.repo)) {
+      return t('loading');
+    }
+    return org;
+  };
+
+  const getRepoComponent = () => {
+    if (isLoading && formProps && formProps.values.repo) {
+      return formProps.values.repo;
+    } else if (isLoading && (!formProps || !formProps.values.repo)) {
+      return t('loading');
+    }
+    return repo;
+  };
+
+  const getBranchComponent = () => {
+    if (isLoading && formProps && formProps.values.branch) {
+      return formProps.values.branch;
+    } else if (isLoading && (!formProps || !formProps.values.branch)) {
+      return t('loading');
+    }
+    return getBranchLink();
+  };
+
   useEffect(() => {
     getSourceControlDetails();
 
@@ -154,7 +195,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
           <div>
             {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
             {branch && org && repo && repoUrl && (
-              <DeploymentCenterGitHubDisconnect branch={branch} org={org} repo={repo} repoUrl={repoUrl} />
+              <DeploymentCenterGitHubDisconnect formProps={formProps} branch={branch} org={org} repo={repo} repoUrl={repoUrl} />
             )}
           </div>
         </ReactiveFormControl>
@@ -164,21 +205,17 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterGitHubConfi
       ) : (
         <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>
       )}
-      {isLoading ? (
-        <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
-          <div>{t('loading')}</div>
-        </ReactiveFormControl>
-      ) : (
-        getSignedInAsComponent()
-      )}
+      <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
+        {getUsernameComponent()}
+      </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-organization" label={t('deploymentCenterOAuthOrganization')}>
-        <div>{isLoading ? t('loading') : org}</div>
+        <div>{getOrgComponent()}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-repository" label={t('deploymentCenterOAuthRepository')}>
-        <div>{isLoading ? t('loading') : repo}</div>
+        <div>{getRepoComponent()}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-github-branch" label={t('deploymentCenterOAuthBranch')}>
-        <div>{isLoading ? t('loading') : getBranchLink()}</div>
+        <div>{getBranchComponent()}</div>
       </ReactiveFormControl>
     </>
   );
