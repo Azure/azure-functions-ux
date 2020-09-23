@@ -19,7 +19,6 @@ import {
 export class StacksController {
   constructor(private _stackService20200501: StacksService20200501, private _stackService20200601: StacksService20200601) {}
 
-  // 2020-06-01 ------------------------------------------------------------------------------------------------------------ //
   @Get('functionAppStacks')
   functionAppStacks(
     @Query('api-version') apiVersion: string,
@@ -69,9 +68,7 @@ export class StacksController {
       return this._stackService20200601.getWebAppStacks(os, stack, removeHidden, removeDeprecated, removePreview);
     }
   }
-  // ------------------------------------------------------------------------------------------------------------------ //
 
-  // 2020-05-01 (please use 2020-06-01 instead) ----------------------------------------------------------------------- //
   @Post('webAppCreateStacks')
   webAppCreateStacks(@Query('api-version') apiVersion: string) {
     validateApiVersion(apiVersion, [Versions.version20200501]);
@@ -111,5 +108,4 @@ export class StacksController {
       return this._stackService20200501.getFunctionAppStacks(removeHidden);
     }
   }
-  // ---------------------------------------------------------------------------------------------------------------------- //
 }

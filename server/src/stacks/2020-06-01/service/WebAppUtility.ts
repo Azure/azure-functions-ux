@@ -49,13 +49,7 @@ export function filterWebAppStacks(
   return stacks;
 }
 
-function _removeUnsupportedOsRuntimeAndContainerSettings(
-  stacks: WebAppStack[],
-  i: number,
-  j: number,
-  k: number,
-  os: 'linux' | 'windows'
-): void {
+function _removeUnsupportedOsRuntimeAndContainerSettings(stacks: WebAppStack[], i: number, j: number, k: number, os: AppStackOs): void {
   if (os === 'linux') {
     delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
     delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsContainerSettings;
