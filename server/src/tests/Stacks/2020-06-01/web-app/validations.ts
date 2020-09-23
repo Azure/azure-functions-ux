@@ -238,7 +238,7 @@ function validateDotnetCoreStack(dotnetCoreStack) {
   expect(dotnetCoreStack.displayText).to.equal('.NET Core');
   expect(dotnetCoreStack.value).to.equal('dotnetcore');
   expect(dotnetCoreStack.preferredOs).to.equal('windows');
-  expect(dotnetCoreStack.majorVersions.length).to.equal(3);
+  expect(dotnetCoreStack.majorVersions.length).to.equal(4);
   expect(dotnetCoreStack).to.deep.equal(hardCodedDotnetCoreStack);
 }
 

@@ -12,6 +12,42 @@ export const dotnetCoreStack: WebAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
+      displayText: '.NET Core 5',
+      value: '5',
+      minorVersions: [
+        {
+          displayText: '.NET Core 5.0 (LTS)',
+          value: '5.0',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '5.0',
+              isHidden: true,
+              isPreview: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'DOTNETCORE|5.0',
+              isHidden: true,
+              isPreview: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: '.NET Core 3',
       value: '3',
       minorVersions: [
