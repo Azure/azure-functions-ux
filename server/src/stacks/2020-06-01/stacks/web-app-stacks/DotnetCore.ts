@@ -16,7 +16,7 @@ export const dotnetCoreStack: WebAppStack = {
       value: '5',
       minorVersions: [
         {
-          displayText: '.NET Core 5.0 (LTS)',
+          displayText: '.NET 5.0',
           value: '5.0',
           stackSettings: {
             windowsRuntimeSettings: {
