@@ -39,9 +39,9 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
     return Observable.of(null);
   }
 
-  private _checkIfSkuEnabledInRegion(subscriptionId: ResourceId, location: string, isLinux: boolean, isXenoneWorkersEnabled: boolean) {
+  private _checkIfSkuEnabledInRegion(subscriptionId: ResourceId, location: string, isLinux: boolean, isXenonWorkersEnabled: boolean) {
     if (this.state !== 'hidden' && this.state !== 'disabled') {
-      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this._sku, isLinux, isXenoneWorkersEnabled).do(geoRegions => {
+      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this._sku, isLinux, isXenonWorkersEnabled).do(geoRegions => {
         if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
           this.state = 'disabled';
           this.disabledMessage = this._skuNotAvailableMessage;
