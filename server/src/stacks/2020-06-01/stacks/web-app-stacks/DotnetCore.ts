@@ -16,7 +16,7 @@ export const dotnetCoreStack: WebAppStack = {
       value: '3',
       minorVersions: [
         {
-          displayText: '.Net Core 3.1 (LTS)',
+          displayText: '.NET Core 3.1 (LTS)',
           value: '3.1',
           stackSettings: {
             windowsRuntimeSettings: {
@@ -44,7 +44,7 @@ export const dotnetCoreStack: WebAppStack = {
           },
         },
         {
-          displayText: '.Net Core 3.0',
+          displayText: '.NET Core 3.0',
           value: '3.0',
           stackSettings: {
             windowsRuntimeSettings: {
