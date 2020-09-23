@@ -20,7 +20,7 @@ export interface IPlanService {
   getPlan(resourceId: ResourceId, force?: boolean): Result<ArmObj<ServerFarm>>;
   updatePlan(plan: ArmObj<ServerFarm>);
   getAvailableSkusForPlan(resourceId: ResourceId): Observable<AvailableSku[]>;
-  getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean);
+  getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean, isXenonWorkersEnabled: boolean);
   getBillingMeters(subscriptionId: string, osType: OsType, location?: string): Observable<ArmObj<BillingMeter>[]>;
 }
 
@@ -92,10 +92,10 @@ export class PlanService implements IPlanService {
     return this._client.execute({ resourceId: resourceId }, t => getSkus).map(r => r.result.json().value);
   }
 
-  getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean) {
+  getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean, isXenonWorkersEnabled: boolean) {
     return Observable.zip(
       this._getProviderLocations(subscriptionId, 'serverFarms'),
-      this._getAllGeoRegionsForSku(subscriptionId, sku, isLinux)
+      this._getAllGeoRegionsForSku(subscriptionId, sku, isLinux, isXenonWorkersEnabled)
     ).map(r => {
       return this._getAvailableGeoRegionsList(r[1], r[0]);
     });
@@ -163,10 +163,17 @@ export class PlanService implements IPlanService {
       });
   }
 
-  private _getAllGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean): Observable<ArmObj<GeoRegion>[]> {
+  private _getAllGeoRegionsForSku(
+    subscriptionId: string,
+    sku: string,
+    isLinux: boolean,
+    isXenonWorkersEnabled: boolean
+  ): Observable<ArmObj<GeoRegion>[]> {
     let id = `/subscriptions/${subscriptionId}/providers/microsoft.web/georegions?sku=${sku}`;
     if (isLinux) {
       id += '&linuxWorkersEnabled=true';
+    } else if (isXenonWorkersEnabled) {
+      id += '&xenonWorkersEnabled=true';
     }
 
     const getRegionsForSku = this._cacheService.getArm(id);
