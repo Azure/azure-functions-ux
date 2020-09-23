@@ -91,7 +91,12 @@ export class FreePlanPriceSpec extends PriceSpec {
         this.state = 'hidden';
       }
 
-      return this._checkIfSkuEnabledInRegion(input.subscriptionId, input.specPickerInput.data.location, input.specPickerInput.data.isLinux);
+      return this._checkIfSkuEnabledInRegion(
+        input.subscriptionId,
+        input.specPickerInput.data.location,
+        input.specPickerInput.data.isLinux,
+        false
+      );
     }
 
     return Observable.of(null);
@@ -112,9 +117,9 @@ export class FreePlanPriceSpec extends PriceSpec {
     return Observable.of(null);
   }
 
-  private _checkIfSkuEnabledInRegion(subscriptionId: ResourceId, location: string, isLinux: boolean) {
+  private _checkIfSkuEnabledInRegion(subscriptionId: ResourceId, location: string, isLinux: boolean, isXenonWorkersEnabled: boolean) {
     if (this.state !== 'hidden' && this.state !== 'disabled') {
-      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this.tier, isLinux).do(geoRegions => {
+      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this.tier, isLinux, isXenonWorkersEnabled).do(geoRegions => {
         if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
           this.state = 'disabled';
           this.disabledMessage = this._ts.instant(PortalResources.pricing_freeLinuxNotAvailable);
