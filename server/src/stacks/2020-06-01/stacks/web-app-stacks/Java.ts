@@ -419,7 +419,7 @@ export const javaStack: WebAppStack = {
           value: '8.0.25 (Oracle)',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '1.8.0_65',
+              runtimeVersion: '1.8.0_25',
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
