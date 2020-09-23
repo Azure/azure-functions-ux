@@ -12,7 +12,7 @@ export const dotnetCoreStack: WebAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
-      displayText: '.NET Core 5',
+      displayText: '.NET 5',
       value: '5',
       minorVersions: [
         {
