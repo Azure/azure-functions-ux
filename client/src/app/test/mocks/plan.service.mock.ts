@@ -37,7 +37,7 @@ export class MockPlanService implements IPlanService {
     return null;
   }
 
-  getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean, isPV3Xenon: boolean) {
+  getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean, isXenoneWorkersEnabled: boolean) {
     return null;
   }
 
