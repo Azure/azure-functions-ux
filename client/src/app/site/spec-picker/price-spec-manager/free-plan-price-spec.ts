@@ -114,7 +114,7 @@ export class FreePlanPriceSpec extends PriceSpec {
 
   private _checkIfSkuEnabledInRegion(subscriptionId: ResourceId, location: string, isLinux: boolean) {
     if (this.state !== 'hidden' && this.state !== 'disabled') {
-      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this.tier, isLinux).do(geoRegions => {
+      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this.tier, isLinux, false /* isPV3Xenon */).do(geoRegions => {
         if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
           this.state = 'disabled';
           this.disabledMessage = this._ts.instant(PortalResources.pricing_freeLinuxNotAvailable);

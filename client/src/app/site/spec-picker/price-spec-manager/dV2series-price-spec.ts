@@ -41,7 +41,7 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
 
   private _checkIfSkuEnabledInRegion(subscriptionId: ResourceId, location: string, isLinux: boolean) {
     if (this.state !== 'hidden' && this.state !== 'disabled') {
-      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this._sku, isLinux).do(geoRegions => {
+      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this._sku, isLinux, false /* isPV3Xenon */).do(geoRegions => {
         if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
           this.state = 'disabled';
           this.disabledMessage = this._skuNotAvailableMessage;
