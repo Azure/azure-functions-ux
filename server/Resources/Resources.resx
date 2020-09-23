@@ -3259,9 +3259,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Outgoing IP addresses for your app might change.</value>
     </data>
-    <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>Your app service plan {0} has exceeded the recommended number of apps for its size.</value>
-    </data>
     <data name="free" xml:space="preserve">
         <value>Free</value>
     </data>
