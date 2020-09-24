@@ -22,6 +22,7 @@ export const phpStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '7.4',
               isPreview: true,
+              isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
