@@ -75,58 +75,88 @@ export const isStackVersionEndOfLife = (endOfLifeDate?: string): boolean => {
 export const filterDeprecatedWebAppStack = (stacks: WebAppStack[], ignoreStackName: string, ignoreStackVersion: string) => {
   const filteredStacks: WebAppStack[] = [];
   for (const stack of stacks) {
-    let filteredMajorVersions: AppStackMajorVersion<WebAppRuntimes & JavaContainersInterface>[] = [];
-    for (const majorVersion of stack.majorVersions) {
-      let filteredMinorVersions: AppStackMinorVersion<WebAppRuntimes & JavaContainersInterface>[] = [];
-      for (const minorVersion of majorVersion.minorVersions) {
-        minorVersion.stackSettings.linuxRuntimeSettings = getFilteredWebStackSettings(
-          stack.value,
-          ignoreStackName,
-          ignoreStackVersion,
-          minorVersion.stackSettings.linuxRuntimeSettings
-        );
-
-        minorVersion.stackSettings.windowsRuntimeSettings = getFilteredWebStackSettings(
-          stack.value,
-          ignoreStackName,
-          ignoreStackVersion,
-          minorVersion.stackSettings.windowsRuntimeSettings
-        );
-
-        minorVersion.stackSettings.linuxContainerSettings = getFilteredLinuxJavaContainerSettings(
-          stack.value,
-          ignoreStackName,
-          ignoreStackVersion,
-          minorVersion.stackSettings.linuxContainerSettings
-        );
-
-        minorVersion.stackSettings.windowsContainerSettings = getFilteredWindowsJavaContainerSettings(
-          stack.value,
-          ignoreStackName,
-          ignoreStackVersion,
-          minorVersion.stackSettings.windowsContainerSettings
-        );
-
-        if (
-          minorVersion.stackSettings.linuxRuntimeSettings ||
-          minorVersion.stackSettings.windowsRuntimeSettings ||
-          minorVersion.stackSettings.linuxContainerSettings ||
-          minorVersion.stackSettings.windowsContainerSettings
-        ) {
-          filteredMinorVersions.push(minorVersion);
-        }
-      }
-      if (filteredMinorVersions.length > 0) {
-        majorVersion.minorVersions = filteredMinorVersions;
-        filteredMajorVersions.push(majorVersion);
-      }
-    }
+    const filteredMajorVersions: AppStackMajorVersion<WebAppRuntimes & JavaContainersInterface>[] = filterDeprecatedWebAppStackMajorVersion(
+      stack.majorVersions,
+      stack.value,
+      ignoreStackName,
+      ignoreStackVersion
+    );
     if (filteredMajorVersions.length > 0) {
       stack.majorVersions = filteredMajorVersions;
       filteredStacks.push(stack);
     }
   }
   return filteredStacks;
+};
+
+export const filterDeprecatedWebAppStackMajorVersion = (
+  majorVersions: AppStackMajorVersion<WebAppRuntimes & JavaContainersInterface>[],
+  stackName: string,
+  ignoreStackName: string,
+  ignoreStackVersion: string
+) => {
+  const filteredMajorVersions: AppStackMajorVersion<WebAppRuntimes & JavaContainersInterface>[] = [];
+  for (const majorVersion of majorVersions) {
+    const filteredMinorVersions: AppStackMinorVersion<WebAppRuntimes & JavaContainersInterface>[] = filterDeprecatedWebAppStackMinorVersion(
+      majorVersion.minorVersions,
+      stackName,
+      ignoreStackName,
+      ignoreStackVersion
+    );
+    if (filteredMinorVersions.length > 0) {
+      majorVersion.minorVersions = filteredMinorVersions;
+      filteredMajorVersions.push(majorVersion);
+    }
+  }
+  return filteredMajorVersions;
+};
+
+export const filterDeprecatedWebAppStackMinorVersion = (
+  minorVersions: AppStackMinorVersion<WebAppRuntimes & JavaContainersInterface>[],
+  stackName: string,
+  ignoreStackName: string,
+  ignoreStackVersion: string
+) => {
+  const filteredMinorVersions: AppStackMinorVersion<WebAppRuntimes & JavaContainersInterface>[] = [];
+  for (const minorVersion of minorVersions) {
+    minorVersion.stackSettings.linuxRuntimeSettings = getFilteredWebStackSettings(
+      stackName,
+      ignoreStackName,
+      ignoreStackVersion,
+      minorVersion.stackSettings.linuxRuntimeSettings
+    );
+
+    minorVersion.stackSettings.windowsRuntimeSettings = getFilteredWebStackSettings(
+      stackName,
+      ignoreStackName,
+      ignoreStackVersion,
+      minorVersion.stackSettings.windowsRuntimeSettings
+    );
+
+    minorVersion.stackSettings.linuxContainerSettings = getFilteredLinuxJavaContainerSettings(
+      stackName,
+      ignoreStackName,
+      ignoreStackVersion,
+      minorVersion.stackSettings.linuxContainerSettings
+    );
+
+    minorVersion.stackSettings.windowsContainerSettings = getFilteredWindowsJavaContainerSettings(
+      stackName,
+      ignoreStackName,
+      ignoreStackVersion,
+      minorVersion.stackSettings.windowsContainerSettings
+    );
+
+    if (
+      minorVersion.stackSettings.linuxRuntimeSettings ||
+      minorVersion.stackSettings.windowsRuntimeSettings ||
+      minorVersion.stackSettings.linuxContainerSettings ||
+      minorVersion.stackSettings.windowsContainerSettings
+    ) {
+      filteredMinorVersions.push(minorVersion);
+    }
+  }
+  return filteredMinorVersions;
 };
 
 export const getFilteredWebStackSettings = (
