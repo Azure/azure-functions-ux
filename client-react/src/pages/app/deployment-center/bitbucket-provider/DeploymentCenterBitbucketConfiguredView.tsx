@@ -22,22 +22,27 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
   const [branch, setBranch] = useState<string | undefined>(undefined);
   const [bitbucketUsername, setBitbucketUsername] = useState<string | undefined>(t('loading'));
   const [isSourceControlLoading, setIsSourceControlLoading] = useState(true);
+  const [isBitbucketUsernameLoading, setIsBitbucketUsernameLoading] = useState(true);
+  const [isBitbucketUsernameMissing, setIsBitbucketUsernameMissing] = useState(false);
+  const [isBranchInfoMissing, setIsBranchInfoMissing] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterData = new DeploymentCenterData();
 
-  const getSourceControlDetails = async () => {
-    getBitbucketUserResponse();
-    getSourceControlDetailsResponse();
+  const fetchData = async () => {
+    fetchBitbucketUser();
+    fetchSourceControlDetails();
   };
 
-  const getBitbucketUserResponse = async () => {
+  const fetchBitbucketUser = async () => {
+    setIsBitbucketUsernameMissing(false);
     const bitbucketUserResponse = await deploymentCenterData.getBitbucketUser(deploymentCenterContext.bitbucketToken);
     if (bitbucketUserResponse.metadata.success && bitbucketUserResponse.data.username) {
       setBitbucketUsername(bitbucketUserResponse.data.username);
     } else {
       // NOTE(stpelleg): if unsuccessful, assume the user needs to authorize.
       setBitbucketUsername(undefined);
+      setIsBitbucketUsernameMissing(true);
 
       LogService.error(
         LogCategories.deploymentCenter,
@@ -45,9 +50,11 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
         `Failed to get Bitbucket user details with error: ${getErrorMessage(bitbucketUserResponse.metadata.error)}`
       );
     }
+    setIsBitbucketUsernameLoading(false);
   };
 
-  const getSourceControlDetailsResponse = async () => {
+  const fetchSourceControlDetails = async () => {
+    setIsBranchInfoMissing(false);
     const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
     if (sourceControlDetailsResponse.metadata.success) {
       setRepoUrl(sourceControlDetailsResponse.data.properties.repoUrl);
@@ -67,6 +74,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
         );
       }
     } else {
+      setIsBranchInfoMissing(true);
       setOrg(t('deploymentCenterErrorFetchingInfo'));
       setRepo(t('deploymentCenterErrorFetchingInfo'));
       setBranch(t('deploymentCenterErrorFetchingInfo'));
@@ -77,42 +85,6 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
       );
     }
     setIsSourceControlLoading(false);
-  };
-
-  const getSignedInAsComponent = () => {
-    if (bitbucketUsername === t('loading') && formProps && formProps.values.bitbucketUser && formProps.values.bitbucketUser.username) {
-      return formProps.values.bitbucketUser.username;
-    } else if (!bitbucketUsername) {
-      return (
-        <div className={deploymentCenterInfoBannerDiv}>
-          <CustomBanner
-            message={
-              <>
-                {`${t('deploymentCenterSettingsConfiguredViewUserNotAuthorized')} `}
-                <Link onClick={authorizeBitbucketAccount} target="_blank">
-                  {t('authorize')}
-                </Link>
-              </>
-            }
-            type={MessageBarType.error}
-          />
-        </div>
-      );
-    }
-    return bitbucketUsername;
-  };
-
-  const getBranchLink = () => {
-    if (branch && repoUrl) {
-      return (
-        <Link key="deployment-center-branch-link" onClick={() => window.open(repoUrl, '_blank')} aria-label={`${branch}`}>
-          {`${branch} `}
-          <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
-        </Link>
-      );
-    }
-
-    return <div>{branch}</div>;
   };
 
   const authorizeBitbucketAccount = () => {
@@ -139,68 +111,119 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
             return Promise.resolve(null);
           }
         })
-        .then(() => getSourceControlDetails());
+        .then(() => fetchData());
     } else {
-      return getSourceControlDetails();
+      return fetchData();
     }
   };
 
-  const getOrgComponent = () => {
-    if (isSourceControlLoading && formProps && formProps.values.org) {
+  const getSignedInAsComponent = (isLoading: boolean) => {
+    if (isLoading && formProps && formProps.values.bitbucketUser && formProps.values.bitbucketUser.username) {
+      return <div>{formProps.values.bitbucketUser.username}</div>;
+    } else if (isLoading && (!formProps || !formProps.values.bitbucketUser || !formProps.values.bitbucketUser.username)) {
+      return <div>{t('loading')}</div>;
+    }
+    return <div>{bitbucketUsername}</div>;
+  };
+
+  const getUsernameMissingComponent = () => {
+    return (
+      <div className={deploymentCenterInfoBannerDiv}>
+        <CustomBanner
+          message={
+            <>
+              {`${t('deploymentCenterSettingsConfiguredViewUserNotAuthorized')} `}
+              <Link onClick={authorizeBitbucketAccount} target="_blank">
+                {t('authorize')}
+              </Link>
+            </>
+          }
+          type={MessageBarType.error}
+        />
+      </div>
+    );
+  };
+
+  const getBranchLink = () => {
+    if (!isBranchInfoMissing) {
+      return (
+        <Link key="deployment-center-branch-link" onClick={() => window.open(repoUrl, '_blank')} aria-label={`${branch}`}>
+          {`${branch} `}
+          <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
+        </Link>
+      );
+    }
+
+    return branch;
+  };
+
+  const getOrgValue = (isLoading: boolean) => {
+    if (isLoading && formProps && formProps.values.org) {
       return formProps.values.org;
-    } else if (isSourceControlLoading && (!formProps || !formProps.values.repo)) {
+    } else if (isLoading && (!formProps || !formProps.values.repo)) {
       return t('loading');
     }
     return org;
   };
 
-  const getRepoComponent = () => {
-    if (isSourceControlLoading && formProps && formProps.values.repo) {
+  const getRepoValue = (isLoading: boolean) => {
+    if (isLoading && formProps && formProps.values.repo) {
       return formProps.values.repo;
-    } else if (isSourceControlLoading && (!formProps || !formProps.values.repo)) {
+    } else if (isLoading && (!formProps || !formProps.values.repo)) {
       return t('loading');
     }
     return repo;
   };
 
-  const getBranchComponent = () => {
-    if (isSourceControlLoading && formProps && formProps.values.branch) {
+  const getBranchValue = (isLoading: boolean) => {
+    if (isLoading && formProps && formProps.values.branch) {
       return formProps.values.branch;
-    } else if (isSourceControlLoading && (!formProps || !formProps.values.branch)) {
+    } else if (isLoading && (!formProps || !formProps.values.branch)) {
       return t('loading');
     }
-    return getBranchLink();
+    return branch;
   };
 
   useEffect(() => {
-    getSourceControlDetails();
+    fetchData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (isSourceControlLoading) {
-      getSourceControlDetailsResponse();
-    }
+    setOrg(getOrgValue(isSourceControlLoading));
+    setRepo(getRepoValue(isSourceControlLoading));
+    setBranch(getBranchValue(isSourceControlLoading));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSourceControlLoading]);
+
+  useEffect(() => {
+    if (!isBitbucketUsernameMissing) {
+      getSignedInAsComponent(isBitbucketUsernameLoading);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isBitbucketUsernameLoading]);
 
   return (
     <>
       <h3>{t('deploymentCenterCodeBitbucketTitle')}</h3>
 
       <ReactiveFormControl id="deployment-center-bitbucket-user" label={t('deploymentCenterOAuthSingedInAs')}>
-        <div>{getSignedInAsComponent()}</div>
+        <>
+          {isBitbucketUsernameMissing && getUsernameMissingComponent()}
+          {!isBitbucketUsernameMissing && getSignedInAsComponent(isBitbucketUsernameLoading)}
+        </>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-organization" label={t('deploymentCenterOAuthOrganization')}>
-        <div>{getOrgComponent()}</div>
+        <div>{org}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-repository" label={t('deploymentCenterOAuthRepository')}>
-        <div>{getRepoComponent()}</div>
+        <div>{repo}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-bitbucket-branch" label={t('deploymentCenterOAuthBranch')}>
-        <div>{getBranchComponent()}</div>
+        <div>{isSourceControlLoading ? branch : getBranchLink()}</div>
       </ReactiveFormControl>
     </>
   );

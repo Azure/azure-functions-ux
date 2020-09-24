@@ -230,10 +230,6 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   accountUser?: GitHubUser;
 }
 
-export interface DeploymentCenterGitHubConfiguredViewProps {
-  isGitHubActionsSetup?: boolean;
-}
-
 export interface DeploymentCenterGitHubDisconnectProps {
   branch: string;
   org: string;
