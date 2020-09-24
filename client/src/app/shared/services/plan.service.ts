@@ -15,6 +15,7 @@ import { Subject } from 'rxjs/Subject';
 import { SpecCostQueryInput } from '../../site/spec-picker/price-spec-manager/billing-models';
 import { OsType } from '../models/arm/stacks';
 import { Site } from './../models/arm/site';
+import { ServerFarmRecommendation } from './../models/arm/serverfarm-recommendation';
 
 export interface IPlanService {
   getPlan(resourceId: ResourceId, force?: boolean): Result<ArmObj<ServerFarm>>;
@@ -146,6 +147,21 @@ export class PlanService implements IPlanService {
       })
       .map(r => r.json());
     return this._client.execute({ resourceId: resourceId }, t => getServerFarmSites);
+  }
+
+  getServerFarmRecommendations(resourceId: ResourceId, force = false): Result<ArmArrayResult<ServerFarmRecommendation>> {
+    const getServerFarmRecommendations = this._cacheService
+      .getArm(`${resourceId}/recommendations`, force)
+      .expand(response => {
+        const nextLink = response.json().nextLink;
+        if (nextLink) {
+          return this._cacheService.get(nextLink, force);
+        } else {
+          return Observable.empty();
+        }
+      })
+      .map(r => r.json());
+    return this._client.execute({ resourceId: resourceId }, t => getServerFarmRecommendations);
   }
 
   private _getProviderLocations(subscriptionId: string, resourceType: string): Observable<string[]> {

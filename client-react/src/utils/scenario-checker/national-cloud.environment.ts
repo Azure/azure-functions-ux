@@ -103,13 +103,6 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.addHTTPSwitch] = {
-      id: ScenarioIds.addHTTPSwitch,
-      runCheck: () => {
-        return { status: 'disabled' };
-      },
-    };
-
     this.scenarioChecks[ScenarioIds.onedriveSource] = {
       id: ScenarioIds.onedriveSource,
       runCheck: () => ({ status: 'disabled' }),

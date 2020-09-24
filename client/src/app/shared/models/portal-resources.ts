@@ -1043,7 +1043,6 @@ export class PortalResources {
   public static pricing_epNotAvailable = 'pricing_epNotAvailable';
   public static pricing_scaleUp = 'pricing_scaleUp';
   public static pricing_pv2UpsellInfoMessage = 'pricing_pv2UpsellInfoMessage';
-  public static pricing_appDensityWarningMessage = 'pricing_appDensityWarningMessage';
   public static free = 'free';
   public static pricing_freeLinuxNotAvailable = 'pricing_freeLinuxNotAvailable';
   public static pricing_pricePerMonth = 'pricing_pricePerMonth';
