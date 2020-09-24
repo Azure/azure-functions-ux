@@ -8,8 +8,10 @@ import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { Link, Icon } from 'office-ui-fabric-react';
 import { disconnectLink } from '../DeploymentCenter.styles';
 import { PortalContext } from '../../../../PortalContext';
+import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
 
-const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<{}> = () => {
+const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
+  const { formProps } = props;
   const { t } = useTranslation();
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
 
@@ -36,8 +38,9 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<{}> = () => {
 
     if (updatePathSiteConfigResponse.metadata.success && deploymentCenterContext.siteConfig) {
       if (deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit) {
+        formProps.resetForm();
         portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
-        deploymentCenterContext.refresh();
+        await deploymentCenterContext.refresh();
       } else {
         deleteSourceControls(notificationId);
       }
@@ -51,8 +54,9 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<{}> = () => {
     const deleteSourceControlDetailsResponse = await deploymentCenterData.deleteSourceControlDetails(deploymentCenterContext.resourceId);
 
     if (deleteSourceControlDetailsResponse.metadata.success) {
+      formProps.resetForm();
       portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
-      deploymentCenterContext.refresh();
+      await deploymentCenterContext.refresh();
     } else {
       portalContext.stopNotification(notificationId, false, t('disconnectingDeploymentFail'));
     }

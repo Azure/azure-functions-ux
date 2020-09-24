@@ -275,7 +275,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const renderGitHubActionReadOnlyView = () => {
     return (
       <>
-        <DeploymentCenterGitHubConfiguredView isGitHubActionsSetup={true} />
+        <DeploymentCenterGitHubConfiguredView formProps={formProps} />
         <DeploymentCenterContainerSettingsReadOnlyView />
       </>
     );

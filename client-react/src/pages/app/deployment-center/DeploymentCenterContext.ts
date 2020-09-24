@@ -11,7 +11,7 @@ export interface IDeploymentCenterContext {
   dropBoxToken: string;
   bitbucketToken: string;
   gitHubToken: string;
-  refresh: () => void;
+  refresh: () => Promise<void>;
   refreshUserSourceControlTokens: () => void;
   siteConfig?: ArmObj<SiteConfig>;
   siteDescriptor?: ArmSiteDescriptor;

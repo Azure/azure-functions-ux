@@ -7,24 +7,30 @@ import { Link, Icon } from 'office-ui-fabric-react';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
 
-const DeploymentCenterExternalConfiguredView: React.FC<{}> = props => {
+const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
+  const { formProps } = props;
   const { t } = useTranslation();
 
   const [repo, setRepo] = useState<string | undefined>(undefined);
   const [branch, setBranch] = useState<string | undefined>(undefined);
   const [externalUsername, setExternalUsername] = useState<string | undefined>(undefined);
   const [isSourceControlLoading, setIsSourceControlLoading] = useState(true);
+  const [isBranchInfoMissing, setIsBranchInfoMissing] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterData = new DeploymentCenterData();
+  const externalUsernameExists = externalUsername || (formProps && formProps.values.externalUsername);
 
   const getSourceControlDetails = async () => {
+    setIsBranchInfoMissing(false);
     const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
     if (sourceControlDetailsResponse.metadata.success) {
       setBranch(sourceControlDetailsResponse.data.properties.branch);
       processRepo(sourceControlDetailsResponse.data.properties.repoUrl);
     } else {
+      setIsBranchInfoMissing(true);
       setRepo(t('deploymentCenterErrorFetchingInfo'));
       setBranch(t('deploymentCenterErrorFetchingInfo'));
       LogService.error(
@@ -48,7 +54,7 @@ const DeploymentCenterExternalConfiguredView: React.FC<{}> = props => {
   };
 
   const getBranchLink = () => {
-    if (branch && repo) {
+    if (!isBranchInfoMissing) {
       return (
         <Link key="deployment-center-branch-link" onClick={() => window.open(repo, '_blank')}>
           {`${branch} `}
@@ -57,7 +63,34 @@ const DeploymentCenterExternalConfiguredView: React.FC<{}> = props => {
       );
     }
 
-    return <div>{`${branch}`}</div>;
+    return branch;
+  };
+
+  const getExternalUsernameValue = (isLoading: boolean) => {
+    if (isLoading && formProps && formProps.values.externalUsername) {
+      return formProps.values.externalUsername;
+    } else if (isLoading && (!formProps || !formProps.values.externalUsername)) {
+      return t('loading');
+    }
+    return externalUsername;
+  };
+
+  const getRepoValue = (isLoading: boolean) => {
+    if (isLoading && formProps && formProps.values.repo) {
+      return formProps.values.repo;
+    } else if (isLoading && (!formProps || !formProps.values.repo)) {
+      return t('loading');
+    }
+    return repo;
+  };
+
+  const getBranchValue = (isLoading: boolean) => {
+    if (isLoading && formProps && formProps.values.branch) {
+      return formProps.values.branch;
+    } else if (isLoading && (!formProps || !formProps.values.branch)) {
+      return t('loading');
+    }
+    return branch;
   };
 
   useEffect(() => {
@@ -67,8 +100,10 @@ const DeploymentCenterExternalConfiguredView: React.FC<{}> = props => {
   }, []);
 
   useEffect(() => {
-    if (isSourceControlLoading) {
-      getSourceControlDetails();
+    setRepo(getRepoValue(isSourceControlLoading));
+    setBranch(getBranchValue(isSourceControlLoading));
+    if (externalUsernameExists) {
+      setExternalUsername(getExternalUsernameValue(isSourceControlLoading));
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,16 +112,16 @@ const DeploymentCenterExternalConfiguredView: React.FC<{}> = props => {
   return (
     <>
       <h3>{t('deploymentCenterCodeExternalGitTitle')}</h3>
-      {externalUsername && (
+      {externalUsernameExists && (
         <ReactiveFormControl id="deployment-center-username" label={t('deploymentCenterCodeExternalUsernameLabel')}>
-          <div>{isSourceControlLoading ? t('loading') : externalUsername}</div>
+          <div>{externalUsername}</div>
         </ReactiveFormControl>
       )}
       <ReactiveFormControl id="deployment-center-repository" label={t('deploymentCenterOAuthRepository')}>
-        <div>{isSourceControlLoading ? t('loading') : repo}</div>
+        <div>{repo}</div>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-branch" label={t('deploymentCenterOAuthBranch')}>
-        <div>{isSourceControlLoading ? t('loading') : getBranchLink()}</div>
+        <div>{isSourceControlLoading ? branch : getBranchLink()}</div>
       </ReactiveFormControl>
     </>
   );
