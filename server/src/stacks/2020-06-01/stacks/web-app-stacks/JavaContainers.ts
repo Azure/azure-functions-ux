@@ -5,11 +5,11 @@ export const javaContainersStack: WebAppStack = {
   value: 'javacontainers',
   majorVersions: [
     {
-      displayText: 'Java SE (embedded web server)',
+      displayText: 'Java SE (Embedded Web Server)',
       value: 'javase',
       minorVersions: [
         {
-          displayText: 'Java SE',
+          displayText: 'Java SE (Embedded Web Server)',
           value: 'SE',
           stackSettings: {
             windowsContainerSettings: {
@@ -47,7 +47,8 @@ export const javaContainersStack: WebAppStack = {
         },
         {
           displayText: 'Java SE 8u232',
-          value: '8u232',
+          // note (allisonm): Java SE 8u232 is pinned version that maps to the below value
+          value: '1.8.232',
           stackSettings: {
             linuxContainerSettings: {
               java8Runtime: 'JAVA|8u232',
