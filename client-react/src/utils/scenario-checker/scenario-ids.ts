@@ -70,7 +70,6 @@ export class ScenarioIds {
   public static readonly enableExportToPowerApps = 'EnableExportToPowerApps';
   public static readonly disabledBindings = 'disabledBindings';
   public static readonly monitoring = 'monitoring';
-  public static readonly addHTTPSwitch = 'addHTTPSwitch';
   public static readonly vstsDeploymentHide = 'vstsDeploymentHide';
   public static readonly vstsDeploymentPermission = 'vstsDeploymentPermission';
   public static readonly deploymentCenter = 'deploymentCenter';
