@@ -21,6 +21,7 @@ import {
   isJavaStackSelected,
 } from './LinuxStacks.data';
 import JavaStack from './JavaStack';
+import { filterDeprecatedWebStackVersions } from '../../../../../utils/stacks-utils';
 
 type PropsType = FormikProps<AppSettingsFormValues>;
 
@@ -29,7 +30,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
   const { site } = values;
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
-  const stacks = useContext(WebAppStacksContext);
+  let stacks = useContext(WebAppStacksContext);
   const runtimeOptions = getRuntimeStacks(stacks);
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
@@ -38,6 +39,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
   const [majorVersionRuntime, setMajorVersionRuntime] = useState<string | null>(null);
 
   const initialVersionDetails = getVersionDetails(stacks, initialValues.config.properties.linuxFxVersion);
+  stacks = filterDeprecatedWebStackVersions(stacks, initialVersionDetails.runtimeStackName, initialVersionDetails.minorVersionRuntime);
 
   const isRuntimeStackDirty = (): boolean =>
     getRuntimeStack(values.config.properties.linuxFxVersion) !== getRuntimeStack(initialValues.config.properties.linuxFxVersion);

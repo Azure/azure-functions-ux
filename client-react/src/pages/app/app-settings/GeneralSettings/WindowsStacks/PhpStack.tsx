@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
-import { getStacksSummaryForDropdown } from '../../../../../utils/stacks-utils';
+import { filterDeprecatedWebStackVersions, getStacksSummaryForDropdown } from '../../../../../utils/stacks-utils';
 import { AppStackOs } from '../../../../../models/stacks/app-stacks';
 import { StackProps } from './WindowsStacks';
 
@@ -14,7 +14,9 @@ const PhpStack: React.SFC<StackProps> = props => {
   const disableAllControls = !app_write || !editable || saving;
   const stacks = useContext(WebAppStacksContext);
 
-  const phpStack = stacks.find(x => x.value === 'php');
+  const phpStack = filterDeprecatedWebStackVersions(stacks, 'php', initialValues.config.properties.phpVersion || '').find(
+    x => x.value === 'php'
+  );
   if (!phpStack) {
     return null;
   }

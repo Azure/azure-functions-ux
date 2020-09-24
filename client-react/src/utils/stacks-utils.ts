@@ -1,6 +1,13 @@
-import { WebAppStack, WebAppRuntimeSettings } from '../models/stacks/web-app-stacks';
+import {
+  WebAppStack,
+  WebAppRuntimeSettings,
+  LinuxJavaContainerSettings,
+  WindowsJavaContainerSettings,
+  WebAppRuntimes,
+  JavaContainers as JavaContainersInterface,
+} from '../models/stacks/web-app-stacks';
 import { IDropdownOption } from 'office-ui-fabric-react';
-import { AppStackOs } from '../models/stacks/app-stacks';
+import { AppStackMajorVersion, AppStackMinorVersion, AppStackOs } from '../models/stacks/app-stacks';
 import { FunctionAppStack } from '../models/stacks/function-app-stacks';
 import i18next from 'i18next';
 import LogService from './LogService';
@@ -61,6 +68,127 @@ export const isStackVersionEndOfLife = (endOfLifeDate?: string): boolean => {
   } catch (err) {
     LogService.error(LogCategories.appSettings, 'StackSettings', err);
     return false;
+  }
+};
+
+// Filter all the deprecated stack except the specific version passed as the parameter
+export const filterDeprecatedWebStackVersions = (stacks: WebAppStack[], ignoreStackName: string, ignoreStackVersion: string) => {
+  const filteredStacks: WebAppStack[] = [];
+  for (const stack of stacks) {
+    let filteredMajorVersions: AppStackMajorVersion<WebAppRuntimes & JavaContainersInterface>[] = [];
+    for (const majorVersion of stack.majorVersions) {
+      let filteredMinorVersions: AppStackMinorVersion<WebAppRuntimes & JavaContainersInterface>[] = [];
+      for (const minorVersion of majorVersion.minorVersions) {
+        minorVersion.stackSettings.linuxRuntimeSettings = getFilteredWebStackSettings(
+          stack.value,
+          ignoreStackName,
+          ignoreStackVersion,
+          minorVersion.stackSettings.linuxRuntimeSettings
+        );
+
+        minorVersion.stackSettings.windowsRuntimeSettings = getFilteredWebStackSettings(
+          stack.value,
+          ignoreStackName,
+          ignoreStackVersion,
+          minorVersion.stackSettings.windowsRuntimeSettings
+        );
+
+        minorVersion.stackSettings.linuxContainerSettings = getFilteredLinuxJavaContainerSettings(
+          stack.value,
+          ignoreStackName,
+          ignoreStackVersion,
+          minorVersion.stackSettings.linuxContainerSettings
+        );
+
+        minorVersion.stackSettings.windowsContainerSettings = getFilteredWindowsJavaContainerSettings(
+          stack.value,
+          ignoreStackName,
+          ignoreStackVersion,
+          minorVersion.stackSettings.windowsContainerSettings
+        );
+
+        if (
+          minorVersion.stackSettings.linuxRuntimeSettings ||
+          minorVersion.stackSettings.windowsRuntimeSettings ||
+          minorVersion.stackSettings.linuxContainerSettings ||
+          minorVersion.stackSettings.windowsContainerSettings
+        ) {
+          filteredMinorVersions.push(minorVersion);
+        }
+      }
+      if (filteredMinorVersions.length > 0) {
+        majorVersion.minorVersions = filteredMinorVersions;
+        filteredMajorVersions.push(majorVersion);
+      }
+    }
+    if (filteredMajorVersions.length > 0) {
+      stack.majorVersions = filteredMajorVersions;
+      filteredStacks.push(stack);
+    }
+  }
+  return filteredStacks;
+};
+
+export const getFilteredWebStackSettings = (
+  stackName: string,
+  ignoreStackName: string,
+  ignoreStackVersion: string,
+  settings?: WebAppRuntimeSettings
+) => {
+  if (!!settings) {
+    if (
+      stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
+      ignoreStackVersion.toLowerCase() === settings.runtimeVersion.toLowerCase()
+    ) {
+      return settings;
+    } else {
+      return settings.isDeprecated ? undefined : settings;
+    }
+  } else {
+    return undefined;
+  }
+};
+
+export const getFilteredLinuxJavaContainerSettings = (
+  stackName: string,
+  ignoreStackName: string,
+  ignoreStackVersion: string,
+  settings?: LinuxJavaContainerSettings
+) => {
+  if (!!settings) {
+    if (
+      stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
+      (!settings.java11Runtime ||
+        ignoreStackVersion.toLowerCase() === settings.java11Runtime.toLowerCase() ||
+        !settings.java8Runtime ||
+        ignoreStackVersion.toLowerCase() === settings.java8Runtime.toLowerCase())
+    ) {
+      return settings;
+    } else {
+      return settings.isDeprecated ? undefined : settings;
+    }
+  } else {
+    return undefined;
+  }
+};
+
+export const getFilteredWindowsJavaContainerSettings = (
+  stackName: string,
+  ignoreStackName: string,
+  ignoreStackVersion: string,
+  settings?: WindowsJavaContainerSettings
+) => {
+  if (!!settings) {
+    if (
+      stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
+      ignoreStackVersion.toLowerCase() === settings.javaContainerVersion.toLowerCase()
+    ) {
+      return settings;
+    } else {
+      return settings.isDeprecated ? undefined : settings;
+    }
+  } else {
+    return undefined;
   }
 };
 

@@ -5,7 +5,7 @@ import Dropdown from '../../../../../components/form-controls/DropDown';
 import { FormApi, FormState } from '../../AppSettings.types';
 import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import { Links } from '../../../../../utils/FwLinks';
-import { getStacksSummaryForDropdown } from '../../../../../utils/stacks-utils';
+import { filterDeprecatedWebStackVersions, getStacksSummaryForDropdown } from '../../../../../utils/stacks-utils';
 import { AppStackOs } from '../../../../../models/stacks/app-stacks';
 import { StackProps } from './WindowsStacks';
 
@@ -21,7 +21,9 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
   const { t } = useTranslation();
   const stacks = useContext(WebAppStacksContext);
 
-  const pythonStack = stacks.find(x => x.value === 'python');
+  const pythonStack = filterDeprecatedWebStackVersions(stacks, 'python', initialValues.config.properties.pythonVersion || '').find(
+    x => x.value === 'python'
+  );
   if (!pythonStack) {
     return null;
   }
