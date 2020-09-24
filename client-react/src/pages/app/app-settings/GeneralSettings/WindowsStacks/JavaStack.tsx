@@ -26,12 +26,14 @@ const JavaStack: React.SFC<StackProps> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
 
-  const stacks = useContext(WebAppStacksContext);
-
-  const javaStack = getJavaStack(filterDeprecatedWebStackVersions(stacks, 'java', initialValues.config.properties.javaVersion));
-  const javaContainers = getJavaContainers(
-    filterDeprecatedWebStackVersions(stacks, 'javacontainers', initialValues.config.properties.javaContainerVersion)
+  const stacks = filterDeprecatedWebStackVersions(
+    filterDeprecatedWebStackVersions(useContext(WebAppStacksContext), 'java', initialValues.config.properties.javaVersion),
+    'javacontainers',
+    initialValues.config.properties.javaContainerVersion
   );
+
+  const javaStack = getJavaStack(stacks);
+  const javaContainers = getJavaContainers(stacks);
 
   useEffect(() => {
     if (javaStack && javaContainers) {

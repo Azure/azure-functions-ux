@@ -12,11 +12,13 @@ const DotNetStack: React.SFC<StackProps> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
   const { t } = useTranslation();
-  const stacks = useContext(WebAppStacksContext);
-
-  const aspNetStack = filterDeprecatedWebStackVersions(stacks, 'aspnet', initialValues.config.properties.netFrameworkVersion).find(
-    x => x.value === 'aspnet'
+  const stacks = filterDeprecatedWebStackVersions(
+    useContext(WebAppStacksContext),
+    'aspnet',
+    initialValues.config.properties.netFrameworkVersion
   );
+
+  const aspNetStack = stacks.find(x => x.value === 'aspnet');
   if (!aspNetStack) {
     return null;
   }

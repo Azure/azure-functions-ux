@@ -19,11 +19,13 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
   const { t } = useTranslation();
-  const stacks = useContext(WebAppStacksContext);
-
-  const pythonStack = filterDeprecatedWebStackVersions(stacks, 'python', initialValues.config.properties.pythonVersion || '').find(
-    x => x.value === 'python'
+  const stacks = filterDeprecatedWebStackVersions(
+    useContext(WebAppStacksContext),
+    'python',
+    initialValues.config.properties.pythonVersion || ''
   );
+
+  const pythonStack = stacks.find(x => x.value === 'python');
   if (!pythonStack) {
     return null;
   }
