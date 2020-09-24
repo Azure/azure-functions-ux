@@ -72,7 +72,7 @@ export const isStackVersionEndOfLife = (endOfLifeDate?: string): boolean => {
 };
 
 // Filter all the deprecated stack except the specific version passed as the parameter
-export const filterDeprecatedWebStackVersions = (stacks: WebAppStack[], ignoreStackName: string, ignoreStackVersion: string) => {
+export const filterDeprecatedWebAppStack = (stacks: WebAppStack[], ignoreStackName: string, ignoreStackVersion: string) => {
   const filteredStacks: WebAppStack[] = [];
   for (const stack of stacks) {
     let filteredMajorVersions: AppStackMajorVersion<WebAppRuntimes & JavaContainersInterface>[] = [];
