@@ -196,9 +196,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
     setOrg(getOrgValue(isLoading));
     setRepo(getRepoValue(isLoading));
     setBranch(getBranchValue(isLoading));
-    if (!isGitHubUsernameMissing) {
-      setGitHubUsername(getSignedInAsComponent(isLoading));
-    }
+    setGitHubUsername(getSignedInAsComponent(isLoading));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);

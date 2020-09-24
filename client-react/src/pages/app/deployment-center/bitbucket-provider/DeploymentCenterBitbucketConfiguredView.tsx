@@ -199,9 +199,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
   }, [isSourceControlLoading]);
 
   useEffect(() => {
-    if (!isBitbucketUsernameMissing) {
-      getSignedInAsComponent(isBitbucketUsernameLoading);
-    }
+    getSignedInAsComponent(isBitbucketUsernameLoading);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBitbucketUsernameLoading]);
