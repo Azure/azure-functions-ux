@@ -25,10 +25,10 @@ interface FxVersionParts {
 
 export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBuilder {
   public generateFormData(): DeploymentCenterFormData<DeploymentCenterContainerFormData> {
-    const fxVersionParts = this._getFxVersionParts();
     const serverUrl = this._getServerUrl();
     const username = this._getUsername();
     const password = this._getPassword();
+    const fxVersionParts = this._getFxVersionParts(serverUrl, username);
 
     return {
       scmType: this._siteConfig ? this._siteConfig.properties.scmType : ScmType.None,
@@ -187,7 +187,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     return this._siteConfig && this._siteConfig.properties.appCommandLine ? this._siteConfig.properties.appCommandLine : '';
   }
 
-  private _getFxVersionParts(): FxVersionParts {
+  private _getFxVersionParts(appSettingServerUrl: string, appSettingUsername: string): FxVersionParts {
     if (!this._siteConfig) {
       return {
         server: '',
@@ -206,6 +206,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     // docker fxVersion with serverPath: DOCKER|<serverPath>/<imageName>:<tag>
     // docker fxVersion without serverPath: DOCKER|<imageName>:<tag>
     // docker fxVersion without tag: DOCKER|<image>
+    // image and tag each could also contain /'s
     const fxVersion = this._siteConfig.properties.linuxFxVersion || this._siteConfig.properties.windowsFxVersion;
     const fxVersionParts = fxVersion.split('|');
 
@@ -222,26 +223,71 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         composeYml: btoa(fxVersionParts[1]),
       };
     } else {
-      const registryParts = fxVersionParts[1].split(':');
-      const imageParts = registryParts[0].split('/');
-      const tag = registryParts[1] ? registryParts[1] : '';
-      const server = imageParts.length > 1 ? imageParts[0] : '';
-
-      let image = imageParts[0];
-      if (imageParts.length > 2) {
-        image = imageParts[2];
-      } else if (imageParts.length > 1) {
-        image = imageParts[1];
+      if (this._isServerUrlAcr(appSettingServerUrl)) {
+        return this._getAcrFxVersionParts(appSettingServerUrl, fxVersionParts[1]);
+      } else if (this._isServerUrlDockerHub(appSettingServerUrl)) {
+        return this._getDockerHubFxVersionParts(appSettingUsername, fxVersionParts[1]);
+      } else {
+        return this._getPrivateRegistryFxVersionParts(appSettingServerUrl, fxVersionParts[1]);
       }
-
-      return {
-        server,
-        image,
-        tag,
-        containerOption: ContainerOptions.docker,
-        composeYml: '',
-      };
     }
+  }
+
+  private _getAcrFxVersionParts(appSettingServerUrl: string, registryInfo: string): FxVersionParts {
+    // NOTE(michinoy): For ACR the username is not in the FxVersion. The image and/or tags could definitely have /'s.
+    // In this case, remove the serverInfo from the FxVersion and compute the image and tag by splitting on :.
+
+    const acrHost = this._getHostFromServerUrl(appSettingServerUrl);
+    const imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(`${acrHost}/`, '');
+    const imageAndTagParts = imageAndTagInfo.split(':');
+
+    return {
+      server: acrHost,
+      image: imageAndTagParts[0],
+      tag: imageAndTagParts[1] ? imageAndTagParts[1] : 'latest',
+      containerOption: ContainerOptions.docker,
+      composeYml: '',
+    };
+  }
+
+  private _getDockerHubFxVersionParts(appSettingUsername: string, registryInfo: string): FxVersionParts {
+    // NOTE(michinoy): For DockerHub the username could be in FxVersion. This would needed in case of pulling from a private repo.
+    // The image and/or tags could definitely have /'s. The username is a separate field on the form, so image and tag should not have that.
+    // In this case, remove the serverInfo and/or username from the FxVersion and compute the image and tag by splitting on :.
+
+    const serverAndUsernamePrefix = `${DeploymentCenterConstants.dockerHubServerUrlHost}/${appSettingUsername}/`;
+    const usernamePrefix = `${appSettingUsername}/`;
+
+    let imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(serverAndUsernamePrefix, '');
+    imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(usernamePrefix, '');
+
+    const imageAndTagParts = imageAndTagInfo.split(':');
+
+    return {
+      server: DeploymentCenterConstants.dockerHubServerUrlHost,
+      image: imageAndTagParts[0],
+      tag: imageAndTagParts[1] ? imageAndTagParts[1] : 'latest',
+      containerOption: ContainerOptions.docker,
+      composeYml: '',
+    };
+  }
+
+  private _getPrivateRegistryFxVersionParts(appSettingServerUrl: string, registryInfo: string): FxVersionParts {
+    // NOTE(michinoy): Unlike ACR and DockerHub, we dont actually know how a private registry text is formed.
+    // Each registry would have its own convention forked from how dockerHub does things. In this case, we have
+    // the serverUrl, we should remove that, but return the rest as image and tag.
+
+    const privateRegistryHost = this._getHostFromServerUrl(appSettingServerUrl);
+    const imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(`${privateRegistryHost}/`, '');
+    const imageAndTagParts = imageAndTagInfo.split(':');
+
+    return {
+      server: privateRegistryHost,
+      image: imageAndTagParts[0],
+      tag: imageAndTagParts[1] ? imageAndTagParts[1] : 'latest',
+      containerOption: ContainerOptions.docker,
+      composeYml: '',
+    };
   }
 
   private _getAcrFormData(serverUrl: string, username: string, password: string, fxVersionParts: FxVersionParts): AcrFormData {
@@ -328,5 +374,12 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   private _isComposeContainerOption(fxVersion: string): boolean {
     const fxVersionParts = fxVersion ? fxVersion.split('|') : [];
     return fxVersionParts[0].toLocaleLowerCase() === DeploymentCenterConstants.composePrefix.toLocaleLowerCase();
+  }
+
+  private _getHostFromServerUrl(serverUrl: string): string {
+    // In case of either https://xyz.com or https://xyz.com/ or https://xyz.com/a return xyz.com
+    const host = serverUrl.toLocaleLowerCase().replace('https://', '');
+    const hostParts = host.split('/');
+    return hostParts[0];
   }
 }
