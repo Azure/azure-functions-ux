@@ -258,8 +258,10 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     const serverAndUsernamePrefix = `${DeploymentCenterConstants.dockerHubServerUrlHost}/${appSettingUsername}/`;
     const usernamePrefix = `${appSettingUsername}/`;
 
-    let imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(serverAndUsernamePrefix, '');
-    imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(usernamePrefix, '');
+    let imageAndTagInfo = registryInfo
+      .toLocaleLowerCase()
+      .replace(serverAndUsernamePrefix, '')
+      .replace(usernamePrefix, '');
 
     const imageAndTagParts = imageAndTagInfo.split(':');
 
