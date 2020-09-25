@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 import { StackProps } from './WindowsStacks';
+import { filterDeprecatedWebAppStack } from '../../../../../utils/stacks-utils';
 
 const JavaStack: React.SFC<StackProps> = props => {
   const [currentJavaMajorVersion, setCurrentJavaMajorVersion] = useState('');
@@ -25,10 +26,14 @@ const JavaStack: React.SFC<StackProps> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
 
-  const stacks = useContext(WebAppStacksContext);
+  const supportedStacks = filterDeprecatedWebAppStack(
+    filterDeprecatedWebAppStack(useContext(WebAppStacksContext), 'java', initialValues.config.properties.javaVersion),
+    'javacontainers',
+    initialValues.config.properties.javaContainerVersion
+  );
 
-  const javaStack = getJavaStack(stacks);
-  const javaContainers = getJavaContainers(stacks);
+  const javaStack = getJavaStack(supportedStacks);
+  const javaContainers = getJavaContainers(supportedStacks);
 
   useEffect(() => {
     if (javaStack && javaContainers) {

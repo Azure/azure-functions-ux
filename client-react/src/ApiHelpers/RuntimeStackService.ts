@@ -52,10 +52,10 @@ export default class RuntimeStackService {
     });
   };
 
-  private static _getStackUrlParameter = (stacksOs: AppStackOs, showDeprecatedStack?: boolean) => {
+  private static _getStackUrlParameter = (stacksOs: AppStackOs) => {
     return `api-version=${
       CommonConstants.ApiVersions.stacksApiVersion20200601
-    }&os=${stacksOs}&removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}&removeDeprecatedStacks=${!showDeprecatedStack}`;
+    }&os=${stacksOs}&removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`;
   };
 
   private static _isShowHiddenStackFlagPassed = () => {

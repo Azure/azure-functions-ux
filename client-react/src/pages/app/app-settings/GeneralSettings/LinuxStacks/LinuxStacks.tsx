@@ -21,6 +21,7 @@ import {
   isJavaStackSelected,
 } from './LinuxStacks.data';
 import JavaStack from './JavaStack';
+import { filterDeprecatedWebAppStack } from '../../../../../utils/stacks-utils';
 
 type PropsType = FormikProps<AppSettingsFormValues>;
 
@@ -29,15 +30,20 @@ const LinuxStacks: React.FC<PropsType> = props => {
   const { site } = values;
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
-  const stacks = useContext(WebAppStacksContext);
-  const runtimeOptions = getRuntimeStacks(stacks);
+  let supportedStacks = useContext(WebAppStacksContext);
+  const runtimeOptions = getRuntimeStacks(supportedStacks);
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
 
   const [runtimeStack, setRuntimeStack] = useState<string | undefined>(undefined);
   const [majorVersionRuntime, setMajorVersionRuntime] = useState<string | null>(null);
 
-  const initialVersionDetails = getVersionDetails(stacks, initialValues.config.properties.linuxFxVersion);
+  const initialVersionDetails = getVersionDetails(supportedStacks, initialValues.config.properties.linuxFxVersion);
+  supportedStacks = filterDeprecatedWebAppStack(
+    supportedStacks,
+    initialVersionDetails.runtimeStackName,
+    initialVersionDetails.minorVersionRuntime
+  );
 
   const isRuntimeStackDirty = (): boolean =>
     getRuntimeStack(values.config.properties.linuxFxVersion) !== getRuntimeStack(initialValues.config.properties.linuxFxVersion);
@@ -47,7 +53,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
 
   const isMinorVersionDirty = (): boolean => {
     if (runtimeStack) {
-      const minorVersion = getSelectedMinorVersion(stacks, runtimeStack, values.config.properties.linuxFxVersion);
+      const minorVersion = getSelectedMinorVersion(supportedStacks, runtimeStack, values.config.properties.linuxFxVersion);
       return (minorVersion || '').toLowerCase() !== initialVersionDetails.minorVersionRuntime.toLowerCase();
     } else {
       return false;
@@ -57,11 +63,11 @@ const LinuxStacks: React.FC<PropsType> = props => {
   const onRuntimeStackChange = (newRuntimeStack: string) => {
     setRuntimeStack(newRuntimeStack);
     if (newRuntimeStack !== LINUXJAVASTACKKEY) {
-      const majorVersions = getMajorVersions(stacks, newRuntimeStack, t);
+      const majorVersions = getMajorVersions(supportedStacks, newRuntimeStack, t);
       if (majorVersions.length > 0) {
         const majVer = majorVersions[0];
         setMajorVersionRuntime(majVer.key as string);
-        const minorVersions = getMinorVersions(stacks, newRuntimeStack, majVer.key as string, t);
+        const minorVersions = getMinorVersions(supportedStacks, newRuntimeStack, majVer.key as string, t);
         if (minorVersions.length > 0) {
           setFieldValue('config.properties.linuxFxVersion', minorVersions[0].key);
         }
@@ -71,7 +77,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
 
   const onMajorVersionChange = (newMajorVersion: string) => {
     if (runtimeStack) {
-      const minorVersions = getMinorVersions(stacks, runtimeStack, newMajorVersion, t);
+      const minorVersions = getMinorVersions(supportedStacks, runtimeStack, newMajorVersion, t);
       setMajorVersionRuntime(newMajorVersion);
       if (minorVersions.length > 0) {
         setFieldValue('config.properties.linuxFxVersion', minorVersions[0].key);
@@ -80,12 +86,14 @@ const LinuxStacks: React.FC<PropsType> = props => {
   };
 
   const getRuntimeStack = (linuxFxVersion: string) => {
-    return isJavaStackSelected(stacks, linuxFxVersion) ? LINUXJAVASTACKKEY : getSelectedRuntimeStack(stacks, linuxFxVersion);
+    return isJavaStackSelected(supportedStacks, linuxFxVersion)
+      ? LINUXJAVASTACKKEY
+      : getSelectedRuntimeStack(supportedStacks, linuxFxVersion);
   };
 
   const setRuntimeStackAndMajorVersion = () => {
     setRuntimeStack(getRuntimeStack(values.config.properties.linuxFxVersion));
-    setMajorVersionRuntime(getSelectedMajorVersion(stacks, values.config.properties.linuxFxVersion));
+    setMajorVersionRuntime(getSelectedMajorVersion(supportedStacks, values.config.properties.linuxFxVersion));
   };
 
   useEffect(() => {
@@ -113,7 +121,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
                   selectedKey={majorVersionRuntime || ''}
                   dirty={isMajorVersionDirty()}
                   onChange={(e, newVal) => onMajorVersionChange(newVal.key)}
-                  options={getMajorVersions(stacks, runtimeStack, t)}
+                  options={getMajorVersions(supportedStacks, runtimeStack, t)}
                   disabled={disableAllControls}
                   label={t('majorVersion')}
                   id="linux-fx-version-major-version"
@@ -126,7 +134,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
                     disabled={disableAllControls}
                     label={t('minorVersion')}
                     id="linux-fx-version-minor-version"
-                    options={getMinorVersions(stacks, runtimeStack, majorVersionRuntime, t)}
+                    options={getMinorVersions(supportedStacks, runtimeStack, majorVersionRuntime, t)}
                   />
                 )}
               </>
