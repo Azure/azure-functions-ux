@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Formik, FormikProps } from 'formik';
+import { Formik, FormikProps, FormikActions } from 'formik';
 import {
   DeploymentCenterFormData,
   DeploymentCenterCodeFormProps,
@@ -261,12 +261,19 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     }
   };
 
-  const onSubmit = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
-    await Promise.all([updateDeploymentConfigurations(values), updatePublishingUser(values)]);
-    deploymentCenterContext.refresh();
+  const onSubmit = async (
+    values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
+    formikActions: FormikActions<DeploymentCenterFormData<DeploymentCenterCodeFormData>>
+  ) => {
+    await Promise.all([updateDeploymentConfigurations(values, formikActions), updatePublishingUser(values)]);
+    await deploymentCenterContext.refresh();
+    formikActions.setSubmitting(false);
   };
 
-  const updateDeploymentConfigurations = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+  const updateDeploymentConfigurations = async (
+    values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
+    formikActions: FormikActions<DeploymentCenterFormData<DeploymentCenterCodeFormData>>
+  ) => {
     // Only do the save if build provider is set by the user and the scmtype in the config is set to none.
     // If the scmtype in the config is not none, the user should be doing a disconnect operation first.
     // This check is in place, because the use could set the form props ina dirty state by just modifying the
@@ -276,6 +283,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       deploymentCenterContext.siteConfig &&
       deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
     ) {
+      // NOTE(stpelleg):Reset the form values only if deployment settings need to be updated.
+      formikActions.resetForm(values);
       if (values.buildProvider === BuildProvider.GitHubAction) {
         await saveGithubActionsDeploymentSettings(values);
       } else {

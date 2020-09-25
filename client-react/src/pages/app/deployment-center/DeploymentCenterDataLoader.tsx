@@ -221,8 +221,8 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     setIsPublishProfilePanelOpen(false);
   };
 
-  const refresh = () => {
-    fetchData();
+  const refresh = async () => {
+    return fetchData();
   };
 
   useEffect(() => {

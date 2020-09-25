@@ -19,7 +19,7 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 
 const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnectProps> = props => {
-  const { branch, org, repo, repoUrl } = props;
+  const { branch, org, repo, repoUrl, formProps } = props;
   const { t } = useTranslation();
   const [isDisconnectPanelOpen, setIsDisconnectPanelOpen] = useState<boolean>(false);
   const [selectedWorkflowOption, setSelectedWorkflowOption] = useState<WorkflowFileDeleteOptions>(WorkflowFileDeleteOptions.Preserve);
@@ -67,8 +67,9 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     deploymentDisconnectStatus = await clearSCMSettings(deleteWorkflowDuringDisconnect, deploymentDisconnectStatus);
 
     if (deploymentDisconnectStatus.isSuccessful) {
+      formProps.resetForm();
       portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
-      deploymentCenterContext.refresh();
+      await deploymentCenterContext.refresh();
     } else {
       portalContext.stopNotification(
         notificationId,

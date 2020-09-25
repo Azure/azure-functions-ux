@@ -5982,6 +5982,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Error fetching information</value>
     </data>
+    <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>Unable to retrieve account information</value>
+    </data>
     <data name="managePublishProfile" xml:space="preserve">
         <value>Manage publish profile</value>
     </data>
