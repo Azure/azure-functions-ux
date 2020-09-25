@@ -2038,6 +2038,8 @@ export class PortalResources {
   public static deploymentCenterCodeGitHubTitle = 'deploymentCenterCodeGitHubTitle';
   public static deploymentCenterCodeBitbucketTitle = 'deploymentCenterCodeBitbucketTitle';
   public static deploymentCenterCodeLocalGitTitle = 'deploymentCenterCodeLocalGitTitle';
+  public static deploymentCenterCodeOneDriveTitle = 'deploymentCenterCodeOneDriveTitle';
+  public static deploymentCenterCodeFolder = 'deploymentCenterCodeFolder';
   public static deploymentCenterCodeExternalGitTitle = 'deploymentCenterCodeExternalGitTitle';
   public static deploymentCenterCodeExternalUsernameLabel = 'deploymentCenterCodeExternalUsernameLabel';
   public static deploymentCenterCodeExternalPasswordLabel = 'deploymentCenterCodeExternalPasswordLabel';
