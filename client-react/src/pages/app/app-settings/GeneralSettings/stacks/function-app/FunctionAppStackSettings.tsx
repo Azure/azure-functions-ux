@@ -10,7 +10,11 @@ import { FunctionsRuntimeVersionHelper } from '../../../../../../utils/Functions
 import { SiteStateContext } from '../../../../../../SiteState';
 import { Field } from 'formik';
 import { isLinuxApp, isContainerApp } from '../../../../../../utils/arm-utils';
-import { getStackVersionConfigPropertyName, getStackVersionDropdownOptions } from './FunctionAppStackSettings.data';
+import {
+  filterDeprecatedFunctionAppStack,
+  getStackVersionConfigPropertyName,
+  getStackVersionDropdownOptions,
+} from './FunctionAppStackSettings.data';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
 import { settingsWrapper } from '../../../AppSettingsForm';
@@ -20,9 +24,8 @@ import TextField from '../../../../../../components/form-controls/TextField';
 const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();
   const { initialValues, values } = props;
-  const functionAppStacksContext = useContext(FunctionAppStacksContext);
-  const siteStateContext = useContext(SiteStateContext);
 
+  const siteStateContext = useContext(SiteStateContext);
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
   const runtimeVersion =
@@ -34,20 +37,38 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const [currentStackData, setCurrentStackData] = useState<FunctionAppStack | undefined>(undefined);
   const [initialStackVersion, setInitialStackVersion] = useState<string | undefined>(undefined);
 
+  const filterStacks = (supportedStacks: FunctionAppStack[]) => {
+    const initialStack = getInitialStack();
+    const initialStackVersion = getInitialStackVersion(initialStack);
+    return filterDeprecatedFunctionAppStack(supportedStacks, initialStack, initialStackVersion || '');
+  };
+
+  const functionAppStacksContext = filterStacks(useContext(FunctionAppStacksContext));
+
+  const getInitialStack = () => {
+    return initialValues.currentlySelectedStack;
+  };
+
+  const getInitialStackVersion = (stack?: string) => {
+    const stackVersionProperty = getConfigProperty(stack);
+    if (initialValues.config && initialValues.config && initialValues.config.properties[stackVersionProperty]) {
+      return initialValues.config.properties[stackVersionProperty];
+    } else {
+      return undefined;
+    }
+  };
+
   const getConfigProperty = (runtimeStack?: string) => {
     return getStackVersionConfigPropertyName(isLinux(), runtimeStack);
   };
 
   const setInitialData = () => {
-    const runtimeStack = initialValues.currentlySelectedStack;
+    const runtimeStack = getInitialStack();
     if (runtimeStack && functionAppStacksContext.length > 0) {
       setRuntimeStack(runtimeStack);
       setInitialStackData(runtimeStack);
     }
-    const stackVersionProperty = getConfigProperty(runtimeStack);
-    if (initialValues.config && initialValues.config && initialValues.config.properties[stackVersionProperty]) {
-      setInitialStackVersion(initialValues.config.properties[stackVersionProperty]);
-    }
+    setInitialStackVersion(getInitialStackVersion(runtimeStack));
   };
 
   const setInitialStackData = (runtimeStack: string) => {
