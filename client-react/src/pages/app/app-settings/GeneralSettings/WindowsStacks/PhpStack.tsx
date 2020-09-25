@@ -12,9 +12,13 @@ const PhpStack: React.SFC<StackProps> = props => {
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
-  const stacks = filterDeprecatedWebAppStack(useContext(WebAppStacksContext), 'php', initialValues.config.properties.phpVersion || '');
+  const supportedStacks = filterDeprecatedWebAppStack(
+    useContext(WebAppStacksContext),
+    'php',
+    initialValues.config.properties.phpVersion || ''
+  );
 
-  const phpStack = stacks.find(x => x.value === 'php');
+  const phpStack = supportedStacks.find(x => x.value === 'php');
   if (!phpStack) {
     return null;
   }
