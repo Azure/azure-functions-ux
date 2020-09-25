@@ -6670,7 +6670,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>FTP is disabled by access policy.</value>
     </data>
     <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>Editing Custom Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+        <value>Editing Function Apps using CustomHandler is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
     <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>Select development environment</value>
