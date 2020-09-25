@@ -8,6 +8,7 @@ import { GitHubUser } from '../../../models/github';
 import { IDropdownOption, IChoiceGroupOption, MessageBarType } from 'office-ui-fabric-react';
 import { BitbucketUser } from '../../../models/bitbucket';
 import { RepoTypeOptions } from '../../../models/external';
+import { OneDriveUser } from '../../../models/onedrive';
 
 export enum ContainerOptions {
   docker = 'docker',
@@ -376,4 +377,13 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   loadingTagOptions: boolean;
   acrStatusMessage?: string;
   acrStatusMessageType?: MessageBarType;
+}
+
+export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  authorizeAccount: () => void;
+  folderOptions: IDropdownOption[];
+  loadingFolders: boolean;
+  accountStatusMessage?: string;
+  accountUser?: OneDriveUser;
 }
