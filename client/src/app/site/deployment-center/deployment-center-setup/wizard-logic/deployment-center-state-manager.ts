@@ -493,6 +493,11 @@ export class DeploymentCenterStateManager implements OnDestroy {
         ? (<ProvisioningConfigurationV2>deploymentObject).pipelineTemplateId
         : '',
       azureDevOpsDeploymentMethod: AzureDevOpsDeploymentMethod[this._azureDevOpsDeploymentMethod],
+      appKind: this.siteArm.kind,
+      currentStack: this.stack,
+      currentStackVersion: this.stackVersion,
+      selectedStack: this.wizardValues.buildSettings.applicationFramework,
+      selectedStackVersion: this.wizardValues.buildSettings.frameworkVersion,
     });
 
     const setupvsoCall = this._azureDevOpsService.startDeployment(
