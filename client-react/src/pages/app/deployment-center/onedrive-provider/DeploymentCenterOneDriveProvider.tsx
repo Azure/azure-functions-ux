@@ -16,7 +16,7 @@ const DeploymentCenterOneDriveProvider: React.FC<DeploymentCenterOneDriveProvide
 
       <DeploymentCenterOneDriveAccount {...props} />
 
-      {accountUser && accountUser.displayName && (
+      {accountUser && accountUser.createdBy.user.displayName && (
         <>
           <Field
             id="deployment-center-settings-folder-option"

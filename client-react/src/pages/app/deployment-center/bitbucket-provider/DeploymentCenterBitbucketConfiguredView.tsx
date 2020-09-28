@@ -160,7 +160,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
   const getOrgValue = (isLoading: boolean) => {
     if (isLoading && formProps && formProps.values.org) {
       return formProps.values.org;
-    } else if (isLoading && (!formProps || !formProps.values.repo)) {
+    } else if (isLoading && (!formProps || !formProps.values.org)) {
       return t('loading');
     }
     return org;

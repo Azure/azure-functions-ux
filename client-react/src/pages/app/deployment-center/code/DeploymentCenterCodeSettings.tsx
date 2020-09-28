@@ -24,6 +24,7 @@ import DeploymentCenterExternalConfiguredView from '../external-provider/Deploym
 import DeploymentCenterLocalGitProvider from '../local-git-provider/DeploymentCenterLocalGitProvider';
 import DeploymentCenterExternalProvider from '../external-provider/DeploymentCenterExternalProvider';
 import DeploymentCenterOneDriveDataLoader from '../onedrive-provider/DeploymentCenterOneDriveDataLoader';
+import DeploymentCenterOneDriveConfiguredView from '../onedrive-provider/DeploymentCenterOneDriveConfiguredView';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -61,6 +62,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.ExternalGit;
 
   const isOneDriveSource = formProps.values.sourceProvider === ScmType.OneDrive;
+  const isOneDriveSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.OneDrive;
 
   const getWorkflowFileContent = () => {
     if (deploymentCenterContext.siteDescriptor) {
@@ -157,6 +159,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {isBitbucketSetup && <DeploymentCenterBitbucketConfiguredView formProps={formProps} />}
           {isLocalGitSetup && <DeploymentCenterLocalGitConfiguredView />}
           {isExternalGitSetup && <DeploymentCenterExternalConfiguredView formProps={formProps} />}
+          {isOneDriveSetup && <DeploymentCenterOneDriveConfiguredView formProps={formProps} />}
 
           <DeploymentCenterCodeBuildConfiguredView />
         </>
