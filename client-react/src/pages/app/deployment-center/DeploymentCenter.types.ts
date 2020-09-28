@@ -87,6 +87,8 @@ export interface DeploymentCenterCommonFormData {
   externalPassword?: string;
   gitHubUser?: GitHubUser;
   bitbucketUser?: BitbucketUser;
+  oneDriveUser?: OneDriveUser;
+  folder?: string;
 }
 
 export interface AcrFormData {
