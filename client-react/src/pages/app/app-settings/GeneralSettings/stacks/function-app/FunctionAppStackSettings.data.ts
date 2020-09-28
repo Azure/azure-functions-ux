@@ -52,14 +52,18 @@ export const getStackVersionConfigPropertyName = (isLinuxApp: boolean, runtimeSt
 };
 
 // Filter all the deprecated stack except the specific version passed as the parameter
-export const filterDeprecatedFunctionAppStack = (stacks: FunctionAppStack[], ignoreStackName: string, ignoreStackVersion: string) => {
+export const filterDeprecatedFunctionAppStack = (
+  stacks: FunctionAppStack[],
+  alwaysIncludedStackName: string,
+  alwaysIncludedStackVersion: string
+) => {
   const filteredStacks: FunctionAppStack[] = [];
   for (const stack of stacks) {
     const filteredMajorVersions: AppStackMajorVersion<FunctionAppRuntimes>[] = filterDeprecatedFunctionAppStackMajorVersion(
       stack.majorVersions,
       stack.value,
-      ignoreStackName,
-      ignoreStackVersion
+      alwaysIncludedStackName,
+      alwaysIncludedStackVersion
     );
     if (filteredMajorVersions.length > 0) {
       stack.majorVersions = filteredMajorVersions;
@@ -72,16 +76,16 @@ export const filterDeprecatedFunctionAppStack = (stacks: FunctionAppStack[], ign
 export const filterDeprecatedFunctionAppStackMajorVersion = (
   majorVersions: AppStackMajorVersion<FunctionAppRuntimes>[],
   stackName: string,
-  ignoreStackName: string,
-  ignoreStackVersion: string
+  alwaysIncludedStackName: string,
+  alwaysIncludedStackVersion: string
 ) => {
   const filteredMajorVersions: AppStackMajorVersion<FunctionAppRuntimes>[] = [];
   for (const majorVersion of majorVersions) {
     const filteredMinorVersions: AppStackMinorVersion<FunctionAppRuntimes>[] = filterDeprecatedFunctionAppStackMinorVersion(
       majorVersion.minorVersions,
       stackName,
-      ignoreStackName,
-      ignoreStackVersion
+      alwaysIncludedStackName,
+      alwaysIncludedStackVersion
     );
     if (filteredMinorVersions.length > 0) {
       majorVersion.minorVersions = filteredMinorVersions;
@@ -94,22 +98,22 @@ export const filterDeprecatedFunctionAppStackMajorVersion = (
 export const filterDeprecatedFunctionAppStackMinorVersion = (
   minorVersions: AppStackMinorVersion<FunctionAppRuntimes>[],
   stackName: string,
-  ignoreStackName: string,
-  ignoreStackVersion: string
+  alwaysIncludedStackName: string,
+  alwaysIncludedStackVersion: string
 ) => {
   const filteredMinorVersions: AppStackMinorVersion<FunctionAppRuntimes>[] = [];
   for (const minorVersion of minorVersions) {
     minorVersion.stackSettings.linuxRuntimeSettings = getFilteredFunctionStackSettings(
       stackName,
-      ignoreStackName,
-      ignoreStackVersion,
+      alwaysIncludedStackName,
+      alwaysIncludedStackVersion,
       minorVersion.stackSettings.linuxRuntimeSettings
     );
 
     minorVersion.stackSettings.windowsRuntimeSettings = getFilteredFunctionStackSettings(
       stackName,
-      ignoreStackName,
-      ignoreStackVersion,
+      alwaysIncludedStackName,
+      alwaysIncludedStackVersion,
       minorVersion.stackSettings.windowsRuntimeSettings
     );
 
@@ -122,14 +126,14 @@ export const filterDeprecatedFunctionAppStackMinorVersion = (
 
 export const getFilteredFunctionStackSettings = (
   stackName: string,
-  ignoreStackName: string,
-  ignoreStackVersion: string,
+  alwaysIncludedStackName: string,
+  alwaysIncludedStackVersion: string,
   settings?: FunctionAppRuntimeSettings
 ) => {
   if (!!settings) {
     if (
-      stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
-      ignoreStackVersion.toLowerCase() === settings.runtimeVersion.toLowerCase()
+      stackName.toLowerCase() === alwaysIncludedStackName.toLowerCase() &&
+      alwaysIncludedStackVersion.toLowerCase() === settings.runtimeVersion.toLowerCase()
     ) {
       return settings;
     } else {
