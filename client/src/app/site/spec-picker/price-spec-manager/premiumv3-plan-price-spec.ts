@@ -21,7 +21,7 @@ export abstract class PremiumV3PlanPriceSpec extends DV3SeriesPriceSpec {
     {
       iconUrl: 'image/scale-up.svg',
       title: this._ts.instant(PortalResources.pricing_autoScale),
-      description: this._ts.instant(PortalResources.pricing_scaleDesc).format(20),
+      description: this._ts.instant(PortalResources.pricing_scaleDesc).format(30),
     },
     {
       iconUrl: 'image/slots.svg',
@@ -93,7 +93,7 @@ export class PremiumV3SmallPlanPriceSpec extends PremiumV3PlanPriceSpec {
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU_Pv3).format(195),
     this._ts.instant(PortalResources.pricing_memory).format(8),
-    this._ts.instant(PortalResources.pricing_vCores).format(1),
+    this._ts.instant(PortalResources.pricing_vCores).format(2),
   ];
 
   meterFriendlyName = 'Premium V3 Small App Service Hours';
@@ -116,7 +116,7 @@ export class PremiumV3MediumPlanPriceSpec extends PremiumV3PlanPriceSpec {
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU_Pv3).format(195),
     this._ts.instant(PortalResources.pricing_memory).format(16),
-    this._ts.instant(PortalResources.pricing_vCores).format(2),
+    this._ts.instant(PortalResources.pricing_vCores).format(4),
   ];
 
   meterFriendlyName = 'Premium V2 Medium App Service Hours';
@@ -139,7 +139,7 @@ export class PremiumV3LargePlanPriceSpec extends PremiumV3PlanPriceSpec {
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU_Pv3).format(195),
     this._ts.instant(PortalResources.pricing_memory).format(32),
-    this._ts.instant(PortalResources.pricing_vCores).format(4),
+    this._ts.instant(PortalResources.pricing_vCores).format(8),
   ];
 
   meterFriendlyName = 'Premium V3 Large App Service Hours';
