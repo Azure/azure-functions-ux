@@ -43,8 +43,10 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     setShowInfoBanner(false);
   };
 
-  const getSourceOptions = (): IDropdownOption[] => {
-    const continuousDeploymentOptions: IDropdownOption[] = [
+  const getSourceOptions = (): IDropdownOption[] => [...getContinuousDeploymentOptions(), ...getManualDeploymentOptions()];
+
+  const getContinuousDeploymentOptions = (): IDropdownOption[] => {
+    return [
       {
         key: 'continuousDeploymentHeader',
         text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
@@ -55,20 +57,25 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       { key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') },
       { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
     ];
+  };
 
-    const manualDeploymentOptions: IDropdownOption[] = [
-      {
-        key: 'manualDeploymentHeader',
-        text: t('deploymentCenterCodeSettingsSourceManualDeploymentHeader'),
-        itemType: DropdownMenuItemType.Header,
-      },
-    ];
+  const getManualDeploymentOptions = (): IDropdownOption[] => {
+    const manualDeploymentOptions: IDropdownOption[] = [];
 
     if (scenarioService.checkScenario(ScenarioIds.externalSource, { site: siteStateContext.site }).status !== 'disabled') {
       manualDeploymentOptions.push({ key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') });
     }
 
-    return manualDeploymentOptions.length > 1 ? continuousDeploymentOptions.concat(manualDeploymentOptions) : continuousDeploymentOptions;
+    return manualDeploymentOptions.length > 0
+      ? [
+          {
+            key: 'manualDeploymentHeader',
+            text: t('deploymentCenterCodeSettingsSourceManualDeploymentHeader'),
+            itemType: DropdownMenuItemType.Header,
+          },
+          ...manualDeploymentOptions,
+        ]
+      : [];
   };
 
   const updateSelectedBuild = () => {
