@@ -5979,6 +5979,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Deployment center sync command</value>
     </data>
+    <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Deployment center redeploy command</value>
+    </data>
     <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Error fetching information</value>
     </data>
@@ -6117,11 +6120,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
         <value>Are you sure you want to refresh?</value>
     </data>
-    <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to sync?</value>
+    <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to redeploy?</value>
     </data>
-    <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+    <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
     </data>
     <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Are you sure you want to discard?</value>
@@ -6321,20 +6324,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>There was an error fetching the Git Clone Uri</value>
     </data>
-    <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>Synchronization Request Submitted</value>
+    <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>Redeploy Request Submitted</value>
     </data>
-    <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+    <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>The repository for web app {0} is being updated</value>
     </data>
-    <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+    <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>The repository for web app {0} has been updated successfully</value>
     </data>
-    <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>Failed to sync: {0}</value>
+    <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>Failed to redeploy: {0}</value>
     </data>
-    <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>Failed to sync</value>
+    <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>Failed to redeploy</value>
     </data>
     <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Registry settings</value>
