@@ -13,10 +13,14 @@ import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, BuildChoiceGr
 import { Guid } from '../../../../utils/Guid';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import DeploymentCenterCodeBuildCallout from './DeploymentCenterCodeBuildCallout';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
+  const scenarioService = new ScenarioService(t);
 
   const [selectedBuild, setSelectedBuild] = useState<BuildProvider>(BuildProvider.None);
   const [selectedBuildChoice, setSelectedBuildChoice] = useState<BuildProvider>(BuildProvider.None);
@@ -24,6 +28,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const [showInfoBanner, setShowInfoBanner] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const toggleIsCalloutVisible = () => {
     setSelectedBuildChoice(selectedBuild);
@@ -38,23 +43,40 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     setShowInfoBanner(false);
   };
 
-  const sourceOptions: IDropdownOption[] = [
-    {
-      key: 'continuousDeploymentHeader',
-      text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
-      itemType: DropdownMenuItemType.Header,
-    },
-    { key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') },
-    { key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') },
-    { key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') },
-    { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
-    {
-      key: 'manualDeploymentHeader',
-      text: t('deploymentCenterCodeSettingsSourceManualDeploymentHeader'),
-      itemType: DropdownMenuItemType.Header,
-    },
-    { key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') },
-  ];
+  const getSourceOptions = (): IDropdownOption[] => [...getContinuousDeploymentOptions(), ...getManualDeploymentOptions()];
+
+  const getContinuousDeploymentOptions = (): IDropdownOption[] => {
+    return [
+      {
+        key: 'continuousDeploymentHeader',
+        text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
+        itemType: DropdownMenuItemType.Header,
+      },
+      { key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') },
+      { key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') },
+      { key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') },
+      { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
+    ];
+  };
+
+  const getManualDeploymentOptions = (): IDropdownOption[] => {
+    const manualDeploymentOptions: IDropdownOption[] = [];
+
+    if (scenarioService.checkScenario(ScenarioIds.externalSource, { site: siteStateContext.site }).status !== 'disabled') {
+      manualDeploymentOptions.push({ key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') });
+    }
+
+    return manualDeploymentOptions.length > 0
+      ? [
+          {
+            key: 'manualDeploymentHeader',
+            text: t('deploymentCenterCodeSettingsSourceManualDeploymentHeader'),
+            itemType: DropdownMenuItemType.Header,
+          },
+          ...manualDeploymentOptions,
+        ]
+      : [];
+  };
 
   const updateSelectedBuild = () => {
     setSelectedBuild(selectedBuildChoice);
@@ -158,7 +180,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         name="sourceProvider"
         component={Dropdown}
         displayInVerticalLayout={true}
-        options={sourceOptions}
+        options={getSourceOptions()}
         required={true}
       />
 
