@@ -25,7 +25,8 @@ const DeploymentCenterOneDriveProvider: React.FC<DeploymentCenterOneDriveProvide
             component={Dropdown}
             displayInVerticalLayout={true}
             options={folderOptions}
-            defaultSelectedKey={formProps.values.org}
+            defaultSelectedKey={formProps.values.folder}
+            placeholder={t('deploymentCenterCodeFolderPlaceholder')}
             required={true}
             isLoading={loadingFolders}
           />
