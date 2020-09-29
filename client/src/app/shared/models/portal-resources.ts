@@ -1935,6 +1935,7 @@ export class PortalResources {
   public static deploymentCenterPublishProfileCommandAriaLabel = 'deploymentCenterPublishProfileCommandAriaLabel';
   public static deploymentCenterRefreshCommandAriaLabel = 'deploymentCenterRefreshCommandAriaLabel';
   public static deploymentCenterSyncCommandAriaLabel = 'deploymentCenterSyncCommandAriaLabel';
+  public static deploymentCenterRedeployAriaLabel = 'deploymentCenterRedeployAriaLabel';
   public static deploymentCenterErrorFetchingInfo = 'deploymentCenterErrorFetchingInfo';
   public static deploymentCenterSettingsConfiguredViewUserNotAuthorized = 'deploymentCenterSettingsConfiguredViewUserNotAuthorized';
   public static managePublishProfile = 'managePublishProfile';
@@ -1981,8 +1982,8 @@ export class PortalResources {
   public static staticSite_refreshConfirmTitle = 'staticSite_refreshConfirmTitle';
   public static staticSite_refreshConfirmMessage = 'staticSite_refreshConfirmMessage';
   public static deploymentCenterRefreshConfirmTitle = 'deploymentCenterRefreshConfirmTitle';
-  public static deploymentCenterSyncConfirmTitle = 'deploymentCenterSyncConfirmTitle';
-  public static deploymentCenterSyncConfirmMessage = 'deploymentCenterSyncConfirmMessage';
+  public static deploymentCenterRedeployConfirmTitle = 'deploymentCenterRedeployConfirmTitle';
+  public static deploymentCenterRedeployConfirmMessage = 'deploymentCenterRedeployConfirmMessage';
   public static deploymentCenterDiscardConfirmTitle = 'deploymentCenterDiscardConfirmTitle';
   public static deploymentCenterDataLossMessage = 'deploymentCenterDataLossMessage';
   public static staticSite_addApplicationSettingHeader = 'staticSite_addApplicationSettingHeader';
@@ -2053,11 +2054,11 @@ export class PortalResources {
   public static deploymentCenterCodeLocalGitBranchSetupMessage = 'deploymentCenterCodeLocalGitBranchSetupMessage';
   public static deploymentCenterCodeLocalGitCloneUri = 'deploymentCenterCodeLocalGitCloneUri';
   public static deploymentCenterCodeLocalGitFetchCloneUriError = 'deploymentCenterCodeLocalGitFetchCloneUriError';
-  public static deploymentCenterCodeSyncRequestSubmitted = 'deploymentCenterCodeSyncRequestSubmitted';
-  public static deploymentCenterCodeSyncRequestSubmittedDesc = 'deploymentCenterCodeSyncRequestSubmittedDesc';
-  public static deploymentCenterCodeSyncSuccess = 'deploymentCenterCodeSyncSuccess';
-  public static deploymentCenterCodeSyncFailWithStatusMessage = 'deploymentCenterCodeSyncFailWithStatusMessage';
-  public static deploymentCenterCodeSyncFail = 'deploymentCenterCodeSyncFail';
+  public static deploymentCenterCodeRedeployRequestSubmitted = 'deploymentCenterCodeRedeployRequestSubmitted';
+  public static deploymentCenterCodeRedeployRequestSubmittedDesc = 'deploymentCenterCodeRedeployRequestSubmittedDesc';
+  public static deploymentCenterCodeRedeploySuccess = 'deploymentCenterCodeRedeploySuccess';
+  public static deploymentCenterCodeRedeployFailWithStatusMessage = 'deploymentCenterCodeRedeployFailWithStatusMessage';
+  public static deploymentCenterCodeRedeployFail = 'deploymentCenterCodeRedeployFail';
   public static deploymentCenterContainerRegistrySettingsTitle = 'deploymentCenterContainerRegistrySettingsTitle';
   public static deploymentCenterContainerRegistryOptionsLabel = 'deploymentCenterContainerRegistryOptionsLabel';
   public static deploymentCenterContainerRegistrySourceLabel = 'deploymentCenterContainerRegistrySourceLabel';

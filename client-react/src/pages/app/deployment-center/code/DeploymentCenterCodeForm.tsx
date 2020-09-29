@@ -35,7 +35,7 @@ import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishing
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
-  const [isSyncConfirmDialogVisible, setIsSyncConfirmDialogVisible] = useState(false);
+  const [isRedeployConfirmDialogVisible, setIsRedeployConfirmDialogVisible] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
 
   const siteStateContext = useContext(SiteStateContext);
@@ -336,32 +336,32 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     setIsRefreshConfirmDialogVisible(false);
   };
 
-  const syncFunction = async () => {
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'syncFunction'), {});
+  const redeployFunction = async () => {
+    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'redeployFunction'), {});
 
-    hideSyncConfirmDialog();
+    hideRedeployConfirmDialog();
     const siteName = siteStateContext && siteStateContext.site ? siteStateContext.site.name : '';
     const notificationId = portalContext.startNotification(
-      t('deploymentCenterCodeSyncRequestSubmitted'),
-      t('deploymentCenterCodeSyncRequestSubmittedDesc').format(siteName)
+      t('deploymentCenterCodeRedeployRequestSubmitted'),
+      t('deploymentCenterCodeRedeployRequestSubmittedDesc').format(siteName)
     );
-    const syncResponse = await SiteService.syncSourceControls(deploymentCenterContext.resourceId);
-    if (syncResponse.metadata.success) {
-      portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeSyncSuccess').format(siteName));
+    const redeployResponse = await SiteService.syncSourceControls(deploymentCenterContext.resourceId);
+    if (redeployResponse.metadata.success) {
+      portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeRedeploySuccess').format(siteName));
     } else {
-      const errorMessage = getErrorMessage(syncResponse.metadata.error);
+      const errorMessage = getErrorMessage(redeployResponse.metadata.error);
       errorMessage
-        ? portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeSyncFailWithStatusMessage').format(errorMessage))
-        : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeSyncFail'));
+        ? portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFailWithStatusMessage').format(errorMessage))
+        : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFail'));
 
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'syncFunction'), {
+      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'redeployFunction'), {
         errorMessage,
       });
     }
   };
 
-  const hideSyncConfirmDialog = () => {
-    setIsSyncConfirmDialogVisible(false);
+  const hideRedeployConfirmDialog = () => {
+    setIsRedeployConfirmDialogVisible(false);
   };
 
   const hideDiscardConfirmDialog = () => {
@@ -386,7 +386,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               discardFunction={() => setIsDiscardConfirmDialogVisible(true)}
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
-              sync={() => setIsSyncConfirmDialogVisible(true)}
+              redeploy={() => setIsRedeployConfirmDialogVisible(true)}
             />
           </div>
           <>
@@ -407,16 +407,16 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             <ConfirmDialog
               primaryActionButton={{
                 title: t('cancel'),
-                onClick: hideSyncConfirmDialog,
+                onClick: hideRedeployConfirmDialog,
               }}
               defaultActionButton={{
                 title: t('ok'),
-                onClick: syncFunction,
+                onClick: redeployFunction,
               }}
-              title={t('deploymentCenterSyncConfirmTitle')}
-              content={t('deploymentCenterSyncConfirmMessage')}
-              hidden={!isSyncConfirmDialogVisible}
-              onDismiss={hideSyncConfirmDialog}
+              title={t('deploymentCenterRedeployConfirmTitle')}
+              content={t('deploymentCenterRedeployConfirmMessage')}
+              hidden={!isRedeployConfirmDialogVisible}
+              onDismiss={hideRedeployConfirmDialog}
             />
             <ConfirmDialog
               primaryActionButton={{

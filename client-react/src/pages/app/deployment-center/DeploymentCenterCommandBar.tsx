@@ -10,7 +10,7 @@ import { ScmType } from '../../../models/site/config';
 import { PortalContext } from '../../../PortalContext';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, sync, isLoading, isDirty } = props;
+  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, redeploy, isLoading, isDirty } = props;
   const { t } = useTranslation();
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -33,7 +33,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     return !isSiteLoaded() || isLoading;
   };
 
-  const isSyncDisabled = () => {
+  const isRedeployDisabled = () => {
     return (
       isDisabledOnReload() ||
       (deploymentCenterContext.siteConfig &&
@@ -73,7 +73,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     ];
 
     if (!siteStateContext.isContainerApp) {
-      commandBarItems.push(getSyncButton());
+      commandBarItems.push(getRedeployButton());
     }
 
     commandBarItems.push(getFeedbackItem());
@@ -146,16 +146,16 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     };
   };
 
-  const getSyncButton = (): ICommandBarItemProps => {
+  const getRedeployButton = (): ICommandBarItemProps => {
     return {
-      key: 'sync',
-      name: t('sync'),
+      key: 'redeploy',
+      name: t('redeploy'),
       iconProps: {
-        iconName: 'Sync',
+        iconName: 'Redeploy',
       },
-      ariaLabel: t('deploymentCenterSyncCommandAriaLabel'),
-      disabled: isSyncDisabled(),
-      onClick: sync,
+      ariaLabel: t('deploymentCenterRedeployAriaLabel'),
+      disabled: isRedeployDisabled(),
+      onClick: redeploy,
     };
   };
 
