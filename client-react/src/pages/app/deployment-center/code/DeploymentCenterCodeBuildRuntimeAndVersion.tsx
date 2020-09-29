@@ -179,9 +179,8 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     if (formProps.values.buildProvider === BuildProvider.GitHubAction && defaultStack && runtimeStackOptions.length >= 1) {
       const appSelectedStack = runtimeStackOptions.filter(item => item.key.toString() === defaultStack.toLocaleLowerCase());
 
-      const appSelectedStackKey = appSelectedStack[0].key.toString();
-
       if (appSelectedStack && appSelectedStack.length === 1) {
+        const appSelectedStackKey = appSelectedStack[0].key.toString();
         setStackNotSupportedMessage('');
         setStackMismatchMessage('');
         setSelectedRuntime(appSelectedStackKey);
