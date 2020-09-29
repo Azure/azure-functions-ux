@@ -20,6 +20,7 @@ import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
 import SiteHelper from '../../utils/SiteHelper';
 import { SiteRouterData } from './SiteRouter.data';
 import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
+import LoadingComponent from '../../components/Loading/LoadingComponent';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -231,7 +232,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
           {value => {
             setResourceId(value.token && value.resourceId);
             return (
-              value.token && (
+              value.token &&
+              (!!site ? (
                 <SiteStateContext.Provider
                   value={{
                     site,
@@ -260,7 +262,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <DeploymentCenter resourceId={value.resourceId} path="/deploymentcenter" />
                   </Router>
                 </SiteStateContext.Provider>
-              )
+              ) : (
+                <LoadingComponent />
+              ))
             );
           }}
         </StartupInfoContext.Consumer>
