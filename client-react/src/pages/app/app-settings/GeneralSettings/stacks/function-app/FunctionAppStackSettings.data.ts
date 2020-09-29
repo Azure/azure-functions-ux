@@ -22,7 +22,11 @@ export const getStackVersionDropdownOptions = (
         (settings.supportedFunctionsExtensionVersions.find(supportedRuntimeVersion => supportedRuntimeVersion === runtimeVersion) ||
           settings.runtimeVersion === runtimeVersion)
       ) {
-        stackMinorVersions.push({ key: settings.runtimeVersion, text: stackMinorVersion.displayText, data: stackMinorVersion });
+        stackMinorVersions.push({
+          key: settings.runtimeVersion.toLowerCase(),
+          text: stackMinorVersion.displayText,
+          data: stackMinorVersion,
+        });
       }
     });
   });
