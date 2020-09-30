@@ -6288,6 +6288,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Folder</value>
     </data>
+    <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>Select folder</value>
+    </data>
      <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>External Git</value>
     </data>
