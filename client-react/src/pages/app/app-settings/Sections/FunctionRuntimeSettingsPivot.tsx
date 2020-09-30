@@ -37,14 +37,15 @@ const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
         />
       )}
 
-      {siteStateContext.stopped ? (
-        <CustomBanner message={t('noRuntimeVersionWhileFunctionAppStopped')} type={MessageBarType.warning} undocked={true} />
-      ) : (
-        <>
-          <RuntimeVersionBanner {...props} />
-          <RuntimeVersion {...props} />
-        </>
-      )}
+      {scenarioChecker.checkScenario(ScenarioIds.showRuntimeVersionSetting, { site }).status !== 'disabled' &&
+        (siteStateContext.stopped ? (
+          <CustomBanner message={t('noRuntimeVersionWhileFunctionAppStopped')} type={MessageBarType.warning} undocked={true} />
+        ) : (
+          <>
+            <RuntimeVersionBanner {...props} />
+            <RuntimeVersion {...props} />
+          </>
+        ))}
 
       {scenarioChecker.checkScenario(ScenarioIds.runtimeScaleMonitoringSupported, { site }).status === 'enabled' && (
         <RuntimeScaleMonitoring {...props} />

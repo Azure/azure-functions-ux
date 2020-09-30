@@ -8,8 +8,15 @@ export class WorkflowAppEnvironment extends FunctionAppEnvironment {
   constructor(t: (string) => string) {
     super(t);
 
-    this.scenarioChecks[ScenarioIds.showFunctionRuntimeSettings] = {
-      id: ScenarioIds.showFunctionRuntimeSettings,
+    this.scenarioChecks[ScenarioIds.runtimeScaleMonitoringSupported] = {
+      id: ScenarioIds.runtimeScaleMonitoringSupported,
+      runCheck: () => {
+        return { status: 'enabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.showRuntimeVersionSetting] = {
+      id: ScenarioIds.showRuntimeVersionSetting,
       runCheck: () => {
         return { status: 'disabled' };
       },
