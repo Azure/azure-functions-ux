@@ -92,3 +92,11 @@ export const disconnectLink = style({
   marginTop: '5px',
   width: '100%',
 });
+
+export const panelOverflow = {
+  content: [
+    {
+      overflowX: 'hidden',
+    },
+  ],
+};
