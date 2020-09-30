@@ -6792,4 +6792,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="validation_mountPathNotRoot" xml:space="preserve">
         <value>Mount path cannot be '/'</value>
     </data>
+    <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Workflow runtime settings</value>
+    </data>
 </root>
