@@ -21,27 +21,27 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const fetchData = async () => {
-    const OneDriveUserResponse = await deploymentCenterData.getOneDriveUser(deploymentCenterContext.oneDriveToken);
+    const oneDriveUserResponse = await deploymentCenterData.getOneDriveUser(deploymentCenterContext.oneDriveToken);
 
     setOneDriveAccountStatusMessage(undefined);
 
     if (
-      OneDriveUserResponse.metadata.success &&
-      OneDriveUserResponse.data &&
-      OneDriveUserResponse.data.createdBy &&
-      OneDriveUserResponse.data.createdBy.user &&
-      OneDriveUserResponse.data.createdBy.user.displayName
+      oneDriveUserResponse.metadata.success &&
+      oneDriveUserResponse.data &&
+      oneDriveUserResponse.data.createdBy &&
+      oneDriveUserResponse.data.createdBy.user &&
+      oneDriveUserResponse.data.createdBy.user.displayName
     ) {
       // NOTE(stpelleg): if unsuccessful, assume the user needs to authorize.
-      setOneDriveUser(OneDriveUserResponse.data);
-      formProps.setFieldValue('oneDriveUser', OneDriveUserResponse.data);
+      setOneDriveUser(oneDriveUserResponse.data);
+      formProps.setFieldValue('oneDriveUser', oneDriveUserResponse.data);
     }
   };
 
   const fetchFolderOptions = async () => {
     setLoadingFolders(true);
     setFolderOptions([]);
-    let folderNames: OneDriveFolder[] = [];
+    const folderNames: OneDriveFolder[] = [];
 
     if (oneDriveUser) {
       const oneDriveFolderResponse = await deploymentCenterData.getOneDriveFolders(deploymentCenterContext.oneDriveToken);
@@ -53,9 +53,7 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
       }
     }
 
-    const newFolderOptions: IDropdownOption[] = folderNames.map(folder => ({ key: folder.name, text: folder.name }));
-
-    setFolderOptions(newFolderOptions);
+    setFolderOptions(folderNames.map(folder => ({ key: folder.name, text: folder.name })));
     setLoadingFolders(false);
   };
 
