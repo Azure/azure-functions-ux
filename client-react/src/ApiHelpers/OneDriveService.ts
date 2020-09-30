@@ -4,6 +4,7 @@ import { ProviderToken } from '../models/provider';
 import { OneDriveUser, OneDriveFolder, OneDriveArrayResponse } from '../models/onedrive';
 import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
 import { sendHttpRequest } from './HttpClient';
+import { Method } from 'axios';
 
 export default class OneDriveService {
   public static authorizeUrl = `${Url.serviceHost}auth/onedrive/authorize`;
@@ -23,16 +24,16 @@ export default class OneDriveService {
 
   public static getFolders = (oneDriveToken: string, logger?: (page, response) => void): Promise<OneDriveFolder[]> => {
     const url = `${DeploymentCenterConstants.onedriveApiUri}/children?top=100`;
-    return OneDriveService._getOneDriveObjectList<OneDriveFolder>(url, oneDriveToken, logger);
+    return OneDriveService._getOneDriveObjectList(url, oneDriveToken, logger);
   };
 
-  private static _getOneDriveObjectList = async <T>(url: string, oneDriveToken: string, logger?: (page, response) => void) => {
-    const oneDriveObjectList: T[] = [];
+  private static _getOneDriveObjectList = async (url: string, oneDriveToken: string, logger?: (page, response) => void) => {
+    const oneDriveObjectList: OneDriveFolder[] = [];
     let requestUrl: string | undefined = url;
     let pageNumber = 1;
 
     do {
-      let pageResponse = await OneDriveService._sendOneDriveRequest<OneDriveArrayResponse<T>>(requestUrl, oneDriveToken, 'GET');
+      let pageResponse = await OneDriveService._sendOneDriveRequest(requestUrl, oneDriveToken, 'GET');
       if (pageResponse.metadata.success && pageResponse.data) {
         oneDriveObjectList.push(...pageResponse.data.value);
 
@@ -46,8 +47,8 @@ export default class OneDriveService {
     return oneDriveObjectList;
   };
 
-  private static _sendOneDriveRequest = <T>(url: string, oneDriveToken: string, method: 'GET' | 'PUT') => {
-    return sendHttpRequest<T>({
+  private static _sendOneDriveRequest = (url: string, oneDriveToken: string, method: Method) => {
+    return sendHttpRequest<OneDriveArrayResponse<OneDriveFolder[]>>({
       url,
       method,
       headers: {

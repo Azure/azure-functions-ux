@@ -45,9 +45,12 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
 
     if (oneDriveUser) {
       const oneDriveFolderResponse = await deploymentCenterData.getOneDriveFolders(deploymentCenterContext.oneDriveToken);
-      oneDriveFolderResponse.forEach(item => {
-        folderNames.push(item);
-      });
+
+      if (oneDriveFolderResponse) {
+        oneDriveFolderResponse.forEach(item => {
+          folderNames.push(item);
+        });
+      }
     }
 
     const newFolderOptions: IDropdownOption[] = folderNames.map(folder => ({ key: folder.name, text: folder.name }));
