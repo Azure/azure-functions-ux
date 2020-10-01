@@ -88,7 +88,7 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
     if (authorizationResult.redirectUrl) {
       const oneDriveTokenResponse = await deploymentCenterData.getOneDriveToken(authorizationResult.redirectUrl);
       if (oneDriveTokenResponse.metadata.success) {
-        deploymentCenterData.storeOneDriveToken(oneDriveTokenResponse.data);
+        await deploymentCenterData.storeOneDriveToken(oneDriveTokenResponse.data);
       } else {
         // NOTE(michinoy): This is all related to the handshake between us and the provider.
         // If this fails, there isn't much the user can do except retry.
