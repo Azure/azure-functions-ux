@@ -9,7 +9,6 @@ export interface OneDriveUser {
 
 export interface OneDriveFolder {
   name: string;
-  webUrl: string;
 }
 
 export interface OneDriveArrayResponse<T> {
