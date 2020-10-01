@@ -19,7 +19,11 @@ export default class OneDriveService {
   };
 
   public static getToken = (redirectUrl: string): Promise<HttpResponseObject<ProviderToken>> => {
-    throw Error('Not implemented');
+    const data = {
+      redirUrl: redirectUrl,
+    };
+
+    return sendHttpRequest<ProviderToken>({ url: `${Url.serviceHost}auth/onedrive/getToken`, method: 'POST', data });
   };
 
   public static getFolders = (oneDriveToken: string, logger?: (page, response) => void): Promise<OneDriveFolder[]> => {

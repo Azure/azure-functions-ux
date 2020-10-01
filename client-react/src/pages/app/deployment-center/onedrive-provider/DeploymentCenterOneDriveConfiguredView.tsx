@@ -8,8 +8,10 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { Link, MessageBarType } from 'office-ui-fabric-react';
-import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps, AuthorizationResult } from '../DeploymentCenter.types';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import OneDriveService from '../../../../ApiHelpers/OneDriveService';
+import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -79,7 +81,26 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
   };
 
   const authorizeOneDriveAccount = () => {
-    throw Error('Not implemented');
+    authorizeWithProvider(OneDriveService.authorizeUrl, () => {}, completingAuthCallback);
+  };
+
+  const completingAuthCallback = async (authorizationResult: AuthorizationResult) => {
+    if (authorizationResult.redirectUrl) {
+      const oneDriveTokenResponse = await deploymentCenterData.getOneDriveToken(authorizationResult.redirectUrl);
+      if (oneDriveTokenResponse.metadata.success) {
+        deploymentCenterData.storeOneDriveToken(oneDriveTokenResponse.data);
+      } else {
+        // NOTE(michinoy): This is all related to the handshake between us and the provider.
+        // If this fails, there isn't much the user can do except retry.
+
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'authorizeOnedriveAccount',
+          `Failed to get token with error: ${getErrorMessage(oneDriveTokenResponse.metadata.error)}`
+        );
+      }
+    }
+    fetchData();
   };
 
   const getSignedInAsComponent = (isLoading: boolean) => {
