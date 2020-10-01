@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { OneDriveUser, OneDriveFolder } from '../../../../models/onedrive';
-import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterFieldProps, AuthorizationResult } from '../DeploymentCenter.types';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import DeploymentCenterOneDriveProvider from './DeploymentCenterOneDriveProvider';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { SiteStateContext } from '../../../../SiteState';
+import OneDriveService from '../../../../ApiHelpers/OneDriveService';
+import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -69,8 +71,22 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
   };
 
   const authorizeoneDriveAccount = () => {
+    authorizeWithProvider(OneDriveService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
+  };
+
+  const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
+    if (authorizationResult.redirectUrl) {
+      deploymentCenterData
+        .getOneDriveToken(authorizationResult.redirectUrl)
+        .then(response => deploymentCenterData.storeOneDriveToken(response.data))
+        .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+    } else {
+      return fetchData();
+    }
+  };
+
+  const startingAuthCallback = (): void => {
     setOneDriveAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
-    throw Error('Not implemented');
   };
 
   useEffect(() => {

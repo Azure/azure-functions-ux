@@ -186,6 +186,15 @@ export default class DeploymentCenterData {
     return OneDriveService.getToken(oneDriveToken);
   };
 
+  public storeOneDriveToken = (providerToken: ProviderToken) => {
+    return ProviderService.updateUserSourceControl(
+      'onedrive',
+      providerToken.accessToken,
+      providerToken.refreshToken,
+      providerToken.environment
+    );
+  };
+
   public getOneDriveFolders = (oneDriveToken: string) => {
     return OneDriveService.getFolders(oneDriveToken);
   };
