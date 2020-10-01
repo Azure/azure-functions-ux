@@ -219,6 +219,7 @@ export class AzureEnvironment extends Environment {
         break;
       case Tier.premium:
       case Tier.premiumV2:
+      case Tier.premiumV3:
       case Tier.isolated:
       case Tier.premiumContainer:
       case Tier.elasticPremium:
