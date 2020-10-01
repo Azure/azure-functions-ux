@@ -3256,9 +3256,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Az alkalmazáshoz tartozó kimenő IP-cím módosulhat.</value>
     </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>A(z) {0} App Service-csomagban található alkalmazások száma túllépte az ajánlott értéket.</value>
-    </data>
   <data name="free" xml:space="preserve">
         <value>Ingyenes</value>
     </data>
@@ -3871,6 +3868,18 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>Nem sikerült beállítani az üzemelő példányt: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>Nem sikerült frissíteni a közzétevő felhasználó hitelesítő adatait: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>Nem sikerült frissíteni a közzétevő felhasználó hitelesítő adatait</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>Sikerült frissíteni a közzétevő felhasználó hitelesítő adatait</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>A közzétevő felhasználó hitelesítő adatainak frissítése folyamatban</value>
     </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>Nem regisztrálhat új alkalmazást az Azure Active Directoryban. További információ: https://go.microsoft.com/fwlink/?linkid=843472. További részletek: {0}</value>
@@ -5967,8 +5976,14 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Üzembe helyezési központ szinkronizálási parancsa</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Deployment center redeploy command</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Hiba történt az adatok beolvasásakor</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>Nem lehet beolvasni a fiókadatokat</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Közzétételi profil kezelése</value>
@@ -6064,16 +6079,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Üzembe helyezési központ beállításai</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>FTP-/FTPs-hitelesítő adatok</value>
+        <value>FTPS hitelesítő adatok</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>FTP- vagy FTPs-hitelesítő adatok</value>
+        <value>FTPS hitelesítő adatok</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>Helyi Git-/FTP-/FTPs-hitelesítő adatok</value>
+        <value>Helyi Git/FTPS hitelesítő adatok</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>Helyi Git- vagy FTP- vagy FTPs-hitelesítő adatok</value>
+        <value>Helyi Git vagy FTPS hitelesítő adatok</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Tárolónaplók betöltése folyamatban</value>
@@ -6100,19 +6115,19 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Frissítéskor minden módosítás elvész. Biztosan folytatja?</value>
     </data>
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to refresh?</value>
+        <value>Biztosan frissít?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>Biztosan szinkronizál?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to redeploy?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to discard?</value>
+        <value>Biztosan elveti?</value>
     </data>
   <data name="deploymentCenterDataLossMessage" xml:space="preserve">
-        <value>All unsaved changes will be lost.</value>
+        <value>Minden nem mentett módosítás elvész.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Alkalmazásbeállítás hozzáadása</value>
@@ -6121,7 +6136,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Alkalmazásbeállítás szerkesztése</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>Az App Service több technológiával is támogatja az alkalmazás tartalmának elérését, közzétételét és módosítását. Az FTP vagy FTPS hitelesítő adatainak hatóköre kiterjeszthető az alkalmazásra vagy a felhasználóra.</value>
+        <value>Az App Service több technológiával is támogatja az alkalmazás tartalmának elérését, közzétételét és módosítását. Az FTPS hitelesítő adatok hatóköre kiterjeszthető az alkalmazásra vagy a felhasználóra.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>FTPS-végpont</value>
@@ -6130,13 +6145,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Alkalmazás-hatókör</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Az alkalmazás-hatókör automatikusan létrehozott hitelesítő adatai csak ehhez az alkalmazáshoz vagy üzembe helyezési ponthoz biztosítanak hozzáférést. Ezek a hitelesítő adatok FTP-vel, helyi gittel és a WebDeployjal egyaránt használhatók. Manuálisan nem módosíthatók, de bármikor alaphelyzetbe állíthatók.</value>
+        <value>Az alkalmazás-hatókör automatikusan létrehozott hitelesítő adatai csak ehhez az alkalmazáshoz vagy üzembe helyezési ponthoz biztosítanak hozzáférést. Ezek a hitelesítő adatok FTPS-sel, helyi gittel és a WebDeployjal egyaránt használhatók. Manuálisan nem módosíthatók, de bármikor alaphelyzetbe állíthatók.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>Felhasználói hatókör</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>A felhasználói hatókör hitelesítő adatait Ön, a felhasználó definiálja, és minden olyan alkalmazáshoz használhatók, amelyhez hozzáférése van. Ezek a hitelesítő adatok FTP-vel, helyi Gittel és WebDeployjal használhatók. Az FTP- vagy FTPS-végponton felhasználói szintű hitelesítő adatokkal való hitelesítéshez a következő formátumú felhasználónév szükséges: {0}</value>
+        <value>A felhasználói hatókör hitelesítő adatait Ön, a felhasználó definiálja, és minden olyan alkalmazáshoz használhatók, amelyhez hozzáférése van. Ezek a hitelesítő adatok FTPS-sel, helyi Gittel és WebDeployjal használhatók. Az FTPS-végponton felhasználói szintű hitelesítő adatokkal való hitelesítéshez a következő formátumú felhasználónév szükséges: {0}</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(saját felhasználóneve)</value>
@@ -6202,7 +6217,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Új jelszót kér az alkalmazás-közzétételi profilhoz?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
+        <value>Ha új jelszót kér a profilhoz, a közzétételi profilon keresztüli összes külső integráció működése leáll.</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>A felhasználónévnek legalább {0} karakter hosszúnak kell lennie.</value>
@@ -6264,6 +6279,15 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>Helyi Git</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>Mappa</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>Mappa kiválasztása</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>Külső Git</value>
     </data>
@@ -6275,6 +6299,12 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>Tárház típusa</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>fő</value>
     </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>Privát</value>
@@ -6294,20 +6324,20 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>Hiba történt a Git Clone parancs URI-azonosítójának beolvasása során</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>Szinkronizálási kérelem elküldve</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>Redeploy Request Submitted</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>A(z) {0} webalkalmazás adattárának frissítése folyamatban van</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>Sikerült frissíteni a(z) {0} webalkalmazás adattárát</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>Nem sikerült szinkronizálni a következőt: {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>Failed to redeploy: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>Nem sikerült szinkronizálni</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>Failed to redeploy</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Regisztrációs adatbázis beállításai</value>
@@ -6498,6 +6528,12 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Mennyire találja hasznosnak az új Application Insights által támogatott naplózási funkciót?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>Mennyire találta egyszerűnek vagy bonyolultnak az App Service továbbfejlesztett üzembe helyezési központjának használatát?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>Mennyire hasznos az App Service továbbfejlesztett üzembe helyezési lapja?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>Ha nem talál egy szervezetet vagy adattárat, lehetséges, hogy további engedélyeket kell biztosítania a GitHubon.</value>
     </data>
@@ -6637,7 +6673,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Az FTP le van tiltva a hozzáférési szabályzatban.</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>Az Azure Portal nem támogatja az egyéni függvényalkalmazások szerkesztését. A függvény szerkesztéséhez használja a helyi fejlesztői környezetet.</value>
+        <value>Az Azure Portal nem támogatja a CustomHandler-t használó függvényalkalmazások szerkesztését. A függvény szerkesztéséhez használja a helyi fejlesztői környezetet.</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>Fejlesztői környezet kiválasztása</value>
@@ -6706,18 +6742,54 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A kiszolgálói URL-címnek https:// előtaggal kell kezdődnie</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>Ez a skálázási egység nem támogatja a prémium V3 szolgáltatást. Fontolja meg az alkalmazás újbóli üzembe helyezését vagy klónozását.</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Hyper-V-izolálás</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>A Windows-tárolók Hyper-V-izolálási mód használatával biztosítottak.</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>Minimum {0} Azure Compute-egység/vCPU</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} vCPU</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>Nem sikerült beolvasni a függvényt</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>A gazdagépkulcs létrehozása</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>A rendszerkulcs létrehozása</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>A funkcióbillentyű létrehozása</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>A(z) {0} létrehozása</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>A(z) {0} létrehozása sikerült</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>A(z) {0} létrehozása nem sikerült</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>Nem sikerült létrehozni a(z) {0} elemet: {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (elavult)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (előzetes verzió)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>A csatlakoztatási útvonal nem lehet a következő: /</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Workflow runtime settings</value>
     </data>
 </root>

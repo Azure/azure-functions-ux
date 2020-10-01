@@ -3256,9 +3256,6 @@
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>您應用程式的連出 IP 位址可能會變更。</value>
     </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>您的 App Service 方案 {0} 已超過建議的應用程式大小數目。</value>
-    </data>
   <data name="free" xml:space="preserve">
         <value>免費</value>
     </data>
@@ -3871,6 +3868,18 @@
     </data>
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>無法設定部署: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>無法更新發行使用者認證: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>無法更新發行使用者認證</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>已成功更新發行使用者認證</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>正在更新發行使用者認證</value>
     </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>您無法在 Azure Active Directory 中註冊新的應用程式。深入了解: https://go.microsoft.com/fwlink/?linkid=843472。詳細資料: {0}</value>
@@ -5967,8 +5976,14 @@
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>部署中心同步命令</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Deployment center redeploy command</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>擷取資訊時發生錯誤</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>無法擷取帳戶資訊</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>管理發行設定檔</value>
@@ -6064,16 +6079,16 @@
         <value>部署中心設定</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>FTP/FTPS 認證</value>
+        <value>FTPS 認證</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>FTP 或 FTPS 認證</value>
+        <value>FTPS 認證</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>本機 Git/FTP/FTPs 認證</value>
+        <value>本機 Git/FTPS 認證</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>本機 Git 或 FTP 或 FTPs 認證</value>
+        <value>本機 Git 或 FTPS 認證</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>正在載入容器記錄</value>
@@ -6100,19 +6115,19 @@
         <value>任何未儲存的變更都會在重新整理時遺失。確定要繼續嗎?</value>
     </data>
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to refresh?</value>
+        <value>確定要重新整理?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>確定要同步嗎?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to redeploy?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to discard?</value>
+        <value>確定要捨棄嗎?</value>
     </data>
   <data name="deploymentCenterDataLossMessage" xml:space="preserve">
-        <value>All unsaved changes will be lost.</value>
+        <value>所有未儲存的變更都會遺失。</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>新增應用程式設定</value>
@@ -6121,7 +6136,7 @@
         <value>編輯應用程式設定</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service 支援使用多種技術來存取、發行及修改您的應用程式內容。FTP/FTPS 認證的範圍可限定為應用程式或使用者。</value>
+        <value>App Service 支援使用多種技術，可以存取、發佈及修改您應用程式的內容。FTPS 認證的範圍則可限定在應用程式或使用者。</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>FTPS 端點</value>
@@ -6130,13 +6145,13 @@
         <value>應用程式範圍</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>應用程式範圍認證會自動產生，而且僅提供此特定應用程式或部署位置的存取權。這些認證可與 FTP、本機 Git 及 WebDeploy 搭配使用。雖然無法予以手動設定，但可以隨時重設。</value>
+        <value>應用程式範圍認證會自動產生，而且只能存取此特定應用程式或部署位置。這些認證可以用在 FTP、本機 Git 及 WebDeploy 上。這些認證無法手動設定，但可隨時重設。</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>使用者範圍</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>使用者範圍認證由您與使用者定義，並可用於所有您有權存取的應用程式。這些認證可與 FTP、本機 Git 及 WebDeploy 搭配使用。使用使用者層級認證向 FTP/FTPS 端點驗證時，需要下列格式的使用者名稱: '{0}'</value>
+        <value>使用者範圍的認證由您及使用者定義，並可用在您有權存取的所有應用程式上。這些認證可以用在 FTP、本機 Git 及 WebDeploy 上。使用使用者層級認證向 FTPS 端點驗證時，必須使用下列格式的使用者名稱: '{0}'</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(您的使用者名稱)</value>
@@ -6202,7 +6217,7 @@
         <value>要重設應用程式發行設定檔密碼嗎?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
+        <value>重設設定檔密碼後，將停止執行透過發行設定檔進行的任何外部整合。</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>使用者名稱的長度至少須為 {0} 個字元。</value>
@@ -6264,6 +6279,15 @@
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>本機 Git</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>資料夾</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>選取資料夾</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>外部 Git</value>
     </data>
@@ -6275,6 +6299,12 @@
     </data>
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>存放庫類型</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>主要</value>
     </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>私人</value>
@@ -6294,20 +6324,20 @@
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>擷取 Git 複製 URI 時發生錯誤</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>已提交同步要求</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>Redeploy Request Submitted</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>正在更新 Web 應用程式 {0} 的儲存機制</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>已成功更新 Web 應用程式 {0} 的存放庫</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>無法同步: {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>Failed to redeploy: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>無法同步</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>Failed to redeploy</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>登錄設定</value>
@@ -6498,6 +6528,12 @@
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Application Insights 支援之新記錄功能的實用程度如何?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>這個改善的 App Service 部署中心頁面是否容易使用?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>這個改善的 App Service 部署中心頁面有多實用?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>若找不到組織或存放庫，則必須對 GitHub 啟用其他權限。</value>
     </data>
@@ -6637,7 +6673,7 @@
         <value>存取原則已停用 FTP。</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>不支援在 Azure 入口網站中編輯自訂函數應用程式。請使用您的本機開發環境來編輯此函式。</value>
+        <value>不支援在 Azure 入口網站中使用 CustomHandler 編輯函數應用程式。請使用您的本機開發環境來編輯此函式。</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>選取開發環境</value>
@@ -6706,18 +6742,54 @@
         <value>Server URL 開頭必須為 https://</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>此縮放單位不支援 Premium V3。請考慮重新部署或複製您的應用程式。</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Hyper-V 隔離</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>Windows 容器已使用 Hyper-V 隔離模式加以保護。</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>至少 {0} 的 ACU/vCPU</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} 個 vCPU</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>無法擷取您的函式</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>正在建立主機索引鍵</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>正在建立系統索引鍵</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>正在建立函式索引鍵</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>正在建立 {0}</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>已成功建立 {0}</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>無法建立 {0}</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>無法建立 {0}: {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (即將淘汰)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (預覽版)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>裝載路徑不可以是 '/'</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Workflow runtime settings</value>
     </data>
 </root>

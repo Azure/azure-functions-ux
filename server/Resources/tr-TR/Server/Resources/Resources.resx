@@ -3256,9 +3256,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Uygulamanızın giden IP adresleri değişebilir.</value>
     </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>App Service planınız {0}, boyutu için önerilen uygulama sayısını aştı.</value>
-    </data>
   <data name="free" xml:space="preserve">
         <value>Ücretsiz</value>
     </data>
@@ -3871,6 +3868,18 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>Dağıtım ayarlanamadı: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>Yayımlayan kullanıcı kimlik bilgileri güncelleştirilemedi: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>Yayımlayan kullanıcı kimlik bilgileri güncelleştirilemedi</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>Yayımlayan kullanıcı kimlik bilgileri başarıyla güncelleştirildi</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>Yayımlayan kullanıcı kimlik bilgileri güncelleştiriliyor</value>
     </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>Azure Active Directory'ye yeni bir uygulama kaydedilemez. Daha fazla bilgi: https://go.microsoft.com/fwlink/?linkid=843472. Diğer ayrıntılar: {0}</value>
@@ -5967,8 +5976,14 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Dağıtım merkezi eşitleme komutu</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Deployment center redeploy command</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Bilgiler getirilirken hata oluştu</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>Hesap bilgileri alınamıyor</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Yayımlama profilini yönet</value>
@@ -6064,16 +6079,16 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Dağıtım merkezi ayarları</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>FTP/FTPs kimlik bilgileri</value>
+        <value>FTPS kimlik bilgileri</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>FTP veya FTPs kimlik bilgileri</value>
+        <value>FTPS kimlik bilgileri</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>Yerel Git/FTP/FTPs kimlik bilgileri</value>
+        <value>Yerel Git/FTPS kimlik bilgileri</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>Yerel Git, FTP veya FTPs kimlik bilgileri</value>
+        <value>Yerel Git veya FTPS kimlik bilgileri</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Kapsayıcı günlükleri yükleniyor</value>
@@ -6100,19 +6115,19 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Yenileme sırasında kaydedilmemiş tüm değişiklikler kaybolacak. Devam etmek istediğinizden emin misiniz?</value>
     </data>
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to refresh?</value>
+        <value>Yenilemek istediğinizden emin misiniz?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>Eşitlemek istediğinizden emin misiniz?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to redeploy?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to discard?</value>
+        <value>Atmak istediğinizden emin misiniz?</value>
     </data>
   <data name="deploymentCenterDataLossMessage" xml:space="preserve">
-        <value>All unsaved changes will be lost.</value>
+        <value>Kaydedilmemiş tüm değişiklikler kaybolacak.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Uygulama ayarı ekle</value>
@@ -6121,7 +6136,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Uygulama ayarını düzenle</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service, uygulamanızın içeriğine erişmek, içeriği yayımlamak ve değiştirmek için birden çok teknolojiyi destekler. FTP/FTPS kimlik bilgilerinin kapsamı uygulama veya kullanıcı olarak belirlenebilir.</value>
+        <value>App Service; uygulamanızın içeriğine erişmek, içeriği yayımlamak ve değiştirmek için birden çok teknolojiyi destekler. FTPS kimlik bilgilerinin kapsamı uygulama veya kullanıcı olarak belirlenebilir.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>FTPS uç noktası</value>
@@ -6130,13 +6145,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Uygulama kapsamı</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Uygulama kapsamı kimlik bilgileri otomatik olarak oluşturulur ve yalnızca bu belirli uygulama veya dağıtım yuvasına erişim sağlar. Bu kimlik bilgileri FTP, Yerel Git ve WebDeploy ile kullanılabilir. Bunları kendiniz yapılandıramazsınız ancak istediğiniz zaman sıfırlayabilirsiniz.</value>
+        <value>Uygulama kapsamı kimlik bilgileri otomatik olarak oluşturulur ve yalnızca bu belirli uygulama veya dağıtım yuvasına erişim sağlar. Bu kimlik bilgileri FTPS, Yerel Git ve WebDeploy ile kullanılabilir. Bunları kendiniz yapılandıramazsınız ancak istediğiniz zaman sıfırlayabilirsiniz.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>Kullanıcı kapsamı</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Kullanıcı kapsamı kimlik bilgilerini, kullanıcı olarak siz tanımlarsınız ve bu bilgileri erişim iznine sahip olduğunuz tüm uygulamalarla birlikte kullanabilirsiniz. Bu kimlik bilgileri FTP, Yerel Git ve WebDeploy ile birlikte kullanılabilir. Kullanıcı düzeyindeki kimlik bilgilerini kullanarak FTP/FTPS uç noktasında kimlik doğrulaması yapılabilmesi şu biçimde bir kullanıcı adı gerekir: '{0}'</value>
+        <value>Kullanıcı kapsamı kimlik bilgilerini, kullanıcı olarak siz tanımlarsınız ve bu bilgileri erişim iznine sahip olduğunuz tüm uygulamalarla birlikte kullanabilirsiniz. Bu kimlik bilgileri FTP, Yerel Git ve WebDeploy ile birlikte kullanılabilir. Kullanıcı düzeyindeki kimlik bilgilerini kullanarak FTPS uç noktasında kimlik doğrulaması yapılabilmesi şu biçimde bir kullanıcı adı gerekir: '{0}'</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(kullanıcı adınız)</value>
@@ -6202,7 +6217,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Uygulama yayımlama profili parolası sıfırlansın mı?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
+        <value>Profil parolası sıfırlandığında yayımlama profili aracılığıyla yapılan tüm dış tümleştirmelerin çalışması durur.</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>Kullanıcı adı, en az {0} karakter uzunluğunda olmalıdır.</value>
@@ -6264,6 +6279,15 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>Yerel Git</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>Klasör</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>Klasör seçin</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>Dış Git</value>
     </data>
@@ -6275,6 +6299,12 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>Depo Türü</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>ana</value>
     </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>Özel</value>
@@ -6294,20 +6324,20 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>Git Clone URI'si getirilirken bir hata oluştu</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>Eşitleme İsteği Gönderildi</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>Redeploy Request Submitted</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>{0} web uygulamasının deposu güncelleştiriliyor</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>{0} web uygulaması için depo başarıyla güncelleştirildi</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>{0} eşitlenemedi</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>Failed to redeploy: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>Eşitlenemedi</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>Failed to redeploy</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Kayıt defteri ayarları</value>
@@ -6498,6 +6528,12 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Application Insights tarafından desteklenen yeni günlükler özelliğini ne kadar değerli buldunuz?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>Bu iyileştirilmiş App Service dağıtım merkezi sayfasını kullanmak ne kadar kolaydı veya zordu?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>Bu iyileştirilmiş App Service dağıtım merkezi sayfasını ne kadar değerli buldunuz?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>Bir kuruluş veya depo bulamıyorsanız, GitHub'da ek izinleri etkinleştirmeniz gerekebilir.</value>
     </data>
@@ -6637,7 +6673,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>FTP, erişim ilkesi tarafından devre dışı bırakıldı.</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>Azure portalda Özel İşlev Uygulamalarının düzenlenmesi desteklenmiyor. Bu işlevi düzenlemek için yerel geliştirme ortamınızı kullanın.</value>
+        <value>Azure portalda CustomHandler kullanılarak İşlev Uygulamalarının düzenlenmesi desteklenmiyor. Bu işlevi düzenlemek için yerel geliştirme ortamınızı kullanın.</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>Geliştirme ortamını seçin</value>
@@ -6706,18 +6742,54 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Sunucu URL'si https:// ile başlamalıdır</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>Premium V3 bu ölçek birimi için desteklenmiyor. Uygulamanızı yeniden dağıtmayı veya kopyalamayı düşünün.</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Hyper-V Yalıtımı</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>Windows kapsayıcıları, Hyper-V yalıtım modu kullanılarak korunuyor.</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>{0} en düşük ACU/vCPU</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} vCPU</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>İşleviniz getirilemiyor</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>Konak anahtarı oluşturuluyor</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>Sistem anahtarı oluşturuluyor</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>İşlev anahtarı oluşturuluyor</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>{0} oluşturuluyor</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>{0} başarıyla oluşturuldu</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>{0} oluşturulamadı</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>{0} oluşturulamadı: {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (kullanım dışı)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (önizleme)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>Bağlama yolu '/' olamaz</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Workflow runtime settings</value>
     </data>
 </root>

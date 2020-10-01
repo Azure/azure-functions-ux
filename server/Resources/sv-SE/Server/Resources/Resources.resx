@@ -3256,9 +3256,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Din apps utgående IP-adresser kan ändras.</value>
     </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>Din app service-plan {0} har överskridit det rekommenderade antalet appar för sin storlek.</value>
-    </data>
   <data name="free" xml:space="preserve">
         <value>Gratis</value>
     </data>
@@ -3871,6 +3868,18 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     </data>
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>Det gick inte att konfigurera distributionen: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>Det gick inte att autentiseringsuppgifter för den publicerande användaren: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>Det gick inte att uppdatera autentiseringsuppgifter för den publicerande användaren</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>Autentiseringsuppgifterna för den publicerande användaren uppdaterades</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>Uppdaterar autentiseringsuppgifter för den publicerande användaren</value>
     </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>Du kan inte registrera ett nytt program i Azure Active Directory. Läs mer: https://go.microsoft.com/fwlink/?linkid=843472. Mer information: {0}</value>
@@ -5967,8 +5976,14 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Synkroniseringskommando för distributionscentret</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Deployment center redeploy command</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Det gick inte att hämta information</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>Det går inte att hämta kontoinformation</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Hantera publiceringsprofil</value>
@@ -6064,16 +6079,16 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Inställningar för distributionscenter</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>Autentiseringsuppgifter för FTP/FTPs</value>
+        <value>Autentiseringsuppgifter för FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>Autentiseringsuppgifter för FTP eller FTPs</value>
+        <value>Autentiseringsuppgifter för FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>Autentiseringsuppgifter för lokal Git/FTP/FTP:er</value>
+        <value>Lokala Git-/FTPS-autentiseringsuppgifter</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>Autentiseringsuppgifter för lokal Git eller FTP eller FTP:er</value>
+        <value>Lokala Git- eller FTPS-autentiseringsuppgifter</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Läser in containerloggar</value>
@@ -6100,19 +6115,19 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Alla ej sparade ändringar går förlorade vid uppdatering. Är du säker på att du vill fortsätta?</value>
     </data>
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to refresh?</value>
+        <value>Är du säker på att du vill uppdatera?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>Är du säker på att du vill synkronisera?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to redeploy?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to discard?</value>
+        <value>Är du säker på att du vill ta bort?</value>
     </data>
   <data name="deploymentCenterDataLossMessage" xml:space="preserve">
-        <value>All unsaved changes will be lost.</value>
+        <value>Alla ej sparade ändringar går förlorade.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Lägg till programinställning</value>
@@ -6121,7 +6136,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Redigera programinställning</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service stöder flera tekniker för att komma åt, publicera och ändra innehållet i din app. Autentiseringsuppgifterna för FTP/FTPS kan begränsas till programmet eller användaren.</value>
+        <value>App Service stöder flera tekniker för att komma åt, publicera och ändra innehållet i din app. Autentiseringsuppgifterna för FTPS kan begränsas till programmet eller användaren.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>FTPS-slutpunkt</value>
@@ -6130,13 +6145,13 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Programomfång</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Autentiseringsuppgifter för programbegränsning skapas automatiskt och ger enbart åtkomst till den här specifika appen eller distributionsfacket. De här autentiseringsuppgifterna kan användas med FTP, lokal Git och WebDeploy. De kan inte konfigureras manuellt men kan när som helst återställas.</value>
+        <value>Autentiseringsuppgifter begränsade till programmet skapas automatiskt och ger enbart åtkomst till den specifika appen eller distributionsfacket. De här autentiseringsuppgifterna kan användas med FTPS, lokal Git och WebDeploy. De kan inte konfigureras manuellt men kan återställas när som helst.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>Användarbegränsning</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Autentiseringsuppgifter för användaromfång definieras av dig, användaren och kan användas med alla appar som du har åtkomst till. Dessa autentiseringsuppgifter kan användas med FTP, lokal git och WebDeploy. Autentisering av en FTP/FTPS-slutpunkt med autentiseringsuppgifter på användarnivå kräver ett användarnamn i följande format: {0}</value>
+        <value>Användarbegränsade autentiseringsuppgifter definieras av dig, användaren, och kan användas med alla appar som du har åtkomst till. Dessa autentiseringsuppgifter kan användas med FTPS, lokal git och WebDeploy. När du autentiserar mot en FTPS-slutpunkt med autentiseringsuppgifter på användarnivå krävs ett användarnamn i följande format: {0}</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(ditt användarnamn)</value>
@@ -6264,6 +6279,15 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>Lokal Git</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>Mapp</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>Välj mapp</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>Extern Git</value>
     </data>
@@ -6275,6 +6299,12 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     </data>
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>Lagringsplatstyp</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>huvudsaklig</value>
     </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>Privat</value>
@@ -6294,20 +6324,20 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>Det uppstod ett fel vid hämtning av Git Clone URI:n</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>Synkroniseringsbegäran har skickats in</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>Redeploy Request Submitted</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>Lagringsplatsen för webbappen {0} uppdateras</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>Lagringsplatsen för webbappen {0} har uppdaterats</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>Det gick inte att synkronisera: {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>Failed to redeploy: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>Det gick inte att synkronisera</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>Failed to redeploy</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Registerinställningar</value>
@@ -6498,6 +6528,12 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Hur värdefull är den nya loggar-funktionen med Application Insights?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>Hur enkelt eller svårt är det att använda den här förbättrade sidan för App Service-distributionscentret?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>Hur värdefull är den här förbättrade sidan för App Service-distributionscentret?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>Om du inte hittar en organisation eller ett centrallager kan du behöva aktivera ytterligare behörigheter på GitHub.</value>
     </data>
@@ -6637,7 +6673,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>FTP har inaktiverats av åtkomstprincipen.</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>Redigering av anpassade funktionsappar stöds inte i Azure Portal. Använd den lokala utvecklingsmiljön för att redigera den här funktionen.</value>
+        <value>Redigering av funktionsappar med CustomHandler stöds inte i Azure Portal. Använd den lokala utvecklingsmiljön för att redigera den här funktionen.</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>Välj utvecklingsmiljö</value>
@@ -6706,18 +6742,54 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Serverns URL måste börja med https://</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>Premium V3 stöds inte för den här skalningsenheten. Överväg att distribuera om eller klona appen.</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Hyper-V-isolering</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>Windows-containrar skyddas i Hyper-V-isoleringsläge.</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>{0} lägsta ACU/vCPU</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} virtuell processor</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>Det gick inte att hämta din funktion</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>Skapar värddatornyckel</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>Skapar systemnyckel</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>Skapar funktionsnyckel</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>Skapar {0}</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>{0} har skapats</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>Det gick inte att skapa {0}</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>Det gick inte att skapa {0}: {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (inaktuellt)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (förhandsgranskning)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>Monteringssökvägen får inte vara /</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Workflow runtime settings</value>
     </data>
 </root>
