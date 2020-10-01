@@ -101,10 +101,10 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
         hidden={isResetCalloutHidden}
         title={t('resetPublishProfileConfirmationTitle')}
         description={t('resetPublishProfileConfirmationDescription')}
-        primaryButtonTitle={t('reset')}
-        primaryButtonFunction={resetProfile}
-        defaultButtonTitle={t('cancel')}
-        defaultButtonFunction={hideResetCallout}
+        defaultButtonTitle={t('reset')}
+        defaultButtonFunction={resetProfile}
+        primaryButtonTitle={t('cancel')}
+        primaryButtonFunction={hideResetCallout}
       />
     </>
   );
