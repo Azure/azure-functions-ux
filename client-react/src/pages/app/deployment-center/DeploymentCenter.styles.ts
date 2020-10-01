@@ -93,7 +93,7 @@ export const disconnectLink = style({
   width: '100%',
 });
 
-export const panelOverflow = {
+export const panelOverflowStyle = {
   content: [
     {
       overflowX: 'hidden',

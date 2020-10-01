@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import DeploymentCenterPublishProfileCommandBar from './DeploymentCenterPublishProfileCommandBar';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { PanelType } from 'office-ui-fabric-react';
-import { panelOverflow } from '../DeploymentCenter.styles';
+import { panelOverflowStyle } from '../DeploymentCenter.styles';
 
 const DeploymentCenterPublishProfilePanel: React.FC<DeploymentCenterPublishProfilePanelProps> = props => {
   const { isPanelOpen: isOpen, dismissPanel, resetApplicationPassword } = props;
@@ -12,7 +12,7 @@ const DeploymentCenterPublishProfilePanel: React.FC<DeploymentCenterPublishProfi
 
   return (
     <CustomPanel
-      customStyle={panelOverflow}
+      customStyle={panelOverflowStyle}
       isOpen={isOpen}
       onDismiss={dismissPanel}
       type={PanelType.medium}
