@@ -1,4 +1,4 @@
-import { Links, FeatureFlags } from 'app/shared/models/constants';
+import { Links } from 'app/shared/models/constants';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { FreePlanPriceSpec } from './free-plan-price-spec';
 import { SharedPlanPriceSpec } from './shared-plan-price-spec';
@@ -26,7 +26,6 @@ import { PlanPriceSpecManager } from './plan-price-spec-manager';
 import { GenericPlanPriceSpec } from './generic-plan-price-spec';
 import { PricingTier } from 'app/shared/models/arm/pricingtier';
 import { ArmArrayResult } from 'app/shared/models/arm/arm-obj';
-import { Url } from 'app/shared/Utilities/url';
 
 export enum BannerMessageLevel {
   ERROR = 'error',

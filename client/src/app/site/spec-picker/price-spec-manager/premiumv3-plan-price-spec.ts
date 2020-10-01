@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links, Pricing, FeatureFlags } from './../../../shared/models/constants';
+import { Kinds, Links, Pricing } from './../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { ServerFarm } from './../../../shared/models/server-farm';
@@ -7,7 +7,6 @@ import { Sku, ArmObj } from '../../../shared/models/arm/arm-obj';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { DV3SeriesPriceSpec } from './dV3series-price-spec';
 import { PlanSpecPickerData, PlanPriceSpecManager } from './plan-price-spec-manager';
-import { Url } from '../../../../app/shared/Utilities/url';
 
 export abstract class PremiumV3PlanPriceSpec extends DV3SeriesPriceSpec {
   tier = Tier.premiumV3;
