@@ -71,18 +71,14 @@ export abstract class PremiumV3PlanPriceSpec extends DV3SeriesPriceSpec {
   }
 
   protected _shouldHideForNewPlan(data: PlanSpecPickerData): boolean {
-    const enablePv3Skus = Url.getFeatureValue(FeatureFlags.enablePv3Skus) === 'true';
-    return !enablePv3Skus || (enablePv3Skus && (!!data.hostingEnvironmentName || (data.isNewFunctionAppCreate && data.isElastic)));
+    return !!data.hostingEnvironmentName || (data.isNewFunctionAppCreate && data.isElastic);
   }
 
   protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean {
-    const enablePv3Skus = Url.getFeatureValue(FeatureFlags.enablePv3Skus) === 'true';
     return (
-      !enablePv3Skus ||
-      (enablePv3Skus &&
-        (!!plan.properties.hostingEnvironmentProfile ||
-          (plan.properties.hyperV && plan.sku.tier === Tier.premiumContainer) ||
-          AppKind.hasAnyKind(plan, [Kinds.elastic])))
+      !!plan.properties.hostingEnvironmentProfile ||
+      (plan.properties.hyperV && plan.sku.tier === Tier.premiumContainer) ||
+      AppKind.hasAnyKind(plan, [Kinds.elastic])
     );
   }
 }

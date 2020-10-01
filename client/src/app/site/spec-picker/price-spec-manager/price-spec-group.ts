@@ -193,17 +193,10 @@ export class DevSpecGroup extends PriceSpecGroup {
 
   initialize(input: PriceSpecInput) {
     if (input.specPickerInput.data) {
-      const enablePv3Skus = Url.getFeatureValue(FeatureFlags.enablePv3Skus) === 'true';
       if (input.specPickerInput.data.isLinux) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_linuxTrial),
           level: BannerMessageLevel.INFO,
-        };
-      } else if (!enablePv3Skus && (input.specPickerInput.data.isXenon || input.specPickerInput.data.hyperV)) {
-        this.bannerMessage = {
-          message: this.ts.instant(PortalResources.pricing_windowsContainers),
-          level: BannerMessageLevel.INFO,
-          infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013',
         };
       }
     }
@@ -248,17 +241,10 @@ export class ProdSpecGroup extends PriceSpecGroup {
 
   initialize(input: PriceSpecInput) {
     if (input.specPickerInput.data) {
-      const enablePv3Skus = Url.getFeatureValue(FeatureFlags.enablePv3Skus) === 'true';
       if (input.specPickerInput.data.isLinux) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_linuxTrial),
           level: BannerMessageLevel.INFO,
-        };
-      } else if (!enablePv3Skus && (input.specPickerInput.data.isXenon || input.specPickerInput.data.hyperV)) {
-        this.bannerMessage = {
-          message: this.ts.instant(PortalResources.pricing_windowsContainers),
-          level: BannerMessageLevel.INFO,
-          infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013',
         };
       }
     }
