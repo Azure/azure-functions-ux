@@ -3256,9 +3256,6 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Gli indirizzi IP in uscita per l'app potrebbero variare.</value>
     </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>Il piano di servizio app {0} ha superato il numero di app consigliato per le relative dimensioni.</value>
-    </data>
   <data name="free" xml:space="preserve">
         <value>Gratuito</value>
     </data>
@@ -3871,6 +3868,18 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>Non è stato possibile configurare la distribuzione: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>Non è stato possibile aggiornare le credenziali utente di pubblicazione: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>Non è stato possibile aggiornare le credenziali utente di pubblicazione</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>Le credenziali utente di pubblicazione sono state aggiornate</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>Aggiornamento delle credenziali utente di pubblicazione</value>
     </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>Non è possibile registrare una nuova applicazione in Azure Active Directory. Altre informazioni: https://go.microsoft.com/fwlink/?linkid=843472. Altri dettagli: {0}</value>
@@ -5967,8 +5976,14 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Comando Sincronizza del Centro distribuzione</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Comando Ridistribuisci del Centro distribuzione</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Si è verificato un errore durante il recupero delle informazioni</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>Non è possibile recuperare le informazioni sull'account.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Gestisci profilo di pubblicazione</value>
@@ -6064,16 +6079,16 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Impostazioni del Centro distribuzione</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>Credenziali FTP/FTPS</value>
+        <value>Credenziali FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>Credenziali FTP o FTPS</value>
+        <value>Credenziali FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>Credenziali GIT locale/FTP/FTPS</value>
+        <value>Credenziali GIT locale/FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>Credenziali GIT locale, FTP o FTPS</value>
+        <value>Credenziali GIT locale o FTPS</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Caricamento dei log del contenitore</value>
@@ -6102,11 +6117,11 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
         <value>Aggiornare?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>Procedere con la sincronizzazione?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Ridistribuire?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>L'esecuzione di un'operazione di sincronizzazione annullerà qualsiasi operazione di distribuzione esistente in corso e ne creerà una nuova.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>L'esecuzione di un'operazione di ridistribuzione annullerà tutte le operazioni di distribuzione esistenti in corso e ne creerà una nuova.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Rimuovere?</value>
@@ -6121,7 +6136,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Modifica impostazione applicazione</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>Il Servizio app supporta numerose tecnologie per accedere, pubblicare e modificare il contenuto dell'app. È possibile definire l'ambito delle credenziali FTP/FTPS in base all'applicazione o all'utente.</value>
+        <value>Il Servizio app supporta numerose tecnologie per accedere, pubblicare e modificare il contenuto dell'app. È possibile definire l'ambito delle credenziali FTPS in base all'applicazione o all'utente.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>Endpoint FTPS</value>
@@ -6130,13 +6145,13 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Ambito dell'applicazione</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Le credenziali dell'ambito dell'applicazione vengono generate automaticamente e consentono l'accesso solo a questa app o slot di distribuzione specifico. Queste credenziali possono essere usate con FTP, repository Git locale e WebDeploy. Non possono essere configurate manualmente, ma possono essere reimpostate in qualsiasi momento.</value>
+        <value>Le credenziali dell'ambito dell'applicazione vengono generate automaticamente e consentono l'accesso solo a questa app o slot di distribuzione specifico. Queste credenziali possono essere usate con FTPS, repository Git locale e WebDeploy. Non possono essere configurate manualmente, ma possono essere reimpostate in qualsiasi momento.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>Ambito utente</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Le credenziali dell'ambito utente sono definite dall'utente e possono essere usate con tutte le app a cui si ha accesso. Queste credenziali possono essere usate con FTP, repository Git locale e WebDeploy. L'autenticazione a un endpoint FTP/FTPS con credenziali a livello dell'utente richiede un nome utente nel formato seguente: '{0}'</value>
+        <value>Le credenziali dell'ambito utente sono definite dall'utente e possono essere usate con tutte le app a cui si ha accesso. Queste credenziali possono essere usate con FTPS, repository Git locale e WebDeploy. L'autenticazione a un endpoint FTPS con credenziali a livello dell'utente richiede un nome utente nel formato seguente: '{0}'</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(nome utente)</value>
@@ -6264,6 +6279,15 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>Repository GIT locale</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>Cartella</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>Seleziona cartella</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>GIT esterno</value>
     </data>
@@ -6275,6 +6299,12 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>Tipo di repository</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>principale</value>
     </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>Privato</value>
@@ -6294,20 +6324,20 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>Si è verificato un errore durante il recupero dell'URI di git clone</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>La richiesta di sincronizzazione è stata inviata</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>La richiesta di ridistribuzione è stata inviata</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>L'aggiornamento del repository per l'app Web {0} è in corso</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>Il repository per l'app Web {0} è stato aggiornato</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>La sincronizzazione non è riuscita: {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>La ridistribuzione non è riuscita: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>La sincronizzazione non è riuscita</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>La ridistribuzione non è riuscita</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Impostazioni registro</value>
@@ -6498,6 +6528,12 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Quanto è utile la nuova funzionalità log supportata da Application Insights?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>Quanto è facile o difficile usare questa pagina migliorata del Centro distribuzione del servizio app?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>Quanto è utile questa pagina migliorata del Centro distribuzione del servizio app?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>Se non si riesce a trovare un'organizzazione o un repository, potrebbe essere necessario abilitare autorizzazioni aggiuntive in GitHub.</value>
     </data>
@@ -6637,7 +6673,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>L'FTP è disabilitato dai criteri di accesso.</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>La modifica di app per le funzioni personalizzate non è supportata nel portale di Azure. Usare l'ambiente di sviluppo locale per modificare questa funzione.</value>
+        <value>La modifica di app per le funzioni con un gestore personalizzato non è supportata nel portale di Azure. Usare l'ambiente di sviluppo locale per modificare questa funzione.</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>Selezionare l'ambiente di sviluppo</value>
@@ -6706,18 +6742,54 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>L'URL del server deve iniziare con https://</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>Lo SKU Premium V3 non è supportato per questa unità di scala. Provare a ridistribuire o a clonare l'app.</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Isolamento Hyper-V</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>I contenitori Windows sono protetti mediante la modalità di isolamento Hyper-V.</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>{0} minimo ACU/vCPU</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} vCPU</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>Non è possibile recuperare la funzione</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>Creazione della chiave host</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>Creazione della chiave di sistema</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>Creazione della chiave di funzione</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>Creazione di {0}</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>La creazione di {0} è riuscita</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>Impossibile creare {0}</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>Non è stato possibile creare {0}: {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (deprecato)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (anteprima)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>Il percorso di montaggio non può essere '/'</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Workflow runtime settings</value>
     </data>
 </root>

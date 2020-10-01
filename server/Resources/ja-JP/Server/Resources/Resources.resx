@@ -3256,9 +3256,6 @@
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>アプリの送信 IP アドレスは変更される可能性があります。</value>
     </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>App Service プラン {0} は、プランのサイズに対して推奨されているアプリ数を超えています。</value>
-    </data>
   <data name="free" xml:space="preserve">
         <value>無料</value>
     </data>
@@ -3871,6 +3868,18 @@
     </data>
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>デプロイをセットアップできませんでした: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>発行ユーザーの資格情報を更新できませんでした: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>発行ユーザーの資格情報を更新できませんでした</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>発行ユーザーの資格情報が正常に更新されました</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>発行ユーザーの資格情報を更新しています</value>
     </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>Azure Active Directory に新しいアプリケーションを登録することはできません。詳細情報: https://go.microsoft.com/fwlink/?linkid=843472。さらに詳しく: {0}</value>
@@ -5967,8 +5976,14 @@
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>デプロイ センターの同期コマンド</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Deployment center redeploy command</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>情報のフェッチでエラーが発生しました</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>アカウント情報を取得できません</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>発行プロファイルの管理</value>
@@ -6064,16 +6079,16 @@
         <value>デプロイ センターの設定</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>FTP または FTPS の資格情報</value>
+        <value>FTPS 資格情報</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>FTP または FTPS の資格情報</value>
+        <value>FTPS 資格情報</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>ローカル Git、FTP、FTPS の資格情報</value>
+        <value>ローカル Git または FTPS の資格情報</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>ローカル Git、FTP、FTPS の資格情報</value>
+        <value>ローカル Git または FTPS の資格情報</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>コンテナー ログを読み込んでいます</value>
@@ -6100,19 +6115,19 @@
         <value>更新すると、保存されていない変更はすべて失われます。続行しますか?</value>
     </data>
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to refresh?</value>
+        <value>更新しますか?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>同期しますか?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to redeploy?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to discard?</value>
+        <value>破棄しますか?</value>
     </data>
   <data name="deploymentCenterDataLossMessage" xml:space="preserve">
-        <value>All unsaved changes will be lost.</value>
+        <value>保存されていない変更はすべて失われます。</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>アプリケーション設定の追加</value>
@@ -6121,7 +6136,7 @@
         <value>アプリケーション設定の編集</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service では、お客様のアプリのコンテンツのアクセス、公開、変更を行うための複数のテクノロジがサポートされています。FTP/FTPS 資格情報は、アプリケーションまたはユーザーにスコープ設定できます。</value>
+        <value>App Service では、お客様のアプリのコンテンツのアクセス、公開、変更を行うための複数のテクノロジがサポートされています。FTPS 資格情報は、アプリケーションまたはユーザーにスコープ設定できます。</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>FTPS エンドポイント</value>
@@ -6130,13 +6145,13 @@
         <value>アプリケーション スコープ</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>アプリケーション スコープの資格情報は自動生成され、この特定のアプリまたはデプロイ スロットのみへのアクセスを提供します。これらの資格情報は、FTP、ローカル Git、WebDeploy で使用できます。手動で構成することはできませんが、いつでもリセットできます。</value>
+        <value>アプリケーション スコープの資格情報は自動生成され、この特定のアプリまたはデプロイ スロットのみへのアクセスが提供されます。これらの資格情報は、FTPS、ローカル Git、WebDeploy で使用できます。手動で構成することはできませんが、いつでもリセットできます。</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>ユーザー スコープ</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>ユーザー スコープの資格情報は、ユーザーによって定義され、アクセス可能なすべてのアプリで使用することができます。これらの資格情報は、FTP、ローカル Git、および WebDeploy で使用できます。ユーザー レベルの資格情報を使用して FTP/FTPS エンドポイントに対する認証を行うには、次の形式のユーザー名が必要です: '{0}'</value>
+        <value>ユーザー スコープの資格情報は、ユーザーによって定義され、アクセス可能なすべてのアプリで使用することができます。これらの資格情報は、FTPS、ローカル Git、WebDeploy で使用できます。ユーザー レベルの資格情報を使用して FTPS エンドポイントに対する認証を行うには、次の形式のユーザー名が必要です: '{0}'</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(あなたのユーザー名)</value>
@@ -6202,7 +6217,7 @@
         <value>アプリケーション発行プロファイルのパスワードをリセットしますか?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
+        <value>プロファイル パスワードをリセットすると、発行プロファイルを使用した外部統合で操作が停止します。</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>ユーザー名の長さは {0} 文字以上でなければなりません。</value>
@@ -6264,6 +6279,15 @@
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>ローカル Git</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>フォルダー</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>フォルダーの選択</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>外部 Git</value>
     </data>
@@ -6275,6 +6299,12 @@
     </data>
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>リポジトリの種類</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>メイン</value>
     </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>プライベート</value>
@@ -6294,20 +6324,20 @@
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>Git Clone URI のフェッチでエラーが発生しました</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>同期要求を送信しました</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>Redeploy Request Submitted</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>Web アプリ {0} のリポジトリを更新しています</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>Web アプリ {0} のリポジトリが正常に更新されました</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>同期に失敗しました: {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>Failed to redeploy: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>同期に失敗しました</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>Failed to redeploy</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>レジストリの設定</value>
@@ -6498,6 +6528,12 @@
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Application Insights を基盤とする新しいログ機能はどれほど役立ちましたか?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>改善されたこの App Service デプロイ センター ページを使用するのはどれほど簡単または困難でしたか?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>改善されたこの App Service デプロイ センター ページはどれほど役立ちましたか?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>組織またはリポジトリが見つからない場合は、GitHub で追加のアクセス許可を有効にする必要があります。</value>
     </data>
@@ -6637,7 +6673,7 @@
         <value>FTP はアクセス ポリシーによって無効化されています。</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>カスタム関数アプリの編集は、Azure portal ではサポートされていません。この関数を編集するには、ローカルの開発環境をお使いください。</value>
+        <value>CustomHandler を使用した関数アプリの編集は、Azure portal ではサポートされていません。この関数を編集するには、ローカルの開発環境をお使いください。</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>開発環境の選択</value>
@@ -6706,18 +6742,54 @@
         <value>サーバー URL は https:// で始める必要があります</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>このスケール ユニットでは Premium V3 はサポートされていません。アプリの再デプロイまたは複製をご検討ください。</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Hyper-V 分離</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>Windows コンテナーは、Hyper-V 分離モードを使用してセキュリティ保護されています。</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>{0} 最小 ACU/vCPU</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} 個の仮想コア</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>関数をフェッチできません</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>ホスト キーを作成しています</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>システム キーを作成しています</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>関数キーを作成しています</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>{0} を作成しています</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>{0} が正常に作成されました</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>{0} の作成に失敗しました</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>{0} を作成できませんでした: {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (非推奨)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (プレビュー)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>マウント パスを '/' にすることはできません</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Workflow runtime settings</value>
     </data>
 </root>

@@ -3257,9 +3257,6 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Uitgaande IP-adressen voor uw app kunnen worden gewijzigd.</value>
     </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>Het App Service-plan {0} heeft het aanbevolen aantal apps voor de grootte van het plan overschreden.</value>
-    </data>
   <data name="free" xml:space="preserve">
         <value>Gratis</value>
     </data>
@@ -3872,6 +3869,18 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>Kan de implementatie niet instellen: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>Kan de gebruikersreferenties voor publiceren niet bijwerken: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>Kan de gebruikersreferenties voor publiceren niet bijwerken</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>De gebruikersreferenties voor publiceren zijn bijgewerkt</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>Gebruikersreferenties voor publiceren worden bijgewerkt</value>
     </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>U kunt geen nieuwe toepassing registreren in Azure Active Directory. Meer informatie: https://go.microsoft.com/fwlink/?linkid=843472. Meer details: {0}</value>
@@ -5968,8 +5977,14 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Opdracht voor synchroniseren van het implementatiecentrum</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Deployment center redeploy command</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Fout bij het ophalen van gegevens</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>Kan geen accountgegevens ophalen</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Publicatieprofiel beheren</value>
@@ -6065,16 +6080,16 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Instellingen voor het implementatiecentrum</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>FTP-/FTPs-referenties</value>
+        <value>Referenties voor FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>FTP- of FTPs-referenties</value>
+        <value>Referenties voor FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>Referenties van lokale Git/FTP/FTP's</value>
+        <value>Referenties van lokale Git/FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>Referenties van lokale Git of FTP of FTP's</value>
+        <value>Referenties van lokale Git of FTPS</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Containerlogboeken laden</value>
@@ -6101,19 +6116,19 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Alle niet-opgeslagen wijzigingen gaan verloren bij het vernieuwen. Weet u zeker dat u wilt doorgaan?</value>
     </data>
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to refresh?</value>
+        <value>Weet u zeker dat u wilt vernieuwen?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>Weet u zeker dat u wilt synchroniseren?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to redeploy?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to discard?</value>
+        <value>Weet u zeker dat u de wijzigingen wilt negeren?</value>
     </data>
   <data name="deploymentCenterDataLossMessage" xml:space="preserve">
-        <value>All unsaved changes will be lost.</value>
+        <value>Alle niet-opgeslagen wijzigingen gaan verloren.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Toepassingsinstelling toevoegen</value>
@@ -6122,7 +6137,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Toepassingsinstelling bewerken</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service ondersteunt meerdere technologieën voor het gebruiken, publiceren en wijzigen van de inhoud van uw app. FTP-/FTPS-referenties kunnen worden ingesteld voor de toepassing of de gebruiker.</value>
+        <value>App Service ondersteunt meerdere technologieën voor het gebruiken, publiceren en wijzigen van de inhoud van uw app. FTPS-referenties kunnen worden ingesteld voor de toepassing of de gebruiker.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>FTPS-eindpunt</value>
@@ -6131,13 +6146,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Toepassingsbereik</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Referenties voor toepassingsbereiken worden automatisch gegenereerd en bieden alleen toegang tot deze specifieke app of implementatiesite. Deze referenties kunnen worden gebruikt met FTP, een lokale Git-opslagplaats en WebDeploy. De referenties kunnen niet handmatig worden geconfigureerd, maar kunnen op elk moment opnieuw worden ingesteld.</value>
+        <value>Referenties voor toepassingsbereiken worden automatisch gegenereerd en bieden alleen toegang tot deze specifieke app of implementatiesite. Deze referenties kunnen worden gebruikt met FTPS, een lokale Git-opslagplaats en WebDeploy. De referenties kunnen niet handmatig worden geconfigureerd, maar kunnen op elk moment opnieuw worden ingesteld.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>Gebruikersbereik</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Referenties voor gebruikersbereiken worden gedefinieerd door u, de gebruiker, en kunnen worden gebruikt met alle apps waartoe u toegang hebt. Deze referenties kunnen worden gebruikt met FTP, een lokale Git-opslagplaats en WebDeploy. Voor verificatie bij een FTP-/FTPS-eindpunt met referenties op gebruikersniveau is een gebruikersnaam vereist met de volgende indeling: {0}</value>
+        <value>Referenties voor gebruikersbereiken worden gedefinieerd door u, de gebruiker, en kunnen worden gebruikt met alle apps waartoe u toegang hebt. Deze referenties kunnen worden gebruikt met FTPS, een lokale Git-opslagplaats en WebDeploy. Voor verificatie bij een FTPS-eindpunt met referenties op gebruikersniveau is een gebruikersnaam vereist met de volgende indeling: {0}</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(uw gebruikersnaam)</value>
@@ -6203,7 +6218,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Wachtwoord voor toepassingspublicatieprofiel opnieuw instellen?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
+        <value>Als het profielwachtwoord opnieuw wordt ingesteld, werken externe integraties via het publicatieprofiel niet meer.</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>De gebruikersnaam moet ten minste uit {0} tekens bestaan.</value>
@@ -6265,6 +6280,15 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>Lokale Git-opslagplaats</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>Map</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>Map selecteren</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>Externe Git</value>
     </data>
@@ -6276,6 +6300,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>Type opslagplaats</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>hoofd</value>
     </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>Privé</value>
@@ -6295,20 +6325,20 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>Er is een fout opgetreden bij het ophalen van de kloon-URI voor Git</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>De synchronisatieaanvraag is verzonden</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>Redeploy Request Submitted</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>De opslagplaats voor web-app {0} wordt bijgewerkt.</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>De opslagplaats voor de web-app {0} is bijgewerkt</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>Kan de synchronisatie niet uitvoeren: {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>Failed to redeploy: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>Kan de synchronisatie niet uitvoeren</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>Failed to redeploy</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Registerinstellingen</value>
@@ -6499,6 +6529,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Hoe waardevol is de nieuwe logboekfunctie van Application Insights?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>Hoe eenvoudig of moeilijk is het gebruik van deze verbeterde statuspagina voor App Service-implementatie?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>Hoe waardevol vindt u deze verbeterde statuspagina voor App Service-implementatie?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>Als u geen organisatie of opslagplaats kunt vinden, moet u mogelijk extra machtigingen inschakelen in GitHub.</value>
     </data>
@@ -6638,7 +6674,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>FTP is conform het toegangsbeleid uitgeschakeld.</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>Het bewerken van aangepaste functie-apps wordt niet ondersteund in Azure Portal. Gebruik uw lokale ontwikkelomgeving om deze functie te bewerken.</value>
+        <value>Het bewerken van functie-apps met CustomHandler wordt niet ondersteund in Azure Portal. Gebruik uw lokale ontwikkelomgeving om deze functie te bewerken.</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>Selecteer de ontwikkelomgeving</value>
@@ -6707,18 +6743,54 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>De URL van de server moet beginnen met https://</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>Premium V3 wordt niet ondersteund voor deze schaaleenheid. U kunt de app het beste opnieuw implementeren of klonen.</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Hyper-V-isolatie</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>Windows-containers zijn beveiligd met de Hyper-V-isolatiemodus.</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>{0} minimale ACU/vCPU</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} vCPU</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>Kan uw functie niet ophalen</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>Hostsleutel maken</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>Systeemsleutel maken</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>Functiesleutel maken</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>{0} maken</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>{0} is gemaakt</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>Kan {0} niet maken</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>Kan {0} niet maken: {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (afgeschaft)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (preview)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>Het koppelingspad mag niet / zijn</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Workflow runtime settings</value>
     </data>
 </root>
