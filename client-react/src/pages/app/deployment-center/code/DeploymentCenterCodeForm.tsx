@@ -45,10 +45,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const deploymentCenterData = new DeploymentCenterData();
 
   const deployKudu = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+    //(NOTE: stpelleg) Only external git is expected to be manual integration
+    // If manual integration is true the site config scm type is set to be external
+
     const payload: SiteSourceControlRequestBody = {
       repoUrl: getRepoUrl(values),
       branch: values.branch || 'master',
-      isManualIntegration: isManualIntegration(values),
+      isManualIntegration: values.sourceProvider === ScmType.ExternalGit,
       isGitHubAction: values.buildProvider === BuildProvider.GitHubAction,
       isMercurial: false,
     };
@@ -89,26 +92,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     }
   };
 
-  const isManualIntegration = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>): boolean => {
-    switch (values.sourceProvider) {
-      case ScmType.GitHub:
-      case ScmType.BitbucketGit:
-      case ScmType.LocalGit:
-        return false;
-      case ScmType.OneDrive:
-      case ScmType.Dropbox:
-      case ScmType.ExternalGit:
-        return true;
-      default:
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterCodeCommandBar',
-          `Incorrect Source Provider ${values.sourceProvider}`
-        );
-        throw Error(`Incorrect Source Provider ${values.sourceProvider}`);
-    }
-  };
-
   const getRepoUrl = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>): string => {
     switch (values.sourceProvider) {
       case ScmType.GitHub:
@@ -116,6 +99,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       case ScmType.BitbucketGit:
         return `${DeploymentCenterConstants.bitbucketUrl}/${values.org}/${values.repo}`;
       case ScmType.OneDrive:
+        return `${DeploymentCenterConstants.onedriveApiUri}:/${values.folder}`;
       case ScmType.Dropbox:
         // TODO: (stpelleg): Pending Implementation of these ScmTypes
         throw Error('Not implemented');
