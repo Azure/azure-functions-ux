@@ -98,8 +98,6 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
           'authorizeOnedriveAccount',
           `Failed to get token with error: ${getErrorMessage(oneDriveTokenResponse.metadata.error)}`
         );
-
-        Promise.resolve(null);
       }
     }
     fetchData();
