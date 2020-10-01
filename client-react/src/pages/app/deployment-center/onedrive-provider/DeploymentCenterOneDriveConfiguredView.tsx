@@ -84,30 +84,25 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
     authorizeWithProvider(OneDriveService.authorizeUrl, () => {}, completingAuthCallback);
   };
 
-  const completingAuthCallback = (authorizationResult: AuthorizationResult) => {
+  const completingAuthCallback = async (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      deploymentCenterData
-        .getOneDriveToken(authorizationResult.redirectUrl)
-        .then(response => {
-          if (response.metadata.success) {
-            return deploymentCenterData.storeOneDriveToken(response.data);
-          } else {
-            // NOTE(michinoy): This is all related to the handshake between us and the provider.
-            // If this fails, there isn't much the user can do except retry.
+      const oneDriveTokenResponse = await deploymentCenterData.getOneDriveToken(authorizationResult.redirectUrl);
+      if (oneDriveTokenResponse.metadata.success) {
+        deploymentCenterData.storeOneDriveToken(oneDriveTokenResponse.data);
+      } else {
+        // NOTE(michinoy): This is all related to the handshake between us and the provider.
+        // If this fails, there isn't much the user can do except retry.
 
-            LogService.error(
-              LogCategories.deploymentCenter,
-              'authorizeOnedriveAccount',
-              `Failed to get token with error: ${getErrorMessage(response.metadata.error)}`
-            );
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'authorizeOnedriveAccount',
+          `Failed to get token with error: ${getErrorMessage(oneDriveTokenResponse.metadata.error)}`
+        );
 
-            return Promise.resolve(null);
-          }
-        })
-        .then(() => fetchData());
-    } else {
-      return fetchData();
+        Promise.resolve(null);
+      }
     }
+    fetchData();
   };
 
   const getSignedInAsComponent = (isLoading: boolean) => {
