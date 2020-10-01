@@ -6,6 +6,7 @@ import { IDropdownOption } from 'office-ui-fabric-react';
 import DeploymentCenterOneDriveProvider from './DeploymentCenterOneDriveProvider';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -18,7 +19,9 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
   const [loadingFolders, setLoadingFolders] = useState(false);
   const [folderOptions, setFolderOptions] = useState<IDropdownOption[]>([]);
   const deploymentCenterData = new DeploymentCenterData();
+
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const fetchData = async () => {
     const oneDriveUserResponse = await deploymentCenterData.getOneDriveUser(deploymentCenterContext.oneDriveToken);
@@ -50,6 +53,14 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
         oneDriveFolderResponse.forEach(item => {
           folderNames.push(item);
         });
+      }
+
+      if (siteStateContext.site && siteStateContext.site.properties && siteStateContext.site.properties.name) {
+        const siteName = siteStateContext.site.properties.name;
+        const siteFolderExists = folderNames.find(folder => folder.name === siteName);
+        if (!siteFolderExists) {
+          folderNames.push({ name: siteName });
+        }
       }
     }
 
