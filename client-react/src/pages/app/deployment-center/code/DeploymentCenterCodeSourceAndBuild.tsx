@@ -65,6 +65,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     if (scenarioService.checkScenario(ScenarioIds.externalSource, { site: siteStateContext.site }).status !== 'disabled') {
       manualDeploymentOptions.push({ key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') });
     }
+
     if (scenarioService.checkScenario(ScenarioIds.onedriveSource, { site: siteStateContext.site }).status !== 'disabled') {
       manualDeploymentOptions.push({ key: ScmType.OneDrive, text: t('deploymentCenterCodeSettingsSourceOneDrive') });
     }

@@ -14,6 +14,7 @@ import ACRService from '../../../ApiHelpers/ACRService';
 import { ACRWebhookPayload } from '../../../models/acr';
 import { SiteConfig } from '../../../models/site/config';
 import { KeyValue } from '../../../models/portal-models';
+import { SourceControlOptions } from './DeploymentCenter.types';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -138,7 +139,7 @@ export default class DeploymentCenterData {
 
   public storeGitHubToken = (providerToken: ProviderToken) => {
     return ProviderService.updateUserSourceControl(
-      'github',
+      SourceControlOptions.GitHub,
       providerToken.accessToken,
       providerToken.refreshToken,
       providerToken.environment
@@ -163,7 +164,7 @@ export default class DeploymentCenterData {
 
   public storeBitbucketToken = (providerToken: ProviderToken) => {
     return ProviderService.updateUserSourceControl(
-      'bitbucket',
+      SourceControlOptions.Bitbucket,
       providerToken.accessToken,
       providerToken.refreshToken,
       providerToken.environment
@@ -188,7 +189,7 @@ export default class DeploymentCenterData {
 
   public storeOneDriveToken = (providerToken: ProviderToken) => {
     return ProviderService.updateUserSourceControl(
-      'onedrive',
+      SourceControlOptions.OneDrive,
       providerToken.accessToken,
       providerToken.refreshToken,
       providerToken.environment

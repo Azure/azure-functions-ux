@@ -10,6 +10,13 @@ import { BitbucketUser } from '../../../models/bitbucket';
 import { RepoTypeOptions } from '../../../models/external';
 import { OneDriveUser } from '../../../models/onedrive';
 
+export enum SourceControlOptions {
+  GitHub = 'github',
+  Bitbucket = 'bitbucket',
+  OneDrive = 'onedrive',
+  DropBox = 'dropbox',
+}
+
 export enum ContainerOptions {
   docker = 'docker',
   compose = 'compose',
