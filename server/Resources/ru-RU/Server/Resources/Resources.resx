@@ -3256,9 +3256,6 @@
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Исходящие IP-адреса для вашего приложения могут измениться.</value>
     </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>Превышено рекомендуемое число приложений для размера вашего плана службы приложений {0}.</value>
-    </data>
   <data name="free" xml:space="preserve">
         <value>Бесплатно</value>
     </data>
@@ -3871,6 +3868,18 @@
     </data>
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>Не удалось настроить развертывание: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>Сбой обновления учетных данных пользователя публикации: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>Сбой обновления учетных данных пользователя публикации</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>Учетные данные пользователя публикации обновлены</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>Обновление учетных данных пользователя публикации</value>
     </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>Невозможно зарегистрировать новое приложение в Azure Active Directory. Дополнительные сведения: https://go.microsoft.com/fwlink/?linkid=843472. Подробные сведения: {0}</value>
@@ -5967,8 +5976,14 @@
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Команда синхронизации в Центре развертывания</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Deployment center redeploy command</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Ошибка при получении сведений</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>Не удалось получить сведения об учетной записи</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Управление профилем публикации</value>
@@ -6064,16 +6079,16 @@
         <value>Параметры Центра развертывания</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>Учетные данные FTP или FTPS</value>
+        <value>Учетные данные FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>Учетные данные FTP или FTPS</value>
+        <value>Учетные данные FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>Локальные учетные данные Git/FTP/FTPS</value>
+        <value>Учетные данные FTPS/локального Git</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>Локальные учетные данные Git, FTP или FTPS</value>
+        <value>Учетные данные FTPS или локального Git</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Загрузка журналов контейнера</value>
@@ -6100,19 +6115,19 @@
         <value>При обновлении все несохраненные изменения будут потеряны. Вы действительно хотите продолжить?</value>
     </data>
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to refresh?</value>
+        <value>Вы действительно хотите выполнить обновление?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>Вы действительно хотите выполнить синхронизацию?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to redeploy?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to discard?</value>
+        <value>Вы действительно хотите отменить операцию?</value>
     </data>
   <data name="deploymentCenterDataLossMessage" xml:space="preserve">
-        <value>All unsaved changes will be lost.</value>
+        <value>Все несохраненные изменения будут потеряны.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Добавление параметра приложения</value>
@@ -6121,7 +6136,7 @@
         <value>Изменение параметра приложения</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>Служба приложений поддерживает несколько технологий для доступа к содержимому приложения, а также публикации и изменения этого содержимого. Учетные данные FTP/FTPS могут находиться в области приложения или пользователя.</value>
+        <value>Служба приложений поддерживает несколько технологий для доступа к содержимому приложения, а также публикации и изменения этого содержимого. Учетные данные FTPS могут находиться в области приложения или пользователя.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>Конечная точка FTPS</value>
@@ -6130,13 +6145,13 @@
         <value>Область приложения</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Учетные данные области приложения создаются автоматически и предоставляют доступ только к этому приложению или слоту развертывания. Эти учетные данные можно использовать с FTP, локальным Git и WebDeploy. Эти учетные данные не могут быть настроены вручную, но могут быть сброшены в любое время.</value>
+        <value>Учетные данные области приложения создаются автоматически и предоставляют доступ только к этому приложению или слоту развертывания. Эти учетные данные можно использовать с FTPS, локальным Git и WebDeploy. Эти учетные данные не могут быть настроены вручную, но могут быть сброшены в любое время.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>Область пользователей</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Учетные данные области пользователя определяются вами — пользователем — и могут использоваться со всеми приложениями, к которым у вас есть доступ. Эти учетные данные можно использовать с FTP, локальным Git и WebDeploy. Для проверки подлинности на конечной точке FTP или FTPS с помощью учетных данных уровня пользователя требуется имя пользователя в следующем формате: "{0}".</value>
+        <value>Учетные данные области пользователя определяются вами — пользователем — и могут использоваться со всеми приложениями, к которым у вас есть доступ. Эти учетные данные можно использовать с FTPS, локальным Git и WebDeploy. Для проверки подлинности на конечной точке FTPS с помощью учетных данных уровня пользователя требуется имя пользователя в следующем формате: "{0}".</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(ваше имя пользователя)</value>
@@ -6202,7 +6217,7 @@
         <value>Сбросить пароль для профиля публикации приложения?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
+        <value>При сбросе пароля профиля все внешние интеграции с использованием профиля публикации перестанут работать.</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>Длина имени пользователя в символах должна составлять по меньшей мере {0}.</value>
@@ -6264,6 +6279,15 @@
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>Локальный репозиторий Git</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>Папка</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>Выберите папку.</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>Внешний репозиторий Git</value>
     </data>
@@ -6275,6 +6299,12 @@
     </data>
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>Тип репозитория</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>главная</value>
     </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>Частный</value>
@@ -6294,20 +6324,20 @@
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>Ошибка при получении URI клона Git.</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>Запрос на синхронизацию отправлен.</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>Redeploy Request Submitted</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>Обновляется репозиторий для веб-приложения {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>Репозиторий для веб-приложения {0} обновлен.</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>Не удалось синхронизировать: {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>Failed to redeploy: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>Не удалось выполнить синхронизацию.</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>Failed to redeploy</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Параметры реестра</value>
@@ -6498,6 +6528,12 @@
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Насколько полезной для вас оказалась новая функция журналов на базе Application Insights?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>Насколько легко вам использовать эту улучшенную страницу работоспособности центра развертывания службы приложений?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>Насколько полезна для вас эта улучшенная страница центра развертывания службы приложений?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>Если не удается найти организацию или репозиторий, возможно, необходимо включить дополнительные разрешения в GitHub.</value>
     </data>
@@ -6637,7 +6673,7 @@
         <value>Протокол FTP отключен политикой доступа.</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>Изменение пользовательских приложений-функций не поддерживается на портале Azure. Для изменения этой функции используйте локальную среду разработки.</value>
+        <value>Изменение приложений-функций с помощью CustomHandler на портале Azure не поддерживается. Для изменения этой функции используйте локальную среду разработки.</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>Выбор среды разработки</value>
@@ -6706,18 +6742,54 @@
         <value>URL-адрес сервера должен начинаться с https://.</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>Уровень Premium V3 не поддерживается для этой единицы масштабирования. Попробуйте клонировать приложение или развернуть его заново.</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Изоляция Hyper-V</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>Контейнеры Windows будут защищены в режиме изоляции Hyper-V.</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>Минимум {0} ACU на виртуальный ЦП</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} вирт. ЦП</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>Получить вашу функцию невозможно.</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>Создание ключа узла</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>Создание системного ключа</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>Создание ключа функции</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>Создание: {0}</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>Создано: {0}</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>Не удалось создать {0}</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>Не удалось создать {0}: {1}.</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (не рекомендуется)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (предварительная версия)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>Путь подключения "/" недопустим.</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Workflow runtime settings</value>
     </data>
 </root>

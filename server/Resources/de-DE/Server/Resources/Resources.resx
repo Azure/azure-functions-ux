@@ -3256,9 +3256,6 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Die ausgehenden IP-Adressen für Ihre App können sich ändern.</value>
     </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>Ihr App Service-Plan "{0}" hat die empfohlene Anzahl von Apps für seine Größe überschritten.</value>
-    </data>
   <data name="free" xml:space="preserve">
         <value>Frei</value>
     </data>
@@ -3871,6 +3868,18 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>Fehler beim Einrichten der Bereitstellung: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>Fehler beim Aktualisieren der Anmeldeinformationen des veröffentlichenden Benutzers: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>Fehler beim Aktualisieren der Anmeldeinformationen des veröffentlichenden Benutzers.</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>Die Anmeldeinformationen des veröffentlichenden Benutzers wurden erfolgreich aktualisiert.</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>Die Anmeldeinformationen des veröffentlichenden Benutzers werden aktualisiert.</value>
     </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>Sie können keine neue Anwendung in Azure Active Directory registrieren. Weitere Informationen: https://go.microsoft.com/fwlink/?linkid=843472. Weitere Details: {0}</value>
@@ -5967,8 +5976,14 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Bereitstellungscenter-Befehl zum Synchronisieren</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Deployment center redeploy command</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Fehler beim Abrufen von Informationen.</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>Kontoinformationen können nicht abgerufen werden.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Veröffentlichungsprofil verwalten</value>
@@ -6064,16 +6079,16 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Einstellungen im Bereitstellungscenter</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>FTP-/FTPs-Anmeldeinformationen</value>
+        <value>FTPS-Anmeldeinformationen</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>FTP- oder FTPs-Anmeldeinformationen</value>
+        <value>FTPS-Anmeldeinformationen</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>Anmeldeinformationen für Git (lokal)/FTP/FTPS</value>
+        <value>Lokale Git-/FTPS-Anmeldeinformationen</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>Anmeldeinformationen für Git (lokal), FTP oder FTPS</value>
+        <value>Lokale Git- oder FTPS-Anmeldeinformationen</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Containerprotokolle werden geladen.</value>
@@ -6102,11 +6117,11 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
         <value>Möchten Sie eine Aktualisierung durchführen?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>Möchten Sie die Synchronisierung durchführen?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to redeploy?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Durch das Ausführen einer Synchronisierung wird ein ggf. zurzeit ausgeführter Bereitstellungsvorgang beendet und ein neuer Vorgang erstellt.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Möchten Sie den Vorgang zum Verwerfen ausführen?</value>
@@ -6121,7 +6136,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Anwendungseinstellung bearbeiten</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service unterstützt mehrere Technologien, um auf den Inhalt Ihrer App zuzugreifen und diesen zu veröffentlichen und zu ändern. Die FTP-/FTPS-Anmeldeinformationen können auf die Anwendung oder den Benutzer eingegrenzt werden.</value>
+        <value>App Service unterstützt mehrere Technologien, um auf den Inhalt Ihrer App zuzugreifen und diesen zu veröffentlichen und zu ändern. Die FTPS-Anmeldeinformationen können auf die Anwendung oder den Benutzer eingegrenzt werden.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>FTPS-Endpunkt</value>
@@ -6130,13 +6145,13 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Anwendungsbereich</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Anmeldeinformationen für den Anwendungsbereich werden automatisch generiert und ermöglichen nur den Zugriff auf diese spezifische App oder diesen spezifischen Bereitstellungsslot. Diese Anmeldeinformationen können mit FTP, Git (lokal) und WebDeploy verwendet werden. Sie können nicht manuell konfiguriert, aber jederzeit zurückgesetzt werden.</value>
+        <value>Anmeldeinformationen für den Anwendungsbereich werden automatisch generiert und ermöglichen nur den Zugriff auf diese spezifische App oder diesen spezifischen Bereitstellungsslot. Diese Anmeldeinformationen können mit FTPs, Git (lokal) und WebDeploy verwendet werden. Sie können nicht manuell konfiguriert, aber jederzeit zurückgesetzt werden.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>Benutzerbereich</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Anmeldeinformationen für den Benutzerbereich werden von Ihnen, dem Benutzer, definiert und können für alle Apps verwendet werden, auf die Sie zugreifen können. Diese Anmeldeinformationen können mit FTP, Git (lokal) und WebDeploy verwendet werden. Für die Authentifizierung bei einem FTP/FTPS-Endpunkt mithilfe von Anmeldeinformationen auf Benutzerebene ist ein Benutzername im folgenden Format erforderlich: {0}</value>
+        <value>Anmeldeinformationen für den Benutzerbereich werden von Ihnen, dem Benutzer, definiert und können für alle Apps verwendet werden, auf die Sie zugreifen können. Diese Anmeldeinformationen können mit FTPS, Git (lokal) und WebDeploy verwendet werden. Für die Authentifizierung bei einem FTPS-Endpunkt mithilfe von Anmeldeinformationen auf Benutzerebene ist ein Benutzername im folgenden Format erforderlich: {0}</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(Ihr Benutzername)</value>
@@ -6264,6 +6279,15 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>Git (lokal)</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>Ordner</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>Ordner auswählen</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>Git extern</value>
     </data>
@@ -6275,6 +6299,12 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>Repositorytyp</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>Haupt</value>
     </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>Privat</value>
@@ -6294,20 +6324,20 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>Fehler beim Abrufen des Git Clone-URI.</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>Die Synchronisierungsanforderung wurde gesendet.</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>Anforderung zum erneuten Bereitstellen übermittelt</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>Das Repository für die Web-App "{0}" wird gerade aktualisiert.</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>Das Repository für die Web-App "{0}" wurde erfolgreich aktualisiert.</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>Fehler bei der Synchronisierung: {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>Failed to redeploy: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>Fehler bei der Synchronisierung.</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>Failed to redeploy</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Registrierungseinstellungen</value>
@@ -6498,6 +6528,12 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Wie nützlich ist das neue, von Application Insights unterstützte Protokollfeature?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>Wie einfach oder schwierig finden Sie die Verwendung dieser verbesserten Seite des App Service-Bereitstellungscenters?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>Wie hilfreich finden Sie diese verbesserte Seite des App Service-Bereitstellungscenters?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>Wenn Sie eine Organisation oder ein Repository nicht finden, müssen Sie möglicherweise zusätzliche Berechtigungen auf GitHub aktivieren.</value>
     </data>
@@ -6637,7 +6673,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>FTP ist durch die Zugriffsrichtlinie deaktiviert.</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>Das Bearbeiten benutzerdefinierter Funktions-Apps wird im Azure-Portal nicht unterstützt. Verwenden Sie Ihre lokale Entwicklungsumgebung, um diese Funktion zu bearbeiten.</value>
+        <value>Das Bearbeiten von Funktions-Apps mithilfe von CustomHandler wird im Azure-Portal nicht unterstützt. Verwenden Sie Ihre lokale Entwicklungsumgebung, um diese Funktion zu bearbeiten.</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>Entwicklungsumgebung auswählen</value>
@@ -6706,18 +6742,54 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Die Server-URL muss mit "https://" beginnen.</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>Premium V3 wird für diese Skalierungseinheit nicht unterstützt. Erwägen Sie eine erneute Bereitstellung, oder klonen Sie ggf. Ihre App.</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Hyper-V-Isolierung</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>Windows-Container werden mithilfe des Hyper-V-Isolationsmodus gesichert.</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>{0} Mindest-ACU/-vCPU</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} vCPU</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>Ihre Funktion kann nicht abgerufen werden.</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>Der Hostschlüssel wird erstellt.</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>Der Systemschlüssel wird erstellt.</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>Der Funktionsschlüssel wird erstellt.</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>"{0}" wird erstellt.</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>"{0}" wurde erfolgreich erstellt.</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>Fehler beim Erstellen von {0}.</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>Fehler beim Erstellen von "{0}": {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (veraltet)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (Vorschau)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>Der Bereitstellungspfad kann nicht "/" lauten.</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Workflow runtime settings</value>
     </data>
 </root>
