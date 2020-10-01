@@ -19,6 +19,7 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
   const [loadingFolders, setLoadingFolders] = useState(false);
   const [folderOptions, setFolderOptions] = useState<IDropdownOption[]>([]);
   const deploymentCenterData = new DeploymentCenterData();
+
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
 
@@ -55,10 +56,10 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
       }
 
       if (siteStateContext.site && siteStateContext.site.properties && siteStateContext.site.properties.name) {
-        const siteFolder = { name: siteStateContext.site.properties.name };
-        const siteFolderExists = folderNames.find(folder => folder.name === siteFolder.name);
+        const siteName = siteStateContext.site.properties.name;
+        const siteFolderExists = folderNames.find(folder => folder.name === siteName);
         if (!siteFolderExists) {
-          folderNames.push(siteFolder);
+          folderNames.push({ name: siteName });
         }
       }
     }

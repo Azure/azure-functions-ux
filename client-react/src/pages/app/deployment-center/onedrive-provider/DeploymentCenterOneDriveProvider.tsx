@@ -10,16 +10,14 @@ const DeploymentCenterOneDriveProvider: React.FC<DeploymentCenterOneDriveProvide
   const { formProps, accountUser, folderOptions, loadingFolders } = props;
 
   const { t } = useTranslation();
+
   const siteStateContext = useContext(SiteStateContext);
 
-  const setDefaultSelectedKey = () => {
-    if (!formProps.values.folder) {
-      let appFolderName = '';
-      if (siteStateContext.site && siteStateContext.site.properties && siteStateContext.site.properties.name) {
-        appFolderName = siteStateContext.site.properties.name;
-      }
-      formProps.setFieldValue('folder', appFolderName);
+  const getDefaultSelectedKey = () => {
+    if (!formProps.values.folder && siteStateContext.site && siteStateContext.site.properties && siteStateContext.site.properties.name) {
+      formProps.setFieldValue('folder', siteStateContext.site.properties.name);
     }
+
     return formProps.values.folder;
   };
 
@@ -38,7 +36,7 @@ const DeploymentCenterOneDriveProvider: React.FC<DeploymentCenterOneDriveProvide
             component={Dropdown}
             displayInVerticalLayout={true}
             options={folderOptions}
-            defaultSelectedKey={setDefaultSelectedKey()}
+            defaultSelectedKey={getDefaultSelectedKey()}
             placeholder={t('deploymentCenterCodeFolderPlaceholder')}
             required={true}
             isLoading={loadingFolders}
