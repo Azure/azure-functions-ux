@@ -4289,9 +4289,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
     </data>
-    <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Single Container (Preview)</value>
-    </data>
     <data name="moreTemplatesTitle" xml:space="preserve">
         <value>More templates...</value>
     </data>
