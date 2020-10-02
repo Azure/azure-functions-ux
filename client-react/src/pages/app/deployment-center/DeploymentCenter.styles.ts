@@ -1,4 +1,5 @@
 import { style } from 'typestyle';
+import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
 export const commandBarSticky = style({
   position: 'sticky',
@@ -15,14 +16,15 @@ export const deploymentCenterContent = style({
   maxWidth: '800px',
 });
 
-export const deploymentCenterConsole = style({
-  whiteSpace: 'pre-line',
-  backgroundColor: '#f3f2f1',
-  padding: '15px',
-  borderWidth: 'thin',
-  borderStyle: 'solid',
-  overflowWrap: 'break-word',
-});
+export const deploymentCenterConsole = (theme: ThemeExtended): string =>
+  style({
+    whiteSpace: 'pre-line',
+    backgroundColor: `${theme.semanticColors.bodyStandoutBackground}`,
+    padding: '15px',
+    borderWidth: 'thin',
+    borderStyle: 'solid',
+    overflowWrap: 'break-word',
+  });
 
 export const deploymentCenterContainerLogs = style({
   whiteSpace: 'pre-line',
