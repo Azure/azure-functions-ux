@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { DeploymentCenterCommitLogsProps, DeploymentLogsItem } from '../DeploymentCenter.types';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { ArmArray, ArmObj } from '../../../../models/arm-obj';
@@ -8,10 +8,14 @@ import { ProgressIndicator, IColumn, Link } from 'office-ui-fabric-react';
 import { deploymentCenterLogsError, deploymentCenterConsole } from '../DeploymentCenter.styles';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
+import { ThemeContext } from '../../../../ThemeContext';
 
 const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = props => {
   const { commitId } = props;
   const { t } = useTranslation();
+
+  const theme = useContext(ThemeContext);
+
   const deploymentCenterData = new DeploymentCenterData();
   const [logItems, setLogItems] = useState<ArmArray<DeploymentLogsItem> | undefined>(undefined);
   const [logItemsError, setLogItemsError] = useState<string | undefined>(undefined);
@@ -101,7 +105,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
           <h3>{t('logDetailsHeader')}</h3>
           {getCommitIdHeader()}
           <DisplayTableWithEmptyMessage columns={columns} items={logDisplayItems} selectionMode={0} layoutMode={1} constrainMode={0} />
-          {displayingDetails && <pre className={deploymentCenterConsole}>{logDetails ? logDetails : t('resourceSelect')}</pre>}
+          {displayingDetails && <pre className={deploymentCenterConsole(theme)}>{logDetails ? logDetails : t('resourceSelect')}</pre>}
         </>
       ) : (
         <ProgressIndicator

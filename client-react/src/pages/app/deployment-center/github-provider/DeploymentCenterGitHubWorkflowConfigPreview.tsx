@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubWorkflowConfigPreviewProps } from '../DeploymentCenter.types';
 import { PanelType, DefaultButton, MessageBarType } from 'office-ui-fabric-react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { panelBanner, deploymentCenterConsole } from '../DeploymentCenter.styles';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { ThemeContext } from '../../../../ThemeContext';
 
 const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitHubWorkflowConfigPreviewProps> = props => {
   const { isPreviewFileButtonDisabled, getWorkflowFileContent, workflowFilePath, panelMessage } = props;
   const { t } = useTranslation();
+
+  const theme = useContext(ThemeContext);
 
   const [isPreviewPanelOpen, setIsPreviewPanelOpen] = useState<boolean>(false);
   const [showInfoBanner, setShowInfoBanner] = useState(true);
@@ -46,7 +49,7 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
             </div>
           )}
 
-          {workflowFileContent && <pre className={deploymentCenterConsole}>{workflowFileContent}</pre>}
+          {workflowFileContent && <pre className={deploymentCenterConsole(theme)}>{workflowFileContent}</pre>}
         </CustomPanel>
       )}
     </>
