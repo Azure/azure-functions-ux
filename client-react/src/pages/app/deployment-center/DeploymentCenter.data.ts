@@ -15,6 +15,7 @@ import { ACRWebhookPayload } from '../../../models/acr';
 import { SiteConfig } from '../../../models/site/config';
 import { KeyValue } from '../../../models/portal-models';
 import { SourceControlOptions } from './DeploymentCenter.types';
+import DropboxService from '../../../ApiHelpers/DropboxService';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -198,6 +199,27 @@ export default class DeploymentCenterData {
 
   public getOneDriveFolders = (oneDriveToken: string) => {
     return OneDriveService.getFolders(oneDriveToken);
+  };
+
+  public getDropboxUser = (dropboxToken: string) => {
+    return DropboxService.getUser(dropboxToken);
+  };
+
+  public getDropboxToken = (dropboxToken: string) => {
+    return DropboxService.getToken(dropboxToken);
+  };
+
+  public storeDropboxToken = (providerToken: ProviderToken) => {
+    return ProviderService.updateUserSourceControl(
+      SourceControlOptions.Dropbox,
+      providerToken.accessToken,
+      providerToken.refreshToken,
+      providerToken.environment
+    );
+  };
+
+  public getDropboxFolders = (dropboxToken: string) => {
+    return DropboxService.getFolders(dropboxToken);
   };
 
   public getAcrRegistries = (subscriptionId: string) => {

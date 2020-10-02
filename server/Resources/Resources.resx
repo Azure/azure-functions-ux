@@ -6285,6 +6285,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
     </data>
+    <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
     <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Folder</value>
     </data>
