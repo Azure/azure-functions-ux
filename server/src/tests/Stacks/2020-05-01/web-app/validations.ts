@@ -95,7 +95,7 @@ export function validatePHPCreateStack(stacks) {
   expect(phpStack.displayText).to.equal('PHP');
   expect(phpStack.value).to.equal('PHP');
   expect(phpStack.sortOrder).to.equal(3);
-  expect(phpStack.versions.length).to.equal(2);
+  expect(phpStack.versions.length).to.equal(3);
   expect(phpStack).to.deep.equal(phpCreateStack);
 }
 
