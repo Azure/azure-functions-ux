@@ -55,7 +55,6 @@ export const nodeStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '14.x',
               },
-              isHidden: true,
               isPreview: true,
               endOfLifeDate: node14EOL,
             },
