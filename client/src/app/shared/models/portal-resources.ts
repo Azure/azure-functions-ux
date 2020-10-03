@@ -2039,6 +2039,7 @@ export class PortalResources {
   public static deploymentCenterCodeBitbucketTitle = 'deploymentCenterCodeBitbucketTitle';
   public static deploymentCenterCodeLocalGitTitle = 'deploymentCenterCodeLocalGitTitle';
   public static deploymentCenterCodeOneDriveTitle = 'deploymentCenterCodeOneDriveTitle';
+  public static deploymentCenterCodeDropboxTitle = 'deploymentCenterCodeDropboxTitle';
   public static deploymentCenterCodeFolder = 'deploymentCenterCodeFolder';
   public static deploymentCenterCodeFolderPlaceholder = 'deploymentCenterCodeFolderPlaceholder';
   public static deploymentCenterCodeExternalGitTitle = 'deploymentCenterCodeExternalGitTitle';

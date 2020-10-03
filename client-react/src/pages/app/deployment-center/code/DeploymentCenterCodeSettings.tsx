@@ -25,6 +25,7 @@ import DeploymentCenterLocalGitProvider from '../local-git-provider/DeploymentCe
 import DeploymentCenterExternalProvider from '../external-provider/DeploymentCenterExternalProvider';
 import DeploymentCenterOneDriveDataLoader from '../onedrive-provider/DeploymentCenterOneDriveDataLoader';
 import DeploymentCenterOneDriveConfiguredView from '../onedrive-provider/DeploymentCenterOneDriveConfiguredView';
+import DeploymentCenterDropboxDataLoader from '../dropbox-provider/DeploymentCenterDropboxDataLoader';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -63,6 +64,8 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
   const isOneDriveSource = formProps.values.sourceProvider === ScmType.OneDrive;
   const isOneDriveSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.OneDrive;
+
+  const isDropboxSource = formProps.values.sourceProvider === ScmType.Dropbox;
 
   const getWorkflowFileContent = () => {
     if (deploymentCenterContext.siteDescriptor) {
@@ -192,6 +195,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {isLocalGitSource && <DeploymentCenterLocalGitProvider />}
           {isExternalGitSource && <DeploymentCenterExternalProvider formProps={formProps} />}
           {isOneDriveSource && <DeploymentCenterOneDriveDataLoader formProps={formProps} />}
+          {isDropboxSource && <DeploymentCenterDropboxDataLoader formProps={formProps} />}
         </>
       )}
     </>

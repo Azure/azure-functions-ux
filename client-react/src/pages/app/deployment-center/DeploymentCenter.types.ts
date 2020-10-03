@@ -9,12 +9,13 @@ import { IDropdownOption, IChoiceGroupOption, MessageBarType } from 'office-ui-f
 import { BitbucketUser } from '../../../models/bitbucket';
 import { RepoTypeOptions } from '../../../models/external';
 import { OneDriveUser } from '../../../models/onedrive';
+import { DropboxUser } from '../../../models/dropbox';
 
 export enum SourceControlOptions {
   GitHub = 'github',
   Bitbucket = 'bitbucket',
   OneDrive = 'onedrive',
-  DropBox = 'dropbox',
+  Dropbox = 'dropbox',
 }
 
 export enum ContainerOptions {
@@ -395,4 +396,13 @@ export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterConta
   loadingFolders: boolean;
   accountStatusMessage?: string;
   accountUser?: OneDriveUser;
+}
+
+export interface DeploymentCenterDropboxProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  authorizeAccount: () => void;
+  folderOptions: IDropdownOption[];
+  loadingFolders: boolean;
+  accountStatusMessage?: string;
+  accountUser?: DropboxUser;
 }
