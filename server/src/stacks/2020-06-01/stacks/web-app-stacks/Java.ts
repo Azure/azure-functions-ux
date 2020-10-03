@@ -19,6 +19,7 @@ export const javaStack: WebAppStack = {
           value: '11.0',
           stackSettings: {
             linuxRuntimeSettings: {
+              // Note (allisonm): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
@@ -51,6 +52,7 @@ export const javaStack: WebAppStack = {
           value: '11.0.7',
           stackSettings: {
             linuxRuntimeSettings: {
+              // Note (allisonm): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -81,6 +83,7 @@ export const javaStack: WebAppStack = {
           value: '11.0.5',
           stackSettings: {
             linuxRuntimeSettings: {
+              // Note (allisonm): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -153,6 +156,7 @@ export const javaStack: WebAppStack = {
           value: '8.0',
           stackSettings: {
             linuxRuntimeSettings: {
+              // Note (allisonm): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
@@ -185,6 +189,7 @@ export const javaStack: WebAppStack = {
           value: '8.0.252',
           stackSettings: {
             linuxRuntimeSettings: {
+              // Note (allisonm): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -215,6 +220,7 @@ export const javaStack: WebAppStack = {
           value: '8.0.232',
           stackSettings: {
             linuxRuntimeSettings: {
+              // Note (allisonm): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
