@@ -6,8 +6,8 @@ export const aspDotnetCreateStack: WebAppCreateStack = {
   sortOrder: 0,
   versions: [
     {
-      displayText: 'ASP.NET V4.7',
-      value: 'V4.7',
+      displayText: 'ASP.NET V4.8',
+      value: 'V4.8',
       sortOrder: 0,
       supportedPlatforms: [
         {

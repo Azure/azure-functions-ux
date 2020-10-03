@@ -10,7 +10,7 @@ export const aspDotnetWindowsConfigStack: WebAppConfigStack = {
     dependency: null,
     majorVersions: [
       {
-        displayVersion: 'V4.7',
+        displayVersion: 'V4.8',
         runtimeVersion: 'v4.0',
         isDefault: true,
         minorVersions: [],
