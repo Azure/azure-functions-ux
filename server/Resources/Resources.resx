@@ -3229,9 +3229,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="pricing_linuxTrial" xml:space="preserve">
         <value>The first Basic (B1) core for Linux is free for the first 30 days!</value>
     </data>
-    <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Windows containers are billed at a 50% discount while in preview.</value>
-    </data>
     <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
     </data>
@@ -4288,9 +4285,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
-    </data>
-    <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Single Container (Preview)</value>
     </data>
     <data name="moreTemplatesTitle" xml:space="preserve">
         <value>More templates...</value>
@@ -6284,6 +6278,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
+    </data>
+    <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
     </data>
     <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Folder</value>

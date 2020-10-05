@@ -1033,7 +1033,6 @@ export class PortalResources {
   public static pricing_includedHardwareDesc = 'pricing_includedHardwareDesc';
   public static pricing_includedHardware_azureComputeUnits = 'pricing_includedHardware_azureComputeUnits';
   public static pricing_linuxTrial = 'pricing_linuxTrial';
-  public static pricing_windowsContainers = 'pricing_windowsContainers';
   public static pricing_emptyIsolatedGroup = 'pricing_emptyIsolatedGroup';
   public static pricing_emptyIsolatedGroupNewPlan = 'pricing_emptyIsolatedGroupNewPlan';
   public static pricing_emptyIsolatedGroupNewPlanLinkText = 'pricing_emptyIsolatedGroupNewPlanLinkText';
@@ -1383,7 +1382,6 @@ export class PortalResources {
   public static finishAndDeploy = 'finishAndDeploy';
   public static readOnlyLinuxDynamic = 'readOnlyLinuxDynamic';
   public static readOnlyLinuxCodeElastic = 'readOnlyLinuxCodeElastic';
-  public static singleContainerPreviewTitle = 'singleContainerPreviewTitle';
   public static moreTemplatesTitle = 'moreTemplatesTitle';
   public static moreTemplatesDescription = 'moreTemplatesDescription';
   public static moreTemplatesButton = 'moreTemplatesButton';
@@ -2040,6 +2038,7 @@ export class PortalResources {
   public static deploymentCenterCodeBitbucketTitle = 'deploymentCenterCodeBitbucketTitle';
   public static deploymentCenterCodeLocalGitTitle = 'deploymentCenterCodeLocalGitTitle';
   public static deploymentCenterCodeOneDriveTitle = 'deploymentCenterCodeOneDriveTitle';
+  public static deploymentCenterCodeDropboxTitle = 'deploymentCenterCodeDropboxTitle';
   public static deploymentCenterCodeFolder = 'deploymentCenterCodeFolder';
   public static deploymentCenterCodeFolderPlaceholder = 'deploymentCenterCodeFolderPlaceholder';
   public static deploymentCenterCodeExternalGitTitle = 'deploymentCenterCodeExternalGitTitle';

@@ -1,6 +1,7 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
-const php7Point3EOL = new Date(2021, 11, 28).toString();
+const php7Point4EOL = new Date(2022, 11, 28).toString();
+const php7Point3EOL = new Date(2021, 12, 6).toString();
 const php7Point2EOL = new Date(2020, 11, 30).toString();
 const php7Point1EOL = new Date(2020, 2, 1).toString();
 const php7Point0EOL = new Date(2020, 2, 1).toString();
@@ -21,8 +22,6 @@ export const phpStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '7.4',
-              isPreview: true,
-              isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -30,6 +29,18 @@ export const phpStack: WebAppStack = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              endOfLifeDate: php7Point4EOL,
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'PHP|7.4',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              endOfLifeDate: php7Point4EOL,
             },
           },
         },
