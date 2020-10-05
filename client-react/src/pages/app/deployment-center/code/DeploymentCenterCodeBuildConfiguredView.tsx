@@ -44,7 +44,7 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
     const versionNameParts: string[] = version.split('|');
 
     //NOTE(stpelleg): Java is different
-    if (versionNameParts.length == 2 && versionNameParts[0].toLowerCase() === RuntimeVersionOptions.Tomcat) {
+    if (versionNameParts.length === 2 && versionNameParts[0].toLowerCase() === RuntimeVersionOptions.Tomcat) {
       const tomcatNameParts = versionNameParts[1].split('-');
       return tomcatNameParts.length === 2 ? `${RuntimeVersionDisplayNames.Tomcat} ${tomcatNameParts[0]}` : '';
     } else if (versionNameParts.length === 2 && versionNameParts[0].toLowerCase() === RuntimeVersionOptions.javaSE) {
