@@ -56,6 +56,56 @@ export const nodeStack: FunctionAppStack = {
       ],
     },
     {
+      displayText: 'Node.js 14',
+      value: '14',
+      minorVersions: [
+        {
+          displayText: 'Node.js 14 LTS',
+          value: '14 LTS',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '~14',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '14.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'node',
+                WEBSITE_NODE_DEFAULT_VERSION: '~14',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+              },
+              supportedFunctionsExtensionVersions: ['~3'],
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'Node|14',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '14.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'node',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: false,
+                linuxFxVersion: 'Node|14',
+              },
+              supportedFunctionsExtensionVersions: ['~3'],
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: 'Node.js 10',
       value: '10',
       minorVersions: [

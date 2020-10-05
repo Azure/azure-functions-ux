@@ -168,7 +168,7 @@ function validateNodeStack(nodeStack) {
   expect(nodeStack.displayText).to.equal('Node.js');
   expect(nodeStack.value).to.equal('node');
   expect(nodeStack.preferredOs).to.equal('windows');
-  expect(nodeStack.majorVersions.length).to.equal(4);
+  expect(nodeStack.majorVersions.length).to.equal(5);
   expect(nodeStack).to.deep.equal(hardCodedNodeStack);
 }
 

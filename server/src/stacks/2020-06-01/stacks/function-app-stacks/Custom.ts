@@ -16,7 +16,7 @@ export const customStack: FunctionAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: 'custom',
               isPreview: true,
-              isHidden: true,
+              isHidden: false,
               appInsightsSettings: {
                 isSupported: true,
               },
@@ -35,7 +35,7 @@ export const customStack: FunctionAppStack = {
             linuxRuntimeSettings: {
               runtimeVersion: '',
               isPreview: true,
-              isHidden: true,
+              isHidden: false,
               appInsightsSettings: {
                 isSupported: true,
               },
