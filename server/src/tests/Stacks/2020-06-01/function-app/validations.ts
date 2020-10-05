@@ -51,7 +51,7 @@ function validateLinuxStacksLength(stacks) {
 
 function validateNotHiddenStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(6);
+  expect(stacks.length).to.equal(7);
 }
 
 function validateNotDeprecatedStacksLength(stacks) {
