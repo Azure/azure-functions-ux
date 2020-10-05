@@ -16,7 +16,7 @@ export const customStack: FunctionAppStack = {
           os: 'windows',
           isPreview: true,
           isDeprecated: false,
-          isHidden: true,
+          isHidden: false,
           applicationInsightsEnabled: true,
           runtimeVersion: 'custom',
           appSettingsDictionary: {
@@ -29,7 +29,7 @@ export const customStack: FunctionAppStack = {
           os: 'linux',
           isPreview: true,
           isDeprecated: false,
-          isHidden: true,
+          isHidden: false,
           applicationInsightsEnabled: true,
           runtimeVersion: '',
           appSettingsDictionary: {

@@ -15,7 +15,7 @@ export function validateAllStackLength(stacks) {
 
 export function validateNonHiddenStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
 export function validateDotnetCoreStack(stacks) {
@@ -34,7 +34,7 @@ export function validateNodeStack(stacks) {
   expect(nodeStack.displayText).to.equal('Node.js');
   expect(nodeStack.value).to.equal('node');
   expect(nodeStack.sortOrder).to.equal(1);
-  expect(nodeStack.versions.length).to.equal(2);
+  expect(nodeStack.versions.length).to.equal(3);
   expect(nodeStack).to.deep.equal(hardCodedNodeStack);
 }
 
