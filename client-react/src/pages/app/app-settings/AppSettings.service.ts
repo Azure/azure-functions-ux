@@ -5,7 +5,6 @@ import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { SiteConfig, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
-import LogService from '../../../utils/LogService';
 import MakeArmCall from '../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import PortalCommunicator from '../../../portal-communicator';
@@ -74,28 +73,39 @@ export const getApplicationSettingReference = async (
   appSettingName: string
 ): Promise<HttpResponseObject<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>> => {
   const id = `${resourceId}/config/configreferences/appsettings/${appSettingName}`;
-  const result = await MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
+  return MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
     resourceId: id,
     commandName: 'getApplicationSettingReference',
     method: 'GET',
   });
-  LogService.trackEvent('site-service', 'getApplicationSettingReference', {
-    success: result.metadata.success,
-    resultCount: result.data && Object.keys(result.data.properties).length,
+};
+
+export const getConnectionStringReference = async (
+  resourceId: string,
+  connectionstringName: string
+): Promise<HttpResponseObject<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>> => {
+  const id = `${resourceId}/config/configreferences/connectionstrings/${connectionstringName}`;
+  return MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
+    resourceId: id,
+    commandName: 'getConnectionStringReference',
+    method: 'GET',
   });
-  return result;
 };
 
 export const getAllAppSettingReferences = async (resourceId: string) => {
   const id = `${resourceId}/config/configreferences/appsettings`;
-  const result = await MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
+  return MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
     resourceId: id,
     commandName: 'getAllAppSettingReferences',
     method: 'GET',
   });
-  LogService.trackEvent('site-service', 'getAllAppSettingReferences', {
-    success: result.metadata.success,
-    resultCount: result.data && Object.keys(result.data.properties).length,
+};
+
+export const getAllConnectionStringsReferences = async (resourceId: string) => {
+  const id = `${resourceId}/config/configreferences/connectionstrings`;
+  return MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
+    resourceId: id,
+    commandName: 'getAllConnectionStringsReferences',
+    method: 'GET',
   });
-  return result;
 };

@@ -1,13 +1,11 @@
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormAppSetting } from '../AppSettings.types';
 import { MessageBarType } from 'office-ui-fabric-react/lib';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
-import AppSettingReference from './AppSettingReference';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 import { getApplicationSettingReference } from '../AppSettings.service';
@@ -16,6 +14,11 @@ import { isLinuxApp } from '../../../../utils/arm-utils';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
+import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import KeyVaultReferenceComponent from '../KeyVaultReferenceComponent';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;
@@ -45,10 +48,16 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
 
   const { t } = useTranslation();
 
-  const getAppSettingReference = async () => {
-    const appSettingReference = await getApplicationSettingReference(site.id, currentAppSetting.name);
-    if (appSettingReference.metadata.success) {
-      setCurrentAppSettingReference(appSettingReference.data);
+  const getKeyVaultReference = async () => {
+    const keyVaultReference = await getApplicationSettingReference(site.id, currentAppSetting.name);
+    if (keyVaultReference.metadata.success) {
+      setCurrentAppSettingReference(keyVaultReference.data);
+    } else {
+      LogService.error(
+        LogCategories.appSettings,
+        'getApplicationSettingKeyVaultReference',
+        `Failed to get keyVault reference: ${getErrorMessageOrStringify(keyVaultReference.metadata.error)}`
+      );
     }
   };
 
@@ -85,11 +94,11 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     );
   };
 
-  const isAppSettingValidReference = () => {
+  const isValidKeyVaultReference = () => {
     return (
       appSetting.name === currentAppSetting.name &&
       appSetting.value === currentAppSetting.value &&
-      currentAppSetting.value.toLocaleLowerCase().startsWith('@microsoft.keyvault(')
+      CommonConstants.isKeyVaultReference(currentAppSetting.value)
     );
   };
 
@@ -116,8 +125,8 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
   };
 
   useEffect(() => {
-    if (isAppSettingValidReference()) {
-      getAppSettingReference();
+    if (isValidKeyVaultReference()) {
+      getKeyVaultReference();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -169,8 +178,8 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
           secondaryButton={actionBarSecondaryButtonProps}
         />
       </form>
-      {isAppSettingReferenceVisible() && isAppSettingValidReference() && (
-        <AppSettingReference
+      {isAppSettingReferenceVisible() && isValidKeyVaultReference() && (
+        <KeyVaultReferenceComponent
           resourceId={site.id}
           appSettingReference={currentAppSettingReference.properties.keyToReferenceStatuses[currentAppSetting.name]}
         />

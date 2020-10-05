@@ -1,5 +1,11 @@
 import SiteService from '../../../ApiHelpers/SiteService';
-import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
+import {
+  AppSettingsFormValues,
+  FormAppSetting,
+  FormConnectionString,
+  FormAzureStorageMounts,
+  KeyVaultReferenceSummary,
+} from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site, PublishingCredentialPolicies } from '../../../models/site/site';
@@ -401,4 +407,8 @@ export function getCleanedReferences(references: ArmObj<{ [keyToReferenceStatuse
     status: keyReferenceStatuses[key].status,
     details: keyReferenceStatuses[key].details,
   }));
+}
+
+export function isKeyVaultReferenceResolved(reference: KeyVaultReferenceSummary) {
+  return reference.status.toLowerCase() === 'resolved';
 }
