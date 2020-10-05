@@ -258,7 +258,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       LogService.error(
         LogCategories.appSettings,
         'getAllAppSettingReferences',
-        `Failed to fire syncTrigger: ${getErrorMessageOrStringify(appSettingReferences.metadata.error)}`
+        `Failed to get keyVault references: ${getErrorMessageOrStringify(appSettingReferences.metadata.error)}`
       );
     }
 
@@ -268,7 +268,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       LogService.error(
         LogCategories.appSettings,
         'getAllConnectionStringsReferences',
-        `Failed to fire syncTrigger: ${getErrorMessageOrStringify(connectionStringReferences.metadata.error)}`
+        `Failed to get keyVault references: ${getErrorMessageOrStringify(connectionStringReferences.metadata.error)}`
       );
     }
 

@@ -119,7 +119,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
       LogService.error(
         LogCategories.appSettings,
         'getConnectionStringKeyVaultReference',
-        `Failed to fire syncTrigger: ${getErrorMessageOrStringify(keyVaultReference.metadata.error)}`
+        `Failed to get keyVault reference: ${getErrorMessageOrStringify(keyVaultReference.metadata.error)}`
       );
     }
   };

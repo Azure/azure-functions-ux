@@ -56,7 +56,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
       LogService.error(
         LogCategories.appSettings,
         'getApplicationSettingKeyVaultReference',
-        `Failed to fire syncTrigger: ${getErrorMessageOrStringify(keyVaultReference.metadata.error)}`
+        `Failed to get keyVault reference: ${getErrorMessageOrStringify(keyVaultReference.metadata.error)}`
       );
     }
   };
