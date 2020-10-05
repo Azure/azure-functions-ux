@@ -6,7 +6,7 @@ export const nodeStack: FunctionAppStack = {
   value: 'node',
   versions: [
     {
-      sortOrder: 3,
+      sortOrder: 0,
       displayText: '14',
       value: '14',
       isDefault: false,
