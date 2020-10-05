@@ -6,56 +6,6 @@ export const nodeStack: FunctionAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
-      displayText: 'Node.js 12',
-      value: '12',
-      minorVersions: [
-        {
-          displayText: 'Node.js 12 LTS',
-          value: '12 LTS',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '~12',
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: true,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '12.x',
-              },
-              appSettingsDictionary: {
-                FUNCTIONS_WORKER_RUNTIME: 'node',
-                WEBSITE_NODE_DEFAULT_VERSION: '~12',
-              },
-              siteConfigPropertiesDictionary: {
-                use32BitWorkerProcess: true,
-              },
-              supportedFunctionsExtensionVersions: ['~3'],
-            },
-            linuxRuntimeSettings: {
-              runtimeVersion: 'Node|12',
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: true,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '12.x',
-              },
-              appSettingsDictionary: {
-                FUNCTIONS_WORKER_RUNTIME: 'node',
-              },
-              siteConfigPropertiesDictionary: {
-                use32BitWorkerProcess: false,
-                linuxFxVersion: 'Node|12',
-              },
-              supportedFunctionsExtensionVersions: ['~3'],
-            },
-          },
-        },
-      ],
-    },
-    {
       displayText: 'Node.js 14',
       value: '14',
       minorVersions: [
@@ -98,6 +48,60 @@ export const nodeStack: FunctionAppStack = {
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: false,
                 linuxFxVersion: 'Node|14',
+              },
+              supportedFunctionsExtensionVersions: ['~3'],
+            },
+          },
+        },
+      ],
+    },
+    {
+      displayText: 'Node.js 12',
+      value: '12',
+      minorVersions: [
+        {
+          displayText: 'Node.js 12 LTS',
+          value: '12 LTS',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '~12',
+              isPreview: true,
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '12.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'node',
+                WEBSITE_NODE_DEFAULT_VERSION: '~12',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+              },
+              supportedFunctionsExtensionVersions: ['~3'],
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'Node|12',
+              isPreview: true,
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '12.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'node',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: false,
+                linuxFxVersion: 'Node|12',
               },
               supportedFunctionsExtensionVersions: ['~3'],
             },
