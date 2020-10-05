@@ -653,7 +653,6 @@ export class FeatureFlags {
   public static targetAzDevDeployment = 'targetAzDevDeployment';
   public static authTokenOverride = 'authTokenOverride';
   public static EnableAIOnNationalCloud = 'EnableAIOnNationalCloud';
-  public static enablePv3Skus = 'enablePv3Skus';
   public static EnablePv2Experiment = 'EnablePv2Experiment';
   public static DisablePv2Experiment = 'DisablePv2Experiment';
 }
