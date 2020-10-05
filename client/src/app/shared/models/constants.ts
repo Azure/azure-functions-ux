@@ -655,7 +655,6 @@ export class FeatureFlags {
   public static targetAzDevDeployment = 'targetAzDevDeployment';
   public static authTokenOverride = 'authTokenOverride';
   public static EnableAIOnNationalCloud = 'EnableAIOnNationalCloud';
-  public static enablePv3Skus = 'enablePv3Skus';
 }
 
 export class SupportedFeatures {

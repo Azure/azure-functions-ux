@@ -3229,9 +3229,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="pricing_linuxTrial" xml:space="preserve">
         <value>The first Basic (B1) core for Linux is free for the first 30 days!</value>
     </data>
-    <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Windows containers are billed at a 50% discount while in preview.</value>
-    </data>
     <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
     </data>

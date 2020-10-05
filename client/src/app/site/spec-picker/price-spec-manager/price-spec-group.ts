@@ -1,4 +1,4 @@
-import { Links, FeatureFlags } from 'app/shared/models/constants';
+import { Links } from 'app/shared/models/constants';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { FreePlanPriceSpec } from './free-plan-price-spec';
 import { SharedPlanPriceSpec } from './shared-plan-price-spec';
@@ -26,7 +26,6 @@ import { PlanPriceSpecManager } from './plan-price-spec-manager';
 import { GenericPlanPriceSpec } from './generic-plan-price-spec';
 import { PricingTier } from 'app/shared/models/arm/pricingtier';
 import { ArmArrayResult } from 'app/shared/models/arm/arm-obj';
-import { Url } from 'app/shared/Utilities/url';
 
 export enum BannerMessageLevel {
   ERROR = 'error',
@@ -193,17 +192,10 @@ export class DevSpecGroup extends PriceSpecGroup {
 
   initialize(input: PriceSpecInput) {
     if (input.specPickerInput.data) {
-      const enablePv3Skus = Url.getFeatureValue(FeatureFlags.enablePv3Skus) === 'true';
       if (input.specPickerInput.data.isLinux) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_linuxTrial),
           level: BannerMessageLevel.INFO,
-        };
-      } else if (!enablePv3Skus && (input.specPickerInput.data.isXenon || input.specPickerInput.data.hyperV)) {
-        this.bannerMessage = {
-          message: this.ts.instant(PortalResources.pricing_windowsContainers),
-          level: BannerMessageLevel.INFO,
-          infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013',
         };
       }
     }
@@ -248,17 +240,10 @@ export class ProdSpecGroup extends PriceSpecGroup {
 
   initialize(input: PriceSpecInput) {
     if (input.specPickerInput.data) {
-      const enablePv3Skus = Url.getFeatureValue(FeatureFlags.enablePv3Skus) === 'true';
       if (input.specPickerInput.data.isLinux) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_linuxTrial),
           level: BannerMessageLevel.INFO,
-        };
-      } else if (!enablePv3Skus && (input.specPickerInput.data.isXenon || input.specPickerInput.data.hyperV)) {
-        this.bannerMessage = {
-          message: this.ts.instant(PortalResources.pricing_windowsContainers),
-          level: BannerMessageLevel.INFO,
-          infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013',
         };
       }
     }
