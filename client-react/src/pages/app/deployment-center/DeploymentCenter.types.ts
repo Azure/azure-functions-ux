@@ -131,6 +131,7 @@ export interface DeploymentCenterCommonFormData {
   gitHubUser?: GitHubUser;
   bitbucketUser?: BitbucketUser;
   oneDriveUser?: OneDriveUser;
+  dropboxUser?: DropboxUser;
   folder?: string;
 }
 
