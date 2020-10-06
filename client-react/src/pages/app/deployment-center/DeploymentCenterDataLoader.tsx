@@ -54,7 +54,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [siteConfig, setSiteConfig] = useState<ArmObj<SiteConfig> | undefined>(undefined);
   const [configMetadata, setConfigMetadata] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
   const [oneDriveToken, setOneDriveToken] = useState<string>('');
-  const [dropBoxToken, setDropBoxToken] = useState<string>('');
+  const [dropboxToken, setDropboxToken] = useState<string>('');
   const [bitbucketToken, setBitbucketToken] = useState<string>('');
   const [gitHubToken, setGitHubToken] = useState<string>('');
   const [basicPublishingCredentialsPolicies, setBasicPublishingCredentialsPolicies] = useState<PublishingCredentialPolicies | undefined>(
@@ -201,7 +201,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       sourceControl && sourceControl.properties.token ? sourceControl.properties.token : '';
 
     setOneDriveToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.oneDrive)));
-    setDropBoxToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.dropBox)));
+    setDropboxToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.dropBox)));
     setBitbucketToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.bitBucket)));
     setGitHubToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.gitHub)));
   };
@@ -242,7 +242,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         applicationSettings,
         configMetadata,
         oneDriveToken,
-        dropBoxToken,
+        dropboxToken,
         bitbucketToken,
         gitHubToken,
         refresh,
