@@ -1268,6 +1268,7 @@ export class PortalResources {
   public static containerImageSource = 'containerImageSource';
   public static containerImageAndTag = 'containerImageAndTag';
   public static containerImageAndTagPlaceholder = 'containerImageAndTagPlaceholder';
+  public static containerImageAndTagPlaceholderForWindows = 'containerImageAndTagPlaceholderForWindows';
   public static containerACRMissingErrorMessage = 'containerACRMissingErrorMessage';
   public static containerRepositoryAccess = 'containerRepositoryAccess';
   public static containerRepositoryPublic = 'containerRepositoryPublic';

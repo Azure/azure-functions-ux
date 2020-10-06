@@ -255,8 +255,11 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     // The image and/or tags could definitely have /'s. The username is a separate field on the form, so image and tag should not have that.
     // In this case, remove the serverInfo and/or username from the FxVersion and compute the image and tag by splitting on :.
 
-    const serverAndUsernamePrefix = `${DeploymentCenterConstants.dockerHubServerUrlHost}/${appSettingUsername}/`;
-    const usernamePrefix = `${appSettingUsername}/`;
+    const serverAndUsernamePrefix = appSettingUsername
+      ? `${DeploymentCenterConstants.dockerHubServerUrlHost}/${appSettingUsername}/`
+      : `${DeploymentCenterConstants.dockerHubServerUrlHost}/`;
+
+    const usernamePrefix = appSettingUsername ? `${appSettingUsername}/` : '';
 
     let imageAndTagInfo = registryInfo
       .toLocaleLowerCase()
