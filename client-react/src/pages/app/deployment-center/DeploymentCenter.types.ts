@@ -61,6 +61,41 @@ export enum WorkflowFileDeleteOptions {
   Delete = 'Delete',
 }
 
+export enum RuntimeStackOptions {
+  Python = 'python',
+  DotNetCore = 'dotnetcore',
+  Ruby = 'ruby',
+  Java11 = 'java-11',
+  Java8 = 'java-8',
+  JBossEAP = 'jbosseap',
+  Node = 'node',
+  PHP = 'php',
+  AspDotNet = 'asp.net',
+}
+
+export enum RuntimeStackDisplayNames {
+  Python = 'Python',
+  DotNetCore = '.NET Core',
+  Ruby = 'Ruby',
+  Java11 = 'Java 11',
+  Java8 = 'Java 8',
+  Node = 'Node',
+  PHP = 'PHP',
+  AspDotNet = 'ASP.NET',
+}
+
+export enum RuntimeVersionOptions {
+  Tomcat = 'tomcat',
+  javaSE = 'java',
+  JBossEAP = 'jbosseap',
+}
+
+export enum RuntimeVersionDisplayNames {
+  JBossEAP = 'JBoss EAP',
+  Tomcat = 'Tomcat',
+  JavaSE = 'Java SE',
+}
+
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
 }
