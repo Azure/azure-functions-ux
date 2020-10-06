@@ -51,7 +51,7 @@ function validateLinuxStacksLength(stacks) {
 
 function validateNotHiddenStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(6);
+  expect(stacks.length).to.equal(7);
 }
 
 function validateNotDeprecatedStacksLength(stacks) {
@@ -168,7 +168,7 @@ function validateNodeStack(nodeStack) {
   expect(nodeStack.displayText).to.equal('Node.js');
   expect(nodeStack.value).to.equal('node');
   expect(nodeStack.preferredOs).to.equal('windows');
-  expect(nodeStack.majorVersions.length).to.equal(4);
+  expect(nodeStack.majorVersions.length).to.equal(5);
   expect(nodeStack).to.deep.equal(hardCodedNodeStack);
 }
 
