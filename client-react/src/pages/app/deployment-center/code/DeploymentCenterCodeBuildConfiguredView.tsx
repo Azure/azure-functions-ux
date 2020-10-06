@@ -41,15 +41,15 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
   };
 
   const getLinuxDefaultVersionDisplayName = (version: string) => {
-    const versionNameParts: string[] = version.split('|');
+    const versionNameParts: string[] = version.toLocaleLowerCase().split('|');
 
     //NOTE(stpelleg): Java is different
-    if (versionNameParts.length === 2 && versionNameParts[0].toLowerCase() === RuntimeVersionOptions.Tomcat) {
+    if (versionNameParts.length === 2 && versionNameParts[0] === RuntimeVersionOptions.Tomcat) {
       const tomcatNameParts = versionNameParts[1].split('-');
       return tomcatNameParts.length === 2 ? `${RuntimeVersionDisplayNames.Tomcat} ${tomcatNameParts[0]}` : '';
-    } else if (versionNameParts.length === 2 && versionNameParts[0].toLowerCase() === RuntimeVersionOptions.javaSE) {
+    } else if (versionNameParts.length === 2 && versionNameParts[0] === RuntimeVersionOptions.javaSE) {
       return RuntimeVersionDisplayNames.JavaSE;
-    } else if (versionNameParts.length === 2 && versionNameParts[0].toLowerCase() === RuntimeVersionOptions.JBossEAP) {
+    } else if (versionNameParts.length === 2 && versionNameParts[0] === RuntimeVersionOptions.JBossEAP) {
       const jBossEAPNameParts = versionNameParts[1].split('-');
       return jBossEAPNameParts.length === 2 ? `${RuntimeVersionDisplayNames.JBossEAP} ${jBossEAPNameParts[0]}` : '';
     }
@@ -71,8 +71,8 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
   };
 
   const getRuntimeStackDisplayName = (stack: string) => {
-    stack = stack.toLowerCase();
-    switch (stack) {
+    const stackName = stack.toLocaleLowerCase();
+    switch (stackName) {
       case RuntimeStackOptions.Python:
         return RuntimeStackDisplayNames.Python;
       case RuntimeStackOptions.DotNetCore:
