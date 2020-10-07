@@ -102,7 +102,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         return `${DeploymentCenterConstants.onedriveApiUri}:/${values.folder}`;
       case ScmType.Dropbox:
         // TODO: (stpelleg): Pending Implementation of these ScmTypes
-        throw Error('Not implemented');
+        return `${DeploymentCenterConstants.dropboxUri}/${values.folder}`;
       case ScmType.LocalGit:
         //(note: stpelleg): Local Git does not require a Repo Url
         return '';

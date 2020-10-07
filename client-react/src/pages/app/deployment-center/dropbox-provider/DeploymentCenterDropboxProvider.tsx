@@ -26,7 +26,7 @@ const DeploymentCenterDropboxProvider: React.FC<DeploymentCenterDropboxProviderP
 
       <DeploymentCenterDropboxAccount {...props} />
 
-      {accountUser && (
+      {accountUser && accountUser.name && accountUser.name.display_name && (
         <>
           <Field
             id="deployment-center-settings-folder-option"
