@@ -9,5 +9,7 @@ export interface DropboxFolder {
 }
 
 export interface DropboxArrayResponse<T> {
-  values: T[];
+  entries: DropboxFolder[];
+  cursor: string;
+  has_more: boolean;
 }

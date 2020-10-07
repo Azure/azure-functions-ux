@@ -10,24 +10,25 @@ const DeploymentCenterDropboxAccount: React.FC<DeploymentCenterDropboxProviderPr
 
   const { t } = useTranslation();
 
-  const DropboxAccountControls = accountUser ? (
-    <ReactiveFormControl id="deployment-center-dropbox-user" label={t('deploymentCenterOAuthSingedInAs')}>
-      <div>
-        {`${accountUser}`}
-        <Link
-          key="deployment-center-dropbox-change-account-link"
-          onClick={authorizeAccount}
-          className={additionalTextFieldControl}
-          aria-label={t('deploymentCenterOAuthChangeAccount')}>
-          {t('deploymentCenterOAuthChangeAccount')}
-        </Link>
-      </div>
-    </ReactiveFormControl>
-  ) : (
-    <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeAccount}>
-      {t('deploymentCenterOAuthAuthorize')}
-    </PrimaryButton>
-  );
+  const DropboxAccountControls =
+    accountUser && accountUser.name && accountUser.name.display_name ? (
+      <ReactiveFormControl id="deployment-center-dropbox-user" label={t('deploymentCenterOAuthSingedInAs')}>
+        <div>
+          {`${accountUser.name.display_name}`}
+          <Link
+            key="deployment-center-dropbox-change-account-link"
+            onClick={authorizeAccount}
+            className={additionalTextFieldControl}
+            aria-label={t('deploymentCenterOAuthChangeAccount')}>
+            {t('deploymentCenterOAuthChangeAccount')}
+          </Link>
+        </div>
+      </ReactiveFormControl>
+    ) : (
+      <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeAccount}>
+        {t('deploymentCenterOAuthAuthorize')}
+      </PrimaryButton>
+    );
 
   const accountStatusMessageControl = <Label>{accountStatusMessage}</Label>;
 

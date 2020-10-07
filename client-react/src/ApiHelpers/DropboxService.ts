@@ -1,9 +1,10 @@
 import Url from '../utils/url';
 import { HttpResponseObject } from '../ArmHelper.types';
 import { ProviderToken } from '../models/provider';
-import { DropboxUser, DropboxFolder } from '../models/dropbox';
+import { DropboxUser, DropboxFolder, DropboxArrayResponse } from '../models/dropbox';
 import { sendHttpRequest } from './HttpClient';
 import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
+import { Method } from 'axios';
 
 export default class DropboxService {
   public static authorizeUrl = `${Url.serviceHost}auth/dropbox/authorize`;
@@ -22,6 +23,49 @@ export default class DropboxService {
   };
 
   public static getFolders = (dropboxToken: string, logger?: (page, response) => void): Promise<DropboxFolder[]> => {
-    throw Error('Not implemented');
+    const url = `${DeploymentCenterConstants.dropboxApiUrl}/files/list_folder`;
+    return DropboxService._getDropboxObjectList(url, dropboxToken, logger);
+  };
+
+  private static _getDropboxObjectList = async (url: string, dropboxToken: string, logger?: (page, response) => void) => {
+    const dropboxObjectList: DropboxFolder[] = [];
+    let requestUrl: string | undefined = url;
+    let pageNumber = 1;
+    let has_more = false;
+    let data: any = {
+      path: '',
+      limit: 100,
+    };
+
+    do {
+      let pageResponse = await DropboxService._sendDropboxRequest(requestUrl, dropboxToken, 'POST', data);
+      if (pageResponse.metadata.success && pageResponse.data) {
+        dropboxObjectList.push(...pageResponse.data.entries);
+
+        has_more = pageResponse.data.has_more;
+        if (has_more) {
+          requestUrl = `${DeploymentCenterConstants.dropboxApiUrl}/files/list_folder/continue`;
+          data = {
+            cursor: pageResponse.data.cursor,
+          };
+        }
+      } else if (logger && !pageResponse.metadata.success) {
+        logger(pageNumber, pageResponse);
+      }
+      ++pageNumber;
+    } while (has_more);
+
+    return dropboxObjectList;
+  };
+
+  private static _sendDropboxRequest = (url: string, dropboxToken: string, method: Method, data: any) => {
+    return sendHttpRequest<DropboxArrayResponse<DropboxFolder[]>>({
+      url,
+      method,
+      headers: {
+        Authorization: `Bearer ${dropboxToken}`,
+      },
+      data: data,
+    });
   };
 }
