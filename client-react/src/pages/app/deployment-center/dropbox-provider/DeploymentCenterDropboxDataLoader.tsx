@@ -57,7 +57,7 @@ const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = 
 
       if (siteStateContext.site && siteStateContext.site.properties && siteStateContext.site.properties.name) {
         const siteName = siteStateContext.site.properties.name;
-        const siteFolderExists = folderNames.find(folder => folder.name === siteName);
+        const siteFolderExists = folderNames.find(folder => folder.name.toLocaleLowerCase() === siteName.toLocaleLowerCase());
         if (!siteFolderExists) {
           folderNames.push({ name: siteName });
         }
