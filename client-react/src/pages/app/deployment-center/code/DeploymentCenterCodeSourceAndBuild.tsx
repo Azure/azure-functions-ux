@@ -161,7 +161,12 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     <>
       {getInProductionSlot() && showInfoBanner && (
         <div className={deploymentCenterInfoBannerDiv}>
-          <CustomBanner message={t('deploymentCenterProdSlotWarning')} type={MessageBarType.info} onDismiss={closeInfoBanner} />
+          <CustomBanner
+            message={t('deploymentCenterProdSlotWarning')}
+            type={MessageBarType.info}
+            onDismiss={closeInfoBanner}
+            learnMoreLink={DeploymentCenterLinks.configureDeploymentSlots}
+          />
         </div>
       )}
 
