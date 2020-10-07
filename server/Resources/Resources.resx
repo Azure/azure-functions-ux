@@ -3944,6 +3944,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>E.g. nginx:latest</value>
     </data>
+    <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>E.g. microsoft/iis:latest</value>
+    </data>
     <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>To get started, first create an Azure Container Registry and add an image.</value>
     </data>
