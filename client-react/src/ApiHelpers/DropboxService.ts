@@ -31,7 +31,7 @@ export default class DropboxService {
     const dropboxObjectList: DropboxFolder[] = [];
     let requestUrl: string | undefined = url;
     let pageNumber = 1;
-    let has_more = false;
+    let hasMore = false;
     let data: any = {
       path: '',
       limit: 100,
@@ -42,8 +42,8 @@ export default class DropboxService {
       if (pageResponse.metadata.success && pageResponse.data) {
         dropboxObjectList.push(...pageResponse.data.entries);
 
-        has_more = pageResponse.data.has_more;
-        if (has_more) {
+        hasMore = pageResponse.data.has_more;
+        if (hasMore) {
           requestUrl = `${DeploymentCenterConstants.dropboxApiUrl}/files/list_folder/continue`;
           data = {
             cursor: pageResponse.data.cursor,
@@ -53,7 +53,7 @@ export default class DropboxService {
         logger(pageNumber, pageResponse);
       }
       ++pageNumber;
-    } while (has_more);
+    } while (hasMore);
 
     return dropboxObjectList;
   };
