@@ -1,12 +1,12 @@
 import React, { useEffect, useContext, useState } from 'react';
-import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { AppOs } from '../../../../models/site/site';
-import LogService from '../../../../utils/LogService';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { WebAppCreateStack } from '../../../../models/available-stacks';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { RuntimeStackSetting } from '../DeploymentCenter.types';
+import {
+  RuntimeStackSetting,
+  RuntimeStackOptions,
+  RuntimeStackDisplayNames,
+  RuntimeVersionDisplayNames,
+  RuntimeVersionOptions,
+} from '../DeploymentCenter.types';
 import { getRuntimeStackSetting } from '../utility/DeploymentCenterUtility';
 import { useTranslation } from 'react-i18next';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
@@ -18,40 +18,10 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
   const [defaultStack, setDefaultStack] = useState<string>(t('loading'));
   const [defaultVersion, setDefaultVersion] = useState<string | undefined>(t('loading'));
 
-  const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
 
-  const fetchData = async () => {
-    const appOs = siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows;
-    const runtimeStacksResponse = await deploymentCenterData.getRuntimeStacks(appOs);
-
-    if (runtimeStacksResponse.metadata.success) {
-      setDefaultValues(runtimeStacksResponse.data);
-    } else {
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterFetchRuntimeStacks',
-        `Failed to get runtime stacks with error: ${getErrorMessage(runtimeStacksResponse.metadata.error)}`
-      );
-    }
-  };
-
-  const getDefaultVersion = (appSelectedStack: WebAppCreateStack, defaultVersionKey: string) => {
-    if (appSelectedStack.versions.length >= 1) {
-      const defaultRuntimeVersionOption = appSelectedStack.versions.filter(
-        version => version.supportedPlatforms[0].runtimeVersion.toLocaleLowerCase() === defaultVersionKey.toLocaleLowerCase()
-      );
-
-      if (defaultRuntimeVersionOption && defaultRuntimeVersionOption.length === 1) {
-        setDefaultVersion(defaultRuntimeVersionOption[0].displayText);
-      } else {
-        setDefaultVersion(undefined);
-      }
-    }
-  };
-
-  const setDefaultValues = (runtimeStacksData: WebAppCreateStack[]) => {
+  const setDefaultValues = () => {
     const defaultStackAndVersionKeys: RuntimeStackSetting =
       deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata && deploymentCenterContext.applicationSettings
         ? getRuntimeStackSetting(
@@ -62,22 +32,80 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
           )
         : { runtimeStack: '', runtimeVersion: '' };
 
-    if (runtimeStacksData.length >= 1) {
-      const appSelectedStack = runtimeStacksData.filter(
-        stack => stack.value.toLocaleLowerCase() === defaultStackAndVersionKeys.runtimeStack.toLocaleLowerCase()
-      );
-      if (appSelectedStack && appSelectedStack.length === 1) {
-        setDefaultStack(appSelectedStack[0].displayText);
-        getDefaultVersion(appSelectedStack[0], defaultStackAndVersionKeys.runtimeVersion);
-      }
+    setDefaultStack(getRuntimeStackDisplayName(defaultStackAndVersionKeys.runtimeStack));
+    setDefaultVersion(getDefaultVersionDisplayName(defaultStackAndVersionKeys.runtimeVersion));
+  };
+
+  const getDefaultVersionDisplayName = (version: string) => {
+    return siteStateContext.isLinuxApp ? getLinuxDefaultVersionDisplayName(version) : getWindowsDefaultVersionDisplayName(version);
+  };
+
+  const getLinuxDefaultVersionDisplayName = (version: string) => {
+    const versionNameParts: string[] = version.toLocaleLowerCase().split('|');
+
+    //NOTE(stpelleg): Java is different
+    if (versionNameParts.length === 2 && versionNameParts[0] === RuntimeVersionOptions.Tomcat) {
+      const tomcatNameParts = versionNameParts[1].split('-');
+      return tomcatNameParts.length === 2 ? `${RuntimeVersionDisplayNames.Tomcat} ${tomcatNameParts[0]}` : '';
+    } else if (versionNameParts.length === 2 && versionNameParts[0] === RuntimeVersionOptions.javaSE) {
+      return RuntimeVersionDisplayNames.JavaSE;
+    } else if (versionNameParts.length === 2 && versionNameParts[0] === RuntimeVersionOptions.JBossEAP) {
+      const jBossEAPNameParts = versionNameParts[1].split('-');
+      return jBossEAPNameParts.length === 2 ? `${RuntimeVersionDisplayNames.JBossEAP} ${jBossEAPNameParts[0]}` : '';
+    }
+
+    return versionNameParts.length === 2
+      ? `${getRuntimeStackDisplayName(versionNameParts[0])} ${versionNameParts[1].replace('-', ' ').toUpperCase()}`
+      : '';
+  };
+
+  const getWindowsDefaultVersionDisplayName = (version: string) => {
+    const versionNameParts = version.replace('-', ' ').split('|');
+
+    //NOTE(stpelleg): Java is different
+    if (versionNameParts.length === 3 && versionNameParts[2] === 'SE') {
+      return RuntimeVersionDisplayNames.JavaSE;
+    }
+
+    return version.replace('-', ' ');
+  };
+
+  const getRuntimeStackDisplayName = (stack: string) => {
+    const stackName = stack.toLocaleLowerCase();
+    switch (stackName) {
+      case RuntimeStackOptions.Python:
+        return RuntimeStackDisplayNames.Python;
+      case RuntimeStackOptions.DotNetCore:
+        return RuntimeStackDisplayNames.DotNetCore;
+      case RuntimeStackOptions.Ruby:
+        return RuntimeStackDisplayNames.Ruby;
+      case RuntimeStackOptions.Java11:
+        return RuntimeStackDisplayNames.Java11;
+      case RuntimeStackOptions.Java8:
+      case RuntimeStackOptions.JBossEAP:
+        return RuntimeStackDisplayNames.Java8;
+      case RuntimeStackOptions.Node:
+        return RuntimeStackDisplayNames.Node;
+      case RuntimeStackOptions.PHP:
+        return RuntimeStackDisplayNames.PHP;
+      case RuntimeStackOptions.AspDotNet:
+        return RuntimeStackDisplayNames.AspDotNet;
+      default:
+        return '';
     }
   };
 
   useEffect(() => {
-    fetchData();
+    setDefaultValues();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setDefaultValues();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext, siteStateContext]);
 
   const showRuntimeAndVersion = () => {
     if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.Vsts) {

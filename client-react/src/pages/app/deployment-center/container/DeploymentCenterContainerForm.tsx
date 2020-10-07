@@ -294,7 +294,19 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
       portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
     } else {
-      portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
+      let errorMessage = !updateAppSettingsResponse.success ? getErrorMessage(updateAppSettingsResponse.error) : '';
+
+      errorMessage = !errorMessage && !updateSiteConfigResponse.success ? getErrorMessage(updateSiteConfigResponse.error) : '';
+
+      if (errorMessage) {
+        portalContext.stopNotification(
+          notificationId,
+          false,
+          t('savingContainerConfigurationFailedWithStatusMessage').format(errorMessage)
+        );
+      } else {
+        portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
+      }
     }
   };
 
@@ -475,17 +487,31 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     const notificationId = portalContext.startNotification(t('savingContainerConfiguration'), t('savingContainerConfiguration'));
 
     const updateGitHubActionSettingsResponse = await updateGitHubActionSettings(values);
+    let containerConfigurationSucceeded = true;
+    let errorMessage = '';
 
     if (updateGitHubActionSettingsResponse.success) {
       const updateApplicationPropertiesResponse = await updateApplicationProperties(values);
 
-      if (updateApplicationPropertiesResponse.success) {
-        portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
+      if (!updateApplicationPropertiesResponse.success) {
+        errorMessage = getErrorMessage(updateApplicationPropertiesResponse.error);
+      }
+    } else {
+      errorMessage = getErrorMessage(updateGitHubActionSettingsResponse.error);
+    }
+
+    if (containerConfigurationSucceeded) {
+      portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
+    } else {
+      if (errorMessage) {
+        portalContext.stopNotification(
+          notificationId,
+          false,
+          t('savingContainerConfigurationFailedWithStatusMessage').format(errorMessage)
+        );
       } else {
         portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
       }
-    } else {
-      portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
     }
   };
 

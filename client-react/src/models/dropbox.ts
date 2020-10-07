@@ -1,7 +1,15 @@
-export interface DropboxUser {}
+export interface DropboxUser {
+  name: {
+    display_name: string;
+  };
+}
 
-export interface DropboxFolder {}
+export interface DropboxFolder {
+  name: string;
+}
 
 export interface DropboxArrayResponse<T> {
-  values: T[];
+  entries: DropboxFolder[];
+  cursor: string;
+  has_more: boolean;
 }

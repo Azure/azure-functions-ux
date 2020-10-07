@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Field } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterContainerPrivateRegistrySettings: React.FC<{}> = props => {
   const { t } = useTranslation();
+  const siteStateContext = useContext(SiteStateContext);
 
   // NOTE(michinoy): In case of GitHub Action, we will always need to get the user credentials for their private
   // registry. This is because the workflow would need to use those credentials to push the images and app service
@@ -40,7 +42,7 @@ const DeploymentCenterContainerPrivateRegistrySettings: React.FC<{}> = props => 
         name="privateRegistryImageAndTag"
         component={TextField}
         label={t('containerImageAndTag')}
-        placeholder={t('containerImageAndTagPlaceholder')}
+        placeholder={siteStateContext.isLinuxApp ? t('containerImageAndTagPlaceholder') : t('containerImageAndTagPlaceholderForWindows')}
         required={true}
       />
 
