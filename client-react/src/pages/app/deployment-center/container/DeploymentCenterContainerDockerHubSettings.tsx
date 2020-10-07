@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Field } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
@@ -6,10 +6,12 @@ import { IChoiceGroupOptionProps } from 'office-ui-fabric-react';
 import { ContainerDockerAccessTypes, DeploymentCenterFieldProps, DeploymentCenterContainerFormData } from '../DeploymentCenter.types';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { ScmType } from '../../../../models/site/config';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
+  const siteStateContext = useContext(SiteStateContext);
 
   const [isGitHubAction, setIsGitHubAction] = useState(false);
   const [isPrivateConfiguration, setIsPrivateConfiguration] = useState(false);
@@ -84,7 +86,7 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
         name="dockerHubImageAndTag"
         component={TextField}
         label={t('containerImageAndTag')}
-        placeholder={t('containerImageAndTagPlaceholder')}
+        placeholder={siteStateContext.isLinuxApp ? t('containerImageAndTagPlaceholder') : t('containerImageAndTagPlaceholderForWindows')}
         required={true}
       />
 
