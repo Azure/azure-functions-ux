@@ -7,7 +7,12 @@ import {
 } from './DeploymentCenter.types';
 import { MessageBarType, ActionButton, ProgressIndicator } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterContent, additionalTextFieldControl, deploymentCenterInfoBannerDiv } from './DeploymentCenter.styles';
+import {
+  deploymentCenterContent,
+  additionalTextFieldControl,
+  deploymentCenterInfoBannerDiv,
+  ftpsPasswordTextboxStyle,
+} from './DeploymentCenter.styles';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
@@ -119,38 +124,39 @@ const DeploymentCenterFtps: React.FC<
           copyButton={true}
           disabled={true}
         />
-
-        <TextFieldNoFormik
-          id="deployment-center-ftps-application-password"
-          label={t('deploymentCenterFtpsPasswordLabel')}
-          widthOverride="100%"
-          value={publishingProfile && publishingProfile.userPWD}
-          copyButton={true}
-          disabled={true}
-          type={applicationPasswordType}
-          additionalControls={[
-            <ActionButton
-              id="deployment-center-ftps-application-password-visibility-toggle"
-              key="deployment-center-ftps-application-password-visibility-toggle"
-              className={additionalTextFieldControl}
-              ariaLabel={
-                applicationPasswordType === 'password' ? t('showApplicationPasswordAriaLabel') : t('hideApplicationPasswordAriaLabel')
-              }
-              onClick={toggleShowApplicationPassword}
-              iconProps={{ iconName: applicationPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
-              {applicationPasswordType === 'password' ? t('show') : t('hide')}
-            </ActionButton>,
-            <ActionButton
-              id="deployment-center-ftps-application-password-reset"
-              key="deployment-center-ftps-application-password-reset"
-              className={additionalTextFieldControl}
-              ariaLabel={t('resetPublishProfileAriaLabel')}
-              onClick={toggleResetCalloutVisibility}
-              iconProps={{ iconName: 'refresh' }}>
-              {t('reset')}
-            </ActionButton>,
-          ]}
-        />
+        <div className={ftpsPasswordTextboxStyle}>
+          <TextFieldNoFormik
+            id="deployment-center-ftps-application-password"
+            label={t('deploymentCenterFtpsPasswordLabel')}
+            widthOverride="100%"
+            value={publishingProfile && publishingProfile.userPWD}
+            copyButton={true}
+            disabled={true}
+            type={applicationPasswordType}
+            additionalControls={[
+              <ActionButton
+                id="deployment-center-ftps-application-password-visibility-toggle"
+                key="deployment-center-ftps-application-password-visibility-toggle"
+                className={additionalTextFieldControl}
+                ariaLabel={
+                  applicationPasswordType === 'password' ? t('showApplicationPasswordAriaLabel') : t('hideApplicationPasswordAriaLabel')
+                }
+                onClick={toggleShowApplicationPassword}
+                iconProps={{ iconName: applicationPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
+                {applicationPasswordType === 'password' ? t('show') : t('hide')}
+              </ActionButton>,
+              <ActionButton
+                id="deployment-center-ftps-application-password-reset"
+                key="deployment-center-ftps-application-password-reset"
+                className={additionalTextFieldControl}
+                ariaLabel={t('resetPublishProfileAriaLabel')}
+                onClick={toggleResetCalloutVisibility}
+                iconProps={{ iconName: 'refresh' }}>
+                {t('reset')}
+              </ActionButton>,
+            ]}
+          />
+        </div>
 
         <CustomFocusTrapCallout
           target="#deployment-center-ftps-application-password-reset"
