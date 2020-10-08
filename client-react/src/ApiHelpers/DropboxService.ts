@@ -19,7 +19,11 @@ export default class DropboxService {
   };
 
   public static getToken = (redirectUrl: string): Promise<HttpResponseObject<ProviderToken>> => {
-    throw Error('Not implemented');
+    const data = {
+      redirUrl: redirectUrl,
+    };
+
+    return sendHttpRequest<ProviderToken>({ url: `${Url.serviceHost}auth/dropbox/getToken`, method: 'POST', data });
   };
 
   public static getFolders = (dropboxToken: string, logger?: (page, response) => void): Promise<DropboxFolder[]> => {
