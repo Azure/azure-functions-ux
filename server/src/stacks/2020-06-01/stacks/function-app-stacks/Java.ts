@@ -15,7 +15,6 @@ export const javaStack: FunctionAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '11',
-              isPreview: true,
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -36,7 +35,6 @@ export const javaStack: FunctionAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'Java|11',
-              isPreview: true,
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -70,6 +68,7 @@ export const javaStack: FunctionAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '1.8',
               isAutoUpdate: true,
+              isDefault: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -90,6 +89,7 @@ export const javaStack: FunctionAppStack = {
             linuxRuntimeSettings: {
               runtimeVersion: 'Java|8',
               isAutoUpdate: true,
+              isDefault: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
