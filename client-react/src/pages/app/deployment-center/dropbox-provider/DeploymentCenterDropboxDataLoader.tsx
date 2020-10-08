@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DropboxFolder, DropboxUser } from '../../../../models/dropbox';
-import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { AuthorizationResult, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import DeploymentCenterDropboxProvider from './DeploymentCenterDropboxProvider';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { SiteStateContext } from '../../../../SiteState';
+import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
+import DropboxService from '../../../../ApiHelpers/DropboxService';
 
 const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -69,7 +71,22 @@ const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = 
   };
 
   const authorizeDropboxAccount = () => {
-    throw Error('Not implemented');
+    authorizeWithProvider(DropboxService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
+  };
+
+  const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
+    if (authorizationResult.redirectUrl) {
+      deploymentCenterData
+        .getDropboxToken(authorizationResult.redirectUrl)
+        .then(response => deploymentCenterData.storeDropboxToken(response.data))
+        .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+    } else {
+      return fetchData();
+    }
+  };
+
+  const startingAuthCallback = (): void => {
+    setDropboxAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
   };
 
   useEffect(() => {
