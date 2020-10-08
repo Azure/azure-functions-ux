@@ -235,7 +235,7 @@ export const javaStack: WebAppStack = {
               endOfLifeDate: java8EOL,
             },
             windowsRuntimeSettings: {
-              runtimeVersion: '1.8.0_252_ZULU',
+              runtimeVersion: '1.8.0_252',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
