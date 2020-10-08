@@ -70,7 +70,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       manualDeploymentOptions.push({ key: ScmType.OneDrive, text: t('deploymentCenterCodeSettingsSourceOneDrive') });
     }
 
-    if (scenarioService.checkScenario(ScenarioIds.onedriveSource, { site: siteStateContext.site }).status !== 'disabled') {
+    if (scenarioService.checkScenario(ScenarioIds.dropboxSource, { site: siteStateContext.site }).status !== 'disabled') {
       manualDeploymentOptions.push({ key: ScmType.Dropbox, text: t('deploymentCenterCodeSettingsSourceDropbox') });
     }
 
