@@ -26,6 +26,16 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Java SE 11.0.7',
+          value: '11.0.7',
+          stackSettings: {
+            linuxContainerSettings: {
+              // Note (allisonm): This doesn't have suffix of -java11 since setting to 11.0.7 prevents auto-updates
+              java11Runtime: 'JAVA|11.0.7',
+            },
+          },
+        },
+        {
           displayText: 'Java SE 11.0.6',
           value: '11.0.6',
           stackSettings: {
@@ -42,6 +52,26 @@ export const javaContainersStack: WebAppStack = {
             linuxContainerSettings: {
               // Note (allisonm): This doesn't have suffix of -java11 since setting to 11.0.5 prevents auto-updates
               java11Runtime: 'JAVA|11.0.5',
+            },
+          },
+        },
+        {
+          displayText: 'Java SE 8u252',
+          // note (allisonm): Java SE 8u252 is pinned version that maps to the below value
+          value: '1.8.252',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JAVA|8u252',
+            },
+          },
+        },
+        {
+          displayText: 'Java SE 8u242',
+          // note (allisonm): Java SE 8u242 is pinned version that maps to the below value
+          value: '1.8.242',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JAVA|8u242',
             },
           },
         },
