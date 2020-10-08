@@ -102,3 +102,8 @@ export const panelOverflowStyle = {
     },
   ],
 };
+
+export const ftpsPasswordTextboxStyle = style({
+  display: 'inline-table',
+  width: '119%',
+});
