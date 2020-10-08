@@ -249,6 +249,37 @@ export const javaStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Java 1.8.0_242',
+          value: '8.0.242',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              runtimeVersion: '',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8.0_242',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
           displayText: 'Java 1.8.0_232',
           value: '8.0.232',
           stackSettings: {
