@@ -6,6 +6,7 @@ import { IDropdownOption } from 'office-ui-fabric-react';
 import DeploymentCenterDropboxProvider from './DeploymentCenterDropboxProvider';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -21,6 +22,7 @@ const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = 
   const deploymentCenterData = new DeploymentCenterData();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const fetchData = async () => {
     const dropboxUserResponse = await deploymentCenterData.getDropboxUser(deploymentCenterContext.dropboxToken);
@@ -51,6 +53,14 @@ const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = 
         dropboxFolderResponse.forEach(item => {
           folderNames.push(item);
         });
+      }
+
+      if (siteStateContext.site && siteStateContext.site.properties && siteStateContext.site.properties.name) {
+        const siteName = siteStateContext.site.properties.name;
+        const siteFolderExists = folderNames.find(folder => folder.name.toLocaleLowerCase() === siteName.toLocaleLowerCase());
+        if (!siteFolderExists) {
+          folderNames.push({ name: siteName });
+        }
       }
     }
 
