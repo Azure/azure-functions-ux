@@ -9,6 +9,8 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { SiteStateContext } from '../../../../SiteState';
 import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
 import DropboxService from '../../../../ApiHelpers/DropboxService';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -78,7 +80,18 @@ const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = 
     if (authorizationResult.redirectUrl) {
       deploymentCenterData
         .getDropboxToken(authorizationResult.redirectUrl)
-        .then(response => deploymentCenterData.storeDropboxToken(response.data))
+        .then(response => {
+          if (response.metadata.success) {
+            return deploymentCenterData.storeDropboxToken(response.data);
+          } else {
+            LogService.error(
+              LogCategories.deploymentCenter,
+              'authorizeDropboxAccount',
+              `Failed to get token with error: ${response.metadata.error}`
+            );
+            return Promise.resolve(null);
+          }
+        })
         .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
     } else {
       return fetchData();
