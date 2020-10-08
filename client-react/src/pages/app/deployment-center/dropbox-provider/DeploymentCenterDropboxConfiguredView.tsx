@@ -8,8 +8,10 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { Link, MessageBarType } from 'office-ui-fabric-react';
-import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { AuthorizationResult, DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
+import DropboxService from '../../../../ApiHelpers/DropboxService';
 
 const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -79,7 +81,26 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
   };
 
   const authorizeDropboxAccount = () => {
-    throw Error('Not implemented');
+    authorizeWithProvider(DropboxService.authorizeUrl, () => {}, completingAuthCallback);
+  };
+
+  const completingAuthCallback = async (authorizationResult: AuthorizationResult) => {
+    if (authorizationResult.redirectUrl) {
+      const dropboxTokenResponse = await deploymentCenterData.getDropboxToken(authorizationResult.redirectUrl);
+      if (dropboxTokenResponse.metadata.success) {
+        await deploymentCenterData.storeDropboxToken(dropboxTokenResponse.data);
+      } else {
+        // NOTE(stpelleg): This is all related to the handshake between us and the provider.
+        // If this fails, there isn't much the user can do except retry.
+
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'authorizeDropboxAccount',
+          `Failed to get token with error: ${getErrorMessage(dropboxTokenResponse.metadata.error)}`
+        );
+      }
+    }
+    fetchData();
   };
 
   const getSignedInAsComponent = (isLoading: boolean) => {
