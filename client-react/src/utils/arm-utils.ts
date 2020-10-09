@@ -34,7 +34,7 @@ export function isXenonApp(obj: ArmObj<Site>): boolean {
 }
 
 export function isWorkflowApp(obj: ArmObj<any>): boolean {
-  return AppKind.hasKinds(obj, ['functionapp,workflowapp']);
+  return AppKind.hasKinds(obj, ['functionapp', 'workflowapp']);
 }
 
 export function mapResourcesTopologyToArmObjects<T>(columns: ResourceGraphColumn[], rows: any[][]): ArmObj<T>[] {
