@@ -65,7 +65,40 @@ export const javaStack: WebAppStack = {
               endOfLifeDate: java11EOL,
             },
             windowsRuntimeSettings: {
-              runtimeVersion: '11.0.7_ZULU',
+              // Note (allisonm): ZULU suffix was removed after Java 11.0.5
+              runtimeVersion: '11.0.7',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 11.0.6',
+          value: '11.0.6',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              runtimeVersion: '',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+            windowsRuntimeSettings: {
+              // Note (allisonm): ZULU suffix was removed after Java 11.0.5
+              runtimeVersion: '11.0.6',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -202,7 +235,38 @@ export const javaStack: WebAppStack = {
               endOfLifeDate: java8EOL,
             },
             windowsRuntimeSettings: {
-              runtimeVersion: '1.8.0_252_ZULU',
+              runtimeVersion: '1.8.0_252',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.8.0_242',
+          value: '8.0.242',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              runtimeVersion: '',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8.0_242',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
