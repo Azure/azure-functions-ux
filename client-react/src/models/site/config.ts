@@ -15,7 +15,7 @@ export enum ScmType {
   ExternalGit = 'ExternalGit',
   OneDrive = 'OneDrive',
   Vso = 'VSO',
-  Vsts = 'VSTS',
+  Vsts = 'VSTSRM',
 }
 
 export enum BuildProvider {
