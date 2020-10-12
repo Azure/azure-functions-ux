@@ -166,6 +166,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
           errorMessage={valueError}
           onChange={updateConnectionStringValue}
           copyButton={true}
+          autoComplete={'off'}
         />
         <DropdownNoFormik
           label={t('type')}

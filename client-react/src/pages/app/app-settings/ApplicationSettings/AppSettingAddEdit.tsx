@@ -151,6 +151,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
           value={currentAppSetting.value}
           onChange={updateAppSettingValue}
           copyButton={true}
+          autoComplete={'off'}
         />
         <Checkbox
           label={t('sticky')}
