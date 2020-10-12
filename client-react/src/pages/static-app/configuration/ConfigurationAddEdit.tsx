@@ -89,6 +89,7 @@ const ConfigurationAddEdit: React.FC<ConfigurationAddEditProps> = props => {
           value={currentEnvironmentVariable.value}
           onChange={onValueChange}
           copyButton={true}
+          autoComplete={'off'}
         />
         <ActionBar
           id="environment-variable-edit-footer"
