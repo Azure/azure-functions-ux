@@ -69,41 +69,41 @@ export default class AzureDevOpsService {
     if (this.accountsList.length > 0) {
       return this.accountsList;
     }
-    return this.getUserContext().then(result => {
-      if (result) {
-        const url = `${AzureDevOpsService.getAzureDevOpsUrl().Sps}_apis/accounts?memeberId=${
-          this.authenticatedUser.descriptor
-        }?api-version=5.0-preview.1`;
-        return Promise.all([
-          sendHttpRequest<any>({ url, method: 'GET', headers: this.getAzDevDirectHeaders(false) }),
-          sendHttpRequest<any>({ url, method: 'GET', headers: this.getAzDevDirectHeaders(true) }),
-        ]).then(([accounts1, accounts2]) => {
-          if (accounts1.metadata.success && accounts2.metadata.success) {
-            const accountList1: DevOpsAccount[] = accounts1.data.map(account => ({ ...account, ForceMsaPassThrough: false }));
-            const accountList2: DevOpsAccount[] = accounts2.data.map(account => ({ ...account, ForceMsaPassThrough: true }));
-            const mixedAccountList = uniqBy(accountList1.concat(accountList2), 'AccountId');
-            this.accountsList = mixedAccountList;
-            return mixedAccountList;
-          } else {
-            if (accounts1.metadata.error) {
-              LogService.error(
-                LogCategories.deploymentCenter,
-                'DeploymentCenteAzureDevOpsService',
-                `Failed to get authenticated user error: ${accounts1.metadata.error}`
-              );
-            }
-            if (accounts2.metadata.error) {
-              LogService.error(
-                LogCategories.deploymentCenter,
-                'DeploymentCenteAzureDevOpsService',
-                `Failed to get authenticated user error: ${accounts2.metadata.error}`
-              );
-            }
-            return Promise.resolve(undefined);
-          }
-        });
+    const authenticatedUserContext = await this.getUserContext();
+    if (authenticatedUserContext) {
+      const url = `${AzureDevOpsService.getAzureDevOpsUrl().Sps}_apis/accounts?memeberId=${
+        this.authenticatedUser.descriptor
+      }?api-version=5.0-preview.1`;
+
+      const [accounts1Response, accounts2Response] = await Promise.all([
+        sendHttpRequest<any>({ url, method: 'GET', headers: this.getAzDevDirectHeaders(false) }),
+        sendHttpRequest<any>({ url, method: 'GET', headers: this.getAzDevDirectHeaders(true) }),
+      ]);
+
+      if (accounts1Response.metadata.success && accounts2Response.metadata.success) {
+        const accountList1: DevOpsAccount[] = accounts1Response.data.map(account => ({ ...account, ForceMsaPassThrough: false }));
+        const accountList2: DevOpsAccount[] = accounts2Response.data.map(account => ({ ...account, ForceMsaPassThrough: true }));
+        const mixedAccountList = uniqBy(accountList1.concat(accountList2), 'AccountId');
+        this.accountsList = mixedAccountList;
+        return mixedAccountList;
+      } else {
+        if (accounts1Response.metadata.error) {
+          LogService.error(
+            LogCategories.deploymentCenter,
+            'DeploymentCenteAzureDevOpsService',
+            `Failed to get authenticated user error: ${accounts1Response.metadata.error}`
+          );
+        }
+        if (accounts2Response.metadata.error) {
+          LogService.error(
+            LogCategories.deploymentCenter,
+            'DeploymentCenteAzureDevOpsService',
+            `Failed to get authenticated user error: ${accounts2Response.metadata.error}`
+          );
+        }
+        return Promise.resolve(undefined);
       }
-    });
+    }
   }
 
   public static async getUserContext() {
@@ -111,18 +111,21 @@ export default class AzureDevOpsService {
     if (this.authenticatedUser) {
       return Promise.resolve(this.authenticatedUser);
     }
-    return sendHttpRequest<AuthenticatedUserContext>({ url, method: 'GET', headers: this.getAzDevDirectHeaders(false) }).then(result => {
-      if (result.metadata.success) {
-        return Promise.resolve((this.authenticatedUser = result.data.authenticatedUser));
-      } else {
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenteAzureDevOpsService',
-          `Failed to get authenticated user error: ${result.metadata.error}`
-        );
-        return Promise.resolve(undefined);
-      }
+    const authenticatedUserResponse = await sendHttpRequest<AuthenticatedUserContext>({
+      url,
+      method: 'GET',
+      headers: this.getAzDevDirectHeaders(false),
     });
+    if (authenticatedUserResponse.metadata.success) {
+      return Promise.resolve((this.authenticatedUser = authenticatedUserResponse.data.authenticatedUser));
+    } else {
+      LogService.error(
+        LogCategories.deploymentCenter,
+        'DeploymentCenteAzureDevOpsService',
+        `Failed to get authenticated user error: ${authenticatedUserResponse.metadata.error}`
+      );
+      return Promise.resolve(undefined);
+    }
   }
 
   public static getAzDevDirectHeaders(appendMsaPassthroughHeader: boolean = true) {
