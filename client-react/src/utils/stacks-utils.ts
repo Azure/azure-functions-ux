@@ -167,6 +167,7 @@ export const getFilteredWebStackSettings = (
 ) => {
   if (!!settings) {
     if (
+      !!ignoreStackVersion &&
       stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
       ignoreStackVersion.toLowerCase() === settings.runtimeVersion.toLowerCase()
     ) {
@@ -187,6 +188,7 @@ export const getFilteredLinuxJavaContainerSettings = (
 ) => {
   if (!!settings) {
     if (
+      !!ignoreStackVersion &&
       stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
       (!settings.java11Runtime ||
         ignoreStackVersion.toLowerCase() === settings.java11Runtime.toLowerCase() ||
@@ -210,6 +212,7 @@ export const getFilteredWindowsJavaContainerSettings = (
 ) => {
   if (!!settings) {
     if (
+      !!ignoreStackVersion &&
       stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
       ignoreStackVersion.toLowerCase() === settings.javaContainerVersion.toLowerCase()
     ) {
