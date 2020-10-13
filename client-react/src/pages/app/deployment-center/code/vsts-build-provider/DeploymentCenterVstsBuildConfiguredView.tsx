@@ -5,6 +5,7 @@ import { getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
 import AzureDevOpsService from '../../../../../AzureDevOpsService';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import ReactiveFormControl from '../../../../../components/form-controls/ReactiveFormControl';
+import { KeyValue } from '../../../../../models/portal-models';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import DeploymentCenterData from '../../DeploymentCenter.data';
@@ -18,18 +19,32 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<{}> = props => {
   const [branch, setBranch] = useState<string | undefined>(undefined);
   const [repoUrl, setRepoUrl] = useState<string | undefined>(undefined);
   const [vstsAccountName, setVstsAccountName] = useState<string>(t('loading'));
+  const [vstsMetadata, setVstsMetadata] = useState<KeyValue<string> | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
-  const fetchData = async () => {
+  const fetchSiteConfig = async () => {
     setIsLoading(true);
     const siteConfigMetadataResponse = await deploymentCenterData.getConfigMetadata(deploymentCenterContext.resourceId);
     if (siteConfigMetadataResponse.metadata.success) {
-      const vstsMetaData = siteConfigMetadataResponse.data.properties;
-      const buildDefinitionId = vstsMetaData['VSTSRM_BuildDefinitionId'];
-      const buildDefinitionUrl: string = vstsMetaData['VSTSRM_BuildDefinitionWebAccessUrl'];
+      setVstsMetadata(siteConfigMetadataResponse.data.properties);
+    } else {
+      setBranch(t('deploymentCenterErrorFetchingInfo'));
+      setIsLoading(false);
+      LogService.error(
+        LogCategories.deploymentCenter,
+        'DeploymentCenterSiteConfigMetadata',
+        `Failed to get site config metadata with error: ${getErrorMessage(siteConfigMetadataResponse.metadata.error)}`
+      );
+    }
+  };
+
+  const setVstsAccountNameAndProjectUrl = async () => {
+    if (vstsMetadata) {
+      const buildDefinitionId = vstsMetadata['VSTSRM_BuildDefinitionId'];
+      const buildDefinitionUrl: string = vstsMetadata['VSTSRM_BuildDefinitionWebAccessUrl'];
 
       if (buildDefinitionId) {
         let accountName = '';
@@ -39,21 +54,17 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<{}> = props => {
           accountName = getVSOAccountNameFromUrl(buildDefinitionUrl);
           buildDefinitionProjectUrl = buildDefinitionUrl.substring(0, buildDefinitionUrl.indexOf('/_build?'));
         } else {
-          accountName = getVSOAccountNameFromUrl(vstsMetaData['VSTSRM_ConfiguredCDEndPoint']);
-          buildDefinitionProjectUrl = `${AzureDevOpsService.getAzureDevOpsUrl().Tfs}${accountName}/${vstsMetaData['VSTSRM_ProjectId']}`;
+          accountName = getVSOAccountNameFromUrl(vstsMetadata['VSTSRM_ConfiguredCDEndPoint']);
+          buildDefinitionProjectUrl = `${AzureDevOpsService.getAzureDevOpsUrl().Tfs}${accountName}/${vstsMetadata['VSTSRM_ProjectId']}`;
         }
+
         setVstsAccountName(accountName);
         await fetchBuildDef(accountName, buildDefinitionProjectUrl, buildDefinitionId);
+      } else {
+        setBranch(t('deploymentCenterErrorFetchingInfo'));
+        setIsLoading(false);
       }
-    } else {
-      setBranch(t('deploymentCenterErrorFetchingInfo'));
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterSiteConfigMetadata',
-        `Failed to get site config metadata with error: ${getErrorMessage(siteConfigMetadataResponse.metadata.error)}`
-      );
     }
-    setIsLoading(false);
   };
 
   const fetchBuildDef = async (accountName: string, buildDefinitionProjectUrl: string, buildDefinitionId: string) => {
@@ -70,6 +81,7 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<{}> = props => {
         `Failed to get dev ops information with error: ${getErrorMessage(devOpsInfoResponse.metadata.error)}`
       );
     }
+    setIsLoading(false);
   };
 
   const getVSOAccountNameFromUrl = (url: string): string => {
@@ -89,16 +101,23 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<{}> = props => {
           <Icon id={`repo-button`} iconName={'NavigateExternalInline'} />
         </Link>
       );
-    } else {
-      return t('deploymentCenterErrorFetchingInfo');
     }
+    return t('deploymentCenterErrorFetchingInfo');
   };
 
   useEffect(() => {
-    fetchData();
+    fetchSiteConfig();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (vstsMetadata) {
+      setVstsAccountNameAndProjectUrl();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [vstsMetadata]);
 
   return (
     <>

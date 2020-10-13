@@ -115,16 +115,16 @@ export interface DevOpsAccount {
   AccountId: string;
   NamespaceId: string;
   AccountName: string;
-  OrganizationName?: string;
   AccountType: number;
   AccountOwner: string;
   CreatedBy: string;
   CreatedDate: Date;
   AccountStatus: number;
-  StatusReason?: string;
   LastUpdatedBy: string;
   Properties: any;
   ForceMsaPassThrough: boolean;
+  OrganizationName?: string;
+  StatusReason?: string;
 }
 
 export interface AuthenticatedUserContext {

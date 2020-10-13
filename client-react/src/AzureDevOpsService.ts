@@ -1,6 +1,4 @@
 import { uniqBy } from 'lodash-es';
-import { forkJoin } from 'rxjs';
-import { getErrorMessage } from './ApiHelpers/ArmHelper';
 import { sendHttpRequest } from './ApiHelpers/HttpClient';
 import {
   AuthenticatedUser,
@@ -76,10 +74,10 @@ export default class AzureDevOpsService {
         const url = `${AzureDevOpsService.getAzureDevOpsUrl().Sps}_apis/accounts?memeberId=${
           this.authenticatedUser.descriptor
         }?api-version=5.0-preview.1`;
-        return forkJoin([
+        return Promise.all([
           sendHttpRequest<any>({ url, method: 'GET', headers: this.getAzDevDirectHeaders(false) }),
           sendHttpRequest<any>({ url, method: 'GET', headers: this.getAzDevDirectHeaders(true) }),
-        ]).subscribe(([accounts1, accounts2]) => {
+        ]).then(([accounts1, accounts2]) => {
           if (accounts1.metadata.success && accounts2.metadata.success) {
             const accountList1: DevOpsAccount[] = accounts1.data.map(account => ({ ...account, ForceMsaPassThrough: false }));
             const accountList2: DevOpsAccount[] = accounts2.data.map(account => ({ ...account, ForceMsaPassThrough: true }));
@@ -91,14 +89,14 @@ export default class AzureDevOpsService {
               LogService.error(
                 LogCategories.deploymentCenter,
                 'DeploymentCenteAzureDevOpsService',
-                `Failed to get authenticated user error: ${getErrorMessage(accounts1.metadata.error)}`
+                `Failed to get authenticated user error: ${accounts1.metadata.error}`
               );
             }
             if (accounts2.metadata.error) {
               LogService.error(
                 LogCategories.deploymentCenter,
                 'DeploymentCenteAzureDevOpsService',
-                `Failed to get authenticated user error: ${getErrorMessage(accounts2.metadata.error)}`
+                `Failed to get authenticated user error: ${accounts2.metadata.error}`
               );
             }
             return Promise.resolve(undefined);
@@ -111,7 +109,7 @@ export default class AzureDevOpsService {
   public static async getUserContext() {
     const url = `${AzureDevOpsService.getAzureDevOpsUrl().Sps}_apis/connectionData`;
     if (this.authenticatedUser) {
-      return this.authenticatedUser;
+      return Promise.resolve(this.authenticatedUser);
     }
     return sendHttpRequest<AuthenticatedUserContext>({ url, method: 'GET', headers: this.getAzDevDirectHeaders(false) }).then(result => {
       if (result.metadata.success) {
@@ -120,7 +118,7 @@ export default class AzureDevOpsService {
         LogService.error(
           LogCategories.deploymentCenter,
           'DeploymentCenteAzureDevOpsService',
-          `Failed to get authenticated user error: ${getErrorMessage(result.metadata.error)}`
+          `Failed to get authenticated user error: ${result.metadata.error}`
         );
         return Promise.resolve(undefined);
       }
@@ -128,18 +126,12 @@ export default class AzureDevOpsService {
   }
 
   public static getAzDevDirectHeaders(appendMsaPassthroughHeader: boolean = true) {
-    return appendMsaPassthroughHeader
-      ? {
-          'content-type': 'application/json',
-          accept: 'application/json',
-          authorization: this._getAuthTokenForMakingAzDevRequestBasedOnDeployment(),
-          'x-vss-forcemsapassthrough': `${appendMsaPassthroughHeader}`,
-        }
-      : {
-          'content-type': 'application/json',
-          accept: 'application/json',
-          authorization: this._getAuthTokenForMakingAzDevRequestBasedOnDeployment(),
-        };
+    return {
+      'content-type': 'application/json',
+      accept: 'application/json',
+      authorization: this._getAuthTokenForMakingAzDevRequestBasedOnDeployment(),
+      'x-vss-forcemsapassthrough': appendMsaPassthroughHeader ? `${appendMsaPassthroughHeader}` : undefined,
+    };
   }
 
   private static _getAuthTokenForMakingAzDevRequestBasedOnDeployment(): string {
@@ -152,8 +144,7 @@ export default class AzureDevOpsService {
       let pat = ':';
       pat = pat.concat(authTokenOverride);
       return auth.concat(btoa(pat));
-    } else {
-      return getArmToken();
     }
+    return getArmToken();
   }
 }
