@@ -144,7 +144,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
               'authorizeGitHubAccount',
               `Failed to get token with error: ${response.metadata.error}`
             );
-            return Promise.resolve(null);
+            return Promise.resolve(undefined);
           }
         })
         .then(() => deploymentCenterContext.refreshUserSourceControlTokens());

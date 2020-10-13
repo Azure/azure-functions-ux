@@ -134,7 +134,7 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
               'authorizeBitbucketAccount',
               `Failed to get token with error: ${response.metadata.error}`
             );
-            return Promise.resolve(null);
+            return Promise.resolve(undefined);
           }
         })
         .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
