@@ -5985,6 +5985,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>Unable to retrieve account information</value>
     </data>
+    <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
     <data name="managePublishProfile" xml:space="preserve">
         <value>Manage publish profile</value>
     </data>
@@ -6284,6 +6287,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
         <value>Dropbox</value>
+    </data>
+    <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
     </data>
     <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Folder</value>
