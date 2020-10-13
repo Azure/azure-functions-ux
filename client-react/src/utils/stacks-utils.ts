@@ -210,6 +210,7 @@ export const getFilteredWindowsJavaContainerSettings = (
 ) => {
   if (!!settings) {
     if (
+      !!ignoreStackVersion &&
       stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
       ignoreStackVersion.toLowerCase() === settings.javaContainerVersion.toLowerCase()
     ) {
