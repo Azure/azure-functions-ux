@@ -41,7 +41,7 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<{}> = props => {
     }
   };
 
-  const setVstsAccountNameAndProjectUrl = async () => {
+  const fetchBuildDef = async () => {
     if (vstsMetadata) {
       const buildDefinitionId = vstsMetadata['VSTSRM_BuildDefinitionId'];
       const buildDefinitionUrl: string = vstsMetadata['VSTSRM_BuildDefinitionWebAccessUrl'];
@@ -59,29 +59,25 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<{}> = props => {
         }
 
         setVstsAccountName(accountName);
-        await fetchBuildDef(accountName, buildDefinitionProjectUrl, buildDefinitionId);
+
+        const devOpsInfoResponse = await AzureDevOpsService.getBuildDef(accountName, buildDefinitionProjectUrl, buildDefinitionId);
+        if (devOpsInfoResponse.metadata.success && devOpsInfoResponse.data.repository) {
+          setRepoUrl(devOpsInfoResponse.data.repository.url);
+          setRepo(devOpsInfoResponse.data.repository.name);
+          setBranch(devOpsInfoResponse.data.repository.defaultBranch);
+        } else {
+          setBranch(t('deploymentCenterErrorFetchingInfo'));
+          LogService.error(
+            LogCategories.deploymentCenter,
+            'DeploymentCenterSiteConfigMetadata',
+            `Failed to get dev ops information with error: ${getErrorMessage(devOpsInfoResponse.metadata.error)}`
+          );
+        }
       } else {
         setBranch(t('deploymentCenterErrorFetchingInfo'));
-        setIsLoading(false);
       }
+      setIsLoading(false);
     }
-  };
-
-  const fetchBuildDef = async (accountName: string, buildDefinitionProjectUrl: string, buildDefinitionId: string) => {
-    const devOpsInfoResponse = await AzureDevOpsService.getBuildDef(accountName, buildDefinitionProjectUrl, buildDefinitionId);
-    if (devOpsInfoResponse.metadata.success && devOpsInfoResponse.data.repository) {
-      setRepoUrl(devOpsInfoResponse.data.repository.url);
-      setRepo(devOpsInfoResponse.data.repository.name);
-      setBranch(devOpsInfoResponse.data.repository.defaultBranch);
-    } else {
-      setBranch(t('deploymentCenterErrorFetchingInfo'));
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterSiteConfigMetadata',
-        `Failed to get dev ops information with error: ${getErrorMessage(devOpsInfoResponse.metadata.error)}`
-      );
-    }
-    setIsLoading(false);
   };
 
   const getVSOAccountNameFromUrl = (url: string): string => {
@@ -113,7 +109,7 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<{}> = props => {
 
   useEffect(() => {
     if (vstsMetadata) {
-      setVstsAccountNameAndProjectUrl();
+      fetchBuildDef();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
