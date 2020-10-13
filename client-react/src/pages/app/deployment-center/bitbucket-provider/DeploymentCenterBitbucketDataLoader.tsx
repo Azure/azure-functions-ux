@@ -125,7 +125,18 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
     if (authorizationResult.redirectUrl) {
       deploymentCenterData
         .getBitbucketToken(authorizationResult.redirectUrl)
-        .then(response => deploymentCenterData.storeBitbucketToken(response.data))
+        .then(response => {
+          if (response.metadata.success) {
+            deploymentCenterData.storeBitbucketToken(response.data);
+          } else {
+            LogService.error(
+              LogCategories.deploymentCenter,
+              'authorizeBitbucketAccount',
+              `Failed to get token with error: ${response.metadata.error}`
+            );
+            return Promise.resolve(null);
+          }
+        })
         .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
     } else {
       return fetchData();

@@ -135,7 +135,18 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     if (authorizationResult.redirectUrl) {
       deploymentCenterData
         .getGitHubToken(authorizationResult.redirectUrl)
-        .then(response => deploymentCenterData.storeGitHubToken(response.data))
+        .then(response => {
+          if (response.metadata.success) {
+            deploymentCenterData.storeGitHubToken(response.data);
+          } else {
+            LogService.error(
+              LogCategories.deploymentCenter,
+              'authorizeGitHubAccount',
+              `Failed to get token with error: ${response.metadata.error}`
+            );
+            return Promise.resolve(null);
+          }
+        })
         .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
     } else {
       return fetchData();
