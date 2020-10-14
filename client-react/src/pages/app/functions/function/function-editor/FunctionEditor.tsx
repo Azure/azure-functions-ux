@@ -56,6 +56,8 @@ export interface FunctionEditorProps {
   refresh: () => void;
   isRefreshing: boolean;
   getFunctionUrl: (key?: string) => string;
+  isUploadingFile: boolean;
+  setIsUploadingFile: (isUploadingFile: boolean) => void;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
@@ -79,6 +81,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     isRefreshing,
     xFunctionKey,
     getFunctionUrl,
+    isUploadingFile,
+    setIsUploadingFile,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -113,23 +117,26 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.siteAppEditState);
   const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
 
+  const getSaveFileHeaders = (mime: string) => {
+    return {
+      'Content-Type': mime,
+      'If-Match': '*',
+    };
+  };
+
   const save = async () => {
     if (!selectedFile) {
       return;
     }
     setSavingFile(true);
     const fileData = selectedFile.data;
-    const headers = {
-      'Content-Type': fileData.mime,
-      'If-Match': '*',
-    };
     const fileResponse = await FunctionsService.saveFileContent(
       site.id,
       fileData.name,
       fileContent.latest,
       functionInfo.properties.name,
       runtimeVersion,
-      headers
+      getSaveFileHeaders(fileData.mime)
     );
     if (fileResponse.metadata.success) {
       setFileContent({ ...fileContent, default: fileContent.latest });
@@ -278,7 +285,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isDisabled = () => {
-    return isLoading() || functionRunning || isRefreshing;
+    return isLoading() || functionRunning || isRefreshing || isUploadingFile;
   };
 
   const onCancelButtonClick = () => {
@@ -365,6 +372,26 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     });
   };
 
+  const uploadFile = async (filename: string, fileContent: string, mime: string) => {
+    const fileResponse = await FunctionsService.saveFileContent(
+      site.id,
+      filename,
+      fileContent,
+      functionInfo.properties.name,
+      runtimeVersion,
+      getSaveFileHeaders(mime)
+    );
+    if (fileResponse.metadata.success) {
+      refresh();
+    } else {
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'functionEditorFileUpload',
+        `Failed to upload file: ${getErrorMessageOrStringify(fileResponse.metadata.error)}`
+      );
+    }
+  };
+
   useEffect(() => {
     setLogPanelHeight(logPanelExpanded ? minimumLogPanelHeight : 0);
 
@@ -413,6 +440,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           testDisabled={isTestDisabled()}
           functionInfo={functionInfo}
           runtimeVersion={runtimeVersion}
+          upload={uploadFile}
+          setIsUploadingFile={setIsUploadingFile}
         />
         <ConfirmDialog
           primaryActionButton={{

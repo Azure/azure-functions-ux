@@ -22,12 +22,14 @@ interface FunctionEditorCommandBarProps {
   resetFunction: () => void;
   testFunction: () => void;
   refreshFunction: () => void;
+  upload: (filename: string, fileContent: string, mime: string) => void;
   isGetFunctionUrlVisible: boolean;
   dirty: boolean;
   disabled: boolean;
   urlObjs: UrlObj[];
   testDisabled: boolean;
   functionInfo: ArmObj<FunctionInfo>;
+  setIsUploadingFile: (isUploadingFile: boolean) => void;
   runtimeVersion?: string;
 }
 
@@ -44,6 +46,8 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
     refreshFunction,
     functionInfo,
     runtimeVersion,
+    setIsUploadingFile,
+    upload,
   } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
@@ -51,11 +55,36 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
   const siteStateContext = useContext(SiteStateContext);
 
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+
   const onClickGetFunctionUrlCommand = () => {
     setIsDialogVisible(true);
   };
 
   const getFunctionUrlButtonRef = useRef<IContextualMenuRenderItem | null>(null);
+  const uploadFileRef = useRef<HTMLInputElement | null>(null);
+
+  const onUploadButtonClick = () => {
+    if (uploadFileRef && uploadFileRef.current) {
+      uploadFileRef.current.click();
+    }
+  };
+
+  const uploadFile = e => {
+    const file = e.target && e.target.files && e.target.files[0] ? e.target.files[0] : undefined;
+    if (file) {
+      const fileName = file.name;
+      const fileMime = file.type;
+      const reader = new FileReader();
+      reader.onload = async fileEvent => {
+        setIsUploadingFile(true);
+        if (fileEvent.target && !!fileEvent.target['result']) {
+          await upload(fileName, fileEvent.target['result'] as string, fileMime);
+        }
+        setIsUploadingFile(false);
+      };
+      reader.readAsText(file);
+    }
+  };
 
   const onTestItemRender = (item: any, dismissMenu: () => void) => {
     const tooltipId = 'tooltip-id';
@@ -117,6 +146,22 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         ariaLabel: t('functionEditorTestAriaLabel'),
         onClick: testFunction,
         onRender: onTestItemRender,
+      },
+      {
+        key: 'upload',
+        text: t('fileExplorer_upload'),
+        iconProps: {
+          iconName: 'Upload',
+        },
+        disabled: disabled || testDisabled,
+        ariaLabel: t('fileExplorer_upload'),
+        onClick: onUploadButtonClick,
+      },
+      {
+        // NOTE(krmitta): This hidden element is needed to map the upload button to input field
+        key: 'upload-file-input',
+        text: t('fileExplorer_upload'),
+        onRender: () => <input ref={ref => (uploadFileRef.current = ref)} style={{ display: 'none' }} type="file" onChange={uploadFile} />,
       },
     ];
 
