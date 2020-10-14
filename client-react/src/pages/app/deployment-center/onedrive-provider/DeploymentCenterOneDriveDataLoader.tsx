@@ -9,6 +9,8 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { SiteStateContext } from '../../../../SiteState';
 import OneDriveService from '../../../../ApiHelpers/OneDriveService';
 import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -78,7 +80,18 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
     if (authorizationResult.redirectUrl) {
       deploymentCenterData
         .getOneDriveToken(authorizationResult.redirectUrl)
-        .then(response => deploymentCenterData.storeOneDriveToken(response.data))
+        .then(response => {
+          if (response.metadata.success) {
+            deploymentCenterData.storeOneDriveToken(response.data);
+          } else {
+            LogService.error(
+              LogCategories.deploymentCenter,
+              'authorizeOneDriveAccount',
+              `Failed to get token with error: ${response.metadata.error}`
+            );
+            return Promise.resolve(undefined);
+          }
+        })
         .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
     } else {
       return fetchData();
