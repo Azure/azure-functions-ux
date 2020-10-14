@@ -41,6 +41,8 @@ export class CommonConstants {
     AllowFreeLinux: 'allowfreelinux',
     UseNewStacksApi: 'usenewstacksapi',
     showHiddenStacks: 'showHiddenStacks',
+    targetAzDevDeployment: 'targetAzDevDeployment',
+    authTokenOverride: 'authTokenOverride',
   };
 
   public static readonly AppDensityLimit = 8;
