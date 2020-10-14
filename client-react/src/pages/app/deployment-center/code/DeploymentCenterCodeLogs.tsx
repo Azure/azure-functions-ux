@@ -153,7 +153,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
       {isLoading ? (
         getProgressIndicator()
       ) : deploymentsError ? (
-        <pre className={deploymentCenterLogsError}>{deploymentsError}</pre>
+        <div className={deploymentCenterLogsError}>{deploymentsError}</div>
       ) : deployments ? (
         <>
           <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />

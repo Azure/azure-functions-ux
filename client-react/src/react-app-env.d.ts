@@ -26,6 +26,7 @@ interface AppSvc {
   cdn?: string;
   cacheBreakQuery?: string;
   frameId?: string;
+  officeFabricIconsCdn?: string;
 }
 
 declare global {

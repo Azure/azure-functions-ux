@@ -34,6 +34,10 @@ export const deploymentCenterContainerLogs = style({
 
 export const deploymentCenterLogsError = style({
   marginTop: '20px',
+  display: 'flex',
+  flexWrap: 'wrap',
+  overflowWrap: 'normal',
+  fontFamily: 'monospace',
 });
 
 export const additionalTextFieldControl = style({

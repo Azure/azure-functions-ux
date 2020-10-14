@@ -1937,6 +1937,7 @@ export class PortalResources {
   public static deploymentCenterRedeployAriaLabel = 'deploymentCenterRedeployAriaLabel';
   public static deploymentCenterErrorFetchingInfo = 'deploymentCenterErrorFetchingInfo';
   public static deploymentCenterSettingsConfiguredViewUserNotAuthorized = 'deploymentCenterSettingsConfiguredViewUserNotAuthorized';
+  public static deploymentCenterVstsInfoMessage = 'deploymentCenterVstsInfoMessage';
   public static managePublishProfile = 'managePublishProfile';
   public static ibizafication_readOnlyPython = 'ibizafication_readOnlyPython';
   public static ibizafication_readOnlyJava = 'ibizafication_readOnlyJava';
@@ -2040,6 +2041,7 @@ export class PortalResources {
   public static deploymentCenterCodeLocalGitTitle = 'deploymentCenterCodeLocalGitTitle';
   public static deploymentCenterCodeOneDriveTitle = 'deploymentCenterCodeOneDriveTitle';
   public static deploymentCenterCodeDropboxTitle = 'deploymentCenterCodeDropboxTitle';
+  public static deploymentCenterCodeAzureReposTitle = 'deploymentCenterCodeAzureReposTitle';
   public static deploymentCenterCodeFolder = 'deploymentCenterCodeFolder';
   public static deploymentCenterCodeFolderPlaceholder = 'deploymentCenterCodeFolderPlaceholder';
   public static deploymentCenterCodeExternalGitTitle = 'deploymentCenterCodeExternalGitTitle';

@@ -27,6 +27,7 @@ import DeploymentCenterOneDriveDataLoader from '../onedrive-provider/DeploymentC
 import DeploymentCenterOneDriveConfiguredView from '../onedrive-provider/DeploymentCenterOneDriveConfiguredView';
 import DeploymentCenterDropboxDataLoader from '../dropbox-provider/DeploymentCenterDropboxDataLoader';
 import DeploymentCenterDropboxConfiguredView from '../dropbox-provider/DeploymentCenterDropboxConfiguredView';
+import DeploymentCenterVstsBuildConfiguredView from './vsts-build-provider/DeploymentCenterVstsBuildConfiguredView';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -68,6 +69,8 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
   const isDropboxSource = formProps.values.sourceProvider === ScmType.Dropbox;
   const isDropboxSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.Dropbox;
+
+  const isVstsSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vsts;
 
   const getWorkflowFileContent = () => {
     if (deploymentCenterContext.siteDescriptor) {
@@ -159,13 +162,14 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
               {` ${t('learnMore')}`}
             </Link>
           </p>
-          {!isGitHubActionsSetup && <DeploymentCenterCodeSourceKuduConfiguredView formProps={formProps} />}
+          {!isGitHubActionsSetup && !isVstsSetup && <DeploymentCenterCodeSourceKuduConfiguredView formProps={formProps} />}
           {isGitHubSourceSetup && <DeploymentCenterGitHubConfiguredView formProps={formProps} />}
           {isBitbucketSetup && <DeploymentCenterBitbucketConfiguredView formProps={formProps} />}
           {isLocalGitSetup && <DeploymentCenterLocalGitConfiguredView />}
           {isExternalGitSetup && <DeploymentCenterExternalConfiguredView formProps={formProps} />}
           {isOneDriveSetup && <DeploymentCenterOneDriveConfiguredView formProps={formProps} />}
           {isDropboxSetup && <DeploymentCenterDropboxConfiguredView formProps={formProps} />}
+          {isVstsSetup && <DeploymentCenterVstsBuildConfiguredView />}
 
           <DeploymentCenterCodeBuildConfiguredView />
         </>
