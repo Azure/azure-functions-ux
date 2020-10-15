@@ -1,6 +1,6 @@
 import { FunctionAppStack } from '../../models/FunctionAppStackModel';
 
-export const dotnetCoreStack: FunctionAppStack = {
+export const dotnetStack: FunctionAppStack = {
   displayText: '.NET',
   value: 'dotnet',
   preferredOs: 'windows',
