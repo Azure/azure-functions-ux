@@ -1938,6 +1938,7 @@ export class PortalResources {
   public static deploymentCenterErrorFetchingInfo = 'deploymentCenterErrorFetchingInfo';
   public static deploymentCenterSettingsConfiguredViewUserNotAuthorized = 'deploymentCenterSettingsConfiguredViewUserNotAuthorized';
   public static deploymentCenterVstsInfoMessage = 'deploymentCenterVstsInfoMessage';
+  public static deploymentCenterTfsVsoInfoMessage = 'deploymentCenterTfsVsoInfoMessage';
   public static managePublishProfile = 'managePublishProfile';
   public static ibizafication_readOnlyPython = 'ibizafication_readOnlyPython';
   public static ibizafication_readOnlyJava = 'ibizafication_readOnlyJava';
@@ -2217,4 +2218,8 @@ export class PortalResources {
   public static stackVersionPreview = 'stackVersionPreview';
   public static validation_mountPathNotRoot = 'validation_mountPathNotRoot';
   public static workflowRuntimeSettings = 'workflowRuntimeSettings';
+  public static uploadingFile = 'uploadingFile';
+  public static uploadingFileWithName = 'uploadingFileWithName';
+  public static uploadingFileSuccessWithName = 'uploadingFileSuccessWithName';
+  public static uploadingFileFailureWithName = 'uploadingFileFailureWithName';
 }

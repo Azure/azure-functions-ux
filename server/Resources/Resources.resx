@@ -5988,6 +5988,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
         <value>Please go to the Azure DevOps portal to disconnect.</value>
     </data>
+    <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
     <data name="managePublishProfile" xml:space="preserve">
         <value>Manage publish profile</value>
     </data>
@@ -6800,5 +6803,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="workflowRuntimeSettings" xml:space="preserve">
         <value>Workflow runtime settings</value>
+    </data>
+    <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+    <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+    <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+    <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>
