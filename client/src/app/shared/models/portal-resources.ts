@@ -2221,5 +2221,5 @@ export class PortalResources {
   public static uploadingFile = 'uploadingFile';
   public static uploadingFileWithName = 'uploadingFileWithName';
   public static uploadingFileSuccessWithName = 'uploadingFileSuccessWithName';
-  public static uploadingFileFailure = 'uploadingFileFailure';
+  public static uploadingFileFailureWithName = 'uploadingFileFailureWithName';
 }
