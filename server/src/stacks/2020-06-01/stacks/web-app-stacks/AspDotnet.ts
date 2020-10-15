@@ -23,6 +23,7 @@ export const aspDotnetStack: WebAppStack = {
               },
               gitHubActionSettings: {
                 isSupported: true,
+                supportedVersion: '5.0.x',
               },
             },
             linuxRuntimeSettings: {
@@ -35,6 +36,7 @@ export const aspDotnetStack: WebAppStack = {
               },
               gitHubActionSettings: {
                 isSupported: true,
+                supportedVersion: '5.0.x',
               },
             },
           },
