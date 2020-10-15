@@ -5988,6 +5988,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
         <value>Please go to the Azure DevOps portal to disconnect.</value>
     </data>
+    <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
     <data name="managePublishProfile" xml:space="preserve">
         <value>Manage publish profile</value>
     </data>
