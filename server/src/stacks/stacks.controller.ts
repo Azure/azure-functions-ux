@@ -47,7 +47,7 @@ export class StacksController {
     const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
 
     switch (apiVersion) {
-      case Versions.version20200601:
+      case Versions.version20200601: {
         return this._stackService20200601.getFunctionAppStacks(
           os,
           stack as FunctionAppStack20200601Value,
@@ -55,7 +55,8 @@ export class StacksController {
           removeDeprecated,
           removePreview
         );
-      case Versions.version20201001:
+      }
+      case Versions.version20201001: {
         return this._stackService20201001.getFunctionAppStacks(
           os,
           stack as FunctionAppStack20201001Value,
@@ -63,6 +64,7 @@ export class StacksController {
           removeDeprecated,
           removePreview
         );
+      }
     }
   }
 
@@ -87,7 +89,7 @@ export class StacksController {
     const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
 
     switch (apiVersion) {
-      case Versions.version20200601:
+      case Versions.version20200601: {
         return this._stackService20200601.getWebAppStacks(
           os,
           stack as WebAppStack20200601Value,
@@ -95,7 +97,8 @@ export class StacksController {
           removeDeprecated,
           removePreview
         );
-      case Versions.version20201001:
+      }
+      case Versions.version20201001: {
         return this._stackService20201001.getWebAppStacks(
           os,
           stack as WebAppStack20201001Value,
@@ -103,6 +106,7 @@ export class StacksController {
           removeDeprecated,
           removePreview
         );
+      }
     }
   }
 

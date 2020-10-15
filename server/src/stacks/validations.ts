@@ -23,37 +23,53 @@ export function validateApiVersion(apiVersion: string, acceptedVersions: string[
 }
 
 export function validateFunctionAppStack(apiVersion: string, stack?: string) {
-  if (apiVersion === Versions.version20200601) {
-    const stackValues: FunctionAppStackValue20200601[] = [
-      'dotnetCore',
-      'dotnetFramework',
-      'java',
-      'node',
-      'powershell',
-      'python',
-      'custom',
-    ];
-    if (stack && !(stackValues as string[]).includes(stack)) {
-      throw new HttpException(`Incorrect function app stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`, 400);
+  switch (apiVersion) {
+    case Versions.version20200601: {
+      const stackValues: FunctionAppStackValue20200601[] = [
+        'dotnetCore',
+        'dotnetFramework',
+        'java',
+        'node',
+        'powershell',
+        'python',
+        'custom',
+      ];
+      if (stack && !(stackValues as string[]).includes(stack)) {
+        throw new HttpException(
+          `Incorrect function app stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`,
+          400
+        );
+      }
+      break;
     }
-  } else if (apiVersion === Versions.version20201001) {
-    const stackValues: FunctionAppStackValue20201001[] = ['dotnet', 'java', 'node', 'powershell', 'python', 'custom'];
-    if (stack && !(stackValues as string[]).includes(stack)) {
-      throw new HttpException(`Incorrect function app stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`, 400);
+    case Versions.version20201001: {
+      const stackValues: FunctionAppStackValue20201001[] = ['dotnet', 'java', 'node', 'powershell', 'python', 'custom'];
+      if (stack && !(stackValues as string[]).includes(stack)) {
+        throw new HttpException(
+          `Incorrect function app stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`,
+          400
+        );
+      }
+      break;
     }
   }
 }
 
 export function validateWebAppStack(apiVersion: string, stack?: string) {
-  if (apiVersion === Versions.version20200601) {
-    const stackValues: WebAppStackValue20200601[] = ['aspnet', 'dotnetcore', 'java', 'javacontainers', 'node', 'php', 'python', 'ruby'];
-    if (stack && !(stackValues as string[]).includes(stack)) {
-      throw new HttpException(`Incorrect web app stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`, 400);
+  switch (apiVersion) {
+    case Versions.version20200601: {
+      const stackValues: WebAppStackValue20200601[] = ['aspnet', 'dotnetcore', 'java', 'javacontainers', 'node', 'php', 'python', 'ruby'];
+      if (stack && !(stackValues as string[]).includes(stack)) {
+        throw new HttpException(`Incorrect web app stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`, 400);
+      }
+      break;
     }
-  } else if (apiVersion === Versions.version20201001) {
-    const stackValues: WebAppStackValue20201001[] = ['dotnet', 'java', 'javacontainers', 'node', 'php', 'python', 'ruby'];
-    if (stack && !(stackValues as string[]).includes(stack)) {
-      throw new HttpException(`Incorrect web app stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`, 400);
+    case Versions.version20201001: {
+      const stackValues: WebAppStackValue20201001[] = ['dotnet', 'java', 'javacontainers', 'node', 'php', 'python', 'ruby'];
+      if (stack && !(stackValues as string[]).includes(stack)) {
+        throw new HttpException(`Incorrect web app stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`, 400);
+      }
+      break;
     }
   }
 }
