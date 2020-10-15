@@ -19,7 +19,7 @@ import { javaStack as javaWebAppStack } from '../stacks/web-app-stacks/Java';
 import { javaContainersStack as javaContainersWebAppStack } from '../stacks/web-app-stacks/JavaContainers';
 
 @Injectable()
-export class StacksService20200601 {
+export class StacksService20201001 {
   getFunctionAppStacks(
     os?: AppStackOs,
     stackValue?: FunctionAppStackValue,

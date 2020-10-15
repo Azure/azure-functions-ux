@@ -1,4 +1,4 @@
-import { StacksService20200601 } from '../../../../stacks/2020-10-01/service/StackService';
+import { StacksService20201001 } from '../../../../stacks/2020-10-01/service/StackService';
 import {
   validateAllStackLength,
   validateWindowsStacks,
@@ -22,7 +22,7 @@ import {
   validateJavaContainersFilter,
 } from './validations';
 
-const stacksService = new StacksService20200601();
+const stacksService = new StacksService20201001();
 
 describe('WebApp Stacks Test 2020-06-01', () => {
   // Test length of all stacks
