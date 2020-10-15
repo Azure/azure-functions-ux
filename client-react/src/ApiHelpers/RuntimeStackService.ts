@@ -1,4 +1,3 @@
-import { WebAppCreateStack } from '../models/available-stacks';
 import { CommonConstants } from '../utils/CommonConstants';
 import Url from '../utils/url';
 import { sendHttpRequest } from './HttpClient';
@@ -45,11 +44,54 @@ export default class RuntimeStackService {
     });
   };
 
-  public static getWebAppGitHubActionStacks = (stacksOs: AppOsType) => {
-    return sendHttpRequest<WebAppCreateStack[]>({
-      url: `${Url.serviceHost}stacks/webAppGitHubActionStacks?os=${stacksOs}&api-version=${CommonConstants.ApiVersions.stacksApiVersion20200501}`,
-      method: 'POST',
+  public static getWebAppGitHubActionStacks = async (stacksOs: AppOsType) => {
+    const stacksResponse = await sendHttpRequest<WebAppStack[]>({
+      url: `${
+        Url.serviceHost
+      }stacks/webAppStacks?os=${stacksOs}&removeDeprecatedStacks=${true}&removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}&api-version=${
+        CommonConstants.ApiVersions.stacksApiVersion20200601
+      }`,
+      method: 'GET',
     });
+
+    const success = stacksResponse.metadata.success && !!stacksResponse.data;
+    const mappedResult: HttpResponseObject<WebAppStack[]> = {
+      ...stacksResponse,
+      metadata: {
+        ...stacksResponse.metadata,
+        success,
+      },
+      data: RuntimeStackService._filterGitHubActionStacks(stacksResponse),
+    };
+    return mappedResult;
+  };
+
+  private static _filterGitHubActionStacks = (stacksResponse: HttpResponseObject<WebAppStack[]>) => {
+    let gitHubActionStacks: WebAppStack[] = [];
+    if (stacksResponse.metadata.success) {
+      stacksResponse.data.forEach(currentStack => {
+        currentStack.majorVersions.forEach(majorVersion => {
+          majorVersion.minorVersions.forEach(minorVersion => {
+            if (
+              minorVersion.stackSettings.windowsRuntimeSettings &&
+              minorVersion.stackSettings.windowsRuntimeSettings.gitHubActionSettings.isSupported &&
+              !gitHubActionStacks.find(val => val === currentStack)
+            ) {
+              gitHubActionStacks.push(currentStack);
+            }
+
+            if (
+              minorVersion.stackSettings.linuxRuntimeSettings &&
+              minorVersion.stackSettings.linuxRuntimeSettings.gitHubActionSettings.isSupported &&
+              !gitHubActionStacks.find(val => val === currentStack)
+            ) {
+              gitHubActionStacks.push(currentStack);
+            }
+          });
+        });
+      });
+    }
+    return gitHubActionStacks;
   };
 
   private static _getStackUrlParameter = (stacksOs: AppStackOs) => {
