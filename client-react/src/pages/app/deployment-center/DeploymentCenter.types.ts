@@ -62,6 +62,7 @@ export enum WorkflowFileDeleteOptions {
 }
 
 export enum RuntimeStackOptions {
+  Java = 'java',
   Python = 'python',
   DotNetCore = 'dotnetcore',
   Ruby = 'ruby',
@@ -74,6 +75,7 @@ export enum RuntimeStackOptions {
 }
 
 export enum RuntimeStackDisplayNames {
+  Java = 'Java',
   Python = 'Python',
   DotNetCore = '.NET Core',
   Ruby = 'Ruby',
@@ -85,15 +87,13 @@ export enum RuntimeStackDisplayNames {
 }
 
 export enum RuntimeVersionOptions {
-  Tomcat = 'tomcat',
-  javaSE = 'java',
-  JBossEAP = 'jbosseap',
+  Java11 = 'java11',
+  Java8 = 'java8',
 }
 
 export enum RuntimeVersionDisplayNames {
-  JBossEAP = 'JBoss EAP',
-  Tomcat = 'Tomcat',
-  JavaSE = 'Java SE',
+  Java11 = 'Java 11',
+  Java8 = 'Java 8',
 }
 
 export enum TargetAzDevDeployment {

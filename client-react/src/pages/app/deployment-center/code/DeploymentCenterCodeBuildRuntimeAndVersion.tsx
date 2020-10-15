@@ -4,25 +4,30 @@ import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
 import { BuildProvider } from '../../../../models/site/config';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
-import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, RuntimeStackSetting } from '../DeploymentCenter.types';
+import {
+  DeploymentCenterFieldProps,
+  DeploymentCenterCodeFormData,
+  RuntimeStackSetting,
+  RuntimeVersionOptions,
+} from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { WebAppCreateStack } from '../../../../models/available-stacks';
 import { getRuntimeStackSetting } from '../utility/DeploymentCenterUtility';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { AppOs } from '../../../../models/site/site';
 import { SiteStateContext } from '../../../../SiteState';
+import { WebAppStack } from '../../../../models/stacks/web-app-stacks';
 
 const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
   const [selectedRuntime, setSelectedRuntime] = useState<string | undefined>(undefined);
   const [selectedVersion, setSelectedVersion] = useState<string | undefined>(undefined);
-  const [runtimeStacksData, setRuntimeStacksData] = useState<WebAppCreateStack[]>([]);
+  const [runtimeStacksData, setRuntimeStacksData] = useState<WebAppStack[]>([]);
   const [runtimeStackOptions, setRuntimeStackOptions] = useState<IDropdownOption[]>([]);
   const [runtimeVersionOptions, setRuntimeVersionOptions] = useState<IDropdownOption[]>([]);
   const [defaultStack, setDefaultStack] = useState<string>('');
@@ -68,11 +73,27 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === selectedStack);
 
     if (runtimeStack) {
-      setRuntimeVersionOptions(
-        runtimeStack.versions.map(version => {
-          return { text: version.displayText, key: version.supportedPlatforms[0].runtimeVersion };
-        })
-      );
+      let displayedVersions: IDropdownOption[] = [];
+
+      runtimeStack.majorVersions.forEach(majorVersion => {
+        majorVersion.minorVersions.forEach(minorVersion => {
+          if (
+            minorVersion.stackSettings.windowsRuntimeSettings &&
+            minorVersion.stackSettings.windowsRuntimeSettings.gitHubActionSettings.isSupported
+          ) {
+            displayedVersions.push({ text: minorVersion.displayText, key: minorVersion.value });
+          }
+
+          if (
+            minorVersion.stackSettings.linuxRuntimeSettings &&
+            minorVersion.stackSettings.linuxRuntimeSettings.gitHubActionSettings.isSupported
+          ) {
+            displayedVersions.push({ text: minorVersion.displayText, key: minorVersion.value });
+          }
+        });
+      });
+
+      setRuntimeVersionOptions(displayedVersions);
     }
   };
 
@@ -119,13 +140,16 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   const getRuntimeStackRecommendedVersion = (stackValue: string, runtimeVersionValue: string): string => {
     const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === selectedRuntime);
     if (runtimeStack) {
-      // NOTE(t-kakan): list should already be filtered by OS, so the supportedPlatforms[0] should be only element available
-      const runtimeStackVersion = runtimeStack.versions.find(
-        version => version.supportedPlatforms[0].runtimeVersion === runtimeVersionValue
-      );
-      if (runtimeStackVersion) {
-        if (runtimeStackVersion.supportedPlatforms[0].githubActionSettings) {
-          const recommendedVersion = runtimeStackVersion.supportedPlatforms[0].githubActionSettings.recommendedVersion;
+      const runtimeStackVersion = runtimeStack.majorVersions.find(version => version.minorVersions[0].value === runtimeVersionValue);
+      if (runtimeStackVersion && runtimeStackVersion.minorVersions.length > 0) {
+        if (runtimeStackVersion.minorVersions[0].stackSettings.windowsRuntimeSettings) {
+          const recommendedVersion =
+            runtimeStackVersion.minorVersions[0].stackSettings.windowsRuntimeSettings.gitHubActionSettings.supportedVersion;
+          return recommendedVersion ? recommendedVersion : '';
+        }
+        if (runtimeStackVersion.minorVersions[0].stackSettings.linuxRuntimeSettings) {
+          const recommendedVersion =
+            runtimeStackVersion.minorVersions[0].stackSettings.linuxRuntimeSettings.gitHubActionSettings.supportedVersion;
           return recommendedVersion ? recommendedVersion : '';
         }
       }
@@ -137,9 +161,16 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     // NOTE(michinoy): once the stack versions dropdown is populated, default selection can be done in either of following ways:
     // 1. If the stack version is selected for the app and it exists in the list
     // 2. Select the first item in the list if the stack version does not exist (e.g. .NET Core) Or does not exist in the list (e.g. Node LTS)
+    let defaultRuntimeVersion = defaultVersion;
+    if (defaultRuntimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java11) {
+      defaultRuntimeVersion = '11.0';
+    } else if (defaultRuntimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java8) {
+      defaultRuntimeVersion = '8.0';
+    }
+
     if (runtimeVersionOptions.length >= 1) {
       const defaultRuntimeVersionOption = runtimeVersionOptions.filter(
-        item => item.key.toString().toLocaleLowerCase() === defaultVersion.toLocaleLowerCase()
+        item => item.key.toString().toLocaleLowerCase() === defaultRuntimeVersion.toLocaleLowerCase()
       );
 
       if (defaultRuntimeVersionOption && defaultRuntimeVersionOption.length === 1) {
