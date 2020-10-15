@@ -1,8 +1,8 @@
 import { FunctionAppStack } from '../../models/FunctionAppStackModel';
 
 export const dotnetCoreStack: FunctionAppStack = {
-  displayText: '.NET Core',
-  value: 'dotnetCore',
+  displayText: '.NET',
+  value: 'dotnet',
   preferredOs: 'windows',
   majorVersions: [
     {
@@ -98,6 +98,33 @@ export const dotnetCoreStack: FunctionAppStack = {
                 linuxFxVersion: 'dotnet|2.2',
               },
               supportedFunctionsExtensionVersions: ['~2'],
+            },
+          },
+        },
+      ],
+    },
+    {
+      displayText: '.NET Framework 4',
+      value: '2',
+      minorVersions: [
+        {
+          displayText: '.NET Framework 4.7',
+          value: '4.7',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '4.7',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              appSettingsDictionary: {},
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+              },
+              supportedFunctionsExtensionVersions: ['~1'],
             },
           },
         },

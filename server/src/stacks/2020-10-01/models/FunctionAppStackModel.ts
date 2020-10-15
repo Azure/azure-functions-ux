@@ -1,7 +1,7 @@
 import { AppStack, CommonSettings, AppInsightsSettings, GitHubActionSettings } from './AppStackModel';
 
 export type FunctionAppStack = AppStack<FunctionAppRuntimes, FunctionAppStackValue>;
-export type FunctionAppStackValue = 'dotnetCore' | 'dotnetFramework' | 'java' | 'node' | 'powershell' | 'python' | 'custom';
+export type FunctionAppStackValue = 'dotnet' | 'java' | 'node' | 'powershell' | 'python' | 'custom';
 
 type FunctionsExtensionVersion = '~1' | '~2' | '~3';
 type FunctionsWorkerRuntime = 'dotnet' | 'node' | 'python' | 'java' | 'powershell' | 'custom';
