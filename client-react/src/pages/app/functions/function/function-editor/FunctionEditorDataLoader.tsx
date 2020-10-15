@@ -482,6 +482,21 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return isUploadingFile || isRefreshing;
   };
 
+  const refreshFileList = async () => {
+    if (site && functionInfo && runtimeVersion) {
+      const fileListResponse = await FunctionsService.getFileContent(site.id, functionInfo.properties.name, runtimeVersion);
+      if (fileListResponse && fileListResponse.metadata.success) {
+        setFileList(fileListResponse.data as VfsObject[]);
+      } else {
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'getFileContent',
+          `Failed to get file content: ${getErrorMessageOrStringify(fileListResponse.metadata.error)}`
+        );
+      }
+    }
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -533,6 +548,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             getFunctionUrl={getFunctionUrl}
             isUploadingFile={isUploadingFile}
             setIsUploadingFile={setIsUploadingFile}
+            refreshFileList={refreshFileList}
           />
         </div>
       ) : (

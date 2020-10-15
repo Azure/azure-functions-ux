@@ -59,6 +59,7 @@ export interface FunctionEditorProps {
   getFunctionUrl: (key?: string) => string;
   isUploadingFile: boolean;
   setIsUploadingFile: (isUploadingFile: boolean) => void;
+  refreshFileList: () => void;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
@@ -84,6 +85,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     getFunctionUrl,
     isUploadingFile,
     setIsUploadingFile,
+    refreshFileList,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -387,7 +389,11 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     xhr.onloadend = async loadEndEvent => {
       setIsUploadingFile(false);
       if (loadEndEvent.target && !!loadEndEvent.target['status'] && loadEndEvent.target['status'] < 300) {
-        refresh();
+        if (!!fileList && fileList.length > 0) {
+          refreshFileList();
+        } else {
+          refresh();
+        }
       } else {
         LogService.error(
           LogCategories.FunctionEdit,
