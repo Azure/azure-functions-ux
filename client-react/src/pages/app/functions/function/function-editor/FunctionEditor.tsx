@@ -44,6 +44,7 @@ import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper'
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
 import { isLinuxDynamic } from '../../../../../utils/arm-utils';
 import Url from '../../../../../utils/url';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -117,13 +118,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.siteAppEditState);
   const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
 
-  const getSaveFileHeaders = (mime: string) => {
-    return {
-      'Content-Type': mime,
-      'If-Match': '*',
-    };
-  };
-
   const save = async () => {
     if (!selectedFile) {
       return;
@@ -136,7 +130,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       fileContent.latest,
       functionInfo.properties.name,
       runtimeVersion,
-      getSaveFileHeaders(fileData.mime)
+      functionEditorContext.getSaveFileHeaders(fileData.mime)
     );
     if (fileResponse.metadata.success) {
       setFileContent({ ...fileContent, default: fileContent.latest });
@@ -372,24 +366,46 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     });
   };
 
-  const uploadFile = async (filename: string, fileContent: string, mime: string) => {
-    const fileResponse = await FunctionsService.saveFileContent(
+  const uploadFile = async (file: any) => {
+    const xhr = new XMLHttpRequest();
+    const url = `${window.appsvc &&
+      window.appsvc.env &&
+      window.appsvc.env.azureResourceManagerEndpoint}${FunctionsService.getSaveFileContentUrl(
       site.id,
-      filename,
-      fileContent,
+      file.name,
       functionInfo.properties.name,
       runtimeVersion,
-      getSaveFileHeaders(mime)
-    );
-    if (fileResponse.metadata.success) {
-      refresh();
-    } else {
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'functionEditorFileUpload',
-        `Failed to upload file: ${getErrorMessageOrStringify(fileResponse.metadata.error)}`
-      );
+      CommonConstants.ApiVersions.antaresApiVersion20181101
+    )}`;
+    const headers = functionEditorContext.getSaveFileHeaders(file.type);
+    headers['Cache-Control'] = 'no-cache';
+    headers['Authorization'] = `Bearer ${startUpInfoContext.token}`;
+
+    xhr.onloadstart = async loadStartEvent => {
+      setIsUploadingFile(true);
+    };
+    xhr.onloadend = async loadEndEvent => {
+      setIsUploadingFile(false);
+      if (loadEndEvent.target && !!loadEndEvent.target['status'] && loadEndEvent.target['status'] < 300) {
+        refresh();
+      } else {
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'functionEditorFileUpload',
+          `Failed to upload file: ${loadEndEvent.target && loadEndEvent.target['response']}`
+        );
+      }
+    };
+
+    xhr.open('PUT', url, true);
+
+    for (const headerKey in headers) {
+      if (headerKey in headers) {
+        xhr.setRequestHeader(headerKey, headers[headerKey]);
+      }
     }
+
+    xhr.send(file);
   };
 
   useEffect(() => {
@@ -441,7 +457,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           functionInfo={functionInfo}
           runtimeVersion={runtimeVersion}
           upload={uploadFile}
-          setIsUploadingFile={setIsUploadingFile}
         />
         <ConfirmDialog
           primaryActionButton={{

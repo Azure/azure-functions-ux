@@ -22,14 +22,13 @@ interface FunctionEditorCommandBarProps {
   resetFunction: () => void;
   testFunction: () => void;
   refreshFunction: () => void;
-  upload: (filename: string, fileContent: string, mime: string) => void;
+  upload: (file: any) => void;
   isGetFunctionUrlVisible: boolean;
   dirty: boolean;
   disabled: boolean;
   urlObjs: UrlObj[];
   testDisabled: boolean;
   functionInfo: ArmObj<FunctionInfo>;
-  setIsUploadingFile: (isUploadingFile: boolean) => void;
   runtimeVersion?: string;
 }
 
@@ -46,7 +45,6 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
     refreshFunction,
     functionInfo,
     runtimeVersion,
-    setIsUploadingFile,
     upload,
   } = props;
   const { t } = useTranslation();
@@ -70,19 +68,9 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
   };
 
   const uploadFile = e => {
-    const file = e.target && e.target.files && e.target.files[0] ? e.target.files[0] : undefined;
+    const file = e.target && e.target.files && e.target.files.length > 0 && e.target.files[0];
     if (file) {
-      const fileName = file.name;
-      const fileMime = file.type;
-      const reader = new FileReader();
-      reader.onload = async fileEvent => {
-        setIsUploadingFile(true);
-        if (fileEvent.target && !!fileEvent.target['result']) {
-          await upload(fileName, fileEvent.target['result'] as string, fileMime);
-        }
-        setIsUploadingFile(false);
-      };
-      reader.readAsText(file);
+      upload(file);
     }
   };
 
