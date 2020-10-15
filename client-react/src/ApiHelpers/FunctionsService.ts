@@ -160,9 +160,12 @@ export default class FunctionsService {
     apiVersion?: string
   ) => {
     const endpoint = `${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`;
-    return `${resourceId}${FunctionsService._getVfsApiForRuntimeVersion(endpoint, runtimeVersion)}${
-      !!apiVersion ? `?api-version=${apiVersion}` : ''
-    }`;
+    const shortUrl = `${resourceId}${FunctionsService._getVfsApiForRuntimeVersion(endpoint, runtimeVersion)}`;
+    if (apiVersion) {
+      return `${shortUrl}${shortUrl.indexOf('?') > -1 ? '&' : '?'}api-version=${apiVersion}`;
+    } else {
+      return shortUrl;
+    }
   };
 
   public static saveFileContent(
