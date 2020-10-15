@@ -3226,9 +3226,6 @@
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>用于 Linux 的第一个 Basic (B1)核心前 30 天免费!</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Windows 容器在预览版期间费用五折。</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>应用服务环境(ASE)内的独立定价层不可用于你的配置。ASE 是 Azure 应用服务强大的功能服务，可提供网络隔离和改进的缩放功能。</value>
     </data>
@@ -3944,6 +3941,9 @@
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>例如，nginx:latest</value>
     </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>例如，microsoft/iis:latest</value>
+    </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>要开始使用，首先创建 Azure 容器注册表并添加图像。</value>
     </data>
@@ -4285,9 +4285,6 @@
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Linux 高级函数应用(预览版)不支持在门户中编辑函数。</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>单个容器(预览)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>更多模板...</value>
@@ -5977,13 +5974,19 @@
         <value>部署中心同步命令</value>
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
+        <value>部署中心重新部署命令</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>提取信息时出错</value>
     </data>
   <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>无法检索帐户信息</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>管理发布配置文件</value>
@@ -6118,10 +6121,10 @@
         <value>是否确定要刷新?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to redeploy?</value>
+        <value>是否确定要重新部署?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
-        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
+        <value>执行重新部署操作将取消正在进行的任何现有部署操作，并新建一个部署操作。</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>是否确定要放弃?</value>
@@ -6282,6 +6285,12 @@
   <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
     </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
   <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>文件夹</value>
     </data>
@@ -6325,7 +6334,7 @@
         <value>提取 Git 克隆 URI 时出错</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
-        <value>Redeploy Request Submitted</value>
+        <value>已提交重新部署请求</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>正在更新 Web 应用 {0} 的存储库</value>
@@ -6334,10 +6343,10 @@
         <value>已成功更新 Web 应用 {0} 的存储库</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
-        <value>Failed to redeploy: {0}</value>
+        <value>无法重新部署: {0}</value>
     </data>
   <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
-        <value>Failed to redeploy</value>
+        <value>无法重新部署</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>注册表设置</value>
@@ -6790,6 +6799,18 @@
         <value>装载路径不得为 "/"</value>
     </data>
   <data name="workflowRuntimeSettings" xml:space="preserve">
-        <value>Workflow runtime settings</value>
+        <value>工作流运行时设置</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>

@@ -3226,9 +3226,6 @@
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Первое ядро категории "Базовый" (B1) для Linux предоставляется бесплатно в первые 30 дней.</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Контейнеры для Windows предоставляются в предварительной версии с 50-процентной скидкой.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Изолированные ценовые категории в среде службы приложений (ASE) недоступны вам для настройки. ASE — мощная функция службы приложений Azure, обеспечивающая сетевую изоляцию и улучшенные возможности масштабирования.</value>
     </data>
@@ -3944,6 +3941,9 @@
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>Например, nginx:latest</value>
     </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>Например, microsoft/iis:latest</value>
+    </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Чтобы начать, создайте реестр контейнеров Azure и добавьте образ.</value>
     </data>
@@ -4285,9 +4285,6 @@
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Изменение функций на портале не поддерживается для приложений-функций Linux категории "Премиум" (предварительная версия).</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Один контейнер (предварительная версия)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Другие шаблоны…</value>
@@ -5977,13 +5974,19 @@
         <value>Команда синхронизации в Центре развертывания</value>
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
+        <value>Команда повторного развертывания в Центре развертывания</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Ошибка при получении сведений</value>
     </data>
   <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>Не удалось получить сведения об учетной записи</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Управление профилем публикации</value>
@@ -6118,10 +6121,10 @@
         <value>Вы действительно хотите выполнить обновление?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to redeploy?</value>
+        <value>Вы действительно хотите выполнить повторное развертывание?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
-        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
+        <value>При повторном развертывании все выполняющиеся операции развертывания будут отменены и будет создана новая операция.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Вы действительно хотите отменить операцию?</value>
@@ -6282,11 +6285,17 @@
   <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
     </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Репозитории Azure</value>
+    </data>
   <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Папка</value>
     </data>
   <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
-        <value>Выберите папку.</value>
+        <value>Выберите папку</value>
     </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>Внешний репозиторий Git</value>
@@ -6325,7 +6334,7 @@
         <value>Ошибка при получении URI клона Git.</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
-        <value>Redeploy Request Submitted</value>
+        <value>Отправлен запрос на повторное развертывание</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>Обновляется репозиторий для веб-приложения {0}</value>
@@ -6334,10 +6343,10 @@
         <value>Репозиторий для веб-приложения {0} обновлен.</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
-        <value>Failed to redeploy: {0}</value>
+        <value>Не удалось выполнить повторное развертывание: {0}</value>
     </data>
   <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
-        <value>Failed to redeploy</value>
+        <value>Не удалось выполнить повторное развертывание</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Параметры реестра</value>
@@ -6790,6 +6799,18 @@
         <value>Путь подключения "/" недопустим.</value>
     </data>
   <data name="workflowRuntimeSettings" xml:space="preserve">
-        <value>Workflow runtime settings</value>
+        <value>Параметры среды выполнения рабочего процесса</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>

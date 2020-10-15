@@ -3226,9 +3226,6 @@
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Linux の最初の Basic (B1) コアは、最初の 30 日間無料です。</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Windows コンテナーはプレビュー期間中は 50% 割引で課金されます。</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>ご使用の構成では、App Service Environment (ASE) 内の Isolated 価格レベルは利用できません。ASE は Azure App Service で提供されている強力な機能で、ネットワーク分離と向上したスケーリング機能が備わっています。</value>
     </data>
@@ -3944,6 +3941,9 @@
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>例: nginx:latest</value>
     </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>例: microsoft/iis:latest</value>
+    </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>使用を開始するには、まず Azure Container Registry を作成してイメージを追加する必要があります。</value>
     </data>
@@ -4285,9 +4285,6 @@
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>ポータルでの関数の編集は、Linux Premium 関数アプリ (プレビュー) ではサポートされていません。</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>単一コンテナー (プレビュー)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>その他のテンプレート...</value>
@@ -5977,13 +5974,19 @@
         <value>デプロイ センターの同期コマンド</value>
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
+        <value>デプロイ センターの再デプロイ コマンド</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>情報のフェッチでエラーが発生しました</value>
     </data>
   <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>アカウント情報を取得できません</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>切断するには、Azure DevOps ポータルに移動してください。</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>発行プロファイルの管理</value>
@@ -6118,10 +6121,10 @@
         <value>更新しますか?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to redeploy?</value>
+        <value>再デプロイしますか?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
-        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
+        <value>再デプロイ操作を実行すると、進行中の既存のデプロイ操作がすべて取り消され、新規作成されます。</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>破棄しますか?</value>
@@ -6282,6 +6285,12 @@
   <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
     </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
   <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>フォルダー</value>
     </data>
@@ -6325,7 +6334,7 @@
         <value>Git Clone URI のフェッチでエラーが発生しました</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
-        <value>Redeploy Request Submitted</value>
+        <value>再デプロイ要求が送信されました</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>Web アプリ {0} のリポジトリを更新しています</value>
@@ -6334,10 +6343,10 @@
         <value>Web アプリ {0} のリポジトリが正常に更新されました</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
-        <value>Failed to redeploy: {0}</value>
+        <value>再デプロイが失敗しました: {0}</value>
     </data>
   <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
-        <value>Failed to redeploy</value>
+        <value>再デプロイが失敗しました</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>レジストリの設定</value>
@@ -6790,6 +6799,18 @@
         <value>マウント パスを '/' にすることはできません</value>
     </data>
   <data name="workflowRuntimeSettings" xml:space="preserve">
-        <value>Workflow runtime settings</value>
+        <value>ワークフロー ランタイムの設定</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>
