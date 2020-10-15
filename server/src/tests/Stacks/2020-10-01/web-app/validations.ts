@@ -11,7 +11,7 @@ const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(7);
 }
 
 export function validateWindowsStacks(stacks) {
@@ -26,12 +26,12 @@ export function validateLinuxStacks(stacks) {
 
 function validateWindowsStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(6);
 }
 
 function validateLinuxStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(7);
 }
 
 function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
@@ -54,7 +54,7 @@ export function validateNotHiddenStacks(stacks) {
 
 function validateNotHiddenStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(7);
 }
 
 function validateStacksAreNotHidden(stacks) {
@@ -87,7 +87,7 @@ export function validateNotDeprecatedStacks(stacks) {
 
 function validateNotDeprecatedStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(7);
 }
 
 function validateStacksAreNotDeprecated(stacks) {
@@ -120,7 +120,7 @@ export function validateNotPreviewStacks(stacks) {
 
 function validateNotPreviewStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(7);
 }
 
 function validateStacksAreNotPreview(stacks) {
@@ -165,7 +165,7 @@ function validateDotnetStack(dotnetStack) {
   expect(dotnetStack.displayText).to.equal('.NET');
   expect(dotnetStack.value).to.equal('dotnet');
   expect(dotnetStack.preferredOs).to.equal('windows');
-  expect(dotnetStack.majorVersions.length).to.equal(3);
+  expect(dotnetStack.majorVersions.length).to.equal(6);
   expect(dotnetStack).to.deep.equal(hardCodedDotnetStack);
 }
 
@@ -225,7 +225,7 @@ function validatePHPStack(phpStack) {
 
 export function validateRubyInStacks(stacks) {
   validateAllStackLength(stacks);
-  validateRubyStack(stacks[5]);
+  validateRubyStack(stacks[4]);
 }
 
 export function validateRubyFilter(stacks) {
@@ -243,7 +243,7 @@ function validateRubyStack(rubyStack) {
 
 export function validateJavaInStacks(stacks) {
   validateAllStackLength(stacks);
-  validateJavaStack(stacks[6]);
+  validateJavaStack(stacks[5]);
 }
 
 export function validateJavaFilter(stacks) {
@@ -261,7 +261,7 @@ function validateJavaStack(javaStack) {
 
 export function validateJavaContainersInStacks(stacks) {
   validateAllStackLength(stacks);
-  validateJavaContainersStack(stacks[7]);
+  validateJavaContainersStack(stacks[6]);
 }
 
 export function validateJavaContainersFilter(stacks) {

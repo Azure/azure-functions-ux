@@ -24,7 +24,7 @@ import {
 
 const stacksService = new StacksService20201001();
 
-describe('WebApp Stacks Test 2020-06-01', () => {
+describe('WebApp Stacks Test 2020-10-01', () => {
   // Test length of all stacks
   describe('Test all stack length', () => {
     it('should validate all stacks are returned', done => {
