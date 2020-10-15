@@ -401,7 +401,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         }
         portalCommunicator.stopNotification(notificationId, true, t('uploadingFileSuccessWithName').format(fileName));
       } else {
-        portalCommunicator.stopNotification(notificationId, false, t('uploadingFileFailure'));
+        portalCommunicator.stopNotification(notificationId, false, t('uploadingFileFailure').format(fileName));
         LogService.error(
           LogCategories.FunctionEdit,
           'functionEditorFileUpload',
