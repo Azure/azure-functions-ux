@@ -2218,4 +2218,7 @@ export class PortalResources {
   public static stackVersionPreview = 'stackVersionPreview';
   public static validation_mountPathNotRoot = 'validation_mountPathNotRoot';
   public static workflowRuntimeSettings = 'workflowRuntimeSettings';
+  public static uploadingFile = 'uploadingFile';
+  public static uploadingFileWithName = 'uploadingFileWithName';
+  public static uploadingFileFailure = 'uploadingFileFailure';
 }

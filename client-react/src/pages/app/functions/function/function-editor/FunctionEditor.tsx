@@ -45,6 +45,7 @@ import { FunctionEditorContext } from './FunctionEditorDataLoader';
 import { isLinuxDynamic } from '../../../../../utils/arm-utils';
 import Url from '../../../../../utils/url';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
+import { PortalContext } from '../../../../../PortalContext';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -111,6 +112,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const siteStateContext = useContext(SiteStateContext);
   const startUpInfoContext = useContext(StartupInfoContext);
   const functionEditorContext = useContext(FunctionEditorContext);
+  const portalCommunicator = useContext(PortalContext);
 
   const scenarioChecker = new ScenarioService(t);
 
@@ -383,6 +385,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     headers['Cache-Control'] = 'no-cache';
     headers['Authorization'] = `Bearer ${startUpInfoContext.token}`;
 
+    const fileName = file.name;
+    const notificationId = portalCommunicator.startNotification(t('uploadingFile'), t('uploadingFileWithName').format(fileName));
+
     xhr.onloadstart = async loadStartEvent => {
       setIsUploadingFile(true);
     };
@@ -394,7 +399,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         } else {
           refresh();
         }
+        portalCommunicator.stopNotification(notificationId, true, t('uploadingFileSuccessWithName').format(fileName));
       } else {
+        portalCommunicator.stopNotification(notificationId, false, t('uploadingFileFailure'));
         LogService.error(
           LogCategories.FunctionEdit,
           'functionEditorFileUpload',
