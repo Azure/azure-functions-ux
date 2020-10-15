@@ -152,6 +152,22 @@ export default class FunctionsService {
     });
   }
 
+  public static getSaveFileContentUrl = (
+    resourceId: string,
+    fileName: string,
+    functionName?: string,
+    runtimeVersion?: string,
+    apiVersion?: string
+  ) => {
+    const endpoint = `${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`;
+    const shortUrl = `${resourceId}${FunctionsService._getVfsApiForRuntimeVersion(endpoint, runtimeVersion)}`;
+    if (apiVersion) {
+      return `${shortUrl}${shortUrl.indexOf('?') > -1 ? '&' : '?'}api-version=${apiVersion}`;
+    } else {
+      return shortUrl;
+    }
+  };
+
   public static saveFileContent(
     resourceId: string,
     fileName: string,
@@ -160,10 +176,9 @@ export default class FunctionsService {
     runtimeVersion?: string,
     headers?: KeyValue<string>
   ) {
-    const endpoint = `${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`;
     return MakeArmCall<VfsObject[] | string>({
       headers,
-      resourceId: `${resourceId}${FunctionsService._getVfsApiForRuntimeVersion(endpoint, runtimeVersion)}`,
+      resourceId: FunctionsService.getSaveFileContentUrl(resourceId, fileName, functionName, runtimeVersion),
       commandName: 'saveFileContent',
       method: 'PUT',
       body: newFileContent,

@@ -17,7 +17,7 @@ import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCode
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { SiteStateContext } from '../../../../SiteState';
-import { Link } from 'office-ui-fabric-react';
+import { Link, MessageBarType } from 'office-ui-fabric-react';
 import DeploymentCenterBitbucketConfiguredView from '../bitbucket-provider/DeploymentCenterBitbucketConfiguredView';
 import DeploymentCenterLocalGitConfiguredView from '../local-git-provider/DeploymentCenterLocalGitConfiguredView';
 import DeploymentCenterExternalConfiguredView from '../external-provider/DeploymentCenterExternalConfiguredView';
@@ -28,6 +28,8 @@ import DeploymentCenterOneDriveConfiguredView from '../onedrive-provider/Deploym
 import DeploymentCenterDropboxDataLoader from '../dropbox-provider/DeploymentCenterDropboxDataLoader';
 import DeploymentCenterDropboxConfiguredView from '../dropbox-provider/DeploymentCenterDropboxConfiguredView';
 import DeploymentCenterVstsBuildConfiguredView from './vsts-build-provider/DeploymentCenterVstsBuildConfiguredView';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -71,6 +73,11 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const isDropboxSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.Dropbox;
 
   const isVstsSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vsts;
+
+  const isTfsOrVsoSetup =
+    deploymentCenterContext.siteConfig &&
+    (deploymentCenterContext.siteConfig.properties.scmType === ScmType.Tfs ||
+      deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vso);
 
   const getWorkflowFileContent = () => {
     if (deploymentCenterContext.siteDescriptor) {
@@ -162,7 +169,9 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
               {` ${t('learnMore')}`}
             </Link>
           </p>
-          {!isGitHubActionsSetup && !isVstsSetup && <DeploymentCenterCodeSourceKuduConfiguredView formProps={formProps} />}
+          {!isGitHubActionsSetup && !isVstsSetup && !isTfsOrVsoSetup && (
+            <DeploymentCenterCodeSourceKuduConfiguredView formProps={formProps} />
+          )}
           {isGitHubSourceSetup && <DeploymentCenterGitHubConfiguredView formProps={formProps} />}
           {isBitbucketSetup && <DeploymentCenterBitbucketConfiguredView formProps={formProps} />}
           {isLocalGitSetup && <DeploymentCenterLocalGitConfiguredView />}
@@ -170,8 +179,13 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {isOneDriveSetup && <DeploymentCenterOneDriveConfiguredView formProps={formProps} />}
           {isDropboxSetup && <DeploymentCenterDropboxConfiguredView formProps={formProps} />}
           {isVstsSetup && <DeploymentCenterVstsBuildConfiguredView />}
+          {isTfsOrVsoSetup && (
+            <div className={deploymentCenterInfoBannerDiv}>
+              <CustomBanner message={`${t('deploymentCenterTfsVsoInfoMessage')} `} type={MessageBarType.info} />
+            </div>
+          )}
 
-          <DeploymentCenterCodeBuildConfiguredView />
+          {!isTfsOrVsoSetup && <DeploymentCenterCodeBuildConfiguredView />}
         </>
       ) : (
         <>

@@ -40,7 +40,11 @@ export const getStacksSummaryForDropdown = (
   return options;
 };
 
-export const getMinorVersionText = (text: string, t: i18next.TFunction, settings?: WebAppRuntimeSettings) => {
+export const getMinorVersionText = (
+  text: string,
+  t: i18next.TFunction,
+  settings?: WebAppRuntimeSettings | WindowsJavaContainerSettings | LinuxJavaContainerSettings
+) => {
   if (!!settings) {
     if (settings.isAutoUpdate) {
       return t('stackVersionAutoUpdate').format(text);
@@ -58,7 +62,7 @@ export const getMinorVersionText = (text: string, t: i18next.TFunction, settings
   return text;
 };
 
-export const isStackVersionDeprecated = (settings: WebAppRuntimeSettings) => {
+export const isStackVersionDeprecated = (settings: WebAppRuntimeSettings | WindowsJavaContainerSettings | LinuxJavaContainerSettings) => {
   return settings.isDeprecated || (!!settings.endOfLifeDate && Date.parse(settings.endOfLifeDate) < Date.now());
 };
 
