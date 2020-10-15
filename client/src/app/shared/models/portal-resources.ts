@@ -2220,5 +2220,6 @@ export class PortalResources {
   public static workflowRuntimeSettings = 'workflowRuntimeSettings';
   public static uploadingFile = 'uploadingFile';
   public static uploadingFileWithName = 'uploadingFileWithName';
+  public static uploadingFileSuccessWithName = 'uploadingFileSuccessWithName';
   public static uploadingFileFailure = 'uploadingFileFailure';
 }
