@@ -6808,12 +6808,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Uploading file</value>
     </data>
     <data name="uploadingFileWithName" xml:space="preserve">
-        <value>Uploading {0}</value>
+        <value>Uploading '{0}'</value>
     </data>
     <data name="uploadingFileSuccessWithName" xml:space="preserve">
-        <value>Successfully uploaded {0}</value>
+        <value>Successfully uploaded '{0}'</value>
     </data>
     <data name="uploadingFileFailureWithName" xml:space="preserve">
-        <value>Failed to upload {0}. Uploading files over 5mb is not supported from the Azure portal</value>
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>
