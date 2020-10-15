@@ -484,7 +484,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   const refreshFileList = async () => {
     if (site && functionInfo && runtimeVersion) {
-      const fileListResponse = await FunctionsService.getFileContent(site?.id, functionInfo.properties.name, runtimeVersion);
+      const fileListResponse = await FunctionsService.getFileContent(site.id, functionInfo.properties.name, runtimeVersion);
       if (fileListResponse && fileListResponse.metadata.success) {
         setFileList(fileListResponse.data as VfsObject[]);
       } else {
