@@ -8,6 +8,7 @@ import DropdownNoFormik from '../../../../../components/form-controls/DropDownno
 import { Field } from 'formik';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { useTranslation } from 'react-i18next';
+import { getMinorVersionText } from '../../../../../utils/stacks-utils';
 
 // NOTE(krmitta): These keys should be similar to what is being returned from the backend
 const JAVA8KEY = '8';
@@ -95,12 +96,20 @@ const JavaStack: React.SFC<StackProps> = props => {
               if (majorVersion === JAVA8KEY && !!containerSettings.java8Runtime) {
                 options.push({
                   key: containerSettings.java8Runtime.toLowerCase(),
-                  text: javaContainerMinorVersion.displayText,
+                  text: getMinorVersionText(
+                    javaContainerMinorVersion.displayText,
+                    t,
+                    javaContainerMinorVersion.stackSettings.linuxContainerSettings
+                  ),
                 });
               } else if (majorVersion === JAVA11KEY && !!containerSettings.java11Runtime) {
                 options.push({
                   key: containerSettings.java11Runtime.toLowerCase(),
-                  text: javaContainerMinorVersion.displayText,
+                  text: getMinorVersionText(
+                    javaContainerMinorVersion.displayText,
+                    t,
+                    javaContainerMinorVersion.stackSettings.linuxContainerSettings
+                  ),
                 });
               }
             }
@@ -208,7 +217,7 @@ const JavaStack: React.SFC<StackProps> = props => {
     return initialSelectedValues.containerKey !== currentContainerKey;
   };
 
-  const isContianerVersionDirty = () => {
+  const isContainerVersionDirty = () => {
     return initialValues.config.properties.linuxFxVersion !== values.config.properties.linuxFxVersion;
   };
 
@@ -247,7 +256,7 @@ const JavaStack: React.SFC<StackProps> = props => {
       {currentContainerKey && currentContainerVersionDropdownOptions.length > 0 && (
         <Field
           name="config.properties.linuxFxVersion"
-          dirty={isContianerVersionDirty()}
+          dirty={isContainerVersionDirty()}
           component={Dropdown}
           disabled={disableAllControls}
           label={t('javaWebServerVersion')}

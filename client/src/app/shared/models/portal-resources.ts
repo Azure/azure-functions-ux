@@ -1938,6 +1938,7 @@ export class PortalResources {
   public static deploymentCenterErrorFetchingInfo = 'deploymentCenterErrorFetchingInfo';
   public static deploymentCenterSettingsConfiguredViewUserNotAuthorized = 'deploymentCenterSettingsConfiguredViewUserNotAuthorized';
   public static deploymentCenterVstsInfoMessage = 'deploymentCenterVstsInfoMessage';
+  public static deploymentCenterTfsVsoInfoMessage = 'deploymentCenterTfsVsoInfoMessage';
   public static managePublishProfile = 'managePublishProfile';
   public static ibizafication_readOnlyPython = 'ibizafication_readOnlyPython';
   public static ibizafication_readOnlyJava = 'ibizafication_readOnlyJava';
