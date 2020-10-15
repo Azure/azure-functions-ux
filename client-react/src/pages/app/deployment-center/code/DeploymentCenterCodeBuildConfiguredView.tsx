@@ -41,32 +41,20 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
   };
 
   const getLinuxDefaultVersionDisplayName = (version: string) => {
-    const versionNameParts: string[] = version.toLocaleLowerCase().split('|');
-
     //NOTE(stpelleg): Java is different
-    if (versionNameParts.length === 2 && versionNameParts[0] === RuntimeVersionOptions.Tomcat) {
-      const tomcatNameParts = versionNameParts[1].split('-');
-      return tomcatNameParts.length === 2 ? `${RuntimeVersionDisplayNames.Tomcat} ${tomcatNameParts[0]}` : '';
-    } else if (versionNameParts.length === 2 && versionNameParts[0] === RuntimeVersionOptions.javaSE) {
-      return RuntimeVersionDisplayNames.JavaSE;
-    } else if (versionNameParts.length === 2 && versionNameParts[0] === RuntimeVersionOptions.JBossEAP) {
-      const jBossEAPNameParts = versionNameParts[1].split('-');
-      return jBossEAPNameParts.length === 2 ? `${RuntimeVersionDisplayNames.JBossEAP} ${jBossEAPNameParts[0]}` : '';
+    if (version === RuntimeVersionOptions.Java11) {
+      return RuntimeVersionDisplayNames.Java11;
+    } else if (version === RuntimeVersionOptions.Java8) {
+      return RuntimeVersionDisplayNames.Java8;
     }
+    const versionNameParts: string[] = version.toLocaleLowerCase().split('|');
 
     return versionNameParts.length === 2
       ? `${getRuntimeStackDisplayName(versionNameParts[0])} ${versionNameParts[1].replace('-', ' ').toUpperCase()}`
-      : '';
+      : version;
   };
 
   const getWindowsDefaultVersionDisplayName = (version: string) => {
-    const versionNameParts = version.replace('-', ' ').split('|');
-
-    //NOTE(stpelleg): Java is different
-    if (versionNameParts.length === 3 && versionNameParts[2] === 'SE') {
-      return RuntimeVersionDisplayNames.JavaSE;
-    }
-
     return version.replace('-', ' ');
   };
 
@@ -79,11 +67,8 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
         return RuntimeStackDisplayNames.DotNetCore;
       case RuntimeStackOptions.Ruby:
         return RuntimeStackDisplayNames.Ruby;
-      case RuntimeStackOptions.Java11:
-        return RuntimeStackDisplayNames.Java11;
-      case RuntimeStackOptions.Java8:
-      case RuntimeStackOptions.JBossEAP:
-        return RuntimeStackDisplayNames.Java8;
+      case RuntimeStackOptions.Java:
+        return RuntimeStackDisplayNames.Java;
       case RuntimeStackOptions.Node:
         return RuntimeStackDisplayNames.Node;
       case RuntimeStackOptions.PHP:

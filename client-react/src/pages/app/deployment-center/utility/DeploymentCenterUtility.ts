@@ -2,7 +2,7 @@ import { RuntimeStackSetting, AuthorizationResult } from '../DeploymentCenter.ty
 import { ArmObj } from '../../../../models/arm-obj';
 import { SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
-import { RuntimeStacks, JavaContainers, JavaVersions } from '../../../../utils/stacks-utils';
+import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
 import { IDeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 import { PublishingCredentials } from '../../../../models/site/publish';
@@ -29,23 +29,22 @@ const getRuntimeStackVersionForWindows = (stack: string, siteConfig: ArmObj<Site
     return applicationSettings.properties['WEBSITE_NODE_DEFAULT_VERSION'];
   } else if (stack === RuntimeStacks.python) {
     return siteConfig.properties.pythonVersion;
-  } else if (stack === RuntimeStacks.java8 || stack === RuntimeStacks.java11) {
-    return `${siteConfig.properties.javaVersion}|${siteConfig.properties.javaContainer}|${siteConfig.properties.javaContainerVersion}`;
+  } else if (stack === RuntimeStacks.java) {
+    const javaVersion = siteConfig.properties.javaVersion.replace('1.8', '8.0');
+    return javaVersion === '11' ? '11.0' : javaVersion;
   } else {
     return '';
   }
 };
 
-const getRuntimeStackForWindows = (siteConfig: ArmObj<SiteConfig>, configMetadata: ArmObj<KeyValue<string>>) => {
+const getRuntimeStackForWindows = (configMetadata: ArmObj<KeyValue<string>>) => {
   if (configMetadata.properties['CURRENT_STACK']) {
     const metadataStack = configMetadata.properties['CURRENT_STACK'].toLowerCase();
 
     // NOTE(michinoy): Java is special, so need to handle it carefully. Also in this case, use
     // the string 'java' rather than any of the constants defined as it is not related to any of the
     // defined constants.
-    if (metadataStack === 'java') {
-      return siteConfig.properties.javaVersion === JavaVersions.WindowsVersion8 ? RuntimeStacks.java8 : RuntimeStacks.java11;
-    } else if (metadataStack === 'dotnet') {
+    if (metadataStack === 'dotnet') {
       return RuntimeStacks.aspnet;
     } else {
       return metadataStack;
@@ -62,14 +61,26 @@ const getRuntimeStackSettingForWindows = (
 ): RuntimeStackSetting => {
   const stackData = { runtimeStack: '', runtimeVersion: '' };
 
-  stackData.runtimeStack = getRuntimeStackForWindows(siteConfig, configMetadata);
+  stackData.runtimeStack = getRuntimeStackForWindows(configMetadata);
   stackData.runtimeVersion = getRuntimeStackVersionForWindows(stackData.runtimeStack, siteConfig, applicationSettings);
 
   return stackData;
 };
 
 const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>) => {
-  return !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion : '';
+  // NOTE(stpelleg): Java is special, so need to handle it carefully.
+  if (!siteConfig.properties.linuxFxVersion) {
+    return '';
+  }
+  const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
+  const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
+
+  if (runtimeStack === JavaContainers.JavaSE || runtimeStack === JavaContainers.Tomcat || runtimeStack === JavaContainers.JBoss) {
+    const fxVersionParts = !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('-') : [];
+    return fxVersionParts.length === 2 ? fxVersionParts[1].toLocaleLowerCase() : '';
+  }
+
+  return siteConfig.properties.linuxFxVersion;
 };
 
 const getRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
@@ -77,14 +88,8 @@ const getRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
 
   // NOTE(michinoy): Java is special, so need to handle it carefully.
-  if (runtimeStack === JavaContainers.JavaSE || runtimeStack === JavaContainers.Tomcat) {
-    const fxVersionParts = !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('-') : [];
-    const fxStack = fxVersionParts.length === 2 ? fxVersionParts[1].toLocaleLowerCase() : '';
-    if (fxStack === JavaVersions.LinuxVersion8 || fxStack === JavaVersions.LinuxVersion11) {
-      return fxStack === JavaVersions.LinuxVersion8 ? RuntimeStacks.java8 : RuntimeStacks.java11;
-    } else {
-      return '';
-    }
+  if (runtimeStack === JavaContainers.JavaSE || runtimeStack === JavaContainers.Tomcat || runtimeStack === JavaContainers.JBoss) {
+    return RuntimeStacks.java;
   } else {
     return runtimeStack;
   }
