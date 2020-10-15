@@ -235,9 +235,11 @@ export const JavaVersions = {
 export const JavaContainers = {
   JavaSE: 'java',
   Tomcat: 'tomcat',
+  JBoss: 'jbosseap',
 };
 
 export const RuntimeStacks = {
+  java: 'java',
   aspnet: 'asp.net',
   node: 'node',
   python: 'python',
