@@ -56,6 +56,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [testData, setTestData] = useState<string | undefined>(undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isUploadingFile, setIsUploadingFile] = useState(false);
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -477,6 +478,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return '';
   };
 
+  const isOverlayLoadingComponentVisible = () => {
+    return isUploadingFile || isRefreshing;
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -526,12 +531,14 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             isRefreshing={isRefreshing}
             xFunctionKey={getDefaultXFunctionKey()}
             getFunctionUrl={getFunctionUrl}
+            isUploadingFile={isUploadingFile}
+            setIsUploadingFile={setIsUploadingFile}
           />
         </div>
       ) : (
         <CustomBanner message={t('functionInfoFetchError')} type={MessageBarType.error} />
       )}
-      {isRefreshing && <LoadingComponent overlay={true} />}
+      {isOverlayLoadingComponentVisible() && <LoadingComponent overlay={true} />}
     </FunctionEditorContext.Provider>
   );
 };

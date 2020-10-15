@@ -44,6 +44,7 @@ import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper'
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
 import { isLinuxDynamic } from '../../../../../utils/arm-utils';
 import Url from '../../../../../utils/url';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -56,6 +57,8 @@ export interface FunctionEditorProps {
   refresh: () => void;
   isRefreshing: boolean;
   getFunctionUrl: (key?: string) => string;
+  isUploadingFile: boolean;
+  setIsUploadingFile: (isUploadingFile: boolean) => void;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
@@ -79,6 +82,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     isRefreshing,
     xFunctionKey,
     getFunctionUrl,
+    isUploadingFile,
+    setIsUploadingFile,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -119,17 +124,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     }
     setSavingFile(true);
     const fileData = selectedFile.data;
-    const headers = {
-      'Content-Type': fileData.mime,
-      'If-Match': '*',
-    };
     const fileResponse = await FunctionsService.saveFileContent(
       site.id,
       fileData.name,
       fileContent.latest,
       functionInfo.properties.name,
       runtimeVersion,
-      headers
+      functionEditorContext.getSaveFileHeaders(fileData.mime)
     );
     if (fileResponse.metadata.success) {
       setFileContent({ ...fileContent, default: fileContent.latest });
@@ -278,7 +279,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isDisabled = () => {
-    return isLoading() || functionRunning || isRefreshing;
+    return isLoading() || functionRunning || isRefreshing || isUploadingFile;
   };
 
   const onCancelButtonClick = () => {
@@ -365,6 +366,48 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     });
   };
 
+  const uploadFile = async (file: any) => {
+    const xhr = new XMLHttpRequest();
+    const url = `${window.appsvc &&
+      window.appsvc.env &&
+      window.appsvc.env.azureResourceManagerEndpoint}${FunctionsService.getSaveFileContentUrl(
+      site.id,
+      file.name,
+      functionInfo.properties.name,
+      runtimeVersion,
+      CommonConstants.ApiVersions.antaresApiVersion20181101
+    )}`;
+    const headers = functionEditorContext.getSaveFileHeaders(file.type);
+    headers['Cache-Control'] = 'no-cache';
+    headers['Authorization'] = `Bearer ${startUpInfoContext.token}`;
+
+    xhr.onloadstart = async loadStartEvent => {
+      setIsUploadingFile(true);
+    };
+    xhr.onloadend = async loadEndEvent => {
+      setIsUploadingFile(false);
+      if (loadEndEvent.target && !!loadEndEvent.target['status'] && loadEndEvent.target['status'] < 300) {
+        refresh();
+      } else {
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'functionEditorFileUpload',
+          `Failed to upload file: ${loadEndEvent.target && loadEndEvent.target['response']}`
+        );
+      }
+    };
+
+    xhr.open('PUT', url, true);
+
+    for (const headerKey in headers) {
+      if (headerKey in headers) {
+        xhr.setRequestHeader(headerKey, headers[headerKey]);
+      }
+    }
+
+    xhr.send(file);
+  };
+
   useEffect(() => {
     setLogPanelHeight(logPanelExpanded ? minimumLogPanelHeight : 0);
 
@@ -413,6 +456,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           testDisabled={isTestDisabled()}
           functionInfo={functionInfo}
           runtimeVersion={runtimeVersion}
+          upload={uploadFile}
         />
         <ConfirmDialog
           primaryActionButton={{
