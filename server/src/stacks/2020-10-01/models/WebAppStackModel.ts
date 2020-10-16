@@ -4,8 +4,8 @@ export type WebAppStack = AppStack<WebAppRuntimes & JavaContainers, WebAppStackV
 export type WebAppStackValue = 'dotnet' | 'java' | 'javacontainers' | 'node' | 'php' | 'python' | 'ruby';
 
 export interface WebAppRuntimes {
-  linuxRuntimeSettings?: LinuxWebAppRuntimeSettings;
-  windowsRuntimeSettings?: WindowsWebAppRuntimeSettings;
+  linuxRuntimeSettings?: WebAppRuntimeSettings;
+  windowsRuntimeSettings?: WebAppRuntimeSettings;
 }
 
 export interface WebAppRuntimeSettings extends CommonSettings {
@@ -13,19 +13,6 @@ export interface WebAppRuntimeSettings extends CommonSettings {
   remoteDebuggingSupported: boolean;
   appInsightsSettings: AppInsightsSettings;
   gitHubActionSettings: GitHubActionSettings;
-}
-
-export interface WindowsWebAppRuntimeSettings extends WebAppRuntimeSettings {
-  // todo (allisonm): add windowsFxVersion once we have backend support
-  javaVersion?: string;
-  netFrameworkVersion?: string;
-  nodeVersion?: string;
-  phpVersion?: string;
-  pythonVersion?: string;
-}
-
-export interface LinuxWebAppRuntimeSettings extends WebAppRuntimeSettings {
-  linuxFxVersion?: string;
 }
 
 export interface JavaContainers {
