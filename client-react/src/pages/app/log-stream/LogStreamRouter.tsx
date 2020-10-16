@@ -18,6 +18,7 @@ export interface LogStreamRouterProps {
 }
 const LogStreamRouter: React.FC<LogStreamRouterProps> = props => {
   const { resourceId } = props;
+
   const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
   const siteContext = useContext(SiteRouterContext);
   const { t } = useTranslation();
