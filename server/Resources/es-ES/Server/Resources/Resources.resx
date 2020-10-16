@@ -3226,9 +3226,6 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>El primer núcleo Básico (B1) para Linux es gratis durante los primeros 30 días.</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Los contenedores de Windows se facturan con un descuento del 50 % en la versión preliminar.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Los planes de tarifa aislados en una instancia de App Service Environment (ASE) no están disponibles para su configuración. ASE es una oferta de características eficaces de Azure App Service que proporciona aislamiento de red y funcionalidades de escalado mejoradas.</value>
     </data>
@@ -3944,6 +3941,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>P. ej., nginx:latest</value>
     </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>P. ej., microsoft/iis:latest</value>
+    </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Para comenzar, primero cree un Azure Container Registry y agregue una imagen.</value>
     </data>
@@ -4285,9 +4285,6 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>La edición de funciones en el portal no es compatible con aplicaciones de funciones Premium de Linux (versión preliminar).</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Contenedor único (versión preliminar)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Más plantillas...</value>
@@ -5977,13 +5974,19 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Comando de sincronización del centro de implementación</value>
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
+        <value>Comando de reimplementación del centro de implementación</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Error al capturar la información</value>
     </data>
   <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>No se puede recuperar la información de la cuenta.</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Vaya al portal de Azure DevOps para desconectarse.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Administrar perfil de publicación</value>
@@ -6118,10 +6121,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>¿Está seguro de que quiere actualizar?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to redeploy?</value>
+        <value>¿Seguro que quiere volver a implementar?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
-        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
+        <value>Al realizar una operación de reimplementación, se cancelará cualquier operación de implementación en curso existente y se creará una nueva.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>¿Está seguro de que quiere descartar los cambios?</value>
@@ -6282,6 +6285,12 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
     </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
   <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Carpeta</value>
     </data>
@@ -6325,7 +6334,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Se produjo un error al capturar el URI de Git Clone.</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
-        <value>Redeploy Request Submitted</value>
+        <value>Solicitud de reimplementación enviada</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>El repositorio para la aplicación web {0} se está actualizando.</value>
@@ -6334,10 +6343,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>El repositorio para la aplicación web {0} se actualizó correctamente.</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
-        <value>Failed to redeploy: {0}</value>
+        <value>No se pudo volver a implementar: {0}</value>
     </data>
   <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
-        <value>Failed to redeploy</value>
+        <value>No se pudo volver a implementar</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Configuración del Registro</value>
@@ -6790,6 +6799,18 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>La ruta de acceso de montaje no puede ser "/".</value>
     </data>
   <data name="workflowRuntimeSettings" xml:space="preserve">
-        <value>Workflow runtime settings</value>
+        <value>Configuración del entorno en tiempo de ejecución del flujo de trabajo</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>

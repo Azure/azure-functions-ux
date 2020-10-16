@@ -3226,9 +3226,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Linux için ilk Temel (B1) çekirdek ilk 30 gündür ücretsizdir!</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Windows kapsayıcıları önizleme sırasında %50 indirimli faturalama avantajından yararlanır.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>App Service Ortamı'nda (ASE) yalıtılmış fiyatlandırma katmanları yapılandırmanız için bulunmuyor. ASE, ağ yalıtımı ve geliştirilmiş ölçek özellikleri sunan güçlü bir Azure App Service teklifidir.</value>
     </data>
@@ -3944,6 +3941,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>Ör. nginx:latest</value>
     </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>Ör. microsoft/iis: latest</value>
+    </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Başlamak için, ilk olarak bir Azure Kapsayıcı Kayıt Defteri oluşturun ve bir resim ekleyin.</value>
     </data>
@@ -4285,9 +4285,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Portalda işlev düzenleme Linux Premium İşlev Uygulamaları (Önizleme) için desteklenmiyor.</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Tek Kapsayıcı (Önizleme)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Daha fazla şablon...</value>
@@ -5977,13 +5974,19 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Dağıtım merkezi eşitleme komutu</value>
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
+        <value>Dağıtım merkezi yeniden dağıtma komutu</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Bilgiler getirilirken hata oluştu</value>
     </data>
   <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>Hesap bilgileri alınamıyor</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Yayımlama profilini yönet</value>
@@ -6118,10 +6121,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Yenilemek istediğinizden emin misiniz?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to redeploy?</value>
+        <value>Yeniden dağıtmak istediğinizden emin misiniz?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
-        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
+        <value>Yeniden dağıtma işlemi gerçekleştirmek, devam etmekte olan tüm mevcut dağıtım işlemlerini iptal eder ve yeni bir dağıtım oluşturur.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Atmak istediğinizden emin misiniz?</value>
@@ -6282,6 +6285,12 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
     </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
   <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Klasör</value>
     </data>
@@ -6325,7 +6334,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Git Clone URI'si getirilirken bir hata oluştu</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
-        <value>Redeploy Request Submitted</value>
+        <value>Yeniden Dağıtma İsteği Gönderildi</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>{0} web uygulamasının deposu güncelleştiriliyor</value>
@@ -6334,10 +6343,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>{0} web uygulaması için depo başarıyla güncelleştirildi</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
-        <value>Failed to redeploy: {0}</value>
+        <value>Yeniden dağıtılamadı: {0}</value>
     </data>
   <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
-        <value>Failed to redeploy</value>
+        <value>Yeniden dağıtılamadı</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Kayıt defteri ayarları</value>
@@ -6790,6 +6799,18 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Bağlama yolu '/' olamaz</value>
     </data>
   <data name="workflowRuntimeSettings" xml:space="preserve">
-        <value>Workflow runtime settings</value>
+        <value>İş akışı çalışma zamanı ayarları</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>

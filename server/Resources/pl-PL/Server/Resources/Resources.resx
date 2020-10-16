@@ -3226,9 +3226,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Pierwszy rdzeń w warstwie Podstawowa (B1) dla systemu Linux jest bezpłatny przez pierwsze 30 dni!</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Opłaty za kontenery systemu Windows są naliczane z 50% rabatem w wersji zapoznawczej.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Izolowane warstwy cenowe w środowisku App Service Environment (ASE) nie są dostępne dla danej konfiguracji. Środowisko ASE to zaawansowana oferta funkcji usługi Azure App Service zapewniająca izolację sieciową i ulepszone możliwości skalowania.</value>
     </data>
@@ -3944,6 +3941,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>Na przykład nginx:latest</value>
     </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>Np. microsoft/iis:latest</value>
+    </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Aby rozpocząć, najpierw utwórz rejestr Azure Container Registry i dodaj obraz.</value>
     </data>
@@ -4285,9 +4285,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Edytowanie funkcji w portalu nie jest obsługiwane dla aplikacji funkcji Premium dla systemu Linux (wersja zapoznawcza).</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Jeden kontener (wersja zapoznawcza)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Więcej szablonów...</value>
@@ -5985,6 +5982,12 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>Nie można pobrać informacji o koncie</value>
     </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Przejdź do portalu Azure DevOps, aby się rozłączyć.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Zarządzaj profilem publikowania</value>
     </data>
@@ -6281,6 +6284,12 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
     </data>
   <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Folder</value>
@@ -6790,6 +6799,18 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Ścieżką instalacji nie może być „/”</value>
     </data>
   <data name="workflowRuntimeSettings" xml:space="preserve">
-        <value>Workflow runtime settings</value>
+        <value>Ustawienia środowiska uruchomieniowego przepływu pracy</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>

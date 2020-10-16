@@ -3226,9 +3226,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Le premier cœur De base (B1) pour Linux est gratuit pendant les 30 premiers jours !</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Les conteneurs Windows bénéficient d'une remise de 50 % pendant la préversion.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Les niveaux tarifaires Isolé dans un App Service Environment (ASE) ne sont pas disponibles pour votre configuration. Un App Service Environment (ASE) est intégré à Azure App Service et offre de puissantes fonctionnalités, comme l'isolement réseau et des fonctionnalités d'échelle améliorées.</value>
     </data>
@@ -3944,6 +3941,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>Par ex., nginx:latest</value>
     </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>Par ex., microsoft/iis:latest</value>
+    </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Pour commencer, créez un registre Azure Container Registry et ajoutez une image.</value>
     </data>
@@ -4285,9 +4285,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>La modification de fonctions dans le portail n’est pas prise en charge pour les applications de fonction Premium Linux (préversion).</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Conteneur unique (version préliminaire)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Plus de modèles...</value>
@@ -5977,13 +5974,19 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Commande de synchronisation du centre de déploiement</value>
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
+        <value>Commande de redéploiement du centre de déploiement</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Erreur de récupération des informations</value>
     </data>
   <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>Impossible de récupérer les informations de compte.</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Accédez au portail Azure DevOps pour vous déconnecter.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Gérer le profil de publication</value>
@@ -6118,10 +6121,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Voulez-vous vraiment actualiser ?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to redeploy?</value>
+        <value>Voulez-vous vraiment effectuer le redéploiement ?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
-        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
+        <value>L'exécution d'une opération de redéploiement annule toute opération de déploiement existante et en crée une autre.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Voulez-vous vraiment abandonner ?</value>
@@ -6282,6 +6285,12 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
     </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
   <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Dossier</value>
     </data>
@@ -6325,7 +6334,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Une erreur s'est produite pendant la récupération de l'URI Git Clone</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
-        <value>Redeploy Request Submitted</value>
+        <value>Demande de redéploiement envoyée</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>Le référentiel de l’application web {0} est actuellement mis à jour</value>
@@ -6334,10 +6343,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Le dépôt de l'application web {0} a été mis à jour</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
-        <value>Failed to redeploy: {0}</value>
+        <value>Échec du redéploiement : {0}</value>
     </data>
   <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
-        <value>Failed to redeploy</value>
+        <value>Échec du redéploiement</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Paramètres de registre</value>
@@ -6790,6 +6799,18 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Le chemin de montage ne peut pas être « / »</value>
     </data>
   <data name="workflowRuntimeSettings" xml:space="preserve">
-        <value>Workflow runtime settings</value>
+        <value>Paramètres d'exécution du workflow</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>

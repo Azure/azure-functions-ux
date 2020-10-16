@@ -3226,9 +3226,6 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Der erste Basic-Kern (B1) für Linux ist für die ersten 30 Tage kostenlos!</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Windows-Container werden während der Vorschau mit einem Rabatt von 50 % abgerechnet.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Die Tarife "App Service (isoliert)" innerhalb einer App Service-Umgebung (ASE) sind für Ihre Konfiguration nicht verfügbar. Eine App Service-Umgebung ist ein leistungsstarkes Azure App Service-Feature, das Netzwerkisolation und eine verbesserte Skalierung ermöglicht.</value>
     </data>
@@ -3944,6 +3941,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>Beispiel: nginx:latest</value>
     </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>Beispiel: microsoft/iis:latest</value>
+    </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Erstellen Sie für den Einstieg zuerst eine Azure Container Registry-Instanz, und fügen Sie ein Image hinzu.</value>
     </data>
@@ -4285,9 +4285,6 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Das Bearbeiten von Funktionen im Portal wird für Linux Premium-Funktions-Apps (Vorschau) nicht unterstützt.</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Einzelner Container (Vorschau)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Weitere Vorlagen...</value>
@@ -5977,13 +5974,19 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Bereitstellungscenter-Befehl zum Synchronisieren</value>
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
+        <value>Bereitstellungscenter-Befehl zum erneuten Bereitstellen</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Fehler beim Abrufen von Informationen.</value>
     </data>
   <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>Kontoinformationen können nicht abgerufen werden.</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Veröffentlichungsprofil verwalten</value>
@@ -6118,10 +6121,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Möchten Sie eine Aktualisierung durchführen?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to redeploy?</value>
+        <value>Möchten Sie die erneute Bereitstellung durchführen?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
-        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
+        <value>Durch das Ausführen einer erneuten Bereitstellung wird ein ggf. zurzeit ausgeführter Bereitstellungsvorgang beendet und ein neuer Vorgang erstellt.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Möchten Sie den Vorgang zum Verwerfen ausführen?</value>
@@ -6282,6 +6285,12 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
     </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
   <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Ordner</value>
     </data>
@@ -6334,10 +6343,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Das Repository für die Web-App "{0}" wurde erfolgreich aktualisiert.</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
-        <value>Failed to redeploy: {0}</value>
+        <value>Fehler beim erneuten Bereitstellen: {0}</value>
     </data>
   <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
-        <value>Failed to redeploy</value>
+        <value>Fehler beim erneuten Bereitstellen.</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Registrierungseinstellungen</value>
@@ -6790,6 +6799,18 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Der Bereitstellungspfad kann nicht "/" lauten.</value>
     </data>
   <data name="workflowRuntimeSettings" xml:space="preserve">
-        <value>Workflow runtime settings</value>
+        <value>Laufzeiteinstellungen für Workflow</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>

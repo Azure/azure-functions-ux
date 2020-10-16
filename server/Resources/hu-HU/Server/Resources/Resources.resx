@@ -3226,9 +3226,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Az első linuxos Basic (B1) mag ingyenes az első 30 napban!</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>A Windows-tárolók előzetes verziójában a tárolók díjaiból 50%-os kedvezményt adunk.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Az App Service Environment- (ASE-) környezetbeli izolált díjcsomagok az Ön konfigurációja esetében nem érhetők el. Az ASE egy hatékony Azure App Service-funkció-ajánlat, amely hálózatizolálást és továbbfejlesztett skálázási funkciókat biztosít.</value>
     </data>
@@ -3944,6 +3941,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>Például nginx:latest</value>
     </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>Például: microsoft/iis:latest</value>
+    </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>A kezdéshez először hozzon létre egy Azure Container Registry-adatbázist, és adjon hozzá egy lemezképet.</value>
     </data>
@@ -4285,9 +4285,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>A függvények portálon való szerkesztése nem támogatott a prémium szintű, Linuxhoz készült függvényalkalmazások (előzetes verzió) esetében.</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Single Container (Előzetes verzió)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>További sablonok...</value>
@@ -5977,13 +5974,19 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Üzembe helyezési központ szinkronizálási parancsa</value>
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
+        <value>Üzembe helyezési központ újbóli üzembe helyezési parancsa</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Hiba történt az adatok beolvasásakor</value>
     </data>
   <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>Nem lehet beolvasni a fiókadatokat</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Közzétételi profil kezelése</value>
@@ -6118,10 +6121,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Biztosan frissít?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to redeploy?</value>
+        <value>Biztos, hogy újból végrehajtja az üzembe helyezést?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
-        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
+        <value>Újbóli üzembe helyezési művelet végrehajtásával megszakítja a folyamatban lévő összes üzembe helyezési műveletet, és újat hoz létre.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Biztosan elveti?</value>
@@ -6282,6 +6285,12 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
     </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure-adattárak</value>
+    </data>
   <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Mappa</value>
     </data>
@@ -6325,7 +6334,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Hiba történt a Git Clone parancs URI-azonosítójának beolvasása során</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
-        <value>Redeploy Request Submitted</value>
+        <value>Újbóli üzembe helyezési kérelem elküldve</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>A(z) {0} webalkalmazás adattárának frissítése folyamatban van</value>
@@ -6334,10 +6343,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Sikerült frissíteni a(z) {0} webalkalmazás adattárát</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
-        <value>Failed to redeploy: {0}</value>
+        <value>Nem sikerült az újbóli üzembe helyezés: {0}</value>
     </data>
   <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
-        <value>Failed to redeploy</value>
+        <value>Nem sikerült az újbóli üzembe helyezés</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Regisztrációs adatbázis beállításai</value>
@@ -6790,6 +6799,18 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A csatlakoztatási útvonal nem lehet a következő: /</value>
     </data>
   <data name="workflowRuntimeSettings" xml:space="preserve">
-        <value>Workflow runtime settings</value>
+        <value>Munkafolyamat futási környezetének beállításai</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>

@@ -3226,9 +3226,6 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>O primeiro núcleo Basic (B1) para Linux é grátis durante os primeiros 30 dias!</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Os contêineres do Windows são cobrados com um desconto de 50% enquanto estiverem em versão prévia.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Os tipos de preço isolados dentro de um Ambiente do Serviço de Aplicativo (ASE) não estão disponíveis para sua configuração. Um ASE é uma oferta de recursos avançados do Serviço de Aplicativo do Azure que oferece isolamento de rede e melhores capacidades de dimensionamento.</value>
     </data>
@@ -3944,6 +3941,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>Por exemplo: nginx:latest</value>
     </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>Por exemplo, microsoft/iis:latest</value>
+    </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Para começar, primeiro crie um Registro de Contêiner do Azure e adicione uma imagem.</value>
     </data>
@@ -4285,9 +4285,6 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Não há suporte para a edição de funções no portal para Aplicativos de Funções Premium do Linux (Versão Prévia).</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Único Contêiner (Versão Prévia)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Mais modelos...</value>
@@ -5977,13 +5974,19 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Comando de sincronização da central de implantação</value>
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
+        <value>Comando de reimplantação do centro de implantação</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Erro ao buscar informações</value>
     </data>
   <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>Não é possível recuperar os dados da conta</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Gerenciar o perfil de publicação</value>
@@ -6118,10 +6121,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Tem certeza de que deseja atualizar a página?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to redeploy?</value>
+        <value>Tem certeza de que deseja fazer a reimplantação?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
-        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
+        <value>A execução de uma operação de reimplantação cancelará todas as operações de implantação existentes em andamento e criará outra.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Tem certeza de que deseja fazer o descarte?</value>
@@ -6282,11 +6285,17 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
     </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
   <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Pasta</value>
     </data>
   <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
-        <value>Selecionar pasta</value>
+        <value>Selecione a pasta</value>
     </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>Git Externo</value>
@@ -6325,7 +6334,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Erro ao buscar o URI do Clone do Git</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
-        <value>Redeploy Request Submitted</value>
+        <value>Solicitação de Reimplantação Enviada</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>O repositório do aplicativo Web {0} está sendo atualizado</value>
@@ -6334,10 +6343,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>O repositório do aplicativo Web {0} foi atualizado com êxito</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
-        <value>Failed to redeploy: {0}</value>
+        <value>Falha na reimplantação: {0}</value>
     </data>
   <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
-        <value>Failed to redeploy</value>
+        <value>Falha na reimplantação</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Configurações do registro</value>
@@ -6790,6 +6799,18 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>O caminho de montagem não pode ser '/'</value>
     </data>
   <data name="workflowRuntimeSettings" xml:space="preserve">
-        <value>Workflow runtime settings</value>
+        <value>Configurações do runtime de fluxo de trabalho</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>

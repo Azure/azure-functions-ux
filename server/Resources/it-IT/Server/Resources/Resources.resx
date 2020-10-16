@@ -3226,9 +3226,6 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Il primo core Basic (B1) per Linux è gratuito per i primi 30 giorni.</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Durante il periodo di anteprima, i contenitori Windows vengono fatturati con uno sconto del 50%.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>I piani tariffari di tipo Isolato all'interno di un ambiente del servizio app non sono disponibili per la configurazione corrente. Un ambiente del servizio app è una funzionalità potente del Servizio app di Azure che offre isolamento di rete e scalabilità migliorata.</value>
     </data>
@@ -3944,6 +3941,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>Ad esempio: nginx:latest</value>
     </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>Ad esempio: microsoft/iis:più recente</value>
+    </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Per iniziare, creare un Registro Azure Container e aggiungere un'immagine.</value>
     </data>
@@ -4285,9 +4285,6 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>La modifica delle funzioni nel portale non è supportata per le app per le funzioni Premium Linux (anteprima).</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Contenitore singolo (anteprima)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Altri modelli...</value>
@@ -5985,6 +5982,12 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>Non è possibile recuperare le informazioni sull'account.</value>
     </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Per disconnettersi, passare al portale di Azure DevOps.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Gestisci profilo di pubblicazione</value>
     </data>
@@ -6281,6 +6284,12 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
     </data>
   <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Cartella</value>
@@ -6790,6 +6799,18 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Il percorso di montaggio non può essere '/'</value>
     </data>
   <data name="workflowRuntimeSettings" xml:space="preserve">
-        <value>Workflow runtime settings</value>
+        <value>Impostazioni di runtime del flusso di lavoro</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>

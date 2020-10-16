@@ -3226,9 +3226,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Den första Basic-kärnan (B1) för Linux är kostnadsfri de första 30 dagarna!</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Windows-containers debiteras med 50 % rabatt under förhandsversionen.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Isolerad-prisnivåer inom en App Service-miljö (ASE) finns inte tillgängliga för din konfiguration. En ASE är ett kraftfullt funktionserbjudande i Azure App Service som erbjuder nätverksisolering och förbättrade skalningsfunktioner.</value>
     </data>
@@ -3944,6 +3941,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>T.ex. nginx:latest</value>
     </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>T.ex. microsoft/iis:latest</value>
+    </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Kom igång genom att först skapa ett register med Azure Container Registry och sedan lägga till en avbildning.</value>
     </data>
@@ -4285,9 +4285,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Redigeringsfunktioner i portalen stöds inte för Linux Premium-funktionsappar (förhandsversion).</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Enskild container (förhandsversion)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Fler mallar...</value>
@@ -5977,13 +5974,19 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Synkroniseringskommando för distributionscentret</value>
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
+        <value>Kommandot Omdistribuera distributionscenter</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Det gick inte att hämta information</value>
     </data>
   <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>Det går inte att hämta kontoinformation</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Gå till Azure DevOps-portalen för att koppla från.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Hantera publiceringsprofil</value>
@@ -6118,10 +6121,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Är du säker på att du vill uppdatera?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to redeploy?</value>
+        <value>Är du säker på att du vill distribuera om?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
-        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
+        <value>Om du utför en omdistributionsåtgärd avbryts alla befintliga pågående distributionsåtgärder och en ny skapas.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Är du säker på att du vill ta bort?</value>
@@ -6282,6 +6285,12 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
     </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure-lagringsplatser</value>
+    </data>
   <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Mapp</value>
     </data>
@@ -6325,7 +6334,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Det uppstod ett fel vid hämtning av Git Clone URI:n</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
-        <value>Redeploy Request Submitted</value>
+        <value>Omdistributionsbegäran har skickats in</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>Lagringsplatsen för webbappen {0} uppdateras</value>
@@ -6334,10 +6343,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Lagringsplatsen för webbappen {0} har uppdaterats</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
-        <value>Failed to redeploy: {0}</value>
+        <value>Det gick inte att omdistribuera: {0}</value>
     </data>
   <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
-        <value>Failed to redeploy</value>
+        <value>Det gick inte att omdistribuera</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Registerinställningar</value>
@@ -6790,6 +6799,18 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Monteringssökvägen får inte vara /</value>
     </data>
   <data name="workflowRuntimeSettings" xml:space="preserve">
-        <value>Workflow runtime settings</value>
+        <value>Körningsinställningar för arbetsflöde</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>

@@ -3227,9 +3227,6 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>De eerste Basic-kern (B1) voor Linux is de eerste dertig dagen gratis.</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Windows-containers worden tijdens de preview-fase gefactureerd met 50% korting.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Er zijn geen Isolated-prijscategorieën binnen een App Service Environment (ASE) beschikbaar voor uw configuratie.  Een ASE voorziet in een krachtig functieaanbod van Azure App Service dat netwerkisolatie en verbeterde schaalmogelijkheden biedt.</value>
     </data>
@@ -3945,6 +3942,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>Bijvoorbeeld nginx:latest</value>
     </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>Bijvoorbeeld microsoft/iis:latest</value>
+    </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Maak eerst een Azure Container Registry en voeg een installatiekopie toe om aan de slag te gaan.</value>
     </data>
@@ -4286,9 +4286,6 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Functies bewerken in de portal wordt niet ondersteund voor Premium-functie-apps voor Linux (Preview).</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Enkele container (preview)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Meer sjablonen...</value>
@@ -5978,13 +5975,19 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Opdracht voor synchroniseren van het implementatiecentrum</value>
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
+        <value>Opdracht voor opnieuw implementeren in Implementatiecentrum</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Fout bij het ophalen van gegevens</value>
     </data>
   <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
         <value>Kan geen accountgegevens ophalen</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Publicatieprofiel beheren</value>
@@ -6119,10 +6122,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Weet u zeker dat u wilt vernieuwen?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to redeploy?</value>
+        <value>Weet u zeker dat u opnieuw wilt implementeren?</value>
     </data>
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
-        <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
+        <value>Als u een bewerking voor opnieuw implementeren uitvoert, worden alle actieve implementatiebewerkingen geannuleerd en wordt er een nieuwe implementatie gemaakt.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Weet u zeker dat u de wijzigingen wilt negeren?</value>
@@ -6283,6 +6286,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
         <value>OneDrive</value>
     </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure-opslagplaatsen</value>
+    </data>
   <data name="deploymentCenterCodeFolder" xml:space="preserve">
         <value>Map</value>
     </data>
@@ -6326,7 +6335,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Er is een fout opgetreden bij het ophalen van de kloon-URI voor Git</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
-        <value>Redeploy Request Submitted</value>
+        <value>Aanvraag voor opnieuw implementeren is verzonden</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>De opslagplaats voor web-app {0} wordt bijgewerkt.</value>
@@ -6335,10 +6344,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>De opslagplaats voor de web-app {0} is bijgewerkt</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
-        <value>Failed to redeploy: {0}</value>
+        <value>Kan niet opnieuw implementeren: {0}</value>
     </data>
   <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
-        <value>Failed to redeploy</value>
+        <value>Kan niet opnieuw implementeren</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Registerinstellingen</value>
@@ -6791,6 +6800,18 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Het koppelingspad mag niet / zijn</value>
     </data>
   <data name="workflowRuntimeSettings" xml:space="preserve">
-        <value>Workflow runtime settings</value>
+        <value>Runtime-instellingen voor werkstroom</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Uploading file</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Uploading '{0}'</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Successfully uploaded '{0}'</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
 </root>
