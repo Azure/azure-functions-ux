@@ -2222,4 +2222,5 @@ export class PortalResources {
   public static uploadingFileWithName = 'uploadingFileWithName';
   public static uploadingFileSuccessWithName = 'uploadingFileSuccessWithName';
   public static uploadingFileFailureWithName = 'uploadingFileFailureWithName';
+  public static earlyAccessTemplate = 'earlyAccessTemplate';
 }
