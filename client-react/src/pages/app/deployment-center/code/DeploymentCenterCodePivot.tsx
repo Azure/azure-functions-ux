@@ -42,11 +42,11 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
 
   const isFtpsDirty = (): boolean => {
     const currentUser = deploymentCenterPublishingContext.publishingUser;
-
     return (
       !!currentUser &&
-      (currentUser.properties.publishingUserName !== formProps.values.publishingUsername ||
-        (!!formProps.values.publishingPassword && currentUser.properties.publishingPassword !== formProps.values.publishingPassword))
+      ((currentUser.properties.publishingUserName && !formProps.values.publishingUsername) ||
+        (!!formProps.values.publishingUsername && currentUser.properties.publishingUserName !== formProps.values.publishingUsername) ||
+        (!!formProps.values.publishingPassword || !!formProps.values.publishingConfirmPassword))
     );
   };
 
