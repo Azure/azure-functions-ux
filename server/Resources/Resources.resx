@@ -6816,4 +6816,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="uploadingFileFailureWithName" xml:space="preserve">
         <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
     </data>
+    <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (Early Access)</value>
+    </data>
 </root>

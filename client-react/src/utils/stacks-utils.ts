@@ -55,6 +55,9 @@ export const getMinorVersionText = (
     if (isStackVersionEndOfLife(settings.endOfLifeDate)) {
       return t('endOfLifeTagTemplate').format(text);
     }
+    if (settings.isEarlyAccess) {
+      return t('earlyAccessTemplate').format(text);
+    }
     if (settings.isPreview) {
       return t('stackVersionPreview').format(text);
     }
