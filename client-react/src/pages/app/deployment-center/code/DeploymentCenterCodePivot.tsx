@@ -10,6 +10,7 @@ import { ScmType, BuildProvider } from '../../../../models/site/config';
 import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
 import { ThemeContext } from '../../../../ThemeContext';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import DeploymentCenterGitHubActionLogs from './DeploymentCenterGitHubActionLogs';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const { formProps, deployments, deploymentsError, isLoading } = props;
@@ -21,6 +22,8 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
   const theme = useContext(ThemeContext);
 
   const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
+  const isScmGithubActions =
+    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
 
   const goToSettingsOnClick = () => {
     setSelectedKey('settings');
@@ -50,18 +53,38 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
     );
   };
 
+  const getGitHubActionsAndKuduLogsComponent = () => {
+    return (
+      <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
+        <PivotItem itemKey="app-service-logs" headerText={t('App Service Logs')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
+          {getKuduLogsComponent()}
+        </PivotItem>
+
+        <PivotItem itemKey="ga-logs" headerText={t('GitHub Actions Logs')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
+          <DeploymentCenterGitHubActionLogs />
+        </PivotItem>
+      </Pivot>
+    );
+  };
+
+  const getKuduLogsComponent = () => {
+    return (
+      <DeploymentCenterCodeLogs
+        goToSettings={goToSettingsOnClick}
+        deployments={deployments}
+        deploymentsError={deploymentsError}
+        isLoading={isLoading}
+      />
+    );
+  };
+
   return (
     <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
       <PivotItem
         itemKey="logs"
         headerText={t('deploymentCenterPivotItemLogsHeaderText')}
         ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
-        <DeploymentCenterCodeLogs
-          goToSettings={goToSettingsOnClick}
-          deployments={deployments}
-          deploymentsError={deploymentsError}
-          isLoading={isLoading}
-        />
+        {isScmGithubActions ? getGitHubActionsAndKuduLogsComponent() : getKuduLogsComponent()}
       </PivotItem>
 
       <PivotItem

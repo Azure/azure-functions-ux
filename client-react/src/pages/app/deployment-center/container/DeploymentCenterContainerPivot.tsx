@@ -10,6 +10,7 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { ThemeContext } from '../../../../ThemeContext';
 import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
+import DeploymentCenterGitHubActionLogs from '../code/DeploymentCenterGitHubActionLogs';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotProps> = props => {
   const { logs, formProps, isLoading } = props;
@@ -19,13 +20,17 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const theme = useContext(ThemeContext);
 
+  const isScmGithubActions =
+    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+
   const isSettingsDirty = (): boolean => {
     return (
       (isContainerGeneralSettingsDirty() ||
         (formProps.values.registrySource === ContainerRegistrySources.privateRegistry && isPrivateRegistrySettingsDirty()) ||
         (formProps.values.registrySource === ContainerRegistrySources.docker && isDockerSettingsDirty()) ||
         (formProps.values.registrySource === ContainerRegistrySources.acr && isAcrSettingsDirty())) &&
-      !!deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
+      !!deploymentCenterContext.siteConfig &&
+      deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
     );
   };
 
@@ -76,10 +81,28 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
     );
   };
 
+  const getGitHubActionsAndKuduLogsComponent = () => {
+    return (
+      <Pivot>
+        <PivotItem itemKey="app-service-logs" headerText={t('App Service Logs')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
+          {getContainerLogsComponent()}
+        </PivotItem>
+
+        <PivotItem itemKey="ga-logs" headerText={t('GitHub Actions Logs')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
+          <DeploymentCenterGitHubActionLogs />
+        </PivotItem>
+      </Pivot>
+    );
+  };
+
+  const getContainerLogsComponent = () => {
+    return <DeploymentCenterContainerLogs logs={logs} isLoading={isLoading} />;
+  };
+
   return (
     <Pivot>
       <PivotItem headerText={t('deploymentCenterPivotItemLogsHeaderText')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
-        <DeploymentCenterContainerLogs logs={logs} isLoading={isLoading} />
+        {isScmGithubActions ? getGitHubActionsAndKuduLogsComponent() : getContainerLogsComponent()}
       </PivotItem>
 
       <PivotItem
