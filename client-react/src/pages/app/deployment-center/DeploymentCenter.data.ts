@@ -134,6 +134,18 @@ export default class DeploymentCenterData {
     return GitHubService.createOrUpdateActionWorkflow(authToken, gitHubToken, content);
   };
 
+  public listWorkflowRuns = (gitHubToken: string, org: string, repo: string, workflowFileName: string) => {
+    return GitHubService.listWorkflowRuns(gitHubToken, org, repo, workflowFileName);
+  };
+
+  public cancelWorkflowRun = (gitHubToken: string, url: string) => {
+    return GitHubService.cancelWorkflowRun(gitHubToken, url);
+  };
+
+  public getWorkflowRunLogs = (gitHubToken: string, url: string) => {
+    return GitHubService.getWorkflowRunLogs(gitHubToken, url);
+  };
+
   public getRuntimeStacks = (stacksOs: AppOsType) => {
     return RuntimeStackService.getWebAppGitHubActionStacks(stacksOs);
   };
