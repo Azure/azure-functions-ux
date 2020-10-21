@@ -125,6 +125,36 @@ export default class GitHubService {
     return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/actionWorkflow`, method: 'PUT', data });
   };
 
+  public static listWorkflowRuns = (gitHubToken: string, org: string, repo: string, workflowFileName: string) => {
+    const headers = {
+      Authorization: `Bearer ${gitHubToken}`,
+    };
+    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/actions/workflows/${workflowFileName}/runs`;
+    return sendHttpRequest<any>({ url, headers, method: 'GET' });
+  };
+
+  public static cancelWorkflowRun = (gitHubToken: string, url: string) => {
+    const headers = {
+      Authorization: `Bearer ${gitHubToken}`,
+    };
+    return sendHttpRequest<any>({ url, headers, method: 'POST' });
+  };
+
+  public static getWorkflowRunLogs = async (gitHubToken: string, url: string) => {
+    // const headers = {
+    //   Authorization: `Bearer ${gitHubToken}`,
+    // };
+
+    const data = {
+      gitHubToken,
+      url,
+    };
+
+    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/getWorkflowRunLogs`, method: 'POST', data });
+    //const logs = await sendHttpRequest<any>({ url, headers, method: 'GET' });
+    //await fs.writeFile('logs.zip', logs.data, () => {});
+  };
+
   private static _getGitHubObjectList = async <T>(url: string, gitHubToken: string, logger?: (page, response) => void) => {
     const githubObjectList: T[] = [];
     let lastPageNumber = 1;

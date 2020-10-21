@@ -7,6 +7,7 @@ import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
 import { TokenData, EnvironmentUrlMappings, Environments } from '../deployment-center';
+const fs = require('fs');
 
 @Controller()
 export class GithubController {
@@ -88,6 +89,26 @@ export class GithubController {
     }
 
     await this._commitFile(gitHubToken, content);
+  }
+
+  @Post('api/github/getWorkflowRunLogs')
+  @HttpCode(200)
+  async get(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Res() res) {
+    try {
+      const response = await this.httpService.get(url, {
+        headers: {
+          Authorization: `Bearer ${gitHubToken}`,
+        },
+      });
+      res.json(response.data);
+    } catch (err) {
+      this.loggingService.error(`Failed to get workflow run logs.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
   }
 
   @Post('api/github/deleteActionWorkflow')
