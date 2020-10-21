@@ -102,6 +102,40 @@ export enum TargetAzDevDeployment {
   SU2 = 'su2',
 }
 
+export enum GitHubActionRunStatus {
+  Queued = 'queued',
+  inProgress = 'in_progress',
+  Completed = 'completed',
+}
+
+export enum GitHubActionRunConclusion {
+  Success = 'success',
+  Failure = 'failure',
+  Cancelled = 'cancelled',
+  Neutral = 'neutral',
+  Skipped = 'skipped',
+  TimedOut = 'timed_out',
+  ActionRequired = 'action_required',
+}
+
+export enum GitHubActionRunStatusDisplayName {
+  Queued = 'Queued',
+  inProgress = 'In progress',
+  Completed = 'Completed',
+  None = '',
+}
+
+export enum GitHubActionRunConclusionDisplayName {
+  Success = 'Success',
+  Failure = 'Failure',
+  Cancelled = 'Cancelled',
+  Neutral = 'Neutral',
+  Skipped = 'Skipped',
+  TimedOut = 'Timed out',
+  ActionRequired = 'Action required',
+  None = '',
+}
+
 export interface AzureDevOpsUrl {
   Tfs: string;
   Sps: string;
@@ -278,6 +312,10 @@ export interface DeploymentCenterCommitLogsProps {
   commitId?: string;
 }
 
+export interface DeploymentCenterGitHubActionRunLogsProps {
+  url?: string;
+}
+
 export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
   isPreviewFileButtonDisabled: boolean;
   getWorkflowFileContent: () => string;
@@ -419,6 +457,27 @@ export interface CodeDeploymentsRow {
   commit: JSX.Element;
   checkinMessage: string;
   status: string;
+}
+
+export interface GitHubActionRunRow {
+  index: number;
+  rawTime: moment.Moment;
+  displayTime: string;
+  workflowId: number | JSX.Element;
+  status: string | JSX.Element;
+  details: JSX.Element;
+}
+
+export interface GitHubActionRun {
+  cancel_url: string;
+  html_url: string;
+  logs_url: string;
+  workflow_id: number;
+  status: string;
+  conclusion: string;
+  created_at: string;
+  updated_at: string;
+  run_number: number;
 }
 
 export interface BuildChoiceGroupOption extends IChoiceGroupOption {
