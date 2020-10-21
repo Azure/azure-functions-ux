@@ -16,7 +16,6 @@ export const nodeStack: FunctionAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '~14',
               isPreview: true,
-              isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -37,7 +36,6 @@ export const nodeStack: FunctionAppStack = {
             linuxRuntimeSettings: {
               runtimeVersion: 'Node|14',
               isPreview: true,
-              isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
