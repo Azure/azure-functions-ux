@@ -6420,6 +6420,30 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeDeploymentsLoading" xml:space="preserve">
         <value>Loading deployment logs...</value>
     </data>
+    <data name="deploymentCenterGitHubActionsLogsLoadingAriaValue" xml:space="preserve">
+        <value>Loading GitHub Actions logs</value>
+    </data>
+    <data name="deploymentCenterGitHubActionsLogsLoading" xml:space="preserve">
+        <value>Loading GitHub Actions logs...</value>
+    </data>
+    <data name="deploymentCenterGitHubActionsLogsFailed" xml:space="preserve">
+        <value>Failed to load GitHub Actions logs</value>
+    </data>
+    <data name="deploymentCenterGitHubActionsLogsFailedWithError" xml:space="preserve">
+        <value>Failed to load GitHub Actions logs: {0}</value>
+    </data>
+    <data name="deploymentCenterGitHubActionsLogsEmpty" xml:space="preserve">
+        <value>There are no GitHub Actions logs to display.</value>
+    </data>
+    <data name="deploymentCenterGitHubActionsLogsLinkMessage" xml:space="preserve">
+        <value>View details in GitHub </value>
+    </data>
+    <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
+        <value>Cancel run</value>
+    </data>
+    <data name="deploymentCenterCodeLogDetailsFailed" xml:space="preserve">
+        <value>Failed to load log details</value>
+    </data>
     <data name="deploymentCenterFtpLoadingAriaValue" xml:space="preserve">
         <value>Loading FTP/FTPs credentials</value>
     </data>
