@@ -4,7 +4,19 @@ import { Guid } from '../utils/Guid';
 import { KeyValue } from '../models/portal-models';
 import Url from '../utils/url';
 
+export class WellKnownHeaders {
+  static readonly REQUEST_ID = 'x-ms-client-request-id';
+  static readonly SESSION_ID = 'x-ms-client-session-id';
+}
+
 export const sendHttpRequest = <T>(options: AxiosRequestConfig) => {
+  options.headers = options.headers ? options.headers : {};
+
+  options.headers[WellKnownHeaders.SESSION_ID] = window.appsvc && window.appsvc.sessionId;
+  if (!options.headers[WellKnownHeaders.REQUEST_ID]) {
+    options.headers[WellKnownHeaders.REQUEST_ID] = Guid.newGuid();
+  }
+
   return axios({
     ...options,
     validateStatus: () => true, // never throw error

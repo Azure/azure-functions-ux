@@ -105,6 +105,7 @@ export default class PortalCommunicator {
 
       window.appsvc = {
         version: '',
+        sessionId: '',
         env: {
           hostName: '',
           appName: '',
@@ -120,6 +121,7 @@ export default class PortalCommunicator {
             startupInfo.iframeAppName = response.data.appName;
             window.appsvc = {
               version: response.data.version,
+              sessionId: '',
               env: {
                 hostName: response.data.hostName,
                 appName: response.data.appName,
@@ -444,6 +446,7 @@ export default class PortalCommunicator {
       this.setStartupInfo(startupInfo);
 
       if (window.appsvc) {
+        window.appsvc.sessionId = startupInfo.sessionId;
         window.appsvc.env.azureResourceManagerEndpoint = startupInfo.armEndpoint;
         window.appsvc.resourceId = startupInfo.resourceId;
         window.appsvc.feature = startupInfo.featureInfo && startupInfo.featureInfo.feature;
