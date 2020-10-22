@@ -224,7 +224,8 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
         <p>Follow the simple steps below to enable local development of your project.</p>
         <ol>
           <li>
-            Install the required programs to setup your environment. <a href="">Click here</a>
+            Install the required programs to setup your environment.{' '}
+            <a href="https://hackathon2020store.blob.core.windows.net/msi/OneClickLocalDev.msi">Click here</a>
           </li>
           <li>
             Once everything is installed, <a href={url}>click here</a> to setup your FunctionApp project on your local environment.
