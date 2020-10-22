@@ -21,6 +21,7 @@ interface Environment {
 interface AppSvc {
   env: Environment;
   version: string;
+  sessionId: string;
   resourceId?: string;
   feature?: string;
   cdn?: string;
