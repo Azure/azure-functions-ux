@@ -46,6 +46,23 @@ const FunctionQuickstartDataLoader: React.FC<FunctionQuickstartDataLoaderProps> 
     setInitialLoading(false);
   };
 
+  const getDevContainerForLanguage = (language: string | undefined) => {
+    switch (language) {
+      case 'powershell':
+        return 'azure-functions-pwsh';
+      case 'node':
+        return 'azure-functions-node';
+      case 'python':
+        return 'azure-functions-python-3';
+      case 'dotnet':
+        return 'azure-functions-dotnetcore-3.1';
+      case 'java':
+        return 'azure-functions-java-11';
+      default:
+        throw new Error('Language not supported');
+    }
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -68,7 +85,13 @@ const FunctionQuickstartDataLoader: React.FC<FunctionQuickstartDataLoaderProps> 
   }
   return (
     <FunctionQuickstartContext.Provider value={quickstartData}>
-      <FunctionQuickstart resourceId={resourceId} site={site} workerRuntime={workerRuntime} devContainer="" language="" />
+      <FunctionQuickstart
+        resourceId={resourceId}
+        site={site}
+        workerRuntime={workerRuntime}
+        devContainer={getDevContainerForLanguage(workerRuntime)}
+        language={workerRuntime}
+      />
     </FunctionQuickstartContext.Provider>
   );
 };

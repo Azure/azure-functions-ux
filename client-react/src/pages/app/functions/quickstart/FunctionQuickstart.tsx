@@ -42,7 +42,7 @@ export interface FunctionQuickstartProps {
   site: ArmObj<Site>;
   workerRuntime: string | undefined;
   devContainer: string;
-  language: string;
+  language: string | undefined;
 }
 
 export interface QuickstartOption {
@@ -228,6 +228,13 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
           </li>
           <li>
             Once everything is installed, <a href={url}>click here</a> to setup your FunctionApp project on your local environment.
+            <ol>
+              <li>You will be asked to login to your Azure account for VSCode if you are not logged in already.</li>
+              <li>
+                At the end of the setup, make sure to accept the notification to re-open VSCode to run your FunctionApp within your dev
+                container.
+              </li>
+            </ol>
           </li>
         </ol>
       </>
