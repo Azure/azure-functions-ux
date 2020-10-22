@@ -68,7 +68,7 @@ const FunctionQuickstartDataLoader: React.FC<FunctionQuickstartDataLoaderProps> 
   }
   return (
     <FunctionQuickstartContext.Provider value={quickstartData}>
-      <FunctionQuickstart resourceId={resourceId} site={site} workerRuntime={workerRuntime} />
+      <FunctionQuickstart resourceId={resourceId} site={site} workerRuntime={workerRuntime} devContainer="" language="" />
     </FunctionQuickstartContext.Provider>
   );
 };

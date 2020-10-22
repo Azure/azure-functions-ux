@@ -41,6 +41,8 @@ export interface FunctionQuickstartProps {
   resourceId: string;
   site: ArmObj<Site>;
   workerRuntime: string | undefined;
+  devContainer: string;
+  language: string;
 }
 
 export interface QuickstartOption {
@@ -60,9 +62,10 @@ const ChevronUp: React.FC<{}> = props => {
 
 const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   const { t } = useTranslation();
-  const { site, workerRuntime, resourceId } = props;
+  const { site, workerRuntime, resourceId, devContainer, language } = props;
   const [file, setFile] = useState('');
   const [selectedKey, setSelectedKey] = useState('');
+  const [showPreviewSteps, setShowPreviewSteps] = useState(false);
 
   const quickstartContext = useContext(FunctionQuickstartContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -110,6 +113,14 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       data: {
         icon: <Icon iconName="vs-code" />,
         visible: isVSCodeOptionVisible(),
+      },
+    },
+    {
+      key: 'vscode-preview',
+      text: 'VS Code (Preview)',
+      data: {
+        icon: <Icon iconName="visual-studio" />,
+        visible: true,
       },
     },
     {
@@ -168,10 +179,61 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   }, []);
 
   useEffect(() => {
-    getAndSetSelectedFile(selectedKey);
+    if (selectedKey === 'vscode-preview') {
+      setShowPreviewSteps(true);
+    } else {
+      setShowPreviewSteps(false);
+      getAndSetSelectedFile(selectedKey);
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedKey]);
+
+  const getClassicExperience = () => {
+    return (
+      <Markdown
+        options={{
+          overrides: {
+            MarkdownHighlighter: {
+              component: MarkdownHighlighter,
+            },
+            ChevronUp: {
+              component: ChevronUp,
+            },
+            a: {
+              props: {
+                className: quickstartLinkStyle(theme),
+              },
+            },
+          },
+        }}>
+        {file}
+      </Markdown>
+    );
+  };
+
+  const getPreviewExperience = () => {
+    const url = `vscode://ms-azuretools.vscode-azurefunctions/?resourceId=${resourceId}&devcontainer=${devContainer}&language=${language}`;
+    return (
+      <>
+        <h3>Work on your project locally</h3>
+        <p>
+          As great as the web experience is to get started on your FunctionApp development, nothing can beat the power of developing it
+          locally.
+        </p>
+        <p>Follow the simple steps below to enable local development of your project.</p>
+        <ol>
+          <li>
+            Install the required programs to setup your environment. <a href="">Click here</a>
+          </li>
+          <li>
+            Once everything is installed, <a href={url}>click here</a> to setup your FunctionApp project on your local environment.
+          </li>
+        </ol>
+      </>
+    );
+  };
+
   return (
     <div className={formStyle}>
       <h2>{t('quickstartHeader')}</h2>
@@ -193,24 +255,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
           selectedKey={selectedKey}
         />
       </div>
-      <Markdown
-        options={{
-          overrides: {
-            MarkdownHighlighter: {
-              component: MarkdownHighlighter,
-            },
-            ChevronUp: {
-              component: ChevronUp,
-            },
-            a: {
-              props: {
-                className: quickstartLinkStyle(theme),
-              },
-            },
-          },
-        }}>
-        {file}
-      </Markdown>
+      {showPreviewSteps ? getPreviewExperience() : getClassicExperience()}
     </div>
   );
 };
