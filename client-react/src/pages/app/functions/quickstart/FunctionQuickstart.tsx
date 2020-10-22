@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 import { useTranslation } from 'react-i18next';
-import { Link, IDropdownOption, registerIcons, Icon } from 'office-ui-fabric-react';
+import { Link, IDropdownOption, registerIcons, Icon, Callout } from 'office-ui-fabric-react';
 import {
   formStyle,
   dropdownIconStyle,
@@ -28,6 +28,8 @@ import { QuickstartOptions } from './FunctionQuickstart.types';
 import { WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
 import { KeyValue } from '../../../../models/portal-models';
 import { Links } from '../../../../utils/FwLinks';
+import { calloutStyle } from '../function/function-log/FunctionLog.styles';
+import { calloutContent } from '../../deployment-center/DeploymentCenter.styles';
 
 registerIcons({
   icons: {
@@ -66,6 +68,8 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   const [file, setFile] = useState('');
   const [selectedKey, setSelectedKey] = useState('');
   const [showPreviewSteps, setShowPreviewSteps] = useState(false);
+  const [isStep1CalloutVisible, setIsStep1CalloutVisible] = useState(false);
+  const [isStep2CalloutVisible, setIsStep2CalloutVisible] = useState(false);
 
   const quickstartContext = useContext(FunctionQuickstartContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -212,10 +216,55 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
     );
   };
 
+  const toggleIsStep1CalloutVisible = () => {
+    setIsStep1CalloutVisible(!isStep1CalloutVisible);
+  };
+  const toggleIsStep2CalloutVisible = () => {
+    setIsStep2CalloutVisible(!isStep2CalloutVisible);
+  };
+
   const getPreviewExperience = () => {
     const url = `vscode://ms-azuretools.vscode-azurefunctions/?resourceId=${resourceId}&devcontainer=${devContainer}&language=${language}`;
     return (
       <>
+        {isStep1CalloutVisible && (
+          <Callout
+            className={calloutStyle}
+            role="alertdialog"
+            gapSpace={0}
+            target={`#step1Info`}
+            onDismiss={toggleIsStep1CalloutVisible}
+            setInitialFocus={true}>
+            <div className={calloutContent}>
+              <h3>What is installed on your computer</h3>
+              <ul>
+                <li>Docker Desktop</li>
+                <li>VS Code</li>
+                <li>Azure Account, Azure Functions, Azure CLI, and Docker VS Code extensions</li>
+              </ul>
+            </div>
+          </Callout>
+        )}
+
+        {isStep2CalloutVisible && (
+          <Callout
+            className={calloutStyle}
+            role="alertdialog"
+            gapSpace={0}
+            target={`#step2Info`}
+            onDismiss={toggleIsStep2CalloutVisible}
+            setInitialFocus={true}>
+            <div className={calloutContent}>
+              <h3>How your FunctionApp is provisioned</h3>
+              <ul>
+                <li>You will be prompted to login to your Azure account for VS Code</li>
+                <li>Once the project is provisioned, an option will be provided to open the project in VS Code dev container</li>
+                <li>Within the VS Code dev container, you can use the func cli commands to manage your project</li>
+              </ul>
+            </div>
+          </Callout>
+        )}
+
         <h3>Work on your project locally</h3>
         <p>
           As great as the web experience is to get started on your FunctionApp development, nothing can beat the power of developing it
@@ -224,18 +273,16 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
         <p>Follow the simple steps below to enable local development of your project.</p>
         <ol>
           <li>
-            Install the required programs to setup your environment.{' '}
-            <a href="https://hackathon2020store.blob.core.windows.net/msi/OneClickLocalDev.msi">Click here</a>
+            <a href="https://hackathon2020store.blob.core.windows.net/msi/OneClickLocalDev.msi">Download and install</a> prerequisites.{' '}
+            <Icon id="step1Info" iconName="Info" onClick={toggleIsStep1CalloutVisible} />
+            <br />
+            <br />
           </li>
           <li>
-            Once everything is installed, <a href={url}>click here</a> to setup your FunctionApp project on your local environment.
-            <ol>
-              <li>You will be asked to login to your Azure account for VSCode if you are not logged in already.</li>
-              <li>
-                At the end of the setup, make sure to accept the notification to re-open VSCode to run your FunctionApp within your dev
-                container.
-              </li>
-            </ol>
+            <a href={url}>Click here</a> to provision your FunctionApp project on your local environment.{' '}
+            <Icon id="step2Info" iconName="Info" onClick={toggleIsStep2CalloutVisible} />
+            <br />
+            <br />
           </li>
         </ol>
       </>
