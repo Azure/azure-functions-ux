@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
 import { IGroup } from 'office-ui-fabric-react/lib/components/GroupedList/GroupedList.types';
@@ -7,9 +7,14 @@ import {
   DateTimeObj,
   DeploymentStatus,
   DeploymentProperties,
-  CodeDeploymentsRow,
+  GACodeDeploymentsRow,
+  GitHubActionRunConclusionDisplayName,
+  GitHubActionRunStatusDisplayName,
+  GitHubActionRunStatus,
+  GitHubActionRunConclusion,
+  GitHubActionRun,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton } from 'office-ui-fabric-react';
+import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, Icon } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
@@ -18,6 +23,9 @@ import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { SiteStateContext } from '../../../../SiteState';
+import DeploymentCenterData from '../DeploymentCenter.data';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {
@@ -29,12 +37,96 @@ export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   return 0;
 }
 
+export function logsSort(a: any, b: any) {
+  if (a.source > b.source) {
+    return 1;
+  }
+  if (a.source < b.source) {
+    return -1;
+  }
+  return 0;
+}
+
 const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
+
+  const [isLogsLoading, setIsLogsLoading] = useState<boolean>(false);
+  const [isSourceControlsLoading, setIsSourcecontrolsLoading] = useState<boolean>(true);
+  const [org, setOrg] = useState<string | undefined>(undefined);
+  const [repo, setRepo] = useState<string | undefined>(undefined);
+  const [branch, setBranch] = useState<string | undefined>(undefined);
+  const [runs, setRuns] = useState<GitHubActionRun[] | undefined>(undefined);
+  const [gitHubActionLogsErrorMessage, setGitHubActionLogsErrorMessage] = useState<string | undefined>(undefined);
+
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const { deployments, deploymentsError, isLoading, goToSettings } = props;
   const { t } = useTranslation();
+
+  const siteStateContext = useContext(SiteStateContext);
+  const deploymentCenterData = new DeploymentCenterData();
+
+  const fetchSourceControlDetails = async () => {
+    setIsLogsLoading(true);
+    setIsSourcecontrolsLoading(true);
+    const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
+
+    if (sourceControlDetailsResponse.metadata.success) {
+      setBranch(sourceControlDetailsResponse.data.properties.branch);
+      const repoUrlSplit = sourceControlDetailsResponse.data.properties.repoUrl.split('/');
+      if (repoUrlSplit.length >= 2) {
+        setOrg(repoUrlSplit[repoUrlSplit.length - 2]);
+        setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
+      } else {
+        setIsLogsLoading(false);
+      }
+    } else {
+      setGitHubActionLogsErrorMessage(t('deploymentCenterGitHubActionsLogsFailed'));
+      setIsLogsLoading(false);
+    }
+    setIsSourcecontrolsLoading(false);
+  };
+
+  const fetchWorkflowRuns = async () => {
+    const siteName = siteStateContext.site ? siteStateContext.site.properties.name : '';
+    if (org && repo && branch && siteName) {
+      const workflowFileName = getWorkflowFileName(branch, siteName);
+
+      const gitHubActionWorkflowRunsResponse = await deploymentCenterData.listWorkflowRuns(
+        deploymentCenterContext.gitHubToken,
+        org,
+        repo,
+        workflowFileName
+      );
+
+      if (gitHubActionWorkflowRunsResponse.metadata.success && gitHubActionWorkflowRunsResponse.data) {
+        setRuns(gitHubActionWorkflowRunsResponse.data.workflow_runs);
+      } else {
+        setGitHubActionLogsErrorMessage(
+          gitHubActionWorkflowRunsResponse.metadata.error
+            ? t('deploymentCenterGitHubActionsLogsFailedWithError').format(gitHubActionWorkflowRunsResponse.metadata.error)
+            : t('deploymentCenterGitHubActionsLogsFailed')
+        );
+      }
+    }
+    setIsLogsLoading(false);
+  };
+
+  useEffect(() => {
+    if (deploymentCenterContext.gitHubToken) {
+      fetchSourceControlDetails();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext.gitHubToken]);
+
+  useEffect(() => {
+    if (!isSourceControlsLoading) {
+      fetchWorkflowRuns();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSourceControlsLoading]);
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
     setIsLogPanelOpen(true);
@@ -61,17 +153,20 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     }
   };
 
-  const getDeploymentRow = (deployment: ArmObj<DeploymentProperties>, index: number): CodeDeploymentsRow => {
+  const getDeploymentRow = (deployment: ArmObj<DeploymentProperties>, index: number): GACodeDeploymentsRow => {
     return {
       index: index,
+      commitID: deployment.properties.id.substr(0, 7),
+      source: -1,
       rawTime: moment(deployment.properties.received_time),
       // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
-      displayTime: moment(deployment.properties.received_time).format('h:mm:ss A Z'),
+      displayTime: moment(deployment.properties.received_time).format('MM/D YYYY, h:mm:ss A Z'),
       commit: (
         <Link href={`#${deployment.properties.id}`} onClick={() => showLogPanel(deployment)}>
           {deployment.properties.id.substr(0, 7)}
         </Link>
       ),
+      workflowId: <>{``}</>,
       checkinMessage: deployment.properties.message,
       status: deployment.properties.active
         ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
@@ -79,22 +174,50 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     };
   };
 
-  const getItemGroups = (items: CodeDeploymentsRow[]): IGroup[] => {
+  // const getItemGroups = (items: GACodeDeploymentsRow[]): IGroup[] => {
+  //   const groups: IGroup[] = [];
+  //   items.forEach((item, index) => {
+  //     if (index === 0 || !item.rawTime.isSame(groups[groups.length - 1].data.startIndexRawTime, 'day')) {
+  //       const group = {
+  //         key: `Group${groups.length}`,
+  //         name: item.rawTime.format('dddd, MMMM D, YYYY'),
+  //         startIndex: index,
+  //         count: 1,
+  //         data: { startIndexRawTime: item.rawTime },
+  //       };
+  //       groups.push(group);
+  //     } else {
+  //       groups[groups.length - 1].count += 1;
+  //     }
+  //   });
+  //   return groups;
+  // };
+
+  const getItemCommitGroups = (items: GACodeDeploymentsRow[]): IGroup[] => {
     const groups: IGroup[] = [];
+    if (!runs) {
+      return groups;
+    }
+
     items.forEach((item, index) => {
-      if (index === 0 || !item.rawTime.isSame(groups[groups.length - 1].data.startIndexRawTime, 'day')) {
+      const currentGroup = groups.find(group => group.data.commitId === item.commitID);
+
+      if (index === 0 || !currentGroup) {
+        item.source = groups.length;
         const group = {
           key: `Group${groups.length}`,
-          name: item.rawTime.format('dddd, MMMM D, YYYY'),
+          name: `Commit Id ${item.commitID}`,
           startIndex: index,
           count: 1,
-          data: { startIndexRawTime: item.rawTime },
+          data: { commitId: item.commitID, index: groups.length },
         };
         groups.push(group);
       } else {
-        groups[groups.length - 1].count += 1;
+        item.source = currentGroup.data.index;
+        currentGroup.count += 1;
       }
     });
+    items.sort(logsSort);
     return groups;
   };
 
@@ -113,17 +236,104 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     }
   };
 
-  const rows: CodeDeploymentsRow[] = deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
-  const items: CodeDeploymentsRow[] = rows.sort(dateTimeComparatorReverse);
+  const cancelWorkflowRunOnClick = async (url: string) => {
+    const cancelWorkflowResponse = await deploymentCenterData.cancelWorkflowRun(deploymentCenterContext.gitHubToken, url);
+    if (cancelWorkflowResponse.metadata.success) {
+      setIsLogsLoading(true);
+      await fetchWorkflowRuns();
+    } else {
+    }
+  };
+
+  const getStatusDisplayName = (status: string) => {
+    switch (status) {
+      case GitHubActionRunStatus.Completed:
+        return GitHubActionRunStatusDisplayName.Completed;
+      case GitHubActionRunStatus.Queued:
+        return GitHubActionRunStatusDisplayName.Queued;
+      case GitHubActionRunStatus.inProgress:
+        return GitHubActionRunStatusDisplayName.inProgress;
+      default:
+        return GitHubActionRunStatusDisplayName.None;
+    }
+  };
+
+  const getConclusionDisplayName = (status: string): GitHubActionRunConclusionDisplayName => {
+    switch (status) {
+      case GitHubActionRunConclusion.Success:
+        return GitHubActionRunConclusionDisplayName.Success;
+      case GitHubActionRunConclusion.Failure:
+        return GitHubActionRunConclusionDisplayName.Failure;
+      case GitHubActionRunConclusion.Cancelled:
+        return GitHubActionRunConclusionDisplayName.Cancelled;
+      case GitHubActionRunConclusion.Skipped:
+        return GitHubActionRunConclusionDisplayName.Skipped;
+      case GitHubActionRunConclusion.TimedOut:
+        return GitHubActionRunConclusionDisplayName.TimedOut;
+      case GitHubActionRunConclusion.ActionRequired:
+        return GitHubActionRunConclusionDisplayName.ActionRequired;
+      default:
+        return GitHubActionRunConclusionDisplayName.None;
+    }
+  };
+
+  const GArows: GACodeDeploymentsRow[] = runs
+    ? runs.map((run, index) => {
+        return {
+          index: deployments && deployments.value.length ? deployments.value.length + index : index,
+          source: -1,
+          commitID: run.head_commit.id.substr(0, 7),
+          rawTime: moment(run.updated_at),
+          // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
+          displayTime: moment(run.updated_at).format('MM/D YYYY, h:mm:ss A Z'),
+          workflowId: run.run_number,
+          checkinMessage: (
+            <Link
+              key="github-actions-logs-link"
+              onClick={() => window.open(run.html_url, '_blank')}
+              aria-label={t('deploymentCenterGitHubActionsLogsLinkMessage')}>
+              {t('deploymentCenterGitHubActionsLogsLinkMessage')}
+              <Icon id={`ga-logs`} iconName={'NavigateExternalInline'} />
+            </Link>
+          ),
+          commit: (
+            <Link href={`#${run.head_commit.id}`} onClick={() => {}}>
+              {run.head_commit.id.substr(0, 7)}
+            </Link>
+          ),
+          status: run.conclusion ? (
+            `${getStatusDisplayName(run.status)} (${getConclusionDisplayName(run.conclusion)})`
+          ) : (
+            <>
+              {t('In Progress... ')}
+              {
+                <Link
+                  onClick={() => {
+                    cancelWorkflowRunOnClick(run.cancel_url);
+                  }}>
+                  {t('deploymentCenterGitHubActionsCancelRunMessage')}
+                </Link>
+              }
+            </>
+          ),
+        };
+      })
+    : [];
+
+  const rows: GACodeDeploymentsRow[] = deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
+  const newItems = rows.concat(GArows);
+  const items: GACodeDeploymentsRow[] = newItems.sort(dateTimeComparatorReverse);
 
   const columns: IColumn[] = [
     { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150, maxWidth: 250 },
     { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 100, maxWidth: 150 },
+    // { key: 'source', name: t('Source'), fieldName: 'source', minWidth: 100, maxWidth: 150 },
+    { key: 'workflowId', name: t('Workflow Run Number'), fieldName: 'workflowId', minWidth: 75, maxWidth: 150 },
     { key: 'status', name: t('status'), fieldName: 'status', minWidth: 150, maxWidth: 200 },
     { key: 'checkinMessage', name: t('checkinMessage'), fieldName: 'checkinMessage', minWidth: 210 },
   ];
 
-  const groups: IGroup[] = getItemGroups(items);
+  const groups: IGroup[] = getItemCommitGroups(items);
 
   const getZeroDayContent = () => {
     if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None) {
@@ -150,9 +360,9 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || isLogsLoading ? (
         getProgressIndicator()
-      ) : deploymentsError ? (
+      ) : deploymentsError || gitHubActionLogsErrorMessage ? (
         <div className={deploymentCenterLogsError}>{deploymentsError}</div>
       ) : deployments ? (
         <>

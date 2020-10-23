@@ -303,6 +303,7 @@ export interface DeploymentCenterContainerLogsProps {
 
 export interface DeploymentCenterCodeLogsProps {
   isLoading: boolean;
+  runs?: GitHubActionRun[];
   deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
   goToSettings?: () => void;
@@ -459,6 +460,18 @@ export interface CodeDeploymentsRow {
   status: string;
 }
 
+export interface GACodeDeploymentsRow {
+  index: number;
+  rawTime: moment.Moment;
+  displayTime: string;
+  commit: JSX.Element;
+  workflowId: number | JSX.Element;
+  checkinMessage: string | JSX.Element;
+  status: string | JSX.Element;
+  commitID: string;
+  source: number;
+}
+
 export interface GitHubActionRunRow {
   index: number;
   rawTime: moment.Moment;
@@ -466,6 +479,7 @@ export interface GitHubActionRunRow {
   workflowId: number | JSX.Element;
   status: string | JSX.Element;
   details: JSX.Element;
+  commit: string | JSX.Element;
 }
 
 export interface GitHubActionRun {
@@ -478,6 +492,9 @@ export interface GitHubActionRun {
   created_at: string;
   updated_at: string;
   run_number: number;
+  head_commit: {
+    id: string;
+  };
 }
 
 export interface BuildChoiceGroupOption extends IChoiceGroupOption {

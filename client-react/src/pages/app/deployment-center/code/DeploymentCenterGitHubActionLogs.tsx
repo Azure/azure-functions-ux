@@ -74,7 +74,8 @@ const DeploymentCenterGitHubActionLogs: React.FC<{}> = props => {
 
   const columns: IColumn[] = [
     { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150, maxWidth: 250 },
-    { key: 'workflowId', name: t('Run Number'), fieldName: 'workflowId', minWidth: 150, maxWidth: 200 },
+    { key: 'commit', name: t('Commit Id'), fieldName: 'commit', minWidth: 150, maxWidth: 250 },
+    { key: 'workflowId', name: t('Workflow Run Number'), fieldName: 'workflowId', minWidth: 150, maxWidth: 200 },
     { key: 'status', name: t('status'), fieldName: 'status', minWidth: 150, maxWidth: 200 },
     { key: 'details', name: t('Workflow Run Details'), fieldName: 'details', minWidth: 150, maxWidth: 400 },
   ];
@@ -83,6 +84,7 @@ const DeploymentCenterGitHubActionLogs: React.FC<{}> = props => {
     ? runs.map((run, index) => {
         return {
           index: index,
+          commit: run.head_commit.id.substr(0, 7),
           rawTime: moment(run.updated_at),
           // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
           displayTime: moment(run.updated_at).format('h:mm:ss A Z'),
@@ -216,12 +218,6 @@ const DeploymentCenterGitHubActionLogs: React.FC<{}> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    fetchSourceControlDetails();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext]);
 
   useEffect(() => {
     if (!isSourceControlsLoading) {
