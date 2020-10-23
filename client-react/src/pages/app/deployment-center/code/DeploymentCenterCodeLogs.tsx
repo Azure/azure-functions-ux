@@ -241,6 +241,13 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     if (cancelWorkflowResponse.metadata.success) {
       setIsLogsLoading(true);
       await fetchWorkflowRuns();
+      if (runs) {
+        const curRuns = runs;
+        curRuns[0].conclusion = 'cancelled';
+        curRuns[0].status = 'completed';
+        setRuns(curRuns);
+      }
+      setIsLogsLoading(false);
     } else {
     }
   };
