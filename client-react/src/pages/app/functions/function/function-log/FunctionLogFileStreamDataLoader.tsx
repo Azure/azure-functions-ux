@@ -104,6 +104,11 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       }
     } else {
       setErrorMessage(t('feature_logStreamingConnectionError'));
+      LogService.error(
+        LogCategories.functionLog,
+        'getHostStatus',
+        `Failed to get host status: ${getErrorMessageOrStringify(hostStatusResult.metadata.error)}`
+      );
     }
   };
 
