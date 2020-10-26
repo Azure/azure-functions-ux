@@ -465,11 +465,11 @@ export interface GACodeDeploymentsRow {
   rawTime: moment.Moment;
   displayTime: string;
   commit: JSX.Element;
-  workflowId: number | JSX.Element;
+  runNumber: number | JSX.Element;
   checkinMessage: string | JSX.Element;
   status: string | JSX.Element;
-  commitID: string;
-  source: number;
+  commitId: string;
+  group: number;
 }
 
 export interface GitHubActionRunRow {

@@ -4,7 +4,6 @@ import moment from 'moment';
 import { IGroup } from 'office-ui-fabric-react/lib/components/GroupedList/GroupedList.types';
 import {
   DeploymentCenterCodeLogsProps,
-  DateTimeObj,
   DeploymentStatus,
   DeploymentProperties,
   GACodeDeploymentsRow,
@@ -26,16 +25,7 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterData from '../DeploymentCenter.data';
-
-export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
-  if (a.rawTime.isBefore(b.rawTime)) {
-    return 1;
-  }
-  if (a.rawTime.isAfter(b.rawTime)) {
-    return -1;
-  }
-  return 0;
-}
+import { dateTimeComparatorReverse } from './DeploymentCenterCodeLogs';
 
 export function logsSort(a: any, b: any) {
   if (a.source > b.source) {
@@ -175,41 +165,6 @@ const DeploymentCenterGitHubActionCodeLogs: React.FC<DeploymentCenterCodeLogsPro
     setIsLogsLoading(false);
   };
 
-  useEffect(() => {
-    if (deploymentCenterContext.gitHubToken) {
-      fetchSourceControlDetails();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext.gitHubToken]);
-
-  useEffect(() => {
-    if (!isSourceControlsLoading) {
-      fetchWorkflowRuns();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSourceControlsLoading]);
-
-  // const getItemGroups = (items: GACodeDeploymentsRow[]): IGroup[] => {
-  //   const groups: IGroup[] = [];
-  //   items.forEach((item, index) => {
-  //     if (index === 0 || !item.rawTime.isSame(groups[groups.length - 1].data.startIndexRawTime, 'day')) {
-  //       const group = {
-  //         key: `Group${groups.length}`,
-  //         name: item.rawTime.format('dddd, MMMM D, YYYY'),
-  //         startIndex: index,
-  //         count: 1,
-  //         data: { startIndexRawTime: item.rawTime },
-  //       };
-  //       groups.push(group);
-  //     } else {
-  //       groups[groups.length - 1].count += 1;
-  //     }
-  //   });
-  //   return groups;
-  // };
-
   const cancelWorkflowRunOnClick = async (url: string) => {
     const cancelWorkflowResponse = await deploymentCenterData.cancelWorkflowRun(deploymentCenterContext.gitHubToken, url);
     if (cancelWorkflowResponse.metadata.success) {
@@ -229,8 +184,8 @@ const DeploymentCenterGitHubActionCodeLogs: React.FC<DeploymentCenterCodeLogsPro
   const getDeploymentRow = (deployment: ArmObj<DeploymentProperties>, index: number): GACodeDeploymentsRow => {
     return {
       index: index,
-      source: -1,
-      commitID: deployment.properties.id.substr(0, 7),
+      group: -1,
+      commitId: deployment.properties.id.substr(0, 7),
       rawTime: moment(deployment.properties.received_time),
       // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
       displayTime: moment(deployment.properties.received_time).format('MM/D YYYY, h:mm:ss A Z'),
@@ -239,7 +194,7 @@ const DeploymentCenterGitHubActionCodeLogs: React.FC<DeploymentCenterCodeLogsPro
           {deployment.properties.id.substr(0, 7)}
         </Link>
       ),
-      workflowId: <>{``}</>,
+      runNumber: <>{``}</>,
       checkinMessage: deployment.properties.message,
       status: deployment.properties.active
         ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
@@ -251,12 +206,12 @@ const DeploymentCenterGitHubActionCodeLogs: React.FC<DeploymentCenterCodeLogsPro
     ? runs.map((run, index) => {
         return {
           index: deployments && deployments.value.length ? deployments.value.length + index : index,
-          source: -1,
-          commitID: run.head_commit.id.substr(0, 7),
+          group: -1,
+          commitId: run.head_commit.id.substr(0, 7),
           rawTime: moment(run.updated_at),
           // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
           displayTime: moment(run.updated_at).format('MM/D YYYY, h:mm:ss A Z'),
-          workflowId: run.run_number,
+          runNumber: run.run_number,
           checkinMessage: (
             <Link
               key="github-actions-logs-link"
@@ -297,9 +252,9 @@ const DeploymentCenterGitHubActionCodeLogs: React.FC<DeploymentCenterCodeLogsPro
     }
 
     items.sort((a: GACodeDeploymentsRow, b: GACodeDeploymentsRow) => {
-      if (a.commitID < b.commitID) {
+      if (a.commitId < b.commitId) {
         return -1;
-      } else if (a.commitID > b.commitID) {
+      } else if (a.commitId > b.commitId) {
         return 1;
       } else {
         return 0;
@@ -307,20 +262,20 @@ const DeploymentCenterGitHubActionCodeLogs: React.FC<DeploymentCenterCodeLogsPro
     });
 
     items.forEach((item, index) => {
-      const currentGroup = groups.find(group => group.data.commitId === item.commitID);
+      const currentGroup = groups.find(group => group.data.commitId === item.commitId);
 
       if (index === 0 || !currentGroup) {
-        item.source = groups.length;
+        item.group = groups.length;
         const group = {
           key: `Group${groups.length}`,
-          name: `Commit Id ${item.commitID}`,
+          name: `Commit Id ${item.commitId}`,
           startIndex: index,
           count: 1,
-          data: { commitId: item.commitID, index: groups.length, time: item.rawTime },
+          data: { commitId: item.commitId, index: groups.length, time: item.rawTime },
         };
         groups.push(group);
       } else {
-        item.source = currentGroup.data.index;
+        item.group = currentGroup.data.index;
         currentGroup.count += 1;
       }
     });
@@ -345,8 +300,7 @@ const DeploymentCenterGitHubActionCodeLogs: React.FC<DeploymentCenterCodeLogsPro
   const columns: IColumn[] = [
     { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150, maxWidth: 250 },
     { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 100, maxWidth: 150 },
-    // { key: 'source', name: t('Source'), fieldName: 'source', minWidth: 100, maxWidth: 150 },
-    { key: 'workflowId', name: t('Workflow Run Number'), fieldName: 'workflowId', minWidth: 75, maxWidth: 150 },
+    { key: 'runNumber', name: t('Workflow Run Number'), fieldName: 'runNumber', minWidth: 75, maxWidth: 150 },
     { key: 'status', name: t('status'), fieldName: 'status', minWidth: 150, maxWidth: 200 },
     { key: 'checkinMessage', name: t('checkinMessage'), fieldName: 'checkinMessage', minWidth: 210 },
   ];
@@ -384,6 +338,22 @@ const DeploymentCenterGitHubActionCodeLogs: React.FC<DeploymentCenterCodeLogsPro
       />
     );
   };
+
+  useEffect(() => {
+    if (deploymentCenterContext.gitHubToken) {
+      fetchSourceControlDetails();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext.gitHubToken]);
+
+  useEffect(() => {
+    if (!isSourceControlsLoading) {
+      fetchWorkflowRuns();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSourceControlsLoading]);
 
   return (
     <>
