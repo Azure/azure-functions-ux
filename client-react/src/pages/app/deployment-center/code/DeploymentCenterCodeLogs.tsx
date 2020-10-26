@@ -66,6 +66,69 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterData = new DeploymentCenterData();
 
+  const getStatusString = (status: DeploymentStatus, progressString: string) => {
+    switch (status) {
+      case DeploymentStatus.Building:
+      case DeploymentStatus.Deploying:
+        return progressString;
+      case DeploymentStatus.Pending:
+        return t('pending');
+      case DeploymentStatus.Failed:
+        return t('failed');
+      case DeploymentStatus.Success:
+        return t('success');
+      default:
+        return '';
+    }
+  };
+
+  const getStatusDisplayName = (status: string) => {
+    switch (status) {
+      case GitHubActionRunStatus.Completed:
+        return GitHubActionRunStatusDisplayName.Completed;
+      case GitHubActionRunStatus.Queued:
+        return GitHubActionRunStatusDisplayName.Queued;
+      case GitHubActionRunStatus.inProgress:
+        return GitHubActionRunStatusDisplayName.inProgress;
+      default:
+        return GitHubActionRunStatusDisplayName.None;
+    }
+  };
+
+  const getConclusionDisplayName = (status: string): GitHubActionRunConclusionDisplayName => {
+    switch (status) {
+      case GitHubActionRunConclusion.Success:
+        return GitHubActionRunConclusionDisplayName.Success;
+      case GitHubActionRunConclusion.Failure:
+        return GitHubActionRunConclusionDisplayName.Failure;
+      case GitHubActionRunConclusion.Cancelled:
+        return GitHubActionRunConclusionDisplayName.Cancelled;
+      case GitHubActionRunConclusion.Skipped:
+        return GitHubActionRunConclusionDisplayName.Skipped;
+      case GitHubActionRunConclusion.TimedOut:
+        return GitHubActionRunConclusionDisplayName.TimedOut;
+      case GitHubActionRunConclusion.ActionRequired:
+        return GitHubActionRunConclusionDisplayName.ActionRequired;
+      default:
+        return GitHubActionRunConclusionDisplayName.None;
+    }
+  };
+
+  const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
+    setIsLogPanelOpen(true);
+    setCurrentCommitId(deployment.id);
+  };
+  const dismissLogPanel = () => {
+    setIsLogPanelOpen(false);
+    setCurrentCommitId(undefined);
+  };
+
+  const goToSettingsOnClick = () => {
+    if (goToSettings) {
+      goToSettings();
+    }
+  };
+
   const fetchSourceControlDetails = async () => {
     setIsLogsLoading(true);
     setIsSourcecontrolsLoading(true);
@@ -128,52 +191,6 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSourceControlsLoading]);
 
-  const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
-    setIsLogPanelOpen(true);
-    setCurrentCommitId(deployment.id);
-  };
-  const dismissLogPanel = () => {
-    setIsLogPanelOpen(false);
-    setCurrentCommitId(undefined);
-  };
-
-  const getStatusString = (status: DeploymentStatus, progressString: string) => {
-    switch (status) {
-      case DeploymentStatus.Building:
-      case DeploymentStatus.Deploying:
-        return progressString;
-      case DeploymentStatus.Pending:
-        return t('pending');
-      case DeploymentStatus.Failed:
-        return t('failed');
-      case DeploymentStatus.Success:
-        return t('success');
-      default:
-        return '';
-    }
-  };
-
-  const getDeploymentRow = (deployment: ArmObj<DeploymentProperties>, index: number): GACodeDeploymentsRow => {
-    return {
-      index: index,
-      commitID: deployment.properties.id.substr(0, 7),
-      source: -1,
-      rawTime: moment(deployment.properties.received_time),
-      // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
-      displayTime: moment(deployment.properties.received_time).format('MM/D YYYY, h:mm:ss A Z'),
-      commit: (
-        <Link href={`#${deployment.properties.id}`} onClick={() => showLogPanel(deployment)}>
-          {deployment.properties.id.substr(0, 7)}
-        </Link>
-      ),
-      workflowId: <>{``}</>,
-      checkinMessage: deployment.properties.message,
-      status: deployment.properties.active
-        ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
-        : `${getStatusString(deployment.properties.status, deployment.properties.progress)}`,
-    };
-  };
-
   // const getItemGroups = (items: GACodeDeploymentsRow[]): IGroup[] => {
   //   const groups: IGroup[] = [];
   //   items.forEach((item, index) => {
@@ -193,49 +210,6 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   //   return groups;
   // };
 
-  const getItemCommitGroups = (items: GACodeDeploymentsRow[]): IGroup[] => {
-    const groups: IGroup[] = [];
-    if (!runs) {
-      return groups;
-    }
-
-    items.forEach((item, index) => {
-      const currentGroup = groups.find(group => group.data.commitId === item.commitID);
-
-      if (index === 0 || !currentGroup) {
-        item.source = groups.length;
-        const group = {
-          key: `Group${groups.length}`,
-          name: `Commit Id ${item.commitID}`,
-          startIndex: index,
-          count: 1,
-          data: { commitId: item.commitID, index: groups.length },
-        };
-        groups.push(group);
-      } else {
-        item.source = currentGroup.data.index;
-        currentGroup.count += 1;
-      }
-    });
-    items.sort(logsSort);
-    return groups;
-  };
-
-  const getProgressIndicator = () => {
-    return (
-      <ProgressIndicator
-        description={t('deploymentCenterCodeDeploymentsLoading')}
-        ariaValueText={t('deploymentCenterCodeDeploymentsLoadingAriaValue')}
-      />
-    );
-  };
-
-  const goToSettingsOnClick = () => {
-    if (goToSettings) {
-      goToSettings();
-    }
-  };
-
   const cancelWorkflowRunOnClick = async (url: string) => {
     const cancelWorkflowResponse = await deploymentCenterData.cancelWorkflowRun(deploymentCenterContext.gitHubToken, url);
     if (cancelWorkflowResponse.metadata.success) {
@@ -252,36 +226,25 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     }
   };
 
-  const getStatusDisplayName = (status: string) => {
-    switch (status) {
-      case GitHubActionRunStatus.Completed:
-        return GitHubActionRunStatusDisplayName.Completed;
-      case GitHubActionRunStatus.Queued:
-        return GitHubActionRunStatusDisplayName.Queued;
-      case GitHubActionRunStatus.inProgress:
-        return GitHubActionRunStatusDisplayName.inProgress;
-      default:
-        return GitHubActionRunStatusDisplayName.None;
-    }
-  };
-
-  const getConclusionDisplayName = (status: string): GitHubActionRunConclusionDisplayName => {
-    switch (status) {
-      case GitHubActionRunConclusion.Success:
-        return GitHubActionRunConclusionDisplayName.Success;
-      case GitHubActionRunConclusion.Failure:
-        return GitHubActionRunConclusionDisplayName.Failure;
-      case GitHubActionRunConclusion.Cancelled:
-        return GitHubActionRunConclusionDisplayName.Cancelled;
-      case GitHubActionRunConclusion.Skipped:
-        return GitHubActionRunConclusionDisplayName.Skipped;
-      case GitHubActionRunConclusion.TimedOut:
-        return GitHubActionRunConclusionDisplayName.TimedOut;
-      case GitHubActionRunConclusion.ActionRequired:
-        return GitHubActionRunConclusionDisplayName.ActionRequired;
-      default:
-        return GitHubActionRunConclusionDisplayName.None;
-    }
+  const getDeploymentRow = (deployment: ArmObj<DeploymentProperties>, index: number): GACodeDeploymentsRow => {
+    return {
+      index: index,
+      source: -1,
+      commitID: deployment.properties.id.substr(0, 7),
+      rawTime: moment(deployment.properties.received_time),
+      // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
+      displayTime: moment(deployment.properties.received_time).format('MM/D YYYY, h:mm:ss A Z'),
+      commit: (
+        <Link href={`#${deployment.properties.id}`} onClick={() => showLogPanel(deployment)}>
+          {deployment.properties.id.substr(0, 7)}
+        </Link>
+      ),
+      workflowId: <>{``}</>,
+      checkinMessage: deployment.properties.message,
+      status: deployment.properties.active
+        ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
+        : `${getStatusString(deployment.properties.status, deployment.properties.progress)}`,
+    };
   };
 
   const GArows: GACodeDeploymentsRow[] = runs
@@ -327,6 +290,54 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
       })
     : [];
 
+  const getItemCommitGroups = (items: GACodeDeploymentsRow[]): IGroup[] => {
+    const groups: IGroup[] = [];
+    if (!runs) {
+      return groups;
+    }
+
+    items.sort((a: GACodeDeploymentsRow, b: GACodeDeploymentsRow) => {
+      if (a.commitID < b.commitID) {
+        return -1;
+      } else if (a.commitID > b.commitID) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    items.forEach((item, index) => {
+      const currentGroup = groups.find(group => group.data.commitId === item.commitID);
+
+      if (index === 0 || !currentGroup) {
+        item.source = groups.length;
+        const group = {
+          key: `Group${groups.length}`,
+          name: `Commit Id ${item.commitID}`,
+          startIndex: index,
+          count: 1,
+          data: { commitId: item.commitID, index: groups.length, time: item.rawTime },
+        };
+        groups.push(group);
+      } else {
+        item.source = currentGroup.data.index;
+        currentGroup.count += 1;
+      }
+    });
+
+    groups.sort((a: IGroup, b: IGroup) => {
+      if (a.data.time.isBefore(b.data.time)) {
+        return 1;
+      }
+      if (a.data.time.isAfter(b.data.time)) {
+        return -1;
+      }
+      return 0;
+    });
+
+    return groups;
+  };
+
   const rows: GACodeDeploymentsRow[] = deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
   const newItems = rows.concat(GArows);
   const items: GACodeDeploymentsRow[] = newItems.sort(dateTimeComparatorReverse);
@@ -363,6 +374,15 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
         </>
       );
     }
+  };
+
+  const getProgressIndicator = () => {
+    return (
+      <ProgressIndicator
+        description={t('deploymentCenterCodeDeploymentsLoading')}
+        ariaValueText={t('deploymentCenterCodeDeploymentsLoadingAriaValue')}
+      />
+    );
   };
 
   return (
