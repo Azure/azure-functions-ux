@@ -70,7 +70,7 @@ export interface PlanSpecPickerData {
   isNewFunctionAppCreate?: boolean; // NOTE(shimedh): We need this additional flag temporarily to make it work with old and new FunctionApp creates.
   // Since old creates always shows elastic premium sku's along with other sku's.
   // However, in new full screen creates it would be based on the plan type selected which will determing isElastic boolean value.
-  allowAseV3Creation?: boolean; // NOTE(shimedh): Adding for future use. We have not enabled new app in new ASEv3 scenario from Portal.
+  allowAseV3Creation?: boolean; // NOTE(shimedh): This will be set for new ASP creating in existing ASEv3. It will later also be used for new app in new ASEv3 scenario from webapp create (will be enabled for GA).
 }
 
 export type ApplyButtonState = 'enabled' | 'disabled';
@@ -575,7 +575,7 @@ export class PlanPriceSpecManager {
     if (this._isUpdateScenario(inputs)) {
       this._stampIpAddresses = null;
       return this._planService.getServerFarmSites(inputs.id, true).switchMap(response => {
-        if (response.isSuccessful) {
+        if (response.isSuccessful && response.result.value.length > 0) {
           this._stampIpAddresses = {
             inboundIpAddress: response.result.value[0].properties.inboundIpAddress,
             outboundIpAddresses: response.result.value[0].properties.outboundIpAddresses,
