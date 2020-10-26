@@ -6819,4 +6819,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="earlyAccessTemplate" xml:space="preserve">
         <value>{0} (Early Access)</value>
     </data>
+    <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>Isolated V2 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    </data>
 </root>
