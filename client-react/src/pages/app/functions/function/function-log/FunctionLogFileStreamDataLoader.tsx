@@ -89,8 +89,27 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
 
   const listenToStream = () => {
     setLoadingMessage(undefined);
+    setInterval(() => keepFunctionsHostAlive(), 60000); // ping functions host every minute
     listenForErrors();
     listenForUpdates();
+  };
+
+  const keepFunctionsHostAlive = async () => {
+    const hostStatusResult = await FunctionsService.getHostStatus(site.id);
+    if (hostStatusResult.metadata.success) {
+      if (hostStatusResult.data.properties.errors) {
+        setErrorMessage(hostStatusResult.data.properties.errors.join('\n'));
+      } else {
+        setErrorMessage(undefined);
+      }
+    } else {
+      setErrorMessage(t('feature_logStreamingConnectionError'));
+      LogService.error(
+        LogCategories.functionLog,
+        'getHostStatus',
+        `Failed to get host status: ${getErrorMessageOrStringify(hostStatusResult.metadata.error)}`
+      );
+    }
   };
 
   const listenForErrors = () => {
