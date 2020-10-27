@@ -20,8 +20,9 @@ export interface FunctionCreateProps {
   bindings: Binding[] | undefined;
   resourceId: string;
   setRequiredBindingIds: (ids: string[]) => void;
-  hostStatus: HostStatus;
+  hostStatus: HostStatus | null;
   functionTemplatesError: string;
+  hostStatusError: string;
 }
 
 export enum PivotState {
@@ -31,7 +32,16 @@ export enum PivotState {
 
 export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   const { t } = useTranslation();
-  const { functionTemplates, functionsInfo, bindings, resourceId, setRequiredBindingIds, hostStatus, functionTemplatesError } = props;
+  const {
+    functionTemplates,
+    functionsInfo,
+    bindings,
+    resourceId,
+    setRequiredBindingIds,
+    hostStatus,
+    functionTemplatesError,
+    hostStatusError,
+  } = props;
   const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.templates);
   const [selectedFunctionTemplate, setSelectedFunctionTemplate] = useState<FunctionTemplate | undefined>(undefined);
 
@@ -46,7 +56,7 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
       resourceId,
       sessionId: Url.getParameterByName(null, 'sessionId'),
       templateCount: functionTemplates.length,
-      bundleWarning: !hostStatus.version.startsWith('1') && !hostStatus.extensionBundle,
+      bundleWarning: hostStatus && !hostStatus.version.startsWith('1') && !hostStatus.extensionBundle,
     });
   };
 
@@ -64,27 +74,33 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
         <CustomBanner id="function-create-error" message={functionTemplatesError} type={MessageBarType.error} undocked={true} />
       ) : (
         <>
-          <Pivot getTabId={getPivotTabId} selectedKey={pivotStateKey} onLinkClick={onPivotItemClicked}>
-            <PivotItem itemKey={PivotState.templates} headerText={t('functionCreate_templates')}>
-              <TemplatesPivot
-                functionTemplates={functionTemplates}
-                setSelectedFunctionTemplate={setSelectedFunctionTemplate}
-                setPivotStateKey={setPivotStateKey}
-                setRequiredBindingIds={setRequiredBindingIds}
-                bindings={bindings}
-                hostStatus={hostStatus}
-              />
-            </PivotItem>
-            <PivotItem itemKey={PivotState.details} headerText={t('functionCreate_details')}>
-              <DetailsPivot
-                functionsInfo={functionsInfo}
-                bindings={bindings}
-                selectedFunctionTemplate={selectedFunctionTemplate}
-                resourceId={resourceId}
-                hostStatus={hostStatus}
-              />
-            </PivotItem>
-          </Pivot>
+          {!hostStatus ? (
+            <CustomBanner id="function-create-error" message={hostStatusError} type={MessageBarType.error} undocked={true} />
+          ) : (
+            <>
+              <Pivot getTabId={getPivotTabId} selectedKey={pivotStateKey} onLinkClick={onPivotItemClicked}>
+                <PivotItem itemKey={PivotState.templates} headerText={t('functionCreate_templates')}>
+                  <TemplatesPivot
+                    functionTemplates={functionTemplates}
+                    setSelectedFunctionTemplate={setSelectedFunctionTemplate}
+                    setPivotStateKey={setPivotStateKey}
+                    setRequiredBindingIds={setRequiredBindingIds}
+                    bindings={bindings}
+                    hostStatus={hostStatus}
+                  />
+                </PivotItem>
+                <PivotItem itemKey={PivotState.details} headerText={t('functionCreate_details')}>
+                  <DetailsPivot
+                    functionsInfo={functionsInfo}
+                    bindings={bindings}
+                    selectedFunctionTemplate={selectedFunctionTemplate}
+                    resourceId={resourceId}
+                    hostStatus={hostStatus}
+                  />
+                </PivotItem>
+              </Pivot>
+            </>
+          )}
         </>
       )}
     </div>
