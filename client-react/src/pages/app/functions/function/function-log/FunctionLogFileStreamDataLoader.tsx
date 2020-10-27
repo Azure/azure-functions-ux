@@ -45,6 +45,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const [allLogEntries, setAllLogEntries] = useState<LogEntry[]>([]);
   const [logStreamIndex, setLogStreamIndex] = useState(0);
   const [startTime, setStartTime] = useState(0);
+  const [xhReqResponseText, setXhReqResponseText] = useState('');
 
   const openStream = async () => {
     setLoadingMessage(t('feature_logStreamingConnecting'));
@@ -122,7 +123,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
         // Automatically attempt to reconnect the connection if stream has been open for less than 15 minutes
         const errorTime = new Date().getMinutes();
         if (Math.abs(startTime - errorTime) < 15) {
-          openStream();
+          closeStream();
         }
       };
     }
@@ -131,20 +132,18 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const listenForUpdates = () => {
     if (xhReq) {
       xhReq.onprogress = () => {
-        printNewLogs();
+        setXhReqResponseText(xhReq.responseText);
       };
     }
   };
 
-  const printNewLogs = () => {
-    if (xhReq) {
-      const newLogStream = xhReq.responseText.substring(logStreamIndex);
-      if (started) {
-        setLogStreamIndex(xhReq.responseText.length);
-        if (newLogStream) {
-          const newLogs = processLogs(newLogStream, allLogEntries);
-          setAllLogEntries(newLogs);
-        }
+  const printNewLogs = (responseText: string) => {
+    const newLogStream = responseText.substring(logStreamIndex);
+    if (started) {
+      setLogStreamIndex(responseText.length);
+      if (newLogStream) {
+        const newLogs = processLogs(newLogStream, allLogEntries);
+        setAllLogEntries(newLogs);
       }
     }
   };
@@ -180,6 +179,12 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [started, xhReq]);
+
+  useEffect(() => {
+    printNewLogs(xhReqResponseText);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [xhReqResponseText]);
 
   return (
     <FunctionLog
