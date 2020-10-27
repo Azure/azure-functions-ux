@@ -44,13 +44,14 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const [loadingMessage, setLoadingMessage] = useState<string | undefined>(t('feature_logStreamingConnecting'));
   const [allLogEntries, setAllLogEntries] = useState<LogEntry[]>([]);
   const [logStreamIndex, setLogStreamIndex] = useState(0);
+  const [startTime, setStartTime] = useState(0);
 
   const openStream = async () => {
     setLoadingMessage(t('feature_logStreamingConnecting'));
     const hostStatusResult = await FunctionsService.getHostStatus(site.id);
 
     if (hostStatusResult.metadata.success) {
-      if (hostStatusResult.data.properties.errors) {
+      if (hostStatusResult.data.properties.errors && hostStatusResult.data.properties.errors.length > 0) {
         // We should show any host status errors, but still try to connect to logstream
         setErrorMessage(hostStatusResult.data.properties.errors.join('\n'));
       } else {
@@ -69,6 +70,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       newXhReq.setRequestHeader('FunctionsPortal', '1');
       newXhReq.send(null);
       setXhReq(newXhReq);
+      setStartTime(new Date().getMinutes());
     } else {
       setErrorMessage(t('feature_logStreamingConnectionError'));
       LogService.error(
@@ -97,7 +99,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const keepFunctionsHostAlive = async () => {
     const hostStatusResult = await FunctionsService.getHostStatus(site.id);
     if (hostStatusResult.metadata.success) {
-      if (hostStatusResult.data.properties.errors) {
+      if (hostStatusResult.data.properties.errors && hostStatusResult.data.properties.errors.length > 0) {
         setErrorMessage(hostStatusResult.data.properties.errors.join('\n'));
       } else {
         setErrorMessage(undefined);
@@ -116,6 +118,12 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
     if (xhReq) {
       xhReq.onerror = () => {
         setErrorMessage(t('feature_logStreamingConnectionError'));
+
+        // Automatically attempt to reconnect the connection if stream has been open for less than 15 minutes
+        const errorTime = new Date().getMinutes();
+        if (Math.abs(startTime - errorTime) < 15) {
+          openStream();
+        }
       };
     }
   };
