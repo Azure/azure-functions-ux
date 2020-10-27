@@ -65,7 +65,7 @@ export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
   }
 
   protected _matchSku(sku: Sku): boolean {
-    return sku.name.indexOf('v2') > -1;
+    return sku.tier.toLocaleLowerCase() === this.tier.toLocaleLowerCase() && sku.name.indexOf('v2') > -1;
   }
 
   protected _shouldHideForNewPlan(data: PlanSpecPickerData): boolean {
