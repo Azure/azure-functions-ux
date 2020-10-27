@@ -8,6 +8,7 @@ import { PremiumV2SmallPlanPriceSpec, PremiumV2MediumPlanPriceSpec, PremiumV2Lar
 import { PremiumSmallPlanPriceSpec, PremiumMediumPlanPriceSpec, PremiumLargePlanPriceSpec } from './premium-plan-price-spec';
 import { IsolatedSmallPlanPriceSpec, IsolatedMediumPlanPriceSpec, IsolatedLargePlanPriceSpec } from './isolated-plan-price-spec';
 import { PremiumV3SmallPlanPriceSpec, PremiumV3MediumPlanPriceSpec, PremiumV3LargePlanPriceSpec } from './premiumv3-plan-price-spec';
+import { IsolatedV2SmallPlanPriceSpec, IsolatedV2MediumPlanPriceSpec, IsolatedV2LargePlanPriceSpec } from './isolatedv2-plan-price-spec';
 import {
   PremiumContainerSmallPriceSpec,
   PremiumContainerMediumPriceSpec,
@@ -275,6 +276,9 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
     new IsolatedSmallPlanPriceSpec(this.injector),
     new IsolatedMediumPlanPriceSpec(this.injector),
     new IsolatedLargePlanPriceSpec(this.injector),
+    new IsolatedV2SmallPlanPriceSpec(this.injector),
+    new IsolatedV2MediumPlanPriceSpec(this.injector),
+    new IsolatedV2LargePlanPriceSpec(this.injector),
   ];
 
   additionalSpecs = [];

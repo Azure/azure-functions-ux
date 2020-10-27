@@ -11,6 +11,7 @@ export class Tier {
   public static readonly elasticPremium = 'ElasticPremium';
   public static readonly elasticIsolated = 'ElasticIsolated';
   public static readonly premiumV3 = 'PremiumV3';
+  public static readonly isolatedV2 = 'IsolatedV2';
 }
 
 export class SkuCode {
@@ -74,5 +75,11 @@ export class SkuCode {
     P1V3: 'P1V3',
     P2V3: 'P2V3',
     P3V3: 'P3V3',
+  };
+
+  public static readonly IsolatedV2 = {
+    I1V2: 'I1V2',
+    I2V2: 'I2V2',
+    I3V2: 'I3V2',
   };
 }
