@@ -23,6 +23,7 @@ export interface FunctionCreateDataLoaderState {
   functionsInfo: ArmObj<FunctionInfo>[] | undefined;
   bindings: Binding[] | undefined;
   hostStatus: HostStatus | undefined;
+  functionTemplatesError: string;
 }
 
 class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderProps, FunctionCreateDataLoaderState> {
@@ -34,6 +35,7 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
       functionsInfo: undefined,
       bindings: undefined,
       hostStatus: undefined,
+      functionTemplatesError: '',
     };
   }
 
@@ -60,6 +62,7 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
           bindings={this.state.bindings}
           hostStatus={this.state.hostStatus}
           resourceId={resourceId}
+          functionTemplatesError={this.state.functionTemplatesError}
         />
       </FunctionCreateContext.Provider>
     );
@@ -75,11 +78,13 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
           functionTemplates: r.data.properties,
         });
       } else {
-        LogService.trackEvent(
-          LogCategories.functionCreate,
-          'getTemplates',
-          `Failed to get templates: ${getErrorMessageOrStringify(r.metadata.error)}`
-        );
+        const errorMessage = `Failed to get function templates: ${getErrorMessageOrStringify(r.metadata.error)}`;
+        this.setState({
+          ...this.state,
+          functionTemplates: [],
+          functionTemplatesError: errorMessage,
+        });
+        LogService.trackEvent(LogCategories.functionCreate, 'getTemplates', errorMessage);
       }
     });
   }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import { Pivot, PivotItem } from 'office-ui-fabric-react';
+import { Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
 import TemplatesPivot from './TemplatesPivot';
 import DetailsPivot from './DetailsPivot';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ import { HostStatus } from '../../../../models/functions/host-status';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import Url from '../../../../utils/url';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 export interface FunctionCreateProps {
   functionTemplates: FunctionTemplate[];
@@ -20,6 +21,7 @@ export interface FunctionCreateProps {
   resourceId: string;
   setRequiredBindingIds: (ids: string[]) => void;
   hostStatus: HostStatus;
+  functionTemplatesError: string;
 }
 
 export enum PivotState {
@@ -29,7 +31,7 @@ export enum PivotState {
 
 export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   const { t } = useTranslation();
-  const { functionTemplates, functionsInfo, bindings, resourceId, setRequiredBindingIds, hostStatus } = props;
+  const { functionTemplates, functionsInfo, bindings, resourceId, setRequiredBindingIds, hostStatus, functionTemplatesError } = props;
   const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.templates);
   const [selectedFunctionTemplate, setSelectedFunctionTemplate] = useState<FunctionTemplate | undefined>(undefined);
 
@@ -55,33 +57,37 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   }, []);
 
   return (
-    <>
-      <div style={paddingStyle}>
-        <h2>{t('functionCreate_newFunction')}</h2>
-        <p>{t('functionCreate_createFunctionMessage')}</p>
-        <Pivot getTabId={getPivotTabId} selectedKey={pivotStateKey} onLinkClick={onPivotItemClicked}>
-          <PivotItem itemKey={PivotState.templates} headerText={t('functionCreate_templates')}>
-            <TemplatesPivot
-              functionTemplates={functionTemplates}
-              setSelectedFunctionTemplate={setSelectedFunctionTemplate}
-              setPivotStateKey={setPivotStateKey}
-              setRequiredBindingIds={setRequiredBindingIds}
-              bindings={bindings}
-              hostStatus={hostStatus}
-            />
-          </PivotItem>
-          <PivotItem itemKey={PivotState.details} headerText={t('functionCreate_details')}>
-            <DetailsPivot
-              functionsInfo={functionsInfo}
-              bindings={bindings}
-              selectedFunctionTemplate={selectedFunctionTemplate}
-              resourceId={resourceId}
-              hostStatus={hostStatus}
-            />
-          </PivotItem>
-        </Pivot>
-      </div>
-    </>
+    <div style={paddingStyle}>
+      <h2>{t('functionCreate_newFunction')}</h2>
+      <p>{t('functionCreate_createFunctionMessage')}</p>
+      {functionTemplatesError ? (
+        <CustomBanner id="function-create-error" message={functionTemplatesError} type={MessageBarType.error} undocked={true} />
+      ) : (
+        <>
+          <Pivot getTabId={getPivotTabId} selectedKey={pivotStateKey} onLinkClick={onPivotItemClicked}>
+            <PivotItem itemKey={PivotState.templates} headerText={t('functionCreate_templates')}>
+              <TemplatesPivot
+                functionTemplates={functionTemplates}
+                setSelectedFunctionTemplate={setSelectedFunctionTemplate}
+                setPivotStateKey={setPivotStateKey}
+                setRequiredBindingIds={setRequiredBindingIds}
+                bindings={bindings}
+                hostStatus={hostStatus}
+              />
+            </PivotItem>
+            <PivotItem itemKey={PivotState.details} headerText={t('functionCreate_details')}>
+              <DetailsPivot
+                functionsInfo={functionsInfo}
+                bindings={bindings}
+                selectedFunctionTemplate={selectedFunctionTemplate}
+                resourceId={resourceId}
+                hostStatus={hostStatus}
+              />
+            </PivotItem>
+          </Pivot>
+        </>
+      )}
+    </div>
   );
 };
 
