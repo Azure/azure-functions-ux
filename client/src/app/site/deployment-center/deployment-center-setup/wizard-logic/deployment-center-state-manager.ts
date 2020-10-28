@@ -44,6 +44,8 @@ import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { WorkflowOptions } from '../../Models/deployment-enums';
 import { BehaviorSubject } from 'rxjs';
 import { LogService } from '../../../../shared/services/log.service';
+import { PublishingCredentials } from '../../../../shared/models/publishing-credentials';
+import { HttpResult } from '../../../../shared/models/http-result';
 
 const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
 
@@ -81,6 +83,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public dropBoxToken$ = new BehaviorSubject<string>('');
   public bitBucketToken$ = new BehaviorSubject<string>('');
   public gitHubToken$ = new BehaviorSubject<string>('');
+  public replacementPublishUrl = '';
 
   constructor(
     private _cacheService: CacheService,
@@ -114,15 +117,19 @@ export class DeploymentCenterStateManager implements OnDestroy {
           this._siteService.getSiteConfig(this._resourceId),
           this._siteService.getAppSettings(this._resourceId),
           this._siteService.fetchSiteConfigMetadata(this._resourceId),
+          this._siteService.getPublishingCredentials(this._resourceId),
           subscriptionService.getSubscription(siteDescriptor.subscription)
         );
       })
       .switchMap(result => {
-        const [site, config, appSettings, configMetadata, sub] = result;
+        const [site, config, appSettings, configMetadata, publishingCredentials, sub] = result;
         this.siteArm = site.result;
         this.isLinuxApp = this.siteArm.kind.toLowerCase().includes(Kinds.linux);
         this.isFunctionApp = this.siteArm.kind.toLowerCase().includes(Kinds.functionApp);
         this.subscriptionName = sub.result.displayName;
+
+        // NOTE(michinoy): temporary fix, while the backend reinstates the scm url in the publish url property.
+        this.replacementPublishUrl = this.isLinuxApp ? this._getScmUri(publishingCredentials) : null;
 
         if (config.isSuccessful && appSettings.isSuccessful && configMetadata.isSuccessful) {
           this._setStackAndVersion(config.result.properties, appSettings.result.properties, configMetadata.result.properties);
@@ -294,7 +301,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
           commit: commitInfo,
         };
 
-        return this._githubService.createOrUpdateActionWorkflow(this.getToken(), this.gitHubToken$.getValue(), requestContent);
+        return this._githubService.createOrUpdateActionWorkflow(
+          this.getToken(),
+          this.gitHubToken$.getValue(),
+          requestContent,
+          this.replacementPublishUrl
+        );
       })
       .switchMap(_ => {
         return this._deployKudu();
@@ -611,6 +623,22 @@ export class DeploymentCenterStateManager implements OnDestroy {
           result: null,
         });
       });
+  }
+
+  private _getScmUri(publishingCredentialsResponse: HttpResult<ArmObj<PublishingCredentials>>): string {
+    if (
+      publishingCredentialsResponse.isSuccessful &&
+      publishingCredentialsResponse.result &&
+      publishingCredentialsResponse.result.properties.scmUri
+    ) {
+      const scmUriParts = publishingCredentialsResponse.result.properties.scmUri.split('@');
+
+      if (scmUriParts.length > 1) {
+        return scmUriParts[1];
+      }
+    }
+
+    return null;
   }
 
   public getToken(): string {

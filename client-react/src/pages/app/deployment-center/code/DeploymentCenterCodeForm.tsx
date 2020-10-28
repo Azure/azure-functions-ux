@@ -173,7 +173,30 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       commit: commitInfo,
     };
 
-    return deploymentCenterData.createOrUpdateActionWorkflow(getArmToken(), deploymentCenterContext.gitHubToken, requestContent);
+    // NOTE(michinoy): temporary fix, while the backend reinstates the scm url in the publish url property.
+    const replacementPublishUrl = siteStateContext && siteStateContext.isLinuxApp ? getScmUri() : undefined;
+
+    return deploymentCenterData.createOrUpdateActionWorkflow(
+      getArmToken(),
+      deploymentCenterContext.gitHubToken,
+      requestContent,
+      replacementPublishUrl
+    );
+  };
+
+  const getScmUri = (): string | undefined => {
+    if (
+      deploymentCenterPublishingContext &&
+      deploymentCenterPublishingContext.publishingCredentials &&
+      deploymentCenterPublishingContext.publishingCredentials.properties.scmUri
+    ) {
+      const scmUriParts = deploymentCenterPublishingContext.publishingCredentials.properties.scmUri.split('@');
+
+      if (scmUriParts.length > 1) {
+        return scmUriParts[1];
+      }
+    }
+    return undefined;
   };
 
   const deploy = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {

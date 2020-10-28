@@ -130,8 +130,13 @@ export default class DeploymentCenterData {
     return GitHubService.deleteActionWorkflow(gitHubToken, org, repo, branch, workflowFilePath, message, sha);
   };
 
-  public createOrUpdateActionWorkflow = (authToken: string, gitHubToken: string, content: GitHubActionWorkflowRequestContent) => {
-    return GitHubService.createOrUpdateActionWorkflow(authToken, gitHubToken, content);
+  public createOrUpdateActionWorkflow = (
+    authToken: string,
+    gitHubToken: string,
+    content: GitHubActionWorkflowRequestContent,
+    replacementPublishUrl?: string
+  ) => {
+    return GitHubService.createOrUpdateActionWorkflow(authToken, gitHubToken, content, replacementPublishUrl);
   };
 
   public getRuntimeStacks = (stacksOs: AppOsType) => {

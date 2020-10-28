@@ -56,7 +56,8 @@ export class GithubController {
   async actionWorkflow(
     @Body('authToken') authToken: string,
     @Body('gitHubToken') gitHubToken: string,
-    @Body('content') content: GitHubActionWorkflowRequestContent
+    @Body('content') content: GitHubActionWorkflowRequestContent,
+    @Body('replacementPublishUrl') replacementPublishUrl?: string
   ) {
     // NOTE(michinoy): In order for the action workflow to successfully execute, it needs to have the secret allowing access
     // to the web app. This secret is the publish profile. This one method will retrieve publish profile, encrypt it, put it
@@ -65,6 +66,8 @@ export class GithubController {
     const publishProfileRequest = this.dcService.getSitePublishProfile(authToken, content.resourceId);
     const publicKeyRequest = this._getGitHubRepoPublicKey(gitHubToken, content.commit.repoName);
     const [publishProfile, publicKey] = await Promise.all([publishProfileRequest, publicKeyRequest]);
+
+    const profile = !!replacementPublishUrl ? this._replacePublishUrlInProfile(publishProfile, replacementPublishUrl) : publishProfile;
 
     const {
       commit,
@@ -79,12 +82,12 @@ export class GithubController {
     // along with the publish profile.
     if (containerUsernameSecretName && containerUsernameSecretValue && containerPasswordSecretName && containerPasswordSecretValue) {
       await Promise.all([
-        this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, publishProfile),
+        this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, profile),
         this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, containerUsernameSecretName, containerUsernameSecretValue),
         this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, containerPasswordSecretName, containerPasswordSecretValue),
       ]);
     } else {
-      await this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, publishProfile);
+      await this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, profile);
     }
 
     await this._commitFile(gitHubToken, content);
@@ -312,5 +315,26 @@ export class GithubController {
     }
 
     return redirectUri;
+  }
+
+  private _replacePublishUrlInProfile(profile: string, replacementPublishUrl: string): string {
+    // NOTE(michinoy): If the profile already contains the replacement publish URL, than dont make any changes.
+    // else replace the specific publish url for msdeploy.
+    if (profile.indexOf(replacementPublishUrl) > -1) {
+      return profile;
+    }
+
+    this.loggingService.error(`Replacing existing publishing url with scm url '${replacementPublishUrl}'`);
+
+    // NOTE(michinoy): This is a temporary solution. We need to replace the publish URL to the scm url
+    // for GitHub Actions to be operational.
+    const startText = 'publishMethod="MSDeploy" publishUrl="';
+    const endText = ':443" msdeploySite=';
+    const startIndex = profile.indexOf(startText) + startText.length;
+    const endIndex = profile.indexOf(endText);
+    const beginningOfProfile = profile.substring(0, startIndex);
+    const endOfProfile = profile.substring(endIndex, profile.length);
+
+    return `${beginningOfProfile}${replacementPublishUrl}${endOfProfile}`;
   }
 }
