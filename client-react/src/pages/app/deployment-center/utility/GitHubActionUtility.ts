@@ -122,10 +122,11 @@ export const getCodeAppWorkflowInformation = (
   isLinuxApp: boolean,
   secretNameGuid: string,
   siteName: string,
-  slotName: string
+  slotName: string,
+  javaContainer?: string
 ): CodeWorkflowInformation => {
-  branch = branch || 'master';
-  const fileName = getWorkflowFileName(branch, siteName, slotName);
+  const repoBranch = branch || 'master';
+  const fileName = getWorkflowFileName(repoBranch, siteName, slotName);
   const secretName = `AzureAppService_PublishProfile_${secretNameGuid}`;
 
   let content = '';
@@ -133,26 +134,27 @@ export const getCodeAppWorkflowInformation = (
 
   switch (runtimeStack) {
     case RuntimeStacks.node:
-      content = getNodeGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion);
+      content = getNodeGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion);
       break;
     case RuntimeStacks.python:
       content = isLinuxApp
-        ? getPythonGithubActionWorkflowDefinitionForLinux(siteName, slotName, branch, secretName, runtimeStackVersion)
-        : getPythonGithubActionWorkflowDefinitionForWindows(siteName, slotName, branch, secretName, runtimeStackVersion);
+        ? getPythonGithubActionWorkflowDefinitionForLinux(siteName, slotName, repoBranch, secretName, runtimeStackVersion)
+        : getPythonGithubActionWorkflowDefinitionForWindows(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
       break;
     case RuntimeStacks.dotnetcore:
-      content = getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion);
+      content = getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion);
       break;
-    case RuntimeStacks.java8:
-    case RuntimeStacks.java11:
-      if (isJavaWarBuild(runtimeVersion)) {
-        content = getJavaWarGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion);
+    case RuntimeStacks.java:
+      // NOTE(michinoy): In case of Java, if the container is tomcat, set up the workflow to produce a WAR package. Else to be on the
+      // safe side produce a JAR package. Internally they are both MAVEN builds.
+      if (javaContainer === JavaContainers.Tomcat) {
+        content = getJavaWarGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion);
       } else {
-        content = getJavaJarGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion);
+        content = getJavaJarGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion);
       }
       break;
     case RuntimeStacks.aspnet:
-      content = getAspNetGithubActionWorkflowDefinition(siteName, slotName, branch, secretName, runtimeStackVersion);
+      content = getAspNetGithubActionWorkflowDefinition(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
       break;
     default:
       throw Error(`Incorrect stack value '${runtimeStack}' provided.`);
@@ -163,10 +165,6 @@ export const getCodeAppWorkflowInformation = (
     secretName,
     content,
   };
-};
-
-const isJavaWarBuild = (runtimeVersion: string) => {
-  return runtimeVersion.toLocaleLowerCase().indexOf(JavaContainers.Tomcat) > -1;
 };
 
 const getRuntimeVersion = (isLinuxApp: boolean, runtimeVersion: string, runtimeStackRecommendedVersion: string) => {
