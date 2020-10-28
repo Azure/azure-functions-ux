@@ -134,7 +134,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       siteStateContext.isLinuxApp,
       values.gitHubPublishProfileSecretGuid,
       deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
-      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
+      values.javaContainer
     );
 
     const commitInfo: GitHubCommit = {
