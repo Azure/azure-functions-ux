@@ -115,11 +115,17 @@ export default class GitHubService {
     return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/deleteActionWorkflow`, method: 'POST', data });
   };
 
-  public static createOrUpdateActionWorkflow = (authToken: string, gitHubToken: string, content: GitHubActionWorkflowRequestContent) => {
+  public static createOrUpdateActionWorkflow = (
+    authToken: string,
+    gitHubToken: string,
+    content: GitHubActionWorkflowRequestContent,
+    replacementPublishUrl?: string
+  ) => {
     const data = {
       authToken,
       gitHubToken,
       content,
+      replacementPublishUrl,
     };
 
     return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/actionWorkflow`, method: 'PUT', data });
