@@ -97,7 +97,8 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           siteStateContext.isLinuxApp,
           formProps.values.gitHubPublishProfileSecretGuid,
           deploymentCenterContext.siteDescriptor.site,
-          deploymentCenterContext.siteDescriptor.slot
+          deploymentCenterContext.siteDescriptor.slot,
+          formProps.values.javaContainer
         );
         return information.content;
       }
