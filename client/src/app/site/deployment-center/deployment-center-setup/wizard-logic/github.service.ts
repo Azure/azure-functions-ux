@@ -121,11 +121,17 @@ export class GithubService implements OnDestroy {
       .catch(e => Observable.of(null));
   }
 
-  createOrUpdateActionWorkflow(authToken: string, gitHubToken: string, content: GitHubActionWorkflowRequestContent) {
+  createOrUpdateActionWorkflow(
+    authToken: string,
+    gitHubToken: string,
+    content: GitHubActionWorkflowRequestContent,
+    replacementPublishUrl?: string
+  ) {
     return this._cacheService.put(Constants.serviceHost + `api/github/actionWorkflow`, null, {
       authToken,
       gitHubToken,
       content,
+      replacementPublishUrl,
     });
   }
 
