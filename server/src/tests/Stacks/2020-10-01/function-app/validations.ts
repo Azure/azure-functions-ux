@@ -60,7 +60,7 @@ function validateNotDeprecatedStacksLength(stacks) {
 
 function validateNotPreviewStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
 function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
