@@ -251,6 +251,7 @@ export interface DeploymentCenterCodeFormData {
   runtimeStack: string;
   runtimeVersion: string;
   runtimeRecommendedVersion: string;
+  javaContainer?: string;
 }
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
