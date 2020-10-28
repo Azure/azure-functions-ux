@@ -21,6 +21,7 @@ import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { AppOs } from '../../../../models/site/site';
 import { SiteStateContext } from '../../../../SiteState';
 import { WebAppStack } from '../../../../models/stacks/web-app-stacks';
+import { RuntimeStacks } from '../../../../utils/stacks-utils';
 
 const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -73,7 +74,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === selectedStack);
 
     if (runtimeStack) {
-      let displayedVersions: IDropdownOption[] = [];
+      const displayedVersions: IDropdownOption[] = [];
 
       runtimeStack.majorVersions.forEach(majorVersion => {
         majorVersion.minorVersions.forEach(minorVersion => {
@@ -241,6 +242,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     formProps.setFieldValue('runtimeStack', '');
     formProps.setFieldValue('runtimeVersion', '');
     formProps.setFieldValue('runtimeRecommendedVersion', '');
+    formProps.setFieldValue('javaContainer', '');
 
     setInitialDefaultValues();
     fetchStacks();
@@ -252,6 +254,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     formProps.setFieldValue('runtimeStack', '');
     formProps.setFieldValue('runtimeVersion', '');
     formProps.setFieldValue('runtimeRecommendedVersion', '');
+    formProps.setFieldValue('javaContainer', '');
 
     setDefaultSelectedRuntimeStack();
 
@@ -265,6 +268,20 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     setDefaultSelectedRuntimeVersion();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runtimeVersionOptions]);
+
+  useEffect(() => {
+    // Set java container as needed.
+    if (deploymentCenterContext.siteConfig && formProps.values.runtimeStack && formProps.values.runtimeStack === RuntimeStacks.java) {
+      const siteConfigJavaContainer = siteStateContext.isLinuxApp
+        ? deploymentCenterContext.siteConfig.properties.linuxFxVersion.toLowerCase().split('|')[0]
+        : deploymentCenterContext.siteConfig.properties.javaContainer.toLowerCase();
+
+      formProps.setFieldValue('javaContainer', siteConfigJavaContainer);
+    } else {
+      formProps.setFieldValue('javaContainer', '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.runtimeStack]);
 
   const getCustomBanner = () => {
     return (
