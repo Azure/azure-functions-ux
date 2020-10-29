@@ -1,7 +1,7 @@
 import { FunctionAppStack } from '../../models/FunctionAppStackModel';
 
 export const customStack: FunctionAppStack = {
-  displayText: 'Custom',
+  displayText: 'Custom Handler',
   value: 'custom',
   sortOrder: 5,
   versions: [
