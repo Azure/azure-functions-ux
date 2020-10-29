@@ -1,12 +1,12 @@
 import { FunctionAppStack } from '../../models/FunctionAppStackModel';
 
 export const customStack: FunctionAppStack = {
-  displayText: 'Custom',
+  displayText: 'Custom Handler',
   value: 'custom',
   preferredOs: 'windows',
   majorVersions: [
     {
-      displayText: 'Custom',
+      displayText: 'Custom Handler',
       value: 'custom',
       minorVersions: [
         {
