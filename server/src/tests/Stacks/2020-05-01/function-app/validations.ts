@@ -71,7 +71,7 @@ export function validatePowershellCoreStack(stacks) {
 export function validateCustomStack(stacks) {
   validateAllStackLength(stacks);
   const customStack = stacks[5];
-  expect(customStack.displayText).to.equal('Custom');
+  expect(customStack.displayText).to.equal('Custom Handler');
   expect(customStack.value).to.equal('custom');
   expect(customStack.sortOrder).to.equal(5);
   expect(customStack.versions.length).to.equal(1);
