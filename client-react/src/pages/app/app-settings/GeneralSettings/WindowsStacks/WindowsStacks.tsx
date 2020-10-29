@@ -34,7 +34,8 @@ const WindowsStacks: React.FC<StackProps> = props => {
           stackValue === RuntimeStacks.java ||
           stackValue === RuntimeStacks.php ||
           stackValue === RuntimeStacks.python ||
-          stackValue === RuntimeStacks.dotnetcore
+          stackValue === RuntimeStacks.dotnetcore ||
+          stackValue === RuntimeStacks.dotnet
         );
       })
       .map(stack => {
