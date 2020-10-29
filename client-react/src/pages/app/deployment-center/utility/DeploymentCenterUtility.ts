@@ -45,7 +45,7 @@ const getRuntimeStackForWindows = (configMetadata: ArmObj<KeyValue<string>>) => 
     // the string 'java' rather than any of the constants defined as it is not related to any of the
     // defined constants.
     if (metadataStack === 'dotnet') {
-      return RuntimeStacks.aspnet;
+      return RuntimeStacks.aspdotnet;
     } else {
       return metadataStack;
     }
