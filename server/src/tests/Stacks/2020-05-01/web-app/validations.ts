@@ -56,7 +56,7 @@ export function validateGithubActionWindowsStackLength(stacks) {
 
 export function validateGithubActionLinuxStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
 export function validateASPCreateStack(stacks) {
@@ -146,7 +146,7 @@ export function validateASPWindowsConfigStack(stacks) {
   expect(aspStack.type).to.equal('Microsoft.Web/availableStacks?osTypeSelected=Windows');
   expect(aspStack.properties.name).to.equal('aspnet');
   expect(aspStack.properties.display).to.equal('ASP.NET');
-  expect(aspStack.properties.majorVersions.length).to.equal(2);
+  expect(aspStack.properties.majorVersions.length).to.equal(3);
   expect(aspStack).to.deep.equal(aspDotnetWindowsConfigStack);
 }
 

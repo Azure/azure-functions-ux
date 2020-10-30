@@ -260,7 +260,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         this.stack = '';
       }
     } else {
-      // NOTE(michinoy): So it seems that in the stack API the stack value is 'asp.net', whereas from site config, the stack identifier is
+      // NOTE(michinoy): So it seems that in the stack API the stack value is 'aspnet', whereas from site config, the stack identifier is
       // 'dotnetcore'. Due to this mismatch, we need to hard code the conversion on the client side.
       this.stack = siteConfig.linuxFxVersion.toLocaleLowerCase() === 'dotnetcore|5.0' ? RuntimeStacks.aspnet : runtimeStack;
     }
