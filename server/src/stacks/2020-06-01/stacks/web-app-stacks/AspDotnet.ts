@@ -15,7 +15,7 @@ export const aspDotnetStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v5.0',
-              isHidden: false,
+              isHidden: true,
               isEarlyAccess: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -28,7 +28,7 @@ export const aspDotnetStack: WebAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|5.0',
-              isHidden: false,
+              isHidden: true,
               isEarlyAccess: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
