@@ -65,7 +65,7 @@ export function validateASPCreateStack(stacks) {
   expect(aspStack.displayText).to.equal('ASP.NET');
   expect(aspStack.value).to.equal('ASP.NET');
   expect(aspStack.sortOrder).to.equal(0);
-  expect(aspStack.versions.length).to.equal(2);
+  expect(aspStack.versions.length).to.equal(3);
   expect(aspStack).to.deep.equal(aspDotnetCreateStack);
 }
 
@@ -146,7 +146,7 @@ export function validateASPWindowsConfigStack(stacks) {
   expect(aspStack.type).to.equal('Microsoft.Web/availableStacks?osTypeSelected=Windows');
   expect(aspStack.properties.name).to.equal('aspnet');
   expect(aspStack.properties.display).to.equal('ASP.NET');
-  expect(aspStack.properties.majorVersions.length).to.equal(3);
+  expect(aspStack.properties.majorVersions.length).to.equal(2);
   expect(aspStack).to.deep.equal(aspDotnetWindowsConfigStack);
 }
 
