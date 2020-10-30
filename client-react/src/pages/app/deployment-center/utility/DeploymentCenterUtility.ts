@@ -41,14 +41,7 @@ const getRuntimeStackForWindows = (configMetadata: ArmObj<KeyValue<string>>) => 
   if (configMetadata.properties['CURRENT_STACK']) {
     const metadataStack = configMetadata.properties['CURRENT_STACK'].toLowerCase();
 
-    // NOTE(michinoy): Java is special, so need to handle it carefully. Also in this case, use
-    // the string 'java' rather than any of the constants defined as it is not related to any of the
-    // defined constants.
-    if (metadataStack === 'dotnet') {
-      return RuntimeStacks.aspnet;
-    } else {
-      return metadataStack;
-    }
+    return metadataStack === 'dotnet' ? RuntimeStacks.aspnet : metadataStack;
   } else {
     return '';
   }
@@ -91,7 +84,9 @@ const getRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   if (runtimeStack === JavaContainers.JavaSE || runtimeStack === JavaContainers.Tomcat || runtimeStack === JavaContainers.JBoss) {
     return RuntimeStacks.java;
   } else {
-    return runtimeStack;
+    // NOTE(michinoy): So it seems that in the stack API the stack value is 'asp.net', whereas from site config, the stack identifier is
+    // 'dotnetcore'. Due to this mismatch, we need to hard code the conversion on the client side.
+    return siteConfig.properties.linuxFxVersion.toLocaleLowerCase() === 'dotnetcore|5.0' ? RuntimeStacks.aspnet : runtimeStack;
   }
 };
 

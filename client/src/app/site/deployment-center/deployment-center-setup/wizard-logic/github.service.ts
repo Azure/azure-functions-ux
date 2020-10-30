@@ -185,7 +185,11 @@ export class GithubService implements OnDestroy {
         }
         break;
       case RuntimeStacks.aspnet:
-        content = this._getAspNetGithubActionWorkflowDefinition(siteName, slotName, branch, secretName, runtimeStackVersion);
+        // NOTE(michinoy): In case of version 5, generate the dotnet core workflow file.
+        content =
+          buildSettings.runtimeStackVersion === '5' || buildSettings.runtimeStackVersion.toLocaleLowerCase() === 'v5.0'
+            ? this._getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion)
+            : this._getAspNetGithubActionWorkflowDefinition(siteName, slotName, branch, secretName, runtimeStackVersion);
         break;
       default:
         throw Error(`Incorrect stack value '${buildSettings.runtimeStack}' provided.`);
