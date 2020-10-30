@@ -655,6 +655,7 @@ export class FeatureFlags {
   public static EnableAIOnNationalCloud = 'EnableAIOnNationalCloud';
   public static EnablePv2Experiment = 'EnablePv2Experiment';
   public static DisablePv2Experiment = 'DisablePv2Experiment';
+  public static showHiddenStacks = 'showHiddenStacks';
 }
 
 export class SupportedFeatures {

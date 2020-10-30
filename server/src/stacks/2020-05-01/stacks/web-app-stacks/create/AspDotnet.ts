@@ -6,6 +6,41 @@ export const aspDotnetCreateStack: WebAppCreateStack = {
   sortOrder: 0,
   versions: [
     {
+      displayText: '.NET 5',
+      value: '5',
+      sortOrder: 0,
+      supportedPlatforms: [
+        {
+          os: 'windows',
+          isPreview: false,
+          isDeprecated: false,
+          isHidden: true,
+          applicationInsightsEnabled: false,
+          remoteDebuggingEnabled: false,
+          runtimeVersion: 'v5.0',
+          sortOrder: 0,
+          githubActionSettings: {
+            supported: true,
+            recommendedVersion: '5.0.x',
+          },
+        },
+        {
+          os: 'linux',
+          isPreview: false,
+          isDeprecated: false,
+          isHidden: true,
+          applicationInsightsEnabled: false,
+          remoteDebuggingEnabled: false,
+          runtimeVersion: 'DOTNETCORE|5.0',
+          sortOrder: 0,
+          githubActionSettings: {
+            supported: true,
+            recommendedVersion: '5.0.x',
+          },
+        },
+      ],
+    },
+    {
       displayText: 'ASP.NET V4.8',
       value: 'V4.8',
       sortOrder: 0,

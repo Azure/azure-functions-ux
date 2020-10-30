@@ -239,6 +239,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
       this.stackVersion = siteConfig.pythonVersion;
     } else if (this.stack === RuntimeStacks.java8 || this.stack === RuntimeStacks.java11) {
       this.stackVersion = `${siteConfig.javaVersion}|${siteConfig.javaContainer}|${siteConfig.javaContainerVersion}`;
+    } else if (this.stack === RuntimeStacks.aspnet && !!siteConfig.netFrameworkVersion) {
+      this.stackVersion == siteConfig.netFrameworkVersion;
     } else if (this.stack === '') {
       this.stackVersion = '';
     }
@@ -258,7 +260,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
         this.stack = '';
       }
     } else {
-      this.stack = runtimeStack;
+      // NOTE(michinoy): So it seems that in the stack API the stack value is 'aspnet', whereas from site config, the stack identifier is
+      // 'dotnetcore'. Due to this mismatch, we need to hard code the conversion on the client side.
+      this.stack = siteConfig.linuxFxVersion.toLocaleLowerCase() === 'dotnetcore|5.0' ? RuntimeStacks.aspnet : runtimeStack;
     }
 
     this.stackVersion = !!siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion : '';
