@@ -131,12 +131,18 @@ export class StacksController {
   }
 
   @Post('webAppGitHubActionStacks')
-  webAppGitHubActionStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
+  webAppGitHubActionStacks(
+    @Query('api-version') apiVersion: string,
+    @Query('os') os?: 'linux' | 'windows',
+    @Query('removeHiddenStacks') removeHiddenStacks?: string
+  ) {
     validateApiVersion(apiVersion, [Versions.version20200501]);
     validateOs(os);
 
+    const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
+
     if (apiVersion === Versions.version20200501) {
-      return this._stackService20200501.getWebAppGitHubActionStacks(os);
+      return this._stackService20200501.getWebAppGitHubActionStacks(os, removeHidden);
     }
   }
 

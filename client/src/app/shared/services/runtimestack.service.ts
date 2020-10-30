@@ -3,7 +3,8 @@ import { ConditionalHttpClient, Result } from '../conditional-http-client';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
 import { WebAppCreateStack } from '../models/stacks';
-import { Constants, ARMApiVersions } from '../models/constants';
+import { Constants, ARMApiVersions, FeatureFlags } from '../models/constants';
+import { Url } from '../Utilities/url';
 
 @Injectable()
 export class RuntimeStackService {
@@ -16,7 +17,9 @@ export class RuntimeStackService {
   public getWebAppGitHubActionStacks(os: 'linux' | 'windows'): Result<WebAppCreateStack[]> {
     const getWebAppGitHubActionStacks = this._cacheService
       .post(
-        `${Constants.serviceHost}stacks/webAppGitHubActionStacks?api-version=${ARMApiVersions.stacksApiVersion20200501}&os=${os}`,
+        `${Constants.serviceHost}stacks/webAppGitHubActionStacks?api-version=${
+          ARMApiVersions.stacksApiVersion20200501
+        }&os=${os}&removeHiddenStacks=${!this._isShowHiddenStackFlagPassed()}`,
         false,
         null,
         null
@@ -25,4 +28,9 @@ export class RuntimeStackService {
 
     return this._client.execute({ resourceId: null }, t => getWebAppGitHubActionStacks);
   }
+
+  private _isShowHiddenStackFlagPassed = () => {
+    const flagValue = Url.getFeatureValue(FeatureFlags.showHiddenStacks);
+    return flagValue && flagValue.toLocaleLowerCase() === 'true';
+  };
 }
