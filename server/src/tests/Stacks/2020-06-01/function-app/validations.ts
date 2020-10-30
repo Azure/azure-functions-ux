@@ -255,7 +255,7 @@ export function validateCustomStackFilter(stacks) {
 }
 
 function validateCustomStack(customStack) {
-  expect(customStack.displayText).to.equal('Custom');
+  expect(customStack.displayText).to.equal('Custom Handler');
   expect(customStack.value).to.equal('custom');
   expect(customStack.preferredOs).to.equal('windows');
   expect(customStack.majorVersions.length).to.equal(1);
