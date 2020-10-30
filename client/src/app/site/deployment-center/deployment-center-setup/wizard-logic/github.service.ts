@@ -187,7 +187,8 @@ export class GithubService implements OnDestroy {
       case RuntimeStacks.aspnet:
         // NOTE(michinoy): In case of version 5, generate the dotnet core workflow file.
         content =
-          buildSettings.runtimeStackVersion === '5' || buildSettings.runtimeStackVersion.toLocaleLowerCase() === 'v5.0'
+          buildSettings.runtimeStackVersion.toLocaleLowerCase() === 'dotnetcore|5.0' ||
+          buildSettings.runtimeStackVersion.toLocaleLowerCase() === 'v5.0'
             ? this._getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion)
             : this._getAspNetGithubActionWorkflowDefinition(siteName, slotName, branch, secretName, runtimeStackVersion);
         break;
@@ -528,7 +529,7 @@ jobs:
     return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy WAR app to Azure Web App - ${webAppName}
+name: Build and deploy ASP app to Azure Web App - ${webAppName}
 
 on:
   push:
