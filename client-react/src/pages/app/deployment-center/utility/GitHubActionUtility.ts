@@ -154,7 +154,11 @@ export const getCodeAppWorkflowInformation = (
       }
       break;
     case RuntimeStacks.aspnet:
-      content = getAspNetGithubActionWorkflowDefinition(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
+      // NOTE(michinoy): In case of version 5, generate the dotnet core workflow file.
+      content =
+        runtimeVersion === '5' || runtimeVersion.toLocaleLowerCase() === 'v5.0'
+          ? getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion)
+          : getAspNetGithubActionWorkflowDefinition(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
       break;
     default:
       throw Error(`Incorrect stack value '${runtimeStack}' provided.`);
