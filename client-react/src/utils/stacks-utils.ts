@@ -247,7 +247,6 @@ export const JavaContainers = {
 
 export const RuntimeStacks = {
   java: 'java',
-  aspdotnet: 'asp.net',
   node: 'node',
   python: 'python',
   dotnetcore: 'dotnetcore',

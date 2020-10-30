@@ -56,7 +56,7 @@ export function validateGithubActionWindowsStackLength(stacks) {
 
 export function validateGithubActionLinuxStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
 export function validateASPCreateStack(stacks) {
@@ -65,7 +65,7 @@ export function validateASPCreateStack(stacks) {
   expect(aspStack.displayText).to.equal('ASP.NET');
   expect(aspStack.value).to.equal('ASP.NET');
   expect(aspStack.sortOrder).to.equal(0);
-  expect(aspStack.versions.length).to.equal(2);
+  expect(aspStack.versions.length).to.equal(3);
   expect(aspStack).to.deep.equal(aspDotnetCreateStack);
 }
 
