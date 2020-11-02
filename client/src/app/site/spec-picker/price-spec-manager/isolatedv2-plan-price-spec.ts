@@ -135,9 +135,9 @@ export class IsolatedV2SmallPlanPriceSpec extends IsolatedV2PlanPriceSpec {
   skuCode = SkuCode.IsolatedV2.I1V2;
   legacySkuName = SkuCode.IsolatedV2.I1V2;
   topLevelFeatures = [
-    this._ts.instant(PortalResources.pricing_ACU).format('390'),
-    this._ts.instant(PortalResources.pricing_memory).format('8'),
-    this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
+    this._ts.instant(PortalResources.pricing_ACU_Pv3).format(195),
+    this._ts.instant(PortalResources.pricing_memory).format(8),
+    this._ts.instant(PortalResources.pricing_vCores).format(2),
   ];
 
   meterFriendlyName = 'IsolatedV2 Small App Service Hours';
@@ -158,9 +158,9 @@ export class IsolatedV2MediumPlanPriceSpec extends IsolatedV2PlanPriceSpec {
   skuCode = SkuCode.IsolatedV2.I2V2;
   legacySkuName = SkuCode.IsolatedV2.I2V2;
   topLevelFeatures = [
-    this._ts.instant(PortalResources.pricing_ACU).format('780'),
-    this._ts.instant(PortalResources.pricing_memory).format('16'),
-    this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
+    this._ts.instant(PortalResources.pricing_ACU_Pv3).format(195),
+    this._ts.instant(PortalResources.pricing_memory).format(16),
+    this._ts.instant(PortalResources.pricing_vCores).format(4),
   ];
 
   meterFriendlyName = 'IsolatedV2 Medium App Service Hours';
@@ -181,9 +181,9 @@ export class IsolatedV2LargePlanPriceSpec extends IsolatedV2PlanPriceSpec {
   skuCode = SkuCode.IsolatedV2.I3V2;
   legacySkuName = SkuCode.IsolatedV2.I3V2;
   topLevelFeatures = [
-    this._ts.instant(PortalResources.pricing_ACU).format('1560'),
-    this._ts.instant(PortalResources.pricing_memory).format('32'),
-    this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
+    this._ts.instant(PortalResources.pricing_ACU_Pv3).format(195),
+    this._ts.instant(PortalResources.pricing_memory).format(32),
+    this._ts.instant(PortalResources.pricing_vCores).format(8),
   ];
 
   meterFriendlyName = 'IsolatedV2 Large App Service Hours';
