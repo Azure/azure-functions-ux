@@ -12,7 +12,6 @@ import { isLinuxApp } from '../../../../utils/arm-utils';
 import { HostStates } from '../../../../models/functions/host-status';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
 
 const isVersionChangeSafe = (newVersion: RuntimeExtensionMajorVersions, oldVersion: RuntimeExtensionMajorVersions | null) => {
   if (oldVersion === RuntimeExtensionMajorVersions.custom || newVersion === RuntimeExtensionMajorVersions.custom) {
@@ -100,10 +99,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   };
 
   const isV2Hidden = () => {
-    return (
-      initialRuntimeMajorVersion !== RuntimeExtensionMajorVersions.v2 &&
-      (NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec())
-    );
+    return initialRuntimeMajorVersion !== RuntimeExtensionMajorVersions.v2;
   };
 
   const getOptions = (): IDropdownOption[] => {
