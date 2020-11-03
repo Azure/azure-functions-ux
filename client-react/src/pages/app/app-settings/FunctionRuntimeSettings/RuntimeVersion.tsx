@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { FormAppSetting, AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
@@ -210,6 +210,11 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     ? t('functionsRuntimeVersionExistingFunctionsWarning').format(getRuntimeVersionInUse(), runtimeMajorVersion)
     : undefined;
 
+  useEffect(() => {
+    setMovingFromV2Warning(undefined);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialRuntimeVersion]);
   return (
     <>
       {app_write && editable ? (
