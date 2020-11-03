@@ -251,6 +251,9 @@ export class ProdSpecGroup extends PriceSpecGroup {
           level: BannerMessageLevel.INFO,
         };
       }
+
+      // NOTE(shimedh): We don't want to show S2 and S3 sku'd in create scenario since P1v2 and P2v2 offer better perf at the same price point.
+      this.additionalSpecs.splice(0, 2);
     }
 
     const isPartOfPv2Experiment = FlightingUtil.checkSubscriptionInFlight(input.subscriptionId, FlightingUtil.Features.Pv2Experimentation);
