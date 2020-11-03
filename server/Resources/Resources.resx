@@ -6822,4 +6822,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="pricing_iv2NotAvailable" xml:space="preserve">
         <value>Isolated V2 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
     </data>
+    <data name="movingFromV2Warning" xml:space="preserve">
+        <value>You won't be able to go back to v2 because it is deprecated.</value>
+    </data>
 </root>

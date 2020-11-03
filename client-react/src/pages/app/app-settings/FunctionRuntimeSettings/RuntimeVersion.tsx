@@ -50,6 +50,8 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   const hasCustomRuntimeVersion = runtimeMajorVersion === RuntimeExtensionMajorVersions.custom;
   let [waitingOnFunctionsApi, hasFunctions, failedToGetFunctions] = [false, false, false];
 
+  const [movingFromV2Warning, setMovingFromV2Warning] = useState<string | undefined>(undefined);
+
   switch (asyncData.functionsCount.loadingState) {
     case LoadingStates.loading:
       // The functions call hasn't completed, so we don't know the functions count. Keep the control disabled until the call completes or fails.
@@ -147,9 +149,13 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     hasFunctions && !isVersionChangeSafe(newVersion, getRuntimeVersionInUse());
 
   const onDropDownChange = (newVersion: RuntimeExtensionMajorVersions) => {
+    setMovingFromV2Warning(undefined);
     if (isExistingFunctionsWarningNeeded(newVersion)) {
       setPendingVersion(newVersion);
     } else {
+      if (newVersion === RuntimeExtensionMajorVersions.v3 && initialRuntimeMajorVersion === RuntimeExtensionMajorVersions.v2) {
+        setMovingFromV2Warning(t('movingFromV2Warning'));
+      }
       updateDropDownValue(newVersion);
     }
   };
@@ -226,6 +232,14 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
             <CustomBanner
               id="function-app-settings-runtime-version-message"
               message={existingFunctionsMessage}
+              type={MessageBarType.warning}
+              undocked={true}
+            />
+          )}
+          {movingFromV2Warning && (
+            <CustomBanner
+              id="function-app-settings-runtime-version-v2-change-message"
+              message={movingFromV2Warning}
               type={MessageBarType.warning}
               undocked={true}
             />
