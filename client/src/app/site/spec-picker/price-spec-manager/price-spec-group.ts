@@ -28,7 +28,7 @@ import { GenericPlanPriceSpec } from './generic-plan-price-spec';
 import { PricingTier } from 'app/shared/models/arm/pricingtier';
 import { ArmArrayResult } from 'app/shared/models/arm/arm-obj';
 import { FlightingUtil } from '../../../shared/Utilities/flighting-utility';
-import { LogService } from '../../../shared/services/log.service';
+import { PortalService } from '../../../shared/services/portal.service';
 
 export enum BannerMessageLevel {
   ERROR = 'error',
@@ -80,12 +80,12 @@ export abstract class PriceSpecGroup {
   isExpanded = false;
 
   protected ts: TranslateService;
-  protected logService: LogService;
+  protected portalService: PortalService;
 
   constructor(protected injector: Injector, protected specManager: PlanPriceSpecManager) {
     this.ts = injector.get(TranslateService);
     this.emptyInfoLinkText = this.ts.instant(PortalResources.clickToLearnMore);
-    this.logService = injector.get(LogService);
+    this.portalService = injector.get(PortalService);
   }
 
   abstract initialize(input: PriceSpecInput);
@@ -251,9 +251,6 @@ export class ProdSpecGroup extends PriceSpecGroup {
           level: BannerMessageLevel.INFO,
         };
       }
-
-      // NOTE(shimedh): We don't want to show S2 and S3 sku'd in create scenario since P1v2 and P2v2 offer better perf at the same price point.
-      this.additionalSpecs.splice(0, 2);
     }
 
     const isPartOfPv2Experiment = FlightingUtil.checkSubscriptionInFlight(input.subscriptionId, FlightingUtil.Features.Pv2Experimentation);
@@ -261,13 +258,17 @@ export class ProdSpecGroup extends PriceSpecGroup {
 
     // NOTE(michinoy): The OS type determines whether standard small plan is recommended or additional pricing tier.
     // NOTE(shimedh): If subscription is part of PV2 experiment flighting we always add standard small plan in additional pricing tier irrespective of OS.
-    if (isPartOfPv2Experiment || isLinux) {
+    if (isPartOfPv2Experiment) {
+      // NOTE(shimedh): We don't want to show S2 and S3 sku'd in create scenario since P1v2 and P2v2 offer better perf at the same price point.
+      this.additionalSpecs.splice(0, 2);
       this.additionalSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
-      this.logService.debug(LogCategories.specPickerPv2Experiment, {
+      this.portalService.logAction('specPicker', LogCategories.specPickerPv2Experiment, {
         subscriptionId: input.subscriptionId,
-        isLinux: isLinux,
-        isPartOfPv2Experiment: isPartOfPv2Experiment,
+        isLinux: `${isLinux}`,
+        isPartOfPv2Experiment: `${isPartOfPv2Experiment}`,
       });
+    } else if (isLinux) {
+      this.additionalSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
     } else {
       this.recommendedSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
     }
