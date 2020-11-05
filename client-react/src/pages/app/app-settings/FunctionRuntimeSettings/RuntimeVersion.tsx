@@ -12,6 +12,7 @@ import { isLinuxApp } from '../../../../utils/arm-utils';
 import { HostStates } from '../../../../models/functions/host-status';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { Links } from '../../../../utils/FwLinks';
 
 const isVersionChangeSafe = (newVersion: RuntimeExtensionMajorVersions, oldVersion: RuntimeExtensionMajorVersions | null) => {
   if (oldVersion === RuntimeExtensionMajorVersions.custom || newVersion === RuntimeExtensionMajorVersions.custom) {
@@ -247,6 +248,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
               message={movingFromV2Warning}
               type={MessageBarType.warning}
               undocked={true}
+              learnMoreLink={Links.functionV2MigrationLearnMore}
             />
           )}
           <DropdownNoFormik
