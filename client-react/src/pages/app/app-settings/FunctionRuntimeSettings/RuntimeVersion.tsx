@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { FormAppSetting, AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
@@ -12,7 +12,7 @@ import { isLinuxApp } from '../../../../utils/arm-utils';
 import { HostStates } from '../../../../models/functions/host-status';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
+import { Links } from '../../../../utils/FwLinks';
 
 const isVersionChangeSafe = (newVersion: RuntimeExtensionMajorVersions, oldVersion: RuntimeExtensionMajorVersions | null) => {
   if (oldVersion === RuntimeExtensionMajorVersions.custom || newVersion === RuntimeExtensionMajorVersions.custom) {
@@ -50,6 +50,8 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
 
   const hasCustomRuntimeVersion = runtimeMajorVersion === RuntimeExtensionMajorVersions.custom;
   let [waitingOnFunctionsApi, hasFunctions, failedToGetFunctions] = [false, false, false];
+
+  const [movingFromV2Warning, setMovingFromV2Warning] = useState<string | undefined>(undefined);
 
   switch (asyncData.functionsCount.loadingState) {
     case LoadingStates.loading:
@@ -100,10 +102,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   };
 
   const isV2Hidden = () => {
-    return (
-      initialRuntimeMajorVersion !== RuntimeExtensionMajorVersions.v2 &&
-      (NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec())
-    );
+    return initialRuntimeMajorVersion !== RuntimeExtensionMajorVersions.v2;
   };
 
   const getOptions = (): IDropdownOption[] => {
@@ -151,9 +150,13 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     hasFunctions && !isVersionChangeSafe(newVersion, getRuntimeVersionInUse());
 
   const onDropDownChange = (newVersion: RuntimeExtensionMajorVersions) => {
+    setMovingFromV2Warning(undefined);
     if (isExistingFunctionsWarningNeeded(newVersion)) {
       setPendingVersion(newVersion);
     } else {
+      if (newVersion === RuntimeExtensionMajorVersions.v3 && initialRuntimeMajorVersion === RuntimeExtensionMajorVersions.v2) {
+        setMovingFromV2Warning(t('movingFromV2Warning'));
+      }
       updateDropDownValue(newVersion);
     }
   };
@@ -208,6 +211,11 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     ? t('functionsRuntimeVersionExistingFunctionsWarning').format(getRuntimeVersionInUse(), runtimeMajorVersion)
     : undefined;
 
+  useEffect(() => {
+    setMovingFromV2Warning(undefined);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialRuntimeVersion]);
   return (
     <>
       {app_write && editable ? (
@@ -232,6 +240,15 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
               message={existingFunctionsMessage}
               type={MessageBarType.warning}
               undocked={true}
+            />
+          )}
+          {movingFromV2Warning && (
+            <CustomBanner
+              id="function-app-settings-runtime-version-v2-change-message"
+              message={movingFromV2Warning}
+              type={MessageBarType.warning}
+              undocked={true}
+              learnMoreLink={Links.functionV2MigrationLearnMore}
             />
           )}
           <DropdownNoFormik
