@@ -5986,7 +5986,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Per disconnettersi, passare al portale di Azure DevOps.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
-        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+        <value>La configurazione della distribuzione corrente non è più supportata. Per disconnettersi, passare al portale di Azure DevOps.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Gestisci profilo di pubblicazione</value>
@@ -6802,15 +6802,24 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Impostazioni di runtime del flusso di lavoro</value>
     </data>
   <data name="uploadingFile" xml:space="preserve">
-        <value>Uploading file</value>
+        <value>Caricamento del file</value>
     </data>
   <data name="uploadingFileWithName" xml:space="preserve">
-        <value>Uploading '{0}'</value>
+        <value>Caricamento di '{0}'</value>
     </data>
   <data name="uploadingFileSuccessWithName" xml:space="preserve">
-        <value>Successfully uploaded '{0}'</value>
+        <value>Il caricamento di '{0}' è riuscito</value>
     </data>
   <data name="uploadingFileFailureWithName" xml:space="preserve">
-        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+        <value>Non è stato possibile caricare '{0}'. Il caricamento di file con dimensioni maggiori di 5 MB dal portale di Azure non è supportato</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (accesso in anteprima)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>Lo SKU Isolato V2 non è supportato per questa unità di scala. Provare a ridistribuire o a clonare l'app.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
     </data>
 </root>

@@ -5983,10 +5983,10 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Não é possível obter as informações da conta</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Please go to the Azure DevOps portal to disconnect.</value>
+        <value>Aceda ao portal do Azure DevOps para desligar.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
-        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+        <value>A configuração de implementação atual já não é suportada. Aceda ao portal do Azure DevOps para desligar.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Gerir perfil de publicação</value>
@@ -6802,15 +6802,24 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Definições de runtime do fluxo de trabalho</value>
     </data>
   <data name="uploadingFile" xml:space="preserve">
-        <value>Uploading file</value>
+        <value>A carregar ficheiro</value>
     </data>
   <data name="uploadingFileWithName" xml:space="preserve">
-        <value>Uploading '{0}'</value>
+        <value>A carregar "{0}"</value>
     </data>
   <data name="uploadingFileSuccessWithName" xml:space="preserve">
-        <value>Successfully uploaded '{0}'</value>
+        <value>"{0}" carregado com êxito</value>
     </data>
   <data name="uploadingFileFailureWithName" xml:space="preserve">
-        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+        <value>Falha ao carregar "{0}". O carregamento de ficheiros acima dos 5 MB não é suportado a partir do portal do Azure</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (Acesso Antecipado)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>O V2 Isolado não é suportado por esta unidade de escala. Considere voltar a implementar ou clonar a aplicação.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
     </data>
 </root>

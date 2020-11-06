@@ -5984,10 +5984,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Kan geen accountgegevens ophalen</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Please go to the Azure DevOps portal to disconnect.</value>
+        <value>Ga naar de Azure DevOps-Portal om de verbinding te verbreken.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
-        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+        <value>De huidige implementatieconfiguratie wordt niet meer ondersteund. Ga naar de Azure DevOps-portal om de verbinding te verbreken.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Publicatieprofiel beheren</value>
@@ -6803,15 +6803,24 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Runtime-instellingen voor werkstroom</value>
     </data>
   <data name="uploadingFile" xml:space="preserve">
-        <value>Uploading file</value>
+        <value>Bestand uploaden</value>
     </data>
   <data name="uploadingFileWithName" xml:space="preserve">
-        <value>Uploading '{0}'</value>
+        <value>{0} uploaden</value>
     </data>
   <data name="uploadingFileSuccessWithName" xml:space="preserve">
-        <value>Successfully uploaded '{0}'</value>
+        <value>{0} is geüpload</value>
     </data>
   <data name="uploadingFileFailureWithName" xml:space="preserve">
-        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+        <value>Kan {0} niet uploaden. Het uploaden van bestanden van meer dan 5 MB wordt niet ondersteund vanuit Azure Portal</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (vroege toegang)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>Isolated V2 wordt niet ondersteund voor deze schaaleenheid. U kunt de app het beste opnieuw implementeren of klonen.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
     </data>
 </root>

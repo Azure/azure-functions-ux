@@ -5986,7 +5986,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Gå till Azure DevOps-portalen för att koppla från.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
-        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+        <value>Den aktuella distributionskonfigurationen stöds inte längre. Gå till Azure DevOps-portalen för att koppla från.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Hantera publiceringsprofil</value>
@@ -6802,15 +6802,24 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Körningsinställningar för arbetsflöde</value>
     </data>
   <data name="uploadingFile" xml:space="preserve">
-        <value>Uploading file</value>
+        <value>Överför fil</value>
     </data>
   <data name="uploadingFileWithName" xml:space="preserve">
-        <value>Uploading '{0}'</value>
+        <value>Överför {0}</value>
     </data>
   <data name="uploadingFileSuccessWithName" xml:space="preserve">
-        <value>Successfully uploaded '{0}'</value>
+        <value>{0} har laddats upp</value>
     </data>
   <data name="uploadingFileFailureWithName" xml:space="preserve">
-        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+        <value>Det gick inte att ladda upp {0}. Överföring av filer som överstiger 5 MB stöds inte från Azure Portal</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (tidig åtkomst)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>Isolerad V2 stöds inte för den här skalningsenheten. Distribuera om eller klona din app.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
     </data>
 </root>

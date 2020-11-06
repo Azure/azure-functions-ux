@@ -5983,10 +5983,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Kontoinformationen können nicht abgerufen werden.</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Please go to the Azure DevOps portal to disconnect.</value>
+        <value>Wechseln Sie zum Azure DevOps-Portal, um die Verbindung zu trennen.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
-        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+        <value>Die aktuelle Bereitstellungskonfiguration wird nicht mehr unterstützt. Wechseln Sie zum Azure DevOps-Portal, um die Verbindung zu trennen.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Veröffentlichungsprofil verwalten</value>
@@ -6802,15 +6802,24 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Laufzeiteinstellungen für Workflow</value>
     </data>
   <data name="uploadingFile" xml:space="preserve">
-        <value>Uploading file</value>
+        <value>Datei wird hochgeladen</value>
     </data>
   <data name="uploadingFileWithName" xml:space="preserve">
-        <value>Uploading '{0}'</value>
+        <value>"{0}" wird hochgeladen</value>
     </data>
   <data name="uploadingFileSuccessWithName" xml:space="preserve">
-        <value>Successfully uploaded '{0}'</value>
+        <value>"{0}" erfolgreich hochgeladen</value>
     </data>
   <data name="uploadingFileFailureWithName" xml:space="preserve">
-        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+        <value>Fehler beim Hochladen von "{0}". Das Hochladen von Dateien über 5 MB wird im Azure-Portal nicht unterstützt.</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (früher Zugriff)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>"Isoliert V2" wird für diese Skalierungseinheit nicht unterstützt. Erwägen Sie eine erneute Bereitstellung, oder klonen Sie ggf. Ihre App.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
     </data>
 </root>
