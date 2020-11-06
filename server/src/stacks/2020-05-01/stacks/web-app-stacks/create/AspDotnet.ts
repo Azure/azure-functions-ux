@@ -1,7 +1,7 @@
 import { WebAppCreateStack } from '../../../models/WebAppStackModel';
 
 export const aspDotnetCreateStack: WebAppCreateStack = {
-  displayText: 'ASP.NET',
+  displayText: '.NET',
   value: 'ASP.NET',
   sortOrder: 0,
   versions: [
@@ -14,7 +14,7 @@ export const aspDotnetCreateStack: WebAppCreateStack = {
           os: 'windows',
           isPreview: false,
           isDeprecated: false,
-          isHidden: true,
+          isHidden: false,
           applicationInsightsEnabled: false,
           remoteDebuggingEnabled: false,
           runtimeVersion: 'v5.0',
@@ -28,7 +28,7 @@ export const aspDotnetCreateStack: WebAppCreateStack = {
           os: 'linux',
           isPreview: false,
           isDeprecated: false,
-          isHidden: true,
+          isHidden: false,
           applicationInsightsEnabled: false,
           remoteDebuggingEnabled: false,
           runtimeVersion: 'DOTNETCORE|5.0',
