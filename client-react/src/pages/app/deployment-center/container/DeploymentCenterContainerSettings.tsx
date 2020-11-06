@@ -230,7 +230,9 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   }, [deploymentCenterContext.siteConfig]);
 
   useEffect(() => {
-    setShowSourceSelectionOption(siteStateContext && siteStateContext.isLinuxApp);
+    // NOTE(michinoy): Currently trying to figure out how to enable this for FunctionApp. The workflow file
+    // for FunctionApp Container GitHub Action does not work with publish profile.
+    setShowSourceSelectionOption(siteStateContext && siteStateContext.isLinuxApp && !siteStateContext.isFunctionApp);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteStateContext]);
