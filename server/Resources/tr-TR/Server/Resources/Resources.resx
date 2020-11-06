@@ -5983,10 +5983,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Hesap bilgileri alınamıyor</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Please go to the Azure DevOps portal to disconnect.</value>
+        <value>Lütfen bağlantıyı kesmek için Azure DevOps portalına gidin.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
-        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+        <value>Geçerli dağıtım yapılandırması artık desteklenmiyor. Lütfen bağlantıyı kesmek için Azure DevOps portalına gidin.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Yayımlama profilini yönet</value>
@@ -6802,15 +6802,24 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>İş akışı çalışma zamanı ayarları</value>
     </data>
   <data name="uploadingFile" xml:space="preserve">
-        <value>Uploading file</value>
+        <value>Dosya karşıya yükleniyor</value>
     </data>
   <data name="uploadingFileWithName" xml:space="preserve">
-        <value>Uploading '{0}'</value>
+        <value>'{0}' karşıya yükleniyor</value>
     </data>
   <data name="uploadingFileSuccessWithName" xml:space="preserve">
-        <value>Successfully uploaded '{0}'</value>
+        <value>'{0}' başarıyla karşıya yüklendi</value>
     </data>
   <data name="uploadingFileFailureWithName" xml:space="preserve">
-        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+        <value>'{0}' karşıya yüklenemedi. 5 MB'tan büyük dosyaların karşıya yüklenmesi Azure portaldan desteklenmez</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (Erken Erişim)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>Yalıtılmış V2 bu ölçek birimi için desteklenmiyor. Uygulamanızı yeniden dağıtabilir veya kopyalayabilirsiniz.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
     </data>
 </root>

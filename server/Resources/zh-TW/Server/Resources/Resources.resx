@@ -5986,7 +5986,7 @@
         <value>請前往 Azure DevOps 入口網站以中斷連線。</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
-        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+        <value>不再支援目前的部署設定。請前往 Azure DevOps 入口網站以中斷連線。</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>管理發行設定檔</value>
@@ -6802,15 +6802,24 @@
         <value>工作流程執行階段設定</value>
     </data>
   <data name="uploadingFile" xml:space="preserve">
-        <value>Uploading file</value>
+        <value>正在上傳檔案</value>
     </data>
   <data name="uploadingFileWithName" xml:space="preserve">
-        <value>Uploading '{0}'</value>
+        <value>正在上傳 '{0}'</value>
     </data>
   <data name="uploadingFileSuccessWithName" xml:space="preserve">
-        <value>Successfully uploaded '{0}'</value>
+        <value>已成功上傳 '{0}'</value>
     </data>
   <data name="uploadingFileFailureWithName" xml:space="preserve">
-        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+        <value>無法上傳 '{0}'。Azure 入口網站不支援上傳超過 5MB 的檔案</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (搶先使用)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>此縮放單位不支援隔離式方案 V2。請考慮重新部署或複製您的應用程式。</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
     </data>
 </root>
