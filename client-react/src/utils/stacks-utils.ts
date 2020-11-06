@@ -254,4 +254,5 @@ export const RuntimeStacks = {
   java11: 'java-11',
   php: 'php',
   aspnet: 'aspnet',
+  powershell: 'powershell',
 };
