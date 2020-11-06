@@ -171,6 +171,56 @@ export const getCodeAppWorkflowInformation = (
   };
 };
 
+export const getCodeFunctionAppCodeWorkflowInformation = (
+  runtimeStack: string,
+  runtimeVersion: string,
+  runtimeStackRecommendedVersion: string,
+  branch: string,
+  isLinuxApp: boolean,
+  secretNameGuid: string,
+  siteName: string,
+  slotName: string
+): CodeWorkflowInformation => {
+  const repoBranch = branch || 'master';
+  const fileName = getWorkflowFileName(repoBranch, siteName, slotName);
+  const secretName = `AzureAppService_PublishProfile_${secretNameGuid}`;
+
+  let content = '';
+  const runtimeStackVersion = getRuntimeVersion(isLinuxApp, runtimeVersion, runtimeStackRecommendedVersion);
+
+  switch (runtimeStack) {
+    case RuntimeStacks.node:
+      content = isLinuxApp
+        ? getFunctionAppNodeLinuxWorkflow(siteName, slotName, repoBranch, secretName, runtimeStackVersion)
+        : getFunctionAppNodeWindowsWorkflow(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
+      break;
+    case RuntimeStacks.python:
+      content = getFunctionAppPythonLinuxWorkflow(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
+      break;
+    case RuntimeStacks.dotnetcore:
+      content = isLinuxApp
+        ? getFunctionAppDotNetCoreLinuxWorkflow(siteName, slotName, repoBranch, secretName, runtimeStackVersion)
+        : getFunctionAppDotNetCoreWindowsWorkflow(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
+      break;
+    case RuntimeStacks.java:
+      content = isLinuxApp
+        ? getFunctionAppJavaLinuxWorkflow(siteName, slotName, repoBranch, secretName, runtimeStackVersion)
+        : getFunctionAppJavaWindowsWorkflow(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
+      break;
+    case RuntimeStacks.powershell:
+      content = getFunctionAppPowershellWindowsWorkflow(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
+      break;
+    default:
+      throw Error(`Incorrect stack value '${runtimeStack}' provided.`);
+  }
+
+  return {
+    fileName,
+    secretName,
+    content,
+  };
+};
+
 const getRuntimeVersion = (isLinuxApp: boolean, runtimeVersion: string, runtimeStackRecommendedVersion: string) => {
   if (runtimeStackRecommendedVersion) {
     return runtimeStackRecommendedVersion;
@@ -580,4 +630,425 @@ jobs:
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${publishingProfileSecretName} }}
         images: '${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}'`;
+};
+
+const getFunctionAppDotNetCoreWindowsWorkflow = (
+  siteName: string,
+  slotName: string,
+  branch: string,
+  secretName: string,
+  runtimeStackVersion: string
+) => {
+  const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+  const slot = slotName || 'production';
+
+  return `# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy dotnet core app to Azure Function App - ${webAppName}
+
+on:
+  push:
+    branches:
+      - ${branch}
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: '${runtimeStackVersion}'  # set this to the dotnet version to use
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+
+    - name: Setup DotNet \${{ env.DOTNET_VERSION }} Environment
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: \${{ env.DOTNET_VERSION }}
+
+    - name: 'Resolve Project Dependencies Using Dotnet'
+      shell: pwsh
+      run: |
+        pushd './\${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet build --configuration Release --output ./output
+        popd
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: '${siteName}'
+        slot-name: '${slot}'
+        package: '\${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+        publish-profile: \${{ secrets.${secretName} }}
+  `;
+};
+
+const getFunctionAppDotNetCoreLinuxWorkflow = (
+  siteName: string,
+  slotName: string,
+  branch: string,
+  secretName: string,
+  runtimeStackVersion: string
+) => {
+  const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+  const slot = slotName || 'production';
+
+  return `# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy dotnet core project to Azure Function App - ${webAppName}
+
+on:
+  push:
+    branches:
+      - ${branch}
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: '${runtimeStackVersion}'  # set this to the dotnet version to use
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+
+    - name: Setup DotNet \${{ env.DOTNET_VERSION }} Environment
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: \${{ env.DOTNET_VERSION }}
+
+    - name: 'Resolve Project Dependencies Using Dotnet'
+      shell: bash
+      run: |
+        pushd './\${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet build --configuration Release --output ./output
+        popd
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: '${siteName}'
+        slot-name: '${slot}'
+        package: '\${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+        publish-profile: \${{ secrets.${secretName} }}`;
+};
+
+const getFunctionAppNodeWindowsWorkflow = (
+  siteName: string,
+  slotName: string,
+  branch: string,
+  secretName: string,
+  runtimeStackVersion: string
+) => {
+  const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+  const slot = slotName || 'production';
+
+  return `# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Node.js project to Azure Function App - ${webAppName}
+
+on:
+  push:
+    branches:
+      - ${branch}
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '${runtimeStackVersion}' # set this to the node version to use (supports 8.x, 10.x, 12.x)
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+
+    - name: Setup Node \${{ env.NODE_VERSION }} Environment
+      uses: actions/setup-node@v1
+      with:
+        node-version: \${{ env.NODE_VERSION }}
+
+    - name: 'Resolve Project Dependencies Using Npm'
+      shell: pwsh
+      run: |
+        pushd './\${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        npm install
+        npm run build --if-present
+        npm run test --if-present
+        popd
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: '${siteName}'
+        slot-name: '${slot}'
+        package: \${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        publish-profile: \${{ secrets.${secretName} }}`;
+};
+
+const getFunctionAppNodeLinuxWorkflow = (
+  siteName: string,
+  slotName: string,
+  branch: string,
+  secretName: string,
+  runtimeStackVersion: string
+) => {
+  const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+  const slot = slotName || 'production';
+
+  return `# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Node.js project to Azure Function App - ${webAppName}
+
+on:
+  push:
+    branches:
+      - ${branch}
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '${runtimeStackVersion}' # set this to the node version to use (supports 8.x, 10.x, 12.x)
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+
+    - name: Setup Node \${{ env.NODE_VERSION }} Environment
+      uses: actions/setup-node@v1
+      with:
+        node-version: \${{ env.NODE_VERSION }}
+
+    - name: 'Resolve Project Dependencies Using Npm'
+      shell: bash
+      run: |
+        pushd './\${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        npm install
+        npm run build --if-present
+        npm run test --if-present
+        popd
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: '${siteName}'
+        slot-name: '${slot}'
+        package: \${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        publish-profile: \${{ secrets.${secretName} }}`;
+};
+
+const getFunctionAppPowershellWindowsWorkflow = (
+  siteName: string,
+  slotName: string,
+  branch: string,
+  secretName: string,
+  runtimeStackVersion: string
+) => {
+  const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+  const slot = slotName || 'production';
+
+  return `# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Powershell project to Azure Function App - ${webAppName}
+
+on:
+  push:
+    branches:
+      - ${branch}
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: '${siteName}'
+        slot-name: '${slot}'
+        package: \${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        publish-profile: \${{ secrets.${secretName} }}`;
+};
+
+const getFunctionAppJavaWindowsWorkflow = (
+  siteName: string,
+  slotName: string,
+  branch: string,
+  secretName: string,
+  runtimeStackVersion: string
+) => {
+  const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+  const slot = slotName || 'production';
+
+  return `# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Java project to Azure Function App - ${webAppName}
+
+on:
+  push:
+    branches:
+      - ${branch}
+
+env:
+  AZURE_FUNCTIONAPP_NAME: ${webAppName} # set this to your function app name on Azure
+  POM_XML_DIRECTORY: '.' # set this to the directory which contains pom.xml file
+  POM_FUNCTIONAPP_NAME: ${webAppName} # set this to the function app name in your local development environment
+  JAVA_VERSION: '${runtimeStackVersion}' # set this to the java version to use
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+
+    - name: Setup Java Sdk \${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v1
+      with:
+        java-version: \${{ env.JAVA_VERSION }}
+
+    - name: 'Restore Project Dependencies Using Mvn'
+      shell: pwsh
+      run: |
+        pushd './\${{ env.POM_XML_DIRECTORY }}'
+        mvn clean package
+        mvn azure-functions:package
+        popd
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: '${siteName}'
+        slot-name: '${slot}'
+        package: './\${{ env.POM_XML_DIRECTORY }}/target/azure-functions/\${{ env.POM_FUNCTIONAPP_NAME }}'
+        publish-profile: \${{ secrets.${secretName} }}`;
+};
+
+const getFunctionAppJavaLinuxWorkflow = (
+  siteName: string,
+  slotName: string,
+  branch: string,
+  secretName: string,
+  runtimeStackVersion: string
+) => {
+  const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+  const slot = slotName || 'production';
+
+  return `# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Java project to Azure Function App - ${webAppName}
+
+on:
+  push:
+    branches:
+      - ${branch}
+
+env:
+  AZURE_FUNCTIONAPP_NAME: ${webAppName} # set this to your function app name on Azure
+  POM_XML_DIRECTORY: '.' # set this to the directory which contains pom.xml file
+  POM_FUNCTIONAPP_NAME: ${webAppName} # set this to the function app name in your local development environment
+  JAVA_VERSION: '${runtimeStackVersion}' # set this to the java version to use
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+
+    - name: Setup Java Sdk \${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v1
+      with:
+        java-version: \${{ env.JAVA_VERSION }}
+
+    - name: 'Restore Project Dependencies Using Mvn'
+      shell: pwsh
+      run: |
+        pushd './\${{ env.POM_XML_DIRECTORY }}'
+        mvn clean package
+        mvn azure-functions:package
+        popd
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: '${siteName}'
+        slot-name: '${slot}'
+        package: './\${{ env.POM_XML_DIRECTORY }}/target/azure-functions/\${{ env.POM_FUNCTIONAPP_NAME }}'
+        publish-profile: \${{ secrets.${secretName} }}`;
+};
+
+const getFunctionAppPythonLinuxWorkflow = (
+  siteName: string,
+  slotName: string,
+  branch: string,
+  secretName: string,
+  runtimeStackVersion: string
+) => {
+  const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+  const slot = slotName || 'production';
+
+  return `# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Powershell project to Azure Function App - ${webAppName}
+
+on:
+  push:
+    branches:
+      - ${branch}
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  PYTHON_VERSION: '${runtimeStackVersion}' # set this to the python version to use (supports 3.6, 3.7, 3.8)
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+
+    - name: Setup Python \${{ env.PYTHON_VERSION }} Environment
+      uses: actions/setup-python@v1
+      with:
+        python-version: \${{ env.PYTHON_VERSION }}
+
+    - name: 'Resolve Project Dependencies Using Pip'
+      shell: bash
+      run: |
+        pushd './\${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+        popd
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: '${siteName}'
+        slot-name: '${slot}'
+        package: \${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        publish-profile: \${{ secrets.${secretName} }}`;
 };
