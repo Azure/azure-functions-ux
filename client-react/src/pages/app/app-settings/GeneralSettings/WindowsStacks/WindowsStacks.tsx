@@ -47,12 +47,8 @@ const WindowsStacks: React.FC<StackProps> = props => {
   };
 
   const isDotnetStack = () => {
-    // NOTE (krmitta): Dotnetcore and Aspnet will be merged into one starting 2020-10-01
-    return (
-      values.currentlySelectedStack === 'dotnetcore' ||
-      values.currentlySelectedStack === 'aspnet' ||
-      values.currentlySelectedStack === 'dotnet'
-    );
+    // NOTE (krmitta): Dotnet and Aspnet will be merged into one starting 2020-10-01
+    return values.currentlySelectedStack === 'aspnet' || values.currentlySelectedStack === 'dotnet';
   };
 
   return (
