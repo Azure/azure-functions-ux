@@ -1,7 +1,7 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
 export const aspDotnetStack: WebAppStack = {
-  displayText: 'ASP.NET',
+  displayText: '.NET',
   value: 'aspnet',
   preferredOs: 'windows',
   majorVersions: [
@@ -15,7 +15,6 @@ export const aspDotnetStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v5.0',
-              isHidden: true,
               isEarlyAccess: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -28,7 +27,6 @@ export const aspDotnetStack: WebAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|5.0',
-              isHidden: true,
               isEarlyAccess: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
