@@ -5986,7 +5986,7 @@
         <value>연결을 끊으려면 Azure DevOps 포털로 이동하세요.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
-        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+        <value>현재 배포 구성은 더 이상 지원되지 않습니다. 연결을 끊으려면 Azure DevOps 포털로 이동하세요.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>게시 프로필 관리</value>
@@ -6802,15 +6802,24 @@
         <value>워크플로 런타임 설정</value>
     </data>
   <data name="uploadingFile" xml:space="preserve">
-        <value>Uploading file</value>
+        <value>파일을 업로드하는 중</value>
     </data>
   <data name="uploadingFileWithName" xml:space="preserve">
-        <value>Uploading '{0}'</value>
+        <value>'{0}'을(를) 업로드하는 중</value>
     </data>
   <data name="uploadingFileSuccessWithName" xml:space="preserve">
-        <value>Successfully uploaded '{0}'</value>
+        <value>'{0}'을(를) 업로드했습니다.</value>
     </data>
   <data name="uploadingFileFailureWithName" xml:space="preserve">
-        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+        <value>'{0}'을(를) 업로드하지 못했습니다. Azure Portal에서 5MB가 넘는 파일 업로드는 지원되지 않습니다.</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0}(초기 액세스)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>격리 V2는 이 배율 단위에는 지원되지 않습니다. 앱 재배포 또는 복제를 고려하세요.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
     </data>
 </root>

@@ -5986,7 +5986,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Vaya al portal de Azure DevOps para desconectarse.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
-        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+        <value>Ya no se admite la configuración de implementación actual. Vaya al portal de Azure DevOps para desconectar.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Administrar perfil de publicación</value>
@@ -6802,15 +6802,24 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Configuración del entorno en tiempo de ejecución del flujo de trabajo</value>
     </data>
   <data name="uploadingFile" xml:space="preserve">
-        <value>Uploading file</value>
+        <value>Cargando el archivo</value>
     </data>
   <data name="uploadingFileWithName" xml:space="preserve">
-        <value>Uploading '{0}'</value>
+        <value>Cargando "{0}"</value>
     </data>
   <data name="uploadingFileSuccessWithName" xml:space="preserve">
-        <value>Successfully uploaded '{0}'</value>
+        <value>"{0}" se cargó correctamente.</value>
     </data>
   <data name="uploadingFileFailureWithName" xml:space="preserve">
-        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+        <value>No se pudo cargar "{0}" porque no se admite la carga de archivos de más de 5 MB desde Azure Portal.</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (acceso anticipado)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>No se admite el plan Aislado V2 para esta unidad de escalado. Considere la posibilidad de volver a implementar la aplicación o de clonarla.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>No podrá volver a ~2 después de actualizar a ~3 porque el entorno en tiempo de ejecución subyacente se unifica alrededor de ~3.</value>
     </data>
 </root>

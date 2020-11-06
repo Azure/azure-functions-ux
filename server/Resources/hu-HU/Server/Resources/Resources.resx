@@ -5983,10 +5983,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nem lehet beolvasni a fiókadatokat</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Please go to the Azure DevOps portal to disconnect.</value>
+        <value>A leválasztáshoz nyissa meg az Azure DevOps portált.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
-        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+        <value>A jelenlegi központi telepítési konfiguráció már nem támogatott. Lépjen az Azure DevOps portálra a leválasztáshoz.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Közzétételi profil kezelése</value>
@@ -6802,15 +6802,24 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Munkafolyamat futási környezetének beállításai</value>
     </data>
   <data name="uploadingFile" xml:space="preserve">
-        <value>Uploading file</value>
+        <value>Fájl feltöltése</value>
     </data>
   <data name="uploadingFileWithName" xml:space="preserve">
-        <value>Uploading '{0}'</value>
+        <value>A(z) {0} feltöltése folyamatban</value>
     </data>
   <data name="uploadingFileSuccessWithName" xml:space="preserve">
-        <value>Successfully uploaded '{0}'</value>
+        <value>A(z) {0} feltöltése sikerült</value>
     </data>
   <data name="uploadingFileFailureWithName" xml:space="preserve">
-        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+        <value>Nem sikerült feltölteni a(z) {0} fájlt. Az 5 MB-nál több fájlok feltöltése nem támogatott az Azure Portalról</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (korai hozzáférés)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>Ez a skálázási egység nem támogatja az Izolált V2-őt. Fontolja meg az alkalmazás újbóli üzembe helyezését vagy klónozását.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
     </data>
 </root>
