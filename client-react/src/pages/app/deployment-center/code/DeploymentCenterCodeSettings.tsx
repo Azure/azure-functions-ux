@@ -12,7 +12,7 @@ import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/Depl
 import DeploymentCenterCodeBuildRuntimeAndVersion from './DeploymentCenterCodeBuildRuntimeAndVersion';
 import { useTranslation } from 'react-i18next';
 import {
-  getCodeAppWorkflowInformation,
+  getCodeWebAppWorkflowInformation,
   getCodeFunctionAppCodeWorkflowInformation,
   isWorkflowOptionExistingOrAvailable,
 } from '../utility/GitHubActionUtility';
@@ -104,7 +104,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
               deploymentCenterContext.siteDescriptor.site,
               deploymentCenterContext.siteDescriptor.slot
             )
-          : getCodeAppWorkflowInformation(
+          : getCodeWebAppWorkflowInformation(
               formProps.values.runtimeStack,
               formProps.values.runtimeVersion,
               formProps.values.runtimeRecommendedVersion,

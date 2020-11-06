@@ -25,7 +25,7 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import {
-  getCodeAppWorkflowInformation,
+  getCodeWebAppWorkflowInformation,
   getCodeFunctionAppCodeWorkflowInformation,
   isApiSyncError,
   updateGitHubActionSourceControlPropertiesManually,
@@ -138,7 +138,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
           deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
         )
-      : getCodeAppWorkflowInformation(
+      : getCodeWebAppWorkflowInformation(
           values.runtimeStack,
           values.runtimeVersion,
           values.runtimeRecommendedVersion,

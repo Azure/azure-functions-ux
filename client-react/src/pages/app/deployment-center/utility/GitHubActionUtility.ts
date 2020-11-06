@@ -114,7 +114,7 @@ export const getContainerAppWorkflowInformation = (
   };
 };
 
-export const getCodeAppWorkflowInformation = (
+export const getCodeWebAppWorkflowInformation = (
   runtimeStack: string,
   runtimeVersion: string,
   runtimeStackRecommendedVersion: string,
