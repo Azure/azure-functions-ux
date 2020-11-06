@@ -8,6 +8,7 @@ export interface ISiteState {
   siteAppEditState: FunctionAppEditMode;
   isLinuxApp: boolean;
   isContainerApp: boolean;
+  isFunctionApp: boolean;
   resourceId?: string;
   site?: ArmObj<Site>;
 }

@@ -26,6 +26,7 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import {
   getCodeAppWorkflowInformation,
+  getCodeFunctionAppCodeWorkflowInformation,
   isApiSyncError,
   updateGitHubActionSourceControlPropertiesManually,
 } from '../utility/GitHubActionUtility';
@@ -126,17 +127,28 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     const repo = `${values.org}/${values.repo}`;
     const branch = values.branch || 'master';
 
-    const workflowInformation = getCodeAppWorkflowInformation(
-      values.runtimeStack,
-      values.runtimeVersion,
-      values.runtimeRecommendedVersion,
-      branch,
-      siteStateContext.isLinuxApp,
-      values.gitHubPublishProfileSecretGuid,
-      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
-      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
-      values.javaContainer
-    );
+    const workflowInformation = siteStateContext.isFunctionApp
+      ? getCodeFunctionAppCodeWorkflowInformation(
+          values.runtimeStack,
+          values.runtimeVersion,
+          values.runtimeRecommendedVersion,
+          branch,
+          siteStateContext.isLinuxApp,
+          values.gitHubPublishProfileSecretGuid,
+          deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+          deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+        )
+      : getCodeAppWorkflowInformation(
+          values.runtimeStack,
+          values.runtimeVersion,
+          values.runtimeRecommendedVersion,
+          branch,
+          siteStateContext.isLinuxApp,
+          values.gitHubPublishProfileSecretGuid,
+          deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+          deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
+          values.javaContainer
+        );
 
     const commitInfo: GitHubCommit = {
       repoName: repo,

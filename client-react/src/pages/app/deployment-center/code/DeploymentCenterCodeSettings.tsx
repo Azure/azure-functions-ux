@@ -11,7 +11,11 @@ import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/Dep
 import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
 import DeploymentCenterCodeBuildRuntimeAndVersion from './DeploymentCenterCodeBuildRuntimeAndVersion';
 import { useTranslation } from 'react-i18next';
-import { getCodeAppWorkflowInformation, isWorkflowOptionExistingOrAvailable } from '../utility/GitHubActionUtility';
+import {
+  getCodeAppWorkflowInformation,
+  getCodeFunctionAppCodeWorkflowInformation,
+  isWorkflowOptionExistingOrAvailable,
+} from '../utility/GitHubActionUtility';
 import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
@@ -89,17 +93,29 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
         (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) &&
         runtimeInfoAvailable
       ) {
-        const information = getCodeAppWorkflowInformation(
-          formProps.values.runtimeStack,
-          formProps.values.runtimeVersion,
-          formProps.values.runtimeRecommendedVersion,
-          formProps.values.branch,
-          siteStateContext.isLinuxApp,
-          formProps.values.gitHubPublishProfileSecretGuid,
-          deploymentCenterContext.siteDescriptor.site,
-          deploymentCenterContext.siteDescriptor.slot,
-          formProps.values.javaContainer
-        );
+        const information = siteStateContext.isFunctionApp
+          ? getCodeFunctionAppCodeWorkflowInformation(
+              formProps.values.runtimeStack,
+              formProps.values.runtimeVersion,
+              formProps.values.runtimeRecommendedVersion,
+              formProps.values.branch,
+              siteStateContext.isLinuxApp,
+              formProps.values.gitHubPublishProfileSecretGuid,
+              deploymentCenterContext.siteDescriptor.site,
+              deploymentCenterContext.siteDescriptor.slot
+            )
+          : getCodeAppWorkflowInformation(
+              formProps.values.runtimeStack,
+              formProps.values.runtimeVersion,
+              formProps.values.runtimeRecommendedVersion,
+              formProps.values.branch,
+              siteStateContext.isLinuxApp,
+              formProps.values.gitHubPublishProfileSecretGuid,
+              deploymentCenterContext.siteDescriptor.site,
+              deploymentCenterContext.siteDescriptor.slot,
+              formProps.values.javaContainer
+            );
+
         return information.content;
       }
     }
