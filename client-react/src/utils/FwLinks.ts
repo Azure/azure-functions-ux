@@ -38,6 +38,7 @@ export const Links = {
   functionCreateSummaryLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141649',
   functionCreateTemplateLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141650',
   functionCreateBindingsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141857',
+  functionV2MigrationLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2147591',
 };
 
 export const DeploymentCenterLinks = {
