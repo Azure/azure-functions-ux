@@ -40,10 +40,19 @@ const WindowsStacks: React.FC<StackProps> = props => {
       })
       .map(stack => {
         return {
-          key: stack.value,
+          key: stack.value.toLowerCase(),
           text: stack.displayText,
         };
       });
+  };
+
+  const isDotnetStack = () => {
+    // NOTE (krmitta): Dotnetcore and Aspnet will be merged into one starting 2020-10-01
+    return (
+      values.currentlySelectedStack === 'dotnetcore' ||
+      values.currentlySelectedStack === 'aspnet' ||
+      values.currentlySelectedStack === 'dotnet'
+    );
   };
 
   return (
@@ -60,7 +69,7 @@ const WindowsStacks: React.FC<StackProps> = props => {
           id="app-settings-stack-dropdown"
         />
       )}
-      {values.currentlySelectedStack === 'dotnet' || showNonJavaAnyway ? <DotNetStack {...props} /> : null}
+      {isDotnetStack() || showNonJavaAnyway ? <DotNetStack selectedStackKey={values.currentlySelectedStack} {...props} /> : null}
       {values.currentlySelectedStack === 'php' || showNonJavaAnyway ? <PhpStack {...props} /> : null}
       {values.currentlySelectedStack === 'python' || showNonJavaAnyway ? <PythonStack {...props} /> : null}
       {javaSelected ? <JavaStack {...props} /> : null}
