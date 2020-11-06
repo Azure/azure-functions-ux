@@ -5983,10 +5983,10 @@
         <value>Не удалось получить сведения об учетной записи</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Please go to the Azure DevOps portal to disconnect.</value>
+        <value>Перейдите на портал Azure DevOps, чтобы отключиться.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
-        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+        <value>Текущая конфигурация развертывания больше не поддерживается. Перейдите на портал Azure DevOps для отключения.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Управление профилем публикации</value>
@@ -6802,15 +6802,24 @@
         <value>Параметры среды выполнения рабочего процесса</value>
     </data>
   <data name="uploadingFile" xml:space="preserve">
-        <value>Uploading file</value>
+        <value>Отправка файла</value>
     </data>
   <data name="uploadingFileWithName" xml:space="preserve">
-        <value>Uploading '{0}'</value>
+        <value>Идет отправка файла "{0}".</value>
     </data>
   <data name="uploadingFileSuccessWithName" xml:space="preserve">
-        <value>Successfully uploaded '{0}'</value>
+        <value>Файл "{0}" отправлен.</value>
     </data>
   <data name="uploadingFileFailureWithName" xml:space="preserve">
-        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+        <value>Не удалось отправить файл "{0}". Отправка файлов размером больше 5 МБ с портала Azure не поддерживается.</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (ранний доступ)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>Категория "Изолированный версии 2" не поддерживается для этой единицы масштабирования. Попробуйте развернуть приложение повторно или клонировать его.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
     </data>
 </root>

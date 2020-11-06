@@ -1,5 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../../AppSettings.types';
@@ -47,14 +47,17 @@ const WindowsStacks: React.FC<StackProps> = props => {
   };
 
   const isDotnetStack = () => {
-    // NOTE (krmitta): Dotnetcore and Aspnet will be merged into one starting 2020-10-01
-    return (
-      values.currentlySelectedStack === 'dotnetcore' ||
-      values.currentlySelectedStack === 'aspnet' ||
-      values.currentlySelectedStack === 'dotnet'
-    );
+    // NOTE (krmitta): Dotnet and Aspnet will be merged into one starting 2020-10-01
+    return values.currentlySelectedStack === 'aspnet' || values.currentlySelectedStack === 'dotnet';
   };
 
+  useEffect(() => {
+    if (values.currentlySelectedStack === 'dotnet') {
+      props.setFieldValue('currentlySelectedStack', 'aspnet');
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values.currentlySelectedStack]);
   return (
     <>
       {!readonly && (

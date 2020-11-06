@@ -5986,7 +5986,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Przejdź do portalu Azure DevOps, aby się rozłączyć.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
-        <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+        <value>Bieżąca konfiguracja wdrożenia nie jest już obsługiwana. Przejdź do portalu Azure DevOps, aby się rozłączyć.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Zarządzaj profilem publikowania</value>
@@ -6802,15 +6802,24 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Ustawienia środowiska uruchomieniowego przepływu pracy</value>
     </data>
   <data name="uploadingFile" xml:space="preserve">
-        <value>Uploading file</value>
+        <value>Przekazywanie pliku</value>
     </data>
   <data name="uploadingFileWithName" xml:space="preserve">
-        <value>Uploading '{0}'</value>
+        <value>Przekazywanie elementu „{0}”</value>
     </data>
   <data name="uploadingFileSuccessWithName" xml:space="preserve">
-        <value>Successfully uploaded '{0}'</value>
+        <value>Pomyślnie przekazano plik „{0}”</value>
     </data>
   <data name="uploadingFileFailureWithName" xml:space="preserve">
-        <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+        <value>Nie można przekazać pliku „{0}„. Przekazywanie plików o rozmiarze ponad 5 MB nie jest obsługiwane w witrynie Azure Portal</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (Wczesny dostęp)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>Warstwa Izolowana V2 nie jest obsługiwana w przypadku tej jednostki skalowania. Rozważ ponowne wdrożenie lub sklonowanie aplikacji.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>Nie będzie można przejść z powrotem do wersji ~2 po uaktualnieniu do wersji ~3, ponieważ bazowe środowisko uruchomieniowe jest ujednolicone wokół wersji ~3.</value>
     </data>
 </root>
