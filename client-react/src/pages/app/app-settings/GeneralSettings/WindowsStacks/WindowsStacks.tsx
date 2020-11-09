@@ -19,7 +19,7 @@ const WindowsStacks: React.FC<StackProps> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !editable || saving;
   const readonly = !app_write;
-  const javaSelected = values.currentlySelectedStack === 'java';
+  const javaSelected = values.currentlySelectedStack === RuntimeStacks.java;
   const showNonJavaAnyway = readonly && !javaSelected;
 
   const supportedStacks = useContext(WebAppStacksContext);
@@ -41,7 +41,7 @@ const WindowsStacks: React.FC<StackProps> = props => {
       .map(stack => {
         const stackKey = stack.value.toLowerCase();
         return {
-          key: stackKey === 'aspnet' ? 'dotnet' : stackKey,
+          key: stackKey === RuntimeStacks.aspnet ? RuntimeStacks.dotnet : stackKey,
           text: stack.displayText,
         };
       });
@@ -49,7 +49,7 @@ const WindowsStacks: React.FC<StackProps> = props => {
 
   const isDotnetStack = () => {
     // NOTE (krmitta): Dotnet and Aspnet will be merged into one starting 2020-10-01
-    return values.currentlySelectedStack === 'aspnet' || values.currentlySelectedStack === 'dotnet';
+    return values.currentlySelectedStack === RuntimeStacks.aspnet || values.currentlySelectedStack === RuntimeStacks.dotnet;
   };
 
   return (
@@ -67,8 +67,8 @@ const WindowsStacks: React.FC<StackProps> = props => {
         />
       )}
       {isDotnetStack() || showNonJavaAnyway ? <DotNetStack {...props} /> : null}
-      {values.currentlySelectedStack === 'php' || showNonJavaAnyway ? <PhpStack {...props} /> : null}
-      {values.currentlySelectedStack === 'python' || showNonJavaAnyway ? <PythonStack {...props} /> : null}
+      {values.currentlySelectedStack === RuntimeStacks.php || showNonJavaAnyway ? <PhpStack {...props} /> : null}
+      {values.currentlySelectedStack === RuntimeStacks.python || showNonJavaAnyway ? <PythonStack {...props} /> : null}
       {javaSelected ? <JavaStack {...props} /> : null}
     </>
   );

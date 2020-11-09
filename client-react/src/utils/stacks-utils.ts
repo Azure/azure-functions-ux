@@ -255,4 +255,5 @@ export const RuntimeStacks = {
   php: 'php',
   aspnet: 'aspnet',
   powershell: 'powershell',
+  dotnet: 'dotnet',
 };
