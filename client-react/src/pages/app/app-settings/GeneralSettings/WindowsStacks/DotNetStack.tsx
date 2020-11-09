@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
-import { filterDeprecatedWebAppStack, getStacksSummaryForDropdown } from '../../../../../utils/stacks-utils';
+import { filterDeprecatedWebAppStack, getStacksSummaryForDropdown, RuntimeStacks } from '../../../../../utils/stacks-utils';
 import { AppStackOs } from '../../../../../models/stacks/app-stacks';
 import { StackProps } from './WindowsStacks';
 
@@ -14,11 +14,11 @@ const DotNetStack: React.SFC<StackProps> = props => {
   const { t } = useTranslation();
   const supportedStacks = filterDeprecatedWebAppStack(
     useContext(WebAppStacksContext),
-    'aspnet',
+    RuntimeStacks.aspnet,
     initialValues.config.properties.netFrameworkVersion
   );
 
-  const aspNetStack = supportedStacks.find(x => x.value === 'aspnet');
+  const aspNetStack = supportedStacks.find(x => x.value === RuntimeStacks.aspnet);
   if (!aspNetStack) {
     return null;
   }
