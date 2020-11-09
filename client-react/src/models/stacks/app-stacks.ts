@@ -39,4 +39,5 @@ export interface CommonSettings {
   endOfLifeDate?: string;
   isAutoUpdate?: boolean;
   isEarlyAccess?: boolean;
+  gitHubActionSettings: GitHubActionSettings;
 }

@@ -5,7 +5,6 @@ import ProviderService from '../../../ApiHelpers/ProviderService';
 import SiteService from '../../../ApiHelpers/SiteService';
 import GitHubService from '../../../ApiHelpers/GitHubService';
 import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
-import { AppOsType } from '../../../models/site/site';
 import { GitHubActionWorkflowRequestContent } from '../../../models/github';
 import { ProviderToken } from '../../../models/provider';
 import BitbucketService from '../../../ApiHelpers/BitbucketService';
@@ -16,6 +15,7 @@ import { SiteConfig } from '../../../models/site/config';
 import { KeyValue } from '../../../models/portal-models';
 import { SourceControlOptions } from './DeploymentCenter.types';
 import DropboxService from '../../../ApiHelpers/DropboxService';
+import { AppStackOs } from '../../../models/stacks/app-stacks';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -139,8 +139,12 @@ export default class DeploymentCenterData {
     return GitHubService.createOrUpdateActionWorkflow(authToken, gitHubToken, content, replacementPublishUrl);
   };
 
-  public getRuntimeStacks = (stacksOs: AppOsType) => {
+  public getWebAppRuntimeStacks = (stacksOs: AppStackOs) => {
     return RuntimeStackService.getWebAppGitHubActionStacks(stacksOs);
+  };
+
+  public getFunctionAppRuntimeStacks = (stacksOs: AppStackOs) => {
+    return RuntimeStackService.getFunctionAppGitHubActionStacks(stacksOs);
   };
 
   public storeGitHubToken = (providerToken: ProviderToken) => {
