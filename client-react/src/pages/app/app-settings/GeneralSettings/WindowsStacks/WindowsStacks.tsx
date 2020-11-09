@@ -1,5 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../../AppSettings.types';
@@ -19,7 +19,7 @@ const WindowsStacks: React.FC<StackProps> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !editable || saving;
   const readonly = !app_write;
-  const javaSelected = values.currentlySelectedStack === 'java';
+  const javaSelected = values.currentlySelectedStack === RuntimeStacks.java;
   const showNonJavaAnyway = readonly && !javaSelected;
 
   const supportedStacks = useContext(WebAppStacksContext);
@@ -39,8 +39,9 @@ const WindowsStacks: React.FC<StackProps> = props => {
         );
       })
       .map(stack => {
+        const stackKey = stack.value.toLowerCase();
         return {
-          key: stack.value.toLowerCase(),
+          key: stackKey === RuntimeStacks.aspnet ? RuntimeStacks.dotnet : stackKey,
           text: stack.displayText,
         };
       });
@@ -48,16 +49,9 @@ const WindowsStacks: React.FC<StackProps> = props => {
 
   const isDotnetStack = () => {
     // NOTE (krmitta): Dotnet and Aspnet will be merged into one starting 2020-10-01
-    return values.currentlySelectedStack === 'aspnet' || values.currentlySelectedStack === 'dotnet';
+    return values.currentlySelectedStack === RuntimeStacks.aspnet || values.currentlySelectedStack === RuntimeStacks.dotnet;
   };
 
-  useEffect(() => {
-    if (values.currentlySelectedStack === 'dotnet') {
-      props.setFieldValue('currentlySelectedStack', 'aspnet');
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values.currentlySelectedStack]);
   return (
     <>
       {!readonly && (
@@ -72,9 +66,9 @@ const WindowsStacks: React.FC<StackProps> = props => {
           id="app-settings-stack-dropdown"
         />
       )}
-      {isDotnetStack() || showNonJavaAnyway ? <DotNetStack selectedStackKey={values.currentlySelectedStack} {...props} /> : null}
-      {values.currentlySelectedStack === 'php' || showNonJavaAnyway ? <PhpStack {...props} /> : null}
-      {values.currentlySelectedStack === 'python' || showNonJavaAnyway ? <PythonStack {...props} /> : null}
+      {isDotnetStack() || showNonJavaAnyway ? <DotNetStack {...props} /> : null}
+      {values.currentlySelectedStack === RuntimeStacks.php || showNonJavaAnyway ? <PhpStack {...props} /> : null}
+      {values.currentlySelectedStack === RuntimeStacks.python || showNonJavaAnyway ? <PythonStack {...props} /> : null}
       {javaSelected ? <JavaStack {...props} /> : null}
     </>
   );
