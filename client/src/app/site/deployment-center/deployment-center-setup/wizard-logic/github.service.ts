@@ -316,7 +316,7 @@ jobs:
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: '${webAppName}'
+        app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
         package: '.\\myapp.zip'`;
