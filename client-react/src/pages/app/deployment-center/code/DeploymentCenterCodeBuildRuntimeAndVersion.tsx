@@ -18,17 +18,20 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { getRuntimeStackSetting } from '../utility/DeploymentCenterUtility';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import { AppOs } from '../../../../models/site/site';
 import { SiteStateContext } from '../../../../SiteState';
-import { WebAppStack } from '../../../../models/stacks/web-app-stacks';
+import { JavaContainers, WebAppRuntimes, WebAppStack } from '../../../../models/stacks/web-app-stacks';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
+import { FunctionAppRuntimes, FunctionAppStack } from '../../../../models/stacks/function-app-stacks';
+import { AppStackMajorVersion, AppStackOs } from '../../../../models/stacks/app-stacks';
 
 const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
   const [selectedRuntime, setSelectedRuntime] = useState<string | undefined>(undefined);
   const [selectedVersion, setSelectedVersion] = useState<string | undefined>(undefined);
-  const [runtimeStacksData, setRuntimeStacksData] = useState<WebAppStack[]>([]);
+  // NOTE(michinoy): Disabling preferred array literal rule to allow '.find' operation on the runtimeStacksData.
+  // tslint:disable-next-line: prefer-array-literal
+  const [runtimeStacksData, setRuntimeStacksData] = useState<Array<WebAppStack | FunctionAppStack>>([]);
   const [runtimeStackOptions, setRuntimeStackOptions] = useState<IDropdownOption[]>([]);
   const [runtimeVersionOptions, setRuntimeVersionOptions] = useState<IDropdownOption[]>([]);
   const [defaultStack, setDefaultStack] = useState<string>('');
@@ -51,13 +54,18 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   };
 
   const fetchStacks = async () => {
-    const appOs = siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows;
-    const runtimeStacksResponse = await deploymentCenterData.getRuntimeStacks(appOs);
+    const appOs = siteStateContext.isLinuxApp ? AppStackOs.linux : AppStackOs.windows;
+    const runtimeStacksResponse = siteStateContext.isFunctionApp
+      ? await deploymentCenterData.getFunctionAppRuntimeStacks(appOs)
+      : await deploymentCenterData.getWebAppRuntimeStacks(appOs);
 
     if (runtimeStacksResponse.metadata.success) {
-      setRuntimeStacksData(runtimeStacksResponse.data);
+      // NOTE(michinoy): Disabling preferred array literal rule to allow '.map' operation on the runtimeStacksData.
+      // tslint:disable-next-line: prefer-array-literal
+      const runtimeStacks = runtimeStacksResponse.data as Array<WebAppStack | FunctionAppStack>;
+      setRuntimeStacksData(runtimeStacks);
       setRuntimeStackOptions(
-        runtimeStacksResponse.data.map(stack => {
+        runtimeStacks.map(stack => {
           return { text: stack.displayText, key: stack.value.toLocaleLowerCase() };
         })
       );
@@ -78,19 +86,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
       runtimeStack.majorVersions.forEach(majorVersion => {
         majorVersion.minorVersions.forEach(minorVersion => {
-          if (
-            minorVersion.stackSettings.windowsRuntimeSettings &&
-            minorVersion.stackSettings.windowsRuntimeSettings.gitHubActionSettings.isSupported
-          ) {
-            displayedVersions.push({ text: minorVersion.displayText, key: minorVersion.value });
-          }
-
-          if (
-            minorVersion.stackSettings.linuxRuntimeSettings &&
-            minorVersion.stackSettings.linuxRuntimeSettings.gitHubActionSettings.isSupported
-          ) {
-            displayedVersions.push({ text: minorVersion.displayText, key: minorVersion.value });
-          }
+          displayedVersions.push({ text: minorVersion.displayText, key: minorVersion.value });
         });
       });
 
@@ -141,7 +137,12 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   const getRuntimeStackRecommendedVersion = (stackValue: string, runtimeVersionValue: string): string => {
     const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === selectedRuntime);
     if (runtimeStack) {
-      const runtimeStackVersion = runtimeStack.majorVersions.find(version => version.minorVersions[0].value === runtimeVersionValue);
+      // NOTE(michinoy): Disabling preferred array literal rule to allow '.find' operation on the runtimeStacksData.
+      // tslint:disable-next-line: prefer-array-literal
+      const majorVersions = runtimeStack.majorVersions as Array<
+        AppStackMajorVersion<WebAppRuntimes & JavaContainers> | AppStackMajorVersion<FunctionAppRuntimes>
+      >;
+      const runtimeStackVersion = majorVersions.find(version => version.minorVersions[0].value === runtimeVersionValue);
       if (runtimeStackVersion && runtimeStackVersion.minorVersions.length > 0) {
         if (runtimeStackVersion.minorVersions[0].stackSettings.windowsRuntimeSettings) {
           const recommendedVersion =
@@ -274,7 +275,8 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     if (deploymentCenterContext.siteConfig && formProps.values.runtimeStack && formProps.values.runtimeStack === RuntimeStacks.java) {
       const siteConfigJavaContainer = siteStateContext.isLinuxApp
         ? deploymentCenterContext.siteConfig.properties.linuxFxVersion.toLowerCase().split('|')[0]
-        : deploymentCenterContext.siteConfig.properties.javaContainer.toLowerCase();
+        : deploymentCenterContext.siteConfig.properties.javaContainer &&
+          deploymentCenterContext.siteConfig.properties.javaContainer.toLowerCase();
 
       formProps.setFieldValue('javaContainer', siteConfigJavaContainer);
     } else {
