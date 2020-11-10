@@ -36,4 +36,5 @@ export interface CommonSettings {
   endOfLifeDate?: string;
   isAutoUpdate?: boolean;
   isDefault?: boolean;
+  isEarlyAccess?: boolean;
 }
