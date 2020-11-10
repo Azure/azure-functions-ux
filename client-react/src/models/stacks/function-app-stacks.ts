@@ -1,4 +1,4 @@
-import { AppInsightsSettings, GitHubActionSettings, CommonSettings, AppStack } from './app-stacks';
+import { AppInsightsSettings, CommonSettings, AppStack } from './app-stacks';
 import { WorkerRuntimeLanguages } from '../../utils/CommonConstants';
 import { RuntimeExtensionMajorVersions } from '../functions/runtime-extension';
 
@@ -23,7 +23,6 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   runtimeVersion: string;
   remoteDebuggingSupported: boolean;
   appInsightsSettings: AppInsightsSettings;
-  gitHubActionSettings: GitHubActionSettings;
   appSettingsDictionary: AppSettingsDictionary;
   siteConfigPropertiesDictionary: SiteConfigPropertiesDictionary;
   supportedFunctionsExtensionVersions: RuntimeExtensionMajorVersions[];
