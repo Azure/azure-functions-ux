@@ -62,7 +62,7 @@ export function validateGithubActionLinuxStackLength(stacks) {
 export function validateASPCreateStack(stacks) {
   validateCreateStackLength(stacks);
   const aspStack = stacks[0];
-  expect(aspStack.displayText).to.equal('ASP.NET');
+  expect(aspStack.displayText).to.equal('.NET');
   expect(aspStack.value).to.equal('ASP.NET');
   expect(aspStack.sortOrder).to.equal(0);
   expect(aspStack.versions.length).to.equal(3);
