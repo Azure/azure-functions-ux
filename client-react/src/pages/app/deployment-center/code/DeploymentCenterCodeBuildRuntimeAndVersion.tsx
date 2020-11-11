@@ -230,6 +230,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata && deploymentCenterContext.applicationSettings
         ? getRuntimeStackSetting(
             siteStateContext.isLinuxApp,
+            siteStateContext.isFunctionApp,
             deploymentCenterContext.siteConfig,
             deploymentCenterContext.configMetadata,
             deploymentCenterContext.applicationSettings

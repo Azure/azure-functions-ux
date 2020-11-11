@@ -12,16 +12,15 @@ export const getLogId = (component: string, event: string): string => {
 };
 
 export const getRuntimeStackSetting = (
-  isLinuxApplication: boolean,
+  isLinuxApp: boolean,
+  isFunctionApp: boolean,
   siteConfig: ArmObj<SiteConfig>,
   configMetadata: ArmObj<KeyValue<string>>,
   applicationSettings: ArmObj<KeyValue<string>>
 ): RuntimeStackSetting => {
-  if (isLinuxApplication) {
-    return getRuntimeStackSettingForLinux(siteConfig);
-  } else {
-    return getRuntimeStackSettingForWindows(siteConfig, configMetadata, applicationSettings);
-  }
+  return isLinuxApp
+    ? getRuntimeStackSettingForLinux(isFunctionApp, siteConfig)
+    : getRuntimeStackSettingForWindows(isFunctionApp, siteConfig, configMetadata, applicationSettings);
 };
 
 const getRuntimeStackVersionForWindows = (stack: string, siteConfig: ArmObj<SiteConfig>, applicationSettings: ArmObj<KeyValue<string>>) => {
@@ -32,29 +31,48 @@ const getRuntimeStackVersionForWindows = (stack: string, siteConfig: ArmObj<Site
   } else if (stack === RuntimeStacks.java) {
     const javaVersion = siteConfig.properties.javaVersion.replace('1.8', '8.0');
     return javaVersion === '11' ? '11.0' : javaVersion;
+  } else if (stack === RuntimeStacks.powershell) {
+    return siteConfig.properties.powerShellVersion || '';
   } else {
     return '';
   }
 };
 
-const getRuntimeStackForWindows = (configMetadata: ArmObj<KeyValue<string>>) => {
+const getWebAppRuntimeStackForWindows = (configMetadata: ArmObj<KeyValue<string>>) => {
   if (configMetadata.properties['CURRENT_STACK']) {
-    const metadataStack = configMetadata.properties['CURRENT_STACK'].toLowerCase();
+    const metadataStack = configMetadata.properties['CURRENT_STACK'].toLocaleLowerCase();
 
     return metadataStack === 'dotnet' ? RuntimeStacks.aspnet : metadataStack;
-  } else {
-    return '';
   }
+
+  return '';
+};
+
+const getFunctionAppRuntimeStackForWindows = (applicationSettings: ArmObj<KeyValue<string>>) => {
+  const runtime =
+    applicationSettings &&
+    applicationSettings.properties &&
+    applicationSettings.properties['FUNCTIONS_WORKER_RUNTIME'] &&
+    applicationSettings.properties['FUNCTIONS_WORKER_RUNTIME'].toLocaleLowerCase();
+  if (!!runtime) {
+    return runtime === 'dotnet' ? RuntimeStacks.dotnetcore : runtime;
+  }
+
+  return '';
 };
 
 const getRuntimeStackSettingForWindows = (
+  isFunctionApp: boolean,
   siteConfig: ArmObj<SiteConfig>,
   configMetadata: ArmObj<KeyValue<string>>,
   applicationSettings: ArmObj<KeyValue<string>>
 ): RuntimeStackSetting => {
   const stackData = { runtimeStack: '', runtimeVersion: '' };
 
-  stackData.runtimeStack = getRuntimeStackForWindows(configMetadata);
+  stackData.runtimeStack = isFunctionApp
+    ? getFunctionAppRuntimeStackForWindows(applicationSettings)
+    : getWebAppRuntimeStackForWindows(configMetadata);
+
   stackData.runtimeVersion = getRuntimeStackVersionForWindows(stackData.runtimeStack, siteConfig, applicationSettings);
 
   return stackData;
@@ -76,7 +94,7 @@ const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   return siteConfig.properties.linuxFxVersion;
 };
 
-const getRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
+const getWebAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
   const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
 
@@ -90,10 +108,18 @@ const getRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   }
 };
 
-const getRuntimeStackSettingForLinux = (siteConfig: ArmObj<SiteConfig>): RuntimeStackSetting => {
+const getFunctionAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
+  const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
+  const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
+
+  return runtimeStack === 'dotnet' ? RuntimeStacks.dotnetcore : runtimeStack;
+};
+
+const getRuntimeStackSettingForLinux = (isFunctionApp: boolean, siteConfig: ArmObj<SiteConfig>): RuntimeStackSetting => {
   const stackData = { runtimeStack: '', runtimeVersion: '' };
 
-  stackData.runtimeStack = getRuntimeStackForLinux(siteConfig);
+  stackData.runtimeStack = isFunctionApp ? getFunctionAppRuntimeStackForLinux(siteConfig) : getWebAppRuntimeStackForLinux(siteConfig);
+
   stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig);
 
   return stackData;
