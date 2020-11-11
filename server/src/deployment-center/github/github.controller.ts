@@ -185,6 +185,11 @@ export class GithubController {
     }
   }
 
+  @Get('auth/github/createClientId')
+  clientId() {
+    return { client_id: this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID') };
+  }
+
   @Post('auth/github/generateCreateAccessToken')
   @HttpCode(200)
   async generateAccessToken(
