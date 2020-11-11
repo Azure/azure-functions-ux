@@ -6,7 +6,7 @@ import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
-import { TokenData, EnvironmentUrlMappings, Environments } from '../deployment-center';
+import { EnvironmentUrlMappings, Environments } from '../deployment-center';
 
 @Controller()
 export class GithubController {
@@ -170,6 +170,43 @@ export class GithubController {
         code,
         client_id: this.configService.get('GITHUB_CLIENT_ID'),
         client_secret: this.configService.get('GITHUB_CLIENT_SECRET'),
+      });
+      const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
+      return {
+        accessToken: token,
+        refreshToken: null,
+        environment: null,
+      };
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException('Internal Server Error', 500);
+    }
+  }
+
+  @Post('auth/github/generateCreateAccessToken')
+  @HttpCode(200)
+  async generateAccessToken(
+    @Body('code') code: string,
+    @Body('state') state: string,
+    @Body('clientId') clientId?: string,
+    @Body('clientSecret') clientSecret?: string
+  ) {
+    const client_id = clientId || this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID');
+    const client_secret = clientSecret || this.configService.get('GITHUB_FOR_CREATES_CLIENT_SECRET');
+
+    if (!code || !state || !client_id || !client_secret) {
+      throw new HttpException('Code, State, Client Id, Client Secret are required', 400);
+    }
+
+    //TODO: (stpelleg) Add client id and client secret to config service
+    try {
+      const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
+        code,
+        state,
+        client_id,
+        client_secret,
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
       return {
