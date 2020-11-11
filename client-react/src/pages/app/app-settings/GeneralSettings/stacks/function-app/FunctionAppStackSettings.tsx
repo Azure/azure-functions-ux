@@ -43,11 +43,9 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const getInitialStackVersion = (stack?: string) => {
     const stackVersionProperty = getConfigProperty(stack);
-    if (initialValues.config && initialValues.config && initialValues.config.properties[stackVersionProperty]) {
-      return initialValues.config.properties[stackVersionProperty];
-    } else {
-      return undefined;
-    }
+    const stackVersion = initialValues.config && initialValues.config && initialValues.config.properties[stackVersionProperty];
+
+    return !!stackVersion ? stackVersion : undefined;
   };
 
   const getConfigProperty = (runtimeStack?: string) => {

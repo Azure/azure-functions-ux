@@ -26,6 +26,7 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
       deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata && deploymentCenterContext.applicationSettings
         ? getRuntimeStackSetting(
             siteStateContext.isLinuxApp,
+            siteStateContext.isFunctionApp,
             deploymentCenterContext.siteConfig,
             deploymentCenterContext.configMetadata,
             deploymentCenterContext.applicationSettings

@@ -86,6 +86,7 @@ export interface SiteConfig {
   scmIpSecurityRestrictions: IpRestriction[];
   reservedInstanceCount?: number;
   functionsRuntimeScaleMonitoringEnabled?: boolean;
+  powerShellVersion?: string;
 }
 
 export interface IpRestriction {
