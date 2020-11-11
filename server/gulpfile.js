@@ -103,6 +103,8 @@ gulp.task('replace-environment-variables', cb => {
       onedriveRedirectUrl: process.env.onedriveRedirectUrl || '',
       staticSitesGithubClientId: process.env.staticSitesGithubClientId || '',
       staticSitesGithubClientSecret: process.env.staticSitesGithubClientSecret || '',
+      githubForCreatesClientId: process.env.githubForCreatesClientId || '',
+      githubForCreatesClientSecret: process.env.githubForCreatesClientSecret || '',
       HashSalt: hashSalt,
       version: getBuildVersion(),
       cacheBreakQuery: newGuid(),
