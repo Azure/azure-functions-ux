@@ -41,7 +41,7 @@ export default class AppInsightsService {
     return MakeArmCall<AppInsightsComponentToken>({
       resourceId,
       commandName: 'getAppInsightsComponentToken',
-      apiVersion: CommonConstants.ApiVersions.quickpulseTokenApiVersion20200602,
+      apiVersion: CommonConstants.ApiVersions.quickpulseTokenApiVersion20200602preview,
     });
   };
 
