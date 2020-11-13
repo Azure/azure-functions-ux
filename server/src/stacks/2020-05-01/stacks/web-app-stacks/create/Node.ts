@@ -6,9 +6,43 @@ export const nodeCreateStack: WebAppCreateStack = {
   sortOrder: 1,
   versions: [
     {
+      displayText: 'Node 14 LTS',
+      value: '14-LTS',
+      sortOrder: 0,
+      supportedPlatforms: [
+        {
+          os: 'linux',
+          isPreview: false,
+          isDeprecated: false,
+          isHidden: false,
+          applicationInsightsEnabled: true,
+          remoteDebuggingEnabled: false,
+          runtimeVersion: 'NODE|14-lts',
+          sortOrder: 0,
+          githubActionSettings: {
+            supported: true,
+            recommendedVersion: '14.x',
+          },
+        },
+        {
+          os: 'windows',
+          isPreview: false,
+          isDeprecated: false,
+          isHidden: false,
+          applicationInsightsEnabled: true,
+          remoteDebuggingEnabled: false,
+          runtimeVersion: '~14',
+          sortOrder: 1,
+          githubActionSettings: {
+            supported: true,
+          },
+        },
+      ],
+    },
+    {
       displayText: 'Node 12 LTS',
       value: '12-LTS',
-      sortOrder: 0,
+      sortOrder: 1,
       supportedPlatforms: [
         {
           os: 'linux',
@@ -42,7 +76,7 @@ export const nodeCreateStack: WebAppCreateStack = {
     {
       displayText: 'Node 10 LTS',
       value: '10-LTS',
-      sortOrder: 1,
+      sortOrder: 2,
       supportedPlatforms: [
         {
           os: 'linux',
@@ -63,7 +97,7 @@ export const nodeCreateStack: WebAppCreateStack = {
     {
       displayText: 'Node 10.14',
       value: '10.14',
-      sortOrder: 2,
+      sortOrder: 3,
       supportedPlatforms: [
         {
           os: 'linux',
@@ -96,7 +130,7 @@ export const nodeCreateStack: WebAppCreateStack = {
     {
       displayText: 'Node 10.10',
       value: '10.10',
-      sortOrder: 3,
+      sortOrder: 4,
       supportedPlatforms: [
         {
           os: 'linux',
@@ -116,7 +150,7 @@ export const nodeCreateStack: WebAppCreateStack = {
     {
       displayText: 'Node 10.6',
       value: '10.6',
-      sortOrder: 4,
+      sortOrder: 5,
       supportedPlatforms: [
         {
           os: 'linux',
@@ -149,7 +183,7 @@ export const nodeCreateStack: WebAppCreateStack = {
     {
       displayText: 'Node 10.1',
       value: '10.1',
-      sortOrder: 5,
+      sortOrder: 6,
       supportedPlatforms: [
         {
           os: 'linux',
@@ -169,7 +203,7 @@ export const nodeCreateStack: WebAppCreateStack = {
     {
       displayText: 'Node 10.0',
       value: '10.0',
-      sortOrder: 6,
+      sortOrder: 7,
       supportedPlatforms: [
         {
           os: 'windows',
