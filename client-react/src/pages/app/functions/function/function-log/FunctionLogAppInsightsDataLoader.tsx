@@ -128,7 +128,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
         }
       })
       .catch(error => {
-        const tokenExpirationTime = new Date(tokenComponent.expires);
+        const tokenExpirationTime = new Date(tokenComponent.expiry);
         const currentTime = new Date();
         if (tokenExpirationTime > currentTime) {
           // Only log an error if the token has not yet expired
@@ -188,7 +188,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   };
 
   const tokenIsValid = (tokenComponent: AppInsightsComponentToken): boolean => {
-    const tokenExpirationTime = new Date(tokenComponent.expires);
+    const tokenExpirationTime = new Date(tokenComponent.expiry);
     const currentTime = new Date();
     return tokenExpirationTime > currentTime;
   };

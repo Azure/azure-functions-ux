@@ -16,7 +16,7 @@ export interface AppInsightsComponent {
 
 export interface AppInsightsComponentToken {
   token: string;
-  expires: string;
+  expiry: string;
 }
 
 export interface AppInsightsMonthlySummary {
