@@ -26,7 +26,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   const startupInfoContext = useContext(StartupInfoContext);
   const portalContext = useContext(PortalContext);
 
-  const fetchData = async () => {
+  const fetchFunctionInfo = async () => {
     const functionInfoResponse = await FunctionsService.getFunction(resourceId);
     if (functionInfoResponse.metadata.success) {
       setFunctionInfo(functionInfoResponse.data);
@@ -73,7 +73,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
     setAppInsightsKeyType(appInsightsResourceIdResponse.metadata.appInsightsKeyType);
   };
 
-  const fetchToken = async () => {
+  const fetchAppInsightsToken = async () => {
     AppInsightsService.getAppInsightsToken(portalContext).then(appInsightsTokenResponse => {
       if (appInsightsTokenResponse) {
         setAppInsightsToken(appInsightsTokenResponse);
@@ -92,8 +92,9 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   };
 
   useEffect(() => {
-    fetchData();
+    fetchFunctionInfo();
     fetchAppInsightsComponent();
+    fetchAppInsightsToken();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -101,12 +102,18 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   useEffect(() => {
     if (!appInsightsComponent) {
       fetchAppInsightsComponent(true);
-    } else if (!appInsightsToken) {
-      fetchToken();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appInsightsComponent, appInsightsToken]);
+  }, [appInsightsComponent]);
+
+  useEffect(() => {
+    if (!appInsightsToken) {
+      fetchAppInsightsToken();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appInsightsToken]);
 
   return (
     <FunctionMonitor
