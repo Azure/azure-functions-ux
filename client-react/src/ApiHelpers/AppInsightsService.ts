@@ -26,6 +26,7 @@ import { LocalStorageService } from '../utils/LocalStorageService';
 import { StorageKeys } from '../models/LocalStorage.model';
 import SiteService from './SiteService';
 import { ArmFunctionDescriptor } from '../utils/resourceDescriptors';
+import PortalCommunicator from '../portal-communicator';
 
 export default class AppInsightsService {
   public static getAppInsights = (resourceId: string) => {
@@ -43,6 +44,13 @@ export default class AppInsightsService {
       resourceId,
       commandName: 'getAppInsightsComponentToken',
       apiVersion: CommonConstants.ApiVersions.appInsightsTokenApiVersion20150501,
+    });
+  };
+
+  public static getAppInsightsToken = (portalContext: PortalCommunicator) => {
+    return portalContext.getAdToken('applicationinsightapi').then(result => {
+      console.log(result);
+      return result;
     });
   };
 
