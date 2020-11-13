@@ -36,12 +36,12 @@ export default class AppInsightsService {
   };
 
   public static getAppInsightsComponentToken = (appInsightsComponentId: string) => {
-    const resourceId = `${appInsightsComponentId}/providers/microsoft.insights/generatelivetoken`;
+    const resourceId = `${appInsightsComponentId}/getToken`;
 
     return MakeArmCall<AppInsightsComponentToken>({
       resourceId,
       commandName: 'getAppInsightsComponentToken',
-      apiVersion: CommonConstants.ApiVersions.quickpulseTokenApiVersion20200602preview,
+      apiVersion: CommonConstants.ApiVersions.appInsightsTokenApiVersion20150501,
     });
   };
 
