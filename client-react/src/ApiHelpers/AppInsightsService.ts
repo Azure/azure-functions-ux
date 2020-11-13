@@ -6,7 +6,6 @@ import MakeArmCall, { getErrorMessageOrStringify } from './ArmHelper';
 import { ISubscription } from '../models/subscription';
 import {
   AppInsightsComponent,
-  AppInsightsComponentToken,
   AppInsightsMonthlySummary,
   AppInsightsQueryResult,
   AppInsightsInvocationTrace,
@@ -37,21 +36,8 @@ export default class AppInsightsService {
     });
   };
 
-  public static getAppInsightsComponentToken = (appInsightsComponentId: string) => {
-    const resourceId = `${appInsightsComponentId}/getToken`;
-
-    return MakeArmCall<AppInsightsComponentToken>({
-      resourceId,
-      commandName: 'getAppInsightsComponentToken',
-      apiVersion: CommonConstants.ApiVersions.appInsightsTokenApiVersion20150501,
-    });
-  };
-
   public static getAppInsightsToken = (portalContext: PortalCommunicator) => {
-    return portalContext.getAdToken('applicationinsightapi').then(result => {
-      console.log(result);
-      return result;
-    });
+    return portalContext.getAdToken('applicationinsightapi');
   };
 
   public static getQuickPulseToken = (appInsightsComponentId: string) => {
