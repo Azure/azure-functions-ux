@@ -10,6 +10,7 @@ import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import { PortalContext } from '../../../../../PortalContext';
 
 interface FunctionMonitorDataLoaderProps {
   resourceId: string;
@@ -23,6 +24,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo> | undefined>(undefined);
 
   const startupInfoContext = useContext(StartupInfoContext);
+  const portalContext = useContext(PortalContext);
 
   const fetchData = async () => {
     const functionInfoResponse = await FunctionsService.getFunction(resourceId);
@@ -71,16 +73,12 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
     setAppInsightsKeyType(appInsightsResourceIdResponse.metadata.appInsightsKeyType);
   };
 
-  const fetchToken = async (component: ArmObj<AppInsightsComponent>) => {
-    AppInsightsService.getAppInsightsComponentToken(component.id).then(appInsightsComponentTokenResponse => {
-      if (appInsightsComponentTokenResponse.metadata.success) {
-        setAppInsightsToken(appInsightsComponentTokenResponse.data.token);
+  const fetchToken = async () => {
+    AppInsightsService.getAppInsightsToken(portalContext).then(appInsightsTokenResponse => {
+      if (appInsightsTokenResponse) {
+        setAppInsightsToken(appInsightsTokenResponse);
       } else {
-        LogService.error(
-          LogCategories.FunctionMonitor,
-          'getAppInsightsComponentToken',
-          `Failed to get App Insights Component Token: ${component.name}`
-        );
+        LogService.error(LogCategories.FunctionMonitor, 'getAppInsightsToken', `Failed to get App Insights Component Token`);
       }
     });
   };
@@ -104,7 +102,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
     if (!appInsightsComponent) {
       fetchAppInsightsComponent(true);
     } else if (!appInsightsToken) {
-      fetchToken(appInsightsComponent);
+      fetchToken();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
