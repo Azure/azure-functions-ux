@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { ArmObj } from '../../../../../models/arm-obj';
-import { AppInsightsComponent, AppInsightsComponentToken } from '../../../../../models/app-insights';
+import { AppInsightsComponent, QuickPulseToken } from '../../../../../models/app-insights';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
@@ -53,7 +53,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   const { t } = useTranslation();
 
-  const [appInsightsToken, setAppInsightsToken] = useState<AppInsightsComponentToken | undefined>(undefined);
+  const [quickPulseToken, setQuickPulseToken] = useState<QuickPulseToken | undefined>(undefined);
   const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined | null>(undefined);
   const [started, setStarted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
@@ -92,24 +92,20 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   };
 
   const fetchToken = async (component: ArmObj<AppInsightsComponent>) => {
-    AppInsightsService.getAppInsightsComponentToken(component.id).then(appInsightsComponentTokenResponse => {
-      if (appInsightsComponentTokenResponse.metadata.success) {
-        setAppInsightsToken(appInsightsComponentTokenResponse.data);
+    AppInsightsService.getQuickPulseToken(component.id).then(quickPulseTokenResponse => {
+      if (quickPulseTokenResponse.metadata.success) {
+        setQuickPulseToken(quickPulseTokenResponse.data);
       } else {
-        LogService.error(
-          LogCategories.functionLog,
-          'getAppInsightsComponentToken',
-          `Failed to get App Insights Component Token: ${component.name}`
-        );
+        LogService.error(LogCategories.functionLog, 'getQuickPulseToken', `Failed to get Quick Pulse Token: ${component.name}`);
       }
     });
   };
 
   const resetAppInsightsToken = () => {
-    setAppInsightsToken(undefined);
+    setQuickPulseToken(undefined);
   };
 
-  const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, tokenComponent: AppInsightsComponentToken) => {
+  const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, tokenComponent: QuickPulseToken) => {
     quickPulseQueryLayer
       .queryDetails(tokenComponent.token, false, '')
       .then((dataV2: SchemaResponseV2) => {
@@ -187,7 +183,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     setCallCount(0);
   };
 
-  const tokenIsValid = (tokenComponent: AppInsightsComponentToken): boolean => {
+  const tokenIsValid = (tokenComponent: QuickPulseToken): boolean => {
     const tokenExpirationTime = new Date(tokenComponent.expiry);
     const currentTime = new Date();
     return tokenExpirationTime > currentTime;
@@ -197,7 +193,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     if (appReadOnlyPermission) {
       setErrorMessage(t('functionLog_rbacPermissionsForAppInsights'));
     } else if (appInsightsComponent) {
-      if (appInsightsToken) {
+      if (quickPulseToken) {
         disconnectQueryLayer();
         reconnectQueryLayer();
       } else {
@@ -230,7 +226,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   useEffect(() => {
     if (!appInsightsComponent) {
       fetchComponent(true);
-    } else if (!appInsightsToken) {
+    } else if (!quickPulseToken) {
       fetchToken(appInsightsComponent);
     } else if (started) {
       disconnectQueryLayer();
@@ -238,19 +234,19 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appInsightsComponent, appInsightsToken]);
+  }, [appInsightsComponent, quickPulseToken]);
 
   useEffect(() => {
-    if (appInsightsToken && queryLayer) {
-      if (tokenIsValid(appInsightsToken)) {
-        const timeout = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, appInsightsToken), 3000);
+    if (quickPulseToken && queryLayer) {
+      if (tokenIsValid(quickPulseToken)) {
+        const timeout = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, quickPulseToken), 3000);
         return () => clearInterval(timeout);
       } else {
         resetAppInsightsToken();
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allLogEntries, queryLayer, appInsightsToken, callCount]);
+  }, [allLogEntries, queryLayer, quickPulseToken, callCount]);
 
   useEffect(() => {
     if (callCount > 0 && !!loadingMessage) {

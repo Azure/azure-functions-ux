@@ -1,3 +1,4 @@
+import { QuickPulseToken } from './../models/app-insights';
 import { sendHttpRequest } from './HttpClient';
 import { CommonConstants } from './../utils/CommonConstants';
 import { ResourceGraph, ArmObj } from './../models/arm-obj';
@@ -36,11 +37,21 @@ export default class AppInsightsService {
   };
 
   public static getAppInsightsComponentToken = (appInsightsComponentId: string) => {
-    const resourceId = `${appInsightsComponentId}/providers/microsoft.insights/generatelivetoken`;
+    const resourceId = `${appInsightsComponentId}/getToken`;
 
     return MakeArmCall<AppInsightsComponentToken>({
       resourceId,
       commandName: 'getAppInsightsComponentToken',
+      apiVersion: CommonConstants.ApiVersions.appInsightsTokenApiVersion20150501,
+    });
+  };
+
+  public static getQuickPulseToken = (appInsightsComponentId: string) => {
+    const resourceId = `${appInsightsComponentId}/providers/microsoft.insights/generatelivetoken`;
+
+    return MakeArmCall<QuickPulseToken>({
+      resourceId,
+      commandName: 'getQuickPulseToken',
       apiVersion: CommonConstants.ApiVersions.quickpulseTokenApiVersion20200602preview,
     });
   };
