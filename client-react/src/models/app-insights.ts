@@ -19,6 +19,11 @@ export interface AppInsightsComponentToken {
   expires: string;
 }
 
+export interface QuickPulseToken {
+  token: string;
+  expiry: string;
+}
+
 export interface AppInsightsMonthlySummary {
   successCount: number;
   failedCount: number;
