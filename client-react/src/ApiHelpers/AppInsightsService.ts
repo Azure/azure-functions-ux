@@ -6,7 +6,6 @@ import MakeArmCall, { getErrorMessageOrStringify } from './ArmHelper';
 import { ISubscription } from '../models/subscription';
 import {
   AppInsightsComponent,
-  AppInsightsComponentToken,
   AppInsightsMonthlySummary,
   AppInsightsQueryResult,
   AppInsightsInvocationTrace,
@@ -26,6 +25,7 @@ import { LocalStorageService } from '../utils/LocalStorageService';
 import { StorageKeys } from '../models/LocalStorage.model';
 import SiteService from './SiteService';
 import { ArmFunctionDescriptor } from '../utils/resourceDescriptors';
+import PortalCommunicator from '../portal-communicator';
 
 export default class AppInsightsService {
   public static getAppInsights = (resourceId: string) => {
@@ -36,14 +36,8 @@ export default class AppInsightsService {
     });
   };
 
-  public static getAppInsightsComponentToken = (appInsightsComponentId: string) => {
-    const resourceId = `${appInsightsComponentId}/getToken`;
-
-    return MakeArmCall<AppInsightsComponentToken>({
-      resourceId,
-      commandName: 'getAppInsightsComponentToken',
-      apiVersion: CommonConstants.ApiVersions.appInsightsTokenApiVersion20150501,
-    });
+  public static getAppInsightsToken = (portalContext: PortalCommunicator) => {
+    return portalContext.getAdToken('applicationinsightapi');
   };
 
   public static getQuickPulseToken = (appInsightsComponentId: string) => {
