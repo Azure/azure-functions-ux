@@ -47,6 +47,8 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const [startTime, setStartTime] = useState(0);
   const [xhReqResponseText, setXhReqResponseText] = useState('');
 
+  const msInMin = 60000;
+
   const openStream = async () => {
     setLoadingMessage(t('feature_logStreamingConnecting'));
     const hostStatusResult = await FunctionsService.getHostStatus(site.id);
@@ -71,7 +73,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       newXhReq.setRequestHeader('FunctionsPortal', '1');
       newXhReq.send(null);
       setXhReq(newXhReq);
-      setStartTime(new Date().getMinutes());
+      setStartTime(new Date().getTime());
     } else {
       setErrorMessage(t('feature_logStreamingConnectionError'));
       LogService.error(
@@ -92,7 +94,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
 
   const listenToStream = () => {
     setLoadingMessage(undefined);
-    setInterval(() => keepFunctionsHostAlive(), 60000); // ping functions host every minute
+    setInterval(() => keepFunctionsHostAlive(), msInMin); // ping functions host every minute
     listenForErrors();
     listenForUpdates();
   };
@@ -121,8 +123,8 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
         setErrorMessage(t('feature_logStreamingConnectionError'));
 
         // Automatically attempt to reconnect the connection if stream has been open for less than 15 minutes
-        const errorTime = new Date().getMinutes();
-        if (Math.abs(startTime - errorTime) < 15) {
+        const errorTime = new Date().getTime();
+        if (Math.abs(startTime - errorTime) < 15 * msInMin) {
           closeStream();
         }
       };
