@@ -14,11 +14,6 @@ export interface AppInsightsComponent {
   SamplingPercentage?: number;
 }
 
-export interface AppInsightsComponentToken {
-  token: string;
-  expires: string;
-}
-
 export interface QuickPulseToken {
   token: string;
   expiry: string;
