@@ -88,8 +88,20 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
     if (values.option === ContainerOptions.docker) {
       return getDockerFxVersion(prefix, values);
+    } else if (values.option === ContainerOptions.compose) {
+      return getDockerComposeFxVersion(prefix, values);
     } else {
       throw Error('Not implemented');
+    }
+  };
+
+  const getDockerComposeFxVersion = (prefix: string, values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+    if (values.registrySource === ContainerRegistrySources.acr) {
+      return `${prefix}|${btoa(values.acrComposeYml)}`;
+    } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
+      return `${prefix}|${btoa(values.privateRegistryComposeYml)}`;
+    } else {
+      return `${prefix}|${btoa(values.dockerHubComposeYml)}`;
     }
   };
 
@@ -112,8 +124,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         return DeploymentCenterConstants.dockerPrefix;
       case ContainerOptions.compose:
         return DeploymentCenterConstants.composePrefix;
-      case ContainerOptions.kubernetes:
-        return DeploymentCenterConstants.kubernetesPrefix;
       default:
         LogService.error(
           LogCategories.deploymentCenter,
