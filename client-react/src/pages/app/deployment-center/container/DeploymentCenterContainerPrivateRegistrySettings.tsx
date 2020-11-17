@@ -1,12 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Field } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
 import { SiteStateContext } from '../../../../SiteState';
+import { ContainerOptions, DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 
-const DeploymentCenterContainerPrivateRegistrySettings: React.FC<{}> = props => {
+const DeploymentCenterContainerPrivateRegistrySettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
+  const { formProps } = props;
   const { t } = useTranslation();
   const siteStateContext = useContext(SiteStateContext);
+  const [isComposeOptionSelected, setIsComposeOptionSelected] = useState(false);
+
+  useEffect(() => {
+    setIsComposeOptionSelected(formProps.values.option === ContainerOptions.compose);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.option]);
 
   // NOTE(michinoy): In case of GitHub Action, we will always need to get the user credentials for their private
   // registry. This is because the workflow would need to use those credentials to push the images and app service
@@ -37,16 +46,35 @@ const DeploymentCenterContainerPrivateRegistrySettings: React.FC<{}> = props => 
         type="password"
       />
 
-      <Field
-        id="container-privateRegistry-imageAndTag"
-        name="privateRegistryImageAndTag"
-        component={TextField}
-        label={t('containerImageAndTag')}
-        placeholder={siteStateContext.isLinuxApp ? t('containerImageAndTagPlaceholder') : t('containerImageAndTagPlaceholderForWindows')}
-        required={true}
-      />
+      {!isComposeOptionSelected && (
+        <>
+          <Field
+            id="container-privateRegistry-imageAndTag"
+            name="privateRegistryImageAndTag"
+            component={TextField}
+            label={t('containerImageAndTag')}
+            placeholder={
+              siteStateContext.isLinuxApp ? t('containerImageAndTagPlaceholder') : t('containerImageAndTagPlaceholderForWindows')
+            }
+            required={true}
+          />
 
-      <Field id="container-privateRegistry-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
+          <Field id="container-privateRegistry-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
+        </>
+      )}
+
+      {isComposeOptionSelected && (
+        <Field
+          id="container-privateRegistry-composeYml"
+          name="privateRegistryComposeYml"
+          component={TextField}
+          label={t('config')}
+          multiline={true}
+          resizable={true}
+          autoAdjustHeight={true}
+          required={true}
+        />
+      )}
     </>
   );
 };

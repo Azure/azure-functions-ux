@@ -21,7 +21,6 @@ export enum SourceControlOptions {
 export enum ContainerOptions {
   docker = 'docker',
   compose = 'compose',
-  kubernetes = 'kube',
 }
 
 export enum ContainerRegistrySources {
