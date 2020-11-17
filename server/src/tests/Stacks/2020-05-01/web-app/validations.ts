@@ -75,7 +75,7 @@ export function validateNodeCreateStack(stacks) {
   expect(nodeStack.displayText).to.equal('Node');
   expect(nodeStack.value).to.equal('Node');
   expect(nodeStack.sortOrder).to.equal(1);
-  expect(nodeStack.versions.length).to.equal(7);
+  expect(nodeStack.versions.length).to.equal(8);
   expect(nodeStack).to.deep.equal(nodeCreateStack);
 }
 
