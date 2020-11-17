@@ -259,8 +259,6 @@ export class ProdSpecGroup extends PriceSpecGroup {
     // NOTE(michinoy): The OS type determines whether standard small plan is recommended or additional pricing tier.
     // NOTE(shimedh): If subscription is part of PV2 experiment flighting we always add standard small plan in additional pricing tier irrespective of OS.
     if (isPartOfPv2Experiment) {
-      // NOTE(shimedh): We don't want to show S2 and S3 sku'd in create scenario since P1v2 and P2v2 offer better perf at the same price point.
-      this.additionalSpecs.splice(0, 2);
       this.additionalSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
       this.portalService.logAction('specPicker', LogCategories.specPickerPv2Experiment, {
         subscriptionId: input.subscriptionId,
