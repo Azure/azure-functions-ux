@@ -30,7 +30,8 @@
     "react-use": "^5.4.1",
     "rxjs": "^6.4.0",
     "typestyle": "^2.0.1",
-    "yup": "^0.26.10"
+    "yup": "^0.26.10",
+    "yaml-lint": "^1.2.4"
   },
   "scripts": {
     "start": "react-app-rewired start",

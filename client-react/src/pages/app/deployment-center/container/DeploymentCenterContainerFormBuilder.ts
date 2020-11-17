@@ -32,7 +32,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
 
     return {
       scmType: this._siteConfig ? this._siteConfig.properties.scmType : ScmType.None,
-      option: this._getContainerOption(),
+      option: fxVersionParts.containerOption,
       registrySource: this._getContainerRegistrySource(),
       command: this._getCommand(),
       gitHubContainerPasswordSecretGuid: '',
@@ -67,13 +67,17 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         return this.parent.registrySource === ContainerRegistrySources.acr ? !!value : true;
       }),
       acrImage: Yup.mixed().test('acrImageRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return this.parent.registrySource === ContainerRegistrySources.acr ? !!value : true;
+        return this.parent.registrySource === ContainerRegistrySources.acr && this.parent.option !== ContainerOptions.compose
+          ? !!value
+          : true;
       }),
       acrTag: Yup.mixed().test('acrTagRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return this.parent.registrySource === ContainerRegistrySources.acr ? !!value : true;
+        return this.parent.registrySource === ContainerRegistrySources.acr && this.parent.option !== ContainerOptions.compose
+          ? !!value
+          : true;
       }),
       acrComposeYml: Yup.mixed().test('acrComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return this.parent.registrySource === ContainerRegistrySources.acr && this.parent.options === ContainerOptions.compose
+        return this.parent.registrySource === ContainerRegistrySources.acr && this.parent.option === ContainerOptions.compose
           ? !!value
           : true;
       }),
@@ -89,12 +93,14 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       dockerHubImageAndTag: Yup.mixed().test('dockerHubImageAndTagRequired', this._t('deploymentCenterFieldRequiredMessage'), function(
         value
       ) {
-        return this.parent.registrySource === ContainerRegistrySources.docker ? !!value : true;
+        return this.parent.registrySource === ContainerRegistrySources.docker && this.parent.option !== ContainerOptions.compose
+          ? !!value
+          : true;
       }),
       dockerHubComposeYml: Yup.mixed().test('dockerHubComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(
         value
       ) {
-        return this.parent.registrySource === ContainerRegistrySources.docker && this.parent.options === ContainerOptions.compose
+        return this.parent.registrySource === ContainerRegistrySources.docker && this.parent.option === ContainerOptions.compose
           ? !!value
           : true;
       }),
@@ -121,14 +127,16 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         'privateRegistryImageAndTagRequired',
         this._t('deploymentCenterFieldRequiredMessage'),
         function(value) {
-          return this.parent.registrySource === ContainerRegistrySources.privateRegistry ? !!value : true;
+          return this.parent.registrySource === ContainerRegistrySources.privateRegistry && this.parent.option !== ContainerOptions.compose
+            ? !!value
+            : true;
         }
       ),
       privateRegistryComposeYml: Yup.mixed().test(
         'privateRegistryComposeYmlRequired',
         this._t('deploymentCenterFieldRequiredMessage'),
         function(value) {
-          return this.parent.registrySource === ContainerRegistrySources.docker && this.parent.options === ContainerOptions.compose
+          return this.parent.registrySource === ContainerRegistrySources.privateRegistry && this.parent.option === ContainerOptions.compose
             ? !!value
             : true;
         }
@@ -148,12 +156,6 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         }
       ),
     };
-  }
-
-  private _getContainerOption(): ContainerOptions {
-    // TODO(michinoy): For now we will only support docker (single container) option. See following work item for enabling compose:
-    // https://msazure.visualstudio.com/Antares/_workitems/edit/8238865
-    return ContainerOptions.docker;
   }
 
   private _getContainerRegistrySource(): ContainerRegistrySources {
@@ -214,85 +216,108 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       throw Error(`Incorrect fxVersion set in the site config: ${fxVersion}`);
     }
 
-    if (this._isComposeContainerOption(fxVersion)) {
-      return {
-        server: '',
-        image: '',
-        tag: '',
-        containerOption: ContainerOptions.compose,
-        composeYml: btoa(fxVersionParts[1]),
-      };
+    const isDockerCompose = this._isComposeContainerOption(fxVersion);
+    if (this._isServerUrlAcr(appSettingServerUrl)) {
+      return this._getAcrFxVersionParts(appSettingServerUrl, fxVersionParts[1], isDockerCompose);
+    } else if (this._isServerUrlDockerHub(appSettingServerUrl)) {
+      return this._getDockerHubFxVersionParts(appSettingUsername, fxVersionParts[1], isDockerCompose);
     } else {
-      if (this._isServerUrlAcr(appSettingServerUrl)) {
-        return this._getAcrFxVersionParts(appSettingServerUrl, fxVersionParts[1]);
-      } else if (this._isServerUrlDockerHub(appSettingServerUrl)) {
-        return this._getDockerHubFxVersionParts(appSettingUsername, fxVersionParts[1]);
-      } else {
-        return this._getPrivateRegistryFxVersionParts(appSettingServerUrl, fxVersionParts[1]);
-      }
+      return this._getPrivateRegistryFxVersionParts(appSettingServerUrl, fxVersionParts[1], isDockerCompose);
     }
   }
 
-  private _getAcrFxVersionParts(appSettingServerUrl: string, registryInfo: string): FxVersionParts {
+  private _getAcrFxVersionParts(appSettingServerUrl: string, registryInfo: string, isDockerCompose: boolean): FxVersionParts {
     // NOTE(michinoy): For ACR the username is not in the FxVersion. The image and/or tags could definitely have /'s.
     // In this case, remove the serverInfo from the FxVersion and compute the image and tag by splitting on :.
 
     const acrHost = this._getHostFromServerUrl(appSettingServerUrl);
-    const imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(`${acrHost}/`, '');
-    const imageAndTagParts = imageAndTagInfo.split(':');
 
-    return {
-      server: acrHost,
-      image: imageAndTagParts[0],
-      tag: imageAndTagParts[1] ? imageAndTagParts[1] : 'latest',
-      containerOption: ContainerOptions.docker,
-      composeYml: '',
-    };
+    if (isDockerCompose) {
+      return {
+        server: acrHost,
+        image: '',
+        tag: '',
+        containerOption: ContainerOptions.compose,
+        composeYml: atob(registryInfo),
+      };
+    } else {
+      const imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(`${acrHost}/`, '');
+      const imageAndTagParts = imageAndTagInfo.split(':');
+
+      return {
+        server: acrHost,
+        image: imageAndTagParts[0],
+        tag: imageAndTagParts[1] ? imageAndTagParts[1] : 'latest',
+        containerOption: ContainerOptions.docker,
+        composeYml: '',
+      };
+    }
   }
 
-  private _getDockerHubFxVersionParts(appSettingUsername: string, registryInfo: string): FxVersionParts {
-    // NOTE(michinoy): For DockerHub the username could be in FxVersion. This would needed in case of pulling from a private repo.
-    // The image and/or tags could definitely have /'s. The username is a separate field on the form, so image and tag should not have that.
-    // In this case, remove the serverInfo and/or username from the FxVersion and compute the image and tag by splitting on :.
+  private _getDockerHubFxVersionParts(appSettingUsername: string, registryInfo: string, isDockerCompose: boolean): FxVersionParts {
+    if (isDockerCompose) {
+      return {
+        server: DeploymentCenterConstants.dockerHubServerUrlHost,
+        image: '',
+        tag: '',
+        containerOption: ContainerOptions.compose,
+        composeYml: atob(registryInfo),
+      };
+    } else {
+      // NOTE(michinoy): For DockerHub the username could be in FxVersion. This would needed in case of pulling from a private repo.
+      // The image and/or tags could definitely have /'s. The username is a separate field on the form, so image and tag should not have that.
+      // In this case, remove the serverInfo and/or username from the FxVersion and compute the image and tag by splitting on :.
 
-    const serverAndUsernamePrefix = appSettingUsername
-      ? `${DeploymentCenterConstants.dockerHubServerUrlHost}/${appSettingUsername}/`
-      : `${DeploymentCenterConstants.dockerHubServerUrlHost}/`;
+      const serverAndUsernamePrefix = appSettingUsername
+        ? `${DeploymentCenterConstants.dockerHubServerUrlHost}/${appSettingUsername}/`
+        : `${DeploymentCenterConstants.dockerHubServerUrlHost}/`;
 
-    const usernamePrefix = appSettingUsername ? `${appSettingUsername}/` : '';
+      const usernamePrefix = appSettingUsername ? `${appSettingUsername}/` : '';
 
-    let imageAndTagInfo = registryInfo
-      .toLocaleLowerCase()
-      .replace(serverAndUsernamePrefix, '')
-      .replace(usernamePrefix, '');
+      let imageAndTagInfo = registryInfo
+        .toLocaleLowerCase()
+        .replace(serverAndUsernamePrefix, '')
+        .replace(usernamePrefix, '');
 
-    const imageAndTagParts = imageAndTagInfo.split(':');
+      const imageAndTagParts = imageAndTagInfo.split(':');
 
-    return {
-      server: DeploymentCenterConstants.dockerHubServerUrlHost,
-      image: imageAndTagParts[0],
-      tag: imageAndTagParts[1] ? imageAndTagParts[1] : 'latest',
-      containerOption: ContainerOptions.docker,
-      composeYml: '',
-    };
+      return {
+        server: DeploymentCenterConstants.dockerHubServerUrlHost,
+        image: imageAndTagParts[0],
+        tag: imageAndTagParts[1] ? imageAndTagParts[1] : 'latest',
+        containerOption: ContainerOptions.docker,
+        composeYml: '',
+      };
+    }
   }
 
-  private _getPrivateRegistryFxVersionParts(appSettingServerUrl: string, registryInfo: string): FxVersionParts {
+  private _getPrivateRegistryFxVersionParts(appSettingServerUrl: string, registryInfo: string, isDockerCompose: boolean): FxVersionParts {
     // NOTE(michinoy): Unlike ACR and DockerHub, we dont actually know how a private registry text is formed.
     // Each registry would have its own convention forked from how dockerHub does things. In this case, we have
     // the serverUrl, we should remove that, but return the rest as image and tag.
 
     const privateRegistryHost = this._getHostFromServerUrl(appSettingServerUrl);
-    const imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(`${privateRegistryHost}/`, '');
-    const imageAndTagParts = imageAndTagInfo.split(':');
 
-    return {
-      server: privateRegistryHost,
-      image: imageAndTagParts[0],
-      tag: imageAndTagParts[1] ? imageAndTagParts[1] : 'latest',
-      containerOption: ContainerOptions.docker,
-      composeYml: '',
-    };
+    if (isDockerCompose) {
+      return {
+        server: privateRegistryHost,
+        image: '',
+        tag: '',
+        containerOption: ContainerOptions.compose,
+        composeYml: atob(registryInfo),
+      };
+    } else {
+      const imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(`${privateRegistryHost}/`, '');
+      const imageAndTagParts = imageAndTagInfo.split(':');
+
+      return {
+        server: privateRegistryHost,
+        image: imageAndTagParts[0],
+        tag: imageAndTagParts[1] ? imageAndTagParts[1] : 'latest',
+        containerOption: ContainerOptions.docker,
+        composeYml: '',
+      };
+    }
   }
 
   private _getAcrFormData(serverUrl: string, username: string, password: string, fxVersionParts: FxVersionParts): AcrFormData {
