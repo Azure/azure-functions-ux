@@ -13,7 +13,7 @@ import Markdown from 'markdown-to-jsx';
 import { MarkdownHighlighter } from '../../../../../components/MarkdownComponents/MarkdownComponents';
 import { ChevronUp } from './CustomMarkdownComponents';
 import { linkStyle } from './LocalCreateInstructions.style';
-import { containerStyle } from '../FunctionCreate.styles';
+import { localCreateContainerStyle } from '../FunctionCreate.styles';
 import CustomElementsShimmer from '../../../../../components/shimmer/CustomElementsShimmer';
 
 export interface LocalCreateInstructionsProps {
@@ -70,7 +70,7 @@ const LocalCreateInstructions: React.FC<LocalCreateInstructionsProps> = props =>
   }, [localDevExperience]);
 
   return (
-    <div className={containerStyle}>
+    <div className={localCreateContainerStyle}>
       {instructions === undefined ? (
         <CustomElementsShimmer />
       ) : instructions === null ? (
