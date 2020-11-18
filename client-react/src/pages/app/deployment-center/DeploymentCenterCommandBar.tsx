@@ -149,7 +149,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   const getRedeployButton = (): ICommandBarItemProps => {
     return {
       key: 'redeploy',
-      name: t('redeploy'),
+      name: t('deploymentCenterRedeploy'),
       iconProps: {
         iconName: 'Redeploy',
       },
