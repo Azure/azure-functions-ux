@@ -38,17 +38,9 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
   const [nameError, setNameError] = useState('');
   const [valueError, setValueError] = useState('');
   const [currentConnectionString, setCurrentConnectionString] = useState(connectionString);
-  const [currentConnectionStringReference, setCurrentConnectionStringReference] = useState<
-    ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>
-  >({
-    id: '',
-    name: '',
-    type: '',
-    location: '',
-    properties: {
-      keyToReferenceStatuses: {},
-    },
-  });
+  const [currentConnectionStringReference, setCurrentConnectionStringReference] = useState<ArmObj<KeyVaultReference> | undefined>(
+    undefined
+  );
 
   const { t } = useTranslation();
 
@@ -99,7 +91,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
       connectionString.name === currentConnectionString.name &&
       connectionString.value === currentConnectionString.value &&
       currentConnectionStringReference &&
-      currentConnectionString.name in currentConnectionStringReference.properties.keyToReferenceStatuses
+      currentConnectionString.name === currentConnectionStringReference.properties.secretName
     );
   };
 
@@ -223,11 +215,8 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
           secondaryButton={actionBarSecondaryButtonProps}
         />
       </form>
-      {isConnectionStringReferenceVisible() && isValidKeyVaultReference() && (
-        <KeyVaultReferenceComponent
-          resourceId={site.id}
-          appSettingReference={currentConnectionStringReference.properties.keyToReferenceStatuses[currentConnectionString.name]}
-        />
+      {isConnectionStringReferenceVisible() && isValidKeyVaultReference() && currentConnectionStringReference && (
+        <KeyVaultReferenceComponent resourceId={site.id} appSettingReference={currentConnectionStringReference.properties} />
       )}
     </>
   );
