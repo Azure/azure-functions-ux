@@ -6832,6 +6832,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Container Type</value>
     </data>
     <data name="logStreamingHostStatusError" xml:space="preserve">
-        <value>Unable to fetch the host status of your function app. To use log streaming, please make sure your functions host is running.</value>
+        <value>Unable to fetch the host status of your function app. To use log streaming, please make sure your function host is running.</value>
     </data>
 </root>
