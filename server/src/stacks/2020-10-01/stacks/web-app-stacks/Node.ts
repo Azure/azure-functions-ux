@@ -66,6 +66,7 @@ export const nodeStack: WebAppStack = {
               },
               gitHubActionSettings: {
                 isSupported: true,
+                supportedVersion: '14.x'
               },
               isEarlyAccess: true,
               endOfLifeDate: node14EOL,
