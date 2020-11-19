@@ -91,7 +91,9 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
       connectionString.name === currentConnectionString.name &&
       connectionString.value === currentConnectionString.value &&
       currentConnectionStringReference &&
-      currentConnectionString.name === currentConnectionStringReference.properties.secretName
+      currentConnectionStringReference.properties.secretName &&
+      currentConnectionString.name &&
+      currentConnectionString.name.toLowerCase() === currentConnectionStringReference.properties.secretName.toLowerCase()
     );
   };
 
