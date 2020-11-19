@@ -75,7 +75,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       setXhReq(newXhReq);
       setStartTime(new Date().getTime());
     } else {
-      setErrorMessage(t('feature_logStreamingConnectionError'));
+      setErrorMessage(t('logStreamingHostStatusError'));
       LogService.error(
         LogCategories.functionLog,
         'getHostStatus',
@@ -108,7 +108,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
         setErrorMessage(undefined);
       }
     } else {
-      setErrorMessage(t('feature_logStreamingConnectionError'));
+      setErrorMessage(t('logStreamingHostStatusError'));
       LogService.error(
         LogCategories.functionLog,
         'getHostStatus',
