@@ -83,9 +83,9 @@ export const getApplicationSettingReference = async (
 export const getConnectionStringReference = async (
   resourceId: string,
   connectionstringName: string
-): Promise<HttpResponseObject<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>> => {
+): Promise<HttpResponseObject<ArmObj<KeyVaultReference>>> => {
   const id = `${resourceId}/config/configreferences/connectionstrings/${connectionstringName}`;
-  return MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
+  return MakeArmCall<ArmObj<KeyVaultReference>>({
     resourceId: id,
     commandName: 'getConnectionStringReference',
     method: 'GET',
