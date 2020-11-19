@@ -6831,4 +6831,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterContainerType" xml:space="preserve">
         <value>Container Type</value>
     </data>
+    <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Invalid Yaml</value>
+    </data>
 </root>

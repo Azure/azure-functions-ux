@@ -88,6 +88,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
           name="acrComposeYml"
           component={TextField}
           label={t('config')}
+          widthOverride={'500px'}
           multiline={true}
           resizable={true}
           autoAdjustHeight={true}

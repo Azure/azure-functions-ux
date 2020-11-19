@@ -16,6 +16,12 @@ import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import Url from '../../../../utils/url';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import * as yamlLint from 'yaml-lint';
+
+interface YamlValidationResult {
+  valid: boolean;
+  errorMessage?: string;
+}
 
 interface FxVersionParts {
   containerOption: ContainerOptions;
@@ -64,6 +70,8 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getAcrFormValidationSchema(): Yup.ObjectSchemaDefinition<AcrFormData> {
+    const validateYaml = (yaml: string) => this._validateYaml(yaml);
+
     return {
       acrLoginServer: Yup.mixed().test('acrLoginServerRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.registrySource === ContainerRegistrySources.acr ? !!value : true;
@@ -78,11 +86,23 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
           ? !!value
           : true;
       }),
-      acrComposeYml: Yup.mixed().test('acrComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return this.parent.registrySource === ContainerRegistrySources.acr && this.parent.option === ContainerOptions.compose
-          ? !!value
-          : true;
-      }),
+      acrComposeYml: Yup.mixed()
+        .test('acrComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return this.parent.registrySource === ContainerRegistrySources.acr && this.parent.option === ContainerOptions.compose
+            ? !!value
+            : true;
+        })
+        .test('acrComposeYmlValidation', this._t('deploymentCenterInvalidYaml'), function(value) {
+          return validateYaml(value).then(result => {
+            if (!result.valid) {
+              return this.createError({
+                message: result.errorMessage,
+              });
+            }
+
+            return result.valid;
+          });
+        }),
       acrUsername: Yup.mixed().notRequired(),
       acrPassword: Yup.mixed().notRequired(),
       acrResourceId: Yup.mixed().notRequired(),
@@ -91,6 +111,8 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getDockerHubFormValidationSchema(): Yup.ObjectSchemaDefinition<DockerHubFormData> {
+    const validateYaml = (yaml: string) => this._validateYaml(yaml);
+
     return {
       dockerHubImageAndTag: Yup.mixed().test('dockerHubImageAndTagRequired', this._t('deploymentCenterFieldRequiredMessage'), function(
         value
@@ -99,13 +121,23 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
           ? !!value
           : true;
       }),
-      dockerHubComposeYml: Yup.mixed().test('dockerHubComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(
-        value
-      ) {
-        return this.parent.registrySource === ContainerRegistrySources.docker && this.parent.option === ContainerOptions.compose
-          ? !!value
-          : true;
-      }),
+      dockerHubComposeYml: Yup.mixed()
+        .test('dockerHubComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return this.parent.registrySource === ContainerRegistrySources.docker && this.parent.option === ContainerOptions.compose
+            ? !!value
+            : true;
+        })
+        .test('dockerHubComposeYmlValidation', this._t('deploymentCenterInvalidYaml'), function(value) {
+          return validateYaml(value).then(result => {
+            if (!result.valid) {
+              return this.createError({
+                message: result.errorMessage,
+              });
+            }
+
+            return result.valid;
+          });
+        }),
       dockerHubAccessType: Yup.mixed().required(this._t('deploymentCenterFieldRequiredMessage')),
       dockerHubUsername: Yup.mixed().test('dockerHubUsernameRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.dockerHubAccessType === ContainerDockerAccessTypes.private ? !!value : true;
@@ -117,6 +149,8 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getPrivateRegistryFormValidationSchema(): Yup.ObjectSchemaDefinition<PrivateRegistryFormData> {
+    const validateYaml = (yaml: string) => this._validateYaml(yaml);
+
     return {
       privateRegistryServerUrl: Yup.mixed()
         .test('privateRegistryServerUrlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
@@ -130,15 +164,6 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         this._t('deploymentCenterFieldRequiredMessage'),
         function(value) {
           return this.parent.registrySource === ContainerRegistrySources.privateRegistry && this.parent.option !== ContainerOptions.compose
-            ? !!value
-            : true;
-        }
-      ),
-      privateRegistryComposeYml: Yup.mixed().test(
-        'privateRegistryComposeYmlRequired',
-        this._t('deploymentCenterFieldRequiredMessage'),
-        function(value) {
-          return this.parent.registrySource === ContainerRegistrySources.privateRegistry && this.parent.option === ContainerOptions.compose
             ? !!value
             : true;
         }
@@ -157,6 +182,23 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
           return !!this.parent.privateRegistryUsername ? !!value : true;
         }
       ),
+      privateRegistryComposeYml: Yup.mixed()
+        .test('privateRegistryComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return this.parent.registrySource === ContainerRegistrySources.privateRegistry && this.parent.option === ContainerOptions.compose
+            ? !!value
+            : true;
+        })
+        .test('privateRegistryComposeYmlValidation', this._t('deploymentCenterInvalidYaml'), function(value) {
+          return validateYaml(value).then(result => {
+            if (!result.valid) {
+              return this.createError({
+                message: result.errorMessage,
+              });
+            }
+
+            return result.valid;
+          });
+        }),
     };
   }
 
@@ -418,5 +460,29 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     const host = serverUrl.toLocaleLowerCase().replace('https://', '');
     const hostParts = host.split('/');
     return hostParts[0];
+  }
+
+  private _validateYaml(yaml: string): Promise<YamlValidationResult> {
+    return new Promise(resolve => {
+      if (yaml) {
+        yamlLint
+          .lint(yaml)
+          .then(() => {
+            resolve({
+              valid: true,
+            });
+          })
+          .catch(error => {
+            resolve({
+              valid: false,
+              errorMessage: this._t('configYamlInvalid').format(error),
+            });
+          });
+      } else {
+        resolve({
+          valid: true,
+        });
+      }
+    });
   }
 }

@@ -116,6 +116,7 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
           name="dockerHubComposeYml"
           component={TextField}
           label={t('config')}
+          widthOverride={'500px'}
           multiline={true}
           resizable={true}
           autoAdjustHeight={true}

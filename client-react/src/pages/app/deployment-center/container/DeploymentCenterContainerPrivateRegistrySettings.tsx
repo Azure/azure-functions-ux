@@ -69,6 +69,7 @@ const DeploymentCenterContainerPrivateRegistrySettings: React.FC<DeploymentCente
           name="privateRegistryComposeYml"
           component={TextField}
           label={t('config')}
+          widthOverride={'500px'}
           multiline={true}
           resizable={true}
           autoAdjustHeight={true}
