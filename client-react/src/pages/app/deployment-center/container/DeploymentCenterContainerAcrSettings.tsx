@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import TextField from '../../../../components/form-controls/TextField';
+import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterContainerComposeFileUploader';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -83,17 +84,21 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
       )}
 
       {isComposeOptionSelected && (
-        <Field
-          id="container-acr-composeYml"
-          name="acrComposeYml"
-          component={TextField}
-          label={t('config')}
-          widthOverride={'500px'}
-          multiline={true}
-          resizable={true}
-          autoAdjustHeight={true}
-          required={true}
-        />
+        <>
+          <Field
+            id="container-acr-composeYml"
+            name="acrComposeYml"
+            component={TextField}
+            label={t('config')}
+            widthOverride={'500px'}
+            multiline={true}
+            resizable={true}
+            autoAdjustHeight={true}
+            required={true}
+          />
+
+          <DeploymentCenterContainerComposeFileUploader {...props} />
+        </>
       )}
     </>
   );

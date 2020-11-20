@@ -11,7 +11,6 @@ import {
   WorkflowOption,
   ContainerDockerAccessTypes,
 } from '../DeploymentCenter.types';
-import { KeyCodes } from 'office-ui-fabric-react';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
@@ -525,12 +524,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     }
   };
 
-  const onKeyDown = keyEvent => {
-    if ((keyEvent.charCode || keyEvent.keyCode) === KeyCodes.enter) {
-      keyEvent.preventDefault();
-    }
-  };
-
   const refreshFunction = () => {
     hideRefreshConfirmDialog();
     props.refresh();
@@ -614,7 +607,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       validateOnChange={false}
       validationSchema={props.formValidationSchema}>
       {(formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>) => (
-        <form onKeyDown={onKeyDown}>
+        <form>
           <div id="deployment-center-command-bar" className={commandBarSticky}>
             <DeploymentCenterCommandBar
               saveFunction={formProps.submitForm}
