@@ -2228,4 +2228,5 @@ export class PortalResources {
   public static movingFromV2Warning = 'movingFromV2Warning';
   public static deploymentCenterContainerType = 'deploymentCenterContainerType';
   public static deploymentCenterInvalidYaml = 'deploymentCenterInvalidYaml';
+  public static deploymentCenterChooseFile = 'deploymentCenterChooseFile';
 }

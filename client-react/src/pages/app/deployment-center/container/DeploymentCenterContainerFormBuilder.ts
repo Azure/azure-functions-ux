@@ -14,8 +14,6 @@ import {
 import * as Yup from 'yup';
 import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
-import Url from '../../../../utils/url';
-import { CommonConstants } from '../../../../utils/CommonConstants';
 import * as yamlLint from 'yaml-lint';
 
 interface YamlValidationResult {
@@ -446,13 +444,8 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _isComposeContainerOption(fxVersion: string): boolean {
-    const flagValue = Url.getFeatureValue(CommonConstants.FeatureFlags.showContainerTypeOption);
     const fxVersionParts = fxVersion ? fxVersion.split('|') : [];
-    return (
-      !!flagValue &&
-      flagValue.toLocaleLowerCase() === 'true' &&
-      fxVersionParts[0].toLocaleLowerCase() === DeploymentCenterConstants.composePrefix.toLocaleLowerCase()
-    );
+    return fxVersionParts[0].toLocaleLowerCase() === DeploymentCenterConstants.composePrefix.toLocaleLowerCase();
   }
 
   private _getHostFromServerUrl(serverUrl: string): string {
