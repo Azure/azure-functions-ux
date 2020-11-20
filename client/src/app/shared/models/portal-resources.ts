@@ -2229,4 +2229,5 @@ export class PortalResources {
   public static deploymentCenterContainerType = 'deploymentCenterContainerType';
   public static deploymentCenterInvalidYaml = 'deploymentCenterInvalidYaml';
   public static deploymentCenterChooseFile = 'deploymentCenterChooseFile';
+  public static logStreamingHostStatusError = 'logStreamingHostStatusError';
 }

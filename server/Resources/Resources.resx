@@ -6303,7 +6303,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
         <value>Select folder</value>
     </data>
-     <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
+    <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>External Git</value>
     </data>
     <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
@@ -6699,7 +6699,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="developmentEnvironment" xml:space="preserve">
         <value>Development environment</value>
     </data>
-     <data name="selectTemplate" xml:space="preserve">
+    <data name="selectTemplate" xml:space="preserve">
         <value>Select a template</value>
     </data>
     <data name="selectTemplateDescription" xml:space="preserve">
@@ -6836,5 +6836,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterChooseFile" xml:space="preserve">
         <value>Choose file</value>
+    </data>
+    <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Unable to fetch the host status of your function app. To use log streaming, please make sure your function host is running.</value>
     </data>
 </root>
