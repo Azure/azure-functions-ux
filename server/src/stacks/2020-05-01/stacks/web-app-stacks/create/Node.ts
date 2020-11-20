@@ -35,7 +35,7 @@ export const nodeCreateStack: WebAppCreateStack = {
           sortOrder: 1,
           githubActionSettings: {
             supported: true,
-            recommendedVersion: '14.x'
+            recommendedVersion: '14.x',
           },
         },
       ],

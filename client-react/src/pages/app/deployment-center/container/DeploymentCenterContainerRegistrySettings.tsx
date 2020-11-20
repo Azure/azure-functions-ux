@@ -14,8 +14,6 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import { getLogId } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import Url from '../../../../utils/url';
-import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
@@ -24,7 +22,6 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const [showContainerTypeOption, setShowContainerTypeOption] = useState(true);
-  const [isContainerTypeOptionFeatureEnabled, setIsContainerTypeOptionFeatureEnabled] = useState(true);
 
   const onRegistrySourceChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
     LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerRegistrySettings', 'onRegistrySourceChange'), {
@@ -74,11 +71,7 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
       !deploymentCenterContext.siteConfig ||
       deploymentCenterContext.siteConfig.properties.scmType !== ScmType.GitHubAction;
 
-    const flagValue = Url.getFeatureValue(CommonConstants.FeatureFlags.showContainerTypeOption);
-    const enabled = flagValue && flagValue.toLocaleLowerCase() === 'true';
-
-    setShowContainerTypeOption(showOption && !!enabled);
-    setIsContainerTypeOptionFeatureEnabled(!!enabled);
+    setShowContainerTypeOption(showOption);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterContext.siteConfig]);
@@ -89,7 +82,7 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
     // The biggest blocker is how to identify secrets for the workflow file.
 
     const showOption = formProps.values.scmType !== ScmType.GitHubAction;
-    setShowContainerTypeOption(showOption && isContainerTypeOptionFeatureEnabled);
+    setShowContainerTypeOption(showOption);
 
     if (!showOption) {
       formProps.setFieldValue('option', ContainerOptions.docker);
@@ -102,7 +95,7 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
     <>
       <h3>{t('deploymentCenterContainerRegistrySettingsTitle')}</h3>
 
-      {showContainerTypeOption && isContainerTypeOptionFeatureEnabled && (
+      {showContainerTypeOption && (
         <Field
           id="deployment-center-container-type-option"
           name="option"

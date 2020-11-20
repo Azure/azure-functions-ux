@@ -217,3 +217,13 @@ export const getAcrWebhookName = (siteDescriptor: ArmSiteDescriptor) => {
 
   return `webapp${resourceName}`.substring(0, acrWebhookNameMaxLength);
 };
+
+export const extractConfigFromFile = (input): Promise<string> => {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      resolve(reader && reader.result ? reader.result.toString() : '');
+    };
+    reader.readAsText(input.files[0]);
+  });
+};

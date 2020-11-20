@@ -6831,6 +6831,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterContainerType" xml:space="preserve">
         <value>Container Type</value>
     </data>
+    <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Invalid YAML</value>
+    </data>
+    <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Choose file</value>
+    </data>
     <data name="logStreamingHostStatusError" xml:space="preserve">
         <value>Unable to fetch the host status of your function app. To use log streaming, please make sure your function host is running.</value>
     </data>
