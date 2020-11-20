@@ -14,8 +14,6 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import { getLogId } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import Url from '../../../../utils/url';
-import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
