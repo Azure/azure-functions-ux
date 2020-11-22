@@ -40,8 +40,8 @@ const JavaStack: React.SFC<StackProps> = props => {
       const filteredJavaStacks = filterDeprecatedWebAppStack([javaStack], 'java', initialValues.config.properties.javaVersion);
       if (filteredJavaStacks.length > 0) {
         javaStack = filteredJavaStacks[0];
-      } else {
-        javaStack = undefined;
+        setCurrentJavaMajorVersion(getJavaMajorMinorVersion(javaStack, values.config).majorVersion);
+        setJavaStack(javaStack);
       }
     }
 
@@ -53,18 +53,9 @@ const JavaStack: React.SFC<StackProps> = props => {
       );
       if (filteredJavaContainers.length > 0) {
         javaContainers = filteredJavaContainers[0];
-      } else {
-        javaContainers = undefined;
+        setCurrentJavaContainer(getJavaContainerKey(javaContainers, values.config));
+        setJavaContainers(javaContainers);
       }
-    }
-
-    if (javaStack) {
-      setCurrentJavaMajorVersion(getJavaMajorMinorVersion(javaStack, values.config).majorVersion);
-      setJavaStack(javaStack);
-    }
-    if (javaContainers) {
-      setCurrentJavaContainer(getJavaContainerKey(javaContainers, values.config));
-      setJavaContainers(javaContainers);
     }
   };
 
