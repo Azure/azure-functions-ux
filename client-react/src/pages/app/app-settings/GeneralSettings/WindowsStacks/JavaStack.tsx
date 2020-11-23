@@ -17,29 +17,50 @@ import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 import { StackProps } from './WindowsStacks';
 import { filterDeprecatedWebAppStack } from '../../../../../utils/stacks-utils';
+import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 
 const JavaStack: React.SFC<StackProps> = props => {
   const [currentJavaMajorVersion, setCurrentJavaMajorVersion] = useState('');
   const [currentJavaContainer, setCurrentJavaContainer] = useState('');
+  const [javaStack, setJavaStack] = useState<WebAppStack | undefined>(undefined);
+  const [javaContainers, setJavaContainers] = useState<WebAppStack | undefined>(undefined);
+
   const { values, initialValues, setFieldValue } = props;
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
 
-  const supportedStacks = filterDeprecatedWebAppStack(
-    filterDeprecatedWebAppStack(useContext(WebAppStacksContext), 'java', initialValues.config.properties.javaVersion),
-    'javacontainers',
-    initialValues.config.properties.javaContainerVersion
-  );
+  const allStacks = useContext(WebAppStacksContext);
 
-  const javaStack = getJavaStack(supportedStacks);
-  const javaContainers = getJavaContainers(supportedStacks);
+  const setJavaStacksAndContainers = () => {
+    let javaStack = getJavaStack([...allStacks]);
+    let javaContainers = getJavaContainers([...allStacks]);
+
+    if (javaStack) {
+      const filteredJavaStacks = filterDeprecatedWebAppStack([javaStack], 'java', initialValues.config.properties.javaVersion);
+      if (filteredJavaStacks.length > 0) {
+        javaStack = filteredJavaStacks[0];
+        setCurrentJavaMajorVersion(getJavaMajorMinorVersion(javaStack, values.config).majorVersion);
+        setJavaStack(javaStack);
+      }
+    }
+
+    if (javaContainers) {
+      const filteredJavaContainers = filterDeprecatedWebAppStack(
+        [javaContainers],
+        'javacontainers',
+        initialValues.config.properties.javaVersion
+      );
+      if (filteredJavaContainers.length > 0) {
+        javaContainers = filteredJavaContainers[0];
+        setCurrentJavaContainer(getJavaContainerKey(javaContainers, values.config));
+        setJavaContainers(javaContainers);
+      }
+    }
+  };
 
   useEffect(() => {
-    if (javaStack && javaContainers) {
-      setCurrentJavaMajorVersion(getJavaMajorMinorVersion(javaStack, values.config).majorVersion);
-      setCurrentJavaContainer(getJavaContainerKey(javaContainers, values.config));
-    }
+    setJavaStacksAndContainers();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
