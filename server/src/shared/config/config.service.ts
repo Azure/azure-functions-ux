@@ -61,6 +61,26 @@ export class ConfigService implements OnModuleInit {
     };
   }
 
+  get endpointSuffix(): string {
+    const config = this.staticReactConfig;
+    if (config.env.cloud === CloudType.fairfax) {
+      return 'core.usgovcloudapi.net';
+    }
+    if (config.env.cloud === CloudType.mooncake) {
+      return 'core.chinacloudapi.cn';
+    }
+    if (config.env.cloud === CloudType.blackforest) {
+      return 'core.cloudapi.de';
+    }
+    if (config.env.cloud === CloudType.usnat) {
+      return 'core.eaglex.ic.gov';
+    }
+    if (config.env.cloud === CloudType.ussec) {
+      return 'core.microsoft.scloud';
+    }
+    return 'core.windows.net';
+  }
+
   private async getAADTokenFromMSI(endpoint: string, secret: string, resource: string) {
     const apiVersion = '2017-09-01';
 
