@@ -12,6 +12,7 @@ import {
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { ScmType } from '../../../../models/site/config';
 import { SiteStateContext } from '../../../../SiteState';
+import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterContainerComposeFileUploader';
 
 const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
@@ -111,16 +112,20 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
       )}
 
       {isComposeOptionSelected && (
-        <Field
-          id="container-dockerHub-composeYml"
-          name="dockerHubComposeYml"
-          component={TextField}
-          label={t('config')}
-          multiline={true}
-          resizable={true}
-          autoAdjustHeight={true}
-          required={true}
-        />
+        <>
+          <Field
+            id="container-dockerHub-composeYml"
+            name="dockerHubComposeYml"
+            component={TextField}
+            label={t('config')}
+            widthOverride={'500px'}
+            multiline={true}
+            resizable={true}
+            autoAdjustHeight={true}
+            required={true}
+          />
+          <DeploymentCenterContainerComposeFileUploader {...props} />
+        </>
       )}
     </>
   );

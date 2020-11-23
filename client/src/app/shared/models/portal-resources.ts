@@ -2227,4 +2227,7 @@ export class PortalResources {
   public static pricing_iv2NotAvailable = 'pricing_iv2NotAvailable';
   public static movingFromV2Warning = 'movingFromV2Warning';
   public static deploymentCenterContainerType = 'deploymentCenterContainerType';
+  public static deploymentCenterInvalidYaml = 'deploymentCenterInvalidYaml';
+  public static deploymentCenterChooseFile = 'deploymentCenterChooseFile';
+  public static logStreamingHostStatusError = 'logStreamingHostStatusError';
 }

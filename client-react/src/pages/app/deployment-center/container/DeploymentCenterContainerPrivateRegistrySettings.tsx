@@ -4,6 +4,7 @@ import TextField from '../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
 import { SiteStateContext } from '../../../../SiteState';
 import { ContainerOptions, DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterContainerComposeFileUploader';
 
 const DeploymentCenterContainerPrivateRegistrySettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
@@ -64,16 +65,20 @@ const DeploymentCenterContainerPrivateRegistrySettings: React.FC<DeploymentCente
       )}
 
       {isComposeOptionSelected && (
-        <Field
-          id="container-privateRegistry-composeYml"
-          name="privateRegistryComposeYml"
-          component={TextField}
-          label={t('config')}
-          multiline={true}
-          resizable={true}
-          autoAdjustHeight={true}
-          required={true}
-        />
+        <>
+          <Field
+            id="container-privateRegistry-composeYml"
+            name="privateRegistryComposeYml"
+            component={TextField}
+            label={t('config')}
+            widthOverride={'500px'}
+            multiline={true}
+            resizable={true}
+            autoAdjustHeight={true}
+            required={true}
+          />
+          <DeploymentCenterContainerComposeFileUploader {...props} />
+        </>
       )}
     </>
   );
