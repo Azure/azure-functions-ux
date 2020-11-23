@@ -134,6 +134,15 @@ export const getWorkflowFileName = (branch: string, siteName: string, slotName?:
   return slotName ? `${normalizedBranchName}_${siteName}(${slotName}).yml` : `${normalizedBranchName}_${siteName}.yml`;
 };
 
+export const getSourceControlsWorkflowFileName = (branch: string, siteName: string, slotName?: string): string => {
+  const normalizedBranchName = branch.split('/').join('-');
+  return `${normalizedBranchName}-${siteName}(${slotName}).yml`;
+};
+
+export const getSourceControlsWorkflowFilePath = (branch: string, siteName: string, slotName?: string): string => {
+  return `.github/workflows/${getSourceControlsWorkflowFileName(branch, siteName, slotName)}`;
+};
+
 export const getWorkflowFilePath = (branch: string, siteName: string, slotName?: string): string => {
   return `.github/workflows/${getWorkflowFileName(branch, siteName, slotName)}`;
 };
