@@ -78,6 +78,7 @@ export class ConfigService implements OnModuleInit {
     if (config.env.cloud === CloudType.ussec) {
       return 'core.microsoft.scloud';
     }
+    // TODO (krmitta): Verify the onprem scenario - WI https://msazure.visualstudio.com/Antares/_workitems/edit/8862802
     return 'core.windows.net';
   }
 
