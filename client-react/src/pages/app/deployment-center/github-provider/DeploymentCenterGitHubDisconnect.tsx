@@ -202,6 +202,8 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     setWorkflowConfigExists(appWorkflowConfigurationResponse.metadata.success);
   };
 
+  //(Note stpelleg): Apps deployed to production using the source controls API have a different workflow file name
+  // format than ones deployed through the deployment center, so we need two checks for the workflow file.
   const fetchAppAndSourceControlsWorkflowConfiguration = async () => {
     const sourceControlsWorkflowFilePath = getSourceControlsWorkflowFilePath(
       branch,
