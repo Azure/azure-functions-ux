@@ -64,23 +64,29 @@ export class ConfigService implements OnModuleInit {
 
   get endpointSuffix(): string {
     const config = this.staticReactConfig;
-    if (config.env.cloud === CloudType.fairfax) {
-      return Constants.endpointSuffix.farifax;
+    if (config.env && config.env.cloud) {
+      switch (config.env.cloud) {
+        case CloudType.fairfax:
+          return Constants.endpointSuffix.farifax;
+        case CloudType.mooncake:
+          return Constants.endpointSuffix.mooncake;
+        case CloudType.blackforest:
+          return Constants.endpointSuffix.blackforest;
+        case CloudType.usnat:
+          return Constants.endpointSuffix.usnat;
+        case CloudType.mooncake:
+          return Constants.endpointSuffix.mooncake;
+
+        // NOTE (krmitta): For all the other cases we are returning the public endpoint
+        case CloudType.onprem:
+        // TODO (krmitta): Verify the onprem scenario - WI https://msazure.visualstudio.com/Antares/_workitems/edit/8862802
+        case CloudType.public:
+        default:
+          return Constants.endpointSuffix.public;
+      }
+    } else {
+      return Constants.endpointSuffix.public;
     }
-    if (config.env.cloud === CloudType.mooncake) {
-      return Constants.endpointSuffix.mooncake;
-    }
-    if (config.env.cloud === CloudType.blackforest) {
-      return Constants.endpointSuffix.blackforest;
-    }
-    if (config.env.cloud === CloudType.usnat) {
-      return Constants.endpointSuffix.usnat;
-    }
-    if (config.env.cloud === CloudType.ussec) {
-      return Constants.endpointSuffix.ussec;
-    }
-    // TODO (krmitta): Verify the onprem scenario - WI https://msazure.visualstudio.com/Antares/_workitems/edit/8862802
-    return Constants.endpointSuffix.public;
   }
 
   private async getAADTokenFromMSI(endpoint: string, secret: string, resource: string) {
