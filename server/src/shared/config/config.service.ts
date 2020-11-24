@@ -1,5 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import * as dotenv from 'dotenv';
+import { Constants } from '../../constants';
 import { HttpService } from '../../shared/http/http.service';
 import { CloudType, StaticAngularConfig, StaticReactConfig } from '../../types/config';
 export const KeyvaultApiVersion = '2016-10-01';
@@ -59,6 +60,33 @@ export class ConfigService implements OnModuleInit {
       },
       version: process.env.VERSION,
     };
+  }
+
+  get endpointSuffix(): string {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud) {
+      switch (config.env.cloud) {
+        case CloudType.fairfax:
+          return Constants.endpointSuffix.farifax;
+        case CloudType.mooncake:
+          return Constants.endpointSuffix.mooncake;
+        case CloudType.blackforest:
+          return Constants.endpointSuffix.blackforest;
+        case CloudType.usnat:
+          return Constants.endpointSuffix.usnat;
+        case CloudType.mooncake:
+          return Constants.endpointSuffix.mooncake;
+
+        // NOTE (krmitta): For all the other cases we are returning the public endpoint
+        case CloudType.onprem:
+        // TODO (krmitta): Verify the onprem scenario - WI https://msazure.visualstudio.com/Antares/_workitems/edit/8862802
+        case CloudType.public:
+        default:
+          return Constants.endpointSuffix.public;
+      }
+    } else {
+      return Constants.endpointSuffix.public;
+    }
   }
 
   private async getAADTokenFromMSI(endpoint: string, secret: string, resource: string) {

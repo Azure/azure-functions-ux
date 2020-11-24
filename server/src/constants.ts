@@ -19,4 +19,12 @@ export class Constants {
     'en-us': 'en',
     'en-gb': 'en',
   };
+  static endpointSuffix = {
+    mooncake: 'core.chinacloudapi.cn',
+    farifax: 'core.usgovcloudapi.net',
+    blackforest: 'core.cloudapi.de',
+    ussec: 'core.microsoft.scloud',
+    usnat: 'core.eaglex.ic.gov',
+    public: 'core.windows.net',
+  };
 }
