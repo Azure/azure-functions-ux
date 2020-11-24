@@ -126,6 +126,42 @@ export interface DevOpsAccount {
   StatusReason?: string;
 }
 
+export interface DevOpsBuildDefinition {
+  repository: DevOpsBuildDefinitionRepository;
+}
+
+export interface DevOpsBuildDefinitionRepository {
+  url: string;
+  name: string;
+  defaultBranch: string;
+}
+
+export interface DevOpsRepository {
+  id: string;
+  name: string;
+  remoteUrl: string;
+  size: number;
+  sshUrl: string;
+  url: string;
+  webUrl: string;
+}
+
+export interface DevOpsRepositories {
+  count: number;
+  value: DevOpsRepository[];
+}
+
+export interface DevOpsBranch {
+  name: string;
+  objectId: string;
+  url: string;
+}
+
+export interface DevOpsBranches {
+  count: number;
+  value: DevOpsBranch[];
+}
+
 export interface AuthenticatedUserContext {
   authenticatedUser: AuthenticatedUser;
   authorizedUser: AuthorizedUser;
