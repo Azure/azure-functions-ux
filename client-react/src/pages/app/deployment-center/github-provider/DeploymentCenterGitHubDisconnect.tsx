@@ -11,7 +11,13 @@ import {
   WorkflowFileDeleteOptions,
   WorkflowChoiceGroupOption,
 } from '../DeploymentCenter.types';
-import { getWorkflowFileName, getWorkflowFilePath, getLogId } from '../utility/DeploymentCenterUtility';
+import {
+  getWorkflowFileName,
+  getWorkflowFilePath,
+  getLogId,
+  getSourceControlsWorkflowFilePath,
+  getSourceControlsWorkflowFileName,
+} from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import ActionBar from '../../../../components/ActionBar';
@@ -21,26 +27,28 @@ import { LogCategories } from '../../../../utils/LogCategories';
 const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnectProps> = props => {
   const { branch, org, repo, repoUrl, formProps } = props;
   const { t } = useTranslation();
-  const [isDisconnectPanelOpen, setIsDisconnectPanelOpen] = useState<boolean>(false);
-  const [selectedWorkflowOption, setSelectedWorkflowOption] = useState<WorkflowFileDeleteOptions>(WorkflowFileDeleteOptions.Preserve);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [workflowConfigExists, setWorkflowConfigExists] = useState<boolean>(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
 
-  const workflowFileName = getWorkflowFileName(
+  const workflowFile = getWorkflowFileName(
+    branch,
+    deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+    deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+  );
+  const workflowPath = getWorkflowFilePath(
     branch,
     deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
     deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
   );
 
-  const workflowFilePath = getWorkflowFilePath(
-    branch,
-    deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
-    deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
-  );
+  const [isDisconnectPanelOpen, setIsDisconnectPanelOpen] = useState<boolean>(false);
+  const [selectedWorkflowOption, setSelectedWorkflowOption] = useState<WorkflowFileDeleteOptions>(WorkflowFileDeleteOptions.Preserve);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [workflowConfigExists, setWorkflowConfigExists] = useState<boolean>(false);
+  const [workflowFileName, setWorkflowFileName] = useState<string>(workflowFile);
+  const [workflowFilePath, setWorkflowFilePath] = useState<string>(workflowPath);
 
   const showDisconnectPanel = () => {
     setSelectedWorkflowOption(WorkflowFileDeleteOptions.Preserve);
@@ -81,7 +89,10 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
 
   const clearSCMSettings = async (deleteWorkflowDuringDisconnect: boolean, deploymentDisconnectStatus: DeploymentDisconnectStatus) => {
     if (deploymentDisconnectStatus.isSuccessful) {
-      const deleteSourceControlDetailsResponse = await deploymentCenterData.deleteSourceControlDetails(deploymentCenterContext.resourceId);
+      const deleteSourceControlDetailsResponse = await deploymentCenterData.deleteSourceControlDetails(
+        deploymentCenterContext.resourceId,
+        deleteWorkflowDuringDisconnect
+      );
       if (!deleteSourceControlDetailsResponse.metadata.success) {
         LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterGitHubDisconnect', 'clearSCMSettings'), {
           error: deleteSourceControlDetailsResponse.metadata.error,
@@ -166,6 +177,20 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
   const fetchWorkflowConfiguration = async () => {
     setIsLoading(true);
 
+    //(Note stpelleg): Apps deployed to production slot can have siteDescriptor.slot of undefined
+    const isProductionSlot =
+      deploymentCenterContext.siteDescriptor &&
+      (!deploymentCenterContext.siteDescriptor.slot || deploymentCenterContext.siteDescriptor.slot.toLocaleLowerCase() === 'production');
+    if (isProductionSlot) {
+      await fetchAppAndSourceControlsWorkflowConfiguration();
+    } else {
+      await fetchAppOnlyWorkflowConfiguration();
+    }
+
+    setIsLoading(false);
+  };
+
+  const fetchAppOnlyWorkflowConfiguration = async () => {
     const appWorkflowConfigurationResponse = await deploymentCenterData.getWorkflowConfiguration(
       org,
       repo,
@@ -175,7 +200,37 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     );
 
     setWorkflowConfigExists(appWorkflowConfigurationResponse.metadata.success);
-    setIsLoading(false);
+  };
+
+  //(Note stpelleg): Apps deployed to production using the source controls API have a different workflow file name
+  // format than ones deployed through the deployment center, so we need two checks for the workflow file.
+  const fetchAppAndSourceControlsWorkflowConfiguration = async () => {
+    const sourceControlsWorkflowFilePath = getSourceControlsWorkflowFilePath(
+      branch,
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+      'production'
+    );
+
+    const [appWorkflowConfigurationResponse, sourceControlsWorkflowConfigurationResponse] = await Promise.all([
+      deploymentCenterData.getWorkflowConfiguration(org, repo, branch, workflowFilePath, deploymentCenterContext.gitHubToken),
+      deploymentCenterData.getWorkflowConfiguration(org, repo, branch, sourceControlsWorkflowFilePath, deploymentCenterContext.gitHubToken),
+    ]);
+
+    if (appWorkflowConfigurationResponse.metadata.success) {
+      setWorkflowConfigExists(appWorkflowConfigurationResponse.metadata.success);
+    } else if (sourceControlsWorkflowConfigurationResponse.metadata.success) {
+      setWorkflowConfigExists(sourceControlsWorkflowConfigurationResponse.metadata.success);
+      setWorkflowFilePath(sourceControlsWorkflowFilePath);
+      setWorkflowFileName(
+        getSourceControlsWorkflowFileName(
+          branch,
+          deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+          'production'
+        )
+      );
+    } else {
+      setWorkflowConfigExists(false);
+    }
   };
 
   const options: WorkflowChoiceGroupOption[] = [

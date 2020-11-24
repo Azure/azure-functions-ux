@@ -77,8 +77,8 @@ export default class DeploymentCenterData {
     return SiteService.getSourceControlDetails(resourceId);
   };
 
-  public deleteSourceControlDetails = (resourceId: string) => {
-    return SiteService.deleteSourceControlDetails(resourceId);
+  public deleteSourceControlDetails = (resourceId: string, deleteWorkflow: boolean = true) => {
+    return SiteService.deleteSourceControlDetails(resourceId, deleteWorkflow);
   };
 
   public updateSourceControlDetails = (resourceId: string, body: any) => {
