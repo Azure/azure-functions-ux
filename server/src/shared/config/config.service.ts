@@ -1,5 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import * as dotenv from 'dotenv';
+import { Constants } from '../../constants';
 import { HttpService } from '../../shared/http/http.service';
 import { CloudType, StaticAngularConfig, StaticReactConfig } from '../../types/config';
 export const KeyvaultApiVersion = '2016-10-01';
@@ -64,22 +65,22 @@ export class ConfigService implements OnModuleInit {
   get endpointSuffix(): string {
     const config = this.staticReactConfig;
     if (config.env.cloud === CloudType.fairfax) {
-      return 'core.usgovcloudapi.net';
+      return Constants.endpointSuffix.farifax;
     }
     if (config.env.cloud === CloudType.mooncake) {
-      return 'core.chinacloudapi.cn';
+      return Constants.endpointSuffix.mooncake;
     }
     if (config.env.cloud === CloudType.blackforest) {
-      return 'core.cloudapi.de';
+      return Constants.endpointSuffix.blackforest;
     }
     if (config.env.cloud === CloudType.usnat) {
-      return 'core.eaglex.ic.gov';
+      return Constants.endpointSuffix.usnat;
     }
     if (config.env.cloud === CloudType.ussec) {
-      return 'core.microsoft.scloud';
+      return Constants.endpointSuffix.ussec;
     }
     // TODO (krmitta): Verify the onprem scenario - WI https://msazure.visualstudio.com/Antares/_workitems/edit/8862802
-    return 'core.windows.net';
+    return Constants.endpointSuffix.public;
   }
 
   private async getAADTokenFromMSI(endpoint: string, secret: string, resource: string) {
