@@ -32,24 +32,23 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
   const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
 
+  const workflowFile = getWorkflowFileName(
+    branch,
+    deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+    deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+  );
+  const workflowPath = getWorkflowFilePath(
+    branch,
+    deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+    deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+  );
+
   const [isDisconnectPanelOpen, setIsDisconnectPanelOpen] = useState<boolean>(false);
   const [selectedWorkflowOption, setSelectedWorkflowOption] = useState<WorkflowFileDeleteOptions>(WorkflowFileDeleteOptions.Preserve);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [workflowConfigExists, setWorkflowConfigExists] = useState<boolean>(false);
-  const [workflowFileName, setWorkflowFileName] = useState<string>(
-    getWorkflowFileName(
-      branch,
-      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
-      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
-    )
-  );
-  const [workflowFilePath, setWorkflowFilePath] = useState<string>(
-    getWorkflowFilePath(
-      branch,
-      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
-      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
-    )
-  );
+  const [workflowFileName, setWorkflowFileName] = useState<string>(workflowFile);
+  const [workflowFilePath, setWorkflowFilePath] = useState<string>(workflowPath);
 
   const showDisconnectPanel = () => {
     setSelectedWorkflowOption(WorkflowFileDeleteOptions.Preserve);
@@ -178,6 +177,20 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
   const fetchWorkflowConfiguration = async () => {
     setIsLoading(true);
 
+    //(Note stpelleg): Apps deployed to production slot can have siteDescriptor.slot of undefined
+    const isProductionSlot =
+      deploymentCenterContext.siteDescriptor &&
+      (!deploymentCenterContext.siteDescriptor.slot || deploymentCenterContext.siteDescriptor.slot.toLocaleLowerCase() === 'production');
+    if (isProductionSlot) {
+      await fetchAppAndSourceControlsWorkflowConfiguration();
+    } else {
+      await fetchAppOnlyWorkflowConfiguration();
+    }
+
+    setIsLoading(false);
+  };
+
+  const fetchAppOnlyWorkflowConfiguration = async () => {
     const appWorkflowConfigurationResponse = await deploymentCenterData.getWorkflowConfiguration(
       org,
       repo,
@@ -186,33 +199,26 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
       deploymentCenterContext.gitHubToken
     );
 
-    if (appWorkflowConfigurationResponse.metadata.success) {
-      setWorkflowConfigExists(appWorkflowConfigurationResponse.metadata.success);
-    } else {
-      await fetchSourceControlsWorkflowConfiguration();
-    }
-
-    setIsLoading(false);
+    setWorkflowConfigExists(appWorkflowConfigurationResponse.metadata.success);
   };
 
-  const fetchSourceControlsWorkflowConfiguration = async () => {
+  const fetchAppAndSourceControlsWorkflowConfiguration = async () => {
     const sourceControlsWorkflowFilePath = getSourceControlsWorkflowFilePath(
       branch,
       deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
       'production'
     );
 
-    const sourceControlsWorkflowConfigurationResponse = await deploymentCenterData.getWorkflowConfiguration(
-      org,
-      repo,
-      branch,
-      sourceControlsWorkflowFilePath,
-      deploymentCenterContext.gitHubToken
-    );
+    const [appWorkflowConfigurationResponse, sourceControlsWorkflowConfigurationResponse] = await Promise.all([
+      deploymentCenterData.getWorkflowConfiguration(org, repo, branch, workflowFilePath, deploymentCenterContext.gitHubToken),
+      deploymentCenterData.getWorkflowConfiguration(org, repo, branch, sourceControlsWorkflowFilePath, deploymentCenterContext.gitHubToken),
+    ]);
 
-    setWorkflowConfigExists(sourceControlsWorkflowConfigurationResponse.metadata.success);
-
-    if (sourceControlsWorkflowConfigurationResponse.metadata.success) {
+    if (appWorkflowConfigurationResponse.metadata.success) {
+      setWorkflowConfigExists(appWorkflowConfigurationResponse.metadata.success);
+    } else if (sourceControlsWorkflowConfigurationResponse.metadata.success) {
+      setWorkflowConfigExists(sourceControlsWorkflowConfigurationResponse.metadata.success);
+      setWorkflowFilePath(sourceControlsWorkflowFilePath);
       setWorkflowFileName(
         getSourceControlsWorkflowFileName(
           branch,
@@ -220,8 +226,8 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
           'production'
         )
       );
-
-      setWorkflowFilePath(sourceControlsWorkflowFilePath);
+    } else {
+      setWorkflowConfigExists(false);
     }
   };
 

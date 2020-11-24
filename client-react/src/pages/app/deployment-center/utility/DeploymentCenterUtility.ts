@@ -136,7 +136,7 @@ export const getWorkflowFileName = (branch: string, siteName: string, slotName?:
 
 export const getSourceControlsWorkflowFileName = (branch: string, siteName: string, slotName?: string): string => {
   const normalizedBranchName = branch.split('/').join('-');
-  return `${normalizedBranchName}-${siteName}(${slotName}).yml`;
+  return slotName ? `${normalizedBranchName}-${siteName}(${slotName}).yml` : `${normalizedBranchName}-${siteName}.yml`;
 };
 
 export const getSourceControlsWorkflowFilePath = (branch: string, siteName: string, slotName?: string): string => {
