@@ -42,7 +42,7 @@ export abstract class DeploymentCenterFormBuilder {
 
   protected generateCommonFormYupValidationSchema() {
     // NOTE(michinoy): The password should be at least eight characters long and must contain letters, numbers, and symbol.
-    const passwordMinimumRequirementsRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
+    const passwordMinimumRequirementsRegex = new RegExp(/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})$/);
     const usernameMinLength = 3;
 
     return {
