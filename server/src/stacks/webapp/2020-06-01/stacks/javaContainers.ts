@@ -12,6 +12,11 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
           displayText: 'Java SE 11',
           value: '11',
           stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'JAVA',
+              javaContainerVersion: '11',
+              isAutoUpdate: true,
+            },
             linuxContainerSettings: {
               java11Runtime: 'JAVA|11-java11',
               isAutoUpdate: true,
