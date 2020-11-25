@@ -16,8 +16,11 @@ import { KeyValue } from '../../../models/portal-models';
 import { SourceControlOptions } from './DeploymentCenter.types';
 import DropboxService from '../../../ApiHelpers/DropboxService';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
+import AzureDevOpsService from '../../../AzureDevOpsService';
 
 export default class DeploymentCenterData {
+  private _azureDevOpsService = new AzureDevOpsService();
+
   public fetchContainerLogs = (resourceId: string) => {
     return ContainerLogsService.fetchContainerLogs(resourceId);
   };
@@ -74,8 +77,8 @@ export default class DeploymentCenterData {
     return SiteService.getSourceControlDetails(resourceId);
   };
 
-  public deleteSourceControlDetails = (resourceId: string) => {
-    return SiteService.deleteSourceControlDetails(resourceId);
+  public deleteSourceControlDetails = (resourceId: string, deleteWorkflow: boolean = true) => {
+    return SiteService.deleteSourceControlDetails(resourceId, deleteWorkflow);
   };
 
   public updateSourceControlDetails = (resourceId: string, body: any) => {
@@ -261,5 +264,13 @@ export default class DeploymentCenterData {
 
   public updateApplicationSettings = (resourceId: string, appSettings: ArmObj<{ [name: string]: string }>) => {
     return SiteService.updateApplicationSettings(resourceId, appSettings);
+  };
+
+  public getAzureDevOpsUrl = () => {
+    return this._azureDevOpsService.getAzureDevOpsUrl();
+  };
+
+  public getAzureDevOpsBuildDef = (accountName: string, buildDefinitionProjectUrl: string, buildDefinitionId: string) => {
+    return this._azureDevOpsService.getBuildDef(accountName, buildDefinitionProjectUrl, buildDefinitionId);
   };
 }

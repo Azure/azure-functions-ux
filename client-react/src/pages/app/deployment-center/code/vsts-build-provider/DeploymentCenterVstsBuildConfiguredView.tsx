@@ -2,7 +2,6 @@ import { Icon, Link, MessageBarType } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
-import AzureDevOpsService from '../../../../../AzureDevOpsService';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import ReactiveFormControl from '../../../../../components/form-controls/ReactiveFormControl';
 import { KeyValue } from '../../../../../models/portal-models';
@@ -55,12 +54,16 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<{}> = props => {
           buildDefinitionProjectUrl = buildDefinitionUrl.substring(0, buildDefinitionUrl.indexOf('/_build?'));
         } else {
           accountName = getVSOAccountNameFromUrl(vstsMetadata['VSTSRM_ConfiguredCDEndPoint']);
-          buildDefinitionProjectUrl = `${AzureDevOpsService.getAzureDevOpsUrl().Tfs}${accountName}/${vstsMetadata['VSTSRM_ProjectId']}`;
+          buildDefinitionProjectUrl = `${deploymentCenterData.getAzureDevOpsUrl().Tfs}${accountName}/${vstsMetadata['VSTSRM_ProjectId']}`;
         }
 
         setVstsAccountName(accountName);
 
-        const devOpsInfoResponse = await AzureDevOpsService.getBuildDef(accountName, buildDefinitionProjectUrl, buildDefinitionId);
+        const devOpsInfoResponse = await deploymentCenterData.getAzureDevOpsBuildDef(
+          accountName,
+          buildDefinitionProjectUrl,
+          buildDefinitionId
+        );
         if (devOpsInfoResponse.metadata.success && devOpsInfoResponse.data.repository) {
           setRepoUrl(devOpsInfoResponse.data.repository.url);
           setRepo(devOpsInfoResponse.data.repository.name);
@@ -81,7 +84,7 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<{}> = props => {
   };
 
   const getVSOAccountNameFromUrl = (url: string): string => {
-    const devAzureCom: string = AzureDevOpsService.getAzureDevOpsUrl().Tfs.replace(new RegExp('https://|/', 'gi'), '');
+    const devAzureCom: string = deploymentCenterData.getAzureDevOpsUrl().Tfs.replace(new RegExp('https://|/', 'gi'), '');
     const endpointUri = new URL(url);
     if (endpointUri.host.includes(devAzureCom)) {
       return endpointUri.pathname.split('/')[1];

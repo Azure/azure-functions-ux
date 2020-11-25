@@ -67,7 +67,7 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
     super('DeploymentCredentialsComponent', injector);
     const requiredValidation = new RequiredValidator(this._translateService, true);
     const passwordValidator = RegexValidator.create(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, //The specified password does not meet the minimum requirements. The password should be at least eight characters long and must contain letters, numbers, and symbols.
+      /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})$/, //The specified password does not meet the minimum requirements. The password should be at least eight characters long and must contain letters, numbers, and symbols.
       this._translateService.instant(PortalResources.userCredsError)
     );
     this.userPasswordForm = fb.group({
