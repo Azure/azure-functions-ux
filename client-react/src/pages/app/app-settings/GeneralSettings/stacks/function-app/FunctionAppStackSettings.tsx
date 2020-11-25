@@ -15,11 +15,12 @@ import {
   getStackVersionConfigPropertyName,
   getStackVersionDropdownOptions,
 } from './FunctionAppStackSettings.data';
-import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
 import { settingsWrapper } from '../../../AppSettingsForm';
 import { Links } from '../../../../../../utils/FwLinks';
 import TextField from '../../../../../../components/form-controls/TextField';
+import { IDropdownOption } from 'office-ui-fabric-react';
+import { FormAppSetting } from '../../../AppSettings.types';
 
 const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();
@@ -36,6 +37,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const [runtimeStack, setRuntimeStack] = useState<string | undefined>(undefined);
   const [currentStackData, setCurrentStackData] = useState<FunctionAppStack | undefined>(undefined);
   const [initialStackVersion, setInitialStackVersion] = useState<string | undefined>(undefined);
+  const [selectedMajorVersion, setSelectedMajorVersion] = useState<string | undefined>(undefined);
 
   const getInitialStack = () => {
     return initialValues.currentlySelectedStack;
@@ -62,7 +64,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const setInitialData = () => {
     const runtimeStack = getInitialStack();
-    if (runtimeStack && functionAppStacksContext.length > 0) {
+    if (!isLinux() && runtimeStack && functionAppStacksContext.length > 0) {
       setRuntimeStack(runtimeStack);
       setInitialStackData(runtimeStack);
     }
@@ -75,6 +77,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
         for (const minorVersion of majorVersion.minorVersions) {
           const settings = isLinux() ? minorVersion.stackSettings.linuxRuntimeSettings : minorVersion.stackSettings.windowsRuntimeSettings;
           if (!!settings && settings.appSettingsDictionary.FUNCTIONS_WORKER_RUNTIME === runtimeStack) {
+            setSelectedMajorVersion(settings.runtimeVersion);
             setCurrentStackData(stack);
             return;
           }
@@ -85,10 +88,21 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const isVersionDirty = () => {
     const stackVersionProperty = getConfigProperty(runtimeStack);
-    return !!values.config && values.config.properties[stackVersionProperty] !== initialStackVersion;
+    if (isWindowsNodeApp()) {
+      return (
+        !!initialValues.appSettings &&
+        !!values.appSettings &&
+        initialValues.appSettings[CommonConstants.AppSettingNames.websiteNodeDefaultVersion] ===
+          values.appSettings[CommonConstants.AppSettingNames.websiteNodeDefaultVersion]
+      );
+    } else {
+      return !!values.config && values.config.properties[stackVersionProperty] !== initialStackVersion;
+    }
   };
 
   const isWindowsContainer = () => !siteStateContext.site || (!isLinux() && isContainerApp(siteStateContext.site));
+
+  const isWindowsNodeApp = () => !isLinux() && runtimeStack && runtimeStack.toLowerCase() === WorkerRuntimeLanguages.nodejs;
 
   const isMajorVersionVisible = () => {
     return runtimeStack !== WorkerRuntimeLanguages.custom;
@@ -102,6 +116,25 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     return (
       siteStateContext.site && !isContainerApp(siteStateContext.site) && runtimeStack && !isDotNetApp(runtimeStack) && currentStackData
     );
+  };
+
+  const onMajorVersionChange = (_, option: IDropdownOption) => {
+    setSelectedMajorVersion(option.key as string);
+    if (isWindowsNodeApp()) {
+      const versionData = option.data;
+      if (
+        versionData &&
+        versionData.appSettingsDictionary &&
+        versionData.appSettingsDictionary[CommonConstants.AppSettingNames.websiteNodeDefaultVersion]
+      ) {
+        const appSettings: FormAppSetting[] = [...values.appSettings];
+        appSettings[CommonConstants.AppSettingNames.websiteNodeDefaultVersion] =
+          versionData.appSettingsDictionary[CommonConstants.AppSettingNames.websiteNodeDefaultVersion];
+        props.setFieldValue('appSettings', appSettings);
+      }
+    } else {
+      props.setFieldValue(`config.properties.${getConfigProperty(runtimeStack)}`, option.key);
+    }
   };
 
   const getStackDropdownComponent = () => {
@@ -121,11 +154,11 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
             label={t('stack')}
           />
           {isMajorVersionVisible() && (
-            <Field
+            <DropdownNoFormik
               id="function-app-stack-major-version"
-              name={`config.properties.${getConfigProperty(runtimeStack)}`}
+              selectedKey={selectedMajorVersion}
+              onChange={onMajorVersionChange}
               dirty={isVersionDirty()}
-              component={Dropdown}
               disabled={disableAllControls}
               label={t('versionLabel').format(currentStackData.displayText)}
               options={getStackVersionDropdownOptions(
