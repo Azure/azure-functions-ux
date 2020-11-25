@@ -44,7 +44,7 @@ export function validatePythonStack(stacks) {
   expect(pythonStack.displayText).to.equal('Python');
   expect(pythonStack.value).to.equal('python');
   expect(pythonStack.sortOrder).to.equal(2);
-  expect(pythonStack.versions.length).to.equal(3);
+  expect(pythonStack.versions.length).to.equal(4);
   expect(pythonStack).to.deep.equal(hardCodedPythonStack);
 }
 
