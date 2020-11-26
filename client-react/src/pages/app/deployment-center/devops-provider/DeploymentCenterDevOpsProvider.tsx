@@ -2,7 +2,7 @@ import { Field } from 'formik';
 import { Dropdown } from 'office-ui-fabric-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterCodeFormData, DeploymentCenterDevOpsProviderProps } from '../DeploymentCenter.types';
+import { DeploymentCenterDevOpsProviderProps } from '../DeploymentCenter.types';
 
 const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderProps> = props => {
   const {
