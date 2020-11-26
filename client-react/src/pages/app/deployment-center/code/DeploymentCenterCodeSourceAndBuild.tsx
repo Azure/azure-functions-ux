@@ -55,6 +55,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       { key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') },
       { key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') },
       { key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') },
+      { key: ScmType.Vsts, text: t('deploymentCenterCodeSettingsSourceAzureRepos') },
       { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
     ];
   };

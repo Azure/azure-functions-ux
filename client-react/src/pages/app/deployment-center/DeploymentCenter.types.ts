@@ -241,6 +241,7 @@ export interface DeploymentCenterCommonFormData {
   oneDriveUser?: OneDriveUser;
   dropboxUser?: DropboxUser;
   folder?: string;
+  devOpsProject?: string;
 }
 
 export interface AcrFormData {
@@ -470,7 +471,7 @@ export interface RuntimeStackSetting {
   runtimeVersion: string;
 }
 
-export class ContainerWorkflowInformation {
+export interface ContainerWorkflowInformation {
   fileName: string;
   content: string;
   publishingProfileSecretName: string;
@@ -478,7 +479,7 @@ export class ContainerWorkflowInformation {
   containerPasswordSecretName: string;
 }
 
-export class CodeWorkflowInformation {
+export interface CodeWorkflowInformation {
   fileName: string;
   secretName: string;
   content: string;
@@ -550,4 +551,16 @@ export interface DeploymentCenterDropboxProviderProps<T = DeploymentCenterContai
   loadingFolders: boolean;
   accountStatusMessage?: string;
   accountUser?: DropboxUser;
+}
+
+export interface DeploymentCenterDevOpsProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  organizationOptions: IDropdownOption[];
+  projectOptions: IDropdownOption[];
+  repositoryOptions: IDropdownOption[];
+  branchOptions: IDropdownOption[];
+  loadingOrganizations: boolean;
+  loadingProjects: boolean;
+  loadingRepositories: boolean;
+  loadingBranches: boolean;
 }

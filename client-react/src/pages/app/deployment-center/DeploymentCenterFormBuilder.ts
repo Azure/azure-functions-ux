@@ -37,6 +37,7 @@ export abstract class DeploymentCenterFormBuilder {
       bitbucketUser: undefined,
       gitHubPublishProfileSecretGuid: '',
       externalRepoType: RepoTypeOptions.Public,
+      devOpsProject: '',
     };
   }
 
@@ -68,7 +69,8 @@ export abstract class DeploymentCenterFormBuilder {
       org: Yup.mixed().test('organizationRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.sourceProvider === ScmType.GitHubAction ||
           this.parent.sourceProvider === ScmType.GitHub ||
-          this.parent.sourceProvider === ScmType.BitbucketGit
+          this.parent.sourceProvider === ScmType.BitbucketGit ||
+          this.parent.sourceProvider === ScmType.Vsts
           ? !!value
           : true;
       }),
@@ -77,7 +79,8 @@ export abstract class DeploymentCenterFormBuilder {
           return this.parent.sourceProvider === ScmType.GitHubAction ||
             this.parent.sourceProvider === ScmType.GitHub ||
             this.parent.sourceProvider === ScmType.BitbucketGit ||
-            this.parent.sourceProvider === ScmType.ExternalGit
+            this.parent.sourceProvider === ScmType.ExternalGit ||
+            this.parent.sourceProvider === ScmType.Vsts
             ? !!value
             : true;
         })
@@ -88,7 +91,8 @@ export abstract class DeploymentCenterFormBuilder {
         return this.parent.sourceProvider === ScmType.GitHubAction ||
           this.parent.sourceProvider === ScmType.GitHub ||
           this.parent.sourceProvider === ScmType.BitbucketGit ||
-          this.parent.sourceProvider === ScmType.ExternalGit
+          this.parent.sourceProvider === ScmType.ExternalGit ||
+          this.parent.sourceProvider === ScmType.Vsts
           ? !!value
           : true;
       }),
@@ -102,6 +106,9 @@ export abstract class DeploymentCenterFormBuilder {
         return this.parent.externalRepoType === RepoTypeOptions.Private ? !!value : true;
       }),
       externalRepoType: Yup.mixed().notRequired(),
+      devOpsProject: Yup.mixed().test('projectRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.sourceProvider === ScmType.Vsts ? !!value : true;
+      }),
     };
   }
 
