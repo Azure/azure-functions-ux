@@ -12,7 +12,7 @@ declare module 'office-ui-fabric-react/lib/TeachingBubble' {
 
 interface Environment {
   hostName: string;
-  runtimeType: 'OnPrem' | 'Azure' | 'Standalone';
+  runtimeType: 'OnPrem' | 'Azure';
   azureResourceManagerEndpoint?: string;
   armToken?: string;
   appName: string;
