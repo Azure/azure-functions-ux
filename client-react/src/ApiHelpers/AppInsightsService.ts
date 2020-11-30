@@ -380,7 +380,7 @@ export default class AppInsightsService {
       body,
       resourceId: `/providers/Microsoft.ResourceGraph/resources`,
       commandName: 'getAppInsightsComponentFromConnectionString',
-      apiVersion: CommonConstants.ApiVersions.resourceGraphApiVersion,
+      apiVersion: CommonConstants.ApiVersions.resourceGraphApiVersion20180901preview,
       method: 'POST',
     }).then(response => {
       let success = false;
@@ -411,7 +411,7 @@ export default class AppInsightsService {
       body,
       resourceId: `/providers/Microsoft.ResourceGraph/resources`,
       commandName: 'getAppInsightsComponentFromInstrumentationKey',
-      apiVersion: CommonConstants.ApiVersions.resourceGraphApiVersion,
+      apiVersion: CommonConstants.ApiVersions.resourceGraphApiVersion20180901preview,
       method: 'POST',
     }).then(response => {
       let success = false;
