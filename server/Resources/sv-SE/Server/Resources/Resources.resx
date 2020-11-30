@@ -5976,6 +5976,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Kommandot Omdistribuera distributionscenter</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Omdistribution/synkronisering</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Det gick inte att hämta information</value>
     </data>
@@ -6820,6 +6823,18 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Isolerad V2 stöds inte för den här skalningsenheten. Distribuera om eller klona din app.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Du kan inte gå tillbaka till ~2 efter att du har uppgraderat till ~3 eftersom den underliggande körningen är enhetlig kring ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Containertyp</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Ogiltig YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Välj fi</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Det gick inte att hämta värdstatus för din funktionsapp. Om du vill använda logga direktuppspelning kontrollerar du att funktionsvärden körs.</value>
     </data>
 </root>

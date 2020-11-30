@@ -5976,6 +5976,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Commande de redéploiement du centre de déploiement</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Redéployer/synchroniser</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Erreur de récupération des informations</value>
     </data>
@@ -6820,6 +6823,18 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Isolé V2 n'est pas pris en charge pour cette unité d'échelle. Redéployez ou clonez votre application.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Vous ne pouvez pas revenir à ~2 après la mise à niveau vers ~3, car le runtime sous-jacent est unifié autour de ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Type de conteneur</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML non valide</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Choisir un fichier</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Impossible de récupérer l'état de l'hôte de votre application de fonction. Pour utiliser le streaming de journaux, vérifiez que votre hôte de fonction est en cours d'exécution.</value>
     </data>
 </root>

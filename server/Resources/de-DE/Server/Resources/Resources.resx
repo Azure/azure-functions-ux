@@ -5976,6 +5976,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Bereitstellungscenter-Befehl zum erneuten Bereitstellen</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Erneut bereitstellen/synchronisieren</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Fehler beim Abrufen von Informationen.</value>
     </data>
@@ -6820,6 +6823,18 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>"Isoliert V2" wird für diese Skalierungseinheit nicht unterstützt. Erwägen Sie eine erneute Bereitstellung, oder klonen Sie ggf. Ihre App.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Sie können nach dem Upgrade auf ~3 nicht mehr zu ~2 zurückkehren, weil die zugrunde liegende Runtime basierend auf ~3 vereinheitlicht wurde.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Containertyp</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Ungültige YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Datei auswählen</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Der Hoststatus Ihrer Funktions-App kann nicht abgerufen werden. Stellen Sie zur Verwendung des Protokollstreamings sicher, dass der Funktionshost ausgeführt wird.</value>
     </data>
 </root>

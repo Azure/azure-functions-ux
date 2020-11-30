@@ -5976,6 +5976,9 @@
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>部署中心重新部署命令</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>重新部署/同步</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>擷取資訊時發生錯誤</value>
     </data>
@@ -6820,6 +6823,18 @@
         <value>此縮放單位不支援隔離式方案 V2。請考慮重新部署或複製您的應用程式。</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>升級為 ~3 之後，就無法回到 ~2，因為基礎執行階段已依據 ~3 整合。</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>容器類型</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML 無效</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>選擇檔案</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>無法擷取函數應用程式的主機狀態。若要使用記錄串流，請確定您的函數主機正在執行。</value>
     </data>
 </root>
