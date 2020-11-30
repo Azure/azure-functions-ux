@@ -5976,6 +5976,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Comando de reimplantação do centro de implantação</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Reimplantar/Sincronizar</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Erro ao buscar informações</value>
     </data>
@@ -6820,6 +6823,18 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Não há suporte para o Isolado V2 nesta unidade de escala. Considere reimplantar ou clonar o aplicativo.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Não será possível retroceder para ~2 após a atualização para ~3, pois o runtime subjacente é unificado em torno de ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Tipo de Contêiner</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML inválido</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Escolher um arquivo</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Não é possível buscar o status do host do aplicativo de funções. Para usar o streaming de log, verifique se o host da função está em execução.</value>
     </data>
 </root>

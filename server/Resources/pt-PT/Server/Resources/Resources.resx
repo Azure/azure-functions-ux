@@ -5976,6 +5976,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Comando para reimplementar do centro de implementações</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Reimplementar/Sincronizar</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Erro ao obter informações</value>
     </data>
@@ -6820,6 +6823,18 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>O V2 Isolado não é suportado por esta unidade de escala. Considere voltar a implementar ou clonar a aplicação.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Não poderá voltar a ~2 após a atualização para ~3, uma vez que o runtime subjacente é unificado a cerca de ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Tipo de Contentor</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML inválido</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Escolher ficheiro</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Não é possível obter o estado de anfitrião da sua aplicação de funções. Para utilizar a transmissão de registos, certifique-se de que o anfitrião da função está em execução.</value>
     </data>
 </root>

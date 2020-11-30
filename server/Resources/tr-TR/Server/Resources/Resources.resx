@@ -5976,6 +5976,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Dağıtım merkezi yeniden dağıtma komutu</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Yeniden Dağıt/Eşitle</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Bilgiler getirilirken hata oluştu</value>
     </data>
@@ -6820,6 +6823,18 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Yalıtılmış V2 bu ölçek birimi için desteklenmiyor. Uygulamanızı yeniden dağıtabilir veya kopyalayabilirsiniz.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Temel alınan çalışma zamanı ~3 sürümünde birleştirildiğinden ~ 3 sürümüne yükselttikten sonra ~ 2 sürümüne geri dönemezsiniz.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Kapsayıcı Türü</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Geçersiz YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Dosya seçin</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>İşlev uygulamanızın ana bilgisayar durumu getirilemiyor. Günlük akışını kullanmak için lütfen işlev ana bilgisayarınızın çalıştığından emin olun.</value>
     </data>
 </root>

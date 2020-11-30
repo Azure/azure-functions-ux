@@ -5976,6 +5976,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Comando de reimplementación del centro de implementación</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Volver a implementar/sincronizar</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Error al capturar la información</value>
     </data>
@@ -6821,5 +6824,17 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
         <value>No podrá volver a ~2 después de actualizar a ~3 porque el entorno en tiempo de ejecución subyacente se unifica alrededor de ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Tipo de contenedor</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML no válido</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Elegir archivo</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>No se puede capturar el estado de host de la aplicación de función. Para usar el streaming de registro, asegúrese de que el host de la función se esté ejecutando.</value>
     </data>
 </root>

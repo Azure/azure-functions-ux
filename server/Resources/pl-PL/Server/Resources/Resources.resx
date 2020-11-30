@@ -5976,6 +5976,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Polecenie ponownego wdrażania w centrum wdrażania</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Wdróż ponownie/synchronizuj</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Błąd podczas pobierania informacji</value>
     </data>
@@ -6821,5 +6824,17 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
         <value>Nie będzie można przejść z powrotem do wersji ~2 po uaktualnieniu do wersji ~3, ponieważ bazowe środowisko uruchomieniowe jest ujednolicone wokół wersji ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Typ kontenera</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Nieprawidłowy plik YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Wybierz plik</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Nie można pobrać stanu hosta aplikacji funkcji. Aby korzystać z przesyłania strumieniowego dzienników, upewnij się, że host funkcji jest uruchomiony.</value>
     </data>
 </root>
