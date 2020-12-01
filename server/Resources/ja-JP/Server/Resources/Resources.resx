@@ -5976,6 +5976,9 @@
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>デプロイ センターの再デプロイ コマンド</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>再デプロイまたは同期</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>情報のフェッチでエラーが発生しました</value>
     </data>
@@ -6820,6 +6823,18 @@
         <value>このスケール ユニットでは Isolated V2 はサポートされていません。アプリの再デプロイまたは複製をご検討ください。</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>~3 にアップグレードした後は、基になるランタイムが ~3 を中心に統合されているため、~2 に戻ることはできません。</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>コンテナーの種類</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML が無効です</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>ファイルの選択</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>関数アプリのホストの状態をフェッチできません。ログ ストリーミングを使用するには、関数ホストが実行されていることをご確認ください。</value>
     </data>
 </root>

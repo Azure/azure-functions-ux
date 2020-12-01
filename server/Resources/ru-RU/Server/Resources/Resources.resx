@@ -5976,6 +5976,9 @@
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Команда повторного развертывания в Центре развертывания</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Повторное развертывание/синхронизация</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Ошибка при получении сведений</value>
     </data>
@@ -6820,6 +6823,18 @@
         <value>Категория "Изолированный версии 2" не поддерживается для этой единицы масштабирования. Попробуйте развернуть приложение повторно или клонировать его.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Вы не сможете вернуться к ~2 после обновления до ~3, так как базовая среда выполнения поддерживает ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Тип контейнера</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Недопустимый код YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Выберите файл</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Невозможно получить состояние узла для приложения-функции. Проверьте, что узел функций работает, чтобы использовать потоковую передачу журналов.</value>
     </data>
 </root>

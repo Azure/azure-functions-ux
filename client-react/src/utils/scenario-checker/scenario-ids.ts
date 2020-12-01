@@ -57,7 +57,6 @@ export class ScenarioIds {
   public static readonly headerOnTopOfSideNav = 'headerOnTopOfSideNav';
   public static readonly topBarWarning = 'TopBarWarning';
   public static readonly userMenu = 'UserMenu';
-  public static readonly standAloneUserMenu = 'StandAloneUserMenu';
   public static readonly useCustomFunctionInputPicker = 'UseCustomFunctionInputPicker';
   public static readonly quickStartLink = 'QuickStartLink';
   public static readonly webSocketsEnabled = 'WebSocketsEnabled';

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { FunctionAppStacksContext, PermissionsContext } from '../../../Contexts';
 import { FunctionAppStack } from '../../../../../../models/stacks/function-app-stacks';
 import { CommonConstants, WorkerRuntimeLanguages } from '../../../../../../utils/CommonConstants';
-import { findFormAppSettingValue } from '../../../AppSettingsFormData';
+import { addOrUpdateFormAppSetting, findFormAppSettingValue, findFormAppSettingIndex } from '../../../AppSettingsFormData';
 import { FunctionsRuntimeVersionHelper } from '../../../../../../utils/FunctionsRuntimeVersionHelper';
 import { SiteStateContext } from '../../../../../../SiteState';
 import { Field } from 'formik';
@@ -15,11 +15,13 @@ import {
   getStackVersionConfigPropertyName,
   getStackVersionDropdownOptions,
 } from './FunctionAppStackSettings.data';
-import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
 import { settingsWrapper } from '../../../AppSettingsForm';
 import { Links } from '../../../../../../utils/FwLinks';
 import TextField from '../../../../../../components/form-controls/TextField';
+import { IDropdownOption } from 'office-ui-fabric-react';
+import { AppSettingsFormValues, FormAppSetting } from '../../../AppSettings.types';
+import Dropdown from '../../../../../../components/form-controls/DropDown';
 
 const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();
@@ -36,16 +38,28 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const [runtimeStack, setRuntimeStack] = useState<string | undefined>(undefined);
   const [currentStackData, setCurrentStackData] = useState<FunctionAppStack | undefined>(undefined);
   const [initialStackVersion, setInitialStackVersion] = useState<string | undefined>(undefined);
+  const [selectedStackVersion, setSelectedStackVersion] = useState<string | undefined>(undefined);
+  const [dirtyState, setDirtyState] = useState(false);
 
   const getInitialStack = () => {
     return initialValues.currentlySelectedStack;
   };
 
-  const getInitialStackVersion = (stack?: string) => {
-    const stackVersionProperty = getConfigProperty(stack);
-    const stackVersion = initialValues.config && initialValues.config && initialValues.config.properties[stackVersionProperty];
+  const isWindowsNodeApp = () => !isLinux() && runtimeStack && runtimeStack.toLowerCase() === WorkerRuntimeLanguages.nodejs;
 
-    return !!stackVersion ? stackVersion : undefined;
+  const getStackVersion = (values: AppSettingsFormValues, stack?: string) => {
+    if (isWindowsNodeApp()) {
+      const index = findFormAppSettingIndex([...values.appSettings], CommonConstants.AppSettingNames.websiteNodeDefaultVersion);
+      if (index !== -1) {
+        return values.appSettings[index].value;
+      } else {
+        return undefined;
+      }
+    } else {
+      const stackVersionProperty = getConfigProperty(stack);
+      const stackVersion = values.config && values.config && values.config.properties[stackVersionProperty];
+      return !!stackVersion ? stackVersion : undefined;
+    }
   };
 
   const getConfigProperty = (runtimeStack?: string) => {
@@ -54,7 +68,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const filterStacks = (supportedStacks: FunctionAppStack[]) => {
     const initialStack = getInitialStack();
-    const initialStackVersion = getInitialStackVersion(initialStack);
+    const initialStackVersion = getStackVersion(initialValues, initialStack);
     return filterDeprecatedFunctionAppStack(supportedStacks, initialStack, initialStackVersion || '');
   };
 
@@ -62,11 +76,20 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const setInitialData = () => {
     const runtimeStack = getInitialStack();
-    if (runtimeStack && functionAppStacksContext.length > 0) {
+    if (!isLinux() && runtimeStack && functionAppStacksContext.length > 0) {
       setRuntimeStack(runtimeStack);
       setInitialStackData(runtimeStack);
     }
-    setInitialStackVersion(getInitialStackVersion(runtimeStack));
+    const initialStackVersion = getStackVersion(initialValues, runtimeStack);
+    setInitialStackVersion(initialStackVersion);
+    setSelectedStackVersion(initialStackVersion);
+    setDirtyState(false);
+  };
+
+  const setStackVersion = (values: AppSettingsFormValues) => {
+    const version = getStackVersion(values, runtimeStack);
+    setSelectedStackVersion(version);
+    setDirtyState(isVersionDirty());
   };
 
   const setInitialStackData = (runtimeStack: string) => {
@@ -84,8 +107,21 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   };
 
   const isVersionDirty = () => {
-    const stackVersionProperty = getConfigProperty(runtimeStack);
-    return !!values.config && values.config.properties[stackVersionProperty] !== initialStackVersion;
+    if (isWindowsNodeApp()) {
+      if (!!initialStackVersion && !!values.appSettings) {
+        const index = findFormAppSettingIndex([...values.appSettings], CommonConstants.AppSettingNames.websiteNodeDefaultVersion);
+        if (index !== -1) {
+          return values.appSettings[index].value !== initialStackVersion;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } else {
+      const stackVersionProperty = getConfigProperty(runtimeStack);
+      return !!values.config && values.config.properties[stackVersionProperty] !== initialStackVersion;
+    }
   };
 
   const isWindowsContainer = () => !siteStateContext.site || (!isLinux() && isContainerApp(siteStateContext.site));
@@ -102,6 +138,30 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     return (
       siteStateContext.site && !isContainerApp(siteStateContext.site) && runtimeStack && !isDotNetApp(runtimeStack) && currentStackData
     );
+  };
+
+  const onMajorVersionChange = (_, option: IDropdownOption) => {
+    setSelectedStackVersion(option.key as string);
+    if (isWindowsNodeApp()) {
+      const versionData = option.data;
+      if (
+        !!versionData &&
+        !!versionData.stackSettings &&
+        !!versionData.stackSettings.windowsRuntimeSettings &&
+        !!versionData.stackSettings.windowsRuntimeSettings.appSettingsDictionary &&
+        !!versionData.stackSettings.windowsRuntimeSettings.appSettingsDictionary[CommonConstants.AppSettingNames.websiteNodeDefaultVersion]
+      ) {
+        let appSettings: FormAppSetting[] = [...values.appSettings];
+        appSettings = addOrUpdateFormAppSetting(
+          values.appSettings,
+          CommonConstants.AppSettingNames.websiteNodeDefaultVersion,
+          versionData.stackSettings.windowsRuntimeSettings.appSettingsDictionary[CommonConstants.AppSettingNames.websiteNodeDefaultVersion]
+        );
+        props.setFieldValue('appSettings', appSettings);
+      }
+    } else {
+      props.setFieldValue(`config.properties.${getConfigProperty(runtimeStack)}`, option.key);
+    }
   };
 
   const getStackDropdownComponent = () => {
@@ -123,8 +183,9 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
           {isMajorVersionVisible() && (
             <Field
               id="function-app-stack-major-version"
-              name={`config.properties.${getConfigProperty(runtimeStack)}`}
-              dirty={isVersionDirty()}
+              selectedKey={selectedStackVersion}
+              onChange={onMajorVersionChange}
+              dirty={dirtyState}
               component={Dropdown}
               disabled={disableAllControls}
               label={t('versionLabel').format(currentStackData.displayText)}
@@ -158,6 +219,11 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     );
   };
 
+  useEffect(() => {
+    setStackVersion(values);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values, runtimeStack]);
   useEffect(() => {
     setInitialData();
 

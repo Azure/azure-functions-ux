@@ -5976,6 +5976,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Comando Ridistribuisci del Centro distribuzione</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Ridistribuisci/Sincronizza</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Si è verificato un errore durante il recupero delle informazioni</value>
     </data>
@@ -6820,6 +6823,18 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Lo SKU Isolato V2 non è supportato per questa unità di scala. Provare a ridistribuire o a clonare l'app.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Non sarà possibile tornare alla versione ~2 dopo l'aggiornamento alla versione ~3, perché il runtime sottostante è unificato alla versione ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Tipo di contenitore</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>File YAML non valido</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Scegliere un file</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Non è possibile recuperare lo stato dell'host dell'app per le funzioni. Per usare lo streaming di log, assicurarsi che l'host delle funzioni sia in esecuzione.</value>
     </data>
 </root>

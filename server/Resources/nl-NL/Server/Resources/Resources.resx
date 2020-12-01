@@ -5977,6 +5977,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Opdracht voor opnieuw implementeren in Implementatiecentrum</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Opnieuw implementeren/synchroniseren</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Fout bij het ophalen van gegevens</value>
     </data>
@@ -6821,6 +6824,18 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Isolated V2 wordt niet ondersteund voor deze schaaleenheid. U kunt de app het beste opnieuw implementeren of klonen.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>U kunt niet meer terugkeren naar ~2 nadat u een upgrade naar ~3 hebt uitgevoerd omdat de onderliggende runtime rondom ~3 is geïntegreerd.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Containertype</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Ongeldige YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Bestand kiezen</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Kan de status van de host van uw functie-app niet ophalen. Als u logboekstreaming wilt gebruiken, moet u controleren of de functie-host wordt uitgevoerd.</value>
     </data>
 </root>

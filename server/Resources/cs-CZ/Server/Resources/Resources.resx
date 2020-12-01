@@ -5976,6 +5976,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Příkaz pro nové nasazení centra Deployment Center</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Znovu nasadit / synchronizovat</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Při načítání informací došlo k chybě.</value>
     </data>
@@ -6820,6 +6823,18 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Isolated V2 se pro tuto jednotku škálování nepodporuje. Zvažte prosím možnost aplikaci znovu nasadit nebo klonovat.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Po upgradu na ~3 se nebudete moct přesunout zpět na ~2, protože základní modul runtime je sjednocený okolo ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Typ kontejneru</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Neplatný kód YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Vybrat soubor</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Nepovedlo se načíst stav hostitele aplikace funkcí. Pokud chcete používat streamování protokolů, ujistěte se prosím, že hostitel funkcí je spuštěný.</value>
     </data>
 </root>

@@ -5976,6 +5976,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Üzembe helyezési központ újbóli üzembe helyezési parancsa</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Újbóli üzembe helyezés vagy szinkronizálás</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Hiba történt az adatok beolvasásakor</value>
     </data>
@@ -6820,6 +6823,18 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Ez a skálázási egység nem támogatja az Izolált V2-őt. Fontolja meg az alkalmazás újbóli üzembe helyezését vagy klónozását.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Ha frissít a ~ 3 verzióra, már nem tud visszatérni a ~ 2 verzióhoz, mivel a mögöttes futtatókörnyezet a ~ 3 verzión alapul.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Tároló típusa</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Érvénytelen YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Fájl kiválasztása</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Nem sikerült beolvasni a függvényalkalmazás gazdagépének állapotát. A naplóstreamelés használatához győződjön meg arról, hogy a függvényalkalmazás gazdagépe fut.</value>
     </data>
 </root>

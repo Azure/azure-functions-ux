@@ -5976,6 +5976,9 @@
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>部署中心重新部署命令</value>
     </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>重新部署/同步</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>提取信息时出错</value>
     </data>
@@ -6820,6 +6823,18 @@
         <value>此缩放单元不支持独立 V2。请考虑重新部署或克隆应用。</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>在升级到 ~3 之后，你将无法回到 ~2，因为基础运行时是统一在 ~3 附近的。</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>容器类型</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML 无效</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>选择文件</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>无法提取函数应用的主机状态。若要使用日志流式处理，请确保函数主机正在运行。</value>
     </data>
 </root>
