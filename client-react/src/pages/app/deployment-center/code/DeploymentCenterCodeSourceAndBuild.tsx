@@ -48,25 +48,40 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const getSourceOptions = (): IDropdownOption[] => [...getContinuousDeploymentOptions(), ...getManualDeploymentOptions()];
 
   const getContinuousDeploymentOptions = (): IDropdownOption[] => {
-    const items: IDropdownOption[] = [];
+    const continuousDeploymentOptions: IDropdownOption[] = [];
 
-    items.push({
-      key: 'continuousDeploymentHeader',
-      text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
-      itemType: DropdownMenuItemType.Header,
-    });
-
-    items.push({ key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') });
-    items.push({ key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') });
-    items.push({ key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') });
-
-    const enableAzureDevOpsSetupValue = Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureDevOpsSetup);
-    if (enableAzureDevOpsSetupValue && enableAzureDevOpsSetupValue.toLocaleLowerCase() === 'true') {
-      items.push({ key: ScmType.Vsts, text: t('deploymentCenterCodeSettingsSourceAzureRepos') });
+    if (scenarioService.checkScenario(ScenarioIds.githubSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') });
     }
 
-    items.push({ key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider });
-    return items;
+    if (scenarioService.checkScenario(ScenarioIds.bitbucketSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.localGitSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') });
+    }
+
+    const enableAzureDevOpsSetupValue = Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureDevOpsSetup);
+    if (
+      scenarioService.checkScenario(ScenarioIds.vstsKuduSource, { site: siteStateContext.site }).status !== 'disabled' &&
+      enableAzureDevOpsSetupValue &&
+      enableAzureDevOpsSetupValue.toLocaleLowerCase() === 'true'
+    ) {
+      continuousDeploymentOptions.push({ key: ScmType.Vsts, text: t('deploymentCenterCodeSettingsSourceAzureRepos') });
+    }
+
+    return continuousDeploymentOptions.length > 0
+      ? [
+          {
+            key: 'continuousDeploymentHeader',
+            text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
+            itemType: DropdownMenuItemType.Header,
+          },
+          ...continuousDeploymentOptions,
+          { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
+        ]
+      : continuousDeploymentOptions;
   };
 
   const getManualDeploymentOptions = (): IDropdownOption[] => {

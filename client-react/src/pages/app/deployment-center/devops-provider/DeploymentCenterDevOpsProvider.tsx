@@ -1,8 +1,11 @@
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterDevOpsProviderProps } from '../DeploymentCenter.types';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { MessageBarType } from 'office-ui-fabric-react';
 
 const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderProps> = props => {
   const {
@@ -15,13 +18,25 @@ const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderPro
     loadingProjects,
     loadingRepositories,
     loadingBranches,
+    errorMessage,
   } = props;
 
   const { t } = useTranslation();
+  const [showInfoBanner, setShowInfoBanner] = useState(true);
+
+  const closeInfoBanner = () => {
+    setShowInfoBanner(false);
+  };
 
   return (
     <>
       <h3>{t('deploymentCenterCodeDevOpsTitle')}</h3>
+
+      {showInfoBanner && errorMessage && (
+        <div className={deploymentCenterInfoBannerDiv}>
+          <CustomBanner message={errorMessage} type={MessageBarType.error} onDismiss={closeInfoBanner} />
+        </div>
+      )}
 
       <Field
         id="deployment-center-settings-organization-option"
