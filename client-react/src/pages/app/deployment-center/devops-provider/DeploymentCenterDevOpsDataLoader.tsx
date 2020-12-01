@@ -25,6 +25,8 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   const fetchData = async () => {
     setLoadingOrganizations(true);
+    orgToProjectMapping.current = {};
+    projectToRepoMapping.current = {};
     setProjectOptions([]);
     setRepositoryOptions([]);
     setBranchOptions([]);
@@ -78,6 +80,8 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
             key,
             text: projects[key],
           }));
+        } else {
+          // TODO (michinoy): add an error message here and log it.
         }
 
         setProjectOptions(orgToProjectMapping.current[formProps.values.org]);
@@ -93,6 +97,9 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
       setBranchOptions([]);
 
       setRepositoryOptions(projectToRepoMapping.current[formProps.values.devOpsProject]);
+      setLoadingRepositories(false);
+    } else {
+      // TODO (michinoy): add an error message here and log it.
     }
   };
 
@@ -109,7 +116,11 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
         }));
 
         setBranchOptions(dropdownItems);
+      } else {
+        // TODO (michinoy): add an error message here and log it.
       }
+
+      setLoadingBranches(false);
     }
   };
 

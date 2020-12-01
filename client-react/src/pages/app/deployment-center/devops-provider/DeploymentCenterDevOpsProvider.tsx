@@ -1,5 +1,5 @@
 import { Field } from 'formik';
-import { Dropdown } from 'office-ui-fabric-react';
+import Dropdown from '../../../../components/form-controls/DropDown';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterDevOpsProviderProps } from '../DeploymentCenter.types';

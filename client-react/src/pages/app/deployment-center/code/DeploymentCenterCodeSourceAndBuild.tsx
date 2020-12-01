@@ -16,6 +16,8 @@ import DeploymentCenterCodeBuildCallout from './DeploymentCenterCodeBuildCallout
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
+import Url from '../../../../utils/url';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -46,18 +48,25 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const getSourceOptions = (): IDropdownOption[] => [...getContinuousDeploymentOptions(), ...getManualDeploymentOptions()];
 
   const getContinuousDeploymentOptions = (): IDropdownOption[] => {
-    return [
-      {
-        key: 'continuousDeploymentHeader',
-        text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
-        itemType: DropdownMenuItemType.Header,
-      },
-      { key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') },
-      { key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') },
-      { key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') },
-      { key: ScmType.Vsts, text: t('deploymentCenterCodeSettingsSourceAzureRepos') },
-      { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
-    ];
+    const items: IDropdownOption[] = [];
+
+    items.push({
+      key: 'continuousDeploymentHeader',
+      text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
+      itemType: DropdownMenuItemType.Header,
+    });
+
+    items.push({ key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') });
+    items.push({ key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') });
+    items.push({ key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') });
+
+    const flagValue = Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureDevOpsSetup);
+    if (flagValue && flagValue.toLocaleLowerCase() === 'true') {
+      items.push({ key: ScmType.Vsts, text: t('deploymentCenterCodeSettingsSourceAzureRepos') });
+    }
+
+    items.push({ key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider });
+    return items;
   };
 
   const getManualDeploymentOptions = (): IDropdownOption[] => {
