@@ -1,15 +1,15 @@
 import { Icon, Link, MessageBarType } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
-import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
-import ReactiveFormControl from '../../../../../components/form-controls/ReactiveFormControl';
-import { KeyValue } from '../../../../../models/portal-models';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import LogService from '../../../../../utils/LogService';
-import DeploymentCenterData from '../../DeploymentCenter.data';
-import { deploymentCenterInfoBannerDiv } from '../../DeploymentCenter.styles';
-import { DeploymentCenterContext } from '../../DeploymentCenterContext';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import { KeyValue } from '../../../../models/portal-models';
+import { LogCategories } from '../../../../utils/LogCategories';
+import LogService from '../../../../utils/LogService';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterVstsBuildConfiguredView: React.FC<{}> = props => {
   const { t } = useTranslation();

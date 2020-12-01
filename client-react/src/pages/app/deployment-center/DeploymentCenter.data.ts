@@ -266,11 +266,23 @@ export default class DeploymentCenterData {
     return SiteService.updateApplicationSettings(resourceId, appSettings);
   };
 
+  public getAccounts = () => {
+    return this._azureDevOpsService.getAccounts();
+  };
+
   public getAzureDevOpsUrl = () => {
     return this._azureDevOpsService.getAzureDevOpsUrl();
   };
 
   public getAzureDevOpsBuildDef = (accountName: string, buildDefinitionProjectUrl: string, buildDefinitionId: string) => {
     return this._azureDevOpsService.getBuildDef(accountName, buildDefinitionProjectUrl, buildDefinitionId);
+  };
+
+  public getAzureDevOpsRepositories = (accountName: string) => {
+    return this._azureDevOpsService.getRepositoriesForAccount(accountName);
+  };
+
+  public getAzureDevOpsBranches = (accountName: string, repositoryId: string) => {
+    return this._azureDevOpsService.getBranchesForRepo(accountName, repositoryId);
   };
 }

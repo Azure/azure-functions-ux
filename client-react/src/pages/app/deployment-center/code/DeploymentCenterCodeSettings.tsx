@@ -31,9 +31,10 @@ import DeploymentCenterOneDriveDataLoader from '../onedrive-provider/DeploymentC
 import DeploymentCenterOneDriveConfiguredView from '../onedrive-provider/DeploymentCenterOneDriveConfiguredView';
 import DeploymentCenterDropboxDataLoader from '../dropbox-provider/DeploymentCenterDropboxDataLoader';
 import DeploymentCenterDropboxConfiguredView from '../dropbox-provider/DeploymentCenterDropboxConfiguredView';
-import DeploymentCenterVstsBuildConfiguredView from './vsts-build-provider/DeploymentCenterVstsBuildConfiguredView';
+import DeploymentCenterVstsBuildConfiguredView from '../devops-provider/DeploymentCenterVstsBuildConfiguredView';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import DeploymentCenterDevOpsDataLoader from '../devops-provider/DeploymentCenterDevOpsDataLoader';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -76,6 +77,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const isDropboxSource = formProps.values.sourceProvider === ScmType.Dropbox;
   const isDropboxSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.Dropbox;
 
+  const isVstsSource = formProps.values.sourceProvider === ScmType.Vsts;
   const isVstsSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vsts;
 
   const isTfsOrVsoSetup =
@@ -234,6 +236,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {isExternalGitSource && <DeploymentCenterExternalProvider formProps={formProps} />}
           {isOneDriveSource && <DeploymentCenterOneDriveDataLoader formProps={formProps} />}
           {isDropboxSource && <DeploymentCenterDropboxDataLoader formProps={formProps} />}
+          {isVstsSource && <DeploymentCenterDevOpsDataLoader formProps={formProps} />}
         </>
       )}
     </>
