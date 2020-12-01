@@ -247,7 +247,7 @@ export interface DeploymentCenterCommonFormData {
   oneDriveUser?: OneDriveUser;
   dropboxUser?: DropboxUser;
   folder?: string;
-  devOpsProject?: string;
+  devOpsProjectName?: string;
 }
 
 export interface AcrFormData {

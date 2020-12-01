@@ -43,7 +43,7 @@ const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderPro
         component={Dropdown}
         displayInVerticalLayout={true}
         options={projectOptions}
-        defaultSelectedKey={formProps.values.devOpsProject}
+        defaultSelectedKey={formProps.values.devOpsProjectName}
         required={true}
         isLoading={loadingProjects}
       />

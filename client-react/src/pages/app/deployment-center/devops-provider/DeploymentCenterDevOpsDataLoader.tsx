@@ -23,7 +23,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const orgToProjectMapping = useRef<{ [key: string]: IDropdownOption[] }>({});
   const projectToRepoMapping = useRef<{ [key: string]: IDropdownOption[] }>({});
 
-  const fetchData = async () => {
+  const fetchOrganizations = async () => {
     setLoadingOrganizations(true);
     orgToProjectMapping.current = {};
     projectToRepoMapping.current = {};
@@ -92,11 +92,11 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
   };
 
   const fetchRepositories = async () => {
-    if (formProps.values.devOpsProject && projectToRepoMapping.current[formProps.values.devOpsProject]) {
+    if (formProps.values.devOpsProjectName && projectToRepoMapping.current[formProps.values.devOpsProjectName]) {
       setLoadingRepositories(true);
       setBranchOptions([]);
 
-      setRepositoryOptions(projectToRepoMapping.current[formProps.values.devOpsProject]);
+      setRepositoryOptions(projectToRepoMapping.current[formProps.values.devOpsProjectName]);
       setLoadingRepositories(false);
     } else {
       // TODO (michinoy): add an error message here and log it.
@@ -125,7 +125,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
   };
 
   useEffect(() => {
-    fetchData();
+    fetchOrganizations();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterContext]);
@@ -140,7 +140,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
     fetchRepositories();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formProps.values.devOpsProject]);
+  }, [formProps.values.devOpsProjectName]);
 
   useEffect(() => {
     fetchBranches();

@@ -60,8 +60,8 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     items.push({ key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') });
     items.push({ key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') });
 
-    const flagValue = Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureDevOpsSetup);
-    if (flagValue && flagValue.toLocaleLowerCase() === 'true') {
+    const enableAzureDevOpsSetupValue = Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureDevOpsSetup);
+    if (enableAzureDevOpsSetupValue && enableAzureDevOpsSetupValue.toLocaleLowerCase() === 'true') {
       items.push({ key: ScmType.Vsts, text: t('deploymentCenterCodeSettingsSourceAzureRepos') });
     }
 
