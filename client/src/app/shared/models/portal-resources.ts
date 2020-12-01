@@ -2230,4 +2230,7 @@ export class PortalResources {
   public static deploymentCenterInvalidYaml = 'deploymentCenterInvalidYaml';
   public static deploymentCenterChooseFile = 'deploymentCenterChooseFile';
   public static logStreamingHostStatusError = 'logStreamingHostStatusError';
+  public static deploymentCenterCodeDevOpsTitle = 'deploymentCenterCodeDevOpsTitle';
+  public static deploymentCenterProject = 'deploymentCenterProject';
+  public static deploymentCenterProjectPlaceholder = 'deploymentCenterProjectPlaceholder';
 }

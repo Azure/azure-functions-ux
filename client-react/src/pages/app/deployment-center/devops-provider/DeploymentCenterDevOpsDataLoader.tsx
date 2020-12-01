@@ -1,13 +1,11 @@
 import { IDropdownOption } from 'office-ui-fabric-react';
-import React, { useContext, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import DeploymentCenterDevOpsProvider from './DeploymentCenterDevopsProvider';
+import DeploymentCenterDevOpsProvider from './DeploymentCenterDevOpsProvider';
 
 const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
-  const { t } = useTranslation();
   const { formProps } = props;
 
   const deploymentCenterData = new DeploymentCenterData();
@@ -22,13 +20,98 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [loadingRepositories, setLoadingRepositories] = useState(false);
   const [loadingBranches, setLoadingBranches] = useState(false);
 
-  const fetchData = async () => {};
+  const orgToProjectMapping = useRef<{ [key: string]: IDropdownOption[] }>({});
+  const projectToRepoMapping = useRef<{ [key: string]: IDropdownOption[] }>({});
 
-  const fetchProjects = async () => {};
+  const fetchData = async () => {
+    setLoadingOrganizations(true);
+    setProjectOptions([]);
+    setRepositoryOptions([]);
+    setBranchOptions([]);
 
-  const fetchRepositories = async () => {};
+    const accounts = await deploymentCenterData.getAccounts();
 
-  const fetchBranches = async () => {};
+    if (!!accounts && accounts.length > 0) {
+      const orgOptions = accounts.map(account => ({
+        key: account.AccountName,
+        text: account.AccountName,
+      }));
+
+      setOrganizationOptions(orgOptions);
+      setLoadingOrganizations(false);
+    } else {
+      // TODO (michinoy): add an error message here and log it.
+    }
+  };
+
+  const fetchProjects = async () => {
+    // NOTE(michinoy): Once the user has selected their organization we load a list of all repositories in that org
+    // each repository is associated with a project. Here we will cache the list of repositories and crate
+    // a mapping of org to project to repo.
+
+    if (formProps.values.org) {
+      setLoadingProjects(true);
+      setRepositoryOptions([]);
+      setBranchOptions([]);
+
+      if (!orgToProjectMapping.current[formProps.values.org]) {
+        const repositories = await deploymentCenterData.getAzureDevOpsRepositories(formProps.values.org);
+
+        if (!!repositories && repositories.metadata.success) {
+          const projects: { [key: string]: string } = {};
+
+          repositories.data.value.forEach(repository => {
+            projects[repository.project.id] = repository.project.name;
+            const repoDropdownItem = {
+              key: repository.id,
+              text: repository.name,
+            };
+
+            if (projectToRepoMapping.current[repository.project.id]) {
+              projectToRepoMapping.current[repository.project.id].push(repoDropdownItem);
+            } else {
+              projectToRepoMapping.current[repository.project.id] = [repoDropdownItem];
+            }
+          });
+
+          orgToProjectMapping.current[formProps.values.org] = Object.keys(projects).map(key => ({
+            key,
+            text: projects[key],
+          }));
+        }
+
+        setProjectOptions(orgToProjectMapping.current[formProps.values.org]);
+      }
+
+      setLoadingProjects(false);
+    }
+  };
+
+  const fetchRepositories = async () => {
+    if (formProps.values.devOpsProject && projectToRepoMapping.current[formProps.values.devOpsProject]) {
+      setLoadingRepositories(true);
+      setBranchOptions([]);
+
+      setRepositoryOptions(projectToRepoMapping.current[formProps.values.devOpsProject]);
+    }
+  };
+
+  const fetchBranches = async () => {
+    if (formProps.values.org && formProps.values.repo) {
+      setLoadingBranches(true);
+
+      const branches = await deploymentCenterData.getAzureDevOpsBranches(formProps.values.org, formProps.values.repo);
+
+      if (!!branches && branches.metadata.success) {
+        const dropdownItems = branches.data.value.map(branch => ({
+          key: branch.name,
+          text: branch.name,
+        }));
+
+        setBranchOptions(dropdownItems);
+      }
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -37,19 +120,19 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
   }, [deploymentCenterContext]);
 
   useEffect(() => {
-    fetchData();
+    fetchProjects();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.org]);
 
   useEffect(() => {
-    fetchData();
+    fetchRepositories();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.devOpsProject]);
 
   useEffect(() => {
-    fetchData();
+    fetchBranches();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.repo]);

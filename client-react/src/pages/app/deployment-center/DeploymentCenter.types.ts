@@ -136,6 +136,11 @@ export interface DevOpsBuildDefinitionRepository {
   defaultBranch: string;
 }
 
+export interface DevOpsProject {
+  id: string;
+  name: string;
+}
+
 export interface DevOpsRepository {
   id: string;
   name: string;
@@ -144,6 +149,7 @@ export interface DevOpsRepository {
   sshUrl: string;
   url: string;
   webUrl: string;
+  project: DevOpsProject;
 }
 
 export interface DevOpsRepositories {
