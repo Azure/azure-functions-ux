@@ -36,8 +36,6 @@ export class CommonConstants {
   };
 
   public static readonly FeatureFlags = {
-    AllowFreeLinux: 'allowfreelinux',
-    UseNewStacksApi: 'usenewstacksapi',
     showHiddenStacks: 'showHiddenStacks',
     targetAzDevDeployment: 'targetAzDevDeployment',
     authTokenOverride: 'authTokenOverride',
