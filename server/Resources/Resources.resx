@@ -6849,4 +6849,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
         <value>Select project</value>
     </data>
+    <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>No accounts found for Azure Repos. Please create a new account in Azure Repos and try again.</value>
+    </data>
 </root>

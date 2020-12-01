@@ -569,4 +569,5 @@ export interface DeploymentCenterDevOpsProviderProps<T = DeploymentCenterContain
   loadingProjects: boolean;
   loadingRepositories: boolean;
   loadingBranches: boolean;
+  errorMessage?: string;
 }

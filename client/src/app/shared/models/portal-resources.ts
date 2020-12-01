@@ -2233,4 +2233,5 @@ export class PortalResources {
   public static deploymentCenterCodeDevOpsTitle = 'deploymentCenterCodeDevOpsTitle';
   public static deploymentCenterProject = 'deploymentCenterProject';
   public static deploymentCenterProjectPlaceholder = 'deploymentCenterProjectPlaceholder';
+  public static deploymentCenterDevOpsNoAccounts = 'deploymentCenterDevOpsNoAccounts';
 }

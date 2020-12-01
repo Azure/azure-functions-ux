@@ -1,5 +1,8 @@
 import { IDropdownOption } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { LogCategories } from '../../../../utils/LogCategories';
+import LogService from '../../../../utils/LogService';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
@@ -7,6 +10,7 @@ import DeploymentCenterDevOpsProvider from './DeploymentCenterDevOpsProvider';
 
 const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { formProps } = props;
+  const { t } = useTranslation();
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -19,6 +23,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [loadingProjects, setLoadingProjects] = useState(false);
   const [loadingRepositories, setLoadingRepositories] = useState(false);
   const [loadingBranches, setLoadingBranches] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
   const orgToProjectMapping = useRef<{ [key: string]: IDropdownOption[] }>({});
   const projectToRepoMapping = useRef<{ [key: string]: IDropdownOption[] }>({});
@@ -42,7 +47,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
       setOrganizationOptions(orgOptions);
       setLoadingOrganizations(false);
     } else {
-      // TODO (michinoy): add an error message here and log it.
+      setErrorMessage(t('deploymentCenterDevOpsNoAccounts'));
     }
   };
 
@@ -57,12 +62,12 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
       setBranchOptions([]);
 
       if (!orgToProjectMapping.current[formProps.values.org]) {
-        const repositories = await deploymentCenterData.getAzureDevOpsRepositories(formProps.values.org);
+        const response = await deploymentCenterData.getAzureDevOpsRepositories(formProps.values.org);
 
-        if (!!repositories && repositories.metadata.success) {
+        if (response.metadata.success) {
           const projects: { [key: string]: string } = {};
 
-          repositories.data.value.forEach(repository => {
+          response.data.value.forEach(repository => {
             projects[repository.project.id] = repository.project.name;
             const repoDropdownItem = {
               key: repository.id,
@@ -81,7 +86,13 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
             text: projects[key],
           }));
         } else {
-          // TODO (michinoy): add an error message here and log it.
+          if (!response.metadata.success) {
+            LogService.error(
+              LogCategories.deploymentCenter,
+              'fetchProjects',
+              `Failed to get projects with error: ${response.metadata.error}`
+            );
+          }
         }
 
         setProjectOptions(orgToProjectMapping.current[formProps.values.org]);
@@ -91,15 +102,13 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
     }
   };
 
-  const fetchRepositories = async () => {
+  const setRepositories = async () => {
     if (formProps.values.devOpsProjectName && projectToRepoMapping.current[formProps.values.devOpsProjectName]) {
       setLoadingRepositories(true);
       setBranchOptions([]);
 
       setRepositoryOptions(projectToRepoMapping.current[formProps.values.devOpsProjectName]);
       setLoadingRepositories(false);
-    } else {
-      // TODO (michinoy): add an error message here and log it.
     }
   };
 
@@ -107,17 +116,23 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
     if (formProps.values.org && formProps.values.repo) {
       setLoadingBranches(true);
 
-      const branches = await deploymentCenterData.getAzureDevOpsBranches(formProps.values.org, formProps.values.repo);
+      const response = await deploymentCenterData.getAzureDevOpsBranches(formProps.values.org, formProps.values.repo);
 
-      if (!!branches && branches.metadata.success) {
-        const dropdownItems = branches.data.value.map(branch => ({
+      if (!!response && response.metadata.success) {
+        const dropdownItems = response.data.value.map(branch => ({
           key: branch.name,
           text: branch.name,
         }));
 
         setBranchOptions(dropdownItems);
       } else {
-        // TODO (michinoy): add an error message here and log it.
+        if (!response.metadata.success) {
+          LogService.error(
+            LogCategories.deploymentCenter,
+            'fetchProjects',
+            `Failed to get projects with error: ${response.metadata.error}`
+          );
+        }
       }
 
       setLoadingBranches(false);
@@ -137,7 +152,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
   }, [formProps.values.org]);
 
   useEffect(() => {
-    fetchRepositories();
+    setRepositories();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.devOpsProjectName]);
@@ -159,6 +174,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
       loadingProjects={loadingProjects}
       loadingRepositories={loadingRepositories}
       loadingBranches={loadingBranches}
+      errorMessage={errorMessage}
     />
   );
 };
