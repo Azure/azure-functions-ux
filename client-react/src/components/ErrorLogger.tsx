@@ -9,7 +9,7 @@ export default class ErrorLogger extends React.Component<{}, {}> {
   public context!: PortalCommunicator;
 
   public componentDidCatch(error, info) {
-    this.context.logMessage(LogEntryLevel.Error, error, info);
+    this.context.logMessageDeprecated(LogEntryLevel.Error, error, info);
   }
 
   public render() {
