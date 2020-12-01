@@ -45,10 +45,11 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
       }));
 
       setOrganizationOptions(orgOptions);
-      setLoadingOrganizations(false);
     } else {
       setErrorMessage(t('deploymentCenterDevOpsNoAccounts'));
     }
+
+    setLoadingOrganizations(false);
   };
 
   const fetchProjects = async () => {

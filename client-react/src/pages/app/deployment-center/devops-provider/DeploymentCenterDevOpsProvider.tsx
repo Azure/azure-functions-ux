@@ -3,7 +3,7 @@ import Dropdown from '../../../../components/form-controls/DropDown';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterDevOpsProviderProps } from '../DeploymentCenter.types';
-import { panelBanner } from '../DeploymentCenter.styles';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from 'office-ui-fabric-react';
 
@@ -33,7 +33,7 @@ const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderPro
       <h3>{t('deploymentCenterCodeDevOpsTitle')}</h3>
 
       {showInfoBanner && errorMessage && (
-        <div className={panelBanner}>
+        <div className={deploymentCenterInfoBannerDiv}>
           <CustomBanner message={errorMessage} type={MessageBarType.error} onDismiss={closeInfoBanner} />
         </div>
       )}
