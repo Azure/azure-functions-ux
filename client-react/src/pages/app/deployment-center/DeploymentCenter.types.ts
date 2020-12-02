@@ -468,10 +468,6 @@ export interface BuildChoiceGroupOption extends IChoiceGroupOption {
   buildType: BuildProvider;
 }
 
-export interface WorkflowDropdownOption extends IDropdownOption {
-  workflowOption: WorkflowOption;
-}
-
 export interface RuntimeStackSetting {
   runtimeStack: string;
   runtimeVersion: string;

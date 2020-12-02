@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { WorkflowOption, WorkflowDropdownOption, DeploymentCenterGitHubWorkflowConfigSelectorProps } from '../DeploymentCenter.types';
+import { WorkflowOption, DeploymentCenterGitHubWorkflowConfigSelectorProps } from '../DeploymentCenter.types';
 import { IDropdownOption, MessageBarType, ProgressIndicator } from 'office-ui-fabric-react';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import Dropdown from '../../../../components/form-controls/DropDown';
 import { Field } from 'formik';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import RadioButton from '../../../../components/form-controls/RadioButton';
 
 const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGitHubWorkflowConfigSelectorProps> = props => {
   const { formProps, setGithubActionExistingWorkflowContents } = props;
@@ -23,7 +23,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
-  const overwriteOrUseExistingOptions: WorkflowDropdownOption[] = [
+  const overwriteOrUseExistingOptions = [
     {
       key: WorkflowOption.Overwrite,
       text: t('deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite'),
@@ -35,7 +35,8 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
       workflowOption: WorkflowOption.UseExistingWorkflowConfig,
     },
   ];
-  const addOrUseExistingOptions: WorkflowDropdownOption[] = [
+
+  const addOrUseExistingOptions = [
     { key: WorkflowOption.Add, text: t('deploymentCenterSettingsGitHubActionWorkflowOptionAdd'), workflowOption: WorkflowOption.Add },
     {
       key: WorkflowOption.UseAvailableWorkflowConfigs,
@@ -142,7 +143,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
             placeholder={t('deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder')}
             name="workflowOption"
             defaultSelectedKey={formProps.values.workflowOption}
-            component={Dropdown}
+            component={RadioButton}
             displayInVerticalLayout={true}
             options={workflowConfigDropdownOptions}
             required={true}
