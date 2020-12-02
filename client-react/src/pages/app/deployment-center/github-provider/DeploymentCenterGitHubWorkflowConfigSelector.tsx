@@ -14,8 +14,8 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
   const { formProps, setGithubActionExistingWorkflowContents } = props;
   const { t } = useTranslation();
 
-  const [showWorkflowConfigDropdown, setShowWorkflowConfigDropdown] = useState<boolean>(false);
-  const [workflowConfigDropdownOptions, setWorkflowConfigDropdownOptions] = useState<IDropdownOption[] | undefined>(undefined);
+  const [showWorkflowConfigRadioButtons, setShowWorkflowConfigRadioButtons] = useState<boolean>(false);
+  const [workflowConfigOptions, setWorkflowConfigOptions] = useState<IDropdownOption[] | undefined>(undefined);
   const [workflowFileExistsWarningMessage, setWorkflowFileExistsWarningMessage] = useState<string | undefined>(undefined);
   const [isWorkflowConfigLoading, setIsWorkflowConfigLoading] = useState<boolean>(false);
   const [showWarningBanner, setShowWarningBanner] = useState(true);
@@ -27,21 +27,18 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
     {
       key: WorkflowOption.Overwrite,
       text: t('deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite'),
-      workflowOption: WorkflowOption.Overwrite,
     },
     {
       key: WorkflowOption.UseExistingWorkflowConfig,
       text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting'),
-      workflowOption: WorkflowOption.UseExistingWorkflowConfig,
     },
   ];
 
   const addOrUseExistingOptions = [
-    { key: WorkflowOption.Add, text: t('deploymentCenterSettingsGitHubActionWorkflowOptionAdd'), workflowOption: WorkflowOption.Add },
+    { key: WorkflowOption.Add, text: t('deploymentCenterSettingsGitHubActionWorkflowOptionAdd') },
     {
       key: WorkflowOption.UseAvailableWorkflowConfigs,
       text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable'),
-      workflowOption: WorkflowOption.UseAvailableWorkflowConfigs,
     },
   ];
 
@@ -93,8 +90,8 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
           setGithubActionExistingWorkflowContents(atob(appWorkflowConfigurationResponse.data.content));
         }
 
-        setWorkflowConfigDropdownOptions(overwriteOrUseExistingOptions);
-        setShowWorkflowConfigDropdown(true);
+        setWorkflowConfigOptions(overwriteOrUseExistingOptions);
+        setShowWorkflowConfigRadioButtons(true);
       } else if (allWorkflowConfigurationsResponse.metadata.success && allWorkflowConfigurationsResponse.data.length > 0) {
         setShowWarningBanner(true);
         setWorkflowFileExistsWarningMessage(
@@ -103,8 +100,8 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
           })
         );
 
-        setWorkflowConfigDropdownOptions(addOrUseExistingOptions);
-        setShowWorkflowConfigDropdown(true);
+        setWorkflowConfigOptions(addOrUseExistingOptions);
+        setShowWorkflowConfigRadioButtons(true);
       } else {
         setShowWarningBanner(false);
         setWorkflowFileExistsWarningMessage(undefined);
@@ -114,8 +111,18 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
     setIsWorkflowConfigLoading(false);
   };
 
+  const setDefaultWorkflowOption = () => {
+    if (formProps.values.workflowOption && formProps.values.workflowOption !== WorkflowOption.None) {
+      return formProps.values.workflowOption;
+    } else if (workflowConfigOptions && workflowConfigOptions.length > 0 && workflowConfigOptions[0].key === WorkflowOption.Overwrite) {
+      return WorkflowOption.Overwrite;
+    } else {
+      return WorkflowOption.Add;
+    }
+  };
+
   useEffect(() => {
-    setShowWorkflowConfigDropdown(false);
+    setShowWorkflowConfigRadioButtons(false);
     if (formProps.values.org && formProps.values.repo && formProps.values.branch) {
       fetchWorkflowConfiguration(formProps.values.org, formProps.values.repo, formProps.values.branch);
     }
@@ -130,7 +137,7 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
           ariaValueText={t('deploymentCenterWorkflowConfigsLoadingAriaValue')}
         />
       )}
-      {showWorkflowConfigDropdown && (
+      {showWorkflowConfigRadioButtons && (
         <>
           {workflowFileExistsWarningMessage && showWarningBanner && (
             <div className={deploymentCenterInfoBannerDiv}>
@@ -142,10 +149,10 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
             label={t('githubActionWorkflowOption')}
             placeholder={t('deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder')}
             name="workflowOption"
-            defaultSelectedKey={formProps.values.workflowOption}
+            defaultSelectedKey={setDefaultWorkflowOption()}
             component={RadioButton}
             displayInVerticalLayout={true}
-            options={workflowConfigDropdownOptions}
+            options={workflowConfigOptions}
             required={true}
           />
         </>
