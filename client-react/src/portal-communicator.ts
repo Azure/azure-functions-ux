@@ -37,9 +37,8 @@ import { Guid } from './utils/Guid';
 import Url from './utils/url';
 import { Dispatch, SetStateAction } from 'react';
 import { ThemeExtended } from './theme/SemanticColorsExtended';
-import LogService from './utils/LogService';
-import { LogCategories } from './utils/LogCategories';
 import { sendHttpRequest, getJsonHeaders } from './ApiHelpers/HttpClient';
+import { TelemetryInfo } from './models/telemetry';
 export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
@@ -256,22 +255,27 @@ export default class PortalCommunicator {
     PortalCommunicator.postMessage(Verbs.updateDirtyState, this.packageData(info));
   }
 
-  public logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]) {
+  public log(info: TelemetryInfo) {
+    const infoStr = this.packageData(info);
+    PortalCommunicator.postMessage(Verbs.log, infoStr);
+  }
+
+  public logMessageDeprecated(level: LogEntryLevel, message: string, ...restArgs: any[]) {
     const messageStr = this.packageData({
       level,
       message,
       restArgs,
     });
-    PortalCommunicator.postMessage(Verbs.logMessage, messageStr);
+    PortalCommunicator.postMessage(Verbs.logMessageDeprecated, messageStr);
   }
 
-  public logAction(subcomponent: string, action: string, data?: { [name: string]: string }): void {
+  public logActionDeprecated(subcomponent: string, action: string, data?: { [name: string]: string }): void {
     const actionStr = this.packageData({
       subcomponent,
       action,
       data,
     });
-    PortalCommunicator.postMessage(Verbs.logAction, actionStr);
+    PortalCommunicator.postMessage(Verbs.logActionDeprecated, actionStr);
   }
 
   public returnPcv3Results<T>(results: T) {
@@ -361,12 +365,16 @@ export default class PortalCommunicator {
         )
         .subscribe((o: IDataMessage<IDataMessageResult<CheckPermissionResponse>>) => {
           if (o.data.status !== 'success') {
-            const data = {
+            this.log({
+              action: 'hasPermission',
+              actionModifier: 'failed',
               resourceId,
-              actions,
-              message: 'Failed to evaluate permissions',
-            };
-            LogService.error(LogCategories.portalCommunicatorHasPermission, 'hasPermission', data);
+              logLevel: 'error',
+              data: {
+                message: 'Failed to check for permissions',
+                actions,
+              },
+            });
           }
 
           resolve(o.data.result.hasPermission);
@@ -394,11 +402,16 @@ export default class PortalCommunicator {
         )
         .subscribe((o: IDataMessage<IDataMessageResult<CheckLockResponse>>) => {
           if (o.data.status !== 'success') {
-            const data = {
+            this.log({
+              action: 'hasLock',
+              actionModifier: 'failed',
               resourceId,
-              message: 'Failed to evaluate lock',
-            };
-            LogService.error(LogCategories.portalCommunicatorHasLock, 'hasLock', data);
+              logLevel: 'error',
+              data: {
+                message: 'Failed to evaluate lock',
+                type,
+              },
+            });
           }
 
           resolve(o.data.result.hasLock);
@@ -430,7 +443,16 @@ export default class PortalCommunicator {
     const data = event.data.data;
     const methodName = event.data.kind;
 
-    LogService.debug(`iFrame-${this.frameId}]`, `Received mesg: ${methodName}  for frameId: ${event.data.data && event.data.data.frameId}`);
+    this.log({
+      action: 'iframeMessage',
+      actionModifier: 'receivedFromHost',
+      resourceId: window.appsvc && window.appsvc.resourceId ? window.appsvc.resourceId : '',
+      logLevel: 'verbose',
+      data: {
+        methodName: methodName,
+        frameId: event.data.data && event.data.data.frameId,
+      },
+    });
 
     if (methodName === Verbs.sendStartupInfo) {
       const startupInfo = data as IStartupInfo<any>;
