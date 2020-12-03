@@ -76,7 +76,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const setInitialData = () => {
     const runtimeStack = getInitialStack();
-    if (!isLinux() && runtimeStack && functionAppStacksContext.length > 0) {
+    if (runtimeStack && functionAppStacksContext.length > 0) {
       setRuntimeStack(runtimeStack);
       setInitialStackData(runtimeStack);
     }
