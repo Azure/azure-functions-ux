@@ -113,6 +113,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           return `https://${values.externalUsername}:${values.externalPassword}@${repoPath}`;
         }
         return values.repo;
+      case ScmType.Vso:
+        return values.repo;
       default:
         LogService.error(
           LogCategories.deploymentCenter,

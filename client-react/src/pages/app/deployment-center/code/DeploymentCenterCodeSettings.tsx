@@ -21,7 +21,7 @@ import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCode
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { SiteStateContext } from '../../../../SiteState';
-import { Link, MessageBarType } from 'office-ui-fabric-react';
+import { Link } from 'office-ui-fabric-react';
 import DeploymentCenterBitbucketConfiguredView from '../bitbucket-provider/DeploymentCenterBitbucketConfiguredView';
 import DeploymentCenterLocalGitConfiguredView from '../local-git-provider/DeploymentCenterLocalGitConfiguredView';
 import DeploymentCenterExternalConfiguredView from '../external-provider/DeploymentCenterExternalConfiguredView';
@@ -32,9 +32,8 @@ import DeploymentCenterOneDriveConfiguredView from '../onedrive-provider/Deploym
 import DeploymentCenterDropboxDataLoader from '../dropbox-provider/DeploymentCenterDropboxDataLoader';
 import DeploymentCenterDropboxConfiguredView from '../dropbox-provider/DeploymentCenterDropboxConfiguredView';
 import DeploymentCenterVstsBuildConfiguredView from '../devops-provider/DeploymentCenterVstsBuildConfiguredView';
-import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import DeploymentCenterDevOpsDataLoader from '../devops-provider/DeploymentCenterDevOpsDataLoader';
+import DeploymentCenterDevOpsKuduBuildConfiguredView from '../devops-provider/DeploymentCenterDevOpsKuduBuildConfiguredView';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -77,9 +76,9 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const isDropboxSource = formProps.values.sourceProvider === ScmType.Dropbox;
   const isDropboxSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.Dropbox;
 
-  const isVstsSource = formProps.values.sourceProvider === ScmType.Vsts;
   const isVstsSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vsts;
 
+  const isVsoSource = formProps.values.sourceProvider === ScmType.Vso;
   const isTfsOrVsoSetup =
     deploymentCenterContext.siteConfig &&
     (deploymentCenterContext.siteConfig.properties.scmType === ScmType.Tfs ||
@@ -188,9 +187,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
               {` ${t('learnMore')}`}
             </Link>
           </p>
-          {!isGitHubActionsSetup && !isVstsSetup && !isTfsOrVsoSetup && (
-            <DeploymentCenterCodeSourceKuduConfiguredView formProps={formProps} />
-          )}
+          {!isGitHubActionsSetup && !isVstsSetup && <DeploymentCenterCodeSourceKuduConfiguredView formProps={formProps} />}
           {isGitHubSourceSetup && <DeploymentCenterGitHubConfiguredView formProps={formProps} />}
           {isBitbucketSetup && <DeploymentCenterBitbucketConfiguredView formProps={formProps} />}
           {isLocalGitSetup && <DeploymentCenterLocalGitConfiguredView />}
@@ -198,11 +195,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {isOneDriveSetup && <DeploymentCenterOneDriveConfiguredView formProps={formProps} />}
           {isDropboxSetup && <DeploymentCenterDropboxConfiguredView formProps={formProps} />}
           {isVstsSetup && <DeploymentCenterVstsBuildConfiguredView />}
-          {isTfsOrVsoSetup && (
-            <div className={deploymentCenterInfoBannerDiv}>
-              <CustomBanner message={`${t('deploymentCenterTfsVsoInfoMessage')} `} type={MessageBarType.info} />
-            </div>
-          )}
+          {isTfsOrVsoSetup && <DeploymentCenterDevOpsKuduBuildConfiguredView formProps={formProps} />}
 
           {!isTfsOrVsoSetup && <DeploymentCenterCodeBuildConfiguredView />}
         </>
@@ -236,7 +229,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {isExternalGitSource && <DeploymentCenterExternalProvider formProps={formProps} />}
           {isOneDriveSource && <DeploymentCenterOneDriveDataLoader formProps={formProps} />}
           {isDropboxSource && <DeploymentCenterDropboxDataLoader formProps={formProps} />}
-          {isVstsSource && <DeploymentCenterDevOpsDataLoader formProps={formProps} />}
+          {isVsoSource && <DeploymentCenterDevOpsDataLoader formProps={formProps} />}
         </>
       )}
     </>

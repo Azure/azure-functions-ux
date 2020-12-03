@@ -106,9 +106,7 @@ export abstract class DeploymentCenterFormBuilder {
         return this.parent.externalRepoType === RepoTypeOptions.Private ? !!value : true;
       }),
       externalRepoType: Yup.mixed().notRequired(),
-      devOpsProject: Yup.mixed().test('projectRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return this.parent.sourceProvider === ScmType.Vsts ? !!value : true;
-      }),
+      devOpsProjectName: Yup.mixed().notRequired(),
     };
   }
 

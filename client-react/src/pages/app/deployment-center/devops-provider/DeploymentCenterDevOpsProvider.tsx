@@ -54,7 +54,7 @@ const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderPro
         id="deployment-center-settings-project-option"
         label={t('deploymentCenterProject')}
         placeholder={t('deploymentCenterProjectPlaceholder')}
-        name="devOpsProject"
+        name="devOpsProjectName"
         component={Dropdown}
         displayInVerticalLayout={true}
         options={projectOptions}
