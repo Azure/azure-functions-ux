@@ -39,6 +39,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       (deploymentCenterContext.siteConfig &&
         (deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit ||
           deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction ||
+          deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vsts ||
           deploymentCenterContext.siteConfig.properties.scmType === ScmType.None))
     );
   };
