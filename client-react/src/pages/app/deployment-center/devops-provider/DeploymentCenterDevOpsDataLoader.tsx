@@ -124,10 +124,14 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
       const response = await deploymentCenterData.getAzureDevOpsBranches(formProps.values.org, repoId);
 
       if (!!response && response.metadata.success) {
-        const dropdownItems = response.data.value.map(branch => ({
-          key: branch.name.replace('refs/heads/', ''),
-          text: branch.name.replace('refs/heads/', ''),
-        }));
+        const dropdownItems = response.data.value.map(branch => {
+          const branchName = branch.name.replace('refs/heads/', '');
+
+          return {
+            key: branchName,
+            text: branchName,
+          };
+        });
 
         setBranchOptions(dropdownItems);
       } else {
