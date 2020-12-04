@@ -16,8 +16,6 @@ import DeploymentCenterCodeBuildCallout from './DeploymentCenterCodeBuildCallout
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
-import Url from '../../../../utils/url';
-import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -62,13 +60,8 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       continuousDeploymentOptions.push({ key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') });
     }
 
-    const enableAzureDevOpsSetupValue = Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureDevOpsSetup);
-    if (
-      scenarioService.checkScenario(ScenarioIds.vstsKuduSource, { site: siteStateContext.site }).status !== 'disabled' &&
-      enableAzureDevOpsSetupValue &&
-      enableAzureDevOpsSetupValue.toLocaleLowerCase() === 'true'
-    ) {
-      continuousDeploymentOptions.push({ key: ScmType.Vsts, text: t('deploymentCenterCodeSettingsSourceAzureRepos') });
+    if (scenarioService.checkScenario(ScenarioIds.vstsKuduSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.Vso, text: t('deploymentCenterCodeSettingsSourceAzureRepos') });
     }
 
     return continuousDeploymentOptions.length > 0

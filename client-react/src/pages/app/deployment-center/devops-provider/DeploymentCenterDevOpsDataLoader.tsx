@@ -27,6 +27,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   const orgToProjectMapping = useRef<{ [key: string]: IDropdownOption[] }>({});
   const projectToRepoMapping = useRef<{ [key: string]: IDropdownOption[] }>({});
+  const repoUrlToIdMapping = useRef<{ [key: string]: string }>({});
 
   const fetchOrganizations = async () => {
     setLoadingOrganizations(true);
@@ -71,9 +72,11 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
           response.data.value.forEach(repository => {
             projects[repository.project.id] = repository.project.name;
             const repoDropdownItem = {
-              key: repository.id,
+              key: repository.remoteUrl,
               text: repository.name,
             };
+
+            repoUrlToIdMapping.current[repository.remoteUrl] = repository.id;
 
             if (projectToRepoMapping.current[repository.project.id]) {
               projectToRepoMapping.current[repository.project.id].push(repoDropdownItem);
@@ -117,13 +120,18 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
     if (formProps.values.org && formProps.values.repo) {
       setLoadingBranches(true);
 
-      const response = await deploymentCenterData.getAzureDevOpsBranches(formProps.values.org, formProps.values.repo);
+      const repoId = repoUrlToIdMapping.current[formProps.values.repo];
+      const response = await deploymentCenterData.getAzureDevOpsBranches(formProps.values.org, repoId);
 
       if (!!response && response.metadata.success) {
-        const dropdownItems = response.data.value.map(branch => ({
-          key: branch.name,
-          text: branch.name,
-        }));
+        const dropdownItems = response.data.value.map(branch => {
+          const branchName = branch.name.replace('refs/heads/', '');
+
+          return {
+            key: branchName,
+            text: branchName,
+          };
+        });
 
         setBranchOptions(dropdownItems);
       } else {
