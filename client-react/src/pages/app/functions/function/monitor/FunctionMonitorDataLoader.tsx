@@ -22,6 +22,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined | null>(undefined);
   const [appInsightsKeyType, setAppInsightsKeyType] = useState<AppInsightsKeyType | undefined>(undefined);
   const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo> | undefined>(undefined);
+  const [errorFetchingAppInsightsComponent, setErrorFetchingAppInsightsComponent] = useState(false);
 
   const startupInfoContext = useContext(StartupInfoContext);
   const portalContext = useContext(PortalContext);
@@ -52,14 +53,18 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
       if (!!aiResourceId) {
         const appInsightsResponse = await AppInsightsService.getAppInsights(aiResourceId);
         if (appInsightsResponse.metadata.success) {
+          setErrorFetchingAppInsightsComponent(false);
           setAppInsightsComponent(appInsightsResponse.data);
         } else {
+          setErrorFetchingAppInsightsComponent(true);
           LogService.error(
             LogCategories.functionLog,
             'getAppInsights',
             `Failed to get app insights: ${getErrorMessageOrStringify(appInsightsResponse.metadata.error)}`
           );
         }
+      } else {
+        setErrorFetchingAppInsightsComponent(true);
       }
     } else {
       setAppInsightsComponent(null);
@@ -124,6 +129,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
       appInsightsToken={appInsightsToken}
       appInsightsKeyType={appInsightsKeyType}
       functionInfo={functionInfo}
+      errorFetchingAppInsightsComponent={errorFetchingAppInsightsComponent}
     />
   );
 };

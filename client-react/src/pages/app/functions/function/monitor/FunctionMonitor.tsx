@@ -21,6 +21,7 @@ import FunctionLogsDataLoader from './tabs/logs/FunctionLogsDataLoader';
 
 interface FunctionMonitorProps {
   resourceId: string;
+  errorFetchingAppInsightsComponent: boolean;
   resetAppInsightsComponent: () => void;
   resetAppInsightsToken: () => void;
   appInsightsComponent?: ArmObj<AppInsightsComponent> | null;
@@ -30,7 +31,15 @@ interface FunctionMonitorProps {
 }
 
 const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
-  const { resourceId, resetAppInsightsComponent, appInsightsComponent, appInsightsToken, appInsightsKeyType, functionInfo } = props;
+  const {
+    resourceId,
+    resetAppInsightsComponent,
+    appInsightsComponent,
+    appInsightsToken,
+    appInsightsKeyType,
+    functionInfo,
+    errorFetchingAppInsightsComponent,
+  } = props;
   const { t } = useTranslation();
 
   const portalContext = useContext(PortalContext);
@@ -78,7 +87,29 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
     return '';
   };
 
-  const onAppInsightsKeyVaultWarningMessageClick = () => {
+  const getAppInsightsKeyErrorMessage = () => {
+    return (
+      <>
+        {t('appInsightsKeyError')}
+        <span onClick={onAppInsightsMessageClick} className={bannerLinkStyle(theme)}>
+          {t('clickToUpdateSettings')}
+        </span>
+      </>
+    );
+  };
+
+  const getAppInsightsKeyVaultErrorMessage = () => {
+    return (
+      <>
+        {t('appInsightsKeyVaultWarningMessage')}
+        <span onClick={onAppInsightsMessageClick} className={bannerLinkStyle(theme)}>
+          {t('clickToUpdateSettings')}
+        </span>
+      </>
+    );
+  };
+
+  const onAppInsightsMessageClick = () => {
     portalContext.openFrameBlade(
       {
         detailBlade: 'SiteConfigSettingsFrameBladeReact',
@@ -89,20 +120,15 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
   };
 
   if (!!appInsightsKeyType && appInsightsKeyType === AppInsightsKeyType.keyVault) {
-    const appInsightsKeyVaultWarningMessage = (
-      <>
-        {t('appInsightsKeyVaultWarningMessage')}
-        <span onClick={onAppInsightsKeyVaultWarningMessageClick} className={bannerLinkStyle(theme)}>
-          {t('clickToUpdateSettings')}
-        </span>
-      </>
-    );
-    return <CustomBanner message={appInsightsKeyVaultWarningMessage} type={MessageBarType.warning} />;
+    return <CustomBanner message={getAppInsightsKeyVaultErrorMessage()} type={MessageBarType.warning} />;
   } else {
     if (appInsightsComponent === undefined) {
-      return <LoadingComponent />;
+      return errorFetchingAppInsightsComponent ? (
+        <CustomBanner message={getAppInsightsKeyErrorMessage()} type={MessageBarType.error} />
+      ) : (
+        <LoadingComponent />
+      );
     }
-
     if (appInsightsComponent === null) {
       return (
         <AppInsightsSetup siteId={armFunctionDescriptor.getSiteOnlyResourceId()} fetchNewAppInsightsComponent={resetAppInsightsComponent} />
