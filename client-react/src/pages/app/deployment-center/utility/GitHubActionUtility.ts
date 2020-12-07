@@ -553,10 +553,10 @@ jobs:
     - uses: actions/checkout@master
 
     - name: Setup MSBuild path
-      uses: microsoft/setup-msbuild@v1.0.0
+      uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.2
+      uses: NuGet/setup-nuget@v1.0.5
 
     - name: Restore NuGet packages
       run: nuget restore
@@ -932,7 +932,6 @@ jobs:
       run: |
         pushd './\${{ env.POM_XML_DIRECTORY }}'
         mvn clean package
-        mvn azure-functions:package
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
@@ -987,7 +986,6 @@ jobs:
       run: |
         pushd './\${{ env.POM_XML_DIRECTORY }}'
         mvn clean package
-        mvn azure-functions:package
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
@@ -1012,7 +1010,7 @@ const getFunctionAppPythonLinuxWorkflow = (
   return `# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Powershell project to Azure Function App - ${webAppName}
+name: Build and deploy Python project to Azure Function App - ${webAppName}
 
 on:
   push:
