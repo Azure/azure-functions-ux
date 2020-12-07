@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
 import { BuildProvider } from '../../../../models/site/config';
@@ -22,7 +22,10 @@ import { SiteStateContext } from '../../../../SiteState';
 import { JavaContainers, WebAppRuntimes, WebAppStack } from '../../../../models/stacks/web-app-stacks';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { FunctionAppRuntimes, FunctionAppStack } from '../../../../models/stacks/function-app-stacks';
-import { AppStackMajorVersion, AppStackOs } from '../../../../models/stacks/app-stacks';
+import { AppStackOs } from '../../../../models/stacks/app-stacks';
+import { KeyValue } from '../../../../models/portal-models';
+
+type StackSettings = WebAppRuntimes & JavaContainers | FunctionAppRuntimes;
 
 const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -40,6 +43,11 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   const [stackMismatchMessage, setStackMismatchMessage] = useState<string>('');
   const [showNotSupportedWarningBar, setShowNotSupportedWarningBar] = useState(true);
   const [showMismatchWarningBar, setShowMismatchWarningBar] = useState(true);
+
+  // NOTE(michinoy): aggregate a cache of os, runtimestack, minor version, and github action
+  // recommended version mapping. This will make the look up post selection of dropdowns much
+  // simpler.
+  const gitHubActionRuntimeVersionMapping = useRef<KeyValue<string>>({});
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -86,6 +94,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
       runtimeStack.majorVersions.forEach(majorVersion => {
         majorVersion.minorVersions.forEach(minorVersion => {
+          addGitHubActionRuntimeVersionMapping(selectedStack, minorVersion.value, minorVersion.stackSettings);
           displayedVersions.push({ text: minorVersion.displayText, key: minorVersion.value });
         });
       });
@@ -135,28 +144,9 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   };
 
   const getRuntimeStackRecommendedVersion = (stackValue: string, runtimeVersionValue: string): string => {
-    const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === selectedRuntime);
-    if (runtimeStack) {
-      // NOTE(michinoy): Disabling preferred array literal rule to allow '.find' operation on the runtimeStacksData.
-      // tslint:disable-next-line: prefer-array-literal
-      const majorVersions = runtimeStack.majorVersions as Array<
-        AppStackMajorVersion<WebAppRuntimes & JavaContainers> | AppStackMajorVersion<FunctionAppRuntimes>
-      >;
-      const runtimeStackVersion = majorVersions.find(version => version.minorVersions[0].value === runtimeVersionValue);
-      if (runtimeStackVersion && runtimeStackVersion.minorVersions.length > 0) {
-        if (runtimeStackVersion.minorVersions[0].stackSettings.windowsRuntimeSettings) {
-          const recommendedVersion =
-            runtimeStackVersion.minorVersions[0].stackSettings.windowsRuntimeSettings.gitHubActionSettings.supportedVersion;
-          return recommendedVersion ? recommendedVersion : '';
-        }
-        if (runtimeStackVersion.minorVersions[0].stackSettings.linuxRuntimeSettings) {
-          const recommendedVersion =
-            runtimeStackVersion.minorVersions[0].stackSettings.linuxRuntimeSettings.gitHubActionSettings.supportedVersion;
-          return recommendedVersion ? recommendedVersion : '';
-        }
-      }
-    }
-    return '';
+    const key = generateGitHubActionRuntimeVersionMappingKey(siteStateContext.isLinuxApp, stackValue, runtimeVersionValue);
+
+    return gitHubActionRuntimeVersionMapping.current[key] ? gitHubActionRuntimeVersionMapping.current[key] : runtimeVersionValue;
   };
 
   const setDefaultSelectedRuntimeVersion = () => {
@@ -238,6 +228,31 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
         : { runtimeStack: '', runtimeVersion: '' };
     setDefaultStack(defaultStackAndVersion.runtimeStack);
     setDefaultVersion(defaultStackAndVersion.runtimeVersion);
+  };
+
+  const addGitHubActionRuntimeVersionMapping = (stack: string, minorVersion: string, stackSettings: StackSettings) => {
+    // NOTE(michinoy): Try our best to get the GitHub Action recommended version from the stacks API. At worst case,
+    // select the minor version. Do not fail at this point, like this in case if a new stack is incorrectly added, we can
+    // always fall back on the minor version instead of blocking or messing customers workflow file.
+    const key = generateGitHubActionRuntimeVersionMappingKey(siteStateContext.isLinuxApp, stack, minorVersion);
+    let version = minorVersion;
+
+    if (stackSettings.linuxRuntimeSettings) {
+      version = stackSettings.linuxRuntimeSettings.gitHubActionSettings.supportedVersion
+        ? stackSettings.linuxRuntimeSettings.gitHubActionSettings.supportedVersion
+        : minorVersion;
+    } else if (stackSettings.windowsRuntimeSettings) {
+      version = stackSettings.windowsRuntimeSettings.gitHubActionSettings.supportedVersion
+        ? stackSettings.windowsRuntimeSettings.gitHubActionSettings.supportedVersion
+        : minorVersion;
+    }
+
+    gitHubActionRuntimeVersionMapping.current[key] = version;
+  };
+
+  const generateGitHubActionRuntimeVersionMappingKey = (isLinuxApp: boolean, stack: string, minorVersion: string): string => {
+    const os = isLinuxApp ? AppStackOs.linux : AppStackOs.windows;
+    return `${os}-${stack.toLocaleLowerCase()}-${minorVersion.toLocaleLowerCase()}`;
   };
 
   useEffect(() => {
