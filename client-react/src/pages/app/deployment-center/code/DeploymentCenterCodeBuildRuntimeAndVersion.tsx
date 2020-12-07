@@ -230,6 +230,9 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   };
 
   const addGitHubActionRuntimeVersionMapping = (stack: string, minorVersion: string, stackSettings: StackSettings) => {
+    // NOTE(michinoy): Try our best to get the GitHub Action recommended version from the stacks API. At worst case,
+    // select the minor version. Do not fail at this point, like this in case if a new stack is incorrectly added, we can
+    // always fall back on the minor version instead of blocking or messing customers workflow file.
     const key = generateGitHubActionRuntimeVersionMappingKey(siteStateContext.isLinuxApp, stack, minorVersion);
     let version = minorVersion;
 
