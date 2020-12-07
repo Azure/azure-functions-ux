@@ -23,6 +23,7 @@ import { JavaContainers, WebAppRuntimes, WebAppStack } from '../../../../models/
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { FunctionAppRuntimes, FunctionAppStack } from '../../../../models/stacks/function-app-stacks';
 import { AppStackOs } from '../../../../models/stacks/app-stacks';
+import { KeyValue } from '../../../../models/portal-models';
 
 type StackSettings = WebAppRuntimes & JavaContainers | FunctionAppRuntimes;
 
@@ -46,7 +47,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   // NOTE(michinoy): aggregate a cache of os, runtimestack, minor version, and github action
   // recommended version mapping. This will make the look up post selection of dropdowns much
   // simpler.
-  const gitHubActionRuntimeVersionMapping = useRef<{ [key: string]: string }>({});
+  const gitHubActionRuntimeVersionMapping = useRef<KeyValue<string>>({});
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
