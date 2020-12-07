@@ -115,8 +115,10 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
     if (formProps.values.workflowOption && formProps.values.workflowOption !== WorkflowOption.None) {
       return formProps.values.workflowOption;
     } else if (workflowConfigOptions && workflowConfigOptions.length > 0 && workflowConfigOptions[0].key === WorkflowOption.Overwrite) {
+      formProps.setFieldValue('workflowOption', WorkflowOption.Overwrite);
       return WorkflowOption.Overwrite;
     } else {
+      formProps.setFieldValue('workflowOption', WorkflowOption.Add);
       return WorkflowOption.Add;
     }
   };
