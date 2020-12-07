@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { WorkflowOption, DeploymentCenterGitHubWorkflowConfigSelectorProps } from '../DeploymentCenter.types';
-import { IDropdownOption, MessageBarType, ProgressIndicator } from 'office-ui-fabric-react';
-import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import { IDropdownOption, ProgressIndicator } from 'office-ui-fabric-react';
 import { Field } from 'formik';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
@@ -16,34 +14,34 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
 
   const [showWorkflowConfigRadioButtons, setShowWorkflowConfigRadioButtons] = useState<boolean>(false);
   const [workflowConfigOptions, setWorkflowConfigOptions] = useState<IDropdownOption[] | undefined>(undefined);
-  const [workflowFileExistsWarningMessage, setWorkflowFileExistsWarningMessage] = useState<string | undefined>(undefined);
   const [isWorkflowConfigLoading, setIsWorkflowConfigLoading] = useState<boolean>(false);
-  const [showWarningBanner, setShowWarningBanner] = useState(true);
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
-  const overwriteOrUseExistingOptions = [
-    {
-      key: WorkflowOption.Overwrite,
-      text: t('deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite'),
-    },
-    {
-      key: WorkflowOption.UseExistingWorkflowConfig,
-      text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting'),
-    },
-  ];
+  const getOverwriteOrUseExistingOptions = (workflowFileName: string) => {
+    const workflowFileDisplayName = workflowFileName ? `'${workflowFileName}'` : '';
+    return [
+      {
+        key: WorkflowOption.Overwrite,
+        text: t('deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite').format(workflowFileDisplayName),
+      },
+      {
+        key: WorkflowOption.UseExistingWorkflowConfig,
+        text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting').format(workflowFileDisplayName),
+      },
+    ];
+  };
 
-  const addOrUseExistingOptions = [
-    { key: WorkflowOption.Add, text: t('deploymentCenterSettingsGitHubActionWorkflowOptionAdd') },
-    {
-      key: WorkflowOption.UseAvailableWorkflowConfigs,
-      text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable'),
-    },
-  ];
-
-  const closeWarningBanner = () => {
-    setShowWarningBanner(false);
+  const getAddOrUseExistingOptions = (workflowFileName: string) => {
+    const workflowFileDisplayName = workflowFileName ? `'${workflowFileName}'` : '';
+    return [
+      { key: WorkflowOption.Add, text: t('deploymentCenterSettingsGitHubActionWorkflowOptionAdd').format(workflowFileDisplayName) },
+      {
+        key: WorkflowOption.UseAvailableWorkflowConfigs,
+        text: t('deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable'),
+      },
+    ];
   };
 
   const fetchWorkflowConfiguration = async (org: string, repo: string, branch: string) => {
@@ -78,33 +76,15 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
       setGithubActionExistingWorkflowContents('');
 
       if (appWorkflowConfigurationResponse.metadata.success) {
-        setShowWarningBanner(true);
-        setWorkflowFileExistsWarningMessage(
-          t('githubActionWorkflowFileExists', {
-            workflowFilePath: workflowFilePath,
-            branchName: branch,
-          })
-        );
-
         if (appWorkflowConfigurationResponse.data.content) {
           setGithubActionExistingWorkflowContents(atob(appWorkflowConfigurationResponse.data.content));
         }
-
-        setWorkflowConfigOptions(overwriteOrUseExistingOptions);
+        setWorkflowConfigOptions(getOverwriteOrUseExistingOptions(workflowFileName));
         setShowWorkflowConfigRadioButtons(true);
       } else if (allWorkflowConfigurationsResponse.metadata.success && allWorkflowConfigurationsResponse.data.length > 0) {
-        setShowWarningBanner(true);
-        setWorkflowFileExistsWarningMessage(
-          t('githubActionWorkflowsExist', {
-            branchName: branch,
-          })
-        );
-
-        setWorkflowConfigOptions(addOrUseExistingOptions);
+        setWorkflowConfigOptions(getAddOrUseExistingOptions(workflowFileName));
         setShowWorkflowConfigRadioButtons(true);
       } else {
-        setShowWarningBanner(false);
-        setWorkflowFileExistsWarningMessage(undefined);
         formProps.setFieldValue('workflowOption', WorkflowOption.Add);
       }
     }
@@ -140,24 +120,17 @@ const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGit
         />
       )}
       {showWorkflowConfigRadioButtons && (
-        <>
-          {workflowFileExistsWarningMessage && showWarningBanner && (
-            <div className={deploymentCenterInfoBannerDiv}>
-              <CustomBanner message={workflowFileExistsWarningMessage} type={MessageBarType.warning} onDismiss={closeWarningBanner} />
-            </div>
-          )}
-          <Field
-            id="deployment-center-settings-workflow-option"
-            label={t('githubActionWorkflowOption')}
-            placeholder={t('deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder')}
-            name="workflowOption"
-            defaultSelectedKey={setDefaultWorkflowOption()}
-            component={RadioButton}
-            displayInVerticalLayout={true}
-            options={workflowConfigOptions}
-            required={true}
-          />
-        </>
+        <Field
+          id="deployment-center-settings-workflow-option"
+          label={t('githubActionWorkflowOption')}
+          placeholder={t('deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder')}
+          name="workflowOption"
+          defaultSelectedKey={setDefaultWorkflowOption()}
+          component={RadioButton}
+          displayInVerticalLayout={true}
+          options={workflowConfigOptions}
+          required={true}
+        />
       )}
     </>
   );

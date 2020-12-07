@@ -6571,16 +6571,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Fill out the required settings above to enable the preview.</value>
     </data>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite the workflow in the repository</value>
+        <value>Overwrite the workflow: Overwrite the existing workflow file {0} in the selected repository and branch.</value>
     </data>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Add a workflow in the repository</value>
+        <value>Add a workflow: Add a new workflow file {0} in the selected repository and branch.</value>
     </data>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Use existing repository workflow</value>
+        <value>Use existing workflow: Use the existing workflow file {0} in the selected repository and branch.</value>
     </data>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Use available repository workflow</value>
+        <value>Use available workflow: Use one of the workflow files available in the selected repository and branch.</value>
     </data>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Select workflow option</value>
