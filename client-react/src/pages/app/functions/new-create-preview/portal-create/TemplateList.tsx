@@ -6,7 +6,16 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import FunctionCreateData from '../FunctionCreate.data';
-import { Link, DetailsListLayoutMode, SelectionMode, CheckboxVisibility, IColumn, Selection, SearchBox } from 'office-ui-fabric-react';
+import {
+  Link,
+  DetailsListLayoutMode,
+  SelectionMode,
+  CheckboxVisibility,
+  IColumn,
+  Selection,
+  SearchBox,
+  MessageBarType,
+} from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import {
   templateListStyle,
@@ -25,6 +34,7 @@ import { sortTemplate } from '../FunctionCreate.types';
 import { FunctionCreateContext } from '../FunctionCreateContext';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { Links } from '../../../../../utils/FwLinks';
+import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 
 export interface TemplateListProps {
   resourceId: string;
@@ -225,6 +235,16 @@ const TemplateList: React.FC<TemplateListProps> = props => {
         />
       ) : (
         <>{/**TODO (krmitta): Add Error Banner here**/}</>
+      )}
+
+      {!!hostStatus && !hostStatus.properties.version.startsWith('1') && !hostStatus.properties.extensionBundle && (
+        <div>
+          <CustomBanner
+            type={MessageBarType.warning}
+            message={t('functionCreate_extensionBundlesRequired')}
+            learnMoreLink={Links.extensionBundlesRequiredLearnMore}
+          />
+        </div>
       )}
       {!!selectedTemplate && (
         <TemplateDetail
