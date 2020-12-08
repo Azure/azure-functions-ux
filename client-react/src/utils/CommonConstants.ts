@@ -1,34 +1,9 @@
 export class CommonConstants {
-  public static readonly Links = {
-    standaloneCreateLearnMore: 'https://go.microsoft.com/fwlink/?linkid=848756',
-    pythonLearnMore: 'https://go.microsoft.com/fwlink/?linkid=852196',
-    clientAffinityLearnMore: 'https://go.microsoft.com/fwlink/?linkid=798249',
-    FTPAccessLearnMore: 'https://go.microsoft.com/fwlink/?linkid=871316',
-    vmSizeLearnMore: 'https://go.microsoft.com/fwlink/?linkid=873022',
-    appServicePricing: 'https://go.microsoft.com/fwlink/?linkid=873021',
-    funcConnStringsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=875276',
-    extensionInstallHelpLink: 'https://go.microsoft.com/fwlink/?linkid=2010300',
-    funcStorageLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2010003',
-    updateExtensionsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2013353',
-    deploymentSlotsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2014035',
-    communityTemplatesLink: 'https://go.microsoft.com/fwlink/?linkid=2022552',
-    linuxContainersLearnMore: 'https://go.microsoft.com/fwlink/?linkid=861969',
-    premiumV2NotAvailableLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2009376',
-    azureComputeUnitLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2027465',
-    pv2UpsellInfoLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2028474',
-    ipRestrictionsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=854597',
-    appDensityWarningLink: 'https://go.microsoft.com/fwlink/?linkid=2098431',
-    byosBlobReadonlyLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2110146',
-    extensionBundlesRequiredLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2116575',
-    cronLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2117147&clcid=0x409',
-    quickstartViewDocumentation: 'https://go.microsoft.com/fwlink/?linkid=2119201',
-    bindingDirectionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2121806&clcid=0x409',
-  };
-
   public static readonly Kinds = {
     linux: 'linux',
     aseV1: 'ASEV1',
     aseV2: 'ASEV2',
+    aseV3: 'ASEV3',
     container: 'container',
     functionApp: 'functionapp',
     botapp: 'botapp',
@@ -51,10 +26,9 @@ export class CommonConstants {
     appInsightsTokenApiVersion20150501: '2015-05-01',
     appInsightsQueryApiVersion20180420: '2018-04-20',
     staticSitePreviewApiVersion20191201: '2019-12-01-preview',
-  };
-
-  public static readonly StackApiVersions = {
-    v1: 'v1',
+    stacksApiVersion20200501: '2020-05-01',
+    stacksApiVersion20200601: '2020-06-01',
+    acrApiVersion: '2019-05-01',
   };
 
   public static readonly NonThemeColors = {
@@ -66,6 +40,7 @@ export class CommonConstants {
   public static readonly FeatureFlags = {
     AllowFreeLinux: 'allowfreelinux',
     UseNewStacksApi: 'usenewstacksapi',
+    showHiddenStacks: 'showHiddenStacks',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -114,15 +89,6 @@ export class CommonConstants {
     v3: '~12',
   };
 
-  public static readonly WorkerRuntimeLanguages = {
-    dotnet: 'C#',
-    node: 'JavaScript',
-    nodejs: 'JavaScript',
-    python: 'Python',
-    java: 'Java',
-    powershell: 'PowerShell',
-  };
-
   public static localCacheOptionSettingValue = 'always';
 
   public static readonly QuickPulseEndpoints = {
@@ -134,7 +100,7 @@ export class CommonConstants {
   public static readonly AppInsightsEndpoints = {
     public: 'https://api.applicationinsights.io/v1/apps',
     fairfax: 'https://api.applicationinsights.us/v1/apps',
-    mooncake: 'https://api.applicationsinisights.azure.cn/v1/apps',
+    mooncake: 'https://api.applicationinsights.azure.cn/v1/apps',
   };
 
   public static readonly LogLevels = {
@@ -152,4 +118,38 @@ export class CommonConstants {
   };
 
   public static readonly newLine = '\n';
+
+  public static AppKeys = {
+    master: 'master',
+    eventGridV1: 'eventgridextensionconfig_extension',
+    eventGridV2: 'eventgrid_extension',
+  };
+
+  public static EventGridSubscriptionEndpoints = {
+    v1: 'admin/extensions/EventGridExtensionConfig',
+    v2: 'runtime/webhooks/EventGrid',
+  };
+
+  public static readonly NationalCloudArmUris = {
+    fairfax: 'https://management.usgovcloudapi.net',
+    blackforest: 'https://management.microsoftazure.de',
+    mooncake: 'https://management.chinacloudapi.cn',
+    usNat: 'https://management.azure.eaglex.ic.gov',
+    usSec: 'https://management.azure.microsoft.scloud',
+  };
+
+  public static readonly DefaultHiddenValue = '******';
+
+  public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
+}
+
+export enum WorkerRuntimeLanguages {
+  dotnet = 'dotnet',
+  javascript = 'javascript',
+  nodejs = 'node',
+  python = 'python',
+  java = 'java',
+  powershell = 'powershell',
+  php = 'php',
+  custom = 'custom',
 }

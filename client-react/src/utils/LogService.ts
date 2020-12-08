@@ -151,14 +151,19 @@ export default class LogService {
   private static _getTrackingData(data: any) {
     const properties = typeof data === 'object' ? data : { message: data };
 
+    const identifiers = window.appsvc
+      ? JSON.stringify({
+          hostName: window.appsvc.env && window.appsvc.env.hostName,
+          appName: window.appsvc.env && window.appsvc.env.appName,
+          version: window.appsvc.version,
+          resourceId: window.appsvc.resourceId,
+          feature: window.appsvc.feature,
+          frameId: window.appsvc.frameId,
+        })
+      : '';
+
     return {
-      identifiers: {
-        hostName: window.appsvc && window.appsvc.env && window.appsvc.env.hostName,
-        appName: window.appsvc && window.appsvc.env && window.appsvc.env.appName,
-        version: window.appsvc && window.appsvc.version,
-        resourceId: window.appsvc && window.appsvc.resourceId,
-        feature: window.appsvc && window.appsvc.feature,
-      },
+      identifiers,
       ...properties,
     };
   }

@@ -55,6 +55,8 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
   public publishProfileLink: SafeUrl;
   public profileName: string = '';
   public learnMoreLink = Links.deploymentCredentialsLearnMore;
+  public ftpDisabledByPolicy = false;
+  public ftpDisabledInfoLink = Links.ftpDisabledByPolicyLink;
 
   public scopeItems: SelectOption<CredentialScopeType>[] = [];
 
@@ -108,17 +110,32 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
             .getPublishingProfile(this._credentialsData.resourceId)
             .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)).first(x => x.publishMethod === 'FTP')),
           this._siteService.getPublishingCredentials(this._credentialsData.resourceId),
-          (hasWriteAccess, siteResponse, siteConfigResponse, publishingUser, publishingFtpProfile, publishingCredentials) => ({
+          this._siteService.getBasicPublishingCredentialsPolicies(this._credentialsData.resourceId),
+          (
             hasWriteAccess,
             siteResponse,
             siteConfigResponse,
             publishingUser,
             publishingFtpProfile,
             publishingCredentials,
+            basicPublishingCredentialsPolicies
+          ) => ({
+            hasWriteAccess,
+            siteResponse,
+            siteConfigResponse,
+            publishingUser,
+            publishingFtpProfile,
+            publishingCredentials,
+            basicPublishingCredentialsPolicies,
           })
         );
       })
       .do(responses => {
+        this.ftpDisabledByPolicy =
+          responses.basicPublishingCredentialsPolicies &&
+          responses.basicPublishingCredentialsPolicies.result &&
+          responses.basicPublishingCredentialsPolicies.properties &&
+          !responses.basicPublishingCredentialsPolicies.properties.ftp.allow;
         this.hasWriteAccess = responses.hasWriteAccess;
         this.siteAvailabilityStateNormal =
           responses.siteResponse &&
@@ -284,7 +301,7 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
     const requiredValidation = new RequiredValidator(this._translateService, true);
 
     //The password should be at least eight characters long and must contain letters and numbers.
-    const passwordMinimumRequirementsRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d@$!%*#?&]{8,}$/;
+    const passwordMinimumRequirementsRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[`~!@#$%^&*()-_=+{}[;':",.<>?])[A-Za-z\d`~!@#$%^&*()-_=+{}[;':",.<>?]{8,}$/;
 
     //The specified password does not meet the minimum requirements.
     const passwordValidator = RegexValidator.create(

@@ -30,15 +30,15 @@ function run<T>(action: () => T): any {
 @Injectable()
 export class AiService implements IAppInsights {
   /*
-    * Config object used to initialize AppInsights
-    */
+   * Config object used to initialize AppInsights
+   */
   config: IConfig = run(() => appInsights.config);
 
   context: any = run(() => appInsights.context);
 
   /*
-    * Initialization queue. Contains functions to run when appInsights initializes
-    */
+   * Initialization queue. Contains functions to run when appInsights initializes
+   */
   queue: (() => void)[] = run(() => appInsights.queue);
 
   private _traceStartTimes: { [name: string]: number } = {};
@@ -158,7 +158,8 @@ export class AiService implements IAppInsights {
    */
   @AiDefined()
   trackEvent(name: string, properties?: { [name: string]: string }, measurements?: { [name: string]: number }) {
-    return appInsights.trackEvent(name, properties, measurements);
+    const data = this._getTrackingData(properties);
+    return appInsights.trackEvent(name, data, measurements);
   }
 
   /**
@@ -255,8 +256,8 @@ export class AiService implements IAppInsights {
   }
 
   /*
-    * Downloads and initializes AppInsights. You can override default script download location by specifying url property of `config`.
-    */
+   * Downloads and initializes AppInsights. You can override default script download location by specifying url property of `config`.
+   */
   @AiDefined()
   downloadAndSetup(config: IConfig): void {
     return appInsights.downloadAndSetup(config);
@@ -273,5 +274,25 @@ export class AiService implements IAppInsights {
   @AiDefined()
   _onerror(message: string, url: string, lineNumber: number, columnNumber: number, error: Error) {
     return appInsights._onerror(message, url, lineNumber, columnNumber, error);
+  }
+
+  private _getTrackingData(data: any) {
+    const properties = data ? (typeof data === 'object' ? data : { message: data }) : {};
+
+    const identifiers = window.appsvc
+      ? JSON.stringify({
+          hostName: window.appsvc.env && window.appsvc.env.hostName,
+          appName: window.appsvc.env && window.appsvc.env.appName,
+          version: window.appsvc.version,
+          resourceId: window.appsvc.resourceId,
+          feature: window.appsvc.feature,
+          frameId: window.appsvc.frameId,
+        })
+      : '';
+
+    return {
+      identifiers,
+      ...properties,
+    };
   }
 }

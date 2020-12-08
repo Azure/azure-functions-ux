@@ -796,6 +796,9 @@
     <data name="integrate_triggersHelp" xml:space="preserve">
         <value>Triggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger.</value>
     </data>
+    <data name="integrate_unknownCardTitle" xml:space="preserve">
+        <value>Unknown</value>
+    </data>
     <data name="binding_createNewFunction" xml:space="preserve">
         <value>Create a new function triggered by this output</value>
     </data>
@@ -2149,6 +2152,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="validation_siteNameMaxChars" xml:space="preserve">
         <value>The name must be fewer than 60 characters</value>
     </data>
+    <data name="validation_slotNameMaxChars" xml:space="preserve">
+        <value>The combined site name and slot name must be fewer than 59 characters</value>
+    </data>
     <data name="validation_siteNameInvalidChar" xml:space="preserve">
         <value>'{0}' is an invalid character</value>
     </data>
@@ -3253,9 +3259,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Outgoing IP addresses for your app might change.</value>
     </data>
-    <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>Your app service plan {0} has exceeded the recommended number of apps for its size.</value>
-    </data>
     <data name="free" xml:space="preserve">
         <value>Free</value>
     </data>
@@ -3272,7 +3275,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Choose a different pricing tier to add more resources for your plan</value>
     </data>
     <data name="pricing_applyButtonLabel" xml:space="preserve">
-        <value>Update App Service plan</value>
+        <value>Apply changes</value>
     </data>
     <data name="pricing_sharedInfrastructure" xml:space="preserve">
         <value>Shared infrastructure</value>
@@ -3868,6 +3871,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>Failed to set up deployment: {0}</value>
+    </data>
+    <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>Failed to update publishing user credentials: {0}</value>
+    </data>
+    <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>Failed to update publishing user credentials</value>
+    </data>
+    <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>Successfully updated publishing user credentials</value>
+    </data>
+    <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>Updating publishing user credentials</value>
     </data>
     <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>You can't register a new application in Azure Active Directory. Learn more: https://go.microsoft.com/fwlink/?linkid=843472. More details: {0}</value>
@@ -4956,13 +4971,25 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Access restrictions have been added to your function app. This may affect your ability to manage it from the portal and make the runtime unreachable.</value>
     </data>
     <data name="userCredsError" xml:space="preserve">
-        <value>The specified password does not meet the minimum requirements. The password should be at least eight characters long and must contain letters and numbers.</value>
+        <value>The specified password does not meet the minimum requirements. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols.</value>
     </data>
     <data name="incomingClientCertificates" xml:space="preserve">
         <value>Incoming client certificates</value>
     </data>
     <data name="requireIncomingClientCertificates" xml:space="preserve">
         <value>Require incoming certificate</value>
+    </data>
+    <data name="clientCertificateMode" xml:space="preserve">
+        <value>Client certificate mode</value>
+    </data>
+    <data name="clientCertificateModeRequire" xml:space="preserve">
+        <value>Require</value>
+    </data>
+    <data name="clientCertificateModeAllow" xml:space="preserve">
+        <value>Allow</value>
+    </data>
+    <data name="clientCertificateModeIgnore" xml:space="preserve">
+        <value>Ignore</value>
     </data>
     <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Certificate exclusion paths</value>
@@ -5322,9 +5349,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionKeyNamesUnique" xml:space="preserve">
         <value>Function key names must be unique</value>
     </data>
-    <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Preview)</value>
-    </data>
     <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
     </data>
@@ -5679,8 +5703,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Remote debugging is not available for your application. </value>
     </data>
-    <data name="tryFunctionsNewExperience" xml:space="preserve">
-        <value>Try the new Azure Functions management experience</value>
+    <data name="classicDeprecation" xml:space="preserve">
+        <value>The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.</value>
     </data>
     <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Save changes</value>
@@ -5724,6 +5748,30 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
         <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
     </data>
+    <data name="githubActionWorkflowFileLabel" xml:space="preserve">
+        <value>Workflow file</value>
+    </data>
+    <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
+        <value>Preserve</value>
+    </data>
+    <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
+        <value>Preserve file '{0}' from branch '{1}' in repository '{2}'. This may trigger deployments to your app on commits to the branch.</value>
+    </data>
+    <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
+        <value>Delete</value>
+    </data>
+    <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
+        <value>Delete file '{0}' from branch '{1}' in repository '{2}'. This will prevent future deployments to your app on commits to this branch.</value>
+    </data>
+    <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
+        <value>Disconnecting the GitHub Action will prevent any future deployments trigerred by commits.</value>
+    </data>
+    <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
+        <value>GitHub Action workflow file '{0}' from branch '{1}' in repository '{2}' does not exist. Select 'OK' to disconnect deployment.</value>
+    </data>
+    <data name="githubActionWorkflowFileDeletePanelChoiceDescription" xml:space="preserve">
+        <value>Would you also like to remove the workflow file from your GitHub repository?</value>
+    </data>
     <data name="emptyFunctionKeys" xml:space="preserve">
         <value>No function keys to display</value>
     </data>
@@ -5744,12 +5792,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="disableFunctionTestTooltip" xml:space="preserve">
         <value>Test is only supported for HTTP triggered functions</value>
-    </data>
-    <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
-    </data>
-    <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
     <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
         <value>GitHub Action Workflow Filename</value>
@@ -5774,6 +5816,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
         <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+    </data>
+    <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
+        <value>If an existing workflow configuration exists, it will be overwritten.</value>
     </data>
     <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>Refresh app files</value>
@@ -5801,6 +5846,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="integrate_bindingsFailedLoading" xml:space="preserve">
         <value>One or more bindings failed to load, please refresh the page.</value>
+    </data>
+    <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
+        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
     </data>
     <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Delete Function Key</value>
@@ -5892,6 +5940,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirm GitHub Action Disconnect</value>
     </data>
+    <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Confirm App Service Build Service Disconnect</value>
+    </data>
+    <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
+        <value>Fetching GitHub Action workflow configuration</value>
+    </data>
+    <data name="deploymentCenterGitHubDisconnectLoading" xml:space="preserve">
+        <value>Fetching GitHub Action workflow configuration...</value>
+    </data>
     <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
         <value>Failed to delete '{0}' workflow file from branch '{1}' in repository '{2}'. This could be caused by either the file being renamed or already deleted.</value>
     </data>
@@ -5918,6 +5975,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Deployment center refresh command</value>
+    </data>
+    <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
+        <value>Deployment center sync command</value>
+    </data>
+    <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
+        <value>Error fetching information</value>
+    </data>
+    <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>Unable to retrieve account information</value>
     </data>
     <data name="managePublishProfile" xml:space="preserve">
         <value>Manage publish profile</value>
@@ -5949,20 +6015,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="blaclistFile_message" xml:space="preserve">
         <value>Editing this file type is not supported in the portal editor.</value>
     </data>
-    <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
-        <value>No environment variables to display</value>
+    <data name="staticSite_emptyApplicationSettingList" xml:space="preserve">
+        <value>No application setting to display</value>
     </data>
-    <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+    <data name="staticSite_addNewApplicationSetting" xml:space="preserve">
         <value>Add</value>
     </data>
-    <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
-        <value>Add new environment variable</value>
+    <data name="staticSite_ariaLabel_addNewApplicationSetting" xml:space="preserve">
+        <value>Add new application setting</value>
     </data>
-    <data name="staticSite_environmentVariables" xml:space="preserve">
-        <value>Environment variables</value>
+    <data name="staticSite_applicationSettings" xml:space="preserve">
+        <value>Application settings</value>
     </data>
-    <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
-        <value>Environment variables applicable to your site are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below.</value>
+    <data name="staticSite_applicationSettingsInfoMessage" xml:space="preserve">
+        <value>Application settings applicable to your site are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below.</value>
     </data>
     <data name="staticSite_environment" xml:space="preserve">
         <value>Environment</value>
@@ -5970,11 +6036,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
         <value>Select the environment for the site</value>
     </data>
-    <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Filter environment variable</value>
+    <data name="staticSite_filterApplicationSetting" xml:space="preserve">
+        <value>Filter application setting</value>
     </data>
     <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+        <value>Are you sure you want to discard the changes to the application settings for the environment {0}?</value>
     </data>
     <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
         <value>Your unsaved changes will be discarded.</value>
@@ -5982,41 +6048,47 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
         <value>Are you sure you would like to change environment?</value>
     </data>
-    <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} is a required property on all environment variables</value>
+    <data name="staticSite_applicationSettingPropIsRequired" xml:space="preserve">
+        <value>{0} is a required property on all application settings</value>
     </data>
-    <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Environment variable name must be unique</value>
+    <data name="staticSite_applicationSettingNamesUnique" xml:space="preserve">
+        <value>Application setting name must be unique</value>
     </data>
-    <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>Environment variable values must be an array</value>
+    <data name="staticSite_applicationSettingValuesMustBeAnArray" xml:space="preserve">
+        <value>Application setting values must be an array</value>
     </data>
-    <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} is an invalid environment variable property</value>
+    <data name="staticSite_applicationSettingInvalidProperty" xml:space="preserve">
+        <value>{0} is an invalid application setting property</value>
     </data>
-    <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>All environment variable value and name properties must be of type string</value>
+    <data name="staticSite_applicationSettingValueMustBeAString" xml:space="preserve">
+        <value>All application setting value and name properties must be of type string</value>
     </data>
     <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>Your site is currently in read only mode because your RBAC assigned access is set to: Reader</value>
     </data>
-    <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+    <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
         <value>Logs</value>
     </data>
-    <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
-        <value>Container logs</value>
+    <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
+        <value>Deployment center logs</value>
     </data>
-    <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+    <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
         <value>Settings</value>
     </data>
-    <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
-        <value>Container settings</value>
+    <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
+        <value>Deployment center settings</value>
     </data>
     <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>FTP/FTPs credentials</value>
+        <value>FTPS credentials</value>
     </data>
     <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>FTP or FTPs credentials</value>
+        <value>FTPS credentials</value>
+    </data>
+    <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
+        <value>Local Git/FTPS credentials</value>
+    </data>
+    <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
+        <value>Local Git or FTPS credentials</value>
     </data>
     <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Loading container logs</value>
@@ -6037,19 +6109,34 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>The twenty most recent function invocation traces. For more advanced analysis, run the query in Application Insights.</value>
     </data>
     <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
-        <value>Refresh environment variables</value>
+        <value>Refresh application settings</value>
     </data>
     <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
     </data>
-    <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
-        <value>Add environment variable</value>
+    <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to refresh?</value>
     </data>
-    <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
-        <value>Edit environment variable</value>
+    <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to sync?</value>
+    </data>
+    <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
+        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+    </data>
+    <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to discard?</value>
+    </data>
+    <data name="deploymentCenterDataLossMessage" xml:space="preserve">
+        <value>All unsaved changes will be lost.</value>
+    </data>
+    <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
+        <value>Add application setting</value>
+    </data>
+    <data name="staticSite_editApplicationSettingHeader" xml:space="preserve">
+        <value>Edit application setting</value>
     </data>
     <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTPS credentials can be scoped to the application or the user.</value>
     </data>
     <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>FTPS endpoint</value>
@@ -6058,13 +6145,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Application scope</value>
     </data>
     <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTPS, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
     </data>
     <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>User scope</value>
     </data>
     <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
     </data>
     <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(your username)</value>
@@ -6081,17 +6168,26 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
         <value>Write permission on the site or the slot is required to view credentials.</value>
     </data>
+    <data name="deploymentCenterPublishingUserLoadingMessage" xml:space="preserve">
+        <value>Loading user credentials</value>
+    </data>
+    <data name="deploymentCenterPublishingUserLoadingAriaLabel" xml:space="preserve">
+        <value>Loading user credentials</value>
+    </data>
+    <data name="publishingUserFetchFailedMessage" xml:space="preserve">
+        <value>Failed to download publishing user information: {0}</value>
+    </data>
     <data name="appKeys_hostKeys_description" xml:space="preserve">
-        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+        <value>Use Host keys with your clients to access all your HTTP functions in the app. _master key grants admin access to Functions Runtime APIs.</value>
     </data>
     <data name="appKeys_systemKeys_description" xml:space="preserve">
-        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+        <value>System keys are automatically managed by the Function runtime. System Keys provide granular access to functions runtime features.</value>
     </data>
     <data name="functionKeys_description" xml:space="preserve">
-        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+        <value>Function keys are scoped to this function and can be used to access this function.</value>
     </data>
     <data name="staticSite_noFunctionMessage" xml:space="preserve">
-        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+        <value>Application settings are only applicable to Static Web Apps with at least one function. Add a function to your app to enable Configuration.</value>
     </data>
     <data name="reset" xml:space="preserve">
         <value>Reset</value>
@@ -6116,5 +6212,578 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
         <value>Hide provider user confirm password</value>
+    </data>
+    <data name="resetPublishProfileConfirmationTitle" xml:space="preserve">
+        <value>Reset application publish profile password?</value>
+    </data>
+    <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
+        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
+    </data>
+    <data name="usernameLengthRequirements" xml:space="preserve">
+        <value>The username must be at least {0} characters in length.</value>
+    </data>
+    <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
+        <value>This field is required</value>
+    </data>
+    <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
+        <value>The repository must begin with https://</value>
+    </data>
+    <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
+        <value>Use these settings to configure your container app deployment model and registry. We recommend GitHub Actions for greater operational efficiency.</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsDescription" xml:space="preserve">
+        <value>Deploy and build code from your preferred source and build provider.</value>
+    </data>
+    <data name="deploymentCenterSettingsSourceLabel" xml:space="preserve">
+        <value>Source</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourcePlaceholder" xml:space="preserve">
+        <value>Select code source</value>
+    </data>
+    <data name="deploymentCenterSettingsBuildTitle" xml:space="preserve">
+        <value>Build</value>
+    </data>
+    <data name="deploymentCenterSettingsBuildLabel" xml:space="preserve">
+        <value>Build provider</value>
+    </data>
+    <data name="deploymentCenterSettingsRuntimeLabel" xml:space="preserve">
+        <value>Runtime stack</value>
+    </data>
+    <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
+        <value>Version</value>
+    </data>
+    <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
+        <value>Container Registry</value>
+    </data>
+    <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
+        <value>Setup up your app to pull the container image from a registry.</value>
+    </data>
+    <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+    <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
+        <value>Build, deploy, and manage your container app automatically with GitHub Actions.</value>
+    </data>
+    <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
+        <value>You must have direct network access in order to run your function. Your app may be restricted with Private Endpoints, Access Restrictions or Service Endpoints.</value>
+    </data>
+    <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+    <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
+        <value>GitHub</value>
+    </data>
+    <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
+    <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+    <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+    <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>Folder</value>
+    </data>
+     <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
+        <value>External Git</value>
+    </data>
+    <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
+        <value>Username</value>
+    </data>
+    <data name="deploymentCenterCodeExternalPasswordLabel" xml:space="preserve">
+        <value>Password</value>
+    </data>
+    <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
+        <value>Repository Type</value>
+    </data>
+    <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+    <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>main</value>
+    </data>
+    <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
+        <value>Private</value>
+    </data>
+    <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
+        <value>Public</value>
+    </data>
+    <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
+        <value>Your local git repository url will be generated upon completion.</value>
+    </data>
+    <data name="deploymentCenterCodeLocalGitBranchSetupMessage" xml:space="preserve">
+        <value>master</value>
+    </data>
+    <data name="deploymentCenterCodeLocalGitCloneUri" xml:space="preserve">
+        <value>Git Clone Uri</value>
+    </data>
+    <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
+        <value>There was an error fetching the Git Clone Uri</value>
+    </data>
+    <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
+        <value>Synchronization Request Submitted</value>
+    </data>
+    <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+        <value>The repository for web app {0} is being updated</value>
+    </data>
+    <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+        <value>The repository for web app {0} has been updated successfully</value>
+    </data>
+    <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
+        <value>Failed to sync: {0}</value>
+    </data>
+    <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
+        <value>Failed to sync</value>
+    </data>
+    <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
+        <value>Registry settings</value>
+    </data>
+    <data name="deploymentCenterContainerRegistryOptionsLabel" xml:space="preserve">
+        <value>Options</value>
+    </data>
+    <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
+        <value>Registry source</value>
+    </data>
+    <data name="deploymentCenterPublishProfileDescription" xml:space="preserve">
+        <value>Import the publish profile to Visual Studio or other clients to connect and push a deployment to your WebApp.</value>
+    </data>
+    <data name="downloadPublishProfile" xml:space="preserve">
+        <value>Download publish profile</value>
+    </data>
+    <data name="managePublishProfileCommandBarAriaLabel" xml:space="preserve">
+        <value>Manage publish profile commands</value>
+    </data>
+    <data name="downloadingPublishProfile" xml:space="preserve">
+        <value>Downloading publish profile</value>
+    </data>
+    <data name="downloadingPublishProfileFailed" xml:space="preserve">
+        <value>Failed to download publish profile</value>
+    </data>
+    <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
+        <value>Successfully downloaded publish profile</value>
+    </data>
+    <data name="staticSite_configUpdating" xml:space="preserve">
+        <value>Updating application settings</value>
+    </data>
+    <data name="staticSite_configUpdateSuccess" xml:space="preserve">
+        <value>Successfully updated application settings</value>
+    </data>
+    <data name="staticSite_configUpdateFailure" xml:space="preserve">
+        <value>Failed to update application settings: {0}</value>
+    </data>
+    <data name="clickToShowValue" xml:space="preserve">
+        <value>Click to show value</value>
+    </data>
+    <data name="clickToHideValue" xml:space="preserve">
+        <value>Click to hide value</value>
+    </data>
+    <data name="testAndRun" xml:space="preserve">
+        <value>Test/Run</value>
+    </data>
+    <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
+        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+    </data>
+    <data name="clickToUpdateSettings" xml:space="preserve">
+        <value>Click here to update your settings.</value>
+    </data>
+    <data name="deploymentCenterCodeLogsCICDNotConfiguredHeader" xml:space="preserve">
+        <value>CI/CD is not configured</value>
+    </data>
+    <data name="deploymentCenterCodeLogsCICDNotConfiguredDescription" xml:space="preserve">
+        <value>To start, go to Settings tab and set up CI/CD.</value>
+    </data>
+    <data name="deploymentCenterCodeLogsCICDNotConfiguredGoToSettings" xml:space="preserve">
+        <value>Go to Settings</value>
+    </data>
+    <data name="deploymentCenterCodeLogsNoDeployments" xml:space="preserve">
+        <value>No deployments found</value>
+    </data>
+    <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment logs</value>
+    </data>
+    <data name="deploymentCenterCodeDeploymentsLoading" xml:space="preserve">
+        <value>Loading deployment logs...</value>
+    </data>
+    <data name="deploymentCenterFtpLoadingAriaValue" xml:space="preserve">
+        <value>Loading FTP/FTPs credentials</value>
+    </data>
+    <data name="deploymentCenterFtpLoading" xml:space="preserve">
+        <value>Loading FTP/FTPs credentials...</value>
+    </data>
+    <data name="deploymentCenterCodeDeploymentsFailed" xml:space="preserve">
+        <value>Failed to load deployment logs</value>
+    </data>
+    <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
+        <value>Failed to load deployment logs: {0}</value>
+    </data>
+    <data name="deploymentCenterCodeLogDetailsFailed" xml:space="preserve">
+        <value>Failed to load log details</value>
+    </data>
+    <data name="deploymentCenterCodeLogDetailsFailedWithError" xml:space="preserve">
+        <value>Failed to load log details: {0}</value>
+    </data>
+    <data name="deploymentCenterCodeLogActivityFailed" xml:space="preserve">
+        <value>Failed to load activity</value>
+    </data>
+    <data name="deploymentCenterCodeLogActivityFailedWithError" xml:space="preserve">
+        <value>Failed to load log activity: {0}</value>
+    </data>
+    <data name="deploymentCenterCodeDeploymentLogActivityLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment log activity</value>
+    </data>
+    <data name="deploymentCenterCodeDeploymentLogActivityLoading" xml:space="preserve">
+        <value>Loading deployment log activity...</value>
+    </data>
+    <data name="logDetailsHeader" xml:space="preserve">
+        <value>Log Details</value>
+    </data>
+    <data name="deploymentCenterOAuthFetchingUserInformation" xml:space="preserve">
+        <value>Fetching user information...</value>
+    </data>
+    <data name="deploymentCenterOAuthAuthorizingUser" xml:space="preserve">
+        <value>Authorizing user...</value>
+    </data>
+    <data name="deploymentCenterOAuthAuthorizeAriaLabel" xml:space="preserve">
+        <value>Authorize user</value>
+    </data>
+    <data name="deploymentCenterOAuthAuthorize" xml:space="preserve">
+        <value>Authorize</value>
+    </data>
+    <data name="deploymentCenterOAuthChangeAccount" xml:space="preserve">
+        <value>Change Account</value>
+    </data>
+    <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
+        <value>Signed in as</value>
+    </data>
+    <data name="deploymentCenterOAuthOrganization" xml:space="preserve">
+        <value>Organization</value>
+    </data>
+    <data name="deploymentCenterOAuthOrganizationPlaceholder" xml:space="preserve">
+        <value>Select organization</value>
+    </data>
+    <data name="deploymentCenterOAuthProject" xml:space="preserve">
+        <value>Project</value>
+    </data>
+    <data name="deploymentCenterOAuthProjectPlaceholder" xml:space="preserve">
+        <value>Select project</value>
+    </data>
+    <data name="deploymentCenterOAuthRepository" xml:space="preserve">
+        <value>Repository</value>
+    </data>
+    <data name="deploymentCenterOAuthRepositoryPlaceholder" xml:space="preserve">
+        <value>Select repository</value>
+    </data>
+    <data name="deploymentCenterOAuthBranch" xml:space="preserve">
+        <value>Branch</value>
+    </data>
+    <data name="deploymentCenterOAuthBranchPlaceholder" xml:space="preserve">
+        <value>Select branch</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourcPlaceholder" xml:space="preserve">
+        <value>Select code source</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceContinuousDeploymentHeader" xml:space="preserve">
+        <value>Continuous Deployment (CI/CD)</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceManualDeploymentHeader" xml:space="preserve">
+        <value>Manual Deployment (Push)</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceGitHub" xml:space="preserve">
+        <value>GitHub</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceAzureRepos" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceBitbucket" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceOneDrive" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceExternalGit" xml:space="preserve">
+        <value>External Git</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
+        <value>App Service Build Service</value>
+    </data>
+    <data name="leaveFeedback" xml:space="preserve">
+        <value>Leave Feedback</value>
+    </data>
+    <data name="functionLogsFeedbackCESQuestion" xml:space="preserve">
+        <value>How easy or difficult is it to use the improved logs feature backed by Application Insights to debug your application?</value>
+    </data>
+    <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
+        <value>How valuable is the new logs feature backed by Application Insights?</value>
+    </data>
+    <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>How easy or difficult is it to use this improved App Service deployment center page?</value>
+    </data>
+    <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>How valuable is this improved App Service deployment center page?</value>
+    </data>
+    <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
+        <value>If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.</value>
+    </data>
+    <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
+        <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
+    </data>
+    <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
+        <value>GitHub Token not found, click authorize to set up GitHub token.</value>
+    </data>
+    <data name="deploymentCenterSettingsWorkflowConfigTitle" xml:space="preserve">
+        <value>Workflow Configuration</value>
+    </data>
+    <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
+        <value>File with the workflow configuration defined by the settings above.</value>
+    </data>
+    <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
+        <value>Preview file</value>
+    </data>
+    <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
+        <value>Fill out the required settings above to enable the preview.</value>
+    </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite the workflow in the repository</value>
+    </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
+        <value>Add a workflow in the repository</value>
+    </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Use existing repository workflow</value>
+    </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
+        <value>Use available repository workflow</value>
+    </data>
+    <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
+        <value>Select workflow option</value>
+    </data>
+    <data name="deploymentCenterWorkflowConfigsLoadingAriaValue" xml:space="preserve">
+        <value>Loading workflow configurations</value>
+    </data>
+    <data name="deploymentCenterWorkflowConfigsLoading" xml:space="preserve">
+        <value>Loading workflow configurations...</value>
+    </data>
+    <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
+        <value>File path</value>
+    </data>
+    <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
+        <value>Building with GitHub Actions.</value>
+    </data>
+    <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
+        <value>Building with App Service Build Service.</value>
+    </data>
+    <data name="deploymentCenterChangeBuildText" xml:space="preserve">
+        <value>Change provider.</value>
+    </data>
+    <data name="functionMonitor_orchestrations" xml:space="preserve">
+        <value>Orchestrations</value>
+    </data>
+    <data name="functionMonitor_entities" xml:space="preserve">
+        <value>Entities</value>
+    </data>
+    <data name="functionEditor_appInsightsLogs" xml:space="preserve">
+        <value>App Insights Logs</value>
+    </data>
+    <data name="functionEditor_fileBasedLogs" xml:space="preserve">
+        <value>Filesystem Logs</value>
+    </data>
+    <data name="functionEditor_fileBasedLogsCalloutMessage" xml:space="preserve">
+        <value>Switching to filesystem based logs may have an impact on the runtime performance of your Function app. It also may not work if there are network restrictions setup such as IP Restrictions, VNET, etc.</value>
+    </data>
+    <data name="orchestrationTracesTableTitle" xml:space="preserve">
+        <value>Orchestration Traces</value>
+    </data>
+    <data name="orchestrationTracesTableDescription" xml:space="preserve">
+        <value>The twenty most recent function orchestration traces. For more advanced analysis, run the query in Application Insights.</value>
+    </data>
+    <data name="runtimeStatus" xml:space="preserve">
+        <value>Runtime Status</value>
+    </data>
+    <data name="instanceId" xml:space="preserve">
+        <value>Instance Id</value>
+    </data>
+    <data name="filterOrchestrations" xml:space="preserve">
+        <value>Filter orchestrations</value>
+    </data>
+    <data name="entityTracesTableTitle" xml:space="preserve">
+        <value>Entity Traces</value>
+    </data>
+    <data name="entityTracesTableDescription" xml:space="preserve">
+        <value>The twenty most recent function entity traces. For more advanced analysis, run the query in Application Insights.</value>
+    </data>
+    <data name="filterEntities" xml:space="preserve">
+        <value>Filter entities</value>
+    </data>
+    <data name="state" xml:space="preserve">
+        <value>State</value>
+    </data>
+    <data name="orchestrationDetails" xml:space="preserve">
+        <value>Orchestration Details</value>
+    </data>
+    <data name="failedToFetchRepositories" xml:space="preserve">
+        <value>Failed to get a list of repositories.</value>
+    </data>
+    <data name="failedToFetchTags" xml:space="preserve">
+        <value>Failed to get a list of tags.</value>
+    </data>
+    <data name="entityDetails" xml:space="preserve">
+        <value>Entity Details</value>
+    </data>
+    <data name="durableFunctionNoDataFound" xml:space="preserve">
+        <value>No data found. Please make sure you install the latest Durable Functions extension (.NET) or use V2 of extension bundles.</value>
+    </data>
+    <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
+        <value>Learn more about flex stamps.</value>
+    </data>
+    <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about Ootgoing IP addresses.</value>
+    </data>
+    <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
+        <value>Learn more about app service plan density.</value>
+    </data>
+    <data name="ibizafication_readOnlyLinuxElastic" xml:space="preserve">
+        <value>Your app is currently in read only mode because Elastic Premium on Linux requires running from a package.</value>
+    </data>
+    <data name="stackVersionAutoUpdate" xml:space="preserve">
+        <value>{0} (auto-update)</value>
+    </data>
+    <data name="versionLabel" xml:space="preserve">
+        <value>{0} Version</value>
+    </data>
+    <data name="javaWebServer" xml:space="preserve">
+        <value>Java web server</value>
+    </data>
+    <data name="javaWebServerVersion" xml:space="preserve">
+        <value>Java web server version</value>
+    </data>
+    <data name="ftpDisabledByPolicy" xml:space="preserve">
+        <value>FTP is disabled by access policy.</value>
+    </data>
+    <data name="ibizafication_readOnlyCustom" xml:space="preserve">
+        <value>Editing Function Apps using CustomHandler is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+    </data>
+    <data name="selectDevelopmentEnvironment" xml:space="preserve">
+        <value>Select development environment</value>
+    </data>
+    <data name="selectDevelopmentEnvironmentDescription" xml:space="preserve">
+        <value>Instructions will vary based on your development environment. </value>
+    </data>
+    <data name="developmentEnvironment" xml:space="preserve">
+        <value>Development environment</value>
+    </data>
+     <data name="selectTemplate" xml:space="preserve">
+        <value>Select a template</value>
+    </data>
+    <data name="selectTemplateDescription" xml:space="preserve">
+        <value>Use a template to create a function. Triggers describe the type of events that invoke your functions. </value>
+    </data>
+    <data name="description" xml:space="preserve">
+        <value>Description</value>
+    </data>
+    <data name="templateDetails" xml:space="preserve">
+        <value>Template details</value>
+    </data>
+    <data name="detailDescription" xml:space="preserve">
+        <value>We need more information to create the {0} function. </value>
+    </data>
+    <data name="developInPortal" xml:space="preserve">
+        <value>Develop in portal</value>
+    </data>
+    <data name="fileSharesFailure" xml:space="preserve">
+        <value>Failed to fetch file shares in the storage account</value>
+    </data>
+    <data name="fileSharesFailureWithError" xml:space="preserve">
+        <value>Failed to fetch file shares in the storage account with error: {0}</value>
+    </data>
+    <data name="blobsFailure" xml:space="preserve">
+        <value>Failed to fetch blobs in the storage account</value>
+    </data>
+    <data name="blobsFailureWithError" xml:space="preserve">
+        <value>Failed to fetch blobs in the storage account with error: {0}</value>
+    </data>
+    <data name="blobsAndFileSharesFailure" xml:space="preserve">
+        <value>Failed to fetch blobs and file shares in the storage account</value>
+    </data>
+    <data name="containerImage" xml:space="preserve">
+        <value>Image name</value>
+    </data>
+    <data name="containerImagePlaceholder" xml:space="preserve">
+        <value>E.g. nginx</value>
+    </data>
+    <data name="savingContainerConfiguration" xml:space="preserve">
+        <value>Saving container configuration</value>
+    </data>
+    <data name="savingContainerConfigurationSuccess" xml:space="preserve">
+        <value>Successfully saved container configuration</value>
+    </data>
+    <data name="savingContainerConfigurationFailed" xml:space="preserve">
+        <value>Failed to save container configuration</value>
+    </data>
+    <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
+        <value>Failed to save container configuration: {0}</value>
+    </data>
+    <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
+        <value>Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.</value>
+    </data>
+    <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
+        <value>The server URL must begin with https://</value>
+    </data>
+    <data name="pricing_pv3NotAvailable" xml:space="preserve">
+        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    </data>
+    <data name="hyperVIsolation" xml:space="preserve">
+        <value>Hyper-V Isolation</value>
+    </data>
+    <data name="hyperVIsolationDesc" xml:space="preserve">
+        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+    </data>
+    <data name="pricing_ACU_Pv3" xml:space="preserve">
+        <value>{0} minimum ACU/vCPU</value>
+    </data>
+    <data name="pricing_vCores" xml:space="preserve">
+        <value>{0} vCPU</value>
+    </data>
+    <data name="functionInfoFetchError" xml:space="preserve">
+        <value>Unable to fetch your function</value>
+    </data>
+    <data name="createHostKeyNotification" xml:space="preserve">
+        <value>Creating host key</value>
+    </data>
+    <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>Creating system key</value>
+    </data>
+    <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>Creating function key</value>
+    </data>
+    <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>Creating {0}</value>
+    </data>
+    <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>Successfully created {0}</value>
+    </data>
+    <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>Failed to create {0}</value>
+    </data>
+    <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>Failed to create {0}: {1}</value>
+    </data>
+    <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (deprecated)</value>
+    </data>
+    <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (preview)</value>
+    </data>
+    <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>Mount path cannot be '/'</value>
     </data>
 </root>

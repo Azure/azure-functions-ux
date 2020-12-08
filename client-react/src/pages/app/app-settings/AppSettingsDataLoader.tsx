@@ -1,29 +1,27 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues, AppSettingsReferences, AppSettingsAsyncData, LoadingStates } from './AppSettings.types';
-import {
-  convertStateToForm,
-  convertFormToState,
-  flattenVirtualApplicationsList,
-  getCleanedConfigForSave,
-  getCleanedReferences,
-} from './AppSettingsFormData';
+import { convertStateToForm, convertFormToState, getCleanedReferences } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import {
   fetchApplicationSettingValues,
   fetchSlots,
   updateSite,
-  updateWebConfig,
   updateSlotConfigNames,
   getProductionAppWritePermissions,
-  updateStorageMounts,
   getAllAppSettingReferences,
   fetchAzureStorageAccounts,
   getFunctions,
   fetchFunctionsHostStatus,
 } from './AppSettings.service';
-import { AvailableStack } from '../../../models/available-stacks';
-import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext, SiteContext } from './Contexts';
+import {
+  PermissionsContext,
+  StorageAccountsContext,
+  SlotsListContext,
+  SiteContext,
+  WebAppStacksContext,
+  FunctionAppStacksContext,
+} from './Contexts';
 import { PortalContext } from '../../../PortalContext';
 import { useTranslation } from 'react-i18next';
 import { HttpResponseObject } from '../../../ArmHelper.types';
@@ -34,12 +32,15 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
-import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
-import { isFunctionApp } from '../../../utils/arm-utils';
+import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { StartupInfoContext } from '../../../StartupInfoContext';
 import { LogCategories } from '../../../utils/LogCategories';
 import { KeyValue } from '../../../models/portal-models';
 import { getErrorMessage, getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
+import { WebAppStack } from '../../../models/stacks/web-app-stacks';
+import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
+import { AppStackOs } from '../../../models/stacks/app-stacks';
+import { FunctionAppStack } from '../../../models/stacks/function-app-stacks';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -80,7 +81,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [initialLoading, setInitialLoading] = useState(false);
   const [loadingFailure, setLoadingFailure] = useState(false);
   const [refreshValues, setRefreshValues] = useState(false);
-  const [currentAvailableStacks, setCurrentAvailableStacks] = useState<ArmArray<AvailableStack>>({ value: [] });
+  const [webAppStacks, setWebAppStacks] = useState<WebAppStack[]>([]);
+  const [functionAppStacks, setFunctionAppStacks] = useState<FunctionAppStack[]>([]);
   const [appPermissions, setAppPermissions] = useState<boolean>(true);
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);
@@ -119,20 +121,48 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchData = async () => {
-    const [
-      site,
-      { webConfig, metadata, connectionStrings, applicationSettings, slotConfigNames, azureStorageMounts, windowsStacks, linuxStacks },
-    ] = await Promise.all([siteContext.fetchSite(resourceId), fetchApplicationSettingValues(resourceId)]);
+    const [site, basicPublishingCredentialsPolicies, applicationSettingsResponse] = await Promise.all([
+      siteContext.fetchSite(resourceId),
+      SiteService.getBasicPublishingCredentialsPolicies(resourceId),
+      fetchApplicationSettingValues(resourceId),
+    ]);
 
-    const loadingFailed =
+    const {
+      webConfig,
+      metadata,
+      connectionStrings,
+      applicationSettings,
+      slotConfigNames,
+      azureStorageMounts,
+    } = applicationSettingsResponse;
+
+    let loadingFailed =
       armCallFailed(site) ||
       armCallFailed(webConfig) ||
       armCallFailed(metadata, true) ||
       armCallFailed(connectionStrings, true) ||
       armCallFailed(applicationSettings, true) ||
-      armCallFailed(azureStorageMounts, true) ||
-      armCallFailed(windowsStacks) ||
-      armCallFailed(linuxStacks);
+      armCallFailed(azureStorageMounts, true);
+
+    // Get stacks response
+    if (!loadingFailed) {
+      const isLinux = isLinuxApp(site.data);
+      if (isFunctionApp(site.data)) {
+        const stacksResponse = await RuntimeStackService.getFunctionAppConfigurationStacks(isLinux ? AppStackOs.linux : AppStackOs.windows);
+        if (stacksResponse.metadata.status) {
+          setFunctionAppStacks(stacksResponse.data);
+        } else {
+          loadingFailed = true;
+        }
+      } else {
+        const stacksResponse = await RuntimeStackService.getWebAppConfigurationStacks(isLinux ? AppStackOs.linux : AppStackOs.windows);
+        if (stacksResponse.metadata.status) {
+          setWebAppStacks(stacksResponse.data);
+        } else {
+          loadingFailed = true;
+        }
+      }
+    }
 
     setLoadingFailure(loadingFailed);
 
@@ -147,7 +177,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
     if (!loadingFailed) {
       setCurrentSiteNonForm(site.data);
-
       if (isFunctionApp(site.data)) {
         SiteService.fireSyncTrigger(site.data, startUpInfoContext.token || '').then(r => {
           if (!r.metadata.success) {
@@ -196,14 +225,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
+          basicPublishingCredentialsPolicies: basicPublishingCredentialsPolicies.metadata.success
+            ? basicPublishingCredentialsPolicies.data
+            : null,
         }),
       });
-
-      if (site.data.kind!.includes('linux')) {
-        setCurrentAvailableStacks(linuxStacks.data);
-      } else {
-        setCurrentAvailableStacks(windowsStacks.data);
-      }
     }
     LogService.stopTrackPage('shell', { feature: 'AppSettings' });
     portalContext.loadComplete();
@@ -219,10 +245,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchReferences = async () => {
-    if (!isSlot()) {
-      const appSettingReferences = await getAllAppSettingReferences(resourceId);
-      setReferences({ appSettings: appSettingReferences.metadata.success ? getCleanedReferences(appSettingReferences.data) : null });
-    }
+    const appSettingReferences = await getAllAppSettingReferences(resourceId);
+    setReferences({ appSettings: appSettingReferences.metadata.success ? getCleanedReferences(appSettingReferences.data) : null });
   };
 
   const fetchStorageAccounts = async () => {
@@ -275,11 +299,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     fetchStorageAccounts();
   };
 
-  const isSlot = () => {
-    const siteDescriptor = new ArmSiteDescriptor(resourceId);
-    return siteDescriptor.slot;
-  };
-
   useEffect(() => {
     loadData();
 
@@ -305,35 +324,26 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
     setSaving(true);
-    const { site, config, slotConfigNames, storageMounts, slotConfigNamesModified, storageMountsModified } = convertFormToState(
+    const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
+    const { site, slotConfigNames, slotConfigNamesModified } = convertFormToState(
       values,
       metadataFromApi,
       initialValues!,
       slotConfigNamesFromApi
     );
-    const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
-    const siteUpdate = updateSite(resourceId, site);
-    const configUpdate = updateWebConfig(resourceId, getCleanedConfigForSave(config));
-    const slotConfigNamesUpdate =
-      productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null);
-    const storageMountsUpdate = storageMountsModified ? updateStorageMounts(resourceId, storageMounts) : Promise.resolve(null);
-    const [siteResult, configResult, slotConfigNamesResult, storageMountsResult] = await Promise.all([
-      siteUpdate,
-      configUpdate,
-      slotConfigNamesUpdate,
-      storageMountsUpdate,
-    ]);
 
-    const success =
-      siteResult!.metadata.success &&
-      configResult!.metadata.success &&
-      (!slotConfigNamesResult || slotConfigNamesResult.metadata.success) &&
-      (!storageMountsResult || storageMountsResult.metadata.success);
+    const [siteUpdate, slotConfigNamesUpdate] = [
+      updateSite(resourceId, site),
+      productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
+    ];
+
+    const [siteResult, slotConfigNamesResult] = await Promise.all([siteUpdate, slotConfigNamesUpdate]);
+
+    const success = siteResult!.metadata.success && (!slotConfigNamesResult || slotConfigNamesResult.metadata.success);
 
     if (success) {
       setInitialValues({
         ...values,
-        virtualApplications: flattenVirtualApplicationsList(configResult!.data.properties.virtualApplications),
       });
       if (slotConfigNamesResult) {
         setSlotConfigNamesFromApi(slotConfigNamesResult.data);
@@ -354,11 +364,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
-      const siteError = getErrorMessage(siteResult!.metadata.error);
-      const configError = getErrorMessage(configResult!.metadata.error);
-      const slotConfigError = getErrorMessage(slotConfigNamesResult && slotConfigNamesResult.metadata.error);
-      const storageMountsError = getErrorMessage(storageMountsResult && storageMountsResult.metadata.error);
-      const errorMessage = siteError || configError || slotConfigError || storageMountsError;
+      const [siteError, slotConfigError] = [
+        getErrorMessage(siteResult!.metadata.error),
+        getErrorMessage(slotConfigNamesResult && slotConfigNamesResult.metadata.error),
+      ];
+      const errorMessage = siteError || slotConfigError;
       const message = errorMessage ? t('configUpdateFailureExt').format(errorMessage) : t('configUpdateFailure');
       portalContext.stopNotification(notificationId, false, message);
     }
@@ -378,23 +388,25 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   }
 
   return (
-    <AvailableStacksContext.Provider value={currentAvailableStacks}>
-      <PermissionsContext.Provider value={{ editable, saving, app_write: appPermissions, production_write: productionPermissions }}>
-        <StorageAccountsContext.Provider value={storageAccountsState}>
-          <SiteContext.Provider value={currentSiteNonForm}>
-            <SlotsListContext.Provider value={slotList}>
-              {children({
-                onSubmit,
-                scaleUpPlan,
-                asyncData,
-                refreshAppSettings,
-                initialFormValues: initialValues,
-              })}
-            </SlotsListContext.Provider>
-          </SiteContext.Provider>
-        </StorageAccountsContext.Provider>
-      </PermissionsContext.Provider>
-    </AvailableStacksContext.Provider>
+    <WebAppStacksContext.Provider value={webAppStacks}>
+      <FunctionAppStacksContext.Provider value={functionAppStacks}>
+        <PermissionsContext.Provider value={{ editable, saving, app_write: appPermissions, production_write: productionPermissions }}>
+          <StorageAccountsContext.Provider value={storageAccountsState}>
+            <SiteContext.Provider value={currentSiteNonForm}>
+              <SlotsListContext.Provider value={slotList}>
+                {children({
+                  onSubmit,
+                  scaleUpPlan,
+                  asyncData,
+                  refreshAppSettings,
+                  initialFormValues: initialValues,
+                })}
+              </SlotsListContext.Provider>
+            </SiteContext.Provider>
+          </StorageAccountsContext.Provider>
+        </PermissionsContext.Provider>
+      </FunctionAppStacksContext.Provider>
+    </WebAppStacksContext.Provider>
   );
 };
 

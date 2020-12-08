@@ -19,17 +19,15 @@ export class DropboxController {
   @Post('api/dropbox/passthrough')
   @HttpCode(200)
   async passthrough(
-    @Body('authToken') authToken: string,
+    @Body('dropBoxToken') dropBoxToken: string,
     @Body('url') url: string,
     @Body('content_type') contentType: string,
     @Body('arg') arg
   ) {
-    const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
-
     try {
       const response = await this.httpService.post(url, arg, {
         headers: {
-          Authorization: `Bearer ${tokenData.token}`,
+          Authorization: `Bearer ${dropBoxToken}`,
           'Content-Type': contentType || '',
         },
       });
@@ -65,9 +63,9 @@ export class DropboxController {
     return 'Successfully Authenticated. Redirecting...';
   }
 
-  @Post('auth/dropbox/storeToken')
+  @Post('auth/dropbox/getToken')
   @HttpCode(200)
-  async storeToken(@Session() session, @Body('redirUrl') redirUrl: string, @Body('authToken') authToken: string) {
+  async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
     const state = this.dcService.getParameterByName('state', redirUrl);
     if (
       !session ||
@@ -90,8 +88,11 @@ export class DropboxController {
           },
         }
       );
-      const token = r.data.access_token;
-      this.dcService.saveToken(token, authToken, this.provider);
+      return {
+        accessToken: r.data.access_token,
+        refreshToken: '',
+        environment: null,
+      };
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);

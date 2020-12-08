@@ -18,8 +18,9 @@ import { TableItem, GetTableHash } from 'app/controls/tbl/tbl.component';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { GithubService } from '../../deployment-center-setup/wizard-logic/github.service';
 import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
-import { UserService } from '../../../../shared/services/user.service';
 import { GitHubCommit, FileContent } from '../../Models/github';
+import { ProviderService } from '../../../../shared/services/provider.service';
+import { SourceControl } from '../../../../shared/models/arm/provider';
 
 enum DeployStatus {
   Pending,
@@ -57,7 +58,7 @@ class GithubActionTableItem implements TableItem {
   selector: 'app-github-action-dashboard',
   templateUrl: './github-action-dashboard.component.html',
   styleUrls: ['./github-action-dashboard.component.scss'],
-  providers: [GithubService],
+  providers: [GithubService, ProviderService],
 })
 export class GithubActionDashboardComponent extends DeploymentDashboard implements OnChanges, OnDestroy {
   @Input()
@@ -83,8 +84,8 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   private _tableItems: GithubActionTableItem[];
   private _deleteWorkflowDuringDisconnect = false;
   private _actionWorkflowFileName = '';
-  private _token = '';
   private _repoName = '';
+  private _gitHubToken = '';
 
   constructor(
     private _portalService: PortalService,
@@ -92,14 +93,10 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
     private _siteService: SiteService,
     private _broadcastService: BroadcastService,
     private _githubService: GithubService,
-    userService: UserService,
+    private _providerService: ProviderService,
     translateService: TranslateService
   ) {
     super(translateService);
-
-    userService.getStartupInfo().subscribe(info => {
-      this._token = `Bearer ${info.token}`;
-    });
 
     this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
     this._setupRepositoryStatusStream();
@@ -280,7 +277,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       const workflowFilePath = `.github/workflows/${this._actionWorkflowFileName}`;
 
       return this._githubService
-        .fetchWorkflowConfiguration(this._token, this.repositoryText, this._repoName, this.branchText, workflowFilePath)
+        .fetchWorkflowConfiguration(this._gitHubToken, this.repositoryText, this._repoName, this.branchText, workflowFilePath)
         .switchMap(result => this._deleteWorkflowFile(workflowFilePath, result))
         .do(_ => successStatus)
         .catch(err => {
@@ -305,7 +302,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
         sha: fileContent.sha,
       };
 
-      return this._githubService.deleteActionWorkflow(this._token, deleteCommitInfo);
+      return this._githubService.deleteActionWorkflow(this._gitHubToken, deleteCommitInfo);
     } else {
       // NOTE (michinoy): fetchWorkflowConfiguration return null if the file is not found.
       return Observable.throw({
@@ -329,13 +326,15 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
           this._siteService.getSiteSourceControlConfig(resourceId, this._forceLoad),
           this._siteService.getSiteDeployments(resourceId),
           this._siteService.getPublishingUser(),
-          (site, siteConfig, pubCreds, sourceControl, deployments, publishingUser) => ({
+          this._providerService.getUserSourceControl('github'),
+          (site, siteConfig, pubCreds, sourceControl, deployments, publishingUser, gitHubUserSourceControl) => ({
             site: site.result,
             siteConfig: siteConfig.result,
             pubCreds: pubCreds.result,
             sourceControl: sourceControl.result,
             deployments: deployments.result,
             publishingUser: publishingUser.result,
+            gitHubToken: gitHubUserSourceControl.result,
           })
         );
       })
@@ -343,6 +342,8 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
         r => {
           this._busyManager.clearBusy();
           this._forceLoad = false;
+          this._gitHubToken = (r.gitHubToken as ArmObj<SourceControl>).properties.token;
+
           this.deploymentObject = {
             site: r.site,
             siteConfig: r.siteConfig,
@@ -403,8 +404,10 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       .takeUntil(this._ngUnsubscribe$)
       .switchMap(_ =>
         Observable.zip(
-          this._githubService.fetchRepo(this._token, this.repositoryText, this._repoName).catch(r => Observable.of(r)),
-          this._githubService.fetchBranch(this._token, this.repositoryText, this._repoName, this.branchText).catch(r => Observable.of(r))
+          this._githubService.fetchRepo(this._gitHubToken, this.repositoryText, this._repoName).catch(r => Observable.of(r)),
+          this._githubService
+            .fetchBranch(this._gitHubToken, this.repositoryText, this._repoName, this.branchText)
+            .catch(r => Observable.of(r))
         )
       )
       .subscribe(responses => {

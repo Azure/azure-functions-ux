@@ -1,5 +1,5 @@
 import { HostStatus } from './../models/functions/host-status';
-import { ArmArray, ArmObj } from './../models/arm-obj';
+import { ArmArray, ArmObj, UntrackedArmObj } from './../models/arm-obj';
 import MakeArmCall from './ArmHelper';
 import { FunctionInfo } from '../models/functions/function-info';
 import { sendHttpRequest, getTextHeaders } from './HttpClient';
@@ -12,6 +12,7 @@ import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
 import { Method } from 'axios';
 import { KeyValue } from '../models/portal-models';
+import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -36,10 +37,8 @@ export default class FunctionsService {
     const sampleData = filesCopy['sample.dat'];
     delete filesCopy['sample.dat'];
 
-    const functionInfo: ArmObj<FunctionInfo> = {
+    const functionInfo: UntrackedArmObj<FunctionInfo> = {
       id: resourceId,
-      name: '',
-      location: '',
       properties: {
         name: functionName,
         files: filesCopy,
@@ -48,7 +47,7 @@ export default class FunctionsService {
       },
     };
 
-    return MakeArmCall<ArmObj<FunctionInfo>>({
+    return MakeArmCall<UntrackedArmObj<FunctionInfo>>({
       resourceId,
       commandName: 'createFunction',
       method: 'PUT',
@@ -123,33 +122,15 @@ export default class FunctionsService {
     });
   }
 
-  public static getHostJson(resourceId: string, functionName: string, runtimeVersion?: string) {
+  public static getHostJson(resourceId: string, runtimeVersion?: string) {
     const headers = FunctionsService._addOrGetVfsHeaders();
-
-    switch (runtimeVersion) {
-      case RuntimeExtensionCustomVersions.beta:
-      case RuntimeExtensionMajorVersions.v2:
-      case RuntimeExtensionMajorVersions.v3: {
-        return MakeArmCall<Host>({
-          resourceId: `${resourceId}/hostruntime/admin/vfs/host.json`,
-          commandName: 'getHostJson',
-          queryString: '?relativePath=1',
-          method: 'GET',
-          headers,
-          skipBatching: true, // Batch API doesn't accept no-cache headers
-        });
-      }
-      case RuntimeExtensionMajorVersions.v1:
-      default: {
-        return MakeArmCall<Host>({
-          resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot/${functionName}/function.json`,
-          commandName: 'getHostJson',
-          method: 'GET',
-          headers,
-          skipBatching: true, // Batch API doesn't accept no-cache headers
-        });
-      }
-    }
+    return MakeArmCall<Host>({
+      headers,
+      resourceId: `${resourceId}${FunctionsService._getVfsApiForRuntimeVersion('/host.json', runtimeVersion)}`,
+      commandName: 'getHostJson',
+      method: 'GET',
+      skipBatching: true, // Batch API doesn't accept no-cache headers
+    });
   }
 
   public static getFileContent(
@@ -199,6 +180,47 @@ export default class FunctionsService {
   public static getDataFromFunctionHref(url: string, method: Method, headers: KeyValue<string>, body?: any) {
     return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
       return this.tryPassThroughController(err, url, method, headers, body);
+    });
+  }
+
+  public static getTestDataOverVfsArm(resourceId: string, fileEndpoint: string, runtimeVersion?: string) {
+    const headers = FunctionsService._addOrGetVfsHeaders();
+    let uri;
+
+    switch (runtimeVersion) {
+      case RuntimeExtensionCustomVersions.beta:
+      case RuntimeExtensionMajorVersions.v2:
+      case RuntimeExtensionMajorVersions.v3: {
+        uri = `/hostruntime/admin/vfs/${fileEndpoint}?relativePath=1`;
+        break;
+      }
+      case RuntimeExtensionMajorVersions.v1:
+      default:
+        uri = `/extensions/api/vfs/${fileEndpoint}`;
+    }
+
+    return MakeArmCall<VfsObject[] | string>({
+      headers,
+      resourceId: `${resourceId}${uri}`,
+      commandName: 'getTestDataOverVfsArm',
+      method: 'GET',
+      skipBatching: true, // Batch API doesn't accept no-cache headers
+    });
+  }
+
+  public static getStorageContainers(accountName: string, data: any) {
+    return sendHttpRequest<ContainerItem[]>({
+      data,
+      url: `${Url.serviceHost}/api/getStorageContainers?accountName=${accountName}`,
+      method: 'POST',
+    });
+  }
+
+  public static getStorageFileShares(accountName: string, data: any) {
+    return sendHttpRequest<ShareItem[]>({
+      data,
+      url: `${Url.serviceHost}/api/getStorageFileShares?accountName=${accountName}`,
+      method: 'POST',
     });
   }
 

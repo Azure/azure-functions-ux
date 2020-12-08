@@ -1,4 +1,4 @@
-import { Links } from 'app/shared/models/constants';
+import { Links, FeatureFlags, LogCategories } from 'app/shared/models/constants';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { FreePlanPriceSpec } from './free-plan-price-spec';
 import { SharedPlanPriceSpec } from './shared-plan-price-spec';
@@ -7,6 +7,7 @@ import { StandardSmallPlanPriceSpec, StandardMediumPlanPriceSpec, StandardLargeP
 import { PremiumV2SmallPlanPriceSpec, PremiumV2MediumPlanPriceSpec, PremiumV2LargePlanPriceSpec } from './premiumv2-plan-price-spec';
 import { PremiumSmallPlanPriceSpec, PremiumMediumPlanPriceSpec, PremiumLargePlanPriceSpec } from './premium-plan-price-spec';
 import { IsolatedSmallPlanPriceSpec, IsolatedMediumPlanPriceSpec, IsolatedLargePlanPriceSpec } from './isolated-plan-price-spec';
+import { PremiumV3SmallPlanPriceSpec, PremiumV3MediumPlanPriceSpec, PremiumV3LargePlanPriceSpec } from './premiumv3-plan-price-spec';
 import {
   PremiumContainerSmallPriceSpec,
   PremiumContainerMediumPriceSpec,
@@ -25,6 +26,9 @@ import { PlanPriceSpecManager } from './plan-price-spec-manager';
 import { GenericPlanPriceSpec } from './generic-plan-price-spec';
 import { PricingTier } from 'app/shared/models/arm/pricingtier';
 import { ArmArrayResult } from 'app/shared/models/arm/arm-obj';
+import { Url } from 'app/shared/Utilities/url';
+import { FlightingUtil } from '../../../shared/Utilities/flighting-utility';
+import { LogService } from '../../../shared/services/log.service';
 
 export enum BannerMessageLevel {
   ERROR = 'error',
@@ -76,10 +80,12 @@ export abstract class PriceSpecGroup {
   isExpanded = false;
 
   protected ts: TranslateService;
+  protected logService: LogService;
 
   constructor(protected injector: Injector, protected specManager: PlanPriceSpecManager) {
     this.ts = injector.get(TranslateService);
     this.emptyInfoLinkText = this.ts.instant(PortalResources.clickToLearnMore);
+    this.logService = injector.get(LogService);
   }
 
   abstract initialize(input: PriceSpecInput);
@@ -109,7 +115,7 @@ export class GenericSpecGroup extends PriceSpecGroup {
   }
 
   initialize(input: PriceSpecInput) {
-    this.pricingTiers.value.forEach((pricingTier) => {
+    this.pricingTiers.value.forEach(pricingTier => {
       if (input.plan) {
         if (input.plan.properties.hyperV !== pricingTier.properties.isXenon) {
           return;
@@ -191,12 +197,13 @@ export class DevSpecGroup extends PriceSpecGroup {
 
   initialize(input: PriceSpecInput) {
     if (input.specPickerInput.data) {
+      const enablePv3Skus = Url.getFeatureValue(FeatureFlags.enablePv3Skus) === 'true';
       if (input.specPickerInput.data.isLinux) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_linuxTrial),
           level: BannerMessageLevel.INFO,
         };
-      } else if (input.specPickerInput.data.isXenon || input.specPickerInput.data.hyperV) {
+      } else if (!enablePv3Skus && (input.specPickerInput.data.isXenon || input.specPickerInput.data.hyperV)) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_windowsContainers),
           level: BannerMessageLevel.INFO,
@@ -212,6 +219,9 @@ export class ProdSpecGroup extends PriceSpecGroup {
     new PremiumV2SmallPlanPriceSpec(this.injector, this.specManager),
     new PremiumV2MediumPlanPriceSpec(this.injector, this.specManager),
     new PremiumV2LargePlanPriceSpec(this.injector, this.specManager),
+    new PremiumV3SmallPlanPriceSpec(this.injector, this.specManager),
+    new PremiumV3MediumPlanPriceSpec(this.injector, this.specManager),
+    new PremiumV3LargePlanPriceSpec(this.injector, this.specManager),
     new PremiumContainerSmallPriceSpec(this.injector),
     new PremiumContainerMediumPriceSpec(this.injector),
     new PremiumContainerLargePriceSpec(this.injector),
@@ -242,12 +252,13 @@ export class ProdSpecGroup extends PriceSpecGroup {
 
   initialize(input: PriceSpecInput) {
     if (input.specPickerInput.data) {
+      const enablePv3Skus = Url.getFeatureValue(FeatureFlags.enablePv3Skus) === 'true';
       if (input.specPickerInput.data.isLinux) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_linuxTrial),
           level: BannerMessageLevel.INFO,
         };
-      } else if (input.specPickerInput.data.isXenon || input.specPickerInput.data.hyperV) {
+      } else if (!enablePv3Skus && (input.specPickerInput.data.isXenon || input.specPickerInput.data.hyperV)) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_windowsContainers),
           level: BannerMessageLevel.INFO,
@@ -256,9 +267,18 @@ export class ProdSpecGroup extends PriceSpecGroup {
       }
     }
 
+    const isPartOfPv2Experiment = FlightingUtil.checkSubscriptionInFlight(input.subscriptionId, FlightingUtil.Features.Pv2Experimentation);
+    const isLinux = (input.specPickerInput.data && input.specPickerInput.data.isLinux) || ArmUtil.isLinuxApp(input.plan);
+
     // NOTE(michinoy): The OS type determines whether standard small plan is recommended or additional pricing tier.
-    if ((input.specPickerInput.data && input.specPickerInput.data.isLinux) || ArmUtil.isLinuxApp(input.plan)) {
+    // NOTE(shimedh): If subscription is part of PV2 experiment flighting we always add standard small plan in additional pricing tier irrespective of OS.
+    if (isPartOfPv2Experiment || isLinux) {
       this.additionalSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
+      this.logService.debug(LogCategories.specPickerPv2Experiment, {
+        subscriptionId: input.subscriptionId,
+        isLinux: isLinux,
+        isPartOfPv2Experiment: isPartOfPv2Experiment,
+      });
     } else {
       this.recommendedSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
     }

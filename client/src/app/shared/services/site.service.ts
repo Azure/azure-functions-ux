@@ -1,30 +1,30 @@
 import { Injectable, Injector } from '@angular/core';
+import { ByosStorageAccounts } from 'app/site/byos/byos';
+import { Deployment, SourceControlData } from 'app/site/deployment-center/Models/deployment-data';
 import { Observable } from 'rxjs/Observable';
+import { HostingEnvironment } from '../models/arm/hosting-environment';
+import { PublishingUser } from '../models/arm/publishing-users';
+import { ARMApiVersions } from '../models/constants';
+import { HostStatus } from '../models/host-status';
+import { PublishingCredentials } from '../models/publishing-credentials';
+import { AppSettingsHelper } from '../Utilities/application-settings-helper';
 import { ConditionalHttpClient } from './../../shared/conditional-http-client';
 import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
 import { Availability } from './../../site/site-notifications/notifications';
-import { HttpResult } from './../models/http-result';
+import { SlotsDiff } from './../models/arm//slots-diff';
 import { ApplicationSettings } from './../models/arm/application-settings';
-import { ArmArrayResult } from './../models/arm/arm-obj';
-import { ArmObj } from './../models/arm/arm-obj';
+import { ArmArrayResult, ArmObj } from './../models/arm/arm-obj';
 import { AuthSettings } from './../models/arm/auth-settings';
 import { ConnectionStrings } from './../models/arm/connection-strings';
-import { Site } from './../models/arm/site';
+import { CreateSlotRequest, PublishingCredentialPolicies, Site } from './../models/arm/site';
 import { SiteConfig } from './../models/arm/site-config';
 import { SiteExtension } from './../models/arm/site-extension';
 import { SlotConfigNames } from './../models/arm/slot-config-names';
-import { SlotsDiff } from './../models/arm//slots-diff';
 import { AvailableStack, OsType } from './../models/arm/stacks';
+import { HttpResult } from './../models/http-result';
 import { ArmService } from './arm.service';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
-import { PublishingCredentials } from '../models/publishing-credentials';
-import { ARMApiVersions } from '../models/constants';
-import { ByosStorageAccounts } from 'app/site/byos/byos';
-import { HostingEnvironment } from '../models/arm/hosting-environment';
-import { PublishingUser } from '../models/arm/publishing-users';
-import { Deployment, SourceControlData } from 'app/site/deployment-center/Models/deployment-data';
-import { AppSettingsHelper } from '../Utilities/application-settings-helper';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -145,22 +145,16 @@ export class SiteService {
     return this._client.execute({ resourceId: resourceId }, t => addOrUpdateAppSettings);
   }
 
-  createSlot(resourceId: string, slotName: string, loc: string, serverfarmId: string, config?: SiteConfig | {}): Result<ArmObj<Site>> {
-    if (!!config) {
+  createSlot(resourceId: string, slotName: string, slotData: CreateSlotRequest): Result<ArmObj<Site>> {
+    if (!!slotData.properties.siteConfig) {
       ['experiments', 'routingRules'].forEach(propertyName => {
-        if (config.hasOwnProperty(propertyName)) {
-          config[propertyName] = null;
+        if (slotData.properties.siteConfig.hasOwnProperty(propertyName)) {
+          slotData.properties.siteConfig[propertyName] = null;
         }
       });
     }
 
-    const payload = JSON.stringify({
-      location: loc,
-      properties: {
-        serverFarmId: serverfarmId,
-        siteConfig: config,
-      },
-    });
+    const payload = JSON.stringify(slotData);
     const newSlotId = `${resourceId}/slots/${slotName}`;
     const createSlot = this._cacheService.putArm(newSlotId, ARMApiVersions.antaresApiVersion20181101, payload).map(r => r.json());
 
@@ -254,5 +248,19 @@ export class SiteService {
       .postArm(`${resourceId}/config/metadata/list`, force, ARMApiVersions.antaresApiVersion20181101)
       .map(r => r.json());
     return this._client.execute({ resourceId: resourceId }, t => fetchSiteConfigMetadata);
+  }
+
+  getBasicPublishingCredentialsPolicies = (resourceId: string): Result<ArmObj<PublishingCredentialPolicies>> => {
+    const getBasicPublishingCredentialsPolicies = this._cacheService
+      .getArm(`${resourceId}/basicPublishingCredentialsPolicies`, true)
+      .map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => getBasicPublishingCredentialsPolicies);
+  };
+
+  getHostStatus(resourceId: string, force?: boolean): Result<ArmObj<HostStatus>> {
+    const getHostStatus = this._cacheService.getArm(`${resourceId}/host/default/properties/status`, force).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => getHostStatus);
   }
 }

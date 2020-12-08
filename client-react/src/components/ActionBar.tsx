@@ -18,7 +18,7 @@ export interface StatusMessage {
 
 interface ActionBarButtonProps {
   id: string;
-  title: string;
+  title: string | JSX.Element;
   disable: boolean;
   onClick: () => void;
 }
@@ -29,31 +29,34 @@ interface ActionBarProps {
   statusMessage?: StatusMessage;
   validating?: boolean;
   overlay?: boolean;
+  fullPageHeight?: boolean;
 }
 
-const elementWrapperStyle = (theme: ThemeExtended) =>
+const elementWrapperStyle = (theme: ThemeExtended, fullPageHeight?: boolean) =>
   style({
-    position: 'absolute',
+    position: fullPageHeight ? 'sticky' : 'absolute',
     bottom: '0px',
     height: '57px',
     left: '0px',
     right: '0px',
     overflow: 'hidden',
-    borderTop: `1px solid ${theme.palette.neutralDark}`,
+    borderTop: `1px solid rgba(127, 127, 127, 0.7)`,
     zIndex: 1,
     background: theme.semanticColors.bodyFrameBackground,
   });
 
-const buttonsWrapperStyle = style({
+export const buttonsWrapperStyle = style({
   display: 'inline-block',
   verticalAlign: 'top',
   paddingTop: '10px',
 });
 
-const buttonStyle = (theme: ThemeExtended, isPrimary: boolean) =>
+export const buttonStyle = (theme: ThemeExtended, isPrimary: boolean) =>
   style({
     marginLeft: '16px',
     marginTop: '2px',
+    padding: '3px 20px',
+    height: '24px',
     $nest: {
       '&:focus': {
         $nest: {
@@ -81,18 +84,29 @@ const statusMessageDiv = style({
 });
 
 type ActionBarPropsCombined = ActionBarProps;
-const ActionBar: React.FC<ActionBarPropsCombined> = ({ primaryButton, secondaryButton, validating, id, statusMessage, overlay }) => {
+const ActionBar: React.FC<ActionBarPropsCombined> = ({
+  primaryButton,
+  secondaryButton,
+  validating,
+  id,
+  statusMessage,
+  overlay,
+  fullPageHeight,
+}) => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
+
+  const primaryButtonTitle = primaryButton.title;
+
   return (
-    <div className={elementWrapperStyle(theme)}>
+    <div className={elementWrapperStyle(theme, fullPageHeight)}>
       <div className={buttonsWrapperStyle}>
         <PrimaryButton
           id={`${id}-${primaryButton.id}`}
           className={buttonStyle(theme, true)}
           onClick={primaryButton.onClick}
           disabled={primaryButton.disable}>
-          {t(primaryButton.title)}
+          {typeof primaryButtonTitle !== 'string' ? primaryButtonTitle : t(primaryButtonTitle)}
         </PrimaryButton>
         {secondaryButton && (
           <DefaultButton

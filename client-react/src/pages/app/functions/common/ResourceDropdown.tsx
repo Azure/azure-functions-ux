@@ -2,6 +2,7 @@ import { FieldProps, FormikProps } from 'formik';
 import { Callout, IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
@@ -12,14 +13,14 @@ import { SiteStateContext } from '../../../../SiteState';
 import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
 import SiteHelper from '../../../../utils/SiteHelper';
+import StringUtils from '../../../../utils/string';
 import { BindingEditorFormValues } from './BindingFormBuilder';
-import { calloutStyle1Field, calloutStyle2Fields, calloutStyle3Fields, linkPaddingStyle } from './callout/Callout.styles';
+import { calloutStyleField, linkPaddingStyle } from './callout/Callout.styles';
 import NewAppSettingCallout from './callout/NewAppSettingCallout';
 import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCallout';
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
 import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConnectionCallout';
-import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 
 export interface ResourceDropdownProps {
   setting: BindingSetting;
@@ -61,6 +62,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   }
 
   const options = filterResourcesFromAppSetting(setting, appSettings.properties, newAppSetting && newAppSetting.key);
+  const appSettingKeys = Object.keys(appSettings.properties);
 
   // Set the onload value
   if (!field.value && options.length > 0) {
@@ -92,9 +94,10 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
             {'New'}
           </Link>
           {setting.resource === BindingSettingResource.Storage && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle1Field}>
+            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
               <NewStorageAccountConnectionCallout
                 resourceId={resourceId}
+                appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
@@ -103,9 +106,10 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
             </Callout>
           )}
           {setting.resource === BindingSettingResource.EventHub && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle3Fields}>
+            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
               <NewEventHubConnectionCallout
                 resourceId={resourceId}
+                appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
@@ -114,9 +118,10 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
             </Callout>
           )}
           {setting.resource === BindingSettingResource.ServiceBus && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
+            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
               <NewServiceBusConnectionCallout
                 resourceId={resourceId}
+                appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
@@ -125,9 +130,10 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
             </Callout>
           )}
           {setting.resource === BindingSettingResource.DocumentDB && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
+            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
               <NewDocumentDBConnectionCallout
                 resourceId={resourceId}
+                appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
@@ -136,9 +142,10 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
             </Callout>
           )}
           {setting.resource === BindingSettingResource.AppSetting && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
+            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
               <NewAppSettingCallout
                 resourceId={resourceId}
+                appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
@@ -239,6 +246,24 @@ const getDocumentDBSettings = (appSettings: KeyValue<string>, newAppSettingName?
     }
   }
   return result;
+};
+
+export const generateAppSettingName = (existingAppSettingKeys: string[], defaultAppSettingName: string): string => {
+  let appSettingName = defaultAppSettingName;
+  let count = 1;
+
+  while (
+    // eslint-disable-next-line no-loop-func
+    existingAppSettingKeys.some(appSettingKey => {
+      return StringUtils.equalsIgnoreCase(appSettingKey, appSettingName);
+    })
+  ) {
+    count += 1;
+
+    appSettingName = `${defaultAppSettingName}${count}`;
+  }
+
+  return appSettingName;
 };
 
 export default ResourceDropdown;

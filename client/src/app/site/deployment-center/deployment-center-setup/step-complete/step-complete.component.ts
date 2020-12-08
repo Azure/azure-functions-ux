@@ -302,7 +302,7 @@ export class StepCompleteComponent {
     const items = [
       {
         label: this._translateService.instant(PortalResources.provider),
-        value: this._translateService.instant(PortalResources.gitHubActionBuildServerTitle),
+        value: this._translateService.instant(PortalResources.deploymentCenterCodeSettingsBuildGitHubAction),
       },
     ];
 
@@ -466,9 +466,9 @@ export class StepCompleteComponent {
     const data = {
       resourceId: this.wizard.siteArm.id,
       sourceProvider: this.wizard.wizardValues.sourceProvider,
-      sourceSettings: this.wizard.wizardValues.sourceSettings,
+      sourceSettings: JSON.stringify(this.wizard.wizardValues.sourceSettings),
       buildProvider: this.wizard.wizardValues.buildProvider,
-      buildSettings: this.wizard.wizardValues.buildSettings,
+      buildSettings: JSON.stringify(this.wizard.wizardValues.buildSettings),
     };
 
     this._logService.trace(LogCategories.cicd, '/step-complete', data);

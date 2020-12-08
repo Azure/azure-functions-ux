@@ -2,17 +2,18 @@ import { FieldProps, Formik, FormikProps } from 'formik';
 import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
-import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
+import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { DatabaseAccount, KeyList } from '../../../../../../models/documentDB';
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import LogService from '../../../../../../utils/LogService';
+import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { DocumentDBPivotContext } from './DocumentDBDataLoader';
-import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 
 interface DocumentDBPivotFormValues {
   databaseAccount: ArmObj<DatabaseAccount> | undefined;
@@ -21,7 +22,7 @@ interface DocumentDBPivotFormValues {
 const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(DocumentDBPivotContext);
   const { t } = useTranslation();
-  const { resourceId } = props;
+  const { resourceId, appSettingKeys } = props;
   const [formValues, setFormValues] = useState<DocumentDBPivotFormValues>({ databaseAccount: undefined });
   const [databaseAccounts, setDatabaseAccounts] = useState<ArmObj<DatabaseAccount>[] | undefined>(undefined);
   const [keyList, setKeyList] = useState<KeyList | undefined>(undefined);
@@ -70,7 +71,14 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps
     <Formik
       initialValues={formValues}
       onSubmit={() =>
-        setDocumentDBConnection(formValues, keyList, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)
+        setDocumentDBConnection(
+          formValues,
+          keyList,
+          appSettingKeys,
+          props.setNewAppSetting,
+          props.setSelectedItem,
+          props.setIsDialogVisible
+        )
       }>
       {(formProps: FormikProps<DocumentDBPivotFormValues>) => {
         return (
@@ -79,18 +87,20 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps
               <p>{t('documentDBPivot_noDatabaseAccounts')}</p>
             ) : (
               <>
-                <FormControlWrapper label={t('documentDBPivot_databaseAccount')} layout={Layout.vertical}>
-                  <Dropdown
-                    options={databaseAccountOptions}
-                    selectedKey={formValues.databaseAccount && formValues.databaseAccount.id}
-                    onChange={(o, e) => {
-                      setFormValues({ databaseAccount: e && e.data });
-                      setKeyList(undefined);
-                    }}
-                    errorMessage={undefined}
-                    {...props}
-                  />
-                </FormControlWrapper>
+                <Dropdown
+                  label={t('documentDBPivot_databaseAccount')}
+                  options={databaseAccountOptions}
+                  selectedKey={formValues.databaseAccount && formValues.databaseAccount.id}
+                  onChange={(o, e) => {
+                    setFormValues({ databaseAccount: e && e.data });
+                    setKeyList(undefined);
+                  }}
+                  errorMessage={undefined}
+                  layout={Layout.Vertical}
+                  {...props}
+                  id="newDocumentDBConnection"
+                  mouseOverToolTip={undefined}
+                />
                 {!keyList && <LoadingComponent />}
               </>
             )}
@@ -109,12 +119,13 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps
 const setDocumentDBConnection = (
   formValues: DocumentDBPivotFormValues,
   keyList: KeyList | undefined,
+  appSettingKeys: string[],
   setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>,
   setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>,
   setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   if (formValues.databaseAccount && keyList) {
-    const appSettingName = `${formValues.databaseAccount.name}_DOCUMENTDB`;
+    const appSettingName = generateAppSettingName(appSettingKeys, `${formValues.databaseAccount.name}_DOCUMENTDB`);
     const appSettingValue = `AccountEndpoint=${formValues.databaseAccount.properties.documentEndpoint};AccountKey=${
       keyList.primaryMasterKey
     };`;

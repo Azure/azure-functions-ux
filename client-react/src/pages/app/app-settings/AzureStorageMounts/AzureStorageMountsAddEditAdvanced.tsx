@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { StorageType } from '../../../../models/site/config';
 import { MessageBarType } from 'office-ui-fabric-react';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { Links } from '../../../../utils/FwLinks';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
   const { errors, values } = props;
@@ -22,6 +22,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         label={t('storageAccount')}
         id="azure-storage-mounts-account-name"
         errorMessage={errors.accountName}
+        required={true}
       />
       <Field
         component={RadioButton}
@@ -42,7 +43,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         <CustomBanner
           id="azure-storage-mount-blob-warning"
           message={t('readonlyBlobStorageWarning')}
-          learnMoreLink={CommonConstants.Links.byosBlobReadonlyLearnMore}
+          learnMoreLink={Links.byosBlobReadonlyLearnMore}
           type={MessageBarType.warning}
           undocked={true}
         />
@@ -53,6 +54,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         label={t('shareName')}
         id="azure-storage-mounts-share-name"
         errorMessage={errors.shareName}
+        required={true}
       />
       <Field
         component={TextField}
@@ -62,6 +64,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         multiline
         rows={4}
         errorMessage={errors.accessKey}
+        required={true}
       />
     </>
   );

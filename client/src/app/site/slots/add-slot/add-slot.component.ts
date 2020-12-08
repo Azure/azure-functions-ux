@@ -2,11 +2,15 @@ import { Component, Injector, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+import { SiteConfig } from '../../../shared/models/arm/site-config';
+import { AiService } from '../../../shared/services/ai.service';
+import { PortalService } from '../../../shared/services/portal.service';
 import { InfoBoxType } from './../../../controls/info-box/info-box.component';
-import { ArmSiteDescriptor } from './../../../shared/resourceDescriptors';
 import { FeatureComponent } from './../../../shared/components/feature-component';
 import { FunctionAppContext } from './../../../shared/function-app-context';
-import { HttpResult } from './../../../shared/models/http-result';
+import { ApplicationSettings } from './../../../shared/models/arm/application-settings';
+import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
+import { CreateSlotRequest, Site } from './../../../shared/models/arm/site';
 import {
   Constants,
   FunctionAppVersion,
@@ -17,22 +21,19 @@ import {
 } from './../../../shared/models/constants';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { errorIds } from './../../../shared/models/error-ids';
+import { HttpResult } from './../../../shared/models/http-result';
 import { BroadcastMessageId } from './../../../shared/models/portal';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { SlotNewInfo } from './../../../shared/models/slot-events';
-import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
-import { Site } from './../../../shared/models/arm/site';
-import { ApplicationSettings } from './../../../shared/models/arm/application-settings';
-import { AiService } from '../../../shared/services/ai.service';
+import { ArmSiteDescriptor } from './../../../shared/resourceDescriptors';
 import { AuthzService } from './../../../shared/services/authz.service';
-import { LogService } from './../../../shared/services/log.service';
-import { PortalService } from '../../../shared/services/portal.service';
-import { SiteService } from './../../../shared/services/site.service';
 import { FunctionAppService } from './../../../shared/services/function-app.service';
+import { LogService } from './../../../shared/services/log.service';
 import { ScenarioService } from './../../../shared/services/scenario/scenario.service';
+import { SiteService } from './../../../shared/services/site.service';
+import { ArmUtil } from './../../../shared/Utilities/arm-utils';
 import { RequiredValidator } from './../../../shared/validators/requiredValidator';
 import { SlotNameValidator } from './../../../shared/validators/slotNameValidator';
-import { ArmUtil } from './../../../shared/Utilities/arm-utils';
 import { CloneSrcValidator } from './cloneSrcValidator';
 
 @Component({
@@ -52,13 +53,15 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
   public operationInProgressWarning: string;
 
   public addForm: FormGroup;
-  public hasCreateAcess = false;
+  public hasCreateAccess = false;
   public slotsQuotaMessage: string;
   public isLoading = true;
   public loadingFailed = false;
   public loadingSiteFailureMessage = '';
   public loadingSlotsFailureMessage = '';
   public loadingAppSettingsFailureMessage = '';
+  public slotPrefix = '';
+  public slotSuffix = '';
   public cloneSrcIdDropDownOptions: DropDownElement<string>[];
   public isCreating = false;
   public executeButtonDisabled = false;
@@ -108,7 +111,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     return inputEvents
       .distinctUntilChanged()
       .switchMap(resourceId => {
-        this.hasCreateAcess = false;
+        this.hasCreateAccess = false;
         this.slotsQuotaMessage = null;
         this.isLoading = true;
         this.loadingFailed = false;
@@ -145,7 +148,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
       .mergeMap(r => {
         const [siteResult, slotsResult, appSettingsResult, hasWritePermission, hasReadOnlyLock] = r;
 
-        this.hasCreateAcess = hasWritePermission && !hasReadOnlyLock;
+        this.hasCreateAccess = hasWritePermission && !hasReadOnlyLock;
 
         if (!siteResult.isSuccessful) {
           this._logService.error(LogCategories.addSlot, '/add-slot', siteResult.error.result);
@@ -224,7 +227,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     const cloneSrcIdCtrl = this.addForm.get('cloneSrcId');
     const cloneSrcConfigCtrl = this.addForm.get('cloneSrcConfig');
 
-    if (!this.hasCreateAcess || !!this.slotsQuotaMessage || this.loadingFailed || (this.slotOptInNeeded && !this.slotOptInEnabled)) {
+    if (!this.hasCreateAccess || !!this.slotsQuotaMessage || this.loadingFailed || (this.slotOptInNeeded && !this.slotOptInEnabled)) {
       nameCtrl.clearValidators();
       nameCtrl.clearAsyncValidators();
       nameCtrl.setValue(null);
@@ -246,6 +249,10 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
       nameCtrl.setValue(null);
       nameCtrl.setValidators(requiredValidator.validate.bind(requiredValidator));
       nameCtrl.setAsyncValidators(slotNameValidator.validate.bind(slotNameValidator));
+
+      const splitHostname = this._slotsArm[0].properties.defaultHostName.split(/\.(.+)/);
+      this.slotPrefix = splitHostname[0];
+      this.slotSuffix = splitHostname[1];
 
       const options: DropDownElement<string>[] = [
         {
@@ -279,7 +286,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     const siteId = this._slotsArm[0].id;
     const location = this._slotsArm[0].location;
     const serverFarmId = this._slotsArm[0].properties.serverFarmId;
-    const cloneConfig = !this.isFunctionApp ? newSlotConfig || {} : undefined;
+    const cloneConfig: SiteConfig | undefined = !this.isFunctionApp ? newSlotConfig : undefined;
 
     const slotNewInfo: SlotNewInfo = {
       resourceId: `${siteId}/slots/${newSlotName}`,
@@ -298,11 +305,34 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     this.isCreating = true;
     this.executeButtonDisabled = true;
 
+    const sourceSlot = this._slotsArm.find(slot => {
+      return slot.id === this.addForm.controls['cloneSrcId'].value;
+    });
+
+    const newSlot: CreateSlotRequest = !!sourceSlot
+      ? {
+          location: location,
+          properties: {
+            serverFarmId: serverFarmId,
+            siteConfig: cloneConfig,
+            httpsOnly: sourceSlot.properties.httpsOnly,
+            clientCertEnabled: sourceSlot.properties.clientCertEnabled,
+            clientCertMode: sourceSlot.properties.clientCertMode,
+            clientCertExclusionPaths: sourceSlot.properties.clientCertExclusionPaths,
+          },
+        }
+      : {
+          location: location,
+          properties: {
+            serverFarmId: serverFarmId,
+          },
+        };
+
     this._enableSlotOptIn(siteId)
       .switchMap(s => {
         if (!s || s.isSuccessful) {
           // _enableSlotOptIn() was a no-op or completed successfully
-          return this._siteService.createSlot(siteId, newSlotName, location, serverFarmId, cloneConfig);
+          return this._siteService.createSlot(siteId, newSlotName, newSlot);
         } else {
           // _enableSlotOptIn() failed so we pass on the failure
           return Observable.of(s);

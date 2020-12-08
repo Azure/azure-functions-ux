@@ -49,6 +49,7 @@ import { ApplicationSettings } from 'app/shared/models/arm/application-settings'
 import { ArmSiteDescriptor } from '../resourceDescriptors';
 import { FunctionService } from './function.service';
 import { AppSettingsHelper } from '../Utilities/application-settings-helper';
+import { ArmService } from './arm.service';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -64,6 +65,7 @@ export class FunctionAppService {
     private _siteService: SiteService,
     private _logService: LogService,
     private _functionService: FunctionService,
+    private _armService: ArmService,
     injector: Injector
   ) {
     this.runtime = new ConditionalHttpClient(
@@ -92,10 +94,10 @@ export class FunctionAppService {
     return context.urlTemplates.useNewUrls ? this.runtime : this.azure;
   }
 
-  getApiProxies(context: FunctionAppContext): Result<ApiProxy[]> {
+  getApiProxies(context: FunctionAppContext, runtimeVersion: string): Result<ApiProxy[]> {
     return this.getClient(context).execute({ resourceId: context.site.id } /*input*/, token =>
       Observable /*query*/.zip(
-        this.retrieveProxies(context, token),
+        this.retrieveProxies(context, runtimeVersion),
         this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
         (p, s) => ({ proxies: p, schema: s })
       )
@@ -103,8 +105,13 @@ export class FunctionAppService {
     );
   }
 
-  private retrieveProxies(context: FunctionAppContext, token: string): Observable<any> {
-    return this._cacheService.get(context.urlTemplates.proxiesJsonUrl, false, this.headers(token)).catch(err =>
+  private retrieveProxies(context: FunctionAppContext, runtimeVersion: string): Observable<any> {
+    const headers = this._armService.getHeaders();
+    headers['Cache-Control'] = 'no-cache';
+    const resourceId = `${context.site.id}${context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json')}`;
+    const url = this._armService.getArmUrl(resourceId, this._armService.antaresApiVersion20181101);
+
+    return this._cacheService.get(url, true, headers).catch(err =>
       err.status === 404
         ? Observable.throw({
             errorId: errorIds.proxyJsonNotFound,
@@ -152,13 +159,15 @@ export class FunctionAppService {
     return Observable.of(ApiProxy.fromJson(proxiesJson));
   }
 
-  saveApiProxy(context: FunctionAppContext, jsonString: string): Result<Response> {
-    const uri = context.urlTemplates.proxiesJsonUrl;
-    this._cacheService.clearCachePrefix(uri);
+  saveApiProxy(context: FunctionAppContext, jsonString: string, runtimeVersion): Result<Response> {
+    const headers = this._armService.getHeaders();
+    headers.delete('If-None-Match');
+    headers.append('Cache-Control', 'no-cache');
+    headers.append('If-Match', '*');
+    const resourceId = `${context.site.id}${context.urlTemplates.getProxiesVfsUrl(runtimeVersion, 'proxies.json')}`;
+    const url = this._armService.getArmUrl(resourceId, this._armService.antaresApiVersion20181101);
 
-    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
-      this._cacheService.put(uri, this.jsonHeaders(t, ['If-Match', '*']), jsonString)
-    );
+    return this.getClient(context).execute({ resourceId: context.site.id }, t => this._cacheService.put(url, headers, jsonString));
   }
 
   getFileContent(context: FunctionAppContext, file: VfsObject | string): Result<string> {
@@ -1096,6 +1105,12 @@ export class FunctionAppService {
         .get(url, true, this.headers(t), null, ResponseContentType.Blob)
         .map(r => new Blob([r.blob()], { type: 'application/octet-stream' }))
     );
+  }
+
+  getFunctionTestData(context: FunctionAppContext, testDataHref: string): Observable<any> {
+    return this.getClient(context).execute({ resourceId: context.site.id }, t => {
+      return this._cacheService.get(testDataHref, true, this.headers(t)).map(r => r.text());
+    });
   }
 
   // these 2 functions are only for try app service scenarios.

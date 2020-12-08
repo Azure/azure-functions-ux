@@ -10,6 +10,7 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext, SiteContext } from '../Contexts';
 import { Links } from '../../../../utils/FwLinks';
 import { ScenarioCheckResult } from '../../../../utils/scenario-checker/scenario.models';
+import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -18,6 +19,10 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const scenarioChecker = new ScenarioService(t);
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
+  const disableFtp = () =>
+    props.values.basicPublishingCredentialsPolicies &&
+    props.values.basicPublishingCredentialsPolicies.properties.ftp &&
+    !props.values.basicPublishingCredentialsPolicies.properties.ftp.allow;
 
   const [platformOptionEnable, setPlatformOptionEnable] = useState<ScenarioCheckResult | undefined>(undefined);
   const [websocketsEnable, setWebsocketsEnable] = useState<ScenarioCheckResult | undefined>(undefined);
@@ -40,27 +45,28 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   }, []);
   return (
     <div>
-      {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' && (
-        <Field
-          name="config.properties.use32BitWorkerProcess"
-          dirty={values.config.properties.use32BitWorkerProcess !== initialValues.config.properties.use32BitWorkerProcess}
-          component={Dropdown}
-          upsellMessage={platformOptionEnable && platformOptionEnable.status === 'disabled' ? platformOptionEnable.data : ''}
-          label={t('platform')}
-          id="app-settings-worker-process"
-          disabled={disableAllControls || (platformOptionEnable && platformOptionEnable.status === 'disabled')}
-          options={[
-            {
-              key: true,
-              text: '32 Bit',
-            },
-            {
-              key: false,
-              text: '64 Bit',
-            },
-          ]}
-        />
-      )}
+      {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' &&
+        values.currentlySelectedStack !== 'java' && (
+          <Field
+            name="config.properties.use32BitWorkerProcess"
+            dirty={values.config.properties.use32BitWorkerProcess !== initialValues.config.properties.use32BitWorkerProcess}
+            component={Dropdown}
+            upsellMessage={platformOptionEnable!.status === 'disabled' ? platformOptionEnable!.data : ''}
+            label={t('platform')}
+            id="app-settings-worker-process"
+            disabled={disableAllControls || platformOptionEnable!.status === 'disabled'}
+            options={[
+              {
+                key: true,
+                text: '32 Bit',
+              },
+              {
+                key: false,
+                text: '64 Bit',
+              },
+            ]}
+          />
+        )}
       {scenarioChecker.checkScenario(ScenarioIds.classicPipelineModeSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.managedPipelineMode"
@@ -81,7 +87,24 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       )}
-      {scenarioChecker.checkScenario(ScenarioIds.addFTPOptions, { site }).status !== 'disabled' && (
+
+      {disableFtp() ? (
+        <DropdownNoFormik
+          onChange={() => {}}
+          infoBubbleMessage={t('ftpDisabledByPolicy')}
+          learnMoreLink={Links.ftpDisabledByPolicyLink}
+          label={t('ftpState')}
+          id="app-settings-ftps-state"
+          disabled={true}
+          defaultSelectedKey={'Disabled'}
+          options={[
+            {
+              key: 'Disabled',
+              text: t('disabled'),
+            },
+          ]}
+        />
+      ) : (
         <Field
           name="config.properties.ftpsState"
           dirty={values.config.properties.ftpsState !== initialValues.config.properties.ftpsState}
@@ -107,27 +130,25 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       )}
-      {scenarioChecker.checkScenario(ScenarioIds.addHTTPSwitch, { site }).status !== 'disabled' && (
-        <Field
-          name="config.properties.http20Enabled"
-          dirty={values.config.properties.http20Enabled !== initialValues.config.properties.http20Enabled}
-          component={Dropdown}
-          fullpage
-          label={t('httpVersion')}
-          id="app-settings-http-enabled"
-          disabled={disableAllControls}
-          options={[
-            {
-              key: true,
-              text: '2.0',
-            },
-            {
-              key: false,
-              text: '1.1',
-            },
-          ]}
-        />
-      )}
+      <Field
+        name="config.properties.http20Enabled"
+        dirty={values.config.properties.http20Enabled !== initialValues.config.properties.http20Enabled}
+        component={Dropdown}
+        fullpage
+        label={t('httpVersion')}
+        id="app-settings-http-enabled"
+        disabled={disableAllControls}
+        options={[
+          {
+            key: true,
+            text: '2.0',
+          },
+          {
+            key: false,
+            text: '1.1',
+          },
+        ]}
+      />
       {scenarioChecker.checkScenario(ScenarioIds.webSocketsSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.webSocketsEnabled"

@@ -1,5 +1,5 @@
 export class TextUtilitiesService {
-  public static fallbackCopyTextToClipboard(text: string) {
+  public static fallbackCopyTextToClipboard(text: string, componentRef?: any) {
     // This way is less reliable but is the only way on older browser versions and IE
     const textArea = document.createElement('textarea');
     textArea.value = text;
@@ -8,15 +8,18 @@ export class TextUtilitiesService {
     textArea.select();
     document.execCommand('copy');
     document.body.removeChild(textArea);
+    if (componentRef && componentRef.focus) {
+      componentRef.focus();
+    }
   }
 
-  public static copyContentToClipboard(text: string) {
+  public static copyContentToClipboard(text: string, componentRef?: any) {
     const nav = navigator as any;
     if (!nav.clipboard) {
-      this.fallbackCopyTextToClipboard(text);
+      this.fallbackCopyTextToClipboard(text, componentRef);
       return;
     }
     // This method should work on most modern browsers
-    nav.clipboard.writeText(text).catch(() => this.fallbackCopyTextToClipboard(text));
+    nav.clipboard.writeText(text).catch(() => this.fallbackCopyTextToClipboard(text, componentRef));
   }
 }

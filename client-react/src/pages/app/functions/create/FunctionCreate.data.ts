@@ -10,6 +10,10 @@ import { ArmObj } from '../../../../models/arm-obj';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import { KeyValue } from '../../../../models/portal-models';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
+import Url from '../../../../utils/url';
+import { HostStatus } from '../../../../models/functions/host-status';
 
 export default class FunctionCreateData {
   public getHostStatus(resourceId: string) {
@@ -33,13 +37,14 @@ export default class FunctionCreateData {
     t: i18next.TFunction,
     resourceId: string,
     functionTemplate: FunctionTemplate,
-    formValues: CreateFunctionFormValues
+    formValues: CreateFunctionFormValues,
+    hostStatus: HostStatus
   ) {
     if (formValues.newAppSettings) {
       this._updateAppSettings(portalCommunicator, t, resourceId, formValues.newAppSettings);
     }
     const config = this._buildFunctionConfig(functionTemplate.bindings || [], formValues);
-    this._createNewFunction(portalCommunicator, t, resourceId, formValues.functionName, functionTemplate.files, config);
+    this._createNewFunction(portalCommunicator, t, resourceId, formValues.functionName, functionTemplate, config, hostStatus);
   }
 
   private _createNewFunction(
@@ -47,15 +52,22 @@ export default class FunctionCreateData {
     t: i18next.TFunction,
     resourceId: string,
     functionName: string,
-    functionFiles: any,
-    functionConfig: FunctionConfig
+    functionTemplate: FunctionTemplate,
+    functionConfig: FunctionConfig,
+    hostStatus: HostStatus
   ) {
     const notificationId = portalCommunicator.startNotification(
       t('createFunctionNotication'),
       t('createFunctionNotificationDetails').format(functionName)
     );
 
-    FunctionsService.createFunction(resourceId, functionName, functionFiles, functionConfig).then(r => {
+    FunctionsService.createFunction(resourceId, functionName, functionTemplate.files, functionConfig).then(r => {
+      LogService.trackEvent(
+        LogCategories.functionCreate,
+        'FunctionCreateClicked',
+        this._getDataForTelemetry(resourceId, functionName, functionTemplate, hostStatus)
+      );
+
       if (!r.metadata.success) {
         const errorMessage = getErrorMessage(r.metadata.error);
         portalCommunicator.stopNotification(
@@ -67,11 +79,29 @@ export default class FunctionCreateData {
         );
         portalCommunicator.closeSelf();
       } else {
+        LogService.trackEvent(
+          LogCategories.functionCreate,
+          'FunctionCreateSucceeded',
+          this._getDataForTelemetry(resourceId, functionName, functionTemplate, hostStatus)
+        );
         portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
         const id = `${resourceId}/functions/${functionName}`;
         portalCommunicator.closeSelf(id);
       }
     });
+  }
+
+  private _getDataForTelemetry(resourceId: string, functionName: string, functionTemplate: FunctionTemplate, hostStatus: HostStatus) {
+    return {
+      resourceId,
+      functionName,
+      language: functionTemplate.language,
+      category: functionTemplate.category,
+      functionTemplateId: functionTemplate.id,
+      extensionBundle: hostStatus.extensionBundle,
+      runtimeVersion: hostStatus.version,
+      sessionId: Url.getParameterByName(null, 'sessionId'),
+    };
   }
 
   private _updateAppSettings(

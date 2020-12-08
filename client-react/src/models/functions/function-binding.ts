@@ -5,6 +5,7 @@
 export enum BindingDirection {
   in = 'in',
   out = 'out',
+  trigger = 'trigger',
 }
 
 export enum BindingType {
@@ -48,6 +49,7 @@ export enum BindingType {
   orchestrationClient = 'orchestrationClient',
   signalR = 'signalR',
   signalRConnectionInfo = 'signalRConnectionInfo',
+  entityTrigger = 'entityTrigger',
 }
 
 export interface BindingInfo {

@@ -1,6 +1,6 @@
 import { KeyValue } from './models/portal-models';
 
-export type MethodTypes = 'GET' | 'POST' | 'PUT' | 'DELETE';
+export type MethodTypes = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 export interface ArmRequestObject<T> {
   resourceId: string;
   commandName: string;

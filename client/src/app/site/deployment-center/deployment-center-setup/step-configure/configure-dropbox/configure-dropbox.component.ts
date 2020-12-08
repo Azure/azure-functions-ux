@@ -7,6 +7,7 @@ import { LogService } from 'app/shared/services/log.service';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-configure-dropbox',
@@ -35,6 +36,13 @@ export class ConfigureDropboxComponent implements OnInit, OnDestroy {
     this.wizard.updateSourceProviderConfig$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
       this.fillDropboxFolders();
     });
+
+    this.wizard.dropBoxToken$
+      .takeUntil(this._ngUnsubscribe$)
+      .distinctUntilChanged()
+      .subscribe(token => {
+        this.fillDropboxFolders();
+      });
   }
 
   ngOnInit() {
@@ -56,10 +64,16 @@ export class ConfigureDropboxComponent implements OnInit, OnDestroy {
   public fillDropboxFolders() {
     this.foldersLoading = true;
     this.folderList = [];
+    const dropboxToken = this.wizard.dropBoxToken$.getValue();
+
+    if (!dropboxToken) {
+      return Observable.of(null);
+    }
+
     return this._cacheService
       .post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
         url: `${DeploymentCenterConstants.dropboxApiUrl}/files/list_folder`,
-        authToken: this.wizard.getToken(),
+        dropBoxToken: dropboxToken,
         arg: {
           path: '',
         },

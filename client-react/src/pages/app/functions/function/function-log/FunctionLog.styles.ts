@@ -1,6 +1,7 @@
 import { style } from 'typestyle';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
+import { IButtonStyles } from 'office-ui-fabric-react';
 
 export const getMaximizedLogPanelHeight = (readOnlyBannerHeight?: number) => {
   return window.innerHeight - (164 + (readOnlyBannerHeight || 0));
@@ -24,6 +25,7 @@ export const logStreamStyle = (maximized: boolean, logPanelHeight: number, readO
     backgroundColor: '#000000',
     overflow: 'auto',
     padding: '20px',
+    fontFamily: 'monospace, Lucida Console, Courier New, Consolas',
   });
 
 export const logCommandBarButton = style({
@@ -33,7 +35,6 @@ export const logCommandBarButton = style({
 
 export const logEntryDivStyle = style({
   whiteSpace: 'pre-wrap',
-  paddingBottom: '5px',
 });
 
 export function getLogTextColor(severity: string): string {
@@ -72,3 +73,14 @@ export const getCommandBarStyle = (styleProps, leftAlignMainToolbarItems) => {
   }
   return newCommandBarStyles;
 };
+
+export const calloutStyle = style({
+  padding: '20px',
+  width: '300px',
+});
+
+export const logFilterItemStyle = {
+  flexContainer: {
+    flexDirection: 'row-reverse',
+  },
+} as IButtonStyles;

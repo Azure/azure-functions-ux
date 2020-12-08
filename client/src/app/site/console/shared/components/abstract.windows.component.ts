@@ -30,7 +30,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
       const header = this.getHeader();
       const body = {
         command: 'cd',
-        dir: 'site\\wwwroot',
+        dir: this.site.properties.hyperV ? '\\' : 'site\\wwwroot',
       };
       const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
       res.subscribe(data => {

@@ -415,7 +415,7 @@ const templateVersionMap = {
   '1': '1.0.3.10338',
   beta: '2.1.0',
   '2': '2.1.0',
-  '3': '3.1.0',
+  '3': '3.1.1',
 };
 /*****
  * Download and unzip nuget packages with templates

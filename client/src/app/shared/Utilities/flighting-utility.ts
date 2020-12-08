@@ -1,27 +1,26 @@
-import { FeatureFlags } from './../models/constants';
 import { Url } from './url';
+import { FeatureFlags } from '../models/constants';
 
 export class FlightingUtil {
   public static Features = {
-    NewDeploymentSlots: 'NewDeploymentSlots',
+    Pv2Experimentation: 'Pv2Experimentation',
   };
 
   private static config = {
-    // TODO (andimarc): Remove 'NewDeploymentSlots' in S108
-    NewDeploymentSlots: {
-      seed: 187465135,
-      percentofUsers: 100,
-      forceOnFlag: FeatureFlags.UseNewSlotsBlade,
-      forceOffFlag: FeatureFlags.ShowLegacySlotsBlade,
+    Pv2Experimentation: {
+      seed: 583578957,
+      percentofUsers: 25,
+      forceOnFlag: FeatureFlags.EnablePv2Experiment,
+      forceOffFlag: FeatureFlags.DisablePv2Experiment,
     },
   };
 
   /*
-    * Subscription = hash key
-    * Seed is a wild card to make sure that the same subscriptions aren't used to flight every feature, this can very on each feature
-    * percent of users should be a number between 1 and 100 to represent the percentage of users that should hit the feature.
-    *  
-    */
+   * Subscription = hash key
+   * Seed is a wild card to make sure that the same subscriptions aren't used to flight every feature, this can very on each feature
+   * percent of users should be a number between 1 and 100 to represent the percentage of users that should hit the feature.
+   *
+   */
   static checkSubscriptionInFlight(subscription: string, feature: string): boolean {
     if (!feature) {
       throw new Error(`Flighted feature must be specified`);

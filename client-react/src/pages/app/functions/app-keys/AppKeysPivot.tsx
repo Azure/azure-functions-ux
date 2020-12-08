@@ -1,48 +1,44 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { AppKeysFormValues } from './AppKeys.types';
 import { useTranslation } from 'react-i18next';
 import HostKeys from './HostKeys';
 import SystemKeys from './SystemKeys';
-import { SiteStateContext } from '../../../../SiteState';
-import SiteHelper from '../../../../utils/SiteHelper';
+import { formDescriptionStyle } from './AppKeys.styles';
 
 interface AppKeysPivotProps {
   resourceId: string;
   initialValues: AppKeysFormValues | null;
-  initialLoading: boolean;
+  loading: boolean;
   refreshData: () => void;
   appPermission: boolean;
 }
 
 const AppKeysPivot: React.FC<AppKeysPivotProps> = props => {
   const { t } = useTranslation();
-  const { refreshData, initialValues, resourceId, initialLoading, appPermission } = props;
-
-  const siteStateContext = useContext(SiteStateContext);
-  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) || !appPermission;
+  const { refreshData, initialValues, resourceId, loading, appPermission } = props;
 
   return (
     <>
       <h3>{t('appKeysHost')}</h3>
-      <p>{t('appKeys_hostKeys_description')}</p>
+      <p className={formDescriptionStyle}>{t('appKeys_hostKeys_description')}</p>
       <div id="app-keys-host-keys">
         <HostKeys
-          initialLoading={initialLoading}
+          loading={loading}
           hostKeys={initialValues ? initialValues.hostKeys : []}
           resourceId={resourceId}
           refreshData={refreshData}
-          readOnlyPermission={readOnlyPermission}
+          readOnlyPermission={!appPermission}
         />
       </div>
       <h3>{t('appKeysSystem')}</h3>
-      <p>{t('appKeys_systemKeys_description')}</p>
+      <p className={formDescriptionStyle}>{t('appKeys_systemKeys_description')}</p>
       <div id="app-keys-system-keys">
         <SystemKeys
-          initialLoading={initialLoading}
+          loading={loading}
           systemKeys={initialValues ? initialValues.systemKeys : []}
           resourceId={resourceId}
           refreshData={refreshData}
-          readOnlyPermission={readOnlyPermission}
+          readOnlyPermission={!appPermission}
         />
       </div>
     </>

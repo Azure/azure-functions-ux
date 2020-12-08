@@ -1,100 +1,112 @@
-import { Controller, Get, Query, HttpException, Post } from '@nestjs/common';
-import { StacksFunctionAppConfigService } from './stacks.functionapp.config.service';
-import { StacksFunctionAppCreateService } from './stacks.functionapp.create.service';
-import { StacksWebAppConfigService } from './stacks.webapp.config.service';
-import { StacksWebAppCreateService } from './stacks.webapp.create.service';
-import { StackAPIVersions, WebAppCreateStackVersionPlatform, WebAppCreateStackVersion, WebAppCreateStack } from './stacks';
-import { ArrayUtil } from '../utilities/array.util';
+import { Controller, Query, Post, Get } from '@nestjs/common';
+import { Versions } from './versions';
+import { StacksService20200501 } from './2020-05-01/service/StackService';
+import { StacksService20200601 } from './2020-06-01/service/StackService';
+import { AppStackOs } from './2020-06-01/models/AppStackModel';
+import { FunctionAppStackValue } from './2020-06-01/models/FunctionAppStackModel';
+import { WebAppStackValue } from './2020-06-01/models/WebAppStackModel';
+import {
+  validateApiVersion,
+  validateOs,
+  validateRemoveHiddenStacks,
+  validateFunctionAppStack,
+  validateRemoveDeprecatedStacks,
+  validateRemovePreviewStacks,
+  validateWebAppStack,
+} from './validations';
 
 @Controller('stacks')
 export class StacksController {
-  constructor(
-    private _stackFunctionAppConfigService: StacksFunctionAppConfigService,
-    private _stackFunctionAppCreateService: StacksFunctionAppCreateService,
-    private _stackWebAppConfigService: StacksWebAppConfigService,
-    private _stackWebAppCreateService: StacksWebAppCreateService
-  ) {}
+  constructor(private _stackService20200501: StacksService20200501, private _stackService20200601: StacksService20200601) {}
 
+  @Get('functionAppStacks')
+  functionAppStacks(
+    @Query('api-version') apiVersion: string,
+    @Query('os') os?: AppStackOs,
+    @Query('stack') stack?: FunctionAppStackValue,
+    @Query('removeHiddenStacks') removeHiddenStacks?: string,
+    @Query('removeDeprecatedStacks') removeDeprecatedStacks?: string,
+    @Query('removePreviewStacks') removePreviewStacks?: string
+  ) {
+    validateApiVersion(apiVersion, [Versions.version20200601]);
+    validateOs(os);
+    validateFunctionAppStack(stack);
+    validateRemoveHiddenStacks(removeHiddenStacks);
+    validateRemoveDeprecatedStacks(removeDeprecatedStacks);
+    validateRemovePreviewStacks(removePreviewStacks);
+
+    const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
+    const removeDeprecated = removeDeprecatedStacks && removeDeprecatedStacks.toLowerCase() === 'true';
+    const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
+
+    if (apiVersion === Versions.version20200601) {
+      return this._stackService20200601.getFunctionAppStacks(os, stack, removeHidden, removeDeprecated, removePreview);
+    }
+  }
+
+  @Get('webAppStacks')
+  webAppStacks(
+    @Query('api-version') apiVersion: string,
+    @Query('os') os?: AppStackOs,
+    @Query('stack') stack?: WebAppStackValue,
+    @Query('removeHiddenStacks') removeHiddenStacks?: string,
+    @Query('removeDeprecatedStacks') removeDeprecatedStacks?: string,
+    @Query('removePreviewStacks') removePreviewStacks?: string
+  ) {
+    validateApiVersion(apiVersion, [Versions.version20200601]);
+    validateOs(os);
+    validateWebAppStack(stack);
+    validateRemoveHiddenStacks(removeHiddenStacks);
+    validateRemoveDeprecatedStacks(removeDeprecatedStacks);
+    validateRemovePreviewStacks(removePreviewStacks);
+
+    const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
+    const removeDeprecated = removeDeprecatedStacks && removeDeprecatedStacks.toLowerCase() === 'true';
+    const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
+
+    if (apiVersion === Versions.version20200601) {
+      return this._stackService20200601.getWebAppStacks(os, stack, removeHidden, removeDeprecated, removePreview);
+    }
+  }
+
+  // Note (allisonm): 2020-05-01 should not be used, please use 2020-06-01 instead
   @Post('webAppCreateStacks')
   webAppCreateStacks(@Query('api-version') apiVersion: string) {
-    this._validateApiVersion(apiVersion);
+    validateApiVersion(apiVersion, [Versions.version20200501]);
 
-    if (apiVersion === StackAPIVersions.v1) {
-      return this._stackWebAppCreateService.getStacks();
+    if (apiVersion === Versions.version20200501) {
+      return this._stackService20200501.getWebAppCreateStacks();
     }
   }
 
   @Post('webAppConfigStacks')
   webAppConfigStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
-    this._validateApiVersion(apiVersion);
-    this._validateOs(os);
+    validateApiVersion(apiVersion, [Versions.version20200501]);
+    validateOs(os);
 
-    if (apiVersion === StackAPIVersions.v1) {
-      return this._stackWebAppConfigService.getStacks(os);
+    if (apiVersion === Versions.version20200501) {
+      return this._stackService20200501.getWebAppConfigStacks(os);
     }
   }
 
   @Post('webAppGitHubActionStacks')
   webAppGitHubActionStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
-    this._validateApiVersion(apiVersion);
-    this._validateOs(os);
+    validateApiVersion(apiVersion, [Versions.version20200501]);
+    validateOs(os);
 
-    if (apiVersion === StackAPIVersions.v1) {
-      const stacks = this._stackWebAppCreateService.getStacks(os);
-
-      // remove all supported platforms which are not github action supported.
-      stacks.forEach(stack =>
-        stack.versions.forEach(version =>
-          ArrayUtil.remove<WebAppCreateStackVersionPlatform>(
-            version.supportedPlatforms,
-            platform => !platform.githubActionSettings || !platform.githubActionSettings.supported
-          )
-        )
-      );
-
-      // remove all versions which do not have any platforms.
-      stacks.forEach(stack =>
-        ArrayUtil.remove<WebAppCreateStackVersion>(stack.versions, version => version.supportedPlatforms.length === 0)
-      );
-
-      // remove all stacks which do not have any versions.
-      ArrayUtil.remove<WebAppCreateStack>(stacks, stackItem => stackItem.versions.length === 0);
-
-      return stacks;
+    if (apiVersion === Versions.version20200501) {
+      return this._stackService20200501.getWebAppGitHubActionStacks(os);
     }
   }
 
-  @Post('functionAppCreateStacks')
-  functionAppCreateStacks(@Query('api-version') apiVersion: string) {
-    this._validateApiVersion(apiVersion);
+  @Post('functionAppStacks')
+  functionAppStacksPost(@Query('api-version') apiVersion: string, @Query('removeHiddenStacks') removeHiddenStacks?: string) {
+    validateApiVersion(apiVersion, [Versions.version20200501]);
+    validateRemoveHiddenStacks(removeHiddenStacks);
+    const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
 
-    if (apiVersion === StackAPIVersions.v1) {
-      return this._stackFunctionAppConfigService.getStacks();
-    }
-  }
-
-  @Post('functionAppConfigStacks')
-  functionAppConfigStacks(@Query('api-version') apiVersion: string) {
-    this._validateApiVersion(apiVersion);
-
-    if (apiVersion === StackAPIVersions.v1) {
-      return this._stackFunctionAppCreateService.getStacks();
-    }
-  }
-
-  private _validateOs(os?: 'linux' | 'windows') {
-    if (os && os !== 'linux' && os !== 'windows') {
-      throw new HttpException(`Incorrect os '${os}' provided. Allowed os values are 'linux' or 'windows'.`, 400);
-    }
-  }
-
-  private _validateApiVersion(apiVersion) {
-    if (!apiVersion) {
-      throw new HttpException(`Missing 'api-version' query parameter. Allowed version is '${StackAPIVersions.v1}'.`, 400);
-    }
-
-    if (apiVersion !== StackAPIVersions.v1) {
-      throw new HttpException(`Incorrect api-version '${apiVersion}' provided. Allowed version is '${StackAPIVersions.v1}'.`, 400);
+    if (apiVersion === Versions.version20200501) {
+      return this._stackService20200501.getFunctionAppStacks(removeHidden);
     }
   }
 }

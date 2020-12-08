@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import FunctionMonitor from './FunctionMonitor';
-import { AppInsightsComponent } from '../../../../../models/app-insights';
+import { AppInsightsComponent, AppInsightsKeyType } from '../../../../../models/app-insights';
 import { ArmObj } from '../../../../../models/arm-obj';
 import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
 import LogService from '../../../../../utils/LogService';
@@ -8,6 +8,8 @@ import { LogCategories } from '../../../../../utils/LogCategories';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
+import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 
 interface FunctionMonitorDataLoaderProps {
   resourceId: string;
@@ -17,10 +19,25 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   const { resourceId } = props;
   const [appInsightsToken, setAppInsightsToken] = useState<string | undefined>(undefined);
   const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined | null>(undefined);
+  const [appInsightsKeyType, setAppInsightsKeyType] = useState<AppInsightsKeyType | undefined>(undefined);
+  const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo> | undefined>(undefined);
 
   const startupInfoContext = useContext(StartupInfoContext);
 
-  const fetchComponent = async (force?: boolean) => {
+  const fetchData = async () => {
+    const functionInfoResponse = await FunctionsService.getFunction(resourceId);
+    if (functionInfoResponse.metadata.success) {
+      setFunctionInfo(functionInfoResponse.data);
+    } else {
+      LogService.error(
+        LogCategories.functionLog,
+        'getFunction',
+        `Failed to get function info: ${getErrorMessageOrStringify(functionInfoResponse.metadata.error)}`
+      );
+    }
+  };
+
+  const fetchAppInsightsComponent = async (force?: boolean) => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
     const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
 
@@ -50,6 +67,8 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
         `Failed to get app insights resource Id: ${getErrorMessageOrStringify(appInsightsResourceIdResponse.metadata.error)}`
       );
     }
+
+    setAppInsightsKeyType(appInsightsResourceIdResponse.metadata.appInsightsKeyType);
   };
 
   const fetchToken = async (component: ArmObj<AppInsightsComponent>) => {
@@ -75,14 +94,15 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   };
 
   useEffect(() => {
-    fetchComponent();
+    fetchData();
+    fetchAppInsightsComponent();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (!appInsightsComponent) {
-      fetchComponent(true);
+      fetchAppInsightsComponent(true);
     } else if (!appInsightsToken) {
       fetchToken(appInsightsComponent);
     }
@@ -97,6 +117,8 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
       resetAppInsightsToken={resetAppInsightsToken}
       appInsightsComponent={appInsightsComponent}
       appInsightsToken={appInsightsToken}
+      appInsightsKeyType={appInsightsKeyType}
+      functionInfo={functionInfo}
     />
   );
 };

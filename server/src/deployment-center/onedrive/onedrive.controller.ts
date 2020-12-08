@@ -6,17 +6,15 @@ import { GUID } from '../../utilities/guid';
 import { HttpService } from '../../shared/http/http.service';
 @Controller()
 export class OnedriveController {
-  private readonly provider = 'onedrive';
   constructor(private dcService: DeploymentCenterService, private loggingService: LoggingService, private httpService: HttpService) {}
 
   @Post('api/onedrive/passthrough')
   @HttpCode(200)
-  async passthrough(@Body('authToken') authToken: string, @Body('url') url: string) {
-    const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
+  async passthrough(@Body('oneDriveToken') oneDriveToken: string, @Body('url') url: string) {
     try {
       const response = await this.httpService.get(url, {
         headers: {
-          Authorization: `Bearer ${tokenData.token}`,
+          Authorization: `Bearer ${oneDriveToken}`,
         },
       });
       return response.data;
@@ -53,9 +51,9 @@ export class OnedriveController {
     return 'Successfully Authenticated. Redirecting...';
   }
 
-  @Post('auth/onedrive/storeToken')
+  @Post('auth/onedrive/getToken')
   @HttpCode(200)
-  async storeToken(@Session() session, @Body('redirUrl') redirUrl: string, @Body('authToken') authToken: string) {
+  async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
     const state = this.dcService.getParameterByName('state', redirUrl);
     if (
       !session ||
@@ -78,9 +76,12 @@ export class OnedriveController {
           },
         }
       );
-      const token = r.data.access_token;
-      const refreshToken = r.data.refresh_token;
-      await this.dcService.saveToken(token, authToken, this.provider, refreshToken);
+
+      return {
+        accessToken: r.data.access_token,
+        refreshToken: r.data.refresh_token,
+        environment: null,
+      };
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);

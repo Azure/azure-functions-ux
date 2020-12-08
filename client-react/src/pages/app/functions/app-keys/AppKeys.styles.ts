@@ -11,13 +11,16 @@ export const formStyle = style({
   padding: '5px 20px',
 });
 
+export const formDescriptionStyle = style({
+  maxWidth: '800px',
+});
+
 export const messageBanner = (theme: ThemeExtended) =>
   style({
     backgroundColor: theme.semanticColors.infoBackground,
     paddingLeft: '5px',
   });
 
-export const filterBoxStyle = { root: { marginTop: '5px', height: '25px', width: '100%' } };
 export const tableActionButtonStyle = { root: { marginTop: '5px' } };
 export const addPanelCommandBar = (theme: ThemeExtended) =>
   style({
@@ -26,17 +29,6 @@ export const addPanelCommandBar = (theme: ThemeExtended) =>
     width: '100%',
     marginBottom: '50px',
   });
-
-export const disableIFrameStyle = style({
-  top: '0px',
-  left: '0px',
-  bottom: '0px',
-  right: ' 0px',
-  backgroundColor: 'rgba(255, 255, 255, 0.4)',
-  opacity: 0.8,
-  zIndex: 1,
-  position: 'absolute',
-});
 
 export const renewTextStyle = (theme: ThemeExtended) =>
   style({
@@ -63,3 +55,27 @@ export const renewPanelTextStyle = () =>
     marginLeft: '5px',
     verticalAlign: 'middle',
   });
+
+export const tableValueComponentStyle = style({
+  display: 'inline-flex',
+  cursor: 'pointer',
+  alignItems: 'center',
+  width: '100%',
+});
+
+export const tableValueIconStyle = (theme: ThemeExtended) =>
+  style({
+    fontSize: '15px',
+    marginRight: '5px',
+    marginTop: '5px',
+    color: theme.semanticColors.hyperlinkText,
+  });
+
+export const tableValueFormFieldStyle = style({
+  marginBottom: '0px !important',
+  height: 'fit-content',
+});
+
+export const tableValueTextFieldStyle = style({
+  width: '100%',
+});

@@ -6,28 +6,11 @@ import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
-import { TokenData } from '../deployment-center';
-
-enum Environments {
-  Prod = 'PROD',
-  Stage = 'STAGE',
-  Release = 'RELEASE',
-  Next = 'NEXT',
-  Dev = 'DEV',
-}
+import { TokenData, EnvironmentUrlMappings, Environments } from '../deployment-center';
 
 @Controller()
 export class GithubController {
-  private readonly provider = 'github';
   private readonly githubApiUrl = 'https://api.github.com';
-
-  private readonly environmentUrlsMap: { [id in Environments]: string } = {
-    PROD: 'https://functions.azure.com',
-    STAGE: 'https://functions-staging.azure.com',
-    RELEASE: 'https://functions-release.azure.com',
-    NEXT: 'https://functions-next.azure.com',
-    DEV: 'https://localhost:44300',
-  };
 
   constructor(
     private dcService: DeploymentCenterService,
@@ -38,12 +21,11 @@ export class GithubController {
 
   @Post('api/github/passthrough')
   @HttpCode(200)
-  async passthrough(@Body('authToken') authToken: string, @Body('url') url: string, @Res() res) {
-    const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
+  async passthrough(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Res() res) {
     try {
       const response = await this.httpService.get(url, {
         headers: {
-          Authorization: `Bearer ${tokenData.token}`,
+          Authorization: `Bearer ${gitHubToken}`,
         },
       });
       if (response.headers.link) {
@@ -71,30 +53,52 @@ export class GithubController {
 
   @Put('api/github/actionWorkflow')
   @HttpCode(200)
-  async actionWorkflow(@Body('authToken') authToken: string, @Body('content') content: GitHubActionWorkflowRequestContent) {
-    // NOTE(michinoy): In order for the action workflow to succesfully execute, it needs to have the secret allowing access
+  async actionWorkflow(
+    @Body('authToken') authToken: string,
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('content') content: GitHubActionWorkflowRequestContent
+  ) {
+    // NOTE(michinoy): In order for the action workflow to successfully execute, it needs to have the secret allowing access
     // to the web app. This secret is the publish profile. This one method will retrieve publish profile, encrypt it, put it
     // as a GitHub secret, and then publish the workflow file.
 
     const publishProfileRequest = this.dcService.getSitePublishProfile(authToken, content.resourceId);
-    const tokenDataRequest = this.dcService.getSourceControlToken(authToken, this.provider);
-    const [publishProfile, tokenData] = await Promise.all([publishProfileRequest, tokenDataRequest]);
-    const publicKey = await this._getGitHubRepoPublicKey(tokenData, content.commit.repoName);
-    await this._putGitHubRepoSecret(tokenData, publicKey, content.commit.repoName, content.secretName, publishProfile);
-    await this._commitFile(tokenData, content);
+    const publicKeyRequest = this._getGitHubRepoPublicKey(gitHubToken, content.commit.repoName);
+    const [publishProfile, publicKey] = await Promise.all([publishProfileRequest, publicKeyRequest]);
+
+    const {
+      commit,
+      secretName,
+      containerUsernameSecretName,
+      containerUsernameSecretValue,
+      containerPasswordSecretName,
+      containerPasswordSecretValue,
+    } = content;
+
+    // NOTE(michinoy): If this is a setup for containers, the username and passwords also need to be stored as secrets
+    // along with the publish profile.
+    if (containerUsernameSecretName && containerUsernameSecretValue && containerPasswordSecretName && containerPasswordSecretValue) {
+      await Promise.all([
+        this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, publishProfile),
+        this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, containerUsernameSecretName, containerUsernameSecretValue),
+        this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, containerPasswordSecretName, containerPasswordSecretValue),
+      ]);
+    } else {
+      await this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, publishProfile);
+    }
+
+    await this._commitFile(gitHubToken, content);
   }
 
   @Post('api/github/deleteActionWorkflow')
   @HttpCode(200)
-  async deleteActionWorkflow(@Body('authToken') authToken: string, @Body('deleteCommit') deleteCommit: GitHubCommit) {
-    const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
-
+  async deleteActionWorkflow(@Body('gitHubToken') gitHubToken: string, @Body('deleteCommit') deleteCommit: GitHubCommit) {
     const url = `${this.githubApiUrl}/repos/${deleteCommit.repoName}/contents/${deleteCommit.filePath}`;
 
     try {
       await this.httpService.delete(url, {
         headers: {
-          Authorization: `Bearer ${tokenData.token}`,
+          Authorization: `Bearer ${gitHubToken}`,
         },
         data: deleteCommit,
       });
@@ -135,7 +139,7 @@ export class GithubController {
   @Get('auth/github/callback/env/:env')
   async callbackRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('env') env) {
     const envToUpper = (env && (env as string).toUpperCase()) || '';
-    const envUri = this.environmentUrlsMap[envToUpper] || this.environmentUrlsMap[Environments.Prod];
+    const envUri = EnvironmentUrlMappings.environmentToUrlMap[envToUpper] || EnvironmentUrlMappings.environmentToUrlMap[Environments.Prod];
     res.redirect(`${envUri}/auth/github/callback?code=${code}&state=${state}`);
   }
 
@@ -144,9 +148,9 @@ export class GithubController {
     return 'Successfully Authenticated. Redirecting...';
   }
 
-  @Post('auth/github/storeToken')
+  @Post('auth/github/getToken')
   @HttpCode(200)
-  async storeToken(@Session() session, @Body('redirUrl') redirUrl: string, @Body('authToken') authToken: string) {
+  async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
     const state = this.dcService.getParameterByName('state', redirUrl);
     if (
       !session ||
@@ -165,7 +169,11 @@ export class GithubController {
         client_secret: this.configService.get('GITHUB_CLIENT_SECRET'),
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
-      this.dcService.saveToken(token, authToken, this.provider);
+      return {
+        accessToken: token,
+        refreshToken: null,
+        environment: null,
+      };
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
@@ -174,13 +182,13 @@ export class GithubController {
     }
   }
 
-  private async _getGitHubRepoPublicKey(tokenData: TokenData, repoName: string): Promise<GitHubSecretPublicKey> {
+  private async _getGitHubRepoPublicKey(gitHubToken: string, repoName: string): Promise<GitHubSecretPublicKey> {
     const url = `${this.githubApiUrl}/repos/${repoName}/actions/secrets/public-key`;
 
     try {
       const response = await this.httpService.get(url, {
         headers: {
-          Authorization: `Bearer ${tokenData.token}`,
+          Authorization: `Bearer ${gitHubToken}`,
         },
       });
 
@@ -196,7 +204,7 @@ export class GithubController {
   }
 
   private async _putGitHubRepoSecret(
-    tokenData: TokenData,
+    gitHubToken: string,
     publicKey: GitHubSecretPublicKey,
     repoName: string,
     secretName: string,
@@ -218,7 +226,7 @@ export class GithubController {
     try {
       const config = {
         headers: {
-          Authorization: `Bearer ${tokenData.token}`,
+          Authorization: `Bearer ${gitHubToken}`,
         },
       };
 
@@ -238,7 +246,7 @@ export class GithubController {
     }
   }
 
-  private async _commitFile(tokenData: TokenData, content: GitHubActionWorkflowRequestContent) {
+  private async _commitFile(gitHubToken: string, content: GitHubActionWorkflowRequestContent) {
     const url = `${this.githubApiUrl}/repos/${content.commit.repoName}/contents/${content.commit.filePath}`;
 
     const commitContent = {
@@ -252,7 +260,7 @@ export class GithubController {
     try {
       await this.httpService.put(url, commitContent, {
         headers: {
-          Authorization: `Bearer ${tokenData.token}`,
+          Authorization: `Bearer ${gitHubToken}`,
         },
       });
     } catch (err) {
@@ -271,11 +279,11 @@ export class GithubController {
 
   private _getEnvironment(hostUrl: string): Environments {
     const hostUrlToLower = (hostUrl || '').toLocaleLowerCase();
-    for (const env in this.environmentUrlsMap) {
-      if (!!this.environmentUrlsMap[env]) {
-        const envUrlToLower = (this.environmentUrlsMap[env] as string).toLocaleLowerCase();
+    for (const url in EnvironmentUrlMappings.urlToEnvironmentMap) {
+      if (!!EnvironmentUrlMappings.urlToEnvironmentMap[url]) {
+        const envUrlToLower = url.toLocaleLowerCase();
         if (hostUrlToLower.startsWith(envUrlToLower)) {
-          return env as Environments;
+          return EnvironmentUrlMappings.urlToEnvironmentMap[url];
         }
       }
     }
@@ -284,11 +292,13 @@ export class GithubController {
 
   private _getRedirectUri(host: string): string {
     const redirectUri =
-      this.configService.get('GITHUB_REDIRECT_URL') || `${this.environmentUrlsMap[Environments.Prod]}/auth/github/callback`;
+      this.configService.get('GITHUB_REDIRECT_URL') ||
+      `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Prod]}/auth/github/callback`;
 
-    const redirectUriToLower = redirectUri.toLocaleLowerCase();
-    const hostUrlToLower = `https://${host}`.toLocaleLowerCase();
-    if (!redirectUriToLower.startsWith(hostUrlToLower)) {
+    const [redirectUriToLower, hostUrlToLower] = [redirectUri.toLocaleLowerCase(), `https://${host}`.toLocaleLowerCase()];
+    const [redirectEnv, clientEnv] = [this._getEnvironment(redirectUriToLower), this._getEnvironment(hostUrlToLower)];
+
+    if (clientEnv && redirectEnv !== clientEnv) {
       // Once GitHub authentication is complete, the browser needs to be redirected to the same host as the parent window that
       // originally launched it. Otherwise, the parent window won't be able to extract the token due to origin mis-match.
 
@@ -298,10 +308,7 @@ export class GithubController {
       // - If the host of the parent window doesn't match the host of the pre-configured callback, then we append '/env/<ENV>' to the
       //   pre-configured callback and use this as the redirect URL. When the browser gets redirected to this URL from GitHub, it will
       //   result in an additional redirect to the correct environment where the host will match the parent window's host.
-      const env = this._getEnvironment(hostUrlToLower);
-      if (!!env) {
-        return `${redirectUri}/env/${env}`;
-      }
+      return `${redirectUri}/env/${clientEnv}`;
     }
 
     return redirectUri;

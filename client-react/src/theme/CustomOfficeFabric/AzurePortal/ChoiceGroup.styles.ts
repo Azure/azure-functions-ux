@@ -11,8 +11,13 @@ const GlobalClassNames = {
 interface StyleProps extends IChoiceGroupStyleProps {
   theme: ThemeExtended;
 }
-export const ChoiceGroupStyles: IStyleFunction<StyleProps, IChoiceGroupStyles> = props => {
-  const { className, theme } = props;
+
+interface GroupStyleProps extends StyleProps {
+  setVerticalLayout: boolean;
+}
+
+const GroupStyles: IStyleFunction<GroupStyleProps, IChoiceGroupStyles> = props => {
+  const { className, theme, setVerticalLayout } = props;
 
   const classNames = getGlobalClassNames(GlobalClassNames, theme);
 
@@ -24,15 +29,35 @@ export const ChoiceGroupStyles: IStyleFunction<StyleProps, IChoiceGroupStyles> =
       {
         display: 'block',
         minWidth: '120px',
+        selectors: {
+          '.ms-ChoiceField': {
+            paddingTop: '0px',
+            marginTop: '0px',
+          },
+        },
       },
     ],
     flexContainer: [
       classNames.flexContainer,
       {
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: setVerticalLayout ? 'column' : 'row',
         flexWrap: 'wrap',
       },
     ],
   };
+};
+
+export const ChoiceGroupStyles: IStyleFunction<StyleProps, IChoiceGroupStyles> = props => {
+  return GroupStyles({
+    ...props,
+    setVerticalLayout: false,
+  });
+};
+
+export const ChoiceGroupVerticalStyles: IStyleFunction<StyleProps, IChoiceGroupStyles> = props => {
+  return GroupStyles({
+    ...props,
+    setVerticalLayout: true,
+  });
 };

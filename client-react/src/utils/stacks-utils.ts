@@ -1,104 +1,244 @@
-import { ArmObj } from '../models/arm-obj';
-import { AvailableStack } from '../models/available-stacks';
+import {
+  WebAppStack,
+  WebAppRuntimeSettings,
+  LinuxJavaContainerSettings,
+  WindowsJavaContainerSettings,
+  WebAppRuntimes,
+  JavaContainers as JavaContainersInterface,
+} from '../models/stacks/web-app-stacks';
+import { IDropdownOption } from 'office-ui-fabric-react';
+import { AppStackMajorVersion, AppStackMinorVersion, AppStackOs } from '../models/stacks/app-stacks';
+import { FunctionAppStack } from '../models/stacks/function-app-stacks';
+import i18next from 'i18next';
+import LogService from './LogService';
+import { LogCategories } from './LogCategories';
+import { getDateAfterXSeconds } from './DateUtilities';
 
-const isStackVersionEndOfLife = (stackName: string, runtimeVersion: string) => {
-  if (!stackName || !runtimeVersion) {
+const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
+
+export const getStacksSummaryForDropdown = (
+  stack: WebAppStack | FunctionAppStack,
+  osType: AppStackOs,
+  t: i18next.TFunction
+): IDropdownOption[] => {
+  const options: IDropdownOption[] = [];
+  stack.majorVersions.forEach(stackMajorVersion => {
+    stackMajorVersion.minorVersions.forEach(stackMinorVersion => {
+      const settings =
+        osType === AppStackOs.linux
+          ? stackMinorVersion.stackSettings.linuxRuntimeSettings
+          : stackMinorVersion.stackSettings.windowsRuntimeSettings;
+      if (settings) {
+        options.push({
+          key: settings.runtimeVersion,
+          text: getMinorVersionText(stackMinorVersion.displayText, t, settings),
+          data: stackMinorVersion,
+        });
+      }
+    });
+  });
+  return options;
+};
+
+export const getMinorVersionText = (text: string, t: i18next.TFunction, settings?: WebAppRuntimeSettings) => {
+  if (!!settings) {
+    if (settings.isAutoUpdate) {
+      return t('stackVersionAutoUpdate').format(text);
+    }
+    if (isStackVersionDeprecated(settings)) {
+      return t('stackVersionDeprecated').format(text);
+    }
+    if (isStackVersionEndOfLife(settings.endOfLifeDate)) {
+      return t('endOfLifeTagTemplate').format(text);
+    }
+    if (settings.isPreview) {
+      return t('stackVersionPreview').format(text);
+    }
+  }
+  return text;
+};
+
+export const isStackVersionDeprecated = (settings: WebAppRuntimeSettings) => {
+  return settings.isDeprecated || (!!settings.endOfLifeDate && Date.parse(settings.endOfLifeDate) < Date.now());
+};
+
+export const isStackVersionEndOfLife = (endOfLifeDate?: string): boolean => {
+  try {
+    return !!endOfLifeDate && Date.parse(endOfLifeDate) <= getDateAfterXSeconds(ENDOFLIFEMAXSECONDS).getSeconds();
+  } catch (err) {
+    LogService.error(LogCategories.appSettings, 'StackSettings', err);
     return false;
   }
-
-  if (stackName === 'dotnetcore') {
-    return (
-      runtimeVersion === '1.0' ||
-      runtimeVersion.startsWith('1.0.') ||
-      runtimeVersion === '1.1' ||
-      runtimeVersion.startsWith('1.1.') ||
-      runtimeVersion === '2.0' ||
-      runtimeVersion.startsWith('2.0.') ||
-      runtimeVersion === '2.2' ||
-      runtimeVersion.startsWith('2.2.') ||
-      runtimeVersion === '3.0' ||
-      runtimeVersion.startsWith('3.0.')
-    );
-  }
-
-  if (stackName === 'node') {
-    // Any version below 10.x is EOL
-    const runtimeVersionDotSplit = runtimeVersion.split('.');
-    const runtimeVersionMajor = parseInt(runtimeVersionDotSplit[0], 10);
-    return !!runtimeVersionMajor && runtimeVersionMajor < 10;
-  }
-
-  if (stackName === 'php') {
-    return (
-      runtimeVersion === '5.6' ||
-      runtimeVersion.startsWith('5.6.') ||
-      runtimeVersion === '7.0' ||
-      runtimeVersion.startsWith('7.0.') ||
-      runtimeVersion === '7.1' ||
-      runtimeVersion.startsWith('7.1.')
-    );
-  }
-
-  if (stackName === 'python') {
-    return runtimeVersion === '2.7' || runtimeVersion.startsWith('2.7.');
-  }
-
-  if (stackName === 'java8') {
-    return runtimeVersion.toLowerCase().startsWith('wildfly|');
-  }
-
-  if (stackName === 'ruby') {
-    return runtimeVersion === '2.3' || runtimeVersion.startsWith('2.3.') || runtimeVersion === '2.4' || runtimeVersion.startsWith('2.4.');
-  }
-
-  return false;
 };
 
-const extractRuntimeVersion = (runtimeVersion: string, stackName: string, isLinux?: boolean): string => {
-  let version = runtimeVersion || '';
-
-  if (isLinux && stackName === 'java8') {
-    return runtimeVersion;
+// Filter all the deprecated stack except the specific version passed as the parameter
+export const filterDeprecatedWebAppStack = (stacks: WebAppStack[], ignoreStackName: string, ignoreStackVersion: string) => {
+  const filteredStacks: WebAppStack[] = [];
+  for (const stack of stacks) {
+    const filteredMajorVersions: AppStackMajorVersion<WebAppRuntimes & JavaContainersInterface>[] = filterDeprecatedWebAppStackMajorVersion(
+      stack.majorVersions,
+      stack.value,
+      ignoreStackName,
+      ignoreStackVersion
+    );
+    if (filteredMajorVersions.length > 0) {
+      stack.majorVersions = filteredMajorVersions;
+      filteredStacks.push(stack);
+    }
   }
-
-  if (isLinux) {
-    const runtimeVersionSplitOnPipe = runtimeVersion.split('|');
-    version = runtimeVersionSplitOnPipe.length === 2 ? runtimeVersionSplitOnPipe[1] : '';
-  }
-
-  // version might look like '8-lts', so we only take the portion before the '-'
-  const versionSplitOnDash = version.split('-');
-
-  return versionSplitOnDash[0];
+  return filteredStacks;
 };
 
-export const markEndOfLifeStacksInPlace = (stacks: ArmObj<AvailableStack>[]) => {
-  stacks.forEach(stack => {
-    const isLinux = !!stack.type && stack.type.toLowerCase() === 'Microsoft.Web/availableStacks?osTypeSelected=Linux'.toLowerCase();
-    const stackName = (stack.name || '').toLowerCase();
+export const filterDeprecatedWebAppStackMajorVersion = (
+  majorVersions: AppStackMajorVersion<WebAppRuntimes & JavaContainersInterface>[],
+  stackName: string,
+  ignoreStackName: string,
+  ignoreStackVersion: string
+) => {
+  const filteredMajorVersions: AppStackMajorVersion<WebAppRuntimes & JavaContainersInterface>[] = [];
+  for (const majorVersion of majorVersions) {
+    const filteredMinorVersions: AppStackMinorVersion<WebAppRuntimes & JavaContainersInterface>[] = filterDeprecatedWebAppStackMinorVersion(
+      majorVersion.minorVersions,
+      stackName,
+      ignoreStackName,
+      ignoreStackVersion
+    );
+    if (filteredMinorVersions.length > 0) {
+      majorVersion.minorVersions = filteredMinorVersions;
+      filteredMajorVersions.push(majorVersion);
+    }
+  }
+  return filteredMajorVersions;
+};
+
+export const filterDeprecatedWebAppStackMinorVersion = (
+  minorVersions: AppStackMinorVersion<WebAppRuntimes & JavaContainersInterface>[],
+  stackName: string,
+  ignoreStackName: string,
+  ignoreStackVersion: string
+) => {
+  const filteredMinorVersions: AppStackMinorVersion<WebAppRuntimes & JavaContainersInterface>[] = [];
+  for (const minorVersion of minorVersions) {
+    minorVersion.stackSettings.linuxRuntimeSettings = getFilteredWebStackSettings(
+      stackName,
+      ignoreStackName,
+      ignoreStackVersion,
+      minorVersion.stackSettings.linuxRuntimeSettings
+    );
+
+    minorVersion.stackSettings.windowsRuntimeSettings = getFilteredWebStackSettings(
+      stackName,
+      ignoreStackName,
+      ignoreStackVersion,
+      minorVersion.stackSettings.windowsRuntimeSettings
+    );
+
+    minorVersion.stackSettings.linuxContainerSettings = getFilteredLinuxJavaContainerSettings(
+      stackName,
+      ignoreStackName,
+      ignoreStackVersion,
+      minorVersion.stackSettings.linuxContainerSettings
+    );
+
+    minorVersion.stackSettings.windowsContainerSettings = getFilteredWindowsJavaContainerSettings(
+      stackName,
+      ignoreStackName,
+      ignoreStackVersion,
+      minorVersion.stackSettings.windowsContainerSettings
+    );
 
     if (
-      stackName === 'dotnetcore' ||
-      stackName === 'node' ||
-      stackName === 'php' ||
-      stackName === 'python' ||
-      stackName === 'java8' ||
-      stackName === 'ruby'
+      minorVersion.stackSettings.linuxRuntimeSettings ||
+      minorVersion.stackSettings.windowsRuntimeSettings ||
+      minorVersion.stackSettings.linuxContainerSettings ||
+      minorVersion.stackSettings.windowsContainerSettings
     ) {
-      const majorVersions = stack.properties.majorVersions || [];
-      majorVersions.forEach(majorVersion => {
-        let allMinorVersionsEndOfLife = true;
-        const minorVersions = majorVersion.minorVersions || [];
-        minorVersions.forEach(minorVersion => {
-          const minorVersionRuntime = extractRuntimeVersion(minorVersion.runtimeVersion, stackName, isLinux);
-          minorVersion.isEndOfLife = isStackVersionEndOfLife(stackName, minorVersionRuntime);
-          allMinorVersionsEndOfLife = allMinorVersionsEndOfLife && minorVersion.isEndOfLife;
-        });
-
-        const majorVersionRuntime = extractRuntimeVersion(majorVersion.runtimeVersion, stackName, isLinux);
-        majorVersion.isEndOfLife = isStackVersionEndOfLife(stackName, majorVersionRuntime);
-        majorVersion.allMinorVersionsEndOfLife = allMinorVersionsEndOfLife;
-      });
+      filteredMinorVersions.push(minorVersion);
     }
-  });
+  }
+  return filteredMinorVersions;
+};
+
+export const getFilteredWebStackSettings = (
+  stackName: string,
+  ignoreStackName: string,
+  ignoreStackVersion: string,
+  settings?: WebAppRuntimeSettings
+) => {
+  if (!!settings) {
+    if (
+      stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
+      ignoreStackVersion.toLowerCase() === settings.runtimeVersion.toLowerCase()
+    ) {
+      return settings;
+    } else {
+      return settings.isDeprecated ? undefined : settings;
+    }
+  } else {
+    return undefined;
+  }
+};
+
+export const getFilteredLinuxJavaContainerSettings = (
+  stackName: string,
+  ignoreStackName: string,
+  ignoreStackVersion: string,
+  settings?: LinuxJavaContainerSettings
+) => {
+  if (!!settings) {
+    if (
+      stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
+      (!settings.java11Runtime ||
+        ignoreStackVersion.toLowerCase() === settings.java11Runtime.toLowerCase() ||
+        !settings.java8Runtime ||
+        ignoreStackVersion.toLowerCase() === settings.java8Runtime.toLowerCase())
+    ) {
+      return settings;
+    } else {
+      return settings.isDeprecated ? undefined : settings;
+    }
+  } else {
+    return undefined;
+  }
+};
+
+export const getFilteredWindowsJavaContainerSettings = (
+  stackName: string,
+  ignoreStackName: string,
+  ignoreStackVersion: string,
+  settings?: WindowsJavaContainerSettings
+) => {
+  if (!!settings) {
+    if (
+      stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
+      ignoreStackVersion.toLowerCase() === settings.javaContainerVersion.toLowerCase()
+    ) {
+      return settings;
+    } else {
+      return settings.isDeprecated ? undefined : settings;
+    }
+  } else {
+    return undefined;
+  }
+};
+
+export const JavaVersions = {
+  WindowsVersion8: '1.8',
+  WindowsVersion11: '11',
+  LinuxVersion8: 'jre8',
+  LinuxVersion11: 'java11',
+};
+
+export const JavaContainers = {
+  JavaSE: 'java',
+  Tomcat: 'tomcat',
+};
+
+export const RuntimeStacks = {
+  aspnet: 'asp.net',
+  node: 'node',
+  python: 'python',
+  dotnetcore: 'dotnetcore',
+  java8: 'java-8',
+  java11: 'java-11',
 };

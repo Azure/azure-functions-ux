@@ -3,16 +3,14 @@ import { AvailableStack } from '../models/available-stacks';
 import { CommonConstants } from '../utils/CommonConstants';
 import LogService from '../utils/LogService';
 import { ArmObj, ArmArray } from '../models/arm-obj';
-import { Site } from '../models/site/site';
+import { Site, PublishingCredentialPolicies } from '../models/site/site';
 import { SiteConfig, ArmAzureStorageMount } from '../models/site/config';
 import { SlotConfigNames } from '../models/site/slot-config-names';
 import { SiteLogsConfig } from '../models/site/logs-config';
 import { HostStatus } from '../models/functions/host-status';
-import { isLinuxDynamic } from '../utils/arm-utils';
-import Url from '../utils/url';
-import { sendHttpRequest } from './HttpClient';
 import { KeyValue } from '../models/portal-models';
 import { PublishingCredentials } from '../models/site/publish';
+import { DeploymentProperties, DeploymentLogsItem, SourceControlProperties } from '../pages/app/deployment-center/DeploymentCenter.types';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
@@ -80,6 +78,72 @@ export default class SiteService {
     return result;
   };
 
+  public static getSiteDeployments = async (resourceId: string, force?: boolean) => {
+    return MakeArmCall<ArmArray<DeploymentProperties>>({
+      resourceId: `${resourceId}/deployments`,
+      commandName: 'fetchDeployments',
+      method: 'GET',
+      skipBatching: force,
+    });
+  };
+
+  public static getDeploymentLogs = async (deploymentId: string) => {
+    return MakeArmCall<ArmArray<DeploymentLogsItem>>({
+      resourceId: `${deploymentId}/log`,
+      commandName: 'fetchDeploymentLogs',
+      method: 'GET',
+    });
+  };
+
+  public static getLogDetails = async (deploymentId: string, logId: string) => {
+    return MakeArmCall<ArmArray<DeploymentLogsItem>>({
+      resourceId: `${deploymentId}/log/${logId}`,
+      commandName: 'fetchLogDetails',
+      method: 'GET',
+    });
+  };
+
+  public static getSourceControlDetails = async (resourceId: string) => {
+    return MakeArmCall<ArmObj<SourceControlProperties>>({
+      resourceId: `${resourceId}/sourcecontrols/web`,
+      commandName: 'fetchSourceControl',
+      method: 'GET',
+    });
+  };
+
+  public static deleteSourceControlDetails = async (resourceId: string) => {
+    return MakeArmCall<{}>({
+      resourceId: `${resourceId}/sourcecontrols/web`,
+      commandName: 'deleteSourceControl',
+      method: 'DELETE',
+    });
+  };
+
+  public static updateSourceControlDetails = (resourceId: string, body: any) => {
+    return MakeArmCall<void>({
+      method: 'PUT',
+      resourceId: `${resourceId}/sourcecontrols/web`,
+      body: body,
+      commandName: 'updateDeployment',
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+    });
+  };
+
+  public static syncSourceControls = (resourceId: string) => {
+    const id = `${resourceId}/sync`;
+    return MakeArmCall<void>({ method: 'POST', resourceId: id, commandName: 'syncSourceControls' });
+  };
+
+  public static patchSiteConfig = (resourceId: string, body: any) => {
+    return MakeArmCall<void>({
+      method: 'PATCH',
+      resourceId: `${resourceId}/config/web`,
+      body: body,
+      commandName: 'patchSiteConfig',
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+    });
+  };
+
   public static updateApplicationSettings = async (resourceId: string, appSettings: ArmObj<KeyValue<string>>) => {
     const id = `${resourceId}/config/appsettings`;
     const result = await MakeArmCall<ArmObj<KeyValue<string>>>({
@@ -105,6 +169,21 @@ export default class SiteService {
     return result;
   };
 
+  public static updateMetadata = async (resourceId: string, properties: KeyValue<string>) => {
+    const id = `${resourceId}/config/metadata`;
+    const result = await MakeArmCall<any>({
+      resourceId: id,
+      commandName: 'updateMetadata',
+      method: 'PUT',
+      body: { properties },
+    });
+    LogService.trackEvent('site-service', 'metadataLoaded', {
+      success: result.metadata.success,
+      resultCount: result.data && Object.keys(result.data.properties).length,
+    });
+    return result;
+  };
+
   public static fetchSlotConfigNames = (resourceId: string) => {
     const id = `${SiteService.getProductionId(resourceId)}/config/slotconfignames`;
     return MakeArmCall<ArmObj<SlotConfigNames>>({ resourceId: id, commandName: 'fetchSlotConfigNames' });
@@ -112,7 +191,12 @@ export default class SiteService {
 
   public static updateSlotConfigNames = (resourceId: string, slotConfigNames: ArmObj<SlotConfigNames>) => {
     const id = `${SiteService.getProductionId(resourceId)}/config/slotconfignames`;
-    return MakeArmCall<ArmObj<SlotConfigNames>>({ resourceId: id, commandName: 'updateWebConfig', method: 'PUT', body: slotConfigNames });
+    return MakeArmCall<ArmObj<SlotConfigNames>>({
+      resourceId: id,
+      commandName: 'updateSlotConfigNames',
+      method: 'PUT',
+      body: slotConfigNames,
+    });
   };
 
   public static fetchAzureStorageMounts = (resourceId: string) => {
@@ -156,11 +240,7 @@ export default class SiteService {
   };
 
   public static fireSyncTrigger = (site: ArmObj<Site>, token: string) => {
-    if (isLinuxDynamic(site)) {
-      return MakeArmCall<any>({ resourceId: `${site.id}/hostruntime/admin/host/synctriggers`, commandName: 'syncTrigger', method: 'POST' });
-    } else {
-      return sendHttpRequest({ url: Url.getSyncTriggerUrl(site), method: 'POST', headers: { Authorization: `Bearer ${token}` } });
-    }
+    return MakeArmCall<any>({ resourceId: `${site.id}/host/default/sync`, commandName: 'syncTrigger', method: 'POST' });
   };
 
   public static getPublishProfile = (resourceId: string) => {
@@ -178,5 +258,14 @@ export default class SiteService {
   public static getPublishingCredentials = (resourceId: string) => {
     const id = `${resourceId}/config/publishingcredentials/list`;
     return MakeArmCall<ArmObj<PublishingCredentials>>({ method: 'POST', resourceId: id, commandName: 'getPublishingCredentials' });
+  };
+
+  public static getBasicPublishingCredentialsPolicies = (resourceId: string) => {
+    const id = `${resourceId}/basicPublishingCredentialsPolicies`;
+    return MakeArmCall<ArmObj<PublishingCredentialPolicies>>({
+      method: 'GET',
+      resourceId: id,
+      commandName: 'getBasicPublishingCredentialsPolicies',
+    });
   };
 }

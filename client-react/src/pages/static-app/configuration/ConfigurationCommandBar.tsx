@@ -14,9 +14,13 @@ interface ConfigurationCommandBarProps {
 
 const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props => {
   const { save, dirty, showDiscardConfirmDialog, refresh, isLoading } = props;
-  const [disabled, setDisabled] = useState(false);
+  const [items, setItems] = useState<ICommandBarItemProps[]>([]);
 
   const { t } = useTranslation();
+
+  const isDisabled = () => {
+    return !dirty || isLoading;
+  };
 
   const getItems = (): ICommandBarItemProps[] => {
     return [
@@ -26,7 +30,7 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
         iconProps: {
           iconName: 'Save',
         },
-        disabled: disabled,
+        disabled: isDisabled(),
         onClick: save,
       },
       {
@@ -35,7 +39,7 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
         iconProps: {
           iconName: 'ChromeClose',
         },
-        disabled: disabled,
+        disabled: isDisabled(),
         onClick: showDiscardConfirmDialog,
       },
       {
@@ -51,11 +55,11 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
   };
 
   useEffect(() => {
-    setDisabled(!dirty || isLoading);
+    setItems([...getItems()]);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dirty, isLoading]);
-  return <CommandBar items={getItems()} role="nav" styles={CommandBarStyles} buttonAs={CustomCommandBarButton} />;
+  return <CommandBar items={items} role="nav" styles={CommandBarStyles} buttonAs={CustomCommandBarButton} />;
 };
 
 export default ConfigurationCommandBar;

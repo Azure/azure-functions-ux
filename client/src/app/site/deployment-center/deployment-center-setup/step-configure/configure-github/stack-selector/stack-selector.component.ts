@@ -30,6 +30,7 @@ export class StackSelectorComponent implements OnDestroy {
   public stackMismatchMessage = '';
   public selectedRuntimeStack = '';
   public selectedRuntimeStackVersion = '';
+  public showVersionSelector = true;
 
   private _ngUnsubscribe$ = new Subject();
   private _runtimeStacks: WebAppCreateStack[] = [];
@@ -80,16 +81,10 @@ export class StackSelectorComponent implements OnDestroy {
 
       // NOTE(michinoy): Show a warning message if the user selects a stack which does not match what their app is configured with.
       if (this.wizard.stack && stackValue !== this.wizard.stack.toLocaleLowerCase() && !this.stackNotSupportedMessage) {
-        if (this.wizard.stack.toLocaleLowerCase() === RuntimeStacks.aspnet) {
-          this.stackMismatchMessage = this._translateService.instant(PortalResources.githubActionAspNetStackMismatchMessage, {
-            appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
-          });
-        } else {
-          this.stackMismatchMessage = this._translateService.instant(PortalResources.githubActionStackMismatchMessage, {
-            appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
-            stack: this.wizard.stack,
-          });
-        }
+        this.stackMismatchMessage = this._translateService.instant(PortalResources.githubActionStackMismatchMessage, {
+          appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
+          stack: this.wizard.stack,
+        });
       } else {
         this.stackMismatchMessage = '';
       }
@@ -138,10 +133,6 @@ export class StackSelectorComponent implements OnDestroy {
       if (appSelectedStack && appSelectedStack.length === 1) {
         this.stackNotSupportedMessage = '';
         this._runtimeStackStream$.next(appSelectedStack[0].value);
-      } else if (this.wizard.stack.toLocaleLowerCase() === RuntimeStacks.aspnet) {
-        this.stackNotSupportedMessage = this._translateService.instant(PortalResources.githubActionAspNetStackNotSupportedMessage, {
-          appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
-        });
       } else {
         this.stackNotSupportedMessage = this._translateService.instant(PortalResources.githubActionStackNotSupportedMessage, {
           appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
@@ -155,6 +146,8 @@ export class StackSelectorComponent implements OnDestroy {
 
   private _populateRuntimeStackVersionItems(stackValue: string) {
     if (stackValue) {
+      this.showVersionSelector = stackValue !== RuntimeStacks.aspnet;
+
       const runtimeStack = this._runtimeStacks.find(stack => stack.value.toLocaleLowerCase() === stackValue);
 
       this.runtimeStackVersionItems = runtimeStack.versions.map(version => ({

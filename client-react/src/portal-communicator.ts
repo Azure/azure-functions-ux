@@ -50,8 +50,6 @@ export default class PortalCommunicator {
     'portal.microsoftazure.de',
     'portal.azure.cn',
     'portal.azure.us',
-    'powerapps.cloudapp.net',
-    'web.powerapps.com',
     'portal.azure.eaglex.ic.gov',
     'portal.azure.microsoft.scloud',
   ];
@@ -133,9 +131,6 @@ export default class PortalCommunicator {
           this.postInitializeMessage(startupInfo);
         })
         .catch(() => {
-          // NOTE(michinoy): '.finally' is not supported on promises on IE and Edge.
-          // Explore adding a polyfill - https://github.com/babel/babel/issues/8111
-          // WI - https://msazure.visualstudio.com/Antares/_workitems/edit/5493047
           this.postInitializeMessage(startupInfo);
         });
     }
@@ -452,6 +447,7 @@ export default class PortalCommunicator {
         window.appsvc.env.azureResourceManagerEndpoint = startupInfo.armEndpoint;
         window.appsvc.resourceId = startupInfo.resourceId;
         window.appsvc.feature = startupInfo.featureInfo && startupInfo.featureInfo.feature;
+        window.appsvc.frameId = this.frameId;
       }
     } else if (methodName === Verbs.sendToken2) {
       this.setArmTokenInternal(data && data.token);

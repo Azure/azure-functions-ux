@@ -49,6 +49,12 @@ export interface UrlObj {
 export enum UrlType {
   Host = 'Host',
   Function = 'Function',
+  System = 'System',
 }
 
 export const urlParameterRegExp = /\{([^}]+)\}/g;
+
+export enum LoggingOptions {
+  appInsights = 'appInsights',
+  fileBased = 'fileBased',
+}

@@ -59,3 +59,44 @@ export interface AppInsightsInvocationTraceDetail {
   message: string;
   logLevel: string;
 }
+
+export interface AppInsightsOrchestrationTrace {
+  timestamp: string;
+  timestampFriendly: string;
+  id: string;
+  name: string;
+  DurableFunctionsInstanceId: string;
+  DurableFunctionsRuntimeStatus: string;
+  DurableFunctionsType: number;
+}
+
+export interface AppInsightsOrchestrationTraceDetail {
+  rowId: number;
+  timestamp: string;
+  timestampFriendly: string;
+  message: string;
+  state: string;
+}
+
+export interface AppInsightsEntityTrace {
+  timestamp: string;
+  timestampFriendly: string;
+  id: string;
+  name: string;
+  DurableFunctionsInstanceId: string;
+  DurableFunctionsRuntimeStatus: string;
+  DurableFunctionsType: number;
+}
+
+export interface AppInsightsEntityTraceDetail {
+  rowId: number;
+  timestamp: string;
+  timestampFriendly: string;
+  message: string;
+  state: string;
+}
+
+export enum AppInsightsKeyType {
+  string = 'string',
+  keyVault = 'keyVault',
+}

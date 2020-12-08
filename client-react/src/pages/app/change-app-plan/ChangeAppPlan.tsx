@@ -1,35 +1,34 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
-import FeatureDescriptionCard from '../../../components/feature-description-card/FeatureDescriptionCard';
-import { PrimaryButton, IDropdownOption, Stack, Link, ILink, MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { Formik, FormikProps } from 'formik';
-import { ResourceGroup } from '../../../models/resource-group';
+import i18next from 'i18next';
+import { IDropdownOption, ILink, Link, MessageBar, MessageBarType, PrimaryButton, Stack } from 'office-ui-fabric-react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
-import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
-import { CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN, addNewPlanToOptions } from './CreateOrSelectPlan';
-import SiteService from '../../../ApiHelpers/SiteService';
+import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import ResourceGroupService from '../../../ApiHelpers/ResourceGroupService';
 import ServerFarmService from '../../../ApiHelpers/ServerFarmService';
-import { PortalContext } from '../../../PortalContext';
-import PortalCommunicator from '../../../portal-communicator';
-import { getDefaultServerFarmName } from '../../../utils/validation/serverFarmValidator';
-import { addNewRgOption } from './CreateOrSelectResourceGroup';
-import LogService from '../../../utils/LogService';
+import SiteService from '../../../ApiHelpers/SiteService';
+import FeatureDescriptionCard from '../../../components/feature-description-card/FeatureDescriptionCard';
+import ReactiveFormControl from '../../../components/form-controls/ReactiveFormControl';
 import { ReactComponent as AppServicePlanSvg } from '../../../images/AppService/app-service-plan.svg';
-import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
-import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
-import { useWindowSize } from 'react-use';
-import { BroadcastMessageId } from '../../../models/portal-models';
-import { FormControlWrapper } from '../../../components/FormControlWrapper/FormControlWrapper';
-import { LogCategories } from '../../../utils/LogCategories';
 import { ArmObj, ArmSku } from '../../../models/arm-obj';
-import { Site } from '../../../models/site/site';
-import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
-import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
+import { BroadcastMessageId } from '../../../models/portal-models';
+import { ResourceGroup } from '../../../models/resource-group';
+import { ServerFarm } from '../../../models/serverFarm/serverfarm';
+import { Site } from '../../../models/site/site';
+import PortalCommunicator from '../../../portal-communicator';
+import { PortalContext } from '../../../PortalContext';
+import { LogCategories } from '../../../utils/LogCategories';
+import LogService from '../../../utils/LogService';
+import { ArmPlanDescriptor, ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
-import { CommonConstants } from '../../../utils/CommonConstants';
-import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
+import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
+import { getDefaultServerFarmName } from '../../../utils/validation/serverFarmValidator';
+import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
+import { addNewPlanToOptions, CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN } from './CreateOrSelectPlan';
+import { addNewRgOption } from './CreateOrSelectResourceGroup';
+import { Links } from '../../../utils/FwLinks';
 
 export const leftCol = style({
   marginRight: '20px',
@@ -43,10 +42,6 @@ const formStyle = {
   marginTop: '30px',
 };
 
-const fieldStyle = {
-  marginTop: '20px',
-};
-
 const sectionStyle = {
   marginTop: '10px',
 };
@@ -54,18 +49,12 @@ const sectionStyle = {
 const labelSectionStyle = style({
   textTransform: 'uppercase',
   fontSize: '11px',
-  fontWeight: '600',
-} as any); // Casting to any because style definition doesn't support 600 even though it's valid CSS
-
-const labelStyle = style({
-  width: '250px',
+  fontWeight: 600,
 });
 
 const footerStyle = style({
   marginTop: '50px',
 });
-
-const MaxHorizontalWidthPx = 750;
 
 interface CompletionTelemetry {
   success: boolean;
@@ -97,7 +86,6 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const [siteIsReadOnlyLocked, setSiteIsReadOnlyLocked] = useState(false);
   const [showAppDensityWarning, setShowAppDensityWarning] = useState(false);
   const portalCommunicator = useContext(PortalContext);
-  const { width } = useWindowSize();
   const changeSkuLinkElement = useRef<ILink | null>(null);
   const { t } = useTranslation();
 
@@ -180,17 +168,17 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                       <h4 className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</h4>
                     </Stack>
 
-                    <FormControlWrapper label={t('appServicePlan')}>
+                    <ReactiveFormControl id="currentAppServicePlan" label={t('appServicePlan')}>
                       <div tabIndex={0} aria-label={t('appServicePlan') + getPlanName(currentServerFarm)}>
                         {getPlanName(currentServerFarm)}
                       </div>
-                    </FormControlWrapper>
+                    </ReactiveFormControl>
 
                     <Stack style={{ marginTop: '50px' }}>
                       <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
                     </Stack>
 
-                    <FormControlWrapper label={t('appServicePlan')} required={true}>
+                    <ReactiveFormControl id="destinationAppServicePlan" label={t('appServicePlan')} required={true}>
                       <CreateOrSelectPlan
                         subscriptionId={subscriptionId}
                         isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
@@ -204,26 +192,25 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                         serverFarmsInWebspace={serverFarms}
                         hostingEnvironment={hostingEnvironment}
                       />
-                    </FormControlWrapper>
+                    </ReactiveFormControl>
 
-                    <FormControlWrapper label={t('resourceGroup')} style={{ marginTop: '25px' }}>
+                    <ReactiveFormControl id="currentResourceGroup" label={t('resourceGroup')}>
                       <div
                         tabIndex={0}
                         aria-label={t('resourceGroup') + getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}>
                         {getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}
                       </div>
-                    </FormControlWrapper>
+                    </ReactiveFormControl>
 
-                    <FormControlWrapper label={t('region')} style={fieldStyle} tooltip={t('changePlanLocationTooltip')}>
+                    <ReactiveFormControl id="currentRegion" label={t('region')} mouseOverToolTip={t('changePlanLocationTooltip')}>
                       <span tabIndex={0} aria-label={t('region') + site.location}>
                         {site.location}
                       </span>
-                    </FormControlWrapper>
+                    </ReactiveFormControl>
 
-                    <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
-                      <label className={labelStyle}>{t('pricingTier')}</label>
+                    <ReactiveFormControl id="currentPricingTier" label={t('pricingTier')}>
                       {getPricingTierValue(currentServerFarm.id, formProps, changeSkuLinkElement, portalCommunicator, t)}
-                    </Stack>
+                    </ReactiveFormControl>
                   </Stack>
                 </section>
 
@@ -277,12 +264,14 @@ const getWarningBar = (
 ) => {
   if (siteIsReadOnlyLocked) {
     return <MessageBar messageBarType={MessageBarType.warning}>{t('changePlanSiteLockedError')}</MessageBar>;
-  } else if (showAppDensityWarning) {
+  }
+
+  if (showAppDensityWarning) {
     const planName = !!formValues.serverFarmInfo.existingPlan && formValues.serverFarmInfo.existingPlan.name;
     return (
       <MessageBar messageBarType={MessageBarType.warning}>
         {t('pricing_appDensityWarningMessage').format(planName)}
-        <Link href={CommonConstants.Links.appDensityWarningLink} target="_blank">
+        <Link href={Links.appDensityWarningLink} target="_blank">
           {t('learnMore')}
         </Link>
       </MessageBar>
@@ -354,7 +343,7 @@ const openSpecPicker = async (
   }
 };
 
-const getCompletionTelemtry = (
+const getCompletionTelemetry = (
   success: boolean,
   newResourceGroup: boolean,
   newPlan: boolean,
@@ -409,7 +398,7 @@ const changeSiteToExistingPlan = async (
   let success = false;
 
   if (!serverFarmInfo.existingPlan) {
-    LogService.trackEvent(LogCategories.changeAppPlan, 'onSubmit', getCompletionTelemtry(false, false, false, '', 'existingPlan not set'));
+    LogService.trackEvent(LogCategories.changeAppPlan, 'onSubmit', getCompletionTelemetry(false, false, false, '', 'existingPlan not set'));
 
     return success;
   }
@@ -421,7 +410,7 @@ const changeSiteToExistingPlan = async (
   const siteResponse = await SiteService.updateSite(site.id, site);
   if (siteResponse.metadata.success) {
     portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
-    LogService.trackEvent(LogCategories.changeAppPlan, 'onSubmit', getCompletionTelemtry(true, false, false, site.id));
+    LogService.trackEvent(LogCategories.changeAppPlan, 'onSubmit', getCompletionTelemetry(true, false, false, site.id));
 
     success = true;
   } else {
@@ -430,7 +419,7 @@ const changeSiteToExistingPlan = async (
     LogService.trackEvent(
       LogCategories.changeAppPlan,
       'onSubmit',
-      getCompletionTelemtry(false, false, false, site.id, `Failed to update site: '${updateSiteError}'`)
+      getCompletionTelemetry(false, false, false, site.id, `Failed to update site: '${updateSiteError}'`)
     );
   }
 
@@ -460,7 +449,7 @@ const changeSiteToNewPlan = async (
       LogService.trackEvent(
         LogCategories.changeAppPlan,
         'onSubmit',
-        getCompletionTelemtry(
+        getCompletionTelemetry(
           false,
           true,
           true,
@@ -512,7 +501,7 @@ const changeSiteToNewPlan = async (
     LogService.trackEvent(
       'ChangeAppPlan',
       'onSubmit',
-      getCompletionTelemtry(
+      getCompletionTelemetry(
         false,
         serverFarmInfo.newPlanInfo.isNewResourceGroup,
         true,
@@ -534,7 +523,7 @@ const changeSiteToNewPlan = async (
     LogService.trackEvent(
       'ChangeAppPlan',
       'onSubmit',
-      getCompletionTelemtry(
+      getCompletionTelemetry(
         false,
         serverFarmInfo.newPlanInfo.isNewResourceGroup,
         serverFarmInfo.isNewPlan,
@@ -551,7 +540,7 @@ const changeSiteToNewPlan = async (
   LogService.trackEvent(
     'ChangeAppPlan',
     'onSubmit',
-    getCompletionTelemtry(true, serverFarmInfo.newPlanInfo.isNewResourceGroup, serverFarmInfo.isNewPlan, site.id)
+    getCompletionTelemetry(true, serverFarmInfo.newPlanInfo.isNewResourceGroup, serverFarmInfo.isNewPlan, site.id)
   );
 
   return true;

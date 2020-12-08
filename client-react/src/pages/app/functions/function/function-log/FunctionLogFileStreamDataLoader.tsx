@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
-import SiteService from '../../../../../ApiHelpers/SiteService';
-import LogService from '../../../../../utils/LogService';
-import { LogCategories } from '../../../../../utils/LogCategories';
 import { LogEntry } from './FunctionLog.types';
 import { useTranslation } from 'react-i18next';
 import FunctionLog from './FunctionLog';
 import Url from '../../../../../utils/url';
 import { processLogs } from './FunctionLogFileStreamData';
+import { LoggingOptions } from '../function-editor/FunctionEditor.types';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { Site } from '../../../../../models/site/site';
+import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import LogService from '../../../../../utils/LogService';
+import { LogCategories } from '../../../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+
 interface FunctionLogFileStreamDataLoaderProps {
-  resourceId: string;
+  site: ArmObj<Site>;
   isExpanded: boolean;
   forceMaximized?: boolean;
   toggleExpand?: () => void;
@@ -22,13 +25,16 @@ interface FunctionLogFileStreamDataLoaderProps {
   isResizable?: boolean;
   logPanelHeight?: number;
   setLogPanelHeight?: (height: number) => void;
+  showLoggingOptionsDropdown?: boolean;
+  selectedLoggingOption?: LoggingOptions;
+  setSelectedLoggingOption?: (options: LoggingOptions) => void;
+  leftAlignMainToolbarItems?: boolean;
+  customHeight?: number;
+  functionName?: string;
 }
 
 const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderProps> = props => {
-  const { resourceId } = props;
-
-  const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
-  const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
+  const { site, functionName } = props;
 
   const { t } = useTranslation();
 
@@ -39,12 +45,22 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const [allLogEntries, setAllLogEntries] = useState<LogEntry[]>([]);
   const [logStreamIndex, setLogStreamIndex] = useState(0);
 
-  const fetchSiteAndOpenStream = async () => {
-    const siteResponse = await SiteService.fetchSite(siteResourceId);
+  const openStream = async () => {
+    setLoadingMessage(t('feature_logStreamingConnecting'));
+    const hostStatusResult = await FunctionsService.getHostStatus(site.id);
 
-    if (siteResponse.metadata.success && siteResponse.data.properties) {
-      const site = siteResponse.data;
-      const logUrl = `${Url.getScmUrl(site)}/api/logstream/application/functions/host`;
+    if (hostStatusResult.metadata.success) {
+      if (hostStatusResult.data.properties.errors) {
+        // We should show any host status errors, but still try to connect to logstream
+        setErrorMessage(hostStatusResult.data.properties.errors.join('\n'));
+      } else {
+        // Incase the user tries to reconnect, we should set to undefined if errors are no longer present
+        setErrorMessage(undefined);
+      }
+
+      const logUrl = functionName
+        ? `${Url.getScmUrl(site)}/api/logstream/application/functions/function/${functionName}`
+        : `${Url.getScmUrl(site)}/api/logstream/application/functions/host`;
       const token = window.appsvc && window.appsvc.env && window.appsvc.env.armToken;
 
       const newXhReq = new XMLHttpRequest();
@@ -57,10 +73,24 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       setErrorMessage(t('feature_logStreamingConnectionError'));
       LogService.error(
         LogCategories.functionLog,
-        'fetchSite',
-        `Failed to fetch site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
+        'getHostStatus',
+        `Failed to get host status: ${getErrorMessageOrStringify(hostStatusResult.metadata.error)}`
       );
     }
+  };
+
+  const closeStream = () => {
+    if (xhReq) {
+      xhReq.abort();
+      setLogStreamIndex(0);
+      setXhReq(undefined);
+    }
+  };
+
+  const listenToStream = () => {
+    setLoadingMessage(undefined);
+    listenForErrors();
+    listenForUpdates();
   };
 
   const listenForErrors = () => {
@@ -93,7 +123,6 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   };
 
   const startLogs = () => {
-    setLoadingMessage(xhReq ? undefined : t('feature_logStreamingConnecting'));
     setStarted(true);
   };
 
@@ -106,15 +135,20 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   };
 
   useEffect(() => {
-    fetchSiteAndOpenStream();
+    openStream();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (started && xhReq) {
-      listenForErrors();
-      listenForUpdates();
+    if (started) {
+      if (xhReq) {
+        listenToStream();
+      } else {
+        openStream();
+      }
+    } else {
+      closeStream();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

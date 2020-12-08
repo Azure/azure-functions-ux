@@ -1,5 +1,5 @@
 import { DropDownStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Dropdown.styles';
-import { IDropdownStyles, ITextFieldStyles } from 'office-ui-fabric-react';
+import { IDropdownStyles, ITextFieldStyles, ITooltipHostStyles } from 'office-ui-fabric-react';
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
@@ -67,16 +67,9 @@ export const controlContainerStyle = (upsellIcon: boolean, fullpage: boolean) =>
 
 export const upsellIconStyle = style({ marginRight: '6px' });
 
-export const infoMessageStyle = (fullpage: boolean) =>
+export const infoMessageStyle = () =>
   style({
-    paddingLeft: fullpage ? '10px' : 0,
-    paddingTop: fullpage ? 0 : '5px',
-  });
-
-export const infoIconStyle = (theme: ThemeExtended) =>
-  style({
-    color: theme.semanticColors.infoIcon,
-    paddingRight: '5px',
+    paddingTop: '10px',
   });
 
 export const copyButtonStyle = {
@@ -91,11 +84,35 @@ export const addEditFormStyle = style({ paddingBottom: '60px' });
 
 export const formStackStyle = (upsellIcon: boolean, fullpage: boolean) =>
   style({
-    width: upsellIcon && fullpage ? '220px' : '200px',
+    minWidth: upsellIcon && fullpage ? '220px' : '200px',
   });
 
 export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean) =>
   style({
-    width: upsellIcon && fullpage ? '220px' : '200px',
+    minWidth: upsellIcon && fullpage ? '220px' : '200px',
     paddingRight: '5px',
+  });
+
+export const detailListHeaderStyle = style({
+  fontWeight: 'bolder',
+  fontSize: '13px',
+});
+
+export const filterTextFieldStyle = { root: { marginTop: '5px', height: '25px', width: '300px' } };
+
+export const tooltipStyle: Partial<ITooltipHostStyles> = { root: { display: 'inline', float: 'left' } };
+
+export const hostStyle = (multiline?: boolean) =>
+  style({
+    overflow: !multiline ? 'hidden' : 'visible',
+    textOverflow: 'ellipsis',
+    whiteSpace: !multiline ? 'nowrap' : 'normal',
+    maxWidth: 250,
+  });
+
+export const stackControlStyle = () =>
+  style({
+    paddingTop: '5px',
+    paddingBottom: '5px',
+    width: '100%',
   });

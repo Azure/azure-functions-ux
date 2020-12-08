@@ -10,11 +10,12 @@
     [hidden]="spec.state === 'hidden'"
     [id]="specGroup.id + spec.skuCode"
     tabindex="0"
-    role="radio"
+    role="radio button"
     [attr.aria-disabled]="spec.state === 'disabled'"
-    [attr.aria-checked]="spec === specGroup.selectedSpec">
+    [attr.aria-checked]="spec === specGroup.selectedSpec"
+    [attr.aria-labelledBy]="getAriaLabelledByForSpec(spec)">
 
-    <h2>{{spec.skuCode}}</h2>
+    <h5>{{spec.skuCode}}</h5>
     <div class="top-features" [attr.aria-label]="'pricing_availableFeatures' | translate">
       <div *ngIf="spec.state === 'enabled'">
         <div *ngFor="let topFeature of spec.topLevelFeatures">{{topFeature}}</div>

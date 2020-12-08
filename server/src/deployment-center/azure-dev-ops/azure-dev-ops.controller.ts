@@ -20,7 +20,7 @@ export class AzureDevOpsController {
   constructor(private dcService: DeploymentCenterService, private loggingService: LoggingService, private httpService: HttpService) {}
 
   @Post('setupvso')
-  async setupvso(@Query('accountName') accountName: string, @Body('authToken') authToken: string, @Body() body: any, @Req() req) {
+  async setupvso(@Query('accountName') accountName: string, @Body('githubToken') githubToken: string, @Body() body: any, @Req() req) {
     this.loggingService.trackEvent('/api/setupvso/received-request', {
       accountName: req.query.accountName,
     });
@@ -43,11 +43,10 @@ export class AzureDevOpsController {
         accountName: req.query.accountName,
       });
 
-      const githubToken = await this.dcService.getSourceControlToken(authToken, 'github');
-      repository.authorizationInfo.parameters.AccessToken = githubToken.token;
+      repository.authorizationInfo.parameters.AccessToken = githubToken;
     }
 
-    delete body.authToken;
+    delete body.githubToken;
 
     try {
       const headers: { [key: string]: string } = {

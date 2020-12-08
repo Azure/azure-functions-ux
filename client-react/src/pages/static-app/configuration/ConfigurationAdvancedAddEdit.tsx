@@ -28,7 +28,7 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
   const save = () => {
     validate(environmentVariablesJSON);
     const environmentVariablesArray = JSON.parse(environmentVariablesJSON);
-    updateEnvironmentVariable(environmentVariablesArray);
+    updateEnvironmentVariable(getUpdatedEnvironmentVariablesWithAllProperties(environmentVariablesArray));
     cancel();
   };
 
@@ -60,8 +60,27 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
     validate(newValue);
   };
 
+  const setInitialEnvironmentVariablesJSON = () => {
+    const updatedEnvironmentVariables = environmentVariables.map(environmentVariable => {
+      delete environmentVariable['checked'];
+      return environmentVariable;
+    });
+    setEnvironmentVariablesJSON(JSON.stringify(updatedEnvironmentVariables, null, 2));
+  };
+
+  const getUpdatedEnvironmentVariablesWithAllProperties = (newEnvironmentVariables: EnvironmentVariable[]) => {
+    return newEnvironmentVariables.map(newEnvironmentVariable => {
+      for (const environmentVariable of environmentVariables) {
+        if (environmentVariable.name.toLocaleLowerCase() === newEnvironmentVariable.name.toLocaleLowerCase()) {
+          newEnvironmentVariable.checked = environmentVariable.checked;
+        }
+      }
+      return newEnvironmentVariable;
+    });
+  };
+
   useEffect(() => {
-    setEnvironmentVariablesJSON(JSON.stringify(environmentVariables, null, 2));
+    setInitialEnvironmentVariablesJSON();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [environmentVariables]);

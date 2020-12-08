@@ -17,6 +17,10 @@ export interface GitHubActionWorkflowRequestContent {
   resourceId: string;
   secretName: string;
   commit: GitHubCommit;
+  containerUsernameSecretName?: string;
+  containerUsernameSecretValue?: string;
+  containerPasswordSecretName?: string;
+  containerPasswordSecretValue?: string;
 }
 
 export interface GitHubSecretPublicKey {

@@ -7,7 +7,6 @@ import { GUID } from '../../utilities/guid';
 import { HttpService } from '../../shared/http/http.service';
 @Controller()
 export class BitbucketsController {
-  private readonly provider = 'bitbucket';
   constructor(
     private dcService: DeploymentCenterService,
     private configService: ConfigService,
@@ -17,12 +16,11 @@ export class BitbucketsController {
 
   @Post('api/bitbucket/passthrough')
   @HttpCode(200)
-  async passthrough(@Body('authToken') authToken: string, @Body('url') url: string) {
-    const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
+  async passthrough(@Body('bitBucketToken') bitBucketToken: string, @Body('url') url: string) {
     try {
       const response = await this.httpService.get(url, {
         headers: {
-          Authorization: `Bearer ${tokenData.token}`,
+          Authorization: `Bearer ${bitBucketToken}`,
         },
       });
       return response.data;
@@ -59,14 +57,9 @@ export class BitbucketsController {
     return 'Successfully Authenticated. Redirecting...';
   }
 
-  @Post('auth/bitbucket/storeToken')
+  @Post('auth/bitbucket/getToken')
   @HttpCode(200)
-  async storeToken(
-    @Session() session,
-    @Body('redirUrl') redirUrl: string,
-    @Body('authToken') authToken: string,
-    @Headers('origin') origin: string
-  ) {
+  async getToken(@Session() session, @Body('redirUrl') redirUrl: string, @Headers('origin') origin: string) {
     const state = this.dcService.getParameterByName('state', redirUrl);
     const environment = this.dcService.getEnvironment(origin);
     if (!environment) {
@@ -96,8 +89,11 @@ export class BitbucketsController {
           },
         }
       );
-      const token = { access_token: r.data.access_token, refresh_token: r.data.refresh_token };
-      this.dcService.saveToken(token.access_token, authToken, this.provider, token.refresh_token, environment);
+      return {
+        accessToken: r.data.access_token,
+        refreshToken: r.data.refresh_token,
+        environment: environment,
+      };
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);

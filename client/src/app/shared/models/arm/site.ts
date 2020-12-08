@@ -1,4 +1,5 @@
 import { HostingEnvironmentProfile } from './hosting-environment';
+import { SiteConfig } from './site-config';
 
 export enum ComputeMode {
   Shared = 'Shared',
@@ -36,8 +37,10 @@ export interface Site {
   dailyMemoryTimeQuota?: number;
   enabled?: boolean;
   siteDisabledReason?: number;
-  clientCertEnabled?: boolean;
   clientAffinityEnabled?: boolean;
+  clientCertEnabled?: boolean;
+  clientCertMode?: string;
+  clientCertExclusionPaths?: string[];
   hostingEnvironmentProfile?: HostingEnvironmentProfile;
   name?: string;
   resourceGroup?: string;
@@ -49,4 +52,28 @@ export interface Site {
   outboundIpAddresses: string;
   possibleInboundIpAddresses: string;
   possibleOutboundIpAddresses: string;
+  httpsOnly?: boolean;
+  siteConfig?: SiteConfig;
+}
+
+export interface CredentialPolicy {
+  allow: boolean;
+}
+
+export interface PublishingCredentialPolicies {
+  ftp: CredentialPolicy;
+  scm: CredentialPolicy;
+}
+
+// Strongly typed request to create a new slot with sticky settings
+export interface CreateSlotRequest {
+  location: string;
+  properties: {
+    serverFarmId: string;
+    siteConfig?: SiteConfig;
+    httpsOnly?: boolean;
+    clientCertEnabled?: boolean;
+    clientCertMode?: string;
+    clientCertExclusionPaths?: string[];
+  };
 }

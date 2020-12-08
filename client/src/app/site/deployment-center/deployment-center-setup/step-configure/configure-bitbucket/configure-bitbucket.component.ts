@@ -42,7 +42,6 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     this._reposStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
       this.fetchBranches(r);
     });
-    this.fetchOrgsAndRepos();
     this.updateFormValidation();
 
     // TODO, Travih use map instead of push and move pagelen to const
@@ -50,6 +49,13 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     this.wizard.updateSourceProviderConfig$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
       this.fetchOrgsAndRepos();
     });
+
+    this.wizard.bitBucketToken$
+      .takeUntil(this._ngUnsubscribe$)
+      .distinctUntilChanged()
+      .subscribe(token => {
+        this.fetchOrgsAndRepos();
+      });
   }
 
   updateFormValidation() {
@@ -67,7 +73,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     const repoCalls = this._cacheService
       .post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
         url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories?pagelen=100&role=contributor`,
-        authToken: this.wizard.getToken(),
+        bitBucketToken: this.wizard.bitBucketToken$.getValue(),
       })
       .first()
       .expand(value => {
@@ -80,7 +86,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         } else {
           return this._cacheService.post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
             url: page.next,
-            authToken: this.wizard.getToken(),
+            bitBucketToken: this.wizard.bitBucketToken$.getValue(),
           });
         }
       });
@@ -128,7 +134,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
       this._cacheService
         .post(Constants.serviceHost + `api/bitbucket/passthrough?branch=${repo}`, true, null, {
           url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories/${repo}/refs/branches?pagelen=100`,
-          authToken: this.wizard.getToken(),
+          bitBucketToken: this.wizard.bitBucketToken$.getValue(),
         })
         .expand(value => {
           const page = value.json();
@@ -143,7 +149,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
           } else {
             return this._cacheService.post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
               url: page.next,
-              authToken: this.wizard.getToken(),
+              bitBucketToken: this.wizard.bitBucketToken$.getValue(),
             });
           }
         })

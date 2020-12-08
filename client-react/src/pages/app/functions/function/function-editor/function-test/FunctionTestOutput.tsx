@@ -10,15 +10,23 @@ import {
 import { Label } from 'office-ui-fabric-react';
 import { ResponseContent } from '../FunctionEditor.types';
 import { HttpConstants } from '../../../../../../utils/constants/HttpConstants';
+import StringUtils from '../../../../../../utils/string';
 
 export interface FunctionTestOutputProps {
   responseContent?: ResponseContent;
 }
 
-// TODO (krmitta): Add Content for Output-Tab [WI: 5536379]
 const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
   const { t } = useTranslation();
   const { responseContent } = props;
+
+  const getBodyValue = () => {
+    if (!!responseContent && !!responseContent.text) {
+      return StringUtils.stringifyJsonForEditor(responseContent.text);
+    } else {
+      return '';
+    }
+  };
 
   return (
     <div className={pivotItemWrapper}>
@@ -30,7 +38,7 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
       </div>
       <div className={functionTestGroupStyle}>
         <Label className={testFormLabelStyle}>{t('httpRun_responseContent')}</Label>
-        <div className={responseContentStyle}>{!!responseContent && !!responseContent.text ? responseContent.text : ''}</div>
+        <div className={responseContentStyle}>{getBodyValue()}</div>
       </div>
     </div>
   );

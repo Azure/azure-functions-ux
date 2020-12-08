@@ -1,16 +1,38 @@
 import { NameValuePair } from '../name-value-pair';
 import { ApiDefinition } from './api-definition';
 
+export enum ScmType {
+  None = 'None',
+  Dropbox = 'Dropbox',
+  Tfs = 'Tfs',
+  LocalGit = 'LocalGit',
+  GitHub = 'GitHub',
+  GitHubAction = 'GitHubAction',
+  CodePlexGit = 'CodePlexGit',
+  CodePlexHg = 'CodePlexHg',
+  BitbucketGit = 'BitbucketGit',
+  BitbucketHg = 'BitbucketHg',
+  ExternalGit = 'ExternalGit',
+  OneDrive = 'OneDrive',
+  Vso = 'VSO',
+  Vsts = 'VSTS',
+}
+
+export enum BuildProvider {
+  None = 'None',
+  GitHubAction = 'GitHubAction',
+  AppServiceBuildService = 'AppServiceBuildService',
+}
+
 export interface SiteConfig {
   numberOfWorkers: number;
   defaultDocuments: string[];
   netFrameworkVersion: string;
-  phpVersion: string;
+  phpVersion: string | null;
   pythonVersion: string;
-  nodeVersion: string;
+  nodeVersion: string | null;
+  windowsFxVersion: string;
   linuxFxVersion: string;
-  linuxFxVersionType: string;
-  linuxFxVersionValue: string;
   minTlsVersion: string;
   requestTracingEnabled: boolean;
   requestTracingExpirationTime: Date;
@@ -28,7 +50,7 @@ export interface SiteConfig {
   handlerMappings: HandlerMapping[];
   azureStorageAccounts?: ArmAzureStorageMount;
   documentRoot: string;
-  scmType: string;
+  scmType: ScmType;
   use32BitWorkerProcess: boolean;
   webSocketsEnabled: boolean;
   alwaysOn: boolean;

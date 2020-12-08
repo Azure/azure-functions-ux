@@ -45,7 +45,6 @@ import { errorIds } from '../../shared/models/error-ids';
 import { TopBarNotification } from 'app/top-bar/top-bar-models';
 import { OpenBladeInfo, EventVerbs, FrameBladeParams } from '../../shared/models/portal';
 import { SlotSwapInfo } from '../../shared/models/slot-events';
-import { FlightingUtil } from 'app/shared/Utilities/flighting-utility';
 import { FunctionService } from 'app/shared/services/function.service';
 import { runtimeIsV2, runtimeIsV3 } from 'app/shared/models/functions-version-info';
 
@@ -143,20 +142,12 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
         this.notifications = [
           {
-            id: NotificationIds.clientCertEnabled,
-            message: this.ts.instant(PortalResources.tryFunctionsNewExperience),
+            id: NotificationIds.classicDeprecation,
+            message: this.ts.instant(PortalResources.classicDeprecation),
             iconClass: '',
             learnMoreLink: null,
-            level: 'info',
-            clickCallback: () => {
-              const overviewBladeInput = {
-                detailBlade: 'AppsOverviewBlade',
-                detailBladeInputs: {
-                  id: this.context.site.id,
-                },
-              };
-              this._portalService.openBlade(overviewBladeInput, 'top-overview-banner');
-            },
+            level: 'warning',
+            clickUrl: 'https://github.com/Azure/azure-functions/issues',
           },
         ];
 
@@ -530,24 +521,15 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
   }
 
   openSwapBlade() {
-    const oldBladeInfo: OpenBladeInfo = {
-      detailBlade: 'WebsiteSlotsListBlade',
-      detailBladeInputs: { resourceUri: this.context.site.id },
-    };
-
-    const newBladeInfo: OpenBladeInfo<FrameBladeParams> = {
+    const slotsBladeInfo: OpenBladeInfo<FrameBladeParams> = {
       detailBlade: 'SwapSlotsFrameBlade',
       detailBladeInputs: { id: this.context.site.id },
       openAsContextBlade: true,
     };
 
-    const bladeInfo = FlightingUtil.checkSubscriptionInFlight(this.subscriptionId, FlightingUtil.Features.NewDeploymentSlots)
-      ? newBladeInfo
-      : oldBladeInfo;
-
     this.swapControlsOpen = true;
     this._portalService
-      .openBlade(bladeInfo, 'site-summary')
+      .openBlade(slotsBladeInfo, 'site-summary')
       .mergeMap(bladeResult => {
         return Observable.of({
           success: true,

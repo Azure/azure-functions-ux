@@ -51,7 +51,7 @@
 
     <section class="centered" role="radiogroup">
       <ng-container *ngIf="specManager.selectedSpecGroup.recommendedSpecs.length > 0">
-        <h3 class="tiers-header">{{'pricing_recommendedTiers' | translate}}</h3>
+        <h4 id="recommendedTierHeaderId" class="tiers-header">{{'pricing_recommendedTiers' | translate}}</h4>
         <spec-list [specGroup]="specManager.selectedSpecGroup"
           [isRecommendedList]="true"
           (onSelectedSpec)="selectSpec($event)"></spec-list>
@@ -71,7 +71,7 @@
       </div>
 
       <ng-container *ngIf="showAllSpecs">
-        <h3 class="tiers-header">{{'pricing_additionalTiers' | translate}}</h3>
+        <h4 id="additionalTierHeaderId" class="tiers-header">{{'pricing_additionalTiers' | translate}}</h4>
         <spec-list [specGroup]="specManager.selectedSpecGroup"
           [isRecommendedList]="false"
           (onSelectedSpec)="selectSpec($event)"></spec-list>
@@ -123,7 +123,7 @@
 
           {{statusMessage?.message}}
         </span>
-        <a *ngIf="statusMessage?.infoLink" class="message-text" [href]="statusMessage?.infoLink" target="_blank">{{'learnMore' | translate}}</a>
+        <a *ngIf="statusMessage?.infoLink" class="message-text" [href]="statusMessage?.infoLink" target="_blank" [attr.aria-label]="statusMessage?.infoLinkAriaLabel">{{'learnMore' | translate}}</a>
       </div>
     </div>
   </footer>

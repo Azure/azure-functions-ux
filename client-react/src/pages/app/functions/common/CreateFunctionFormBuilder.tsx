@@ -1,13 +1,13 @@
+import { Field, FormikProps } from 'formik';
+import i18next from 'i18next';
 import React from 'react';
+import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
+import TextField from '../../../../components/form-controls/TextField';
+import { ArmObj } from '../../../../models/arm-obj';
 import { Binding } from '../../../../models/functions/binding';
 import { BindingInfo } from '../../../../models/functions/function-binding';
-import i18next from 'i18next';
-import { BindingFormBuilder, BindingEditorFormValues } from './BindingFormBuilder';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import { ArmObj } from '../../../../models/arm-obj';
-import { FormikProps, Field } from 'formik';
-import TextField from '../../../../components/form-controls/TextField';
-import { Layout, FormControlWrapper } from '../../../../components/FormControlWrapper/FormControlWrapper';
+import { BindingEditorFormValues, BindingFormBuilder } from './BindingFormBuilder';
 
 export interface CreateFunctionFormValues extends BindingEditorFormValues {
   functionName: string;
@@ -35,7 +35,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
 
   public getFields(formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
     const nameField: JSX.Element[] = [this._getFunctionNameTextField(formProps, isDisabled)];
-    const bindingFields: JSX.Element[] = super.getFields(formProps, isDisabled);
+    const bindingFields: JSX.Element[] = super.getFields(formProps, isDisabled, false);
     return nameField.concat(bindingFields);
   }
 
@@ -57,16 +57,19 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
 
   private _getFunctionNameTextField(formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
     return (
-      <FormControlWrapper label={this.t('functionCreate_newFunction')} layout={Layout.vertical} key={0} required={true}>
-        <Field
-          name={'functionName'}
-          id={'functionName'}
-          component={TextField}
-          disabled={isDisabled}
-          validate={(value: string) => this._validateFunctionName(value)}
-          {...formProps}
-        />
-      </FormControlWrapper>
+      <Field
+        label={this.t('functionCreate_newFunction')}
+        name={'functionName'}
+        id={'functionName'}
+        component={TextField}
+        disabled={isDisabled}
+        validate={(value: string) => this._validateFunctionName(value)}
+        layout={Layout.Vertical}
+        required={true}
+        key={0}
+        {...formProps}
+        dirty={false}
+      />
     );
   }
 

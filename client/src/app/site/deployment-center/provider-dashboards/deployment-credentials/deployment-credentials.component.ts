@@ -52,6 +52,9 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
   public resetting = false;
   public userCredsDesc = '';
   public learnMoreLink = Links.deploymentCredentialsLearnMore;
+  public ftpDisabledByPolicy = false;
+  public ftpDisabledInfoLink = Links.ftpDisabledByPolicyLink;
+
   constructor(
     private _cacheService: CacheService,
     private _siteService: SiteService,
@@ -64,7 +67,7 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
     super('DeploymentCredentialsComponent', injector);
     const requiredValidation = new RequiredValidator(this._translateService, true);
     const passwordValidator = RegexValidator.create(
-      /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d@$!%*#?&]{8,}$/, //The specified password does not meet the minimum requirements. The password should be at least eight characters long and must contain letters and numbers.
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, //The specified password does not meet the minimum requirements. The password should be at least eight characters long and must contain letters, numbers, and symbols.
       this._translateService.instant(PortalResources.userCredsError)
     );
     this.userPasswordForm = fb.group({
@@ -86,6 +89,11 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
 
   protected setup(inputEvents: Observable<string>) {
     return inputEvents.switchMap(() => {
+      const basicPublsihing$ = this._siteService.getBasicPublishingCredentialsPolicies(this.resourceId).do(r => {
+        if (r.isSuccessful) {
+          this.ftpDisabledByPolicy = r.result && !r.result.properties.ftp.allow;
+        }
+      });
       const publishXml$ = this._siteService
         .getPublishingProfile(this.resourceId)
         .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)))
@@ -115,7 +123,7 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
           : this._translateService.instant(PortalResources.userCredsNewUserDesc);
         this.userPasswordForm.reset({ userName: creds.properties.publishingUserName, password: '', passwordConfirm: '' });
       });
-      return forkJoin(publishXml$, publishingUsers$);
+      return forkJoin(basicPublsihing$, publishXml$, publishingUsers$);
     });
   }
 

@@ -11,11 +11,13 @@ import { PermissionsContext } from '../Contexts';
 import { SearchBox, TooltipHost, ICommandBarItemProps, Icon } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
-import { filterBoxStyle, dirtyElementStyle, keyVaultIconStyle, sourceTextStyle } from '../AppSettings.styles';
+import { dirtyElementStyle, keyVaultIconStyle, sourceTextStyle } from '../AppSettings.styles';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import Panel from '../../../../components/Panel/Panel';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { ThemeContext } from '../../../../ThemeContext';
+import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 
@@ -27,7 +29,6 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   const [currentAppSetting, setCurrentAppSetting] = useState<FormAppSetting | null>(null);
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [filter, setFilter] = useState('');
-  const [showFilter, setShowFilter] = useState(false);
   const [showAllValues, setShowAllValues] = useState(false);
 
   const { t, values } = props;
@@ -60,12 +61,6 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
       },
-      {
-        key: 'app-settings-application-settings-show-filter',
-        onClick: toggleFilter,
-        iconProps: { iconName: 'Filter' },
-        name: t('filter'),
-      },
     ];
   };
 
@@ -81,11 +76,6 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   const openBulkEdit = () => {
     setShowPanel(true);
     setPanelItem('bulk');
-  };
-
-  const toggleFilter = () => {
-    setShowFilter(!showFilter);
-    setFilter('');
   };
 
   const saveBulkEdit = (appSettings: FormAppSetting[]) => {
@@ -214,7 +204,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         <>
           <ActionButton
             id={`app-settings-application-settings-show-hide-${index}`}
-            className={defaultCellStyle}
+            className={`${defaultCellStyle} ${linkCellStyle(theme)}`}
             onClick={() => onShowHideButtonClick(itemKey)}
             iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
             {hidden ? (
@@ -390,19 +380,17 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyAppSettings')}>
-        {showFilter && (
-          <SearchBox
-            id="app-settings-application-settings-search"
-            className="ms-slideDownIn20"
-            autoFocus
-            iconProps={{ iconName: 'Filter' }}
-            styles={filterBoxStyle}
-            placeholder={t('filterAppSettings')}
-            onChange={newValue => setFilter(newValue)}
-          />
-        )}
+        <SearchBox
+          id="app-settings-application-settings-search"
+          className="ms-slideDownIn20"
+          autoFocus
+          iconProps={{ iconName: 'Filter' }}
+          styles={filterTextFieldStyle}
+          placeholder={t('filterAppSettings')}
+          onChange={newValue => setFilter(newValue)}
+        />
       </DisplayTableWithCommandBar>
-      <Panel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditApplicationSetting')}>
+      <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditApplicationSetting')}>
         <AppSettingAddEdit
           site={values.site}
           appSetting={currentAppSetting!}
@@ -411,8 +399,8 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           updateAppSetting={onClosePanel}
           closeBlade={onCancel}
         />
-      </Panel>
-      <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel}>
+      </CustomPanel>
+      <CustomPanel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel}>
         <Suspense fallback={<LoadingComponent />}>
           <AppSettingsBulkEdit
             isLinux={isLinuxApp(values.site)}
@@ -422,7 +410,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
             disableSlotSetting={!production_write}
           />
         </Suspense>
-      </Panel>
+      </CustomPanel>
     </>
   );
 };

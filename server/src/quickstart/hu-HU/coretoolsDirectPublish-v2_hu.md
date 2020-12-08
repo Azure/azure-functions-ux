@@ -4,7 +4,7 @@ Kezdés előtt telepítse a <a href="https://go.microsoft.com/fwlink/?linkid=201
 
 Futtassa a következő parancsot a Core Tools-csomag telepítéséhez:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### Azure Functions projekt létrehozása

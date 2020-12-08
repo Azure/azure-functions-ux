@@ -19,8 +19,8 @@ import { StaticSitesModule } from './staticsites/staticsites.module';
     StorageModule,
     DeploymentCenterModule,
     StaticSitesModule,
-    HomeModule,
     StacksModule,
+    HomeModule,
   ],
 })
 export class AppModule {}

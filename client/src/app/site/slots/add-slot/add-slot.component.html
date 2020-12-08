@@ -1,138 +1,118 @@
-<div class="wrapper"
-    [is-dirty]="isCreating || (addForm?.dirty)"
-    [is-dirty-message]="isCreating ? operationInProgressWarning : (addForm?.dirty) ? unsavedChangesWarning : null">
-
-    <div *ngIf="showHeader" class="header">
-        <div class="header-icon-container">
-            <span class="header-icon" load-image="image/add.svg"></span>
-        </div>
-
-        {{ 'slotNew' | translate }}
-
-        <div class="header-close-button"
-            role="button"
-            [attr.title]="'close' | translate"
-            [attr.aria-label]="'close' | translate"
-            tabindex="0"
-            (click)="closePanel()"
-            [activate-with-keys]>
-            <span class="header-close-button-icon" load-image="image/close.svg"></span>
-        </div>
+<div
+  class="wrapper"
+  [is-dirty]="isCreating || addForm?.dirty"
+  [is-dirty-message]="isCreating ? operationInProgressWarning : addForm?.dirty ? unsavedChangesWarning : null"
+>
+  <div *ngIf="showHeader" class="header">
+    <div class="header-icon-container">
+      <span class="header-icon" load-image="image/add.svg"></span>
     </div>
 
-    <div class="body" [formGroup]="addForm" novalidate>
-        <div class="body-liner">
+    {{ 'slotNew' | translate }}
 
-            <div class="controls-container">
-                <info-box *ngIf="slotsQuotaMessage"
-                    typeClass="info"
-                    [infoText]="slotsQuotaMessage">
-                </info-box>
+    <div
+      class="header-close-button"
+      role="button"
+      [attr.title]="'close' | translate"
+      [attr.aria-label]="'close' | translate"
+      tabindex="0"
+      (click)="closePanel()"
+      [activate-with-keys]
+    >
+      <span class="header-close-button-icon" load-image="image/close.svg"></span>
+    </div>
+  </div>
 
-                <info-box *ngIf="!isLoading && !hasCreateAcess"
-                    typeClass="error"
-                    [infoText]="'noCreateAccess' | translate">
-                </info-box>
+  <div class="body" [formGroup]="addForm" novalidate>
+    <div class="body-liner">
+      <div class="controls-container">
+        <info-box *ngIf="slotsQuotaMessage" typeClass="info" [infoText]="slotsQuotaMessage"> </info-box>
 
-                <info-box *ngIf="loadingSiteFailureMessage"
-                    typeClass="error"
-                    [infoText]="loadingSiteFailureMessage">
-                </info-box>
+        <info-box *ngIf="!isLoading && !hasCreateAccess" typeClass="error" [infoText]="'noCreateAccess' | translate"> </info-box>
 
-                <info-box *ngIf="loadingSlotsFailureMessage"
-                    typeClass="error"
-                    [infoText]="loadingSlotsFailureMessage">
-                </info-box>
+        <info-box *ngIf="loadingSiteFailureMessage" typeClass="error" [infoText]="loadingSiteFailureMessage"> </info-box>
 
-                <info-box *ngIf="loadingAppSettingsFailureMessage"
-                    typeClass="error"
-                    [infoText]="loadingAppSettingsFailureMessage">
-                </info-box>
-            </div>
+        <info-box *ngIf="loadingSlotsFailureMessage" typeClass="error" [infoText]="loadingSlotsFailureMessage"> </info-box>
 
-            <div *ngIf="slotOptInNeeded" class="controls-container">
-                <info-box
-                    typeClass="warning"
-                    [infoText]="'appFunctionSettings_slotsEnableWarning' | translate">
-                </info-box>
-                <div>
-                    <label>
-                    <input
-                        type="checkbox"
-                        [value]="slotOptInEnabled"
-                        (change)="toggleOptInState()"
-                        [disabled]="!hasCreateAcess || !!slotsQuotaMessage || loadingFailed">
-                        {{ 'appFunctionSettings_slotsEnable' | translate }}
-                    </label>
-                </div>
-            </div>
+        <info-box *ngIf="loadingAppSettingsFailureMessage" typeClass="error" [infoText]="loadingAppSettingsFailureMessage"> </info-box>
+      </div>
 
-            <div class="controls-container">
-                <div class="control-container">
-                    <div class="control-label">
-                        {{ 'slotNew_nameLabel' | translate }}
-                    </div>
-                    <div>
-                        <textbox
-                            [ariaLabel]="'slotNew_nameLabel' | translate"
-                            class="name-textbox"
-                            [placeholder]="'enterName' | translate"
-                            [disablePopOverError]="true"
-                            [control]="addForm ? addForm.controls['name'] : null">
-                        </textbox>
-                    </div>
-                    <div invalidmessage="name"></div>
-                </div>
-            </div>
-
-            <div *ngIf="!isFunctionApp" class="controls-container">
-                <div class="control-container">
-                    <div class="control-label">
-                        {{ 'slotNew_cloneConfigLabel' | translate }}
-                    </div>
-                    <div>
-                        <ng-select
-                            [loading]="false"
-                            [clearable]="false"
-                            [items]="cloneSrcIdDropDownOptions"
-                            bindLabel="displayLabel"
-                            bindValue="value"
-                            class="custom-select"
-                            formControlName="cloneSrcId">
-                        </ng-select>
-                        <div invalidmessage="cloneSrcId"></div>
-                    </div>
-                </div>
-            </div>
-
+      <div *ngIf="slotOptInNeeded" class="controls-container">
+        <info-box typeClass="warning" [infoText]="'appFunctionSettings_slotsEnableWarning' | translate"> </info-box>
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              [value]="slotOptInEnabled"
+              (change)="toggleOptInState()"
+              [disabled]="!hasCreateAccess || !!slotsQuotaMessage || loadingFailed"
+            />
+            {{ 'appFunctionSettings_slotsEnable' | translate }}
+          </label>
         </div>
+      </div>
+
+      <div class="controls-container">
+        <div class="control-container">
+          <div class="control-label">
+            {{ 'slotNew_nameLabel' | translate }}
+          </div>
+          <div>
+            <textbox
+              [ariaLabel]="'slotNew_nameLabel' | translate"
+              ariaErrorId="name-validation"
+              class="name-textbox"
+              [placeholder]="'enterName' | translate"
+              [disablePopOverError]="true"
+              [control]="addForm ? addForm.controls['name'] : null"
+            >
+            </textbox>
+          </div>
+          <div *ngIf="addForm.controls['name'].value" class="rightAligned">
+            {{ slotPrefix }}-{{ addForm.controls['name'].value }}.{{ slotSuffix }}
+          </div>
+          <div *ngIf="!addForm.controls['name'].value" class="rightAligned">.{{ slotSuffix }}</div>
+          <div invalidmessage="name" id="name-validation"></div>
+        </div>
+      </div>
+
+      <div *ngIf="!isFunctionApp" class="controls-container">
+        <div class="control-container">
+          <div class="control-label">
+            {{ 'slotNew_cloneConfigLabel' | translate }}
+          </div>
+          <div>
+            <drop-down
+              [ariaLabel]="'slotNew_cloneConfigLabel' | translate"
+              ariaErrorId="clone-src-validation"
+              [control]="addForm ? addForm.controls['cloneSrcId'] : null"
+              [options]="cloneSrcIdDropDownOptions"
+              [highlightDirty]="false"
+            >
+            </drop-down>
+            <div invalidmessage="cloneSrcId" id="clone-src-validation"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div *ngIf="progressMessage" class="progress-container">
+      <info-box [typeClass]="progressMessageClass" [infoText]="progressMessage"> </info-box>
     </div>
 
-    <div class="footer">
-
-        <div *ngIf="progressMessage"
-            class="progress-container">
-            <info-box
-                [typeClass]="progressMessageClass"
-                [infoText]="progressMessage">
-            </info-box>
-        </div>
-
-        <div class="buttons-container">
-            <button
-                class="custom-button"
-                [disabled]="executeButtonDisabled || addForm?.invalid || addForm?.pristine || !hasCreateAcess || !!slotsQuotaMessage"
-                (click)="createSlot()">
-                {{ 'add' | translate }}
-            </button>
-            <button
-                class="custom-button"
-                [disabled]="isCreating"
-                (click)="closePanel()">
-                {{ 'close' | translate }}
-            </button>
-        </div>
-
+    <div class="buttons-container">
+      <button
+        class="custom-button"
+        [disabled]="executeButtonDisabled || addForm?.invalid || addForm?.pristine || !hasCreateAccess || !!slotsQuotaMessage"
+        (click)="createSlot()"
+      >
+        {{ 'add' | translate }}
+      </button>
+      <button class="custom-button" [disabled]="isCreating" (click)="closePanel()">
+        {{ 'close' | translate }}
+      </button>
     </div>
-
+  </div>
 </div>

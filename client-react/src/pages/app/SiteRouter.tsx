@@ -46,6 +46,9 @@ const FunctionBindingLoadable: any = lazy(() =>
 const FunctionCreateLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioncreate" */ './functions/create/FunctionCreateDataLoader')
 );
+const FunctionNewCreatePreviewLoadable: any = lazy(() =>
+  import(/* webpackChunkName:"functioncreate" */ './functions/new-create-preview/FunctionCreateDataLoader')
+);
 const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeysDataLoader'));
 const FunctionKeysLoadable: any = lazy(() =>
   import(/* webpackChunkName: "functionkeys" */ './functions/function/function-keys/FunctionKeysDataLoader')
@@ -72,6 +75,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
   const [stopped, setStopped] = useState(false);
   const [siteAppEditState, setSiteAppEditState] = useState<FunctionAppEditMode>(FunctionAppEditMode.ReadWrite);
+  const [isLinuxApplication, setIsLinuxApplication] = useState<boolean>(false);
+  const [isContainerApplication, setIsContainerApplication] = useState<boolean>(false);
 
   const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
     if (isLinuxDynamic(site)) {
@@ -90,6 +95,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   };
 
   const getSiteStateFromAppSettings = (appSettings: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
+    if (FunctionAppService.usingCustomWorkerRuntime(appSettings)) {
+      return FunctionAppEditMode.ReadOnlyCustom;
+    }
+
     if (FunctionAppService.usingRunFromPackage(appSettings)) {
       return FunctionAppEditMode.ReadOnlyRunFromPackage;
     }
@@ -118,13 +127,26 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     return undefined;
   };
 
-  const resolveAndGetUndefinedSiteState = (armSiteDescriptor: ArmSiteDescriptor, config?: ArmObj<SiteConfig>) => {
+  const resolveAndGetUndefinedSiteState = async (armSiteDescriptor: ArmSiteDescriptor, config?: ArmObj<SiteConfig>) => {
     if (!!config && SiteHelper.isSourceControlEnabled(config)) {
       return FunctionAppEditMode.ReadOnlySourceControlled;
     }
 
     if (armSiteDescriptor.slot) {
       return FunctionAppEditMode.ReadOnlySlots;
+    }
+
+    const slotResponse = await SiteService.fetchSlots(armSiteDescriptor.getSiteOnlyResourceId());
+    if (slotResponse.metadata.success) {
+      if (slotResponse.data.value.length > 0) {
+        return FunctionAppEditMode.ReadOnlySlots;
+      }
+    } else {
+      LogService.error(
+        LogCategories.siteRouter,
+        'getSlots',
+        `Failed to get slots: ${getErrorMessageOrStringify(slotResponse.metadata.error)}`
+      );
     }
 
     return FunctionAppEditMode.ReadWrite;
@@ -137,7 +159,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       const readOnlyLock = await portalContext.hasLock(trimmedResourceId, 'ReadOnly');
       let functionAppEditMode: FunctionAppEditMode | undefined;
 
-      const site = await SiteService.fetchSite(trimmedResourceId);
+      const siteResponse = await SiteService.fetchSite(trimmedResourceId);
 
       if (readOnlyLock) {
         functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
@@ -146,8 +168,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
 
         if (!writePermission) {
           functionAppEditMode = FunctionAppEditMode.ReadOnlyRbac;
-        } else if (site.metadata.success && isFunctionApp(site.data)) {
-          functionAppEditMode = getSiteStateFromSiteData(site.data);
+        } else if (siteResponse.metadata.success && isFunctionApp(siteResponse.data)) {
+          functionAppEditMode = getSiteStateFromSiteData(siteResponse.data);
 
           if (!functionAppEditMode) {
             const appSettingsResponse = await SiteService.fetchApplicationSettings(trimmedResourceId);
@@ -156,30 +178,30 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
               functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data);
             } else {
               LogService.error(
-                LogCategories.siteDashboard,
+                LogCategories.siteRouter,
                 'fetchAppSetting',
                 `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
               );
             }
           }
-        } else if (!site.metadata.success) {
+        } else if (!siteResponse.metadata.success) {
           LogService.error(
-            LogCategories.siteDashboard,
+            LogCategories.siteRouter,
             'get site',
-            `Failed to get site: ${getErrorMessageOrStringify(site.metadata.error)}`
+            `Failed to get site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
           );
         }
 
         if (!functionAppEditMode) {
           const configResponse = await SiteService.fetchWebConfig(trimmedResourceId);
-          functionAppEditMode = resolveAndGetUndefinedSiteState(
+          functionAppEditMode = await resolveAndGetUndefinedSiteState(
             armSiteDescriptor,
             configResponse.metadata.success ? configResponse.data : undefined
           );
 
           if (!configResponse.metadata.success) {
             LogService.error(
-              LogCategories.siteDashboard,
+              LogCategories.siteRouter,
               'fetchWebConfig',
               `Failed to fetch web config: ${getErrorMessageOrStringify(configResponse.metadata.error)}`
             );
@@ -187,9 +209,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         }
       }
 
-      if (site.metadata.success) {
-        setSite(site.data);
-        setStopped(site.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
+      if (siteResponse.metadata.success) {
+        setSite(siteResponse.data);
+        setStopped(siteResponse.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
+        setIsLinuxApplication(isLinuxApp(siteResponse.data));
+        setIsContainerApplication(isContainerApp(siteResponse.data));
       }
       setSiteAppEditState(functionAppEditMode);
     }
@@ -208,7 +232,15 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             setResourceId(value.token && value.resourceId);
             return (
               value.token && (
-                <SiteStateContext.Provider value={{ site, siteAppEditState, stopped }}>
+                <SiteStateContext.Provider
+                  value={{
+                    site,
+                    siteAppEditState,
+                    stopped,
+                    resourceId,
+                    isLinuxApp: isLinuxApplication,
+                    isContainerApp: isContainerApplication,
+                  }}>
                   <Router>
                     {/* NOTE(michinoy): The paths should be always all lowercase. */}
 
@@ -218,6 +250,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
                     <FunctionBindingLoadable resourceId={value.resourceId} path="/bindingeditor" />
                     <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
+                    <FunctionNewCreatePreviewLoadable resourceId={value.resourceId} path="/newcreatepreview" />
                     <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
                     <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />
                     <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />

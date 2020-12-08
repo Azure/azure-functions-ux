@@ -5,6 +5,7 @@ import {
   PermissionsResultCreationParameters,
   PermissionsResult,
   ProvisioningConfigurationV2,
+  SourceSettings,
 } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from '../../../../shared/services/cache.service';
@@ -21,6 +22,7 @@ import {
   JavaVersions,
   JavaContainers,
   DeploymentCenterConstants,
+  LogCategories,
 } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
@@ -40,6 +42,8 @@ import { Guid } from 'app/shared/Utilities/Guid';
 import { SubscriptionService } from 'app/shared/services/subscription.service';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { WorkflowOptions } from '../../Models/deployment-enums';
+import { BehaviorSubject } from 'rxjs';
+import { LogService } from '../../../../shared/services/log.service';
 
 const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
 
@@ -73,6 +77,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public stack = '';
   public stackVersion = '';
   public gitHubTokenUpdated$ = new ReplaySubject<boolean>();
+  public oneDriveToken$ = new BehaviorSubject<string>('');
+  public dropBoxToken$ = new BehaviorSubject<string>('');
+  public bitBucketToken$ = new BehaviorSubject<string>('');
+  public gitHubToken$ = new BehaviorSubject<string>('');
 
   constructor(
     private _cacheService: CacheService,
@@ -82,7 +90,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _portalService: PortalService,
     private _scenarioService: ScenarioService,
     private _githubService: GithubService,
-    siteService: SiteService,
+    private _logService: LogService,
+    private _siteService: SiteService,
     userService: UserService,
     subscriptionService: SubscriptionService
   ) {
@@ -101,10 +110,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
           .replace(/[-]/g, '');
 
         return forkJoin(
-          siteService.getSite(this._resourceId),
-          siteService.getSiteConfig(this._resourceId),
-          siteService.getAppSettings(this._resourceId),
-          siteService.fetchSiteConfigMetadata(this._resourceId),
+          this._siteService.getSite(this._resourceId),
+          this._siteService.getSiteConfig(this._resourceId),
+          this._siteService.getAppSettings(this._resourceId),
+          this._siteService.fetchSiteConfigMetadata(this._resourceId),
           subscriptionService.getSubscription(siteDescriptor.subscription)
         );
       })
@@ -210,6 +219,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
       // defined constants.
       if (metadataStack === 'java') {
         this.stack = siteConfig.javaVersion === JavaVersions.WindowsVersion8 ? RuntimeStacks.java8 : RuntimeStacks.java11;
+      } else if (metadataStack === 'dotnet') {
+        this.stack = RuntimeStacks.aspnet;
       } else {
         this.stack = metadataStack;
       }
@@ -271,7 +282,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     };
 
     return this._githubService
-      .fetchWorkflowConfiguration(this.getToken(), this.wizardValues.sourceSettings.repoUrl, repo, branch, commitInfo.filePath)
+      .fetchWorkflowConfiguration(this.gitHubToken$.getValue(), this.wizardValues.sourceSettings.repoUrl, repo, branch, commitInfo.filePath)
       .switchMap(fileContentResponse => {
         if (fileContentResponse) {
           commitInfo.sha = fileContentResponse.sha;
@@ -283,7 +294,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
           commit: commitInfo,
         };
 
-        return this._githubService.createOrUpdateActionWorkflow(this.getToken(), requestContent);
+        return this._githubService.createOrUpdateActionWorkflow(this.getToken(), this.gitHubToken$.getValue(), requestContent);
       })
       .switchMap(_ => {
         return this._deployKudu();
@@ -309,8 +320,97 @@ export class DeploymentCenterStateManager implements OnDestroy {
         .putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.antaresApiVersion20181101, {
           properties: payload,
         })
-        .map(r => r.json());
+        .map(r => r.json())
+        .catch((err, _) => {
+          if (payload.isGitHubAction && this._isApiSyncError(err.json())) {
+            // NOTE(michinoy): If the save operation was being done for GitHub Action, and
+            // we are experiencing the API sync error, populate the source controls properties
+            // manually.
+
+            this._logService.error(LogCategories.cicd, 'apiSyncErrorWorkaround', { resourceId: this._resourceId });
+
+            return this._updateGitHubActionSourceControlPropertiesManually(payload);
+          } else {
+            return Observable.throw(err);
+          }
+        });
     }
+  }
+
+  private _updateGitHubActionSourceControlPropertiesManually(sourceSettingsPayload: SourceSettings) {
+    return this._fetchMetadata()
+      .switchMap(r => {
+        if (r && r.result && r.result.properties) {
+          return this._updateMetadata(r.result.properties, sourceSettingsPayload);
+        } else {
+          return Observable.throw(r);
+        }
+      })
+      .switchMap(r => {
+        if (r && r.status === 200) {
+          return this._patchSiteConfigForGitHubAction();
+        } else {
+          return Observable.throw(r);
+        }
+      })
+      .catch(r => Observable.throw(r))
+      .map(r => r.json());
+  }
+
+  private _updateMetadata(properties: { [key: string]: string }, sourceSettingsPayload: SourceSettings) {
+    delete properties['RepoUrl'];
+    delete properties['ScmUri'];
+    delete properties['CloneUri'];
+    delete properties['branch'];
+
+    properties['RepoUrl'] = sourceSettingsPayload.repoUrl;
+    properties['branch'] = sourceSettingsPayload.branch;
+
+    return this._cacheService
+      .putArm(`${this._resourceId}/config/metadata`, ARMApiVersions.antaresApiVersion20181101, { properties })
+      .catch(err => {
+        this._logService.error(LogCategories.cicd, 'apiSyncErrorWorkaround-update-metadata-failure', {
+          resourceId: this._resourceId,
+          error: err,
+        });
+        return Observable.throw(err);
+      });
+  }
+
+  private _fetchMetadata() {
+    return this._siteService.fetchSiteConfigMetadata(this._resourceId).catch(err => {
+      this._logService.error(LogCategories.cicd, 'apiSyncErrorWorkaround-fetch-metadata-failure', {
+        resourceId: this._resourceId,
+        error: err,
+      });
+      return Observable.throw(err);
+    });
+  }
+
+  private _patchSiteConfigForGitHubAction() {
+    return this._cacheService
+      .patchArm(`${this._resourceId}/config/web`, ARMApiVersions.antaresApiVersion20181101, {
+        properties: {
+          scmType: 'GitHubAction',
+        },
+      })
+      .catch(err => {
+        this._logService.error(LogCategories.cicd, 'apiSyncErrorWorkaround-sitConfig-patch-failure', {
+          resourceId: this._resourceId,
+          error: err,
+        });
+        return Observable.throw(err);
+      });
+  }
+
+  // Detect the specific error which is indicative of Ant89 Geo/Stamp sync issues.
+  private _isApiSyncError(error: any): boolean {
+    return (
+      error.Message &&
+      error.Message.indexOf &&
+      error.Message.indexOf('500 (InternalServerError)') > -1 &&
+      error.Message.indexOf('GeoRegionServiceClient') > -1
+    );
   }
 
   private _deployVsts() {
@@ -382,7 +482,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
       this.siteArm,
       this.subscriptionName,
       this._vstsApiToken,
-      this._azureDevOpsDeploymentMethod
+      this._azureDevOpsDeploymentMethod,
+      this.gitHubToken$.getValue()
     );
 
     this._portalService.logAction('deploymentcenter', 'azureDevOpsDeployment', {
@@ -392,6 +493,11 @@ export class DeploymentCenterStateManager implements OnDestroy {
         ? (<ProvisioningConfigurationV2>deploymentObject).pipelineTemplateId
         : '',
       azureDevOpsDeploymentMethod: AzureDevOpsDeploymentMethod[this._azureDevOpsDeploymentMethod],
+      appKind: this.siteArm.kind,
+      currentStack: this.stack,
+      currentStackVersion: this.stackVersion,
+      selectedStack: this.wizardValues.buildSettings.applicationFramework,
+      selectedStackVersion: this.wizardValues.buildSettings.frameworkVersion,
     });
 
     const setupvsoCall = this._azureDevOpsService.startDeployment(

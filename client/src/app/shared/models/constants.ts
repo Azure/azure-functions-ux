@@ -60,7 +60,6 @@ export class Constants {
   public static WebhookHandlerFunctionName = 'RefreshO365Subscriptions';
   public static WebhookHandlerFunctionId = 'TimerTrigger-CSharpWebhookHandler';
   public static WebhookFunctionName = 'MSGraphWebhook';
-  public static appDensityLimit = 8;
   public static defaultFunctionAppDockerImage = 'DOCKER|mcr.microsoft.com/azure-functions/dotnet:2.0-appservice-quickstart';
 }
 
@@ -113,6 +112,7 @@ export class NotificationIds {
   public static ipRestrictions = 'ipRestrictions';
   public static clientCertEnabled = 'clientCertEnabled';
   public static powershellPreview = 'powershellPreview';
+  public static classicDeprecation = 'classicDeprecation';
 }
 
 export class Validations {
@@ -132,6 +132,7 @@ export class Regex {
   public static readonly errorLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Error|ERROR)/;
   public static readonly warningLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Warning|WARNING)/;
   public static readonly log: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2})/;
+  public static readonly runtimeVersion = /^[0-9]+./;
   /*
     1. Donot Start with /, \ or ~
     2. Donot have path in drive letter format eg: (C:/Windows)
@@ -171,11 +172,13 @@ export class Links {
   public static apimUpsellLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104075';
   public static runtimeScaleMonitoringLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104710';
   public static pv2FlexStampInfoLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2116583';
+  public static ftpDisabledByPolicyLink: 'https://go.microsoft.com/fwlink/?linkid=2137907';
 }
 
 export class Kinds {
   public static readonly linux = 'linux';
   public static readonly aseV2 = 'ASEV2';
+  public static readonly aseV3 = 'ASEV3';
   public static readonly container = 'container';
   public static readonly functionApp = 'functionapp';
   public static readonly botapp = 'botapp';
@@ -335,6 +338,8 @@ export class NationalCloudArmUris {
   public static readonly fairfax = 'https://management.usgovcloudapi.net';
   public static readonly blackforest = 'https://management.microsoftazure.de';
   public static readonly mooncake = 'https://management.chinacloudapi.cn';
+  public static readonly usNat: 'https://management.azure.eaglex.ic.gov';
+  public static readonly usSec: 'https://management.azure.microsoft.scloud';
 }
 
 export class LogCategories {
@@ -381,15 +386,17 @@ export class LogCategories {
   public static readonly byos = 'byos';
   public static readonly portalServiceHasPermission = 'PortalServiceHasPermission';
   public static readonly portalServiceHasLock = 'PortalServiceHasLock';
+  public static readonly specPickerPv2Experiment = 'specPickerPv2Experiment';
 }
 
 export class ARMApiVersions {
   public static antaresApiVersion20181101 = '2018-11-01';
   public static armApiVersion = '2014-04-01';
-  public static acrApiversion = '2017-03-01';
-  public static acrWebhookApiVersion = '2017-10-01';
+  public static acrApiversion = '2019-05-01';
+  public static acrWebhookApiVersion = '2019-05-01';
   public static serviceBusAndEventHubApiVersion20150801 = '2015-08-01';
   public static storageApiVersion = '2018-07-01';
+  public static stacksApiVersion20200501 = '2020-05-01';
 }
 export class SubscriptionQuotaIds {
   public static readonly dreamSparkQuotaId = 'DreamSpark_2015-02-01';
@@ -640,14 +647,15 @@ export enum SwapOperationType {
 }
 
 export class FeatureFlags {
-  public static UseNewSlotsBlade = 'UseNewSlotsBlade';
-  public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
   public static AllowFreeLinux = 'allowfreelinux';
   public static enablePublishProfileBasedDeployment = 'enablePublishProfileBasedDeployment';
   public static targetAzDevDeployment = 'targetAzDevDeployment';
   public static authTokenOverride = 'authTokenOverride';
   public static EnableAIOnNationalCloud = 'EnableAIOnNationalCloud';
+  public static enablePv3Skus = 'enablePv3Skus';
+  public static EnablePv2Experiment = 'EnablePv2Experiment';
+  public static DisablePv2Experiment = 'DisablePv2Experiment';
 }
 
 export class SupportedFeatures {
@@ -678,7 +686,7 @@ export class Pricing {
 }
 
 export class RuntimeStacks {
-  public static aspnet = 'dotnet';
+  public static aspnet = 'asp.net';
   public static node = 'node';
   public static python = 'python';
   public static dotnetcore = 'dotnetcore';

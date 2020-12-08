@@ -793,6 +793,9 @@
   <data name="integrate_triggersHelp" xml:space="preserve">
         <value>Триггеры запускают функцию. Например, можно активировать новое сообщение в очереди. Триггер должен быть всегда.</value>
     </data>
+  <data name="integrate_unknownCardTitle" xml:space="preserve">
+        <value>Неизвестно</value>
+    </data>
   <data name="binding_createNewFunction" xml:space="preserve">
         <value>Создание функции, запускаемой этими выходными данными</value>
     </data>
@@ -2146,6 +2149,9 @@
   <data name="validation_siteNameMaxChars" xml:space="preserve">
         <value>Имя должно содержать меньше 60 символов.</value>
     </data>
+  <data name="validation_slotNameMaxChars" xml:space="preserve">
+        <value>Имя сайта и слота в совокупности должны быть короче 59 символов.</value>
+    </data>
   <data name="validation_siteNameInvalidChar" xml:space="preserve">
         <value>Недопустимый символ ("{0}")</value>
     </data>
@@ -3269,7 +3275,7 @@
         <value>Выберите другую ценовую категорию, чтобы добавить в план больше ресурсов.</value>
     </data>
   <data name="pricing_applyButtonLabel" xml:space="preserve">
-        <value>Обновить план службы приложений</value>
+        <value>Применить изменения</value>
     </data>
   <data name="pricing_sharedInfrastructure" xml:space="preserve">
         <value>Общая инфраструктура</value>
@@ -3924,10 +3930,10 @@
         <value>Источник образа</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Full Image Name and Tag</value>
+        <value>Полное имя образа и тег</value>
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
-        <value>E.g. nginx:latest</value>
+        <value>Например, nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Чтобы начать, создайте реестр контейнеров Azure и добавьте образ.</value>
@@ -3945,7 +3951,7 @@
         <value>URL-адрес сервера</value>
     </data>
   <data name="containerServerURLPlaceholder" xml:space="preserve">
-        <value>E.g. https://index.docker.io</value>
+        <value>Например, https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Вход в систему</value>
@@ -4953,13 +4959,25 @@
         <value>Для вашего приложения-функции были введены ограничения доступа, которые могут повлиять на возможность управления этим приложением на портале и сделать недоступной среду выполнения.</value>
     </data>
   <data name="userCredsError" xml:space="preserve">
-        <value>Указанный пароль не соответствует минимальным требованиям к паролю. Пароль должен содержать буквы и цифры. Длина пароля — не менее восьми символов.</value>
+        <value>Указанный пароль не соответствует минимальным требованиям. Он должен иметь длину не менее восьми символов и включать строчные и прописные буквы, цифры и специальные знаки.</value>
     </data>
   <data name="incomingClientCertificates" xml:space="preserve">
         <value>Входящие сертификаты клиента</value>
     </data>
   <data name="requireIncomingClientCertificates" xml:space="preserve">
         <value>Требовать входящий сертификат</value>
+    </data>
+  <data name="clientCertificateMode" xml:space="preserve">
+        <value>Режим сертификата клиента</value>
+    </data>
+  <data name="clientCertificateModeRequire" xml:space="preserve">
+        <value>Требовать</value>
+    </data>
+  <data name="clientCertificateModeAllow" xml:space="preserve">
+        <value>Разрешить</value>
+    </data>
+  <data name="clientCertificateModeIgnore" xml:space="preserve">
+        <value>Пропустить</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Пути исключения сертификатов</value>
@@ -5319,9 +5337,6 @@
   <data name="functionKeyNamesUnique" xml:space="preserve">
         <value>Имена ключей функции должны быть уникальными</value>
     </data>
-  <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (предварительная версия)</value>
-    </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>Автоматизируйте шаги сборки, тестирования и развертывания с помощью GitHub Actions. Это приведет к добавлению рабочего процесса YML в репозиторий с шагами для создания и развертывания приложения в Службе приложений.</value>
     </data>
@@ -5419,13 +5434,13 @@
         <value>Область</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Runtime Scale Monitoring</value>
+        <value>Мониторинг масштабирования среды выполнения</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Включите этот параметр, чтобы разрешить активацию приложения ресурсами в виртуальной сети или пользовательскими триггерами. Требуется, чтобы был активен по меньшей мере один предварительно подготовленный экземпляр. &lt;a href="{0}" target="_blank"&gt;Дополнительные сведения&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
+        <value>Включите этот параметр, чтобы разрешить активацию приложения ресурсами в виртуальной сети или пользовательскими триггерами. Требуется, чтобы был активен по меньшей мере один предварительно подготовленный экземпляр.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Обновление параметров приложения</value>
@@ -5599,13 +5614,13 @@
         <value>Установив значение переменной FUNCTIONS_EXTENSION_VERSION в параметре приложения, вы соглашаетесь на использование настраиваемой версии среды выполнения.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+        <value>Вы обновляете версию среды выполнения с {0} на {1}. Это может привести к критическим изменениям в языке и привязках для существующих функций. Попробуйте создать приложение-функцию и перенести в него функции при обновлении основных номеров версии среды выполнения.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
-        <value>Update Runtime Version</value>
+        <value>Обновление версии среды выполнения</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
-        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
+        <value>Сейчас ваше приложение работает под управлением версии {0} и имеет существующие функции. Переключение на версию {1} не рекомендуется, так как это может привести к критическим изменениям в языках и привязках. Вы действительно хотите продолжить?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>Токен GitHub не содержит область "workflow". Вернитесь на шаг "Управление версиями" и повторите авторизацию GitHub.</value>
@@ -5676,8 +5691,8 @@
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Удаленная отладка недоступна для вашего приложения. </value>
     </data>
-  <data name="tryFunctionsNewExperience" xml:space="preserve">
-        <value>Попробуйте новый интерфейс управления для Функций Azure</value>
+  <data name="classicDeprecation" xml:space="preserve">
+        <value>Классический интерфейс управления Функциями Azure устарел и станет недоступным в октябре 2020 г.  Если у вас возникли проблемы с новым интерфейсом, щелкните здесь, чтобы отправить сообщение о проблеме.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Сохранить изменения</value>
@@ -5721,6 +5736,30 @@
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
         <value>Существующая конфигурация рабочего процесса в GitHub будет перезаписана конфигурацией ниже.</value>
     </data>
+  <data name="githubActionWorkflowFileLabel" xml:space="preserve">
+        <value>Файл рабочего процесса</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
+        <value>Сохранить</value>
+    </data>
+  <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
+        <value>Сохранить файл "{0}" из ветви "{1}" в репозитории "{2}". Это действие может активировать развертывания приложения при фиксации в ветви.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
+        <value>Удалить</value>
+    </data>
+  <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
+        <value>Удалить файл "{0}" из ветви "{1}" в репозитории "{2}". Это предотвратит будущие развертывания приложения при фиксации в этой ветви.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
+        <value>Отключение действия GitHub предотвратит все будущие развертывания, активируемые фиксациями.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
+        <value>Файл рабочего процесса действия GitHub "{0}" из ветви "{1}" в репозитории "{2}" не существует. Нажмите кнопку "ОК", чтобы отключить развертывание.</value>
+    </data>
+  <data name="githubActionWorkflowFileDeletePanelChoiceDescription" xml:space="preserve">
+        <value>Вы хотите также удалить файл рабочего процесса из репозитория GitHub?</value>
+    </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
         <value>Нет ключей функции для отображения</value>
     </data>
@@ -5741,12 +5780,6 @@
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
         <value>Тест поддерживается только для функций, активируемых по HTTP.</value>
-    </data>
-  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>Для приложения "{{appName}}" настроен стек "ASP.NET", который сейчас не поддерживается в Центре развертывания с использованием GitHub Actions.</value>
-    </data>
-  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>Для приложения "{{appName}}" сейчас настроено "ASP.NET", что не соответствует выбранной сборке. При ее использовании приложение может работать некорректно.</value>
     </data>
   <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
         <value>Имя файла рабочего процесса действия GitHub</value>
@@ -5771,6 +5804,9 @@
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
         <value>Для сборки и развертывания будет использована существующая конфигурация рабочего процесса в GitHub.</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwriteIfConfigExists" xml:space="preserve">
+        <value>Если существует конфигурация рабочего процесса, она будет перезаписана.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>Обновление файлов приложения</value>
@@ -5798,6 +5834,9 @@
     </data>
   <data name="integrate_bindingsFailedLoading" xml:space="preserve">
         <value>Не удалось загрузить одну или несколько привязок. Обновите страницу.</value>
+    </data>
+  <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
+        <value>Привязки, определенные как атрибуты, могут не отображаться при использовании скомпилированных функций.</value>
     </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Удаление функциональной клавиши</value>
@@ -5889,6 +5928,15 @@
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
         <value>Подтверждение отключения действия GitHub</value>
     </data>
+  <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Подтверждение отключения службы сборки в Службе приложений</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
+        <value>Идет получение конфигурации рабочего процесса действия GitHub</value>
+    </data>
+  <data name="deploymentCenterGitHubDisconnectLoading" xml:space="preserve">
+        <value>Идет получение конфигурации рабочего процесса действия GitHub…</value>
+    </data>
   <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
         <value>Не удалось удалить файл рабочего процесса "{0}" из ветви "{1}" в репозитории "{2}". Возможно, файл переименован или уже удален.</value>
     </data>
@@ -5915,6 +5963,12 @@
     </data>
   <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
         <value>Команда обновления в Центре развертывания</value>
+    </data>
+  <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
+        <value>Команда синхронизации в Центре развертывания</value>
+    </data>
+  <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
+        <value>Ошибка при получении сведений</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Управление профилем публикации</value>
@@ -5946,20 +6000,20 @@
   <data name="blaclistFile_message" xml:space="preserve">
         <value>Изменение этого типа файлов не поддерживается в редакторе портала.</value>
     </data>
-  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
-        <value>Нет переменных среды для отображения.</value>
+  <data name="staticSite_emptyApplicationSettingList" xml:space="preserve">
+        <value>Нет параметров приложения для отображения</value>
     </data>
-  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+  <data name="staticSite_addNewApplicationSetting" xml:space="preserve">
         <value>Добавить</value>
     </data>
-  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
-        <value>Добавить новую переменную среды</value>
+  <data name="staticSite_ariaLabel_addNewApplicationSetting" xml:space="preserve">
+        <value>Добавить новый параметр приложения</value>
     </data>
-  <data name="staticSite_environmentVariables" xml:space="preserve">
-        <value>Переменные среды</value>
+  <data name="staticSite_applicationSettings" xml:space="preserve">
+        <value>Параметры приложения</value>
     </data>
-  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
-        <value>Применимые к сайту переменные среды шифруются при хранении и передаются по шифруемому каналу. Вы можете отобразить их в виде простого текста в браузере, используя элементы управления ниже.</value>
+  <data name="staticSite_applicationSettingsInfoMessage" xml:space="preserve">
+        <value>Применимые к сайту параметры приложения шифруются при хранении и передаются по шифруемому каналу. Вы можете отобразить их в виде простого текста в браузере, используя элементы управления ниже.</value>
     </data>
   <data name="staticSite_environment" xml:space="preserve">
         <value>Среда</value>
@@ -5967,11 +6021,11 @@
   <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
         <value>Выберите среду для сайта</value>
     </data>
-  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Фильтрация переменных среды</value>
+  <data name="staticSite_filterApplicationSetting" xml:space="preserve">
+        <value>Фильтр параметров приложения</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Вы действительно хотите отменить изменения переменных среды для среды {0}?</value>
+        <value>Отменить изменения параметров приложения для среды {0}?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
         <value>Несохраненные изменения будут потеряны.</value>
@@ -5979,41 +6033,47 @@
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
         <value>Вы действительно хотите изменить среду?</value>
     </data>
-  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>Свойство {0} является обязательным для всех переменных среды.</value>
+  <data name="staticSite_applicationSettingPropIsRequired" xml:space="preserve">
+        <value>{0} является обязательным свойством для всех параметров приложения.</value>
     </data>
-  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Имена переменных среды должны быть уникальными.</value>
+  <data name="staticSite_applicationSettingNamesUnique" xml:space="preserve">
+        <value>Имя параметра приложения должно быть уникальным.</value>
     </data>
-  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>Значения переменных среды должны быть массивом.</value>
+  <data name="staticSite_applicationSettingValuesMustBeAnArray" xml:space="preserve">
+        <value>Значения параметров приложения должны быть массивом.</value>
     </data>
-  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} является недопустимым свойством переменной среды.</value>
+  <data name="staticSite_applicationSettingInvalidProperty" xml:space="preserve">
+        <value>Свойство параметра приложения {0} недопустимо.</value>
     </data>
-  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>Свойства имен и значений для всех переменных среды должны иметь строковый тип.</value>
+  <data name="staticSite_applicationSettingValueMustBeAString" xml:space="preserve">
+        <value>Свойства имен и значений всех параметров приложения должны иметь строковый тип.</value>
     </data>
   <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>Ваш сайт сейчас находится в режиме только для чтения, так как назначена роль доступа RBAC "Читатель".</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+  <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
         <value>Журналы</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
-        <value>Журналы контейнера</value>
+  <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
+        <value>Журналы Центра развертывания</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+  <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
         <value>Параметры</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
-        <value>Параметры контейнера</value>
+  <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
+        <value>Параметры Центра развертывания</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>Учетные данные FTP или FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
         <value>Учетные данные FTP или FTPS</value>
+    </data>
+  <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
+        <value>Локальные учетные данные Git/FTP/FTPS</value>
+    </data>
+  <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
+        <value>Локальные учетные данные Git, FTP или FTPS</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Загрузка журналов контейнера</value>
@@ -6034,37 +6094,52 @@
         <value>Двадцать последних трассировок вызовов функций. Для расширенного анализа выполните запрос в Application Insights.</value>
     </data>
   <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
-        <value>Refresh environment variables</value>
+        <value>Обновление параметров приложения</value>
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>При обновлении все несохраненные изменения будут потеряны. Вы действительно хотите продолжить?</value>
     </data>
-  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
-        <value>Add environment variable</value>
+  <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to refresh?</value>
     </data>
-  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
-        <value>Edit environment variable</value>
+  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
+        <value>Вы действительно хотите выполнить синхронизацию?</value>
+    </data>
+  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
+        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+    </data>
+  <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to discard?</value>
+    </data>
+  <data name="deploymentCenterDataLossMessage" xml:space="preserve">
+        <value>All unsaved changes will be lost.</value>
+    </data>
+  <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
+        <value>Добавление параметра приложения</value>
+    </data>
+  <data name="staticSite_editApplicationSettingHeader" xml:space="preserve">
+        <value>Изменение параметра приложения</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+        <value>Служба приложений поддерживает несколько технологий для доступа к содержимому приложения, а также публикации и изменения этого содержимого. Учетные данные FTP/FTPS могут находиться в области приложения или пользователя.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
-        <value>FTPS endpoint</value>
+        <value>Конечная точка FTPS</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
-        <value>Application scope</value>
+        <value>Область приложения</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>Учетные данные области приложения создаются автоматически и предоставляют доступ только к этому приложению или слоту развертывания. Эти учетные данные можно использовать с FTP, локальным Git и WebDeploy. Эти учетные данные не могут быть настроены вручную, но могут быть сброшены в любое время.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
-        <value>User scope</value>
+        <value>Область пользователей</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+        <value>Учетные данные области пользователя определяются вами — пользователем — и могут использоваться со всеми приложениями, к которым у вас есть доступ. Эти учетные данные можно использовать с FTP, локальным Git и WebDeploy. Для проверки подлинности на конечной точке FTP или FTPS с помощью учетных данных уровня пользователя требуется имя пользователя в следующем формате: "{0}".</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
-        <value>(your username)</value>
+        <value>(ваше имя пользователя)</value>
     </data>
   <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
         <value>Имя пользователя</value>
@@ -6076,42 +6151,573 @@
         <value>Подтверждение пароля</value>
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
-        <value>Write permission on the site or the slot is required to view credentials.</value>
+        <value>Для просмотра учетных данных необходимо разрешение на запись для сайта или слота.</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingMessage" xml:space="preserve">
+        <value>Идет загрузка учетных данных пользователя.</value>
+    </data>
+  <data name="deploymentCenterPublishingUserLoadingAriaLabel" xml:space="preserve">
+        <value>Идет загрузка учетных данных пользователя.</value>
+    </data>
+  <data name="publishingUserFetchFailedMessage" xml:space="preserve">
+        <value>Не удалось скачать сведения о пользователе публикации: {0}</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
-        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+        <value>Используйте в своих клиентах ключи узла для доступа ко всем HTTP-функциям в приложении. Ключ _master предоставляет административный доступ к API среды выполнения Функций.</value>
     </data>
   <data name="appKeys_systemKeys_description" xml:space="preserve">
-        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+        <value>Системными ключами автоматически управляет среда выполнения Функций. Системные ключи предоставляют детализированный доступ к возможностям среды выполнения Функций.</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+        <value>Функциональные ключи находятся в области действия этой функции и могут использоваться для доступа к ней.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
-        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+        <value>Параметры приложения применимы только к статическим веб-приложениям как минимум с одной функцией. Добавьте в приложение функцию, чтобы активировать конфигурацию.</value>
     </data>
   <data name="reset" xml:space="preserve">
-        <value>Reset</value>
+        <value>Сброс</value>
     </data>
   <data name="resetPublishProfileAriaLabel" xml:space="preserve">
-        <value>Reset publishing profile</value>
+        <value>Сброс профиля публикации</value>
     </data>
   <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Show application password</value>
+        <value>Показать пароль приложения</value>
     </data>
   <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Hide application password</value>
+        <value>Скрыть пароль приложения</value>
     </data>
   <data name="showProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user password</value>
+        <value>Показать пароль пользователя поставщика</value>
     </data>
   <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user password</value>
+        <value>Скрыть пароль пользователя поставщика</value>
     </data>
   <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user confirm password</value>
+        <value>Показать подтверждение пароля пользователя поставщика</value>
     </data>
   <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user confirm password</value>
+        <value>Скрыть подтверждение пароля пользователя поставщика</value>
+    </data>
+  <data name="resetPublishProfileConfirmationTitle" xml:space="preserve">
+        <value>Сбросить пароль для профиля публикации приложения?</value>
+    </data>
+  <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
+        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
+    </data>
+  <data name="usernameLengthRequirements" xml:space="preserve">
+        <value>Длина имени пользователя в символах должна составлять по меньшей мере {0}.</value>
+    </data>
+  <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
+        <value>Это обязательное поле</value>
+    </data>
+  <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
+        <value>Репозиторий должен начинаться с https://.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
+        <value>Используйте эти параметры для настройки реестра и модели развертывания приложений контейнера. Рекомендуем использовать GitHub Actions для более эффективной работы.</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsDescription" xml:space="preserve">
+        <value>Развертывание и создание кода из предпочтительного источника и поставщика сборки.</value>
+    </data>
+  <data name="deploymentCenterSettingsSourceLabel" xml:space="preserve">
+        <value>Источник</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcePlaceholder" xml:space="preserve">
+        <value>Выберите источник кода</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildTitle" xml:space="preserve">
+        <value>Сборка</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildLabel" xml:space="preserve">
+        <value>Поставщик сборки</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeLabel" xml:space="preserve">
+        <value>Стек времени выполнения</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
+        <value>Версия</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
+        <value>Реестр контейнеров</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
+        <value>Настройка приложения для получения образа контейнера из реестра.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
+        <value>Функции GitHub Actions автоматизируют создание, развертывание и поддержку контейнерного приложения.</value>
+    </data>
+  <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
+        <value>Для запуска функции необходим прямой доступ к сети. Ваше приложение может блокироваться через частные конечные точки, ограничения доступа или конечные точки службы.</value>
+    </data>
+  <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
+        <value>GitHub</value>
+    </data>
+  <data name="deploymentCenterCodeBitbucketTitle" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
+        <value>Локальный репозиторий Git</value>
+    </data>
+  <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
+        <value>Внешний репозиторий Git</value>
+    </data>
+  <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
+        <value>Имя пользователя</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPasswordLabel" xml:space="preserve">
+        <value>Пароль</value>
+    </data>
+  <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
+        <value>Тип репозитория</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
+        <value>Частный</value>
+    </data>
+  <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
+        <value>Общедоступный</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
+        <value>По завершении будет создан URL-адрес вашего локального репозитория Git.</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitBranchSetupMessage" xml:space="preserve">
+        <value>главная</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitCloneUri" xml:space="preserve">
+        <value>URI клона Git</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
+        <value>Ошибка при получении URI клона Git.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
+        <value>Запрос на синхронизацию отправлен.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+        <value>Обновляется репозиторий для веб-приложения {0}</value>
+    </data>
+  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+        <value>Репозиторий для веб-приложения {0} обновлен.</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
+        <value>Не удалось синхронизировать: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
+        <value>Не удалось выполнить синхронизацию.</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
+        <value>Параметры реестра</value>
+    </data>
+  <data name="deploymentCenterContainerRegistryOptionsLabel" xml:space="preserve">
+        <value>Параметры</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
+        <value>Источник реестра</value>
+    </data>
+  <data name="deploymentCenterPublishProfileDescription" xml:space="preserve">
+        <value>Импортируйте профиль публикации в Visual Studio или другие клиенты, чтобы подключать и развертывать его для своего веб-приложения.</value>
+    </data>
+  <data name="downloadPublishProfile" xml:space="preserve">
+        <value>Скачать профиль публикации</value>
+    </data>
+  <data name="managePublishProfileCommandBarAriaLabel" xml:space="preserve">
+        <value>Команды управления профилем публикации</value>
+    </data>
+  <data name="downloadingPublishProfile" xml:space="preserve">
+        <value>Скачивание профиля публикации</value>
+    </data>
+  <data name="downloadingPublishProfileFailed" xml:space="preserve">
+        <value>Не удалось скачать профиль публикации.</value>
+    </data>
+  <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
+        <value>Скачивание профиля публикации завершено</value>
+    </data>
+  <data name="staticSite_configUpdating" xml:space="preserve">
+        <value>Обновление параметров приложения</value>
+    </data>
+  <data name="staticSite_configUpdateSuccess" xml:space="preserve">
+        <value>Параметры приложения обновлены</value>
+    </data>
+  <data name="staticSite_configUpdateFailure" xml:space="preserve">
+        <value>Не удалось обновить параметры приложения: {0}</value>
+    </data>
+  <data name="clickToShowValue" xml:space="preserve">
+        <value>Щелкните, чтобы показать значение</value>
+    </data>
+  <data name="clickToHideValue" xml:space="preserve">
+        <value>Щелкните, чтобы скрыть значение</value>
+    </data>
+  <data name="testAndRun" xml:space="preserve">
+        <value>Тест/запуск</value>
+    </data>
+  <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
+        <value>Мы обнаружили, что ваш ключ инструментирования или строка подключения Application Insights хранятся в хранилище ключей, что вызывает проблемы с мониторингом. </value>
+    </data>
+  <data name="clickToUpdateSettings" xml:space="preserve">
+        <value>Щелкните, чтобы изменить параметры.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredHeader" xml:space="preserve">
+        <value>CI/CD не настроены</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredDescription" xml:space="preserve">
+        <value>Чтобы начать, перейдите на вкладку "Параметры" и настройте CI/CD.</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredGoToSettings" xml:space="preserve">
+        <value>Перейти к параметрам</value>
+    </data>
+  <data name="deploymentCenterCodeLogsNoDeployments" xml:space="preserve">
+        <value>Развертывания не найдены.</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
+        <value>Загрузка журналов развертывания</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoading" xml:space="preserve">
+        <value>Загрузка журналов развертывания…</value>
+    </data>
+  <data name="deploymentCenterFtpLoadingAriaValue" xml:space="preserve">
+        <value>Загрузка учетных данных FTP или FTPs</value>
+    </data>
+  <data name="deploymentCenterFtpLoading" xml:space="preserve">
+        <value>Загрузка учетных данных FTP или FTPs...</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailed" xml:space="preserve">
+        <value>Не удалось загрузить журналы развертывания</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
+        <value>Не удалось загрузить журналы развертывания: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailed" xml:space="preserve">
+        <value>Не удалось загрузить сведения о журнале.</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailedWithError" xml:space="preserve">
+        <value>Не удалось загрузить сведения журнала: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailed" xml:space="preserve">
+        <value>Не удалось загрузить активность.</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailedWithError" xml:space="preserve">
+        <value>Не удалось загрузить активность журнала: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoadingAriaValue" xml:space="preserve">
+        <value>Загрузка активности журнала развертывания</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoading" xml:space="preserve">
+        <value>Загрузка активности журнала развертывания...</value>
+    </data>
+  <data name="logDetailsHeader" xml:space="preserve">
+        <value>Сведения о журнале</value>
+    </data>
+  <data name="deploymentCenterOAuthFetchingUserInformation" xml:space="preserve">
+        <value>Получение информации о пользователе...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizingUser" xml:space="preserve">
+        <value>Авторизация пользователя...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizeAriaLabel" xml:space="preserve">
+        <value>Авторизация пользователя</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorize" xml:space="preserve">
+        <value>Авторизовать</value>
+    </data>
+  <data name="deploymentCenterOAuthChangeAccount" xml:space="preserve">
+        <value>Изменить учетную запись</value>
+    </data>
+  <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
+        <value>Выполнен вход</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganization" xml:space="preserve">
+        <value>Организация</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganizationPlaceholder" xml:space="preserve">
+        <value>Выберите организацию.</value>
+    </data>
+  <data name="deploymentCenterOAuthProject" xml:space="preserve">
+        <value>Проект</value>
+    </data>
+  <data name="deploymentCenterOAuthProjectPlaceholder" xml:space="preserve">
+        <value>Выберите проект.</value>
+    </data>
+  <data name="deploymentCenterOAuthRepository" xml:space="preserve">
+        <value>Репозиторий</value>
+    </data>
+  <data name="deploymentCenterOAuthRepositoryPlaceholder" xml:space="preserve">
+        <value>Выберите репозиторий.</value>
+    </data>
+  <data name="deploymentCenterOAuthBranch" xml:space="preserve">
+        <value>Ветвь</value>
+    </data>
+  <data name="deploymentCenterOAuthBranchPlaceholder" xml:space="preserve">
+        <value>Выберите ветвь.</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcPlaceholder" xml:space="preserve">
+        <value>Выберите источник кода</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceContinuousDeploymentHeader" xml:space="preserve">
+        <value>Непрерывное развертывание (CI/CD)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceManualDeploymentHeader" xml:space="preserve">
+        <value>Развертывание вручную (отправка)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceGitHub" xml:space="preserve">
+        <value>GitHub</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceAzureRepos" xml:space="preserve">
+        <value>Репозитории Azure</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceBitbucket" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceLocalGit" xml:space="preserve">
+        <value>Локальный репозиторий Git</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceOneDrive" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceExternalGit" xml:space="preserve">
+        <value>Внешний репозиторий Git</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
+        <value>Служба сборки службы приложений</value>
+    </data>
+  <data name="leaveFeedback" xml:space="preserve">
+        <value>Оставьте отзыв</value>
+    </data>
+  <data name="functionLogsFeedbackCESQuestion" xml:space="preserve">
+        <value>Насколько легко или трудно вам было использовать улучшенную функцию журналов на базе Application Insights для отладки приложения?</value>
+    </data>
+  <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
+        <value>Насколько полезной для вас оказалась новая функция журналов на базе Application Insights?</value>
+    </data>
+  <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
+        <value>Если не удается найти организацию или репозиторий, возможно, необходимо включить дополнительные разрешения в GitHub.</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
+        <value>Вы находитесь в рабочем слоте, что не рекомендуется для настройки CI/CD.</value>
+    </data>
+  <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
+        <value>Не найден токен GitHub. Щелкните "Авторизовать", чтобы настроить его.</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigTitle" xml:space="preserve">
+        <value>Конфигурация рабочих процессов</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewDescription" xml:space="preserve">
+        <value>Файл с конфигурацией рабочего процесса, определенной приведенными выше параметрами.</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileButtonText" xml:space="preserve">
+        <value>Предварительный просмотр файла</value>
+    </data>
+  <data name="deploymentCenterSettingsWorkflowConfigPreviewFileDisabledInfo" xml:space="preserve">
+        <value>Чтобы включить предварительный просмотр, укажите приведенные выше параметры.</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Перезаписать рабочий процесс в репозитории</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
+        <value>Добавить рабочий процесс в репозиторий</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Использовать существующий рабочий процесс в репозитории</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
+        <value>Использовать доступный рабочий процесс в репозитории</value>
+    </data>
+  <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
+        <value>Выберите параметр рабочего процесса</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoadingAriaValue" xml:space="preserve">
+        <value>Загрузка конфигураций рабочих процессов</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsLoading" xml:space="preserve">
+        <value>Загрузка конфигураций рабочих процессов…</value>
+    </data>
+  <data name="deploymentCenterWorkflowConfigsFilePathLabel" xml:space="preserve">
+        <value>Путь к файлу</value>
+    </data>
+  <data name="deploymentCenterGitHubActionsBuildDescription" xml:space="preserve">
+        <value>Создание с помощью GitHub Actions.</value>
+    </data>
+  <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
+        <value>Создание с помощью службы сборок Службы приложений.</value>
+    </data>
+  <data name="deploymentCenterChangeBuildText" xml:space="preserve">
+        <value>Измените поставщика.</value>
+    </data>
+  <data name="functionMonitor_orchestrations" xml:space="preserve">
+        <value>Оркестрации</value>
+    </data>
+  <data name="functionMonitor_entities" xml:space="preserve">
+        <value>Сущности</value>
+    </data>
+  <data name="functionEditor_appInsightsLogs" xml:space="preserve">
+        <value>Журналы App Insights</value>
+    </data>
+  <data name="functionEditor_fileBasedLogs" xml:space="preserve">
+        <value>Журналы файловой системы</value>
+    </data>
+  <data name="functionEditor_fileBasedLogsCalloutMessage" xml:space="preserve">
+        <value>Переключение на журналы на основе файловой системы может повлиять на производительность вашего приложения-функции во время выполнения. Оно также может не работать при наличии ограничений сети, например для IP-адресов, виртуальной сети и т. д.</value>
+    </data>
+  <data name="orchestrationTracesTableTitle" xml:space="preserve">
+        <value>Трассировки оркестрации</value>
+    </data>
+  <data name="orchestrationTracesTableDescription" xml:space="preserve">
+        <value>Двадцать последних трассировок для оркестрации функций. Для расширенного анализа выполните запрос в Application Insights.</value>
+    </data>
+  <data name="runtimeStatus" xml:space="preserve">
+        <value>Состояние среды выполнения</value>
+    </data>
+  <data name="instanceId" xml:space="preserve">
+        <value>ИД экземпляра</value>
+    </data>
+  <data name="filterOrchestrations" xml:space="preserve">
+        <value>Фильтр оркестрации</value>
+    </data>
+  <data name="entityTracesTableTitle" xml:space="preserve">
+        <value>Трассировки сущностей</value>
+    </data>
+  <data name="entityTracesTableDescription" xml:space="preserve">
+        <value>Двадцать последних трассировок для сущностей функций. Для расширенного анализа выполните запрос в Application Insights.</value>
+    </data>
+  <data name="filterEntities" xml:space="preserve">
+        <value>Фильтр сущностей</value>
+    </data>
+  <data name="state" xml:space="preserve">
+        <value>Состояние</value>
+    </data>
+  <data name="orchestrationDetails" xml:space="preserve">
+        <value>Сведения об оркестрации</value>
+    </data>
+  <data name="failedToFetchRepositories" xml:space="preserve">
+        <value>Не удалось получить список репозиториев.</value>
+    </data>
+  <data name="failedToFetchTags" xml:space="preserve">
+        <value>Не удалось получить список тегов.</value>
+    </data>
+  <data name="entityDetails" xml:space="preserve">
+        <value>Сведения о сущности</value>
+    </data>
+  <data name="durableFunctionNoDataFound" xml:space="preserve">
+        <value>Данные не найдены. Обязательно установите последнюю версию расширения "Устойчивые функции" (.NET) или используйте пакеты расширений версии 2.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxAriaLabel" xml:space="preserve">
+        <value>Дополнительные сведения о гибких метках.</value>
+    </data>
+  <data name="pricing_pv2UpsellInfoMessageAriaLabel" xml:space="preserve">
+        <value>Дополнительные сведения об IP-адресах для исходящего трафика.</value>
+    </data>
+  <data name="pricing_appDensityWarningMessageAriaLabel" xml:space="preserve">
+        <value>Дополнительные сведения о плотности планов службы приложений.</value>
+    </data>
+  <data name="ibizafication_readOnlyLinuxElastic" xml:space="preserve">
+        <value>Ваше приложение сейчас находится в режиме "только для чтения", так как эластичный план "Премиум" в Linux требует запуска из пакета.</value>
+    </data>
+  <data name="stackVersionAutoUpdate" xml:space="preserve">
+        <value>{0} (автообновление)</value>
+    </data>
+  <data name="versionLabel" xml:space="preserve">
+        <value>Версия {0}</value>
+    </data>
+  <data name="javaWebServer" xml:space="preserve">
+        <value>Веб-сервер Java</value>
+    </data>
+  <data name="javaWebServerVersion" xml:space="preserve">
+        <value>Версия веб-сервера Java</value>
+    </data>
+  <data name="ftpDisabledByPolicy" xml:space="preserve">
+        <value>Протокол FTP отключен политикой доступа.</value>
+    </data>
+  <data name="ibizafication_readOnlyCustom" xml:space="preserve">
+        <value>Изменение пользовательских приложений-функций не поддерживается на портале Azure. Для изменения этой функции используйте локальную среду разработки.</value>
+    </data>
+  <data name="selectDevelopmentEnvironment" xml:space="preserve">
+        <value>Выбор среды разработки</value>
+    </data>
+  <data name="selectDevelopmentEnvironmentDescription" xml:space="preserve">
+        <value>Инструкции могут отличаться в зависимости от среды разработки. </value>
+    </data>
+  <data name="developmentEnvironment" xml:space="preserve">
+        <value>Среда разработки</value>
+    </data>
+  <data name="selectTemplate" xml:space="preserve">
+        <value>Выберите шаблон</value>
+    </data>
+  <data name="selectTemplateDescription" xml:space="preserve">
+        <value>Используйте шаблон для создания функции. Триггеры описывают тип событий, вызывающих ваши функции. </value>
+    </data>
+  <data name="description" xml:space="preserve">
+        <value>Описание</value>
+    </data>
+  <data name="templateDetails" xml:space="preserve">
+        <value>Данные шаблона</value>
+    </data>
+  <data name="detailDescription" xml:space="preserve">
+        <value>Требуются дополнительные данные для создания функции {0}. </value>
+    </data>
+  <data name="developInPortal" xml:space="preserve">
+        <value>Разработка на портале</value>
+    </data>
+  <data name="fileSharesFailure" xml:space="preserve">
+        <value>Не удалось получить общие папки в учетной записи хранения.</value>
+    </data>
+  <data name="fileSharesFailureWithError" xml:space="preserve">
+        <value>Не удалось получить общие папки в учетной записи хранения, ошибка: {0}</value>
+    </data>
+  <data name="blobsFailure" xml:space="preserve">
+        <value>Не удалось получить BLOB-объекты в учетной записи хранения.</value>
+    </data>
+  <data name="blobsFailureWithError" xml:space="preserve">
+        <value>Не удалось получить BLOB-объекты в учетной записи хранения, ошибка: {0}</value>
+    </data>
+  <data name="blobsAndFileSharesFailure" xml:space="preserve">
+        <value>Не удалось получить BLOB-объекты и общие папки в учетной записи хранения.</value>
+    </data>
+  <data name="containerImage" xml:space="preserve">
+        <value>Имя образа</value>
+    </data>
+  <data name="containerImagePlaceholder" xml:space="preserve">
+        <value>Например, nginx</value>
+    </data>
+  <data name="savingContainerConfiguration" xml:space="preserve">
+        <value>Сохранение конфигурации контейнера.</value>
+    </data>
+  <data name="savingContainerConfigurationSuccess" xml:space="preserve">
+        <value>Конфигурация контейнера сохранена.</value>
+    </data>
+  <data name="savingContainerConfigurationFailed" xml:space="preserve">
+        <value>Не удалось сохранить конфигурацию контейнера.</value>
+    </data>
+  <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
+        <value>Не удалось сохранить конфигурацию контейнера: {0}</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
+        <value>Ваше приложение сейчас закреплено в версии среды выполнения "{0}" и больше не будет получать обновления для системы безопасности после октября 2020 г. Рекомендуем обновить среду выполнения до последней версии. См. дополнительные сведения в этой статье.</value>
+    </data>
+  <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
+        <value>URL-адрес сервера должен начинаться с https://.</value>
+    </data>
+  <data name="pricing_pv3NotAvailable" xml:space="preserve">
+        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    </data>
+  <data name="hyperVIsolation" xml:space="preserve">
+        <value>Hyper-V Isolation</value>
+    </data>
+  <data name="hyperVIsolationDesc" xml:space="preserve">
+        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+    </data>
+  <data name="pricing_ACU_Pv3" xml:space="preserve">
+        <value>{0} minimum ACU/vCore</value>
+    </data>
+  <data name="pricing_vCores" xml:space="preserve">
+        <value>{0} vCores</value>
     </data>
 </root>

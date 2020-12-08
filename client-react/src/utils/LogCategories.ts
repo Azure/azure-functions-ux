@@ -2,7 +2,7 @@ export class LogCategories {
   public static readonly FunctionEdit = 'FunctionEdit';
   public static readonly FunctionMonitor = 'FunctionMonitor';
   public static readonly SideNav = 'SideNav';
-  public static readonly siteDashboard = 'SiteDashboard';
+  public static readonly siteRouter = 'SiteRouter';
   public static readonly scenarioService = 'ScenarioService';
   public static readonly apiDetails = 'ApiDetails';
   public static readonly broadcastService = 'BroadcastService';
@@ -56,4 +56,5 @@ export class LogCategories {
   public static readonly deploymentCenter = 'DeploymentCenter';
   public static readonly functionAppLog = 'FunctionAppLog';
   public static readonly staticSiteConfiguration = 'StaticSiteConfiguration';
+  public static readonly localDevExperience = 'localDevExperience';
 }
