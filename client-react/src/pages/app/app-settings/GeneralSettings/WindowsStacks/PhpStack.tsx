@@ -43,7 +43,7 @@ const PhpStack: React.SFC<StackProps> = props => {
           !!stackVersion.data.stackSettings.windowsRuntimeSettings.isEarlyAccess
         ) {
           setEarlyAccessInfoVisible(true);
-          return;
+          break;
         }
       }
     }

@@ -106,7 +106,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
       for (const minorVersion of minorVersions) {
         if (minorVersion.key === selectedMinorVersion && minorVersion.data && minorVersion.data.isEarlyAccess) {
           setEarlyAccessInfoVisible(true);
-          return;
+          break;
         }
       }
     }

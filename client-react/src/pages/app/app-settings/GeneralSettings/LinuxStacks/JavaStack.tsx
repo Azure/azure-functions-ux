@@ -233,7 +233,7 @@ const JavaStack: React.SFC<StackProps> = props => {
       for (const containerVersion of containerVersions) {
         if (containerVersion.key === selectedMinorVersion && containerVersion.data && containerVersion.data.isEarlyAccess) {
           setEarlyAccessInfoVisible(true);
-          return;
+          break;
         }
       }
     }
