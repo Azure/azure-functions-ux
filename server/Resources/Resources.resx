@@ -6855,4 +6855,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="appInsightsKeyError" xml:space="preserve">
         <value>Failed to fetch your App Insights resource. Please make sure you have correct instrumentation key configured in app settings. </value>
     </data>
+    <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access is a new feature of App Service that allows for the rapid delivery of updates and new versions of various-runtimes.</value>
+    </data>
 </root>
