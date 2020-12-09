@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 import { StackProps } from './WindowsStacks';
-import { filterDeprecatedWebAppStack } from '../../../../../utils/stacks-utils';
+import { filterDeprecatedWebAppStack, getEarlyStackMessageParameters } from '../../../../../utils/stacks-utils';
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 
 const JavaStack: React.SFC<StackProps> = props => {
@@ -24,6 +24,7 @@ const JavaStack: React.SFC<StackProps> = props => {
   const [currentJavaContainer, setCurrentJavaContainer] = useState('');
   const [javaStack, setJavaStack] = useState<WebAppStack | undefined>(undefined);
   const [javaContainers, setJavaContainers] = useState<WebAppStack | undefined>(undefined);
+  const [earlyAccessInfoVisible, setEarlyAccessInfoVisible] = useState(false);
 
   const { values, initialValues, setFieldValue } = props;
   const { t } = useTranslation();
@@ -59,6 +60,32 @@ const JavaStack: React.SFC<StackProps> = props => {
     }
   };
 
+  const setEarlyAccessInfoMessage = () => {
+    setEarlyAccessInfoVisible(false);
+
+    if (!!currentJavaMajorVersion && !!javaStack) {
+      const stackVersions = getJavaMinorVersionAsDropdownOptions(currentJavaMajorVersion, javaStack, t);
+      const selectionVersion = (values.config.properties.javaVersion || '').toLowerCase();
+      for (const stackVersion of stackVersions) {
+        if (
+          stackVersion.key === selectionVersion &&
+          !!stackVersion.data &&
+          !!stackVersion.data.stackSettings &&
+          !!stackVersion.data.stackSettings.windowsRuntimeSettings &&
+          !!stackVersion.data.stackSettings.windowsRuntimeSettings.isEarlyAccess
+        ) {
+          setEarlyAccessInfoVisible(true);
+          break;
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    setEarlyAccessInfoMessage();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values.config.properties.javaVersion]);
   useEffect(() => {
     setJavaStacksAndContainers();
 
@@ -124,6 +151,7 @@ const JavaStack: React.SFC<StackProps> = props => {
         label={t('javaMinorVersion')}
         id="app-settings-java-minor-verison"
         options={javaMinorVersionOptions}
+        {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
       />
       <DropdownNoFormik
         label={t('javaWebServer')}

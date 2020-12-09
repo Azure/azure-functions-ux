@@ -8,7 +8,7 @@ import DropdownNoFormik from '../../../../../components/form-controls/DropDownno
 import { Field } from 'formik';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { useTranslation } from 'react-i18next';
-import { getMinorVersionText } from '../../../../../utils/stacks-utils';
+import { getEarlyStackMessageParameters, getMinorVersionText } from '../../../../../utils/stacks-utils';
 
 // NOTE(krmitta): These keys should be similar to what is being returned from the backend
 const JAVA8KEY = '8';
@@ -26,6 +26,7 @@ const JavaStack: React.SFC<StackProps> = props => {
   const [currentContainerKey, setCurrentContainerKey] = useState<string | undefined>(undefined);
   const [currentContainerDropdownOptions, setCurrentContainerDropdownOptions] = useState<IDropdownOption[]>([]);
   const [currentContainerVersionDropdownOptions, setCurrentContainerVersionDropdownOptions] = useState<IDropdownOption[]>([]);
+  const [earlyAccessInfoVisible, setEarlyAccessInfoVisible] = useState(false);
 
   const { t } = useTranslation();
   const stacks = useContext(WebAppStacksContext);
@@ -101,6 +102,7 @@ const JavaStack: React.SFC<StackProps> = props => {
                     t,
                     javaContainerMinorVersion.stackSettings.linuxContainerSettings
                   ),
+                  data: containerSettings,
                 });
               } else if (majorVersion === JAVA11KEY && !!containerSettings.java11Runtime) {
                 options.push({
@@ -110,6 +112,7 @@ const JavaStack: React.SFC<StackProps> = props => {
                     t,
                     javaContainerMinorVersion.stackSettings.linuxContainerSettings
                   ),
+                  data: containerSettings,
                 });
               }
             }
@@ -221,8 +224,24 @@ const JavaStack: React.SFC<StackProps> = props => {
     return initialValues.config.properties.linuxFxVersion !== values.config.properties.linuxFxVersion;
   };
 
+  const setEarlyAccessInfoMessage = () => {
+    setEarlyAccessInfoVisible(false);
+
+    if (currentMajorVersion && currentContainerKey) {
+      const containerVersions = getJavaContainerVersionDropdownOptionsForSelectedJavaContainer(currentMajorVersion, currentContainerKey);
+      const selectedMinorVersion = values.config.properties.linuxFxVersion.toLowerCase();
+      for (const containerVersion of containerVersions) {
+        if (containerVersion.key === selectedMinorVersion && containerVersion.data && containerVersion.data.isEarlyAccess) {
+          setEarlyAccessInfoVisible(true);
+          break;
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     setInitialData();
+    setEarlyAccessInfoMessage();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.config.properties.linuxFxVersion]);
@@ -262,6 +281,7 @@ const JavaStack: React.SFC<StackProps> = props => {
           label={t('javaWebServerVersion')}
           id="linux-fx-version-java-container-minor-version"
           options={currentContainerVersionDropdownOptions}
+          {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
         />
       )}
     </>

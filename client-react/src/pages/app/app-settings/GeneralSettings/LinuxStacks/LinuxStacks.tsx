@@ -21,7 +21,7 @@ import {
   isJavaStackSelected,
 } from './LinuxStacks.data';
 import JavaStack from './JavaStack';
-import { filterDeprecatedWebAppStack } from '../../../../../utils/stacks-utils';
+import { filterDeprecatedWebAppStack, getEarlyStackMessageParameters } from '../../../../../utils/stacks-utils';
 
 type PropsType = FormikProps<AppSettingsFormValues>;
 
@@ -37,6 +37,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
 
   const [runtimeStack, setRuntimeStack] = useState<string | undefined>(undefined);
   const [majorVersionRuntime, setMajorVersionRuntime] = useState<string | null>(null);
+  const [earlyAccessInfoVisible, setEarlyAccessInfoVisible] = useState(false);
 
   const initialVersionDetails = getVersionDetails(supportedStacks, initialValues.config.properties.linuxFxVersion);
   supportedStacks = filterDeprecatedWebAppStack(
@@ -96,8 +97,24 @@ const LinuxStacks: React.FC<PropsType> = props => {
     setMajorVersionRuntime(getSelectedMajorVersion(supportedStacks, values.config.properties.linuxFxVersion));
   };
 
+  const setEarlyAccessInfoMessage = () => {
+    setEarlyAccessInfoVisible(false);
+
+    if (runtimeStack && majorVersionRuntime) {
+      const minorVersions = getMinorVersions(supportedStacks, runtimeStack, majorVersionRuntime, t);
+      const selectedMinorVersion = values.config.properties.linuxFxVersion.toLowerCase();
+      for (const minorVersion of minorVersions) {
+        if (minorVersion.key === selectedMinorVersion && minorVersion.data && minorVersion.data.isEarlyAccess) {
+          setEarlyAccessInfoVisible(true);
+          break;
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     setRuntimeStackAndMajorVersion();
+    setEarlyAccessInfoMessage();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.config.properties.linuxFxVersion]);
@@ -135,6 +152,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
                     label={t('minorVersion')}
                     id="linux-fx-version-minor-version"
                     options={getMinorVersions(supportedStacks, runtimeStack, majorVersionRuntime, t)}
+                    {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
                   />
                 )}
               </>

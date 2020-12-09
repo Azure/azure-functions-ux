@@ -74,6 +74,7 @@ export const getJavaMinorVersionAsDropdownOptions = (
             ? minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
             : minorVersion.value,
           text: getMinorVersionText(minorVersion.displayText, t, minorVersion.stackSettings.windowsRuntimeSettings),
+          data: minorVersion,
         });
       }
     });
@@ -115,6 +116,7 @@ export const getFrameworkVersionOptions = (
         options.push({
           key: containerSettings.javaContainerVersion ? containerSettings.javaContainerVersion : minorVersion.value,
           text: getMinorVersionText(minorVersion.displayText, t, minorVersion.stackSettings.windowsContainerSettings),
+          data: minorVersion,
         });
       }
     });

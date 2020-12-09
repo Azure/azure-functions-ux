@@ -13,6 +13,7 @@ import i18next from 'i18next';
 import LogService from './LogService';
 import { LogCategories } from './LogCategories';
 import { getDateAfterXSeconds } from './DateUtilities';
+import { Links } from './FwLinks';
 
 const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
 
@@ -230,6 +231,13 @@ export const getFilteredWindowsJavaContainerSettings = (
   } else {
     return undefined;
   }
+};
+
+export const getEarlyStackMessageParameters = (isEarlyStackMessageVisible: boolean, t: i18next.TFunction) => {
+  return {
+    infoBubbleMessage: isEarlyStackMessageVisible ? t('earlyAccessStackMessage') : undefined,
+    learnMoreLink: isEarlyStackMessageVisible ? Links.earlyAccessStackLearnMore : undefined,
+  };
 };
 
 export const JavaVersions = {

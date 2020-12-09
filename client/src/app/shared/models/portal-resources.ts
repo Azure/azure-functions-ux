@@ -2235,4 +2235,5 @@ export class PortalResources {
   public static deploymentCenterProjectPlaceholder = 'deploymentCenterProjectPlaceholder';
   public static deploymentCenterDevOpsNoAccounts = 'deploymentCenterDevOpsNoAccounts';
   public static appInsightsKeyError = 'appInsightsKeyError';
+  public static earlyAccessStackMessage = 'earlyAccessStackMessage';
 }
