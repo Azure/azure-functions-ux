@@ -1977,6 +1977,7 @@ export class PortalResources {
   public static deploymentCenterPivotItemGitFtpsAriaLabel = 'deploymentCenterPivotItemGitFtpsAriaLabel';
   public static deploymentCenterContainerLogsLoadingAriaValue = 'deploymentCenterContainerLogsLoadingAriaValue';
   public static deploymentCenterContainerLogsLoading = 'deploymentCenterContainerLogsLoading';
+  public static deploymentCenterContainerLogsDesc = 'deploymentCenterContainerLogsDesc';
   public static deploymentCenterContainerLogsFailed = 'deploymentCenterContainerLogsFailed';
   public static deploymentCenterContainerLogsFailedWithError = 'deploymentCenterContainerLogsFailedWithError';
   public static invocationTracesTableTitle = 'invocationTracesTableTitle';
