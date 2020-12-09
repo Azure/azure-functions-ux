@@ -23,7 +23,14 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
         getProgressIndicator()
       ) : (
         <div className={deploymentCenterContent}>
-          {logs ? <pre className={deploymentCenterContainerLogs}>{logs}</pre> : getProgressIndicator()}
+          {logs ? (
+            <>
+              {t('deploymentCenterContainerLogsDesc')}
+              <pre className={deploymentCenterContainerLogs}>{logs}</pre>
+            </>
+          ) : (
+            getProgressIndicator()
+          )}
         </div>
       )}
     </>
