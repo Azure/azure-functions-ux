@@ -5749,19 +5749,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Workflow file</value>
     </data>
     <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Preserve</value>
+        <value>Save workflow file</value>
     </data>
     <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Preserve file '{0}' from branch '{1}' in repository '{2}'. This may trigger deployments to your app on commits to the branch.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
     <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete</value>
+        <value>Delete workflow file</value>
     </data>
     <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Delete file '{0}' from branch '{1}' in repository '{2}'. This will prevent future deployments to your app on commits to this branch.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
     <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting the GitHub Action will prevent any future deployments trigerred by commits.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
     <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>GitHub Action workflow file '{0}' from branch '{1}' in repository '{2}' does not exist. Select 'OK' to disconnect deployment.</value>
@@ -5935,7 +5935,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Can not find branch '{0}' in repository '{1}'. Please navigate to your repository to investigate further.</value>
     </data>
     <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Confirm GitHub Action Disconnect</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
     <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirm App Service Build Service Disconnect</value>

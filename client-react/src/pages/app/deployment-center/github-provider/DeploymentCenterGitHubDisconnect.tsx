@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { useTranslation } from 'react-i18next';
-import { choiceGroupSubLabel, disconnectLink } from '../DeploymentCenter.styles';
+import { choiceGroupSubLabel, disconnectLink, disconnectWorkflowInfoStyle } from '../DeploymentCenter.styles';
 import { Link, Icon, PanelType, ChoiceGroup, ProgressIndicator } from 'office-ui-fabric-react';
 import {
   DeploymentCenterGitHubDisconnectProps,
@@ -23,6 +23,7 @@ import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import ActionBar from '../../../../components/ActionBar';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 
 const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnectProps> = props => {
   const { branch, org, repo, repoUrl, formProps } = props;
@@ -241,9 +242,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
       onRenderField: (fieldProps, defaultRenderer) => (
         <div>
           {defaultRenderer!(fieldProps)}
-          <div className={choiceGroupSubLabel}>
-            {t('githubActionWorkflowFilePreserveDescription').format(workflowFileName, branch, repoUrl)}
-          </div>
+          <div className={choiceGroupSubLabel}>{t('githubActionWorkflowFilePreserveDescription')}</div>
         </div>
       ),
     },
@@ -254,9 +253,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
       onRenderField: (fieldProps, defaultRenderer) => (
         <div>
           {defaultRenderer!(fieldProps)}
-          <div className={choiceGroupSubLabel}>
-            {t('githubActionWorkflowFileDeleteDescription').format(workflowFileName, branch, repoUrl)}
-          </div>
+          <div className={choiceGroupSubLabel}>{t('githubActionWorkflowFileDeleteDescription')}</div>
         </div>
       ),
     },
@@ -289,20 +286,30 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     if (workflowConfigExists) {
       return (
         <>
-          <h4>{t('githubActionWorkflowFileDeletePanelDescription')}</h4>
-          <h4>{t('githubActionWorkflowFileDeletePanelChoiceDescription')}</h4>
-          <ChoiceGroup
-            selectedKey={selectedWorkflowOption}
-            options={options}
-            onChange={updateSelectedWorkflowChoice}
-            label={t('githubActionWorkflowFileLabel')}
-            required={true}
-          />
+          {t('githubActionWorkflowFileDeletePanelDescription')}
+          {getWorkflowFileRepoAndBranchContent()}
+          <ChoiceGroup selectedKey={selectedWorkflowOption} options={options} onChange={updateSelectedWorkflowChoice} required={true} />
         </>
       );
     } else {
       return <h4>{t('githubActionWorkflowFileDeletePanelNoChoiceDescription').format(workflowFileName, branch, repoUrl)}</h4>;
     }
+  };
+
+  const getWorkflowFileRepoAndBranchContent = () => {
+    return (
+      <div className={disconnectWorkflowInfoStyle}>
+        <ReactiveFormControl id="deployment-center-workflow-file-name" label={t('githubActionWorkflowFileLabel')}>
+          <div>{workflowFileName}</div>
+        </ReactiveFormControl>
+        <ReactiveFormControl id="deployment-center-repository" label={t('deploymentCenterOAuthRepository')}>
+          <div>{repoUrl}</div>
+        </ReactiveFormControl>
+        <ReactiveFormControl id="deployment-center-organization" label={t('deploymentCenterOAuthBranch')}>
+          <div>{branch}</div>
+        </ReactiveFormControl>
+      </div>
+    );
   };
 
   useEffect(() => {
