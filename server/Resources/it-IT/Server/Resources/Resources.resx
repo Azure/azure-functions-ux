@@ -5746,19 +5746,19 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>File del flusso di lavoro</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Mantieni</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Consente di mantenere il file '{0}' dal ramo '{1}' nel repository '{2}'. Questa opzione potrebbe attivare le distribuzioni nel'app al momento dei commit nel ramo.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Elimina</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Eliminare il file '{0}' dal ramo '{1}' nel repository '{2}'. In questo modo sarà possibile impedire le distribuzioni future nell'app al momento dei commit in questo ramo.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>La disconnessione dell'azione GitHub Actions impedirà qualsiasi distribuzione futura attivata dai commit.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Il file del flusso di lavoro dell'azione GitHub Actions '{0}' dal ramo '{1}' nel repository '{2}' non esiste. Selezionare 'OK' per disconnettere la distribuzione.</value>
@@ -5932,7 +5932,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Il ramo '{0}' non è stato trovato nel repository '{1}'. Per ulteriori indagini, passare al repository.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Conferma disconnessione di GitHub Actions</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Conferma disconnessione del servizio di compilazione del servizio app</value>
@@ -6101,6 +6101,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Caricamento dei log del contenitore...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Non è stato possibile caricare i log del contenitore</value>
@@ -6568,16 +6571,16 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Specificare sopra le impostazioni obbligatorie per abilitare l'anteprima.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Sovrascrivi il flusso di lavoro nel repository</value>
+        <value>Sovrascrivi flusso di lavoro: sovrascrive il file del flusso di lavoro {0} esistente nel repository e nel ramo selezionati.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Aggiungi un flusso di lavoro nel repository</value>
+        <value>Aggiungi un flusso di lavoro: aggiunge un nuovo file del flusso di lavoro {0} nel repository e nel ramo selezionati.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Usa il flusso di lavoro del repository esistente</value>
+        <value>Usa flusso di lavoro esistente: usa il file del flusso di lavoro {0} esistente nel repository e nel ramo selezionati.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Usa il flusso di lavoro del repository disponibile</value>
+        <value>Usa flusso di lavoro disponibile: usa uno dei file del flusso di lavoro disponibili nel repository e nel ramo selezionati.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Selezionare l'opzione flusso di lavoro</value>
@@ -6836,5 +6839,23 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="logStreamingHostStatusError" xml:space="preserve">
         <value>Non è possibile recuperare lo stato dell'host dell'app per le funzioni. Per usare lo streaming di log, assicurarsi che l'host delle funzioni sia in esecuzione.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Progetto</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Seleziona progetto</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Non sono stati trovati account per Azure Repos. Creare un nuovo account in Azure Repos e riprovare.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>Non è stato possibile recuperare la risorsa di Application Insights. Assicurarsi di aver configurato la chiave di strumentazione corretta nelle impostazioni dell'app.</value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
     </data>
 </root>
