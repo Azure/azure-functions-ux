@@ -9,12 +9,19 @@ export class WellKnownHeaders {
   static readonly SESSION_ID = 'x-ms-client-session-id';
 }
 
-export const sendHttpRequest = <T>(options: AxiosRequestConfig) => {
+export const sendHttpRequest = <T>(options: AxiosRequestConfig, excludeWellKnownHeaders = false) => {
   options.headers = options.headers ? options.headers : {};
 
-  options.headers[WellKnownHeaders.SESSION_ID] = window.appsvc && window.appsvc.sessionId;
-  if (!options.headers[WellKnownHeaders.REQUEST_ID]) {
-    options.headers[WellKnownHeaders.REQUEST_ID] = Guid.newGuid();
+  if (excludeWellKnownHeaders) {
+    // NOTE(michinoy): Due to the CORS errors we are seeing when calling bitbucket, onedrive, and dropbox
+    // the well known (x-ms-*) headers need to be removed from the request.
+    delete options.headers[WellKnownHeaders.SESSION_ID];
+    delete options.headers[WellKnownHeaders.REQUEST_ID];
+  } else {
+    options.headers[WellKnownHeaders.SESSION_ID] = window.appsvc && window.appsvc.sessionId;
+    if (!options.headers[WellKnownHeaders.REQUEST_ID]) {
+      options.headers[WellKnownHeaders.REQUEST_ID] = Guid.newGuid();
+    }
   }
 
   return axios({
