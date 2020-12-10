@@ -9,12 +9,12 @@ export default class BitbucketService {
   public static authorizeUrl = `${Url.serviceHost}auth/bitbucket/authorize`;
 
   public static getUser = (bitbucketToken: string): Promise<HttpResponseObject<BitbucketUser>> => {
-    const url = `${DeploymentCenterConstants.bitbucketApiUrl}/user`;
-    const headers = {
-      Authorization: `Bearer ${bitbucketToken}`,
+    const data = {
+      url: `${DeploymentCenterConstants.bitbucketApiUrl}/user`,
+      bitbucketToken,
     };
 
-    return sendHttpRequest<BitbucketUser>({ url, headers, method: 'GET' });
+    return sendHttpRequest<BitbucketUser>({ url: `${Url.serviceHost}api/bitbucket/passthrough`, method: 'POST', data });
   };
 
   public static getToken = (redirectUrl: string): Promise<HttpResponseObject<ProviderToken>> => {
