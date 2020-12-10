@@ -462,6 +462,7 @@ export interface CodeDeploymentsRow {
   commit: JSX.Element;
   checkinMessage: string;
   status: string;
+  author: string;
 }
 
 export interface BuildChoiceGroupOption extends IChoiceGroupOption {
