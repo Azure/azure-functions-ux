@@ -9,12 +9,12 @@ export default class BitbucketService {
   public static authorizeUrl = `${Url.serviceHost}auth/bitbucket/authorize`;
 
   public static getUser = (bitbucketToken: string): Promise<HttpResponseObject<BitbucketUser>> => {
-    const data = {
-      url: `${DeploymentCenterConstants.bitbucketApiUrl}/user`,
-      bitbucketToken,
+    const url = `${DeploymentCenterConstants.bitbucketApiUrl}/user`;
+    const headers = {
+      Authorization: `Bearer ${bitbucketToken}`,
     };
 
-    return sendHttpRequest<BitbucketUser>({ url: `${Url.serviceHost}api/bitbucket/passthrough`, method: 'POST', data });
+    return sendHttpRequest<BitbucketUser>({ url, headers, method: 'GET' }, true /* excludeWellKnownHeaders */);
   };
 
   public static getToken = (redirectUrl: string): Promise<HttpResponseObject<ProviderToken>> => {
@@ -22,7 +22,10 @@ export default class BitbucketService {
       redirUrl: redirectUrl,
     };
 
-    return sendHttpRequest<ProviderToken>({ url: `${Url.serviceHost}auth/bitbucket/getToken`, method: 'POST', data });
+    return sendHttpRequest<ProviderToken>(
+      { url: `${Url.serviceHost}auth/bitbucket/getToken`, method: 'POST', data },
+      true /* excludeWellKnownHeaders */
+    );
   };
 
   public static getRepositories = (bitbucketToken: string, logger?: (page, response) => void): Promise<BitbucketRepository[]> => {
@@ -61,12 +64,15 @@ export default class BitbucketService {
   };
 
   private static _sendBitbucketRequest = <T>(url: string, bitbucketToken: string, method: 'GET' | 'PUT') => {
-    return sendHttpRequest<T>({
-      url,
-      method,
-      headers: {
-        Authorization: `Bearer ${bitbucketToken}`,
+    return sendHttpRequest<T>(
+      {
+        url,
+        method,
+        headers: {
+          Authorization: `Bearer ${bitbucketToken}`,
+        },
       },
-    });
+      true /* excludeWellKnownHeaders */
+    );
   };
 }
