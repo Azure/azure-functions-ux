@@ -5746,19 +5746,19 @@
         <value>워크플로 파일</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>유지</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>리포지토리 '{2}'의 분기 '{1}'에서 파일 '{0}'을(를) 유지합니다. 그러면 이 분기에 대한 커밋 시 앱에 배포가 트리거될 수 있습니다.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>삭제</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>리포지토리 '{2}'의 분기 '{1}'에서 파일 '{0}'을(를) 삭제합니다. 그러면 이 분기에 대한 커밋 시 앱에 향후 배포를 방지할 수 있습니다.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>GitHub 작업의 연결을 끊으면 커밋으로 트리거되는 향후 배포를 방지할 수 있습니다.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>리포지토리 '{2}'에 분기 '{1}'의 GitHub 작업 워크플로 파일 '{0}'이(가) 없습니다. 배포 연결을 끊으려면 '확인'을 선택합니다.</value>
@@ -5932,7 +5932,7 @@
         <value>리포지토리 '{1}'에서 분기 '{0}'을(를) 찾을 수 없습니다. 더 조사하려면 리포지토리로 이동하세요.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>GitHub 작업 연결 끊기 확인</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>App Service 빌드 서비스 연결 끊기 확인</value>
@@ -6101,6 +6101,9 @@
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>컨테이너 로그 로드 중...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>컨테이너 로그를 로드하지 못함</value>
@@ -6568,16 +6571,16 @@
         <value>미리 보기를 사용하도록 설정하려면 위의 필수 설정을 입력하세요.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>리포지토리에서 워크플로 덮어쓰기</value>
+        <value>워크플로 덮어쓰기: 선택한 리포지토리 및 분기의 기존 워크플로 파일 {0}을(를) 덮어씁니다.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>리포지토리에서 워크플로 추가</value>
+        <value>워크플로 추가: 선택한 리포지토리 및 분기에 새 워크플로 파일 {0}을(를) 추가합니다.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>기존 리포지토리 워크플로 사용</value>
+        <value>기존 워크플로 사용: 선택한 리포지토리 및 분기의 기존 워크플로 파일 {0}을(를) 사용합니다.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>사용 가능한 리포지토리 워크플로 사용</value>
+        <value>사용 가능한 워크플로 사용: 선택한 리포지토리 및 분기에서 사용할 수 있는 워크플로 파일 중 하나를 사용합니다.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>워크플로 옵션 선택</value>
@@ -6836,5 +6839,23 @@
     </data>
   <data name="logStreamingHostStatusError" xml:space="preserve">
         <value>함수 앱의 호스트 상태를 가져올 수 없습니다. 로그 스트리밍을 사용하려면 함수 호스트가 실행 중인지 확인하세요.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>프로젝트</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>프로젝트 선택</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Azure Repos의 계정을 찾을 수 없습니다. Azure Repos에서 새 계정을 만든 후 다시 시도하세요.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>App Insights 리소스를 가져오지 못했습니다. 앱 설정에 올바른 계측 키가 구성되어 있는지 확인하세요. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
     </data>
 </root>

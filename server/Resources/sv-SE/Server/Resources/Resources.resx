@@ -5746,19 +5746,19 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Arbetsflödesfil</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Behåll</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Behåll filen {0} från grenen {1} i lagringsplatsen {2}. Detta kan utlösa distributioner till din app vid genomföringar på grenen.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Ta bort</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Ta bort filen {0} från grenen {1} i lagringsplatsen {2}. Detta förhindrar framtida distributioner till din app vid genomföranden på den här grenen.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Om du kopplar från GitHub-åtgärden förhindras att framtida distributioner utlöses av genomföranden.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Arbetsflödesfilen {0} för GitHub-åtgärder från grenen {1} i lagringsplatsen {2} finns inte. Välj OK om du vill koppla från distributionen.</value>
@@ -5932,7 +5932,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Det går inte att hitta grenen {0} i centrallagret {1}. Gå till centrallagret för att undersöka ytterligare.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Bekräfta frånkoppling av GitHub-åtgärden</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Bekräfta frånkoppling av App Service Build-tjänsten</value>
@@ -6101,6 +6101,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Läser in containerloggar...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Det gick inte att läsa in containerloggar</value>
@@ -6568,16 +6571,16 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Fyll i de nödvändiga inställningarna ovan för att aktivera förhandsgranskningen.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Skriv över arbetsflödet i centrallagret</value>
+        <value>Overwrite the workflow: Overwrite the existing workflow file {0} in the selected repository and branch.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Lägg till ett arbets flöde i centrallagringsplatsen</value>
+        <value>Add a workflow: Add a new workflow file {0} in the selected repository and branch.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Använd befintligt centrallagerarbetsflöde</value>
+        <value>Use existing workflow: Use the existing workflow file {0} in the selected repository and branch.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Använd tillgängligt arbetsflöde för centrallager</value>
+        <value>Use available workflow: Use one of the workflow files available in the selected repository and branch.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Välj arbetsflödesalternativ</value>
@@ -6836,5 +6839,23 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     </data>
   <data name="logStreamingHostStatusError" xml:space="preserve">
         <value>Det gick inte att hämta värdstatus för din funktionsapp. Om du vill använda logga direktuppspelning kontrollerar du att funktionsvärden körs.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Projekt</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Välj projekt</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Inga konton hittades för Azure Repos. Skapa ett nytt konto i Azure Repos och försök igen.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>Det gick inte att hämta din App Insights-resurs. Kontrollera att du har konfigurerat rätt instrumentationsnyckel i appinställningarna. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
     </data>
 </root>
