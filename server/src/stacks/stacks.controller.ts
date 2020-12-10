@@ -17,6 +17,13 @@ import {
   validateRemovePreviewStacks,
   validateWebAppStack,
 } from './validations';
+import * as edgejs from 'edge-js';
+
+const writeEvent = edgejs.func({
+  assemblyFile: 'D:\\demo\\TraceLoggingLibrarySample\\TraceLoggingLibrarySample\\bin\\Debug\\TraceLoggingLibrarySample.dll',
+  typeName: 'TraceLoggingLibrarySample.Class2',
+  methodName: 'WriteEvent',
+});
 
 @Controller('stacks')
 export class StacksController {
@@ -41,6 +48,10 @@ export class StacksController {
     validateRemoveHiddenStacks(removeHiddenStacks);
     validateRemoveDeprecatedStacks(removeDeprecatedStacks);
     validateRemovePreviewStacks(removePreviewStacks);
+
+    writeEvent('JavaScript', (error, result) => {
+      // TODO
+    });
 
     const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
     const removeDeprecated = removeDeprecatedStacks && removeDeprecatedStacks.toLowerCase() === 'true';
