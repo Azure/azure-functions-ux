@@ -15,7 +15,7 @@ export default class DropboxService {
       Authorization: `Bearer ${dropboxToken}`,
     };
 
-    return sendHttpRequest<DropboxUser>({ url, headers, method: 'POST' });
+    return sendHttpRequest<DropboxUser>({ url, headers, method: 'POST' }, true /* excludeWellKnownHeaders */);
   };
 
   public static getToken = (redirectUrl: string): Promise<HttpResponseObject<ProviderToken>> => {
@@ -23,7 +23,10 @@ export default class DropboxService {
       redirUrl: redirectUrl,
     };
 
-    return sendHttpRequest<ProviderToken>({ url: `${Url.serviceHost}auth/dropbox/getToken`, method: 'POST', data });
+    return sendHttpRequest<ProviderToken>(
+      { url: `${Url.serviceHost}auth/dropbox/getToken`, method: 'POST', data },
+      true /* excludeWellKnownHeaders */
+    );
   };
 
   public static getFolders = (dropboxToken: string, logger?: (page, response) => void): Promise<DropboxFolder[]> => {
@@ -63,13 +66,16 @@ export default class DropboxService {
   };
 
   private static _sendDropboxRequest = (url: string, dropboxToken: string, method: Method, data: any) => {
-    return sendHttpRequest<DropboxArrayResponse<DropboxFolder[]>>({
-      url,
-      method,
-      headers: {
-        Authorization: `Bearer ${dropboxToken}`,
+    return sendHttpRequest<DropboxArrayResponse<DropboxFolder[]>>(
+      {
+        url,
+        method,
+        data,
+        headers: {
+          Authorization: `Bearer ${dropboxToken}`,
+        },
       },
-      data: data,
-    });
+      true /* excludeWellKnownHeaders */
+    );
   };
 }
