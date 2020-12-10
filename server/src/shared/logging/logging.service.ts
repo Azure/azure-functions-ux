@@ -4,6 +4,8 @@ import * as appInsights from 'applicationinsights';
 
 export class LoggingService extends Logger implements LoggerService {
   private client: appInsights.TelemetryClient;
+  private ipc: any;
+
   constructor() {
     super();
     if (process.env.aiInstrumentationKey) {
@@ -20,12 +22,14 @@ export class LoggingService extends Logger implements LoggerService {
       setInterval(this.trackAppServicePerformance, 30 * 1000);
       this.client = appInsights.defaultClient;
     }
+
+    this.initializeIpc();
   }
 
   public error(message: any, trace?: string, context?: string) {
     super.error(message, trace, context);
 
-    this.trackEvent(context, { trace, message: JSON.stringify(message) });
+    this.trackEvent(context, { trace, message: JSON.stringify(message) }, undefined, 'ErrorEvent');
   }
 
   public warn(message: any, context?: string) {
@@ -33,7 +37,7 @@ export class LoggingService extends Logger implements LoggerService {
 
     const warningId = `/warnings/server/${context}`;
 
-    this.trackEvent(warningId, message);
+    this.trackEvent(warningId, message, undefined, 'WarningEvent');
   }
 
   public log(message: any, context?: string) {
@@ -42,10 +46,19 @@ export class LoggingService extends Logger implements LoggerService {
     const logId = `/info/server/${context}`;
 
     // tslint:disable-next-line:no-console
-    this.trackEvent(logId, message);
+    this.trackEvent(logId, message, undefined, 'LogEvent');
   }
 
-  public trackEvent(name: string, properties?: { [name: string]: string }, measurements?: { [name: string]: number }) {
+  public trackEvent(name: string, properties?: { [name: string]: string }, measurements?: { [name: string]: number }, eventName?: string) {
+    try {
+      const timeStamp = Date().toLocaleString();
+      const data = { eventName, timeStamp, name, properties, measurements };
+      this.ipc.stdin.write(`${JSON.stringify(data)}\r\n`);
+    } catch (error) {
+      // To avoid infinite loop, only log to console.
+      console.log(JSON.stringify(error));
+    }
+
     if (!process.env.aiInstrumentationKey || !this.client) {
       return;
     }
@@ -55,6 +68,26 @@ export class LoggingService extends Logger implements LoggerService {
       properties,
       measurements,
     });
+  }
+  private initializeIpc() {
+    try {
+      const spawn = require('child_process').spawn;
+      let traceLoggingAppExePath = './src/TraceLogger/TraceLoggingApp.exe';
+      const ipc = spawn(traceLoggingAppExePath);
+      ipc.on('error', error => {
+        console.log(`SPAWN ERROR: ${error}`);
+      });
+      ipc.stdin.setEncoding('utf8');
+      ipc.stderr.on('data', data => {
+        process.stderr.write(`\r\n<STDERR>\r\n${data.toString()}\r\n</STDERR>\r\n`);
+      });
+      ipc.stdout.on('data', data => {
+        process.stdout.write(`\r\n<STDOUT>\r\n${data.toString()}\r\n</STDOUT>\r\n`);
+      });
+      this.ipc = ipc;
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
   }
 
   private trackAppServicePerformance() {
