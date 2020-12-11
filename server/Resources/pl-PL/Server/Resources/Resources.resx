@@ -5746,19 +5746,19 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Plik przepływu pracy</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Zachowaj</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Zachowaj plik „{0}” z gałęzi „{1}” w repozytorium „{2}”. Może to spowodować wyzwalanie wdrożeń w Twojej aplikacji przy zatwierdzeniu do gałęzi.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Usuń</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Usuń plik „{0}” z gałęzi „{1}” w repozytorium „{2}”. Uniemożliwi to przyszłe wdrożenia w Twojej aplikacji przy zatwierdzaniu do tej gałęzi.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Odłączenie akcji usługi GitHub uniemożliwi wszelkie przyszłe wdrożenia wyzwalane przez zatwierdzenia.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Plik przepływu pracy akcji usługi GitHub „{0}” z gałęzi „{1}” w repozytorium „{2}” nie istnieje. Wybierz przycisk „OK”, aby rozłączyć wdrożenie.</value>
@@ -5932,7 +5932,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Nie można odnaleźć gałęzi „{0}” w repozytorium „{1}”. Przejdź do repozytorium, aby kontynuować badanie.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Potwierdź rozłączenie z akcją usługi GitHub</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Potwierdzenie rozłączenia z usługą kompilacji usługi App Service</value>
@@ -6101,6 +6101,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Trwa ładowanie dzienników kontenerów...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Nie udało się pobrać dzienników kontenerów</value>
@@ -6568,16 +6571,16 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Wypełnij wymagane ustawienia powyżej, aby włączyć podgląd.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Zastąp przepływ pracy w repozytorium</value>
+        <value>Zastąp przepływ pracy: zastąp istniejący plik przepływu pracy {0} w wybranym repozytorium i wybranej gałęzi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Dodaj przepływ pracy w repozytorium</value>
+        <value>Dodaj przepływ pracy: Dodaj nowy plik przepływu pracy {0} w wybranym repozytorium i wybranej gałęzi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Użyj istniejącego przepływu pracy repozytorium</value>
+        <value>Użyj istniejącego przepływu pracy: użyj istniejącego pliku przepływu pracy {0} w wybranym repozytorium i wybranej gałęzi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Użyj dostępnego przepływu pracy repozytorium</value>
+        <value>Użyj dostępnego przepływu pracy: użyj jednego z plików przepływu pracy dostępnego w wybranym repozytorium i wybranej gałęzi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Wybierz opcję przepływu pracy</value>
@@ -6836,5 +6839,23 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="logStreamingHostStatusError" xml:space="preserve">
         <value>Nie można pobrać stanu hosta aplikacji funkcji. Aby korzystać z przesyłania strumieniowego dzienników, upewnij się, że host funkcji jest uruchomiony.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Projekt</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Wybierz projekt</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Nie znaleziono żadnych kont dla usługi Azure Repos. Utwórz nowe konto w usłudze Azure Repos i spróbuj ponownie.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>Nie można pobrać zasobu usługi App Insights. Upewnij się, że w ustawieniach aplikacji skonfigurowano poprawny klucz instrumentacji. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Wczesny dostęp umożliwia szybkie dostarczanie aktualizacji i nowych wersji różnych środowisk uruchomieniowych.</value>
     </data>
 </root>
