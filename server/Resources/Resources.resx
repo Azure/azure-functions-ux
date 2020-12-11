@@ -2686,6 +2686,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="commitIdAuthor" xml:space="preserve">
         <value>Commit ID (Author)</value>
     </data>
+    <data name="commitAuthor" xml:space="preserve">
+        <value>Commit Author</value>
+    </data>
     <data name="checkinMessage" xml:space="preserve">
         <value>Checkin Message</value>
     </data>
