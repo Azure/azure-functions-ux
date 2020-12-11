@@ -21,7 +21,7 @@ import * as edgejs from 'edge-js';
 
 const writeEvent = edgejs.func({
   assemblyFile: 'D:\\demo\\TraceLoggingLibrarySample\\TraceLoggingLibrarySample\\bin\\Debug\\TraceLoggingLibrarySample.dll',
-  typeName: 'TraceLoggingLibrarySample.Class2',
+  typeName: 'TraceLoggingLibrarySample.Class3',
   methodName: 'WriteEvent',
 });
 
@@ -49,8 +49,25 @@ export class StacksController {
     validateRemoveDeprecatedStacks(removeDeprecatedStacks);
     validateRemovePreviewStacks(removePreviewStacks);
 
-    writeEvent('JavaScript', (error, result) => {
-      // TODO
+    const name = 'myName';
+    const customDimensions = {
+      d1: 'v1',
+      d2: 'v2',
+    };
+    // const customDimensions = 'myDimensions';
+    const operationName = 'GET /stacks/functionappstacks';
+
+    writeEvent({ name, customDimensions, operationName }, (error, result) => {
+      // TODO (andimarc)
+      let response = '';
+      if (error) {
+        response = JSON.stringify(error);
+      } else if (result) {
+        response = JSON.stringify(result);
+      } else {
+        response = 'N/A';
+      }
+      console.log(response);
     });
 
     const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
