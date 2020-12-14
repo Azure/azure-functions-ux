@@ -72,6 +72,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
           {deployment.properties.id.substr(0, 7)}
         </Link>
       ),
+      author: deployment.properties.author,
       checkinMessage: deployment.properties.message,
       status: deployment.properties.active
         ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
@@ -117,9 +118,10 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const items: CodeDeploymentsRow[] = rows.sort(dateTimeComparatorReverse);
 
   const columns: IColumn[] = [
-    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150, maxWidth: 250 },
-    { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 100, maxWidth: 150 },
-    { key: 'status', name: t('status'), fieldName: 'status', minWidth: 150, maxWidth: 200 },
+    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 75, maxWidth: 150 },
+    { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 75, maxWidth: 100 },
+    { key: 'author', name: t('commitAuthor'), fieldName: 'author', minWidth: 75, maxWidth: 200 },
+    { key: 'status', name: t('status'), fieldName: 'status', minWidth: 100, maxWidth: 150 },
     { key: 'checkinMessage', name: t('checkinMessage'), fieldName: 'checkinMessage', minWidth: 210 },
   ];
 

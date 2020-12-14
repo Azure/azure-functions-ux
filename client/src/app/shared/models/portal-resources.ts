@@ -856,6 +856,7 @@ export class PortalResources {
   public static log = 'log';
   public static showLogs = 'showLogs';
   public static commitIdAuthor = 'commitIdAuthor';
+  public static commitAuthor = 'commitAuthor';
   public static checkinMessage = 'checkinMessage';
   public static topBar_runtimeV2 = 'topBar_runtimeV2';
   public static functionKeys_clickToHide = 'functionKeys_clickToHide';
