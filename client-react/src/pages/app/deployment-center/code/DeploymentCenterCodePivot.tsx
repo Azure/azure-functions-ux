@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react';
 import DeploymentCenterFtps from '../DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,7 @@ import { ScmType, BuildProvider } from '../../../../models/site/config';
 import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
 import { ThemeContext } from '../../../../ThemeContext';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const { formProps, deployments, deploymentsError, isLoading } = props;
@@ -19,6 +20,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const theme = useContext(ThemeContext);
+  const portalContext = useContext(PortalContext);
 
   const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
 
@@ -49,6 +51,17 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
         (!!formProps.values.publishingPassword || !!formProps.values.publishingConfirmPassword))
     );
   };
+
+  useEffect(() => {
+    portalContext.updateDirtyState(isFtpsDirty() || isSettingsDirty());
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    formProps.values.buildProvider,
+    formProps.values.publishingUsername,
+    formProps.values.publishingPassword,
+    formProps.values.publishingConfirmPassword,
+  ]);
 
   return (
     <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
