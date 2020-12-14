@@ -53,10 +53,15 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
   };
 
   useEffect(() => {
-    portalContext.updateDirtyState(formProps.dirty);
+    portalContext.updateDirtyState(isFtpsDirty() || isSettingsDirty());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formProps.dirty]);
+  }, [
+    formProps.values.buildProvider,
+    formProps.values.publishingUsername,
+    formProps.values.publishingPassword,
+    formProps.values.publishingConfirmPassword,
+  ]);
 
   return (
     <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
