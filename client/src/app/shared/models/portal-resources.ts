@@ -1252,6 +1252,7 @@ export class PortalResources {
   public static disconnectingDeployment = 'disconnectingDeployment';
   public static disconnectingDeploymentSuccess = 'disconnectingDeploymentSuccess';
   public static disconnectingDeploymentFail = 'disconnectingDeploymentFail';
+  public static disconnectingDeploymentFailWithMessage = 'disconnectingDeploymentFailWithMessage';
   public static disconnectConfirm = 'disconnectConfirm';
   public static communityTemplatesTitle = 'communityTemplatesTitle';
   public static communityTemplatesDescription = 'communityTemplatesDescription';
@@ -1928,6 +1929,8 @@ export class PortalResources {
   public static deploymentCenterGitHubDisconnectLoading = 'deploymentCenterGitHubDisconnectLoading';
   public static githubActionDisconnectWorkflowDeleteFailed = 'githubActionDisconnectWorkflowDeleteFailed';
   public static disconnectingDeploymentFailWorkflowFileDeleteSucceeded = 'disconnectingDeploymentFailWorkflowFileDeleteSucceeded';
+  public static disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage =
+    'disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage';
   public static functionLog_rbacPermissionsForAppInsights = 'functionLog_rbacPermissionsForAppInsights';
   public static deploymentCenterCommandBarAriaLabel = 'deploymentCenterCommandBarAriaLabel';
   public static deploymentCenterSaveCommandAriaLabel = 'deploymentCenterSaveCommandAriaLabel';
