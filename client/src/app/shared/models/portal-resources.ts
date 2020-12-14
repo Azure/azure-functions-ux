@@ -1252,6 +1252,7 @@ export class PortalResources {
   public static disconnectingDeployment = 'disconnectingDeployment';
   public static disconnectingDeploymentSuccess = 'disconnectingDeploymentSuccess';
   public static disconnectingDeploymentFail = 'disconnectingDeploymentFail';
+  public static disconnectingDeploymentFailWithMessage = 'disconnectingDeploymentFailWithMessage';
   public static disconnectConfirm = 'disconnectConfirm';
   public static communityTemplatesTitle = 'communityTemplatesTitle';
   public static communityTemplatesDescription = 'communityTemplatesDescription';
@@ -1372,6 +1373,7 @@ export class PortalResources {
   public static windowsKubernetesDisableMessage = 'windowsKubernetesDisableMessage';
   public static functionsDockerComposeDisableMessage = 'functionsDockerComposeDisableMessage';
   public static functionsKubernetesDisableMessage = 'functionsKubernetesDisableMessage';
+  public static dockerComposeDisabledMessage = 'dockerComposeDisabledMessage';
   public static readOnlyBYOC = 'readOnlyBYOC';
   public static failedToGetContainerConfigData = 'failedToGetContainerConfigData';
   public static invalidUrl = 'invalidUrl';
@@ -1927,6 +1929,8 @@ export class PortalResources {
   public static deploymentCenterGitHubDisconnectLoading = 'deploymentCenterGitHubDisconnectLoading';
   public static githubActionDisconnectWorkflowDeleteFailed = 'githubActionDisconnectWorkflowDeleteFailed';
   public static disconnectingDeploymentFailWorkflowFileDeleteSucceeded = 'disconnectingDeploymentFailWorkflowFileDeleteSucceeded';
+  public static disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage =
+    'disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage';
   public static functionLog_rbacPermissionsForAppInsights = 'functionLog_rbacPermissionsForAppInsights';
   public static deploymentCenterCommandBarAriaLabel = 'deploymentCenterCommandBarAriaLabel';
   public static deploymentCenterSaveCommandAriaLabel = 'deploymentCenterSaveCommandAriaLabel';
@@ -2056,6 +2060,7 @@ export class PortalResources {
   public static deploymentCenterCodeExternalBranchPlaceholder = 'deploymentCenterCodeExternalBranchPlaceholder';
   public static deploymentCenterCodeExternalPrivateRepositoryOption = 'deploymentCenterCodeExternalPrivateRepositoryOption';
   public static deploymentCenterCodeExternalPublicRepositoryOption = 'deploymentCenterCodeExternalPublicRepositoryOption';
+  public static deploymentCenterCodeLocalGitDesc = 'deploymentCenterCodeLocalGitDesc';
   public static deploymentCenterCodeLocalGitRepositorySetupMessage = 'deploymentCenterCodeLocalGitRepositorySetupMessage';
   public static deploymentCenterCodeLocalGitBranchSetupMessage = 'deploymentCenterCodeLocalGitBranchSetupMessage';
   public static deploymentCenterCodeLocalGitCloneUri = 'deploymentCenterCodeLocalGitCloneUri';

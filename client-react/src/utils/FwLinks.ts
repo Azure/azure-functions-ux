@@ -47,4 +47,5 @@ export const DeploymentCenterLinks = {
   configureDeployment: 'https://go.microsoft.com/fwlink/?linkid=2086046',
   containerContinuousDeploy: 'https://go.microsoft.com/fwlink/?linkid=2133570',
   configureDeploymentSlots: 'https://go.microsoft.com/fwlink/?linkid=2142216',
+  configureLocalGitDeployment: 'https://go.microsoft.com/fwlink/?linkid=2151801',
 };

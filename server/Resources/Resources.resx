@@ -3896,6 +3896,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Failed to disconnect your deployment</value>
     </data>
+    <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Failed to disconnect your deployment: {0}</value>
+    </data>
     <data name="disconnectConfirm" xml:space="preserve">
         <value>Are you sure you want to disconnect your deployment?</value>
     </data>
@@ -4255,6 +4258,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Kubernetes based functions are not currently supported.</value>
+    </data>
+    <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker compose is not currently supported.</value>
     </data>
     <data name="readOnlyBYOC" xml:space="preserve">
         <value>Editing functions in the portal is not supported for function apps deployed as a docker image.</value>
@@ -5955,6 +5961,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Failed to disconnect your deployment, but the workflow file was successfully deleted. Try to disconnect again.</value>
     </data>
+    <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Failed to disconnect your deployment, but the workflow file was successfully deleted. Try to disconnect again. Error: {0}</value>
+    </data>
     <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Unable to establish a link to Application Insights. Please ensure that you have write permissions on your Function app</value>
     </data>
@@ -6332,6 +6341,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Public</value>
+    </data>
+    <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Local Git allows you to host a simple Git server for your app on your App Service plan. This can be used to quickly setup a CICD pipeline.</value>
     </data>
     <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Your local git repository url will be generated upon completion.</value>
