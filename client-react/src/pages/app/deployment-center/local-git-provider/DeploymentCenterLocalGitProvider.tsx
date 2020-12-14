@@ -20,7 +20,7 @@ const DeploymentCenterLocalGitProvider: React.FC<{}> = props => {
           target="_blank"
           className={learnMoreLinkStyle}
           aria-labelledby="deployment-center-local-git-desc-link">
-          {` ${t('click here.')}`}
+          {` ${t('learnMore')}`}
         </Link>
       </p>
 

@@ -6334,7 +6334,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Public</value>
     </data>
     <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
-        <value>For a how-to guide on deploying your app from a Git repository on your computer</value>
+        <value>Local Git allows you to host a simple Git server for your app on your App Service plan. This can be used to quickly setup a CICD pipeline.</value>
     </data>
     <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Your local git repository url will be generated upon completion.</value>
