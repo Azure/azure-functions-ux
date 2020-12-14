@@ -5,6 +5,7 @@ import { Injector } from '@angular/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { FormGroup } from '@angular/forms';
 import { ErrorEvent } from '../../shared/models/error-event';
+import { NationalCloudEnvironment } from '../../shared/services/scenario/national-cloud.environment';
 
 export type ImageSourceType = 'quickstart' | 'azureContainerRegistry' | 'dockerHub' | 'privateRegistry';
 
@@ -98,6 +99,8 @@ export class DockerComposeContainer extends Container {
       this.disableMessage = this.ts.instant(PortalResources.windowsDockerComposeDisableMessage);
     } else if (containerSettingsData.isFunctionApp) {
       this.disableMessage = this.ts.instant(PortalResources.functionsDockerComposeDisableMessage);
+    } else if (NationalCloudEnvironment.isNationalCloud()) {
+      this.disableMessage = this.ts.instant(PortalResources.dockerComposeDisabledMessage);
     }
   }
 }

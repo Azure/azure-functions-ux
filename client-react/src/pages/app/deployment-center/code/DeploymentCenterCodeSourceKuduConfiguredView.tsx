@@ -9,6 +9,7 @@ import { Link, Icon } from 'office-ui-fabric-react';
 import { disconnectLink } from '../DeploymentCenter.styles';
 import { PortalContext } from '../../../../PortalContext';
 import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -45,7 +46,10 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
         deleteSourceControls(notificationId);
       }
     } else {
-      portalContext.stopNotification(notificationId, false, t('disconnectingDeploymentFail'));
+      const errorMessage = getErrorMessage(updatePathSiteConfigResponse.metadata.error);
+      const message = errorMessage ? t('disconnectingDeploymentFailWithMessage').format(errorMessage) : t('disconnectingDeploymentFail');
+
+      portalContext.stopNotification(notificationId, false, message);
     }
   };
 
@@ -58,7 +62,10 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
       portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
       await deploymentCenterContext.refresh();
     } else {
-      portalContext.stopNotification(notificationId, false, t('disconnectingDeploymentFail'));
+      const errorMessage = getErrorMessage(deleteSourceControlDetailsResponse.metadata.error);
+      const message = errorMessage ? t('disconnectingDeploymentFailWithMessage').format(errorMessage) : t('disconnectingDeploymentFail');
+
+      portalContext.stopNotification(notificationId, false, message);
     }
   };
 
