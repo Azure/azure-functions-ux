@@ -1372,6 +1372,7 @@ export class PortalResources {
   public static windowsKubernetesDisableMessage = 'windowsKubernetesDisableMessage';
   public static functionsDockerComposeDisableMessage = 'functionsDockerComposeDisableMessage';
   public static functionsKubernetesDisableMessage = 'functionsKubernetesDisableMessage';
+  public static dockerComposeDisabledMessage = 'dockerComposeDisabledMessage';
   public static readOnlyBYOC = 'readOnlyBYOC';
   public static failedToGetContainerConfigData = 'failedToGetContainerConfigData';
   public static invalidUrl = 'invalidUrl';
