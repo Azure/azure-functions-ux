@@ -4256,6 +4256,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Kubernetes based functions are not currently supported.</value>
     </data>
+    <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker compose is not currently supported.</value>
+    </data>
     <data name="readOnlyBYOC" xml:space="preserve">
         <value>Editing functions in the portal is not supported for function apps deployed as a docker image.</value>
     </data>
