@@ -19,7 +19,7 @@ import { StackProps } from './WindowsStacks';
 import {
   filterDeprecatedWebAppStack,
   getEarlyStackMessageParameters,
-  getEOLOrDeprecatedBanner,
+  checkAndGetStackEOLOrDeprecatedBanner,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
 } from '../../../../../utils/stacks-utils';
@@ -167,7 +167,7 @@ const JavaStack: React.SFC<StackProps> = props => {
         options={javaMinorVersionOptions}
         {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
       />
-      {getEOLOrDeprecatedBanner(t, values.config.properties.javaVersion, eolStackDate)}
+      {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.javaVersion, eolStackDate)}
       <DropdownNoFormik
         label={t('javaWebServer')}
         dirty={isJavaContainerDirty()}

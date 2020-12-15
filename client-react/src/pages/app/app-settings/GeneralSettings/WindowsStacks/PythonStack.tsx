@@ -8,7 +8,7 @@ import { Links } from '../../../../../utils/FwLinks';
 import {
   filterDeprecatedWebAppStack,
   getEarlyStackMessageParameters,
-  getEOLOrDeprecatedBanner,
+  checkAndGetStackEOLOrDeprecatedBanner,
   getStacksSummaryForDropdown,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
@@ -97,7 +97,7 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
         options={pythonVersions}
         {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
       />
-      {getEOLOrDeprecatedBanner(t, values.config.properties.netFrameworkVersion, eolStackDate)}
+      {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.netFrameworkVersion, eolStackDate)}
     </>
   );
 };

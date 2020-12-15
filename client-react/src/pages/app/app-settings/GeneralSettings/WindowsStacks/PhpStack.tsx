@@ -6,7 +6,7 @@ import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import {
   filterDeprecatedWebAppStack,
   getEarlyStackMessageParameters,
-  getEOLOrDeprecatedBanner,
+  checkAndGetStackEOLOrDeprecatedBanner,
   getStacksSummaryForDropdown,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
@@ -88,7 +88,7 @@ const PhpStack: React.SFC<StackProps> = props => {
         options={phpVersions}
         {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
       />
-      {getEOLOrDeprecatedBanner(t, values.config.properties.phpVersion || '', eolStackDate)}
+      {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.phpVersion || '', eolStackDate)}
     </>
   );
 };

@@ -24,7 +24,7 @@ import JavaStack from './JavaStack';
 import {
   filterDeprecatedWebAppStack,
   getEarlyStackMessageParameters,
-  getEOLOrDeprecatedBanner,
+  checkAndGetStackEOLOrDeprecatedBanner,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
 } from '../../../../../utils/stacks-utils';
@@ -169,7 +169,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
                       options={getMinorVersions(supportedStacks, runtimeStack, majorVersionRuntime, t)}
                       {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
                     />
-                    {getEOLOrDeprecatedBanner(t, values.config.properties.linuxFxVersion, eolStackDate)}
+                    {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.linuxFxVersion, eolStackDate)}
                   </>
                 )}
               </>

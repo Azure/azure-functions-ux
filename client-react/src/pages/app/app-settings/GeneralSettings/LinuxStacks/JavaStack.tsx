@@ -10,7 +10,7 @@ import Dropdown from '../../../../../components/form-controls/DropDown';
 import { useTranslation } from 'react-i18next';
 import {
   getEarlyStackMessageParameters,
-  getEOLOrDeprecatedBanner,
+  checkAndGetStackEOLOrDeprecatedBanner,
   getMinorVersionText,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
@@ -298,7 +298,7 @@ const JavaStack: React.SFC<StackProps> = props => {
             options={currentContainerVersionDropdownOptions}
             {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
           />
-          {getEOLOrDeprecatedBanner(t, values.config.properties.linuxFxVersion, eolStackDate)}
+          {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.linuxFxVersion, eolStackDate)}
         </>
       )}
     </>

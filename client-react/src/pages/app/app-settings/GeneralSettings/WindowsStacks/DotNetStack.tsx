@@ -10,7 +10,7 @@ import {
   RuntimeStacks,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
-  getEOLOrDeprecatedBanner,
+  checkAndGetStackEOLOrDeprecatedBanner,
 } from '../../../../../utils/stacks-utils';
 import { AppStackOs } from '../../../../../models/stacks/app-stacks';
 import { StackProps } from './WindowsStacks';
@@ -87,7 +87,7 @@ const DotNetStack: React.SFC<StackProps> = props => {
         options={getStacksSummaryForDropdown(aspNetStack, AppStackOs.windows, t)}
         {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
       />
-      {getEOLOrDeprecatedBanner(t, values.config.properties.netFrameworkVersion, eolStackDate)}
+      {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.netFrameworkVersion, eolStackDate)}
     </>
   );
 };

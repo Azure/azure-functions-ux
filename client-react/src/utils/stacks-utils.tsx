@@ -242,7 +242,7 @@ export const getEarlyStackMessageParameters = (isEarlyStackMessageVisible: boole
   };
 };
 
-export const getEOLOrDeprecatedBanner = (t: i18next.TFunction, stackVersion: string, eolDate?: string | null) => {
+export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stackVersion: string, eolDate?: string | null) => {
   if (eolDate === undefined) {
     return <></>;
   }
