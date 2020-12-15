@@ -41,6 +41,12 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
   const fetchData = async () => {
     LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataLoader', 'fetchData'), {});
 
+    await fetchDeploymentLogs();
+
+    setIsLoading(false);
+  };
+
+  const fetchDeploymentLogs = async () => {
     const deploymentsResponse = await deploymentCenterData.getSiteDeployments(resourceId);
 
     if (deploymentsResponse.metadata.success) {
@@ -55,8 +61,6 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
         error: deploymentsResponse.metadata.error,
       });
     }
-
-    setIsLoading(false);
   };
 
   const generateForm = () => {
@@ -83,6 +87,10 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
     LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataLoader', 'generateForm'), formData);
   };
 
+  const refreshLogs = () => {
+    fetchDeploymentLogs();
+  };
+
   const refresh = () => {
     setIsLoading(true);
     fetchData();
@@ -103,6 +111,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
       formValidationSchema={codeFormValidationSchema}
       isLoading={isLoading}
       refresh={refresh}
+      refreshLogs={refreshLogs}
     />
   );
 };
