@@ -16,16 +16,14 @@ export class WindowsCode extends Environment {
         };
       },
     };
-    if (Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMount)) {
-      this.scenarioChecks[ScenarioIds.azureStorageMount] = {
-        id: ScenarioIds.azureStorageMount,
-        runCheck: () => {
-          return {
-            status: 'enabled',
-          };
-        },
-      };
-    }
+    this.scenarioChecks[ScenarioIds.azureStorageMount] = {
+      id: ScenarioIds.azureStorageMount,
+      runCheck: () => {
+        return {
+          status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMount) ? 'enabled' : 'disabled',
+        };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
