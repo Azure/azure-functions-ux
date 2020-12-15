@@ -251,6 +251,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -300,6 +301,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -352,6 +354,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -401,6 +404,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -451,6 +455,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -498,6 +503,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -544,6 +550,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -605,6 +612,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -651,6 +659,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
@@ -705,6 +714,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
@@ -758,6 +768,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
@@ -813,6 +824,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
@@ -868,6 +880,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
@@ -908,6 +921,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_NAME: ${webAppName} # set this to your function app name on Azure
@@ -962,6 +976,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_NAME: ${webAppName} # set this to your function app name on Azure
@@ -1016,6 +1031,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
