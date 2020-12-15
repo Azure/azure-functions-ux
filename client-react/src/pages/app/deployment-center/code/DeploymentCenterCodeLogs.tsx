@@ -15,6 +15,7 @@ import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured } from
 import { ArmObj } from '../../../../models/arm-obj';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
+import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
@@ -33,7 +34,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
-  const { deployments, deploymentsError, isLoading, goToSettings } = props;
+  const { deployments, deploymentsError, isLoading, goToSettings, refreshLogs } = props;
   const { t } = useTranslation();
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
@@ -158,6 +159,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
         <div className={deploymentCenterLogsError}>{deploymentsError}</div>
       ) : deployments ? (
         <>
+          <DeploymentCenterCodeLogsTimer refreshLogs={refreshLogs} />
           <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
           {items.length === 0 && getZeroDayContent()}
         </>
