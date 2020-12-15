@@ -8,6 +8,9 @@ import {
   getEarlyStackMessageParameters,
   getStacksSummaryForDropdown,
   RuntimeStacks,
+  isStackVersionDeprecated,
+  isStackVersionEndOfLife,
+  getEOLOrDeprecatedBanner,
 } from '../../../../../utils/stacks-utils';
 import { AppStackOs } from '../../../../../models/stacks/app-stacks';
 import { StackProps } from './WindowsStacks';
@@ -16,6 +19,7 @@ const DotNetStack: React.SFC<StackProps> = props => {
   const { values, initialValues } = props;
 
   const [earlyAccessInfoVisible, setEarlyAccessInfoVisible] = useState(false);
+  const [eolStackDate, setEolStackDate] = useState<string | null | undefined>(undefined);
 
   const { app_write, editable, saving } = useContext(PermissionsContext);
 
@@ -29,8 +33,9 @@ const DotNetStack: React.SFC<StackProps> = props => {
 
   const aspNetStack = supportedStacks.find(x => x.value === RuntimeStacks.aspnet);
 
-  const setEarlyAccessInfoMessage = () => {
+  const setStackBannerAndInfoMessage = () => {
     setEarlyAccessInfoVisible(false);
+    setEolStackDate(undefined);
 
     if (!!aspNetStack) {
       const stackVersions = getStacksSummaryForDropdown(aspNetStack, AppStackOs.windows, t);
@@ -40,10 +45,16 @@ const DotNetStack: React.SFC<StackProps> = props => {
           stackVersion.key === selectionVersion &&
           !!stackVersion.data &&
           !!stackVersion.data.stackSettings &&
-          !!stackVersion.data.stackSettings.windowsRuntimeSettings &&
-          !!stackVersion.data.stackSettings.windowsRuntimeSettings.isEarlyAccess
+          !!stackVersion.data.stackSettings.windowsRuntimeSettings
         ) {
-          setEarlyAccessInfoVisible(true);
+          const settings = stackVersion.data.stackSettings.windowsRuntimeSettings;
+          setEarlyAccessInfoVisible(!!settings.isEarlyAccess);
+
+          if (isStackVersionDeprecated(settings)) {
+            setEolStackDate(null);
+          } else if (isStackVersionEndOfLife(settings.endOfLifeDate)) {
+            setEolStackDate(settings.endOfLifeDate);
+          }
           break;
         }
       }
@@ -51,7 +62,7 @@ const DotNetStack: React.SFC<StackProps> = props => {
   };
 
   useEffect(() => {
-    setEarlyAccessInfoMessage();
+    setStackBannerAndInfoMessage();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.config.properties.linuxFxVersion]);
@@ -61,20 +72,23 @@ const DotNetStack: React.SFC<StackProps> = props => {
   }
 
   return (
-    <Field
-      name="config.properties.netFrameworkVersion"
-      dirty={
-        values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
-        values.config.properties.netFrameworkVersion !== initialValues.config.properties.netFrameworkVersion
-      }
-      component={Dropdown}
-      fullpage
-      label={t('netFrameWorkVersionLabel')}
-      id="netValidationVersion"
-      disabled={disableAllControls}
-      options={getStacksSummaryForDropdown(aspNetStack, AppStackOs.windows, t)}
-      {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
-    />
+    <>
+      <Field
+        name="config.properties.netFrameworkVersion"
+        dirty={
+          values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
+          values.config.properties.netFrameworkVersion !== initialValues.config.properties.netFrameworkVersion
+        }
+        component={Dropdown}
+        fullpage
+        label={t('netFrameWorkVersionLabel')}
+        id="netValidationVersion"
+        disabled={disableAllControls}
+        options={getStacksSummaryForDropdown(aspNetStack, AppStackOs.windows, t)}
+        {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
+      />
+      {getEOLOrDeprecatedBanner(t, values.config.properties.netFrameworkVersion, eolStackDate)}
+    </>
   );
 };
 export default DotNetStack;

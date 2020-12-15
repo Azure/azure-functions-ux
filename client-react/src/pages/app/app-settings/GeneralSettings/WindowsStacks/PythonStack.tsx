@@ -8,7 +8,10 @@ import { Links } from '../../../../../utils/FwLinks';
 import {
   filterDeprecatedWebAppStack,
   getEarlyStackMessageParameters,
+  getEOLOrDeprecatedBanner,
   getStacksSummaryForDropdown,
+  isStackVersionDeprecated,
+  isStackVersionEndOfLife,
   RuntimeStacks,
 } from '../../../../../utils/stacks-utils';
 import { AppStackOs } from '../../../../../models/stacks/app-stacks';
@@ -25,6 +28,7 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
 
   const [earlyAccessInfoVisible, setEarlyAccessInfoVisible] = useState(false);
+  const [eolStackDate, setEolStackDate] = useState<string | null | undefined>(undefined);
 
   const disableAllControls = !app_write || !editable || saving;
   const { t } = useTranslation();
@@ -36,8 +40,9 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
 
   const pythonStack = supportedStacks.find(x => x.value === RuntimeStacks.python);
 
-  const setEarlyAccessInfoMessage = () => {
+  const setStackBannerAndInfoMessage = () => {
     setEarlyAccessInfoVisible(false);
+    setEolStackDate(undefined);
 
     if (!!pythonStack) {
       const stackVersions = getStacksSummaryForDropdown(pythonStack, AppStackOs.windows, t);
@@ -47,10 +52,16 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
           stackVersion.key === selectionVersion &&
           !!stackVersion.data &&
           !!stackVersion.data.stackSettings &&
-          !!stackVersion.data.stackSettings.windowsRuntimeSettings &&
-          !!stackVersion.data.stackSettings.windowsRuntimeSettings.isEarlyAccess
+          !!stackVersion.data.stackSettings.windowsRuntimeSettings
         ) {
-          setEarlyAccessInfoVisible(true);
+          const settings = stackVersion.data.stackSettings.windowsRuntimeSettings;
+          setEarlyAccessInfoVisible(!!settings.isEarlyAccess);
+
+          if (isStackVersionDeprecated(settings)) {
+            setEolStackDate(null);
+          } else if (isStackVersionEndOfLife(settings.endOfLifeDate)) {
+            setEolStackDate(settings.endOfLifeDate);
+          }
           break;
         }
       }
@@ -58,7 +69,7 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
   };
 
   useEffect(() => {
-    setEarlyAccessInfoMessage();
+    setStackBannerAndInfoMessage();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.config.properties.linuxFxVersion]);
@@ -70,21 +81,24 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
   pythonVersions.push({ key: '', text: t('off') });
 
   return (
-    <Field
-      name="config.properties.pythonVersion"
-      dirty={
-        values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
-        values.config.properties.pythonVersion !== initialValues.config.properties.pythonVersion
-      }
-      component={Dropdown}
-      infoBubbleMessage={t('pythonInfoTextNoClick')}
-      learnMoreLink={Links.pythonStackInfo}
-      disabled={disableAllControls}
-      label={t('pythonVersion')}
-      id="pythonVersion"
-      options={pythonVersions}
-      {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
-    />
+    <>
+      <Field
+        name="config.properties.pythonVersion"
+        dirty={
+          values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
+          values.config.properties.pythonVersion !== initialValues.config.properties.pythonVersion
+        }
+        component={Dropdown}
+        infoBubbleMessage={t('pythonInfoTextNoClick')}
+        learnMoreLink={Links.pythonStackInfo}
+        disabled={disableAllControls}
+        label={t('pythonVersion')}
+        id="pythonVersion"
+        options={pythonVersions}
+        {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
+      />
+      {getEOLOrDeprecatedBanner(t, values.config.properties.netFrameworkVersion, eolStackDate)}
+    </>
   );
 };
 

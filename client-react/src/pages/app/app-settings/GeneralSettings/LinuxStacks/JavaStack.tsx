@@ -8,7 +8,13 @@ import DropdownNoFormik from '../../../../../components/form-controls/DropDownno
 import { Field } from 'formik';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { useTranslation } from 'react-i18next';
-import { getEarlyStackMessageParameters, getMinorVersionText } from '../../../../../utils/stacks-utils';
+import {
+  getEarlyStackMessageParameters,
+  getEOLOrDeprecatedBanner,
+  getMinorVersionText,
+  isStackVersionDeprecated,
+  isStackVersionEndOfLife,
+} from '../../../../../utils/stacks-utils';
 
 // NOTE(krmitta): These keys should be similar to what is being returned from the backend
 const JAVA8KEY = '8';
@@ -27,6 +33,7 @@ const JavaStack: React.SFC<StackProps> = props => {
   const [currentContainerDropdownOptions, setCurrentContainerDropdownOptions] = useState<IDropdownOption[]>([]);
   const [currentContainerVersionDropdownOptions, setCurrentContainerVersionDropdownOptions] = useState<IDropdownOption[]>([]);
   const [earlyAccessInfoVisible, setEarlyAccessInfoVisible] = useState(false);
+  const [eolStackDate, setEolStackDate] = useState<string | null | undefined>(undefined);
 
   const { t } = useTranslation();
   const stacks = useContext(WebAppStacksContext);
@@ -224,15 +231,22 @@ const JavaStack: React.SFC<StackProps> = props => {
     return initialValues.config.properties.linuxFxVersion !== values.config.properties.linuxFxVersion;
   };
 
-  const setEarlyAccessInfoMessage = () => {
+  const setStackBannerAndInfoMessage = () => {
     setEarlyAccessInfoVisible(false);
+    setEolStackDate(undefined);
 
     if (currentMajorVersion && currentContainerKey) {
       const containerVersions = getJavaContainerVersionDropdownOptionsForSelectedJavaContainer(currentMajorVersion, currentContainerKey);
       const selectedMinorVersion = values.config.properties.linuxFxVersion.toLowerCase();
-      for (const containerVersion of containerVersions) {
-        if (containerVersion.key === selectedMinorVersion && containerVersion.data && containerVersion.data.isEarlyAccess) {
-          setEarlyAccessInfoVisible(true);
+      for (const version of containerVersions) {
+        if (version.key === selectedMinorVersion && version.data) {
+          setEarlyAccessInfoVisible(!!version.data.isEarlyAccess);
+
+          if (isStackVersionDeprecated(version.data)) {
+            setEolStackDate(null);
+          } else if (isStackVersionEndOfLife(version.data.endOfLifeDate)) {
+            setEolStackDate(version.data.endOfLifeDate);
+          }
           break;
         }
       }
@@ -241,7 +255,7 @@ const JavaStack: React.SFC<StackProps> = props => {
 
   useEffect(() => {
     setInitialData();
-    setEarlyAccessInfoMessage();
+    setStackBannerAndInfoMessage();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.config.properties.linuxFxVersion]);
@@ -273,16 +287,19 @@ const JavaStack: React.SFC<StackProps> = props => {
         />
       )}
       {currentContainerKey && currentContainerVersionDropdownOptions.length > 0 && (
-        <Field
-          name="config.properties.linuxFxVersion"
-          dirty={isContainerVersionDirty()}
-          component={Dropdown}
-          disabled={disableAllControls}
-          label={t('javaWebServerVersion')}
-          id="linux-fx-version-java-container-minor-version"
-          options={currentContainerVersionDropdownOptions}
-          {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
-        />
+        <>
+          <Field
+            name="config.properties.linuxFxVersion"
+            dirty={isContainerVersionDirty()}
+            component={Dropdown}
+            disabled={disableAllControls}
+            label={t('javaWebServerVersion')}
+            id="linux-fx-version-java-container-minor-version"
+            options={currentContainerVersionDropdownOptions}
+            {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
+          />
+          {getEOLOrDeprecatedBanner(t, values.config.properties.linuxFxVersion, eolStackDate)}
+        </>
       )}
     </>
   );

@@ -6,7 +6,10 @@ import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import {
   filterDeprecatedWebAppStack,
   getEarlyStackMessageParameters,
+  getEOLOrDeprecatedBanner,
   getStacksSummaryForDropdown,
+  isStackVersionDeprecated,
+  isStackVersionEndOfLife,
 } from '../../../../../utils/stacks-utils';
 import { AppStackOs } from '../../../../../models/stacks/app-stacks';
 import { StackProps } from './WindowsStacks';
@@ -16,6 +19,7 @@ const PhpStack: React.SFC<StackProps> = props => {
   const { t } = useTranslation();
 
   const [earlyAccessInfoVisible, setEarlyAccessInfoVisible] = useState(false);
+  const [eolStackDate, setEolStackDate] = useState<string | null | undefined>(undefined);
 
   const { app_write, editable, saving } = useContext(PermissionsContext);
 
@@ -28,8 +32,9 @@ const PhpStack: React.SFC<StackProps> = props => {
 
   const phpStack = supportedStacks.find(x => x.value === 'php');
 
-  const setEarlyAccessInfoMessage = () => {
+  const setStackBannerAndInfoMessage = () => {
     setEarlyAccessInfoVisible(false);
+    setEolStackDate(undefined);
 
     if (!!phpStack) {
       const stackVersions = getStacksSummaryForDropdown(phpStack, AppStackOs.windows, t);
@@ -39,10 +44,16 @@ const PhpStack: React.SFC<StackProps> = props => {
           stackVersion.key === selectionVersion &&
           !!stackVersion.data &&
           !!stackVersion.data.stackSettings &&
-          !!stackVersion.data.stackSettings.windowsRuntimeSettings &&
-          !!stackVersion.data.stackSettings.windowsRuntimeSettings.isEarlyAccess
+          !!stackVersion.data.stackSettings.windowsRuntimeSettings
         ) {
-          setEarlyAccessInfoVisible(true);
+          const settings = stackVersion.data.stackSettings.windowsRuntimeSettings;
+          setEarlyAccessInfoVisible(!!settings.isEarlyAccess);
+
+          if (isStackVersionDeprecated(settings)) {
+            setEolStackDate(null);
+          } else if (isStackVersionEndOfLife(settings.endOfLifeDate)) {
+            setEolStackDate(settings.endOfLifeDate);
+          }
           break;
         }
       }
@@ -50,7 +61,7 @@ const PhpStack: React.SFC<StackProps> = props => {
   };
 
   useEffect(() => {
-    setEarlyAccessInfoMessage();
+    setStackBannerAndInfoMessage();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.config.properties.linuxFxVersion]);
@@ -62,20 +73,23 @@ const PhpStack: React.SFC<StackProps> = props => {
   phpVersions.push({ key: '', text: t('off') });
 
   return (
-    <Field
-      name="config.properties.phpVersion"
-      dirty={
-        values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
-        values.config.properties.phpVersion !== initialValues.config.properties.phpVersion
-      }
-      component={Dropdown}
-      fullpage
-      label={t('phpVersion')}
-      id="phpVersion"
-      disabled={disableAllControls}
-      options={phpVersions}
-      {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
-    />
+    <>
+      <Field
+        name="config.properties.phpVersion"
+        dirty={
+          values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
+          values.config.properties.phpVersion !== initialValues.config.properties.phpVersion
+        }
+        component={Dropdown}
+        fullpage
+        label={t('phpVersion')}
+        id="phpVersion"
+        disabled={disableAllControls}
+        options={phpVersions}
+        {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
+      />
+      {getEOLOrDeprecatedBanner(t, values.config.properties.phpVersion || '', eolStackDate)}
+    </>
   );
 };
 

@@ -16,7 +16,13 @@ import { useTranslation } from 'react-i18next';
 import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 import { StackProps } from './WindowsStacks';
-import { filterDeprecatedWebAppStack, getEarlyStackMessageParameters } from '../../../../../utils/stacks-utils';
+import {
+  filterDeprecatedWebAppStack,
+  getEarlyStackMessageParameters,
+  getEOLOrDeprecatedBanner,
+  isStackVersionDeprecated,
+  isStackVersionEndOfLife,
+} from '../../../../../utils/stacks-utils';
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 
 const JavaStack: React.SFC<StackProps> = props => {
@@ -25,6 +31,7 @@ const JavaStack: React.SFC<StackProps> = props => {
   const [javaStack, setJavaStack] = useState<WebAppStack | undefined>(undefined);
   const [javaContainers, setJavaContainers] = useState<WebAppStack | undefined>(undefined);
   const [earlyAccessInfoVisible, setEarlyAccessInfoVisible] = useState(false);
+  const [eolStackDate, setEolStackDate] = useState<string | null | undefined>(undefined);
 
   const { values, initialValues, setFieldValue } = props;
   const { t } = useTranslation();
@@ -60,8 +67,9 @@ const JavaStack: React.SFC<StackProps> = props => {
     }
   };
 
-  const setEarlyAccessInfoMessage = () => {
+  const setStackBannerAndInfoMessage = () => {
     setEarlyAccessInfoVisible(false);
+    setEolStackDate(undefined);
 
     if (!!currentJavaMajorVersion && !!javaStack) {
       const stackVersions = getJavaMinorVersionAsDropdownOptions(currentJavaMajorVersion, javaStack, t);
@@ -71,10 +79,16 @@ const JavaStack: React.SFC<StackProps> = props => {
           stackVersion.key === selectionVersion &&
           !!stackVersion.data &&
           !!stackVersion.data.stackSettings &&
-          !!stackVersion.data.stackSettings.windowsRuntimeSettings &&
-          !!stackVersion.data.stackSettings.windowsRuntimeSettings.isEarlyAccess
+          !!stackVersion.data.stackSettings.windowsRuntimeSettings
         ) {
-          setEarlyAccessInfoVisible(true);
+          const settings = stackVersion.data.stackSettings.windowsRuntimeSettings;
+          setEarlyAccessInfoVisible(!!settings.isEarlyAccess);
+
+          if (isStackVersionDeprecated(settings)) {
+            setEolStackDate(null);
+          } else if (isStackVersionEndOfLife(settings.endOfLifeDate)) {
+            setEolStackDate(settings.endOfLifeDate);
+          }
           break;
         }
       }
@@ -82,7 +96,7 @@ const JavaStack: React.SFC<StackProps> = props => {
   };
 
   useEffect(() => {
-    setEarlyAccessInfoMessage();
+    setStackBannerAndInfoMessage();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.config.properties.javaVersion]);
@@ -153,6 +167,7 @@ const JavaStack: React.SFC<StackProps> = props => {
         options={javaMinorVersionOptions}
         {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
       />
+      {getEOLOrDeprecatedBanner(t, values.config.properties.javaVersion, eolStackDate)}
       <DropdownNoFormik
         label={t('javaWebServer')}
         dirty={isJavaContainerDirty()}

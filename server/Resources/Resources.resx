@@ -6876,4 +6876,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="earlyAccessStackMessage" xml:space="preserve">
         <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
     </data>
+    <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>The selected version '{0}' is deprecated. Please consider updating it.</value>
+    </data>
+    <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>The selected version '{0}' will deprecate on {1}. Please consider updating it soon.</value>
+    </data>
 </root>
