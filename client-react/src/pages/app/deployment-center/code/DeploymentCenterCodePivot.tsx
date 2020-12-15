@@ -12,7 +12,7 @@ import { ThemeContext } from '../../../../ThemeContext';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
-  const { formProps, deployments, deploymentsError, isLoading } = props;
+  const { formProps, deployments, deploymentsError, isLoading, refreshLogs } = props;
   const { t } = useTranslation();
   const [selectedKey, setSelectedKey] = useState<string>('logs');
 
@@ -61,6 +61,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
           deployments={deployments}
           deploymentsError={deploymentsError}
           isLoading={isLoading}
+          refreshLogs={refreshLogs}
         />
       </PivotItem>
 
