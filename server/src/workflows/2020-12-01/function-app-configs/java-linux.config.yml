@@ -1,0 +1,43 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Java project to Azure Function App - ${webAppName}
+
+on:
+  push:
+    branches:
+      - ${branch}
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_NAME: ${webAppName} # set this to your function app name on Azure
+  POM_XML_DIRECTORY: '.' # set this to the directory which contains pom.xml file
+  POM_FUNCTIONAPP_NAME: ${webAppName} # set this to the function app name in your local development environment
+  JAVA_VERSION: '${runtimeStackVersion}' # set this to the java version to use
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@master
+
+      - name: Setup Java Sdk \${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: \${{ env.JAVA_VERSION }}
+
+      - name: 'Restore Project Dependencies Using Mvn'
+        shell: pwsh
+        run: |
+          pushd './\${{ env.POM_XML_DIRECTORY }}'
+          mvn clean package
+          popd
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: '${siteName}'
+          slot-name: '${slot}'
+          package: './\${{ env.POM_XML_DIRECTORY }}/target/azure-functions/\${{ env.POM_FUNCTIONAPP_NAME }}'
+          publish-profile: \${{ secrets.${secretName} }}
