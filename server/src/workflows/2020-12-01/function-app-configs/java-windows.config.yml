@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_NAME: ${webAppName} # set this to your function app name on Azure
