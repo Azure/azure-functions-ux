@@ -67,7 +67,7 @@
     "gulp-token-replace": "^1.1.5",
     "jest": "^24.8.0",
     "merge-stream": "^1.0.1",
-    "mocha": "^8.0.1",
+    "mocha": "^8.2.1",
     "nodemon": "^1.19.0",
     "prettier": "^1.17.0",
     "resx": "^1.2.0",
