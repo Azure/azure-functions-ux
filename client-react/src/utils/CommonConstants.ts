@@ -39,6 +39,7 @@ export class CommonConstants {
     showHiddenStacks: 'showHiddenStacks',
     targetAzDevDeployment: 'targetAzDevDeployment',
     authTokenOverride: 'authTokenOverride',
+    enableAzureMount: 'enableAzureMount',
   };
 
   public static readonly AppDensityLimit = 8;

@@ -1,3 +1,4 @@
+import Url from '../url';
 import { CommonConstants } from './../CommonConstants';
 import { ScenarioIds } from './scenario-ids';
 import { Environment, ScenarioCheckInput } from './scenario.models';
@@ -15,6 +16,16 @@ export class WindowsCode extends Environment {
         };
       },
     };
+    if (Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMount)) {
+      this.scenarioChecks[ScenarioIds.azureStorageMount] = {
+        id: ScenarioIds.azureStorageMount,
+        runCheck: () => {
+          return {
+            status: 'enabled',
+          };
+        },
+      };
+    }
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
