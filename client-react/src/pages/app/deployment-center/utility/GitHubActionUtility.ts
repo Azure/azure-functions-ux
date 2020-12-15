@@ -1045,8 +1045,8 @@ jobs:
       uses: Azure/functions-action@v1
       id: fa
       with:
-      app-name: '${siteName}'
-      slot-name: '${slot}'
-      package: \${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-      publish-profile: \${{ secrets.${secretName} }}`;
+        app-name: '${siteName}'
+        slot-name: '${slot}'
+        package: \${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        publish-profile: \${{ secrets.${secretName} }}`;
 };
