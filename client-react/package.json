@@ -14,7 +14,7 @@
     "i18next-localstorage-backend": "^2.0.0",
     "i18next-xhr-backend": "^2.0.0",
     "joi-browser": "^13.4.0",
-    "lodash-es": "^4.17.11",
+    "lodash-es": "^4.17.14",
     "markdown-to-jsx": "^6.11.4",
     "moment": "^2.24.0",
     "monaco-editor": "^0.15.6",
