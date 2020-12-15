@@ -2245,4 +2245,5 @@ export class PortalResources {
   public static earlyAccessStackMessage = 'earlyAccessStackMessage';
   public static deprecatedStackMessage = 'deprecatedStackMessage';
   public static endOfLifeStackMessage = 'endOfLifeStackMessage';
+  public static logsRefreshTimerMessage = 'logsRefreshTimerMessage';
 }

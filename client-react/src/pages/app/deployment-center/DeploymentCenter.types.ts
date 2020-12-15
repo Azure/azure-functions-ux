@@ -312,9 +312,14 @@ export interface DeploymentCenterContainerLogsProps {
 
 export interface DeploymentCenterCodeLogsProps {
   isLoading: boolean;
+  refreshLogs: () => void;
   deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
   goToSettings?: () => void;
+}
+
+export interface DeploymentCenterCodeLogsTimerProps {
+  refreshLogs: () => void;
 }
 
 export interface DeploymentCenterCommitLogsProps {

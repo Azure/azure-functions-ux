@@ -6882,4 +6882,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="endOfLifeStackMessage" xml:space="preserve">
         <value>The selected version '{0}' will deprecate on {1}. Please consider updating it soon.</value>
     </data>
+    <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Logs will refresh in {0} seconds</value>
+    </data>
 </root>

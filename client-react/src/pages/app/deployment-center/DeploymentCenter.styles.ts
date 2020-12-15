@@ -117,3 +117,8 @@ export const disconnectWorkflowInfoStyle = style({
   marginTop: '15px',
   marginBottom: '15px',
 });
+
+export const logsTimerStyle = style({
+  marginTop: '10px',
+  fontSize: '10px',
+});
