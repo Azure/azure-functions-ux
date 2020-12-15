@@ -2243,5 +2243,7 @@ export class PortalResources {
   public static deploymentCenterDevOpsNoAccounts = 'deploymentCenterDevOpsNoAccounts';
   public static appInsightsKeyError = 'appInsightsKeyError';
   public static earlyAccessStackMessage = 'earlyAccessStackMessage';
+  public static deprecatedStackMessage = 'deprecatedStackMessage';
+  public static endOfLifeStackMessage = 'endOfLifeStackMessage';
   public static logsRefreshTimerMessage = 'logsRefreshTimerMessage';
 }
