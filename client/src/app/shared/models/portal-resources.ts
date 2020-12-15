@@ -2060,6 +2060,7 @@ export class PortalResources {
   public static deploymentCenterCodeExternalBranchPlaceholder = 'deploymentCenterCodeExternalBranchPlaceholder';
   public static deploymentCenterCodeExternalPrivateRepositoryOption = 'deploymentCenterCodeExternalPrivateRepositoryOption';
   public static deploymentCenterCodeExternalPublicRepositoryOption = 'deploymentCenterCodeExternalPublicRepositoryOption';
+  public static deploymentCenterCodeLocalGitDesc = 'deploymentCenterCodeLocalGitDesc';
   public static deploymentCenterCodeLocalGitRepositorySetupMessage = 'deploymentCenterCodeLocalGitRepositorySetupMessage';
   public static deploymentCenterCodeLocalGitBranchSetupMessage = 'deploymentCenterCodeLocalGitBranchSetupMessage';
   public static deploymentCenterCodeLocalGitCloneUri = 'deploymentCenterCodeLocalGitCloneUri';

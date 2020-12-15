@@ -290,6 +290,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     await Promise.all([updateDeploymentConfigurations(values, formikActions), updatePublishingUser(values)]);
     await deploymentCenterContext.refresh();
     formikActions.setSubmitting(false);
+    portalContext.updateDirtyState(false);
   };
 
   const updateDeploymentConfigurations = async (
