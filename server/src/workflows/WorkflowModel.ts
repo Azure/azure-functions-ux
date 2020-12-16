@@ -29,25 +29,8 @@ export enum FunctionAppRuntimeStack {
   Powershell = 'powershell',
 }
 
-export enum JavaWorkflowType {
-  War = 'war',
-  Jar = 'jar',
-}
-
-export interface CodeVariables {
-  siteName?: string;
-  slotName?: string;
-  runtimeVersion?: string;
-  publishingProfileSecretName?: string;
-}
-
-export interface ContainerVariables {
-  siteName?: string;
-  slotName?: string;
-  loginServer?: string;
-  publishServer?: string;
-  image?: string;
-  dockerUserSecretName?: string;
-  dockerPasswordSecretName?: string;
-  publishingProfileSecretName?: string;
+export enum JavaContainers {
+  JavaSE = 'java',
+  Tomcat = 'tomcat',
+  JBoss = 'jbosseap',
 }
