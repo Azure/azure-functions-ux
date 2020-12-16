@@ -925,8 +925,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: ${webAppName} # set this to your function app name on Azure
-  POM_XML_DIRECTORY: '.' # set this to the directory which contains pom.xml file
-  POM_FUNCTIONAPP_NAME: ${webAppName} # set this to the function app name in your local development environment
+  PACKAGE_DIRECTORY: '.' # set this to the directory which contains pom.xml file
   JAVA_VERSION: '${runtimeStackVersion}' # set this to the java version to use
 
 jobs:
@@ -944,7 +943,7 @@ jobs:
     - name: 'Restore Project Dependencies Using Mvn'
       shell: pwsh
       run: |
-        pushd './\${{ env.POM_XML_DIRECTORY }}'
+        pushd './\${{ env.PACKAGE_DIRECTORY }}'
         mvn clean package
         popd
     - name: 'Run Azure Functions Action'
@@ -953,8 +952,9 @@ jobs:
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
-        package: './\${{ env.POM_XML_DIRECTORY }}/target/azure-functions/\${{ env.POM_FUNCTIONAPP_NAME }}'
-        publish-profile: \${{ secrets.${secretName} }}`;
+        publish-profile: \${{ secrets.${secretName} }}
+        package: '\${{ env.PACKAGE_DIRECTORY }}'
+        respect-pom-xml: true`;
 };
 
 const getFunctionAppJavaLinuxWorkflow = (
@@ -980,8 +980,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: ${webAppName} # set this to your function app name on Azure
-  POM_XML_DIRECTORY: '.' # set this to the directory which contains pom.xml file
-  POM_FUNCTIONAPP_NAME: ${webAppName} # set this to the function app name in your local development environment
+  PACKAGE_DIRECTORY: '.' # set this to the directory which contains pom.xml file
   JAVA_VERSION: '${runtimeStackVersion}' # set this to the java version to use
 
 jobs:
@@ -999,7 +998,7 @@ jobs:
     - name: 'Restore Project Dependencies Using Mvn'
       shell: pwsh
       run: |
-        pushd './\${{ env.POM_XML_DIRECTORY }}'
+        pushd './\${{ env.PACKAGE_DIRECTORY }}'
         mvn clean package
         popd
     - name: 'Run Azure Functions Action'
@@ -1008,8 +1007,9 @@ jobs:
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
-        package: './\${{ env.POM_XML_DIRECTORY }}/target/azure-functions/\${{ env.POM_FUNCTIONAPP_NAME }}'
-        publish-profile: \${{ secrets.${secretName} }}`;
+        publish-profile: \${{ secrets.${secretName} }}
+        package: '\${{ env.PACKAGE_DIRECTORY }}'
+        respect-pom-xml: true`;
 };
 
 const getFunctionAppPythonLinuxWorkflow = (
