@@ -33,18 +33,6 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const runtimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(runtimeVersion);
   const isLinux = () => !!siteStateContext.site && isLinuxApp(siteStateContext.site);
 
-  const [runtimeStack, setRuntimeStack] = useState<string | undefined>(undefined);
-  const [currentStackData, setCurrentStackData] = useState<FunctionAppStack | undefined>(undefined);
-  const [initialStackVersion, setInitialStackVersion] = useState<string | undefined>(undefined);
-
-  const filterStacks = (supportedStacks: FunctionAppStack[]) => {
-    const initialStack = getInitialStack();
-    const initialStackVersion = getInitialStackVersion(initialStack);
-    return filterDeprecatedFunctionAppStack(supportedStacks, initialStack, initialStackVersion || '');
-  };
-
-  const functionAppStacksContext = filterStacks(useContext(FunctionAppStacksContext));
-
   const getInitialStack = () => {
     return initialValues.currentlySelectedStack;
   };
@@ -61,6 +49,18 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const getConfigProperty = (runtimeStack?: string) => {
     return getStackVersionConfigPropertyName(isLinux(), runtimeStack);
   };
+
+  const [runtimeStack, setRuntimeStack] = useState<string | undefined>(undefined);
+  const [currentStackData, setCurrentStackData] = useState<FunctionAppStack | undefined>(undefined);
+  const [initialStackVersion, setInitialStackVersion] = useState<string | undefined>(undefined);
+
+  const filterStacks = (supportedStacks: FunctionAppStack[]) => {
+    const initialStack = getInitialStack();
+    const initialStackVersion1 = getInitialStackVersion(initialStack);
+    return filterDeprecatedFunctionAppStack(supportedStacks, initialStack, initialStackVersion1 || '');
+  };
+
+  const functionAppStacksContext = filterStacks(useContext(FunctionAppStacksContext));
 
   const setInitialData = () => {
     const runtimeStack = getInitialStack();
