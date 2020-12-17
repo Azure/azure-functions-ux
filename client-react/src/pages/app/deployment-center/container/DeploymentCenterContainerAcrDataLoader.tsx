@@ -6,9 +6,9 @@ import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ACRCredential } from '../../../../models/acr';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { getLogId } from '../utility/DeploymentCenterUtility';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { PortalContext } from '../../../../PortalContext';
+import { LogLevels } from '../../../../models/telemetry';
 
 interface RegistryIdentifiers {
   resourceId: string;
@@ -20,6 +20,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const { formProps } = props;
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const portalContext = useContext(PortalContext);
 
   const [acrRegistryOptions, setAcrRegistryOptions] = useState<IDropdownOption[]>([]);
   const [acrImageOptions, setAcrImageOptions] = useState<IDropdownOption[]>([]);
@@ -44,6 +45,8 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const fetchRegistries = async () => {
     if (deploymentCenterContext.siteDescriptor) {
       setLoadingRegistryOptions(true);
+
+      portalContext.log(getTelemetryInfo(LogLevels.info, 'getAcrRegistries', 'submit'));
       const registriesResponse = await deploymentCenterData.getAcrRegistries(deploymentCenterContext.siteDescriptor.subscription);
       if (registriesResponse.metadata.success && registriesResponse.data) {
         const adminEnabledRegistries = registriesResponse.data.value.filter(registry => registry.properties.adminUserEnabled);
@@ -73,9 +76,12 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
           setAcrStatusMessageType(MessageBarType.error);
         }
 
-        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerAcrDataLoader', 'fetchRegistries'), {
-          error: registriesResponse.metadata.error,
-        });
+        portalContext.log(
+          getTelemetryInfo(LogLevels.error, 'registriesResponse', 'failed', {
+            message: getErrorMessage(registriesResponse.metadata.error),
+            errorAsString: JSON.stringify(registriesResponse.metadata.error),
+          })
+        );
       }
     }
 
@@ -91,6 +97,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     const selectedRegistryIdentifier = registryIdentifiers.current[loginServer];
 
     if (!selectedRegistryIdentifier.credential) {
+      portalContext.log(getTelemetryInfo(LogLevels.info, 'listAcrCredentials', 'submit'));
       const credentialsResponse = await deploymentCenterData.listAcrCredentials(selectedRegistryIdentifier.resourceId);
 
       if (credentialsResponse.metadata.success && credentialsResponse.data.passwords && credentialsResponse.data.passwords.length > 0) {
@@ -102,12 +109,11 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
           setAcrStatusMessageType(MessageBarType.error);
         }
 
-        LogService.error(
-          LogCategories.deploymentCenter,
-          getLogId('DeploymentCenterContainerAcrDataLoader', 'fetchRepositories-credentials'),
-          {
-            error: credentialsResponse.metadata.error,
-          }
+        portalContext.log(
+          getTelemetryInfo(LogLevels.error, 'credentialsResponse', 'failed', {
+            message: getErrorMessage(credentialsResponse.metadata.error),
+            errorAsString: JSON.stringify(credentialsResponse.metadata.error),
+          })
         );
       }
     }
@@ -118,11 +124,14 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       const username = credentials.username;
       const password = credentials.passwords[0].value;
 
+      portalContext.log(getTelemetryInfo(LogLevels.info, 'getAcrRepositories', 'submit'));
       const repositoriesResponse = await deploymentCenterData.getAcrRepositories(loginServer, username, password, (page, response) => {
-        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerAcrDataLoader', 'fetchRepositories'), {
-          page,
-          error: response && response.metadata && response.metadata.error,
-        });
+        portalContext.log(
+          getTelemetryInfo(LogLevels.error, 'getAcrRepositoriesResponse', 'failed', {
+            page: page,
+            errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
+          })
+        );
       });
 
       const repositoryOptions: IDropdownOption[] = [];
@@ -161,11 +170,14 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       const username = credentials.username;
       const password = credentials.passwords[0].value;
 
+      portalContext.log(getTelemetryInfo(LogLevels.info, 'getAcrTags', 'submit'));
       const tagsResponse = await deploymentCenterData.getAcrTags(loginServer, imageSelected, username, password, (page, response) => {
-        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerAcrDataLoader', 'fetchTags'), {
-          page,
-          error: response && response.metadata && response.metadata.error,
-        });
+        portalContext.log(
+          getTelemetryInfo(LogLevels.error, 'getAcrTagsResponse', 'failed', {
+            page: page,
+            errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
+          })
+        );
       });
 
       const tagOptions: IDropdownOption[] = [];
