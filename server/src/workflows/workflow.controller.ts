@@ -17,6 +17,7 @@ export class WorkflowController {
     @Body('runtimeStack') runtimeStack?: string
   ) {
     this._validateApiVersion(apiVersion, [Versions.version20201201]);
+    //TODO: (stpelleg) Add additional validation for request body
 
     return this._workflowService20201201.getWorkflowFile(appType, publishType, os, runtimeStack, variables);
   }

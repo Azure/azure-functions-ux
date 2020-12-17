@@ -1,5 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { AppType, FunctionAppRuntimeStack, JavaContainers, Os, PublishType, WebAppRuntimeStack } from '../WorkflowModel';
+const fs = require('fs');
 
 @Injectable()
 export class WorkflowService20201201 {
@@ -13,95 +14,88 @@ export class WorkflowService20201201 {
 
   getCodeWorkflowFile(appType?: string, os?: string, runtimeStack?: string, variables?: { [key: string]: string }) {
     return appType === AppType.WebApp
-      ? this.getFunctionAppCodeWorkflowFile(os, runtimeStack)
-      : this.getWebAppCodeWorkflowFile(os, runtimeStack, variables);
+      ? this.getWebAppCodeWorkflowFile(os, runtimeStack, variables)
+      : this.getFunctionAppCodeWorkflowFile(os, runtimeStack);
   }
 
   getFunctionAppCodeWorkflowFile(os: string, runtimeStack?: string) {
     if (os === Os.Linux && runtimeStack === FunctionAppRuntimeStack.DotNetCore) {
-      return 'dotnetcore-linux.config.yml';
+      return this.readWorkflowFile('function-app-configs/dotnetcore-linux.config.yml');
     } else if (os === Os.Linux && runtimeStack === FunctionAppRuntimeStack.Java) {
-      return 'java-linux.config.yml';
+      return this.readWorkflowFile('function-app-configs/java-linux.config.yml');
     } else if (os === Os.Linux && runtimeStack === FunctionAppRuntimeStack.Node) {
-      return 'node-linux.config.yml';
+      return this.readWorkflowFile('function-app-configs/node-linux.config.yml');
     } else if (os === Os.Linux && runtimeStack === FunctionAppRuntimeStack.Python) {
-      return 'python-linux.config.yml';
+      return this.readWorkflowFile('function-app-configs/python-linux.config.yml');
     } else if (os === Os.Windows && runtimeStack === FunctionAppRuntimeStack.Powershell) {
-      return 'powershell-windows.config.yml';
+      return this.readWorkflowFile('function-app-configs/powershell-windows.config.yml');
     } else if (os === Os.Windows && runtimeStack === WebAppRuntimeStack.DotNetCore) {
-      return 'dotnetcore-windows.config.yml';
+      return this.readWorkflowFile('function-app-configs/dotnetcore-windows.config.yml');
     } else if (os === Os.Windows && runtimeStack === WebAppRuntimeStack.Java) {
-      return 'java-windows.config.yml';
+      return this.readWorkflowFile('function-app-configs/java-windows.config.yml');
     } else if (os === Os.Windows && runtimeStack === WebAppRuntimeStack.Node) {
-      return 'node-windows.config.yml';
+      return this.readWorkflowFile('function-app-configs/node-windows.config.yml');
     } else {
-      throw new HttpException(`The workflow file for the runtime stack ${runtimeStack} and OS ${os} does not exist.`, 404);
+      throw new HttpException(`The workflow file for the runtime stack '${runtimeStack}' and OS '${os}' does not exist.`, 404);
     }
   }
 
   getWebAppCodeWorkflowFile(os: string, runtimeStack?: string, variables?: { [key: string]: string }) {
     if (os === Os.Linux && runtimeStack === WebAppRuntimeStack.DotNetCore) {
-      return 'dotnetcore-linux.config.yml';
-    } else if (
-      os === Os.Linux &&
-      runtimeStack === WebAppRuntimeStack.Java &&
-      variables.javaContainer &&
-      variables.javaContainer === JavaContainers.Tomcat
-    ) {
-      return 'java-war-linux.config.yml';
-    } else if (
-      os === Os.Linux &&
-      runtimeStack === WebAppRuntimeStack.Java &&
-      variables.javaContainer &&
-      variables.javaContainer !== JavaContainers.Tomcat
-    ) {
-      return 'java-jar-linux.config.yml';
+      return this.readWorkflowFile('web-app-configs/dotnetcore-linux.config.yml');
+    } else if (os === Os.Linux && runtimeStack === WebAppRuntimeStack.Java && this.javaWarWorkflowCheck(variables)) {
+      return this.readWorkflowFile('web-app-configs/java-war-linux.config.yml');
+    } else if (os === Os.Linux && runtimeStack === WebAppRuntimeStack.Java && this.javaJarWorkflowCheck(variables)) {
+      return this.readWorkflowFile('web-app-configs/java-jar-linux.config.yml');
     } else if (os === Os.Linux && runtimeStack === WebAppRuntimeStack.Node) {
-      return 'node-linux.config.yml';
+      return this.readWorkflowFile('web-app-configs/node-linux.config.yml');
     } else if (os === Os.Linux && runtimeStack === WebAppRuntimeStack.Python) {
-      return 'python-linux.config.yml';
+      return this.readWorkflowFile('web-app-configs/python-linux.config.yml');
     } else if (os === Os.Windows && runtimeStack === WebAppRuntimeStack.AspNet) {
-      return 'aspnet-windows.config.yml';
+      return this.readWorkflowFile('web-app-configs/aspnet-windows.config.yml');
     } else if (os === Os.Windows && runtimeStack === WebAppRuntimeStack.DotNetCore) {
-      return 'dotnetcore-windows.config.yml';
-    } else if (
-      os === Os.Windows &&
-      runtimeStack === WebAppRuntimeStack.Java &&
-      variables.javaContainer &&
-      variables.javaContainer === JavaContainers.Tomcat
-    ) {
-      return 'java-war-windows.config.yml';
-    } else if (
-      os === Os.Windows &&
-      runtimeStack === WebAppRuntimeStack.Java &&
-      variables.javaContainer &&
-      variables.javaContainer !== JavaContainers.Tomcat
-    ) {
-      return 'java-jar-windows.config.yml';
+      return this.readWorkflowFile('web-app-configs/dotnetcore-windows.config.yml');
+    } else if (os === Os.Windows && runtimeStack === WebAppRuntimeStack.Java && this.javaWarWorkflowCheck(variables)) {
+      return this.readWorkflowFile('web-app-configs/java-war-windows.config.yml');
+    } else if (os === Os.Windows && runtimeStack === WebAppRuntimeStack.Java && this.javaJarWorkflowCheck(variables)) {
+      return this.readWorkflowFile('web-app-configs/java-jar-windows.config.yml');
     } else if (os === Os.Windows && runtimeStack === WebAppRuntimeStack.Node) {
-      return 'node-windows.config.yml';
+      return this.readWorkflowFile('web-app-configs/node-windows.config.yml');
     } else if (os === Os.Windows && runtimeStack === WebAppRuntimeStack.Python) {
-      return 'python-windows.config.yml';
+      return this.readWorkflowFile('web-app-configs/python-windows.config.yml');
     } else {
-      throw new HttpException(`The workflow file for the runtime stack ${runtimeStack} and OS ${os} does not exist.`, 404);
+      const errMsg =
+        runtimeStack === WebAppRuntimeStack.Java
+          ? `The java container must be specified`
+          : `The workflow file for the runtime stack '${runtimeStack}' and OS '${os}' does not exist.`;
+      throw new HttpException(errMsg, 404);
     }
+  }
+
+  javaWarWorkflowCheck(variables: { [key: string]: string }) {
+    return variables && variables['javaContainer'] && variables['javaContainer'].toLocaleLowerCase() === JavaContainers.Tomcat;
+  }
+
+  javaJarWorkflowCheck(variables: { [key: string]: string }) {
+    return variables && variables['javaContainer'] && variables['javaContainer'].toLocaleLowerCase() !== JavaContainers.Tomcat;
   }
 
   getContainerWorkflowFile(os: string) {
     if (os === Os.Linux) {
-      return 'container-linux.config.yml';
+      return this.readWorkflowFile('container-configs/container-linux.config.yml');
     } else {
-      throw new HttpException(`The workflow file for containers and OS ${os} does not exist.`, 404);
+      throw new HttpException(`The workflow file for containers and OS '${os}' does not exist.`, 404);
     }
   }
 
   readWorkflowFile(filePath: string) {
-    const fs = require('fs');
-
-    fs.open(filePath, 'r', (err, fd) => {
-      fs.read(fd, (err, bytes, buff) => {
-        console.log(buff.toString());
-      });
-    });
+    try {
+      return fs.readFileSync(`./src/workflows/2020-12-01/${filePath}`, 'utf8').toString();
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException('Internal Server Error', 500);
+    }
   }
 }
