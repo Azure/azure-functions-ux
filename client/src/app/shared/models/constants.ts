@@ -10,10 +10,7 @@
 }
 
 export class Constants {
-  public static serviceHost =
-    window.location.hostname === 'localhost' || window.appsvc.env.runtimeType === 'Standalone' || window.appsvc.env.runtimeType === 'OnPrem'
-      ? `https://${window.location.hostname}:${window.location.port}/`
-      : `https://${window.location.hostname}/`;
+  public static serviceHost = `https://${window.location.hostname}:${window.location.port}/`;
 
   public static cdnHost = !!window.appsvc.cdn ? `${window.appsvc.cdn}/` : Constants.serviceHost;
   public static cdnNgMin = !!window.appsvc.cdn ? `${window.appsvc.cdn}/ng-min/` : '';

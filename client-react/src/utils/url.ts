@@ -3,11 +3,7 @@ import { Site, HostType } from '../models/site/site';
 import { KeyValue } from '../models/portal-models';
 
 export default class Url {
-  public static serviceHost =
-    window.location.hostname === 'localhost' ||
-    (window.appsvc && (window.appsvc.env.runtimeType === 'Standalone' || window.appsvc.env.runtimeType === 'OnPrem'))
-      ? `https://${window.location.hostname}:${window.location.port}/`
-      : `https://${window.location.hostname}/`;
+  public static serviceHost = `https://${window.location.hostname}:${window.location.port}/`;
 
   public static appendQueryString(url: string, queryString: string): string {
     if (!queryString) {
