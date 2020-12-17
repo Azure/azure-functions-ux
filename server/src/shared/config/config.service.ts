@@ -27,7 +27,7 @@ export class ConfigService implements OnModuleInit {
     return {
       config: {
         env: {
-          runtimeType: 'Azure',
+          runtimeType: 'OnPrem',
           hostName: process.env.WEBSITE_HOSTNAME,
           azureResourceManagerEndpoint: 'https://management.azure.com',
           appName: process.env.WEBSITE_SITE_NAME,
