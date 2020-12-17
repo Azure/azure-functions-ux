@@ -12,13 +12,13 @@ export class WorkflowService20201201 {
       : this.getContainerWorkflowFile(os);
   }
 
-  getCodeWorkflowFile(appType?: string, os?: string, runtimeStack?: string, variables?: { [key: string]: string }) {
+  getCodeWorkflowFile(appType: string, os: string, runtimeStack: string, variables?: { [key: string]: string }) {
     return appType === AppType.WebApp
       ? this.getWebAppCodeWorkflowFile(os, runtimeStack, variables)
       : this.getFunctionAppCodeWorkflowFile(os, runtimeStack);
   }
 
-  getFunctionAppCodeWorkflowFile(os: string, runtimeStack?: string) {
+  getFunctionAppCodeWorkflowFile(os: string, runtimeStack: string) {
     if (os === Os.Linux && runtimeStack === FunctionAppRuntimeStack.DotNetCore) {
       return this.readWorkflowFile('function-app-configs/dotnetcore-linux.config.yml');
     } else if (os === Os.Linux && runtimeStack === FunctionAppRuntimeStack.Java) {
@@ -40,7 +40,7 @@ export class WorkflowService20201201 {
     }
   }
 
-  getWebAppCodeWorkflowFile(os: string, runtimeStack?: string, variables?: { [key: string]: string }) {
+  getWebAppCodeWorkflowFile(os: string, runtimeStack: string, variables?: { [key: string]: string }) {
     if (os === Os.Linux && runtimeStack === WebAppRuntimeStack.DotNetCore) {
       return this.readWorkflowFile('web-app-configs/dotnetcore-linux.config.yml');
     } else if (os === Os.Linux && runtimeStack === WebAppRuntimeStack.Java && this.javaWarWorkflowCheck(variables)) {
