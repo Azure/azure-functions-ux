@@ -1,17 +1,23 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { ContainerRegistrySources, DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DefaultButton } from 'office-ui-fabric-react';
-import { extractConfigFromFile } from '../utility/DeploymentCenterUtility';
+import { extractConfigFromFile, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import { PortalContext } from '../../../../PortalContext';
+import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterContainerComposeFileUploader: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
   const uploadFileRef = useRef<HTMLInputElement | null>(null);
 
+  const portalContext = useContext(PortalContext);
+
   const onUploadButtonClick = () => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'uploadButton', 'clicked'));
+
     if (uploadFileRef && uploadFileRef.current) {
       uploadFileRef.current.click();
     }

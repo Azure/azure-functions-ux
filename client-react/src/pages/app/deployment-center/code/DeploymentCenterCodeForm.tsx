@@ -30,8 +30,10 @@ import {
   isApiSyncError,
   updateGitHubActionSourceControlPropertiesManually,
 } from '../utility/GitHubActionUtility';
-import { getWorkflowFilePath, getArmToken, getLogId } from '../utility/DeploymentCenterUtility';
+import { getWorkflowFilePath, getArmToken, getLogId, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { LogLevels } from '../../../../models/telemetry';
+import { AppOs } from '../../../../models/site/site';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -64,6 +66,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
+      portalContext.log(getTelemetryInfo(LogLevels.info, 'updateSourceControls', 'submit'));
+
       const updateSourceControlResponse = await deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, {
         properties: payload,
       });
@@ -76,16 +80,17 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         // NOTE(michinoy): If the save operation was being done for GitHub Action, and
         // we are experiencing the GeoRegionalService API error (500), run through the
         // workaround.
-        LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeForm', 'deployKudu-apiSyncErrorWorkaround'), {
-          resourceId: deploymentCenterContext.resourceId,
-        });
+        portalContext.log(getTelemetryInfo(LogLevels.warning, 'updateSourceControlsWorkaround', 'submit'));
 
         return updateGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId, payload);
       } else {
         if (!updateSourceControlResponse.metadata.success) {
-          LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeForm', 'deployKudu'), {
-            resourceId: deploymentCenterContext.resourceId,
-          });
+          portalContext.log(
+            getTelemetryInfo(LogLevels.error, 'updateSourceControlResponse', 'failed', {
+              message: getErrorMessage(updateSourceControlResponse.metadata.error),
+              errorAsString: updateSourceControlResponse.metadata.error ? JSON.stringify(updateSourceControlResponse.metadata.error) : '',
+            })
+          );
         }
 
         return updateSourceControlResponse;
@@ -116,16 +121,18 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       case ScmType.Vso:
         return values.repo;
       default:
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterCodeCommandBar',
-          `Incorrect Source Provider ${values.sourceProvider}`
+        portalContext.log(
+          getTelemetryInfo(LogLevels.error, 'getRepoUrl', 'incorrectValue', {
+            sourceProvider: values.sourceProvider,
+          })
         );
         throw Error(`Incorrect Source Provider ${values.sourceProvider}`);
     }
   };
 
   const deployGithubActions = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'commitGitHubActions', 'submit'));
+
     const repo = `${values.org}/${values.repo}`;
     const branch = values.branch || 'master';
 
@@ -225,18 +232,26 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       runtimeStack,
       runtimeVersion,
       runtimeRecommendedVersion,
+      folder,
     } = values;
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'deploy'), {
-      sourceProvider,
-      buildProvider,
-      org,
-      repo,
-      branch,
-      workflowOption,
-      runtimeStack,
-      runtimeVersion,
-      runtimeRecommendedVersion,
-    });
+
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'saveDeploymentSettings', 'start', {
+        sourceProvider,
+        buildProvider,
+        org,
+        repo,
+        branch,
+        folder,
+        workflowOption,
+        runtimeStack,
+        runtimeVersion,
+        runtimeRecommendedVersion,
+        publishType: 'code',
+        appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
+        os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+      })
+    );
 
     // NOTE(michinoy): Only initiate writing a workflow configuration file if the branch does not already have it OR
     // the user opted to overwrite it.
@@ -246,9 +261,11 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     ) {
       const gitHubActionDeployResponse = await deployGithubActions(values);
       if (!gitHubActionDeployResponse.metadata.success) {
-        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'deploy'), {
-          error: gitHubActionDeployResponse.metadata.error,
-        });
+        portalContext.log(
+          getTelemetryInfo(LogLevels.error, 'gitHubActionDeployResponse', 'failed', {
+            errorAsString: JSON.stringify(gitHubActionDeployResponse.metadata.error),
+          })
+        );
 
         return gitHubActionDeployResponse;
       }
@@ -287,6 +304,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
     formikActions: FormikActions<DeploymentCenterFormData<DeploymentCenterCodeFormData>>
   ) => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'onSubmitCodeForm', 'submit'));
+
     await Promise.all([updateDeploymentConfigurations(values, formikActions), updatePublishingUser(values)]);
     await deploymentCenterContext.refresh();
     formikActions.setSubmitting(false);
@@ -322,7 +341,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       (currentUser && currentUser.properties.publishingUserName !== values.publishingUsername) ||
       (currentUser && values.publishingPassword && currentUser.properties.publishingPassword !== values.publishingPassword)
     ) {
-      LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'updatePublishingUser'), {});
+      portalContext.log(getTelemetryInfo(LogLevels.info, 'updatePublishingUser', 'submit'));
 
       const notificationId = portalContext.startNotification(t('UpdatingPublishingUser'), t('UpdatingPublishingUser'));
       currentUser.properties.publishingUserName = values.publishingUsername;
@@ -337,9 +356,12 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           ? portalContext.stopNotification(notificationId, false, t('UpdatingPublishingUserFailWithStatusMessage').format(errorMessage))
           : portalContext.stopNotification(notificationId, false, t('UpdatingPublishingUserFail'));
 
-        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'updatePublishingUser'), {
-          errorMessage,
-        });
+        portalContext.log(
+          getTelemetryInfo(LogLevels.error, 'publishingUserResponse', 'failed', {
+            message: errorMessage,
+            errorAsString: JSON.stringify(publishingUserResponse.metadata.error),
+          })
+        );
       }
     }
   };

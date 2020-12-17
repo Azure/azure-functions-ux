@@ -9,32 +9,37 @@ import { useTranslation } from 'react-i18next';
 import { IChoiceGroupOptionProps, IDropdownOption } from 'office-ui-fabric-react';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { getLogId } from '../utility/DeploymentCenterUtility';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { PortalContext } from '../../../../PortalContext';
+import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const portalContext = useContext(PortalContext);
 
   const [showContainerTypeOption, setShowContainerTypeOption] = useState(true);
 
   const onRegistrySourceChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerRegistrySettings', 'onRegistrySourceChange'), {
-      registrySource: option.key.toString(),
-    });
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'registrySource', 'changed', {
+        registrySource: option.key.toString(),
+      })
+    );
 
     formProps.setFieldValue('registrySource', option.key.toString());
   };
 
   const onTypeOptionChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerRegistrySettings', 'onTypeOptionChange'), {
-      typeOption: option.key.toString(),
-    });
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'containerOption', 'changed', {
+        registrySource: option.key.toString(),
+      })
+    );
 
     formProps.setFieldValue('option', option.key.toString());
   };
