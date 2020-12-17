@@ -26,7 +26,6 @@ import {
   getAppDockerWebhookUrl,
   getWorkflowFilePath,
   getArmToken,
-  getLogId,
   getTelemetryInfo,
 } from '../utility/DeploymentCenterUtility';
 import { ACRWebhookPayload } from '../../../../models/acr';
