@@ -24,9 +24,9 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     props.values.basicPublishingCredentialsPolicies.properties.ftp &&
     !props.values.basicPublishingCredentialsPolicies.properties.ftp.allow;
 
-  const [platformOptionEnable, setPlatformOptionEnable] = useState<ScenarioCheckResult | undefined>(undefined);
-  const [websocketsEnable, setWebsocketsEnable] = useState<ScenarioCheckResult | undefined>(undefined);
-  const [alwaysOnEnable, setAlwaysOnEnable] = useState<ScenarioCheckResult | undefined>(undefined);
+  const [platformOptionEnable, setPlatformOptionEnable] = useState<ScenarioCheckResult>({ status: 'disabled' });
+  const [websocketsEnable, setWebsocketsEnable] = useState<ScenarioCheckResult>({ status: 'disabled' });
+  const [alwaysOnEnable, setAlwaysOnEnable] = useState<ScenarioCheckResult>({ status: 'disabled' });
 
   const initScenarioResults = async () => {
     const platformOptionEnable = await scenarioChecker.checkScenarioAsync(ScenarioIds.enablePlatform64, { site });
@@ -45,28 +45,27 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   }, []);
   return (
     <div>
-      {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' &&
-        values.currentlySelectedStack !== 'java' && (
-          <Field
-            name="config.properties.use32BitWorkerProcess"
-            dirty={values.config.properties.use32BitWorkerProcess !== initialValues.config.properties.use32BitWorkerProcess}
-            component={Dropdown}
-            upsellMessage={platformOptionEnable!.status === 'disabled' ? platformOptionEnable!.data : ''}
-            label={t('platform')}
-            id="app-settings-worker-process"
-            disabled={disableAllControls || platformOptionEnable!.status === 'disabled'}
-            options={[
-              {
-                key: true,
-                text: '32 Bit',
-              },
-              {
-                key: false,
-                text: '64 Bit',
-              },
-            ]}
-          />
-        )}
+      {values.currentlySelectedStack !== 'java' && (
+        <Field
+          name="config.properties.use32BitWorkerProcess"
+          dirty={values.config.properties.use32BitWorkerProcess !== initialValues.config.properties.use32BitWorkerProcess}
+          component={Dropdown}
+          upsellMessage={platformOptionEnable!.status === 'disabled' ? platformOptionEnable!.data : ''}
+          label={t('platform')}
+          id="app-settings-worker-process"
+          disabled={disableAllControls || platformOptionEnable!.status === 'disabled'}
+          options={[
+            {
+              key: true,
+              text: '32 Bit',
+            },
+            {
+              key: false,
+              text: '64 Bit',
+            },
+          ]}
+        />
+      )}
       {scenarioChecker.checkScenario(ScenarioIds.classicPipelineModeSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.managedPipelineMode"

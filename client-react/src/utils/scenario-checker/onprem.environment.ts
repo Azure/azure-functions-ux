@@ -202,6 +202,32 @@ export class OnPremEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.platform64BitSupported] = {
+      id: ScenarioIds.platform64BitSupported,
+      runCheckAsync: (input: ScenarioCheckInput) => {
+        if (!input || !input.site || !input.site.id) {
+          return Promise.resolve({
+            status: 'disabled',
+            data: this._upSellMessage,
+          } as ScenarioResult);
+        }
+        const armSiteDescriptor = new ArmSiteDescriptor(input.site.id);
+        return this._quotaService
+          .getQuotaLimit(
+            armSiteDescriptor.subscription,
+            QuotaNames.workerProcess64BitEnabled,
+            input.site.properties.sku,
+            input.site.properties.computeMode
+          )
+          .then(limit => {
+            return {
+              status: limit !== null && limit !== 0 ? 'enabled' : 'disabled',
+              data: this._upSellMessage,
+            } as ScenarioResult;
+          });
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.webSocketsEnabled] = {
       id: ScenarioIds.webSocketsEnabled,
       runCheckAsync: (input: ScenarioCheckInput) => {
