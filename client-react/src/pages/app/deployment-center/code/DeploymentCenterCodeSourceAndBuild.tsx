@@ -16,6 +16,9 @@ import DeploymentCenterCodeBuildCallout from './DeploymentCenterCodeBuildCallout
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
+import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -29,6 +32,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
 
   const toggleIsCalloutVisible = () => {
     setSelectedBuildChoice(selectedBuild);
@@ -105,6 +109,12 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   };
 
   const updateSelectedBuild = () => {
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'buildProvider', 'updated', {
+        buildProvider: selectedBuildChoice,
+      })
+    );
+
     setSelectedBuild(selectedBuildChoice);
     formProps.setFieldValue('buildProvider', selectedBuildChoice);
     if (selectedBuildChoice === BuildProvider.GitHubAction) {

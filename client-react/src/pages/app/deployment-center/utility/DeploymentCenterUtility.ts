@@ -6,6 +6,8 @@ import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
 import { IDeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 import { PublishingCredentials } from '../../../../models/site/publish';
+import { LogLevel, TelemetryInfo } from '../../../../models/telemetry';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 export const getLogId = (component: string, event: string): string => {
   return `${component}/${event}`;
@@ -21,6 +23,36 @@ export const getRuntimeStackSetting = (
   return isLinuxApp
     ? getRuntimeStackSettingForLinux(isFunctionApp, siteConfig)
     : getRuntimeStackSettingForWindows(isFunctionApp, siteConfig, configMetadata, applicationSettings);
+};
+
+export const getTelemetryInfo = (
+  logLevel: LogLevel,
+  action: string,
+  actionModifier: string,
+  data?: KeyValue<string | undefined>
+): TelemetryInfo => {
+  const identifiers = window.appsvc
+    ? {
+        resourceId: window.appsvc.resourceId,
+        version: window.appsvc.version,
+        sessionId: window.appsvc.sessionId,
+        feature: window.appsvc.feature,
+      }
+    : {};
+
+  const dataContent = data ? data : {};
+
+  return {
+    action,
+    actionModifier,
+    logLevel,
+    resourceId: identifiers.resourceId ? identifiers.resourceId : '',
+    data: {
+      category: LogCategories.deploymentCenter,
+      ...dataContent,
+      ...identifiers,
+    },
+  };
 };
 
 const getRuntimeStackVersionForWindows = (stack: string, siteConfig: ArmObj<SiteConfig>, applicationSettings: ArmObj<KeyValue<string>>) => {

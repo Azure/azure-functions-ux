@@ -20,10 +20,10 @@ import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocu
 import { Links } from '../../../utils/FwLinks';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
 import { ScmType } from '../../../models/site/config';
-import { getGitCloneUri, getLogId } from './utility/DeploymentCenterUtility';
+import { getGitCloneUri, getTelemetryInfo } from './utility/DeploymentCenterUtility';
 import DeploymentCenterPublishingUser from './DeploymentCenterPublishingUser';
-import LogService from '../../../utils/LogService';
-import { LogCategories } from '../../../utils/LogCategories';
+import { PortalContext } from '../../../PortalContext';
+import { LogLevels } from '../../../models/telemetry';
 
 type PasswordFieldType = 'password' | undefined;
 
@@ -33,6 +33,7 @@ const DeploymentCenterFtps: React.FC<
   const { t } = useTranslation();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+  const portalContext = useContext(PortalContext);
 
   const { isLoading, formProps } = props;
   const { publishingProfile, resetApplicationPassword } = deploymentCenterPublishingContext;
@@ -50,7 +51,11 @@ const DeploymentCenterFtps: React.FC<
   };
 
   const resetApplicationPasswordFromCallout = () => {
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterFtps', 'resetApplicationPasswordFromCallout'), {});
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'resetFtpPassword', 'submit', {
+        location: 'ftpsTab',
+      })
+    );
 
     resetApplicationPassword();
     setIsResetCalloutHidden(true);

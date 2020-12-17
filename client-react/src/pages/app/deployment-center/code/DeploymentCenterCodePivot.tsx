@@ -11,6 +11,8 @@ import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
 import { ThemeContext } from '../../../../ThemeContext';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const { formProps, deployments, deploymentsError, isLoading, refreshLogs } = props;
@@ -25,6 +27,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
   const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
 
   const goToSettingsOnClick = () => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'goToSettingButton', 'clicked'));
     setSelectedKey('settings');
   };
 

@@ -1,11 +1,12 @@
 import { IDropdownOption } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
+import { LogLevels } from '../../../../models/telemetry';
+import { PortalContext } from '../../../../PortalContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterDevOpsProvider from './DeploymentCenterDevOpsProvider';
 
 const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
@@ -14,6 +15,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const portalContext = useContext(PortalContext);
 
   const [organizationOptions, setOrganizationOptions] = useState<IDropdownOption[]>([]);
   const [projectOptions, setProjectOptions] = useState<IDropdownOption[]>([]);
@@ -37,6 +39,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setRepositoryOptions([]);
     setBranchOptions([]);
 
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'getDevOpsAccounts', 'submit'));
     const accounts = await deploymentCenterData.getAccounts();
 
     if (!!accounts && accounts.length > 0) {
@@ -64,6 +67,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
       setBranchOptions([]);
 
       if (!orgToProjectMapping.current[formProps.values.org]) {
+        portalContext.log(getTelemetryInfo(LogLevels.info, 'getAzureDevOpsRepositories', 'submit'));
         const response = await deploymentCenterData.getAzureDevOpsRepositories(formProps.values.org);
 
         if (response.metadata.success) {
@@ -91,10 +95,10 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
           }));
         } else {
           if (!response.metadata.success) {
-            LogService.error(
-              LogCategories.deploymentCenter,
-              'fetchProjects',
-              `Failed to get projects with error: ${response.metadata.error}`
+            portalContext.log(
+              getTelemetryInfo(LogLevels.error, 'getAzureDevOpsRepositoriesResponse', 'failed', {
+                errorAsString: JSON.stringify(response.metadata.error),
+              })
             );
           }
         }
@@ -121,6 +125,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
       setLoadingBranches(true);
 
       const repoId = repoUrlToIdMapping.current[formProps.values.repo];
+      portalContext.log(getTelemetryInfo(LogLevels.info, 'getAzureDevOpsBranches', 'submit'));
       const response = await deploymentCenterData.getAzureDevOpsBranches(formProps.values.org, repoId);
 
       if (!!response && response.metadata.success) {
@@ -136,10 +141,10 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
         setBranchOptions(dropdownItems);
       } else {
         if (!response.metadata.success) {
-          LogService.error(
-            LogCategories.deploymentCenter,
-            'fetchProjects',
-            `Failed to get projects with error: ${response.metadata.error}`
+          portalContext.log(
+            getTelemetryInfo(LogLevels.error, 'getAzureDevOpsBranchesResponse', 'failed', {
+              errorAsString: JSON.stringify(response.metadata.error),
+            })
           );
         }
       }
