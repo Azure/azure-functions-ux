@@ -109,7 +109,7 @@ export default class PortalCommunicator {
           hostName: '',
           appName: '',
           azureResourceManagerEndpoint: '',
-          runtimeType: 'Azure',
+          runtimeType: 'OnPrem',
         },
       };
 
@@ -125,7 +125,7 @@ export default class PortalCommunicator {
                 hostName: response.data.hostName,
                 appName: response.data.appName,
                 azureResourceManagerEndpoint: '',
-                runtimeType: 'Azure',
+                runtimeType: 'OnPrem',
               },
             };
           }

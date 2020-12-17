@@ -7,4 +7,4 @@ node_env: production
 nodeProcessCountPerApplication: 0
 
 # https://github.com/nodejs/node/issues/24692
-nodeProcessCommandLine: "D:\Program Files (x86)\nodejs\10.15.2\node.exe" --max-http-header-size 80000
+nodeProcessCommandLine: "C:\Program Files (x86)\nodejs\10.15.2\node.exe" --max-http-header-size 80000
