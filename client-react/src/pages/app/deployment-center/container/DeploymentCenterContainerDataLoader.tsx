@@ -13,9 +13,9 @@ import { DeploymentCenterContainerFormBuilder } from '../container/DeploymentCen
 import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DeploymentCenterContainerForm from './DeploymentCenterContainerForm';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { getLogId } from '../utility/DeploymentCenterUtility';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { PortalContext } from '../../../../PortalContext';
+import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
   const { resourceId } = props;
@@ -24,6 +24,7 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+  const portalContext = useContext(PortalContext);
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
@@ -39,6 +40,12 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
   >(undefined);
 
   const fetchData = async () => {
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'initialDataRequest', 'submit', {
+        publishType: 'container',
+      })
+    );
+
     const containerLogsResponse = await deploymentCenterData.fetchContainerLogs(resourceId);
 
     if (containerLogsResponse.metadata.success) {
@@ -49,9 +56,12 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
         errorMessage ? t('deploymentCenterContainerLogsFailedWithError').format(errorMessage) : t('deploymentCenterContainerLogsFailed')
       );
 
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerDataLoader', 'updatePublishingUser'), {
-        error: containerLogsResponse.metadata.error,
-      });
+      portalContext.log(
+        getTelemetryInfo(LogLevels.error, 'containerLogsResponse', 'failed', {
+          message: getErrorMessage(containerLogsResponse.metadata.error),
+          errorAsString: JSON.stringify(containerLogsResponse.metadata.error),
+        })
+      );
     }
 
     setIsLoading(false);
@@ -75,13 +85,24 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
     }
 
     const formData = deploymentCenterContainerFormBuilder.generateFormData();
-    setContainerFormData(deploymentCenterContainerFormBuilder.generateFormData());
+    setContainerFormData(formData);
     setContainerFormValidationSchema(deploymentCenterContainerFormBuilder.generateYupValidationSchema());
 
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerDataLoader', 'generateForm'), formData);
+    // NOTE(michinoy): Prevent logging form data here as it could contain secrets (e.g. publishing password)
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'generateForm', 'generated', {
+        publishType: 'container',
+      })
+    );
   };
 
   const refresh = () => {
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'refresh', 'submit', {
+        publishType: 'container',
+      })
+    );
+
     setIsLoading(true);
     fetchData();
     deploymentCenterContext.refresh();

@@ -12,10 +12,8 @@ import {
 } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { getRuntimeStackSetting } from '../utility/DeploymentCenterUtility';
+import { getRuntimeStackSetting, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { SiteStateContext } from '../../../../SiteState';
@@ -24,6 +22,8 @@ import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { FunctionAppRuntimes, FunctionAppStack } from '../../../../models/stacks/function-app-stacks';
 import { AppStackOs } from '../../../../models/stacks/app-stacks';
 import { KeyValue } from '../../../../models/portal-models';
+import { PortalContext } from '../../../../PortalContext';
+import { LogLevels } from '../../../../models/telemetry';
 
 type StackSettings = WebAppRuntimes & JavaContainers | FunctionAppRuntimes;
 
@@ -51,6 +51,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
 
   const closeStackNotSupportedWarningBanner = () => {
@@ -63,6 +64,14 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
   const fetchStacks = async () => {
     const appOs = siteStateContext.isLinuxApp ? AppStackOs.linux : AppStackOs.windows;
+
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'fetchStacks', 'submit', {
+        appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
+        os: appOs,
+      })
+    );
+
     const runtimeStacksResponse = siteStateContext.isFunctionApp
       ? await deploymentCenterData.getFunctionAppRuntimeStacks(appOs)
       : await deploymentCenterData.getWebAppRuntimeStacks(appOs);
@@ -78,10 +87,11 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
         })
       );
     } else {
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterFetchRuntimeStacks',
-        `Failed to get runtime stacks with error: ${getErrorMessage(runtimeStacksResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo(LogLevels.error, 'runtimeStacksResponse', 'failed', {
+          message: getErrorMessage(runtimeStacksResponse.metadata.error),
+          errorAsString: JSON.stringify(runtimeStacksResponse.metadata.error),
+        })
       );
     }
   };

@@ -10,7 +10,8 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
-import { getLogId } from '../utility/DeploymentCenterUtility';
+import { getLogId, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublishProfileCommandBarProps> = props => {
   const { resetApplicationPassword } = props;
@@ -51,13 +52,28 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
   };
 
   const resetProfile = () => {
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterPublishProfileCommandBar', 'resetProfile'), {});
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'resetFtpPassword', 'submit', {
+        location: 'managePublishProfileSlideOut',
+      })
+    );
+
     resetApplicationPassword();
     setIsResetCalloutHidden(true);
   };
 
   const hideResetCallout = () => {
     setIsResetCalloutHidden(true);
+  };
+
+  const onDownloadProfileClick = () => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'downloadProfileButton', 'clicked'));
+    downloadProfile();
+  };
+
+  const onResetPublishProfileClick = () => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'resetPublishProfileButton', 'clicked'));
+    showResetCallout();
   };
 
   const commandBarItems: ICommandBarItemProps[] = [
@@ -70,7 +86,7 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
       },
       ariaLabel: t('downloadPublishProfile'),
       disabled: isDisabled(),
-      onClick: downloadProfile,
+      onClick: onDownloadProfileClick,
     },
     {
       id: 'manage-publish-profile-reset',
@@ -81,7 +97,7 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
       },
       ariaLabel: t('resetPublishProfile'),
       disabled: isDisabled(),
-      onClick: showResetCallout,
+      onClick: onResetPublishProfileClick,
     },
   ];
 

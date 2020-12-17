@@ -8,6 +8,8 @@ import { DeploymentCenterCommandBarProps } from './DeploymentCenter.types';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { ScmType } from '../../../models/site/config';
 import { PortalContext } from '../../../PortalContext';
+import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
+import { LogLevels } from '../../../models/telemetry';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
   const { saveFunction, discardFunction, showPublishProfilePanel, refresh, redeploy, isLoading, isDirty } = props;
@@ -82,6 +84,46 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     return commandBarItems;
   };
 
+  const onSaveButtonClick = () => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'saveButton', 'clicked'));
+    saveFunction();
+  };
+
+  const onDiscardButtonClick = () => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'discardButton', 'clicked'));
+    discardFunction();
+  };
+
+  const onBrowseButtonClick = () => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'browseButton', 'clicked'));
+    onBrowseClick();
+  };
+
+  const onManagePublishProfileButtonClick = () => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'managePublishProfileButton', 'clicked'));
+    showPublishProfilePanel();
+  };
+
+  const onRefreshButtonClick = () => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'refreshButton', 'clicked'));
+    refresh();
+  };
+
+  const onRedeployClick = () => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'redeployButton', 'clicked'));
+
+    if (redeploy) {
+      redeploy();
+    } else {
+      portalContext.log(getTelemetryInfo(LogLevels.error, 'redeployButton', 'undefined'));
+    }
+  };
+
+  const onFeedbackButtonClick = () => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'feedbackButton', 'clicked'));
+    openFeedbackBlade();
+  };
+
   const getSaveButton = (): ICommandBarItemProps => {
     return {
       key: 'save',
@@ -91,7 +133,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
       ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
       disabled: isDisabledOnReload() || !isDirty,
-      onClick: saveFunction,
+      onClick: onSaveButtonClick,
     };
   };
 
@@ -104,7 +146,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
       ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
       disabled: isDisabledOnReload() || !isDirty,
-      onClick: discardFunction,
+      onClick: onDiscardButtonClick,
     };
   };
 
@@ -117,7 +159,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
       ariaLabel: t('deploymentCenterBrowseCommandAriaLabel'),
       disabled: !isSiteLoaded() || !isBrowseEnabled(),
-      onClick: onBrowseClick,
+      onClick: onBrowseButtonClick,
     };
   };
 
@@ -130,7 +172,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
       ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
       disabled: !isSiteLoaded(),
-      onClick: showPublishProfilePanel,
+      onClick: onManagePublishProfileButtonClick,
     };
   };
 
@@ -143,7 +185,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
       ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
       disabled: isDisabledOnReload(),
-      onClick: refresh,
+      onClick: onRefreshButtonClick,
     };
   };
 
@@ -156,7 +198,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
       ariaLabel: t('deploymentCenterRedeployAriaLabel'),
       disabled: isRedeployDisabled(),
-      onClick: redeploy,
+      onClick: onRedeployClick,
     };
   };
 
@@ -169,7 +211,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
       disabled: false,
       ariaLabel: t('leaveFeedback'),
-      onClick: openFeedbackBlade,
+      onClick: onFeedbackButtonClick,
     };
   };
 

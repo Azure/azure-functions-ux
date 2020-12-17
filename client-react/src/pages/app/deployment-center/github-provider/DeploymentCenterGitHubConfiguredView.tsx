@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { useTranslation } from 'react-i18next';
@@ -18,8 +16,10 @@ import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 import { SiteStateContext } from '../../../../SiteState';
-import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
+import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
+import { PortalContext } from '../../../../PortalContext';
+import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterGitHubConfiguredView: React.FC<
   DeploymentCenterFieldProps<DeploymentCenterCodeFormData | DeploymentCenterContainerFormData>
@@ -37,6 +37,8 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
+
   const deploymentCenterData = new DeploymentCenterData();
   const isGitHubActionsSetup =
     deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
@@ -48,6 +50,8 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
 
     const getGitHubUserRequest = deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken);
     const getSourceControlDetailsResponse = deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
+
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'initialDataGitHubConfigured', 'submit'));
 
     const [gitHubUserResponse, sourceControlDetailsResponse] = await Promise.all([getGitHubUserRequest, getSourceControlDetailsResponse]);
 
@@ -65,10 +69,12 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
       setRepoUrl(t('deploymentCenterErrorFetchingInfo'));
       setOrg(t('deploymentCenterErrorFetchingInfo'));
       setRepo(t('deploymentCenterErrorFetchingInfo'));
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterSourceControls',
-        `Failed to get source control details with error: ${getErrorMessage(sourceControlDetailsResponse.metadata.error)}`
+
+      portalContext.log(
+        getTelemetryInfo(LogLevels.error, 'sourceControlDetailsResponse', 'failed', {
+          message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
+          errorAsString: JSON.stringify(sourceControlDetailsResponse.metadata.error),
+        })
       );
     }
 
@@ -79,10 +85,11 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
       setGitHubUsername('');
       setIsGitHubUsernameMissing(true);
 
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterGitHubConfiguredView',
-        `Failed to get GitHub user details with error: ${getErrorMessage(gitHubUserResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo(LogLevels.error, 'gitHubUserResponse', 'failed', {
+          message: getErrorMessage(gitHubUserResponse.metadata.error),
+          errorAsString: JSON.stringify(gitHubUserResponse.metadata.error),
+        })
       );
     }
 
@@ -103,11 +110,10 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
           } else {
             // NOTE(michinoy): This is all related to the handshake between us and the provider.
             // If this fails, there isn't much the user can do except retry.
-
-            LogService.error(
-              LogCategories.deploymentCenter,
-              'authorizeGitHubAccount',
-              `Failed to get token with error: ${getErrorMessage(response.metadata.error)}`
+            portalContext.log(
+              getTelemetryInfo(LogLevels.error, 'getGitHubTokenResponse', 'failed', {
+                errorAsString: JSON.stringify(response.metadata.error),
+              })
             );
 
             return Promise.resolve(null);
