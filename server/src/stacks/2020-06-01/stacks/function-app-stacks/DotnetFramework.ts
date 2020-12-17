@@ -10,14 +10,14 @@ export const dotnetFrameworkStack: FunctionAppStack = {
       value: '2',
       minorVersions: [
         {
-          displayText: '.NET Framework 4.7',
-          value: '4.7',
+          displayText: '.NET Framework 4.8',
+          value: '4.8',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '4.7',
+              runtimeVersion: '4.8',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: true,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: false,

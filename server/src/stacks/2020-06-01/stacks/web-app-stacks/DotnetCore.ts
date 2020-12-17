@@ -23,17 +23,6 @@ export const dotnetCoreStack: WebAppStack = {
               runtimeVersion: '3.1',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: true,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '3.1.301',
-              },
-            },
-            linuxRuntimeSettings: {
-              runtimeVersion: 'DOTNETCORE|3.1',
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
                 isSupported: false,
               },
               gitHubActionSettings: {
@@ -49,19 +38,6 @@ export const dotnetCoreStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '3.0',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '3.0.103',
-              },
-              endOfLifeDate: dotnetCore3Point0EOL,
-            },
-            linuxRuntimeSettings: {
-              runtimeVersion: 'DOTNETCORE|3.0',
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -98,19 +74,6 @@ export const dotnetCoreStack: WebAppStack = {
               },
               endOfLifeDate: dotnetCore2Point2EOL,
             },
-            linuxRuntimeSettings: {
-              runtimeVersion: 'DOTNETCORE|2.2',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '2.2.207',
-              },
-              endOfLifeDate: dotnetCore2Point2EOL,
-            },
           },
         },
         {
@@ -119,18 +82,6 @@ export const dotnetCoreStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '2.1',
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: true,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '2.1.807',
-              },
-              endOfLifeDate: dotnetCore2Point1EOL,
-            },
-            linuxRuntimeSettings: {
-              runtimeVersion: 'DOTNETCORE|2.1',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -159,89 +110,6 @@ export const dotnetCoreStack: WebAppStack = {
                 supportedVersion: '2.1.202',
               },
               endOfLifeDate: dotnetCore2Point0EOL,
-            },
-            linuxRuntimeSettings: {
-              runtimeVersion: 'DOTNETCORE|2.0',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '2.1.202',
-              },
-              endOfLifeDate: dotnetCore2Point0EOL,
-            },
-          },
-        },
-      ],
-    },
-    {
-      displayText: '.NET Core 1',
-      value: '1',
-      minorVersions: [
-        {
-          displayText: '.NET Core 1.1',
-          value: '1.1',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.1',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '1.1.14',
-              },
-              endOfLifeDate: dotnetCore1EOL,
-            },
-            linuxRuntimeSettings: {
-              runtimeVersion: 'DOTNETCORE|1.1',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '1.1.14',
-              },
-              endOfLifeDate: dotnetCore1EOL,
-            },
-          },
-        },
-        {
-          displayText: '.NET Core 1.0',
-          value: '1.0',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.0',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '1.1.14',
-              },
-              endOfLifeDate: dotnetCore1EOL,
-            },
-            linuxRuntimeSettings: {
-              runtimeVersion: 'DOTNETCORE|1.0',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '1.1.14',
-              },
-              endOfLifeDate: dotnetCore1EOL,
             },
           },
         },
