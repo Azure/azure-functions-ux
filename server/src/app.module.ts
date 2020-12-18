@@ -8,6 +8,7 @@ import { StorageModule } from './storage/storage.module';
 import { DeploymentCenterModule } from './deployment-center/deployment-center.module';
 import { StacksModule } from './stacks/stacks.module';
 import { StaticSitesModule } from './staticsites/staticsites.module';
+import { WorkflowModule } from './workflows/workflows.module';
 
 @Module({
   // HomeModule should always be last in this list because it includes the catch all route
@@ -20,6 +21,7 @@ import { StaticSitesModule } from './staticsites/staticsites.module';
     DeploymentCenterModule,
     StaticSitesModule,
     StacksModule,
+    WorkflowModule,
     HomeModule,
   ],
 })
