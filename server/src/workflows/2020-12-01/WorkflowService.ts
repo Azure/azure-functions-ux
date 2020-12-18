@@ -1,24 +1,30 @@
 import { HttpException, Injectable } from '@nestjs/common';
+import { LoggingService } from 'src/shared/logging/logging.service';
 import { AppType, FunctionAppRuntimeStack, JavaContainers, Os, PublishType, WebAppRuntimeStack } from '../WorkflowModel';
 const fs = require('fs');
 
 @Injectable()
 export class WorkflowService20201201 {
+  loggingService: LoggingService;
+
   getWorkflowFile(appType: string, publishType: string, os: string, runtimeStack?: string, variables?: { [key: string]: string }) {
     //TODO(stpelleg): find and replace variables in the workflow file
 
-    return publishType === PublishType.Code
+    return publishType.toLocaleLowerCase() === PublishType.Code
       ? this.getCodeWorkflowFile(appType, os, runtimeStack, variables)
       : this.getContainerWorkflowFile(os);
   }
 
   getCodeWorkflowFile(appType: string, os: string, runtimeStack: string, variables?: { [key: string]: string }) {
-    return appType === AppType.WebApp
+    return appType.toLocaleLowerCase() === AppType.WebApp
       ? this.getWebAppCodeWorkflowFile(os, runtimeStack, variables)
       : this.getFunctionAppCodeWorkflowFile(os, runtimeStack);
   }
 
-  getFunctionAppCodeWorkflowFile(os: string, runtimeStack: string) {
+  getFunctionAppCodeWorkflowFile(providedOs: string, providedRuntimeStack: string) {
+    const os = providedOs.toLocaleLowerCase();
+    const runtimeStack = providedRuntimeStack.toLocaleLowerCase();
+
     if (os === Os.Linux && runtimeStack === FunctionAppRuntimeStack.DotNetCore) {
       return this.readWorkflowFile('function-app-configs/dotnetcore-linux.config.yml');
     } else if (os === Os.Linux && runtimeStack === FunctionAppRuntimeStack.Java) {
@@ -40,12 +46,15 @@ export class WorkflowService20201201 {
     }
   }
 
-  getWebAppCodeWorkflowFile(os: string, runtimeStack: string, variables?: { [key: string]: string }) {
+  getWebAppCodeWorkflowFile(providedOs: string, providedRuntimeStack: string, variables?: { [key: string]: string }) {
+    const os = providedOs.toLocaleLowerCase();
+    const runtimeStack = providedRuntimeStack.toLocaleLowerCase();
+
     if (os === Os.Linux && runtimeStack === WebAppRuntimeStack.DotNetCore) {
       return this.readWorkflowFile('web-app-configs/dotnetcore-linux.config.yml');
-    } else if (os === Os.Linux && runtimeStack === WebAppRuntimeStack.Java && this.javaWarWorkflowCheck(variables)) {
+    } else if (os === Os.Linux && this.javaWarWorkflowCheck(runtimeStack, variables)) {
       return this.readWorkflowFile('web-app-configs/java-war-linux.config.yml');
-    } else if (os === Os.Linux && runtimeStack === WebAppRuntimeStack.Java && this.javaJarWorkflowCheck(variables)) {
+    } else if (os === Os.Linux && this.javaJarWorkflowCheck(runtimeStack, variables)) {
       return this.readWorkflowFile('web-app-configs/java-jar-linux.config.yml');
     } else if (os === Os.Linux && runtimeStack === WebAppRuntimeStack.Node) {
       return this.readWorkflowFile('web-app-configs/node-linux.config.yml');
@@ -55,9 +64,9 @@ export class WorkflowService20201201 {
       return this.readWorkflowFile('web-app-configs/aspnet-windows.config.yml');
     } else if (os === Os.Windows && runtimeStack === WebAppRuntimeStack.DotNetCore) {
       return this.readWorkflowFile('web-app-configs/dotnetcore-windows.config.yml');
-    } else if (os === Os.Windows && runtimeStack === WebAppRuntimeStack.Java && this.javaWarWorkflowCheck(variables)) {
+    } else if (os === Os.Windows && this.javaWarWorkflowCheck(runtimeStack, variables)) {
       return this.readWorkflowFile('web-app-configs/java-war-windows.config.yml');
-    } else if (os === Os.Windows && runtimeStack === WebAppRuntimeStack.Java && this.javaJarWorkflowCheck(variables)) {
+    } else if (os === Os.Windows && this.javaJarWorkflowCheck(runtimeStack, variables)) {
       return this.readWorkflowFile('web-app-configs/java-jar-windows.config.yml');
     } else if (os === Os.Windows && runtimeStack === WebAppRuntimeStack.Node) {
       return this.readWorkflowFile('web-app-configs/node-windows.config.yml');
@@ -72,16 +81,26 @@ export class WorkflowService20201201 {
     }
   }
 
-  javaWarWorkflowCheck(variables: { [key: string]: string }) {
-    return variables && variables['javaContainer'] && variables['javaContainer'].toLocaleLowerCase() === JavaContainers.Tomcat;
+  javaWarWorkflowCheck(runtimeStack: string, variables: { [key: string]: string }) {
+    return (
+      runtimeStack.toLocaleLowerCase() === WebAppRuntimeStack.Java &&
+      variables &&
+      variables['javaContainer'] &&
+      variables['javaContainer'].toLocaleLowerCase() === JavaContainers.Tomcat
+    );
   }
 
-  javaJarWorkflowCheck(variables: { [key: string]: string }) {
-    return variables && variables['javaContainer'] && variables['javaContainer'].toLocaleLowerCase() !== JavaContainers.Tomcat;
+  javaJarWorkflowCheck(runtimeStack: string, variables: { [key: string]: string }) {
+    return (
+      runtimeStack.toLocaleLowerCase() === WebAppRuntimeStack.Java &&
+      variables &&
+      variables['javaContainer'] &&
+      variables['javaContainer'].toLocaleLowerCase() !== JavaContainers.Tomcat
+    );
   }
 
   getContainerWorkflowFile(os: string) {
-    if (os === Os.Linux) {
+    if (os.toLocaleLowerCase() === Os.Linux) {
       return this.readWorkflowFile('container-configs/container-linux.config.yml');
     } else {
       throw new HttpException(`The workflow file for containers and OS '${os}' does not exist.`, 404);
@@ -92,6 +111,8 @@ export class WorkflowService20201201 {
     try {
       return fs.readFileSync(`./src/workflows/2020-12-01/${filePath}`, 'utf8');
     } catch (err) {
+      this.loggingService.error(`Failed to read workflow file`);
+
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
       }

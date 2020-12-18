@@ -1,6 +1,6 @@
 export enum AppType {
-  WebApp = 'WebApp',
-  FunctionApp = 'FunctionApp',
+  WebApp = 'webapp',
+  FunctionApp = 'functionapp',
 }
 
 export enum PublishType {
