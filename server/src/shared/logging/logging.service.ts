@@ -72,7 +72,7 @@ export class LoggingService extends Logger implements LoggerService {
   private initializeIpc() {
     try {
       const spawn = require('child_process').spawn;
-      let traceLoggingAppExePath = './src/TraceLogger/TraceLoggingApp.exe';
+      const traceLoggingAppExePath = process.env.traceLoggingAppExePath || './src/TraceLogger/TraceLoggingApp.exe';
       const ipc = spawn(traceLoggingAppExePath);
       ipc.on('error', error => {
         console.log(`SPAWN ERROR: ${error}`);
