@@ -88,12 +88,13 @@ export class WorkflowController {
     }
 
     if (publishType.toLocaleLowerCase() === PublishType.Code) {
-      const codeRequiredVariables = ['sitename', 'slotname', 'runtimeversion', 'publishingprofilesecretname'];
+      const codeRequiredVariables = ['sitename', 'slotname', 'runtimeversion', 'publishingprofilesecretname', 'branch'];
       this._validateRequiredVariables(codeRequiredVariables, variables);
     } else {
       const containerRequiredVariables = [
         'sitename',
         'slotname',
+        'branch',
         'loginserver',
         'publishserver',
         'image',

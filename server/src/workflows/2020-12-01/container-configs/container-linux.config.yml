@@ -19,12 +19,12 @@ jobs:
       - uses: azure/docker-login@v1
         with:
           login-server: __loginserver__/
-          username: \${{ secrets.__dockerusernamesecretname__ }}
+          username: \${{ secrets.__dockerusersecretname__ }}
           password: \${{ secrets.__dockerpasswordsecretname__ }}
 
       - run: |
-          docker build . -t __publishserver__/\${{ secrets.__dockerusernamesecretname__ }}/__image__:\${{ github.sha }}
-          docker push __publishserver__/\${{ secrets.__dockerusernamesecretname__ }}/__image__:\${{ github.sha }}
+          docker build . -t __publishserver__/\${{ secrets.__dockerusersecretname__ }}/__image__:\${{ github.sha }}
+          docker push __publishserver__/\${{ secrets.__dockerusersecretname__ }}/__image__:\${{ github.sha }}
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
@@ -32,4 +32,4 @@ jobs:
           app-name: '__sitename__'
           slot-name: '__slotname__'
           publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
-          images: '__publishserver__/\${{ secrets.__dockerusernamesecretname__ }}/__image__:\${{ github.sha }}'
+          images: '__publishserver__/\${{ secrets.__dockerusersecretname__ }}/__image__:\${{ github.sha }}'
