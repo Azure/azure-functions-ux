@@ -1,12 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP app to Azure Web App - ${webAppName}
+name: Build and deploy ASP app to Azure Web App - __sitename__
 
 on:
   push:
     branches:
-      - ${branch}
+      - __branch__
   workflow_dispatch:
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: '${siteName}'
-          slot-name: '${slot}'
-          publish-profile: \${{ secrets.${secretName} }}
+          app-name: '__sitename__'
+          slot-name: '__slotname__'
+          publish-profile: \${{ secrets.__secretname__ }}
           package: \\published\\
