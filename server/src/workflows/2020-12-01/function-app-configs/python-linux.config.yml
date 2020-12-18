@@ -40,4 +40,4 @@ jobs:
           app-name: '__sitename__'
           slot-name: '__slotname__'
           package: \${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          publish-profile: \${{ secrets.__secretname__ }}
+          publish-profile: \${{ secrets.__publishingprofilesecretname__ }}

@@ -29,5 +29,5 @@ jobs:
         with:
           app-name: '__sitename__'
           slot-name: '__slotname__'
-          publish-profile: \${{ secrets.__secretname__ }}
+          publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
           package: '\${{ github.workspace }}/target/*.war'
