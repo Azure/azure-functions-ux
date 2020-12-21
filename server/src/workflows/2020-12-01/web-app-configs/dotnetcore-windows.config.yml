@@ -1,12 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - __sitename__
+name: Build and deploy ASP.Net Core app to Azure Web App - ${webAppName}
 
 on:
   push:
     branches:
-      - __branch__
+      - ${branch}
   workflow_dispatch:
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '__runtimeversion__'
+          dotnet-version: '${runtimeStackVersion}'
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
@@ -30,7 +30,7 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: '__sitename__'
-          slot-name: '__slotname__'
-          publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
+          app-name: '${siteName}'
+          slot-name: '${slot}'
+          publish-profile: \${{ secrets.${secretName} }}
           package: \${{env.DOTNET_ROOT}}/myapp

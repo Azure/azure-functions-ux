@@ -1,12 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Python app to Azure Web App - __sitename__
+name: Build and deploy Python app to Azure Web App - ${webAppName}
 
 on:
   push:
     branches:
-      - __branch__
+      - ${branch}
   workflow_dispatch:
 
 jobs:
@@ -19,17 +19,17 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:
-          python-version: '__runtimeversion__'
+          python-version: '${runtimeStackVersion}'
 
       - name: Build using AppService-Build
         uses: azure/appservice-build@v2
         with:
           platform: python
-          platform-version: '__runtimeversion__'
+          platform-version: '${runtimeStackVersion}'
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         with:
-          app-name: '__sitename__'
-          slot-name: '__slotname__'
-          publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
+          app-name: '${siteName}'
+          slot-name: '${slot}'
+          publish-profile: \${{ secrets.${secretName} }}

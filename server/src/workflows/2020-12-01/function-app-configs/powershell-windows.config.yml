@@ -1,12 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Powershell project to Azure Function App - __sitename__
+name: Build and deploy Powershell project to Azure Function App - ${webAppName}
 
 on:
   push:
     branches:
-      - __branch__
+      - ${branch}
   workflow_dispatch:
 
 env:
@@ -23,7 +23,7 @@ jobs:
         uses: Azure/functions-action@v1
         id: fa
         with:
-          app-name: '__sitename__'
-          slot-name: '__slotname__'
+          app-name: '${siteName}'
+          slot-name: '${slot}'
           package: \${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
+          publish-profile: \${{ secrets.${secretName} }}
