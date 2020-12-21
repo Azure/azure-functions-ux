@@ -101,7 +101,7 @@ export class WorkflowService20201201 {
 
     switch (runtimeStack) {
       case WebAppRuntimeStack.AspNet:
-        this.readWorkflowFile('web-app-configs/aspnet-windows.config.yml');
+        return this.readWorkflowFile('web-app-configs/aspnet-windows.config.yml');
       case WebAppRuntimeStack.DotNetCore:
         return this.readWorkflowFile('web-app-configs/dotnetcore-windows.config.yml');
       case WebAppRuntimeStack.Java:
