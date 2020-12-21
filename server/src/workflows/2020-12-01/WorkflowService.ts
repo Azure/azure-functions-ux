@@ -1,5 +1,5 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { LoggingService } from 'src/shared/logging/logging.service';
+import { LoggingService } from '../../shared/logging/logging.service';
 import { AppType, FunctionAppRuntimeStack, JavaContainers, Os, PublishType, WebAppRuntimeStack } from '../WorkflowModel';
 const fs = require('fs');
 
