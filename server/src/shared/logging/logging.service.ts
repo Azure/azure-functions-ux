@@ -5,6 +5,7 @@ import * as appInsights from 'applicationinsights';
 export class LoggingService extends Logger implements LoggerService {
   private client: appInsights.TelemetryClient;
   private ipc: any;
+  private ipcHealthy = true;
 
   constructor() {
     super();
@@ -50,13 +51,15 @@ export class LoggingService extends Logger implements LoggerService {
   }
 
   public trackEvent(name: string, properties?: { [name: string]: string }, measurements?: { [name: string]: number }, eventName?: string) {
-    try {
-      const timeStamp = Date().toLocaleString();
-      const data = { eventName, timeStamp, name, properties, measurements };
-      this.ipc.stdin.write(`${JSON.stringify(data)}\r\n`);
-    } catch (error) {
-      // To avoid infinite loop, only log to console.
-      console.log(JSON.stringify(error));
+    if (this.ipc && this.ipcHealthy) {
+      try {
+        const timeStamp = Date().toLocaleString();
+        const data = { eventName, timeStamp, name, properties, measurements };
+        this.ipc.stdin.write(`${JSON.stringify(data)}\r\n`);
+      } catch (error) {
+        // To avoid infinite loop, only log to console.
+        console.log(JSON.stringify(error));
+      }
     }
 
     if (!process.env.aiInstrumentationKey || !this.client) {
@@ -75,7 +78,11 @@ export class LoggingService extends Logger implements LoggerService {
       const traceLoggingAppExePath = process.env.traceLoggingAppExePath || './src/TraceLogger/TraceLoggingApp.exe';
       const ipc = spawn(traceLoggingAppExePath);
       ipc.on('error', error => {
-        console.log(`SPAWN ERROR: ${error}`);
+        this.ipcHealthy = false;
+        const message = `SPAWN ERROR: ${JSON.stringify(error)}`;
+        const warningId = '/warnings/server/ipcSpawnFailure';
+        this.trackEvent(warningId, { message }, undefined, 'WarningEvent');
+        console.log(message);
       });
       ipc.stdin.setEncoding('utf8');
       ipc.stderr.on('data', data => {
@@ -86,7 +93,10 @@ export class LoggingService extends Logger implements LoggerService {
       });
       this.ipc = ipc;
     } catch (error) {
-      console.log(JSON.stringify(error));
+      const message = JSON.stringify(error);
+      const warningId = `/warnings/server/${context}`;
+      this.trackEvent(warningId, { message }, undefined, 'WarningEvent');
+      console.log(message);
     }
   }
 
