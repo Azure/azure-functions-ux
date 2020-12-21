@@ -98,8 +98,8 @@ export class WorkflowController {
         'loginserver',
         'publishserver',
         'image',
-        'dockerusersecretname',
-        'dockerpasswordsecretname',
+        'containerusersecretname',
+        'containerpasswordsecretname',
         'publishingprofilesecretname',
       ];
       this._validateRequiredVariables(containerRequiredVariables, variables);
