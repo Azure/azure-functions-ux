@@ -6,7 +6,7 @@ name: Build and deploy Java project to Azure Function App - __sitename__
 on:
   push:
     branches:
-      - ${branch}
+      - __branch__
   workflow_dispatch:
 
 env:

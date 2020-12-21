@@ -31,6 +31,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: '__sitename__'
-          slot-name: __slotname__'
+          slot-name: '__slotname__'
           publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
           package: .
