@@ -2,6 +2,13 @@ import { Logger, LoggerService } from '@nestjs/common';
 import { AppServicePerformanceCounters } from '../../types/app-service-performance-counters';
 import * as appInsights from 'applicationinsights';
 
+export enum EventType {
+  Info = 'Info',
+  Warning = 'Warning',
+  Error = 'Error',
+  Debug = 'Debug',
+}
+
 export class LoggingService extends Logger implements LoggerService {
   private client: appInsights.TelemetryClient;
   private ipc: any;
@@ -30,7 +37,7 @@ export class LoggingService extends Logger implements LoggerService {
   public error(message: any, trace?: string, context?: string) {
     super.error(message, trace, context);
 
-    this.trackEvent(context, { trace, message: JSON.stringify(message) }, undefined, 'ErrorEvent');
+    this.trackEvent(context, { trace, message: JSON.stringify(message) }, undefined, EventType.Error);
   }
 
   public warn(message: any, context?: string) {
@@ -38,7 +45,7 @@ export class LoggingService extends Logger implements LoggerService {
 
     const warningId = `/warnings/server/${context}`;
 
-    this.trackEvent(warningId, message, undefined, 'WarningEvent');
+    this.trackEvent(warningId, message, undefined, EventType.Warning);
   }
 
   public log(message: any, context?: string) {
@@ -47,14 +54,19 @@ export class LoggingService extends Logger implements LoggerService {
     const logId = `/info/server/${context}`;
 
     // tslint:disable-next-line:no-console
-    this.trackEvent(logId, message, undefined, 'LogEvent');
+    this.trackEvent(logId, message, undefined, EventType.Info);
   }
 
-  public trackEvent(name: string, properties?: { [name: string]: string }, measurements?: { [name: string]: number }, eventName?: string) {
+  public trackEvent(
+    name: string,
+    properties?: { [name: string]: string },
+    measurements?: { [name: string]: number },
+    eventType?: EventType
+  ) {
     if (this.ipc && this.ipcHealthy) {
       try {
         const timeStamp = Date().toLocaleString();
-        const data = { eventName, timeStamp, name, properties, measurements };
+        const data = { eventName: eventType, timeStamp, name, properties, measurements };
         this.ipc.stdin.write(`${JSON.stringify(data)}\r\n`);
       } catch (error) {
         // To avoid infinite loop, only log to console.
@@ -79,9 +91,9 @@ export class LoggingService extends Logger implements LoggerService {
       const ipc = spawn(traceLoggingAppExePath);
       ipc.on('error', error => {
         this.ipcHealthy = false;
-        const message = `SPAWN ERROR: ${JSON.stringify(error)}`;
-        const warningId = '/warnings/server/ipcSpawnFailure';
-        this.trackEvent(warningId, { message }, undefined, 'WarningEvent');
+        const message = `IPC SPAWN ERROR: ${JSON.stringify(error)}`;
+        const eventId = '/error/server/ipcSpawnFailure';
+        this.trackEvent(eventId, { message }, undefined, EventType.Error);
         console.log(message);
       });
       ipc.stdin.setEncoding('utf8');
@@ -93,9 +105,10 @@ export class LoggingService extends Logger implements LoggerService {
       });
       this.ipc = ipc;
     } catch (error) {
-      const message = JSON.stringify(error);
-      const warningId = `/warnings/server/${context}`;
-      this.trackEvent(warningId, { message }, undefined, 'WarningEvent');
+      this.ipcHealthy = false;
+      const message = `IPC SPAWN ERROR: ${JSON.stringify(error)}`;
+      const eventId = '/error/server/ipcSpawnFailure';
+      this.trackEvent(eventId, { message }, undefined, EventType.Error);
       console.log(message);
     }
   }
