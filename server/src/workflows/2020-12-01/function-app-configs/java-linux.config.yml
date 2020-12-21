@@ -1,18 +1,18 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Java project to Azure Function App - ${webAppName}
+name: Build and deploy Java project to Azure Function App - __sitename__
 
 on:
   push:
     branches:
-      - ${branch}
+      - __branch__
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_NAME: ${webAppName} # set this to your function app name on Azure
+  AZURE_FUNCTIONAPP_NAME: __sitename__ # set this to your function app name on Azure
   PACKAGE_DIRECTORY: '.' # set this to the directory which contains pom.xml file
-  JAVA_VERSION: '${runtimeStackVersion}' # set this to the java version to use
+  JAVA_VERSION: '__runtimeversion__' # set this to the java version to use
 
 jobs:
   build-and-deploy:
@@ -36,8 +36,8 @@ jobs:
         uses: Azure/functions-action@v1
         id: fa
         with:
-          app-name: '${siteName}'
-          slot-name: '${slot}'
-          publish-profile: \${{ secrets.${secretName} }}
+          app-name: '__sitename__'
+          slot-name: '__slotname__'
+          publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
           package: '\${{ env.PACKAGE_DIRECTORY }}'
           respect-pom-xml: true

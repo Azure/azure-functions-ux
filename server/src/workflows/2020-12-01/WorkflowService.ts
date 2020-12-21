@@ -8,11 +8,17 @@ export class WorkflowService20201201 {
   loggingService: LoggingService;
 
   getWorkflowFile(appType: string, publishType: string, os: string, runtimeStack?: string, variables?: { [key: string]: string }) {
-    //TODO(stpelleg): find and replace variables in the workflow file
+    let workflowFile: string =
+      publishType.toLocaleLowerCase() === PublishType.Code
+        ? this.getCodeWorkflowFile(appType, os, runtimeStack, variables)
+        : this.getContainerWorkflowFile(os);
 
-    return publishType.toLocaleLowerCase() === PublishType.Code
-      ? this.getCodeWorkflowFile(appType, os, runtimeStack, variables)
-      : this.getContainerWorkflowFile(os);
+    Object.keys(variables).forEach(variableKey => {
+      const replaceKey = `__${variableKey}__`;
+      workflowFile = workflowFile.replace(new RegExp(replaceKey, 'gi'), variables[variableKey]);
+    });
+
+    return workflowFile;
   }
 
   getCodeWorkflowFile(appType: string, os: string, runtimeStack: string, variables?: { [key: string]: string }) {
@@ -95,7 +101,7 @@ export class WorkflowService20201201 {
 
     switch (runtimeStack) {
       case WebAppRuntimeStack.AspNet:
-        this.readWorkflowFile('web-app-configs/aspnet-windows.config.yml');
+        return this.readWorkflowFile('web-app-configs/aspnet-windows.config.yml');
       case WebAppRuntimeStack.DotNetCore:
         return this.readWorkflowFile('web-app-configs/dotnetcore-windows.config.yml');
       case WebAppRuntimeStack.Java:
