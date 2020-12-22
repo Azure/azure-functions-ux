@@ -7,6 +7,7 @@ export enum EventType {
   Warning = 'Warning',
   Error = 'Error',
   Debug = 'Debug',
+  Metric = 'Metric',
 }
 
 export class LoggingService extends Logger implements LoggerService {
@@ -16,22 +17,12 @@ export class LoggingService extends Logger implements LoggerService {
 
   constructor() {
     super();
-    if (process.env.aiInstrumentationKey) {
-      appInsights
-        .setup(process.env.aiInstrumentationKey)
-        .setAutoDependencyCorrelation(true)
-        .setAutoCollectRequests(true)
-        .setAutoCollectPerformance(true)
-        .setAutoCollectExceptions(true)
-        .setAutoCollectDependencies(true)
-        .setAutoCollectConsole(true)
-        .setUseDiskRetryCaching(true)
-        .start();
-      setInterval(this.trackAppServicePerformance, 30 * 1000);
-      this.client = appInsights.defaultClient;
-    }
-
+    this.initializeAppInsights();
     this.initializeIpc();
+
+    if (this.client || (this.ipc && this.ipcHealthy)) {
+      setInterval(this.trackAppServicePerformance, 30 * 1000);
+    }
   }
 
   public error(message: any, trace?: string, context?: string) {
@@ -81,15 +72,30 @@ export class LoggingService extends Logger implements LoggerService {
     }
 
     if (!process.env.aiInstrumentationKey || !this.client) {
-      return;
+      this.client.trackEvent({
+        name,
+        properties,
+        measurements,
+      });
     }
-
-    return this.client.trackEvent({
-      name,
-      properties,
-      measurements,
-    });
   }
+
+  private initializeAppInsights() {
+    if (process.env.aiInstrumentationKey) {
+      appInsights
+        .setup(process.env.aiInstrumentationKey)
+        .setAutoDependencyCorrelation(true)
+        .setAutoCollectRequests(true)
+        .setAutoCollectPerformance(true)
+        .setAutoCollectExceptions(true)
+        .setAutoCollectDependencies(true)
+        .setAutoCollectConsole(true)
+        .setUseDiskRetryCaching(true)
+        .start();
+      this.client = appInsights.defaultClient;
+    }
+  }
+
   private initializeIpc() {
     try {
       const spawn = require('child_process').spawn;
@@ -125,11 +131,23 @@ export class LoggingService extends Logger implements LoggerService {
     // We track these as perf metrics into app insights
     const value = process.env.WEBSITE_COUNTERS_APP;
     const client = appInsights.defaultClient;
-    if (value && client) {
+    const ipc = this.ipcHealthy && this.ipc;
+    if (value && (client || ipc)) {
       const counters = JSON.parse(value) as AppServicePerformanceCounters;
       for (const counterName in counters) {
         if (counters.hasOwnProperty(counterName)) {
-          client.trackMetric({ name: counterName, value: counters[counterName] });
+          const data = { name: counterName, value: counters[counterName] };
+          if (client) {
+            client.trackMetric(data);
+          }
+          if (ipc) {
+            try {
+              this.ipc.stdin.write(`${JSON.stringify({ ...data, eventName: EventType.Metric })}\r\n`);
+            } catch (error) {
+              // To avoid infinite loop, only log to console.
+              console.log(JSON.stringify(error));
+            }
+          }
         }
       }
     }
