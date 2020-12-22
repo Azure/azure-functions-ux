@@ -65,8 +65,14 @@ export class LoggingService extends Logger implements LoggerService {
   ) {
     if (this.ipc && this.ipcHealthy) {
       try {
-        const timeStamp = Date().toLocaleString();
-        const data = { eventName: eventType, timeStamp, name, properties, measurements };
+        const props = typeof properties === 'string' ? { message: properties } : properties;
+        const data = {
+          eventName: eventType,
+          timeStamp: Date().toLocaleString(),
+          name,
+          properties: props,
+          measurements,
+        };
         this.ipc.stdin.write(`${JSON.stringify(data)}\r\n`);
       } catch (error) {
         // To avoid infinite loop, only log to console.
