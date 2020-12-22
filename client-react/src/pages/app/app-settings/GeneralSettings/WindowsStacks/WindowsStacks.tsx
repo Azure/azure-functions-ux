@@ -17,8 +17,8 @@ const WindowsStacks: React.FC<StackProps> = props => {
   const { values, initialValues } = props;
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
-  const disableAllControls = !editable || saving;
   const readonly = !app_write;
+  const disableAllControls = readonly || !editable || saving;
   const javaSelected = values.currentlySelectedStack === RuntimeStacks.java;
   const showNonJavaAnyway = readonly && !javaSelected;
 
@@ -54,18 +54,16 @@ const WindowsStacks: React.FC<StackProps> = props => {
 
   return (
     <>
-      {!readonly && (
-        <Field
-          name="currentlySelectedStack"
-          dirty={values.currentlySelectedStack !== initialValues.currentlySelectedStack}
-          component={Dropdown}
-          fullpage
-          disabled={disableAllControls}
-          options={filterStackOptions()}
-          label={t('stack')}
-          id="app-settings-stack-dropdown"
-        />
-      )}
+      <Field
+        name="currentlySelectedStack"
+        dirty={values.currentlySelectedStack !== initialValues.currentlySelectedStack}
+        component={Dropdown}
+        fullpage
+        disabled={disableAllControls}
+        options={filterStackOptions()}
+        label={t('stack')}
+        id="app-settings-stack-dropdown"
+      />
       {isDotnetStack() || showNonJavaAnyway ? <DotNetStack {...props} /> : null}
       {values.currentlySelectedStack === RuntimeStacks.php || showNonJavaAnyway ? <PhpStack {...props} /> : null}
       {values.currentlySelectedStack === RuntimeStacks.python || showNonJavaAnyway ? <PythonStack {...props} /> : null}
