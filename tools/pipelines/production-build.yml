@@ -123,6 +123,12 @@ jobs:
 
   - job: EtwLogger
     steps:
+      - task: UseDotNet@2
+        displayName: 'Use .NET 3'
+        inputs:
+          packageType: 'sdk'
+          version: '3.x'
+          includePreviewVersions: true
       - task: NuGetCommand@2
         displayName: 'Restore Packages: EtwLogger'
         inputs:
