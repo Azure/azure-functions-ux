@@ -5,12 +5,12 @@
 jobs:
   - job: EtwLogger
     steps:
-      - task: UseDotNet@2
-        displayName: 'Use dotnetcore 3'
-        inputs:
-          packageType: 'sdk'
-          version: '3.x'
-          includePreviewVersions: true
+      # - task: UseDotNet@2
+      #   displayName: 'Use dotnetcore 3'
+      #   inputs:
+      #     packageType: 'sdk'
+      #     version: '3.x'
+      #     includePreviewVersions: true
       - task: DotNetCoreCLI@2
         displayName: 'dotnetcore restore'
         inputs:
