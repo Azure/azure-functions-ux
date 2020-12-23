@@ -121,6 +121,20 @@ jobs:
         inputs:
           ArtifactName: angular-min
 
+  - job: EtwLogger
+    steps:
+    - task: NuGetCommand@2
+      displayName: 'Restore Packages: EtwLogger'
+      inputs:
+        command: 'restore'
+        restoreSolution: 'TraceLoggingApp/TraceLoggingApp.sln'
+        feedsToUse: 'select'
+    - task: MSBuild@1
+      displayName: 'Build: EtwLogger'
+      inputs:
+        solution: 'TraceLoggingApp/TraceLoggingApp.sln'
+        msbuildArchitecture: 'x64'
+
   - job: Server
     pool:
       vmImage: 'macOS-10.14'
@@ -128,6 +142,7 @@ jobs:
       - AngularFull
       - AngularMin
       - ReactBuild
+      - EtwLogger
     steps:
       - task: NodeTool@0
         inputs:
