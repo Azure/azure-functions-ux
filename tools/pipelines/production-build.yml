@@ -124,27 +124,39 @@ jobs:
   - job: EtwLogger
     steps:
       - task: UseDotNet@2
-        displayName: 'Use .NET 3'
+        displayName: 'Use dotnetcore 3'
         inputs:
           packageType: 'sdk'
           version: '3.x'
           includePreviewVersions: true
-      - task: NuGetCommand@2
-        displayName: 'Restore Packages: EtwLogger'
+      - task: DotNetCoreCLI@2
+        displayName: 'dotnetcore restore'
         inputs:
           command: 'restore'
-          restoreSolution: 'TraceLoggingApp/TraceLoggingApp.sln'
           feedsToUse: 'select'
-      - task: MSBuild@1
-        displayName: 'Build: EtwLogger'
+          #feedRestore: 'projectName/feedName'
+          projects: 'TraceLoggingApp/TraceLoggingApp.csproj'
+          includeNuGetOrg: true
+      - task: DotNetCoreCLI@2
+        displayName: 'dotnetcore build'
         inputs:
-          solution: 'TraceLoggingApp/TraceLoggingApp.sln'
-          msbuildArchitecture: 'x64'
+          command: 'build'
+          projects: 'TraceLoggingApp/TraceLoggingApp.csproj'
+#      - task: NuGetCommand@2
+#        displayName: 'Restore Packages: EtwLogger'
+#        inputs:
+#          command: 'restore'
+#          restoreSolution: 'TraceLoggingApp/TraceLoggingApp.sln'
+#          feedsToUse: 'select'
+#      - task: MSBuild@1
+#        displayName: 'Build: EtwLogger'
+#        inputs:
+#          solution: 'TraceLoggingApp/TraceLoggingApp.sln'
+#          msbuildArchitecture: 'x64'
       - task: CopyFiles@2
         inputs:
           SourceFolder: 'TraceLoggingApp/bin'
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: EtwLogger'
         inputs:
