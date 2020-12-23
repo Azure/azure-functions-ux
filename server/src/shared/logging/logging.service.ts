@@ -71,7 +71,7 @@ export class LoggingService extends Logger implements LoggerService {
       }
     }
 
-    if (!process.env.aiInstrumentationKey || !this.client) {
+    if (process.env.aiInstrumentationKey && this.client) {
       this.client.trackEvent({
         name,
         properties,
