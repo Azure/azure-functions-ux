@@ -56,12 +56,12 @@ export class LoggingService extends Logger implements LoggerService {
   ) {
     if (this.ipc && this.ipcHealthy) {
       try {
-        const props = typeof properties === 'string' ? { message: properties } : properties;
+        const customDimensions = typeof properties === 'string' ? { message: properties } : properties;
         const data = {
           eventName: eventType,
           timeStamp: Date().toLocaleString(),
           name,
-          properties: props,
+          customDimensions,
           measurements,
         };
         this.ipc.stdin.write(`${JSON.stringify(data)}\r\n`);
