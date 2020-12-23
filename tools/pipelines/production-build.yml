@@ -123,17 +123,26 @@ jobs:
 
   - job: EtwLogger
     steps:
-    - task: NuGetCommand@2
-      displayName: 'Restore Packages: EtwLogger'
-      inputs:
-        command: 'restore'
-        restoreSolution: 'TraceLoggingApp/TraceLoggingApp.sln'
-        feedsToUse: 'select'
-    - task: MSBuild@1
-      displayName: 'Build: EtwLogger'
-      inputs:
-        solution: 'TraceLoggingApp/TraceLoggingApp.sln'
-        msbuildArchitecture: 'x64'
+      - task: NuGetCommand@2
+        displayName: 'Restore Packages: EtwLogger'
+        inputs:
+          command: 'restore'
+          restoreSolution: 'TraceLoggingApp/TraceLoggingApp.sln'
+          feedsToUse: 'select'
+      - task: MSBuild@1
+        displayName: 'Build: EtwLogger'
+        inputs:
+          solution: 'TraceLoggingApp/TraceLoggingApp.sln'
+          msbuildArchitecture: 'x64'
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: 'TraceLoggingApp/bin'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: EtwLogger'
+        inputs:
+          ArtifactName: EtwLogger
 
   - job: Server
     pool:
@@ -177,6 +186,12 @@ jobs:
           artifactName: react-build
           downloadPath: $(System.DefaultWorkingDirectory)
 
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download EtwLogger Build Artifacts'
+        inputs:
+          artifactName: EtwLogger
+          downloadPath: $(System.DefaultWorkingDirectory)
+
       - task: CopyFiles@2
         displayName: 'Copy Angular Full Files to: $(Build.ArtifactStagingDirectory)'
         inputs:
@@ -194,6 +209,12 @@ jobs:
         inputs:
           SourceFolder: $(System.DefaultWorkingDirectory)/react-build
           TargetFolder: server/dist
+
+      - task: CopyFiles@2
+        displayName: 'Copy EtwLogger Build Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/EtwLogger
+          TargetFolder: server/dist/EtwLoggerApp
 
       - script: |
           cd server
