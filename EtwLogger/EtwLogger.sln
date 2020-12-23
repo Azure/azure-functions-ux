@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TraceLoggingApp", "TraceLoggingApp.csproj", "{E94B4112-039A-4195-9159-095499D52AC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EtwLogger", "EtwLogger.csproj", "{E94B4112-039A-4195-9159-095499D52AC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

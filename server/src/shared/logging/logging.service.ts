@@ -99,8 +99,9 @@ export class LoggingService extends Logger implements LoggerService {
   private initializeIpc() {
     try {
       const spawn = require('child_process').spawn;
-      const traceLoggingAppExePath = process.env.traceLoggingAppExePath || './src/TraceLogger/TraceLoggingApp.exe';
-      const ipc = spawn(traceLoggingAppExePath);
+      const etwLoggerPath = process.env.etwLoggerPath || './EtwLogger/EtwLogger.exe';
+      const etwLoggerProviderName = process.env.etwLoggerProviderName || 'AppServiceUxServerLogs';
+      const ipc = spawn(etwLoggerPath, [etwLoggerProviderName]);
       ipc.on('error', error => {
         this.ipcHealthy = false;
         const message = `IPC SPAWN ERROR: ${JSON.stringify(error)}`;

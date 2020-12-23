@@ -3,34 +3,32 @@ using System.Diagnostics.Tracing;
 using System.IO;
 using Newtonsoft.Json.Linq;
 
-namespace TraceLoggingApp
+namespace EtwLogger
 {
     class Program
     {
         static void Main(string[] args)
         {
-            string ProviderName = "TestTraceLoggingProvider";
-            EventSource MybasicSource = new EventSource(ProviderName);
+            string providerName = args.Length > 0 ? "EtwLogger" :  args[0];
+            EventSource provider = new EventSource(providerName);
 
             Stream input = Console.OpenStandardInput();
 
-            using (StreamReader sr = new StreamReader(input))
+            using (StreamReader streamReader = new StreamReader(input))
             {
                 while (input.CanRead)
                 {
                     try
                     {
-                        string logString = sr.ReadLine();
+                        string logString = streamReader.ReadLine();
                         if (logString != null)
                         {
                             JObject logObject = JObject.Parse(logString);
                             var eventName = logObject.Value<string>("eventName");
                             var name = logObject.Value<string>("name");
-                            var properties = logObject.Property("properties")!.Value.ToString();
-                            var data = new { name, properties };
-                            MybasicSource.Write(eventName, data);
-
-                            Console.WriteLine("Logging event [{0}]: {1}", eventName, data);
+                            var customDimensions = logObject.Property("customDimensions")!.Value.ToString();
+                            var data = new { name, customDimensions };
+                            provider.Write(eventName, data);
                         }
                     }
                     catch (Exception e)
