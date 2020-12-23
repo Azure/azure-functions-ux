@@ -3,6 +3,124 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 jobs:
+  - job: ReactBuild
+    pool:
+      vmImage: 'macOS-10.14'
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '10.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          cd client-react
+          npm ci
+        displayName: 'npm install'
+
+      - script: |
+          cd client-react
+          export REACT_APP_CACHE_KEY=$(uuidgen)
+          npm run build
+        displayName: 'build production react'
+        env:
+          REACT_APP_RUNETIME_TYPE: $(reactRuntimeType)
+          REACT_APP_APPLICATION_INSIGHTS_KEY: $(applicationInsightsKey)
+          REACT_APP_APPLICATION_VERSION: ${BUILD_BUILDID}
+
+      - script: |
+          cd client-react/build
+          mv index.html index.react.html
+        displayName: 'Rename index.html'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: client-react/build
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/public/react'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: react-build'
+        inputs:
+          ArtifactName: react-build
+
+  - job: AngularFull
+    pool:
+      vmImage: 'macOS-10.14'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '8.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          cd client
+          npm ci
+        displayName: 'npm install'
+
+      - script: |
+          cd client
+          node_modules/.bin/ng build --progress false --output-path="public/ng-full"
+        displayName: 'ng build full'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: client/public
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/public'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: angular-full'
+        inputs:
+          ArtifactName: angular-full
+
+  - job: AngularMin
+    pool:
+      vmImage: 'macOS-10.14'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '8.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          npm install -g gulp-cli
+        displayName: 'install gulp'
+
+      - script: |
+          cd client
+          npm ci
+        displayName: 'npm install'
+
+      - script: |
+          cd client
+          node_modules/.bin/ng build --progress false --prod --environment=prod --output-path="../server/public/ng-min"
+        displayName: 'ng build full'
+
+      - script: |
+          cd server
+          npm ci
+          gulp replace-tokens-for-minimized-angular
+        displayName: 'Generate config file with angular files'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: server/public
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/public'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Assets to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: client/src/assets
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: angular-min'
+        inputs:
+          ArtifactName: angular-min
+
   - job: EtwLogger
     steps:
       # - task: UseDotNet@2
@@ -11,6 +129,7 @@ jobs:
       #     packageType: 'sdk'
       #     version: '3.x'
       #     includePreviewVersions: true
+
       - task: DotNetCoreCLI@2
         displayName: 'Restore EtwLogger'
         inputs:
@@ -18,16 +137,19 @@ jobs:
           feedsToUse: 'select'
           projects: 'EtwLogger/EtwLogger.csproj'
           includeNuGetOrg: true
+
       - task: DotNetCoreCLI@2
         displayName: 'Build EtwLogger'
         inputs:
           command: 'build'
           arguments: '--configuration Release'
           projects: 'EtwLogger/EtwLogger.csproj'
+
       - task: CopyFiles@2
         inputs:
           SourceFolder: 'EtwLogger/bin/Release/netcoreapp3.1/'
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: EtwLogger'
         inputs:
@@ -37,8 +159,44 @@ jobs:
     pool:
       vmImage: 'macOS-10.14'
     dependsOn:
+      - AngularFull
+      - AngularMin
+      - ReactBuild
       - EtwLogger
     steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '10.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          cd server
+          npm ci
+        displayName: 'npm install'
+
+      - script: |
+          cd server
+          npm run build
+        displayName: 'Setup Environment Variables and Build Resources'
+
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download Angular Full Artifacts'
+        inputs:
+          artifactName: angular-full
+          downloadPath: $(System.DefaultWorkingDirectory)
+
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download Angular Min Artifacts'
+        inputs:
+          artifactName: angular-min
+          downloadPath: $(System.DefaultWorkingDirectory)
+
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download React Build Artifacts'
+        inputs:
+          artifactName: react-build
+          downloadPath: $(System.DefaultWorkingDirectory)
+
       - task: DownloadBuildArtifacts@0
         displayName: 'Download EtwLogger Build Artifacts'
         inputs:
@@ -46,10 +204,55 @@ jobs:
           downloadPath: $(System.DefaultWorkingDirectory)
 
       - task: CopyFiles@2
+        displayName: 'Copy Angular Full Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/angular-full
+          TargetFolder: server/dist
+
+      - task: CopyFiles@2
+        displayName: 'Copy Angular Min Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/angular-min
+          TargetFolder: server/dist
+
+      - task: CopyFiles@2
+        displayName: 'Copy React Build Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/react-build
+          TargetFolder: server/dist
+
+      - task: CopyFiles@2
         displayName: 'Copy EtwLogger Build Files to: $(Build.ArtifactStagingDirectory)'
         inputs:
           SourceFolder: $(System.DefaultWorkingDirectory)/EtwLogger
           TargetFolder: server/dist/EtwLogger
+
+      - script: |
+          cd server
+          npm run bundle
+        displayName: 'Run Production Ready Script'
+        env:
+          bitbucketClientId: $(bitbucketClientId)
+          githubClientId: $(githubClientId)
+          githubClientSecret: $(githubClientSecret)
+          githubRedirectUrl: $(githubRedirectUrl)
+          bitbucketClientSecret: $(bitbucketClientSecret)
+          bitbucketRedirectUrl: $(bitbucketRedirectUrl)
+          dropboxClientSecret: $(dropboxClientSecret)
+          dropboxClientId: $(dropboxClientId)
+          dropboxRedirectUrl: $(dropboxRedirectUrl)
+          onedriveClientSecret: $(onedriveClientSecret)
+          onedriveClientID: $(onedriveClientID)
+          onedriveRedirectUrl: $(onedriveRedirectUrl)
+          staticSitesGithubClientId: $(staticSitesGithubClientId)
+          staticSitesGithubClientSecret: $(staticSitesGithubClientSecret)
+          githubForCreatesClientId: $(githubForCreatesClientId)
+          githubForCreatesClientSecret: $(githubForCreatesClientSecret)
+
+      - script: |
+          cd server/dist
+          npm ci --production
+        displayName: 'Run Production Ready Script'
 
       - task: ArchiveFiles@2
         inputs:
