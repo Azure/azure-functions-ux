@@ -58,7 +58,7 @@ export class HomeServiceProd extends HomeService implements OnModuleInit {
         const configString = `window.appsvc = ${JSON.stringify(this._configService.staticReactConfig)}`;
         const newScriptTagString = scriptTagFormat.replace('{0}', configString);
         newHtml = html.replace(scriptTagRegex, newScriptTagString);
-        this._logService.trackEvent('React-Transform', { success: 'true', error: null }, undefined, EventType.Error);
+        this._logService.trackEvent('React-Transform', { success: 'true', error: null }, undefined, EventType.Info);
       } catch (e) {
         this._logService.trackEvent('React-Transform', { success: 'false', error: e }, undefined, EventType.Error);
         this._logService.error('Failed to transform React index.html file', e);
