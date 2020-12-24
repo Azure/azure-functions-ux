@@ -9,7 +9,7 @@ namespace EtwLogger
     {
         static void Main(string[] args)
         {
-            string providerName = args.Length > 0 ? "EtwLogger" :  args[0];
+            string providerName = args.Length > 0 ? args[0] : "EtwLogger";
             EventSource provider = new EventSource(providerName);
 
             Stream input = Console.OpenStandardInput();
