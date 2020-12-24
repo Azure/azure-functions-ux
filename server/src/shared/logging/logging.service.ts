@@ -104,22 +104,26 @@ export class LoggingService extends Logger implements LoggerService {
       const ipc = spawn(etwLoggerPath, [etwLoggerProviderName]);
       ipc.on('error', error => {
         this.ipcHealthy = false;
-        const message = `IPC SPAWN ERROR: ${JSON.stringify(error)}`;
+        const message = `IPC spawn error: ${JSON.stringify(error)}`;
         const eventId = '/error/server/ipcSpawnFailure';
         this.trackEvent(eventId, { message }, undefined, EventType.Error);
         console.log(message);
       });
       ipc.stdin.setEncoding('utf8');
       ipc.stderr.on('data', data => {
-        process.stderr.write(`\r\n<STDERR>\r\n${data.toString()}\r\n</STDERR>\r\n`);
+        if (data) {
+          process.stderr.write(`IPC error: ${data.toString()}\r\n`);
+        }
       });
       ipc.stdout.on('data', data => {
-        process.stdout.write(`\r\n<STDOUT>\r\n${data.toString()}\r\n</STDOUT>\r\n`);
+        if (data) {
+          process.stdout.write(`IPC output: ${data.toString()}\r\n`);
+        }
       });
       this.ipc = ipc;
     } catch (error) {
       this.ipcHealthy = false;
-      const message = `IPC SPAWN ERROR: ${JSON.stringify(error)}`;
+      const message = `IPC spawn error: ${JSON.stringify(error)}`;
       const eventId = '/error/server/ipcSpawnFailure';
       this.trackEvent(eventId, { message }, undefined, EventType.Error);
       console.log(message);
