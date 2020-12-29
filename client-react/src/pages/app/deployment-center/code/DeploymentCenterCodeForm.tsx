@@ -21,8 +21,6 @@ import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../../../models/github';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import {
   getCodeWebAppWorkflowInformation,
@@ -33,7 +31,6 @@ import {
 import {
   getWorkflowFilePath,
   getArmToken,
-  getLogId,
   getTelemetryInfo,
   getWorkflowFileName,
   getSourceControlsWorkflowFileName,
@@ -390,9 +387,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   };
 
   const redeployFunction = async () => {
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'redeployFunction'), {});
-
     hideRedeployConfirmDialog();
+
     const siteName = siteStateContext && siteStateContext.site ? siteStateContext.site.name : '';
     const notificationId = portalContext.startNotification(
       t('deploymentCenterCodeRedeployRequestSubmitted'),
@@ -403,29 +399,22 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
 
     if (isGitHubActionsSetup) {
-      gitHubActionsRedeploy(notificationId, siteName);
+      redeployGitHubActions(notificationId, siteName);
     } else {
-      kuduRedeploy(notificationId, siteName);
+      redeployKudu(notificationId, siteName);
     }
   };
 
-  const kuduRedeploy = async (notificationId: string, siteName: string) => {
+  const redeployKudu = async (notificationId: string, siteName: string) => {
     const redeployResponse = await SiteService.syncSourceControls(deploymentCenterContext.resourceId);
     if (redeployResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeRedeploySuccess').format(siteName));
     } else {
-      const errorMessage = getErrorMessage(redeployResponse.metadata.error);
-      errorMessage
-        ? portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFailWithStatusMessage').format(errorMessage))
-        : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFail'));
-
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'redeployFunction'), {
-        errorMessage,
-      });
+      handleRedeployError(redeployResponse, notificationId, 'syncSourceControls');
     }
   };
 
-  const gitHubActionsRedeploy = async (notificationId: string, siteName: string) => {
+  const redeployGitHubActions = async (notificationId: string, siteName: string) => {
     let branch = '';
     let repo = '';
     let org = '';
@@ -439,6 +428,12 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         org = repoUrlSplit[repoUrlSplit.length - 2];
         repo = repoUrlSplit[repoUrlSplit.length - 1];
       }
+    } else {
+      portalContext.log(
+        getTelemetryInfo(LogLevels.error, 'getSourceControls', 'failed', {
+          message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
+        })
+      );
     }
 
     const isProductionSlot =
@@ -461,20 +456,14 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     const workflowDispatchResponse = await GitHubService.dispatchWorkflow(
       deploymentCenterContext.gitHubToken,
       branch,
-      `${repo}`,
+      repo,
       workflowFileName
     );
+
     if (workflowDispatchResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeRedeploySuccess').format(siteName));
     } else {
-      const errorMessage = getErrorMessage(workflowDispatchResponse.metadata.error);
-      errorMessage
-        ? portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFailWithStatusMessage').format(errorMessage))
-        : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFail'));
-
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'redeployFunction'), {
-        errorMessage,
-      });
+      handleRedeployError(workflowDispatchResponse, notificationId, 'dispatchWorkflow');
     }
   };
 
@@ -498,15 +487,21 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     if (appWorkflowDispatchResponse.metadata.success || sourceControlsWorkflowDispatchResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeRedeploySuccess').format(siteName));
     } else {
-      const errorMessage = getErrorMessage(appWorkflowDispatchResponse.metadata.error);
-      errorMessage
-        ? portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFailWithStatusMessage').format(errorMessage))
-        : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFail'));
-
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'redeployFunction'), {
-        errorMessage,
-      });
+      handleRedeployError(appWorkflowDispatchResponse, notificationId, 'dispatchWorkflow');
     }
+  };
+
+  const handleRedeployError = (response: any, notificationId: string, action: string) => {
+    const errorMessage = getErrorMessage(response.metadata.error);
+    errorMessage
+      ? portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFailWithStatusMessage').format(errorMessage))
+      : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFail'));
+
+    portalContext.log(
+      getTelemetryInfo(LogLevels.error, action, 'failed', {
+        message: errorMessage,
+      })
+    );
   };
 
   const hideRedeployConfirmDialog = () => {
