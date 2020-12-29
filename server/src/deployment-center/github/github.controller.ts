@@ -123,7 +123,6 @@ export class GithubController {
   @HttpCode(200)
   async dispatchWorkflow(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Body('data') data: string) {
     try {
-      console.log(gitHubToken);
       await this.httpService.post(url, data, {
         headers: {
           Authorization: `Bearer ${gitHubToken}`,
