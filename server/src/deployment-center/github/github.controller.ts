@@ -119,6 +119,25 @@ export class GithubController {
     }
   }
 
+  @Post('api/github/dispatchWorkflow')
+  @HttpCode(200)
+  async dispatchWorkflow(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Body('data') data: string) {
+    try {
+      await this.httpService.post(url, data, {
+        headers: {
+          Authorization: `Bearer ${gitHubToken}`,
+        },
+      });
+    } catch (err) {
+      this.loggingService.error(`Failed to dispatch workflow file.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
   @Get('auth/github/authorize')
   async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
     let stateKey = '';

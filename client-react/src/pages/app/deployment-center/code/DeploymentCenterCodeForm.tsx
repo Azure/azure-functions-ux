@@ -21,8 +21,6 @@ import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../../../models/github';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import {
   getCodeWebAppWorkflowInformation,
@@ -30,10 +28,17 @@ import {
   isApiSyncError,
   updateGitHubActionSourceControlPropertiesManually,
 } from '../utility/GitHubActionUtility';
-import { getWorkflowFilePath, getArmToken, getLogId, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import {
+  getWorkflowFilePath,
+  getArmToken,
+  getTelemetryInfo,
+  getWorkflowFileName,
+  getSourceControlsWorkflowFileName,
+} from '../utility/DeploymentCenterUtility';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { LogLevels } from '../../../../models/telemetry';
 import { AppOs } from '../../../../models/site/site';
+import GitHubService from '../../../../ApiHelpers/GitHubService';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -382,27 +387,123 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   };
 
   const redeployFunction = async () => {
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'redeployFunction'), {});
-
     hideRedeployConfirmDialog();
+
     const siteName = siteStateContext && siteStateContext.site ? siteStateContext.site.name : '';
     const notificationId = portalContext.startNotification(
       t('deploymentCenterCodeRedeployRequestSubmitted'),
       t('deploymentCenterCodeRedeployRequestSubmittedDesc').format(siteName)
     );
+
+    const isGitHubActionsSetup =
+      deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+
+    if (isGitHubActionsSetup) {
+      redeployGitHubActions(notificationId, siteName);
+    } else {
+      redeployKudu(notificationId, siteName);
+    }
+  };
+
+  const redeployKudu = async (notificationId: string, siteName: string) => {
     const redeployResponse = await SiteService.syncSourceControls(deploymentCenterContext.resourceId);
     if (redeployResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeRedeploySuccess').format(siteName));
     } else {
-      const errorMessage = getErrorMessage(redeployResponse.metadata.error);
-      errorMessage
-        ? portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFailWithStatusMessage').format(errorMessage))
-        : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFail'));
-
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'redeployFunction'), {
-        errorMessage,
-      });
+      handleRedeployError(redeployResponse, notificationId, 'syncSourceControls');
     }
+  };
+
+  const redeployGitHubActions = async (notificationId: string, siteName: string) => {
+    let branch = '';
+    let repo = '';
+    let org = '';
+
+    const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
+    if (sourceControlDetailsResponse.metadata.success) {
+      branch = sourceControlDetailsResponse.data.properties.branch;
+
+      const repoUrlSplit = sourceControlDetailsResponse.data.properties.repoUrl.split('/');
+      if (repoUrlSplit.length >= 2) {
+        org = repoUrlSplit[repoUrlSplit.length - 2];
+        repo = repoUrlSplit[repoUrlSplit.length - 1];
+      }
+    } else {
+      portalContext.log(
+        getTelemetryInfo(LogLevels.error, 'getSourceControls', 'failed', {
+          message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
+        })
+      );
+    }
+
+    const isProductionSlot =
+      deploymentCenterContext.siteDescriptor &&
+      (!deploymentCenterContext.siteDescriptor.slot || deploymentCenterContext.siteDescriptor.slot.toLocaleLowerCase() === 'production');
+
+    if (isProductionSlot) {
+      dispatchAppOrSourceControlsWorkflow(`${org}/${repo}`, branch, notificationId, siteName);
+    } else {
+      dispatchAppOnlyWorkflow(`${org}/${repo}`, branch, notificationId, siteName);
+    }
+  };
+
+  const dispatchAppOnlyWorkflow = async (repo: string, branch: string, notificationId: string, siteName: string) => {
+    const workflowFileName = getWorkflowFileName(
+      branch,
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+    );
+    const workflowDispatchResponse = await GitHubService.dispatchWorkflow(
+      deploymentCenterContext.gitHubToken,
+      branch,
+      repo,
+      workflowFileName
+    );
+
+    if (workflowDispatchResponse.metadata.success) {
+      portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeRedeploySuccess').format(siteName));
+    } else {
+      handleRedeployError(workflowDispatchResponse, notificationId, 'dispatchWorkflow');
+    }
+  };
+
+  const dispatchAppOrSourceControlsWorkflow = async (repo: string, branch: string, notificationId: string, siteName: string) => {
+    const workflowFileName = getWorkflowFileName(
+      branch,
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+    );
+    const sourceControlsWorkflowFileName = getSourceControlsWorkflowFileName(
+      branch,
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+      'production'
+    );
+
+    const [appWorkflowDispatchResponse, sourceControlsWorkflowDispatchResponse] = await Promise.all([
+      GitHubService.dispatchWorkflow(deploymentCenterContext.gitHubToken, branch, repo, workflowFileName),
+      GitHubService.dispatchWorkflow(deploymentCenterContext.gitHubToken, branch, repo, sourceControlsWorkflowFileName),
+    ]);
+
+    if (appWorkflowDispatchResponse.metadata.success || sourceControlsWorkflowDispatchResponse.metadata.success) {
+      portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeRedeploySuccess').format(siteName));
+    } else if (appWorkflowDispatchResponse.metadata.status === 404 && sourceControlsWorkflowDispatchResponse.metadata.status !== 404) {
+      handleRedeployError(sourceControlsWorkflowDispatchResponse, notificationId, 'dispatchWorkflow');
+    } else {
+      handleRedeployError(appWorkflowDispatchResponse, notificationId, 'dispatchWorkflow');
+    }
+  };
+
+  const handleRedeployError = (response: any, notificationId: string, action: string) => {
+    const errorMessage = getErrorMessage(response.metadata.error);
+    errorMessage
+      ? portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFailWithStatusMessage').format(errorMessage))
+      : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFail'));
+
+    portalContext.log(
+      getTelemetryInfo(LogLevels.error, action, 'failed', {
+        message: errorMessage,
+      })
+    );
   };
 
   const hideRedeployConfirmDialog = () => {
