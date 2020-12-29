@@ -1,12 +1,9 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { LoggingService } from '../../shared/logging/logging.service';
 import { AppType, FunctionAppRuntimeStack, JavaContainers, Os, PublishType, WebAppRuntimeStack } from '../WorkflowModel';
 const fs = require('fs');
 
 @Injectable()
 export class WorkflowService20201201 {
-  loggingService: LoggingService;
-
   getWorkflowFile(appType: string, publishType: string, os: string, runtimeStack?: string, variables?: { [key: string]: string }) {
     let workflowFile: string =
       publishType.toLocaleLowerCase() === PublishType.Code
@@ -139,14 +136,12 @@ export class WorkflowService20201201 {
 
   readWorkflowFile(filePath: string) {
     try {
-      return fs.readFileSync(`./${filePath}`, 'utf8');
+      return fs.readFileSync(`./workflows/2020-12-01/${filePath}`, 'utf8');
     } catch (err) {
-      this.loggingService.error(`Failed to read workflow file`);
-
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
       }
-      throw new HttpException('Internal Server Error', 500);
+      throw new HttpException(JSON.stringify(err), 500);
     }
   }
 }
