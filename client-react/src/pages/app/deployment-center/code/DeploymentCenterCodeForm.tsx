@@ -486,6 +486,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
 
     if (appWorkflowDispatchResponse.metadata.success || sourceControlsWorkflowDispatchResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeRedeploySuccess').format(siteName));
+    } else if (appWorkflowDispatchResponse.metadata.status === 404 && sourceControlsWorkflowDispatchResponse.metadata.status !== 404) {
+      handleRedeployError(sourceControlsWorkflowDispatchResponse, notificationId, 'dispatchWorkflow');
     } else {
       handleRedeployError(appWorkflowDispatchResponse, notificationId, 'dispatchWorkflow');
     }
