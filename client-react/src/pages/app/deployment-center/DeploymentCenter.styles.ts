@@ -131,6 +131,5 @@ export const closePublishProfileButtonStyle = style({
 
 export const closePreviewButtonStyle = style({
   marginTop: '10px',
-  bottom: '10px',
   position: 'relative',
 });

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubWorkflowConfigPreviewProps } from '../DeploymentCenter.types';
-import { PanelType, DefaultButton, MessageBarType } from 'office-ui-fabric-react';
+import { PanelType, DefaultButton, MessageBarType, PrimaryButton } from 'office-ui-fabric-react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { panelBanner, deploymentCenterConsole, closePreviewButtonStyle } from '../DeploymentCenter.styles';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
@@ -52,7 +52,7 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
 
           {workflowFileContent && <pre className={deploymentCenterConsole(theme)}>{workflowFileContent}</pre>}
 
-          <DefaultButton className={closePreviewButtonStyle} text={t('Close')} onClick={dismissPreviewPanel} ariaLabel={t('Close')} />
+          <PrimaryButton className={closePreviewButtonStyle} text={t('Close')} onClick={dismissPreviewPanel} ariaLabel={t('Close')} />
         </CustomPanel>
       )}
     </>
