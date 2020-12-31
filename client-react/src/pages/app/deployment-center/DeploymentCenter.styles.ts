@@ -122,3 +122,14 @@ export const logsTimerStyle = style({
   marginTop: '10px',
   fontSize: '10px',
 });
+
+export const closePublishProfileButtonStyle = style({
+  marginTop: '100%',
+  bottom: '20px',
+  position: 'absolute',
+});
+
+export const closePreviewButtonStyle = style({
+  marginTop: '10px',
+  position: 'relative',
+});

@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubWorkflowConfigPreviewProps } from '../DeploymentCenter.types';
-import { PanelType, DefaultButton, MessageBarType } from 'office-ui-fabric-react';
+import { PanelType, DefaultButton, MessageBarType, PrimaryButton } from 'office-ui-fabric-react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
-import { panelBanner, deploymentCenterConsole } from '../DeploymentCenter.styles';
+import { panelBanner, deploymentCenterConsole, closePreviewButtonStyle } from '../DeploymentCenter.styles';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { ThemeContext } from '../../../../ThemeContext';
 
@@ -32,6 +32,7 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
       <p>{t('deploymentCenterSettingsWorkflowConfigPreviewDescription')}</p>
       <DefaultButton
         text={t('deploymentCenterSettingsWorkflowConfigPreviewFileButtonText')}
+        ariaLabel={t('deploymentCenterSettingsWorkflowConfigPreviewFileButtonText')}
         onClick={() => {
           setIsPreviewPanelOpen(true);
           setShowInfoBanner(true);
@@ -50,6 +51,8 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
           )}
 
           {workflowFileContent && <pre className={deploymentCenterConsole(theme)}>{workflowFileContent}</pre>}
+
+          <PrimaryButton className={closePreviewButtonStyle} text={t('Close')} onClick={dismissPreviewPanel} ariaLabel={t('Close')} />
         </CustomPanel>
       )}
     </>
