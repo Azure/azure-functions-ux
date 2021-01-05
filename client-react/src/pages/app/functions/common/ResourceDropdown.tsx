@@ -241,7 +241,7 @@ const getDocumentDBSettings = (appSettings: KeyValue<string>, newAppSettingName?
 
   for (const key of Object.keys(appSettings)) {
     const value = appSettings[key].toLowerCase();
-    if (value.indexOf('accountendpoint') > -1 && value.indexOf('documents.azure.com') > -1) {
+    if (value.indexOf('accountendpoint') > -1 && value.indexOf('documents') > -1) {
       result.push({ key, text: key });
     }
   }
