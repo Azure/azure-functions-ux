@@ -118,9 +118,12 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         //(note: stpelleg): Local Git does not require a Repo Url
         return '';
       case ScmType.ExternalGit:
+        const repoUrlParts = values.repo.split('://');
+        const protocol = repoUrlParts[0];
+        const hostContents = repoUrlParts[1];
+
         if (values.externalUsername && values.externalPassword) {
-          const repoPath = values.repo.toLocaleLowerCase().replace('https://', '');
-          return `https://${values.externalUsername}:${values.externalPassword}@${repoPath}`;
+          return `${protocol}://${values.externalUsername}:${values.externalPassword}@${hostContents}`;
         }
         return values.repo;
       case ScmType.Vso:
