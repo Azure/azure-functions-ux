@@ -85,7 +85,10 @@ export abstract class DeploymentCenterFormBuilder {
             : true;
         })
         .test('repositoryIsUrl', this._t('deploymentCenterExternalRepoMessage'), function(value) {
-          return this.parent.sourceProvider === ScmType.ExternalGit ? !!value && this.parent.repo.startsWith('https://') : true;
+          const parentRepoUrl = this.parent.repo ? this.parent.repo.toLocaleLowerCase() : '';
+          const urlIsPrefixedCorrectly = parentRepoUrl.startsWith('https://') || parentRepoUrl.startsWith('http://');
+
+          return this.parent.sourceProvider === ScmType.ExternalGit ? !!value && urlIsPrefixedCorrectly : true;
         }),
       branch: Yup.mixed().test('branchRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.sourceProvider === ScmType.GitHubAction ||
