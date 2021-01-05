@@ -13,16 +13,23 @@ import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishing
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { LogLevels } from '../../../../models/telemetry';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const { formProps, deployments, deploymentsError, isLoading, refreshLogs } = props;
   const { t } = useTranslation();
   const [selectedKey, setSelectedKey] = useState<string>('logs');
+  const [showLogsTab, setShowLogsTab] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+  const siteStateContext = useContext(SiteStateContext);
+
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
+  const scenarioService = new ScenarioService(t);
 
   const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
 
@@ -66,20 +73,31 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
     formProps.values.publishingConfirmPassword,
   ]);
 
+  useEffect(() => {
+    if (siteStateContext && siteStateContext.site) {
+      const scenarioStatus = scenarioService.checkScenario(ScenarioIds.deploymentCenterLogs, { site: siteStateContext.site }).status;
+      setShowLogsTab(scenarioStatus !== 'disabled');
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [siteStateContext]);
+
   return (
     <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
-      <PivotItem
-        itemKey="logs"
-        headerText={t('deploymentCenterPivotItemLogsHeaderText')}
-        ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
-        <DeploymentCenterCodeLogs
-          goToSettings={goToSettingsOnClick}
-          deployments={deployments}
-          deploymentsError={deploymentsError}
-          isLoading={isLoading}
-          refreshLogs={refreshLogs}
-        />
-      </PivotItem>
+      {showLogsTab && (
+        <PivotItem
+          itemKey="logs"
+          headerText={t('deploymentCenterPivotItemLogsHeaderText')}
+          ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
+          <DeploymentCenterCodeLogs
+            goToSettings={goToSettingsOnClick}
+            deployments={deployments}
+            deploymentsError={deploymentsError}
+            isLoading={isLoading}
+            refreshLogs={refreshLogs}
+          />
+        </PivotItem>
+      )}
 
       <PivotItem
         itemKey="settings"
