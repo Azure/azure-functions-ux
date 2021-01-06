@@ -2246,4 +2246,6 @@ export class PortalResources {
   public static deprecatedStackMessage = 'deprecatedStackMessage';
   public static endOfLifeStackMessage = 'endOfLifeStackMessage';
   public static logsRefreshTimerMessage = 'logsRefreshTimerMessage';
+  public static classicContainerSettingDeprecationMessage = 'classicContainerSettingDeprecationMessage';
+  public static classicDeploymentCenterDeprecationMessage = 'classicDeploymentCenterDeprecationMessage';
 }
