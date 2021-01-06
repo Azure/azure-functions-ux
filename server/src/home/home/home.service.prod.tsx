@@ -6,7 +6,8 @@ import { HomeService } from './home.service.base';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import { Home } from './views/home';
-import { EventType, LoggingService } from '../../shared/logging/logging.service';
+import { LoggingService } from '../../shared/logging/logging.service';
+import { EventType } from '../../shared/logging/etw.service';
 @Injectable()
 export class HomeServiceProd extends HomeService implements OnModuleInit {
   protected angularConfig: any = null;

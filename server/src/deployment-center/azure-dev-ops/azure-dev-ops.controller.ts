@@ -1,7 +1,8 @@
 import { Controller, Post, Query, Req, Body, Header, Res, HttpException } from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
-import { EventType, LoggingService } from '../../shared/logging/logging.service';
+import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
+import { EventType } from '../../shared/logging/etw.service';
 
 interface Authorization {
   parameters: { [key: string]: string };

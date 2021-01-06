@@ -1,26 +1,18 @@
 import { Logger, LoggerService } from '@nestjs/common';
 import { AppServicePerformanceCounters } from '../../types/app-service-performance-counters';
 import * as appInsights from 'applicationinsights';
-
-export enum EventType {
-  Info = 'Info',
-  Warning = 'Warning',
-  Error = 'Error',
-  Debug = 'Debug',
-  Metric = 'Metric',
-}
+import { EtwService, EventType } from './etw.service';
 
 export class LoggingService extends Logger implements LoggerService {
   private client: appInsights.TelemetryClient;
-  private ipc: any;
-  private ipcHealthy = true;
+  private etwService: EtwService;
 
   constructor() {
     super();
     this.initializeAppInsights();
-    this.initializeIpc();
+    this.initializeEtwLogger();
 
-    if (this.client || (this.ipc && this.ipcHealthy)) {
+    if (this.client || (this.etwService && this.etwService.isHealthy())) {
       setInterval(this.trackAppServicePerformance, 30 * 1000);
     }
   }
@@ -54,21 +46,8 @@ export class LoggingService extends Logger implements LoggerService {
     measurements?: { [name: string]: number },
     eventType?: EventType
   ) {
-    if (this.ipc && this.ipcHealthy) {
-      try {
-        const customDimensions = typeof properties === 'string' ? { message: properties } : properties;
-        const data = {
-          eventName: eventType,
-          timeStamp: Date().toLocaleString(),
-          name,
-          customDimensions,
-          measurements,
-        };
-        this.ipc.stdin.write(`${JSON.stringify(data)}\r\n`);
-      } catch (error) {
-        // To avoid infinite loop, only log to console.
-        console.log(JSON.stringify(error));
-      }
+    if (process.env.WEBSITE_FIRST_PARTY_ID && this.etwService) {
+      this.etwService.trackEvent(name, properties, measurements, eventType);
     }
 
     if (process.env.aiInstrumentationKey && this.client) {
@@ -96,37 +75,9 @@ export class LoggingService extends Logger implements LoggerService {
     }
   }
 
-  private initializeIpc() {
-    try {
-      const spawn = require('child_process').spawn;
-      const etwLoggerPath = process.env.etwLoggerPath || './EtwLogger/EtwLogger.exe';
-      const etwLoggerProviderName = process.env.etwLoggerProviderName || 'AppServiceUxServerLogs';
-      const ipc = spawn(etwLoggerPath, [etwLoggerProviderName]);
-      ipc.on('error', error => {
-        this.ipcHealthy = false;
-        const message = `IPC spawn error: ${JSON.stringify(error)}`;
-        const eventId = '/error/server/ipcSpawnFailure';
-        this.trackEvent(eventId, { message }, undefined, EventType.Error);
-        console.log(message);
-      });
-      ipc.stdin.setEncoding('utf8');
-      ipc.stderr.on('data', data => {
-        if (data) {
-          process.stderr.write(`IPC error: ${data.toString()}\r\n`);
-        }
-      });
-      ipc.stdout.on('data', data => {
-        if (data) {
-          process.stdout.write(`IPC output: ${data.toString()}\r\n`);
-        }
-      });
-      this.ipc = ipc;
-    } catch (error) {
-      this.ipcHealthy = false;
-      const message = `IPC spawn error: ${JSON.stringify(error)}`;
-      const eventId = '/error/server/ipcSpawnFailure';
-      this.trackEvent(eventId, { message }, undefined, EventType.Error);
-      console.log(message);
+  private initializeEtwLogger() {
+    if (process.env.WEBSITE_FIRST_PARTY_ID) {
+      this.etwService = new EtwService();
     }
   }
 
@@ -136,8 +87,8 @@ export class LoggingService extends Logger implements LoggerService {
     // We track these as perf metrics into app insights
     const value = process.env.WEBSITE_COUNTERS_APP;
     const client = appInsights.defaultClient;
-    const ipc = this.ipcHealthy && this.ipc;
-    if (value && (client || ipc)) {
+    const etwService = this.etwService && this.etwService.isHealthy() ? this.etwService : null;
+    if (value && (client || etwService)) {
       const counters = JSON.parse(value) as AppServicePerformanceCounters;
       for (const counterName in counters) {
         if (counters.hasOwnProperty(counterName)) {
@@ -145,13 +96,8 @@ export class LoggingService extends Logger implements LoggerService {
           if (client) {
             client.trackMetric(data);
           }
-          if (ipc) {
-            try {
-              this.ipc.stdin.write(`${JSON.stringify({ ...data, eventName: EventType.Metric })}\r\n`);
-            } catch (error) {
-              // To avoid infinite loop, only log to console.
-              console.log(JSON.stringify(error));
-            }
+          if (etwService) {
+            etwService.trackMetric(counterName, counters[counterName]);
           }
         }
       }
