@@ -2683,6 +2683,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="commitIdAuthor" xml:space="preserve">
         <value>Identificador de confirmación (autor)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Confirmar autor</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Mensaje de inserción en el repositorio</value>
     </data>
@@ -3890,6 +3893,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>No se pudo desconectar la implementación.</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>No se pudo desconectar la implementación {0}.</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>¿Seguro que quiere desconectar la implementación?</value>
     </data>
@@ -4249,6 +4255,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Actualmente, no se admiten las funciones basadas en Kubernetes.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Actualmente no se admite Docker Compose.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>No se admite la edición de funciones en el portal para las aplicaciones de funciones implementadas como imagen de Docker.</value>
@@ -5746,19 +5755,19 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Archivo de flujo de trabajo</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>Guardar archivo de flujo de trabajo</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Al guardar, podrá conservar las modificaciones que haya realizado en el archivo de flujo de trabajo, aunque seguirá desencadenando las implementaciones en esta aplicación.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>Eliminar el archivo de flujo de trabajo</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>El archivo se quitará y las confirmaciones futuras no desencadenarán implementaciones en esta aplicación.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>Si desconecta una acción, podrá volver a configurar la implementación de la aplicación. Elija qué sucede con el archivo de flujo de trabajo después de desconectarse.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>El archivo de flujo de trabajo de acción de GitHub "{0}" de la rama "{1}" en el repositorio "{2}" no existe. Seleccione "Aceptar" para desconectar la implementación.</value>
@@ -5932,7 +5941,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>No se puede encontrar la rama "{0}" en el repositorio "{1}". Diríjase al repositorio para investigarlo más detenidamente.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>Desconectar acciones de GitHub</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirmar la desconexión del servicio de compilación de App Service</value>
@@ -5948,6 +5957,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>No se pudo desconectar la implementación, pero el archivo del flujo de trabajo se eliminó correctamente. Vuelva a intentar desconectarla.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>No se pudo desconectar la implementación, pero el archivo del flujo de trabajo se eliminó correctamente. Vuelva a intentar desconectarla. Error: {0}.</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>No se puede establecer ningún vínculo a Application Insights. Asegúrese de que tiene permisos de escritura en la aplicación de funciones.</value>
@@ -6103,7 +6115,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Cargando registros de contenedor...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>Estos son los registros del motor de Docker que se emitieron durante la fase de aprovisionamiento de la imagen de contenedor.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>No se pudieron cargar los registros del contenedor.</value>
@@ -6326,6 +6338,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Público</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>La instancia local de Git le permite hospedar un servidor Git sencillo para la aplicación en el plan de App Service. Asimismo, se puede usar para configurar rápidamente una canalización de CICD.</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>La dirección URL del repositorio GIT local se generará cuando se complete.</value>
@@ -6857,5 +6872,20 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
         <value>El acceso anticipado permite la entrega rápida de actualizaciones y nuevas versiones de varios entornos en tiempos de ejecución.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>La versión seleccionada "{0}" está en desuso. Le recomendamos que la actualice.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>La versión seleccionada "{0}" se dejará de usar el {1}. Le recomendamos que la actualice pronto.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Los registros se actualizarán en {0} segundos.</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, Checkout the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.</value>
     </data>
 </root>

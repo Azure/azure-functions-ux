@@ -2683,6 +2683,9 @@
   <data name="commitIdAuthor" xml:space="preserve">
         <value>コミット ID (作成者)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>コミットの作成者</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>チェックイン メッセージ</value>
     </data>
@@ -3890,6 +3893,9 @@
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>デプロイとの接続を切断できませんでした</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>デプロイとの接続を切断できませんでした: {0}</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>デプロイとの接続を切断しますか?</value>
     </data>
@@ -4249,6 +4255,9 @@
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Kubernetes に基づく関数は現在サポートされていません。</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker Compose は現在サポートされていません。</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>ポータルの編集機能は、Docker イメージとしてデプロイされた関数アプリではサポートされていません。</value>
@@ -5746,19 +5755,19 @@
         <value>ワークフロー ファイル</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>ワークフロー ファイルの保存</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>保存すると、ワークフロー ファイルに対して行った編集を保持できますが、このアプリへのデプロイは引き続きトリガーされます。</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>ワークフロー ファイルの削除</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>ファイルは削除され、今後のコミットによってこのアプリへのデプロイがトリガーされることはありません。</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>アクションを切断すると、アプリのデプロイを再構成できます。切断後のお客様のワークフロー ファイルの動作を選択します。</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>リポジトリ '{2}' のブランチ '{1}' からの GitHub アクション ワークフロー ファイル '{0}' が存在しません。デプロイを切断するには、[OK] を選択します。</value>
@@ -5932,7 +5941,7 @@
         <value>リポジトリ '{1}' にブランチ '{0}' が見つかりません。詳しく調査するには、リポジトリに移動してください。</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>GitHub アクションの切断</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>App Service ビルド サービスの切断の確認</value>
@@ -5948,6 +5957,9 @@
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>デプロイを切断できませんでしたが、ワークフロー ファイルは正常に削除されました。もう一度切断してみてください。</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>デプロイを切断できませんでしたが、ワークフロー ファイルは正常に削除されました。もう一度切断してみてください。エラー: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Application Insights へのリンクを確立できません。関数アプリに対する書き込みアクセス許可があることをご確認ください</value>
@@ -6103,7 +6115,7 @@
         <value>コンテナー ログを読み込んでいます...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>これらは、お客様のコンテナー イメージのプロビジョニング フェーズで生成された Docker エンジンからのログです。</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>コンテナー ログを読み込めませんでした</value>
@@ -6326,6 +6338,9 @@
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>パブリック</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>ローカル Git を使用すると、App Service プランでアプリのための単純な Git サーバーをホストできます。これを使用すると、CICD パイプラインを迅速にセットアップすることができます。</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>完了時に、ローカル Git リポジトリ URL が生成されます。</value>
@@ -6856,6 +6871,21 @@
         <value>App Insights リソースをフェッチできませんでした。アプリの設定で適切なインストルメンテーション キーが構成されていることを確認してください。</value>
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
-        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
+        <value>早期アクセスを使用すると、さまざまなランタイムの更新プログラムや新しいバージョンがすばやく配信されます。</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>選択されたバージョン '{0}' は非推奨です。更新することをご検討ください。</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>選択されたバージョン '{0}' は {1} に廃止されます。早めに更新することをご検討ください。</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>あと {0} 秒でログが更新されます</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, Checkout the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.</value>
     </data>
 </root>

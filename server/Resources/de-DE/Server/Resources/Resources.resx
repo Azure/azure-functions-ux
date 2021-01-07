@@ -2683,6 +2683,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="commitIdAuthor" xml:space="preserve">
         <value>Commit-ID (Autor)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Commitersteller</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Meldung zum Eincheckvorgang</value>
     </data>
@@ -3890,6 +3893,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Fehler beim Trennen der Bereitstellung.</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Fehler beim Trennen Ihrer Bereitstellung: {0}</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Möchten Sie Ihre Bereitstellung trennen?</value>
     </data>
@@ -4249,6 +4255,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Auf Kubernetes basierende Funktionen werden derzeit nicht unterstützt.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker Compose wird derzeit nicht unterstützt.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Das Bearbeiten von Funktionen im Portal wird nicht für Funktions-Apps unterstützt, die als Docker-Image bereitgestellt werden.</value>
@@ -5746,19 +5755,19 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Workflowdatei</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>Workflowdatei speichern</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Durch eine Speicherung können Sie alle Änderungen an der Workflowdatei beibehalten, aber Bereitstellungen für diese App werden weiterhin ausgelöst.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>Workflowdatei löschen</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>Die Datei wird entfernt, und zukünftige Commits lösen keine Bereitstellungen für diese App aus.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>Durch das Trennen einer Aktion können Sie die App-Bereitstellung neu konfigurieren. Wählen Sie aus, was mit der Workflowdatei nach dem Trennen geschieht.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Die GitHub-Aktionsworkflowdatei "{0}" aus dem Branch "{1}" im Repository "{2}" ist nicht vorhanden. Wählen Sie "OK" aus, um die Bereitstellung zu trennen.</value>
@@ -5932,7 +5941,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Der Branch "{0}" wurde im Repository "{1}" nicht gefunden. Navigieren Sie zu Ihrem Repository, um weitere Untersuchungen durchzuführen.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>GitHub-Aktionen trennen</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Trennen des App Service-Builddiensts bestätigen</value>
@@ -5948,6 +5957,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Fehler beim Trennen der Bereitstellung, die Workflowdatei wurde jedoch erfolgreich gelöscht. Versuchen Sie erneut, die Verbindung zu trennen.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Fehler beim Trennen Ihrer Bereitstellung, die Workflowdatei wurde jedoch erfolgreich gelöscht. Versuchen Sie erneut, die Verbindung zu trennen. Fehler: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Mit Application Insights kann keine Verknüpfung eingerichtet werden. Stellen Sie sicher, dass Sie über Schreibberechtigungen für ihre Funktions-App verfügen.</value>
@@ -6103,7 +6115,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Containerprotokolle werden geladen...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>Dies sind die Protokolle aus der Docker-Engine, die während der Bereitstellungsphase Ihres Containerimages ausgegeben werden.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Fehler beim Laden von Containerprotokollen.</value>
@@ -6326,6 +6338,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Öffentlich</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Lokales Git ermöglicht Ihnen das Hosten eines einfachen Git-Servers für Ihre App in Ihrem App Service-Plan. So kann schnell eine CICD-Pipeline eingerichtet werden.</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Die URL für Ihr lokales Git-Repository wird nach dem Abschluss des Vorgangs generiert.</value>
@@ -6857,5 +6872,20 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
         <value>Der frühzeitige Zugriff ermöglicht eine schnelle Bereitstellung von Updates und neuen Versionen verschiedener Runtimes.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>Die ausgewählte Version {0} ist veraltet. Erwägen Sie eine Aktualisierung.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>Die ausgewählte Version {0} wird am {1} eingestellt und sollte zeitnah aktualisiert werden.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Die Protokolle werden in {0} Sekunden aktualisiert.</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>Die klassischen Containereinstellungen sind veraltet und werden im März 2021 entfernt. Testen Sie das neue Bereitstellungscenter, um Ihre Containereinstellungen weiterhin zu verwalten.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>Das klassische Bereitstellungscenter ist veraltet und wird im März 2021 entfernt. Testen Sie das neue Bereitstellungscenter, um Ihre Bereitstellungen weiterhin zu verwalten.</value>
     </data>
 </root>
