@@ -1898,7 +1898,7 @@
         <value>Criar a configuração do aplicativo com uma cadeia de conexão de armazenamento válida.</value>
     </data>
   <data name="backend_error_MissingFunctionsExtensionVersionAppSetting" xml:space="preserve">
-        <value>A configuração de aplicativo '{0}' está ausente em seu aplicativo. Sem essa configuração, você vai estar sempre executando a versão mais recente do runtime, mesmo entre maiores atualizações de versão, o que poderá conter alterações destrutivas. É aconselhado definir esse valor para a versão maior mais recente (~1). Você será notificado sobre atualizações para novas versões.</value>
+        <value>A configuração de aplicativo '{0}' está ausente em seu aplicativo. Sem essa configuração, você vai estar sempre executando a versão mais recente do runtime, mesmo entre maiores atualizações de versão, o que poderá conter alterações interruptivas. É aconselhado definir esse valor para a versão maior mais recente (~1). Você será notificado sobre atualizações para novas versões.</value>
     </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
         <value>A cadeia de conexão da Conta de Armazenamento armazenada em '{0}' é nula ou está vazia. Isso é necessário para seu aplicativo de funções funcionar.</value>
@@ -2683,6 +2683,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="commitIdAuthor" xml:space="preserve">
         <value>Confirmar ID (Autor)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Autor do Commit</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Mensagem de Check-in</value>
     </data>
@@ -2852,7 +2855,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Não é possível atualizar com as Funções Existentes</value>
     </data>
   <data name="appFunctionSettings_warning_7" xml:space="preserve">
-        <value>As atualizações de versão principal podem introduzir alterações significativas aos idiomas e ligações. Ao atualizar as versões principais do runtime, considere criar um novo aplicativo de funções e migrar suas funções para este novo aplicativo.</value>
+        <value>As atualizações de versão principal podem introduzir alterações interruptivas aos idiomas e ligações. Ao atualizar as versões principais do runtime, considere criar um novo aplicativo de funções e migrar suas funções para este novo aplicativo.</value>
     </data>
   <data name="warning" xml:space="preserve">
         <value>Aviso</value>
@@ -3890,6 +3893,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Falha ao desconectar a implantação</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Falha ao desconectar a implantação: {0}</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Tem certeza de que deseja desconectar a implantação?</value>
     </data>
@@ -4249,6 +4255,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>No momento, não há suporte para funções baseadas em Kubernetes.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>No momento, não há suporte para o Docker Compose.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Não há suporte para a edição de funções no Portal para aplicativos de funções implantados como uma imagem do Docker.</value>
@@ -5605,28 +5614,28 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>A versão do runtime não está configurada para o aplicativo. Como resultado, o runtime não pode ser iniciado. Atualize a versão do runtime para um valor válido (por exemplo, ~2).</value>
     </data>
   <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
-        <value>No momento, o aplicativo está fixado à versão '{0}' do runtime. A fixação à '{0}' significa que você sempre estará executando a versão mais recente do runtime mesmo nas atualizações de versão principal que podem conter alterações da falha. É recomendado definir esse valor para uma versão principal específica (por exemplo, ~2). Você será notificado sobre as versões mais recentes para atualização.</value>
+        <value>No momento, o aplicativo está fixado à versão '{0}' do runtime. A fixação à '{0}' significa que você sempre estará executando a versão mais recente do runtime mesmo nas atualizações de versão principal que podem conter alterações interruptivas. É recomendado definir esse valor para uma versão principal específica (por exemplo, ~2). Você será notificado sobre as versões mais recentes para atualização.</value>
     </data>
   <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
-        <value>No momento, o aplicativo está fixado à versão '{0}' do runtime, portanto, ele está usando a versão mais recente ({1}). A fixação à '{0}' significa que você sempre estará executando a versão mais recente do runtime mesmo nas atualizações de versão principal que podem conter alterações da falha. É recomendado definir esse valor para uma versão principal específica (por exemplo, ~2). Você será notificado sobre as versões mais recentes para atualização.</value>
+        <value>No momento, o aplicativo está fixado à versão '{0}' do runtime, portanto, ele está usando a versão mais recente ({1}). A fixação à '{0}' significa que você sempre estará executando a versão mais recente do runtime mesmo nas atualizações de versão principal que podem conter alterações interruptivas. É recomendado definir esse valor para uma versão principal específica (por exemplo, ~2). Você será notificado sobre as versões mais recentes para atualização.</value>
     </data>
   <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
-        <value>No momento, o aplicativo está fixado à versão '{0}' de runtime. Quando não houver mais suporte para essa versão, o aplicativo começará a usar a versão mais recente do runtime, que pode ser uma versão principal diferente e pode conter alterações da falha. É recomendado definir esse valor para uma versão principal específica (por exemplo, ~2). Você será notificado sobre as versões mais recentes para atualização.</value>
+        <value>No momento, o aplicativo está fixado à versão '{0}' de runtime. Quando não houver mais suporte para essa versão, o aplicativo começará a usar a versão mais recente do runtime, que pode ser uma versão principal diferente e pode conter alterações interruptivas. É recomendado definir esse valor para uma versão principal específica (por exemplo, ~2). Você será notificado sobre as versões mais recentes para atualização.</value>
     </data>
   <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
-        <value>Não há suporte para a versão personalizada ({0}) do runtime. Como resultado, o aplicativo está usando a versão mais recente {1}, e você sempre estará executando a versão mais recente do runtime, mesmo nas atualizações de versão principal, que podem conter alterações da falha. É recomendado definir esse valor para uma versão principal específica (por exemplo, ~2). Você será notificado sobre as versões mais recentes para atualização.</value>
+        <value>Não há suporte para a versão personalizada ({0}) do runtime. Como resultado, o aplicativo está usando a versão mais recente {1}, e você sempre estará executando a versão mais recente do runtime, mesmo nas atualizações de versão principal, que podem conter alterações interruptivas. É recomendado definir esse valor para uma versão principal específica (por exemplo, ~2). Você será notificado sobre as versões mais recentes para atualização.</value>
     </data>
   <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
         <value>Ao definir o valor de FUNCTIONS_EXTENSION_VERSION na Configuração de aplicativo, você optou por usar uma versão de runtime personalizada.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>Você está atualizando sua versão do runtime de {0} para {1}. Isso pode introduzir alterações da falha ao idioma e às associações das funções existentes. Considere a criação de um aplicativo de funções e a migração das funções para ele ao atualizar as versões principais do runtime.</value>
+        <value>Você está atualizando sua versão do runtime de {0} para {1}. Isso pode introduzir alterações interruptivas ao idioma e às associações das funções existentes. Considere a criação de um aplicativo de funções e a migração das funções para ele ao atualizar as versões principais do runtime.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
         <value>Atualizar a Versão do Runtime</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
-        <value>Seu aplicativo está executando a versão {0} e tem funções existentes no momento. Não é recomendado mudar para a versão {1}, pois ela pode introduzir alterações da falha em idiomas e associações. Tem certeza de que deseja continuar?</value>
+        <value>Seu aplicativo está executando a versão {0} e tem funções existentes no momento. Não é recomendado mudar para a versão {1}, pois ela pode introduzir alterações interruptivas em idiomas e associações. Tem certeza de que deseja continuar?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>Escopo 'fluxo de trabalho' ausente no token do GitHub. Retorne à etapa 'controle do código-fonte' para autorizar o GitHub novamente.</value>
@@ -5746,19 +5755,19 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Arquivo de fluxo de trabalho</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>Salvar arquivo de fluxo de trabalho</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Salvar permite que você mantenha as edições feitas no arquivo de fluxo de trabalho, mas ainda disparará implantações para este aplicativo.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>Excluir arquivo de fluxo de trabalho</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>O arquivo será removido e as confirmações futuras não dispararão as implantações para este aplicativo.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>Desconectar uma ação permite que você reconfigure a implantação do aplicativo. Escolha o que acontece com o arquivo de fluxo de trabalho após a desconexão.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>O arquivo de fluxo de trabalho da GitHub Action '{0}' do branch '{1}' no repositório '{2}' não existe. Selecione "OK" para desconectar a implantação.</value>
@@ -5932,7 +5941,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Não é possível encontrar a ramificação '{0}' no repositório '{1}'. Navegue até seu repositório para investigar mais.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>Desconectar o GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirmar Desconexão do Serviço de Build do Serviço de Aplicativo</value>
@@ -5948,6 +5957,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Falha ao desconectar a implantação, mas o arquivo de fluxo de trabalho foi excluído com êxito. Tente desconectar novamente.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Falha ao desconectar a implantação, mas o arquivo de fluxo de trabalho foi excluído com êxito. Tente desconectar a implantação novamente. Erro: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Não é possível estabelecer um link para o Application Insights. Verifique se você tem permissões de gravação no seu Aplicativo de funções</value>
@@ -6103,7 +6115,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Carregando logs do contêiner...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>Estes são os logs do Mecanismo de Docker emitidos durante a fase de provisionamento da sua imagem de contêiner.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Falha ao carregar os logs do contêiner</value>
@@ -6326,6 +6338,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Público</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>O Git local permite que você hospede um servidor Git simples para seu aplicativo no plano do Serviço de Aplicativo. Ele pode ser usado para configurar rapidamente um pipeline de CICD.</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>A URL do repositório git local será gerada após a conclusão.</value>
@@ -6856,6 +6871,21 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Falha ao buscar o recurso do App Insights. Verifique se a chave de instrumentação correta está configurada nas configurações do aplicativo. </value>
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
-        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
+        <value>O Acesso Antecipado permite a entrega rápida de atualizações e de novas versões de vários runtimes.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>A versão selecionada '{0}' foi preterida. Tente atualizá-la.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>A versão selecionada '{0}' será preterida em {1}. Tente atualizá-la em breve.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Os logs serão atualizados em {0} segundos</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, Checkout the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.</value>
     </data>
 </root>

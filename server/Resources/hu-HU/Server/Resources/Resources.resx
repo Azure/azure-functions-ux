@@ -2683,6 +2683,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="commitIdAuthor" xml:space="preserve">
         <value>Véglegesítés azonosítója (szerzője)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Szerző véglegesítése</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Beadási üzenet</value>
     </data>
@@ -3890,6 +3893,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Nem sikerült leválasztani az üzemelő példányt</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Nem sikerült leválasztani az üzemelő példányt: {0}</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Biztosan leválasztja az üzemelő példányt?</value>
     </data>
@@ -4249,6 +4255,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>A Kubernetes-alapú függvények használata jelenleg nem támogatott.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>A Docker Compose használata jelenleg nem támogatott.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>A függvények portálon való szerkesztése Docker-lemezképként üzembe helyezett függvényalkalmazások esetében nem támogatott.</value>
@@ -5746,19 +5755,19 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Munkafolyamat-fájl</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>Munkafolyamatfájl mentése</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Mentés útján megtarthatja a munkafolyamatfájlban végrehajtott összes módosítást, de a művelet ettől függetlenül elindítja az alkalmazás üzembe helyezését.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>Munkafolyamatfájl törlése</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>A rendszer eltávolítja a fájlt, és a jövőbeli véglegesítések nem fogják elindítani az alkalmazás üzembe helyezését.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>Adott művelet leválasztásával lehetősége van újrakonfigurálni az alkalmazás üzembe helyezését. Válassza ki, hogy mi történjen a munkafolyamatfájllal a leválasztást követően.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>A(z) {2} adattár {1} ágában található {0} GitHub-műveleti munkafolyamat-fájl nem létezik. Kattintson az OK gombra az üzemelő példány leválasztásához.</value>
@@ -5932,7 +5941,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A(z) {0} ág nem található a(z) {1} adattárházban. A további vizsgálódáshoz navigáljon az adattárházba.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>GitHub-műveletek leválasztása</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>App Service-buildelési szolgáltatás leválasztásának megerősítése</value>
@@ -5948,6 +5957,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Nem sikerült leválasztani az üzemelő példányt, de a munkafolyamat-fájlt sikerült törölni. Próbálkozzon újra a leválasztással.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Nem sikerült leválasztani az üzemelő példányt, de a munkafolyamat-fájlt sikerült törölni. Próbálkozzon újra a leválasztással. Hiba: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Nem sikerült létrehozni az Application Insights-hivatkozást. Győződjön meg arról, hogy rendelkezik írási engedéllyel a függvényalkalmazásban</value>
@@ -6103,7 +6115,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Tárolónaplók betöltése folyamatban...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>Ezek a Docker-motor által a tárolólemezkép üzembe helyezési fázisa alatt kibocsájtott naplók.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Nem sikerült betölteni a tárolónaplókat</value>
@@ -6326,6 +6338,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Nyilvános</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Helyi Git használatával egy egyszerű Git-kiszolgálót üzemeltethet alkalmazása számára az App Service-csomagjában. Segítségével gyorsan beállíthat egy CI/CD-folyamatot.</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>A helyi git-tárház URL-címe a befejezés után jön létre.</value>
@@ -6856,6 +6871,21 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nem sikerült lekérni App Insights-erőforrást. Győződjön meg róla, hogy a megfelelő eszközkulcsot konfigurálta az alkalmazás beállításai között. </value>
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
-        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
+        <value>A korai hozzáférés lehetővé teszi a frissítések és a különböző futtatókörnyezetek új verzióinak gyors alkalmazását.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>A kiválasztott verzió ({0}) elavult. Fontolja meg a frissítését.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>A kiválasztott verzió ({0}) {1} dátummal megszűnik. Fontolja meg mihamarabbi frissítését.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>A naplók {0} másodperc múlva frissülnek</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, Checkout the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.</value>
     </data>
 </root>
