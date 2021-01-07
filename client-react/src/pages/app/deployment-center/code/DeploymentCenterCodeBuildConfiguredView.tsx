@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { ScmType } from '../../../../models/site/config';
 import { SiteStateContext } from '../../../../SiteState';
+import { titleWithPaddingStyle } from '../DeploymentCenter.styles';
 
 const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
   const { t } = useTranslation();
@@ -133,7 +134,7 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
 
   return (
     <>
-      <h3>{t('deploymentCenterSettingsBuildTitle')}</h3>
+      <h3 className={titleWithPaddingStyle}>{t('deploymentCenterSettingsBuildTitle')}</h3>
       {getBuildProvider()}
       {showRuntimeAndVersion()}
     </>
