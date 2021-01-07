@@ -49,7 +49,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
       portalContext.log(
         getTelemetryInfo(LogLevels.error, 'getBitbucketUser', 'failed', {
           message: getErrorMessage(bitbucketUserResponse.metadata.error),
-          errorAsString: bitbucketUserResponse.metadata.error ? JSON.stringify(bitbucketUserResponse.metadata.error) : '',
+          error: bitbucketUserResponse.metadata.error,
         })
       );
     }
@@ -86,7 +86,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
       portalContext.log(
         getTelemetryInfo(LogLevels.error, 'getSourceControls', 'failed', {
           message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
-          errorAsString: sourceControlDetailsResponse.metadata.error ? JSON.stringify(sourceControlDetailsResponse.metadata.error) : '',
+          error: sourceControlDetailsResponse.metadata.error,
         })
       );
     }
@@ -110,7 +110,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
             portalContext.log(
               getTelemetryInfo(LogLevels.error, 'authorizeBitbucketAccount', 'failed', {
                 message: getErrorMessage(response.metadata.error),
-                errorAsString: response.metadata.error ? JSON.stringify(response.metadata.error) : '',
+                error: response.metadata.error,
               })
             );
 

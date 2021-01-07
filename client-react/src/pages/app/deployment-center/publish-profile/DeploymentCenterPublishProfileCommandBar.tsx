@@ -32,7 +32,7 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
       portalContext.log(
         getTelemetryInfo(LogLevels.error, 'downloadPublishProfile', 'failed', {
           message: getErrorMessage(getPublishProfileResponse.metadata.error),
-          errorAsString: getPublishProfileResponse.metadata.error ? JSON.stringify(getPublishProfileResponse.metadata.error) : '',
+          error: getPublishProfileResponse.metadata.error,
         })
       );
     }

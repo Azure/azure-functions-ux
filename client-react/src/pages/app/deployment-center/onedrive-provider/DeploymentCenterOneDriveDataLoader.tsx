@@ -89,7 +89,7 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
             portalContext.log(
               getTelemetryInfo(LogLevels.error, 'authorizeOneDriveAccount', 'failed', {
                 message: getErrorMessage(response.metadata.error),
-                errorAsString: response.metadata.error ? JSON.stringify(response.metadata.error) : '',
+                error: response.metadata.error,
               })
             );
             return Promise.resolve(undefined);

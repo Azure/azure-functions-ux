@@ -51,7 +51,7 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
       portalContext.log(
         getTelemetryInfo(LogLevels.error, 'getDropboxUser', 'failed', {
           message: getErrorMessage(dropboxUserResponse.metadata.error),
-          errorAsString: dropboxUserResponse.metadata.error ? JSON.stringify(dropboxUserResponse.metadata.error) : '',
+          error: dropboxUserResponse.metadata.error,
         })
       );
     }
@@ -77,7 +77,7 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
       portalContext.log(
         getTelemetryInfo(LogLevels.error, 'getSourceControls', 'failed', {
           message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
-          errorAsString: sourceControlDetailsResponse.metadata.error ? JSON.stringify(sourceControlDetailsResponse.metadata.error) : '',
+          error: sourceControlDetailsResponse.metadata.error,
         })
       );
     }
@@ -99,7 +99,7 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
         portalContext.log(
           getTelemetryInfo(LogLevels.error, 'authorizeDropboxAccount', 'failed', {
             message: getErrorMessage(dropboxTokenResponse.metadata.error),
-            errorAsString: dropboxTokenResponse.metadata.error ? JSON.stringify(dropboxTokenResponse.metadata.error) : '',
+            error: dropboxTokenResponse.metadata.error,
           })
         );
       }

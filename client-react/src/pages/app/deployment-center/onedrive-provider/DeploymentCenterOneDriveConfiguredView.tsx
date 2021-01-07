@@ -50,7 +50,7 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
       portalContext.log(
         getTelemetryInfo(LogLevels.error, 'getOneDriveUser', 'failed', {
           message: getErrorMessage(oneDriveUserResponse.metadata.error),
-          errorAsString: oneDriveUserResponse.metadata.error ? JSON.stringify(oneDriveUserResponse.metadata.error) : '',
+          error: oneDriveUserResponse.metadata.error,
         })
       );
     }
@@ -76,7 +76,7 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
       portalContext.log(
         getTelemetryInfo(LogLevels.error, 'getSourceControls', 'failed', {
           message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
-          errorAsString: sourceControlDetailsResponse.metadata.error ? JSON.stringify(sourceControlDetailsResponse.metadata.error) : '',
+          error: sourceControlDetailsResponse.metadata.error,
         })
       );
     }
@@ -98,7 +98,7 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
         portalContext.log(
           getTelemetryInfo(LogLevels.error, 'authorizeOneDriveAccount', 'failed', {
             message: getErrorMessage(oneDriveTokenResponse.metadata.error),
-            errorAsString: oneDriveTokenResponse.metadata.error ? JSON.stringify(oneDriveTokenResponse.metadata.error) : '',
+            error: oneDriveTokenResponse.metadata.error,
           })
         );
       }

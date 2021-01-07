@@ -38,7 +38,7 @@ const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProp
       portalContext.log(
         getTelemetryInfo(LogLevels.error, 'getSourceControls', 'failed', {
           message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
-          errorAsString: sourceControlDetailsResponse.metadata.error ? JSON.stringify(sourceControlDetailsResponse.metadata.error) : '',
+          error: sourceControlDetailsResponse.metadata.error,
         })
       );
     }
