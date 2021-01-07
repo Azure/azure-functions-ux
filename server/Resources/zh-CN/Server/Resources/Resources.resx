@@ -5746,19 +5746,19 @@
         <value>工作流文件</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>保留</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>保留存储库“{2}”的分支“{1}”中的文件“{0}”。这样可能会在提交到此分支时触发部署到你的应用。</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>删除</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>从存储库“{2}”的分支“{1}”中删除文件“{0}”。这样可防止以后在提交到此分支时部署到你的应用。</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>断开连接 GitHub Actions 将阻止以后由提交触发的任何部署。</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>存储库“{2}”的分支“{1}”中没有 GitHub Actions 工作流文件“{0}”。选择“确定”可断开连接部署。</value>
@@ -5932,7 +5932,7 @@
         <value>在存储库“{1}”中找不到分支“{0}”。若要进一步调查，请转到存储库。</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>确认 GitHub 操作“断开连接”</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>确认应用服务生成服务断开连接</value>
@@ -5975,6 +5975,9 @@
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>部署中心重新部署命令</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>重新部署/同步</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>提取信息时出错</value>
@@ -6098,6 +6101,9 @@
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>正在加载容器日志...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>无法加载容器日志</value>
@@ -6565,16 +6571,16 @@
         <value>请填写上面所需的设置来启用预览。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>覆盖存储库中的工作流</value>
+        <value>覆盖工作流: 覆盖所选的存储库和分支中的现有工作流文件 {0}。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>在存储库中添加工作流</value>
+        <value>添加工作流: 在所选的存储库和分支中添加新的工作流文件 {0}。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>使用现有存储库工作流</value>
+        <value>使用现有工作流: 使用所选的存储库和分支中的现有工作流文件 {0}。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>使用可用的存储库工作流</value>
+        <value>使用可用的工作流: 使用所选的存储库和分支中可用的工作流文件之一。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>选择工作流选项</value>
@@ -6820,6 +6826,36 @@
         <value>此缩放单元不支持独立 V2。请考虑重新部署或克隆应用。</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>在升级到 ~3 之后，你将无法回到 ~2，因为基础运行时是统一在 ~3 附近的。</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>容器类型</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML 无效</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>选择文件</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>无法提取函数应用的主机状态。若要使用日志流式处理，请确保函数主机正在运行。</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>项目</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>选择项目</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>找不到 Azure Repos 的帐户。请在 Azure Repos 中创建一个新帐户，然后重试。</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>未能提取 App Insights 资源。请确保在应用设置中配置了正确的检测密钥。</value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
     </data>
 </root>

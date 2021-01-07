@@ -14,21 +14,19 @@ export class CommonConstants {
 
   public static readonly ApiVersions = {
     antaresApiVersion20181101: '2018-11-01',
-    armBatchApi: '2015-11-01',
-    armLocksApiVersion: '2015-01-01',
-    armRbacApiVersion: '2015-07-01',
-    resourceGraphApiVersion: '2018-09-01-preview',
+    armBatchApi20151101: '2015-11-01',
+    resourceGraphApiVersion20180901preview: '2018-09-01-preview',
     storageApiVersion20180701: '2018-07-01',
     eventHubApiVersion20150801: '2015-08-01',
     iotHubApiVersion20170119: '2017-01-19',
     serviceBusApiVersion20150801: '2015-08-01',
     documentDBApiVersion20150408: '2015-04-08',
     appInsightsTokenApiVersion20150501: '2015-05-01',
+    quickpulseTokenApiVersion20200602preview: '2020-06-02-preview',
     appInsightsQueryApiVersion20180420: '2018-04-20',
     staticSitePreviewApiVersion20191201: '2019-12-01-preview',
-    stacksApiVersion20200501: '2020-05-01',
     stacksApiVersion20200601: '2020-06-01',
-    acrApiVersion: '2019-05-01',
+    acrApiVersion20190501: '2019-05-01',
   };
 
   public static readonly NonThemeColors = {
@@ -38,11 +36,10 @@ export class CommonConstants {
   };
 
   public static readonly FeatureFlags = {
-    AllowFreeLinux: 'allowfreelinux',
-    UseNewStacksApi: 'usenewstacksapi',
     showHiddenStacks: 'showHiddenStacks',
     targetAzDevDeployment: 'targetAzDevDeployment',
     authTokenOverride: 'authTokenOverride',
+    enableAzureMount: 'enableAzureMount',
   };
 
   public static readonly AppDensityLimit = 8;

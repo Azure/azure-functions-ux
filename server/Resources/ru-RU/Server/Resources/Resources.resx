@@ -5746,19 +5746,19 @@
         <value>Файл рабочего процесса</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Сохранить</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Сохранить файл "{0}" из ветви "{1}" в репозитории "{2}". Это действие может активировать развертывания приложения при фиксации в ветви.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Удалить</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Удалить файл "{0}" из ветви "{1}" в репозитории "{2}". Это предотвратит будущие развертывания приложения при фиксации в этой ветви.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Отключение действия GitHub предотвратит все будущие развертывания, активируемые фиксациями.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Файл рабочего процесса действия GitHub "{0}" из ветви "{1}" в репозитории "{2}" не существует. Нажмите кнопку "ОК", чтобы отключить развертывание.</value>
@@ -5932,7 +5932,7 @@
         <value>Не удается найти ветвь "{0}" в репозитории "{1}". Перейдите в свой репозиторий для дальнейшего анализа.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Подтверждение отключения действия GitHub</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Подтверждение отключения службы сборки в Службе приложений</value>
@@ -5975,6 +5975,9 @@
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Команда повторного развертывания в Центре развертывания</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Повторное развертывание/синхронизация</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Ошибка при получении сведений</value>
@@ -6098,6 +6101,9 @@
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Загрузка журналов контейнера…</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Не удалось загрузить журналы контейнера.</value>
@@ -6565,16 +6571,16 @@
         <value>Чтобы включить предварительный просмотр, укажите приведенные выше параметры.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Перезаписать рабочий процесс в репозитории</value>
+        <value>Overwrite the workflow: Overwrite the existing workflow file {0} in the selected repository and branch.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Добавить рабочий процесс в репозиторий</value>
+        <value>Add a workflow: Add a new workflow file {0} in the selected repository and branch.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Использовать существующий рабочий процесс в репозитории</value>
+        <value>Use existing workflow: Use the existing workflow file {0} in the selected repository and branch.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Использовать доступный рабочий процесс в репозитории</value>
+        <value>Use available workflow: Use one of the workflow files available in the selected repository and branch.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Выберите параметр рабочего процесса</value>
@@ -6820,6 +6826,36 @@
         <value>Категория "Изолированный версии 2" не поддерживается для этой единицы масштабирования. Попробуйте развернуть приложение повторно или клонировать его.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Вы не сможете вернуться к ~2 после обновления до ~3, так как базовая среда выполнения поддерживает ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Тип контейнера</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Недопустимый код YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Выберите файл</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Невозможно получить состояние узла для приложения-функции. Проверьте, что узел функций работает, чтобы использовать потоковую передачу журналов.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Проект</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Выберите проект</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Не найдены учетные записи Azure Repos. Создайте учетную запись в Azure Repos и повторите попытку.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>Не удалось получить ресурс Application Insights. Убедитесь, что в параметрах приложения настроен правильный ключ инструментирования. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
     </data>
 </root>

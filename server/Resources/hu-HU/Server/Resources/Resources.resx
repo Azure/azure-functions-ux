@@ -5746,19 +5746,19 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Munkafolyamat-fájl</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Megőrzés</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>A(z) {0} fájl megőrzése a(z) {2} adattár {1} ágában. Ez előidézheti az alkalmazás üzembe helyezéseit az ág véglegesítéseikor.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Törlés</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>A(z) {0} fájl törlése a(z) {2} adattár {1} ágából. Ezzel megakadályozza az alkalmazás jövőbeli üzembe helyezéseit az ág véglegesítéseikor.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>A GitHub-művelet leválasztása megakadályozza a véglegesítés hatására kezdeményezett összes jövőbeli üzembe helyezést.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>A(z) {2} adattár {1} ágában található {0} GitHub-műveleti munkafolyamat-fájl nem létezik. Kattintson az OK gombra az üzemelő példány leválasztásához.</value>
@@ -5932,7 +5932,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A(z) {0} ág nem található a(z) {1} adattárházban. A további vizsgálódáshoz navigáljon az adattárházba.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>GitHub-művelet leválasztásának megerősítése</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>App Service-buildelési szolgáltatás leválasztásának megerősítése</value>
@@ -5975,6 +5975,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Üzembe helyezési központ újbóli üzembe helyezési parancsa</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Újbóli üzembe helyezés vagy szinkronizálás</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Hiba történt az adatok beolvasásakor</value>
@@ -6098,6 +6101,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Tárolónaplók betöltése folyamatban...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Nem sikerült betölteni a tárolónaplókat</value>
@@ -6565,16 +6571,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Töltse ki fent az előnézet engedélyezéséhez szükséges beállításokat.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>A munkafolyamat felülírása az adattárban</value>
+        <value>A munkafolyamat felülírása: írja felül a meglévő munkafolyamat-fájlt ({0}) a kiválasztott adattárban és ágban.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Munkafolyamat hozzáadása az adattárban</value>
+        <value>Munkafolyamat hozzáadása: Adjon hozzá egy új munkafolyamatfájlt ({0}) a kiválasztott adattárhoz és ághoz.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Meglévő adattár-munkafolyamat használata</value>
+        <value>Meglévő munkafolyamat használata: Használja a meglévő munkafolyamat-fájlt ({0}) a kiválasztott adattárban és ágban.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Rendelkezésre álló adattár-munkafolyamat használata</value>
+        <value>Rendelkezésre álló munkafolyamat használata: Használja a kiválasztott adattár vagy ág egyik munkafolyamatfájlját.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Munkafolyamat-beállítás kiválasztása</value>
@@ -6820,6 +6826,36 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Ez a skálázási egység nem támogatja az Izolált V2-őt. Fontolja meg az alkalmazás újbóli üzembe helyezését vagy klónozását.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Ha frissít a ~ 3 verzióra, már nem tud visszatérni a ~ 2 verzióhoz, mivel a mögöttes futtatókörnyezet a ~ 3 verzión alapul.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Tároló típusa</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Érvénytelen YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Fájl kiválasztása</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Nem sikerült beolvasni a függvényalkalmazás gazdagépének állapotát. A naplóstreamelés használatához győződjön meg arról, hogy a függvényalkalmazás gazdagépe fut.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure-adattárak</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Projekt</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Projekt kiválasztása</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Nem találhatók fiókok az Azure Reposhoz. Hozzon létre egy új fiókot az Azure Reposban, és próbálkozzon újra.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>Nem sikerült lekérni App Insights-erőforrást. Győződjön meg róla, hogy a megfelelő eszközkulcsot konfigurálta az alkalmazás beállításai között. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
     </data>
 </root>

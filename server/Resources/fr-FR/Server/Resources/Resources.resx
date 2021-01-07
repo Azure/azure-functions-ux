@@ -5746,19 +5746,19 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Fichier de workflow</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Conserver</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Conservez le fichier « {0} » de la branche « {1} » dans le dépôt « {2} ». De cette façon, les validations sur la branche peuvent déclencher des déploiements sur votre application.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Supprimer</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Supprimez le fichier « {0} » de la branche « {1} » dans le dépôt « {2} ». De cette façon, les validations sur la branche n'entraînent pas de déploiements sur votre application.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>La déconnexion de l'action GitHub empêche tout déploiement futur déclenché par les validations.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Le fichier de workflow d'action GitHub « {0} » de la branche « {1} » dans le dépôt « {2} » n'existe pas. Sélectionnez OK pour déconnecter le déploiement.</value>
@@ -5932,7 +5932,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>La branche « {0} » est introuvable dans le dépôt « {1} ». Accédez à votre dépôt pour une recherche approfondie.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Confirmer la déconnexion de GitHub Actions</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirmer la déconnexion du service de build App Service</value>
@@ -5975,6 +5975,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Commande de redéploiement du centre de déploiement</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Redéployer/synchroniser</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Erreur de récupération des informations</value>
@@ -6098,6 +6101,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Chargement des journaux de conteneur...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Impossible de charger les journaux de conteneur</value>
@@ -6565,16 +6571,16 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Renseignez les paramètres obligatoires ci-dessus pour activer la préversion.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Remplacer le workflow dans le dépôt</value>
+        <value>Overwrite the workflow: Overwrite the existing workflow file {0} in the selected repository and branch.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Ajouter un workflow dans le dépôt</value>
+        <value>Add a workflow: Add a new workflow file {0} in the selected repository and branch.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Utiliser un workflow de dépôt existant</value>
+        <value>Use existing workflow: Use the existing workflow file {0} in the selected repository and branch.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Utiliser un workflow de dépôt disponible</value>
+        <value>Use available workflow: Use one of the workflow files available in the selected repository and branch.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Sélectionner l'option de workflow</value>
@@ -6820,6 +6826,36 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Isolé V2 n'est pas pris en charge pour cette unité d'échelle. Redéployez ou clonez votre application.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Vous ne pouvez pas revenir à ~2 après la mise à niveau vers ~3, car le runtime sous-jacent est unifié autour de ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Type de conteneur</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML non valide</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Choisir un fichier</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Impossible de récupérer l'état de l'hôte de votre application de fonction. Pour utiliser le streaming de journaux, vérifiez que votre hôte de fonction est en cours d'exécution.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Projet</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Sélectionner un projet</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Aucun compte trouvé pour Azure Repos. Créez un compte dans Azure Repos et réessayez.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>La récupération de votre ressource App Insights a échoué. Vérifiez que la clé d'instrumentation configurée dans les paramètres de l'application est correcte. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
     </data>
 </root>

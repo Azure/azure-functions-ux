@@ -86,8 +86,9 @@ export const calloutContentButton = style({
 
 export const choiceGroupSubLabel = style({
   paddingLeft: '26px',
-  fontSize: '12px',
   color: '#605E5C',
+  paddingTop: '10px',
+  paddingBottom: '10px',
 });
 
 export const panelBanner = style({
@@ -110,4 +111,25 @@ export const panelOverflowStyle = {
 export const ftpsPasswordTextboxStyle = style({
   display: 'inline-table',
   width: '119%',
+});
+
+export const disconnectWorkflowInfoStyle = style({
+  marginTop: '15px',
+  marginBottom: '15px',
+});
+
+export const logsTimerStyle = style({
+  marginTop: '10px',
+  fontSize: '10px',
+});
+
+export const closePublishProfileButtonStyle = style({
+  marginTop: '100%',
+  bottom: '20px',
+  position: 'absolute',
+});
+
+export const closePreviewButtonStyle = style({
+  marginTop: '10px',
+  position: 'relative',
 });

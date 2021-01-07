@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react';
 import DeploymentCenterFtps from '../DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
@@ -10,19 +10,31 @@ import { ScmType, BuildProvider } from '../../../../models/site/config';
 import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
 import { ThemeContext } from '../../../../ThemeContext';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { LogLevels } from '../../../../models/telemetry';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
-  const { formProps, deployments, deploymentsError, isLoading } = props;
+  const { formProps, deployments, deploymentsError, isLoading, refreshLogs } = props;
   const { t } = useTranslation();
   const [selectedKey, setSelectedKey] = useState<string>('logs');
+  const [showLogsTab, setShowLogsTab] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+  const siteStateContext = useContext(SiteStateContext);
+
   const theme = useContext(ThemeContext);
+  const portalContext = useContext(PortalContext);
+  const scenarioService = new ScenarioService(t);
 
   const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
 
   const goToSettingsOnClick = () => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'goToSettingButton', 'clicked'));
     setSelectedKey('settings');
   };
 
@@ -50,19 +62,42 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
     );
   };
 
+  useEffect(() => {
+    portalContext.updateDirtyState(isFtpsDirty() || isSettingsDirty());
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    formProps.values.buildProvider,
+    formProps.values.publishingUsername,
+    formProps.values.publishingPassword,
+    formProps.values.publishingConfirmPassword,
+  ]);
+
+  useEffect(() => {
+    if (siteStateContext && siteStateContext.site) {
+      const scenarioStatus = scenarioService.checkScenario(ScenarioIds.deploymentCenterLogs, { site: siteStateContext.site }).status;
+      setShowLogsTab(scenarioStatus !== 'disabled');
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [siteStateContext]);
+
   return (
     <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
-      <PivotItem
-        itemKey="logs"
-        headerText={t('deploymentCenterPivotItemLogsHeaderText')}
-        ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
-        <DeploymentCenterCodeLogs
-          goToSettings={goToSettingsOnClick}
-          deployments={deployments}
-          deploymentsError={deploymentsError}
-          isLoading={isLoading}
-        />
-      </PivotItem>
+      {showLogsTab && (
+        <PivotItem
+          itemKey="logs"
+          headerText={t('deploymentCenterPivotItemLogsHeaderText')}
+          ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
+          <DeploymentCenterCodeLogs
+            goToSettings={goToSettingsOnClick}
+            deployments={deployments}
+            deploymentsError={deploymentsError}
+            isLoading={isLoading}
+            refreshLogs={refreshLogs}
+          />
+        </PivotItem>
+      )}
 
       <PivotItem
         itemKey="settings"

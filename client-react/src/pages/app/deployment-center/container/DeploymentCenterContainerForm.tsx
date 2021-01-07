@@ -11,7 +11,6 @@ import {
   WorkflowOption,
   ContainerDockerAccessTypes,
 } from '../DeploymentCenter.types';
-import { KeyCodes } from 'office-ui-fabric-react';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
@@ -22,9 +21,13 @@ import { PortalContext } from '../../../../PortalContext';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { getAcrWebhookName, getAppDockerWebhookUrl, getWorkflowFilePath, getArmToken, getLogId } from '../utility/DeploymentCenterUtility';
+import {
+  getAcrWebhookName,
+  getAppDockerWebhookUrl,
+  getWorkflowFilePath,
+  getArmToken,
+  getTelemetryInfo,
+} from '../utility/DeploymentCenterUtility';
 import { ACRWebhookPayload } from '../../../../models/acr';
 import { ScmType } from '../../../../models/site/config';
 import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
@@ -35,6 +38,8 @@ import {
   updateGitHubActionSourceControlPropertiesManually,
 } from '../utility/GitHubActionUtility';
 import { GitHubCommit, GitHubActionWorkflowRequestContent } from '../../../../models/github';
+import { LogLevels } from '../../../../models/telemetry';
+import { AppOs } from '../../../../models/site/site';
 
 interface ResponseResult {
   success: boolean;
@@ -88,8 +93,20 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
     if (values.option === ContainerOptions.docker) {
       return getDockerFxVersion(prefix, values);
+    } else if (values.option === ContainerOptions.compose) {
+      return getDockerComposeFxVersion(prefix, values);
     } else {
       throw Error('Not implemented');
+    }
+  };
+
+  const getDockerComposeFxVersion = (prefix: string, values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+    if (values.registrySource === ContainerRegistrySources.acr) {
+      return `${prefix}|${btoa(values.acrComposeYml)}`;
+    } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
+      return `${prefix}|${btoa(values.privateRegistryComposeYml)}`;
+    } else {
+      return `${prefix}|${btoa(values.dockerHubComposeYml)}`;
     }
   };
 
@@ -112,13 +129,11 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         return DeploymentCenterConstants.dockerPrefix;
       case ContainerOptions.compose:
         return DeploymentCenterConstants.composePrefix;
-      case ContainerOptions.kubernetes:
-        return DeploymentCenterConstants.kubernetesPrefix;
       default:
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterContainerCommandBar',
-          `Incorrect container option provided ${values.option}`
+        portalContext.log(
+          getTelemetryInfo(LogLevels.error, 'getFxVersionPrefix', 'incorrectValue', {
+            value: values.option,
+          })
         );
         throw Error(`Invalid container option '${values.option}'`);
     }
@@ -136,6 +151,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     const webhookPayload = getAcrWebhookRegistrationPayload(values);
 
     if (webhookPayload && values.acrResourceId && values.acrLocation && deploymentCenterContext.siteDescriptor) {
+      portalContext.log(getTelemetryInfo(LogLevels.info, 'updateAcrWebhook', 'submit'));
       const webhookName = getAcrWebhookName(deploymentCenterContext.siteDescriptor);
       const webhookResourceId = `${values.acrResourceId}/webhooks/${webhookName}`;
 
@@ -179,6 +195,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
   const deleteAcrWebhook = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
     if (deploymentCenterContext.siteDescriptor && values.acrResourceId) {
+      portalContext.log(getTelemetryInfo(LogLevels.info, 'deleteAcrWebhook', 'submit'));
       const webhookName = getAcrWebhookName(deploymentCenterContext.siteDescriptor);
       const webhookResourceId = `${values.acrResourceId}/webhooks/${webhookName}`;
 
@@ -223,6 +240,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       error: null,
     };
 
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'updateAppSettings', 'submit'));
+
     const appSettingsResponse = await deploymentCenterData.fetchApplicationSettings(resourceId);
 
     if (appSettingsResponse.metadata.success) {
@@ -234,9 +253,12 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         responseResult.error = saveAppSettingsResponse.metadata.error;
       }
     } else {
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updateAppSettings'), {
-        error: appSettingsResponse.metadata.error,
-      });
+      portalContext.log(
+        getTelemetryInfo(LogLevels.error, 'appSettingsResponse', 'failed', {
+          message: getErrorMessage(appSettingsResponse.metadata.error),
+          errorAsString: JSON.stringify(appSettingsResponse.metadata.error),
+        })
+      );
 
       responseResult.success = false;
       responseResult.error = appSettingsResponse.metadata.error;
@@ -252,6 +274,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       error: null,
     };
 
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'getSiteConfig', 'submit'));
+
     const siteConfigResponse = await deploymentCenterData.getSiteConfig(resourceId);
 
     if (siteConfigResponse.metadata.success) {
@@ -263,15 +287,26 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         siteConfigResponse.data.properties.windowsFxVersion = getFxVersion(values);
       }
 
+      portalContext.log(getTelemetryInfo(LogLevels.info, 'getSitupdateSiteConfigeConfig', 'submit'));
       const saveSiteConfigResponse = await deploymentCenterData.updateSiteConfig(resourceId, siteConfigResponse.data);
       if (!saveSiteConfigResponse.metadata.success) {
         responseResult.success = false;
         responseResult.error = saveSiteConfigResponse.metadata.error;
+
+        portalContext.log(
+          getTelemetryInfo(LogLevels.error, 'saveSiteConfigResponse', 'failed', {
+            message: getErrorMessage(saveSiteConfigResponse.metadata.error),
+            errorAsString: JSON.stringify(saveSiteConfigResponse.metadata.error),
+          })
+        );
       }
     } else {
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updateSiteConfig'), {
-        error: siteConfigResponse.metadata.error,
-      });
+      portalContext.log(
+        getTelemetryInfo(LogLevels.error, 'siteConfigResponse', 'failed', {
+          message: getErrorMessage(siteConfigResponse.metadata.error),
+          errorAsString: JSON.stringify(siteConfigResponse.metadata.error),
+        })
+      );
 
       responseResult.success = false;
       responseResult.error = siteConfigResponse.metadata.error;
@@ -335,6 +370,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         success: true,
       };
     }
+
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'updateGitHubActionSettings', 'submit'));
 
     const repo = `${values.org}/${values.repo}`;
     const branch = values.branch || 'master';
@@ -401,9 +438,12 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     );
 
     if (!response.metadata.success) {
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updateGitHubActionSettings'), {
-        error: response.metadata.error,
-      });
+      portalContext.log(
+        getTelemetryInfo(LogLevels.error, 'updateGitHubActionSettingsResponse', 'failed', {
+          message: getErrorMessage(response.metadata.error),
+          errorAsString: JSON.stringify(response.metadata.error),
+        })
+      );
     }
 
     return {
@@ -421,6 +461,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       isMercurial: false,
     };
 
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'updateSourceControlDetails', 'submit'));
+
     const updateSourceControlResponse = await deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, {
       properties: payload,
     });
@@ -435,11 +477,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       // manually.
       // This strictly a workaround and once all the APIs are sync this code can be removed.
 
-      LogService.trackEvent(
-        LogCategories.deploymentCenter,
-        getLogId('DeploymentCenterContainerForm', 'updateSourceControlDetails-apiSyncErrorWorkaround'),
-        { resourceId: deploymentCenterContext.resourceId }
-      );
+      portalContext.log(getTelemetryInfo(LogLevels.warning, 'updateSourceControlDetailsWorkaround', 'submit'));
 
       return updateGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId, payload);
     } else {
@@ -455,6 +493,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       error: null,
     };
 
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'updateApplicationProperties', 'submit'));
     const updateSourceControlDetailsResponse = await updateSourceControlDetails(values);
 
     if (updateSourceControlDetailsResponse.metadata.success) {
@@ -486,6 +525,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   const saveGithubActionContainerSettings = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
     const notificationId = portalContext.startNotification(t('savingContainerConfiguration'), t('savingContainerConfiguration'));
 
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'saveGithubActionContainerSettings', 'submit'));
     const updateGitHubActionSettingsResponse = await updateGitHubActionSettings(values);
     let containerConfigurationSucceeded = true;
     let errorMessage = '';
@@ -515,18 +555,14 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     }
   };
 
-  const onKeyDown = keyEvent => {
-    if ((keyEvent.charCode || keyEvent.keyCode) === KeyCodes.enter) {
-      keyEvent.preventDefault();
-    }
-  };
-
   const refreshFunction = () => {
     hideRefreshConfirmDialog();
     props.refresh();
   };
 
   const onSubmit = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+    portalContext.log(getTelemetryInfo(LogLevels.info, 'onSubmitContainer', 'submit'));
+
     await Promise.all([updateDeploymentConfigurations(values), updatePublishingUser(values)]);
     deploymentCenterContext.refresh();
     props.refresh();
@@ -534,17 +570,22 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
   const updateDeploymentConfigurations = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
     const { scmType, org, repo, branch, workflowOption, registrySource, option, acrLoginServer, privateRegistryServerUrl } = values;
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updateDeploymentConfigurations'), {
-      scmType,
-      org,
-      repo,
-      branch,
-      workflowOption,
-      registrySource,
-      option,
-      acrLoginServer,
-      privateRegistryServerUrl,
-    });
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'saveDeploymentSettings', 'start', {
+        scmType,
+        org,
+        repo,
+        branch,
+        workflowOption,
+        registrySource,
+        option,
+        acrLoginServer,
+        privateRegistryServerUrl,
+        publishType: 'container',
+        appType: siteContext.isFunctionApp ? 'functionApp' : 'webApp',
+        os: siteContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+      })
+    );
 
     // Only do the save if scmtype in the config is set to none.
     // If the scmtype in the config is not none, the user should be doing a disconnect operation first.
@@ -565,7 +606,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       (currentUser && currentUser.properties.publishingUserName !== values.publishingUsername) ||
       (currentUser && values.publishingPassword && currentUser.properties.publishingPassword !== values.publishingPassword)
     ) {
-      LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updatePublishingUser'), {});
+      portalContext.log(getTelemetryInfo(LogLevels.info, 'updatePublishingUser', 'submit'));
 
       const notificationId = portalContext.startNotification(t('UpdatingPublishingUser'), t('UpdatingPublishingUser'));
       currentUser.properties.publishingUserName = values.publishingUsername;
@@ -580,9 +621,12 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
           ? portalContext.stopNotification(notificationId, false, t('UpdatingPublishingUserFailWithStatusMessage').format(errorMessage))
           : portalContext.stopNotification(notificationId, false, t('UpdatingPublishingUserFail'));
 
-        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerForm', 'updatePublishingUser'), {
-          error: publishingUserResponse.metadata.error,
-        });
+        portalContext.log(
+          getTelemetryInfo(LogLevels.error, 'publishingUserResponse', 'failed', {
+            message: getErrorMessage(publishingUserResponse.metadata.error),
+            errorAsString: JSON.stringify(publishingUserResponse.metadata.error),
+          })
+        );
       }
     }
   };
@@ -604,7 +648,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       validateOnChange={false}
       validationSchema={props.formValidationSchema}>
       {(formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>) => (
-        <form onKeyDown={onKeyDown}>
+        <form>
           <div id="deployment-center-command-bar" className={commandBarSticky}>
             <DeploymentCenterCommandBar
               saveFunction={formProps.submitForm}

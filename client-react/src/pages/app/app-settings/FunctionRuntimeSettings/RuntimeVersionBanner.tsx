@@ -143,7 +143,11 @@ const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = p
   const initialRuntimeVersion =
     findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) || '';
 
-  const exactRuntimeVersion = (asyncData.functionsHostStatus.value && asyncData.functionsHostStatus.value.properties.version) || '';
+  const exactRuntimeVersion =
+    (asyncData.functionsHostStatus.value &&
+      asyncData.functionsHostStatus.value.properties &&
+      asyncData.functionsHostStatus.value.properties.version) ||
+    '';
 
   const initialVersionToLowerTrimmed = (initialRuntimeVersion || '').toLowerCase().replace(/^\s*|\s*$/g, '');
 

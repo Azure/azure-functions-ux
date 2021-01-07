@@ -55,7 +55,20 @@ export const nodeStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '14.x',
               },
-              isPreview: true,
+              isEarlyAccess: true,
+              endOfLifeDate: node14EOL,
+            },
+            windowsRuntimeSettings: {
+              runtimeVersion: '~14',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '14.x',
+              },
+              isEarlyAccess: true,
               endOfLifeDate: node14EOL,
             },
           },

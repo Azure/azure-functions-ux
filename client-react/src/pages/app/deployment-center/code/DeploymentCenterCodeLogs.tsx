@@ -15,6 +15,7 @@ import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured } from
 import { ArmObj } from '../../../../models/arm-obj';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
+import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
@@ -33,7 +34,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
-  const { deployments, deploymentsError, isLoading, goToSettings } = props;
+  const { deployments, deploymentsError, isLoading, goToSettings, refreshLogs } = props;
   const { t } = useTranslation();
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
@@ -72,6 +73,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
           {deployment.properties.id.substr(0, 7)}
         </Link>
       ),
+      author: deployment.properties.author,
       checkinMessage: deployment.properties.message,
       status: deployment.properties.active
         ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
@@ -117,9 +119,10 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const items: CodeDeploymentsRow[] = rows.sort(dateTimeComparatorReverse);
 
   const columns: IColumn[] = [
-    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150, maxWidth: 250 },
-    { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 100, maxWidth: 150 },
-    { key: 'status', name: t('status'), fieldName: 'status', minWidth: 150, maxWidth: 200 },
+    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 75, maxWidth: 150 },
+    { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 75, maxWidth: 100 },
+    { key: 'author', name: t('commitAuthor'), fieldName: 'author', minWidth: 75, maxWidth: 200 },
+    { key: 'status', name: t('status'), fieldName: 'status', minWidth: 100, maxWidth: 150 },
     { key: 'checkinMessage', name: t('checkinMessage'), fieldName: 'checkinMessage', minWidth: 210 },
   ];
 
@@ -156,6 +159,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
         <div className={deploymentCenterLogsError}>{deploymentsError}</div>
       ) : deployments ? (
         <>
+          <DeploymentCenterCodeLogsTimer refreshLogs={refreshLogs} />
           <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
           {items.length === 0 && getZeroDayContent()}
         </>

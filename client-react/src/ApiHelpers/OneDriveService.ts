@@ -15,7 +15,7 @@ export default class OneDriveService {
       Authorization: `Bearer ${oneDriveToken}`,
     };
 
-    return sendHttpRequest<OneDriveUser>({ url, headers, method: 'GET' });
+    return sendHttpRequest<OneDriveUser>({ url, headers, method: 'GET' }, true /* excludeWellKnownHeaders */);
   };
 
   public static getToken = (redirectUrl: string): Promise<HttpResponseObject<ProviderToken>> => {
@@ -23,7 +23,10 @@ export default class OneDriveService {
       redirUrl: redirectUrl,
     };
 
-    return sendHttpRequest<ProviderToken>({ url: `${Url.serviceHost}auth/onedrive/getToken`, method: 'POST', data });
+    return sendHttpRequest<ProviderToken>(
+      { url: `${Url.serviceHost}auth/onedrive/getToken`, method: 'POST', data },
+      true /* excludeWellKnownHeaders */
+    );
   };
 
   public static getFolders = (oneDriveToken: string, logger?: (page, response) => void): Promise<OneDriveFolder[]> => {
@@ -52,12 +55,15 @@ export default class OneDriveService {
   };
 
   private static _sendOneDriveRequest = (url: string, oneDriveToken: string, method: Method) => {
-    return sendHttpRequest<OneDriveArrayResponse<OneDriveFolder[]>>({
-      url,
-      method,
-      headers: {
-        Authorization: `Bearer ${oneDriveToken}`,
+    return sendHttpRequest<OneDriveArrayResponse<OneDriveFolder[]>>(
+      {
+        url,
+        method,
+        headers: {
+          Authorization: `Bearer ${oneDriveToken}`,
+        },
       },
-    });
+      true /* excludeWellKnownHeaders */
+    );
   };
 }

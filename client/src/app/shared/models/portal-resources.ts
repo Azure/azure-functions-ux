@@ -856,6 +856,7 @@ export class PortalResources {
   public static log = 'log';
   public static showLogs = 'showLogs';
   public static commitIdAuthor = 'commitIdAuthor';
+  public static commitAuthor = 'commitAuthor';
   public static checkinMessage = 'checkinMessage';
   public static topBar_runtimeV2 = 'topBar_runtimeV2';
   public static functionKeys_clickToHide = 'functionKeys_clickToHide';
@@ -1251,6 +1252,7 @@ export class PortalResources {
   public static disconnectingDeployment = 'disconnectingDeployment';
   public static disconnectingDeploymentSuccess = 'disconnectingDeploymentSuccess';
   public static disconnectingDeploymentFail = 'disconnectingDeploymentFail';
+  public static disconnectingDeploymentFailWithMessage = 'disconnectingDeploymentFailWithMessage';
   public static disconnectConfirm = 'disconnectConfirm';
   public static communityTemplatesTitle = 'communityTemplatesTitle';
   public static communityTemplatesDescription = 'communityTemplatesDescription';
@@ -1371,6 +1373,7 @@ export class PortalResources {
   public static windowsKubernetesDisableMessage = 'windowsKubernetesDisableMessage';
   public static functionsDockerComposeDisableMessage = 'functionsDockerComposeDisableMessage';
   public static functionsKubernetesDisableMessage = 'functionsKubernetesDisableMessage';
+  public static dockerComposeDisabledMessage = 'dockerComposeDisabledMessage';
   public static readOnlyBYOC = 'readOnlyBYOC';
   public static failedToGetContainerConfigData = 'failedToGetContainerConfigData';
   public static invalidUrl = 'invalidUrl';
@@ -1926,6 +1929,8 @@ export class PortalResources {
   public static deploymentCenterGitHubDisconnectLoading = 'deploymentCenterGitHubDisconnectLoading';
   public static githubActionDisconnectWorkflowDeleteFailed = 'githubActionDisconnectWorkflowDeleteFailed';
   public static disconnectingDeploymentFailWorkflowFileDeleteSucceeded = 'disconnectingDeploymentFailWorkflowFileDeleteSucceeded';
+  public static disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage =
+    'disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage';
   public static functionLog_rbacPermissionsForAppInsights = 'functionLog_rbacPermissionsForAppInsights';
   public static deploymentCenterCommandBarAriaLabel = 'deploymentCenterCommandBarAriaLabel';
   public static deploymentCenterSaveCommandAriaLabel = 'deploymentCenterSaveCommandAriaLabel';
@@ -1935,6 +1940,7 @@ export class PortalResources {
   public static deploymentCenterRefreshCommandAriaLabel = 'deploymentCenterRefreshCommandAriaLabel';
   public static deploymentCenterSyncCommandAriaLabel = 'deploymentCenterSyncCommandAriaLabel';
   public static deploymentCenterRedeployAriaLabel = 'deploymentCenterRedeployAriaLabel';
+  public static deploymentCenterRedeploy = 'deploymentCenterRedeploy';
   public static deploymentCenterErrorFetchingInfo = 'deploymentCenterErrorFetchingInfo';
   public static deploymentCenterSettingsConfiguredViewUserNotAuthorized = 'deploymentCenterSettingsConfiguredViewUserNotAuthorized';
   public static deploymentCenterVstsInfoMessage = 'deploymentCenterVstsInfoMessage';
@@ -1976,6 +1982,7 @@ export class PortalResources {
   public static deploymentCenterPivotItemGitFtpsAriaLabel = 'deploymentCenterPivotItemGitFtpsAriaLabel';
   public static deploymentCenterContainerLogsLoadingAriaValue = 'deploymentCenterContainerLogsLoadingAriaValue';
   public static deploymentCenterContainerLogsLoading = 'deploymentCenterContainerLogsLoading';
+  public static deploymentCenterContainerLogsDesc = 'deploymentCenterContainerLogsDesc';
   public static deploymentCenterContainerLogsFailed = 'deploymentCenterContainerLogsFailed';
   public static deploymentCenterContainerLogsFailedWithError = 'deploymentCenterContainerLogsFailedWithError';
   public static invocationTracesTableTitle = 'invocationTracesTableTitle';
@@ -2053,6 +2060,7 @@ export class PortalResources {
   public static deploymentCenterCodeExternalBranchPlaceholder = 'deploymentCenterCodeExternalBranchPlaceholder';
   public static deploymentCenterCodeExternalPrivateRepositoryOption = 'deploymentCenterCodeExternalPrivateRepositoryOption';
   public static deploymentCenterCodeExternalPublicRepositoryOption = 'deploymentCenterCodeExternalPublicRepositoryOption';
+  public static deploymentCenterCodeLocalGitDesc = 'deploymentCenterCodeLocalGitDesc';
   public static deploymentCenterCodeLocalGitRepositorySetupMessage = 'deploymentCenterCodeLocalGitRepositorySetupMessage';
   public static deploymentCenterCodeLocalGitBranchSetupMessage = 'deploymentCenterCodeLocalGitBranchSetupMessage';
   public static deploymentCenterCodeLocalGitCloneUri = 'deploymentCenterCodeLocalGitCloneUri';
@@ -2225,4 +2233,17 @@ export class PortalResources {
   public static earlyAccessTemplate = 'earlyAccessTemplate';
   public static pricing_iv2NotAvailable = 'pricing_iv2NotAvailable';
   public static movingFromV2Warning = 'movingFromV2Warning';
+  public static deploymentCenterContainerType = 'deploymentCenterContainerType';
+  public static deploymentCenterInvalidYaml = 'deploymentCenterInvalidYaml';
+  public static deploymentCenterChooseFile = 'deploymentCenterChooseFile';
+  public static logStreamingHostStatusError = 'logStreamingHostStatusError';
+  public static deploymentCenterCodeDevOpsTitle = 'deploymentCenterCodeDevOpsTitle';
+  public static deploymentCenterProject = 'deploymentCenterProject';
+  public static deploymentCenterProjectPlaceholder = 'deploymentCenterProjectPlaceholder';
+  public static deploymentCenterDevOpsNoAccounts = 'deploymentCenterDevOpsNoAccounts';
+  public static appInsightsKeyError = 'appInsightsKeyError';
+  public static earlyAccessStackMessage = 'earlyAccessStackMessage';
+  public static deprecatedStackMessage = 'deprecatedStackMessage';
+  public static endOfLifeStackMessage = 'endOfLifeStackMessage';
+  public static logsRefreshTimerMessage = 'logsRefreshTimerMessage';
 }

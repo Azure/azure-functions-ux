@@ -5746,19 +5746,19 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>İş akışı dosyası</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Koru</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>'{2}' deposunda bulunan '{1}' dalındaki '{0}' dosyasını koruyun. Bu, dala yönelik yürütmelerde uygulamanıza dağıtım yapılmasını tetikleyebilir.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Sil</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>'{2}' deposundaki '{1}' dalından '{0}' dosyasını silin. Bu, bu dala yönelik yürütmelerde uygulamanıza yapılacak sonraki dağıtımları engeller.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>GitHub Eyleminin bağlantısının kesilmesi, ileride yürütmeler tarafından tetiklenecek dağıtımları engeller.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>'{2}' deposundaki '{1}' dalında '{0}' GitHub Eylemi iş akışı dosyası yok. Dağıtımın bağlantısını kesmek için 'Tamam'ı seçin.</value>
@@ -5932,7 +5932,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>'{1}' deposunda '{0}' dalı bulunamıyor. Daha fazla araştırmak için lütfen deponuza gidin.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>GitHub Eyleminin Bağlantısını Kesmeyi Onayla</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>App Service Derleme Hizmeti Bağlantısının Kesilmesini Onayla</value>
@@ -5975,6 +5975,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Dağıtım merkezi yeniden dağıtma komutu</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Yeniden Dağıt/Eşitle</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Bilgiler getirilirken hata oluştu</value>
@@ -6098,6 +6101,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Kapsayıcı günlükleri yükleniyor...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Kapsayıcı günlükleri yüklenemedi</value>
@@ -6565,16 +6571,16 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Önizlemeyi etkinleştirmek için yukarıdaki gerekli ayarları doldurun.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Depodaki iş akışının üzerine yaz</value>
+        <value>İş akışının üzerine yazma: Seçili depo ve daldaki mevcut {0} iş akışı dosyasının üzerine yazın.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Depoda iş akışı ekleyin</value>
+        <value>İş akışı ekleme: Yeni {0} iş akışı dosyasını seçili depoya ve dala ekleyin.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Mevcut depo iş akışını kullan</value>
+        <value>Mevcut iş akışını kullanma: Seçili depo ve daldaki mevcut {0} iş akışı dosyasını kullanın.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Mevcut depo iş akışını kullan</value>
+        <value>Kullanılabilir iş akışını kullanma: Seçili depo ve daldaki kullanılabilir iş akışı dosyalarından birini kullanın.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>İş akışı seçeneğini belirleyin</value>
@@ -6820,6 +6826,36 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Yalıtılmış V2 bu ölçek birimi için desteklenmiyor. Uygulamanızı yeniden dağıtabilir veya kopyalayabilirsiniz.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Temel alınan çalışma zamanı ~3 sürümünde birleştirildiğinden ~ 3 sürümüne yükselttikten sonra ~ 2 sürümüne geri dönemezsiniz.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Kapsayıcı Türü</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Geçersiz YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Dosya seçin</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>İşlev uygulamanızın ana bilgisayar durumu getirilemiyor. Günlük akışını kullanmak için lütfen işlev ana bilgisayarınızın çalıştığından emin olun.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Proje</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Proje seçin</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Azure Repos için hesap bulunamadı. Lütfen Azure Repos'da yeni bir hesap oluşturup tekrar deneyin.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>App Insights kaynağınız getirilemedi. Lütfen uygulama ayarlarında doğru izleme anahtarının yapılandırıldığından emin olun. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
     </data>
 </root>

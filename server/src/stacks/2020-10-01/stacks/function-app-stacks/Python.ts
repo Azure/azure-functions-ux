@@ -10,6 +10,33 @@ export const pythonStack: FunctionAppStack = {
       value: '3',
       minorVersions: [
         {
+          displayText: 'Python 3.9',
+          value: '3.9',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              runtimeVersion: 'Python|3.9',
+              remoteDebuggingSupported: false,
+              isPreview: true,
+              isDefault: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '3.9',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'python',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: false,
+                linuxFxVersion: 'Python|3.9',
+              },
+              supportedFunctionsExtensionVersions: ['~3'],
+            },
+          },
+        },
+        {
           displayText: 'Python 3.8',
           value: '3.8',
           stackSettings: {

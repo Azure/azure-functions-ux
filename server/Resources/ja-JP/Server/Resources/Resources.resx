@@ -5746,19 +5746,19 @@
         <value>ワークフロー ファイル</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>保持</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>リポジトリ '{2}' のブランチ '{1}' からのファイル '{0}' を保持します。これにより、ブランチへのコミットでアプリへのデプロイのトリガーが可能になります。</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>削除</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>リポジトリ '{2}' のブランチ '{1}' からファイル '{0}' を削除します。これにより、今後このブランチへのコミットでアプリへのデプロイは行われなくなります。</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>GitHub アクションを切断すると、今後コミットによってトリガーされるデプロイは行われなくなります。</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>リポジトリ '{2}' のブランチ '{1}' からの GitHub アクション ワークフロー ファイル '{0}' が存在しません。デプロイを切断するには、[OK] を選択します。</value>
@@ -5932,7 +5932,7 @@
         <value>リポジトリ '{1}' にブランチ '{0}' が見つかりません。詳しく調査するには、リポジトリに移動してください。</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>GitHub アクションの切断の確認</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>App Service ビルド サービスの切断の確認</value>
@@ -5975,6 +5975,9 @@
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>デプロイ センターの再デプロイ コマンド</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>再デプロイまたは同期</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>情報のフェッチでエラーが発生しました</value>
@@ -6098,6 +6101,9 @@
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>コンテナー ログを読み込んでいます...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>コンテナー ログを読み込めませんでした</value>
@@ -6565,16 +6571,16 @@
         <value>上記の必要な設定を入力して、プレビューを有効にします。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>リポジトリ内のワークフローを上書きする</value>
+        <value>ワークフローの上書き: 選択したリポジトリとブランチ内の既存のワークフロー ファイル {0} を上書きします。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>リポジトリにワークフローを追加する</value>
+        <value>ワークフローの追加: 選択したリポジトリとブランチに新しいワークフロー ファイル {0} を追加します。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>既存のリポジトリ ワークフローを使用する</value>
+        <value>既存のワークフローを使用: 選択したリポジトリとブランチ内の既存のワークフロー ファイル {0} を使用します。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>利用可能なリポジトリ ワークフローを使用する</value>
+        <value>使用可能なワークフローの使用: 選択したリポジトリとブランチで使用可能なワークフロー ファイルのいずれかを使用します。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>ワークフロー オプションを選択してください</value>
@@ -6820,6 +6826,36 @@
         <value>このスケール ユニットでは Isolated V2 はサポートされていません。アプリの再デプロイまたは複製をご検討ください。</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>~3 にアップグレードした後は、基になるランタイムが ~3 を中心に統合されているため、~2 に戻ることはできません。</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>コンテナーの種類</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML が無効です</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>ファイルの選択</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>関数アプリのホストの状態をフェッチできません。ログ ストリーミングを使用するには、関数ホストが実行されていることをご確認ください。</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>プロジェクト</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>プロジェクトを選択してください</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Azure Repos のアカウントが見つかりませんでした。Azure Repos に新しいアカウントを作成してから、もう一度お試しください。</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>App Insights リソースをフェッチできませんでした。アプリの設定で適切なインストルメンテーション キーが構成されていることを確認してください。</value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
     </data>
 </root>

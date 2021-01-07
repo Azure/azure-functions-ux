@@ -63,7 +63,7 @@ const armObs$ = armSubject$.pipe(
         method: 'POST',
         resourceId: '/batch',
         body: { requests: batchBody },
-        apiVersion: CommonConstants.ApiVersions.armBatchApi,
+        apiVersion: CommonConstants.ApiVersions.armBatchApi20151101,
         id: Guid.newGuid(),
       })
     ).pipe(

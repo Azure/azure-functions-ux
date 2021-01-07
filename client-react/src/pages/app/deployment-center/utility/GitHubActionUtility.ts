@@ -251,6 +251,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -300,6 +301,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -352,6 +354,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -401,6 +404,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -451,6 +455,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -498,6 +503,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -544,6 +550,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -553,10 +560,10 @@ jobs:
     - uses: actions/checkout@master
 
     - name: Setup MSBuild path
-      uses: microsoft/setup-msbuild@v1.0.0
+      uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.2
+      uses: NuGet/setup-nuget@v1.0.5
 
     - name: Restore NuGet packages
       run: nuget restore
@@ -605,6 +612,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -651,6 +659,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
@@ -705,6 +714,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
@@ -758,6 +768,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
@@ -813,6 +824,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
@@ -868,6 +880,7 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
@@ -908,11 +921,11 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_NAME: ${webAppName} # set this to your function app name on Azure
-  POM_XML_DIRECTORY: '.' # set this to the directory which contains pom.xml file
-  POM_FUNCTIONAPP_NAME: ${webAppName} # set this to the function app name in your local development environment
+  PACKAGE_DIRECTORY: '.' # set this to the directory which contains pom.xml file
   JAVA_VERSION: '${runtimeStackVersion}' # set this to the java version to use
 
 jobs:
@@ -930,9 +943,8 @@ jobs:
     - name: 'Restore Project Dependencies Using Mvn'
       shell: pwsh
       run: |
-        pushd './\${{ env.POM_XML_DIRECTORY }}'
+        pushd './\${{ env.PACKAGE_DIRECTORY }}'
         mvn clean package
-        mvn azure-functions:package
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
@@ -940,8 +952,9 @@ jobs:
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
-        package: './\${{ env.POM_XML_DIRECTORY }}/target/azure-functions/\${{ env.POM_FUNCTIONAPP_NAME }}'
-        publish-profile: \${{ secrets.${secretName} }}`;
+        publish-profile: \${{ secrets.${secretName} }}
+        package: '\${{ env.PACKAGE_DIRECTORY }}'
+        respect-pom-xml: true`;
 };
 
 const getFunctionAppJavaLinuxWorkflow = (
@@ -963,16 +976,16 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_NAME: ${webAppName} # set this to your function app name on Azure
-  POM_XML_DIRECTORY: '.' # set this to the directory which contains pom.xml file
-  POM_FUNCTIONAPP_NAME: ${webAppName} # set this to the function app name in your local development environment
+  PACKAGE_DIRECTORY: '.' # set this to the directory which contains pom.xml file
   JAVA_VERSION: '${runtimeStackVersion}' # set this to the java version to use
 
 jobs:
   build-and-deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@master
@@ -985,9 +998,8 @@ jobs:
     - name: 'Restore Project Dependencies Using Mvn'
       shell: pwsh
       run: |
-        pushd './\${{ env.POM_XML_DIRECTORY }}'
+        pushd './\${{ env.PACKAGE_DIRECTORY }}'
         mvn clean package
-        mvn azure-functions:package
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
@@ -995,8 +1007,9 @@ jobs:
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
-        package: './\${{ env.POM_XML_DIRECTORY }}/target/azure-functions/\${{ env.POM_FUNCTIONAPP_NAME }}'
-        publish-profile: \${{ secrets.${secretName} }}`;
+        publish-profile: \${{ secrets.${secretName} }}
+        package: '\${{ env.PACKAGE_DIRECTORY }}'
+        respect-pom-xml: true`;
 };
 
 const getFunctionAppPythonLinuxWorkflow = (
@@ -1012,12 +1025,13 @@ const getFunctionAppPythonLinuxWorkflow = (
   return `# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Powershell project to Azure Function App - ${webAppName}
+name: Build and deploy Python project to Azure Function App - ${webAppName}
 
 on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root

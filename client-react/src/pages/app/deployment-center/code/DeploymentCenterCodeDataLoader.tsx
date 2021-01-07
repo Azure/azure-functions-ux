@@ -15,9 +15,9 @@ import { useTranslation } from 'react-i18next';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DeploymentCenterCodeForm from './DeploymentCenterCodeForm';
-import LogService from '../../../../utils/LogService';
-import { getLogId } from '../utility/DeploymentCenterUtility';
-import { LogCategories } from '../../../../utils/LogCategories';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { PortalContext } from '../../../../PortalContext';
+import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
   const { resourceId } = props;
@@ -26,6 +26,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+  const portalContext = useContext(PortalContext);
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterCodeFormBuilder = new DeploymentCenterCodeFormBuilder(t);
@@ -39,8 +40,20 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
   >(undefined);
 
   const fetchData = async () => {
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataLoader', 'fetchData'), {});
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'initialDataRequest', 'submit', {
+        publishType: 'code',
+      })
+    );
 
+    await fetchDeploymentLogs();
+
+    setIsLoading(false);
+  };
+
+  const fetchDeploymentLogs = async () => {
+    // NOTE(michinoy): We should prevent adding logs for this method. The reason is because it is called
+    // on a frequency, currently it is set to 30 seconds.
     const deploymentsResponse = await deploymentCenterData.getSiteDeployments(resourceId);
 
     if (deploymentsResponse.metadata.success) {
@@ -50,13 +63,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
       setDeploymentsError(
         errorMessage ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage) : t('deploymentCenterCodeDeploymentsFailed')
       );
-
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataLoader', 'fetchData'), {
-        error: deploymentsResponse.metadata.error,
-      });
     }
-
-    setIsLoading(false);
   };
 
   const generateForm = () => {
@@ -80,10 +87,25 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
     setCodeFormData(formData);
     setCodeFormValidationSchema(deploymentCenterCodeFormBuilder.generateYupValidationSchema());
 
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataLoader', 'generateForm'), formData);
+    // NOTE(michinoy): Prevent logging form data here as it could contain secrets (e.g. publishing password)
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'generateForm', 'generated', {
+        publishType: 'code',
+      })
+    );
+  };
+
+  const refreshLogs = () => {
+    fetchDeploymentLogs();
   };
 
   const refresh = () => {
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'refresh', 'submit', {
+        publishType: 'code',
+      })
+    );
+
     setIsLoading(true);
     fetchData();
     deploymentCenterContext.refresh();
@@ -103,6 +125,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
       formValidationSchema={codeFormValidationSchema}
       isLoading={isLoading}
       refresh={refresh}
+      refreshLogs={refreshLogs}
     />
   );
 };

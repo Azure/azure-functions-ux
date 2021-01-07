@@ -5746,19 +5746,19 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Workflowdatei</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Beibehalten</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Hiermit wird die Datei "{0}" aus dem Branch "{1}" im Repository "{2}" beibehalten. Dies kann Bereitstellungen für Ihre App in Commits für den Branch auslösen.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Löschen</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Löschen Sie die Datei "{0}" aus dem Branch "{1}" im Repository "{2}". Damit werden zukünftige Bereitstellungen für Ihre App in Commits für diesen Branch verhindert.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Durch das Trennen der GitHub-Aktion wird verhindert, dass zukünftige Bereitstellungen durch Commits ausgelöst werden.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Die GitHub-Aktionsworkflowdatei "{0}" aus dem Branch "{1}" im Repository "{2}" ist nicht vorhanden. Wählen Sie "OK" aus, um die Bereitstellung zu trennen.</value>
@@ -5932,7 +5932,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Der Branch "{0}" wurde im Repository "{1}" nicht gefunden. Navigieren Sie zu Ihrem Repository, um weitere Untersuchungen durchzuführen.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Trennen von GitHub Action bestätigen</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Trennen des App Service-Builddiensts bestätigen</value>
@@ -5975,6 +5975,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Bereitstellungscenter-Befehl zum erneuten Bereitstellen</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Erneut bereitstellen/synchronisieren</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Fehler beim Abrufen von Informationen.</value>
@@ -6098,6 +6101,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Containerprotokolle werden geladen...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Fehler beim Laden von Containerprotokollen.</value>
@@ -6565,16 +6571,16 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Füllen Sie oben die erforderlichen Einstellungen aus, um die Vorschau zu aktivieren.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Workflow im Repository überschreiben</value>
+        <value>Workflow überschreiben: Hiermit wird die vorhandene Workflowdatei "{0}" im ausgewählten Repository und Branch überschrieben.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Workflow zu Repository hinzufügen</value>
+        <value>Workflow hinzufügen: Hiermit wird eine neue Workflowdatei "{0}" im ausgewählten Repository und Branch hinzugefügt.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Vorhandenen Repositoryworkflow verwenden</value>
+        <value>Vorhandenen Workflow verwenden: Hiermit wird die vorhandene Workflowdatei "{0}" im ausgewählten Repository und Branch verwendet.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Vorhandenen Repositoryworkflow verwenden</value>
+        <value>Verfügbaren Workflow verwenden: Hiermit wird eine der verfügbaren Workflowdateien im ausgewählten Repository und Branch verwendet.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Workflowoption auswählen</value>
@@ -6820,6 +6826,36 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>"Isoliert V2" wird für diese Skalierungseinheit nicht unterstützt. Erwägen Sie eine erneute Bereitstellung, oder klonen Sie ggf. Ihre App.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Sie können nach dem Upgrade auf ~3 nicht mehr zu ~2 zurückkehren, weil die zugrunde liegende Runtime basierend auf ~3 vereinheitlicht wurde.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Containertyp</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Ungültige YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Datei auswählen</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Der Hoststatus Ihrer Funktions-App kann nicht abgerufen werden. Stellen Sie zur Verwendung des Protokollstreamings sicher, dass der Funktionshost ausgeführt wird.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Projekt</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Projekt auswählen</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Für Azure Repos wurden keine Konten gefunden. Erstellen Sie ein neues Konto in Azure Repos, und versuchen Sie es noch mal.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>Fehler beim Abrufen Ihrer App Insights-Ressource. Stellen Sie sicher, dass der richtige Instrumentierungsschlüssel in den App-Einstellungen konfiguriert ist. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Der frühzeitige Zugriff ermöglicht eine schnelle Bereitstellung von Updates und neuen Versionen verschiedener Runtimes.</value>
     </data>
 </root>

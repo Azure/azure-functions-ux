@@ -5746,19 +5746,19 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Soubor pracovního postupu</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Zachovat</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Zachovejte soubor {0} z větve {1} v úložišti {2}. Tím se můžou aktivovat nasazení do aplikace při potvrzování do této větve.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Odstranit</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Odstraňte soubor {0} z větve {1} v úložišti {2}. Tím se zabrání budoucím nasazením do aplikace při potvrzování do této větve.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Odpojení akce GitHub Actions zabrání budoucím nasazením aktivovaným potvrzeními.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Soubor pracovního postupu GitHub Actions {0} z větve {1} v úložišti {2} neexistuje. Pokud chcete nasazení odpojit, vyberte OK.</value>
@@ -5932,7 +5932,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>V úložišti {1} se nepovedlo najít větev {0}. Pokud to chcete prověřit důkladněji, přejděte prosím na úložiště.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Potvrdit odpojení akce GitHubu</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Potvrdit odpojení sestavovací služby App Service</value>
@@ -5975,6 +5975,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Příkaz pro nové nasazení centra Deployment Center</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Znovu nasadit / synchronizovat</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Při načítání informací došlo k chybě.</value>
@@ -6098,6 +6101,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Načítají se protokoly kontejnerů...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Nepovedlo se načíst protokoly kontejnerů.</value>
@@ -6565,16 +6571,16 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Pokud chcete povolit náhled, vyplňte požadovaná nastavení výše.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Přepsat pracovní postup v úložišti</value>
+        <value>Přepsat pracovní postup: Přepíše existující soubor pracovního postupu {0} ve vybraném úložišti a větvi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Přidat pracovní postup do úložiště</value>
+        <value>Přidat pracovní postup: Přidá nový soubor pracovního postupu {0} do vybraného úložiště a větve.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Použít existující pracovní postup úložiště</value>
+        <value>Použít existující pracovní postup: Použije existující soubor pracovního postupu {0} ve vybraném úložišti a větvi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Použít dostupný pracovní postup úložiště</value>
+        <value>Použít dostupný pracovní postup: Použije jeden ze souborů pracovních postupů dostupných ve vybraném úložišti a větvi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Vybrat možnost pracovního postupu</value>
@@ -6820,6 +6826,36 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Isolated V2 se pro tuto jednotku škálování nepodporuje. Zvažte prosím možnost aplikaci znovu nasadit nebo klonovat.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Po upgradu na ~3 se nebudete moct přesunout zpět na ~2, protože základní modul runtime je sjednocený okolo ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Typ kontejneru</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Neplatný kód YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Vybrat soubor</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Nepovedlo se načíst stav hostitele aplikace funkcí. Pokud chcete používat streamování protokolů, ujistěte se prosím, že hostitel funkcí je spuštěný.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Projekt</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Vyberte projekt.</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Pro Azure Repos se nenašly žádné účty. Vytvořte prosím nový účet ve službě Azure Repos a zkuste to znovu.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>Nepovedlo se načíst prostředek App Insights. Ujistěte se prosím, že je v nastavení aplikace nakonfigurovaný správný instrumentační klíč. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
     </data>
 </root>

@@ -5746,19 +5746,19 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Arquivo de fluxo de trabalho</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Preservar</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Preserve o arquivo '{0}' do branch '{1}' no repositório '{2}'. Isso pode disparar implantações no seu aplicativo em confirmações para o branch.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Excluir</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Exclua o arquivo '{0}' do branch '{1}' no repositório '{2}'. Isso impedirá implantações futuras ao seu aplicativo em confirmações para esse branch.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Desconectar a GitHub Action impedirá implantações futuras disparadas por confirmações.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>O arquivo de fluxo de trabalho da GitHub Action '{0}' do branch '{1}' no repositório '{2}' não existe. Selecione "OK" para desconectar a implantação.</value>
@@ -5932,7 +5932,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Não é possível encontrar a ramificação '{0}' no repositório '{1}'. Navegue até seu repositório para investigar mais.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Confirmar a Desconexão da Ação do GitHub</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirmar Desconexão do Serviço de Build do Serviço de Aplicativo</value>
@@ -5975,6 +5975,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Comando de reimplantação do centro de implantação</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Reimplantar/Sincronizar</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Erro ao buscar informações</value>
@@ -6098,6 +6101,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Carregando logs do contêiner...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Falha ao carregar os logs do contêiner</value>
@@ -6565,16 +6571,16 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Preencha as configurações necessárias acima para habilitar a visualização.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Substituir o fluxo de trabalho no repositório</value>
+        <value>Substituir o fluxo de trabalho: substitua o arquivo de fluxo de trabalho existente {0} no repositório e no branch selecionados.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Adicionar um fluxo de trabalho ao repositório</value>
+        <value>Adicionar um fluxo de trabalho: adicione um novo arquivo de fluxo de trabalho {0} ao repositório e ao branch selecionados.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Usar o fluxo de trabalho do repositório existente</value>
+        <value>Usar o fluxo de trabalho existente: use o arquivo de fluxo de trabalho {0} existente no repositório e no branch selecionados.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Usar o fluxo de trabalho do repositório disponível</value>
+        <value>Usar o fluxo de trabalho disponível: use um dos arquivos de fluxo de trabalho disponíveis no repositório e no branch selecionados.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Selecionar opção de fluxo de trabalho</value>
@@ -6820,6 +6826,36 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Não há suporte para o Isolado V2 nesta unidade de escala. Considere reimplantar ou clonar o aplicativo.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>Não será possível retroceder para ~2 após a atualização para ~3, pois o runtime subjacente é unificado em torno de ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Tipo de Contêiner</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML inválido</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Escolher um arquivo</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Não é possível buscar o status do host do aplicativo de funções. Para usar o streaming de log, verifique se o host da função está em execução.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Projeto</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Selecionar o projeto</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Não foi encontrada nenhuma conta do Azure Repos. Crie uma conta no Azure Repos e faça uma nova tentativa.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>Falha ao buscar o recurso do App Insights. Verifique se a chave de instrumentação correta está configurada nas configurações do aplicativo. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
     </data>
 </root>

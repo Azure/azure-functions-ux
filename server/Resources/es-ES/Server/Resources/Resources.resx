@@ -5746,19 +5746,19 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Archivo de flujo de trabajo</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Conservar</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Permite conservar el archivo "{0}" de la rama "{1}" del repositorio "{2}". Esto puede desencadenar implementaciones en la aplicación al realizar confirmaciones en la rama.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Eliminar</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Permite eliminar el archivo "{0}" de la rama "{1}" del repositorio "{2}". Esto impedirá futuras implementaciones en la aplicación al realizar confirmaciones en esta rama.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Si desconecta la acción de GitHub, las confirmaciones no desencadenarán implementaciones futuras.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>El archivo de flujo de trabajo de acción de GitHub "{0}" de la rama "{1}" en el repositorio "{2}" no existe. Seleccione "Aceptar" para desconectar la implementación.</value>
@@ -5932,7 +5932,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>No se puede encontrar la rama "{0}" en el repositorio "{1}". Diríjase al repositorio para investigarlo más detenidamente.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Confirmar la desconexión de la acción de GitHub</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirmar la desconexión del servicio de compilación de App Service</value>
@@ -5975,6 +5975,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Comando de reimplementación del centro de implementación</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Volver a implementar/sincronizar</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Error al capturar la información</value>
@@ -6098,6 +6101,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Cargando registros de contenedor...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>No se pudieron cargar los registros del contenedor.</value>
@@ -6565,16 +6571,16 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Complete las opciones de configuración necesarias indicadas anteriormente para habilitar la versión preliminar.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Sobrescribir el flujo de trabajo del repositorio</value>
+        <value>Sobrescribir el flujo de trabajo: permite sobrescribir el archivo de flujo de trabajo existente {0} en el repositorio y la rama seleccionados.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Agregar un flujo de trabajo al repositorio</value>
+        <value>Agregar un flujo de trabajo: permite agregar un nuevo archivo de flujo de trabajo {0} en el repositorio y la rama seleccionados.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Usar el flujo de trabajo del repositorio existente</value>
+        <value>Usar el flujo de trabajo existente: permite usar el archivo de flujo de trabajo existente {0} en el repositorio y la rama seleccionados.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Usar el flujo de trabajo del repositorio disponible</value>
+        <value>Usar flujo de trabajo disponible: permite usar uno de los archivos de flujo de trabajo disponibles en el repositorio y la rama seleccionados.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Seleccione una opción de flujo de trabajo</value>
@@ -6821,5 +6827,35 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
         <value>No podrá volver a ~2 después de actualizar a ~3 porque el entorno en tiempo de ejecución subyacente se unifica alrededor de ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Tipo de contenedor</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML no válido</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Elegir archivo</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>No se puede capturar el estado de host de la aplicación de función. Para usar el streaming de registro, asegúrese de que el host de la función se esté ejecutando.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Proyecto</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Seleccione el proyecto.</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>No se encontró ninguna cuenta para Azure Repos. Cree una nueva en Azure Repos y vuelva a intentarlo.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>No se pudo capturar el recurso de App Insights. Asegúrese de tener la clave de instrumentación correcta configurada en la configuración de la aplicación. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>El acceso anticipado permite la entrega rápida de actualizaciones y nuevas versiones de varios entornos en tiempos de ejecución.</value>
     </data>
 </root>

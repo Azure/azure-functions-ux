@@ -21,7 +21,6 @@ export enum SourceControlOptions {
 export enum ContainerOptions {
   docker = 'docker',
   compose = 'compose',
-  kubernetes = 'kube',
 }
 
 export enum ContainerRegistrySources {
@@ -127,6 +126,48 @@ export interface DevOpsAccount {
   StatusReason?: string;
 }
 
+export interface DevOpsBuildDefinition {
+  repository: DevOpsBuildDefinitionRepository;
+}
+
+export interface DevOpsBuildDefinitionRepository {
+  url: string;
+  name: string;
+  defaultBranch: string;
+}
+
+export interface DevOpsProject {
+  id: string;
+  name: string;
+}
+
+export interface DevOpsRepository {
+  id: string;
+  name: string;
+  remoteUrl: string;
+  size: number;
+  sshUrl: string;
+  url: string;
+  webUrl: string;
+  project: DevOpsProject;
+}
+
+export interface DevOpsRepositories {
+  count: number;
+  value: DevOpsRepository[];
+}
+
+export interface DevOpsBranch {
+  name: string;
+  objectId: string;
+  url: string;
+}
+
+export interface DevOpsBranches {
+  count: number;
+  value: DevOpsBranch[];
+}
+
 export interface AuthenticatedUserContext {
   authenticatedUser: AuthenticatedUser;
   authorizedUser: AuthorizedUser;
@@ -206,6 +247,7 @@ export interface DeploymentCenterCommonFormData {
   oneDriveUser?: OneDriveUser;
   dropboxUser?: DropboxUser;
   folder?: string;
+  devOpsProjectName?: string;
 }
 
 export interface AcrFormData {
@@ -270,9 +312,14 @@ export interface DeploymentCenterContainerLogsProps {
 
 export interface DeploymentCenterCodeLogsProps {
   isLoading: boolean;
+  refreshLogs: () => void;
   deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
   goToSettings?: () => void;
+}
+
+export interface DeploymentCenterCodeLogsTimerProps {
+  refreshLogs: () => void;
 }
 
 export interface DeploymentCenterCommitLogsProps {
@@ -420,14 +467,11 @@ export interface CodeDeploymentsRow {
   commit: JSX.Element;
   checkinMessage: string;
   status: string;
+  author: string;
 }
 
 export interface BuildChoiceGroupOption extends IChoiceGroupOption {
   buildType: BuildProvider;
-}
-
-export interface WorkflowDropdownOption extends IDropdownOption {
-  workflowOption: WorkflowOption;
 }
 
 export interface RuntimeStackSetting {
@@ -435,7 +479,7 @@ export interface RuntimeStackSetting {
   runtimeVersion: string;
 }
 
-export class ContainerWorkflowInformation {
+export interface ContainerWorkflowInformation {
   fileName: string;
   content: string;
   publishingProfileSecretName: string;
@@ -443,7 +487,7 @@ export class ContainerWorkflowInformation {
   containerPasswordSecretName: string;
 }
 
-export class CodeWorkflowInformation {
+export interface CodeWorkflowInformation {
   fileName: string;
   secretName: string;
   content: string;
@@ -515,4 +559,17 @@ export interface DeploymentCenterDropboxProviderProps<T = DeploymentCenterContai
   loadingFolders: boolean;
   accountStatusMessage?: string;
   accountUser?: DropboxUser;
+}
+
+export interface DeploymentCenterDevOpsProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  organizationOptions: IDropdownOption[];
+  projectOptions: IDropdownOption[];
+  repositoryOptions: IDropdownOption[];
+  branchOptions: IDropdownOption[];
+  loadingOrganizations: boolean;
+  loadingProjects: boolean;
+  loadingRepositories: boolean;
+  loadingBranches: boolean;
+  errorMessage?: string;
 }

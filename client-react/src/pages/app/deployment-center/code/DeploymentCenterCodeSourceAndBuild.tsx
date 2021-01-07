@@ -16,6 +16,9 @@ import DeploymentCenterCodeBuildCallout from './DeploymentCenterCodeBuildCallout
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
+import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -29,6 +32,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
 
   const toggleIsCalloutVisible = () => {
     setSelectedBuildChoice(selectedBuild);
@@ -46,17 +50,35 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const getSourceOptions = (): IDropdownOption[] => [...getContinuousDeploymentOptions(), ...getManualDeploymentOptions()];
 
   const getContinuousDeploymentOptions = (): IDropdownOption[] => {
-    return [
-      {
-        key: 'continuousDeploymentHeader',
-        text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
-        itemType: DropdownMenuItemType.Header,
-      },
-      { key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') },
-      { key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') },
-      { key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') },
-      { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
-    ];
+    const continuousDeploymentOptions: IDropdownOption[] = [];
+
+    if (scenarioService.checkScenario(ScenarioIds.githubSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.bitbucketSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.localGitSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.vstsKuduSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.Vso, text: t('deploymentCenterCodeSettingsSourceAzureRepos') });
+    }
+
+    return continuousDeploymentOptions.length > 0
+      ? [
+          {
+            key: 'continuousDeploymentHeader',
+            text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
+            itemType: DropdownMenuItemType.Header,
+          },
+          ...continuousDeploymentOptions,
+          { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
+        ]
+      : continuousDeploymentOptions;
   };
 
   const getManualDeploymentOptions = (): IDropdownOption[] => {
@@ -87,6 +109,12 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   };
 
   const updateSelectedBuild = () => {
+    portalContext.log(
+      getTelemetryInfo(LogLevels.info, 'buildProvider', 'updated', {
+        buildProvider: selectedBuildChoice,
+      })
+    );
+
     setSelectedBuild(selectedBuildChoice);
     formProps.setFieldValue('buildProvider', selectedBuildChoice);
     if (selectedBuildChoice === BuildProvider.GitHubAction) {

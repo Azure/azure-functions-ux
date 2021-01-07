@@ -119,6 +119,25 @@ export class GithubController {
     }
   }
 
+  @Post('api/github/dispatchWorkflow')
+  @HttpCode(200)
+  async dispatchWorkflow(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Body('data') data: string) {
+    try {
+      await this.httpService.post(url, data, {
+        headers: {
+          Authorization: `Bearer ${gitHubToken}`,
+        },
+      });
+    } catch (err) {
+      this.loggingService.error(`Failed to dispatch workflow file.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
   @Get('auth/github/authorize')
   async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
     let stateKey = '';
@@ -185,28 +204,24 @@ export class GithubController {
     }
   }
 
+  @Get('auth/github/createClientId')
+  clientId() {
+    return { client_id: this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID') };
+  }
+
   @Post('auth/github/generateCreateAccessToken')
   @HttpCode(200)
-  async generateAccessToken(
-    @Body('code') code: string,
-    @Body('state') state: string,
-    @Body('clientId') clientId?: string,
-    @Body('clientSecret') clientSecret?: string
-  ) {
-    const client_id = clientId || this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID');
-    const client_secret = clientSecret || this.configService.get('GITHUB_FOR_CREATES_CLIENT_SECRET');
-
-    if (!code || !state || !client_id || !client_secret) {
-      throw new HttpException('Code, State, Client Id, Client Secret are required', 400);
+  async generateAccessToken(@Body('code') code: string, @Body('state') state: string) {
+    if (!code || !state) {
+      throw new HttpException('Code and State are required', 400);
     }
 
-    //TODO: (stpelleg) Add client id and client secret to config service
     try {
       const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
         code,
         state,
-        client_id,
-        client_secret,
+        client_id: this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID'),
+        client_secret: this.configService.get('GITHUB_FOR_CREATES_CLIENT_SECRET'),
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
       return {

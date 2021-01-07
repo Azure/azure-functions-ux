@@ -16,30 +16,92 @@ import { useTranslation } from 'react-i18next';
 import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 import { StackProps } from './WindowsStacks';
-import { filterDeprecatedWebAppStack } from '../../../../../utils/stacks-utils';
+import {
+  filterDeprecatedWebAppStack,
+  getEarlyStackMessageParameters,
+  checkAndGetStackEOLOrDeprecatedBanner,
+  isStackVersionDeprecated,
+  isStackVersionEndOfLife,
+} from '../../../../../utils/stacks-utils';
+import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 
 const JavaStack: React.SFC<StackProps> = props => {
   const [currentJavaMajorVersion, setCurrentJavaMajorVersion] = useState('');
   const [currentJavaContainer, setCurrentJavaContainer] = useState('');
+  const [javaStack, setJavaStack] = useState<WebAppStack | undefined>(undefined);
+  const [javaContainers, setJavaContainers] = useState<WebAppStack | undefined>(undefined);
+  const [earlyAccessInfoVisible, setEarlyAccessInfoVisible] = useState(false);
+  const [eolStackDate, setEolStackDate] = useState<string | null | undefined>(undefined);
+
   const { values, initialValues, setFieldValue } = props;
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
 
-  const supportedStacks = filterDeprecatedWebAppStack(
-    filterDeprecatedWebAppStack(useContext(WebAppStacksContext), 'java', initialValues.config.properties.javaVersion),
-    'javacontainers',
-    initialValues.config.properties.javaContainerVersion
-  );
+  const allStacks = useContext(WebAppStacksContext);
 
-  const javaStack = getJavaStack(supportedStacks);
-  const javaContainers = getJavaContainers(supportedStacks);
+  const setJavaStacksAndContainers = () => {
+    let javaStack = getJavaStack([...allStacks]);
+    let javaContainers = getJavaContainers([...allStacks]);
+
+    if (javaStack) {
+      const filteredJavaStacks = filterDeprecatedWebAppStack([javaStack], 'java', initialValues.config.properties.javaVersion);
+      if (filteredJavaStacks.length > 0) {
+        javaStack = filteredJavaStacks[0];
+        setCurrentJavaMajorVersion(getJavaMajorMinorVersion(javaStack, values.config).majorVersion);
+        setJavaStack(javaStack);
+      }
+    }
+
+    if (javaContainers) {
+      const filteredJavaContainers = filterDeprecatedWebAppStack(
+        [javaContainers],
+        'javacontainers',
+        initialValues.config.properties.javaVersion
+      );
+      if (filteredJavaContainers.length > 0) {
+        javaContainers = filteredJavaContainers[0];
+        setCurrentJavaContainer(getJavaContainerKey(javaContainers, values.config));
+        setJavaContainers(javaContainers);
+      }
+    }
+  };
+
+  const setStackBannerAndInfoMessage = () => {
+    setEarlyAccessInfoVisible(false);
+    setEolStackDate(undefined);
+
+    if (!!currentJavaMajorVersion && !!javaStack) {
+      const stackVersions = getJavaMinorVersionAsDropdownOptions(currentJavaMajorVersion, javaStack, t);
+      const selectionVersion = (values.config.properties.javaVersion || '').toLowerCase();
+      for (const stackVersion of stackVersions) {
+        if (
+          stackVersion.key === selectionVersion &&
+          !!stackVersion.data &&
+          !!stackVersion.data.stackSettings &&
+          !!stackVersion.data.stackSettings.windowsRuntimeSettings
+        ) {
+          const settings = stackVersion.data.stackSettings.windowsRuntimeSettings;
+          setEarlyAccessInfoVisible(!!settings.isEarlyAccess);
+
+          if (isStackVersionDeprecated(settings)) {
+            setEolStackDate(null);
+          } else if (isStackVersionEndOfLife(settings.endOfLifeDate)) {
+            setEolStackDate(settings.endOfLifeDate);
+          }
+          break;
+        }
+      }
+    }
+  };
 
   useEffect(() => {
-    if (javaStack && javaContainers) {
-      setCurrentJavaMajorVersion(getJavaMajorMinorVersion(javaStack, values.config).majorVersion);
-      setCurrentJavaContainer(getJavaContainerKey(javaContainers, values.config));
-    }
+    setStackBannerAndInfoMessage();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values.config.properties.javaVersion]);
+  useEffect(() => {
+    setJavaStacksAndContainers();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -103,7 +165,9 @@ const JavaStack: React.SFC<StackProps> = props => {
         label={t('javaMinorVersion')}
         id="app-settings-java-minor-verison"
         options={javaMinorVersionOptions}
+        {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
       />
+      {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.javaVersion, eolStackDate)}
       <DropdownNoFormik
         label={t('javaWebServer')}
         dirty={isJavaContainerDirty()}

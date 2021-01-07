@@ -6,13 +6,16 @@ import {
   WebAppRuntimes,
   JavaContainers as JavaContainersInterface,
 } from '../models/stacks/web-app-stacks';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
 import { AppStackMajorVersion, AppStackMinorVersion, AppStackOs } from '../models/stacks/app-stacks';
 import { FunctionAppStack } from '../models/stacks/function-app-stacks';
 import i18next from 'i18next';
 import LogService from './LogService';
 import { LogCategories } from './LogCategories';
 import { getDateAfterXSeconds } from './DateUtilities';
+import { Links } from './FwLinks';
+import CustomBanner from '../components/CustomBanner/CustomBanner';
+import React from 'react';
 
 const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
 
@@ -230,6 +233,26 @@ export const getFilteredWindowsJavaContainerSettings = (
   } else {
     return undefined;
   }
+};
+
+export const getEarlyStackMessageParameters = (isEarlyStackMessageVisible: boolean, t: i18next.TFunction) => {
+  return {
+    infoBubbleMessage: isEarlyStackMessageVisible ? t('earlyAccessStackMessage') : undefined,
+    learnMoreLink: isEarlyStackMessageVisible ? Links.earlyAccessStackLearnMore : undefined,
+  };
+};
+
+export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stackVersion: string, eolDate?: string | null) => {
+  if (eolDate === undefined) {
+    return <></>;
+  }
+  return (
+    <CustomBanner
+      type={MessageBarType.warning}
+      id={'eol-stack-banner'}
+      message={!!eolDate ? t('endOfLifeStackMessage').format(stackVersion, eolDate) : t('deprecatedStackMessage').format(stackVersion)}
+    />
+  );
 };
 
 export const JavaVersions = {

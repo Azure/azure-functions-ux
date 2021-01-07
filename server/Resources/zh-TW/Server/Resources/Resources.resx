@@ -5746,19 +5746,19 @@
         <value>工作流程檔案</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>保留</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>保留存放庫 '{2}' 中分支 '{1}' 的檔案 '{0}'。這可能會在認可該分支時觸發對應用程式的部署。</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>刪除</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>從存放庫 '{2}' 中的分支 '{1}' 刪除檔案 '{0}'。這可避免日後認可此分支時部署到您的應用程式。</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>中斷此 GitHub Action 的連線，將會導致日後無法進行認可觸發的任何部署。</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>存放庫 '{2}' 中分支 '{1}' 的 GitHub Action 工作流程檔案 '{0}' 不存在。選取 [確定] 以中斷部署的連線。</value>
@@ -5932,7 +5932,7 @@
         <value>在存放庫 '{1}' 中找不到分支 '{0}'。請瀏覽至您的存放庫進一步調查。</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>確認 GitHub 動作中斷連線</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>確認 App Service 建置服務中斷連線</value>
@@ -5975,6 +5975,9 @@
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>部署中心重新部署命令</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>重新部署/同步</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>擷取資訊時發生錯誤</value>
@@ -6098,6 +6101,9 @@
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>正在載入容器記錄...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>無法載入容器記錄</value>
@@ -6565,16 +6571,16 @@
         <value>在上方填入必要設定以啟用預覽。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>覆寫存放庫中的工作流程</value>
+        <value>覆寫工作流程: 覆寫所選存放庫及分支中現有的工作流程檔案 {0}。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>在存放庫中新增工作流程</value>
+        <value>新增工作流程: 在所選存放庫及分支中新增工作流程檔案 {0}。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>使用現有的存放庫工作流程</value>
+        <value>使用現有的工作流程: 使用所選存放庫及分支中現有的工作流程檔案 {0}。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>使用可用的存放庫工作流程</value>
+        <value>使用可用的工作流程: 使用所選存放庫及分支中提供的其中一個工作流程檔案。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>選取工作流程選項</value>
@@ -6820,6 +6826,36 @@
         <value>此縮放單位不支援隔離式方案 V2。請考慮重新部署或複製您的應用程式。</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>升級為 ~3 之後，就無法回到 ~2，因為基礎執行階段已依據 ~3 整合。</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>容器類型</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML 無效</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>選擇檔案</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>無法擷取函數應用程式的主機狀態。若要使用記錄串流，請確定您的函數主機正在執行。</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>專案</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>選取專案</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>找不到 Azure Repos 的任何帳戶。請在 Azure Repos 中建立新的帳戶，並再試一次。</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>無法擷取您的 App Insights 資源。請確定您在應用程式設定中設定了正確的檢測金鑰。</value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
     </data>
 </root>

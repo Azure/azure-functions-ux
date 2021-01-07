@@ -4,10 +4,11 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { Link, Icon } from 'office-ui-fabric-react';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
+import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -20,6 +21,7 @@ const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProp
   const [isBranchInfoMissing, setIsBranchInfoMissing] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
   const externalUsernameExists = externalUsername || (formProps && formProps.values.externalUsername);
 
@@ -33,24 +35,33 @@ const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProp
       setIsBranchInfoMissing(true);
       setRepo(t('deploymentCenterErrorFetchingInfo'));
       setBranch(t('deploymentCenterErrorFetchingInfo'));
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterSourceControls',
-        `Failed to get source control details with error: ${getErrorMessage(sourceControlDetailsResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo(LogLevels.error, 'getSourceControls', 'failed', {
+          message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
+          error: sourceControlDetailsResponse.metadata.error,
+        })
       );
     }
     setIsSourceControlLoading(false);
   };
 
   const processRepo = (repoUrl: string): void => {
-    const repoUrlPartsForUsername = repoUrl.replace('https://', '').split(':');
-    if (repoUrlPartsForUsername.length > 1) {
-      setExternalUsername(repoUrlPartsForUsername[0]);
-      const repoUrlPartsForRepo = repoUrl.split('@');
-      setRepo(`https://${repoUrlPartsForRepo[repoUrlPartsForRepo.length - 1]}`);
-    } else {
-      setRepo(repoUrl);
-    }
+    // NOTE(michinoy): There can be multiple variations of the URL:
+    // The protocol can be either https or http
+    // The host part can be - username@domain.net/path/name.git
+    //                        username:password@domain.net/path/name.git
+    //                        domain.net/path/name.git
+
+    const repoUrlParts = repoUrl.split('://');
+    const protocol = repoUrlParts[0];
+    const hostContents = repoUrlParts[1];
+    const hostContentParts = hostContents.split('@');
+    const domainContent = hostContentParts[1] ? hostContentParts[1] : hostContentParts[0];
+    const usernameAndPassword = hostContentParts[1] ? hostContentParts[0] : '';
+    const username = usernameAndPassword ? usernameAndPassword.split(':')[0] : '';
+
+    setExternalUsername(username);
+    setRepo(`${protocol}://${domainContent}`);
   };
 
   const getBranchLink = () => {

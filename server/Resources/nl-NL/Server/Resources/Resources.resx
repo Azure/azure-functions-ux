@@ -5747,19 +5747,19 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Werkstroombestand</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Behouden</value>
+        <value>Save workflow file</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Behoud het bestand {0} van de vertakking {1} in de opslagplaats {2}. Hiermee worden implementaties naar uw app geactiveerd voor doorvoeren aan de vertakking.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Verwijderen</value>
+        <value>Delete workflow file</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Verwijder het bestand {0} uit de vertakking {1} in de opslagplaats {2}. Hiermee voorkomt u dat toekomstige implementaties voor uw app worden doorgevoerd in deze vertakking.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Als u de verbinding met GitHub Actions verbreekt, kunnen toekomstige implementaties die door doorvoeringen worden geactiveerd, niet worden uitgevoerd.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Het GitHub Actions-bestand {0} van de vertakking {1} in de opslagplaats {2} bestaat niet. Selecteer OK om de implementatie te verbreken.</value>
@@ -5933,7 +5933,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Kan de vertakking {0} in de opslagplaats {1} niet vinden. Navigeer naar uw opslagplaats om dit verder te onderzoeken.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>GitHub-actie voor verbreken van de verbinding bevestigen</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Ontkoppeling van App Service-buildservice bevestigen</value>
@@ -5976,6 +5976,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Opdracht voor opnieuw implementeren in Implementatiecentrum</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Opnieuw implementeren/synchroniseren</value>
     </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Fout bij het ophalen van gegevens</value>
@@ -6099,6 +6102,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Containerlogboeken laden...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Kan de containerlogboeken niet laden</value>
@@ -6566,16 +6572,16 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Vul de vereiste instellingen hierboven in om de voorbeeldversie in te schakelen.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>De werkstroom in de opslagplaats overschrijven</value>
+        <value>De werkstroom overschrijven: het bestaande werkstroombestand {0} in de geselecteerde opslagplaats en vertakking overschrijven.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Een werkstroom toevoegen aan de opslagplaats</value>
+        <value>Een werkstroom toevoegen: een nieuw werkstroombestand {0} aan de geselecteerde opslagplaats en vertakking toevoegen.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Bestaande werkstroom van opslagplaats gebruiken</value>
+        <value>Bestaande werkstroom gebruiken: het bestaande werkstroombestand {0} in de geselecteerde opslagplaats en vertakking gebruiken.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Beschikbare werkstroom van opslagplaats gebruiken</value>
+        <value>Beschikbare werkstroom gebruiken: een van de beschikbare werkstroombestanden in de geselecteerde opslagplaats en vertakking gebruiken.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Werkstroomoptie selecteren</value>
@@ -6821,6 +6827,36 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Isolated V2 wordt niet ondersteund voor deze schaaleenheid. U kunt de app het beste opnieuw implementeren of klonen.</value>
     </data>
   <data name="movingFromV2Warning" xml:space="preserve">
-        <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+        <value>U kunt niet meer terugkeren naar ~2 nadat u een upgrade naar ~3 hebt uitgevoerd omdat de onderliggende runtime rondom ~3 is geïntegreerd.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Containertype</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Ongeldige YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Bestand kiezen</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Kan de status van de host van uw functie-app niet ophalen. Als u logboekstreaming wilt gebruiken, moet u controleren of de functie-host wordt uitgevoerd.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure-opslagplaatsen</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Project</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Project selecteren</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Kan geen accounts voor Azure Repos vinden. Maak een nieuw account in Azure Repos en probeer het opnieuw.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>Kan uw App Insights-resource niet ophalen. Controleer of u de juiste instrumentatiesleutel hebt geconfigureerd in de app-instellingen. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Met de functie voor vroege toegang kunnen updates en nieuwe versies van diverse runtimes snel worden geleverd.</value>
     </data>
 </root>

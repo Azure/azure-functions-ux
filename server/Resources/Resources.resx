@@ -2686,6 +2686,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="commitIdAuthor" xml:space="preserve">
         <value>Commit ID (Author)</value>
     </data>
+    <data name="commitAuthor" xml:space="preserve">
+        <value>Commit Author</value>
+    </data>
     <data name="checkinMessage" xml:space="preserve">
         <value>Checkin Message</value>
     </data>
@@ -3893,6 +3896,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Failed to disconnect your deployment</value>
     </data>
+    <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Failed to disconnect your deployment: {0}</value>
+    </data>
     <data name="disconnectConfirm" xml:space="preserve">
         <value>Are you sure you want to disconnect your deployment?</value>
     </data>
@@ -4252,6 +4258,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Kubernetes based functions are not currently supported.</value>
+    </data>
+    <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker compose is not currently supported.</value>
     </data>
     <data name="readOnlyBYOC" xml:space="preserve">
         <value>Editing functions in the portal is not supported for function apps deployed as a docker image.</value>
@@ -5749,19 +5758,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Workflow file</value>
     </data>
     <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Preserve</value>
+        <value>Save workflow file</value>
     </data>
     <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Preserve file '{0}' from branch '{1}' in repository '{2}'. This may trigger deployments to your app on commits to the branch.</value>
+        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
     <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete</value>
+        <value>Delete workflow file</value>
     </data>
     <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Delete file '{0}' from branch '{1}' in repository '{2}'. This will prevent future deployments to your app on commits to this branch.</value>
+        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
     </data>
     <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting the GitHub Action will prevent any future deployments trigerred by commits.</value>
+        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
     </data>
     <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>GitHub Action workflow file '{0}' from branch '{1}' in repository '{2}' does not exist. Select 'OK' to disconnect deployment.</value>
@@ -5935,7 +5944,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Can not find branch '{0}' in repository '{1}'. Please navigate to your repository to investigate further.</value>
     </data>
     <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Confirm GitHub Action Disconnect</value>
+        <value>Disconnect GitHub Actions</value>
     </data>
     <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirm App Service Build Service Disconnect</value>
@@ -5951,6 +5960,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Failed to disconnect your deployment, but the workflow file was successfully deleted. Try to disconnect again.</value>
+    </data>
+    <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Failed to disconnect your deployment, but the workflow file was successfully deleted. Try to disconnect again. Error: {0}</value>
     </data>
     <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Unable to establish a link to Application Insights. Please ensure that you have write permissions on your Function app</value>
@@ -5978,6 +5990,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
         <value>Deployment center redeploy command</value>
+    </data>
+    <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Redeploy/Sync</value>
     </data>
     <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Error fetching information</value>
@@ -6101,6 +6116,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Loading container logs...</value>
+    </data>
+    <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
     </data>
     <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Failed to load container logs</value>
@@ -6300,7 +6318,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
         <value>Select folder</value>
     </data>
-     <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
+    <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>External Git</value>
     </data>
     <data name="deploymentCenterCodeExternalUsernameLabel" xml:space="preserve">
@@ -6323,6 +6341,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Public</value>
+    </data>
+    <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Local Git allows you to host a simple Git server for your app on your App Service plan. This can be used to quickly setup a CICD pipeline.</value>
     </data>
     <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Your local git repository url will be generated upon completion.</value>
@@ -6568,16 +6589,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Fill out the required settings above to enable the preview.</value>
     </data>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite the workflow in the repository</value>
+        <value>Overwrite the workflow: Overwrite the existing workflow file {0} in the selected repository and branch.</value>
     </data>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Add a workflow in the repository</value>
+        <value>Add a workflow: Add a new workflow file {0} in the selected repository and branch.</value>
     </data>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Use existing repository workflow</value>
+        <value>Use existing workflow: Use the existing workflow file {0} in the selected repository and branch.</value>
     </data>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Use available repository workflow</value>
+        <value>Use available workflow: Use one of the workflow files available in the selected repository and branch.</value>
     </data>
     <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Select workflow option</value>
@@ -6696,7 +6717,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="developmentEnvironment" xml:space="preserve">
         <value>Development environment</value>
     </data>
-     <data name="selectTemplate" xml:space="preserve">
+    <data name="selectTemplate" xml:space="preserve">
         <value>Select a template</value>
     </data>
     <data name="selectTemplateDescription" xml:space="preserve">
@@ -6824,5 +6845,44 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="movingFromV2Warning" xml:space="preserve">
         <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
+    </data>
+    <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Container Type</value>
+    </data>
+    <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Invalid YAML</value>
+    </data>
+    <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Choose file</value>
+    </data>
+    <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Unable to fetch the host status of your function app. To use log streaming, please make sure your function host is running.</value>
+    </data>
+    <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+    <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Project</value>
+    </data>
+    <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Select project</value>
+    </data>
+    <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>No accounts found for Azure Repos. Please create a new account in Azure Repos and try again.</value>
+    </data>
+    <data name="appInsightsKeyError" xml:space="preserve">
+        <value>Failed to fetch your App Insights resource. Please make sure you have correct instrumentation key configured in app settings. </value>
+    </data>
+    <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
+    </data>
+    <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>The selected version '{0}' is deprecated. Please consider updating it.</value>
+    </data>
+    <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>The selected version '{0}' will deprecate on {1}. Please consider updating it soon.</value>
+    </data>
+    <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Logs will refresh in {0} seconds</value>
     </data>
 </root>
