@@ -76,8 +76,13 @@ export class LoggingService extends Logger implements LoggerService {
   }
 
   private initializeEtwLogger() {
+    const writeToSecondaryLogger = (name: string, properties?: { [name: string]: string }) => {
+      if (process.env.aiInstrumentationKey && this.client) {
+        this.client.trackEvent({ name, properties });
+      }
+    };
     if (process.env.WEBSITE_FIRST_PARTY_ID) {
-      this.etwService = new EtwService();
+      this.etwService = new EtwService(writeToSecondaryLogger);
     }
   }
 

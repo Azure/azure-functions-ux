@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+import { ChildProcess, spawn } from 'child_process';
 import { existsSync } from 'fs';
 
 export enum EventType {
@@ -10,18 +10,22 @@ export enum EventType {
 }
 
 export class EtwService {
-  private _ipc: any;
+  private _ipc: ChildProcess;
 
-  constructor() {
+  private _writeToSecondaryLogger: (name: string, properties?: { [name: string]: string }) => void;
+
+  constructor(writeToSecondaryLogger: (name: string, properties?: { [name: string]: string }) => void) {
+    this._writeToSecondaryLogger = writeToSecondaryLogger
+      ? writeToSecondaryLogger
+      : (name: string, properties?: { [name: string]: string }) => null;
+
     try {
-      const etwLoggerPathFallback = process.env.WEBSITE_SITE_NAME
-        ? './EtwLogger/EtwLogger.exe'
-        : '../EtwLogger/bin/Release/netcoreapp3.1/EtwLogger.exe';
-      const etwLoggerPath = process.env.etwLoggerPath || etwLoggerPathFallback;
+      const etwLoggerPath = process.env.etwLoggerPath || './EtwLogger/EtwLogger.exe';
 
       if (!existsSync(etwLoggerPath)) {
-        console.log(`EtwLogger.exe does not exist at ${etwLoggerPath}`);
-        return;
+        const message = `EtwLogger.exe does not exist at ${etwLoggerPath}`;
+        console.warn(message);
+        this._writeToSecondaryLogger('/error/server/EtwLogger/ExeNotFound', { message });
       }
 
       const etwLoggerProviderName = process.env.etwLoggerProviderName || 'AppServiceUxServerLogs';
@@ -29,41 +33,51 @@ export class EtwService {
       this._ipc = spawn(etwLoggerPath, [etwLoggerProviderName]);
 
       this._ipc.on('error', error => {
-        // To avoid infinite loop, only log to console.
-        console.log(`IPC spawn error: ${JSON.stringify(error)}`);
+        const message = `IPC spawn error: ${this._getString(error)}`;
+        console.error(message);
+        this._writeToSecondaryLogger('/error/server/EtwLogger/SpawnError', { message });
+        throw error;
+      });
+      this._ipc.on('exit', code => {
+        const message = `IPC exited with code: ${code}`;
+        console.error(message);
+        this._writeToSecondaryLogger('/error/server/EtwLogger/Exit', { message });
       });
 
-      this._ipc.stdin.setEncoding('utf8');
       this._ipc.stdin.on('error', error => {
-        // To avoid infinite loop, only log to console.
-        console.log(`IPC write error: ${error && error.toString()}\r\n`);
+        const message = `IPC stdin error: ${this._getString(error)}`;
+        console.error(message);
+        this._writeToSecondaryLogger('/error/server/EtwLogger/StdinError', { message });
       });
 
+      this._ipc.stdout.setEncoding('utf8');
       this._ipc.stdout.on('data', data => {
         if (data) {
-          // To avoid infinite loop, only log to console.
-          console.log(`IPC output: ${data.toString()}\r\n`);
+          console.log(`IPC stdout: ${data}`);
         }
       });
       this._ipc.stdout.on('error', error => {
-        // To avoid infinite loop, only log to console.
-        console.log(`IPC read error: ${error && error.toString()}\r\n`);
+        const message = `IPC stdout error: ${this._getString(error)}`;
+        console.error(message);
+        this._writeToSecondaryLogger('/error/server/EtwLogger/StdoutError', { message });
       });
 
       this._ipc.stderr.on('data', data => {
         if (data) {
-          // To avoid infinite loop, only log to console.
-          console.log(`IPC error: ${data.toString()}\r\n`);
+          const message = `IPC stderr: ${this._getString(data)}`;
+          console.error(message);
+          this._writeToSecondaryLogger('/error/server/EtwLogger/Stderr', { message });
         }
       });
     } catch (error) {
-      // To avoid infinite loop, only log to console.
-      console.log(`IPC spawn error: ${JSON.stringify(error)}`);
+      const message = `IPC initialization error: ${this._getString(error)}`;
+      console.error(message);
+      this._writeToSecondaryLogger('/error/server/EtwLogger/InitializationError', { message });
     }
   }
 
   public isHealthy() {
-    return this._ipc && this._ipc.exitCode === null;
+    return this._ipc && (this._ipc as any).exitCode === null;
   }
 
   public trackEvent(
@@ -82,10 +96,17 @@ export class EtwService {
           customDimensions,
           measurements,
         };
-        this._ipc.stdin.write(`${JSON.stringify(data)}\r\n`);
+        this._ipc.stdin.write(`${JSON.stringify(data)}\r\n`, 'utf8', error => {
+          if (error) {
+            const message = `IPC stdin write error: ${this._getString(error)}`;
+            console.error(message);
+            this._writeToSecondaryLogger('/error/server/EtwLogger/StdinWriteError', { message });
+          }
+        });
       } catch (error) {
-        // To avoid infinite loop, only log to console.
-        console.log(`IPC write error: ${JSON.stringify(error)}`);
+        const message = `IPC stdin write error: ${this._getString(error)}`;
+        console.error(message);
+        this._writeToSecondaryLogger('/error/server/EtwLogger/StdinWriteError', { message });
       }
     }
   }
@@ -95,9 +116,14 @@ export class EtwService {
       try {
         this._ipc.stdin.write(`${JSON.stringify({ name, value, eventName: EventType.Metric })}\r\n`);
       } catch (error) {
-        // To avoid infinite loop, only log to console.
-        console.log(`IPC write error: ${JSON.stringify(error)}`);
+        const message = `IPC stdin write error: ${this._getString(error)}`;
+        console.error(message);
+        this._writeToSecondaryLogger('/error/server/EtwLogger/StdinWriteError', { message });
       }
     }
+  }
+
+  private _getString(data: any) {
+    return typeof data === 'string' ? data : JSON.stringify(data);
   }
 }
