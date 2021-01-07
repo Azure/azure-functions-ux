@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { useTranslation } from 'react-i18next';
@@ -10,8 +8,10 @@ import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { Link, MessageBarType } from 'office-ui-fabric-react';
 import { AuthorizationResult, DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
+import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import DropboxService from '../../../../ApiHelpers/DropboxService';
+import { LogLevels } from '../../../../models/telemetry';
+import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -24,6 +24,8 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
   const [isDropboxUsernameMissing, setIsDropboxUsernameMissing] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const portalContext = useContext(PortalContext);
+
   const deploymentCenterData = new DeploymentCenterData();
 
   const fetchData = async () => {
@@ -46,10 +48,11 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
       setDropboxUsername(undefined);
       setIsDropboxUsernameMissing(true);
 
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterDropboxConfiguredView',
-        `Failed to get Dropbox user details with error: ${getErrorMessage(dropboxUserResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo(LogLevels.error, 'getDropboxUser', 'failed', {
+          message: getErrorMessage(dropboxUserResponse.metadata.error),
+          error: dropboxUserResponse.metadata.error,
+        })
       );
     }
     setIsDropboxUsernameLoading(false);
@@ -63,18 +66,19 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
         setFolder(`/${repoUrlSplit[repoUrlSplit.length - 1]}`);
       } else {
         setFolder('');
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterDropboxConfiguredView',
-          `Repository url incorrectly formatted: ${sourceControlDetailsResponse.data.properties.repoUrl}`
+        portalContext.log(
+          getTelemetryInfo(LogLevels.error, 'splitRepositoryUrl', 'failed', {
+            message: `Repository url incorrectly formatted: ${sourceControlDetailsResponse.data.properties.repoUrl}`,
+          })
         );
       }
     } else {
       setFolder(t('deploymentCenterErrorFetchingInfo'));
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterSourceControls',
-        `Failed to get source control details with error: ${getErrorMessage(sourceControlDetailsResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo(LogLevels.error, 'getSourceControls', 'failed', {
+          message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
+          error: sourceControlDetailsResponse.metadata.error,
+        })
       );
     }
     setIsSourceControlLoading(false);
@@ -92,11 +96,11 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
       } else {
         // NOTE(stpelleg): This is all related to the handshake between us and the provider.
         // If this fails, there isn't much the user can do except retry.
-
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'authorizeDropboxAccount',
-          `Failed to get token with error: ${getErrorMessage(dropboxTokenResponse.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo(LogLevels.error, 'authorizeDropboxAccount', 'failed', {
+            message: getErrorMessage(dropboxTokenResponse.metadata.error),
+            error: dropboxTokenResponse.metadata.error,
+          })
         );
       }
     }

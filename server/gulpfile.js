@@ -125,7 +125,7 @@ gulp.task('inject-environment-variables', gulp.series('copy-env-template-to-env'
  *   Bundle Up production server static files
  */
 gulp.task('bundle-static-files', function() {
-  return gulp.src(['src/**/*.json', 'src/**/*.md']).pipe(gulp.dest('dist'));
+  return gulp.src(['src/**/*.json', 'src/**/*.md', 'src/**/*.config.yml']).pipe(gulp.dest('dist'));
 });
 
 /********

@@ -6885,10 +6885,4 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>Logs will refresh in {0} seconds</value>
     </data>
-    <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, Checkout the new Deployment Center experience.</value>
-    </data>
-    <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.</value>
-    </data>
 </root>
