@@ -2683,6 +2683,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="commitIdAuthor" xml:space="preserve">
         <value>ID potvrzení (autor)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Autor potvrzení změn</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Zpráva pro vrácení se změnami</value>
     </data>
@@ -3890,6 +3893,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Vaše nasazení se nepovedlo odpojit.</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Vaše nasazení se nepovedlo odpojit: {0}</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Opravdu chcete odpojit své nasazení?</value>
     </data>
@@ -4249,6 +4255,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Funkce založené na Kubernetes se v současné době nepodporují.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker Compose se v současné době nepodporuje.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Na portálu se úpravy aplikací funkcí nasazených jako image Dockeru nepodporují.</value>
@@ -5746,19 +5755,19 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Soubor pracovního postupu</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>Uložit soubor pracovního postupu</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Ukládání umožňuje zachovat všechny úpravy, které jste provedli v souboru pracovního prostoru, ale stále se aktivují nasazení do této aplikace.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>Odstranit soubor pracovního postupu</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>Soubor se odebere a budoucí potvrzení neaktivují nasazení do této aplikace.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>Odpojení akce umožňuje překonfigurovat nasazení aplikace. Zvolte, co se po odpojení stane se souborem pracovního postupu.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Soubor pracovního postupu GitHub Actions {0} z větve {1} v úložišti {2} neexistuje. Pokud chcete nasazení odpojit, vyberte OK.</value>
@@ -5932,7 +5941,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>V úložišti {1} se nepovedlo najít větev {0}. Pokud to chcete prověřit důkladněji, přejděte prosím na úložiště.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>Odpojit GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Potvrdit odpojení sestavovací služby App Service</value>
@@ -5948,6 +5957,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Vaše nasazení se nepovedlo odpojit, ale soubor pracovního postupu se úspěšně odstranil. Zkuste nasazení odpojit znovu.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Vaše nasazení se nepovedlo odpojit, ale soubor pracovního postupu se úspěšně odstranil. Zkuste nasazení odpojit znovu. Chyba: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Nepovedlo se vytvořit propojení s Application Insights. Ujistěte se prosím, že v aplikaci funkcí máte oprávnění k zápisu.</value>
@@ -6103,7 +6115,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Načítají se protokoly kontejnerů...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>Během fáze zřizování image kontejneru modul Dockeru vygeneroval protokoly.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Nepovedlo se načíst protokoly kontejnerů.</value>
@@ -6326,6 +6338,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Veřejné</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Místní Git umožňuje hostovat jednoduchý server Git pro aplikaci v plánu služby App Service. Ten se dá použít k rychlému nastavení kanálu CICD.</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Adresa URL vašeho místního úložiště Git se vygeneruje po dokončení.</value>
@@ -6856,6 +6871,21 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nepovedlo se načíst prostředek App Insights. Ujistěte se prosím, že je v nastavení aplikace nakonfigurovaný správný instrumentační klíč. </value>
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
-        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
+        <value>Dřívější přístup umožňuje rychlé doručování aktualizací a nových verzí různých modulů runtime.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>Vybraná verze {0} je zastaralá. Zvažte prosím možnost ji aktualizovat.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>Vybraná verze {0} se od {1} přestane používat. Zvažte prosím možnost ji v blízké době aktualizovat.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Protokoly se aktualizují za {0} s.</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>Toto Nastavení kontejneru (klasické) je zastaralé a v březnu 2021 ho odebereme. Vyzkoušejte nové prostředí Deployment Center, v němž budete nastavení kontejnerů spravovat do budoucna.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>Prostředí Deployment Center (klasické) je zastaralé a v březnu 2021 ho odebereme. Vyzkoušejte nové prostředí Deployment Center, v němž budete nasazení spravovat do budoucna.</value>
     </data>
 </root>

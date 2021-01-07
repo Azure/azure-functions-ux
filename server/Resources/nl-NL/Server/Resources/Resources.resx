@@ -2683,6 +2683,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="commitIdAuthor" xml:space="preserve">
         <value>Commit-id (auteur)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Auteur vastleggen</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Check-inbericht</value>
     </data>
@@ -3891,6 +3894,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Kan de verbinding met uw implementatie niet verbreken</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Kan de verbinding met uw implementatie niet verbreken: {0}</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Weet u zeker dat u de verbinding met uw implementatie wilt verbreken?</value>
     </data>
@@ -4250,6 +4256,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Op Kubernetes gebaseerde functies worden momenteel niet ondersteund.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker Compose wordt momenteel niet ondersteund.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Het bewerken van functies in de portal wordt niet ondersteund voor functie-apps die zijn geïmplementeerd als docker-installatiekopie.</value>
@@ -5747,19 +5756,19 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Werkstroombestand</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>Werkstroombestand opslaan</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Door op te slaan blijven alle bewerkingen behouden die u hebt aangebracht in het werkstroombestand, maar worden de implementaties van deze app nog steeds geactiveerd.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>Werkstroombestand verwijderen</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>Het bestand wordt verwijderd en bij toekomstige doorvoeringen worden geen implementaties voor deze app geactiveerd.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>Als u de verbinding met een actie verbreekt, kunt u de app-implementatie opnieuw configureren. Kies wat er met het werkstroombestand moet gebeuren nadat u de verbinding hebt verbroken.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Het GitHub Actions-bestand {0} van de vertakking {1} in de opslagplaats {2} bestaat niet. Selecteer OK om de implementatie te verbreken.</value>
@@ -5933,7 +5942,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Kan de vertakking {0} in de opslagplaats {1} niet vinden. Navigeer naar uw opslagplaats om dit verder te onderzoeken.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>De verbinding met GitHub Actions verbreken</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Ontkoppeling van App Service-buildservice bevestigen</value>
@@ -5949,6 +5958,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Kan de verbinding met uw implementatie niet verbreken, maar het werkstroombestand is verwijderd. Probeer de verbinding opnieuw te verbreken.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Kan de verbinding met uw implementatie niet verbreken, maar het werkstroombestand is verwijderd. Probeer de verbinding opnieuw te verbreken. Fout: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Kan geen koppeling tot stand brengen met Application Insights. Controleer of u schrijfmachtigingen hebt voor uw functie-app</value>
@@ -6104,7 +6116,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Containerlogboeken laden...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>Dit zijn de logboeken van de Docker-engine die zijn verzonden tijdens de inrichtingsfase van uw containerinstallatiekopie.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Kan de containerlogboeken niet laden</value>
@@ -6327,6 +6339,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Openbaar</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Met Local Git kunt u een eenvoudige Git-server voor uw app hosten op uw App Service-abonnement. Dit kan worden gebruikt om snel een CICD-pijplijn te installeren.</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>De URL van uw Lokale Git-opslagplaats wordt gegenereerd na voltooiing.</value>
@@ -6858,5 +6873,20 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
         <value>Met de functie voor vroege toegang kunnen updates en nieuwe versies van diverse runtimes snel worden geleverd.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>De geselecteerde versie {0} is afgeschaft. Werk het item bij.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>De geselecteerde versie {0} wordt afgeschaft op {1}. Werk het tijdig bij.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Logboeken worden over {0} seconden vernieuwd</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>Deze Containerinstellingen-ervaring (klassiek) is afgeschaft en wordt verwijderd in maart van 2021. Als u uw containerinstellingen wilt blijven beheren, kunt u de nieuwe voor Implementatiecenter-ervaring bekijken.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>De Implementatiecenter-ervaring (klassiek) is afgeschaft en wordt verwijderd in maart van 2021. Als u uw implementaties wilt blijven beheren, kunt u de nieuwe Implementatiecenter-ervaring bekijken.</value>
     </data>
 </root>
