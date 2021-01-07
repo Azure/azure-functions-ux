@@ -8,9 +8,10 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { SiteStateContext } from '../../../../SiteState';
 import OneDriveService from '../../../../ApiHelpers/OneDriveService';
-import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
+import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { PortalContext } from '../../../../PortalContext';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -26,6 +27,7 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
 
   const fetchData = async () => {
     const oneDriveUserResponse = await deploymentCenterData.getOneDriveUser(deploymentCenterContext.oneDriveToken);
@@ -84,10 +86,11 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
           if (response.metadata.success) {
             deploymentCenterData.storeOneDriveToken(response.data);
           } else {
-            LogService.error(
-              LogCategories.deploymentCenter,
-              'authorizeOneDriveAccount',
-              `Failed to get token with error: ${response.metadata.error}`
+            portalContext.log(
+              getTelemetryInfo(LogLevels.error, 'authorizeOneDriveAccount', 'failed', {
+                message: getErrorMessage(response.metadata.error),
+                error: response.metadata.error,
+              })
             );
             return Promise.resolve(undefined);
           }
