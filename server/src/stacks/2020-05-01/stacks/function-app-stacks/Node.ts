@@ -14,7 +14,7 @@ export const nodeStack: FunctionAppStack = {
         {
           sortOrder: 0,
           os: 'windows',
-          isPreview: true,
+          isPreview: false,
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,
@@ -28,7 +28,7 @@ export const nodeStack: FunctionAppStack = {
         {
           sortOrder: 1,
           os: 'linux',
-          isPreview: true,
+          isPreview: false,
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,
