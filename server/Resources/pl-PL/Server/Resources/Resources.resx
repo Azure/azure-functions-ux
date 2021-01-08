@@ -2683,6 +2683,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="commitIdAuthor" xml:space="preserve">
         <value>ID zatwierdzenia (autor)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Autor zatwierdzenia</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Komunikat dotyczący zaewidencjonowania</value>
     </data>
@@ -3890,6 +3893,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Nie można odłączyć wdrożenia</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Nie można rozłączyć wdrożenia: {0}</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Czy na pewno chcesz odłączyć swoje wdrożenie?</value>
     </data>
@@ -4249,6 +4255,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Funkcje oparte na oprogramowaniu Kubernetes nie są obecnie obsługiwane.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Narzędzie Docker Compose nie jest obecnie obsługiwane.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Edytowanie funkcji w portalu nie jest obsługiwane w przypadku aplikacji funkcji wdrożonych jako obraz platformy Docker.</value>
@@ -5746,19 +5755,19 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Plik przepływu pracy</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>Zapisz plik przepływu pracy</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Zapisywanie umożliwia zachowywanie wszelkich zmian wprowadzonych w pliku przepływu pracy, ale nadal będzie wyzwalać wdrożenia w tej aplikacji.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>Usuwanie pliku przepływu pracy</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>Plik zostanie usunięty, a przyszłe zatwierdzenia nie będą wyzwalać wdrożeń w tej aplikacji.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>Rozłączenie akcji umożliwia zmianę konfiguracji wdrożenia aplikacji. Wybierz, co się dzieje z plikiem przepływu pracy po rozłączeniu.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Plik przepływu pracy akcji usługi GitHub „{0}” z gałęzi „{1}” w repozytorium „{2}” nie istnieje. Wybierz przycisk „OK”, aby rozłączyć wdrożenie.</value>
@@ -5932,7 +5941,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Nie można odnaleźć gałęzi „{0}” w repozytorium „{1}”. Przejdź do repozytorium, aby kontynuować badanie.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>Rozłącz akcje usługi GitHub</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Potwierdzenie rozłączenia z usługą kompilacji usługi App Service</value>
@@ -5948,6 +5957,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Nie udało się rozłączyć wdrożenia, ale plik przepływu pracy został pomyślnie usunięty. Ponów próbę rozłączenia.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Nie udało się rozłączyć wdrożenia, ale plik przepływu pracy został pomyślnie usunięty. Ponów próbę rozłączenia. Błąd: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Nie można nawiązać połączenia z usługą Application Insights. Upewnij się, że masz uprawnienia do zapisu w aplikacji funkcji</value>
@@ -6103,7 +6115,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Trwa ładowanie dzienników kontenerów...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>To są dzienniki z aparatu platformy Docker emitowane podczas fazy aprowizacji obrazu kontenera.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Nie udało się pobrać dzienników kontenerów</value>
@@ -6326,6 +6338,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Publiczne</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Lokalny system Git umożliwia hostowanie prostego serwera Git dla aplikacji w planie usługi App Service. Za jego pomocą można szybko skonfigurować potok ciągłej integracji/ciągłego wdrażania.</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Adres URL lokalnego repozytorium Git zostanie wygenerowany po zakończeniu.</value>
@@ -6857,5 +6872,20 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
         <value>Wczesny dostęp umożliwia szybkie dostarczanie aktualizacji i nowych wersji różnych środowisk uruchomieniowych.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>Wybrana wersja „{0}” jest przestarzała. Rozważ jej zaktualizowanie.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>Wybrana wersja „{0}” stanie się przestarzała {1}. Rozważ zaktualizowanie jej wkrótce.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Dzienniki zostaną odświeżone za {0} s</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, Checkout the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.</value>
     </data>
 </root>
