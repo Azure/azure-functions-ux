@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubWorkflowConfigPreviewProps } from '../DeploymentCenter.types';
 import { PanelType, DefaultButton, MessageBarType, PrimaryButton } from 'office-ui-fabric-react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
-import { panelBanner, deploymentCenterConsole, closePreviewButtonStyle } from '../DeploymentCenter.styles';
+import { panelBanner, deploymentCenterConsole, closePreviewButtonStyle, titleWithPaddingStyle } from '../DeploymentCenter.styles';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { ThemeContext } from '../../../../ThemeContext';
 
@@ -28,7 +28,7 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
 
   return (
     <>
-      <h3>{t('deploymentCenterSettingsWorkflowConfigTitle')}</h3>
+      <h3 className={titleWithPaddingStyle}>{t('deploymentCenterSettingsWorkflowConfigTitle')}</h3>
       <p>{t('deploymentCenterSettingsWorkflowConfigPreviewDescription')}</p>
       <DefaultButton
         text={t('deploymentCenterSettingsWorkflowConfigPreviewFileButtonText')}

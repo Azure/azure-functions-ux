@@ -133,3 +133,7 @@ export const closePreviewButtonStyle = style({
   marginTop: '10px',
   position: 'relative',
 });
+
+export const titleWithPaddingStyle = style({
+  paddingTop: '10px',
+});
