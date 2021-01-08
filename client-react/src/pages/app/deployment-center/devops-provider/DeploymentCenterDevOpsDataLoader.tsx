@@ -154,10 +154,12 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
   };
 
   useEffect(() => {
-    fetchOrganizations();
+    if (deploymentCenterContext.applicationSettings && deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata) {
+      fetchOrganizations();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext]);
+  }, [deploymentCenterContext.applicationSettings, deploymentCenterContext.siteConfig, deploymentCenterContext.configMetadata]);
 
   useEffect(() => {
     fetchProjects();

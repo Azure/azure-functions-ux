@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { SiteStateContext } from '../../../../SiteState';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import {
   DeploymentCenterFormData,
@@ -21,7 +20,6 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
   const { resourceId } = props;
   const { t } = useTranslation();
 
-  const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const portalContext = useContext(PortalContext);
@@ -109,11 +107,20 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
   };
 
   useEffect(() => {
-    fetchData();
-    generateForm();
+    if (deploymentCenterContext.resourceId) {
+      fetchData();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext, deploymentCenterContext]);
+  }, [deploymentCenterContext.resourceId]);
+
+  useEffect(() => {
+    if (deploymentCenterContext.applicationSettings && deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata) {
+      generateForm();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext.applicationSettings, deploymentCenterContext.siteConfig, deploymentCenterContext.configMetadata]);
 
   return (
     <DeploymentCenterContainerForm
