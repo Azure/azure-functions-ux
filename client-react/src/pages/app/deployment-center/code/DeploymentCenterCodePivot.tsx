@@ -80,7 +80,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext]);
+  }, [siteStateContext.site]);
 
   return (
     <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
