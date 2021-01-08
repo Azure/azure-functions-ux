@@ -265,10 +265,12 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   };
 
   useEffect(() => {
-    fetchData();
+    if (siteStateContext.site && resourceId) {
+      fetchData();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext]);
+  }, [siteStateContext.site]);
 
   return siteStateContext.site ? (
     // NOTE(michinoy): Populate common deployment center level properties
