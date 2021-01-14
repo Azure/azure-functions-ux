@@ -8,8 +8,13 @@ import { AppStackOs, CommonSettings } from '../models/stacks/app-stacks';
 
 export default class RuntimeStackService {
   public static getWebAppConfigurationStacks = (stacksOs: AppStackOs) => {
+    const queryParams = [
+      ...RuntimeStackService._getCommonQueryParams(stacksOs),
+      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}`,
+    ];
+
     return sendHttpRequest<WebAppStack[]>({
-      url: `${Url.serviceHost}stacks/webAppStacks?${RuntimeStackService._getCommonQueryParams(stacksOs).join('&')}`,
+      url: `${Url.serviceHost}stacks/webAppStacks?${queryParams.join('&')}`,
       method: 'GET',
     }).then(result => {
       const success = result.metadata.success && !!result.data;
@@ -26,8 +31,13 @@ export default class RuntimeStackService {
   };
 
   public static getFunctionAppConfigurationStacks = (stacksOs: AppStackOs) => {
+    const queryParams = [
+      ...RuntimeStackService._getCommonQueryParams(stacksOs),
+      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}`,
+    ];
+
     return sendHttpRequest<FunctionAppStack[]>({
-      url: `${Url.serviceHost}stacks/functionAppStacks?${RuntimeStackService._getCommonQueryParams(stacksOs).join('&')}`,
+      url: `${Url.serviceHost}stacks/functionAppStacks?${queryParams.join('&')}`,
       method: 'GET',
     }).then(result => {
       const success = result.metadata.success && !!result.data;
@@ -44,7 +54,11 @@ export default class RuntimeStackService {
   };
 
   public static getWebAppGitHubActionStacks = async (stacksOs: AppStackOs) => {
-    const queryParams = [...RuntimeStackService._getCommonQueryParams(stacksOs), `removeDeprecatedStacks=${true}`];
+    const queryParams = [
+      ...RuntimeStackService._getCommonQueryParams(stacksOs),
+      `removeDeprecatedStacks=${true}`,
+      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
+    ];
 
     const stacksResponse = await sendHttpRequest<WebAppStack[]>({
       url: `${Url.serviceHost}stacks/webAppStacks?${queryParams.join('&')}`,
@@ -64,7 +78,11 @@ export default class RuntimeStackService {
   };
 
   public static getFunctionAppGitHubActionStacks = async (stacksOs: AppStackOs) => {
-    const queryParams = [...RuntimeStackService._getCommonQueryParams(stacksOs), `removeDeprecatedStacks=${true}`];
+    const queryParams = [
+      ...RuntimeStackService._getCommonQueryParams(stacksOs),
+      `removeDeprecatedStacks=${true}`,
+      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
+    ];
 
     const stacksResponse = await sendHttpRequest<FunctionAppStack[]>({
       url: `${Url.serviceHost}stacks/functionAppStacks?${queryParams.join('&')}`,
@@ -121,11 +139,7 @@ export default class RuntimeStackService {
   }
 
   private static _getCommonQueryParams(stacksOs: AppStackOs) {
-    return [
-      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}`,
-      `os=${stacksOs}`,
-      `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
-    ];
+    return [`os=${stacksOs}`, `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`];
   }
 
   private static _isGitHubActionSupported(commonSettings?: CommonSettings) {

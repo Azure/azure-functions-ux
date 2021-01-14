@@ -105,7 +105,24 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       runtimeStack.majorVersions.forEach(majorVersion => {
         majorVersion.minorVersions.forEach(minorVersion => {
           addGitHubActionRuntimeVersionMapping(selectedStack, minorVersion.value, minorVersion.stackSettings);
-          displayedVersions.push({ text: minorVersion.displayText, key: minorVersion.value });
+
+          let value = minorVersion.value;
+
+          value =
+            siteStateContext.isLinuxApp &&
+            minorVersion.stackSettings.linuxRuntimeSettings &&
+            minorVersion.stackSettings.linuxRuntimeSettings.runtimeVersion
+              ? minorVersion.stackSettings.linuxRuntimeSettings.runtimeVersion
+              : value;
+
+          value =
+            !siteStateContext.isLinuxApp &&
+            minorVersion.stackSettings.windowsRuntimeSettings &&
+            minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
+              ? minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
+              : value;
+
+          displayedVersions.push({ text: minorVersion.displayText, key: value.toLocaleLowerCase() });
         });
       });
 

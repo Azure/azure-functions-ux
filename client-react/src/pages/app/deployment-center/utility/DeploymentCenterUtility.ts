@@ -55,7 +55,14 @@ export const getTelemetryInfo = (
   };
 };
 
-const getRuntimeStackVersionForWindows = (stack: string, siteConfig: ArmObj<SiteConfig>, applicationSettings: ArmObj<KeyValue<string>>) => {
+const getRuntimeStackVersionForWindows = (
+  stack: string,
+  configMetadata: ArmObj<KeyValue<string>>,
+  siteConfig: ArmObj<SiteConfig>,
+  applicationSettings: ArmObj<KeyValue<string>>
+) => {
+  const metadataStack = configMetadata.properties['CURRENT_STACK'] && configMetadata.properties['CURRENT_STACK'].toLocaleLowerCase();
+
   if (stack === RuntimeStacks.node) {
     return applicationSettings.properties['WEBSITE_NODE_DEFAULT_VERSION'];
   } else if (stack === RuntimeStacks.python) {
@@ -65,6 +72,14 @@ const getRuntimeStackVersionForWindows = (stack: string, siteConfig: ArmObj<Site
     return javaVersion === '11' ? '11.0' : javaVersion;
   } else if (stack === RuntimeStacks.powershell) {
     return siteConfig.properties.powerShellVersion || '';
+  } else if (stack === RuntimeStacks.dotnet && metadataStack !== 'dotnetcore') {
+    // NOTE(michinoy): This could be either .NET 5 or ASP .NET V*
+    return siteConfig.properties.netFrameworkVersion;
+  } else if (metadataStack === 'dotnetcore') {
+    // NOTE(michinoy): Due to the entire .NET dropdown now containing all .NET versions (.NET, ASP.NET, and .NETCORE)
+    // combined with the fact there is no storage of .NET CORE version, we now return an assumed value of the latest
+    // .NET Core
+    return '3.1';
   } else {
     return '';
   }
@@ -74,7 +89,7 @@ const getWebAppRuntimeStackForWindows = (configMetadata: ArmObj<KeyValue<string>
   if (configMetadata.properties['CURRENT_STACK']) {
     const metadataStack = configMetadata.properties['CURRENT_STACK'].toLocaleLowerCase();
 
-    return metadataStack === 'dotnet' ? RuntimeStacks.aspnet : metadataStack;
+    return metadataStack === 'dotnet' || metadataStack === 'dotnetcore' ? RuntimeStacks.dotnet : metadataStack;
   }
 
   return '';
@@ -86,11 +101,8 @@ const getFunctionAppRuntimeStackForWindows = (applicationSettings: ArmObj<KeyVal
     applicationSettings.properties &&
     applicationSettings.properties['FUNCTIONS_WORKER_RUNTIME'] &&
     applicationSettings.properties['FUNCTIONS_WORKER_RUNTIME'].toLocaleLowerCase();
-  if (!!runtime) {
-    return runtime === 'dotnet' ? RuntimeStacks.dotnetcore : runtime;
-  }
 
-  return '';
+  return !!runtime ? runtime : '';
 };
 
 const getRuntimeStackSettingForWindows = (
@@ -105,7 +117,7 @@ const getRuntimeStackSettingForWindows = (
     ? getFunctionAppRuntimeStackForWindows(applicationSettings)
     : getWebAppRuntimeStackForWindows(configMetadata);
 
-  stackData.runtimeVersion = getRuntimeStackVersionForWindows(stackData.runtimeStack, siteConfig, applicationSettings);
+  stackData.runtimeVersion = getRuntimeStackVersionForWindows(stackData.runtimeStack, configMetadata, siteConfig, applicationSettings);
 
   return stackData;
 };
@@ -134,9 +146,7 @@ const getWebAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   if (runtimeStack === JavaContainers.JavaSE || runtimeStack === JavaContainers.Tomcat || runtimeStack === JavaContainers.JBoss) {
     return RuntimeStacks.java;
   } else {
-    // NOTE(michinoy): So it seems that in the stack API the stack value is 'asp.net', whereas from site config, the stack identifier is
-    // 'dotnetcore'. Due to this mismatch, we need to hard code the conversion on the client side.
-    return siteConfig.properties.linuxFxVersion.toLocaleLowerCase() === 'dotnetcore|5.0' ? RuntimeStacks.aspnet : runtimeStack;
+    return runtimeStack === 'dotnetcore' || runtimeStack === 'dotnet' ? RuntimeStacks.dotnet : runtimeStack;
   }
 };
 
@@ -144,7 +154,7 @@ const getFunctionAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
   const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
 
-  return runtimeStack === 'dotnet' ? RuntimeStacks.dotnetcore : runtimeStack;
+  return runtimeStack === 'dotnetcore' || runtimeStack === 'dotnet' ? RuntimeStacks.dotnet : runtimeStack;
 };
 
 const getRuntimeStackSettingForLinux = (isFunctionApp: boolean, siteConfig: ArmObj<SiteConfig>): RuntimeStackSetting => {
