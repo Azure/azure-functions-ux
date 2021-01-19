@@ -25,7 +25,6 @@ export class CommonConstants {
     quickpulseTokenApiVersion20200602preview: '2020-06-02-preview',
     appInsightsQueryApiVersion20180420: '2018-04-20',
     staticSitePreviewApiVersion20191201: '2019-12-01-preview',
-    stacksApiVersion20200601: '2020-06-01',
     stacksApiVersion20201001: '2020-10-01',
     acrApiVersion20190501: '2019-05-01',
   };
