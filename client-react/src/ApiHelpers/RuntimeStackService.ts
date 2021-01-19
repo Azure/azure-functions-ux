@@ -10,7 +10,7 @@ export default class RuntimeStackService {
   public static getWebAppConfigurationStacks = (stacksOs: AppStackOs) => {
     const queryParams = [
       ...RuntimeStackService._getCommonQueryParams(stacksOs),
-      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}`,
+      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
     ];
 
     return sendHttpRequest<WebAppStack[]>({
@@ -33,7 +33,7 @@ export default class RuntimeStackService {
   public static getFunctionAppConfigurationStacks = (stacksOs: AppStackOs) => {
     const queryParams = [
       ...RuntimeStackService._getCommonQueryParams(stacksOs),
-      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}`,
+      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
     ];
 
     return sendHttpRequest<FunctionAppStack[]>({
