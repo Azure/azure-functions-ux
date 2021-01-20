@@ -81,6 +81,8 @@ export class LoggingService extends Logger implements LoggerService {
         this.client.trackEvent({ name, properties });
       }
     };
+    // If the app setting WEBSITE_FIRST_PARTY_ID isn't set, that means the first-party extension for Geneva Monitoring Agent
+    // haven't been configured for the ASP/app, so there's no reason to emit ETW events.
     if (process.env.WEBSITE_FIRST_PARTY_ID) {
       this.etwService = new EtwService(writeToSecondaryLogger);
     }
