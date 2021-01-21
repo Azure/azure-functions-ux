@@ -139,7 +139,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlySlots;
     }
 
-    const slotResponse = await SiteService.fetchSlots(armSiteDescriptor.getSiteOnlyResourceId());
+    const siteOnlyResourceId = armSiteDescriptor.getSiteOnlyResourceId();
+
+    const slotResponse = await SiteService.fetchSlots(siteOnlyResourceId);
     if (slotResponse.metadata.success) {
       if (slotResponse.data.value.length > 0) {
         return FunctionAppEditMode.ReadOnlySlots;
@@ -152,7 +154,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       );
     }
 
-    const functionsResponse = await FunctionsService.getFunctions(armSiteDescriptor.getSiteOnlyResourceId());
+    const functionsResponse = await FunctionsService.getFunctions(siteOnlyResourceId);
     if (functionsResponse.metadata.success) {
       if (functionsResponse.data.value.filter(fc => !!fc.properties.config.generatedBy).length > 0) {
         return FunctionAppEditMode.ReadOnlyVSGenerated;
