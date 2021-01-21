@@ -21,6 +21,7 @@ import SiteHelper from '../../utils/SiteHelper';
 import { SiteRouterData } from './SiteRouter.data';
 import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
+import FunctionsService from '../../ApiHelpers/FunctionsService';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -138,7 +139,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlySlots;
     }
 
-    const slotResponse = await SiteService.fetchSlots(armSiteDescriptor.getSiteOnlyResourceId());
+    const siteOnlyResourceId = armSiteDescriptor.getSiteOnlyResourceId();
+
+    const slotResponse = await SiteService.fetchSlots(siteOnlyResourceId);
     if (slotResponse.metadata.success) {
       if (slotResponse.data.value.length > 0) {
         return FunctionAppEditMode.ReadOnlySlots;
@@ -148,6 +151,19 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         LogCategories.siteRouter,
         'getSlots',
         `Failed to get slots: ${getErrorMessageOrStringify(slotResponse.metadata.error)}`
+      );
+    }
+
+    const functionsResponse = await FunctionsService.getFunctions(siteOnlyResourceId);
+    if (functionsResponse.metadata.success) {
+      if (functionsResponse.data.value.filter(fc => !!fc.properties.config.generatedBy).length > 0) {
+        return FunctionAppEditMode.ReadOnlyVSGenerated;
+      }
+    } else {
+      LogService.error(
+        LogCategories.siteRouter,
+        'getFunctions',
+        `Failed to get functions: ${getErrorMessageOrStringify(functionsResponse.metadata.error)}`
       );
     }
 
