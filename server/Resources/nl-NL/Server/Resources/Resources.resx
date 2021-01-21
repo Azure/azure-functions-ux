@@ -6883,10 +6883,4 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>Logboeken worden over {0} seconden vernieuwd</value>
     </data>
-  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>Deze Containerinstellingen-ervaring (klassiek) is afgeschaft en wordt verwijderd in maart van 2021. Als u uw containerinstellingen wilt blijven beheren, kunt u de nieuwe voor Implementatiecenter-ervaring bekijken.</value>
-    </data>
-  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>De Implementatiecenter-ervaring (klassiek) is afgeschaft en wordt verwijderd in maart van 2021. Als u uw implementaties wilt blijven beheren, kunt u de nieuwe Implementatiecenter-ervaring bekijken.</value>
-    </data>
 </root>

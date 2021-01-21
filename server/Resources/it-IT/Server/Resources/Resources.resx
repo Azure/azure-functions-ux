@@ -6882,10 +6882,4 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>I log verranno aggiornati tra {0} secondi</value>
     </data>
-  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>L'esperienza Impostazioni contenitore (versione classica) è deprecata e verrà rimossa nel mese di marzo 2021. Per continuare a gestire le impostazioni dei contenitori, usare la nuova esperienza Centro distribuzione.</value>
-    </data>
-  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>L'esperienza Centro distribuzione (versione classica) è deprecata e verrà rimossa nel mese di marzo 2021. Per continuare a gestire le distribuzioni, usare la nuova esperienza Centro distribuzione.</value>
-    </data>
 </root>
