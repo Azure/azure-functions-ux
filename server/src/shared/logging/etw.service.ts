@@ -25,7 +25,7 @@ export class EtwService {
       if (!existsSync(etwLoggerPath)) {
         const message = `EtwLogger.exe does not exist at ${etwLoggerPath}`;
         console.warn(message);
-        this._writeToSecondaryLogger('/error/server/EtwLogger/ExeNotFound', { message });
+        this._writeToSecondaryLogger('/error/server/EtwLogger/ExeNotFound', this._getExtendedMessage(message));
       }
 
       const etwLoggerProviderName = process.env.etwLoggerProviderName || 'AppServiceUxServerLogs';
@@ -35,44 +35,46 @@ export class EtwService {
       this._ipc.on('error', error => {
         const message = `IPC spawn error: ${this._getString(error)}`;
         console.error(message);
-        this._writeToSecondaryLogger('/error/server/EtwLogger/SpawnError', { message });
+        this._writeToSecondaryLogger('/error/server/EtwLogger/SpawnError', this._getExtendedMessage(message));
         throw error;
       });
       this._ipc.on('exit', code => {
         const message = `IPC exited with code: ${code}`;
         console.error(message);
-        this._writeToSecondaryLogger('/error/server/EtwLogger/Exit', { message });
+        this._writeToSecondaryLogger('/error/server/EtwLogger/Exit', this._getExtendedMessage(message));
       });
 
       this._ipc.stdin.on('error', error => {
         const message = `IPC stdin error: ${this._getString(error)}`;
         console.error(message);
-        this._writeToSecondaryLogger('/error/server/EtwLogger/StdinError', { message });
+        this._writeToSecondaryLogger('/error/server/EtwLogger/StdinError', this._getExtendedMessage(message));
       });
 
       this._ipc.stdout.setEncoding('utf8');
       this._ipc.stdout.on('data', data => {
         if (data) {
-          console.log(`IPC stdout: ${data}`);
+          const message = `IPC stdout: ${data}`;
+          console.log(message);
+          this._writeToSecondaryLogger('/info/server/EtwLogger/Stdout', this._getExtendedMessage(message));
         }
       });
       this._ipc.stdout.on('error', error => {
         const message = `IPC stdout error: ${this._getString(error)}`;
         console.error(message);
-        this._writeToSecondaryLogger('/error/server/EtwLogger/StdoutError', { message });
+        this._writeToSecondaryLogger('/error/server/EtwLogger/StdoutError', this._getExtendedMessage(message));
       });
 
       this._ipc.stderr.on('data', data => {
         if (data) {
           const message = `IPC stderr: ${this._getString(data)}`;
           console.error(message);
-          this._writeToSecondaryLogger('/error/server/EtwLogger/Stderr', { message });
+          this._writeToSecondaryLogger('/error/server/EtwLogger/Stderr', this._getExtendedMessage(message));
         }
       });
     } catch (error) {
       const message = `IPC initialization error: ${this._getString(error)}`;
       console.error(message);
-      this._writeToSecondaryLogger('/error/server/EtwLogger/InitializationError', { message });
+      this._writeToSecondaryLogger('/error/server/EtwLogger/InitializationError', this._getExtendedMessage(message));
     }
   }
 
@@ -100,13 +102,13 @@ export class EtwService {
           if (error) {
             const message = `IPC stdin write error: ${this._getString(error)}`;
             console.error(message);
-            this._writeToSecondaryLogger('/error/server/EtwLogger/StdinWriteError', { message });
+            this._writeToSecondaryLogger('/error/server/EtwLogger/StdinWriteError', this._getExtendedMessage(message));
           }
         });
       } catch (error) {
         const message = `IPC stdin write error: ${this._getString(error)}`;
         console.error(message);
-        this._writeToSecondaryLogger('/error/server/EtwLogger/StdinWriteError', { message });
+        this._writeToSecondaryLogger('/error/server/EtwLogger/StdinWriteError', this._getExtendedMessage(message));
       }
     }
   }
@@ -118,12 +120,22 @@ export class EtwService {
       } catch (error) {
         const message = `IPC stdin write error: ${this._getString(error)}`;
         console.error(message);
-        this._writeToSecondaryLogger('/error/server/EtwLogger/StdinWriteError', { message });
+        this._writeToSecondaryLogger('/error/server/EtwLogger/StdinWriteError', this._getExtendedMessage(message));
       }
     }
   }
 
   private _getString(data: any) {
     return typeof data === 'string' ? data : JSON.stringify(data);
+  }
+
+  private _getExtendedMessage(message: string) {
+    return {
+      message,
+      websiteName: process.env.WEBSITE_SITE_NAME,
+      pid: `${process.pid}`,
+      childPid: `${this._ipc && this._ipc.pid}`,
+      computerName: process.env.COMPUTERNAME,
+    };
   }
 }
