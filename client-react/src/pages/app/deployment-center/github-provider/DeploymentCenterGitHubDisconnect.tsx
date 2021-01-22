@@ -23,7 +23,6 @@ import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import ActionBar from '../../../../components/ActionBar';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnectProps> = props => {
   const { branch, org, repo, repoUrl, formProps } = props;
@@ -69,7 +68,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     dismissDisconnectPanel();
 
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'gitHubDisconnect', 'submit', {
+      getTelemetryInfo('info', 'gitHubDisconnect', 'submit', {
         deleteWorkflowDuringDisconnect: deleteWorkflowDuringDisconnect ? 'true' : 'false',
       })
     );
@@ -95,7 +94,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
   // This will make sure we are deleting the workflow from the UX only for now.
   const deleteSourceControl = async (deleteWorkflowDuringDisconnect: boolean, deleteWorkflowFileStatus: DeploymentDisconnectStatus) => {
     if (deleteWorkflowFileStatus.isSuccessful) {
-      portalContext.log(getTelemetryInfo(LogLevels.info, 'deleteSourceControlDetails', 'submit'));
+      portalContext.log(getTelemetryInfo('info', 'deleteSourceControlDetails', 'submit'));
 
       const deleteSourceControlDetailsResponse = await deploymentCenterData.deleteSourceControlDetails(
         deploymentCenterContext.resourceId,
@@ -104,7 +103,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
 
       if (!deleteSourceControlDetailsResponse.metadata.success) {
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'deleteSourceControlDetailsResponse', 'failed', {
+          getTelemetryInfo('error', 'deleteSourceControlDetailsResponse', 'failed', {
             message: getErrorMessage(deleteSourceControlDetailsResponse.metadata.error),
             errorAsString: JSON.stringify(deleteSourceControlDetailsResponse.metadata.error),
           })
@@ -168,7 +167,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
 
       if (workflowConfigurationResponse.metadata.success) {
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'deleteActionWorkflow', 'submit', {
+          getTelemetryInfo('error', 'deleteActionWorkflow', 'submit', {
             org,
             repo,
             branch,
@@ -190,7 +189,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
         } else {
           if (deleteWorkflowFileResponse) {
             portalContext.log(
-              getTelemetryInfo(LogLevels.error, 'deleteSourceControlDetailsResponse', 'failed', {
+              getTelemetryInfo('error', 'deleteSourceControlDetailsResponse', 'failed', {
                 errorAsString: JSON.stringify(deleteWorkflowFileResponse.metadata.error),
               })
             );

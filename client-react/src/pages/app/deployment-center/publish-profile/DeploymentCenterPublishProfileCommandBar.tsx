@@ -9,7 +9,6 @@ import CustomFocusTrapCallout from '../../../../components/CustomCallout/CustomF
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import { LogLevels } from '../../../../models/telemetry';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublishProfileCommandBarProps> = props => {
@@ -30,7 +29,7 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
     } else {
       portalContext.stopNotification(notificationId, false, t('downloadingPublishProfileFailed'));
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'downloadPublishProfile', 'failed', {
+        getTelemetryInfo('error', 'downloadPublishProfile', 'failed', {
           message: getErrorMessage(getPublishProfileResponse.metadata.error),
           error: getPublishProfileResponse.metadata.error,
         })
@@ -55,7 +54,7 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
 
   const resetProfile = () => {
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'resetFtpPassword', 'submit', {
+      getTelemetryInfo('info', 'resetFtpPassword', 'submit', {
         location: 'managePublishProfileSlideOut',
       })
     );
@@ -69,12 +68,12 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
   };
 
   const onDownloadProfileClick = () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'downloadProfileButton', 'clicked'));
+    portalContext.log(getTelemetryInfo('info', 'downloadProfileButton', 'clicked'));
     downloadProfile();
   };
 
   const onResetPublishProfileClick = () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'resetPublishProfileButton', 'clicked'));
+    portalContext.log(getTelemetryInfo('info', 'resetPublishProfileButton', 'clicked'));
     showResetCallout();
   };
 

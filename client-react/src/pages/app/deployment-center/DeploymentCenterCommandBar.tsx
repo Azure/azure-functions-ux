@@ -9,7 +9,6 @@ import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { ScmType } from '../../../models/site/config';
 import { PortalContext } from '../../../PortalContext';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
-import { LogLevels } from '../../../models/telemetry';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
   const { saveFunction, discardFunction, showPublishProfilePanel, refresh, redeploy, isLoading, isDirty } = props;
@@ -84,42 +83,42 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   };
 
   const onSaveButtonClick = () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'saveButton', 'clicked'));
+    portalContext.log(getTelemetryInfo('info', 'saveButton', 'clicked'));
     saveFunction();
   };
 
   const onDiscardButtonClick = () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'discardButton', 'clicked'));
+    portalContext.log(getTelemetryInfo('info', 'discardButton', 'clicked'));
     discardFunction();
   };
 
   const onBrowseButtonClick = () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'browseButton', 'clicked'));
+    portalContext.log(getTelemetryInfo('info', 'browseButton', 'clicked'));
     onBrowseClick();
   };
 
   const onManagePublishProfileButtonClick = () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'managePublishProfileButton', 'clicked'));
+    portalContext.log(getTelemetryInfo('info', 'managePublishProfileButton', 'clicked'));
     showPublishProfilePanel();
   };
 
   const onRefreshButtonClick = () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'refreshButton', 'clicked'));
+    portalContext.log(getTelemetryInfo('info', 'refreshButton', 'clicked'));
     refresh();
   };
 
   const onRedeployClick = () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'redeployButton', 'clicked'));
+    portalContext.log(getTelemetryInfo('info', 'redeployButton', 'clicked'));
 
     if (redeploy) {
       redeploy();
     } else {
-      portalContext.log(getTelemetryInfo(LogLevels.error, 'redeployButton', 'undefined'));
+      portalContext.log(getTelemetryInfo('error', 'redeployButton', 'undefined'));
     }
   };
 
   const onFeedbackButtonClick = () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'feedbackButton', 'clicked'));
+    portalContext.log(getTelemetryInfo('info', 'feedbackButton', 'clicked'));
     openFeedbackBlade();
   };
 

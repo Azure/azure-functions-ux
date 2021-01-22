@@ -10,7 +10,6 @@ import { SiteStateContext } from '../../../../SiteState';
 import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import DropboxService from '../../../../ApiHelpers/DropboxService';
 import { PortalContext } from '../../../../PortalContext';
-import { LogLevels } from '../../../../models/telemetry';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
@@ -87,7 +86,7 @@ const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = 
             return deploymentCenterData.storeDropboxToken(response.data);
           } else {
             portalContext.log(
-              getTelemetryInfo(LogLevels.error, 'authorizeDropboxAccount', 'failed', {
+              getTelemetryInfo('error', 'authorizeDropboxAccount', 'failed', {
                 message: getErrorMessage(response.metadata.error),
                 error: response.metadata.error,
               })

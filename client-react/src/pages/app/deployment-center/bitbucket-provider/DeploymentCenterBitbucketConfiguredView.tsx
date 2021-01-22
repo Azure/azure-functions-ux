@@ -11,7 +11,6 @@ import { AuthorizationResult, DeploymentCenterCodeFormData, DeploymentCenterFiel
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
-import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -47,7 +46,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
       setIsBitbucketUsernameMissing(true);
 
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'getBitbucketUser', 'failed', {
+        getTelemetryInfo('error', 'getBitbucketUser', 'failed', {
           message: getErrorMessage(bitbucketUserResponse.metadata.error),
           error: bitbucketUserResponse.metadata.error,
         })
@@ -72,7 +71,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
         setRepo('');
 
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'splitRepositoryUrl', 'failed', {
+          getTelemetryInfo('error', 'splitRepositoryUrl', 'failed', {
             message: `Repository url incorrectly formatted: ${sourceControlDetailsResponse.data.properties.repoUrl}`,
           })
         );
@@ -84,7 +83,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
       setBranch(t('deploymentCenterErrorFetchingInfo'));
 
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'getSourceControls', 'failed', {
+        getTelemetryInfo('error', 'getSourceControls', 'failed', {
           message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
           error: sourceControlDetailsResponse.metadata.error,
         })
@@ -108,7 +107,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
             // NOTE(michinoy): This is all related to the handshake between us and the provider.
             // If this fails, there isn't much the user can do except retry.
             portalContext.log(
-              getTelemetryInfo(LogLevels.error, 'authorizeBitbucketAccount', 'failed', {
+              getTelemetryInfo('error', 'authorizeBitbucketAccount', 'failed', {
                 message: getErrorMessage(response.metadata.error),
                 error: response.metadata.error,
               })

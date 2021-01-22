@@ -8,7 +8,6 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ACRCredential } from '../../../../models/acr';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
-import { LogLevels } from '../../../../models/telemetry';
 
 interface RegistryIdentifiers {
   resourceId: string;
@@ -46,7 +45,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     if (deploymentCenterContext.siteDescriptor) {
       setLoadingRegistryOptions(true);
 
-      portalContext.log(getTelemetryInfo(LogLevels.info, 'getAcrRegistries', 'submit'));
+      portalContext.log(getTelemetryInfo('info', 'getAcrRegistries', 'submit'));
       const registriesResponse = await deploymentCenterData.getAcrRegistries(deploymentCenterContext.siteDescriptor.subscription);
       if (registriesResponse.metadata.success && registriesResponse.data) {
         const adminEnabledRegistries = registriesResponse.data.value.filter(registry => registry.properties.adminUserEnabled);
@@ -77,7 +76,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         }
 
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'registriesResponse', 'failed', {
+          getTelemetryInfo('error', 'registriesResponse', 'failed', {
             message: getErrorMessage(registriesResponse.metadata.error),
             errorAsString: JSON.stringify(registriesResponse.metadata.error),
           })
@@ -97,7 +96,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     const selectedRegistryIdentifier = registryIdentifiers.current[loginServer];
 
     if (!selectedRegistryIdentifier.credential) {
-      portalContext.log(getTelemetryInfo(LogLevels.info, 'listAcrCredentials', 'submit'));
+      portalContext.log(getTelemetryInfo('info', 'listAcrCredentials', 'submit'));
       const credentialsResponse = await deploymentCenterData.listAcrCredentials(selectedRegistryIdentifier.resourceId);
 
       if (credentialsResponse.metadata.success && credentialsResponse.data.passwords && credentialsResponse.data.passwords.length > 0) {
@@ -110,7 +109,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         }
 
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'credentialsResponse', 'failed', {
+          getTelemetryInfo('error', 'credentialsResponse', 'failed', {
             message: getErrorMessage(credentialsResponse.metadata.error),
             errorAsString: JSON.stringify(credentialsResponse.metadata.error),
           })
@@ -124,10 +123,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       const username = credentials.username;
       const password = credentials.passwords[0].value;
 
-      portalContext.log(getTelemetryInfo(LogLevels.info, 'getAcrRepositories', 'submit'));
+      portalContext.log(getTelemetryInfo('info', 'getAcrRepositories', 'submit'));
       const repositoriesResponse = await deploymentCenterData.getAcrRepositories(loginServer, username, password, (page, response) => {
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'getAcrRepositoriesResponse', 'failed', {
+          getTelemetryInfo('error', 'getAcrRepositoriesResponse', 'failed', {
             page: page,
             errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
           })
@@ -170,10 +169,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       const username = credentials.username;
       const password = credentials.passwords[0].value;
 
-      portalContext.log(getTelemetryInfo(LogLevels.info, 'getAcrTags', 'submit'));
+      portalContext.log(getTelemetryInfo('info', 'getAcrTags', 'submit'));
       const tagsResponse = await deploymentCenterData.getAcrTags(loginServer, imageSelected, username, password, (page, response) => {
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'getAcrTagsResponse', 'failed', {
+          getTelemetryInfo('error', 'getAcrTagsResponse', 'failed', {
             page: page,
             errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
           })

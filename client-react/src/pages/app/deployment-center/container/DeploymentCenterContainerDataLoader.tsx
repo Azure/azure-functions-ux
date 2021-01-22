@@ -14,7 +14,6 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DeploymentCenterContainerForm from './DeploymentCenterContainerForm';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
-import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
   const { resourceId } = props;
@@ -39,7 +38,7 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
 
   const fetchData = async () => {
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'initialDataRequest', 'submit', {
+      getTelemetryInfo('info', 'initialDataRequest', 'submit', {
         publishType: 'container',
       })
     );
@@ -55,7 +54,7 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
       );
 
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'containerLogsResponse', 'failed', {
+        getTelemetryInfo('error', 'containerLogsResponse', 'failed', {
           message: getErrorMessage(containerLogsResponse.metadata.error),
           errorAsString: JSON.stringify(containerLogsResponse.metadata.error),
         })
@@ -88,7 +87,7 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
 
     // NOTE(michinoy): Prevent logging form data here as it could contain secrets (e.g. publishing password)
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'generateForm', 'generated', {
+      getTelemetryInfo('info', 'generateForm', 'generated', {
         publishType: 'container',
       })
     );
@@ -96,7 +95,7 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
 
   const refresh = () => {
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'refresh', 'submit', {
+      getTelemetryInfo('info', 'refresh', 'submit', {
         publishType: 'container',
       })
     );

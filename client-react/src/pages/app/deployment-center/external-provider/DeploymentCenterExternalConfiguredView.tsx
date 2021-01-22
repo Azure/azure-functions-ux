@@ -8,7 +8,6 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -36,7 +35,7 @@ const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProp
       setRepo(t('deploymentCenterErrorFetchingInfo'));
       setBranch(t('deploymentCenterErrorFetchingInfo'));
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'getSourceControls', 'failed', {
+        getTelemetryInfo('error', 'getSourceControls', 'failed', {
           message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
           error: sourceControlDetailsResponse.metadata.error,
         })

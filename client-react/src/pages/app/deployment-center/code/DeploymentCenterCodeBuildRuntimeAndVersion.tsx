@@ -23,7 +23,6 @@ import { FunctionAppRuntimes, FunctionAppStack } from '../../../../models/stacks
 import { AppStackOs } from '../../../../models/stacks/app-stacks';
 import { KeyValue } from '../../../../models/portal-models';
 import { PortalContext } from '../../../../PortalContext';
-import { LogLevels } from '../../../../models/telemetry';
 
 type StackSettings = WebAppRuntimes & JavaContainers | FunctionAppRuntimes;
 
@@ -66,7 +65,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     const appOs = siteStateContext.isLinuxApp ? AppStackOs.linux : AppStackOs.windows;
 
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'fetchStacks', 'submit', {
+      getTelemetryInfo('info', 'fetchStacks', 'submit', {
         appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
         os: appOs,
       })
@@ -88,7 +87,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       );
     } else {
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'runtimeStacksResponse', 'failed', {
+        getTelemetryInfo('error', 'runtimeStacksResponse', 'failed', {
           message: getErrorMessage(runtimeStacksResponse.metadata.error),
           errorAsString: JSON.stringify(runtimeStacksResponse.metadata.error),
         })
