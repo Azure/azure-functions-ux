@@ -126,7 +126,19 @@ export class EtwService {
   }
 
   private _getString(data: any) {
-    return typeof data === 'string' ? data : JSON.stringify(data);
+    if (!data) {
+      return null;
+    }
+
+    if (typeof data === 'string') {
+      return data;
+    }
+
+    if (data.toString !== Object.toString) {
+      return data.toString();
+    }
+
+    return JSON.stringify(data);
   }
 
   private _getExtendedMessage(message: string) {
