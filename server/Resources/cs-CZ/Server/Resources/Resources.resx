@@ -6882,10 +6882,4 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>Protokoly se aktualizují za {0} s.</value>
     </data>
-  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>Toto Nastavení kontejneru (klasické) je zastaralé a v březnu 2021 ho odebereme. Vyzkoušejte nové prostředí Deployment Center, v němž budete nastavení kontejnerů spravovat do budoucna.</value>
-    </data>
-  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>Prostředí Deployment Center (klasické) je zastaralé a v březnu 2021 ho odebereme. Vyzkoušejte nové prostředí Deployment Center, v němž budete nasazení spravovat do budoucna.</value>
-    </data>
 </root>

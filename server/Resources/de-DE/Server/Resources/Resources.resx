@@ -6882,10 +6882,4 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>Die Protokolle werden in {0} Sekunden aktualisiert.</value>
     </data>
-  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>Die klassischen Containereinstellungen sind veraltet und werden im März 2021 entfernt. Testen Sie das neue Bereitstellungscenter, um Ihre Containereinstellungen weiterhin zu verwalten.</value>
-    </data>
-  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>Das klassische Bereitstellungscenter ist veraltet und wird im März 2021 entfernt. Testen Sie das neue Bereitstellungscenter, um Ihre Bereitstellungen weiterhin zu verwalten.</value>
-    </data>
 </root>

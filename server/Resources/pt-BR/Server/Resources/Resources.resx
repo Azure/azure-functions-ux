@@ -6882,10 +6882,4 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>Os logs serão atualizados em {0} segundos</value>
     </data>
-  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, Checkout the new Deployment Center experience.</value>
-    </data>
-  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.</value>
-    </data>
 </root>

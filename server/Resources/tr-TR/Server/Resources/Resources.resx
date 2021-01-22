@@ -6882,10 +6882,4 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>Günlükler {0} saniye içinde yenilenecek</value>
     </data>
-  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, Checkout the new Deployment Center experience.</value>
-    </data>
-  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.</value>
-    </data>
 </root>
