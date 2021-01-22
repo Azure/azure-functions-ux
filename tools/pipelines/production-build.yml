@@ -180,6 +180,12 @@ jobs:
           SourceFolder: $(System.DefaultWorkingDirectory)/react-build
           TargetFolder: server/dist
 
+      - task: CopyFiles@2
+        displayName: 'Copy EtwLogger Folder to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: server/EtwLogger
+          TargetFolder: server/dist/EtwLogger
+
       - script: |
           cd server
           npm run bundle
