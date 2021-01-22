@@ -11,7 +11,6 @@ import moment from 'moment';
 import { ThemeContext } from '../../../../ThemeContext';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = props => {
   const { commitId } = props;
