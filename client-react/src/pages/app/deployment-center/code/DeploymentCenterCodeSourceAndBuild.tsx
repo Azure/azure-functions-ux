@@ -18,7 +18,6 @@ import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -110,7 +109,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   const updateSelectedBuild = () => {
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'buildProvider', 'updated', {
+      getTelemetryInfo('info', 'buildProvider', 'updated', {
         buildProvider: selectedBuildChoice,
       })
     );

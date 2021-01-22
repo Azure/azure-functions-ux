@@ -11,7 +11,6 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import OneDriveService from '../../../../ApiHelpers/OneDriveService';
 import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
-import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -48,7 +47,7 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
       setOneDriveUsername(undefined);
       setIsOneDriveUsernameMissing(true);
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'getOneDriveUser', 'failed', {
+        getTelemetryInfo('error', 'getOneDriveUser', 'failed', {
           message: getErrorMessage(oneDriveUserResponse.metadata.error),
           error: oneDriveUserResponse.metadata.error,
         })
@@ -66,7 +65,7 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
       } else {
         setFolder('');
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'splitRepositoryUrl', 'failed', {
+          getTelemetryInfo('error', 'splitRepositoryUrl', 'failed', {
             message: `Repository url incorrectly formatted: ${sourceControlDetailsResponse.data.properties.repoUrl}`,
           })
         );
@@ -74,7 +73,7 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
     } else {
       setFolder(t('deploymentCenterErrorFetchingInfo'));
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'getSourceControls', 'failed', {
+        getTelemetryInfo('error', 'getSourceControls', 'failed', {
           message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
           error: sourceControlDetailsResponse.metadata.error,
         })
@@ -96,7 +95,7 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
         // NOTE(michinoy): This is all related to the handshake between us and the provider.
         // If this fails, there isn't much the user can do except retry.
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'authorizeOneDriveAccount', 'failed', {
+          getTelemetryInfo('error', 'authorizeOneDriveAccount', 'failed', {
             message: getErrorMessage(oneDriveTokenResponse.metadata.error),
             error: oneDriveTokenResponse.metadata.error,
           })

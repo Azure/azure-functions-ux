@@ -1,12 +1,5 @@
 export type LogLevel = 'error' | 'warning' | 'info' | 'verbose';
 
-export enum LogLevels {
-  error = 'error',
-  warning = 'warning',
-  info = 'info',
-  verbose = 'verbose',
-}
-
 export interface LogData {
   [key: string]: any;
   message?: string;

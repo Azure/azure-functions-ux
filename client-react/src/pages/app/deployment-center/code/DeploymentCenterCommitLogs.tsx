@@ -27,7 +27,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
   const [logDetails, setLogDetails] = useState<string | undefined>(undefined);
 
   const fetchDeploymentLogs = async (commitIdString: string) => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'fetchDeploymentLogsForCommit', 'submit'));
+    portalContext.log(getTelemetryInfo('info', 'fetchDeploymentLogsForCommit', 'submit'));
     const commitLogsResponse = await deploymentCenterData.getDeploymentLogs(commitIdString);
 
     if (commitLogsResponse.metadata.success) {
@@ -38,7 +38,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
         errorMessage ? t('deploymentCenterCodeLogActivityFailedWithError').format(errorMessage) : t('deploymentCenterCodeLogActivityFailed')
       );
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'commitLogsResponse', 'failed', {
+        getTelemetryInfo('error', 'commitLogsResponse', 'failed', {
           message: errorMessage,
           errorAsString: JSON.stringify(commitLogsResponse.metadata.error),
         })
@@ -50,7 +50,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
     setDisplayingDetails(true);
     setLogDetails(undefined);
 
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'showCommitDetails', 'submit'));
+    portalContext.log(getTelemetryInfo('info', 'showCommitDetails', 'submit'));
     const deploymentLogDetailsResponse = await deploymentCenterData.getLogDetails(commitIdString, logId);
 
     if (deploymentLogDetailsResponse.metadata.success) {
@@ -65,7 +65,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
         errorMessage ? t('deploymentCenterCodeLogDetailsFailedWithError').format(errorMessage) : t('deploymentCenterCodeLogDetailsFailed')
       );
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'deploymentLogDetailsResponse', 'failed', {
+        getTelemetryInfo('error', 'deploymentLogDetailsResponse', 'failed', {
           message: errorMessage,
           errorAsString: JSON.stringify(deploymentLogDetailsResponse.metadata.error),
         })

@@ -6,7 +6,6 @@ import { DefaultButton } from 'office-ui-fabric-react';
 import { extractConfigFromFile, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { PortalContext } from '../../../../PortalContext';
-import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterContainerComposeFileUploader: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
@@ -16,7 +15,7 @@ const DeploymentCenterContainerComposeFileUploader: React.FC<DeploymentCenterFie
   const portalContext = useContext(PortalContext);
 
   const onUploadButtonClick = () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'uploadButton', 'clicked'));
+    portalContext.log(getTelemetryInfo('info', 'uploadButton', 'clicked'));
 
     if (uploadFileRef && uploadFileRef.current) {
       uploadFileRef.current.click();

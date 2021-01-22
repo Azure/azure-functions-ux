@@ -10,7 +10,6 @@ import { AuthorizationResult, DeploymentCenterCodeFormData, DeploymentCenterFiel
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import DropboxService from '../../../../ApiHelpers/DropboxService';
-import { LogLevels } from '../../../../models/telemetry';
 import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
@@ -49,7 +48,7 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
       setIsDropboxUsernameMissing(true);
 
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'getDropboxUser', 'failed', {
+        getTelemetryInfo('error', 'getDropboxUser', 'failed', {
           message: getErrorMessage(dropboxUserResponse.metadata.error),
           error: dropboxUserResponse.metadata.error,
         })
@@ -67,7 +66,7 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
       } else {
         setFolder('');
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'splitRepositoryUrl', 'failed', {
+          getTelemetryInfo('error', 'splitRepositoryUrl', 'failed', {
             message: `Repository url incorrectly formatted: ${sourceControlDetailsResponse.data.properties.repoUrl}`,
           })
         );
@@ -75,7 +74,7 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
     } else {
       setFolder(t('deploymentCenterErrorFetchingInfo'));
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'getSourceControls', 'failed', {
+        getTelemetryInfo('error', 'getSourceControls', 'failed', {
           message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
           error: sourceControlDetailsResponse.metadata.error,
         })
@@ -97,7 +96,7 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
         // NOTE(stpelleg): This is all related to the handshake between us and the provider.
         // If this fails, there isn't much the user can do except retry.
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'authorizeDropboxAccount', 'failed', {
+          getTelemetryInfo('error', 'authorizeDropboxAccount', 'failed', {
             message: getErrorMessage(dropboxTokenResponse.metadata.error),
             error: dropboxTokenResponse.metadata.error,
           })

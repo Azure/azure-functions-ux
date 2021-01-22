@@ -1,7 +1,6 @@
 import { IDropdownOption } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LogLevels } from '../../../../models/telemetry';
 import { PortalContext } from '../../../../PortalContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
@@ -39,7 +38,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setRepositoryOptions([]);
     setBranchOptions([]);
 
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'getDevOpsAccounts', 'submit'));
+    portalContext.log(getTelemetryInfo('info', 'getDevOpsAccounts', 'submit'));
     const accounts = await deploymentCenterData.getAccounts();
 
     if (!!accounts && accounts.length > 0) {
@@ -67,7 +66,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
       setBranchOptions([]);
 
       if (!orgToProjectMapping.current[formProps.values.org]) {
-        portalContext.log(getTelemetryInfo(LogLevels.info, 'getAzureDevOpsRepositories', 'submit'));
+        portalContext.log(getTelemetryInfo('info', 'getAzureDevOpsRepositories', 'submit'));
         const response = await deploymentCenterData.getAzureDevOpsRepositories(formProps.values.org);
 
         if (response.metadata.success) {
@@ -96,7 +95,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
         } else {
           if (!response.metadata.success) {
             portalContext.log(
-              getTelemetryInfo(LogLevels.error, 'getAzureDevOpsRepositoriesResponse', 'failed', {
+              getTelemetryInfo('error', 'getAzureDevOpsRepositoriesResponse', 'failed', {
                 errorAsString: JSON.stringify(response.metadata.error),
               })
             );
@@ -125,7 +124,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
       setLoadingBranches(true);
 
       const repoId = repoUrlToIdMapping.current[formProps.values.repo];
-      portalContext.log(getTelemetryInfo(LogLevels.info, 'getAzureDevOpsBranches', 'submit'));
+      portalContext.log(getTelemetryInfo('info', 'getAzureDevOpsBranches', 'submit'));
       const response = await deploymentCenterData.getAzureDevOpsBranches(formProps.values.org, repoId);
 
       if (!!response && response.metadata.success) {
@@ -142,7 +141,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
       } else {
         if (!response.metadata.success) {
           portalContext.log(
-            getTelemetryInfo(LogLevels.error, 'getAzureDevOpsBranchesResponse', 'failed', {
+            getTelemetryInfo('error', 'getAzureDevOpsBranchesResponse', 'failed', {
               errorAsString: JSON.stringify(response.metadata.error),
             })
           );

@@ -23,7 +23,6 @@ import { ScmType } from '../../../models/site/config';
 import { getGitCloneUri, getTelemetryInfo } from './utility/DeploymentCenterUtility';
 import DeploymentCenterPublishingUser from './DeploymentCenterPublishingUser';
 import { PortalContext } from '../../../PortalContext';
-import { LogLevels } from '../../../models/telemetry';
 
 type PasswordFieldType = 'password' | undefined;
 
@@ -52,7 +51,7 @@ const DeploymentCenterFtps: React.FC<
 
   const resetApplicationPasswordFromCallout = () => {
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'resetFtpPassword', 'submit', {
+      getTelemetryInfo('info', 'resetFtpPassword', 'submit', {
         location: 'ftpsTab',
       })
     );

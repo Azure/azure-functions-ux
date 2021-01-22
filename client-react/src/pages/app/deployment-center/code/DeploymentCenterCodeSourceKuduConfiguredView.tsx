@@ -11,7 +11,6 @@ import { PortalContext } from '../../../../PortalContext';
 import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -33,7 +32,7 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
   const disconnect = async () => {
     const notificationId = portalContext.startNotification(t('disconnectingDeployment'), t('disconnectingDeployment'));
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'disconnectSourceControl', 'submit', {
+      getTelemetryInfo('info', 'disconnectSourceControl', 'submit', {
         publishType: 'code',
       })
     );
@@ -58,7 +57,7 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
 
       portalContext.stopNotification(notificationId, false, message);
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'updatePathSiteConfigResponse', 'failed', {
+        getTelemetryInfo('error', 'updatePathSiteConfigResponse', 'failed', {
           message: errorMessage,
           errorAsString: JSON.stringify(updatePathSiteConfigResponse.metadata.error),
         })
@@ -68,7 +67,7 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
 
   const deleteSourceControls = async (notificationId: string) => {
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'deleteSourceControls', 'submit', {
+      getTelemetryInfo('info', 'deleteSourceControls', 'submit', {
         publishType: 'code',
       })
     );
@@ -84,7 +83,7 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
 
       portalContext.stopNotification(notificationId, false, message);
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'deleteSourceControlDetailsResponse', 'failed', {
+        getTelemetryInfo('error', 'deleteSourceControlDetailsResponse', 'failed', {
           message: errorMessage,
           errorAsString: JSON.stringify(deleteSourceControlDetailsResponse.metadata.error),
         })

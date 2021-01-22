@@ -16,7 +16,6 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DeploymentCenterCodeForm from './DeploymentCenterCodeForm';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
-import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
   const { resourceId } = props;
@@ -39,7 +38,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
 
   const fetchData = async () => {
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'initialDataRequest', 'submit', {
+      getTelemetryInfo('info', 'initialDataRequest', 'submit', {
         publishType: 'code',
       })
     );
@@ -87,7 +86,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
 
     // NOTE(michinoy): Prevent logging form data here as it could contain secrets (e.g. publishing password)
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'generateForm', 'generated', {
+      getTelemetryInfo('info', 'generateForm', 'generated', {
         publishType: 'code',
       })
     );
@@ -99,7 +98,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
 
   const refresh = () => {
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'refresh', 'submit', {
+      getTelemetryInfo('info', 'refresh', 'submit', {
         publishType: 'code',
       })
     );

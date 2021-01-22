@@ -11,7 +11,6 @@ import OneDriveService from '../../../../ApiHelpers/OneDriveService';
 import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -87,7 +86,7 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
             deploymentCenterData.storeOneDriveToken(response.data);
           } else {
             portalContext.log(
-              getTelemetryInfo(LogLevels.error, 'authorizeOneDriveAccount', 'failed', {
+              getTelemetryInfo('error', 'authorizeOneDriveAccount', 'failed', {
                 message: getErrorMessage(response.metadata.error),
                 error: response.metadata.error,
               })

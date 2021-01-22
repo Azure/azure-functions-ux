@@ -13,7 +13,6 @@ import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { PortalContext } from '../../../../PortalContext';
-import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
@@ -26,7 +25,7 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
 
   const onRegistrySourceChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'registrySource', 'changed', {
+      getTelemetryInfo('info', 'registrySource', 'changed', {
         registrySource: option.key.toString(),
       })
     );
@@ -36,7 +35,7 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
 
   const onTypeOptionChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'containerOption', 'changed', {
+      getTelemetryInfo('info', 'containerOption', 'changed', {
         registrySource: option.key.toString(),
       })
     );
