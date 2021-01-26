@@ -142,7 +142,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
     const formFilled =
       formProps.values.workflowOption !== WorkflowOption.None &&
-      ((formProps.values.runtimeStack && formProps.values.runtimeVersion) || runtimeInfoOmissionAllowed);
+      ((formProps.values.runtimeStack && formProps.values.runtimeRecommendedVersion) || runtimeInfoOmissionAllowed);
 
     setIsPreviewFileButtonDisabled(formProps.values.workflowOption === WorkflowOption.None || !formFilled);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -150,7 +150,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     formProps.values.workflowOption,
     githubActionExistingWorkflowContents,
     formProps.values.runtimeStack,
-    formProps.values.runtimeVersion,
+    formProps.values.runtimeRecommendedVersion,
   ]);
 
   useEffect(() => {

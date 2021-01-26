@@ -164,14 +164,16 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     setSelectedVersion(option.key.toString());
 
     formProps.setFieldValue('runtimeVersion', option.key.toString());
-    formProps.setFieldValue(
-      'runtimeRecommendedVersion',
-      getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, option.key.toString())
-    );
   };
 
   const getRuntimeStackRecommendedVersion = (stackValue: string, runtimeVersionValue: string): string => {
-    const key = generateGitHubActionRuntimeVersionMappingKey(siteStateContext.isLinuxApp, stackValue, runtimeVersionValue);
+    // NOTE(michinoy): As all the dotnet stacks are under one 'dotnet' section now, we need to do this manual mapping to get the correct
+    // recommended version for github action.
+    const versionValue = runtimeVersionValue.toLocaleLowerCase();
+    const version =
+      stackValue === RuntimeStacks.dotnet && (versionValue === 'v5.0' || versionValue === 'dotnetcore|5.0') ? '5' : runtimeVersionValue;
+
+    const key = generateGitHubActionRuntimeVersionMappingKey(siteStateContext.isLinuxApp, stackValue, version);
 
     return gitHubActionRuntimeVersionMapping.current[key] ? gitHubActionRuntimeVersionMapping.current[key] : runtimeVersionValue;
   };
@@ -327,6 +329,15 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.runtimeStack]);
+
+  useEffect(() => {
+    formProps.setFieldValue(
+      'runtimeRecommendedVersion',
+      getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, formProps.values.runtimeVersion)
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.runtimeVersion]);
 
   const getCustomBanner = () => {
     return (
