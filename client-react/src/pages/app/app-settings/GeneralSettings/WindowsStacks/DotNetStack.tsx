@@ -27,18 +27,18 @@ const DotNetStack: React.SFC<StackProps> = props => {
   const { t } = useTranslation();
   const supportedStacks = filterDeprecatedWebAppStack(
     useContext(WebAppStacksContext),
-    RuntimeStacks.aspnet,
+    RuntimeStacks.dotnet,
     initialValues.config.properties.netFrameworkVersion
   );
 
-  const aspNetStack = supportedStacks.find(x => x.value === RuntimeStacks.aspnet);
+  const dotnetStack = supportedStacks.find(x => x.value === RuntimeStacks.dotnet);
 
   const setStackBannerAndInfoMessage = () => {
     setEarlyAccessInfoVisible(false);
     setEolStackDate(undefined);
 
-    if (!!aspNetStack) {
-      const stackVersions = getStacksSummaryForDropdown(aspNetStack, AppStackOs.windows, t);
+    if (!!dotnetStack) {
+      const stackVersions = getStacksSummaryForDropdown(dotnetStack, AppStackOs.windows, t);
       const selectionVersion = (values.config.properties.netFrameworkVersion || '').toLowerCase();
       for (const stackVersion of stackVersions) {
         if (
@@ -67,7 +67,7 @@ const DotNetStack: React.SFC<StackProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.config.properties.linuxFxVersion]);
 
-  if (!aspNetStack) {
+  if (!dotnetStack) {
     return null;
   }
 
@@ -84,7 +84,7 @@ const DotNetStack: React.SFC<StackProps> = props => {
         label={t('netFrameWorkVersionLabel')}
         id="netValidationVersion"
         disabled={disableAllControls}
-        options={getStacksSummaryForDropdown(aspNetStack, AppStackOs.windows, t)}
+        options={getStacksSummaryForDropdown(dotnetStack, AppStackOs.windows, t)}
         {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
       />
       {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.netFrameworkVersion, eolStackDate)}
