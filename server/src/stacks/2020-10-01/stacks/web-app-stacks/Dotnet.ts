@@ -56,7 +56,7 @@ export const dotnetStack: WebAppStack = {
           value: '3.1',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '3.1',
+              runtimeVersion: 'v3.1',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -84,7 +84,7 @@ export const dotnetStack: WebAppStack = {
           value: '3.0',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '3.0',
+              runtimeVersion: 'v3.0',
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -122,7 +122,7 @@ export const dotnetStack: WebAppStack = {
           value: '2.2',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '2.2',
+              runtimeVersion: 'v2.2',
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -154,7 +154,7 @@ export const dotnetStack: WebAppStack = {
           value: '2.1',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '2.1',
+              runtimeVersion: 'v2.1',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -184,7 +184,7 @@ export const dotnetStack: WebAppStack = {
           value: '2.0',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '2.0',
+              runtimeVersion: 'v2.0',
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -222,7 +222,7 @@ export const dotnetStack: WebAppStack = {
           value: '1.1',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '1.1',
+              runtimeVersion: 'v1.1',
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -254,7 +254,7 @@ export const dotnetStack: WebAppStack = {
           value: '1.0',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '1.0',
+              runtimeVersion: 'v1.0',
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
