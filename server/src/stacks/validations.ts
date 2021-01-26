@@ -100,3 +100,16 @@ export function validateRemovePreviewStacks(removePreviewStacks?: string) {
     );
   }
 }
+
+export function validateRemoveGitHubActionUnsupported(removeGitHubActionUnsupported?: string) {
+  if (
+    removeGitHubActionUnsupported &&
+    removeGitHubActionUnsupported.toLowerCase() !== 'true' &&
+    removeGitHubActionUnsupported.toLowerCase() !== 'false'
+  ) {
+    throw new HttpException(
+      `Incorrect removeGitHubActionUnsupported '${removeGitHubActionUnsupported}' provided. Allowed removeGitHubActionUnsupported values are 'true' or 'false'.`,
+      400
+    );
+  }
+}

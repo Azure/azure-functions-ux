@@ -7,7 +7,8 @@ export function filterFunctionAppStacks(
   os?: AppStackOs,
   removeHiddenStacks?: boolean,
   removeDeprecatedStacks?: boolean,
-  removePreviewStacks?: boolean
+  removePreviewStacks?: boolean,
+  removeGitHubActionUnsupportedStacks?: boolean
 ): FunctionAppStack[] {
   stacks.forEach((stack, i) => {
     stack.majorVersions.forEach((majorVersion, j) => {
@@ -24,6 +25,9 @@ export function filterFunctionAppStacks(
         }
         if (removePreviewStacks) {
           _removePreviewRuntimeSettings(stacks, i, j, k);
+        }
+        if (removeGitHubActionUnsupportedStacks) {
+          _removeGitHubActionUnsupportedRuntime(stacks, i, j, k);
         }
       });
 
@@ -87,6 +91,19 @@ function _removePreviewRuntimeSettings(stacks: FunctionAppStack[], i: number, j:
   }
 
   if (linuxRuntimeSettings && linuxRuntimeSettings.isPreview) {
+    delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+  }
+}
+
+function _removeGitHubActionUnsupportedRuntime(stacks: FunctionAppStack[], i: number, j: number, k: number): void {
+  const windowsRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+  const linuxRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+
+  if (windowsRuntimeSettings && !windowsRuntimeSettings.gitHubActionSettings.isSupported) {
+    delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+  }
+
+  if (linuxRuntimeSettings && !linuxRuntimeSettings.gitHubActionSettings.isSupported) {
     delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
   }
 }

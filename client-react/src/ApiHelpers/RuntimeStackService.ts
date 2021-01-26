@@ -57,6 +57,7 @@ export default class RuntimeStackService {
     const queryParams = [
       ...RuntimeStackService._getCommonQueryParams(stacksOs),
       `removeDeprecatedStacks=${true}`,
+      `removeGitHubActionUnsupportedStacks=${true}`,
       `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
     ];
 
@@ -81,6 +82,7 @@ export default class RuntimeStackService {
     const queryParams = [
       ...RuntimeStackService._getCommonQueryParams(stacksOs),
       `removeDeprecatedStacks=${true}`,
+      `removeGitHubActionUnsupportedStacks=${true}`,
       `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
     ];
 

@@ -174,9 +174,9 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       const versionValue = runtimeVersionValue.toLocaleLowerCase();
       if (versionValue === 'v5.0' || versionValue === 'dotnetcore|5.0') {
         version = '5';
-      } else if (versionValue === '3.1' || versionValue === 'dotnetcore|3.1') {
+      } else if (versionValue === '3.1' || versionValue === 'dotnetcore|3.1' || versionValue === 'dotnet|3.1') {
         version = '3.1';
-      } else if (versionValue === '2.1' || versionValue === 'dotnetcore|2.1') {
+      } else if (versionValue === '2.1' || versionValue === 'dotnetcore|2.1' || versionValue === 'dotnet|2.2') {
         version = '2.1';
       }
     }
