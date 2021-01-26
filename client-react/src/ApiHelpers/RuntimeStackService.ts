@@ -9,7 +9,8 @@ import { AppStackOs, CommonSettings } from '../models/stacks/app-stacks';
 export default class RuntimeStackService {
   public static getWebAppConfigurationStacks = (stacksOs: AppStackOs) => {
     const queryParams = [
-      ...RuntimeStackService._getCommonQueryParams(stacksOs),
+      `os=${stacksOs}`,
+      `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       `api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}`,
     ];
     return sendHttpRequest<WebAppStack[]>({
@@ -31,7 +32,8 @@ export default class RuntimeStackService {
 
   public static getFunctionAppConfigurationStacks = (stacksOs: AppStackOs) => {
     const queryParams = [
-      ...RuntimeStackService._getCommonQueryParams(stacksOs),
+      `os=${stacksOs}`,
+      `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       `api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}`,
     ];
     return sendHttpRequest<FunctionAppStack[]>({
