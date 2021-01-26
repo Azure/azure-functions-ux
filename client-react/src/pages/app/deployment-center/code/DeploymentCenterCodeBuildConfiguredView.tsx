@@ -77,8 +77,6 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
         return RuntimeStackDisplayNames.PHP;
       case RuntimeStackOptions.AspDotNet:
         return RuntimeStackDisplayNames.AspDotNet;
-      case RuntimeStackOptions.Dotnet:
-        return RuntimeStackDisplayNames.Dotnet;
       default:
         return '';
     }

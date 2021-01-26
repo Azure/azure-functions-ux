@@ -71,7 +71,6 @@ export enum RuntimeStackOptions {
   Node = 'node',
   PHP = 'php',
   AspDotNet = 'asp.net',
-  Dotnet = 'dotnet',
 }
 
 export enum RuntimeStackDisplayNames {
@@ -84,7 +83,6 @@ export enum RuntimeStackDisplayNames {
   Node = 'Node',
   PHP = 'PHP',
   AspDotNet = 'ASP.NET',
-  Dotnet = 'Dotnet',
 }
 
 export enum RuntimeVersionOptions {
