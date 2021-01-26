@@ -10,9 +10,8 @@ export default class RuntimeStackService {
   public static getWebAppConfigurationStacks = (stacksOs: AppStackOs) => {
     const queryParams = [
       ...RuntimeStackService._getCommonQueryParams(stacksOs),
-      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
+      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}`,
     ];
-
     return sendHttpRequest<WebAppStack[]>({
       url: `${Url.serviceHost}stacks/webAppStacks?${queryParams.join('&')}`,
       method: 'GET',
@@ -33,9 +32,8 @@ export default class RuntimeStackService {
   public static getFunctionAppConfigurationStacks = (stacksOs: AppStackOs) => {
     const queryParams = [
       ...RuntimeStackService._getCommonQueryParams(stacksOs),
-      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
+      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}`,
     ];
-
     return sendHttpRequest<FunctionAppStack[]>({
       url: `${Url.serviceHost}stacks/functionAppStacks?${queryParams.join('&')}`,
       method: 'GET',
@@ -55,9 +53,10 @@ export default class RuntimeStackService {
 
   public static getWebAppGitHubActionStacks = async (stacksOs: AppStackOs) => {
     const queryParams = [
-      ...RuntimeStackService._getCommonQueryParams(stacksOs),
-      `removeDeprecatedStacks=${true}`,
       `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
+      `os=${stacksOs}`,
+      `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
+      `removeDeprecatedStacks=${true}`,
     ];
 
     const stacksResponse = await sendHttpRequest<WebAppStack[]>({
@@ -79,9 +78,10 @@ export default class RuntimeStackService {
 
   public static getFunctionAppGitHubActionStacks = async (stacksOs: AppStackOs) => {
     const queryParams = [
-      ...RuntimeStackService._getCommonQueryParams(stacksOs),
-      `removeDeprecatedStacks=${true}`,
       `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
+      `os=${stacksOs}`,
+      `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
+      `removeDeprecatedStacks=${true}`,
     ];
 
     const stacksResponse = await sendHttpRequest<FunctionAppStack[]>({
@@ -136,10 +136,6 @@ export default class RuntimeStackService {
         });
       });
     });
-  }
-
-  private static _getCommonQueryParams(stacksOs: AppStackOs) {
-    return [`os=${stacksOs}`, `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`];
   }
 
   private static _isGitHubActionSupported(commonSettings?: CommonSettings) {
