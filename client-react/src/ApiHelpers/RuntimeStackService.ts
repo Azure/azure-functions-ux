@@ -11,7 +11,7 @@ export default class RuntimeStackService {
     const queryParams = [
       `os=${stacksOs}`,
       `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
-      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}`,
+      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
     ];
     return sendHttpRequest<WebAppStack[]>({
       url: `${Url.serviceHost}stacks/webAppStacks?${queryParams.join('&')}`,
@@ -34,7 +34,7 @@ export default class RuntimeStackService {
     const queryParams = [
       `os=${stacksOs}`,
       `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
-      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}`,
+      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
     ];
     return sendHttpRequest<FunctionAppStack[]>({
       url: `${Url.serviceHost}stacks/functionAppStacks?${queryParams.join('&')}`,
@@ -55,7 +55,7 @@ export default class RuntimeStackService {
 
   public static getWebAppGitHubActionStacks = async (stacksOs: AppStackOs) => {
     const queryParams = [
-      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
+      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}`,
       `os=${stacksOs}`,
       `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       `removeDeprecatedStacks=${true}`,
@@ -80,7 +80,7 @@ export default class RuntimeStackService {
 
   public static getFunctionAppGitHubActionStacks = async (stacksOs: AppStackOs) => {
     const queryParams = [
-      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
+      `api-version=${CommonConstants.ApiVersions.stacksApiVersion20200601}`,
       `os=${stacksOs}`,
       `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       `removeDeprecatedStacks=${true}`,
