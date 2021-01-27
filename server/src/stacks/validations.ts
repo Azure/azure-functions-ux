@@ -100,3 +100,16 @@ export function validateRemovePreviewStacks(removePreviewStacks?: string) {
     );
   }
 }
+
+export function validateRemoveNonGitHubActionStacks(removeNonGitHubActionStacks?: string) {
+  if (
+    removeNonGitHubActionStacks &&
+    removeNonGitHubActionStacks.toLowerCase() !== 'true' &&
+    removeNonGitHubActionStacks.toLowerCase() !== 'false'
+  ) {
+    throw new HttpException(
+      `Incorrect removeNonGitHubActionStacks '${removeNonGitHubActionStacks}' provided. Allowed removeNonGitHubActionStacks values are 'true' or 'false'.`,
+      400
+    );
+  }
+}
