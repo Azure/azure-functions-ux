@@ -4,147 +4,75 @@ import { sendHttpRequest } from './HttpClient';
 import { HttpResponseObject } from '../ArmHelper.types';
 import { WebAppStack } from '../models/stacks/web-app-stacks';
 import { FunctionAppStack } from '../models/stacks/function-app-stacks';
-import { AppStackOs, CommonSettings } from '../models/stacks/app-stacks';
+import { AppStackOs } from '../models/stacks/app-stacks';
 
 export default class RuntimeStackService {
   public static getWebAppConfigurationStacks = (stacksOs: AppStackOs) => {
     const queryParams = [
-      ...RuntimeStackService._getCommonQueryParams(stacksOs),
+      `os=${stacksOs}`,
+      `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
     ];
 
-    return sendHttpRequest<WebAppStack[]>({
-      url: `${Url.serviceHost}stacks/webAppStacks?${queryParams.join('&')}`,
-      method: 'GET',
-    }).then(result => {
-      const success = result.metadata.success && !!result.data;
-      const mappedResult: HttpResponseObject<WebAppStack[]> = {
-        ...result,
-        metadata: {
-          ...result.metadata,
-          success,
-        },
-        data: success ? result.data : [],
-      };
-      return mappedResult;
-    });
+    const url = `${Url.serviceHost}stacks/webAppStacks?${queryParams.join('&')}`;
+    return RuntimeStackService._getStacksResponse<WebAppStack>(url);
   };
 
   public static getFunctionAppConfigurationStacks = (stacksOs: AppStackOs) => {
     const queryParams = [
-      ...RuntimeStackService._getCommonQueryParams(stacksOs),
+      `os=${stacksOs}`,
+      `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
     ];
 
-    return sendHttpRequest<FunctionAppStack[]>({
-      url: `${Url.serviceHost}stacks/functionAppStacks?${queryParams.join('&')}`,
-      method: 'GET',
-    }).then(result => {
-      const success = result.metadata.success && !!result.data;
-      const mappedResult: HttpResponseObject<FunctionAppStack[]> = {
-        ...result,
-        metadata: {
-          ...result.metadata,
-          success,
-        },
-        data: success ? result.data : [],
-      };
-      return mappedResult;
-    });
+    const url = `${Url.serviceHost}stacks/functionAppStacks?${queryParams.join('&')}`;
+    return RuntimeStackService._getStacksResponse<FunctionAppStack>(url);
   };
 
   public static getWebAppGitHubActionStacks = async (stacksOs: AppStackOs) => {
     const queryParams = [
-      ...RuntimeStackService._getCommonQueryParams(stacksOs),
+      `os=${stacksOs}`,
+      `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       `removeDeprecatedStacks=${true}`,
+      `removeNonGitHubActionStacks=${true}`,
       `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
     ];
 
-    const stacksResponse = await sendHttpRequest<WebAppStack[]>({
-      url: `${Url.serviceHost}stacks/webAppStacks?${queryParams.join('&')}`,
-      method: 'GET',
-    });
-
-    const success = stacksResponse.metadata.success && !!stacksResponse.data;
-    const mappedResult: HttpResponseObject<WebAppStack[]> = {
-      ...stacksResponse,
-      metadata: {
-        ...stacksResponse.metadata,
-        success,
-      },
-      data: RuntimeStackService._filterWebAppGitHubActionStacks(stacksResponse),
-    };
-    return mappedResult;
+    const url = `${Url.serviceHost}stacks/webAppStacks?${queryParams.join('&')}`;
+    return RuntimeStackService._getStacksResponse<WebAppStack>(url);
   };
 
   public static getFunctionAppGitHubActionStacks = async (stacksOs: AppStackOs) => {
     const queryParams = [
-      ...RuntimeStackService._getCommonQueryParams(stacksOs),
+      `os=${stacksOs}`,
+      `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       `removeDeprecatedStacks=${true}`,
+      `removeNonGitHubActionStacks=${true}`,
       `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
     ];
 
-    const stacksResponse = await sendHttpRequest<FunctionAppStack[]>({
-      url: `${Url.serviceHost}stacks/functionAppStacks?${queryParams.join('&')}`,
+    const url = `${Url.serviceHost}stacks/functionAppStacks?${queryParams.join('&')}`;
+    return RuntimeStackService._getStacksResponse<FunctionAppStack>(url);
+  };
+
+  private static _getStacksResponse = async <T>(url: string) => {
+    const stacksResponse = await sendHttpRequest<T[]>({
+      url,
       method: 'GET',
     });
 
     const success = stacksResponse.metadata.success && !!stacksResponse.data;
-    const mappedResult: HttpResponseObject<FunctionAppStack[]> = {
+    const mappedResult: HttpResponseObject<T[]> = {
       ...stacksResponse,
       metadata: {
         ...stacksResponse.metadata,
         success,
       },
-      data: RuntimeStackService._filterFunctionAppGitHubActionStacks(stacksResponse),
+      data: success ? stacksResponse.data : [],
     };
+
     return mappedResult;
   };
-
-  private static _filterWebAppGitHubActionStacks = (stacksResponse: HttpResponseObject<WebAppStack[]>) => {
-    const gitHubActionStacks: WebAppStack[] = [];
-    if (stacksResponse.metadata.success) {
-      RuntimeStackService._populateGitHubActionStacks(stacksResponse.data, gitHubActionStacks);
-    }
-    return gitHubActionStacks;
-  };
-
-  private static _filterFunctionAppGitHubActionStacks = (stacksResponse: HttpResponseObject<FunctionAppStack[]>) => {
-    const gitHubActionStacks: FunctionAppStack[] = [];
-    if (stacksResponse.metadata.success) {
-      RuntimeStackService._populateGitHubActionStacks(stacksResponse.data, gitHubActionStacks);
-    }
-    return gitHubActionStacks;
-  };
-
-  // NOTE(michinoy): disabling array literal rule allowing the '.find' method to be discovered on the incoming array.
-  // tslint:disable-next-line: prefer-array-literal
-  private static _populateGitHubActionStacks(
-    stacks: WebAppStack[] | FunctionAppStack[],
-    gitHubActionStacks: Array<WebAppStack | FunctionAppStack>
-  ) {
-    stacks.forEach(currentStack => {
-      currentStack.majorVersions.forEach(majorVersion => {
-        majorVersion.minorVersions.forEach(minorVersion => {
-          if (
-            (RuntimeStackService._isGitHubActionSupported(minorVersion.stackSettings.windowsRuntimeSettings) ||
-              RuntimeStackService._isGitHubActionSupported(minorVersion.stackSettings.linuxRuntimeSettings)) &&
-            !gitHubActionStacks.find(val => val === currentStack)
-          ) {
-            gitHubActionStacks.push(currentStack);
-          }
-        });
-      });
-    });
-  }
-
-  private static _getCommonQueryParams(stacksOs: AppStackOs) {
-    return [`os=${stacksOs}`, `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`];
-  }
-
-  private static _isGitHubActionSupported(commonSettings?: CommonSettings) {
-    return commonSettings && commonSettings.gitHubActionSettings && commonSettings.gitHubActionSettings.isSupported;
-  }
 
   private static _isShowHiddenStackFlagPassed = () => {
     const flagValue = Url.getFeatureValue(CommonConstants.FeatureFlags.showHiddenStacks);

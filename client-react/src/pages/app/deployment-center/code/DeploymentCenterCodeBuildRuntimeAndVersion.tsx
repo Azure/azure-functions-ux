@@ -103,8 +103,6 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
       runtimeStack.majorVersions.forEach(majorVersion => {
         majorVersion.minorVersions.forEach(minorVersion => {
-          addGitHubActionRuntimeVersionMapping(selectedStack, minorVersion.value, minorVersion.stackSettings);
-
           let value = minorVersion.value;
 
           value =
@@ -121,6 +119,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
               ? minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
               : value;
 
+          addGitHubActionRuntimeVersionMapping(selectedStack, value.toLocaleLowerCase(), minorVersion.stackSettings);
           displayedVersions.push({ text: minorVersion.displayText, key: value.toLocaleLowerCase() });
         });
       });

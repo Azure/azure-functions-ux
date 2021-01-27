@@ -284,7 +284,7 @@ export function validateGitHubActionStacks(stacks) {
 
 function validateGitHubActionStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(4);
 }
 
 function validateGitHubActionStacksProperties(stacks) {
@@ -298,6 +298,12 @@ function validateGitHubActionStacksProperties(stacks) {
         }
         if (minorVersion.stackSettings.linuxRuntimeSettings) {
           expect(minorVersion.stackSettings.linuxRuntimeSettings.gitHubActionSettings).to.have.property('isSupported', true);
+        }
+        if (minorVersion.stackSettings.windowsContainerSettings) {
+          expect(minorVersion.stackSettings.windowsContainerSettings).to.not.have.property('gitHubActionSettings', true);
+        }
+        if (minorVersion.stackSettings.linuxContainerSettings) {
+          expect(minorVersion.stackSettings.linuxContainerSettings).to.not.have.property('gitHubActionSettings', true);
         }
       });
     });
