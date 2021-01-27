@@ -22,7 +22,6 @@ import { SiteRouterData } from './SiteRouter.data';
 import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
 import FunctionsService from '../../ApiHelpers/FunctionsService';
-import { isFunction } from 'lodash-es';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
