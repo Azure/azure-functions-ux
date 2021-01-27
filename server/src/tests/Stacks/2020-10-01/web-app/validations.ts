@@ -118,6 +118,11 @@ export function validateNotPreviewStacks(stacks) {
   validateStacksAreNotPreview(stacks);
 }
 
+export function validateGitHubActionStacks(stacks) {
+  expect(stacks).to.be.an('array');
+  expect(stacks.length).to.equal(5);
+}
+
 function validateNotPreviewStacksLength(stacks) {
   expect(stacks).to.be.an('array');
   expect(stacks.length).to.equal(7);
