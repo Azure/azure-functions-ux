@@ -143,4 +143,8 @@ function _removeNonGitHubActionRuntimeSettings(stacks: WebAppStack[], i: number,
   if (linuxRuntimeSettings && !linuxRuntimeSettings.gitHubActionSettings.isSupported) {
     delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
   }
+
+  // NOTE(michinoy): As of now the container settings do not need to be returned as they do not contain any github action support
+  delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsContainerSettings;
+  delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxContainerSettings;
 }
