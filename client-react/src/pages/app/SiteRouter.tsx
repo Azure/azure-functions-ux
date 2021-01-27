@@ -22,6 +22,7 @@ import { SiteRouterData } from './SiteRouter.data';
 import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
 import FunctionsService from '../../ApiHelpers/FunctionsService';
+import { isFunction } from 'lodash-es';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -130,7 +131,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     return undefined;
   };
 
-  const resolveAndGetUndefinedSiteState = async (armSiteDescriptor: ArmSiteDescriptor, config?: ArmObj<SiteConfig>) => {
+  const resolveAndGetUndefinedSiteState = async (
+    armSiteDescriptor: ArmSiteDescriptor,
+    config?: ArmObj<SiteConfig>,
+    site?: ArmObj<Site>
+  ) => {
     if (!!config && SiteHelper.isSourceControlEnabled(config)) {
       return FunctionAppEditMode.ReadOnlySourceControlled;
     }
@@ -154,17 +159,19 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       );
     }
 
-    const functionsResponse = await FunctionsService.getFunctions(siteOnlyResourceId);
-    if (functionsResponse.metadata.success) {
-      if (functionsResponse.data.value.filter(fc => !!fc.properties.config.generatedBy).length > 0) {
-        return FunctionAppEditMode.ReadOnlyVSGenerated;
+    if (!!site && isFunctionApp(site)) {
+      const functionsResponse = await FunctionsService.getFunctions(siteOnlyResourceId);
+      if (functionsResponse.metadata.success) {
+        if (functionsResponse.data.value.filter(fc => !!fc.properties.config.generatedBy).length > 0) {
+          return FunctionAppEditMode.ReadOnlyVSGenerated;
+        }
+      } else {
+        LogService.error(
+          LogCategories.siteRouter,
+          'getFunctions',
+          `Failed to get functions: ${getErrorMessageOrStringify(functionsResponse.metadata.error)}`
+        );
       }
-    } else {
-      LogService.error(
-        LogCategories.siteRouter,
-        'getFunctions',
-        `Failed to get functions: ${getErrorMessageOrStringify(functionsResponse.metadata.error)}`
-      );
     }
 
     return FunctionAppEditMode.ReadWrite;
@@ -214,7 +221,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
           const configResponse = await SiteService.fetchWebConfig(trimmedResourceId);
           functionAppEditMode = await resolveAndGetUndefinedSiteState(
             armSiteDescriptor,
-            configResponse.metadata.success ? configResponse.data : undefined
+            configResponse.metadata.success ? configResponse.data : undefined,
+            siteResponse.metadata.success ? siteResponse.data : undefined
           );
 
           if (!configResponse.metadata.success) {
