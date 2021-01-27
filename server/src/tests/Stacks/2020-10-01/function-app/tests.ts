@@ -1,5 +1,4 @@
 import { StacksService20201001 } from '../../../../stacks/2020-10-01/service/StackService';
-import { validateGitHubActionStacks } from '../web-app/validations';
 import {
   validateAllStackLength,
   validateWindowsStacks,
@@ -19,6 +18,7 @@ import {
   validateJavaStackFilter,
   validatePowershellStackFilter,
   validateCustomStackFilter,
+  validateGitHubActionStacks,
 } from './validations';
 
 const stacksService = new StacksService20201001();
