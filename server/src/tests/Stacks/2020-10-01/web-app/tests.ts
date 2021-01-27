@@ -20,6 +20,7 @@ import {
   validateJavaFilter,
   validateJavaContainersInStacks,
   validateJavaContainersFilter,
+  validateGitHubActionStacks,
 } from './validations';
 
 const stacksService = new StacksService20201001();
@@ -201,6 +202,15 @@ describe('WebApp Stacks Test 2020-10-01', () => {
     it('should validate the Java Containers stack filter', done => {
       const stacks = stacksService.getWebAppStacks(undefined, 'javacontainers');
       validateJavaContainersFilter(stacks);
+      done();
+    });
+  });
+
+  // Test GitHub Action stacks
+  describe('Test remove non github action stacks', () => {
+    it('should validate only stacks supporting GitHub Action are returned', done => {
+      const stacks = stacksService.getWebAppStacks(undefined, undefined, undefined, undefined, undefined, true);
+      validateGitHubActionStacks(stacks);
       done();
     });
   });

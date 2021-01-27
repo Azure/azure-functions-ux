@@ -16,6 +16,7 @@ import {
   validateRemoveDeprecatedStacks,
   validateRemovePreviewStacks,
   validateWebAppStack,
+  validateRemoveNonGitHubActionStacks,
 } from './validations';
 
 @Controller('stacks')
@@ -33,7 +34,8 @@ export class StacksController {
     @Query('stack') stack?: string,
     @Query('removeHiddenStacks') removeHiddenStacks?: string,
     @Query('removeDeprecatedStacks') removeDeprecatedStacks?: string,
-    @Query('removePreviewStacks') removePreviewStacks?: string
+    @Query('removePreviewStacks') removePreviewStacks?: string,
+    @Query('removeNonGitHubActionStacks') removeNonGitHubActionStacks?: string
   ) {
     validateApiVersion(apiVersion, [Versions.version20200601, Versions.version20201001]);
     validateOs(os);
@@ -41,10 +43,12 @@ export class StacksController {
     validateRemoveHiddenStacks(removeHiddenStacks);
     validateRemoveDeprecatedStacks(removeDeprecatedStacks);
     validateRemovePreviewStacks(removePreviewStacks);
+    validateRemoveNonGitHubActionStacks(removeNonGitHubActionStacks);
 
     const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
     const removeDeprecated = removeDeprecatedStacks && removeDeprecatedStacks.toLowerCase() === 'true';
     const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
+    const removeNonGitHubAction = removeNonGitHubActionStacks && removeNonGitHubActionStacks.toLowerCase() === 'true';
 
     switch (apiVersion) {
       case Versions.version20200601: {
@@ -62,7 +66,8 @@ export class StacksController {
           stack as FunctionAppStack20201001Value,
           removeHidden,
           removeDeprecated,
-          removePreview
+          removePreview,
+          removeNonGitHubAction
         );
       }
     }
@@ -75,7 +80,8 @@ export class StacksController {
     @Query('stack') stack?: string,
     @Query('removeHiddenStacks') removeHiddenStacks?: string,
     @Query('removeDeprecatedStacks') removeDeprecatedStacks?: string,
-    @Query('removePreviewStacks') removePreviewStacks?: string
+    @Query('removePreviewStacks') removePreviewStacks?: string,
+    @Query('removeNonGitHubActionStacks') removeNonGitHubActionStacks?: string
   ) {
     validateApiVersion(apiVersion, [Versions.version20200601, Versions.version20201001]);
     validateOs(os);
@@ -83,10 +89,12 @@ export class StacksController {
     validateRemoveHiddenStacks(removeHiddenStacks);
     validateRemoveDeprecatedStacks(removeDeprecatedStacks);
     validateRemovePreviewStacks(removePreviewStacks);
+    validateRemoveNonGitHubActionStacks(removeNonGitHubActionStacks);
 
     const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
     const removeDeprecated = removeDeprecatedStacks && removeDeprecatedStacks.toLowerCase() === 'true';
     const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
+    const removeNonGitHubAction = removeNonGitHubActionStacks && removeNonGitHubActionStacks.toLowerCase() === 'true';
 
     switch (apiVersion) {
       case Versions.version20200601: {
@@ -104,7 +112,8 @@ export class StacksController {
           stack as WebAppStack20201001Value,
           removeHidden,
           removeDeprecated,
-          removePreview
+          removePreview,
+          removeNonGitHubAction
         );
       }
     }

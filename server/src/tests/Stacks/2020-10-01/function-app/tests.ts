@@ -1,4 +1,5 @@
 import { StacksService20201001 } from '../../../../stacks/2020-10-01/service/StackService';
+import { validateGitHubActionStacks } from '../web-app/validations';
 import {
   validateAllStackLength,
   validateWindowsStacks,
@@ -181,6 +182,15 @@ describe('FunctionApp Stacks Test 2020-10-01', () => {
     it('should validate the Custom stack filter', done => {
       const stacks = stacksService.getFunctionAppStacks(undefined, 'custom');
       validateCustomStackFilter(stacks);
+      done();
+    });
+  });
+
+  // Test GitHub Action stacks
+  describe('Test remove non github action stacks', () => {
+    it('should validate only stacks supporting GitHub Action are returned', done => {
+      const stacks = stacksService.getFunctionAppStacks(undefined, undefined, undefined, undefined, undefined, true);
+      validateGitHubActionStacks(stacks);
       done();
     });
   });

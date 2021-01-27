@@ -276,3 +276,30 @@ function validateJavaContainersStack(javaContainersStack) {
   expect(javaContainersStack.majorVersions.length).to.equal(9);
   expect(javaContainersStack).to.deep.equal(hardCodedJavaContainersStack);
 }
+
+export function validateGitHubActionStacks(stacks) {
+  validateGitHubActionStacksLength(stacks);
+  validateGitHubActionStacksProperties(stacks);
+}
+
+function validateGitHubActionStacksLength(stacks) {
+  expect(stacks).to.be.an('array');
+  expect(stacks.length).to.equal(5);
+}
+
+function validateGitHubActionStacksProperties(stacks) {
+  stacks.forEach(stack => {
+    expect(stack.majorVersions).to.be.an('array');
+    stack.majorVersions.forEach(majorVersion => {
+      expect(majorVersion.minorVersions).to.be.an('array');
+      majorVersion.minorVersions.forEach(minorVersion => {
+        if (minorVersion.stackSettings.windowsRuntimeSettings) {
+          expect(minorVersion.stackSettings.windowsRuntimeSettings.gitHubActionSettings).to.have.property('isSupported', true);
+        }
+        if (minorVersion.stackSettings.linuxRuntimeSettings) {
+          expect(minorVersion.stackSettings.linuxRuntimeSettings.gitHubActionSettings).to.have.property('isSupported', true);
+        }
+      });
+    });
+  });
+}
