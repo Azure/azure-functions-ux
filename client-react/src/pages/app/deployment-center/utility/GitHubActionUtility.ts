@@ -141,9 +141,6 @@ export const getCodeWebAppWorkflowInformation = (
         ? getPythonGithubActionWorkflowDefinitionForLinux(siteName, slotName, repoBranch, secretName, runtimeStackVersion)
         : getPythonGithubActionWorkflowDefinitionForWindows(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
       break;
-    case RuntimeStacks.dotnetcore:
-      content = getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion);
-      break;
     case RuntimeStacks.java:
       // NOTE(michinoy): In case of Java, if the container is tomcat, set up the workflow to produce a WAR package. Else to be on the
       // safe side produce a JAR package. Internally they are both MAVEN builds.
@@ -153,12 +150,14 @@ export const getCodeWebAppWorkflowInformation = (
         content = getJavaJarGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion);
       }
       break;
-    case RuntimeStacks.aspnet:
-      // NOTE(michinoy): In case of version 5, generate the dotnet core workflow file.
+    case RuntimeStacks.dotnet:
+      // NOTE(michinoy): All of the dotnet related stacks are under the 'dotnet' stack now
+      // so workflow file creation will diverge based on the runtime version instead.
+      const version = runtimeVersion.toLocaleLowerCase();
       content =
-        runtimeVersion === '5' || runtimeVersion.toLocaleLowerCase() === 'v5.0'
-          ? getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion)
-          : getAspNetGithubActionWorkflowDefinition(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
+        version === 'v4.0' || version === 'v2.0'
+          ? getAspNetGithubActionWorkflowDefinition(siteName, slotName, repoBranch, secretName, runtimeStackVersion)
+          : getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion);
       break;
     default:
       throw Error(`Incorrect stack value '${runtimeStack}' provided.`);
@@ -197,7 +196,7 @@ export const getCodeFunctionAppCodeWorkflowInformation = (
     case RuntimeStacks.python:
       content = getFunctionAppPythonLinuxWorkflow(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
       break;
-    case RuntimeStacks.dotnetcore:
+    case RuntimeStacks.dotnet:
       content = isLinuxApp
         ? getFunctionAppDotNetCoreLinuxWorkflow(siteName, slotName, repoBranch, secretName, runtimeStackVersion)
         : getFunctionAppDotNetCoreWindowsWorkflow(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
