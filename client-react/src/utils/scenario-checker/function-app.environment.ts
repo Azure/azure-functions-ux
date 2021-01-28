@@ -1,6 +1,6 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
-import { isWorkflowApp } from '../arm-utils';
+import { isLinuxApp, isLinuxDynamic, isWorkflowApp } from '../arm-utils';
 export class FunctionAppEnvironment extends Environment {
   public name = 'FunctionApp';
 
@@ -68,6 +68,72 @@ export class FunctionAppEnvironment extends Environment {
       id: ScenarioIds.showFunctionRuntimeSettings,
       runCheck: () => {
         return { status: 'enabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.bitbucketSource] = {
+      id: ScenarioIds.bitbucketSource,
+      runCheck: (input: ScenarioCheckInput) => {
+        if (input && input.site && isLinuxDynamic(input.site)) {
+          return { status: 'disabled' };
+        } else {
+          return { status: 'enabled' };
+        }
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.localGitSource] = {
+      id: ScenarioIds.localGitSource,
+      runCheck: (input: ScenarioCheckInput) => {
+        if (input && input.site && isLinuxDynamic(input.site)) {
+          return { status: 'disabled' };
+        } else {
+          return { status: 'enabled' };
+        }
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.vstsKuduSource] = {
+      id: ScenarioIds.vstsKuduSource,
+      runCheck: (input: ScenarioCheckInput) => {
+        if (input && input.site && isLinuxApp(input.site)) {
+          return { status: 'disabled' };
+        } else {
+          return { status: 'enabled' };
+        }
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.onedriveSource] = {
+      id: ScenarioIds.onedriveSource,
+      runCheck: (input: ScenarioCheckInput) => {
+        if (input && input.site && isLinuxApp(input.site)) {
+          return { status: 'disabled' };
+        } else {
+          return { status: 'enabled' };
+        }
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.dropboxSource] = {
+      id: ScenarioIds.dropboxSource,
+      runCheck: (input: ScenarioCheckInput) => {
+        if (input && input.site && isLinuxApp(input.site)) {
+          return { status: 'disabled' };
+        } else {
+          return { status: 'enabled' };
+        }
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.externalSource] = {
+      id: ScenarioIds.externalSource,
+      runCheck: (input: ScenarioCheckInput) => {
+        if (input && input.site && isLinuxApp(input.site)) {
+          return { status: 'disabled' };
+        } else {
+          return { status: 'enabled' };
+        }
       },
     };
   }
