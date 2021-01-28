@@ -136,6 +136,17 @@ export class FunctionAppEnvironment extends Environment {
         }
       },
     };
+
+    this.scenarioChecks[ScenarioIds.kuduBuildProvider] = {
+      id: ScenarioIds.kuduBuildProvider,
+      runCheck: (input: ScenarioCheckInput) => {
+        if (input && input.site && isLinuxDynamic(input.site)) {
+          return { status: 'disabled' };
+        } else {
+          return { status: 'enabled' };
+        }
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
