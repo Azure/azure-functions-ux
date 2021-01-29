@@ -108,4 +108,5 @@ export class ScenarioIds {
   public static readonly showAppInsightsLogs = 'showAppInsightsLogs';
   public static readonly showRuntimeVersionSetting = 'showRuntimeVersionSetting';
   public static readonly deploymentCenterLogs = 'deploymentCenterLogs';
+  public static readonly kuduBuildProvider = 'kuduBuildProvider';
 }
