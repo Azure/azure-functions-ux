@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DefaultButton, Callout, ChoiceGroup, PrimaryButton } from 'office-ui-fabric-react';
 import { BuildProvider } from '../../../../models/site/config';
 import { calloutStyle, calloutContent, calloutContentButton, additionalTextFieldControl } from '../DeploymentCenter.styles';
 import { BuildChoiceGroupOption, DeploymentCenterCodeBuildCalloutProps } from '../DeploymentCenter.types';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCalloutProps> = props => {
   const {
@@ -14,6 +17,12 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
     updateSelectedBuild,
   } = props;
   const { t } = useTranslation();
+  const scenarioService = new ScenarioService(t);
+  const siteStateContext = useContext(SiteStateContext);
+
+  const isKuduDisabled = () => {
+    return scenarioService.checkScenario(ScenarioIds.kuduBuildProvider, { site: siteStateContext.site }).status === 'disabled';
+  };
 
   const buildOptions: BuildChoiceGroupOption[] = [
     { key: BuildProvider.GitHubAction, text: t('deploymentCenterCodeSettingsBuildGitHubAction'), buildType: BuildProvider.GitHubAction },
@@ -21,6 +30,7 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
       key: BuildProvider.AppServiceBuildService,
       text: t('deploymentCenterCodeSettingsBuildKudu'),
       buildType: BuildProvider.AppServiceBuildService,
+      disabled: isKuduDisabled(),
     },
   ];
 
