@@ -414,6 +414,7 @@ export interface DeploymentCenterCodeBuildCalloutProps {
   calloutOkButtonDisabled: boolean;
   toggleIsCalloutVisible: () => void;
   updateSelectedBuild: () => void;
+  formProps: FormikProps<DeploymentCenterFormData<any>>;
 }
 
 export interface AuthorizationResult {

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DefaultButton, Callout, ChoiceGroup, PrimaryButton } from 'office-ui-fabric-react';
-import { BuildProvider } from '../../../../models/site/config';
+import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { calloutStyle, calloutContent, calloutContentButton, additionalTextFieldControl } from '../DeploymentCenter.styles';
 import { BuildChoiceGroupOption, DeploymentCenterCodeBuildCalloutProps } from '../DeploymentCenter.types';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
@@ -15,6 +15,7 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
     calloutOkButtonDisabled,
     toggleIsCalloutVisible,
     updateSelectedBuild,
+    formProps,
   } = props;
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
@@ -24,8 +25,12 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
     return scenarioService.checkScenario(ScenarioIds.kuduBuildProvider, { site: siteStateContext.site }).status === 'disabled';
   };
 
-  const buildOptions: BuildChoiceGroupOption[] = [
-    { key: BuildProvider.GitHubAction, text: t('deploymentCenterCodeSettingsBuildGitHubAction'), buildType: BuildProvider.GitHubAction },
+  const permanentBuildOptions: BuildChoiceGroupOption[] = [
+    {
+      key: BuildProvider.AzureDevOps,
+      text: t('deploymentCenterCodeSettingsBuildAzureDevOps'),
+      buildType: BuildProvider.AzureDevOps,
+    },
     {
       key: BuildProvider.AppServiceBuildService,
       text: t('deploymentCenterCodeSettingsBuildKudu'),
@@ -33,6 +38,19 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
       disabled: isKuduDisabled(),
     },
   ];
+
+  const getBuildOptions = () => {
+    return formProps.values.sourceProvider === ScmType.GitHub
+      ? [
+          {
+            key: BuildProvider.GitHubAction,
+            text: t('deploymentCenterCodeSettingsBuildGitHubAction'),
+            buildType: BuildProvider.GitHubAction,
+          },
+          ...permanentBuildOptions,
+        ]
+      : permanentBuildOptions;
+  };
 
   return (
     <Callout
@@ -44,7 +62,12 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
       setInitialFocus={true}>
       <div className={calloutContent}>
         <h3>{t('deploymentCenterSettingsBuildLabel')}</h3>
-        <ChoiceGroup selectedKey={selectedBuildChoice} options={buildOptions} onChange={updateSelectedBuildChoiceOption} required={true} />
+        <ChoiceGroup
+          selectedKey={selectedBuildChoice}
+          options={getBuildOptions()}
+          onChange={updateSelectedBuildChoiceOption}
+          required={true}
+        />
         <PrimaryButton className={calloutContentButton} text={t('ok')} onClick={updateSelectedBuild} disabled={calloutOkButtonDisabled} />
         <DefaultButton className={calloutContentButton} text={t('cancel')} onClick={toggleIsCalloutVisible} />
       </div>

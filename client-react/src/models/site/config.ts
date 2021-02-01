@@ -22,6 +22,7 @@ export enum BuildProvider {
   None = 'None',
   GitHubAction = 'GitHubAction',
   AppServiceBuildService = 'AppServiceBuildService',
+  AzureDevOps = 'AzureDevOps',
 }
 
 export interface SiteConfig {
