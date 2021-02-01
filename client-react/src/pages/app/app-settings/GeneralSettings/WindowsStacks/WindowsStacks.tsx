@@ -1,5 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../../AppSettings.types';
@@ -21,6 +21,8 @@ const WindowsStacks: React.FC<StackProps> = props => {
   const disableAllControls = readonly || !editable || saving;
   const javaSelected = values.currentlySelectedStack === RuntimeStacks.java;
   const showNonJavaAnyway = readonly && !javaSelected;
+
+  const [initialStackDropdownValue, setInitialStackDropdownValue] = useState<string | undefined>(undefined);
 
   const supportedStacks = useContext(WebAppStacksContext);
 
@@ -45,6 +47,17 @@ const WindowsStacks: React.FC<StackProps> = props => {
       });
   };
 
+  const setInitialDropdownValues = (values: AppSettingsFormValues) => {
+    setInitialStackDropdownValue(
+      values.currentlySelectedStack.toLowerCase() === RuntimeStacks.dotnetcore ? RuntimeStacks.dotnet : values.currentlySelectedStack
+    );
+  };
+
+  useEffect(() => {
+    setInitialDropdownValues(initialValues);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValues.currentlySelectedStack]);
   return (
     <>
       <Field
@@ -56,8 +69,13 @@ const WindowsStacks: React.FC<StackProps> = props => {
         options={filterStackOptions()}
         label={t('stack')}
         id="app-settings-stack-dropdown"
+        defaultSelectedKey={initialStackDropdownValue}
       />
-      {values.currentlySelectedStack === RuntimeStacks.dotnet || showNonJavaAnyway ? <DotNetStack {...props} /> : null}
+      {values.currentlySelectedStack === RuntimeStacks.dotnet ||
+      values.currentlySelectedStack === RuntimeStacks.dotnetcore ||
+      showNonJavaAnyway ? (
+        <DotNetStack {...props} />
+      ) : null}
       {values.currentlySelectedStack === RuntimeStacks.php || showNonJavaAnyway ? <PhpStack {...props} /> : null}
       {values.currentlySelectedStack === RuntimeStacks.python || showNonJavaAnyway ? <PythonStack {...props} /> : null}
       {javaSelected ? <JavaStack {...props} /> : null}
