@@ -13,7 +13,6 @@ import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { PortalContext } from '../../../../PortalContext';
-import { LogLevels } from '../../../../models/telemetry';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { SiteStateContext } from '../../../../SiteState';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
