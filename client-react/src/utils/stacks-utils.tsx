@@ -279,4 +279,28 @@ export const RuntimeStacks = {
   aspnet: 'aspnet',
   powershell: 'powershell',
   dotnet: 'dotnet',
+  dotnetcore: 'dotnetcore',
+};
+
+export const defaultDotnetCoreMajorVersion = {
+  displayText: '.NET Core',
+  value: '.NET Core',
+  minorVersions: [
+    {
+      displayText: '.NET Core',
+      value: '.NET Core',
+      stackSettings: {
+        windowsRuntimeSettings: {
+          runtimeVersion: RuntimeStacks.dotnetcore,
+          remoteDebuggingSupported: false,
+          appInsightsSettings: {
+            isSupported: false,
+          },
+          gitHubActionSettings: {
+            isSupported: false,
+          },
+        },
+      },
+    },
+  ],
 };
