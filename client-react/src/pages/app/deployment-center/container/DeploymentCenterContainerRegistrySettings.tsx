@@ -14,13 +14,18 @@ import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { PortalContext } from '../../../../PortalContext';
 import { LogLevels } from '../../../../models/telemetry';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { SiteStateContext } from '../../../../SiteState';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 
 const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
+  const scenarioService = new ScenarioService(t);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const [showContainerTypeOption, setShowContainerTypeOption] = useState(true);
 
@@ -59,16 +64,23 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
     },
   ];
 
-  const containerTypes: IChoiceGroupOptionProps[] = [
-    {
-      key: ContainerOptions.docker,
-      text: t('singleContainerTitle'),
-    },
-    {
-      key: ContainerOptions.compose,
-      text: t('dockerComposeContainerTitle'),
-    },
-  ];
+  const getContainerTypes = () => {
+    const containerTypes: IChoiceGroupOptionProps[] = [
+      {
+        key: ContainerOptions.docker,
+        text: t('singleContainerTitle'),
+      },
+    ];
+
+    if (scenarioService.checkScenario(ScenarioIds.dockerCompose, { site: siteStateContext.site }).status !== 'disabled') {
+      containerTypes.push({
+        key: ContainerOptions.compose,
+        text: t('dockerComposeContainerTitle'),
+      });
+    }
+
+    return containerTypes;
+  };
 
   useEffect(() => {
     const showOption =
@@ -105,7 +117,7 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
           id="deployment-center-container-type-option"
           name="option"
           component={Dropdown}
-          options={containerTypes}
+          options={getContainerTypes()}
           label={t('deploymentCenterContainerType')}
           onChange={onTypeOptionChange}
         />
