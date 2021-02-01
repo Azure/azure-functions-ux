@@ -169,7 +169,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const calloutOkButtonDisabled = selectedBuildChoice === selectedBuild;
   const isAzureDevOpsSupportedBuild =
     formProps.values.sourceProvider === ScmType.GitHub ||
-    formProps.values.sourceProvider === ScmType.Vsts ||
+    formProps.values.sourceProvider === ScmType.Vso ||
     formProps.values.sourceProvider === ScmType.LocalGit ||
     formProps.values.sourceProvider === ScmType.ExternalGit;
 
@@ -179,8 +179,8 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         return t('deploymentCenterGitHubActionsBuildDescription');
       case BuildProvider.AppServiceBuildService:
         return t('deploymentCenterKuduBuildDescription');
-      case BuildProvider.AzureDevOps:
-        return t('deploymentCenterAzureDevOpsBuildDescription');
+      case BuildProvider.Vsts:
+        return t('deploymentCenterVstsBuildDescription');
     }
   };
 

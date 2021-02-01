@@ -27,15 +27,15 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
 
   const permanentBuildOptions: BuildChoiceGroupOption[] = [
     {
-      key: BuildProvider.AzureDevOps,
-      text: t('deploymentCenterCodeSettingsBuildAzureDevOps'),
-      buildType: BuildProvider.AzureDevOps,
-    },
-    {
       key: BuildProvider.AppServiceBuildService,
       text: t('deploymentCenterCodeSettingsBuildKudu'),
       buildType: BuildProvider.AppServiceBuildService,
       disabled: isKuduDisabled(),
+    },
+    {
+      key: BuildProvider.Vsts,
+      text: t('deploymentCenterCodeSettingsBuildVsts'),
+      buildType: BuildProvider.Vsts,
     },
   ];
 

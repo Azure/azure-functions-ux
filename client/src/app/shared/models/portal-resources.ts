@@ -2131,7 +2131,7 @@ export class PortalResources {
   public static deploymentCenterCodeSettingsSourceExternalGit = 'deploymentCenterCodeSettingsSourceExternalGit';
   public static deploymentCenterCodeSettingsBuildGitHubAction = 'deploymentCenterCodeSettingsBuildGitHubAction';
   public static deploymentCenterCodeSettingsBuildKudu = 'deploymentCenterCodeSettingsBuildKudu';
-  public static deploymentCenterCodeSettingsBuildAzureDevOps = 'deploymentCenterCodeSettingsBuildAzureDevOps';
+  public static deploymentCenterCodeSettingsBuildVsts = 'deploymentCenterCodeSettingsBuildVsts';
   public static leaveFeedback = 'leaveFeedback';
   public static functionLogsFeedbackCESQuestion = 'functionLogsFeedbackCESQuestion';
   public static functionLogsFeedbackCVAQuestion = 'functionLogsFeedbackCVAQuestion';
@@ -2158,7 +2158,7 @@ export class PortalResources {
   public static deploymentCenterWorkflowConfigsFilePathLabel = 'deploymentCenterWorkflowConfigsFilePathLabel';
   public static deploymentCenterGitHubActionsBuildDescription = 'deploymentCenterGitHubActionsBuildDescription';
   public static deploymentCenterKuduBuildDescription = 'deploymentCenterKuduBuildDescription';
-  public static deploymentCenterAzureDevOpsBuildDescription = 'deploymentCenterAzureDevOpsBuildDescription';
+  public static deploymentCenterVstsBuildDescription = 'deploymentCenterVstsBuildDescription';
   public static deploymentCenterChangeBuildText = 'deploymentCenterChangeBuildText';
   public static functionMonitor_orchestrations = 'functionMonitor_orchestrations';
   public static functionMonitor_entities = 'functionMonitor_entities';

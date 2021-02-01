@@ -6550,10 +6550,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>GitHub Actions</value>
     </data>
     <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
-        <value>Azure Pipelines (Preview)</value>
-    </data>
-    <data name="deploymentCenterCodeSettingsBuildAzureDevOps" xml:space="preserve">
         <value>App Service Build Service</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines (Preview)</value>
     </data>
     <data name="leaveFeedback" xml:space="preserve">
         <value>Leave Feedback</value>
@@ -6621,7 +6621,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>Building with App Service Build Service.</value>
     </data>
-    <data name="deploymentCenterAzureDevOpsBuildDescription" xml:space="preserve">
+    <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
         <value>Building with Azure Pipelines (Preview).</value>
     </data>
     <data name="deploymentCenterChangeBuildText" xml:space="preserve">
