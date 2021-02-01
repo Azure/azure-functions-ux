@@ -136,7 +136,7 @@ const mergeDotnetcoreStacks = (stack?: WebAppStack): WebAppStack | undefined => 
     let validWindowsRuntimeMinorVersionForDotnetcore = 0;
 
     for (const majorVersion of majorVersions) {
-      if (majorVersion.displayText.toLowerCase().startsWith('.net core')) {
+      if (isMajorVersionValueDotnetcore(majorVersion.value.toLowerCase())) {
         if (isValidWindowsRuntimeMinorVersion(majorVersion.minorVersions)) {
           validWindowsRuntimeMinorVersionForDotnetcore += 1;
         }
@@ -153,6 +153,10 @@ const mergeDotnetcoreStacks = (stack?: WebAppStack): WebAppStack | undefined => 
   } else {
     return undefined;
   }
+};
+
+const isMajorVersionValueDotnetcore = (majorVersionValue: string) => {
+  return majorVersionValue.startsWith('dotnetcore') || majorVersionValue === '3' || majorVersionValue === '1';
 };
 
 const isValidWindowsRuntimeMinorVersion = (minorVersions: AppStackMinorVersion<WebAppRuntimes & JavaContainersInterface>[]) => {
