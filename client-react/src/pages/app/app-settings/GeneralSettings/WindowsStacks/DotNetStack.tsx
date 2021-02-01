@@ -121,6 +121,12 @@ const DotNetStack: React.SFC<StackProps> = props => {
   );
 };
 
+// NOTE (krmitta) - For dotnetcore we don't store any version on the backend,
+// so will be showing a single item - .NET Core under .NET stack to prevent from mis-leading the user.
+// We cannot have different .NET Core versions in the dropdown since we have no way of mapping a user to a particular version.
+// Thus, we are removing all the .NET Core versions from the stacks API response.
+// But if we had a valid windowsRuntimeSettings for one or more .NET Core stacks,
+// we simply add a default .NET Core majorVersion stack which needs to be hard-coded for this specific scenario.
 const mergeDotnetcoreStacks = (stack?: WebAppStack): WebAppStack | undefined => {
   if (!!stack) {
     const majorVersions = [...stack.majorVersions];
