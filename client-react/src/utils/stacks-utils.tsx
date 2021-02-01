@@ -279,7 +279,6 @@ export const RuntimeStacks = {
   aspnet: 'aspnet',
   powershell: 'powershell',
   dotnet: 'dotnet',
-  dotnetcore: 'dotnetcore',
 };
 
 export const defaultDotnetCoreMajorVersion = {
