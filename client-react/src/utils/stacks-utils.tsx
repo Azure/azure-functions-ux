@@ -272,6 +272,7 @@ export const RuntimeStacks = {
   java: 'java',
   node: 'node',
   python: 'python',
+  dotnetcore: 'dotnetcore',
   java8: 'java-8',
   java11: 'java-11',
   php: 'php',
