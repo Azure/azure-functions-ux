@@ -109,4 +109,5 @@ export class ScenarioIds {
   public static readonly showRuntimeVersionSetting = 'showRuntimeVersionSetting';
   public static readonly deploymentCenterLogs = 'deploymentCenterLogs';
   public static readonly kuduBuildProvider = 'kuduBuildProvider';
+  public static readonly dockerCompose = 'dockerCompose';
 }
