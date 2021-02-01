@@ -1,6 +1,7 @@
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService, ConsoleTypes } from './../shared/services/console.service';
 import { AbstractWindowsComponent } from '../shared/components/abstract.windows.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cmd',
@@ -8,8 +9,12 @@ import { AbstractWindowsComponent } from '../shared/components/abstract.windows.
   styleUrls: ['./../console.component.scss'],
 })
 export class CmdComponent extends AbstractWindowsComponent {
-  constructor(componentFactoryResolver: ComponentFactoryResolver, public consoleService: ConsoleService) {
-    super(componentFactoryResolver, consoleService);
+  constructor(
+    componentFactoryResolver: ComponentFactoryResolver,
+    public consoleService: ConsoleService,
+    translateService: TranslateService
+  ) {
+    super(componentFactoryResolver, consoleService, translateService);
     this.consoleType = ConsoleTypes.CMD;
   }
 
