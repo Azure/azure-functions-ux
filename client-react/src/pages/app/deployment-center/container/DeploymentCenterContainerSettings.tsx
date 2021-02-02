@@ -254,13 +254,19 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
 
         {isVstsSelected && <DeploymentCenterVstsBuildProvider />}
 
-        <DeploymentCenterContainerRegistrySettings {...props} />
+        {!isVstsSelected && (
+          <>
+            <DeploymentCenterContainerRegistrySettings {...props} />
 
-        {isAcrConfigured && <DeploymentCenterContainerAcrDataLoader {...props} />}
+            {isAcrConfigured && <DeploymentCenterContainerAcrDataLoader {...props} />}
 
-        {isDockerHubConfigured && <DeploymentCenterContainerDockerHubSettings {...props} />}
+            {isDockerHubConfigured && <DeploymentCenterContainerDockerHubSettings {...props} />}
 
-        {isPrivateRegistryConfigured && <DeploymentCenterContainerPrivateRegistrySettings {...props} />}
+            {isPrivateRegistryConfigured && <DeploymentCenterContainerPrivateRegistrySettings {...props} />}
+
+            {!isGitHubActionSelected && <DeploymentCenterContainerContinuousDeploymentSettings {...props} />}
+          </>
+        )}
 
         {isGitHubActionSelected && (
           <DeploymentCenterGitHubWorkflowConfigPreview
@@ -270,8 +276,6 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
             panelMessage={panelMessage}
           />
         )}
-
-        {!isGitHubActionSelected && <DeploymentCenterContainerContinuousDeploymentSettings {...props} />}
       </>
     );
   };
