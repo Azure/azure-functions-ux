@@ -24,6 +24,7 @@ import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentCenterGitHubConfiguredView';
 import DeploymentCenterContainerSettingsReadOnlyView from './DeploymentCenterContainerSettingsReadOnlyView';
 import { SiteStateContext } from '../../../../SiteState';
+import DeploymentCenterVstsBuildProvider from '../devops-provider/DeploymentCenterVstsBuildProvider';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
@@ -48,6 +49,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const siteStateContext = useContext(SiteStateContext);
 
   const isGitHubActionSelected = formProps.values.scmType === ScmType.GitHubAction;
+  const isVstsSelected = formProps.values.scmType === ScmType.Vsts;
   const isAcrConfigured = formProps.values.registrySource === ContainerRegistrySources.acr;
   const isDockerHubConfigured = formProps.values.registrySource === ContainerRegistrySources.docker;
   const isPrivateRegistryConfigured = formProps.values.registrySource === ContainerRegistrySources.privateRegistry;
@@ -249,6 +251,8 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
             />
           </>
         )}
+
+        {isVstsSelected && <DeploymentCenterVstsBuildProvider />}
 
         <DeploymentCenterContainerRegistrySettings {...props} />
 

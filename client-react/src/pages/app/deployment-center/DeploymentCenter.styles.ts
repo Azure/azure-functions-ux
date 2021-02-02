@@ -137,3 +137,7 @@ export const closePreviewButtonStyle = style({
 export const titleWithPaddingStyle = style({
   paddingTop: '10px',
 });
+
+export const vstsDescriptionStyle = style({
+  paddingTop: '15px',
+});

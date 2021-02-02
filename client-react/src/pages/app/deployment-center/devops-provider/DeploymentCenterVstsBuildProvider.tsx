@@ -5,7 +5,7 @@ import { learnMoreLinkStyle } from '../../../../components/form-controls/formCon
 import { PortalContext } from '../../../../PortalContext';
 import { SiteStateContext } from '../../../../SiteState';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
-import { titleWithPaddingStyle } from '../DeploymentCenter.styles';
+import { vstsDescriptionStyle } from '../DeploymentCenter.styles';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterVstsBuildProvider: React.FC<{}> = props => {
@@ -28,7 +28,7 @@ const DeploymentCenterVstsBuildProvider: React.FC<{}> = props => {
 
   return (
     <>
-      <p>
+      <div>
         <span id="deployment-center-vsts-desc">{t('deploymentCenterVstsDocsMessage')}</span>
         <Link
           id="deployment-center-vsts-desc-link"
@@ -36,21 +36,22 @@ const DeploymentCenterVstsBuildProvider: React.FC<{}> = props => {
           target="_blank"
           className={learnMoreLinkStyle}
           aria-labelledby="deployment-center-vsts-desc-link">
-          {` ${t('learnMore')}. `}
+          {` ${t('learnMore')}`}
         </Link>
-      </p>
-      <p className={titleWithPaddingStyle} id="deployment-center-vsts-message">
+      </div>
+      <div className={vstsDescriptionStyle} id="deployment-center-vsts-message">
         {t('deploymentCenterVstsBuildMessage')}
-      </p>
-
-      <PrimaryButton
-        id="deployment-center-vsts-get-started-message"
-        href={DeploymentCenterLinks.vstsBuildGetStarted}
-        target="_blank"
-        onClick={logClick}
-        aria-labelledby="deployment-center-vsts-get-started-message">
-        {t('deploymentCenterVstsGetStarted')}
-      </PrimaryButton>
+      </div>
+      <div className={vstsDescriptionStyle}>
+        <PrimaryButton
+          id="deployment-center-vsts-get-started-message"
+          href={DeploymentCenterLinks.vstsBuildGetStarted}
+          target="_blank"
+          onClick={logClick}
+          aria-labelledby="deployment-center-vsts-get-started-message">
+          {t('deploymentCenterVstsGetStarted')}
+        </PrimaryButton>
+      </div>
     </>
   );
 };

@@ -23,6 +23,10 @@ const DeploymentCenterContainerSource: React.FC<{}> = props => {
         'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription'
       )}`,
     },
+    {
+      key: ScmType.Vsts,
+      text: `${t('deploymentCenterCodeSettingsBuildVsts')}: ${t('deploymentCenterVstsDocsMessage')}`,
+    },
   ];
 
   return (
