@@ -2159,6 +2159,9 @@ export class PortalResources {
   public static deploymentCenterGitHubActionsBuildDescription = 'deploymentCenterGitHubActionsBuildDescription';
   public static deploymentCenterKuduBuildDescription = 'deploymentCenterKuduBuildDescription';
   public static deploymentCenterVstsBuildDescription = 'deploymentCenterVstsBuildDescription';
+  public static deploymentCenterVstsBuildMessage = 'deploymentCenterVstsBuildMessage';
+  public static deploymentCenterVstsDocsMessage = 'deploymentCenterVstsDocsMessage';
+  public static deploymentCenterVstsGetStarted = 'deploymentCenterVstsGetStarted';
   public static deploymentCenterChangeBuildText = 'deploymentCenterChangeBuildText';
   public static functionMonitor_orchestrations = 'functionMonitor_orchestrations';
   public static functionMonitor_entities = 'functionMonitor_entities';

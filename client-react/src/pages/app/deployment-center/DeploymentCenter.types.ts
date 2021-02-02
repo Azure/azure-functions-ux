@@ -359,6 +359,7 @@ export type DeploymentCenterCodePivotProps = DeploymentCenterCodeFormProps & Dep
 export interface DeploymentCenterCommandBarProps {
   isLoading: boolean;
   isDirty: boolean;
+  isVstsBuildProvider: boolean;
   saveFunction: () => void;
   discardFunction: () => void;
   showPublishProfilePanel: () => void;
