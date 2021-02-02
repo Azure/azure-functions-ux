@@ -6553,7 +6553,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>App Service Build Service</value>
     </data>
     <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
-        <value>Azure Pipelines (Preview)</value>
+        <value>Azure Pipelines</value>
     </data>
     <data name="leaveFeedback" xml:space="preserve">
         <value>Leave Feedback</value>
@@ -6622,7 +6622,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Building with App Service Build Service.</value>
     </data>
     <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
-        <value>Building with Azure Pipelines (Preview).</value>
+        <value>Building with Azure Pipelines.</value>
     </data>
     <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
         <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
