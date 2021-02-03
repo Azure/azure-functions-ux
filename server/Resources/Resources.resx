@@ -1357,6 +1357,9 @@
     <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>The console service is not available on your app.</value>
     </data>
+    <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
     <data name="feature_consoleName" xml:space="preserve">
         <value>Console</value>
     </data>
