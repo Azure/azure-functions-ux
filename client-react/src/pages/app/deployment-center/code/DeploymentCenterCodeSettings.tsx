@@ -34,6 +34,7 @@ import DeploymentCenterDropboxConfiguredView from '../dropbox-provider/Deploymen
 import DeploymentCenterVstsBuildConfiguredView from '../devops-provider/DeploymentCenterVstsBuildConfiguredView';
 import DeploymentCenterDevOpsDataLoader from '../devops-provider/DeploymentCenterDevOpsDataLoader';
 import DeploymentCenterDevOpsKuduBuildConfiguredView from '../devops-provider/DeploymentCenterDevOpsKuduBuildConfiguredView';
+import DeploymentCenterVstsBuildProvider from '../devops-provider/DeploymentCenterVstsBuildProvider';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -48,6 +49,9 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [panelMessage, setPanelMessage] = useState('');
 
   const isDeploymentSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.None;
+
+  const isKuduBuild = formProps.values.buildProvider === BuildProvider.AppServiceBuildService;
+  const isVstsBuild = formProps.values.buildProvider === BuildProvider.Vsts;
 
   const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
   const isGitHubActionsBuild = formProps.values.buildProvider === BuildProvider.GitHubAction;
@@ -203,33 +207,34 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
         <>
           <DeploymentCenterCodeSourceAndBuild formProps={formProps} />
 
-          {isGitHubSource && (
+          {isGitHubActionsBuild && (
             <>
               <DeploymentCenterGitHubDataLoader formProps={formProps} />
-              {isGitHubActionsBuild && (
-                <>
-                  <DeploymentCenterGitHubWorkflowConfigSelector
-                    formProps={formProps}
-                    setGithubActionExistingWorkflowContents={setGithubActionExistingWorkflowContents}
-                  />
-                  {!isUsingExistingOrAvailableWorkflowConfig && <DeploymentCenterCodeBuildRuntimeAndVersion formProps={formProps} />}
-                  <DeploymentCenterGitHubWorkflowConfigPreview
-                    isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
-                    getWorkflowFileContent={getWorkflowFileContent}
-                    workflowFilePath={workflowFilePath}
-                    panelMessage={panelMessage}
-                  />
-                </>
-              )}
+              <DeploymentCenterGitHubWorkflowConfigSelector
+                formProps={formProps}
+                setGithubActionExistingWorkflowContents={setGithubActionExistingWorkflowContents}
+              />
+              {!isUsingExistingOrAvailableWorkflowConfig && <DeploymentCenterCodeBuildRuntimeAndVersion formProps={formProps} />}
+              <DeploymentCenterGitHubWorkflowConfigPreview
+                isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
+                getWorkflowFileContent={getWorkflowFileContent}
+                workflowFilePath={workflowFilePath}
+                panelMessage={panelMessage}
+              />
             </>
           )}
-
-          {isBitbucketSource && <DeploymentCenterBitbucketDataLoader formProps={formProps} />}
-          {isLocalGitSource && <DeploymentCenterLocalGitProvider />}
-          {isExternalGitSource && <DeploymentCenterExternalProvider formProps={formProps} />}
-          {isOneDriveSource && <DeploymentCenterOneDriveDataLoader formProps={formProps} />}
-          {isDropboxSource && <DeploymentCenterDropboxDataLoader formProps={formProps} />}
-          {isVsoSource && <DeploymentCenterDevOpsDataLoader formProps={formProps} />}
+          {isKuduBuild && (
+            <>
+              {isGitHubSource && <DeploymentCenterGitHubDataLoader formProps={formProps} />}
+              {isBitbucketSource && <DeploymentCenterBitbucketDataLoader formProps={formProps} />}
+              {isLocalGitSource && <DeploymentCenterLocalGitProvider />}
+              {isExternalGitSource && <DeploymentCenterExternalProvider formProps={formProps} />}
+              {isOneDriveSource && <DeploymentCenterOneDriveDataLoader formProps={formProps} />}
+              {isDropboxSource && <DeploymentCenterDropboxDataLoader formProps={formProps} />}
+              {isVsoSource && <DeploymentCenterDevOpsDataLoader formProps={formProps} />}
+            </>
+          )}
+          {isVstsBuild && <DeploymentCenterVstsBuildProvider />}
         </>
       )}
     </>
