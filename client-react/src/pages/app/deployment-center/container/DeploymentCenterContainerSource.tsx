@@ -29,6 +29,10 @@ const DeploymentCenterContainerSource: React.FC<{}> = props => {
       )}`,
       disabled: scenarioService.checkScenario(ScenarioIds.githubSource, { site: siteStateContext.site }).status === 'disabled',
     },
+    {
+      key: ScmType.Vsts,
+      text: `${t('deploymentCenterCodeSettingsBuildVsts')}: ${t('deploymentCenterVstsDocsMessage')}`,
+    },
   ];
 
   return (

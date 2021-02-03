@@ -11,7 +11,7 @@ import { PortalContext } from '../../../PortalContext';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, redeploy, isLoading, isDirty } = props;
+  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, redeploy, isLoading, isDirty, isVstsBuildProvider } = props;
   const { t } = useTranslation();
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -42,6 +42,10 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
           deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vsts ||
           deploymentCenterContext.siteConfig.properties.scmType === ScmType.None))
     );
+  };
+
+  const isSaveDisabled = () => {
+    return isDisabledOnReload() || !isDirty || isVstsBuildProvider;
   };
 
   const openFeedbackBlade = () => {
@@ -130,7 +134,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Save',
       },
       ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
-      disabled: isDisabledOnReload() || !isDirty,
+      disabled: isSaveDisabled(),
       onClick: onSaveButtonClick,
     };
   };

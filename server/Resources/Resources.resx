@@ -6555,6 +6555,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>App Service Build Service</value>
     </data>
+    <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
     <data name="leaveFeedback" xml:space="preserve">
         <value>Leave Feedback</value>
     </data>
@@ -6620,6 +6623,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>Building with App Service Build Service.</value>
+    </data>
+    <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+    <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+    <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+    <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
     <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Change provider.</value>

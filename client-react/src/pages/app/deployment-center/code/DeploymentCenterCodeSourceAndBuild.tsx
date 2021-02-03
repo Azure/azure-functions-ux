@@ -166,12 +166,21 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   };
 
   const isSourceSelected = formProps.values.sourceProvider !== ScmType.None;
-  const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
-  const isGitHubActionsBuild = formProps.values.buildProvider === BuildProvider.GitHubAction;
   const calloutOkButtonDisabled = selectedBuildChoice === selectedBuild;
+  const isAzureDevOpsSupportedBuild =
+    formProps.values.sourceProvider === ScmType.GitHub ||
+    formProps.values.sourceProvider === ScmType.Vso ||
+    formProps.values.sourceProvider === ScmType.ExternalGit;
 
   const getBuildDescription = () => {
-    return isGitHubActionsBuild ? t('deploymentCenterGitHubActionsBuildDescription') : t('deploymentCenterKuduBuildDescription');
+    switch (formProps.values.buildProvider) {
+      case BuildProvider.GitHubAction:
+        return t('deploymentCenterGitHubActionsBuildDescription');
+      case BuildProvider.AppServiceBuildService:
+        return t('deploymentCenterKuduBuildDescription');
+      case BuildProvider.Vsts:
+        return t('deploymentCenterVstsBuildDescription');
+    }
   };
 
   const getCalloutContent = () => {
@@ -183,6 +192,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
           calloutOkButtonDisabled={calloutOkButtonDisabled}
           toggleIsCalloutVisible={toggleIsCalloutVisible}
           updateSelectedBuild={updateSelectedBuild}
+          formProps={formProps}
         />
       )
     );
@@ -225,7 +235,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       />
 
       {isSourceSelected &&
-        (isGitHubSource ? (
+        (isAzureDevOpsSupportedBuild ? (
           <>
             <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
               <div>

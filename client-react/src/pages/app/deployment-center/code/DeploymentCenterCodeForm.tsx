@@ -530,6 +530,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             <DeploymentCenterCommandBar
               isDirty={formProps.dirty}
               isLoading={props.isLoading}
+              isVstsBuildProvider={formProps.values.buildProvider === BuildProvider.Vsts}
               saveFunction={formProps.submitForm}
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               discardFunction={() => setIsDiscardConfirmDialogVisible(true)}

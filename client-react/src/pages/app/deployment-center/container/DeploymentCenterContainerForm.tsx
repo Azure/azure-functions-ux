@@ -656,6 +656,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
               isLoading={props.isLoading}
               isDirty={formProps.dirty}
+              isVstsBuildProvider={formProps.values.scmType === ScmType.Vsts}
             />
           </div>
           <>

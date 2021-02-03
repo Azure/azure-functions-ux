@@ -359,6 +359,7 @@ export type DeploymentCenterCodePivotProps = DeploymentCenterCodeFormProps & Dep
 export interface DeploymentCenterCommandBarProps {
   isLoading: boolean;
   isDirty: boolean;
+  isVstsBuildProvider: boolean;
   saveFunction: () => void;
   discardFunction: () => void;
   showPublishProfilePanel: () => void;
@@ -414,6 +415,7 @@ export interface DeploymentCenterCodeBuildCalloutProps {
   calloutOkButtonDisabled: boolean;
   toggleIsCalloutVisible: () => void;
   updateSelectedBuild: () => void;
+  formProps: FormikProps<DeploymentCenterFormData<any>>;
 }
 
 export interface AuthorizationResult {
