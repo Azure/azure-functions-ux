@@ -272,9 +272,33 @@ export const RuntimeStacks = {
   java: 'java',
   node: 'node',
   python: 'python',
+  dotnetcore: 'dotnetcore',
   java8: 'java-8',
   java11: 'java-11',
   php: 'php',
   powershell: 'powershell',
   dotnet: 'dotnet',
+};
+
+export const defaultDotnetCoreMajorVersion = {
+  displayText: '.NET Core (3.1, 2.1)',
+  value: '.NET Core',
+  minorVersions: [
+    {
+      displayText: '.NET Core (3.1, 2.1)',
+      value: '.NET Core',
+      stackSettings: {
+        windowsRuntimeSettings: {
+          runtimeVersion: RuntimeStacks.dotnetcore,
+          remoteDebuggingSupported: false,
+          appInsightsSettings: {
+            isSupported: false,
+          },
+          gitHubActionSettings: {
+            isSupported: false,
+          },
+        },
+      },
+    },
+  ],
 };
