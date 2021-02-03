@@ -78,7 +78,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       SiteService.fetchFunctionsHostStatus(siteResourceId),
     ]);
 
-    // NOTE (krmitta): App-Settings are going to be used to fetch the workerruntime,
+    // NOTE (krmitta): App-Settings are going to be used to fetch the workerRuntime,
     // for logging purposes only. Thus we are not going to block on this.
     fetchAppSettings(siteResourceId);
 

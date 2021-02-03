@@ -129,7 +129,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       return;
     }
 
-    LogService.trackEvent(LogCategories.FunctionEdit, 'functionEditor-onSaveClicked', {
+    LogService.trackEvent(LogCategories.FunctionEdit, 'onSaveClicked', {
       resourceId: siteStateContext.resourceId,
       sessionId: Url.getParameterByName(null, 'sessionId'),
       siteKind: site.kind,
