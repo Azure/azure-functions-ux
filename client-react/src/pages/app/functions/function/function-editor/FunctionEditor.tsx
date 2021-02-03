@@ -66,6 +66,7 @@ export interface FunctionEditorProps {
   runtimeVersion?: string;
   fileList?: VfsObject[];
   testData?: string;
+  workerRuntime?: string;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
@@ -87,6 +88,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     isUploadingFile,
     setIsUploadingFile,
     refreshFileList,
+    workerRuntime,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -126,6 +128,16 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (!selectedFile) {
       return;
     }
+
+    LogService.trackEvent(LogCategories.FunctionEdit, 'functionEditor-onSaveClicked', {
+      resourceId: siteStateContext.resourceId,
+      sessionId: Url.getParameterByName(null, 'sessionId'),
+      siteKind: site.kind,
+      isLinux: site.properties.isLinux,
+      runtime: runtimeVersion,
+      stack: workerRuntime,
+    });
+
     setSavingFile(true);
     const fileData = selectedFile.data;
     const fileResponse = await FunctionsService.saveFileContent(

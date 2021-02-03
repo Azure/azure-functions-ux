@@ -30,6 +30,7 @@ import StringUtils from '../../../../../utils/string';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -57,6 +58,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [testData, setTestData] = useState<string | undefined>(undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isUploadingFile, setIsUploadingFile] = useState(false);
+  const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -75,6 +77,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       FunctionsService.fetchKeys(resourceId),
       SiteService.fetchFunctionsHostStatus(siteResourceId),
     ]);
+
+    // NOTE (krmitta): App-Settings are going to be used to fetch the workerruntime,
+    // for logging purposes only. Thus we are not going to block on this.
+    fetchAppSettings(siteResourceId);
 
     if (siteResponse.metadata.success) {
       setSite(siteResponse.data);
@@ -147,6 +153,23 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
     setInitialLoading(false);
     setIsRefreshing(false);
+  };
+
+  const fetchAppSettings = async (siteResourceId: string) => {
+    const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
+
+    if (appSettingsResponse.metadata.success) {
+      const appSettings = appSettingsResponse.data.properties;
+      if (appSettings.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
+        setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
+      }
+    } else {
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'fetchAppSettings',
+        `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
+      );
+    }
   };
 
   const createAndGetFunctionInvokeUrlPath = (key?: string) => {
@@ -549,6 +572,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             isUploadingFile={isUploadingFile}
             setIsUploadingFile={setIsUploadingFile}
             refreshFileList={refreshFileList}
+            workerRuntime={workerRuntime}
           />
         </div>
       ) : (
