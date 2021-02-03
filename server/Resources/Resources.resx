@@ -6004,7 +6004,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Unable to retrieve account information</value>
     </data>
     <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Please go to the Azure DevOps portal to disconnect.</value>
+        <value>Your app is configured with Azure DevOps as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
     <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
