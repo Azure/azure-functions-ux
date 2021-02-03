@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IChoiceGroupOption, Link } from 'office-ui-fabric-react';
 import { Field } from 'formik';
@@ -6,9 +6,14 @@ import RadioButton from '../../../../components/form-controls/RadioButton';
 import { ScmType } from '../../../../models/site/config';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterContainerSource: React.FC<{}> = props => {
   const { t } = useTranslation();
+  const scenarioService = new ScenarioService(t);
+  const siteStateContext = useContext(SiteStateContext);
 
   const options: IChoiceGroupOption[] = [
     {
@@ -22,6 +27,7 @@ const DeploymentCenterContainerSource: React.FC<{}> = props => {
       text: `${t('deploymentCenterContainerSettingsSourceOptionGitHubActions')}: ${t(
         'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription'
       )}`,
+      disabled: scenarioService.checkScenario(ScenarioIds.githubSource, { site: siteStateContext.site }).status === 'disabled',
     },
   ];
 
