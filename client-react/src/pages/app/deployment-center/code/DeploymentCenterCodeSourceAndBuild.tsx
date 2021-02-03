@@ -170,7 +170,6 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const isAzureDevOpsSupportedBuild =
     formProps.values.sourceProvider === ScmType.GitHub ||
     formProps.values.sourceProvider === ScmType.Vso ||
-    formProps.values.sourceProvider === ScmType.LocalGit ||
     formProps.values.sourceProvider === ScmType.ExternalGit;
 
   const getBuildDescription = () => {
