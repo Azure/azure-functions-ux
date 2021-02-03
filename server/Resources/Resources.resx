@@ -3467,7 +3467,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Log Level</value>
     </data>
     <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (Preview)</value>
+        <value>Azure Pipelines</value>
     </data>
     <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS). The pipeline builds, runs load tests and deploys to staging slot and then to production.</value>
@@ -6004,7 +6004,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Unable to retrieve account information</value>
     </data>
     <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure DevOps as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
     <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
