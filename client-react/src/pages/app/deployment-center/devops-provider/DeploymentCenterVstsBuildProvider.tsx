@@ -20,10 +20,11 @@ const DeploymentCenterVstsBuildProvider: React.FC<{}> = props => {
   const getVstsDocumentLink = () => {
     if (siteStateContext.isContainerApp) {
       return DeploymentCenterLinks.vstsWebAppContainerDeployment;
+    } else if (siteStateContext.isLinuxApp) {
+      return DeploymentCenterLinks.vstsWebAppLinuxDeployment;
+    } else {
+      return DeploymentCenterLinks.vstsWebAppWindowsDeployment;
     }
-    return siteStateContext.isLinuxApp
-      ? DeploymentCenterLinks.vstsWebAppLinuxDeployment
-      : DeploymentCenterLinks.vstsWebAppWindowsDeployment;
   };
 
   return (

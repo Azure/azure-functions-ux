@@ -48,8 +48,7 @@ export const DeploymentCenterLinks = {
   containerContinuousDeploy: 'https://go.microsoft.com/fwlink/?linkid=2133570',
   configureDeploymentSlots: 'https://go.microsoft.com/fwlink/?linkid=2142216',
   configureLocalGitDeployment: 'https://go.microsoft.com/fwlink/?linkid=2151801',
-  vstsBuildGetStarted:
-    'https://go.microsoft.com/fwlink/?LinkId=2014579&campaign=acom~azure~devops~pipelines~main~hero&projectVisibility=Everyone&githubsi=true&clcid=0x409',
+  vstsBuildGetStarted: 'https://go.microsoft.com/fwlink/?LinkId=2014579',
   vstsWebAppLinuxDeployment: 'https://go.microsoft.com/fwlink/?linkid=2153882',
   vstsWebAppWindowsDeployment: 'https://go.microsoft.com/fwlink/?linkid=2153883',
   vstsWebAppContainerDeployment: 'https://go.microsoft.com/fwlink/?linkid=2153784',
