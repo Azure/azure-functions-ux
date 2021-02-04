@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>A konzolszolgáltatás nem érhető el az alkalmazásban.</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Konzol</value>
     </data>
@@ -3461,7 +3464,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Naplózási szint</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (előzetes verzió)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Robusztus üzembe helyezési folyamat létrehozása az alkalmazás számára az Azure DevOps Services (korábbi nevén VSTS) segítségével. A folyamat létrehozza és futtatja a terhelési teszteket, valamint üzembe helyezi az alkalmazást az előkészítési ponton, majd az éles környezetben.</value>
@@ -5998,7 +6001,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nem lehet beolvasni a fiókadatokat</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>A leválasztáshoz nyissa meg az Azure DevOps portált.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>A jelenlegi központi telepítési konfiguráció már nem támogatott. Lépjen az Azure DevOps portálra a leválasztáshoz.</value>
@@ -6549,6 +6552,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>App Service-buildelési szolgáltatás</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>Visszajelzés küldése</value>
     </data>
@@ -6614,6 +6620,18 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>Buildelés az App Service-buildelési szolgáltatás használatával.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Szolgáltató módosítása.</value>
@@ -6881,5 +6899,11 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>A naplók {0} másodperc múlva frissülnek</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>

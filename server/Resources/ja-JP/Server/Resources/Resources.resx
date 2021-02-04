@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>このアプリでコンソール サービスは利用できません。</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>コンソール</value>
     </data>
@@ -3461,7 +3464,7 @@
         <value>ログ レベル</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (プレビュー)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Azure DevOps Services (旧称 VSTS) の一部である Azure Pipelines を使用して、アプリケーションに強力なデプロイ パイプラインを構成します。パイプラインによって、ビルド、ロード テストの実行、ステージング スロットへのデプロイ、実稼働へのデプロイが順に行われます。</value>
@@ -5998,7 +6001,7 @@
         <value>アカウント情報を取得できません</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>切断するには、Azure DevOps ポータルに移動してください。</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>現在のデプロイ構成はサポートされなくなりました。切断するには、Azure DevOps ポータルに移動してください。</value>
@@ -6549,6 +6552,9 @@
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>App Service のビルド サービス</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>フィードバックを送信</value>
     </data>
@@ -6614,6 +6620,18 @@
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>App Service のビルド サービスを使用してビルドしています。</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>プロバイダーを変更します。</value>
@@ -6881,5 +6899,11 @@
     </data>
   <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>あと {0} 秒でログが更新されます</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>

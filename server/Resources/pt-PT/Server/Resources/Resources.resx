@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>O serviço de consola não está disponível na sua aplicação.</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Consola</value>
     </data>
@@ -3461,7 +3464,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Nível de Registo</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (Pré-visualização)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Configure um pipeline de implementação robusto para a sua aplicação através do Azure Pipelines, parte dos Serviços DevOps do Azure (anteriormente conhecidos como VSTS). O pipeline cria, executa testes de carga e implementa no bloco de teste e, em seguida, em produção.</value>
@@ -5998,7 +6001,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Não é possível obter as informações da conta</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Aceda ao portal do Azure DevOps para desligar.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>A configuração de implementação atual já não é suportada. Aceda ao portal do Azure DevOps para desligar.</value>
@@ -6549,6 +6552,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>Serviço de Compilação do Serviço de Aplicações</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>Enviar Feedback</value>
     </data>
@@ -6614,6 +6620,18 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>A compilar com o Serviço de Compilação do Serviço de Aplicações.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Altere o fornecedor.</value>
@@ -6881,5 +6899,11 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     </data>
   <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>Os registos serão atualizados em {0} segundos</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>
