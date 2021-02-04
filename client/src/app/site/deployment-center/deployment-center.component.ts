@@ -35,6 +35,7 @@ export class DeploymentCenterComponent implements OnDestroy {
   public viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
   public viewInfo: TreeViewInfo<SiteData>;
   public dashboardProviderType: ProviderDashboardType = '';
+  public switchToNewExperience: () => void;
 
   @Input()
   set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -70,6 +71,19 @@ export class DeploymentCenterComponent implements OnDestroy {
         this.credentialsData = {
           resourceId: this.resourceId,
         };
+
+        this.switchToNewExperience = () => {
+          this._portalService.openFrameBlade(
+            {
+              detailBlade: 'DeploymentCenterFrameBladeReact',
+              detailBladeInputs: {
+                id: this.resourceId,
+              },
+            },
+            'deployment-center'
+          );
+        };
+
         return Observable.zip(
           this._siteService.getSiteConfig(this.resourceId),
           this._siteService.getAppSettings(this.resourceId),
@@ -111,18 +125,6 @@ export class DeploymentCenterComponent implements OnDestroy {
       this._siteService.clearSiteConfigArmCache(this.resourceId);
       this.viewInfoStream.next(this.viewInfo);
     }
-  }
-
-  switchToNewExperience() {
-    this._portalService.openFrameBlade(
-      {
-        detailBlade: 'DeploymentCenterFrameBladeReact',
-        detailBladeInputs: {
-          id: this.resourceId,
-        },
-      },
-      'deployment-center'
-    );
   }
 
   get kuduDeploymentSetup() {

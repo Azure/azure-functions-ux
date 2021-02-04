@@ -50,6 +50,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
   public statusMessage: StatusMessage;
   private _viewInfo: TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>;
   private _formStatusSubscription: Subscription;
+  public switchToNewExperience: () => void;
 
   constructor(
     private _siteService: SiteService,
@@ -79,6 +80,18 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
           this.containerConfigureInfo = { ...r.data.data, container: null, form: null, containerForm: null };
           this.fromMenu = !!this.containerConfigureInfo.fromMenu;
           this.containerSettingsManager.resetSettings(this.containerConfigureInfo);
+
+          this.switchToNewExperience = () => {
+            this._portalService.openFrameBlade(
+              {
+                detailBlade: 'DeploymentCenterFrameBladeReact',
+                detailBladeInputs: {
+                  id: this.containerConfigureInfo.resourceId,
+                },
+              },
+              'container-settings'
+            );
+          };
 
           if (this.fromMenu) {
             return Observable.zip(
@@ -225,18 +238,6 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     if (proceed) {
       this.setInput(this._viewInfo);
     }
-  }
-
-  public switchToNewExperience() {
-    this._portalService.openFrameBlade(
-      {
-        detailBlade: 'DeploymentCenterFrameBladeReact',
-        detailBladeInputs: {
-          id: this.containerConfigureInfo.resourceId,
-        },
-      },
-      'container-settings'
-    );
   }
 
   private _markFormGroupDirtyAndValidate(formGroup: FormGroup) {
