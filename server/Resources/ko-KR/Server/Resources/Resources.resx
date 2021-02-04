@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>콘솔 서비스를 앱에서 사용할 수 없습니다.</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>콘솔</value>
     </data>
@@ -3461,7 +3464,7 @@
         <value>로그 수준</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines(미리 보기)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Azure DevOps Services(이전 VSTS)의 일부인 Azure Pipelines를 사용하여 애플리케이션의 강력한 배포 파이프라인을 구성합니다. 파이프라인이 빌드되고, 부하 테스트를 실행하고, 스테이징 슬롯에 배포된 후, 프로덕션 환경에 배포됩니다.</value>
@@ -5998,7 +6001,7 @@
         <value>계정 정보를 검색할 수 없음</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>연결을 끊으려면 Azure DevOps 포털로 이동하세요.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>현재 배포 구성은 더 이상 지원되지 않습니다. 연결을 끊으려면 Azure DevOps 포털로 이동하세요.</value>
@@ -6549,6 +6552,9 @@
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>App Service 빌드 서비스</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>피드백 남기기</value>
     </data>
@@ -6614,6 +6620,18 @@
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>App Service 빌드 서비스를 사용하여 빌드하는 중입니다.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>공급자를 변경합니다.</value>
@@ -6881,5 +6899,11 @@
     </data>
   <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>로그가 {0}초 후에 새로 고쳐집니다.</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>

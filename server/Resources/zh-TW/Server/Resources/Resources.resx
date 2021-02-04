@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>您的應用程式無法使用主控台服務。</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>主控台</value>
     </data>
@@ -3461,7 +3464,7 @@
         <value>記錄層級</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (預覽)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>使用 Azure Pipelines (屬於 Azure DevOps Services (前身為 VSTS)) 為您的應用程式設定強固部署管線。管線會建置、執行負載測試，並部署至預備位置，然後部署至生產位置。</value>
@@ -5998,7 +6001,7 @@
         <value>無法擷取帳戶資訊</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>請前往 Azure DevOps 入口網站以中斷連線。</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>不再支援目前的部署設定。請前往 Azure DevOps 入口網站以中斷連線。</value>
@@ -6549,6 +6552,9 @@
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>App Service 組建服務</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>離開意見反應</value>
     </data>
@@ -6614,6 +6620,18 @@
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>正在使用 App Service 組建服務建置。</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>變更提供者。</value>
@@ -6881,5 +6899,11 @@
     </data>
   <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>記錄將於 {0} 秒內重新整理</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>
