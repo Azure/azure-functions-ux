@@ -136,6 +136,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       isLinux: site.properties.isLinux,
       runtime: runtimeVersion,
       stack: workerRuntime,
+      sku: site.properties.sku,
     });
 
     setSavingFile(true);
