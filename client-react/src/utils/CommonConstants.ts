@@ -102,8 +102,8 @@ export class CommonConstants {
     public: 'https://api.applicationinsights.io/v1/apps',
     fairfax: 'https://api.applicationinsights.us/v1/apps',
     mooncake: 'https://api.applicationinsights.azure.cn/v1/apps',
-    usSec: 'https://api.applicationinsights.azure.microsoft.scloud',
-    usNat: 'https://api.applicationinsights.azure.eaglex.ic.gov',
+    usSec: 'https://api.applicationinsights.azure.microsoft.scloud/v1/apps',
+    usNat: 'https://api.applicationinsights.azure.eaglex.ic.gov/v1/apps',
   };
 
   public static readonly LogLevels = {
