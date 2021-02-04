@@ -102,7 +102,7 @@ export default class ACRService {
       } else {
         nextLink = '';
         if (logger) {
-          logger(page, response);
+          logger(page, response.metadata.error);
         }
       }
 

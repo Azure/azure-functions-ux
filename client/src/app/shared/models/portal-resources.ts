@@ -2255,14 +2255,4 @@ export class PortalResources {
   public static classicContainerSettingDeprecationMessage = 'classicContainerSettingDeprecationMessage';
   public static classicDeploymentCenterDeprecationMessage = 'classicDeploymentCenterDeprecationMessage';
   public static netVersionLabel = 'netVersionLabel';
-  public static deploymentCenterContainerAcrRegistrieNotAvailable = 'deploymentCenterContainerAcrRegistrieNotAvailable';
-  public static deploymentCenterContainerAcrFailedToLoadRegistriesWithError = 'deploymentCenterContainerAcrFailedToLoadRegistriesWithError';
-  public static deploymentCenterContainerAcrFailedToLoadRegistries = 'deploymentCenterContainerAcrFailedToLoadRegistries';
-  public static deploymentCenterContainerAcrFailedToLoadCredentialsWithError =
-    'deploymentCenterContainerAcrFailedToLoadCredentialsWithError';
-  public static deploymentCenterContainerAcrFailedToLoadCredentials = 'deploymentCenterContainerAcrFailedToLoadCredentials';
-  public static deploymentCenterContainerAcrFailedToLoadImagesWithError = 'deploymentCenterContainerAcrFailedToLoadImagesWithError';
-  public static deploymentCenterContainerAcrFailedToLoadImages = 'deploymentCenterContainerAcrFailedToLoadImages';
-  public static deploymentCenterContainerAcrFailedToLoadTagsWithError = 'deploymentCenterContainerAcrFailedToLoadTagsWithError';
-  public static deploymentCenterContainerAcrFailedToLoadTags = 'deploymentCenterContainerAcrFailedToLoadTags';
 }
