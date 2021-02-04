@@ -314,7 +314,8 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
           location: location,
           properties: {
             serverFarmId: serverFarmId,
-            siteConfig: cloneConfig,
+            // If the source slot has a '/' we know it's a slot, not production
+            siteConfig: sourceSlot.name.includes('/') ? cloneConfig : undefined,
             httpsOnly: sourceSlot.properties.httpsOnly,
             clientCertEnabled: sourceSlot.properties.clientCertEnabled,
             clientCertMode: sourceSlot.properties.clientCertMode,
@@ -325,6 +326,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
           location: location,
           properties: {
             serverFarmId: serverFarmId,
+            siteConfig: {},
           },
         };
 
