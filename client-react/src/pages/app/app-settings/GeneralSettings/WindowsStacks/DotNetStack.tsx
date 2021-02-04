@@ -108,7 +108,7 @@ const DotNetStack: React.SFC<StackProps> = props => {
           values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
           values.config.properties.netFrameworkVersion !== initialValues.config.properties.netFrameworkVersion
         }
-        label={t('netFrameWorkVersionLabel')}
+        label={t('netVersionLabel')}
         id="netValidationVersion"
         disabled={disableAllControls}
         options={getStacksSummaryForDropdown(dotnetStack, AppStackOs.windows, t)}
