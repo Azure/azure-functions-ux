@@ -2254,4 +2254,5 @@ export class PortalResources {
   public static logsRefreshTimerMessage = 'logsRefreshTimerMessage';
   public static classicContainerSettingDeprecationMessage = 'classicContainerSettingDeprecationMessage';
   public static classicDeploymentCenterDeprecationMessage = 'classicDeploymentCenterDeprecationMessage';
+  public static netVersionLabel = 'netVersionLabel';
 }
