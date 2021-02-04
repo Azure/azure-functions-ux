@@ -21,6 +21,7 @@ import { LogService } from 'app/shared/services/log.service';
 import { SiteService } from '../../shared/services/site.service';
 import { ProviderDashboardType } from './Models/deployment-enums';
 import { CredentialsData } from './Models/deployment-data';
+import { PortalService } from '../../shared/services/portal.service';
 
 @Component({
   selector: 'app-deployment-center',
@@ -34,6 +35,7 @@ export class DeploymentCenterComponent implements OnDestroy {
   public viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
   public viewInfo: TreeViewInfo<SiteData>;
   public dashboardProviderType: ProviderDashboardType = '';
+  public switchToNewExperience: () => void;
 
   @Input()
   set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -50,7 +52,12 @@ export class DeploymentCenterComponent implements OnDestroy {
   public showFTPDashboard = false;
   public showWebDeployDashboard = false;
   sidePanelOpened = false;
-  constructor(private _siteService: SiteService, private _logService: LogService, broadcastService: BroadcastService) {
+  constructor(
+    private _siteService: SiteService,
+    private _logService: LogService,
+    private _portalService: PortalService,
+    broadcastService: BroadcastService
+  ) {
     this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.continuousDeployment);
 
     this._logService.trace(LogCategories.cicd, '/load-deployment-center');
@@ -64,6 +71,19 @@ export class DeploymentCenterComponent implements OnDestroy {
         this.credentialsData = {
           resourceId: this.resourceId,
         };
+
+        this.switchToNewExperience = () => {
+          this._portalService.openFrameBlade(
+            {
+              detailBlade: 'DeploymentCenterFrameBladeReact',
+              detailBladeInputs: {
+                id: this.resourceId,
+              },
+            },
+            'deployment-center'
+          );
+        };
+
         return Observable.zip(
           this._siteService.getSiteConfig(this.resourceId),
           this._siteService.getAppSettings(this.resourceId),
