@@ -6912,4 +6912,31 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="netVersionLabel" xml:space="preserve">
         <value>.NET version</value>
     </data>
+    <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+        <value>No ACR Registries are available in Subscription '{0}'.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
+        <value>Failed to load ACR Registries - {0}.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadRegistries" xml:space="preserve">
+        <value>Failed to load ACR Registries.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
+        <value>Failed to load ACR Credentials needed to load Images and Tags - {0}.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
+        <value>Failed to load ACR Credentials needed to load Images and Tags.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
+        <value>Failed to load ACR Images - {0}.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadImages" xml:space="preserve">
+        <value>Failed to load ACR Images</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadTagsWithError" xml:space="preserve">
+        <value>Failed to load ACR Tags - {0}.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadTags" xml:space="preserve">
+        <value>Failed to load ACR Tags.</value>
+    </data>
 </root>
