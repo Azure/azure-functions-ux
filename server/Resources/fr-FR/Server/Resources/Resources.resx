@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>Le service de console n’est pas disponible sur votre application.</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Console</value>
     </data>
@@ -3461,7 +3464,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Niveau du journal</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (Préversion)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Configurez un pipeline de déploiement robuste pour votre application en utilisant Azure Pipelines, qui fait partie d’Azure DevOps Services (anciennement VSTS). Le pipeline crée, exécute des tests de charge et effectue le déploiement vers un emplacement de préproduction, puis en production.</value>
@@ -5998,7 +6001,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Impossible de récupérer les informations de compte.</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Accédez au portail Azure DevOps pour vous déconnecter.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>La configuration de déploiement actuelle n'est plus prise en charge. Accédez au portail Azure DevOps pour vous déconnecter.</value>
@@ -6549,6 +6552,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>Service de build App Service</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>Laisser un commentaire</value>
     </data>
@@ -6614,6 +6620,18 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>Génération avec le service de build App Service.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Changez le fournisseur.</value>
@@ -6881,5 +6899,11 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>Les journaux vont être actualisés dans {0} secondes</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>

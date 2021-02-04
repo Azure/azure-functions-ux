@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>Il servizio console non è disponibile nell'app.</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Console</value>
     </data>
@@ -3461,7 +3464,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Livello log</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (anteprima)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Consente di configurare una potente pipeline di distribuzione per l'applicazione tramite Azure Pipelines, parte di Azure DevOps Services (in precedenza VSTS). La pipeline compila, esegue i test del carico e distribuisce prima nello slot di staging e quindi in quello di produzione.</value>
@@ -5998,7 +6001,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Non è possibile recuperare le informazioni sull'account.</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Per disconnettersi, passare al portale di Azure DevOps.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>La configurazione della distribuzione corrente non è più supportata. Per disconnettersi, passare al portale di Azure DevOps.</value>
@@ -6549,6 +6552,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>Servizio di compilazione del servizio app</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>Invia feedback</value>
     </data>
@@ -6614,6 +6620,18 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>Compilazione con il servizio di compilazione del servizio app.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Cambia il provider.</value>
@@ -6881,5 +6899,11 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="logsRefreshTimerMessage" xml:space="preserve">
         <value>I log verranno aggiornati tra {0} secondi</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>
