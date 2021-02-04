@@ -94,12 +94,16 @@ export class CommonConstants {
     public: 'https://rt.services.visualstudio.com/QuickPulseService.svc',
     fairfax: 'https://quickpulse.applicationinsights.us/QuickPulseService.svc',
     mooncake: 'https://live.applicationinsights.azure.cn/QuickPulseService.svc',
+    usSec: 'https://live.applicationinsights.azure.microsoft.scloud/QuickPulseService.svc',
+    usNat: 'https://live.applicationinsights.azure.eaglex.ic.gov/QuickPulseService.svc',
   };
 
   public static readonly AppInsightsEndpoints = {
     public: 'https://api.applicationinsights.io/v1/apps',
     fairfax: 'https://api.applicationinsights.us/v1/apps',
     mooncake: 'https://api.applicationinsights.azure.cn/v1/apps',
+    usSec: 'https://api.applicationinsights.azure.microsoft.scloud/v1/apps',
+    usNat: 'https://api.applicationinsights.azure.eaglex.ic.gov/v1/apps',
   };
 
   public static readonly LogLevels = {
