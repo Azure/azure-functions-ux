@@ -6907,6 +6907,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, Checkout the new Deployment Center experience.</value>
     </data>
     <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.</value>
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, check out the new Deployment Center experience.</value>
     </data>
 </root>

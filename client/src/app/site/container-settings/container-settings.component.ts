@@ -227,6 +227,18 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     }
   }
 
+  public switchToNewExperience() {
+    this._portalService.openFrameBlade(
+      {
+        detailBlade: 'DeploymentCenterFrameBladeReact',
+        detailBladeInputs: {
+          id: this.containerConfigureInfo.resourceId,
+        },
+      },
+      'container-settings'
+    );
+  }
+
   private _markFormGroupDirtyAndValidate(formGroup: FormGroup) {
     if (formGroup.controls) {
       const keys = Object.keys(formGroup.controls);
