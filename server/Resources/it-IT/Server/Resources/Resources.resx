@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>Il servizio console non è disponibile nell'app.</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Console</value>
     </data>
@@ -2683,6 +2686,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="commitIdAuthor" xml:space="preserve">
         <value>ID commit (autore)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Autore commit</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Messaggio di archiviazione</value>
     </data>
@@ -3458,7 +3464,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Livello log</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (anteprima)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Consente di configurare una potente pipeline di distribuzione per l'applicazione tramite Azure Pipelines, parte di Azure DevOps Services (in precedenza VSTS). La pipeline compila, esegue i test del carico e distribuisce prima nello slot di staging e quindi in quello di produzione.</value>
@@ -3890,6 +3896,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Non è stato possibile disconnettere la distribuzione</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Non è stato possibile disconnettere la distribuzione: {0}</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Disconnettere la distribuzione?</value>
     </data>
@@ -4249,6 +4258,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Le funzioni basate su Kubernetes non sono attualmente supportate.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker Compose non è attualmente supportato.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Le funzioni di modifica nel portale non sono supportate per le app per le funzioni distribuite come immagine Docker.</value>
@@ -5746,19 +5758,19 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>File del flusso di lavoro</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>Salva file del flusso di lavoro</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Il salvataggio consente di conservare le modifiche apportate al file del flusso di lavoro, ma le distribuzioni in questa app continueranno a essere attivate.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>Elimina file del flusso di lavoro</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>Il file verrà rimosso e i commit futuri non attiveranno le distribuzioni in questa app.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>La disconnessione di un'azione consente di riconfigurare la distribuzione dell'app. Scegliere l'operazione che verrà eseguita sul file del flusso di lavoro dopo la disconnessione.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Il file del flusso di lavoro dell'azione GitHub Actions '{0}' dal ramo '{1}' nel repository '{2}' non esiste. Selezionare 'OK' per disconnettere la distribuzione.</value>
@@ -5932,7 +5944,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Il ramo '{0}' non è stato trovato nel repository '{1}'. Per ulteriori indagini, passare al repository.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>Disconnetti GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Conferma disconnessione del servizio di compilazione del servizio app</value>
@@ -5948,6 +5960,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Non è stato possibile disconnettere la distribuzione, ma il file del flusso di lavoro è stato eliminato. Provare a disconnettersi di nuovo.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Non è stato possibile disconnettere la distribuzione, ma il file del flusso di lavoro è stato eliminato. Provare a disconnettersi di nuovo. Errore: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Non è possibile stabilire un collegamento ad Application Insights. Assicurarsi di disporre delle autorizzazioni di scrittura per l'app per le funzioni</value>
@@ -5986,7 +6001,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Non è possibile recuperare le informazioni sull'account.</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Per disconnettersi, passare al portale di Azure DevOps.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>La configurazione della distribuzione corrente non è più supportata. Per disconnettersi, passare al portale di Azure DevOps.</value>
@@ -6103,7 +6118,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Caricamento dei log del contenitore...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>Si tratta dei log del motore Docker generati durante la fase di provisioning dell'immagine del contenitore.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Non è stato possibile caricare i log del contenitore</value>
@@ -6327,6 +6342,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Pubblico</value>
     </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>GIT locale consente di ospitare un server GIT semplice per l'app nel piano di servizio app e usarlo per configurare rapidamente una pipeline di CI/CD.</value>
+    </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>L'URL del repository Git locale sarà generato al termine dell'operazione.</value>
     </data>
@@ -6534,6 +6552,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>Servizio di compilazione del servizio app</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>Invia feedback</value>
     </data>
@@ -6599,6 +6620,18 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>Compilazione con il servizio di compilazione del servizio app.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Cambia il provider.</value>
@@ -6856,6 +6889,21 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Non è stato possibile recuperare la risorsa di Application Insights. Assicurarsi di aver configurato la chiave di strumentazione corretta nelle impostazioni dell'app.</value>
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
-        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
+        <value>L'accesso in anteprima consente il recapito rapido degli aggiornamenti e delle nuove versioni di vari runtime.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>La versione selezionata '{0}' è deprecata. Aggiornarla.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>La versione selezionata '{0}' sarà deprecata a partire dal {1}. Aggiornarla quanto prima.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>I log verranno aggiornati tra {0} secondi</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>

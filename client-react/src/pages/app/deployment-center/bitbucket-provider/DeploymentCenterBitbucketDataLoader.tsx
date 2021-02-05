@@ -9,7 +9,6 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import BitbucketService from '../../../../ApiHelpers/BitbucketService';
 import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
-import { LogLevels } from '../../../../models/telemetry';
 
 const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -34,7 +33,7 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   const orgToReposMapping = useRef<{ [key: string]: IDropdownOption[] }>({});
 
   const fetchData = async () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'getBitbucketUser', 'submit'));
+    portalContext.log(getTelemetryInfo('info', 'getBitbucketUser', 'submit'));
     const bitbucketUserResponse = await deploymentCenterData.getBitbucketUser(deploymentCenterContext.bitbucketToken);
 
     setBitbucketAccountStatusMessage(undefined);
@@ -54,7 +53,7 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
     setBranchOptions([]);
 
     if (bitbucketUser) {
-      portalContext.log(getTelemetryInfo(LogLevels.info, 'getBitbucketRepositories', 'submit'));
+      portalContext.log(getTelemetryInfo('info', 'getBitbucketRepositories', 'submit'));
       const bitbucketRepositoriesResponse = await deploymentCenterData.getBitbucketRepositories(deploymentCenterContext.bitbucketToken);
 
       bitbucketRepositoriesResponse.forEach(repository => {
@@ -98,14 +97,14 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
     if (bitbucketUser && organizationOptions && repositoryOptions) {
       const logger = (page, response) => {
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'getBitbucketBranchesResponse', 'failed', {
+          getTelemetryInfo('error', 'getBitbucketBranchesResponse', 'failed', {
             page: page,
-            errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
+            error: response.metadata.error,
           })
         );
       };
 
-      portalContext.log(getTelemetryInfo(LogLevels.info, 'getBitbucketBranches', 'submit'));
+      portalContext.log(getTelemetryInfo('info', 'getBitbucketBranches', 'submit'));
       const bitbucketBranchesResponse = await deploymentCenterData.getBitbucketBranches(
         org,
         repo,
@@ -120,7 +119,7 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
   };
 
   const authorizeBitbucketAccount = () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'bitBucketAccount', 'authorize'));
+    portalContext.log(getTelemetryInfo('info', 'bitBucketAccount', 'authorize'));
     authorizeWithProvider(BitbucketService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
   };
 
@@ -133,8 +132,8 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
             deploymentCenterData.storeBitbucketToken(response.data);
           } else {
             portalContext.log(
-              getTelemetryInfo(LogLevels.error, 'getBitBucketTokenResponse', 'failed', {
-                errorAsString: JSON.stringify(response.metadata.error),
+              getTelemetryInfo('error', 'getBitBucketTokenResponse', 'failed', {
+                error: response.metadata.error,
               })
             );
             return Promise.resolve(undefined);

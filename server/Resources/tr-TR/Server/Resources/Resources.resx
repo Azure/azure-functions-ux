@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>Uygulamanızda konsol hizmeti kullanılamıyor.</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Konsol</value>
     </data>
@@ -2683,6 +2686,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="commitIdAuthor" xml:space="preserve">
         <value>İşleme Kimliği (Yazar)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Commit Yazarı</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>İade Etme İletisi</value>
     </data>
@@ -3458,7 +3464,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Günlük Düzeyi</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (Önizleme)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Azure DevOps Hizmetleri'nin (önceki adıyla VSTS) bir parçası olan Azure Pipelines'ı kullanarak sağlam bir dağıtım işlem hattı yapılandırın. İşlem hattı derler, yük testlerini çalıştırır ve hazırlama yuvasına ve ardından üretime dağıtır.</value>
@@ -3890,6 +3896,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Dağıtımınızın bağlantısı kesilemedi</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>{0} dağıtımınızın bağlantısı kesilemedi</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Dağıtımınızın bağlantısının kesilmesini istediğinizden emin misiniz?</value>
     </data>
@@ -4249,6 +4258,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Kubernetes tabanlı işlevler şu anda desteklenmiyor.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker Compose şu anda desteklenmiyor.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Docker görüntüsü olarak dağıtılan işlev uygulamaları için işlevleri portalda düzenleme desteklenmiyor.</value>
@@ -5746,19 +5758,19 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>İş akışı dosyası</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>İş akışı dosyasını kaydet</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Kaydetme, iş akışı dosyasında yaptığınız düzenlemeleri saklamanıza olanak tanır ancak yine de bu uygulamaya yönelik dağıtımları tetikler.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>İş akışı dosyasını sil</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>Dosya kaldırılacak ve gelecekteki commit işlemleri bu uygulamaya yapılan dağıtımları tetiklemeyecek.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>Eylemin bağlantısının kesilmesi, uygulama dağıtımını yeniden yapılandırmanızı sağlar. Bağlantıyı kestikten sonra iş akışı dosyanıza ne olacağını seçin.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>'{2}' deposundaki '{1}' dalında '{0}' GitHub Eylemi iş akışı dosyası yok. Dağıtımın bağlantısını kesmek için 'Tamam'ı seçin.</value>
@@ -5932,7 +5944,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>'{1}' deposunda '{0}' dalı bulunamıyor. Daha fazla araştırmak için lütfen deponuza gidin.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>GitHub Actions bağlantısını kesme</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>App Service Derleme Hizmeti Bağlantısının Kesilmesini Onayla</value>
@@ -5948,6 +5960,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Dağıtımınızın bağlantısı kesilemedi ancak iş akışı dosyası başarıyla silindi. Bağlantıyı yeniden kesmeyi deneyin.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Dağıtımınızın bağlantısı kesilemedi ancak iş akışı dosyası başarıyla silindi. Bağlantıyı kesmeyi yeniden deneyin. Hata: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Application Insights bağlantısı kurulamıyor. Lütfen İşlev uygulamanızda yazma izinlerine sahip olduğunuzdan emin olun</value>
@@ -5986,7 +6001,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Hesap bilgileri alınamıyor</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Lütfen bağlantıyı kesmek için Azure DevOps portalına gidin.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>Geçerli dağıtım yapılandırması artık desteklenmiyor. Lütfen bağlantıyı kesmek için Azure DevOps portalına gidin.</value>
@@ -6103,7 +6118,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Kapsayıcı günlükleri yükleniyor...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>Bunlar, kapsayıcı görüntünüzün sağlanması aşamasında açığa çıkarılan Docker Engine günlükleridir.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Kapsayıcı günlükleri yüklenemedi</value>
@@ -6327,6 +6342,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Genel</value>
     </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Yerel Git, App Service planınızda uygulamanız için basit bir Git sunucusu barındırmanıza olanak tanır. Bu, bir CICD işlem hattını hızlı bir şekilde ayarlamak için kullanılabilir.</value>
+    </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Yerel git deposu URL'niz tamamlandıktan sonra oluşturulur.</value>
     </data>
@@ -6534,6 +6552,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>App Service Derleme Hizmeti</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>Geri Bildirim Gönder</value>
     </data>
@@ -6599,6 +6620,18 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>App Service Derleme Hizmeti ile derleniyor.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Sağlayıcıyı değiştirin.</value>
@@ -6856,6 +6889,21 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>App Insights kaynağınız getirilemedi. Lütfen uygulama ayarlarında doğru izleme anahtarının yapılandırıldığından emin olun. </value>
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
-        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
+        <value>Erken Erişim, güncelleştirmelerin hızlı teslim edilmesine olanak tanır ve çalışma zamanlarının yeni sürümlerini sağlar.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>Seçili '{0}' sürümü kullanım dışı. Lütfen güncelleştirmeyi deneyin.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>Seçili '{0}' sürümü, {1} tarihinde kullanım dışı bırakılacak. Lütfen yakında güncelleştirmeyi düşünün.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Günlükler {0} saniye içinde yenilenecek</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>

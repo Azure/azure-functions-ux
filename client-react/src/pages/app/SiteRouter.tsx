@@ -138,7 +138,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlySlots;
     }
 
-    const slotResponse = await SiteService.fetchSlots(armSiteDescriptor.getSiteOnlyResourceId());
+    const siteOnlyResourceId = armSiteDescriptor.getSiteOnlyResourceId();
+
+    const slotResponse = await SiteService.fetchSlots(siteOnlyResourceId);
     if (slotResponse.metadata.success) {
       if (slotResponse.data.value.length > 0) {
         return FunctionAppEditMode.ReadOnlySlots;

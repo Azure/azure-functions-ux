@@ -36,7 +36,6 @@ import {
   getSourceControlsWorkflowFileName,
 } from '../utility/DeploymentCenterUtility';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
-import { LogLevels } from '../../../../models/telemetry';
 import { AppOs } from '../../../../models/site/site';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 
@@ -71,7 +70,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
-      portalContext.log(getTelemetryInfo(LogLevels.info, 'updateSourceControls', 'submit'));
+      portalContext.log(getTelemetryInfo('info', 'updateSourceControls', 'submit'));
 
       const updateSourceControlResponse = await deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, {
         properties: payload,
@@ -85,13 +84,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         // NOTE(michinoy): If the save operation was being done for GitHub Action, and
         // we are experiencing the GeoRegionalService API error (500), run through the
         // workaround.
-        portalContext.log(getTelemetryInfo(LogLevels.warning, 'updateSourceControlsWorkaround', 'submit'));
+        portalContext.log(getTelemetryInfo('warning', 'updateSourceControlsWorkaround', 'submit'));
 
         return updateGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId, payload);
       } else {
         if (!updateSourceControlResponse.metadata.success) {
           portalContext.log(
-            getTelemetryInfo(LogLevels.error, 'updateSourceControlResponse', 'failed', {
+            getTelemetryInfo('error', 'updateSourceControlResponse', 'failed', {
               message: getErrorMessage(updateSourceControlResponse.metadata.error),
               errorAsString: updateSourceControlResponse.metadata.error ? JSON.stringify(updateSourceControlResponse.metadata.error) : '',
             })
@@ -130,7 +129,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         return values.repo;
       default:
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'getRepoUrl', 'incorrectValue', {
+          getTelemetryInfo('error', 'getRepoUrl', 'incorrectValue', {
             sourceProvider: values.sourceProvider,
           })
         );
@@ -139,7 +138,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   };
 
   const deployGithubActions = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'commitGitHubActions', 'submit'));
+    portalContext.log(getTelemetryInfo('info', 'commitGitHubActions', 'submit'));
 
     const repo = `${values.org}/${values.repo}`;
     const branch = values.branch || 'master';
@@ -244,7 +243,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     } = values;
 
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'saveDeploymentSettings', 'start', {
+      getTelemetryInfo('info', 'saveDeploymentSettings', 'start', {
         sourceProvider,
         buildProvider,
         org,
@@ -270,7 +269,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       const gitHubActionDeployResponse = await deployGithubActions(values);
       if (!gitHubActionDeployResponse.metadata.success) {
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'gitHubActionDeployResponse', 'failed', {
+          getTelemetryInfo('error', 'gitHubActionDeployResponse', 'failed', {
             errorAsString: JSON.stringify(gitHubActionDeployResponse.metadata.error),
           })
         );
@@ -312,7 +311,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
     formikActions: FormikActions<DeploymentCenterFormData<DeploymentCenterCodeFormData>>
   ) => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'onSubmitCodeForm', 'submit'));
+    portalContext.log(getTelemetryInfo('info', 'onSubmitCodeForm', 'submit'));
 
     await Promise.all([updateDeploymentConfigurations(values, formikActions), updatePublishingUser(values)]);
     await deploymentCenterContext.refresh();
@@ -349,7 +348,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       (currentUser && currentUser.properties.publishingUserName !== values.publishingUsername) ||
       (currentUser && values.publishingPassword && currentUser.properties.publishingPassword !== values.publishingPassword)
     ) {
-      portalContext.log(getTelemetryInfo(LogLevels.info, 'updatePublishingUser', 'submit'));
+      portalContext.log(getTelemetryInfo('info', 'updatePublishingUser', 'submit'));
 
       const notificationId = portalContext.startNotification(t('UpdatingPublishingUser'), t('UpdatingPublishingUser'));
       currentUser.properties.publishingUserName = values.publishingUsername;
@@ -365,7 +364,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           : portalContext.stopNotification(notificationId, false, t('UpdatingPublishingUserFail'));
 
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'publishingUserResponse', 'failed', {
+          getTelemetryInfo('error', 'publishingUserResponse', 'failed', {
             message: errorMessage,
             errorAsString: JSON.stringify(publishingUserResponse.metadata.error),
           })
@@ -433,7 +432,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       }
     } else {
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'getSourceControls', 'failed', {
+        getTelemetryInfo('error', 'getSourceControls', 'failed', {
           message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
         })
       );
@@ -503,7 +502,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFail'));
 
     portalContext.log(
-      getTelemetryInfo(LogLevels.error, action, 'failed', {
+      getTelemetryInfo('error', action, 'failed', {
         message: errorMessage,
       })
     );
@@ -531,6 +530,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             <DeploymentCenterCommandBar
               isDirty={formProps.dirty}
               isLoading={props.isLoading}
+              isVstsBuildProvider={formProps.values.buildProvider === BuildProvider.Vsts}
               saveFunction={formProps.submitForm}
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               discardFunction={() => setIsDiscardConfirmDialogVisible(true)}

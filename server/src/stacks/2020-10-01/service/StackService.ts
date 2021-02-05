@@ -25,7 +25,8 @@ export class StacksService20201001 {
     stackValue?: FunctionAppStackValue,
     removeHiddenStacks?: boolean,
     removeDeprecatedStacks?: boolean,
-    removePreviewStacks?: boolean
+    removePreviewStacks?: boolean,
+    removeNonGitHubActionStacks?: boolean
   ): FunctionAppStack[] {
     const dotnetStackCopy = JSON.parse(JSON.stringify(dotnetFunctionAppStack));
     const nodeStackCopy = JSON.parse(JSON.stringify(nodeFunctionAppStack));
@@ -40,9 +41,9 @@ export class StacksService20201001 {
       stacks = [stacks.find(stack => stack.value === stackValue)];
     }
 
-    return this._hasNoFilterFlags(os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks)
+    return this._hasNoFilterFlags(os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks, removeNonGitHubActionStacks)
       ? stacks
-      : filterFunctionAppStacks(stacks, os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks);
+      : filterFunctionAppStacks(stacks, os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks, removeNonGitHubActionStacks);
   }
 
   getWebAppStacks(
@@ -50,7 +51,8 @@ export class StacksService20201001 {
     stackValue?: WebAppStackValue,
     removeHiddenStacks?: boolean,
     removeDeprecatedStacks?: boolean,
-    removePreviewStacks?: boolean
+    removePreviewStacks?: boolean,
+    removeNonGitHubActionStacks?: boolean
   ): WebAppStack[] {
     const dotnetStackCopy = JSON.parse(JSON.stringify(dotnetWebAppStack));
     const nodeStackCopy = JSON.parse(JSON.stringify(nodeWebAppStack));
@@ -74,17 +76,18 @@ export class StacksService20201001 {
       stacks = [stacks.find(stack => stack.value === stackValue)];
     }
 
-    return this._hasNoFilterFlags(os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks)
+    return this._hasNoFilterFlags(os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks, removeNonGitHubActionStacks)
       ? stacks
-      : filterWebAppStacks(stacks, os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks);
+      : filterWebAppStacks(stacks, os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks, removeNonGitHubActionStacks);
   }
 
   private _hasNoFilterFlags(
     os?: AppStackOs,
     removeHiddenStacks?: boolean,
     removeDeprecatedStacks?: boolean,
-    removePreviewStacks?: boolean
+    removePreviewStacks?: boolean,
+    removeNonGitHubActionStacks?: boolean
   ): boolean {
-    return !os && !removeHiddenStacks && !removeDeprecatedStacks && !removePreviewStacks;
+    return !os && !removeHiddenStacks && !removeDeprecatedStacks && !removePreviewStacks && !removeNonGitHubActionStacks;
   }
 }

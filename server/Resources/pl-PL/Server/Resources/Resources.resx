@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>Usługa konsoli nie jest dostępna w Twojej aplikacji.</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Konsola</value>
     </data>
@@ -2683,6 +2686,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="commitIdAuthor" xml:space="preserve">
         <value>ID zatwierdzenia (autor)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Autor zatwierdzenia</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Komunikat dotyczący zaewidencjonowania</value>
     </data>
@@ -3458,7 +3464,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Poziom dziennika</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (wersja zapoznawcza)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Konfiguruj niezawodny potok wdrażania aplikacji przy użyciu usługi Azure Pipelines wchodzącej w skład usługi Azure DevOps Services (wcześniej znanej jako VSTS). Potok przeprowadza kompilację, uruchamia testy obciążeniowe oraz wdraża w miejscu przejściowym, a następnie w środowisku produkcyjnym.</value>
@@ -3890,6 +3896,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Nie można odłączyć wdrożenia</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Nie można rozłączyć wdrożenia: {0}</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Czy na pewno chcesz odłączyć swoje wdrożenie?</value>
     </data>
@@ -4249,6 +4258,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Funkcje oparte na oprogramowaniu Kubernetes nie są obecnie obsługiwane.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Narzędzie Docker Compose nie jest obecnie obsługiwane.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Edytowanie funkcji w portalu nie jest obsługiwane w przypadku aplikacji funkcji wdrożonych jako obraz platformy Docker.</value>
@@ -5746,19 +5758,19 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Plik przepływu pracy</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>Zapisz plik przepływu pracy</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Zapisywanie umożliwia zachowywanie wszelkich zmian wprowadzonych w pliku przepływu pracy, ale nadal będzie wyzwalać wdrożenia w tej aplikacji.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>Usuwanie pliku przepływu pracy</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>Plik zostanie usunięty, a przyszłe zatwierdzenia nie będą wyzwalać wdrożeń w tej aplikacji.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>Rozłączenie akcji umożliwia zmianę konfiguracji wdrożenia aplikacji. Wybierz, co się dzieje z plikiem przepływu pracy po rozłączeniu.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Plik przepływu pracy akcji usługi GitHub „{0}” z gałęzi „{1}” w repozytorium „{2}” nie istnieje. Wybierz przycisk „OK”, aby rozłączyć wdrożenie.</value>
@@ -5932,7 +5944,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Nie można odnaleźć gałęzi „{0}” w repozytorium „{1}”. Przejdź do repozytorium, aby kontynuować badanie.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>Rozłącz akcje usługi GitHub</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Potwierdzenie rozłączenia z usługą kompilacji usługi App Service</value>
@@ -5948,6 +5960,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Nie udało się rozłączyć wdrożenia, ale plik przepływu pracy został pomyślnie usunięty. Ponów próbę rozłączenia.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Nie udało się rozłączyć wdrożenia, ale plik przepływu pracy został pomyślnie usunięty. Ponów próbę rozłączenia. Błąd: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Nie można nawiązać połączenia z usługą Application Insights. Upewnij się, że masz uprawnienia do zapisu w aplikacji funkcji</value>
@@ -5986,7 +6001,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Nie można pobrać informacji o koncie</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Przejdź do portalu Azure DevOps, aby się rozłączyć.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>Bieżąca konfiguracja wdrożenia nie jest już obsługiwana. Przejdź do portalu Azure DevOps, aby się rozłączyć.</value>
@@ -6103,7 +6118,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Trwa ładowanie dzienników kontenerów...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>To są dzienniki z aparatu platformy Docker emitowane podczas fazy aprowizacji obrazu kontenera.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Nie udało się pobrać dzienników kontenerów</value>
@@ -6327,6 +6342,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Publiczne</value>
     </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Lokalny system Git umożliwia hostowanie prostego serwera Git dla aplikacji w planie usługi App Service. Za jego pomocą można szybko skonfigurować potok ciągłej integracji/ciągłego wdrażania.</value>
+    </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Adres URL lokalnego repozytorium Git zostanie wygenerowany po zakończeniu.</value>
     </data>
@@ -6534,6 +6552,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>Usługa kompilacji usługi App Service</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>Pozostaw opinię</value>
     </data>
@@ -6599,6 +6620,18 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>Kompilowanie za pomocą usługi kompilacji usługi App Service.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Zmień dostawcę.</value>
@@ -6857,5 +6890,20 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
         <value>Wczesny dostęp umożliwia szybkie dostarczanie aktualizacji i nowych wersji różnych środowisk uruchomieniowych.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>Wybrana wersja „{0}” jest przestarzała. Rozważ jej zaktualizowanie.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>Wybrana wersja „{0}” stanie się przestarzała {1}. Rozważ zaktualizowanie jej wkrótce.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Dzienniki zostaną odświeżone za {0} s</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>

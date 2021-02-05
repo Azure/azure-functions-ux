@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>Konsol-tjänsten finns inte tillgänglig på din app.</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Konsol</value>
     </data>
@@ -2683,6 +2686,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="commitIdAuthor" xml:space="preserve">
         <value>Inchecknings-ID (författare)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Bekräfta författare</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Incheckningsmeddelande</value>
     </data>
@@ -3458,7 +3464,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Loggningsnivå</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure-pipelines (förhandsversion)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Konfigurera en robust distributionspipeline för ditt program med Azure-pipelines, som ingår i Azure DevOps Services (tidigare VSTS). Pipelinen bygger, kör belastningstester och distribuerar till mellanlagringsplatsen eller till produktion.</value>
@@ -3890,6 +3896,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Det gick inte att koppla från distributionen</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Det gick inte att koppla från distributionen: {0}</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Vill du koppla ifrån din distribution?</value>
     </data>
@@ -4249,6 +4258,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Kubernetes-baserade funktioner stöds inte för närvarande.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker compose stöds inte för närvarande.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Redigeringsfunktionerna i portalen stöds inte för funktionsappar som distribueras som en dockeravbildning.</value>
@@ -5746,19 +5758,19 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Arbetsflödesfil</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>Spara arbetsflödesfil</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Om du sparar kan du behålla alla ändringar som du har gjort i arbetsflödesfilen, men de utlöser fortfarande distributioner till den här appen.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>Ta bort arbetsflödesfil</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>Filen tas bort och det går inte att aktivera distributioner till den här appen.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>Om du kopplar från en åtgärd kan du konfigurera om appen. Välj vad som händer med din arbetsflödesfil efter frånkopplingen.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Arbetsflödesfilen {0} för GitHub-åtgärder från grenen {1} i lagringsplatsen {2} finns inte. Välj OK om du vill koppla från distributionen.</value>
@@ -5932,7 +5944,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Det går inte att hitta grenen {0} i centrallagret {1}. Gå till centrallagret för att undersöka ytterligare.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>Koppla från GitHub-åtgärder</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Bekräfta frånkoppling av App Service Build-tjänsten</value>
@@ -5948,6 +5960,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Det gick inte att koppla från distributionen, men arbetsflödesfilen har tagits bort. Försök att koppla från igen.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Det gick inte att koppla från distributionen, men arbetsflödesfilen har tagits bort. Försök att koppla från igen. Fel: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Det gick inte att upprätta en länk till Application Insights. Kontrollera att du har skrivbehörigheter till din funktionsapp</value>
@@ -5986,7 +6001,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Det går inte att hämta kontoinformation</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Gå till Azure DevOps-portalen för att koppla från.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>Den aktuella distributionskonfigurationen stöds inte längre. Gå till Azure DevOps-portalen för att koppla från.</value>
@@ -6103,7 +6118,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Läser in containerloggar...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>Det här är loggarna från Docker Enginge har genererats under etableringsfasen av din containeravbildning.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Det gick inte att läsa in containerloggar</value>
@@ -6327,6 +6342,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Offentlig</value>
     </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Lokal git gör att du kan vara värd för en enkel git-server för din app på din App Service-plan. Det här kan användas för att snabbt konfigurera en CICD-pipeline.</value>
+    </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>URL:en för din lokala git-lagringsplats genereras vid slutförande.</value>
     </data>
@@ -6534,6 +6552,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>App Service-versionstjänst</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>Lämna feedback</value>
     </data>
@@ -6571,16 +6592,16 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Fyll i de nödvändiga inställningarna ovan för att aktivera förhandsgranskningen.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite the workflow: Overwrite the existing workflow file {0} in the selected repository and branch.</value>
+        <value>Skriv över arbetsflödet: Skriv över den befintliga arbetsflödesfilen {0} i den valda lagringsplatsen och grenen.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Add a workflow: Add a new workflow file {0} in the selected repository and branch.</value>
+        <value>Lägg till ett arbetsflöde: Lägg till en ny arbetsflödesfil {0} i den valda lagringsplatsen och grenen.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Use existing workflow: Use the existing workflow file {0} in the selected repository and branch.</value>
+        <value>Använd befintligt arbetsflöde: Använd den befintliga arbetsflödesfilen {0} i den valda lagringsplatsen och grenen.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Use available workflow: Use one of the workflow files available in the selected repository and branch.</value>
+        <value>Använd tillgängligt arbetsflöde: Använd en av de tillgängliga arbetsflödesfilerna i den valda lagringsplatsen och grenen.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Välj arbetsflödesalternativ</value>
@@ -6599,6 +6620,18 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>Skapa med App Service Build-tjänsten.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Ändra provider.</value>
@@ -6856,6 +6889,21 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Det gick inte att hämta din App Insights-resurs. Kontrollera att du har konfigurerat rätt instrumentationsnyckel i appinställningarna. </value>
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
-        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
+        <value>Med tidig åtkomst kan du snabbt leverera uppdateringar och nya versioner av olika körningar.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>Den valda versionen {0} är inaktuell. Uppdatera den.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>Den valda versionen {0} blir inaktuell den {1}. Försök att uppdatera den snart.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Loggarna uppdateras om {0} sekunder</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>

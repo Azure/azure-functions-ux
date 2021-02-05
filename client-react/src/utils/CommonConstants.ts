@@ -25,7 +25,7 @@ export class CommonConstants {
     quickpulseTokenApiVersion20200602preview: '2020-06-02-preview',
     appInsightsQueryApiVersion20180420: '2018-04-20',
     staticSitePreviewApiVersion20191201: '2019-12-01-preview',
-    stacksApiVersion20200601: '2020-06-01',
+    stacksApiVersion20201001: '2020-10-01',
     acrApiVersion20190501: '2019-05-01',
   };
 
@@ -94,12 +94,16 @@ export class CommonConstants {
     public: 'https://rt.services.visualstudio.com/QuickPulseService.svc',
     fairfax: 'https://quickpulse.applicationinsights.us/QuickPulseService.svc',
     mooncake: 'https://live.applicationinsights.azure.cn/QuickPulseService.svc',
+    usSec: 'https://live.applicationinsights.azure.microsoft.scloud/QuickPulseService.svc',
+    usNat: 'https://live.applicationinsights.azure.eaglex.ic.gov/QuickPulseService.svc',
   };
 
   public static readonly AppInsightsEndpoints = {
     public: 'https://api.applicationinsights.io/v1/apps',
     fairfax: 'https://api.applicationinsights.us/v1/apps',
     mooncake: 'https://api.applicationinsights.azure.cn/v1/apps',
+    usSec: 'https://api.applicationinsights.azure.microsoft.scloud/v1/apps',
+    usNat: 'https://api.applicationinsights.azure.eaglex.ic.gov/v1/apps',
   };
 
   public static readonly LogLevels = {

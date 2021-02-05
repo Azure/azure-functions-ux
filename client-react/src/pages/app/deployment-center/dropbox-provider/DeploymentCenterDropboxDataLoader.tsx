@@ -7,26 +7,27 @@ import DeploymentCenterDropboxProvider from './DeploymentCenterDropboxProvider';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { SiteStateContext } from '../../../../SiteState';
-import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
+import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import DropboxService from '../../../../ApiHelpers/DropboxService';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
+import { PortalContext } from '../../../../PortalContext';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
   const { formProps } = props;
 
   const [dropboxUser, setDropboxUser] = useState<DropboxUser | undefined>(undefined);
+  const [loadingFolders, setLoadingFolders] = useState(false);
+  const [folderOptions, setFolderOptions] = useState<IDropdownOption[]>([]);
   const [dropboxAccountStatusMessage, setDropboxAccountStatusMessage] = useState<string | undefined>(
     t('deploymentCenterOAuthFetchingUserInformation')
   );
-  const [loadingFolders, setLoadingFolders] = useState(false);
-  const [folderOptions, setFolderOptions] = useState<IDropdownOption[]>([]);
-
-  const deploymentCenterData = new DeploymentCenterData();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
+
+  const deploymentCenterData = new DeploymentCenterData();
 
   const fetchData = async () => {
     const dropboxUserResponse = await deploymentCenterData.getDropboxUser(deploymentCenterContext.dropboxToken);
@@ -84,10 +85,11 @@ const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = 
           if (response.metadata.success) {
             return deploymentCenterData.storeDropboxToken(response.data);
           } else {
-            LogService.error(
-              LogCategories.deploymentCenter,
-              'authorizeDropboxAccount',
-              `Failed to get token with error: ${response.metadata.error}`
+            portalContext.log(
+              getTelemetryInfo('error', 'authorizeDropboxAccount', 'failed', {
+                message: getErrorMessage(response.metadata.error),
+                error: response.metadata.error,
+              })
             );
             return Promise.resolve(null);
           }

@@ -1357,6 +1357,9 @@
     <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>The console service is not available on your app.</value>
     </data>
+    <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
     <data name="feature_consoleName" xml:space="preserve">
         <value>Console</value>
     </data>
@@ -3464,7 +3467,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Log Level</value>
     </data>
     <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (Preview)</value>
+        <value>Azure Pipelines</value>
     </data>
     <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS). The pipeline builds, runs load tests and deploys to staging slot and then to production.</value>
@@ -6001,7 +6004,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Unable to retrieve account information</value>
     </data>
     <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Please go to the Azure DevOps portal to disconnect.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
     <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
@@ -6552,6 +6555,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>App Service Build Service</value>
     </data>
+    <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
     <data name="leaveFeedback" xml:space="preserve">
         <value>Leave Feedback</value>
     </data>
@@ -6617,6 +6623,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>Building with App Service Build Service.</value>
+    </data>
+    <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+    <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+    <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+    <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
     <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Change provider.</value>
@@ -6886,9 +6904,39 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Logs will refresh in {0} seconds</value>
     </data>
     <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, Checkout the new Deployment Center experience.</value>
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
     </data>
     <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.</value>
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
+    </data>
+    <data name="netVersionLabel" xml:space="preserve">
+        <value>.NET version</value>
+    </data>
+    <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+        <value>No ACR Registries are available in Subscription '{0}'.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
+        <value>Failed to load ACR Registries - {0}.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadRegistries" xml:space="preserve">
+        <value>Failed to load ACR Registries.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
+        <value>Failed to load ACR Credentials needed to load Images and Tags - {0}.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
+        <value>Failed to load ACR Credentials needed to load Images and Tags.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
+        <value>Failed to load ACR Images - {0}.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadImages" xml:space="preserve">
+        <value>Failed to load ACR Images</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadTagsWithError" xml:space="preserve">
+        <value>Failed to load ACR Tags - {0}.</value>
+    </data>
+    <data name="deploymentCenterContainerAcrFailedToLoadTags" xml:space="preserve">
+        <value>Failed to load ACR Tags.</value>
     </data>
 </root>

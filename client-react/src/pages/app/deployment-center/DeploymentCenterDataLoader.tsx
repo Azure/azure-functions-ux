@@ -27,7 +27,6 @@ import { PublishingCredentialPolicies } from '../../../models/site/site';
 import DeploymentCenterContainerDataLoader from './container/DeploymentCenterContainerDataLoader';
 import DeploymentCenterCodeDataLoader from './code/DeploymentCenterCodeDataLoader';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
-import { LogLevels } from '../../../models/telemetry';
 
 enum SourceControlTypes {
   oneDrive = 'onedrive',
@@ -66,7 +65,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       setPublishingProfile(publishingProfiles.filter(profile => profile.publishMethod === PublishMethod.FTP)[0]);
     } else {
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'processPublishProfileResponse', 'failed', {
+        getTelemetryInfo('error', 'processPublishProfileResponse', 'failed', {
           message: getErrorMessage(publishProfileResponse.metadata.error),
           errorAsString: publishProfileResponse.metadata.error ? JSON.stringify(publishProfileResponse.metadata.error) : '',
         })
@@ -88,7 +87,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       portalContext.stopNotification(notificationId, true, t('siteSummary_resetProfileNotifySuccess'));
     } else {
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'resetPublishProfileResponse', 'failed', {
+        getTelemetryInfo('error', 'resetPublishProfileResponse', 'failed', {
           message: getErrorMessage(resetResponse.metadata.error),
           errorAsString: resetResponse.metadata.error ? JSON.stringify(resetResponse.metadata.error) : '',
         })
@@ -98,7 +97,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   };
 
   const fetchData = async () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'initialDataRequest', 'submit'));
+    portalContext.log(getTelemetryInfo('info', 'initialDataRequest', 'submit'));
 
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
@@ -127,7 +126,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       setUserSourceControlTokens(userSourceControlsResponse.data);
     } else {
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'userSourceControlsResponse', 'failed', {
+        getTelemetryInfo('error', 'userSourceControlsResponse', 'failed', {
           message: getErrorMessage(userSourceControlsResponse.metadata.error),
           errorAsString: userSourceControlsResponse.metadata.error ? JSON.stringify(userSourceControlsResponse.metadata.error) : '',
         })
@@ -138,7 +137,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       setBasicPublishingCredentialsPolicies(basicPublishingCredentialsPoliciesResponse.data.properties);
     } else {
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'basicPublishingCredentialsPoliciesResponse', 'failed', {
+        getTelemetryInfo('error', 'basicPublishingCredentialsPoliciesResponse', 'failed', {
           message: getErrorMessage(basicPublishingCredentialsPoliciesResponse.metadata.error),
           errorAsString: basicPublishingCredentialsPoliciesResponse.metadata.error
             ? JSON.stringify(basicPublishingCredentialsPoliciesResponse.metadata.error)
@@ -154,7 +153,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       setSiteConfig(siteConfigResponse.data);
     } else {
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'siteConfigResponse', 'failed', {
+        getTelemetryInfo('error', 'siteConfigResponse', 'failed', {
           message: getErrorMessage(siteConfigResponse.metadata.error),
           errorAsString: siteConfigResponse.metadata.error ? JSON.stringify(siteConfigResponse.metadata.error) : '',
         })
@@ -165,7 +164,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       setConfigMetadata(configMetadataResponse.data);
     } else {
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'configMetadataResponse', 'failed', {
+        getTelemetryInfo('error', 'configMetadataResponse', 'failed', {
           message: getErrorMessage(configMetadataResponse.metadata.error),
           errorAsString: configMetadataResponse.metadata.error ? JSON.stringify(configMetadataResponse.metadata.error) : '',
         })
@@ -179,7 +178,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         t('publishingUserFetchFailedMessage').format(getErrorMessage(publishingUserResponse.metadata.error))
       );
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'publishingUserResponse', 'failed', {
+        getTelemetryInfo('error', 'publishingUserResponse', 'failed', {
           message: getErrorMessage(publishingUserResponse.metadata.error),
           errorAsString: publishingUserResponse.metadata.error ? JSON.stringify(publishingUserResponse.metadata.error) : '',
         })
@@ -187,7 +186,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     }
 
     if (writePermissionResponse) {
-      portalContext.log(getTelemetryInfo(LogLevels.info, 'writePermissionDataRequest', 'submit'));
+      portalContext.log(getTelemetryInfo('info', 'writePermissionDataRequest', 'submit'));
 
       const getPublishingCredentialsRequest = deploymentCenterData.getPublishingCredentials(resourceId);
       const getPublishProfileRequest = deploymentCenterData.getPublishProfile(resourceId);
@@ -202,7 +201,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         setApplicationSettings(fetchApplicationSettingsResponse.data);
       } else {
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'fetchApplicationSettingsResponse', 'failed', {
+          getTelemetryInfo('error', 'fetchApplicationSettingsResponse', 'failed', {
             message: getErrorMessage(fetchApplicationSettingsResponse.metadata.error),
             errorAsString: fetchApplicationSettingsResponse.metadata.error
               ? JSON.stringify(fetchApplicationSettingsResponse.metadata.error)
@@ -215,7 +214,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         setPublishingCredentials(publishingCredentialsResponse.data);
       } else {
         portalContext.log(
-          getTelemetryInfo(LogLevels.error, 'publishingCredentialsResponse', 'failed', {
+          getTelemetryInfo('error', 'publishingCredentialsResponse', 'failed', {
             message: getErrorMessage(publishingCredentialsResponse.metadata.error),
             errorAsString: publishingCredentialsResponse.metadata.error ? JSON.stringify(publishingCredentialsResponse.metadata.error) : '',
           })
@@ -237,14 +236,14 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   };
 
   const refreshUserSourceControlTokens = async () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'refreshUserSourceControlTokens', 'submit'));
+    portalContext.log(getTelemetryInfo('info', 'refreshUserSourceControlTokens', 'submit'));
 
     const userSourceControlsResponse = await deploymentCenterData.getUserSourceControls();
     if (userSourceControlsResponse.metadata.success) {
       setUserSourceControlTokens(userSourceControlsResponse.data);
     } else {
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'userSourceControlsResponse', 'failed', {
+        getTelemetryInfo('error', 'userSourceControlsResponse', 'failed', {
           message: getErrorMessage(userSourceControlsResponse.metadata.error),
           errorAsString: userSourceControlsResponse.metadata.error ? JSON.stringify(userSourceControlsResponse.metadata.error) : '',
         })
@@ -265,10 +264,12 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   };
 
   useEffect(() => {
-    fetchData();
+    if (siteStateContext.site && resourceId) {
+      fetchData();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext]);
+  }, [siteStateContext.site]);
 
   return siteStateContext.site ? (
     // NOTE(michinoy): Populate common deployment center level properties

@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>O serviço de consola não está disponível na sua aplicação.</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Consola</value>
     </data>
@@ -2683,6 +2686,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="commitIdAuthor" xml:space="preserve">
         <value>ID de consolidação (autor)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Consolidar Autor</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Mensagem de Entrada</value>
     </data>
@@ -3458,7 +3464,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Nível de Registo</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (Pré-visualização)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Configure um pipeline de implementação robusto para a sua aplicação através do Azure Pipelines, parte dos Serviços DevOps do Azure (anteriormente conhecidos como VSTS). O pipeline cria, executa testes de carga e implementa no bloco de teste e, em seguida, em produção.</value>
@@ -3890,6 +3896,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Falha ao desligar a sua implementação</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Falha ao desligar a sua implementação: {0}</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Tem a certeza de que pretende desligar a sua implementação?</value>
     </data>
@@ -4249,6 +4258,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>As funções baseadas em Kubernetes não são atualmente suportadas.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>O Docker Compose não é suportado atualmente.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Editar funções no portal não é suportado para aplicações de funções implementadas como uma imagem de docker.</value>
@@ -5746,19 +5758,19 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Ficheiro de fluxo de trabalho</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>Guardar ficheiro de fluxo de trabalho</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Ao guardar, mantém todas as edições efetuadas no ficheiro de fluxo de trabalho, mas continuará a acionar implementações nesta aplicação.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>Eliminar ficheiro de fluxo de trabalho</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>O ficheiro será removido e as consolidações futuras não acionarão implementações para esta aplicação.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>Desligar uma ação permite reconfigurar a implementação da aplicação. Escolha o que acontece com o seu ficheiro de fluxo de trabalho depois de desligar.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>O ficheiro de fluxo de trabalho da Ação do GitHub "{0}" do ramo "{1}" no repositório "{2}" não existe. Selecione "OK" para desligar a implementação.</value>
@@ -5932,7 +5944,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Não é possível encontrar o ramo "{0}" no repositório "{1}". Navegue para o seu repositório para investigar mais.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>Desligar GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirmar Desconexão do Serviço de Compilação do Serviço de Aplicações</value>
@@ -5948,6 +5960,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Falha ao desligar a sua implementação, mas o ficheiro de fluxo de trabalho foi eliminado com êxito. Tente desligar novamente.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Falha ao desligar a sua implementação, mas o ficheiro de fluxo de trabalho foi eliminado com êxito. Tente desligar novamente. Erro: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Não é possível estabelecer uma ligação ao Application Insights. Certifique-se de que tem permissões de escrita na sua Aplicação de funções</value>
@@ -5986,7 +6001,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Não é possível obter as informações da conta</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Aceda ao portal do Azure DevOps para desligar.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>A configuração de implementação atual já não é suportada. Aceda ao portal do Azure DevOps para desligar.</value>
@@ -6103,7 +6118,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>A carregar registos dos contentores...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>Estes são os registos do Docker Engine emitidos durante a fase de aprovisionamento da sua imagem do contentor.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Falha ao carregar registos dos contentores</value>
@@ -6327,6 +6342,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Público</value>
     </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>O Git local permite-lhe alojar um servidor Git simples para a sua aplicação no seu plano do Serviço de Aplicações. Pode utilizar este procedimento para configurar rapidamente um pipeline CICD.</value>
+    </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>O url do repositório git local será gerado após a conclusão.</value>
     </data>
@@ -6534,6 +6552,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>Serviço de Compilação do Serviço de Aplicações</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>Enviar Feedback</value>
     </data>
@@ -6599,6 +6620,18 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>A compilar com o Serviço de Compilação do Serviço de Aplicações.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Altere o fornecedor.</value>
@@ -6856,6 +6889,21 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Falha ao obter o seu recurso do App Insights. Certifique-se de que tem a chave de instrumentação correta configurada nas definições da aplicação. </value>
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
-        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
+        <value>O Acesso Antecipado permite a entrega rápida de atualizações e novas versões de vários runtimes.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>A versão "{0}" selecionada está preterida. Considere atualizá-la.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>A versão "{0}" selecionada estará preterida a {1}. Considere atualizá-la em breve.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Os registos serão atualizados em {0} segundos</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>

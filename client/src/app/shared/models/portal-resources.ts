@@ -416,6 +416,7 @@ export class PortalResources {
   public static feature_deploymentCredsName = 'feature_deploymentCredsName';
   public static feature_deploymentCredsInfo = 'feature_deploymentCredsInfo';
   public static error_consoleNotAvailable = 'error_consoleNotAvailable';
+  public static error_consoleCommandFialure = 'error_consoleCommandFialure';
   public static feature_consoleName = 'feature_consoleName';
   public static feature_consoleInfo = 'feature_consoleInfo';
   public static feature_consoleMsg = 'feature_consoleMsg';
@@ -2131,6 +2132,7 @@ export class PortalResources {
   public static deploymentCenterCodeSettingsSourceExternalGit = 'deploymentCenterCodeSettingsSourceExternalGit';
   public static deploymentCenterCodeSettingsBuildGitHubAction = 'deploymentCenterCodeSettingsBuildGitHubAction';
   public static deploymentCenterCodeSettingsBuildKudu = 'deploymentCenterCodeSettingsBuildKudu';
+  public static deploymentCenterCodeSettingsBuildVsts = 'deploymentCenterCodeSettingsBuildVsts';
   public static leaveFeedback = 'leaveFeedback';
   public static functionLogsFeedbackCESQuestion = 'functionLogsFeedbackCESQuestion';
   public static functionLogsFeedbackCVAQuestion = 'functionLogsFeedbackCVAQuestion';
@@ -2157,6 +2159,10 @@ export class PortalResources {
   public static deploymentCenterWorkflowConfigsFilePathLabel = 'deploymentCenterWorkflowConfigsFilePathLabel';
   public static deploymentCenterGitHubActionsBuildDescription = 'deploymentCenterGitHubActionsBuildDescription';
   public static deploymentCenterKuduBuildDescription = 'deploymentCenterKuduBuildDescription';
+  public static deploymentCenterVstsBuildDescription = 'deploymentCenterVstsBuildDescription';
+  public static deploymentCenterVstsBuildMessage = 'deploymentCenterVstsBuildMessage';
+  public static deploymentCenterVstsDocsMessage = 'deploymentCenterVstsDocsMessage';
+  public static deploymentCenterVstsGetStarted = 'deploymentCenterVstsGetStarted';
   public static deploymentCenterChangeBuildText = 'deploymentCenterChangeBuildText';
   public static functionMonitor_orchestrations = 'functionMonitor_orchestrations';
   public static functionMonitor_entities = 'functionMonitor_entities';
@@ -2248,4 +2254,15 @@ export class PortalResources {
   public static logsRefreshTimerMessage = 'logsRefreshTimerMessage';
   public static classicContainerSettingDeprecationMessage = 'classicContainerSettingDeprecationMessage';
   public static classicDeploymentCenterDeprecationMessage = 'classicDeploymentCenterDeprecationMessage';
+  public static netVersionLabel = 'netVersionLabel';
+  public static deploymentCenterContainerAcrRegistrieNotAvailable = 'deploymentCenterContainerAcrRegistrieNotAvailable';
+  public static deploymentCenterContainerAcrFailedToLoadRegistriesWithError = 'deploymentCenterContainerAcrFailedToLoadRegistriesWithError';
+  public static deploymentCenterContainerAcrFailedToLoadRegistries = 'deploymentCenterContainerAcrFailedToLoadRegistries';
+  public static deploymentCenterContainerAcrFailedToLoadCredentialsWithError =
+    'deploymentCenterContainerAcrFailedToLoadCredentialsWithError';
+  public static deploymentCenterContainerAcrFailedToLoadCredentials = 'deploymentCenterContainerAcrFailedToLoadCredentials';
+  public static deploymentCenterContainerAcrFailedToLoadImagesWithError = 'deploymentCenterContainerAcrFailedToLoadImagesWithError';
+  public static deploymentCenterContainerAcrFailedToLoadImages = 'deploymentCenterContainerAcrFailedToLoadImages';
+  public static deploymentCenterContainerAcrFailedToLoadTagsWithError = 'deploymentCenterContainerAcrFailedToLoadTagsWithError';
+  public static deploymentCenterContainerAcrFailedToLoadTags = 'deploymentCenterContainerAcrFailedToLoadTags';
 }

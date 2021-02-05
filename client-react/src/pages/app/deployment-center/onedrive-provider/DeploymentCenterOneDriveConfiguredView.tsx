@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +9,8 @@ import { Link, MessageBarType } from 'office-ui-fabric-react';
 import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps, AuthorizationResult } from '../DeploymentCenter.types';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import OneDriveService from '../../../../ApiHelpers/OneDriveService';
-import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
+import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -23,6 +22,8 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
   const [isOneDriveUsernameMissing, setIsOneDriveUsernameMissing] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const portalContext = useContext(PortalContext);
+
   const deploymentCenterData = new DeploymentCenterData();
 
   const fetchData = async () => {
@@ -32,24 +33,24 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
 
   const fetchOneDriveUser = async () => {
     setIsOneDriveUsernameMissing(false);
-    const OneDriveUserResponse = await deploymentCenterData.getOneDriveUser(deploymentCenterContext.oneDriveToken);
+    const oneDriveUserResponse = await deploymentCenterData.getOneDriveUser(deploymentCenterContext.oneDriveToken);
     if (
-      OneDriveUserResponse.metadata.success &&
-      OneDriveUserResponse.data &&
-      OneDriveUserResponse.data.createdBy &&
-      OneDriveUserResponse.data.createdBy.user &&
-      OneDriveUserResponse.data.createdBy.user.displayName
+      oneDriveUserResponse.metadata.success &&
+      oneDriveUserResponse.data &&
+      oneDriveUserResponse.data.createdBy &&
+      oneDriveUserResponse.data.createdBy.user &&
+      oneDriveUserResponse.data.createdBy.user.displayName
     ) {
-      setOneDriveUsername(OneDriveUserResponse.data.createdBy.user.displayName);
+      setOneDriveUsername(oneDriveUserResponse.data.createdBy.user.displayName);
     } else {
       // NOTE(stpelleg): if unsuccessful, assume the user needs to authorize.
       setOneDriveUsername(undefined);
       setIsOneDriveUsernameMissing(true);
-
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterOneDriveConfiguredView',
-        `Failed to get OneDrive user details with error: ${getErrorMessage(OneDriveUserResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getOneDriveUser', 'failed', {
+          message: getErrorMessage(oneDriveUserResponse.metadata.error),
+          error: oneDriveUserResponse.metadata.error,
+        })
       );
     }
     setIsOneDriveUsernameLoading(false);
@@ -63,18 +64,19 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
         setFolder(`/${repoUrlSplit[repoUrlSplit.length - 1]}`);
       } else {
         setFolder('');
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterOneDriveConfiguredView',
-          `Repository url incorrectly formatted: ${sourceControlDetailsResponse.data.properties.repoUrl}`
+        portalContext.log(
+          getTelemetryInfo('error', 'splitRepositoryUrl', 'failed', {
+            message: `Repository url incorrectly formatted: ${sourceControlDetailsResponse.data.properties.repoUrl}`,
+          })
         );
       }
     } else {
       setFolder(t('deploymentCenterErrorFetchingInfo'));
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterSourceControls',
-        `Failed to get source control details with error: ${getErrorMessage(sourceControlDetailsResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getSourceControls', 'failed', {
+          message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
+          error: sourceControlDetailsResponse.metadata.error,
+        })
       );
     }
     setIsSourceControlLoading(false);
@@ -92,11 +94,11 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
       } else {
         // NOTE(michinoy): This is all related to the handshake between us and the provider.
         // If this fails, there isn't much the user can do except retry.
-
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'authorizeOnedriveAccount',
-          `Failed to get token with error: ${getErrorMessage(oneDriveTokenResponse.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'authorizeOneDriveAccount', 'failed', {
+            message: getErrorMessage(oneDriveTokenResponse.metadata.error),
+            error: oneDriveTokenResponse.metadata.error,
+          })
         );
       }
     }

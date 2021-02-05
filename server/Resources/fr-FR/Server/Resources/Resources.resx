@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>Le service de console n’est pas disponible sur votre application.</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Console</value>
     </data>
@@ -2683,6 +2686,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="commitIdAuthor" xml:space="preserve">
         <value>ID de validation (auteur)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Auteur de la validation</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Message d'archivage</value>
     </data>
@@ -3458,7 +3464,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Niveau du journal</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (Préversion)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Configurez un pipeline de déploiement robuste pour votre application en utilisant Azure Pipelines, qui fait partie d’Azure DevOps Services (anciennement VSTS). Le pipeline crée, exécute des tests de charge et effectue le déploiement vers un emplacement de préproduction, puis en production.</value>
@@ -3890,6 +3896,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Échec de déconnexion du déploiement</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Échec de déconnexion de votre déploiement : {0}</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Voulez-vous vraiment déconnecter votre déploiement ?</value>
     </data>
@@ -4249,6 +4258,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Les fonctions Kubernetes ne sont pas actuellement prises en charge.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker compose n'est pas pris en charge pour l'instant.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>La modification de fonctions dans le portail n’est pas prise en charge pour les applications de fonction déployées en tant qu’image docker.</value>
@@ -5746,19 +5758,19 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Fichier de workflow</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>Enregistrer le fichier de workflow</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>L'enregistrement vous permet de conserver les modifications que vous avez effectuées sur le fichier de workflow, mais déclenche toujours les déploiements sur cette application.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>Supprimer le fichier de workflow</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>Le fichier sera supprimé et les commits à venir ne déclencheront pas de déploiement sur cette application.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>La déconnexion d'une action vous permet de reconfigurer le déploiement d'application. Choisissez l'action à effectuer sur votre fichier de workflow après la déconnexion.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Le fichier de workflow d'action GitHub « {0} » de la branche « {1} » dans le dépôt « {2} » n'existe pas. Sélectionnez OK pour déconnecter le déploiement.</value>
@@ -5932,7 +5944,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>La branche « {0} » est introuvable dans le dépôt « {1} ». Accédez à votre dépôt pour une recherche approfondie.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>Déconnecter GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirmer la déconnexion du service de build App Service</value>
@@ -5948,6 +5960,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>La déconnexion de votre déploiement a échoué, mais le fichier de workflow a été supprimé. Essayez de le redéconnecter.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>La déconnexion de votre déploiement a échoué, mais le fichier de workflow a été supprimé. Essayez de le redéconnecter. Erreur : {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Impossible d'établir une liaison à Application Insights. Veillez à avoir des autorisations d'écriture sur votre application de fonction</value>
@@ -5986,7 +6001,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Impossible de récupérer les informations de compte.</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Accédez au portail Azure DevOps pour vous déconnecter.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>La configuration de déploiement actuelle n'est plus prise en charge. Accédez au portail Azure DevOps pour vous déconnecter.</value>
@@ -6103,7 +6118,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Chargement des journaux de conteneur...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>Il s'agit des journaux émis par le moteur Docker pendant la phase de provisionnement de votre image conteneur.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Impossible de charger les journaux de conteneur</value>
@@ -6327,6 +6342,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Public</value>
     </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Un dépôt Git local vous permet d'héberger un serveur Git simple pour votre application dans le cadre de votre plan App Service. Vous pouvez ainsi configurer rapidement un pipeline CICD.</value>
+    </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Votre URL de dépôt Git local sera générée une fois l'opération terminée.</value>
     </data>
@@ -6534,6 +6552,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>Service de build App Service</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>Laisser un commentaire</value>
     </data>
@@ -6571,16 +6592,16 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Renseignez les paramètres obligatoires ci-dessus pour activer la préversion.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite the workflow: Overwrite the existing workflow file {0} in the selected repository and branch.</value>
+        <value>Remplacer le workflow : remplacer le fichier de workflow existant {0} dans le dépôt et la branche sélectionnés.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Add a workflow: Add a new workflow file {0} in the selected repository and branch.</value>
+        <value>Ajouter un workflow : ajouter un nouveau fichier de workflow {0} dans le dépôt et la branche sélectionnés.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Use existing workflow: Use the existing workflow file {0} in the selected repository and branch.</value>
+        <value>Utiliser le workflow existant : utiliser le fichier de workflow existant {0} dans le dépôt et la branche sélectionnés.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Use available workflow: Use one of the workflow files available in the selected repository and branch.</value>
+        <value>Utiliser le workflow disponible : utiliser l'un des fichiers de workflow disponibles dans le dépôt et la branche sélectionnés.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Sélectionner l'option de workflow</value>
@@ -6599,6 +6620,18 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>Génération avec le service de build App Service.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Changez le fournisseur.</value>
@@ -6856,6 +6889,21 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>La récupération de votre ressource App Insights a échoué. Vérifiez que la clé d'instrumentation configurée dans les paramètres de l'application est correcte. </value>
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
-        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
+        <value>L'accès anticipé permet de livrer rapidement les mises à jour et les nouvelles versions de plusieurs runtimes.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>La version sélectionnée « {0} » est dépréciée. Songez à la mettre à jour.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>La version sélectionnée « {0} » sera dépréciée le {1}. Songez à la mettre à jour prochainement.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Les journaux vont être actualisés dans {0} secondes</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>

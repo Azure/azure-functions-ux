@@ -1,5 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../../AppSettings.types';
@@ -22,36 +22,42 @@ const WindowsStacks: React.FC<StackProps> = props => {
   const javaSelected = values.currentlySelectedStack === RuntimeStacks.java;
   const showNonJavaAnyway = readonly && !javaSelected;
 
+  const [initialStackDropdownValue, setInitialStackDropdownValue] = useState<string | undefined>(undefined);
+
   const supportedStacks = useContext(WebAppStacksContext);
 
   const filterStackOptions = (): IDropdownOption[] => {
     return supportedStacks
       .filter(stack => {
         const stackValue = stack.value.toLocaleLowerCase();
-        // NOTE(krmitta): General Settings for Windows web app stacks only supports dotnetcore, dotnet, python, php and java for now.
+        // NOTE(krmitta): General Settings for Windows web app stacks only supports dotnet, python, php and java for now.
         // I will be adding the node support at a later time.
         return (
           stackValue === RuntimeStacks.java ||
           stackValue === RuntimeStacks.php ||
           stackValue === RuntimeStacks.python ||
-          stackValue === RuntimeStacks.dotnetcore ||
-          stackValue === RuntimeStacks.aspnet
+          stackValue === RuntimeStacks.dotnet
         );
       })
       .map(stack => {
-        const stackKey = stack.value.toLowerCase();
         return {
-          key: stackKey === RuntimeStacks.aspnet ? RuntimeStacks.dotnet : stackKey,
+          key: stack.value.toLowerCase(),
           text: stack.displayText,
         };
       });
   };
 
-  const isDotnetStack = () => {
-    // NOTE (krmitta): Dotnet and Aspnet will be merged into one starting 2020-10-01
-    return values.currentlySelectedStack === RuntimeStacks.aspnet || values.currentlySelectedStack === RuntimeStacks.dotnet;
+  const setInitialDropdownValues = (values: AppSettingsFormValues) => {
+    setInitialStackDropdownValue(
+      values.currentlySelectedStack.toLowerCase() === RuntimeStacks.dotnetcore ? RuntimeStacks.dotnet : values.currentlySelectedStack
+    );
   };
 
+  useEffect(() => {
+    setInitialDropdownValues(initialValues);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValues.currentlySelectedStack]);
   return (
     <>
       <Field
@@ -63,8 +69,13 @@ const WindowsStacks: React.FC<StackProps> = props => {
         options={filterStackOptions()}
         label={t('stack')}
         id="app-settings-stack-dropdown"
+        defaultSelectedKey={initialStackDropdownValue}
       />
-      {isDotnetStack() || showNonJavaAnyway ? <DotNetStack {...props} /> : null}
+      {values.currentlySelectedStack === RuntimeStacks.dotnet ||
+      values.currentlySelectedStack === RuntimeStacks.dotnetcore ||
+      showNonJavaAnyway ? (
+        <DotNetStack {...props} />
+      ) : null}
       {values.currentlySelectedStack === RuntimeStacks.php || showNonJavaAnyway ? <PhpStack {...props} /> : null}
       {values.currentlySelectedStack === RuntimeStacks.python || showNonJavaAnyway ? <PythonStack {...props} /> : null}
       {javaSelected ? <JavaStack {...props} /> : null}

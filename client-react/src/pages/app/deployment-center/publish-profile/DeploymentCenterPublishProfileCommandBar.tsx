@@ -8,10 +8,8 @@ import { CustomCommandBarButton } from '../../../../components/CustomCommandBarB
 import CustomFocusTrapCallout from '../../../../components/CustomCallout/CustomFocusTrapCallout';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { getLogId, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import { LogLevels } from '../../../../models/telemetry';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublishProfileCommandBarProps> = props => {
   const { resetApplicationPassword } = props;
@@ -30,9 +28,12 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
       portalContext.stopNotification(notificationId, true, t('downloadingPublishProfileSucceeded'));
     } else {
       portalContext.stopNotification(notificationId, false, t('downloadingPublishProfileFailed'));
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterPublishProfileCommandBar', 'downloadProfile'), {
-        error: getPublishProfileResponse.metadata.error,
-      });
+      portalContext.log(
+        getTelemetryInfo('error', 'downloadPublishProfile', 'failed', {
+          message: getErrorMessage(getPublishProfileResponse.metadata.error),
+          error: getPublishProfileResponse.metadata.error,
+        })
+      );
     }
   };
 
@@ -53,7 +54,7 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
 
   const resetProfile = () => {
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'resetFtpPassword', 'submit', {
+      getTelemetryInfo('info', 'resetFtpPassword', 'submit', {
         location: 'managePublishProfileSlideOut',
       })
     );
@@ -67,12 +68,12 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
   };
 
   const onDownloadProfileClick = () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'downloadProfileButton', 'clicked'));
+    portalContext.log(getTelemetryInfo('info', 'downloadProfileButton', 'clicked'));
     downloadProfile();
   };
 
   const onResetPublishProfileClick = () => {
-    portalContext.log(getTelemetryInfo(LogLevels.info, 'resetPublishProfileButton', 'clicked'));
+    portalContext.log(getTelemetryInfo('info', 'resetPublishProfileButton', 'clicked'));
     showResetCallout();
   };
 

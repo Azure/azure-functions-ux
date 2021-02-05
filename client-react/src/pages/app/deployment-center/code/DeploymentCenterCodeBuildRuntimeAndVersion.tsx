@@ -15,7 +15,7 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { getRuntimeStackSetting, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import { deploymentCenterInfoBannerDiv, titleWithPaddingStyle } from '../DeploymentCenter.styles';
 import { SiteStateContext } from '../../../../SiteState';
 import { JavaContainers, WebAppRuntimes, WebAppStack } from '../../../../models/stacks/web-app-stacks';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
@@ -23,7 +23,6 @@ import { FunctionAppRuntimes, FunctionAppStack } from '../../../../models/stacks
 import { AppStackOs } from '../../../../models/stacks/app-stacks';
 import { KeyValue } from '../../../../models/portal-models';
 import { PortalContext } from '../../../../PortalContext';
-import { LogLevels } from '../../../../models/telemetry';
 
 type StackSettings = WebAppRuntimes & JavaContainers | FunctionAppRuntimes;
 
@@ -66,7 +65,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     const appOs = siteStateContext.isLinuxApp ? AppStackOs.linux : AppStackOs.windows;
 
     portalContext.log(
-      getTelemetryInfo(LogLevels.info, 'fetchStacks', 'submit', {
+      getTelemetryInfo('info', 'fetchStacks', 'submit', {
         appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
         os: appOs,
       })
@@ -88,7 +87,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       );
     } else {
       portalContext.log(
-        getTelemetryInfo(LogLevels.error, 'runtimeStacksResponse', 'failed', {
+        getTelemetryInfo('error', 'runtimeStacksResponse', 'failed', {
           message: getErrorMessage(runtimeStacksResponse.metadata.error),
           errorAsString: JSON.stringify(runtimeStacksResponse.metadata.error),
         })
@@ -104,8 +103,24 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
       runtimeStack.majorVersions.forEach(majorVersion => {
         majorVersion.minorVersions.forEach(minorVersion => {
-          addGitHubActionRuntimeVersionMapping(selectedStack, minorVersion.value, minorVersion.stackSettings);
-          displayedVersions.push({ text: minorVersion.displayText, key: minorVersion.value });
+          let value = minorVersion.value;
+
+          value =
+            siteStateContext.isLinuxApp &&
+            minorVersion.stackSettings.linuxRuntimeSettings &&
+            minorVersion.stackSettings.linuxRuntimeSettings.runtimeVersion
+              ? minorVersion.stackSettings.linuxRuntimeSettings.runtimeVersion
+              : value;
+
+          value =
+            !siteStateContext.isLinuxApp &&
+            minorVersion.stackSettings.windowsRuntimeSettings &&
+            minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
+              ? minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
+              : value;
+
+          addGitHubActionRuntimeVersionMapping(selectedStack, value.toLocaleLowerCase(), minorVersion.stackSettings);
+          displayedVersions.push({ text: minorVersion.displayText, key: value.toLocaleLowerCase() });
         });
       });
 
@@ -334,7 +349,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
   return (
     <>
-      <h3>{t('deploymentCenterSettingsBuildTitle')}</h3>
+      <h3 className={titleWithPaddingStyle}>{t('deploymentCenterSettingsBuildTitle')}</h3>
       {getCustomBanner()}
       <Field
         id="deployment-center-code-settings-runtime-option"

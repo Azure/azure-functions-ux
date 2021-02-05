@@ -1,4 +1,5 @@
 import { HttpException, Injectable } from '@nestjs/common';
+import { join, normalize } from 'path';
 import { AppType, FunctionAppRuntimeStack, JavaContainers, Os, PublishType, WebAppRuntimeStack } from '../WorkflowModel';
 const fs = require('fs');
 
@@ -136,7 +137,9 @@ export class WorkflowService20201201 {
 
   readWorkflowFile(filePath: string) {
     try {
-      return fs.readFileSync(`./workflows/2020-12-01/${filePath}`, 'utf8');
+      const workflowFileParts = filePath.split('/');
+      const workflowFileLoc = normalize(join(__dirname, `${workflowFileParts[0]}`, `${workflowFileParts[1]}`));
+      return fs.readFileSync(workflowFileLoc, 'utf8');
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);

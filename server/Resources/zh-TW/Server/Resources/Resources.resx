@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>您的應用程式無法使用主控台服務。</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>主控台</value>
     </data>
@@ -2683,6 +2686,9 @@
   <data name="commitIdAuthor" xml:space="preserve">
         <value>認可識別碼 (作者)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>認可作者</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>簽入訊息</value>
     </data>
@@ -3458,7 +3464,7 @@
         <value>記錄層級</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (預覽)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>使用 Azure Pipelines (屬於 Azure DevOps Services (前身為 VSTS)) 為您的應用程式設定強固部署管線。管線會建置、執行負載測試，並部署至預備位置，然後部署至生產位置。</value>
@@ -3890,6 +3896,9 @@
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>無法中斷部署的連線</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>無法中斷連線您的部署: {0}</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>確定要中斷部署的連線嗎?</value>
     </data>
@@ -4249,6 +4258,9 @@
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>目前不支援以 Kubernetes 為基礎的函式。</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>目前不支援 Docker Compose。</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>部署為 Docker 映像的函數應用程式，不支援在入口網站中編輯函式。</value>
@@ -5746,19 +5758,19 @@
         <value>工作流程檔案</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>儲存工作流程檔案</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>儲存可讓您保留對工作流程檔案所做的任何編輯，但仍會觸發對此應用程式的部署。</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>刪除工作流程檔案</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>將移除檔案，而未來的認可不會觸發對此應用程式的部署。</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>中斷動作的連線可讓您重新設定應用程式部署。請選擇您中斷連線後對工作流程檔案的影響。</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>存放庫 '{2}' 中分支 '{1}' 的 GitHub Action 工作流程檔案 '{0}' 不存在。選取 [確定] 以中斷部署的連線。</value>
@@ -5932,7 +5944,7 @@
         <value>在存放庫 '{1}' 中找不到分支 '{0}'。請瀏覽至您的存放庫進一步調查。</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>中斷 GitHub Actions 的連線</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>確認 App Service 建置服務中斷連線</value>
@@ -5948,6 +5960,9 @@
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>無法中斷連線您的部署，但工作流程檔案已成功刪除。請再試一次中斷連線。</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>無法中斷連線您的部署，但工作流程檔案已成功刪除。請再試一次中斷連線。錯誤: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>無法建立 Application Insights 連結。請確認您具備函數應用程式的寫入權限</value>
@@ -5986,7 +6001,7 @@
         <value>無法擷取帳戶資訊</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>請前往 Azure DevOps 入口網站以中斷連線。</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>不再支援目前的部署設定。請前往 Azure DevOps 入口網站以中斷連線。</value>
@@ -6103,7 +6118,7 @@
         <value>正在載入容器記錄...</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>這些是 Docker Engine 在容器映像佈建階段發出的記錄。</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>無法載入容器記錄</value>
@@ -6327,6 +6342,9 @@
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>公開</value>
     </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>本機 Git 可讓您在 App Service 方案上，為您的應用程式裝載簡單的 Git 伺服器。這可用於快速設定 CICD 管線。</value>
+    </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>完成時，就會產生您的本機 git 存放庫 URL。</value>
     </data>
@@ -6534,6 +6552,9 @@
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>App Service 組建服務</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>離開意見反應</value>
     </data>
@@ -6599,6 +6620,18 @@
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>正在使用 App Service 組建服務建置。</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>變更提供者。</value>
@@ -6856,6 +6889,21 @@
         <value>無法擷取您的 App Insights 資源。請確定您在應用程式設定中設定了正確的檢測金鑰。</value>
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
-        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
+        <value>「早期存取」可快速傳遞各種執行階段的更新與新版本。</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>選取的 '{0}' 版已退場。請考慮加以更新。</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>選取的 '{0}' 版將於 {1} 退場。請考慮盡快加以更新。</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>記錄將於 {0} 秒內重新整理</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>

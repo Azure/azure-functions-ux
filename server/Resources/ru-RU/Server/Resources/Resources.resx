@@ -1354,6 +1354,9 @@
   <data name="error_consoleNotAvailable" xml:space="preserve">
         <value>Служба консоли недоступна в вашем приложении.</value>
     </data>
+  <data name="error_consoleCommandFialure" xml:space="preserve">
+        <value>Failed to execute the command.</value>
+    </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Консоль</value>
     </data>
@@ -2683,6 +2686,9 @@
   <data name="commitIdAuthor" xml:space="preserve">
         <value>Идентификатор фиксации (автор)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Автор фиксации</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Сообщение о возврате</value>
     </data>
@@ -3458,7 +3464,7 @@
         <value>Уровень ведения журнала</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines (предварительная версия)</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Вы можете настроить надежный конвейер развертывания для приложения с помощью службы Azure Pipelines, которая входит в Azure DevOps Services (ранее — VSTS). Конвейер выполняет сборку, запускает нагрузочные тесты и выполняет развертывание в промежуточный слот, а затем в рабочий.</value>
@@ -3890,6 +3896,9 @@
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Не удалось отключить развертывание</value>
     </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Не удалось отключить развертывание: {0}.</value>
+    </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Действительно отключить развертывание?</value>
     </data>
@@ -4249,6 +4258,9 @@
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Функции на основе Kubernetes сейчас не поддерживаются.</value>
+    </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker Compose сейчас не поддерживается.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Изменение функций на портале не поддерживается для приложений-функций, развернутых как образы docker.</value>
@@ -5746,19 +5758,19 @@
         <value>Файл рабочего процесса</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Save workflow file</value>
+        <value>Сохранить файл рабочего процесса</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Сохранение позволяет сохранить все изменения, внесенные в файл рабочего процесса, но при этом развертывания для этого приложения все еще будут активироваться.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Delete workflow file</value>
+        <value>Удалить файл рабочего процесса</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>Файл будет удален, и развертывания для этого приложения не будут активироваться будущими фиксациями.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
+        <value>Отключение действия позволяет повторно настроить развертывание приложения. Выберите, что произойдет с файлом рабочего процесса после отключения.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Файл рабочего процесса действия GitHub "{0}" из ветви "{1}" в репозитории "{2}" не существует. Нажмите кнопку "ОК", чтобы отключить развертывание.</value>
@@ -5932,7 +5944,7 @@
         <value>Не удается найти ветвь "{0}" в репозитории "{1}". Перейдите в свой репозиторий для дальнейшего анализа.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Disconnect GitHub Actions</value>
+        <value>Отключение GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Подтверждение отключения службы сборки в Службе приложений</value>
@@ -5948,6 +5960,9 @@
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Отключить ваше развертывание не удалось, но файл рабочего процесса был удален. Повторите попытку отключения.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Не удалось отключить развертывание, но файл рабочего процесса был удален. Повторите попытку отключения. Ошибка: {0}.</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Не удается установить связь с Application Insights. Необходимо иметь для приложения-функции разрешения на запись.</value>
@@ -5986,7 +6001,7 @@
         <value>Не удалось получить сведения об учетной записи</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Перейдите на портал Azure DevOps, чтобы отключиться.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>Текущая конфигурация развертывания больше не поддерживается. Перейдите на портал Azure DevOps для отключения.</value>
@@ -6103,7 +6118,7 @@
         <value>Загрузка журналов контейнера…</value>
     </data>
   <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
-        <value>These are the logs from Docker Engine emitted during the provisioning phase of your container image.</value>
+        <value>Это журналы из подсистемы Docker, созданные на этапе подготовки образа контейнера.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Не удалось загрузить журналы контейнера.</value>
@@ -6327,6 +6342,9 @@
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Общедоступный</value>
     </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Локальный Git позволяет разместить простой сервер Git для вашего приложения в плане службы приложений. Это можно использовать для быстрой настройки конвейера CI/CD.</value>
+    </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>По завершении будет создан URL-адрес вашего локального репозитория Git.</value>
     </data>
@@ -6534,6 +6552,9 @@
   <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
         <value>Служба сборки службы приложений</value>
     </data>
+  <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
+        <value>Azure Pipelines</value>
+    </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>Оставьте отзыв</value>
     </data>
@@ -6571,16 +6592,16 @@
         <value>Чтобы включить предварительный просмотр, укажите приведенные выше параметры.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite the workflow: Overwrite the existing workflow file {0} in the selected repository and branch.</value>
+        <value>Перезаписать рабочий процесс: перезапись существующего файла рабочего процесса {0} в выбранном репозитории и ветви.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Add a workflow: Add a new workflow file {0} in the selected repository and branch.</value>
+        <value>Добавить рабочий процесс: добавление нового файла рабочего процесса {0} в выбранный репозиторий и ветвь.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Use existing workflow: Use the existing workflow file {0} in the selected repository and branch.</value>
+        <value>Использовать существующий рабочий процесс: использование существующего файла рабочего процесса {0} в выбранном репозитории и ветви.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Use available workflow: Use one of the workflow files available in the selected repository and branch.</value>
+        <value>Использовать доступный рабочий процесс: использование одного из файлов рабочего процесса, доступных в выбранном репозитории и ветви.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Выберите параметр рабочего процесса</value>
@@ -6599,6 +6620,18 @@
     </data>
   <data name="deploymentCenterKuduBuildDescription" xml:space="preserve">
         <value>Создание с помощью службы сборок Службы приложений.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
+        <value>Building with Azure Pipelines.</value>
+    </data>
+  <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
+        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+    </data>
+  <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
+        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+    </data>
+  <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
+        <value>Get started</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Измените поставщика.</value>
@@ -6856,6 +6889,21 @@
         <value>Не удалось получить ресурс Application Insights. Убедитесь, что в параметрах приложения настроен правильный ключ инструментирования. </value>
     </data>
   <data name="earlyAccessStackMessage" xml:space="preserve">
-        <value>Early Access allows for the rapid delivery of updates and new versions of various-runtimes.</value>
+        <value>Ранний доступ позволяет более быстро получать обновления и новые версии различных сред выполнения.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>Выбранная версия "{0}" устарела. Попробуйте выполнить обновление.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>Выбранная версия "{0}" будет объявлена нерекомендуемой {1}. Рекомендуется обновить ее в ближайшее время.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Журналы будут обновлены через {0} с.</value>
+    </data>
+  <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
+        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+    </data>
+  <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
+        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
     </data>
 </root>

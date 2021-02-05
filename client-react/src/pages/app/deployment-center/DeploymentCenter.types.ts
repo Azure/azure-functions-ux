@@ -71,6 +71,7 @@ export enum RuntimeStackOptions {
   Node = 'node',
   PHP = 'php',
   AspDotNet = 'asp.net',
+  Dotnet = 'dotnet',
 }
 
 export enum RuntimeStackDisplayNames {
@@ -83,6 +84,7 @@ export enum RuntimeStackDisplayNames {
   Node = 'Node',
   PHP = 'PHP',
   AspDotNet = 'ASP.NET',
+  Dotnet = 'Dotnet',
 }
 
 export enum RuntimeVersionOptions {
@@ -357,6 +359,7 @@ export type DeploymentCenterCodePivotProps = DeploymentCenterCodeFormProps & Dep
 export interface DeploymentCenterCommandBarProps {
   isLoading: boolean;
   isDirty: boolean;
+  isVstsBuildProvider: boolean;
   saveFunction: () => void;
   discardFunction: () => void;
   showPublishProfilePanel: () => void;
@@ -412,6 +415,7 @@ export interface DeploymentCenterCodeBuildCalloutProps {
   calloutOkButtonDisabled: boolean;
   toggleIsCalloutVisible: () => void;
   updateSelectedBuild: () => void;
+  formProps: FormikProps<DeploymentCenterFormData<any>>;
 }
 
 export interface AuthorizationResult {

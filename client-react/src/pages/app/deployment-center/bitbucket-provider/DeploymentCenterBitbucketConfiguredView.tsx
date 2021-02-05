@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +9,8 @@ import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
 import BitbucketService from '../../../../ApiHelpers/BitbucketService';
 import { AuthorizationResult, DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { authorizeWithProvider } from '../utility/DeploymentCenterUtility';
+import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -27,6 +26,8 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
   const [isBranchInfoMissing, setIsBranchInfoMissing] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const portalContext = useContext(PortalContext);
+
   const deploymentCenterData = new DeploymentCenterData();
 
   const fetchData = async () => {
@@ -44,10 +45,11 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
       setBitbucketUsername(undefined);
       setIsBitbucketUsernameMissing(true);
 
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterBitbucketConfiguredView',
-        `Failed to get Bitbucket user details with error: ${getErrorMessage(bitbucketUserResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getBitbucketUser', 'failed', {
+          message: getErrorMessage(bitbucketUserResponse.metadata.error),
+          error: bitbucketUserResponse.metadata.error,
+        })
       );
     }
     setIsBitbucketUsernameLoading(false);
@@ -67,10 +69,11 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
       } else {
         setOrg('');
         setRepo('');
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterBitbucketConfiguredView',
-          `Repository url incorrectly formatted: ${sourceControlDetailsResponse.data.properties.repoUrl}`
+
+        portalContext.log(
+          getTelemetryInfo('error', 'splitRepositoryUrl', 'failed', {
+            message: `Repository url incorrectly formatted: ${sourceControlDetailsResponse.data.properties.repoUrl}`,
+          })
         );
       }
     } else {
@@ -78,10 +81,12 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
       setOrg(t('deploymentCenterErrorFetchingInfo'));
       setRepo(t('deploymentCenterErrorFetchingInfo'));
       setBranch(t('deploymentCenterErrorFetchingInfo'));
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterSourceControls',
-        `Failed to get source control details with error: ${getErrorMessage(sourceControlDetailsResponse.metadata.error)}`
+
+      portalContext.log(
+        getTelemetryInfo('error', 'getSourceControls', 'failed', {
+          message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
+          error: sourceControlDetailsResponse.metadata.error,
+        })
       );
     }
     setIsSourceControlLoading(false);
@@ -101,11 +106,11 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
           } else {
             // NOTE(michinoy): This is all related to the handshake between us and the provider.
             // If this fails, there isn't much the user can do except retry.
-
-            LogService.error(
-              LogCategories.deploymentCenter,
-              'authorizeBitbucketAccount',
-              `Failed to get token with error: ${getErrorMessage(response.metadata.error)}`
+            portalContext.log(
+              getTelemetryInfo('error', 'authorizeBitbucketAccount', 'failed', {
+                message: getErrorMessage(response.metadata.error),
+                error: response.metadata.error,
+              })
             );
 
             return Promise.resolve(null);

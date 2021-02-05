@@ -4,10 +4,10 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { Link, Icon } from 'office-ui-fabric-react';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
+import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -20,6 +20,7 @@ const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProp
   const [isBranchInfoMissing, setIsBranchInfoMissing] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
   const externalUsernameExists = externalUsername || (formProps && formProps.values.externalUsername);
 
@@ -33,10 +34,11 @@ const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProp
       setIsBranchInfoMissing(true);
       setRepo(t('deploymentCenterErrorFetchingInfo'));
       setBranch(t('deploymentCenterErrorFetchingInfo'));
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterSourceControls',
-        `Failed to get source control details with error: ${getErrorMessage(sourceControlDetailsResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getSourceControls', 'failed', {
+          message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
+          error: sourceControlDetailsResponse.metadata.error,
+        })
       );
     }
     setIsSourceControlLoading(false);
