@@ -252,7 +252,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     fetchData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext]);
+  }, [deploymentCenterContext.siteDescriptor]);
 
   useEffect(() => {
     if (registryIdentifiers.current[formProps.values.acrLoginServer]) {
@@ -260,7 +260,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [registryIdentifiers.current[formProps.values.acrLoginServer], formProps.values.acrLoginServer]);
+  }, [formProps.values.acrLoginServer]);
 
   useEffect(() => {
     if (registryIdentifiers.current[formProps.values.acrLoginServer] && formProps.values.acrImage) {
@@ -268,7 +268,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [registryIdentifiers.current[formProps.values.acrLoginServer], formProps.values.acrLoginServer, formProps.values.acrImage]);
+  }, [formProps.values.acrLoginServer, formProps.values.acrImage]);
 
   return (
     <DeploymentCenterContainerAcrSettings
