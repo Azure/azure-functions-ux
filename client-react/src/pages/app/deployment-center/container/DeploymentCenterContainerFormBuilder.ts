@@ -43,7 +43,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       command: this._getCommand(),
       gitHubContainerPasswordSecretGuid: '',
       gitHubContainerUsernameSecretGuid: '',
-      continuousDeploymentOption: ContinuousDeploymentOption.off,
+      continuousDeploymentOption: this._getContinuousDeploymentOption(),
       ...this._getAcrFormData(serverUrl, username, password, fxVersionParts),
       ...this._getDockerHubFormData(serverUrl, username, password, fxVersionParts),
       ...this._getPrivateRegistryFormData(serverUrl, username, password, fxVersionParts),
@@ -477,5 +477,10 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         });
       }
     });
+  }
+
+  private _getContinuousDeploymentOption(): ContinuousDeploymentOption {
+    const value = this._applicationSettings && this._applicationSettings.properties[DeploymentCenterConstants.enableCISetting];
+    return value && value.toLocaleLowerCase() === 'true' ? ContinuousDeploymentOption.on : ContinuousDeploymentOption.off;
   }
 }
