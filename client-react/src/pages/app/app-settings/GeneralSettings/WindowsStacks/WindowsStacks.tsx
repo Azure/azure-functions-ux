@@ -1,7 +1,6 @@
-import { Field, FormikProps } from 'formik';
+import { FormikProps } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../../AppSettings.types';
 import DotNetStack from './DotNetStack';
 import JavaStack from './JavaStack';
@@ -10,6 +9,7 @@ import PythonStack from './PythonStack';
 import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import { RuntimeStacks } from '../../../../../utils/stacks-utils';
+import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 
 export type StackProps = FormikProps<AppSettingsFormValues>;
 
@@ -22,7 +22,7 @@ const WindowsStacks: React.FC<StackProps> = props => {
   const javaSelected = values.currentlySelectedStack === RuntimeStacks.java;
   const showNonJavaAnyway = readonly && !javaSelected;
 
-  const [initialStackDropdownValue, setInitialStackDropdownValue] = useState<string | undefined>(undefined);
+  const [stackDropdownValue, setStackDropdownValue] = useState<string | undefined>(undefined);
 
   const supportedStacks = useContext(WebAppStacksContext);
 
@@ -47,29 +47,33 @@ const WindowsStacks: React.FC<StackProps> = props => {
       });
   };
 
-  const setInitialDropdownValues = (values: AppSettingsFormValues) => {
-    setInitialStackDropdownValue(
+  const setInitialStackDropdownValues = (values: AppSettingsFormValues) => {
+    setStackDropdownValue(
       values.currentlySelectedStack.toLowerCase() === RuntimeStacks.dotnetcore ? RuntimeStacks.dotnet : values.currentlySelectedStack
     );
   };
 
+  const onStackDropdownChange = (e: any, option: IDropdownOption) => {
+    const selectedDropdownValue = option.key as string;
+    setStackDropdownValue(selectedDropdownValue);
+    props.setFieldValue('currentlySelectedStack', selectedDropdownValue);
+  };
+
   useEffect(() => {
-    setInitialDropdownValues(initialValues);
+    setInitialStackDropdownValues(initialValues);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialValues.currentlySelectedStack]);
   return (
     <>
-      <Field
-        name="currentlySelectedStack"
+      <DropdownNoFormik
         dirty={values.currentlySelectedStack !== initialValues.currentlySelectedStack}
-        component={Dropdown}
-        fullpage
         disabled={disableAllControls}
         options={filterStackOptions()}
         label={t('stack')}
         id="app-settings-stack-dropdown"
-        defaultSelectedKey={initialStackDropdownValue}
+        onChange={onStackDropdownChange}
+        selectedKey={stackDropdownValue}
       />
       {values.currentlySelectedStack === RuntimeStacks.dotnet ||
       values.currentlySelectedStack === RuntimeStacks.dotnetcore ||
