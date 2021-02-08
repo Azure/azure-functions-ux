@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ICommandBarItemProps, CommandBar } from 'office-ui-fabric-react';
+import { ICommandBarItemProps, CommandBar, IButtonProps } from 'office-ui-fabric-react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { SiteStateContext } from '../../../SiteState';
@@ -13,9 +13,11 @@ import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
   const { saveFunction, discardFunction, showPublishProfilePanel, refresh, redeploy, isLoading, isDirty, isVstsBuildProvider } = props;
   const { t } = useTranslation();
+
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
 
   const isSiteLoaded = () => {
     return siteStateContext.site && siteStateContext.site.properties;
@@ -224,6 +226,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       styles={CommandBarStyles}
       ariaLabel={t('deploymentCenterCommandBarAriaLabel')}
       buttonAs={CustomCommandBarButton}
+      overflowButtonProps={overflowButtonProps}
     />
   );
 };
