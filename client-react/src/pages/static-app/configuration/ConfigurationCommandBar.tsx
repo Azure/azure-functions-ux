@@ -1,5 +1,5 @@
 import React from 'react';
-import { ICommandBarItemProps, CommandBar } from 'office-ui-fabric-react';
+import { ICommandBarItemProps, CommandBar, IButtonProps } from 'office-ui-fabric-react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,7 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
   const { save, dirty, showDiscardConfirmDialog, refresh, isLoading } = props;
 
   const { t } = useTranslation();
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
 
   const isDisabled = () => {
     return !dirty || isLoading;
@@ -53,7 +54,15 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
     ];
   };
 
-  return <CommandBar items={[...getItems()]} role="nav" styles={CommandBarStyles} buttonAs={CustomCommandBarButton} />;
+  return (
+    <CommandBar
+      items={[...getItems()]}
+      role="nav"
+      styles={CommandBarStyles}
+      buttonAs={CustomCommandBarButton}
+      overflowButtonProps={overflowButtonProps}
+    />
+  );
 };
 
 export default ConfigurationCommandBar;

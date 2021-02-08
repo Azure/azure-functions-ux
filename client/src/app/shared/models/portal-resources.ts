@@ -2265,4 +2265,5 @@ export class PortalResources {
   public static deploymentCenterContainerAcrFailedToLoadImages = 'deploymentCenterContainerAcrFailedToLoadImages';
   public static deploymentCenterContainerAcrFailedToLoadTagsWithError = 'deploymentCenterContainerAcrFailedToLoadTagsWithError';
   public static deploymentCenterContainerAcrFailedToLoadTags = 'deploymentCenterContainerAcrFailedToLoadTags';
+  public static moreCommands = 'moreCommands';
 }
