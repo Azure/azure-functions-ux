@@ -555,12 +555,12 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             />
             <ConfirmDialog
               primaryActionButton={{
-                title: t('cancel'),
-                onClick: hideRedeployConfirmDialog,
-              }}
-              defaultActionButton={{
                 title: t('ok'),
                 onClick: redeployFunction,
+              }}
+              defaultActionButton={{
+                title: t('cancel'),
+                onClick: hideRedeployConfirmDialog,
               }}
               title={t('deploymentCenterRedeployConfirmTitle')}
               content={t('deploymentCenterRedeployConfirmMessage')}
