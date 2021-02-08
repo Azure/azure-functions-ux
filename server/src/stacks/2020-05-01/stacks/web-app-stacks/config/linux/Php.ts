@@ -75,7 +75,7 @@ export const phpLinuxConfigStack: WebAppConfigStack = {
         ],
         applicationInsights: false,
         isPreview: false,
-        isDeprecated: false,
+        isDeprecated: true,
         isHidden: false,
       },
       {
