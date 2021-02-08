@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { PortalContext } from '../../../PortalContext';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
+import { IButtonProps } from 'office-ui-fabric-react';
 
 // Data for CommandBar
 const getItems = (
@@ -59,7 +60,10 @@ type AppSettingsCommandBarPropsCombined = AppSettingsCommandBarProps;
 const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = props => {
   const { onSave, resetForm, refreshAppSettings, dirty, disabled } = props;
   const { t } = useTranslation();
+
   const portalCommunicator = useContext(PortalContext);
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
+
   useEffect(() => {
     portalCommunicator.updateDirtyState(dirty);
   }, [dirty, portalCommunicator]);
@@ -70,6 +74,7 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
       styles={CommandBarStyles}
       ariaLabel={t('appSettingsCommandBarAriaLabel')}
       buttonAs={CustomCommandBarButton}
+      overflowButtonProps={overflowButtonProps}
     />
   );
 };
