@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { KeyboardEvent, useContext } from 'react';
 import { Panel as OfficePanel, IPanelProps, PanelType, Overlay, KeyCodes } from 'office-ui-fabric-react';
 import { ReactComponent as CloseSvg } from '../../images/Common/close.svg';
 import { useTranslation } from 'react-i18next';
@@ -25,9 +25,9 @@ const CustomPanel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
   }
 
   const onRenderNavigationContent = panelProps => {
-    const onClick = panelProps.onDismiss && (() => panelProps.onDismiss!());
+    const onClick = panelProps.onDismiss && (() => panelProps.onDismiss());
 
-    const onKeyUp = event => {
+    const onKeyUp = (event: KeyboardEvent<unknown>) => {
       if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
         event.preventDefault();
         if (panelProps.onDismiss) {
