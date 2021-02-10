@@ -42,9 +42,8 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
         publishType: 'code',
       })
     );
-
+    setIsLoading(true);
     await fetchDeploymentLogs();
-
     setIsLoading(false);
   };
 
