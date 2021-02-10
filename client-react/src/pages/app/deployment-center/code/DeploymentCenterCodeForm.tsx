@@ -345,8 +345,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const updatePublishingUser = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
     const currentUser = deploymentCenterPublishingContext.publishingUser;
     if (
-      (currentUser && currentUser.properties.publishingUserName !== values.publishingUsername) ||
-      (currentUser && values.publishingPassword && currentUser.properties.publishingPassword !== values.publishingPassword)
+      (currentUser && values.publishingUsername && currentUser.properties.publishingUserName !== values.publishingUsername) ||
+      (currentUser && values.publishingPassword && values.publishingConfirmPassword)
     ) {
       portalContext.log(getTelemetryInfo('info', 'updatePublishingUser', 'submit'));
 
