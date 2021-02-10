@@ -12,12 +12,15 @@ export const panelHeaderStyle = style({
       fontSize: '20px',
     },
 
-    svg: {
-      height: '12px',
-      width: '12px',
+    div: {
       float: 'right',
       marginTop: '18px',
       marginRight: '3px',
+    },
+
+    svg: {
+      height: '12px',
+      width: '12px',
       cursor: 'pointer',
     },
   },

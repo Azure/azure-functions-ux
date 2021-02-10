@@ -207,6 +207,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
             type={MessageBarType.info}
             onDismiss={closeInfoBanner}
             learnMoreLink={DeploymentCenterLinks.configureDeploymentSlots}
+            learnMoreLinkAriaLabel={t('deploymentCenterProdSlotWarningLinkAriaLabel')}
           />
         </div>
       )}

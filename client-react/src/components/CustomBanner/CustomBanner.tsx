@@ -14,12 +14,13 @@ interface CustomBannerProps {
   customIcon?: JSX.Element;
   className?: string;
   learnMoreLink?: string;
+  learnMoreLinkAriaLabel?: string;
   onDismiss?: (e?: any) => any;
   undocked?: boolean;
 }
 
 const CustomBanner: React.FC<CustomBannerProps> = props => {
-  const { message, type, id, customIcon, className: customClassName, learnMoreLink, onDismiss, undocked } = props;
+  const { message, type, id, customIcon, className: customClassName, learnMoreLink, learnMoreLinkAriaLabel, onDismiss, undocked } = props;
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
@@ -43,9 +44,9 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
         onDismiss={onDismiss}>
         {!!icon ? <span className={messageBannerIconStyle}>{icon}</span> : undefined}
         <span>
-          {message}
+          <span tabIndex={0}>{message}</span>
           {learnMoreLink ? (
-            <Link href={learnMoreLink} target="_blank">
+            <Link href={learnMoreLink} target="_blank" aria-label={learnMoreLinkAriaLabel ? learnMoreLinkAriaLabel : t('learnMore')}>
               {t('learnMore')}
             </Link>
           ) : (

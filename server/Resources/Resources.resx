@@ -6942,4 +6942,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="moreCommands" xml:space="preserve">
         <value>More commands</value>
     </data>
+    <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
+        <value>Click here to learn more about why CI/CD is not recommended for production slots.</value>
+    </data>
 </root>
