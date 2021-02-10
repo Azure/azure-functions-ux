@@ -26,6 +26,16 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Java SE 11.0.9',
+          value: '11.0.9',
+          stackSettings: {
+            linuxContainerSettings: {
+              // Note (allisonm): This doesn't have suffix of -java11 since setting to 11.0.7 prevents auto-updates
+              java11Runtime: 'JAVA|11.0.9',
+            },
+          },
+        },
+        {
           displayText: 'Java SE 11.0.7',
           value: '11.0.7',
           stackSettings: {
@@ -134,6 +144,16 @@ export const javaContainersStack: WebAppStack = {
               isAutoUpdate: true,
             },
           },
+        },
+        {
+          displayText: "Tomcat 9.0.41",
+          value: "9.0.41",
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: "TOMCAT|9.0.41-java8",
+              java11Runtime: "TOMCAT|9.0.41-java11"
+            }
+          }
         },
         {
           displayText: 'Tomcat 9.0.38',
@@ -279,6 +299,16 @@ export const javaContainersStack: WebAppStack = {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '8.5.6',
             },
+          },
+        },
+        {
+          displayText: 'Tomcat 8.5.61',
+          value: '8.5.61',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: "TOMCAT|8.5.61-java8",
+              java11Runtime: "TOMCAT|8.5.61-java11"
+            }
           },
         },
         {

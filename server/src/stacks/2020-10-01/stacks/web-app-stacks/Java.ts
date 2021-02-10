@@ -48,6 +48,25 @@ export const javaStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Java 11.0.9',
+          value: '11.0.9',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              runtimeVersion: '',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
           displayText: 'Java 11.0.8',
           value: '11.0.8',
           stackSettings: {
