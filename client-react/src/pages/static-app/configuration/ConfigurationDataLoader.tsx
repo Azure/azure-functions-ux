@@ -88,7 +88,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
       );
       const notificationId = portalContext.startNotification(t('staticSite_configUpdating'), t('staticSite_configUpdating'));
       if (environmentSettingsResponse.metadata.success) {
-        setSelectedEnvironmentVariableResponse(environmentSettingsResponse.data);
+        fetchEnvironmentVariables(environmentResourceId);
         portalContext.stopNotification(notificationId, true, t('staticSite_configUpdateSuccess'));
       } else {
         const errorMessage = getErrorMessageOrStringify(environmentSettingsResponse.metadata.error);
