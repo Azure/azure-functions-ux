@@ -45,6 +45,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
 
   const isSettingsDirty = (): boolean => {
     return (
+      !!formProps.values.buildProvider &&
       formProps.values.buildProvider !== BuildProvider.None &&
       !!deploymentCenterContext.siteConfig &&
       deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
@@ -53,7 +54,13 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
 
   const isFtpsDirty = (): boolean => {
     const currentUser = deploymentCenterPublishingContext.publishingUser;
+    const formPropsExist =
+      (!!formProps.values.publishingUsername || formProps.values.publishingUsername === '') &&
+      (!!formProps.values.publishingPassword || formProps.values.publishingPassword === '') &&
+      (!!formProps.values.publishingConfirmPassword || formProps.values.publishingConfirmPassword === '');
+
     return (
+      formPropsExist &&
       !!currentUser &&
       ((currentUser.properties.publishingUserName && !formProps.values.publishingUsername) ||
         (!!formProps.values.publishingUsername && currentUser.properties.publishingUserName !== formProps.values.publishingUsername) ||

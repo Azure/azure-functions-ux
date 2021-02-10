@@ -45,6 +45,9 @@ export abstract class DeploymentCenterFormBuilder {
     // NOTE(michinoy): The password should be at least eight characters long and must contain letters, numbers, and symbol.
     const passwordMinimumRequirementsRegex = new RegExp(/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})$/);
     const usernameMinLength = 3;
+    const getPublishingUsername = () => {
+      return this._publishingUser && this._publishingUser.properties ? this._publishingUser.properties.publishingUserName : '';
+    };
 
     return {
       publishingUsername: Yup.string()
@@ -54,13 +57,21 @@ export abstract class DeploymentCenterFormBuilder {
         .test('validatePublishingUsername', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
           return value || !this.parent.publishingPassword;
         }),
-      publishingPassword: Yup.string().test('publishingPasswordRequirements', this._t('userCredsError'), value => {
-        return !value || passwordMinimumRequirementsRegex.test(value);
-      }),
+      publishingPassword: Yup.string()
+        .test('publishingPasswordRequirements', this._t('userCredsError'), value => {
+          return !value || passwordMinimumRequirementsRegex.test(value);
+        })
+        .test('passwordRequiredWhenUsernameChanged', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return this.parent.publishingUsername && this.parent.publishingUsername !== getPublishingUsername() ? value : true;
+        }),
       // NOTE(michinoy): Cannot use the arrow operator for the test function as 'this' context is required.
-      publishingConfirmPassword: Yup.string().test('validatePublishingConfirmPassword', this._t('nomatchpassword'), function(value) {
-        return !this.parent.publishingPassword || this.parent.publishingPassword === value;
-      }),
+      publishingConfirmPassword: Yup.string()
+        .test('validatePublishingConfirmPassword', this._t('nomatchpassword'), function(value) {
+          return !this.parent.publishingPassword || this.parent.publishingPassword === value;
+        })
+        .test('confirmPasswordRequiredWhenUsernameChanged', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return this.parent.publishingUsername && this.parent.publishingUsername !== getPublishingUsername() ? value : true;
+        }),
       workflowOption: Yup.mixed().test('workflowOptionRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.buildProvider === BuildProvider.GitHubAction
           ? this.parent.branch && this.parent.workflowOption !== 'none'
