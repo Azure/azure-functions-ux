@@ -119,7 +119,7 @@ export class WorkflowController {
       throw new HttpException(`Missing 'runtimeStack' in the request body.`, 400);
     }
 
-    const runtimeStacks = ['dotnetcore', 'java', 'node', 'aspnet', 'python', 'powershell'];
+    const runtimeStacks = ['java', 'node', 'python', 'powershell', 'dotnet'];
     if (runtimeStack && !runtimeStacks.includes(runtimeStack.toLocaleLowerCase())) {
       throw new HttpException(`Incorrect runtimeStack '${runtimeStack}' provided. Accepted types are: ${runtimeStacks.join(', ')}.`, 400);
     }
