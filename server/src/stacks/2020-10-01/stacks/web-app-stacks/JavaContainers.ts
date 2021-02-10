@@ -92,6 +92,18 @@ export const javaContainersStack: WebAppStack = {
       value: 'jbosseap',
       minorVersions: [
         {
+          displayText: "JBoss EAP 7",
+          value: "7",
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: "JBOSSEAP|7-java8",
+              java11Runtime: "JBOSSEAP|7-java11",
+              isAutoUpdate: true,
+              isPreview: true
+            }
+          }
+        },
+        {
           displayText: 'JBoss EAP 7.2',
           value: '7.2',
           stackSettings: {
@@ -121,6 +133,16 @@ export const javaContainersStack: WebAppStack = {
               java8Runtime: 'TOMCAT|9.0-jre8',
               isAutoUpdate: true,
             },
+          },
+        },
+        {
+          displayText: 'Tomcat 9.0.38',
+          value: '9.0.38',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '9.0.38',
+            }
           },
         },
         {
@@ -257,6 +279,16 @@ export const javaContainersStack: WebAppStack = {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '8.5.6',
             },
+          },
+        },
+        {
+          displayText: 'Tomcat 8.5.58',
+          value: '8.5.58',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '8.5.58',
+            }
           },
         },
         {

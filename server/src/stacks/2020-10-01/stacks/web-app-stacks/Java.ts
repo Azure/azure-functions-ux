@@ -48,6 +48,25 @@ export const javaStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Java 11.0.8',
+          value: '11.0.8',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              // Note (allisonm): ZULU suffix was removed after Java 11.0.5
+              runtimeVersion: '11.0.8',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
           displayText: 'Java 11.0.7',
           value: '11.0.7',
           stackSettings: {
@@ -205,6 +224,24 @@ export const javaStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '1.8',
               isAutoUpdate: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.8.0_265',
+          value: '8.0.265',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8.0_265',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -578,6 +615,24 @@ export const javaStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '1.7',
               isAutoUpdate: true,
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              endOfLifeDate: java7EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.7.0_272',
+          value: '7.0.272',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.7.0_272_ZULU',
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
