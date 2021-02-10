@@ -13,20 +13,12 @@ export enum Os {
   Windows = 'windows',
 }
 
-export enum WebAppRuntimeStack {
-  DotNetCore = 'dotnetcore',
-  Java = 'java',
-  Node = 'node',
-  AspNet = 'aspnet',
-  Python = 'python',
-}
-
-export enum FunctionAppRuntimeStack {
-  DotNetCore = 'dotnetcore',
+export enum RuntimeStacks {
   Java = 'java',
   Node = 'node',
   Python = 'python',
   Powershell = 'powershell',
+  Dotnet = 'dotnet',
 }
 
 export enum JavaContainers {
