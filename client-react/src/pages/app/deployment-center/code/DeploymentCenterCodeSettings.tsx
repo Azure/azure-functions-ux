@@ -204,7 +204,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {!isTfsOrVsoSetup && <DeploymentCenterCodeBuildConfiguredView />}
         </>
       ) : (
-        <>
+        <div tabIndex={-1}>
           <DeploymentCenterCodeSourceAndBuild formProps={formProps} />
 
           {isGitHubActionsBuild && (
@@ -235,7 +235,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
             </>
           )}
           {isVstsBuild && <DeploymentCenterVstsBuildProvider />}
-        </>
+        </div>
       )}
     </>
   );
