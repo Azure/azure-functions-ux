@@ -79,7 +79,12 @@ const DeploymentCenterFtps: React.FC<
 
   const getDisabledByFTPPolicyMessage = () => (
     <div className={deploymentCenterContent}>
-      <CustomBanner message={t('ftpDisabledByPolicy')} type={MessageBarType.info} learnMoreLink={Links.ftpDisabledByPolicyLink} />
+      <CustomBanner
+        id="ftp-disabled-by-policy"
+        message={t('ftpDisabledByPolicy')}
+        type={MessageBarType.info}
+        learnMoreLink={Links.ftpDisabledByPolicyLink}
+      />
     </div>
   );
 
@@ -89,6 +94,7 @@ const DeploymentCenterFtps: React.FC<
         {deploymentCenterContext && !deploymentCenterContext.hasWritePermission && showBlockedBanner && (
           <div className={deploymentCenterInfoBannerDiv}>
             <CustomBanner
+              id="deployment-center-ftps-write-permission-required"
               message={t('deploymentCenterFtpsWritePermissionRequired')}
               type={MessageBarType.blocked}
               onDismiss={closeBlockedBanner}

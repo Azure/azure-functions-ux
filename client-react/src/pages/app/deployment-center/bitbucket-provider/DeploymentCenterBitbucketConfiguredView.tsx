@@ -135,6 +135,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
     return (
       <div className={deploymentCenterInfoBannerDiv}>
         <CustomBanner
+          id="deployment-center-settings-configured-view-user-not-authorized"
           message={
             <>
               {`${t('deploymentCenterSettingsConfiguredViewUserNotAuthorized')} `}

@@ -332,6 +332,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
         {stackNotSupportedMessage && showNotSupportedWarningBar && (
           <div className={deploymentCenterInfoBannerDiv}>
             <CustomBanner
+              id="stack-not-supported-message"
               message={stackNotSupportedMessage}
               type={MessageBarType.warning}
               onDismiss={closeStackNotSupportedWarningBanner}
@@ -340,7 +341,12 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
         )}
         {stackMismatchMessage && showMismatchWarningBar && (
           <div className={deploymentCenterInfoBannerDiv}>
-            <CustomBanner message={stackMismatchMessage} type={MessageBarType.warning} onDismiss={closeStackMismatchWarningBanner} />
+            <CustomBanner
+              id="stack-mismatch-message"
+              message={stackMismatchMessage}
+              type={MessageBarType.warning}
+              onDismiss={closeStackMismatchWarningBanner}
+            />
           </div>
         )}
       </>

@@ -51,7 +51,9 @@ const DeploymentCenterPublishingUser: React.FC<
         />
       )}
 
-      {publishingUserError && <CustomBanner message={publishingUserFetchFailedMessage} type={MessageBarType.error} />}
+      {publishingUserError && (
+        <CustomBanner id="publishing-user-fetch-failed-message" message={publishingUserFetchFailedMessage} type={MessageBarType.error} />
+      )}
 
       {publishingUser && (
         <>

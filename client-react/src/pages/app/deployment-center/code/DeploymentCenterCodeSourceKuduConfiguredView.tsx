@@ -115,7 +115,7 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
   };
 
   return (
-    <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
+    <ReactiveFormControl id="deployment-center-source-label" label={t('deploymentCenterSettingsSourceLabel')}>
       <div>
         {getSourceLocation()}
         <Link

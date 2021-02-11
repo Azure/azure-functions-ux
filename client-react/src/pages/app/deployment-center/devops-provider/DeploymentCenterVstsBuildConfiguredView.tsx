@@ -121,7 +121,11 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<{}> = props => {
   return (
     <>
       <div className={deploymentCenterInfoBannerDiv}>
-        <CustomBanner message={`${t('deploymentCenterVstsInfoMessage')} `} type={MessageBarType.info} />
+        <CustomBanner
+          id="deployment-center-vsts-info-message"
+          message={`${t('deploymentCenterVstsInfoMessage')} `}
+          type={MessageBarType.info}
+        />
       </div>
 
       <h3>{t('deploymentCenterCodeAzureReposTitle')}</h3>
