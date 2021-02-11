@@ -6,13 +6,15 @@ import {
   DeploymentCenterContainerFormData,
   DeploymentCenterCodeFormData,
 } from './DeploymentCenter.types';
-import { MessageBarType, ProgressIndicator } from 'office-ui-fabric-react';
+import { Link, MessageBarType, ProgressIndicator } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterContent } from './DeploymentCenter.styles';
 import TextField from '../../../components/form-controls/TextField';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
+import { DeploymentCenterLinks } from '../../../utils/FwLinks';
 
 const DeploymentCenterPublishingUser: React.FC<
   DeploymentCenterFtpsProps & DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -39,10 +41,24 @@ const DeploymentCenterPublishingUser: React.FC<
     ? `${sampleAppNameDomain}\\${webProviderUsername}`
     : `${sampleAppNameDomain}\\${t('deploymentCenterFtpsUserScopeSampleUsername')}`;
 
+  const sampleWebProviderUsername = webProviderUsername ? webProviderUsername : t('deploymentCenterFtpsUserScopeSampleUsername');
+
   return (
     <div className={deploymentCenterContent}>
       <h3>{t('deploymentCenterFtpsUserScopeTitle')}</h3>
-      <p>{t('deploymentCenterFtpsUserScopeDescription').format(sampleWebProviderDomainUsername)}</p>
+      <p>
+        <span id="deployment-publishing-user-message">
+          {t('deploymentCenterFtpsUserScopeDescription').format(sampleWebProviderDomainUsername, sampleWebProviderUsername)}
+        </span>
+        <Link
+          id="deployment-center-settings-learnMore"
+          href={DeploymentCenterLinks.publishingUserDocumentation}
+          target="_blank"
+          className={learnMoreLinkStyle}
+          aria-labelledby="deployment-center-settings-message">
+          {` ${t('learnMore')}`}
+        </Link>
+      </p>
 
       {publishingUserLoading && (
         <ProgressIndicator
