@@ -39,6 +39,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     copyButton,
     additionalControls,
     hideShowButton,
+    required,
     ...rest
   } = props;
   const { width } = useWindowSize();
@@ -128,6 +129,9 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
           onRenderSuffix={onRenderSuffix}
           {...rest}
           required={false} // ReactiveFormControl will handle displaying required
+          //NOTE(michinoy): even though we are handling the required display marker at
+          //the field level, for a11y we need to have the aria-required tag set.
+          aria-required={!!required}
         />
         {additionalControls}
       </Stack>
