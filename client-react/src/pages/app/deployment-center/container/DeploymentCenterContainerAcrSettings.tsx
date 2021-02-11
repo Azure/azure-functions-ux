@@ -39,7 +39,9 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
   return (
     <>
-      {acrStatusMessage && acrStatusMessageType && <CustomBanner type={acrStatusMessageType} message={acrStatusMessage} />}
+      {acrStatusMessage && acrStatusMessageType && (
+        <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} />
+      )}
 
       <Field
         id="container-acr-repository"

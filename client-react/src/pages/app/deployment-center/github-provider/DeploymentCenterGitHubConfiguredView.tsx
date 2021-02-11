@@ -128,6 +128,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
     return (
       <div className={deploymentCenterInfoBannerDiv}>
         <CustomBanner
+          id="deployment-center-settings-configured-view-user-not-authorized"
           message={
             <>
               {`${t('deploymentCenterSettingsConfiguredViewUserNotAuthorized')} `}
@@ -209,7 +210,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
   return (
     <>
       {isGitHubActionsSetup && (
-        <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
+        <ReactiveFormControl id="deployment-center-github-source-label" label={t('deploymentCenterSettingsSourceLabel')}>
           <div>
             {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
             {!isLoading && branch && org && repo && repoUrl && (
