@@ -6178,7 +6178,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>User scope</value>
     </data>
     <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'. Authenticating with Git requires only the username defined below.</value>
+        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'. Authenticating with Git requires only the username '{1}' defined below.</value>
     </data>
     <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(your username)</value>

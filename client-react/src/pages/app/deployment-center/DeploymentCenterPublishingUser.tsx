@@ -41,12 +41,14 @@ const DeploymentCenterPublishingUser: React.FC<
     ? `${sampleAppNameDomain}\\${webProviderUsername}`
     : `${sampleAppNameDomain}\\${t('deploymentCenterFtpsUserScopeSampleUsername')}`;
 
+  const sampleWebProviderUsername = webProviderUsername ? webProviderUsername : t('deploymentCenterFtpsUserScopeSampleUsername');
+
   return (
     <div className={deploymentCenterContent}>
       <h3>{t('deploymentCenterFtpsUserScopeTitle')}</h3>
       <p>
         <span id="deployment-publishing-user-message">
-          {t('deploymentCenterFtpsUserScopeDescription').format(sampleWebProviderDomainUsername)}
+          {t('deploymentCenterFtpsUserScopeDescription').format(sampleWebProviderDomainUsername, sampleWebProviderUsername)}
         </span>
         <Link
           id="deployment-center-settings-learnMore"
