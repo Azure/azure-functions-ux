@@ -469,7 +469,7 @@ export interface CodeDeploymentsRow {
   rawTime: moment.Moment;
   displayTime: string;
   commit: JSX.Element;
-  checkinMessage: string;
+  message: string;
   status: string;
   author: string;
 }
