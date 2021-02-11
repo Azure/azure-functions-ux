@@ -6,6 +6,58 @@ export const dotnetStack: FunctionAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
+      displayText: '.NET 5',
+      value: 'dotnet5',
+      minorVersions: [
+        {
+          displayText: '.NET 5',
+          value: '5',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: 'v5.0',
+              isEarlyAccess: true,
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '5.0.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+              },
+              supportedFunctionsExtensionVersions: ['~3'],
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'DOTNETCORE|5.0',
+              isEarlyAccess: true,
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '5.0.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+              },
+              supportedFunctionsExtensionVersions: ['~3'],
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: '.NET Core 3',
       value: 'dotnetcore3',
       minorVersions: [
@@ -15,6 +67,7 @@ export const dotnetStack: FunctionAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '3.1',
+              isDefault: true,
               appInsightsSettings: {
                 isSupported: true,
               },
@@ -33,6 +86,7 @@ export const dotnetStack: FunctionAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'dotnet|3.1',
+              isDefault: true,
               appInsightsSettings: {
                 isSupported: true,
               },
