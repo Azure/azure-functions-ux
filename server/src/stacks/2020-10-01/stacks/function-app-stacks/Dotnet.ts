@@ -7,7 +7,7 @@ export const dotnetStack: FunctionAppStack = {
   majorVersions: [
     {
       displayText: '.NET Core 3',
-      value: '3',
+      value: 'dotnetcore3',
       minorVersions: [
         {
           displayText: '.NET Core 3.1',
@@ -56,7 +56,7 @@ export const dotnetStack: FunctionAppStack = {
     },
     {
       displayText: '.NET Core 2',
-      value: '2',
+      value: 'dotnetcore2',
       minorVersions: [
         {
           displayText: '.NET Core 2.2',
@@ -105,7 +105,7 @@ export const dotnetStack: FunctionAppStack = {
     },
     {
       displayText: '.NET Framework 4',
-      value: '2',
+      value: 'dotnetframework4',
       minorVersions: [
         {
           displayText: '.NET Framework 4.7',

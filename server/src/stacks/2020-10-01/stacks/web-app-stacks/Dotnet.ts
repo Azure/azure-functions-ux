@@ -13,7 +13,7 @@ export const dotnetStack: WebAppStack = {
   majorVersions: [
     {
       displayText: '.NET 5',
-      value: '5',
+      value: 'dotnet5',
       minorVersions: [
         {
           displayText: '.NET 5',
@@ -49,7 +49,7 @@ export const dotnetStack: WebAppStack = {
     },
     {
       displayText: '.NET Core 3',
-      value: '3',
+      value: 'dotnetcore3',
       minorVersions: [
         {
           displayText: '.NET Core 3.1 (LTS)',
@@ -215,7 +215,7 @@ export const dotnetStack: WebAppStack = {
     },
     {
       displayText: '.NET Core 1',
-      value: '1',
+      value: 'dotnetcore1',
       minorVersions: [
         {
           displayText: '.NET Core 1.1',
@@ -285,7 +285,7 @@ export const dotnetStack: WebAppStack = {
     },
     {
       displayText: 'ASP.NET V4',
-      value: 'v4',
+      value: 'aspdotnetv4',
       minorVersions: [
         {
           displayText: 'ASP.NET V4.8',
@@ -308,7 +308,7 @@ export const dotnetStack: WebAppStack = {
     },
     {
       displayText: 'ASP.NET V3',
-      value: 'v3',
+      value: 'aspdotnetv3',
       minorVersions: [
         {
           displayText: 'ASP.NET V3.5',
