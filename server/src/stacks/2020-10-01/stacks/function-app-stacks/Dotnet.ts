@@ -6,16 +6,15 @@ export const dotnetStack: FunctionAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
-      displayText: '.NET 5',
+      displayText: '.NET 5 (non-LTS)',
       value: 'dotnet5',
       minorVersions: [
         {
-          displayText: '.NET 5',
-          value: '5',
+          displayText: '.NET 5 (non-LTS)',
+          value: '5 (non-LTS)',
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v5.0',
-              isEarlyAccess: true,
               isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -26,16 +25,16 @@ export const dotnetStack: FunctionAppStack = {
                 supportedVersion: '5.0.x',
               },
               appSettingsDictionary: {
-                FUNCTIONS_WORKER_RUNTIME: 'dotnet',
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
               },
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
+                netFrameworkVersion: 'v5.0',
               },
               supportedFunctionsExtensionVersions: ['~3'],
             },
             linuxRuntimeSettings: {
-              runtimeVersion: 'DOTNETCORE|5.0',
-              isEarlyAccess: true,
+              runtimeVersion: 'DOTNET-ISOLATED|5.0',
               isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -46,10 +45,11 @@ export const dotnetStack: FunctionAppStack = {
                 supportedVersion: '5.0.x',
               },
               appSettingsDictionary: {
-                FUNCTIONS_WORKER_RUNTIME: 'dotnet',
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
               },
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
+                netFrameworkVersion: 'DOTNET-ISOLATED|5.0',
               },
               supportedFunctionsExtensionVersions: ['~3'],
             },
