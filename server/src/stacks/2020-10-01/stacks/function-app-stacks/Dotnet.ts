@@ -49,7 +49,7 @@ export const dotnetStack: FunctionAppStack = {
               },
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
-                netFrameworkVersion: 'DOTNET-ISOLATED|5.0',
+                linuxFxVersion: 'DOTNET-ISOLATED|5.0',
               },
               supportedFunctionsExtensionVersions: ['~3'],
             },
