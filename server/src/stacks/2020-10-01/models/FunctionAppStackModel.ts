@@ -4,7 +4,7 @@ export type FunctionAppStack = AppStack<FunctionAppRuntimes, FunctionAppStackVal
 export type FunctionAppStackValue = 'dotnet' | 'java' | 'node' | 'powershell' | 'python' | 'custom';
 
 type FunctionsExtensionVersion = '~1' | '~2' | '~3';
-type FunctionsWorkerRuntime = 'dotnet' | 'node' | 'python' | 'java' | 'powershell' | 'custom';
+type FunctionsWorkerRuntime = 'dotnet' | 'node' | 'python' | 'java' | 'powershell' | 'custom' | 'dotnet-isolated';
 
 export interface FunctionAppRuntimes {
   linuxRuntimeSettings?: FunctionAppRuntimeSettings;
@@ -21,6 +21,7 @@ export interface SiteConfigPropertiesDictionary {
   linuxFxVersion?: string;
   javaVersion?: string;
   powerShellVersion?: string;
+  netFrameworkVersion?: string;
 }
 
 export interface FunctionAppRuntimeSettings extends CommonSettings {
