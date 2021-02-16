@@ -121,6 +121,18 @@ jobs:
         inputs:
           ArtifactName: angular-min
 
+  - job: Localization
+    pool: LocBuildTool
+    steps:
+      - task: OneLocBuild@2
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+        input:
+          locProj: 'server/LocProject.json'
+          outDir: '$(Build.ArtifactStagingDirectory)'
+          isCreatePrSelected: true
+          prSourceBranchPrefix: 'locfiles'
+
   - job: Server
     pool:
       vmImage: 'macOS-10.14'
