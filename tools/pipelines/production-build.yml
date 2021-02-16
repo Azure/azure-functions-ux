@@ -127,7 +127,7 @@ jobs:
       - task: OneLocBuild@2
         env:
           SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-        input:
+        inputs:
           locProj: 'server/LocProject.json'
           outDir: '$(Build.ArtifactStagingDirectory)'
           isCreatePrSelected: true
