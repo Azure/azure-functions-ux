@@ -7,6 +7,7 @@ import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
 import { EnvironmentUrlMappings, Environments } from '../deployment-center';
+import { AxiosRequestConfig } from 'axios';
 
 @Controller()
 export class GithubController {
@@ -21,13 +22,32 @@ export class GithubController {
 
   @Post('api/github/passthrough')
   @HttpCode(200)
-  async passthrough(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Res() res) {
+  async passthrough(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('url') url: string,
+    @Res() res,
+    @Body('method') method?: AxiosRequestConfig
+  ) {
     try {
-      const response = await this.httpService.get(url, {
-        headers: {
-          Authorization: `Bearer ${gitHubToken}`,
-        },
-      });
+      let response;
+      if (method && method === 'POST') {
+        response = await this.httpService.post(
+          url,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${gitHubToken}`,
+            },
+          }
+        );
+      } else {
+        response = await this.httpService.get(url, {
+          headers: {
+            Authorization: `Bearer ${gitHubToken}`,
+          },
+        });
+      }
+
       if (response.headers.link) {
         res.setHeader('link', response.headers.link);
       }
@@ -131,42 +151,6 @@ export class GithubController {
     } catch (err) {
       this.loggingService.error(`Failed to dispatch workflow file.`);
 
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
-    }
-  }
-
-  @Post('api/github/passthroughPost')
-  @HttpCode(200)
-  async passthroughPost(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Res() res) {
-    try {
-      const response = await this.httpService.post(
-        url,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${gitHubToken}`,
-          },
-        }
-      );
-      if (response.headers.link) {
-        res.setHeader('link', response.headers.link);
-      }
-
-      if (response.headers['x-oauth-scopes']) {
-        res.setHeader(
-          'x-oauth-scopes',
-          response.headers['x-oauth-scopes']
-            .split(',')
-            .map((value: string) => value.trim())
-            .join(',')
-        );
-      }
-
-      res.json(response.data);
-    } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
       }

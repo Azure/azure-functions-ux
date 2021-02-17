@@ -7,7 +7,6 @@ import {
   DeploymentStatus,
   DeploymentProperties,
   GitHubActionsCodeDeploymentsRow,
-  GitHubActionRunConclusionDisplayName,
   GitHubActionRunConclusion,
   GitHubActionsRun,
 } from '../DeploymentCenter.types';
@@ -29,9 +28,11 @@ import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
+  const { deployments, deploymentsError, isLoading, goToSettings, refreshLogs } = props;
+  const { t } = useTranslation();
+
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
-
   const [isLogsLoading, setIsLogsLoading] = useState<boolean>(false);
   const [isSourceControlsLoading, setIsSourcecontrolsLoading] = useState<boolean>(true);
   const [org, setOrg] = useState<string | undefined>(undefined);
@@ -41,9 +42,6 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   const [gitHubActionLogsErrorMessage, setGitHubActionLogsErrorMessage] = useState<string | undefined>(undefined);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
-  const { deployments, deploymentsError, isLoading, goToSettings, refreshLogs } = props;
-  const { t } = useTranslation();
-
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
@@ -64,22 +62,22 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     }
   };
 
-  const getConclusionDisplayName = (status: string): GitHubActionRunConclusionDisplayName => {
+  const getConclusionDisplayName = (status: string): string => {
     switch (status) {
       case GitHubActionRunConclusion.Success:
-        return t(GitHubActionRunConclusionDisplayName.Success);
+        return t('success');
       case GitHubActionRunConclusion.Failure:
-        return t(GitHubActionRunConclusionDisplayName.Failure);
+        return t('failed');
       case GitHubActionRunConclusion.Cancelled:
-        return t(GitHubActionRunConclusionDisplayName.Cancelled);
+        return t('GitHubActionsRunCancelled');
       case GitHubActionRunConclusion.Skipped:
-        return t(GitHubActionRunConclusionDisplayName.Skipped);
+        return t('GitHubActionsRunSkipped');
       case GitHubActionRunConclusion.TimedOut:
-        return t(GitHubActionRunConclusionDisplayName.TimedOut);
+        return t('GitHubActionsRunTimedOut');
       case GitHubActionRunConclusion.ActionRequired:
-        return t(GitHubActionRunConclusionDisplayName.ActionRequired);
+        return t('GitHubActionsRunActionRequired');
       default:
-        return t(GitHubActionRunConclusionDisplayName.None);
+        return '';
     }
   };
 
@@ -104,34 +102,21 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     fetchWorkflowRuns();
   };
 
-  const fetchSourceControlDetails = async () => {
+  const setSourceControlDetails = async () => {
     setGitHubActionLogsErrorMessage(undefined);
     setIsLogsLoading(true);
     setIsSourcecontrolsLoading(true);
-    const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
 
-    if (sourceControlDetailsResponse.metadata.success) {
-      setBranch(sourceControlDetailsResponse.data.properties.branch);
-      const repoUrlSplit = sourceControlDetailsResponse.data.properties.repoUrl.split('/');
-      if (repoUrlSplit.length >= 2) {
-        setOrg(repoUrlSplit[repoUrlSplit.length - 2]);
-        setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
-      } else {
-        setGitHubActionLogsErrorMessage('deploymentCenterCodeDeploymentsFailed');
-        setIsLogsLoading(false);
-      }
+    setBranch(deploymentCenterContext.configMetadata ? deploymentCenterContext.configMetadata.properties.branch : '');
+    const repoUrlSplit = deploymentCenterContext.configMetadata ? deploymentCenterContext.configMetadata.properties.RepoUrl.split('/') : [];
+    if (repoUrlSplit.length >= 2) {
+      setOrg(repoUrlSplit[repoUrlSplit.length - 2]);
+      setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
     } else {
-      const errorMessage = getErrorMessage(sourceControlDetailsResponse.metadata.error);
-      setGitHubActionLogsErrorMessage(
-        errorMessage ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage) : t('deploymentCenterCodeDeploymentsFailed')
-      );
-      portalContext.log(
-        getTelemetryInfo('error', 'getSourceControlDetails', 'failed', {
-          error: sourceControlDetailsResponse.metadata.error,
-        })
-      );
+      setGitHubActionLogsErrorMessage(t('deploymentCenterCodeDeploymentsFailed'));
       setIsLogsLoading(false);
     }
+
     setIsSourcecontrolsLoading(false);
   };
 
@@ -168,7 +153,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   };
 
   const cancelWorkflowRunOnClick = async (url: string) => {
-    portalContext.log(getTelemetryInfo('info', 'cancelWorkflow', 'clicked'));
+    portalContext.log(getTelemetryInfo('verbose', 'cancelWorkflow', 'clicked'));
     const cancelWorkflowResponse = await deploymentCenterData.cancelWorkflowRun(deploymentCenterContext.gitHubToken, url);
     if (cancelWorkflowResponse.metadata.success) {
       setIsLogsLoading(true);
@@ -177,10 +162,9 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       //it did not show as cancelled right after clicking cancel
       if (runs && runs.length > 0) {
         const curRuns = runs;
-        curRuns[0].conclusion = t(GitHubActionRunConclusion.Cancelled);
+        runs[0].conclusion = t(GitHubActionRunConclusion.Cancelled);
         setRuns(curRuns);
       }
-      setIsLogsLoading(false);
     } else {
       portalContext.log(
         getTelemetryInfo('error', 'cancelWorkflow', 'failed', {
@@ -190,31 +174,9 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     }
   };
 
-  const getDeploymentRow = (deployment: ArmObj<DeploymentProperties>, index: number): GitHubActionsCodeDeploymentsRow => {
-    return {
-      index: index,
-      group: -1,
-      commitId: deployment.properties.id.substr(0, 7),
-      rawTime: moment(deployment.properties.received_time),
-      // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
-      displayTime: moment(deployment.properties.received_time).format('MM/D YYYY, h:mm:ss A Z'),
-      commit: (
-        <Link href={`#${deployment.properties.id}`} onClick={() => showLogPanel(deployment)}>
-          {deployment.properties.id.substr(0, 7)}
-        </Link>
-      ),
-      runNumber: <>{``}</>,
-      author: deployment.properties.author,
-      message: deployment.properties.deployer === 'GitHub' ? '' : deployment.properties.message,
-      status: deployment.properties.active
-        ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
-        : `${getStatusString(deployment.properties.status, deployment.properties.progress)}`,
-    };
-  };
-
-  const getGitHubActionsRunStatus = (run: GitHubActionsRun): string | JSX.Element => {
+  const getGitHubActionsRunStatus = (run: GitHubActionsRun): JSX.Element => {
     return run.conclusion ? (
-      getConclusionDisplayName(run.conclusion)
+      <>{getConclusionDisplayName(run.conclusion)}</>
     ) : (
       <>
         {t('In Progress... ')}
@@ -230,28 +192,50 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     );
   };
 
-  const GitHubActionsRows: GitHubActionsCodeDeploymentsRow[] = runs
-    ? runs.map((run, index) => {
-        return {
-          index: deployments && deployments.value.length ? deployments.value.length + index : index,
-          group: -1,
-          commitId: run.head_commit.id.substr(0, 7),
-          rawTime: moment(run.updated_at),
-          // NOTE (stpelleg): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
-          displayTime: moment(run.updated_at).format('MM/D YYYY, h:mm:ss A Z'),
-          runNumber: run.run_number,
-          author: run.head_commit.author.name,
-          message: run.head_commit.message,
-          commit: (
-            <Link key="github-actions-logs-link" onClick={() => window.open(run.html_url, '_blank')}>
-              {run.head_commit.id.substr(0, 7)}
-              <Icon id={`ga-logs`} iconName={'NavigateExternalInline'} />
-            </Link>
-          ),
-          status: getGitHubActionsRunStatus(run),
-        };
-      })
-    : [];
+  const getZipDeployRow = (deployment: ArmObj<DeploymentProperties>, index: number): GitHubActionsCodeDeploymentsRow => {
+    return {
+      index: index,
+      group: -1,
+      commitId: deployment.properties.id.substr(0, 7),
+      rawTime: moment(deployment.properties.received_time),
+      // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
+      displayTime: moment(deployment.properties.received_time).format('MM/D YYYY, h:mm:ss A Z'),
+      commit: (
+        <Link href={`#${deployment.properties.id}`} onClick={() => showLogPanel(deployment)}>
+          {deployment.properties.id.substr(0, 7)}
+        </Link>
+      ),
+      runNumber: <>{``}</>,
+      author: deployment.properties.author,
+      message: deployment.properties.deployer === 'GitHub' ? '' : deployment.properties.message,
+      status: deployment.properties.active ? (
+        <>{`${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`}</>
+      ) : (
+        <>{getStatusString(deployment.properties.status, deployment.properties.progress)}</>
+      ),
+    };
+  };
+
+  const getGitHubActionsRunRow = (run: GitHubActionsRun, index: number): GitHubActionsCodeDeploymentsRow => {
+    return {
+      index: deployments && deployments.value.length ? deployments.value.length + index : index,
+      group: -1,
+      commitId: run.head_commit.id.substr(0, 7),
+      rawTime: moment(run.updated_at),
+      // NOTE (stpelleg): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
+      displayTime: moment(run.updated_at).format('MM/D YYYY, h:mm:ss A Z'),
+      runNumber: <>{run.run_number}</>,
+      author: run.head_commit.author.name,
+      message: run.head_commit.message,
+      commit: (
+        <Link key="github-actions-logs-link" onClick={() => window.open(run.html_url, '_blank')}>
+          {run.head_commit.id.substr(0, 7)}
+          <Icon id={`ga-logs`} iconName={'NavigateExternalInline'} />
+        </Link>
+      ),
+      status: getGitHubActionsRunStatus(run),
+    };
+  };
 
   const getItemCommitGroups = (items: GitHubActionsCodeDeploymentsRow[]): IGroup[] => {
     const groups: IGroup[] = [];
@@ -313,10 +297,11 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     }
   };
 
-  const rows: GitHubActionsCodeDeploymentsRow[] = deployments
-    ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index))
+  const gitHubActionsRows: GitHubActionsCodeDeploymentsRow[] = runs ? runs.map((run, index) => getGitHubActionsRunRow(run, index)) : [];
+  const zipDeployRows: GitHubActionsCodeDeploymentsRow[] = deployments
+    ? deployments.value.map((deployment, index) => getZipDeployRow(deployment, index))
     : [];
-  const newItems = rows.concat(GitHubActionsRows);
+  const newItems = zipDeployRows.concat(gitHubActionsRows);
   const items: GitHubActionsCodeDeploymentsRow[] = newItems.sort(dateTimeComparatorReverse);
   const groups: IGroup[] = getItemCommitGroups(items);
 
@@ -330,12 +315,12 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   ];
 
   useEffect(() => {
-    if (deploymentCenterContext.gitHubToken) {
-      fetchSourceControlDetails();
+    if (deploymentCenterContext.configMetadata) {
+      setSourceControlDetails();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext.gitHubToken]);
+  }, [deploymentCenterContext.configMetadata]);
 
   useEffect(() => {
     if (!isSourceControlsLoading) {

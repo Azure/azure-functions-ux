@@ -6297,6 +6297,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterWorkflowRunNumber" xml:space="preserve">
         <value>Workflow Run Number</value>
     </data>
+    <data name="GitHubActionsRunCancelled" xml:space="preserve">
+        <value>Cancelled</value>
+    </data>
+    <data name="GitHubActionsRunSkipped" xml:space="preserve">
+        <value>Skipped</value>
+    </data>
+    <data name="GitHubActionsRunTimedOut" xml:space="preserve">
+        <value>Timed out</value>
+    </data>
+    <data name="GitHubActionsRunActionRequired" xml:space="preserve">
+        <value>Action required</value>
+    </data>
     <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>You must have direct network access in order to run your function. Your app may be restricted with Private Endpoints, Access Restrictions or Service Endpoints.</value>
     </data>

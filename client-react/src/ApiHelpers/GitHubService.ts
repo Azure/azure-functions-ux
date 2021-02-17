@@ -157,9 +157,10 @@ export default class GitHubService {
     const data = {
       url,
       gitHubToken,
+      method: 'POST',
     };
 
-    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/passthroughPost`, method: 'POST', data });
+    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
   private static _getGitHubObjectList = async <T>(url: string, gitHubToken: string, logger?: (page, response) => void) => {

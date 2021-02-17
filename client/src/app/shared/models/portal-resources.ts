@@ -2045,6 +2045,10 @@ export class PortalResources {
     'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription';
   public static deploymentCenterGitHubActionsCancelRunMessage = 'deploymentCenterGitHubActionsCancelRunMessage';
   public static deploymentCenterWorkflowRunNumber = 'deploymentCenterWorkflowRunNumber';
+  public static GitHubActionsRunCancelled = 'GitHubActionsRunCancelled';
+  public static GitHubActionsRunSkipped = 'GitHubActionsRunSkipped';
+  public static GitHubActionsRunTimedOut = 'GitHubActionsRunTimedOut';
+  public static GitHubActionsRunActionRequired = 'GitHubActionsRunActionRequired';
   public static functionEditor_privateLinkRunMessage = 'functionEditor_privateLinkRunMessage';
   public static deploymentCenterContainerGitHubActionsTitle = 'deploymentCenterContainerGitHubActionsTitle';
   public static deploymentCenterCodeGitHubTitle = 'deploymentCenterCodeGitHubTitle';

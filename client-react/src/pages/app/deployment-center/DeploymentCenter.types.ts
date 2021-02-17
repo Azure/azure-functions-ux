@@ -113,17 +113,6 @@ export enum GitHubActionRunConclusion {
   ActionRequired = 'action_required',
 }
 
-export enum GitHubActionRunConclusionDisplayName {
-  Success = 'Success',
-  Failure = 'Failure',
-  Cancelled = 'Cancelled',
-  Neutral = 'Neutral',
-  Skipped = 'Skipped',
-  TimedOut = 'Timed out',
-  ActionRequired = 'Action required',
-  None = '',
-}
-
 export interface AzureDevOpsUrl {
   Tfs: string;
   Sps: string;
@@ -604,22 +593,12 @@ export interface GitHubActionsCodeDeploymentsRow {
   rawTime: moment.Moment;
   displayTime: string;
   commit: JSX.Element;
-  runNumber: number | JSX.Element;
-  message: string | JSX.Element;
-  status: string | JSX.Element;
+  runNumber: JSX.Element;
+  message: string;
+  status: JSX.Element;
   commitId: string;
   author: string;
   group: number;
-}
-
-export interface GitHubActionsRunRow {
-  index: number;
-  rawTime: moment.Moment;
-  displayTime: string;
-  workflowId: number | JSX.Element;
-  status: string | JSX.Element;
-  details: JSX.Element;
-  commit: JSX.Element;
 }
 
 export interface GitHubActionsRun {
