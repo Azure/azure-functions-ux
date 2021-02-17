@@ -52,4 +52,5 @@ export const DeploymentCenterLinks = {
   vstsWebAppLinuxDeployment: 'https://go.microsoft.com/fwlink/?linkid=2153882',
   vstsWebAppWindowsDeployment: 'https://go.microsoft.com/fwlink/?linkid=2153883',
   vstsWebAppContainerDeployment: 'https://go.microsoft.com/fwlink/?linkid=2153784',
+  publishingUserDocumentation: 'https://go.microsoft.com/fwlink/?linkid=2082375',
 };
