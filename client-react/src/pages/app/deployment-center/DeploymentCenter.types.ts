@@ -325,6 +325,7 @@ export interface DeploymentCenterCodeLogsTimerProps {
 }
 
 export interface DeploymentCenterCommitLogsProps {
+  dismissLogPanel: () => void;
   commitId?: string;
 }
 
