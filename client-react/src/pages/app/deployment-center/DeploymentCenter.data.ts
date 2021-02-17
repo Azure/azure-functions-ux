@@ -285,4 +285,12 @@ export default class DeploymentCenterData {
   public getAzureDevOpsBranches = (accountName: string, repositoryId: string) => {
     return this._azureDevOpsService.getBranchesForRepo(accountName, repositoryId);
   };
+
+  public listWorkflowRuns = (gitHubToken: string, org: string, repo: string, workflowFileName: string) => {
+    return GitHubService.listWorkflowRuns(gitHubToken, org, repo, workflowFileName);
+  };
+
+  public cancelWorkflowRun = (gitHubToken: string, url: string) => {
+    return GitHubService.cancelWorkflowRun(gitHubToken, url);
+  };
 }

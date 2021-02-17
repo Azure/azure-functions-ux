@@ -103,6 +103,27 @@ export enum TargetAzDevDeployment {
   SU2 = 'su2',
 }
 
+export enum GitHubActionRunConclusion {
+  Success = 'success',
+  Failure = 'failure',
+  Cancelled = 'cancelled',
+  Neutral = 'neutral',
+  Skipped = 'skipped',
+  TimedOut = 'timed_out',
+  ActionRequired = 'action_required',
+}
+
+export enum GitHubActionRunConclusionDisplayName {
+  Success = 'Success',
+  Failure = 'Failure',
+  Cancelled = 'Cancelled',
+  Neutral = 'Neutral',
+  Skipped = 'Skipped',
+  TimedOut = 'Timed out',
+  ActionRequired = 'Action required',
+  None = '',
+}
+
 export interface AzureDevOpsUrl {
   Tfs: string;
   Sps: string;
@@ -576,4 +597,46 @@ export interface DeploymentCenterDevOpsProviderProps<T = DeploymentCenterContain
   loadingRepositories: boolean;
   loadingBranches: boolean;
   errorMessage?: string;
+}
+export interface GitHubActionsCodeDeploymentsRow {
+  index: number;
+  rawTime: moment.Moment;
+  displayTime: string;
+  commit: JSX.Element;
+  runNumber: number | JSX.Element;
+  message: string | JSX.Element;
+  status: string | JSX.Element;
+  commitId: string;
+  author: string;
+  group: number;
+}
+
+export interface GitHubActionsRunRow {
+  index: number;
+  rawTime: moment.Moment;
+  displayTime: string;
+  workflowId: number | JSX.Element;
+  status: string | JSX.Element;
+  details: JSX.Element;
+  commit: JSX.Element;
+}
+
+export interface GitHubActionsRun {
+  cancel_url: string;
+  html_url: string;
+  logs_url: string;
+  workflow_id: number;
+  status: string;
+  conclusion: string;
+  created_at: string;
+  updated_at: string;
+  run_number: number;
+  head_commit: {
+    id: string;
+    author: {
+      name: string;
+      email: string;
+    };
+    message: string;
+  };
 }

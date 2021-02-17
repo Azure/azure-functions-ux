@@ -2043,6 +2043,8 @@ export class PortalResources {
   public static deploymentCenterContainerSettingsSourceOptionGitHubActions = 'deploymentCenterContainerSettingsSourceOptionGitHubActions';
   public static deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription =
     'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription';
+  public static deploymentCenterGitHubActionsCancelRunMessage = 'deploymentCenterGitHubActionsCancelRunMessage';
+  public static deploymentCenterWorkflowRunNumber = 'deploymentCenterWorkflowRunNumber';
   public static functionEditor_privateLinkRunMessage = 'functionEditor_privateLinkRunMessage';
   public static deploymentCenterContainerGitHubActionsTitle = 'deploymentCenterContainerGitHubActionsTitle';
   public static deploymentCenterCodeGitHubTitle = 'deploymentCenterCodeGitHubTitle';
