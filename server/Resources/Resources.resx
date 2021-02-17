@@ -6294,8 +6294,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
         <value>Cancel run</value>
     </data>
-    <data name="deploymentCenterWorkflowRunNumber" xml:space="preserve">
-        <value>Workflow Run Number</value>
+    <data name="deploymentCenterLogSource" xml:space="preserve">
+        <value>Log Source</value>
+    </data>
+    <data name="deploymentCenterLogSourceGitHubActions" xml:space="preserve">
+        <value>GitHub Actions Run</value>
+    </data>
+    <data name="deploymentCenterLogSourceAppService" xml:space="preserve">
+        <value>App Service</value>
     </data>
     <data name="GitHubActionsRunCancelled" xml:space="preserve">
         <value>Cancelled</value>

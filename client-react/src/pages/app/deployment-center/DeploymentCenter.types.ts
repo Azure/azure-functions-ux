@@ -593,7 +593,7 @@ export interface GitHubActionsCodeDeploymentsRow {
   rawTime: moment.Moment;
   displayTime: string;
   commit: JSX.Element;
-  runNumber: JSX.Element;
+  logSource: string;
   message: string;
   status: JSX.Element;
   commitId: string;

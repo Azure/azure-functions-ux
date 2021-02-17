@@ -2044,7 +2044,9 @@ export class PortalResources {
   public static deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription =
     'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription';
   public static deploymentCenterGitHubActionsCancelRunMessage = 'deploymentCenterGitHubActionsCancelRunMessage';
-  public static deploymentCenterWorkflowRunNumber = 'deploymentCenterWorkflowRunNumber';
+  public static deploymentCenterLogSource = 'deploymentCenterLogSource';
+  public static deploymentCenterLogSourceGitHubActions = 'deploymentCenterLogSourceGitHubActions';
+  public static deploymentCenterLogSourceAppService = 'deploymentCenterLogSourceAppService';
   public static GitHubActionsRunCancelled = 'GitHubActionsRunCancelled';
   public static GitHubActionsRunSkipped = 'GitHubActionsRunSkipped';
   public static GitHubActionsRunTimedOut = 'GitHubActionsRunTimedOut';

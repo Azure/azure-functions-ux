@@ -162,7 +162,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       //it did not show as cancelled right after clicking cancel
       if (runs && runs.length > 0) {
         const curRuns = runs;
-        runs[0].conclusion = t(GitHubActionRunConclusion.Cancelled);
+        curRuns[0].conclusion = t(GitHubActionRunConclusion.Cancelled);
         setRuns(curRuns);
       }
     } else {
@@ -205,7 +205,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
           {deployment.properties.id.substr(0, 7)}
         </Link>
       ),
-      runNumber: <>{``}</>,
+      logSource: t('deploymentCenterLogSourceAppService'),
       author: deployment.properties.author,
       message: deployment.properties.deployer === 'GitHub' ? '' : deployment.properties.message,
       status: deployment.properties.active ? (
@@ -224,7 +224,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       rawTime: moment(run.updated_at),
       // NOTE (stpelleg): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
       displayTime: moment(run.updated_at).format('MM/D YYYY, h:mm:ss A Z'),
-      runNumber: <>{run.run_number}</>,
+      logSource: t('deploymentCenterLogSourceGitHubActions'),
       author: run.head_commit.author.name,
       message: run.head_commit.message,
       commit: (
@@ -308,7 +308,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   const columns: IColumn[] = [
     { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 100, maxWidth: 200 },
     { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 50, maxWidth: 100 },
-    { key: 'runNumber', name: t('deploymentCenterWorkflowRunNumber'), fieldName: 'runNumber', minWidth: 100, maxWidth: 150 },
+    { key: 'logSource', name: t('deploymentCenterLogSource'), fieldName: 'logSource', minWidth: 100, maxWidth: 150 },
     { key: 'author', name: t('commitAuthor'), fieldName: 'author', minWidth: 100, maxWidth: 150 },
     { key: 'status', name: t('status'), fieldName: 'status', minWidth: 125, maxWidth: 200 },
     { key: 'message', name: t('message'), fieldName: 'message', minWidth: 200 },
