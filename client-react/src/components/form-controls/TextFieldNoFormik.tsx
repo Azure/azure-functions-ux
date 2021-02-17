@@ -1,10 +1,10 @@
 import React, { FC, useContext, useState } from 'react';
-import { TextField as OfficeTextField, ITextFieldProps, ITextField } from 'office-ui-fabric-react/lib/TextField';
+import { TextField as OfficeTextField, ITextFieldProps } from 'office-ui-fabric-react/lib/TextField';
 import ReactiveFormControl, { Layout } from './ReactiveFormControl';
 import { useWindowSize } from 'react-use';
 import { ThemeContext } from '../../ThemeContext';
 import { textFieldStyleOverrides, copyButtonStyle } from './formControl.override.styles';
-import { TooltipHost, Stack } from 'office-ui-fabric-react';
+import { TooltipHost, Stack, IButton } from 'office-ui-fabric-react';
 import IconButton from '../IconButton/IconButton';
 import { useTranslation } from 'react-i18next';
 import { TextUtilitiesService } from '../../utils/textUtilities';
@@ -39,6 +39,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     copyButton,
     additionalControls,
     hideShowButton,
+    required,
     ...rest
   } = props;
   const { width } = useWindowSize();
@@ -48,13 +49,13 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
 
   const [copied, setCopied] = useState(false);
   const [hidden, setHidden] = useState(!!hideShowButton);
-  const [textFieldRef, setTextFieldRef] = useState<ITextField | undefined>(undefined);
+  const [copyButtonRef, setCopyButtonRef] = useState<IButton | undefined>(undefined);
 
   const copyToClipboard = (e: React.MouseEvent<any>) => {
     if (!!e) {
       e.stopPropagation();
     }
-    TextUtilitiesService.copyContentToClipboard(value || '', textFieldRef);
+    TextUtilitiesService.copyContentToClipboard(value || '', copyButtonRef);
     setCopied(true);
   };
 
@@ -95,6 +96,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
               iconProps={{ iconName: 'Copy', styles: copyButtonStyle }}
               onClick={copyToClipboard}
               ariaLabel={getCopiedLabel()}
+              componentRef={ref => ref && setCopyButtonRef(ref)}
             />
           </TooltipHost>
         )}
@@ -116,7 +118,6 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     <ReactiveFormControl {...props}>
       <Stack horizontal verticalAlign="center">
         <OfficeTextField
-          componentRef={ref => ref && setTextFieldRef(ref)}
           id={id}
           aria-labelledby={`${id}-label`}
           value={hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : value || ''}
@@ -128,6 +129,9 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
           onRenderSuffix={onRenderSuffix}
           {...rest}
           required={false} // ReactiveFormControl will handle displaying required
+          //NOTE(michinoy): even though we are handling the required display marker at
+          //the field level, for a11y we need to have the aria-required tag set.
+          aria-required={!!required}
         />
         {additionalControls}
       </Stack>

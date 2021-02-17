@@ -34,7 +34,7 @@ const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderPro
 
       {showInfoBanner && errorMessage && (
         <div className={deploymentCenterInfoBannerDiv}>
-          <CustomBanner message={errorMessage} type={MessageBarType.error} onDismiss={closeInfoBanner} />
+          <CustomBanner id="devops-error-message" message={errorMessage} type={MessageBarType.error} onDismiss={closeInfoBanner} />
         </div>
       )}
 

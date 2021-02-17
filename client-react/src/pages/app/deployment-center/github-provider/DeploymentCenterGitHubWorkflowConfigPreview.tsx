@@ -46,7 +46,12 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
 
           {showInfoBanner && panelMessage && (
             <div className={panelBanner}>
-              <CustomBanner message={panelMessage} type={MessageBarType.info} onDismiss={closeInfoBanner} />
+              <CustomBanner
+                id="workflow-config-panel-message"
+                message={panelMessage}
+                type={MessageBarType.info}
+                onDismiss={closeInfoBanner}
+              />
             </div>
           )}
 

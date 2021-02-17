@@ -74,7 +74,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
         </Link>
       ),
       author: deployment.properties.author,
-      checkinMessage: deployment.properties.message,
+      message: deployment.properties.deployer === 'GitHub' ? '' : deployment.properties.message,
       status: deployment.properties.active
         ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
         : `${getStatusString(deployment.properties.status, deployment.properties.progress)}`,
@@ -123,7 +123,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 75, maxWidth: 100 },
     { key: 'author', name: t('commitAuthor'), fieldName: 'author', minWidth: 75, maxWidth: 200 },
     { key: 'status', name: t('status'), fieldName: 'status', minWidth: 100, maxWidth: 150 },
-    { key: 'checkinMessage', name: t('checkinMessage'), fieldName: 'checkinMessage', minWidth: 210 },
+    { key: 'message', name: t('message'), fieldName: 'message', minWidth: 210 },
   ];
 
   const groups: IGroup[] = getItemGroups(items);

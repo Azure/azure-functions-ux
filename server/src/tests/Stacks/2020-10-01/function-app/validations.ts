@@ -149,7 +149,7 @@ function validateDotnetStack(dotnetStack) {
   expect(dotnetStack.displayText).to.equal('.NET');
   expect(dotnetStack.value).to.equal('dotnet');
   expect(dotnetStack.preferredOs).to.equal('windows');
-  expect(dotnetStack.majorVersions.length).to.equal(3);
+  expect(dotnetStack.majorVersions.length).to.equal(4);
   expect(dotnetStack).to.deep.equal(hardCodedDotnetStack);
 }
 

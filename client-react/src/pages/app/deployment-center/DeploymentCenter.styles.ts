@@ -96,8 +96,8 @@ export const panelBanner = style({
 });
 
 export const disconnectLink = style({
+  display: 'block',
   marginTop: '5px',
-  width: '100%',
 });
 
 export const panelOverflowStyle = {
