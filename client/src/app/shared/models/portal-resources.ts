@@ -2269,4 +2269,9 @@ export class PortalResources {
   public static deploymentCenterContainerAcrFailedToLoadTags = 'deploymentCenterContainerAcrFailedToLoadTags';
   public static moreCommands = 'moreCommands';
   public static deploymentCenterProdSlotWarningLinkAriaLabel = 'deploymentCenterProdSlotWarningLinkAriaLabel';
+  public static deploymentCenterCodeRedeployCommitRequestSubmittedDesc = 'deploymentCenterCodeRedeployCommitRequestSubmittedDesc';
+  public static deploymentCenterCodeRedeployCommitSuccess = 'deploymentCenterCodeRedeployCommitSuccess';
+  public static deploymentCenterCodeRedeployCommitFailed = 'deploymentCenterCodeRedeployCommitFailed';
+  public static deploymentCenterCodeRedeployCommitFailedWithError = 'deploymentCenterCodeRedeployCommitFailedWithError';
+  public static deploymentCenterRedeployCommit = 'deploymentCenterRedeployCommit';
 }

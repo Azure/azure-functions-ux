@@ -6370,10 +6370,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Redeploy Request Submitted</value>
     </data>
     <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>The repository for web app {0} is being updated</value>
+        <value>The redeploy/sync operation for web app {0} is being submitted</value>
     </data>
     <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>The repository for web app {0} has been updated successfully</value>
+        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
     </data>
     <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Failed to redeploy: {0}</value>
@@ -6950,5 +6950,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about why CI/CD is not recommended for production slots.</value>
+    </data>
+    <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+    </data>
+    <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+    </data>
+    <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+    </data>
+    <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+    </data>
+    <data name="deploymentCenterRedeployCommit" xml:space="preserve">
+        <value>Redeploy commit</value>
     </data>
 </root>

@@ -73,6 +73,10 @@ export default class DeploymentCenterData {
     return SiteService.getLogDetails(deploymentId, logId);
   };
 
+  public redeployCommit = (resourceId: string, commitId: string) => {
+    return SiteService.redeployCommit(resourceId, commitId);
+  };
+
   public getSourceControlDetails = (resourceId: string) => {
     return SiteService.getSourceControlDetails(resourceId);
   };
