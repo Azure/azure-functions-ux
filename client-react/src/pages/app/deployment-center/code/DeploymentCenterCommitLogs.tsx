@@ -4,26 +4,35 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { ArmArray, ArmObj } from '../../../../models/arm-obj';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { useTranslation } from 'react-i18next';
-import { ProgressIndicator, IColumn, Link } from 'office-ui-fabric-react';
-import { deploymentCenterLogsError, deploymentCenterConsole } from '../DeploymentCenter.styles';
+import { ProgressIndicator, IColumn, Link, PrimaryButton, CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react';
+import { deploymentCenterLogsError, deploymentCenterConsole, closePublishProfileButtonStyle } from '../DeploymentCenter.styles';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
 import { ThemeContext } from '../../../../ThemeContext';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { ScmType } from '../../../../models/site/config';
+import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
+import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
+import CustomFocusTrapCallout from '../../../../components/CustomCallout/CustomFocusTrapCallout';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = props => {
-  const { commitId } = props;
+  const { commitId, dismissLogPanel } = props;
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const deploymentCenterData = new DeploymentCenterData();
   const [logItems, setLogItems] = useState<ArmArray<DeploymentLogsItem> | undefined>(undefined);
   const [logItemsError, setLogItemsError] = useState<string | undefined>(undefined);
   const [displayingDetails, setDisplayingDetails] = useState<boolean>(false);
   const [logDetails, setLogDetails] = useState<string | undefined>(undefined);
+  const [isRedeployCommitCalloutHidden, setIsRedeployCommitCalloutHidden] = useState<boolean>(true);
 
   const fetchDeploymentLogs = async (commitIdString: string) => {
     portalContext.log(getTelemetryInfo('info', 'fetchDeploymentLogsForCommit', 'submit'));
@@ -91,13 +100,78 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
     };
   };
 
-  useEffect(() => {
-    if (commitId) {
-      fetchDeploymentLogs(commitId);
-    }
+  const showRedeployCommitCallout = () => {
+    setIsRedeployCommitCalloutHidden(false);
+  };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [commitId]);
+  const hideRedeployCommitCallout = () => {
+    setIsRedeployCommitCalloutHidden(true);
+  };
+
+  const onRedeployCommitClick = () => {
+    portalContext.log(getTelemetryInfo('verbose', 'onRedeployCommitClick', 'clicked'));
+    showRedeployCommitCallout();
+  };
+
+  const redeployCommit = async () => {
+    portalContext.log(
+      getTelemetryInfo('info', 'redeployCommit', 'submit', {
+        location: 'DeploymentCenterCommitLogs',
+      })
+    );
+
+    const siteName = siteStateContext && siteStateContext.site ? siteStateContext.site.name : '';
+    const resourceId = siteStateContext && siteStateContext.resourceId ? siteStateContext.resourceId : '';
+    const specificCommitId = getSpecificCommitId();
+
+    const notificationId = portalContext.startNotification(
+      t('deploymentCenterCodeRedeployRequestSubmitted'),
+      t('deploymentCenterCodeRedeployCommitRequestSubmittedDesc').format(specificCommitId, siteName)
+    );
+
+    setIsRedeployCommitCalloutHidden(true);
+
+    const redeployResponse = await deploymentCenterData.redeployCommit(resourceId, specificCommitId);
+    if (redeployResponse.metadata.success) {
+      portalContext.stopNotification(
+        notificationId,
+        true,
+        t('deploymentCenterCodeRedeployCommitSuccess').format(specificCommitId, siteName)
+      );
+    } else {
+      const errorMessage = getErrorMessage(redeployResponse.metadata.error);
+      errorMessage
+        ? portalContext.stopNotification(
+            notificationId,
+            false,
+            t('deploymentCenterCodeRedeployCommitFailedWithError').format(specificCommitId, siteName, errorMessage)
+          )
+        : portalContext.stopNotification(
+            notificationId,
+            false,
+            t('deploymentCenterCodeRedeployCommitFailed').format(specificCommitId, siteName)
+          );
+
+      portalContext.log(
+        getTelemetryInfo('error', 'redeployCommit', 'failed', {
+          message: errorMessage,
+        })
+      );
+    }
+  };
+
+  const commandBarItems: ICommandBarItemProps[] = [
+    {
+      id: 'redeploy-commit',
+      key: 'deploymentCenterRedeployCommit',
+      name: t('deploymentCenterRedeployCommit'),
+      iconProps: {
+        iconName: 'Download',
+      },
+      ariaLabel: t('deploymentCenterRedeployCommit'),
+      onClick: onRedeployCommitClick,
+    },
+  ];
 
   const logDisplayItems = logItems && commitId ? logItems.value.map(logItem => getLogDisplayItem(commitId, logItem)) : [];
 
@@ -109,12 +183,56 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
 
   const getCommitIdHeader = () => {
     if (commitId) {
-      return <p>{`${t('commitId')}: ${commitId.split('/')[commitId.split('/').length - 1]}`}</p>;
+      return <p>{`${t('commitId')}: ${getSpecificCommitId()}`}</p>;
     }
   };
 
+  const getSpecificCommitId = () => {
+    if (commitId) {
+      return commitId.split('/')[commitId.split('/').length - 1];
+    }
+
+    return '';
+  };
+
+  const isAppServiceBuildService = () => {
+    const scmType = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType;
+    return scmType === ScmType.BitbucketGit || scmType === ScmType.GitHub || scmType === ScmType.LocalGit;
+  };
+
+  useEffect(() => {
+    if (commitId && deploymentCenterContext.siteConfig) {
+      fetchDeploymentLogs(commitId);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [commitId, deploymentCenterContext.siteConfig]);
+
   return (
     <>
+      {isAppServiceBuildService() && (
+        <>
+          <CommandBar
+            items={commandBarItems}
+            role="nav"
+            styles={CommandBarStyles}
+            ariaLabel={t('managePublishProfileCommandBarAriaLabel')}
+            buttonAs={CustomCommandBarButton}
+          />
+          <CustomFocusTrapCallout
+            target="#redeploy-commit"
+            onDismissFunction={hideRedeployCommitCallout}
+            setInitialFocus={true}
+            hidden={isRedeployCommitCalloutHidden}
+            title={t('deploymentCenterRedeployConfirmTitle')}
+            description={t('deploymentCenterRedeployConfirmMessage')}
+            defaultButtonTitle={t('ok')}
+            defaultButtonFunction={redeployCommit}
+            primaryButtonTitle={t('cancel')}
+            primaryButtonFunction={hideRedeployCommitCallout}
+          />
+        </>
+      )}
       {logItemsError ? (
         <pre className={deploymentCenterLogsError}>{logItemsError}</pre>
       ) : logItems ? (
@@ -130,6 +248,8 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
           ariaValueText={t('deploymentCenterCodeDeploymentLogActivityLoadingAriaValue')}
         />
       )}
+
+      <PrimaryButton className={closePublishProfileButtonStyle} text={t('Close')} onClick={dismissLogPanel} ariaLabel={t('Close')} />
     </>
   );
 };

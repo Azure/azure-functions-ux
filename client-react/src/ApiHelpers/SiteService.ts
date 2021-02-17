@@ -95,6 +95,14 @@ export default class SiteService {
     });
   };
 
+  public static redeployCommit = async (resourceId: string, commitId: string) => {
+    return MakeArmCall<ArmArray<DeploymentLogsItem>>({
+      resourceId: `${resourceId}/deployments/${commitId}`,
+      commandName: 'redeployCommit',
+      method: 'PUT',
+    });
+  };
+
   public static getLogDetails = async (deploymentId: string, logId: string) => {
     return MakeArmCall<ArmArray<DeploymentLogsItem>>({
       resourceId: `${deploymentId}/log/${logId}`,
