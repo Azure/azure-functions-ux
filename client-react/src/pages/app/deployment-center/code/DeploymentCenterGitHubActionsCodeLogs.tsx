@@ -26,6 +26,7 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { dateTimeComparatorReverse } from './DeploymentCenterCodeLogs';
 import { PortalContext } from '../../../../PortalContext';
 import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
@@ -104,6 +105,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   };
 
   const fetchSourceControlDetails = async () => {
+    setGitHubActionLogsErrorMessage(undefined);
     setIsLogsLoading(true);
     setIsSourcecontrolsLoading(true);
     const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
@@ -115,16 +117,26 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         setOrg(repoUrlSplit[repoUrlSplit.length - 2]);
         setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
       } else {
+        setGitHubActionLogsErrorMessage('deploymentCenterCodeDeploymentsFailed');
         setIsLogsLoading(false);
       }
     } else {
-      setGitHubActionLogsErrorMessage(t('deploymentCenterGitHubActionsLogsFailed'));
+      const errorMessage = getErrorMessage(sourceControlDetailsResponse.metadata.error);
+      setGitHubActionLogsErrorMessage(
+        errorMessage ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage) : t('deploymentCenterCodeDeploymentsFailed')
+      );
+      portalContext.log(
+        getTelemetryInfo('error', 'getSourceControlDetails', 'failed', {
+          error: sourceControlDetailsResponse.metadata.error,
+        })
+      );
       setIsLogsLoading(false);
     }
     setIsSourcecontrolsLoading(false);
   };
 
   const fetchWorkflowRuns = async () => {
+    setGitHubActionLogsErrorMessage(undefined);
     const siteName = siteStateContext.site ? siteStateContext.site.properties.name : '';
     if (org && repo && branch && siteName) {
       const workflowFileName = getWorkflowFileName(branch, siteName);
@@ -139,10 +151,11 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       if (gitHubActionWorkflowRunsResponse.metadata.success && gitHubActionWorkflowRunsResponse.data) {
         setRuns(gitHubActionWorkflowRunsResponse.data.workflow_runs);
       } else {
+        const errorMessage = getErrorMessage(gitHubActionWorkflowRunsResponse.metadata.error);
         setGitHubActionLogsErrorMessage(
-          gitHubActionWorkflowRunsResponse.metadata.error
-            ? t('deploymentCenterGitHubActionsLogsFailedWithError').format(gitHubActionWorkflowRunsResponse.metadata.error)
-            : t('deploymentCenterGitHubActionsLogsFailed')
+          errorMessage
+            ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage)
+            : t('deploymentCenterCodeDeploymentsFailed')
         );
         portalContext.log(
           getTelemetryInfo('error', 'getWorkflowRuns', 'failed', {
@@ -162,10 +175,9 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       await fetchWorkflowRuns();
       //NOTE(stpelleg): It takes a while for the run to show as cancelled, but users would be confused if
       //it did not show as cancelled right after clicking cancel
-      if (runs) {
+      if (runs && runs.length > 0) {
         const curRuns = runs;
-        curRuns[0].conclusion = 'cancelled';
-        curRuns[0].status = 'completed';
+        curRuns[0].conclusion = t(GitHubActionRunConclusion.Cancelled);
         setRuns(curRuns);
       }
       setIsLogsLoading(false);
@@ -245,14 +257,13 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     const groups: IGroup[] = [];
     items.forEach((item, index) => {
       if (index === 0 || !item.rawTime.isSame(groups[groups.length - 1].data.startIndexRawTime, 'day')) {
-        const group = {
+        groups.push({
           key: `Group${groups.length}`,
           name: item.rawTime.format('dddd, MMMM D, YYYY'),
           startIndex: index,
           count: 1,
           data: { startIndexRawTime: item.rawTime },
-        };
-        groups.push(group);
+        });
       } else {
         groups[groups.length - 1].count += 1;
       }
@@ -292,6 +303,16 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     );
   };
 
+  const getDeploymentErrorMessage = () => {
+    if (deploymentsError) {
+      return deploymentsError;
+    } else if (gitHubActionLogsErrorMessage) {
+      return gitHubActionLogsErrorMessage;
+    } else {
+      return '';
+    }
+  };
+
   const rows: GitHubActionsCodeDeploymentsRow[] = deployments
     ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index))
     : [];
@@ -329,7 +350,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       {isLoading || isLogsLoading ? (
         getProgressIndicator()
       ) : deploymentsError || gitHubActionLogsErrorMessage ? (
-        <div className={deploymentCenterLogsError}>{deploymentsError}</div>
+        <div className={deploymentCenterLogsError}>{getDeploymentErrorMessage()}</div>
       ) : deployments ? (
         <>
           <DeploymentCenterCodeLogsTimer refreshLogs={refreshGitHubActionsLogs} />

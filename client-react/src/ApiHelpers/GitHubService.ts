@@ -144,7 +144,7 @@ export default class GitHubService {
   };
 
   public static listWorkflowRuns = (gitHubToken: string, org: string, repo: string, workflowFileName: string) => {
-    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/actions/workflows/${workflowFileName}/runs`;
+    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/actions/workflows/${workflowFileName}/runs?page=1`;
     const data = {
       url,
       gitHubToken,
