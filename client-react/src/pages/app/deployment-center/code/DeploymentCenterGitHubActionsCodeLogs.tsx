@@ -361,7 +361,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         getProgressIndicator()
       )}
       <CustomPanel isOpen={isLogPanelOpen} onDismiss={dismissLogPanel} type={PanelType.medium}>
-        <DeploymentCenterCommitLogs commitId={currentCommitId} />
+        <DeploymentCenterCommitLogs commitId={currentCommitId} dismissLogPanel={dismissLogPanel} />
       </CustomPanel>
     </>
   );
