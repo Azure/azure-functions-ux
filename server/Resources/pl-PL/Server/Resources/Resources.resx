@@ -1355,7 +1355,7 @@
         <value>Usługa konsoli nie jest dostępna w Twojej aplikacji.</value>
     </data>
   <data name="error_consoleCommandFialure" xml:space="preserve">
-        <value>Failed to execute the command.</value>
+        <value>Nie udało się wykonać polecenia.</value>
     </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Konsola</value>
@@ -4259,9 +4259,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Funkcje oparte na oprogramowaniu Kubernetes nie są obecnie obsługiwane.</value>
     </data>
-  <data name="dockerComposeDisabledMessage" xml:space="preserve">
-        <value>Narzędzie Docker Compose nie jest obecnie obsługiwane.</value>
-    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Edytowanie funkcji w portalu nie jest obsługiwane w przypadku aplikacji funkcji wdrożonych jako obraz platformy Docker.</value>
     </data>
@@ -6001,7 +5998,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Nie można pobrać informacji o koncie</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>Aplikacja została skonfigurowana przy użyciu usługi Azure Pipelines jako dostawcy kompilacji. Przejdź do witryny https://dev.azure.com, aby zarządzać wdrożeniami.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>Bieżąca konfiguracja wdrożenia nie jest już obsługiwana. Przejdź do portalu Azure DevOps, aby się rozłączyć.</value>
@@ -6175,7 +6172,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Zakres użytkownika</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Poświadczenia zakresu użytkownika są definiowane przez Ciebie (użytkownika) i mogą być używane na potrzeby wszystkich aplikacji, do których masz dostęp. Te poświadczenia mogą być używane w przypadku protokołu FTPS, lokalnego repozytorium Git oraz narzędzia WebDeploy. Uwierzytelnianie w punkcie końcowym FTPS przy użyciu poświadczeń na poziomie użytkownika wymaga nazwy użytkownika w następującym formacie: „{0}”</value>
+        <value>Poświadczenia zakresu użytkownika są definiowane przez Ciebie (użytkownika) i mogą być używane na potrzeby wszystkich aplikacji, do których masz dostęp. Te poświadczenia mogą być używane w przypadku protokołu FTPS, lokalnego repozytorium Git oraz narzędzia WebDeploy. Uwierzytelnianie w punkcie końcowym FTPS przy użyciu poświadczeń na poziomie użytkownika wymaga nazwy użytkownika w następującym formacie: „{0}”. Uwierzytelnianie za pomocą usługi Git wymaga tylko nazwy użytkownika „{1}” zdefiniowanej poniżej.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(Twoja nazwa użytkownika)</value>
@@ -6288,6 +6285,30 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>Kompiluj i wdrażaj aplikację kontenera oraz zarządzaj nią automatycznie za pomocą usługi GitHub Actions.</value>
     </data>
+  <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
+        <value>Cancel run</value>
+    </data>
+  <data name="deploymentCenterLogSource" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+  <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
+        <value>Build/Deploy Logs</value>
+    </data>
+  <data name="deploymentCenterAppLogSource" xml:space="preserve">
+        <value>App Logs</value>
+    </data>
+  <data name="GitHubActionsRunCancelled" xml:space="preserve">
+        <value>Cancelled</value>
+    </data>
+  <data name="GitHubActionsRunSkipped" xml:space="preserve">
+        <value>Skipped</value>
+    </data>
+  <data name="GitHubActionsRunTimedOut" xml:space="preserve">
+        <value>Timed out</value>
+    </data>
+  <data name="GitHubActionsRunActionRequired" xml:space="preserve">
+        <value>Action required</value>
+    </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>Aby uruchomić funkcję, musisz mieć bezpośredni dostęp do sieci. Aplikacja może być ograniczona w przypadku prywatnych punktów końcowych, ograniczeń dostępu lub punktów końcowych usługi.</value>
     </data>
@@ -6361,10 +6382,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Przesłano żądanie ponownego wdrożenia</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>Trwa aktualizowanie repozytorium dla aplikacji internetowej {0}.</value>
+        <value>The redeploy/sync operation for web app {0} is being submitted</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>Repozytorium dla aplikacji internetowej {0} zostało pomyślnie zaktualizowane</value>
+        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Nie udało się wdrożyć ponownie: {0}</value>
@@ -6622,16 +6643,16 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Kompilowanie za pomocą usługi kompilacji usługi App Service.</value>
     </data>
   <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
-        <value>Building with Azure Pipelines.</value>
+        <value>Kompilowanie przy użyciu usługi Azure Pipelines.</value>
     </data>
   <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>Aby skonfigurować wdrożenie za pomocą usługi Azure Pipelines, przejdź do portalu Azure Dev Ops.</value>
     </data>
   <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
-        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+        <value>Skonfiguruj niezawodny potok wdrażania aplikacji przy użyciu usługi Azure Pipelines wchodzącej w skład usługi Azure DevOps Services (wcześniej znanej jako VSTS).</value>
     </data>
   <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
-        <value>Get started</value>
+        <value>Wprowadzenie</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Zmień dostawcę.</value>
@@ -6897,13 +6918,61 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="endOfLifeStackMessage" xml:space="preserve">
         <value>Wybrana wersja „{0}” stanie się przestarzała {1}. Rozważ zaktualizowanie jej wkrótce.</value>
     </data>
-  <data name="logsRefreshTimerMessage" xml:space="preserve">
-        <value>Dzienniki zostaną odświeżone za {0} s</value>
-    </data>
   <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+        <value>Te ustawienia kontenera (klasyczne) są przestarzałe i zostaną usunięte w marcu 2021 r. Aby kontynuować zarządzanie ustawieniami kontenera, zapoznaj się z nowym centrum wdrażania.</value>
     </data>
   <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
+        <value>Centrum wdrażania (klasyczne) jest przestarzałe i zostanie usunięte w marcu 2021 r. Aby kontynuować zarządzanie wdrożeniami, zapoznaj się z nowym centrum wdrażania.</value>
+    </data>
+  <data name="netVersionLabel" xml:space="preserve">
+        <value>Wersja platformy .NET</value>
+    </data>
+  <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+        <value>W subskrypcji „{0}” nie są dostępne żadne rejestry ACR.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
+        <value>Nie można załadować rejestrów ACR — {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistries" xml:space="preserve">
+        <value>Nie można załadować rejestrów ACR.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
+        <value>Nie można załadować poświadczeń ACR wymaganych do ładowania obrazów i tagów — {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
+        <value>Nie można załadować poświadczeń ACR wymaganych do ładowania obrazów i tagów.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
+        <value>Nie można załadować obrazów ACR — {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImages" xml:space="preserve">
+        <value>Nie można załadować obrazów ACR</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTagsWithError" xml:space="preserve">
+        <value>Nie można załadować tagów ACR — {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTags" xml:space="preserve">
+        <value>Nie można załadować tagów ACR.</value>
+    </data>
+  <data name="moreCommands" xml:space="preserve">
+        <value>Więcej poleceń</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
+        <value>Kliknij tutaj, aby dowiedzieć się więcej o tym, dlaczego nie zaleca się ciągłej integracji/ciągłego wdrażania dla miejsc produkcyjnych.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+    </data>
+  <data name="deploymentCenterRedeployCommit" xml:space="preserve">
+        <value>Redeploy commit</value>
     </data>
 </root>

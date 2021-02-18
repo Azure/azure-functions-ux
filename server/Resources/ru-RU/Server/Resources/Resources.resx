@@ -1355,7 +1355,7 @@
         <value>Служба консоли недоступна в вашем приложении.</value>
     </data>
   <data name="error_consoleCommandFialure" xml:space="preserve">
-        <value>Failed to execute the command.</value>
+        <value>Не удалось выполнить команду.</value>
     </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Консоль</value>
@@ -3464,7 +3464,7 @@
         <value>Уровень ведения журнала</value>
     </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-        <value>Azure Pipelines</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
         <value>Вы можете настроить надежный конвейер развертывания для приложения с помощью службы Azure Pipelines, которая входит в Azure DevOps Services (ранее — VSTS). Конвейер выполняет сборку, запускает нагрузочные тесты и выполняет развертывание в промежуточный слот, а затем в рабочий.</value>
@@ -4258,9 +4258,6 @@
     </data>
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Функции на основе Kubernetes сейчас не поддерживаются.</value>
-    </data>
-  <data name="dockerComposeDisabledMessage" xml:space="preserve">
-        <value>Docker Compose сейчас не поддерживается.</value>
     </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Изменение функций на портале не поддерживается для приложений-функций, развернутых как образы docker.</value>
@@ -6001,7 +5998,7 @@
         <value>Не удалось получить сведения об учетной записи</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>В вашем приложении Azure Pipelines настроен в качестве поставщика сборки. Для управления развертываниями перейдите на сайт https://dev.azure.com.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>Текущая конфигурация развертывания больше не поддерживается. Перейдите на портал Azure DevOps для отключения.</value>
@@ -6175,7 +6172,7 @@
         <value>Область пользователей</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Учетные данные области пользователя определяются вами — пользователем — и могут использоваться со всеми приложениями, к которым у вас есть доступ. Эти учетные данные можно использовать с FTPS, локальным Git и WebDeploy. Для проверки подлинности на конечной точке FTPS с помощью учетных данных уровня пользователя требуется имя пользователя в следующем формате: "{0}".</value>
+        <value>Учетные данные области пользователя определяются вами, пользователем, и действуют во всех приложениях, к которым у вас есть доступ. Эти данные можно применять для FTPS, локальных Git-репозиториев и WebDeploy. Чтобы использовать их для проверки подлинности на конечной точке FTPS, имя пользователя должно быть в следующем формате: "{0}". Для проверки подлинности в Git требуется только нижеуказанное имя пользователя "{1}".</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(ваше имя пользователя)</value>
@@ -6288,6 +6285,30 @@
   <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>Функции GitHub Actions автоматизируют создание, развертывание и поддержку контейнерного приложения.</value>
     </data>
+  <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
+        <value>Cancel run</value>
+    </data>
+  <data name="deploymentCenterLogSource" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+  <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
+        <value>Build/Deploy Logs</value>
+    </data>
+  <data name="deploymentCenterAppLogSource" xml:space="preserve">
+        <value>App Logs</value>
+    </data>
+  <data name="GitHubActionsRunCancelled" xml:space="preserve">
+        <value>Cancelled</value>
+    </data>
+  <data name="GitHubActionsRunSkipped" xml:space="preserve">
+        <value>Skipped</value>
+    </data>
+  <data name="GitHubActionsRunTimedOut" xml:space="preserve">
+        <value>Timed out</value>
+    </data>
+  <data name="GitHubActionsRunActionRequired" xml:space="preserve">
+        <value>Action required</value>
+    </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>Для запуска функции необходим прямой доступ к сети. Ваше приложение может блокироваться через частные конечные точки, ограничения доступа или конечные точки службы.</value>
     </data>
@@ -6361,10 +6382,10 @@
         <value>Отправлен запрос на повторное развертывание</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>Обновляется репозиторий для веб-приложения {0}</value>
+        <value>The redeploy/sync operation for web app {0} is being submitted</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>Репозиторий для веб-приложения {0} обновлен.</value>
+        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Не удалось выполнить повторное развертывание: {0}</value>
@@ -6553,7 +6574,7 @@
         <value>Служба сборки службы приложений</value>
     </data>
   <data name="deploymentCenterCodeSettingsBuildVsts" xml:space="preserve">
-        <value>Azure Pipelines</value>
+        <value>Azure Pipelines</value>
     </data>
   <data name="leaveFeedback" xml:space="preserve">
         <value>Оставьте отзыв</value>
@@ -6622,16 +6643,16 @@
         <value>Создание с помощью службы сборок Службы приложений.</value>
     </data>
   <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
-        <value>Building with Azure Pipelines.</value>
+        <value>Сборка с помощью Azure Pipelines.</value>
     </data>
   <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>Чтобы настроить развертывание с помощью Azure Pipelines, посетите портал Azure DevOps.</value>
     </data>
   <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
-        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+        <value>Вы можете настроить надежный конвейер развертывания приложения с помощью службы Azure Pipelines, которая входит в состав Azure DevOps Services (ранее — VSTS).</value>
     </data>
   <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
-        <value>Get started</value>
+        <value>Начало работы</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Измените поставщика.</value>
@@ -6897,13 +6918,61 @@
   <data name="endOfLifeStackMessage" xml:space="preserve">
         <value>Выбранная версия "{0}" будет объявлена нерекомендуемой {1}. Рекомендуется обновить ее в ближайшее время.</value>
     </data>
-  <data name="logsRefreshTimerMessage" xml:space="preserve">
-        <value>Журналы будут обновлены через {0} с.</value>
-    </data>
   <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+        <value>Интерфейс "Параметры контейнера (классический)" является нерекомендуемым и будет удален в марте 2021 г. Для дальнейшего управления параметрами контейнера опробуйте новый интерфейс Центра развертывания.</value>
     </data>
   <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
+        <value>Интерфейс "Центр развертывания (классический)" является нерекомендуемым и будет удален в марте 2021 г. Для дальнейшего управления развертываниями опробуйте новый вариант этого интерфейса.</value>
+    </data>
+  <data name="netVersionLabel" xml:space="preserve">
+        <value>Версия .NET</value>
+    </data>
+  <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+        <value>Нет доступных реестров ACR в подписке "{0}".</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
+        <value>Не удалось загрузить реестры ACR — {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistries" xml:space="preserve">
+        <value>Не удалось загрузить реестры ACR.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
+        <value>Не удалось загрузить учетные данные записи ACR, необходимые для загрузки образов и тегов, — {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
+        <value>Не удалось загрузить учетные данные записи ACR, необходимые для загрузки образов и тегов.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
+        <value>Не удалось загрузить образы ACR — {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImages" xml:space="preserve">
+        <value>Не удалось загрузить образы ACR.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTagsWithError" xml:space="preserve">
+        <value>Не удалось загрузить теги ACR — {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTags" xml:space="preserve">
+        <value>Не удалось загрузить теги ACR.</value>
+    </data>
+  <data name="moreCommands" xml:space="preserve">
+        <value>Дополнительные команды</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
+        <value>Щелкните, чтобы получить дополнительные сведения о том, почему не рекомендуется использовать CI/CD для рабочих слотов.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+    </data>
+  <data name="deploymentCenterRedeployCommit" xml:space="preserve">
+        <value>Redeploy commit</value>
     </data>
 </root>

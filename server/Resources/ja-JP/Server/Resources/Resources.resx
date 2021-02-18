@@ -1355,7 +1355,7 @@
         <value>このアプリでコンソール サービスは利用できません。</value>
     </data>
   <data name="error_consoleCommandFialure" xml:space="preserve">
-        <value>Failed to execute the command.</value>
+        <value>コマンドを実行できませんでした。</value>
     </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>コンソール</value>
@@ -4259,9 +4259,6 @@
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Kubernetes に基づく関数は現在サポートされていません。</value>
     </data>
-  <data name="dockerComposeDisabledMessage" xml:space="preserve">
-        <value>Docker Compose は現在サポートされていません。</value>
-    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>ポータルの編集機能は、Docker イメージとしてデプロイされた関数アプリではサポートされていません。</value>
     </data>
@@ -6001,7 +5998,7 @@
         <value>アカウント情報を取得できません</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>お客様のアプリは、ビルド プロバイダーとして Azure Pipelines を使用して構成されています。デプロイを管理するには、https://dev.azure.com に移動します。</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>現在のデプロイ構成はサポートされなくなりました。切断するには、Azure DevOps ポータルに移動してください。</value>
@@ -6175,7 +6172,7 @@
         <value>ユーザー スコープ</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>ユーザー スコープの資格情報は、ユーザーによって定義され、アクセス可能なすべてのアプリで使用することができます。これらの資格情報は、FTPS、ローカル Git、WebDeploy で使用できます。ユーザー レベルの資格情報を使用して FTPS エンドポイントに対する認証を行うには、次の形式のユーザー名が必要です: '{0}'</value>
+        <value>ユーザー スコープの資格情報は、ユーザーによって定義され、アクセス可能なすべてのアプリで使用することができます。これらの資格情報は、FTPS、ローカル Git、および WebDeploy で使用できます。ユーザー レベルの資格情報を使用して FTPS エンドポイントに対する認証を行うには、次の形式のユーザー名が必要です: '{0}'。Git での認証には、以下で定義されたユーザー名 '{1}' のみ必要です。</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(あなたのユーザー名)</value>
@@ -6288,6 +6285,30 @@
   <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>GitHub Actions を使用して、自動的にコンテナー アプリのビルド、デプロイ、管理を行います。</value>
     </data>
+  <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
+        <value>Cancel run</value>
+    </data>
+  <data name="deploymentCenterLogSource" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+  <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
+        <value>Build/Deploy Logs</value>
+    </data>
+  <data name="deploymentCenterAppLogSource" xml:space="preserve">
+        <value>App Logs</value>
+    </data>
+  <data name="GitHubActionsRunCancelled" xml:space="preserve">
+        <value>Cancelled</value>
+    </data>
+  <data name="GitHubActionsRunSkipped" xml:space="preserve">
+        <value>Skipped</value>
+    </data>
+  <data name="GitHubActionsRunTimedOut" xml:space="preserve">
+        <value>Timed out</value>
+    </data>
+  <data name="GitHubActionsRunActionRequired" xml:space="preserve">
+        <value>Action required</value>
+    </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>関数を実行するには、ネットワークに直接アクセスできる必要があります。アプリは、プライベート エンドポイント、アクセス制限、サービス エンドポイントによって制限されている可能性があります。</value>
     </data>
@@ -6361,10 +6382,10 @@
         <value>再デプロイ要求が送信されました</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>Web アプリ {0} のリポジトリを更新しています</value>
+        <value>The redeploy/sync operation for web app {0} is being submitted</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>Web アプリ {0} のリポジトリが正常に更新されました</value>
+        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>再デプロイが失敗しました: {0}</value>
@@ -6622,16 +6643,16 @@
         <value>App Service のビルド サービスを使用してビルドしています。</value>
     </data>
   <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
-        <value>Building with Azure Pipelines.</value>
+        <value>Azure Pipelines を使用してビルドしています。</value>
     </data>
   <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>Azure Pipelines を使用したデプロイを構成するには、Azure DevOps ポータルにアクセスしてください。</value>
     </data>
   <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
-        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+        <value>Azure DevOps Services (旧称 VSTS) の一部である Azure Pipelines を使用して、アプリケーションに強力なデプロイ パイプラインを構成します。</value>
     </data>
   <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
-        <value>Get started</value>
+        <value>作業の開始</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>プロバイダーを変更します。</value>
@@ -6897,13 +6918,61 @@
   <data name="endOfLifeStackMessage" xml:space="preserve">
         <value>選択されたバージョン '{0}' は {1} に廃止されます。早めに更新することをご検討ください。</value>
     </data>
-  <data name="logsRefreshTimerMessage" xml:space="preserve">
-        <value>あと {0} 秒でログが更新されます</value>
-    </data>
   <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+        <value>このコンテナー設定 (クラシック) エクスペリエンスは非推奨であり、2021 年 3 月に廃止されます。お客様のコンテナー設定の管理を続行するには、新しいデプロイ センター エクスペリエンスをお試しください。</value>
     </data>
   <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
+        <value>デプロイ センター (クラシック) エクスペリエンスは非推奨であり、2021 年 3 月に廃止されます。お客様のデプロイの管理を続行するには、新しいデプロイ センター エクスペリエンスをお試しください。</value>
+    </data>
+  <data name="netVersionLabel" xml:space="preserve">
+        <value>.NET バージョン</value>
+    </data>
+  <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+        <value>サブスクリプション '{0}' で使用可能な ACR レジストリがありません。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
+        <value>ACR レジストリの読み込みに失敗しました - {0}。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistries" xml:space="preserve">
+        <value>ACR レジストリの読み込みに失敗しました。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
+        <value>イメージとタグの読み込みに必要な ACR 資格情報を読み込めませんでした - {0}。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
+        <value>イメージとタグの読み込みに必要な ACR 資格情報を読み込めませんでした。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
+        <value>ACR イメージの読み込みに失敗しました - {0}。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImages" xml:space="preserve">
+        <value>ACR イメージの読み込みに失敗しました</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTagsWithError" xml:space="preserve">
+        <value>ACR タグの読み込みに失敗しました - {0}。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTags" xml:space="preserve">
+        <value>ACR タグの読み込みに失敗しました。</value>
+    </data>
+  <data name="moreCommands" xml:space="preserve">
+        <value>その他のコマンド</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
+        <value>ここをクリックして、CI/CD を運用スロットで使用することが推奨されない理由をご覧ください。</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+    </data>
+  <data name="deploymentCenterRedeployCommit" xml:space="preserve">
+        <value>Redeploy commit</value>
     </data>
 </root>
