@@ -19,7 +19,7 @@ import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { getSourceControlsWorkflowFileName, getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { dateTimeComparatorReverse } from './DeploymentCenterCodeLogs';
@@ -125,18 +125,20 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     const siteName = siteStateContext.site ? siteStateContext.site.properties.name : '';
     if (org && repo && branch && siteName) {
       const workflowFileName = getWorkflowFileName(branch, siteName);
+      const sourceControlsWorkflowFileName = getSourceControlsWorkflowFileName(branch, siteName, 'production');
 
-      const gitHubActionWorkflowRunsResponse = await deploymentCenterData.listWorkflowRuns(
-        deploymentCenterContext.gitHubToken,
-        org,
-        repo,
-        workflowFileName
-      );
+      const [gitHubActionsWorkflowRunsResponse, gitHubActionsFromCreateWorkflowRunsResponse] = await Promise.all([
+        deploymentCenterData.listWorkflowRuns(deploymentCenterContext.gitHubToken, org, repo, workflowFileName),
+        deploymentCenterData.listWorkflowRuns(deploymentCenterContext.gitHubToken, org, repo, sourceControlsWorkflowFileName),
+      ]);
 
-      if (gitHubActionWorkflowRunsResponse.metadata.success && gitHubActionWorkflowRunsResponse.data) {
-        setRuns(gitHubActionWorkflowRunsResponse.data.workflow_runs);
+      if (gitHubActionsWorkflowRunsResponse.metadata.success && gitHubActionsWorkflowRunsResponse.data) {
+        setRuns(gitHubActionsWorkflowRunsResponse.data.workflow_runs);
+      } else if (gitHubActionsFromCreateWorkflowRunsResponse.metadata.success && gitHubActionsFromCreateWorkflowRunsResponse.data) {
+        setRuns(gitHubActionsFromCreateWorkflowRunsResponse.data.workflow_runs);
       } else {
-        const errorMessage = getErrorMessage(gitHubActionWorkflowRunsResponse.metadata.error);
+        setRuns([]);
+        const errorMessage = getErrorMessage(gitHubActionsWorkflowRunsResponse.metadata.error);
         setGitHubActionLogsErrorMessage(
           errorMessage
             ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage)
@@ -144,7 +146,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         );
         portalContext.log(
           getTelemetryInfo('error', 'getWorkflowRuns', 'failed', {
-            error: gitHubActionWorkflowRunsResponse.metadata.error,
+            error: gitHubActionsWorkflowRunsResponse.metadata.error,
           })
         );
       }
@@ -288,13 +290,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   };
 
   const getDeploymentErrorMessage = () => {
-    if (deploymentsError) {
-      return deploymentsError;
-    } else if (gitHubActionLogsErrorMessage) {
-      return gitHubActionLogsErrorMessage;
-    } else {
-      return '';
-    }
+    return `${deploymentsError} ${gitHubActionLogsErrorMessage}`;
   };
 
   const gitHubActionsRows: GitHubActionsCodeDeploymentsRow[] = runs ? runs.map((run, index) => getGitHubActionsRunRow(run, index)) : [];
@@ -334,9 +330,9 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     <>
       {isLoading || isLogsLoading ? (
         getProgressIndicator()
-      ) : deploymentsError || gitHubActionLogsErrorMessage ? (
+      ) : deploymentsError && gitHubActionLogsErrorMessage ? (
         <div className={deploymentCenterLogsError}>{getDeploymentErrorMessage()}</div>
-      ) : deployments ? (
+      ) : deployments || runs ? (
         <>
           <DeploymentCenterCodeLogsTimer refreshLogs={refreshGitHubActionsLogs} />
           <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
