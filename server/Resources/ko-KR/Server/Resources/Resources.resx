@@ -1355,7 +1355,7 @@
         <value>콘솔 서비스를 앱에서 사용할 수 없습니다.</value>
     </data>
   <data name="error_consoleCommandFialure" xml:space="preserve">
-        <value>Failed to execute the command.</value>
+        <value>명령을 실행하지 못했습니다.</value>
     </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>콘솔</value>
@@ -4259,9 +4259,6 @@
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Kubernetes 기반 함수는 현재 지원되지 않습니다.</value>
     </data>
-  <data name="dockerComposeDisabledMessage" xml:space="preserve">
-        <value>Docker Compose는 현재 지원되지 않습니다.</value>
-    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Docker 이미지로 배포된 함수 앱의 경우 포털의 함수 편집은 지원되지 않습니다.</value>
     </data>
@@ -6001,7 +5998,7 @@
         <value>계정 정보를 검색할 수 없음</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>Azure Pipelines를 빌드 공급자로 사용하여 앱이 구성되었습니다. 배포를 관리하려면 https://dev.azure.com으로 이동하세요.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>현재 배포 구성은 더 이상 지원되지 않습니다. 연결을 끊으려면 Azure DevOps 포털로 이동하세요.</value>
@@ -6175,7 +6172,7 @@
         <value>사용자 범위</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>사용자 범위 자격 증명은 사용자가 정의하며 액세스할 수 있는 모든 앱에서 사용할 수 있습니다. 이러한 자격 증명은 FTPS, 로컬 Git 및 WebDeploy와 함께 사용할 수 있습니다. 사용자 수준 자격 증명을 사용하여 FTPS 엔드포인트에 인증하려면 '{0}' 형식의 사용자 이름이 필요합니다.</value>
+        <value>사용자 범위 자격 증명은 사용자가 정의하며 액세스할 수 있는 모든 앱에서 사용할 수 있습니다. 이러한 자격 증명은 FTPS, 로컬 Git, WebDeploy와 함께 사용할 수 있습니다. 사용자 수준 자격 증명을 사용하여 FTPS 엔드포인트를 인증하려면 '{0}' 형식의 사용자 이름이 필요합니다. Git로 인증하려면 아래에 정의된 사용자 이름 '{1}'만 필요합니다.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(사용자 이름)</value>
@@ -6288,6 +6285,30 @@
   <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>GitHub 작업으로 컨테이너 앱을 자동으로 빌드, 배포 및 관리합니다.</value>
     </data>
+  <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
+        <value>Cancel run</value>
+    </data>
+  <data name="deploymentCenterLogSource" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+  <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
+        <value>Build/Deploy Logs</value>
+    </data>
+  <data name="deploymentCenterAppLogSource" xml:space="preserve">
+        <value>App Logs</value>
+    </data>
+  <data name="GitHubActionsRunCancelled" xml:space="preserve">
+        <value>Cancelled</value>
+    </data>
+  <data name="GitHubActionsRunSkipped" xml:space="preserve">
+        <value>Skipped</value>
+    </data>
+  <data name="GitHubActionsRunTimedOut" xml:space="preserve">
+        <value>Timed out</value>
+    </data>
+  <data name="GitHubActionsRunActionRequired" xml:space="preserve">
+        <value>Action required</value>
+    </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>함수를 실행하려면 직접 네트워크 액세스 권한이 있어야 합니다. 앱이 프라이빗 엔드포인트, 액세스 제한 또는 서비스 엔드포인트를 사용하여 제한될 수 있습니다.</value>
     </data>
@@ -6361,10 +6382,10 @@
         <value>재배포 요청 제출됨</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>{0} 웹앱에 대한 리포지토리를 업데이트하는 중입니다.</value>
+        <value>The redeploy/sync operation for web app {0} is being submitted</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>웹앱 {0}의 리포지토리를 업데이트했습니다.</value>
+        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>재배포하지 못함: {0}</value>
@@ -6622,16 +6643,16 @@
         <value>App Service 빌드 서비스를 사용하여 빌드하는 중입니다.</value>
     </data>
   <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
-        <value>Building with Azure Pipelines.</value>
+        <value>Azure Pipelines를 사용하여 빌드합니다.</value>
     </data>
   <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>Azure Pipelines를 사용하여 배포를 구성하려면 Azure Dev Ops 포털로 이동하세요.</value>
     </data>
   <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
-        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+        <value>Azure DevOps Services(이전 VSTS)의 일부인 Azure Pipelines를 사용하여 애플리케이션의 강력한 배포 파이프라인을 구성합니다.</value>
     </data>
   <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
-        <value>Get started</value>
+        <value>시작</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>공급자를 변경합니다.</value>
@@ -6897,13 +6918,61 @@
   <data name="endOfLifeStackMessage" xml:space="preserve">
         <value>선택한 버전 '{0}'은(는) {1}에 사용 중단됩니다. 빨리 업데이트하세요.</value>
     </data>
-  <data name="logsRefreshTimerMessage" xml:space="preserve">
-        <value>로그가 {0}초 후에 새로 고쳐집니다.</value>
-    </data>
   <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+        <value>이 컨테이너 설정(클래식) 환경은 사용되지 않으며 2021년 3월에 제거됩니다. 컨테이너 설정을 계속 관리하려면 새 배포 센터 환경을 사용해 보세요.</value>
     </data>
   <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
+        <value>배포 센터(클래식) 환경은 사용되지 않으며 2021년 3월에 제거됩니다. 배포를 계속 관리하려면 새 배포 센터 환경을 사용해 보세요.</value>
+    </data>
+  <data name="netVersionLabel" xml:space="preserve">
+        <value>.NET 버전</value>
+    </data>
+  <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+        <value>'{0}' 구독에 사용 가능한 ACR 레지스트리가 없습니다.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
+        <value>ACR 레지스트리를 로드하지 못함 - {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistries" xml:space="preserve">
+        <value>ACR 레지스트리를 로드하지 못했습니다.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
+        <value>이미지와 태그를 로드하는 데 필요한 ACR 자격 증명을 로드하지 못함 - {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
+        <value>이미지와 태그를 로드하는 데 필요한 ACR 자격 증명을 로드하지 못했습니다.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
+        <value>ACR 이미지를 로드하지 못함 - {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImages" xml:space="preserve">
+        <value>ACR 이미지를 로드하지 못함</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTagsWithError" xml:space="preserve">
+        <value>ACR 태그를 로드하지 못함 - {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTags" xml:space="preserve">
+        <value>ACR 태그를 로드하지 못했습니다.</value>
+    </data>
+  <data name="moreCommands" xml:space="preserve">
+        <value>기타 명령</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
+        <value>프로덕션 슬롯에 CI/CD가 권장되지 않는 이유를 자세히 알아보려면 여기를 클릭하세요.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+    </data>
+  <data name="deploymentCenterRedeployCommit" xml:space="preserve">
+        <value>Redeploy commit</value>
     </data>
 </root>

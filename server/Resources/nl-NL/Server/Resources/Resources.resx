@@ -1355,7 +1355,7 @@
         <value>De consoleservice is niet beschikbaar op uw app.</value>
     </data>
   <data name="error_consoleCommandFialure" xml:space="preserve">
-        <value>Failed to execute the command.</value>
+        <value>Kan de opdracht niet uitvoeren.</value>
     </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Console</value>
@@ -4260,9 +4260,6 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Op Kubernetes gebaseerde functies worden momenteel niet ondersteund.</value>
     </data>
-  <data name="dockerComposeDisabledMessage" xml:space="preserve">
-        <value>Docker Compose wordt momenteel niet ondersteund.</value>
-    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Het bewerken van functies in de portal wordt niet ondersteund voor functie-apps die zijn geïmplementeerd als docker-installatiekopie.</value>
     </data>
@@ -6002,7 +5999,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Kan geen accountgegevens ophalen</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>Uw app wordt geconfigureerd met Azure Pipelines als buildprovider. Ga naar https://dev.azure.com om uw implementaties te beheren.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>De huidige implementatieconfiguratie wordt niet meer ondersteund. Ga naar de Azure DevOps-portal om de verbinding te verbreken.</value>
@@ -6176,7 +6173,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Gebruikersbereik</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Referenties voor gebruikersbereiken worden gedefinieerd door u, de gebruiker, en kunnen worden gebruikt met alle apps waartoe u toegang hebt. Deze referenties kunnen worden gebruikt met FTPS, een lokale Git-opslagplaats en WebDeploy. Voor verificatie bij een FTPS-eindpunt met referenties op gebruikersniveau is een gebruikersnaam vereist met de volgende indeling: {0}</value>
+        <value>Referenties voor gebruikersbereiken worden gedefinieerd door u, de gebruiker, en kunnen worden gebruikt met alle apps waartoe u toegang hebt. Deze referenties kunnen worden gebruikt met FTPS, een lokale Git-opslagplaats en WebDeploy. Voor verificatie bij een FTPS-eindpunt met referenties op gebruikersniveau is een gebruikersnaam vereist met de volgende indeling: {0}. Voor verificatie met Git is alleen de hieronder gedefinieerde gebruikersnaam {1} vereist.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(uw gebruikersnaam)</value>
@@ -6289,6 +6286,30 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>Bouw, implementeer en beheer uw container-app automatisch met GitHub Actions.</value>
     </data>
+  <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
+        <value>Cancel run</value>
+    </data>
+  <data name="deploymentCenterLogSource" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+  <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
+        <value>Build/Deploy Logs</value>
+    </data>
+  <data name="deploymentCenterAppLogSource" xml:space="preserve">
+        <value>App Logs</value>
+    </data>
+  <data name="GitHubActionsRunCancelled" xml:space="preserve">
+        <value>Cancelled</value>
+    </data>
+  <data name="GitHubActionsRunSkipped" xml:space="preserve">
+        <value>Skipped</value>
+    </data>
+  <data name="GitHubActionsRunTimedOut" xml:space="preserve">
+        <value>Timed out</value>
+    </data>
+  <data name="GitHubActionsRunActionRequired" xml:space="preserve">
+        <value>Action required</value>
+    </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>U moet rechtstreekse netwerktoegang hebben om de functie uit te voeren. Uw app is mogelijk beperkt met privé-eindpunten, toegangsbeperkingen of service-eindpunten.</value>
     </data>
@@ -6362,10 +6383,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Aanvraag voor opnieuw implementeren is verzonden</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>De opslagplaats voor web-app {0} wordt bijgewerkt.</value>
+        <value>The redeploy/sync operation for web app {0} is being submitted</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>De opslagplaats voor de web-app {0} is bijgewerkt</value>
+        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Kan niet opnieuw implementeren: {0}</value>
@@ -6623,16 +6644,16 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Bouwen met App Service-opbouwservice.</value>
     </data>
   <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
-        <value>Building with Azure Pipelines.</value>
+        <value>Opbouwen met Azure Pipelines.</value>
     </data>
   <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>Als u de implementatie met Azure Pipelines wilt configureren, gaat u naar de Azure Dev Ops-portal</value>
     </data>
   <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
-        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+        <value>Gebruik Azure Pipelines, onderdeel van Azure DevOps Services (voorheen VSTS), om een robuuste implementatiepipeline voor uw toepassing te configureren.</value>
     </data>
   <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
-        <value>Get started</value>
+        <value>Aan de slag</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>De provider wijzigen.</value>
@@ -6898,13 +6919,61 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="endOfLifeStackMessage" xml:space="preserve">
         <value>De geselecteerde versie {0} wordt afgeschaft op {1}. Werk het tijdig bij.</value>
     </data>
-  <data name="logsRefreshTimerMessage" xml:space="preserve">
-        <value>Logboeken worden over {0} seconden vernieuwd</value>
-    </data>
   <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+        <value>De ervaring Containerinstellingen (klassiek) wordt afgeschaft en in maart 2021 verwijderd. Probeer de nieuwe Implementatiecentrum-ervaring om uw containerinstellingen te blijven beheren.</value>
     </data>
   <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
+        <value>De ervaring Implementatiecentrum (klassiek) wordt afgeschaft en in maart 2021 verwijderd. Probeer de nieuwe Implementatiecentrum-ervaring om uw implementaties te blijven beheren.</value>
+    </data>
+  <data name="netVersionLabel" xml:space="preserve">
+        <value>.NET-versie</value>
+    </data>
+  <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+        <value>Geen ACR-registers beschikbaar in abonnement {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
+        <value>Kan de ACR-registratie niet laden - {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistries" xml:space="preserve">
+        <value>Kan de ACR-registratie niet laden.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
+        <value>Kan de ACR-referenties die nodig zijn voor het laden van installatiekopieën en tags niet laden - {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
+        <value>Kan de ACR-referenties die nodig zijn voor het laden van installatiekopieën en tags niet laden.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
+        <value>Kan de ACR-installatiekopieën niet laden - {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImages" xml:space="preserve">
+        <value>Kan de ACR-installatiekopieën niet laden</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTagsWithError" xml:space="preserve">
+        <value>Kan de ACR-tags niet laden - {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTags" xml:space="preserve">
+        <value>Kan de ACR-tags niet laden.</value>
+    </data>
+  <data name="moreCommands" xml:space="preserve">
+        <value>Meer opdrachten</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
+        <value>Klik hier voor meer informatie over waarom CI/CD niet wordt aanbevolen voor productiesites.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+    </data>
+  <data name="deploymentCenterRedeployCommit" xml:space="preserve">
+        <value>Redeploy commit</value>
     </data>
 </root>

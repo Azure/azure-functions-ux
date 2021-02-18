@@ -1355,7 +1355,7 @@
         <value>Uygulamanızda konsol hizmeti kullanılamıyor.</value>
     </data>
   <data name="error_consoleCommandFialure" xml:space="preserve">
-        <value>Failed to execute the command.</value>
+        <value>Komut yürütülemedi.</value>
     </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Konsol</value>
@@ -4259,9 +4259,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Kubernetes tabanlı işlevler şu anda desteklenmiyor.</value>
     </data>
-  <data name="dockerComposeDisabledMessage" xml:space="preserve">
-        <value>Docker Compose şu anda desteklenmiyor.</value>
-    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Docker görüntüsü olarak dağıtılan işlev uygulamaları için işlevleri portalda düzenleme desteklenmiyor.</value>
     </data>
@@ -6001,7 +5998,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Hesap bilgileri alınamıyor</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>Uygulamanız, bir derleme sağlayıcısı olarak Azure Pipelines ile yapılandırıldı. Dağıtımlarınızı yönetmek için https://dev.azure.com adresine gidin.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>Geçerli dağıtım yapılandırması artık desteklenmiyor. Lütfen bağlantıyı kesmek için Azure DevOps portalına gidin.</value>
@@ -6175,7 +6172,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Kullanıcı kapsamı</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Kullanıcı kapsamı kimlik bilgilerini, kullanıcı olarak siz tanımlarsınız ve bu bilgileri erişim iznine sahip olduğunuz tüm uygulamalarla birlikte kullanabilirsiniz. Bu kimlik bilgileri FTP, Yerel Git ve WebDeploy ile birlikte kullanılabilir. Kullanıcı düzeyindeki kimlik bilgilerini kullanarak FTPS uç noktasında kimlik doğrulaması yapılabilmesi şu biçimde bir kullanıcı adı gerekir: '{0}'</value>
+        <value>Kullanıcı kapsamı kimlik bilgilerini, kullanıcı olarak siz tanımlarsınız ve bu bilgileri erişim iznine sahip olduğunuz tüm uygulamalarla birlikte kullanabilirsiniz. Bu kimlik bilgileri FTPS, Yerel Git ve WebDeploy ile birlikte kullanılabilir. Kullanıcı düzeyindeki kimlik bilgilerini kullanarak FTPS uç noktasında kimlik doğrulaması yapılabilmesi için şu biçimde bir kullanıcı adı gerekir: '{0}'. Git ile kimlik doğrulaması yapılabilmesi için yalnızca aşağıda tanımlanan kullanıcı adı ('{1}') gerekir.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(kullanıcı adınız)</value>
@@ -6288,6 +6285,30 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>Kapsayıcı uygulamanızı GitHub Actions ile otomatik olarak oluşturun, dağıtın ve yönetin.</value>
     </data>
+  <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
+        <value>Cancel run</value>
+    </data>
+  <data name="deploymentCenterLogSource" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+  <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
+        <value>Build/Deploy Logs</value>
+    </data>
+  <data name="deploymentCenterAppLogSource" xml:space="preserve">
+        <value>App Logs</value>
+    </data>
+  <data name="GitHubActionsRunCancelled" xml:space="preserve">
+        <value>Cancelled</value>
+    </data>
+  <data name="GitHubActionsRunSkipped" xml:space="preserve">
+        <value>Skipped</value>
+    </data>
+  <data name="GitHubActionsRunTimedOut" xml:space="preserve">
+        <value>Timed out</value>
+    </data>
+  <data name="GitHubActionsRunActionRequired" xml:space="preserve">
+        <value>Action required</value>
+    </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>İşlevinizi çalıştırmak için doğrudan ağ erişiminiz olmalıdır. Uygulamanız Özel Uç Noktalar, Erişim Kısıtlamaları veya Hizmet Uç Noktalarıyla sınırlanmış olabilir.</value>
     </data>
@@ -6361,10 +6382,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Yeniden Dağıtma İsteği Gönderildi</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>{0} web uygulamasının deposu güncelleştiriliyor</value>
+        <value>The redeploy/sync operation for web app {0} is being submitted</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>{0} web uygulaması için depo başarıyla güncelleştirildi</value>
+        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Yeniden dağıtılamadı: {0}</value>
@@ -6622,16 +6643,16 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>App Service Derleme Hizmeti ile derleniyor.</value>
     </data>
   <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
-        <value>Building with Azure Pipelines.</value>
+        <value>Azure Pipelines ile oluşturuluyor.</value>
     </data>
   <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>Azure Pipelines ile dağıtımı yapılandırmak için lütfen Azure DevOps portalına gidin.</value>
     </data>
   <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
-        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+        <value>Azure DevOps Hizmetleri'nin (önceki adıyla VSTS) bir parçası olan Azure Pipelines'ı kullanarak uygulamanız için sağlam bir dağıtım işlem hattı yapılandırın.</value>
     </data>
   <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
-        <value>Get started</value>
+        <value>Kullanmaya başlayın</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Sağlayıcıyı değiştirin.</value>
@@ -6897,13 +6918,61 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="endOfLifeStackMessage" xml:space="preserve">
         <value>Seçili '{0}' sürümü, {1} tarihinde kullanım dışı bırakılacak. Lütfen yakında güncelleştirmeyi düşünün.</value>
     </data>
-  <data name="logsRefreshTimerMessage" xml:space="preserve">
-        <value>Günlükler {0} saniye içinde yenilenecek</value>
-    </data>
   <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+        <value>Bu Kapsayıcı Ayarları (Klasik) deneyimi kullanım dışı bırakıldı ve Mart 2021'de kaldırılacak. Kapsayıcı ayarlarınızı yönetmeye devam etmek için yeni Dağıtım Merkezi deneyimini deneyin.</value>
     </data>
   <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
+        <value>Dağıtım Merkezi (Klasik) deneyimi kullanım dışı bırakıldı ve Mart 2021'de kaldırılacak. Dağıtımlarınızı yönetmeye devam etmek için yeni Dağıtım Merkezi deneyimini deneyin.</value>
+    </data>
+  <data name="netVersionLabel" xml:space="preserve">
+        <value>.NET sürümü</value>
+    </data>
+  <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+        <value>'{0}' Aboneliğinde ACR Kayıt Defteri yok.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
+        <value>ACR Kayıt Defterleri yüklenemedi - {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistries" xml:space="preserve">
+        <value>ACR Kayıt Defterleri yüklenemedi.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
+        <value>Görüntüleri ve Etiketleri yüklemek için gereken ACR Kimlik Bilgileri yüklenemedi - {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
+        <value>Görüntüleri ve Etiketleri yüklemek için gereken ACR Kimlik Bilgileri yüklenemedi.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
+        <value>ACR Görüntüleri yüklenemedi - {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImages" xml:space="preserve">
+        <value>ACR Görüntüleri yüklenemedi</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTagsWithError" xml:space="preserve">
+        <value>ACR Etiketleri yüklenemedi - {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTags" xml:space="preserve">
+        <value>ACR Etiketleri yüklenemedi.</value>
+    </data>
+  <data name="moreCommands" xml:space="preserve">
+        <value>Diğer komutlar</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
+        <value>Üretim yuvalarında CI/CD'nin neden önerilmediği hakkında daha fazla bilgi edinmek için buraya tıklayın.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+    </data>
+  <data name="deploymentCenterRedeployCommit" xml:space="preserve">
+        <value>Redeploy commit</value>
     </data>
 </root>

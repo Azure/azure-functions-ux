@@ -1355,7 +1355,7 @@
         <value>Služba konzoly není ve vaší aplikaci k dispozici.</value>
     </data>
   <data name="error_consoleCommandFialure" xml:space="preserve">
-        <value>Failed to execute the command.</value>
+        <value>Příkaz se nepodařilo provést.</value>
     </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Konzola</value>
@@ -4259,9 +4259,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Funkce založené na Kubernetes se v současné době nepodporují.</value>
     </data>
-  <data name="dockerComposeDisabledMessage" xml:space="preserve">
-        <value>Docker Compose se v současné době nepodporuje.</value>
-    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Na portálu se úpravy aplikací funkcí nasazených jako image Dockeru nepodporují.</value>
     </data>
@@ -6001,7 +5998,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nepovedlo se načíst informace o účtu.</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>Vaše aplikace je nakonfigurovaná pomocí Azure Pipelines jako zprostředkovatel buildu. Pokud chcete spravovat nasazení, přejděte na https://dev.azure.com.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>Aktuální konfigurace nasazení se už nepodporuje. Pokud se chcete odpojit, přejděte prosím na portál Azure DevOps.</value>
@@ -6175,7 +6172,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Obor uživatele</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Přihlašovací údaje oboru uživatelů definujete vy jakožto uživatel a dají se použít pro všechny aplikace, ke kterým máte přístup. Tyto přihlašovací údaje se dají použít pro FTPS, místní Git a WebDeploy. Ověřování u koncového bodu FTPS pomocí přihlašovacích údajů na úrovni uživatele vyžaduje uživatelské jméno v tomto formátu: {0}</value>
+        <value>Přihlašovací údaje oboru uživatelů definujete vy jakožto uživatel a dají se použít pro všechny aplikace, ke kterým máte přístup. Tyto přihlašovací údaje se dají použít pro FTPS, místní Git a WebDeploy. Ověřování u koncového bodu FTPS pomocí přihlašovacích údajů na úrovni uživatele vyžaduje uživatelské jméno v tomto formátu: {0}. K ověřování přes Git se vyžaduje jen níže definované uživatelské jméno {1}.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(vaše uživatelské jméno)</value>
@@ -6288,6 +6285,30 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>Vytvářejte, nasazujte a spravujte kontejnerovou aplikaci automaticky pomocí GitHub Actions.</value>
     </data>
+  <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
+        <value>Cancel run</value>
+    </data>
+  <data name="deploymentCenterLogSource" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+  <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
+        <value>Build/Deploy Logs</value>
+    </data>
+  <data name="deploymentCenterAppLogSource" xml:space="preserve">
+        <value>App Logs</value>
+    </data>
+  <data name="GitHubActionsRunCancelled" xml:space="preserve">
+        <value>Cancelled</value>
+    </data>
+  <data name="GitHubActionsRunSkipped" xml:space="preserve">
+        <value>Skipped</value>
+    </data>
+  <data name="GitHubActionsRunTimedOut" xml:space="preserve">
+        <value>Timed out</value>
+    </data>
+  <data name="GitHubActionsRunActionRequired" xml:space="preserve">
+        <value>Action required</value>
+    </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>Abyste mohli spustit svou funkci, potřebujete přímý přístup k síti. Vaše aplikace může být omezená privátními koncovými body, omezeními přístupu nebo koncovými body služeb.</value>
     </data>
@@ -6361,10 +6382,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Požadavek na nové nasazení se odeslal.</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>Úložiště pro webovou aplikaci {0} se právě aktualizuje.</value>
+        <value>The redeploy/sync operation for web app {0} is being submitted</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>Úložiště pro webovou aplikaci {0} se úspěšně aktualizovalo.</value>
+        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Nepovedlo se znovu provést nasazení: {0}</value>
@@ -6622,16 +6643,16 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Vytváření se službou App Service Build</value>
     </data>
   <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
-        <value>Building with Azure Pipelines.</value>
+        <value>Sestavuje se s použitím Azure Pipelines.</value>
     </data>
   <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>Pokud chcete nakonfigurovat nasazení pomocí Azure Pipelines, přejděte prosím na portál Azure Dev Ops.</value>
     </data>
   <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
-        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+        <value>Pomocí Azure Pipelines, což je součást služby Azure DevOps Services (dříve známé jako VSTS), můžete pro svou aplikaci nakonfigurovat robustní kanál nasazení.</value>
     </data>
   <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
-        <value>Get started</value>
+        <value>Začínáme</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Změňte poskytovatele.</value>
@@ -6897,13 +6918,61 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="endOfLifeStackMessage" xml:space="preserve">
         <value>Vybraná verze {0} se od {1} přestane používat. Zvažte prosím možnost ji v blízké době aktualizovat.</value>
     </data>
-  <data name="logsRefreshTimerMessage" xml:space="preserve">
-        <value>Protokoly se aktualizují za {0} s.</value>
-    </data>
   <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+        <value>Toto Nastavení kontejneru (klasické) je zastaralé a v březnu 2021 ho odebereme. Vyzkoušejte si nové prostředí Deployment Center, v němž budete nastavení kontejnerů spravovat do budoucna.</value>
     </data>
   <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
+        <value>Prostředí Deployment Center (klasické) je zastaralé a v březnu 2021 ho odebereme. Vyzkoušejte si nové prostředí Deployment Center, v němž budete nasazení spravovat do budoucna.</value>
+    </data>
+  <data name="netVersionLabel" xml:space="preserve">
+        <value>Verze rozhraní .NET</value>
+    </data>
+  <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+        <value>V předplatném {0} nejsou k dispozici žádné registry ACR.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
+        <value>Nepovedlo se načíst registry ACR – {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistries" xml:space="preserve">
+        <value>Nepovedlo se načíst registry ACR.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
+        <value>Nepovedlo se načíst přihlašovací údaje ACR potřebné k načtení imagí a značek – {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
+        <value>Nepovedlo se načíst přihlašovací údaje ACR potřebné k načtení imagí a značek.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
+        <value>Nepovedlo se načíst image ACR – {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImages" xml:space="preserve">
+        <value>Nepovedlo se načíst image ACR.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTagsWithError" xml:space="preserve">
+        <value>Nepovedlo se načíst značky ACR – {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTags" xml:space="preserve">
+        <value>Nepovedlo se načíst značky ACR.</value>
+    </data>
+  <data name="moreCommands" xml:space="preserve">
+        <value>Další příkazy</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
+        <value>Kliknutím sem získáte další informace o tom, proč se pro produkční sloty nedoporučuje CI/CD.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+    </data>
+  <data name="deploymentCenterRedeployCommit" xml:space="preserve">
+        <value>Redeploy commit</value>
     </data>
 </root>

@@ -1355,7 +1355,7 @@
         <value>Konsol-tjänsten finns inte tillgänglig på din app.</value>
     </data>
   <data name="error_consoleCommandFialure" xml:space="preserve">
-        <value>Failed to execute the command.</value>
+        <value>Det gick inte att köra kommandot.</value>
     </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Konsol</value>
@@ -4259,9 +4259,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Kubernetes-baserade funktioner stöds inte för närvarande.</value>
     </data>
-  <data name="dockerComposeDisabledMessage" xml:space="preserve">
-        <value>Docker compose stöds inte för närvarande.</value>
-    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Redigeringsfunktionerna i portalen stöds inte för funktionsappar som distribueras som en dockeravbildning.</value>
     </data>
@@ -6001,7 +5998,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Det går inte att hämta kontoinformation</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>Din app är konfigurerad med Azure Pipelines som en build-provider. Gå till https://dev.azure.com för att hantera dina distributioner.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>Den aktuella distributionskonfigurationen stöds inte längre. Gå till Azure DevOps-portalen för att koppla från.</value>
@@ -6175,7 +6172,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Användarbegränsning</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Användarbegränsade autentiseringsuppgifter definieras av dig, användaren, och kan användas med alla appar som du har åtkomst till. Dessa autentiseringsuppgifter kan användas med FTPS, lokal git och WebDeploy. När du autentiserar mot en FTPS-slutpunkt med autentiseringsuppgifter på användarnivå krävs ett användarnamn i följande format: {0}</value>
+        <value>Autentiseringsuppgifter för användaromfång definieras av dig – användaren – och kan användas med alla appar som du har åtkomst till. Dessa autentiseringsuppgifter kan användas med FTPS, lokal Git och WebDeploy. Autentisering till en FTPS -slutpunkt med hjälp av autentiseringsuppgifter på användarnivå kräver ett användarnamn i följande format: "{0}". Autentisering med Git kräver endast användarnamnet "{1}", som definieras nedan.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(ditt användarnamn)</value>
@@ -6288,6 +6285,30 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>Skapa, distribuera och hantera din containerapp automatiskt med GitHub-åtgärder.</value>
     </data>
+  <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
+        <value>Cancel run</value>
+    </data>
+  <data name="deploymentCenterLogSource" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+  <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
+        <value>Build/Deploy Logs</value>
+    </data>
+  <data name="deploymentCenterAppLogSource" xml:space="preserve">
+        <value>App Logs</value>
+    </data>
+  <data name="GitHubActionsRunCancelled" xml:space="preserve">
+        <value>Cancelled</value>
+    </data>
+  <data name="GitHubActionsRunSkipped" xml:space="preserve">
+        <value>Skipped</value>
+    </data>
+  <data name="GitHubActionsRunTimedOut" xml:space="preserve">
+        <value>Timed out</value>
+    </data>
+  <data name="GitHubActionsRunActionRequired" xml:space="preserve">
+        <value>Action required</value>
+    </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>Du måste ha direkt nätverksåtkomst för att kunna köra din funktion. Din app kan vara begränsad med privata slutpunkter, åtkomstbegränsningar eller tjänstslutpunkter.</value>
     </data>
@@ -6361,10 +6382,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Omdistributionsbegäran har skickats in</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>Lagringsplatsen för webbappen {0} uppdateras</value>
+        <value>The redeploy/sync operation for web app {0} is being submitted</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>Lagringsplatsen för webbappen {0} har uppdaterats</value>
+        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Det gick inte att omdistribuera: {0}</value>
@@ -6622,16 +6643,16 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Skapa med App Service Build-tjänsten.</value>
     </data>
   <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
-        <value>Building with Azure Pipelines.</value>
+        <value>Bygg med Azure Pipelines.</value>
     </data>
   <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>Om du vill konfigurera distribution med Azure Pipelines gå du till Azure DevOps-portalen.</value>
     </data>
   <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
-        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+        <value>Konfigurera en robust distributionspipeline för ditt program med hjälp av Azure Pipelines, som ingår i Azure DevOps Services (tidigare VSTS).</value>
     </data>
   <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
-        <value>Get started</value>
+        <value>Kom igång</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Ändra provider.</value>
@@ -6897,13 +6918,61 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="endOfLifeStackMessage" xml:space="preserve">
         <value>Den valda versionen {0} blir inaktuell den {1}. Försök att uppdatera den snart.</value>
     </data>
-  <data name="logsRefreshTimerMessage" xml:space="preserve">
-        <value>Loggarna uppdateras om {0} sekunder</value>
-    </data>
   <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+        <value>Den här containerinställningsupplevelsen (klassisk) är inaktuell och kommer att tas bort i mars 2021. Om du vill fortsätta hantera dina containerinställningar kan du prova den nya distributionscenterupplevelsen.</value>
     </data>
   <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
+        <value>Distributionscenter-upplevelsen (klassisk) är inaktuell och kommer att tas bort i mars 2021. Om du vill fortsätta att hantera dina distributioner kan du prova den nya distributionscenterupplevelsen.</value>
+    </data>
+  <data name="netVersionLabel" xml:space="preserve">
+        <value>.NET-version</value>
+    </data>
+  <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+        <value>Inga ACR-register är tillgängliga i prenumerationen "{0}".</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
+        <value>Det gick inte att läsa in ACR-register – {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistries" xml:space="preserve">
+        <value>Det gick inte att läsa in ACR-register.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
+        <value>Det gick inte att läsa in ACR-autentiseringsuppgifter som krävs för att läsa in avbildningar och taggar – {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
+        <value>Det gick inte att läsa in ACR-autentiseringsuppgifter som krävs för att läsa in avbildningar och taggar.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
+        <value>Det gick inte att läsa in ACR-avbildningar – {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImages" xml:space="preserve">
+        <value>Det gick inte att läsa in ACR-avbildningar</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTagsWithError" xml:space="preserve">
+        <value>Det gick inte att läsa in ACR-taggar – {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTags" xml:space="preserve">
+        <value>Det gick inte att läsa in ACR-taggar.</value>
+    </data>
+  <data name="moreCommands" xml:space="preserve">
+        <value>Fler kommandon</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
+        <value>Klicka här om du vill veta mer om varför CI/CD inte rekommenderas för produktionsplatser.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+    </data>
+  <data name="deploymentCenterRedeployCommit" xml:space="preserve">
+        <value>Redeploy commit</value>
     </data>
 </root>

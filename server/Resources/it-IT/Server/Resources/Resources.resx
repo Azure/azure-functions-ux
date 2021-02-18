@@ -1355,7 +1355,7 @@
         <value>Il servizio console non è disponibile nell'app.</value>
     </data>
   <data name="error_consoleCommandFialure" xml:space="preserve">
-        <value>Failed to execute the command.</value>
+        <value>Non è stato possibile eseguire il comando.</value>
     </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Console</value>
@@ -4259,9 +4259,6 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Le funzioni basate su Kubernetes non sono attualmente supportate.</value>
     </data>
-  <data name="dockerComposeDisabledMessage" xml:space="preserve">
-        <value>Docker Compose non è attualmente supportato.</value>
-    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Le funzioni di modifica nel portale non sono supportate per le app per le funzioni distribuite come immagine Docker.</value>
     </data>
@@ -6001,7 +5998,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Non è possibile recuperare le informazioni sull'account.</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>L'app è configurata con Azure Pipelines come provider di servizi di compilazione. Per gestire le distribuzioni, passare a https://dev.azure.com.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>La configurazione della distribuzione corrente non è più supportata. Per disconnettersi, passare al portale di Azure DevOps.</value>
@@ -6175,7 +6172,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Ambito utente</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Le credenziali dell'ambito utente sono definite dall'utente e possono essere usate con tutte le app a cui si ha accesso. Queste credenziali possono essere usate con FTPS, repository Git locale e WebDeploy. L'autenticazione a un endpoint FTPS con credenziali a livello dell'utente richiede un nome utente nel formato seguente: '{0}'</value>
+        <value>Le credenziali dell'ambito utente sono definite dall'utente e possono essere usate con tutte le app a cui si ha accesso. Queste credenziali possono essere usate con FTPS, repository Git locale e WebDeploy. L'autenticazione a un endpoint FTPS con credenziali a livello dell'utente richiede un nome utente nel formato seguente: '{0}'. L'autenticazione con GIT richiede solo il nome utente '{1}' definito sotto.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(nome utente)</value>
@@ -6288,6 +6285,30 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>È possibile creare, distribuire e gestire automaticamente l'app contenitore con GitHub Actions.</value>
     </data>
+  <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
+        <value>Cancel run</value>
+    </data>
+  <data name="deploymentCenterLogSource" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+  <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
+        <value>Build/Deploy Logs</value>
+    </data>
+  <data name="deploymentCenterAppLogSource" xml:space="preserve">
+        <value>App Logs</value>
+    </data>
+  <data name="GitHubActionsRunCancelled" xml:space="preserve">
+        <value>Cancelled</value>
+    </data>
+  <data name="GitHubActionsRunSkipped" xml:space="preserve">
+        <value>Skipped</value>
+    </data>
+  <data name="GitHubActionsRunTimedOut" xml:space="preserve">
+        <value>Timed out</value>
+    </data>
+  <data name="GitHubActionsRunActionRequired" xml:space="preserve">
+        <value>Action required</value>
+    </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>Per l'esecuzione della funzione è necessario disporre di un accesso diretto alla rete. L'app potrebbe essere limitata da endpoint privati, restrizioni dell'accesso o endpoint servizio.</value>
     </data>
@@ -6361,10 +6382,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>La richiesta di ridistribuzione è stata inviata</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>L'aggiornamento del repository per l'app Web {0} è in corso</value>
+        <value>The redeploy/sync operation for web app {0} is being submitted</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>Il repository per l'app Web {0} è stato aggiornato</value>
+        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>La ridistribuzione non è riuscita: {0}</value>
@@ -6622,16 +6643,16 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Compilazione con il servizio di compilazione del servizio app.</value>
     </data>
   <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
-        <value>Building with Azure Pipelines.</value>
+        <value>Compilazione con Azure Pipelines.</value>
     </data>
   <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>Per configurare la distribuzione con Azure Pipelines, passare al portale di Azure DevOps.</value>
     </data>
   <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
-        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+        <value>È possibile configurare una pipeline di distribuzione affidabile per l'applicazione tramite Azure Pipelines, parte di Azure DevOps Services (in precedenza VSTS).</value>
     </data>
   <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
-        <value>Get started</value>
+        <value>Inizia subito</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Cambia il provider.</value>
@@ -6897,13 +6918,61 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="endOfLifeStackMessage" xml:space="preserve">
         <value>La versione selezionata '{0}' sarà deprecata a partire dal {1}. Aggiornarla quanto prima.</value>
     </data>
-  <data name="logsRefreshTimerMessage" xml:space="preserve">
-        <value>I log verranno aggiornati tra {0} secondi</value>
-    </data>
   <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+        <value>L'esperienza Impostazioni contenitore (versione classica) è deprecata e verrà rimossa nel mese di marzo 2021. Per continuare a gestire le impostazioni dei contenitori, provare la nuova esperienza Centro distribuzione.</value>
     </data>
   <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
+        <value>L'esperienza Centro distribuzione (versione classica) è deprecata e verrà rimossa nel mese di marzo 2021. Per continuare a gestire le distribuzioni, provare la nuova esperienza Centro distribuzione.</value>
+    </data>
+  <data name="netVersionLabel" xml:space="preserve">
+        <value>Versione di .NET</value>
+    </data>
+  <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+        <value>Non è disponibile alcun registro del servizio Registro Azure Container nella sottoscrizione '{0}'.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
+        <value>Non è stato possibile caricare i registri del servizio Registro Azure Container: {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistries" xml:space="preserve">
+        <value>Non è stato possibile caricare i registri del servizio Registro Azure Container.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
+        <value>Non è stato possibile caricare le credenziali di Registro Azure Container necessarie per caricare immagini e tag: {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
+        <value>Non è stato possibile caricare le credenziali di Registro Azure Container necessarie per caricare immagini e tag.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
+        <value>Non è stato possibile caricare le immagini di Registro Azure Container: {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImages" xml:space="preserve">
+        <value>Non è stato possibile caricare le immagini di Registro Azure Container</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTagsWithError" xml:space="preserve">
+        <value>Non è stato possibile caricare i tag di Registro Azure Container: {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTags" xml:space="preserve">
+        <value>Non è stato possibile caricare i tag di Registro Azure Container.</value>
+    </data>
+  <data name="moreCommands" xml:space="preserve">
+        <value>Più comandi</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
+        <value>Fare clic qui per altre informazioni sui motivi per cui la funzionalità CI/CD non è consigliata per gli slot di produzione.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+    </data>
+  <data name="deploymentCenterRedeployCommit" xml:space="preserve">
+        <value>Redeploy commit</value>
     </data>
 </root>
