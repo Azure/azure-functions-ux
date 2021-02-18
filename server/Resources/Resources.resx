@@ -6295,13 +6295,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Cancel run</value>
     </data>
     <data name="deploymentCenterLogSource" xml:space="preserve">
-        <value>Log Source</value>
+        <value>Logs</value>
     </data>
-    <data name="deploymentCenterLogSourceGitHubActions" xml:space="preserve">
-        <value>GitHub Actions Run</value>
+    <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
+        <value>Build/Deploy Logs</value>
     </data>
-    <data name="deploymentCenterLogSourceAppService" xml:space="preserve">
-        <value>App Service</value>
+    <data name="deploymentCenterAppLogSource" xml:space="preserve">
+        <value>App Logs</value>
     </data>
     <data name="GitHubActionsRunCancelled" xml:space="preserve">
         <value>Cancelled</value>

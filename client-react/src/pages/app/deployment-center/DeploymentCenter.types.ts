@@ -592,8 +592,8 @@ export interface GitHubActionsCodeDeploymentsRow {
   index: number;
   rawTime: moment.Moment;
   displayTime: string;
-  commit: JSX.Element;
-  logSource: string;
+  commit: string;
+  logSource: JSX.Element;
   message: string;
   status: JSX.Element;
   commitId: string;

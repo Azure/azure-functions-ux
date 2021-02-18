@@ -200,12 +200,12 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       rawTime: moment(deployment.properties.received_time),
       // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
       displayTime: moment(deployment.properties.received_time).format('MM/D YYYY, h:mm:ss A Z'),
-      commit: (
+      commit: deployment.properties.id.substr(0, 7),
+      logSource: (
         <Link href={`#${deployment.properties.id}`} onClick={() => showLogPanel(deployment)}>
-          {deployment.properties.id.substr(0, 7)}
+          {t('deploymentCenterAppLogSource')}
         </Link>
       ),
-      logSource: t('deploymentCenterLogSourceAppService'),
       author: deployment.properties.author,
       message: deployment.properties.deployer === 'GitHub' ? '' : deployment.properties.message,
       status: deployment.properties.active ? (
@@ -221,15 +221,15 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       index: deployments && deployments.value.length ? deployments.value.length + index : index,
       group: -1,
       commitId: run.head_commit.id.substr(0, 7),
-      rawTime: moment(run.updated_at),
+      rawTime: moment(run.created_at),
       // NOTE (stpelleg): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
-      displayTime: moment(run.updated_at).format('MM/D YYYY, h:mm:ss A Z'),
-      logSource: t('deploymentCenterLogSourceGitHubActions'),
+      displayTime: moment(run.created_at).format('MM/D YYYY, h:mm:ss A Z'),
       author: run.head_commit.author.name,
       message: run.head_commit.message,
-      commit: (
+      commit: run.head_commit.id.substr(0, 7),
+      logSource: (
         <Link key="github-actions-logs-link" onClick={() => window.open(run.html_url, '_blank')}>
-          {run.head_commit.id.substr(0, 7)}
+          {t('deploymentCenterBuildDeployLogSource')}
           <Icon id={`ga-logs`} iconName={'NavigateExternalInline'} />
         </Link>
       ),
