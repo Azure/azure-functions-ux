@@ -18,7 +18,7 @@ export const dotnetStack: FunctionAppStack = {
               isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -38,7 +38,7 @@ export const dotnetStack: FunctionAppStack = {
               isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
