@@ -1355,7 +1355,7 @@
         <value>A konzolszolgáltatás nem érhető el az alkalmazásban.</value>
     </data>
   <data name="error_consoleCommandFialure" xml:space="preserve">
-        <value>Failed to execute the command.</value>
+        <value>Nem sikerült végrehajtani a parancsot.</value>
     </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>Konzol</value>
@@ -4259,9 +4259,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>A Kubernetes-alapú függvények használata jelenleg nem támogatott.</value>
     </data>
-  <data name="dockerComposeDisabledMessage" xml:space="preserve">
-        <value>A Docker Compose használata jelenleg nem támogatott.</value>
-    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>A függvények portálon való szerkesztése Docker-lemezképként üzembe helyezett függvényalkalmazások esetében nem támogatott.</value>
     </data>
@@ -6001,7 +5998,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nem lehet beolvasni a fiókadatokat</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>Az alkalmazás az Azure Pipelines használatával buildszolgáltatóként van konfigurálta. Az üzemelő példányokat a https://dev.azure.com címen kezelheti.</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>A jelenlegi központi telepítési konfiguráció már nem támogatott. Lépjen az Azure DevOps portálra a leválasztáshoz.</value>
@@ -6175,7 +6172,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Felhasználói hatókör</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>A felhasználói hatókör hitelesítő adatait Ön, a felhasználó definiálja, és minden olyan alkalmazáshoz használhatók, amelyhez hozzáférése van. Ezek a hitelesítő adatok FTPS-sel, helyi Gittel és WebDeployjal használhatók. Az FTPS-végponton felhasználói szintű hitelesítő adatokkal való hitelesítéshez a következő formátumú felhasználónév szükséges: {0}</value>
+        <value>A felhasználói hatókör hitelesítő adatait Ön, a felhasználó definiálja, és minden olyan alkalmazáshoz használhatók, amelyhez hozzáférése van. Ezek a hitelesítő adatok FTPS-sel, helyi Gittel és WebDeploy-jal használhatók. Az FTPS-végponton felhasználói szintű hitelesítő adatokkal való hitelesítéshez a következő formátumú felhasználónév szükséges: {0}. A Gittel történő hitelesítéshez csak a lent definiált {1} felhasználónév szükséges.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(saját felhasználóneve)</value>
@@ -6288,6 +6285,30 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>A tárolóalkalmazás automatikus létrehozása, üzembe helyezése és kezelése a GitHub Actionsszel.</value>
     </data>
+  <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
+        <value>Cancel run</value>
+    </data>
+  <data name="deploymentCenterLogSource" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+  <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
+        <value>Build/Deploy Logs</value>
+    </data>
+  <data name="deploymentCenterAppLogSource" xml:space="preserve">
+        <value>App Logs</value>
+    </data>
+  <data name="GitHubActionsRunCancelled" xml:space="preserve">
+        <value>Cancelled</value>
+    </data>
+  <data name="GitHubActionsRunSkipped" xml:space="preserve">
+        <value>Skipped</value>
+    </data>
+  <data name="GitHubActionsRunTimedOut" xml:space="preserve">
+        <value>Timed out</value>
+    </data>
+  <data name="GitHubActionsRunActionRequired" xml:space="preserve">
+        <value>Action required</value>
+    </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>A függvény futtatásához közvetlen hálózati hozzáférés szükséges. Előfordulhat, hogy az alkalmazás le van korlátozva privát végpontokkal, hozzáférési korlátozásokkal vagy szolgáltatási végpontokkal.</value>
     </data>
@@ -6361,10 +6382,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Újbóli üzembe helyezési kérelem elküldve</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>A(z) {0} webalkalmazás adattárának frissítése folyamatban van</value>
+        <value>The redeploy/sync operation for web app {0} is being submitted</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>Sikerült frissíteni a(z) {0} webalkalmazás adattárát</value>
+        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Nem sikerült az újbóli üzembe helyezés: {0}</value>
@@ -6622,16 +6643,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Buildelés az App Service-buildelési szolgáltatás használatával.</value>
     </data>
   <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
-        <value>Building with Azure Pipelines.</value>
+        <value>Buildelés az Azure Pipelines használatával.</value>
     </data>
   <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>Az Azure Pipelines alapú üzembe helyezés konfigurálásához látogasson el az Azure Dev Ops portálra.</value>
     </data>
   <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
-        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+        <value>Robusztus üzembe helyezési folyamat létrehozása az alkalmazás számára az Azure DevOps Services (korábbi nevén VSTS) segítségével.</value>
     </data>
   <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
-        <value>Get started</value>
+        <value>Első lépések</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>Szolgáltató módosítása.</value>
@@ -6897,13 +6918,61 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="endOfLifeStackMessage" xml:space="preserve">
         <value>A kiválasztott verzió ({0}) {1} dátummal megszűnik. Fontolja meg mihamarabbi frissítését.</value>
     </data>
-  <data name="logsRefreshTimerMessage" xml:space="preserve">
-        <value>A naplók {0} másodperc múlva frissülnek</value>
-    </data>
   <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+        <value>Ez a tárolóbeállítási felület (klasszikus) elavult, és 2021 márciusában el lesz eltávolítva. A tárolóbeállításokat a továbbiakban az Üzembe helyezési központ új felületén kezelheti. Próbálja ki.</value>
     </data>
   <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
+        <value>Az Üzembe helyezési központ (klasszikus) elavult, és 2021 márciusában el lesz eltávolítva. Az üzemelő példányokat a továbbiakban az Üzembe helyezési központ új felületén kezelheti. Próbálja ki.</value>
+    </data>
+  <data name="netVersionLabel" xml:space="preserve">
+        <value>.NET-verzió</value>
+    </data>
+  <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+        <value>Nem érhetők el ACR-beli regisztrációs adatbázisok a(z) {0} előfizetésben.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
+        <value>Nem sikerült betölteni az ACR-beli regisztrációs adatbázisokat – {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistries" xml:space="preserve">
+        <value>Nem sikerült betölteni az ACR-beli regisztrációs adatbázisokat.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
+        <value>Nem sikerült betölteni a lemezképek és címkék betöltéséhez szükséges ACR-beli hitelesítő adatokat – {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
+        <value>Nem sikerült betölteni a lemezképek és címkék betöltéséhez szükséges ACR-beli hitelesítő adatokat.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
+        <value>Nem sikerült betölteni az ACR-lemezképeket – {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImages" xml:space="preserve">
+        <value>Nem sikerült betölteni az ACR-lemezképeket</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTagsWithError" xml:space="preserve">
+        <value>Nem sikerült betölteni az ACR-címkéket – {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTags" xml:space="preserve">
+        <value>Nem sikerült betölteni az ACR-címkéket.</value>
+    </data>
+  <data name="moreCommands" xml:space="preserve">
+        <value>További parancsok</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
+        <value>Kattintson ide, ha többet szeretne megtudni arról, hogy miért nem ajánlott a CI/CD üzemelési pontként való használata.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+    </data>
+  <data name="deploymentCenterRedeployCommit" xml:space="preserve">
+        <value>Redeploy commit</value>
     </data>
 </root>

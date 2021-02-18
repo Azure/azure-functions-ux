@@ -1355,7 +1355,7 @@
         <value>您的應用程式無法使用主控台服務。</value>
     </data>
   <data name="error_consoleCommandFialure" xml:space="preserve">
-        <value>Failed to execute the command.</value>
+        <value>無法執行命令。</value>
     </data>
   <data name="feature_consoleName" xml:space="preserve">
         <value>主控台</value>
@@ -4259,9 +4259,6 @@
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>目前不支援以 Kubernetes 為基礎的函式。</value>
     </data>
-  <data name="dockerComposeDisabledMessage" xml:space="preserve">
-        <value>目前不支援 Docker Compose。</value>
-    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>部署為 Docker 映像的函數應用程式，不支援在入口網站中編輯函式。</value>
     </data>
@@ -6001,7 +5998,7 @@
         <value>無法擷取帳戶資訊</value>
     </data>
   <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>您的應用程式將 Azure Pipelines 設定為建置提供者。您可以前往 https://dev.azure.com 管理您的部署。</value>
     </data>
   <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>不再支援目前的部署設定。請前往 Azure DevOps 入口網站以中斷連線。</value>
@@ -6175,7 +6172,7 @@
         <value>使用者範圍</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>使用者範圍的認證由您及使用者定義，並可用在您有權存取的所有應用程式上。這些認證可以用在 FTP、本機 Git 及 WebDeploy 上。使用使用者層級認證向 FTPS 端點驗證時，必須使用下列格式的使用者名稱: '{0}'</value>
+        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'. Authenticating with Git requires only the username '{1}' defined below.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(您的使用者名稱)</value>
@@ -6288,6 +6285,30 @@
   <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>使用 GitHub Actions 自動建置、部署及管理您的容器應用程式。</value>
     </data>
+  <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
+        <value>Cancel run</value>
+    </data>
+  <data name="deploymentCenterLogSource" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+  <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
+        <value>Build/Deploy Logs</value>
+    </data>
+  <data name="deploymentCenterAppLogSource" xml:space="preserve">
+        <value>App Logs</value>
+    </data>
+  <data name="GitHubActionsRunCancelled" xml:space="preserve">
+        <value>Cancelled</value>
+    </data>
+  <data name="GitHubActionsRunSkipped" xml:space="preserve">
+        <value>Skipped</value>
+    </data>
+  <data name="GitHubActionsRunTimedOut" xml:space="preserve">
+        <value>Timed out</value>
+    </data>
+  <data name="GitHubActionsRunActionRequired" xml:space="preserve">
+        <value>Action required</value>
+    </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>您必須有直接的網路存取權，才能執行函式。您的應用程式可能受到私人端點、存取限制或服務端點的限制。</value>
     </data>
@@ -6361,10 +6382,10 @@
         <value>已提交重新部署要求</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>正在更新 Web 應用程式 {0} 的儲存機制</value>
+        <value>The redeploy/sync operation for web app {0} is being submitted</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>已成功更新 Web 應用程式 {0} 的存放庫</value>
+        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>無法重新部署: {0}</value>
@@ -6622,16 +6643,16 @@
         <value>正在使用 App Service 組建服務建置。</value>
     </data>
   <data name="deploymentCenterVstsBuildDescription" xml:space="preserve">
-        <value>Building with Azure Pipelines.</value>
+        <value>正在使用 Azure Pipelines 建置。</value>
     </data>
   <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>若要使用 Azure Pipelines 設定部署，請前往 Azure Dev Ops 入口網站。</value>
     </data>
   <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
-        <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
+        <value>使用 Azure Pipelines (屬於 Azure DevOps Services (前身為 VSTS)) 為您的應用程式設定強固的部署管線。</value>
     </data>
   <data name="deploymentCenterVstsGetStarted" xml:space="preserve">
-        <value>Get started</value>
+        <value>開始使用</value>
     </data>
   <data name="deploymentCenterChangeBuildText" xml:space="preserve">
         <value>變更提供者。</value>
@@ -6897,13 +6918,61 @@
   <data name="endOfLifeStackMessage" xml:space="preserve">
         <value>選取的 '{0}' 版將於 {1} 退場。請考慮盡快加以更新。</value>
     </data>
-  <data name="logsRefreshTimerMessage" xml:space="preserve">
-        <value>記錄將於 {0} 秒內重新整理</value>
-    </data>
   <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+        <value>此容器設定 (傳統) 體驗即將退場，預計於 2021 年 3 月移除。若要繼續管理容器設定，請嘗試新的部署中心體驗。</value>
     </data>
   <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
+        <value>部署中心 (傳統) 體驗即將退場，預計於 2021 年 3 月移除。若要繼續管理您的部署，請嘗試新的部署中心體驗。</value>
+    </data>
+  <data name="netVersionLabel" xml:space="preserve">
+        <value>.NET 版本</value>
+    </data>
+  <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+        <value>訂閱 '{0}' 中沒有可用的 ACR 登錄。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
+        <value>無法載入 ACR 登錄 - {0}。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadRegistries" xml:space="preserve">
+        <value>無法載入 ACR 登錄。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
+        <value>無法載入於載入映像及標籤時所需的 ACR 認證 - {0}。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
+        <value>無法載入於載入映像及標籤時所需的 ACR 認證。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
+        <value>無法載入 ACR 映像 - {0}。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadImages" xml:space="preserve">
+        <value>無法載入 ACR 映像</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTagsWithError" xml:space="preserve">
+        <value>無法載入 ACR 標籤 - {0}。</value>
+    </data>
+  <data name="deploymentCenterContainerAcrFailedToLoadTags" xml:space="preserve">
+        <value>無法載入 ACR 標籤。</value>
+    </data>
+  <data name="moreCommands" xml:space="preserve">
+        <value>更多命令</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
+        <value>Click here to learn more about why CI/CD is not recommended for production slots.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
+        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+    </data>
+  <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
+        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+    </data>
+  <data name="deploymentCenterRedeployCommit" xml:space="preserve">
+        <value>Redeploy commit</value>
     </data>
 </root>
