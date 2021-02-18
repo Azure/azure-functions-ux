@@ -123,7 +123,7 @@ jobs:
 
   - job: Localization
     pool:
-      vmImage: 'macOS-10.14'
+      vmImage: 'vs2017-win2016'
     steps:
       - task: OneLocBuild@2
         env:
