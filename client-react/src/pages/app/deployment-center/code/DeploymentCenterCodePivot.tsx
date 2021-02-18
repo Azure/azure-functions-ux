@@ -15,6 +15,7 @@ import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
+import DeploymentCenterGitHubActionsCodeLogs from './DeploymentCenterGitHubActionsCodeLogs';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const { formProps, deployments, deploymentsError, isLoading, refreshLogs } = props;
@@ -31,6 +32,8 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
   const scenarioService = new ScenarioService(t);
 
   const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
+  const isScmGitHubActions =
+    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
 
   const goToSettingsOnClick = () => {
     portalContext.log(getTelemetryInfo('info', 'goToSettingButton', 'clicked'));
@@ -68,6 +71,30 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
     );
   };
 
+  const getGitHubActionsCodeLogsComponent = () => {
+    return (
+      <DeploymentCenterGitHubActionsCodeLogs
+        goToSettings={goToSettingsOnClick}
+        deployments={deployments}
+        deploymentsError={deploymentsError}
+        isLoading={isLoading}
+        refreshLogs={refreshLogs}
+      />
+    );
+  };
+
+  const getCodeLogsComponent = () => {
+    return (
+      <DeploymentCenterCodeLogs
+        goToSettings={goToSettingsOnClick}
+        deployments={deployments}
+        deploymentsError={deploymentsError}
+        isLoading={isLoading}
+        refreshLogs={refreshLogs}
+      />
+    );
+  };
+
   useEffect(() => {
     portalContext.updateDirtyState(isFtpsDirty() || isSettingsDirty());
 
@@ -95,13 +122,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
           itemKey="logs"
           headerText={t('deploymentCenterPivotItemLogsHeaderText')}
           ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
-          <DeploymentCenterCodeLogs
-            goToSettings={goToSettingsOnClick}
-            deployments={deployments}
-            deploymentsError={deploymentsError}
-            isLoading={isLoading}
-            refreshLogs={refreshLogs}
-          />
+          {isScmGitHubActions ? getGitHubActionsCodeLogsComponent() : getCodeLogsComponent()}
         </PivotItem>
       )}
 

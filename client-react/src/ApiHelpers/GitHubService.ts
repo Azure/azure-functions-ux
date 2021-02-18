@@ -143,6 +143,26 @@ export default class GitHubService {
     return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/dispatchWorkflow`, method: 'POST', data });
   };
 
+  public static listWorkflowRuns = (gitHubToken: string, org: string, repo: string, workflowFileName: string) => {
+    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/actions/workflows/${workflowFileName}/runs?page=1`;
+    const data = {
+      url,
+      gitHubToken,
+    };
+
+    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+  };
+
+  public static cancelWorkflowRun = (gitHubToken: string, url: string) => {
+    const data = {
+      url,
+      gitHubToken,
+      method: 'POST',
+    };
+
+    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+  };
+
   private static _getGitHubObjectList = async <T>(url: string, gitHubToken: string, logger?: (page, response) => void) => {
     const githubObjectList: T[] = [];
     let lastPageNumber = 1;
