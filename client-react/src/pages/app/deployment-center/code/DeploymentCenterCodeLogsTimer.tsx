@@ -15,19 +15,31 @@ const DeploymentCenterCodeLogsTimer: React.FC<DeploymentCenterCodeLogsTimerProps
 
   const portalContext = useContext(PortalContext);
 
-  useEffect(() => {
-    setInterval(() => {
+  const setAndGetIntervalToUpdateTimeLeft = () => {
+    return setInterval(() => {
       if (timeLeft > 0) {
         setTimeLeft(timeLeft => timeLeft - 1);
       } else {
         setTimeLeft(refreshMilliseconds / 1000);
       }
     }, 1000);
+  };
 
-    setInterval(() => {
+  const setAndGetIntervalToUpdateTimeLeftAndRefreshLogs = () => {
+    return setInterval(() => {
       props.refreshLogs();
       setTimeLeft(refreshMilliseconds / 1000);
     }, refreshMilliseconds);
+  };
+
+  useEffect(() => {
+    const updateTimeLeftInterval = setAndGetIntervalToUpdateTimeLeft();
+    const updateTimeLeftAndRefreshLogsInterval = setAndGetIntervalToUpdateTimeLeftAndRefreshLogs();
+
+    return () => {
+      clearInterval(updateTimeLeftInterval);
+      clearInterval(updateTimeLeftAndRefreshLogsInterval);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
