@@ -12,7 +12,7 @@ import { ThemeContext } from '../../../../ThemeContext';
 import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotProps> = props => {
-  const { logs, formProps, isLoading } = props;
+  const { logs, formProps, isLoading, refresh } = props;
   const { t } = useTranslation();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -25,7 +25,8 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
         (formProps.values.registrySource === ContainerRegistrySources.privateRegistry && isPrivateRegistrySettingsDirty()) ||
         (formProps.values.registrySource === ContainerRegistrySources.docker && isDockerSettingsDirty()) ||
         (formProps.values.registrySource === ContainerRegistrySources.acr && isAcrSettingsDirty())) &&
-      !!deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
+      !!deploymentCenterContext.siteConfig &&
+      deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
     );
   };
 
@@ -79,7 +80,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
   return (
     <Pivot>
       <PivotItem headerText={t('deploymentCenterPivotItemLogsHeaderText')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
-        <DeploymentCenterContainerLogs logs={logs} isLoading={isLoading} />
+        <DeploymentCenterContainerLogs logs={logs} isLoading={isLoading} refresh={refresh} />
       </PivotItem>
 
       <PivotItem

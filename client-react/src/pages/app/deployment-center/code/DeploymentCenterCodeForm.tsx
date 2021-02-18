@@ -41,7 +41,6 @@ import GitHubService from '../../../../ApiHelpers/GitHubService';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
-  const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
   const [isRedeployConfirmDialogVisible, setIsRedeployConfirmDialogVisible] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
 
@@ -379,15 +378,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     }
   };
 
-  const refreshFunction = () => {
-    hideRefreshConfirmDialog();
-    props.refresh();
-  };
-
-  const hideRefreshConfirmDialog = () => {
-    setIsRefreshConfirmDialogVisible(false);
-  };
-
   const redeployFunction = async () => {
     hideRedeployConfirmDialog();
 
@@ -534,25 +524,10 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
               saveFunction={formProps.submitForm}
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               discardFunction={() => setIsDiscardConfirmDialogVisible(true)}
-              refresh={() => setIsRefreshConfirmDialogVisible(true)}
               redeploy={() => setIsRedeployConfirmDialogVisible(true)}
             />
           </div>
           <>
-            <ConfirmDialog
-              primaryActionButton={{
-                title: t('ok'),
-                onClick: refreshFunction,
-              }}
-              defaultActionButton={{
-                title: t('cancel'),
-                onClick: hideRefreshConfirmDialog,
-              }}
-              title={t('deploymentCenterRefreshConfirmTitle')}
-              content={t('deploymentCenterDataLossMessage')}
-              hidden={!isRefreshConfirmDialogVisible}
-              onDismiss={hideRefreshConfirmDialog}
-            />
             <ConfirmDialog
               primaryActionButton={{
                 title: t('ok'),

@@ -11,7 +11,7 @@ import { PortalContext } from '../../../PortalContext';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, redeploy, isLoading, isDirty, isVstsBuildProvider } = props;
+  const { saveFunction, discardFunction, showPublishProfilePanel, redeploy, isLoading, isDirty, isVstsBuildProvider } = props;
   const { t } = useTranslation();
 
   const portalContext = useContext(PortalContext);
@@ -76,7 +76,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       getDiscardButton(),
       getBrowseButton(),
       getManagePublishProfileButton(),
-      getRefreshButton(),
     ];
 
     if (!siteStateContext.isContainerApp) {
@@ -106,11 +105,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   const onManagePublishProfileButtonClick = () => {
     portalContext.log(getTelemetryInfo('info', 'managePublishProfileButton', 'clicked'));
     showPublishProfilePanel();
-  };
-
-  const onRefreshButtonClick = () => {
-    portalContext.log(getTelemetryInfo('info', 'refreshButton', 'clicked'));
-    refresh();
   };
 
   const onRedeployClick = () => {
@@ -177,19 +171,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
       disabled: !isSiteLoaded(),
       onClick: onManagePublishProfileButtonClick,
-    };
-  };
-
-  const getRefreshButton = (): ICommandBarItemProps => {
-    return {
-      key: 'refresh',
-      name: t('refresh'),
-      iconProps: {
-        iconName: 'Refresh',
-      },
-      ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
-      disabled: isDisabledOnReload(),
-      onClick: onRefreshButtonClick,
     };
   };
 
