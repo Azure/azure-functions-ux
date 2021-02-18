@@ -122,7 +122,8 @@ jobs:
           ArtifactName: angular-min
 
   - job: Localization
-    pool: LocBuildTool
+    pool:
+      vmImage: 'macOS-10.14'
     steps:
       - task: OneLocBuild@2
         env:
@@ -132,6 +133,7 @@ jobs:
           outDir: '$(Build.ArtifactStagingDirectory)'
           isCreatePrSelected: true
           prSourceBranchPrefix: 'locfiles'
+          patVariable: '${OneLocBuildPAT}'
 
   - job: Server
     pool:
