@@ -6,6 +6,7 @@ import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePort
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
+import { logsTimerStyle } from '../DeploymentCenter.styles';
 
 const DeploymentCenterCodeLogsTimer: React.FC<DeploymentCenterCodeLogsTimerProps> = props => {
   const refreshMilliseconds = 30000;
@@ -45,15 +46,16 @@ const DeploymentCenterCodeLogsTimer: React.FC<DeploymentCenterCodeLogsTimerProps
     },
   ];
 
-  //return <div className={logsTimerStyle}>{t('logsRefreshTimerMessage').format(timeLeft)}</div>;
   return (
-    <CommandBar
-      items={commandBarItems}
-      role="nav"
-      styles={CommandBarStyles}
-      ariaLabel={t('managePublishProfileCommandBarAriaLabel')}
-      buttonAs={CustomCommandBarButton}
-    />
+    <div className={logsTimerStyle}>
+      <CommandBar
+        items={commandBarItems}
+        role="nav"
+        styles={CommandBarStyles}
+        ariaLabel={t('managePublishProfileCommandBarAriaLabel')}
+        buttonAs={CustomCommandBarButton}
+      />
+    </div>
   );
 };
 

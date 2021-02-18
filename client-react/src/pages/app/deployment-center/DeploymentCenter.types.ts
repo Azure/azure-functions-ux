@@ -319,6 +319,7 @@ export interface DeploymentCenterGitHubWorkflowConfigSelectorProps<T = Deploymen
 
 export interface DeploymentCenterContainerLogsProps {
   isLoading: boolean;
+  refresh: () => void;
   logs?: string;
 }
 
@@ -374,19 +375,16 @@ export interface DeploymentCenterCommandBarProps {
   saveFunction: () => void;
   discardFunction: () => void;
   showPublishProfilePanel: () => void;
-  refresh: () => void;
   redeploy?: () => void;
 }
 
 export interface DeploymentCenterCodeCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterCodeFormData> {
   isLoading: boolean;
-  refresh: () => void;
   redeploy: () => void;
 }
 
 export interface DeploymentCenterContainerCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {
   isLoading: boolean;
-  refresh: () => void;
 }
 
 export interface DeploymentCenterPublishProfilePanelProps {

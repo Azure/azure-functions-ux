@@ -120,7 +120,6 @@ export const disconnectWorkflowInfoStyle = style({
 
 export const logsTimerStyle = style({
   marginTop: '10px',
-  fontSize: '10px',
 });
 
 export const closePublishProfileButtonStyle = style({

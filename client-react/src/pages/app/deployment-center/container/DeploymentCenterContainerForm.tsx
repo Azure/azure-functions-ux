@@ -48,7 +48,6 @@ interface ResponseResult {
 const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps> = props => {
   const { t } = useTranslation();
 
-  const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -554,11 +553,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     }
   };
 
-  const refreshFunction = () => {
-    hideRefreshConfirmDialog();
-    props.refresh();
-  };
-
   const onSubmit = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
     portalContext.log(getTelemetryInfo('info', 'onSubmitContainer', 'submit'));
 
@@ -630,10 +624,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     }
   };
 
-  const hideRefreshConfirmDialog = () => {
-    setIsRefreshConfirmDialogVisible(false);
-  };
-
   const hideDiscardConfirmDialog = () => {
     setIsDiscardConfirmDialogVisible(false);
   };
@@ -653,28 +643,12 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               saveFunction={formProps.submitForm}
               discardFunction={() => setIsDiscardConfirmDialogVisible(true)}
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
-              refresh={() => setIsRefreshConfirmDialogVisible(true)}
               isLoading={props.isLoading}
               isDirty={formProps.dirty}
               isVstsBuildProvider={formProps.values.scmType === ScmType.Vsts}
             />
           </div>
           <>
-            <ConfirmDialog
-              primaryActionButton={{
-                title: t('ok'),
-                onClick: refreshFunction,
-              }}
-              defaultActionButton={{
-                title: t('cancel'),
-                onClick: hideRefreshConfirmDialog,
-              }}
-              title={t('deploymentCenterRefreshConfirmTitle')}
-              content={t('deploymentCenterDataLossMessage')}
-              hidden={!isRefreshConfirmDialogVisible}
-              onDismiss={hideRefreshConfirmDialog}
-            />
-
             <ConfirmDialog
               primaryActionButton={{
                 title: t('ok'),
