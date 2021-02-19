@@ -262,7 +262,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     if (this._isServerUrlAcr(appSettingServerUrl)) {
       return this._getAcrFxVersionParts(appSettingServerUrl, fxVersionParts[1], isDockerCompose);
     } else if (this._isServerUrlDockerHub(appSettingServerUrl)) {
-      return this._getDockerHubFxVersionParts(appSettingUsername, fxVersionParts[1], isDockerCompose);
+      return this._getDockerHubFxVersionParts(fxVersionParts[1], isDockerCompose);
     } else {
       return this._getPrivateRegistryFxVersionParts(appSettingServerUrl, fxVersionParts[1], isDockerCompose);
     }
@@ -296,7 +296,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     }
   }
 
-  private _getDockerHubFxVersionParts(appSettingUsername: string, registryInfo: string, isDockerCompose: boolean): FxVersionParts {
+  private _getDockerHubFxVersionParts(registryInfo: string, isDockerCompose: boolean): FxVersionParts {
     if (isDockerCompose) {
       return {
         server: DeploymentCenterConstants.dockerHubServerUrlHost,
@@ -306,21 +306,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         composeYml: atob(registryInfo),
       };
     } else {
-      // NOTE(michinoy): For DockerHub the username could be in FxVersion. This would needed in case of pulling from a private repo.
-      // The image and/or tags could definitely have /'s. The username is a separate field on the form, so image and tag should not have that.
-      // In this case, remove the serverInfo and/or username from the FxVersion and compute the image and tag by splitting on :.
-
-      const serverAndUsernamePrefix = appSettingUsername
-        ? `${DeploymentCenterConstants.dockerHubServerUrlHost}/${appSettingUsername}/`
-        : `${DeploymentCenterConstants.dockerHubServerUrlHost}/`;
-
-      const usernamePrefix = appSettingUsername ? `${appSettingUsername}/` : '';
-
-      let imageAndTagInfo = registryInfo
-        .toLocaleLowerCase()
-        .replace(serverAndUsernamePrefix, '')
-        .replace(usernamePrefix, '');
-
+      const imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(`${DeploymentCenterConstants.dockerHubServerUrlHost}/`, '');
       const imageAndTagParts = imageAndTagInfo.split(':');
 
       return {
