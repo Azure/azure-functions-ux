@@ -72,7 +72,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
       return values.privateRegistryUsername;
     } else {
-      return values.dockerHubUsername;
+      return values.dockerHubAccessType === ContainerDockerAccessTypes.private ? values.dockerHubUsername : '';
     }
   };
 
@@ -82,7 +82,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
       return values.privateRegistryPassword;
     } else {
-      return values.dockerHubPassword;
+      return values.dockerHubAccessType === ContainerDockerAccessTypes.private ? values.dockerHubPassword : '';
     }
   };
 
@@ -115,9 +115,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       const server = values.privateRegistryServerUrl.toLocaleLowerCase().replace('https://', '');
       return `${prefix}|${server}/${values.privateRegistryImageAndTag}`;
     } else {
-      return values.dockerHubAccessType === ContainerDockerAccessTypes.public
-        ? `${prefix}|${values.dockerHubImageAndTag}`
-        : `${prefix}|${values.dockerHubUsername}/${values.dockerHubImageAndTag}`;
+      return `${prefix}|${values.dockerHubImageAndTag}`;
     }
   };
 
@@ -210,8 +208,16 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       appSettings[DeploymentCenterConstants.enableCISetting] = 'true';
     }
 
-    appSettings[DeploymentCenterConstants.usernameSetting] = getUsername(values);
-    appSettings[DeploymentCenterConstants.passwordSetting] = getPassword(values);
+    const userName = getUsername(values);
+    if (userName) {
+      appSettings[DeploymentCenterConstants.usernameSetting] = userName;
+    }
+
+    const password = getPassword(values);
+    if (password) {
+      appSettings[DeploymentCenterConstants.passwordSetting] = password;
+    }
+
     appSettings[DeploymentCenterConstants.serverUrlSetting] = getServerUrl(values);
 
     return appSettings;
