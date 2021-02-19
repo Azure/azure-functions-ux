@@ -185,6 +185,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           title: t('run'),
           onClick: formProps.submitForm,
           disable: !!statusMessage,
+          autoFocus: true,
         };
 
         const actionBarSecondaryButtonProps = {

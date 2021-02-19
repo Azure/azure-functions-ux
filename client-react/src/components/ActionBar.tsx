@@ -21,6 +21,7 @@ interface ActionBarButtonProps {
   title: string | JSX.Element;
   disable: boolean;
   onClick: () => void;
+  autoFocus?: boolean;
 }
 interface ActionBarProps {
   id: string;
@@ -105,7 +106,8 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({
           id={`${id}-${primaryButton.id}`}
           className={buttonStyle(theme, true)}
           onClick={primaryButton.onClick}
-          disabled={primaryButton.disable}>
+          disabled={primaryButton.disable}
+          autoFocus={!!primaryButton.autoFocus}>
           {typeof primaryButtonTitle !== 'string' ? primaryButtonTitle : t(primaryButtonTitle)}
         </PrimaryButton>
         {secondaryButton && (
