@@ -133,7 +133,7 @@ jobs:
           outDir: '$(Build.ArtifactStagingDirectory)'
           isCreatePrSelected: true
           prSourceBranchPrefix: 'locfiles'
-          patVariable: '${OneLocBuildPAT}'
+          patVariable: $(OneLocBuildPAT)
 
   - job: Server
     pool:
