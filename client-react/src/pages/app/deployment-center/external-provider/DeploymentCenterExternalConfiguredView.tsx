@@ -54,13 +54,13 @@ const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProp
     const repoUrlParts = repoUrl.split('://');
     const protocol = repoUrlParts[0];
     const hostContents = repoUrlParts[1];
-    const hostContentParts = hostContents.split('@');
+    const hostContentParts = hostContents ? hostContents.split('@') : [];
     const domainContent = hostContentParts[1] ? hostContentParts[1] : hostContentParts[0];
     const usernameAndPassword = hostContentParts[1] ? hostContentParts[0] : '';
     const username = usernameAndPassword ? usernameAndPassword.split(':')[0] : '';
 
     setExternalUsername(username);
-    setRepo(`${protocol}://${domainContent}`);
+    setRepo(protocol === 'http' || protocol === 'https' ? `${protocol}://${domainContent}` : protocol);
   };
 
   const getBranchLink = () => {
