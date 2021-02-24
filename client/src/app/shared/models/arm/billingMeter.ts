@@ -4,4 +4,5 @@ export interface BillingMeter {
   shortName: string;
   friendlyName: string;
   resourceType: string;
+  multiplier: number;
 }
