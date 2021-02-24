@@ -46,7 +46,7 @@ const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProp
 
   const processRepo = (repoUrl: string): void => {
     // NOTE(michinoy): There can be multiple variations of the URL:
-    // The protocol can be either https or http
+    // The protocol can be either https or http or ssh
     // The host part can be - username@domain.net/path/name.git
     //                        username:password@domain.net/path/name.git
     //                        domain.net/path/name.git
@@ -54,13 +54,13 @@ const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProp
     const repoUrlParts = repoUrl.split('://');
     const protocol = repoUrlParts[0];
     const hostContents = repoUrlParts[1];
-    const hostContentParts = hostContents.split('@');
+    const hostContentParts = hostContents ? hostContents.split('@') : [];
     const domainContent = hostContentParts[1] ? hostContentParts[1] : hostContentParts[0];
     const usernameAndPassword = hostContentParts[1] ? hostContentParts[0] : '';
     const username = usernameAndPassword ? usernameAndPassword.split(':')[0] : '';
 
     setExternalUsername(username);
-    setRepo(`${protocol}://${domainContent}`);
+    setRepo(protocol === 'http' || protocol === 'https' ? `${protocol}://${domainContent}` : protocol);
   };
 
   const getBranchLink = () => {
