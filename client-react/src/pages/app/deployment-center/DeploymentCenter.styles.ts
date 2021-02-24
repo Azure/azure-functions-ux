@@ -140,3 +140,8 @@ export const titleWithPaddingStyle = style({
 export const vstsDescriptionStyle = style({
   paddingTop: '15px',
 });
+
+export const refreshButtonStyle = style({
+  marginTop: '10px',
+  height: '36px',
+});
