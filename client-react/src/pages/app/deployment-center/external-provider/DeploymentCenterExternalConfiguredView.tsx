@@ -46,7 +46,7 @@ const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProp
 
   const processRepo = (repoUrl: string): void => {
     // NOTE(michinoy): There can be multiple variations of the URL:
-    // The protocol can be either https or http
+    // The protocol can be either https or http or ssh
     // The host part can be - username@domain.net/path/name.git
     //                        username:password@domain.net/path/name.git
     //                        domain.net/path/name.git
