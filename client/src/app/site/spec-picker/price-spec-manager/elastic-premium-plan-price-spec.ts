@@ -80,8 +80,6 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
 }
 
 export class ElasticPremiumSmallPlanPriceSpec extends ElasticPremiumPlanPriceSpec {
-  private readonly _ep1CpuCore = 1;
-  private readonly _ep1Memory = 3.5;
   skuCode = SkuCode.ElasticPremium.EP1;
   legacySkuName = 'small_elastic_premium';
   topLevelFeatures = [
@@ -97,12 +95,12 @@ export class ElasticPremiumSmallPlanPriceSpec extends ElasticPremiumPlanPriceSpe
     firstParty: [
       {
         id: SkuCode.ElasticPremium.EP1CPU,
-        quantity: Pricing.hoursInAzureMonth * this._ep1CpuCore,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
       {
         id: SkuCode.ElasticPremium.EP1Memory,
-        quantity: Pricing.hoursInAzureMonth * this._ep1Memory,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],
@@ -110,8 +108,6 @@ export class ElasticPremiumSmallPlanPriceSpec extends ElasticPremiumPlanPriceSpe
 }
 
 export class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPlanPriceSpec {
-  private readonly _ep2CpuCore = 2;
-  private readonly _ep2Memory = 7;
   skuCode = SkuCode.ElasticPremium.EP2;
   legacySkuName = 'medium_elastic_premium';
   topLevelFeatures = [
@@ -127,12 +123,12 @@ export class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPlanPriceSp
     firstParty: [
       {
         id: SkuCode.ElasticPremium.EP2CPU,
-        quantity: Pricing.hoursInAzureMonth * this._ep2CpuCore,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
       {
         id: SkuCode.ElasticPremium.EP2Memory,
-        quantity: Pricing.hoursInAzureMonth * this._ep2Memory,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],
@@ -140,8 +136,6 @@ export class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPlanPriceSp
 }
 
 export class ElasticPremiumLargePlanPriceSpec extends ElasticPremiumPlanPriceSpec {
-  private readonly _ep3CpuCore = 4;
-  private readonly _ep3Memory = 14;
   skuCode = SkuCode.ElasticPremium.EP3;
   legacySkuName = 'large_elastic_premium';
   topLevelFeatures = [
@@ -157,12 +151,12 @@ export class ElasticPremiumLargePlanPriceSpec extends ElasticPremiumPlanPriceSpe
     firstParty: [
       {
         id: SkuCode.ElasticPremium.EP3CPU,
-        quantity: Pricing.hoursInAzureMonth * this._ep3CpuCore,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
       {
         id: SkuCode.ElasticPremium.EP3Memory,
-        quantity: Pricing.hoursInAzureMonth * this._ep3Memory,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],
