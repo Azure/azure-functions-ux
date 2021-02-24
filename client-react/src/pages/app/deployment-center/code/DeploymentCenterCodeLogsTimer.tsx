@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { DeploymentCenterCodeLogsTimerProps } from '../DeploymentCenter.types';
 import { useTranslation } from 'react-i18next';
-import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react';
-import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
-import { logsTimerStyle } from '../DeploymentCenter.styles';
+import { refreshButtonStyle } from '../DeploymentCenter.styles';
 
 const DeploymentCenterCodeLogsTimer: React.FC<DeploymentCenterCodeLogsTimerProps> = props => {
   const refreshMilliseconds = 30000;
@@ -43,31 +41,19 @@ const DeploymentCenterCodeLogsTimer: React.FC<DeploymentCenterCodeLogsTimerProps
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const commandBarItems: ICommandBarItemProps[] = [
-    {
-      key: 'refresh',
-      name: t('refresh'),
-      iconProps: {
-        iconName: 'Refresh',
-      },
-      ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
-      onClick: () => {
+  return (
+    <CustomCommandBarButton
+      key={'refresh'}
+      name={t('refresh')}
+      iconProps={{ iconName: 'Refresh' }}
+      ariaLabel={t('deploymentCenterRefreshCommandAriaLabel')}
+      onClick={() => {
         portalContext.log(getTelemetryInfo('verbose', 'refreshButton', 'clicked'));
         props.refreshLogs();
-      },
-    },
-  ];
-
-  return (
-    <div className={logsTimerStyle}>
-      <CommandBar
-        items={commandBarItems}
-        role="nav"
-        styles={CommandBarStyles}
-        ariaLabel={t('managePublishProfileCommandBarAriaLabel')}
-        buttonAs={CustomCommandBarButton}
-      />
-    </div>
+      }}
+      className={refreshButtonStyle}>
+      {t('refresh')}
+    </CustomCommandBarButton>
   );
 };
 
