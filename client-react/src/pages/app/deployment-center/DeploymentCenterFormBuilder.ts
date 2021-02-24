@@ -85,22 +85,15 @@ export abstract class DeploymentCenterFormBuilder {
           ? !!value
           : true;
       }),
-      repo: Yup.mixed()
-        .test('repositoryRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-          return this.parent.sourceProvider === ScmType.GitHubAction ||
-            this.parent.sourceProvider === ScmType.GitHub ||
-            this.parent.sourceProvider === ScmType.BitbucketGit ||
-            this.parent.sourceProvider === ScmType.ExternalGit ||
-            this.parent.sourceProvider === ScmType.Vsts
-            ? !!value
-            : true;
-        })
-        .test('repositoryIsUrl', this._t('deploymentCenterExternalRepoMessage'), function(value) {
-          const parentRepoUrl = this.parent.repo ? this.parent.repo.toLocaleLowerCase() : '';
-          const urlIsPrefixedCorrectly = parentRepoUrl.startsWith('https://') || parentRepoUrl.startsWith('http://');
-
-          return this.parent.sourceProvider === ScmType.ExternalGit ? !!value && urlIsPrefixedCorrectly : true;
-        }),
+      repo: Yup.mixed().test('repositoryRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.sourceProvider === ScmType.GitHubAction ||
+          this.parent.sourceProvider === ScmType.GitHub ||
+          this.parent.sourceProvider === ScmType.BitbucketGit ||
+          this.parent.sourceProvider === ScmType.ExternalGit ||
+          this.parent.sourceProvider === ScmType.Vsts
+          ? !!value
+          : true;
+      }),
       branch: Yup.mixed().test('branchRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.sourceProvider === ScmType.GitHubAction ||
           this.parent.sourceProvider === ScmType.GitHub ||
