@@ -181,8 +181,8 @@ export class PlanPriceSpecManager {
         let specsToAllowZeroCost: string[] = [];
 
         this.specGroups.forEach(g => {
-          g.recommendedSpecs.forEach(s => this._setBillingResourceId(s, meters));
-          g.additionalSpecs.forEach(s => this._setBillingResourceId(s, meters));
+          g.recommendedSpecs.forEach(s => this._setBillingResourceIdAndQuantity(s, meters));
+          g.additionalSpecs.forEach(s => this._setBillingResourceIdAndQuantity(s, meters));
 
           specResourceSets = this._concatAllResourceSetsForSpecs(specResourceSets, g.recommendedSpecs);
           specResourceSets = this._concatAllResourceSetsForSpecs(specResourceSets, g.additionalSpecs);
@@ -687,7 +687,7 @@ export class PlanPriceSpecManager {
     return inputs.data.isLinux ? OsType.Linux : OsType.Windows;
   }
 
-  private _setBillingResourceId(spec: PriceSpec, billingMeters: ArmObj<BillingMeter>[]) {
+  private _setBillingResourceIdAndQuantity(spec: PriceSpec, billingMeters: ArmObj<BillingMeter>[]) {
     if (!spec.meterFriendlyName) {
       throw Error('meterFriendlyName must be set');
     }
@@ -716,6 +716,7 @@ export class PlanPriceSpecManager {
         }
       } else {
         firstPartyResource.resourceId = billingMeter.properties.meterId;
+        firstPartyResource.quantity = firstPartyResource.quantity * billingMeter.properties.multiplier;
       }
     });
   }
