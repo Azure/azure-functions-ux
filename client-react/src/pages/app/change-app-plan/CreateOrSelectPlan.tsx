@@ -79,7 +79,6 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
     <>
       <Stack>
         <OfficeDropdown
-          id={'plan-dropdown'}
           selectedKey={planInfo.isNewPlan ? planInfo.newPlanInfo.name : (planInfo.existingPlan as ArmObj<ServerFarm>).id.toLowerCase()}
           options={options}
           onChange={onChangeDropdown}
