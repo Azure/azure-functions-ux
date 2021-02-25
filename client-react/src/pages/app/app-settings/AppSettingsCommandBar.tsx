@@ -7,6 +7,7 @@ import { CustomCommandBarButton } from '../../../components/CustomCommandBarButt
 import { IButtonProps } from 'office-ui-fabric-react';
 import Url from '../../../utils/url';
 import { CommonConstants } from '../../../utils/CommonConstants';
+import StringUtils from '../../../utils/string';
 
 interface AppSettingsCommandBarProps {
   onSave: () => void;
@@ -61,17 +62,26 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
     ];
 
     if (!!onResourceConnectionClick && Url.getFeatureValue(CommonConstants.FeatureFlags.showServiceLinkerConnector)) {
-      items.push({
-        key: 'resource-connection',
-        name: t('resourceConnection'),
-        iconProps: {
-          iconName: 'Link12',
-        },
-        disabled: disabled,
-        onClick: () => {
-          onResourceConnectionClick();
-        },
-      });
+      items.push(
+        ...[
+          {
+            key: 'split-button-1',
+            name: StringUtils.separator,
+            disabled: true,
+          },
+          {
+            key: 'resource-connection',
+            name: t('resourceConnection'),
+            iconProps: {
+              iconName: 'Link12',
+            },
+            disabled: disabled,
+            onClick: () => {
+              onResourceConnectionClick();
+            },
+          },
+        ]
+      );
     }
     return items;
   };
