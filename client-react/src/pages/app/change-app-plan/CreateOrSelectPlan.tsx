@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { IDropdownProps, IDropdownOption, Stack } from 'office-ui-fabric-react';
+import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption, Stack } from 'office-ui-fabric-react';
 import { dropdownStyleOverrides } from '../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../ThemeContext';
 import { useWindowSize } from 'react-use';
@@ -10,7 +10,6 @@ import i18next from 'i18next';
 import { ArmObj } from '../../../models/arm-obj';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
-import DropdownNoFormik from '../../../components/form-controls/DropDownnoFormik';
 
 export const NEW_PLAN = '__NEWPLAN__';
 
@@ -79,12 +78,12 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
   return (
     <>
       <Stack>
-        <DropdownNoFormik
+        <OfficeDropdown
           id={'plan-dropdown'}
           selectedKey={planInfo.isNewPlan ? planInfo.newPlanInfo.name : (planInfo.existingPlan as ArmObj<ServerFarm>).id.toLowerCase()}
           options={options}
           onChange={onChangeDropdown}
-          styles={dropdownStyleOverrides(theme, fullpage, '450px')}
+          styles={dropdownStyleOverrides(theme, fullpage)}
           ariaLabel={t('appServicePlan')}
         />
         <CreatePlan
