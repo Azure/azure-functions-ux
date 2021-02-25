@@ -102,8 +102,8 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
       },
       'service-linker'
     );
-    if (!!response && !!response.data && response.data.isSucceeded) {
-      const webAppConfig = response.data.webAppConfiguration;
+    if (!!response && !!response.data && response.data.value.isSucceeded) {
+      const webAppConfig = response.data.value.webAppConfiguration;
       if (!!webAppConfig && !!initialValues) {
         updateWebAppConfigForServiceLinker(webAppConfig, initialValues, setInitialValues, setCurrentValues, currentValues);
       }
