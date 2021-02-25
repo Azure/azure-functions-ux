@@ -26,6 +26,7 @@ import { dateTimeComparatorReverse } from './DeploymentCenterCodeLogs';
 import { PortalContext } from '../../../../PortalContext';
 import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 
 const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const { deployments, deploymentsError, isLoading, goToSettings, refreshLogs } = props;
@@ -40,6 +41,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   const [branch, setBranch] = useState<string | undefined>(undefined);
   const [runs, setRuns] = useState<GitHubActionsRun[] | undefined>(undefined);
   const [gitHubActionLogsErrorMessage, setGitHubActionLogsErrorMessage] = useState<string | undefined>(undefined);
+  const [isCancelWorkflowRunConfirmDialogHidden, setIsCancelWorkflowRunConfirmDialogHidden] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -89,6 +91,10 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   const dismissLogPanel = () => {
     setIsLogPanelOpen(false);
     setCurrentCommitId(undefined);
+  };
+
+  const hideCancelWorkflowRunConfirmDialog = () => {
+    setIsCancelWorkflowRunConfirmDialogHidden(true);
   };
 
   const goToSettingsOnClick = () => {
@@ -183,12 +189,31 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       <>
         {t('In Progress... ')}
         {
-          <Link
-            onClick={() => {
-              cancelWorkflowRunOnClick(run.cancel_url);
-            }}>
-            {t('deploymentCenterGitHubActionsCancelRunMessage')}
-          </Link>
+          <>
+            <Link
+              onClick={() => {
+                setIsCancelWorkflowRunConfirmDialogHidden(false);
+              }}>
+              {t('deploymentCenterGitHubActionsCancelRunMessage')}
+            </Link>
+            <ConfirmDialog
+              primaryActionButton={{
+                title: t('ok'),
+                onClick: () => {
+                  cancelWorkflowRunOnClick(run.cancel_url);
+                  hideCancelWorkflowRunConfirmDialog();
+                },
+              }}
+              defaultActionButton={{
+                title: t('cancel'),
+                onClick: hideCancelWorkflowRunConfirmDialog,
+              }}
+              title={t('deploymentCenterCancelWorkflowRunConfirmTitle')}
+              content={t('deploymentCenterCancelWorkflowRunConfirmMessage')}
+              hidden={isCancelWorkflowRunConfirmDialogHidden}
+              onDismiss={hideCancelWorkflowRunConfirmDialog}
+            />
+          </>
         }
       </>
     );
