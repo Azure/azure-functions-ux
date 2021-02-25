@@ -240,7 +240,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const renderSetupView = () => {
     return (
       <>
-        {showSourceSelectionOption && <DeploymentCenterContainerSource />}
+        {showSourceSelectionOption && <DeploymentCenterContainerSource formProps={formProps} />}
 
         {isGitHubActionSelected && (
           <>

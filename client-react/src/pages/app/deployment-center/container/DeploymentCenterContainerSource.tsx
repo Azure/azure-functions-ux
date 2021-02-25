@@ -9,9 +9,12 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
+import { DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 
-const DeploymentCenterContainerSource: React.FC<{}> = props => {
+const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { t } = useTranslation();
+  const { formProps } = props;
+
   const scenarioService = new ScenarioService(t);
   const siteStateContext = useContext(SiteStateContext);
 
@@ -56,7 +59,7 @@ const DeploymentCenterContainerSource: React.FC<{}> = props => {
         component={RadioButton}
         displayInVerticalLayout={true}
         options={options}
-        defaultSelectedKey={ScmType.None}
+        defaultSelectedKey={formProps.values.scmType}
         required={true}
       />
     </>
