@@ -157,7 +157,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
           label={t('sticky')}
           id="app-settings-edit-sticky"
           disabled={disableSlotSetting}
-          defaultChecked={currentAppSetting.sticky}
+          defaultChecked={!!currentAppSetting.sticky}
           onChange={updateAppSettingSticky}
           styles={{
             root: formElementStyle,

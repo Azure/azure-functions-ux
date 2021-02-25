@@ -2280,4 +2280,5 @@ export class PortalResources {
   public static deploymentCenterCodeRedeployCommitFailed = 'deploymentCenterCodeRedeployCommitFailed';
   public static deploymentCenterCodeRedeployCommitFailedWithError = 'deploymentCenterCodeRedeployCommitFailedWithError';
   public static deploymentCenterRedeployCommit = 'deploymentCenterRedeployCommit';
+  public static resourceConnection = 'resourceConnection';
 }

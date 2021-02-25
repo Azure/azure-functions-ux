@@ -238,13 +238,9 @@ export interface ITokenResponse {
   token: string;
 }
 
-export interface IBladeResultValue<T> {
-  value: T;
-}
-
 export interface IBladeResult<T> {
   reason: 'userNavigation' | 'childClosedSelf';
-  data: IBladeResultValue<T>;
+  data: T;
 }
 
 export enum BroadcastMessageId {
