@@ -6147,6 +6147,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
         <value>Performing a redeploy operation will cancel any existing deployment operation in progress and create a new one.</value>
     </data>
+    <data name="deploymentCenterCancelWorkflowRunConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to cancel this workflow run?</value>
+    </data>
+    <data name="deploymentCenterCancelWorkflowRunConfirmMessage" xml:space="preserve">
+        <value>Cancelling a workflow run will cancel deployment of your code to App Service.</value>
+    </data>
     <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Are you sure you want to discard?</value>
     </data>

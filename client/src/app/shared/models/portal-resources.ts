@@ -1992,6 +1992,8 @@ export class PortalResources {
   public static deploymentCenterRefreshConfirmTitle = 'deploymentCenterRefreshConfirmTitle';
   public static deploymentCenterRedeployConfirmTitle = 'deploymentCenterRedeployConfirmTitle';
   public static deploymentCenterRedeployConfirmMessage = 'deploymentCenterRedeployConfirmMessage';
+  public static deploymentCenterCancelWorkflowRunConfirmTitle = 'deploymentCenterCancelWorkflowRunConfirmTitle';
+  public static deploymentCenterCancelWorkflowRunConfirmMessage = 'deploymentCenterCancelWorkflowRunConfirmMessage';
   public static deploymentCenterDiscardConfirmTitle = 'deploymentCenterDiscardConfirmTitle';
   public static deploymentCenterDataLossMessage = 'deploymentCenterDataLossMessage';
   public static staticSite_addApplicationSettingHeader = 'staticSite_addApplicationSettingHeader';
