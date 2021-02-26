@@ -82,7 +82,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
           selectedKey={planInfo.isNewPlan ? planInfo.newPlanInfo.name : (planInfo.existingPlan as ArmObj<ServerFarm>).id.toLowerCase()}
           options={options}
           onChange={onChangeDropdown}
-          styles={dropdownStyleOverrides(theme, fullpage, '450px')}
+          styles={dropdownStyleOverrides(theme, fullpage)}
           ariaLabel={t('appServicePlan')}
         />
         <CreatePlan
