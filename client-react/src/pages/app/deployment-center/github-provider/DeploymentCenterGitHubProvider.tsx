@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterGitHubAccount from './DeploymentCenterGitHubAccount';
 import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
-import Dropdown from '../../../../components/form-controls/DropDown';
 import { Field } from 'formik';
 import { SiteStateContext } from '../../../../SiteState';
+import ComboBox from '../../../../components/form-controls/ComboBox';
 
 const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderProps> = props => {
   const { t } = useTranslation();
@@ -35,7 +35,9 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
             placeholder={t('deploymentCenterOAuthOrganizationPlaceholder')}
             name="org"
             defaultSelectedKey={formProps.values.org}
-            component={Dropdown}
+            component={ComboBox}
+            allowFreeform
+            autoComplete="on"
             displayInVerticalLayout={true}
             options={organizationOptions}
             required={true}
@@ -46,7 +48,9 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
             label={t('deploymentCenterOAuthRepository')}
             placeholder={t('deploymentCenterOAuthRepositoryPlaceholder')}
             name="repo"
-            component={Dropdown}
+            component={ComboBox}
+            allowFreeform
+            autoComplete="on"
             displayInVerticalLayout={true}
             options={repositoryOptions}
             defaultSelectedKey={formProps.values.repo}
@@ -58,7 +62,9 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
             label={t('deploymentCenterOAuthBranch')}
             placeholder={t('deploymentCenterOAuthBranchPlaceholder')}
             name="branch"
-            component={Dropdown}
+            component={ComboBox}
+            allowFreeform
+            autoComplete="on"
             displayInVerticalLayout={true}
             options={branchOptions}
             defaultSelectedKey={formProps.values.branch}
