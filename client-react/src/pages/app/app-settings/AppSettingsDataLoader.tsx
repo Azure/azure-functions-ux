@@ -50,6 +50,7 @@ export interface AppSettingsDataLoaderProps {
     scaleUpPlan: () => void;
     refreshAppSettings: () => void;
     onSubmit: (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => void;
+    setInitialValues: (initialValues: AppSettingsFormValues | null) => void;
   }) => JSX.Element;
   resourceId: string;
 }
@@ -428,6 +429,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
                   scaleUpPlan,
                   asyncData,
                   refreshAppSettings,
+                  setInitialValues,
                   initialFormValues: initialValues,
                 })}
               </SlotsListContext.Provider>

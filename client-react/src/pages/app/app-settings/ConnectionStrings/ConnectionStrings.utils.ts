@@ -73,7 +73,7 @@ const getConnectionStringStickyValue = (connectionStringName: string, initialCon
     }
     return false;
   });
-  return connectionStringIndex >= 0 ? initialConnectionStrings[connectionStringIndex].sticky : false;
+  return connectionStringIndex >= 0 ? !!initialConnectionStrings[connectionStringIndex].sticky : false;
 };
 
 export const formConnectionStringsoUseSlotSetting = (connectionStrings: FormConnectionString[], disableSlotSetting: boolean): string => {

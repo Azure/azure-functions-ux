@@ -6984,4 +6984,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterRedeployCommit" xml:space="preserve">
         <value>Redeploy commit</value>
     </data>
+    <data name="resourceConnection" xml:space="preserve">
+        <value>Resource connection</value>
+    </data>
 </root>

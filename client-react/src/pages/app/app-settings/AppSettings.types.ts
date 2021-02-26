@@ -14,14 +14,14 @@ export interface Permissions {
 export interface FormAppSetting {
   name: string;
   value: string;
-  sticky: boolean;
+  sticky?: boolean;
 }
 
 export interface FormConnectionString {
   name: string;
   value: string;
   type: string;
-  sticky: boolean;
+  sticky?: boolean;
 }
 
 export interface FormAzureStorageMounts extends AzureStorageMount {

@@ -1,6 +1,6 @@
 import { Formik, FormikProps } from 'formik';
-import React, { useRef, useState } from 'react';
-import { AppSettingsFormValues } from './AppSettings.types';
+import React, { useContext, useRef, useState } from 'react';
+import { AppSettingsFormValues, FormAppSetting, FormConnectionString } from './AppSettings.types';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
 import AppSettingsDataLoader from './AppSettingsDataLoader';
 import AppSettingsForm from './AppSettingsForm';
@@ -16,6 +16,8 @@ import { Site } from '../../../models/site/site';
 import { MessageBarType } from 'office-ui-fabric-react';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import { CreateServiceLinkerResponse, ServiceLinkerWebAppConfiguration } from '../../../models/service-linker';
+import { PortalContext } from '../../../PortalContext';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -73,6 +75,8 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const [showRefreshConfirmDialog, setShowRefreshConfirmDialog] = useState(false);
   const [showSaveConfirmDialog, setShowSaveConfirmDialog] = useState(false);
 
+  const portalContext = useContext(PortalContext);
+
   const closeRefreshConfirmDialog = () => {
     setShowRefreshConfirmDialog(false);
   };
@@ -81,9 +85,55 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
     setShowSaveConfirmDialog(false);
   };
 
+  const onResourceConnectionClick = async (
+    initialValues: AppSettingsFormValues | null,
+    setInitialValues: (values: AppSettingsFormValues | null) => void,
+    currentValues: AppSettingsFormValues,
+    setCurrentValues: (values: AppSettingsFormValues) => void
+  ) => {
+    const response = await portalContext.openBlade<CreateServiceLinkerResponse>(
+      {
+        detailBlade: 'CreateLinkerBlade',
+        detailBladeInputs: {
+          sourceResourceId: resourceId,
+        },
+        extension: 'ServiceLinkerExtension',
+        openAsContextBlade: true,
+      },
+      'service-linker'
+    );
+    if (!!response && !!response.data && response.data['isSucceeded']) {
+      const webAppConfig = response.data['webAppConfiguration'];
+      if (!!webAppConfig && !!initialValues) {
+        updateWebAppConfigForServiceLinker(webAppConfig, initialValues, setInitialValues, setCurrentValues, currentValues);
+      }
+    }
+  };
+
+  const updateWebAppConfigForServiceLinker = (
+    webAppConfig: ServiceLinkerWebAppConfiguration,
+    initialValues: AppSettingsFormValues,
+    setInitialValues: (values: AppSettingsFormValues | null) => void,
+    setCurrentValues: (values: AppSettingsFormValues) => void,
+    currentValues: AppSettingsFormValues
+  ) => {
+    const serviceLinkerAppSettings: FormAppSetting[] = webAppConfig.appSettings || [];
+    const serviceLinkerConnectionStrings: FormConnectionString[] = webAppConfig.connectionStrings || [];
+    setInitialValues({
+      ...initialValues,
+      appSettings: [...initialValues.appSettings, ...serviceLinkerAppSettings],
+      connectionStrings: [...initialValues.connectionStrings, ...serviceLinkerConnectionStrings],
+    });
+    setCurrentValues({
+      ...currentValues,
+      appSettings: [...currentValues.appSettings, ...serviceLinkerAppSettings],
+      connectionStrings: [...currentValues.connectionStrings, ...serviceLinkerConnectionStrings],
+    });
+  };
+
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
-      {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings, asyncData }) => (
+      {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings, setInitialValues, asyncData }) => (
         <PermissionsContext.Consumer>
           {permissions => {
             return (
@@ -109,6 +159,9 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               refreshAppSettings={() => setShowRefreshConfirmDialog(true)}
                               disabled={permissions.saving}
                               dirty={formProps.dirty}
+                              onResourceConnectionClick={() =>
+                                onResourceConnectionClick(initialFormValues, setInitialValues, formProps.values, formProps.setValues)
+                              }
                             />
                             <ConfirmDialog
                               primaryActionButton={{

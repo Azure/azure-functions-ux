@@ -66,7 +66,7 @@ const getAppSettingObjectForMonacoEditor = (appSetting: FormAppSetting, disableS
     : {
         name: appSetting.name,
         value: appSetting.value,
-        slotSetting: appSetting.sticky,
+        slotSetting: !!appSetting.sticky,
       };
 };
 
@@ -77,7 +77,7 @@ const getAppSettingStickyValue = (appSettingName: string, initialAppSettings: Fo
     }
     return false;
   });
-  return appSettingIndex >= 0 ? initialAppSettings[appSettingIndex].sticky : false;
+  return appSettingIndex >= 0 ? !!initialAppSettings[appSettingIndex].sticky : false;
 };
 
 export const formAppSettingToUseSlotSetting = (appSettings: FormAppSetting[], disableSlotSetting: boolean): string => {

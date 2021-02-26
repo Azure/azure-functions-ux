@@ -40,6 +40,7 @@ export class CommonConstants {
     targetAzDevDeployment: 'targetAzDevDeployment',
     authTokenOverride: 'authTokenOverride',
     enableAzureMount: 'enableAzureMount',
+    showServiceLinkerConnector: 'showServiceLinkerConnector',
   };
 
   public static readonly AppDensityLimit = 8;

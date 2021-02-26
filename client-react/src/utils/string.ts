@@ -4,6 +4,7 @@ import { ValidationRegex } from './constants/ValidationRegex';
 
 export default class StringUtils {
   public static fileSeparator = '\\';
+  public static buttonSeparator = '|';
 
   public static removeSpaces(value: string): string {
     return value.replace(/\s/g, '');
