@@ -26,62 +26,77 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
   const portalCommunicator = useContext(PortalContext);
   const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
 
+  const getRefreshButton = (dirty: boolean, disabled: boolean): ICommandBarItemProps => {
+    return {
+      key: 'refresh',
+      name: t('refresh'),
+      iconProps: {
+        iconName: 'Refresh',
+      },
+      disabled: disabled,
+      ariaLabel: t('appSettingsRefreshAriaLabel'),
+      onClick: refreshAppSettings,
+    };
+  };
+
+  const getSaveButton = (dirty: boolean, disabled: boolean): ICommandBarItemProps => {
+    return {
+      key: 'save',
+      name: t('save'),
+      iconProps: {
+        iconName: 'Save',
+      },
+      disabled: !dirty || disabled,
+      ariaLabel: t('appSettingsSaveAriaLabel'),
+      onClick: onSave,
+    };
+  };
+
+  const getDiscardButton = (dirty: boolean, disabled: boolean): ICommandBarItemProps => {
+    return {
+      key: 'discard',
+      name: t('discard'),
+      iconProps: {
+        iconName: 'ChromeClose',
+      },
+      disabled: !dirty || disabled,
+      ariaLabel: t('appSettingsDiscardAriaLabel'),
+      onClick: () => resetForm(),
+    };
+  };
+
+  const getButtonSeparator = (key: string) => {
+    return {
+      key: key,
+      name: StringUtils.buttonSeparator,
+      disabled: true,
+    };
+  };
+
+  const getResourceConnectionButton = (dirty: boolean, disabled: boolean) => {
+    return {
+      key: 'resource-connection',
+      name: t('resourceConnection'),
+      iconProps: {
+        iconName: 'Link12',
+      },
+      disabled: disabled,
+      onClick: () => {
+        !!onResourceConnectionClick && onResourceConnectionClick();
+      },
+    };
+  };
+
   // Data for CommandBar
   const getItems = (dirty: boolean, disabled: boolean): ICommandBarItemProps[] => {
     const items: ICommandBarItemProps[] = [
-      {
-        key: 'refresh',
-        name: t('refresh'),
-        iconProps: {
-          iconName: 'Refresh',
-        },
-        disabled: disabled,
-        ariaLabel: t('appSettingsRefreshAriaLabel'),
-        onClick: refreshAppSettings,
-      },
-      {
-        key: 'save',
-        name: t('save'),
-        iconProps: {
-          iconName: 'Save',
-        },
-        disabled: !dirty || disabled,
-        ariaLabel: t('appSettingsSaveAriaLabel'),
-        onClick: onSave,
-      },
-      {
-        key: 'discard',
-        name: t('discard'),
-        iconProps: {
-          iconName: 'ChromeClose',
-        },
-        disabled: !dirty || disabled,
-        ariaLabel: t('appSettingsDiscardAriaLabel'),
-        onClick: () => resetForm(),
-      },
+      getRefreshButton(dirty, disabled),
+      getSaveButton(dirty, disabled),
+      getDiscardButton(dirty, disabled),
     ];
 
     if (!!onResourceConnectionClick && Url.getFeatureValue(CommonConstants.FeatureFlags.showServiceLinkerConnector)) {
-      items.push(
-        ...[
-          {
-            key: 'split-button-1',
-            name: StringUtils.separator,
-            disabled: true,
-          },
-          {
-            key: 'resource-connection',
-            name: t('resourceConnection'),
-            iconProps: {
-              iconName: 'Link12',
-            },
-            disabled: disabled,
-            onClick: () => {
-              onResourceConnectionClick();
-            },
-          },
-        ]
-      );
+      items.push(...[getButtonSeparator('split-button-1'), getResourceConnectionButton(dirty, disabled)]);
     }
     return items;
   };
