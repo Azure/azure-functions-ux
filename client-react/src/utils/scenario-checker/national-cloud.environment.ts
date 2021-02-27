@@ -2,6 +2,7 @@ import { CommonConstants } from './../CommonConstants';
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { AzureEnvironment } from './azure.environment';
+import Url from '../url';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
   public static isNationalCloud() {
@@ -120,7 +121,13 @@ export class NationalCloudEnvironment extends AzureEnvironment {
 
     this.scenarioChecks[ScenarioIds.githubSource] = {
       id: ScenarioIds.githubSource,
-      runCheck: () => ({ status: 'disabled' }),
+      runCheck: () => {
+        if (Url.getFeatureValue(CommonConstants.FeatureFlags.enableGitHubOnNationalCloud)) {
+          return { status: 'enabled' };
+        } else {
+          return { status: 'disabled' };
+        }
+      },
     };
     this.scenarioChecks[ScenarioIds.bitbucketSource] = {
       id: ScenarioIds.bitbucketSource,
