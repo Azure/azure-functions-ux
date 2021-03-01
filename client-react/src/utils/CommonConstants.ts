@@ -41,6 +41,7 @@ export class CommonConstants {
     authTokenOverride: 'authTokenOverride',
     enableAzureMount: 'enableAzureMount',
     showServiceLinkerConnector: 'showServiceLinkerConnector',
+    enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
   };
 
   public static readonly AppDensityLimit = 8;
