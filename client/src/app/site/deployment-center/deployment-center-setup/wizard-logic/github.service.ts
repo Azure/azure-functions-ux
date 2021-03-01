@@ -412,6 +412,7 @@ jobs:
       run: dotnet publish -c Release -o \${{env.DOTNET_ROOT}}/myapp
 
     - name: Deploy to Azure Web App
+id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -459,6 +460,7 @@ jobs:
       run: mvn clean install
 
     - name: Deploy to Azure Web App
+id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -506,6 +508,7 @@ jobs:
       run: mvn clean install
 
     - name: Deploy to Azure Web App
+id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -556,6 +559,7 @@ jobs:
       run: msbuild /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=./published/ /p:PackageAsSingleFile=false
 
     - name: Deploy to Azure Web App
+id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'

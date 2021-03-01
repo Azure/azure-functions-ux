@@ -290,6 +290,7 @@ jobs:
         name: node-app
 
     - name: 'Deploy to Azure Web App'
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -462,6 +463,7 @@ jobs:
         name: .net-app
 
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -529,6 +531,7 @@ jobs:
         name: java-app
 
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -596,6 +599,7 @@ jobs:
         name: java-app
 
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -666,6 +670,7 @@ jobs:
           name: ASP-app 
 
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -709,11 +714,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: 'ubuntu-latest'
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
 
     - uses: azure/docker-login@v1
       with:
@@ -721,11 +729,23 @@ jobs:
         username: \${{ secrets.${containerUsernameSecretName} }}
         password: \${{ secrets.${containerPasswordSecretName} }}
 
-    - run: |
-        docker build . -t ${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
-        docker push ${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
+    - name: Build and push container image to registry
+      uses: docker/build-push-action@v2.2.1
+      with:
+        push: true
+        tags: __image__:\${{ github.sha }}
+        file: ./Dockerfile
+  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: '__slotname__'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
+    steps:
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
