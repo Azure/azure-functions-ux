@@ -126,13 +126,10 @@ jobs:
       vmImage: 'vs2017-win2016'
     steps:
       - task: OneLocBuild@2
-        env:
-          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
         inputs:
           locProj: 'server/LocProject.json'
           outDir: '$(Build.ArtifactStagingDirectory)'
-          isCreatePrSelected: true
-          prSourceBranchPrefix: 'locfiles'
+          packageSourceAuth: 'patAuth'
           patVariable: $(OneLocBuildPAT)
 
   - job: Server
