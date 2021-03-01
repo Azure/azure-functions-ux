@@ -253,7 +253,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
@@ -269,6 +269,25 @@ jobs:
         npm install
         npm run build --if-present
         npm run test --if-present
+
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: node-app
+        path: .
+
+  deploy:
+    runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
+    needs: build
+    environment:
+      name: '${slot}'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: node-app
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
@@ -406,7 +425,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
@@ -423,13 +442,32 @@ jobs:
     - name: dotnet publish
       run: dotnet publish -c Release -o \${{env.DOTNET_ROOT}}/myapp
 
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: .net-app
+        path: \${{env.DOTNET_ROOT}}/myapp
+
+  deploy:
+    runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
+    needs: build
+    environment:
+      name: '${slot}'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: .net-app
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: \${{env.DOTNET_ROOT}}/myapp `;
+        package: .`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -457,7 +495,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
@@ -471,13 +509,32 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
 
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: java-app
+        path: '\${{ github.workspace }}/target/*.jar'
+
+  deploy:
+    runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
+    needs: build
+    environment:
+      name: '${slot}'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: java-app
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: '\${{ github.workspace }}/target/*.jar'`;
+        package: '*.jar'`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -505,7 +562,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
@@ -519,13 +576,32 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
 
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: java-app
+        path: '\${{ github.workspace }}/target/*.war'
+
+  deploy:
+    runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
+    needs: build
+    environment:
+      name: '${slot}'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: java-app
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: '\${{ github.workspace }}/target/*.war'`;
+        package: '*.war'`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -552,7 +628,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: 'windows-latest'
 
     steps:
@@ -570,13 +646,32 @@ jobs:
     - name: Publish to folder
       run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\\published\\"
 
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: ASP-app
+        path: 'published'
+
+  deploy:
+    runs-on: 'windows-latest'
+    needs: build
+    environment:
+      name: '__slotname__'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: ASP-app 
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: \\published\\`;
+        package: .`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
