@@ -8,6 +8,7 @@ import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
 import { EnvironmentUrlMappings, Environments } from '../deployment-center';
 import { AxiosRequestConfig } from 'axios';
+import { CloudType, StaticReactConfig } from '../../types/config';
 
 @Controller()
 export class GithubController {
@@ -170,9 +171,7 @@ export class GithubController {
     }
 
     res.redirect(
-      `${Constants.oauthApis.githubApiUri}/authorize?client_id=${this.configService.get(
-        'GITHUB_CLIENT_ID'
-      )}&redirect_uri=${this._getRedirectUri(
+      `${Constants.oauthApis.githubApiUri}/authorize?client_id=${this._getGitHubClientId()}&redirect_uri=${this._getRedirectUri(
         host
       )}&scope=admin:repo_hook+repo+workflow&response_type=code&state=${this.dcService.hashStateGuid(stateKey)}`
     );
@@ -207,8 +206,8 @@ export class GithubController {
     try {
       const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
         code,
-        client_id: this.configService.get('GITHUB_CLIENT_ID'),
-        client_secret: this.configService.get('GITHUB_CLIENT_SECRET'),
+        client_id: this._getGitHubClientId(),
+        client_secret: this._getGitHubClientSecret(),
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
       return {
@@ -226,7 +225,7 @@ export class GithubController {
 
   @Get('auth/github/createClientId')
   clientId() {
-    return { client_id: this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID') };
+    return { client_id: this._getGitHubForCreatesClientId() };
   }
 
   @Post('auth/github/generateCreateAccessToken')
@@ -240,8 +239,8 @@ export class GithubController {
       const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
         code,
         state,
-        client_id: this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID'),
-        client_secret: this.configService.get('GITHUB_FOR_CREATES_CLIENT_SECRET'),
+        client_id: this._getGitHubForCreatesClientId(),
+        client_secret: this._getGitHubForCreatesClientSecret(),
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
       return {
@@ -408,5 +407,67 @@ export class GithubController {
     const endOfProfile = profile.substring(endIndex, profile.length);
 
     return `${beginningOfProfile}${replacementPublishUrl}${endOfProfile}`;
+  }
+
+  get staticReactConfig(): StaticReactConfig {
+    const acceptedOriginsString = process.env.APPSVC_ACCEPTED_ORIGINS_SUFFIX;
+    let acceptedOrigins: string[] = [];
+    if (acceptedOriginsString) {
+      acceptedOrigins = acceptedOriginsString.split(',');
+    }
+
+    return {
+      env: {
+        appName: process.env.WEBSITE_SITE_NAME,
+        hostName: process.env.WEBSITE_HOSTNAME,
+        cloud: process.env.APPSVC_CLOUD as CloudType,
+        acceptedOriginsSuffix: acceptedOrigins,
+      },
+      version: process.env.VERSION,
+    };
+  }
+
+  private _getGitHubClientId(): string {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.mooncake) {
+      return this.configService.get('GITHUB_MOONCAKE_CLIENT_ID');
+    } else if (config.env && config.env.cloud === CloudType.fairfax) {
+      return this.configService.get('GITHUB_FAIRFAX_CLIENT_ID');
+    } else {
+      return this.configService.get('GITHUB_CLIENT_ID');
+    }
+  }
+
+  private _getGitHubClientSecret(): string {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.mooncake) {
+      return this.configService.get('GITHUB_MOONCAKE_CLIENT_SECRET');
+    } else if (config.env && config.env.cloud === CloudType.fairfax) {
+      return this.configService.get('GITHUB_FAIRFAX_CLIENT_SECRET');
+    } else {
+      return this.configService.get('GITHUB_CLIENT_SECRET');
+    }
+  }
+
+  private _getGitHubForCreatesClientId() {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.mooncake) {
+      return this.configService.get('GITHUB_FOR_CREATES_MOONCAKE_CLIENT_ID');
+    } else if (config.env && config.env.cloud === CloudType.fairfax) {
+      return this.configService.get('GITHUB_FOR_CREATES_FAIRFAX_CLIENT_ID');
+    } else {
+      return this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID');
+    }
+  }
+
+  private _getGitHubForCreatesClientSecret() {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.mooncake) {
+      return this.configService.get('GITHUB_FOR_CREATES_MOONCAKE_CLIENT_SECRET');
+    } else if (config.env && config.env.cloud === CloudType.fairfax) {
+      return this.configService.get('GITHUB_FOR_CREATES_FAIRFAX_CLIENT_SECRET');
+    } else {
+      return this.configService.get('GITHUB_FOR_CREATES_CLIENT_SECRET');
+    }
   }
 }
