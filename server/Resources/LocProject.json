@@ -1,0 +1,15 @@
+{
+    "Projects": [
+      {
+        "LanguageSet": "Azure_Languages",
+        "LocItems": [
+          {
+            "SourceFile": "Resources.resx",
+            "CopyOption": "LangIDOnPath",
+            "OutputPath": "{Lang}\\Server\\Resources\\Resources.resx",
+            "LclFile": "{Lang}\\LocProject\\lcl\\Server\\Resources\\Resources.resx.lcl"
+          }
+        ]
+      }
+    ]
+  }

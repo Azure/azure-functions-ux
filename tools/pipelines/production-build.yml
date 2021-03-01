@@ -125,12 +125,23 @@ jobs:
     pool:
       vmImage: 'vs2017-win2016'
     steps:
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: server/Resources
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
       - task: OneLocBuild@2
         inputs:
-          locProj: 'server/LocProject.json'
+          locProj: 'LocProject.json'
           outDir: '$(Build.ArtifactStagingDirectory)'
           packageSourceAuth: 'patAuth'
           patVariable: $(OneLocBuildPAT)
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: loc'
+        inputs:
+          ArtifactName: loc
 
   - job: Server
     pool:
