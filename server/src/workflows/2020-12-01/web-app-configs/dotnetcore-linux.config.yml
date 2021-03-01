@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,10 +27,29 @@ jobs:
       - name: dotnet publish
         run: dotnet publish -c Release -o \${{env.DOTNET_ROOT}}/myapp
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
         with:
-          app-name: '__sitename__'
-          slot-name: '__slotname__'
-          publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
-          package: \${{env.DOTNET_ROOT}}/myapp
+          name: .net-app
+          path: myapp
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: '__slotname__'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: .net-app
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: '__sitename__'
+        slot-name: '__slotname__'
+        publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
+        package: .
