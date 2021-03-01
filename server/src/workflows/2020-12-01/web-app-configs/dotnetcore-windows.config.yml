@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: .net-app
-          path: myapp
+          path: \${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: windows-latest
