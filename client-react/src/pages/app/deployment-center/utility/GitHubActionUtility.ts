@@ -257,7 +257,7 @@ jobs:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Node.js version
       uses: actions/setup-node@v1
@@ -307,7 +307,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Python version
       uses: actions/setup-python@v1
@@ -360,7 +360,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Python version
       uses: actions/setup-python@v1
@@ -410,7 +410,7 @@ jobs:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
@@ -461,7 +461,7 @@ jobs:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Java version
       uses: actions/setup-java@v1
@@ -509,7 +509,7 @@ jobs:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Java version
       uses: actions/setup-java@v1
@@ -556,7 +556,7 @@ jobs:
     runs-on: 'windows-latest'
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Setup MSBuild path
       uses: microsoft/setup-msbuild@v1.0.2
@@ -618,7 +618,7 @@ jobs:
     runs-on: 'ubuntu-latest'
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - uses: azure/docker-login@v1
       with:
@@ -669,7 +669,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup DotNet \${{ env.DOTNET_VERSION }} Environment
       uses: actions/setup-dotnet@v1
@@ -724,7 +724,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup DotNet \${{ env.DOTNET_VERSION }} Environment
       uses: actions/setup-dotnet@v1
@@ -778,7 +778,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup Node \${{ env.NODE_VERSION }} Environment
       uses: actions/setup-node@v1
@@ -834,7 +834,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup Node \${{ env.NODE_VERSION }} Environment
       uses: actions/setup-node@v1
@@ -889,7 +889,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
@@ -932,7 +932,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup Java Sdk \${{ env.JAVA_VERSION }}
       uses: actions/setup-java@v1
@@ -987,7 +987,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup Java Sdk \${{ env.JAVA_VERSION }}
       uses: actions/setup-java@v1
@@ -1041,7 +1041,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup Python \${{ env.PYTHON_VERSION }} Environment
       uses: actions/setup-python@v1
