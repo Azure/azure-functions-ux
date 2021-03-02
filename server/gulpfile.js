@@ -169,7 +169,7 @@ gulp.task('resx-to-typescript-models', function(cb) {
  */
 gulp.task('resources-convert', function() {
   const portalResourceStream = gulp
-    .src(['./Resources/**/Resources.resx'])
+    .src(['../server/resources-resx/**/Resources.*.resx'])
     .pipe(resx2())
     .pipe(
       rename(function(p) {

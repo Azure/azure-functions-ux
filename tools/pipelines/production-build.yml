@@ -150,6 +150,18 @@ jobs:
           versionSpec: '10.x'
         displayName: 'Install Node.js'
 
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download Loc Artifacts'
+        inputs:
+          artifactName: loc
+          downloadPath: $(System.DefaultWorkingDirectory)
+
+      - task: CopyFiles@2
+        displayName: 'Copy Loc to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/loc/loc
+          TargetFolder: server/resources-resx
+
       - script: |
           cd server
           npm ci
