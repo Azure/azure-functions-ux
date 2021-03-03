@@ -96,9 +96,13 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     return undefined;
   };
 
-  const getSiteStateFromAppSettings = (appSettings: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
+  const getSiteStateFromAppSettings = (appSettings: ArmObj<KeyValue<string>>, site: ArmObj<Site>): FunctionAppEditMode | undefined => {
     if (FunctionAppService.usingCustomWorkerRuntime(appSettings)) {
       return FunctionAppEditMode.ReadOnlyCustom;
+    }
+
+    if (isFunctionApp(site) && FunctionAppService.usingDotnet5WorkerRuntime(appSettings)) {
+      return FunctionAppEditMode.ReadOnlyDotnet5;
     }
 
     if (FunctionAppService.usingRunFromPackage(appSettings)) {
@@ -179,7 +183,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             const appSettingsResponse = await SiteService.fetchApplicationSettings(trimmedResourceId);
 
             if (appSettingsResponse.metadata.success) {
-              functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data);
+              functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data, siteResponse.data);
             } else {
               LogService.error(
                 LogCategories.siteRouter,
