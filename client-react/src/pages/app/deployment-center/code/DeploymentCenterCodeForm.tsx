@@ -519,7 +519,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           <div id="deployment-center-command-bar" className={commandBarSticky}>
             <DeploymentCenterCommandBar
               isDirty={formProps.dirty}
-              isLoading={props.isLoading}
+              isDataRefreshing={props.isDataRefreshing}
               isVstsBuildProvider={formProps.values.buildProvider === BuildProvider.Vsts}
               saveFunction={formProps.submitForm}
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}

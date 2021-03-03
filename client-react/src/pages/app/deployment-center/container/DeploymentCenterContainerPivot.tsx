@@ -12,7 +12,7 @@ import { ThemeContext } from '../../../../ThemeContext';
 import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotProps> = props => {
-  const { logs, formProps, isLoading, refresh } = props;
+  const { logs, formProps, isDataRefreshing, isLogsDataRefreshing, refresh } = props;
   const { t } = useTranslation();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -80,7 +80,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
   return (
     <Pivot>
       <PivotItem headerText={t('deploymentCenterPivotItemLogsHeaderText')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
-        <DeploymentCenterContainerLogs logs={logs} isLoading={isLoading} refresh={refresh} />
+        <DeploymentCenterContainerLogs logs={logs} isLogsDataRefreshing={isLogsDataRefreshing} refresh={refresh} />
       </PivotItem>
 
       <PivotItem
@@ -89,7 +89,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
           CustomTabRenderer(link, defaultRenderer, theme, isSettingsDirty, t('modifiedTag'))
         }>
-        <DeploymentCenterContainerSettings formProps={formProps} />
+        <DeploymentCenterContainerSettings formProps={formProps} isDataRefreshing={isDataRefreshing} />
       </PivotItem>
 
       <PivotItem
@@ -98,7 +98,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
           CustomTabRenderer(link, defaultRenderer, theme, isFtpsDirty, t('modifiedTag'))
         }>
-        <DeploymentCenterFtps formProps={formProps} isLoading={isLoading} />
+        <DeploymentCenterFtps formProps={formProps} isDataRefreshing={isDataRefreshing} />
       </PivotItem>
     </Pivot>
   );
