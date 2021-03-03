@@ -18,7 +18,7 @@ import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterGitHubActionsCodeLogs from './DeploymentCenterGitHubActionsCodeLogs';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
-  const { formProps, deployments, deploymentsError, isLoading, refreshLogs } = props;
+  const { formProps, deployments, deploymentsError, refreshLogs, isDataRefreshing, isLogsDataRefreshing } = props;
   const { t } = useTranslation();
   const [selectedKey, setSelectedKey] = useState<string>('logs');
   const [showLogsTab, setShowLogsTab] = useState(true);
@@ -77,7 +77,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
         goToSettings={goToSettingsOnClick}
         deployments={deployments}
         deploymentsError={deploymentsError}
-        isLoading={isLoading}
+        isLogsDataRefreshing={isLogsDataRefreshing}
         refreshLogs={refreshLogs}
       />
     );
@@ -89,7 +89,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
         goToSettings={goToSettingsOnClick}
         deployments={deployments}
         deploymentsError={deploymentsError}
-        isLoading={isLoading}
+        isLogsDataRefreshing={isLogsDataRefreshing}
         refreshLogs={refreshLogs}
       />
     );
@@ -133,7 +133,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
           CustomTabRenderer(link, defaultRenderer, theme, isSettingsDirty, t('modifiedTag'))
         }>
-        <DeploymentCenterCodeSettings formProps={formProps} />
+        <DeploymentCenterCodeSettings formProps={formProps} isDataRefreshing={isDataRefreshing} />
       </PivotItem>
 
       <PivotItem
@@ -143,7 +143,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
           CustomTabRenderer(link, defaultRenderer, theme, isFtpsDirty, t('modifiedTag'))
         }>
-        <DeploymentCenterFtps formProps={formProps} isLoading={isLoading} />
+        <DeploymentCenterFtps formProps={formProps} isDataRefreshing={isDataRefreshing} />
       </PivotItem>
     </Pivot>
   );

@@ -18,7 +18,7 @@ import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
-  const { resourceId } = props;
+  const { resourceId, isDataRefreshing } = props;
   const { t } = useTranslation();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -28,7 +28,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterCodeFormBuilder = new DeploymentCenterCodeFormBuilder(t);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLogsDataRefreshing, setIsLogsDataRefreshing] = useState(false);
   const [deployments, setDeployments] = useState<ArmArray<DeploymentProperties> | undefined>(undefined);
   const [deploymentsError, setDeploymentsError] = useState<string | undefined>(undefined);
   const [codeFormData, setCodeFormData] = useState<DeploymentCenterFormData<DeploymentCenterCodeFormData> | undefined>(undefined);
@@ -36,15 +36,15 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
     DeploymentCenterYupValidationSchemaType<DeploymentCenterCodeFormData> | undefined
   >(undefined);
 
-  const fetchData = async () => {
+  const fetchInitialLogsData = async () => {
     portalContext.log(
       getTelemetryInfo('info', 'initialDataRequest', 'submit', {
         publishType: 'code',
       })
     );
-    setIsLoading(true);
+    setIsLogsDataRefreshing(true);
     await fetchDeploymentLogs();
-    setIsLoading(false);
+    setIsLogsDataRefreshing(false);
   };
 
   const fetchDeploymentLogs = async () => {
@@ -102,14 +102,13 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
       })
     );
 
-    setIsLoading(true);
-    fetchData();
+    fetchInitialLogsData();
     deploymentCenterContext.refresh();
   };
 
   useEffect(() => {
     if (deploymentCenterContext.resourceId) {
-      fetchData();
+      fetchInitialLogsData();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,9 +128,10 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
       deploymentsError={deploymentsError}
       formData={codeFormData}
       formValidationSchema={codeFormValidationSchema}
-      isLoading={isLoading}
       refresh={refresh}
       refreshLogs={refreshLogs}
+      isDataRefreshing={isDataRefreshing}
+      isLogsDataRefreshing={isLogsDataRefreshing}
     />
   );
 };

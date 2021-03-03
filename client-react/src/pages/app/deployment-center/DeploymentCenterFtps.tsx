@@ -34,7 +34,7 @@ const DeploymentCenterFtps: React.FC<
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const portalContext = useContext(PortalContext);
 
-  const { isLoading, formProps } = props;
+  const { isDataRefreshing, formProps } = props;
   const { publishingProfile, resetApplicationPassword } = deploymentCenterPublishingContext;
 
   const [applicationPasswordType, setApplicationPasswordType] = useState<PasswordFieldType>('password');
@@ -181,12 +181,12 @@ const DeploymentCenterFtps: React.FC<
           defaultButtonFunction={toggleResetCalloutVisibility}
         />
 
-        <DeploymentCenterPublishingUser formProps={formProps} isLoading={isLoading} />
+        <DeploymentCenterPublishingUser formProps={formProps} />
       </div>
     );
   };
 
-  if (isLoading) {
+  if (isDataRefreshing) {
     return getProgressIndicator();
   } else if (disableFtp()) {
     return getDisabledByFTPPolicyMessage();
