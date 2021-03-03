@@ -21,7 +21,7 @@ import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCode
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { SiteStateContext } from '../../../../SiteState';
-import { Link } from 'office-ui-fabric-react';
+import { Link, ProgressIndicator } from 'office-ui-fabric-react';
 import DeploymentCenterBitbucketConfiguredView from '../bitbucket-provider/DeploymentCenterBitbucketConfiguredView';
 import DeploymentCenterLocalGitConfiguredView from '../local-git-provider/DeploymentCenterLocalGitConfiguredView';
 import DeploymentCenterExternalConfiguredView from '../external-provider/DeploymentCenterExternalConfiguredView';
@@ -37,7 +37,7 @@ import DeploymentCenterDevOpsKuduBuildConfiguredView from '../devops-provider/De
 import DeploymentCenterVstsBuildProvider from '../devops-provider/DeploymentCenterVstsBuildProvider';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
-  const { formProps } = props;
+  const { formProps, isDataRefreshing } = props;
   const { t } = useTranslation();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -176,7 +176,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.workflowOption]);
 
-  return (
+  const getSettingsControls = () => (
     <>
       {isDeploymentSetup ? (
         <>
@@ -239,6 +239,12 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
       )}
     </>
   );
+
+  const getProgressIndicator = () => (
+    <ProgressIndicator description={t('deploymentCenterSettingsLoading')} ariaValueText={t('deploymentCenterSettingsLoadingAriaValue')} />
+  );
+
+  return <>{isDataRefreshing ? getProgressIndicator() : getSettingsControls()}</>;
 };
 
 export default DeploymentCenterCodeSettings;

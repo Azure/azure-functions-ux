@@ -29,7 +29,7 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 
 const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
-  const { deployments, deploymentsError, isLoading, goToSettings, refreshLogs } = props;
+  const { deployments, deploymentsError, isLogsDataRefreshing, goToSettings, refreshLogs } = props;
   const { t } = useTranslation();
 
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
@@ -353,7 +353,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
 
   return (
     <>
-      {isLoading || isLogsLoading ? (
+      {isLogsDataRefreshing || isLogsLoading ? (
         getProgressIndicator()
       ) : deploymentsError && gitHubActionLogsErrorMessage ? (
         <div className={deploymentCenterLogsError}>{getDeploymentErrorMessage()}</div>

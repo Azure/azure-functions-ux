@@ -649,7 +649,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               saveFunction={formProps.submitForm}
               discardFunction={() => setIsDiscardConfirmDialogVisible(true)}
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
-              isLoading={props.isLoading}
+              isDataRefreshing={props.isDataRefreshing}
               isDirty={formProps.dirty}
               isVstsBuildProvider={formProps.values.scmType === ScmType.Vsts}
             />

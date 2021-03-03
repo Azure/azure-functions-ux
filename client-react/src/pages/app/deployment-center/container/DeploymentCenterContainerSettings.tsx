@@ -25,9 +25,10 @@ import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentC
 import DeploymentCenterContainerSettingsReadOnlyView from './DeploymentCenterContainerSettingsReadOnlyView';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterVstsBuildProvider from '../devops-provider/DeploymentCenterVstsBuildProvider';
+import { ProgressIndicator } from 'office-ui-fabric-react';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
-  const { formProps } = props;
+  const { formProps, isDataRefreshing } = props;
   const { t } = useTranslation();
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
   const [workflowFilePath, setWorkflowFilePath] = useState<string>('');
@@ -289,7 +290,13 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
     );
   };
 
-  return showGitHubActionReadOnlyView ? renderGitHubActionReadOnlyView() : renderSetupView();
+  const getSettingsControls = () => (showGitHubActionReadOnlyView ? renderGitHubActionReadOnlyView() : renderSetupView());
+
+  const getProgressIndicator = () => (
+    <ProgressIndicator description={t('deploymentCenterSettingsLoading')} ariaValueText={t('deploymentCenterSettingsLoadingAriaValue')} />
+  );
+
+  return isDataRefreshing ? getProgressIndicator() : getSettingsControls();
 };
 
 export default DeploymentCenterContainerSettings;
