@@ -6993,4 +6993,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSettingsLoading" xml:space="preserve">
         <value>Loading deployment settings...</value>
     </data>
+    <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
+        <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+    </data>
 </root>

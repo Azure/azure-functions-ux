@@ -31,7 +31,7 @@ import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBan
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { PortalTheme } from '../../../../../models/portal-models';
+import { FunctionAppEditMode, PortalTheme } from '../../../../../models/portal-models';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
@@ -512,7 +512,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={onCancelButtonClick}
         />
-        {!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable) ? (
+        {/* NOTE (krmitta): For .NET5 FunctionApps, we need to show the read-only banner irrespective of getFiles call not returning the list. */}
+        {(!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) &&
+        siteStateContext.siteAppEditState !== FunctionAppEditMode.ReadOnlyDotnet5 ? (
           <CustomBanner
             message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
             type={MessageBarType.error}
