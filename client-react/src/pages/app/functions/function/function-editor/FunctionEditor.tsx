@@ -512,6 +512,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={onCancelButtonClick}
         />
+        {/* NOTE (krmitta): For .NET5 FunctionApps, we need to show the read-only banner irrespective of getFiles call not returning the list. */}
         {(!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) &&
         siteStateContext.siteAppEditState !== FunctionAppEditMode.ReadOnlyDotnet5 ? (
           <CustomBanner
