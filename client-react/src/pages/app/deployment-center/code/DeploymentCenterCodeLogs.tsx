@@ -34,7 +34,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
-  const { deployments, deploymentsError, isLoading, goToSettings, refreshLogs } = props;
+  const { deployments, deploymentsError, isLogsDataRefreshing, goToSettings, refreshLogs } = props;
   const { t } = useTranslation();
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
@@ -153,7 +153,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
 
   return (
     <>
-      {isLoading ? (
+      {isLogsDataRefreshing ? (
         getProgressIndicator()
       ) : deploymentsError ? (
         <div className={deploymentCenterLogsError}>{deploymentsError}</div>
