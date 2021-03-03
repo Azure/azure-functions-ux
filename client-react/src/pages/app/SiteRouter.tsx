@@ -80,8 +80,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [isContainerApplication, setIsContainerApplication] = useState<boolean>(false);
   const [isFunctionApplication, setIsFunctionApplication] = useState<boolean>(false);
 
-  const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
-    if (isLinuxDynamic(site)) {
+  const getSiteStateFromSiteData = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
+    if (isLinuxDynamic(site) && (!appSettings || !FunctionAppService.usingPythonWorkerRuntime(appSettings))) {
       return FunctionAppEditMode.ReadOnlyLinuxDynamic;
     }
 
@@ -101,7 +101,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyCustom;
     }
 
-    if (isFunctionApp(site) && FunctionAppService.usingDotnet5WorkerRuntime(appSettings)) {
+    if (FunctionAppService.usingDotnet5WorkerRuntime(appSettings)) {
       return FunctionAppEditMode.ReadOnlyDotnet5;
     }
 
@@ -113,7 +113,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyLocalCache;
     }
 
-    if (FunctionAppService.usingPythonWorkerRuntime(appSettings)) {
+    if (FunctionAppService.usingPythonWorkerRuntime(appSettings) && !isLinuxDynamic(site)) {
       return FunctionAppEditMode.ReadOnlyPython;
     }
 
@@ -167,7 +167,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       const readOnlyLock = await portalContext.hasLock(trimmedResourceId, 'ReadOnly');
       let functionAppEditMode: FunctionAppEditMode | undefined;
 
-      const siteResponse = await SiteService.fetchSite(trimmedResourceId);
+      const [siteResponse, appSettingsResponse] = await Promise.all([
+        SiteService.fetchSite(trimmedResourceId),
+        SiteService.fetchApplicationSettings(trimmedResourceId),
+      ]);
 
       if (readOnlyLock) {
         functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
@@ -177,27 +180,13 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         if (!writePermission) {
           functionAppEditMode = FunctionAppEditMode.ReadOnlyRbac;
         } else if (siteResponse.metadata.success && isFunctionApp(siteResponse.data)) {
-          functionAppEditMode = getSiteStateFromSiteData(siteResponse.data);
+          functionAppEditMode = getSiteStateFromSiteData(siteResponse.data, appSettingsResponse.data);
 
           if (!functionAppEditMode) {
-            const appSettingsResponse = await SiteService.fetchApplicationSettings(trimmedResourceId);
-
             if (appSettingsResponse.metadata.success) {
               functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data, siteResponse.data);
-            } else {
-              LogService.error(
-                LogCategories.siteRouter,
-                'fetchAppSetting',
-                `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
-              );
             }
           }
-        } else if (!siteResponse.metadata.success) {
-          LogService.error(
-            LogCategories.siteRouter,
-            'get site',
-            `Failed to get site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
-          );
         }
 
         if (!functionAppEditMode) {
@@ -215,6 +204,22 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             );
           }
         }
+      }
+
+      if (!siteResponse.metadata.success) {
+        LogService.error(
+          LogCategories.siteRouter,
+          'get site',
+          `Failed to get site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
+        );
+      }
+
+      if (!appSettingsResponse.metadata.success) {
+        LogService.error(
+          LogCategories.siteRouter,
+          'fetchAppSetting',
+          `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
+        );
       }
 
       if (siteResponse.metadata.success) {
