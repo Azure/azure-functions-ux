@@ -6144,6 +6144,12 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
         <value>Wykonanie operacji ponownego wdrażania spowoduje anulowanie istniejącej operacji wdrażania w toku i utworzenie nowej.</value>
     </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmTitle" xml:space="preserve">
+        <value>Czy na pewno chcesz anulować ten przebieg przepływu pracy?</value>
+    </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmMessage" xml:space="preserve">
+        <value>Anulowanie przebiegu przepływu pracy spowoduje anulowanie wdrażania kodu w usłudze App Service.</value>
+    </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Czy na pewno chcesz odrzucić?</value>
     </data>
@@ -6286,28 +6292,28 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Kompiluj i wdrażaj aplikację kontenera oraz zarządzaj nią automatycznie za pomocą usługi GitHub Actions.</value>
     </data>
   <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
-        <value>Cancel run</value>
+        <value>Anuluj przebieg</value>
     </data>
   <data name="deploymentCenterLogSource" xml:space="preserve">
-        <value>Logs</value>
+        <value>Dzienniki</value>
     </data>
   <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
-        <value>Build/Deploy Logs</value>
+        <value>Dzienniki kompilacji/wdrażania</value>
     </data>
   <data name="deploymentCenterAppLogSource" xml:space="preserve">
-        <value>App Logs</value>
+        <value>Dzienniki aplikacji</value>
     </data>
   <data name="GitHubActionsRunCancelled" xml:space="preserve">
-        <value>Cancelled</value>
+        <value>Anulowano</value>
     </data>
   <data name="GitHubActionsRunSkipped" xml:space="preserve">
-        <value>Skipped</value>
+        <value>Pominięto</value>
     </data>
   <data name="GitHubActionsRunTimedOut" xml:space="preserve">
-        <value>Timed out</value>
+        <value>Przekroczono limit czasu</value>
     </data>
   <data name="GitHubActionsRunActionRequired" xml:space="preserve">
-        <value>Action required</value>
+        <value>Wymagana akcja</value>
     </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>Aby uruchomić funkcję, musisz mieć bezpośredni dostęp do sieci. Aplikacja może być ograniczona w przypadku prywatnych punktów końcowych, ograniczeń dostępu lub punktów końcowych usługi.</value>
@@ -6382,10 +6388,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Przesłano żądanie ponownego wdrożenia</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} is being submitted</value>
+        <value>Trwa przesyłanie operacji ponownego wdrożenia / synchronizacji aplikacji internetowej {0}</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
+        <value>Pomyślnie przesłano operację ponownego wdrożenia / synchronizacji aplikacji internetowej {0}</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Nie udało się wdrożyć ponownie: {0}</value>
@@ -6961,18 +6967,30 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Kliknij tutaj, aby dowiedzieć się więcej o tym, dlaczego nie zaleca się ciągłej integracji/ciągłego wdrażania dla miejsc produkcyjnych.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+        <value>Trwa przesyłanie operacji ponownego wdrożenia zatwierdzenia {0} dla aplikacji internetowej {1}.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+        <value>Pomyślnie przesłano operację ponownego wdrożenia zatwierdzenia {0} dla aplikacji internetowej {1}.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+        <value>Nie można przesłać operacji ponownego wdrożenia zatwierdzenia {0} dla aplikacji internetowej {1}.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+        <value>Nie można przesłać operacji ponownego wdrożenia zatwierdzenia {0} dla aplikacji internetowej {1}. Błąd: {2}</value>
     </data>
   <data name="deploymentCenterRedeployCommit" xml:space="preserve">
-        <value>Redeploy commit</value>
+        <value>Ponownie wdróż zatwierdzenie</value>
+    </data>
+  <data name="resourceConnection" xml:space="preserve">
+        <value>Połączenie z zasobem</value>
+    </data>
+  <data name="deploymentCenterSettingsLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment settings</value>
+    </data>
+  <data name="deploymentCenterSettingsLoading" xml:space="preserve">
+        <value>Loading deployment settings...</value>
+    </data>
+  <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
+        <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>
