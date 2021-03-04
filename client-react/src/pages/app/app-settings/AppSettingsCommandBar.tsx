@@ -5,9 +5,8 @@ import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/
 import { PortalContext } from '../../../PortalContext';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { IButtonProps } from 'office-ui-fabric-react';
-import Url from '../../../utils/url';
-import { CommonConstants } from '../../../utils/CommonConstants';
 import StringUtils from '../../../utils/string';
+import { isServiceLinkerVisible } from './AppSettings.utils';
 
 interface AppSettingsCommandBarProps {
   onSave: () => void;
@@ -95,7 +94,7 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
       getDiscardButton(dirty, disabled),
     ];
 
-    if (!!onResourceConnectionClick && Url.getFeatureValue(CommonConstants.FeatureFlags.showServiceLinkerConnector)) {
+    if (!!onResourceConnectionClick && isServiceLinkerVisible()) {
       items.push(...[getButtonSeparator('split-button-1'), getResourceConnectionButton(dirty, disabled)]);
     }
     return items;
