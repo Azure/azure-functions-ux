@@ -1,13 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { ProgressIndicator } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import {
-  logsTimerStyle,
-  deploymentCenterContainerLogsBox,
-  refreshButtonStyle,
-  deploymentCenterLogsContent,
-  deploymentCenterContent,
-} from '../DeploymentCenter.styles';
+import { logsTimerStyle, deploymentCenterContainerLogsBox, refreshButtonStyle, deploymentCenterContent } from '../DeploymentCenter.styles';
 import { DeploymentCenterContainerLogsProps } from '../DeploymentCenter.types';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';

@@ -164,8 +164,3 @@ export const refreshButtonStyle = style({
   marginTop: '10px',
   height: '36px',
 });
-
-export const deploymentCenterLogsContent = style({
-  marginTop: '10px',
-  maxWidth: '800px',
-});
