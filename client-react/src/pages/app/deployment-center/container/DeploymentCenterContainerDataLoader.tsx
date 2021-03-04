@@ -16,7 +16,7 @@ import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
-  const { resourceId } = props;
+  const { resourceId, isDataRefreshing } = props;
   const { t } = useTranslation();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -26,7 +26,7 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLogsDataRefreshing, setIsLogsDataRefreshing] = useState(false);
   const [logs, setLogs] = useState<string | undefined>(undefined);
 
   const [containerFormData, setContainerFormData] = useState<DeploymentCenterFormData<DeploymentCenterContainerFormData> | undefined>(
@@ -36,12 +36,13 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
     DeploymentCenterYupValidationSchemaType<DeploymentCenterContainerFormData> | undefined
   >(undefined);
 
-  const fetchData = async () => {
+  const fetchInitialLogsData = async () => {
     portalContext.log(
       getTelemetryInfo('info', 'initialDataRequest', 'submit', {
         publishType: 'container',
       })
     );
+    setIsLogsDataRefreshing(true);
 
     const containerLogsResponse = await deploymentCenterData.fetchContainerLogs(resourceId);
 
@@ -61,7 +62,7 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
       );
     }
 
-    setIsLoading(false);
+    setIsLogsDataRefreshing(false);
   };
 
   const generateForm = () => {
@@ -100,14 +101,13 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
       })
     );
 
-    setIsLoading(true);
-    fetchData();
+    fetchInitialLogsData();
     deploymentCenterContext.refresh();
   };
 
   useEffect(() => {
     if (deploymentCenterContext.resourceId) {
-      fetchData();
+      fetchInitialLogsData();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,7 +126,8 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
       logs={logs}
       formData={containerFormData}
       formValidationSchema={containerFormValidationSchema}
-      isLoading={isLoading}
+      isLogsDataRefreshing={isLogsDataRefreshing}
+      isDataRefreshing={isDataRefreshing}
       refresh={refresh}
     />
   );

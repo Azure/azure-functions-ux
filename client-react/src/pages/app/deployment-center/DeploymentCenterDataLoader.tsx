@@ -58,6 +58,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [basicPublishingCredentialsPolicies, setBasicPublishingCredentialsPolicies] = useState<PublishingCredentialPolicies | undefined>(
     undefined
   );
+  const [isDataRefreshing, setIsDataRefreshing] = useState(true);
 
   const processPublishProfileResponse = (publishProfileResponse: HttpResponseObject<string>) => {
     if (publishProfileResponse.metadata.success) {
@@ -98,6 +99,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
 
   const fetchData = async () => {
     portalContext.log(getTelemetryInfo('info', 'initialDataRequest', 'submit'));
+    setIsDataRefreshing(true);
 
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
@@ -223,6 +225,8 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
 
       processPublishProfileResponse(publishProfileResponse);
     }
+
+    setIsDataRefreshing(false);
   };
 
   const setUserSourceControlTokens = (sourceControls: ArmArray<SourceControl>) => {
@@ -301,9 +305,9 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         }}>
         {/* NOTE(michinoy): Load the specific experience based on the app settings */}
         {siteStateContext.isContainerApp ? (
-          <DeploymentCenterContainerDataLoader resourceId={resourceId} />
+          <DeploymentCenterContainerDataLoader resourceId={resourceId} isDataRefreshing={isDataRefreshing} />
         ) : (
-          <DeploymentCenterCodeDataLoader resourceId={resourceId} />
+          <DeploymentCenterCodeDataLoader resourceId={resourceId} isDataRefreshing={isDataRefreshing} />
         )}
         {/* NOTE(michinoy): Load the publishing profile panel which is common between both code and container experiences  */}
         <DeploymentCenterPublishProfilePanel

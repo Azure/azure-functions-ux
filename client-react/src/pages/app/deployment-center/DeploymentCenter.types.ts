@@ -224,10 +224,13 @@ export interface Properties {
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
+  isDataRefreshing: boolean;
 }
 
 export interface RefreshableComponent {
   refresh: () => void;
+  isDataRefreshing: boolean;
+  isLogsDataRefreshing: boolean;
 }
 
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps & RefreshableComponent;
@@ -310,6 +313,7 @@ export interface DeploymentCenterCodeFormData {
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
   formProps: FormikProps<DeploymentCenterFormData<T>>;
+  isDataRefreshing?: boolean;
 }
 
 export interface DeploymentCenterGitHubWorkflowConfigSelectorProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -318,13 +322,13 @@ export interface DeploymentCenterGitHubWorkflowConfigSelectorProps<T = Deploymen
 }
 
 export interface DeploymentCenterContainerLogsProps {
-  isLoading: boolean;
+  isLogsDataRefreshing: boolean;
   refresh: () => void;
   logs?: string;
 }
 
 export interface DeploymentCenterCodeLogsProps {
-  isLoading: boolean;
+  isLogsDataRefreshing: boolean;
   refreshLogs: () => void;
   deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
@@ -349,11 +353,10 @@ export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
 }
 
 export interface DeploymentCenterFtpsProps {
-  isLoading: boolean;
+  isDataRefreshing?: boolean;
 }
 
 export interface DeploymentCenterFormProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
-  isLoading: boolean;
   formData?: DeploymentCenterFormData<T>;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType<T>;
 }
@@ -369,7 +372,7 @@ export type DeploymentCenterCodeFormProps = DeploymentCenterCodeProps & Deployme
 export type DeploymentCenterCodePivotProps = DeploymentCenterCodeFormProps & DeploymentCenterFieldProps<DeploymentCenterCodeFormData>;
 
 export interface DeploymentCenterCommandBarProps {
-  isLoading: boolean;
+  isDataRefreshing: boolean;
   isDirty: boolean;
   isVstsBuildProvider: boolean;
   saveFunction: () => void;

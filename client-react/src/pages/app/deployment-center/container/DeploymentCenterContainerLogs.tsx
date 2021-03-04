@@ -9,7 +9,7 @@ import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePort
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 
 const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps> = props => {
-  const { logs, isLoading, refresh } = props;
+  const { logs, isLogsDataRefreshing, refresh } = props;
   const { t } = useTranslation();
 
   const portalContext = useContext(PortalContext);
@@ -40,7 +40,7 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
 
   return (
     <>
-      {isLoading ? (
+      {isLogsDataRefreshing ? (
         getProgressIndicator()
       ) : (
         <>
