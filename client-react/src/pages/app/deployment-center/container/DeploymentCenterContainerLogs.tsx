@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { CommandBar, ICommandBarItemProps, ProgressIndicator } from 'office-ui-fabric-react';
+import { ProgressIndicator } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterContent, logsTimerStyle, deploymentCenterContainerLogsBox } from '../DeploymentCenter.styles';
+import { logsTimerStyle, deploymentCenterContainerLogsBox, refreshButtonStyle, deploymentCenterContent } from '../DeploymentCenter.styles';
 import { DeploymentCenterContainerLogsProps } from '../DeploymentCenter.types';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
-import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 
 const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps> = props => {
@@ -24,21 +23,6 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
     );
   };
 
-  const commandBarItems: ICommandBarItemProps[] = [
-    {
-      key: 'refresh',
-      name: t('refresh'),
-      iconProps: {
-        iconName: 'Refresh',
-      },
-      ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
-      onClick: () => {
-        portalContext.log(getTelemetryInfo('verbose', 'refreshButton', 'clicked'));
-        refresh();
-      },
-    },
-  ];
-
   useEffect(() => {
     if (!!logsEndRef.current) {
       logsEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -48,7 +32,9 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
   }, [logsEndRef.current]);
 
   return (
-    <>
+    <div className={deploymentCenterContent}>
+      {t('deploymentCenterContainerLogsDesc')}
+
       {isLogsDataRefreshing ? (
         getProgressIndicator()
       ) : (
@@ -56,20 +42,22 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
           {logs ? (
             <>
               <div className={logsTimerStyle}>
-                <CommandBar
-                  items={commandBarItems}
-                  role="nav"
-                  styles={CommandBarStyles}
-                  ariaLabel={t('managePublishProfileCommandBarAriaLabel')}
-                  buttonAs={CustomCommandBarButton}
-                />
+                <CustomCommandBarButton
+                  key={'refresh'}
+                  name={t('refresh')}
+                  iconProps={{ iconName: 'Refresh' }}
+                  ariaLabel={t('deploymentCenterRefreshCommandAriaLabel')}
+                  onClick={() => {
+                    portalContext.log(getTelemetryInfo('verbose', 'refreshButton', 'clicked'));
+                    refresh();
+                  }}
+                  className={refreshButtonStyle}>
+                  {t('refresh')}
+                </CustomCommandBarButton>
               </div>
-              <div className={deploymentCenterContent}>
-                {t('deploymentCenterContainerLogsDesc')}
-                <div className={deploymentCenterContainerLogsBox}>
-                  {logs.trim()}
-                  <div ref={logsEndRef} />
-                </div>
+              <div className={deploymentCenterContainerLogsBox}>
+                {logs.trim()}
+                <div ref={logsEndRef} />
               </div>
             </>
           ) : (
@@ -77,7 +65,7 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
           )}
         </>
       )}
-    </>
+    </div>
   );
 };
 
