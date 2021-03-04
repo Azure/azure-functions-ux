@@ -239,7 +239,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
     }
     if (column.key === 'source') {
       if (values.references && values.references.appSettings) {
-        return <SettingSourceColumn name={item.name.toLowerCase()} references={values.references.appSettings} />;
+        return <SettingSourceColumn name={item.name} references={values.references.appSettings} />;
       }
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;

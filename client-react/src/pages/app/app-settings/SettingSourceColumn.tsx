@@ -17,7 +17,9 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
   const { name, references } = props;
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
-  const filteredReference = references.filter(ref => ref.name.toLowerCase() === name);
+
+  const updatedName = name.toLowerCase();
+  const filteredReference = references.filter(ref => ref.name.toLowerCase() === updatedName);
 
   if (filteredReference.length > 0) {
     return (
@@ -33,7 +35,7 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
       </div>
     );
     // NOTE (krmitta): This value is shown only with the flag, and is currently for the private preview
-  } else if (isServiceLinkerVisible() && isSettingServiceLinker(name)) {
+  } else if (isServiceLinkerVisible() && isSettingServiceLinker(updatedName)) {
     return (
       <div className={defaultCellStyle} aria-label={t('serviceLinker')}>
         {t('serviceLinker')}

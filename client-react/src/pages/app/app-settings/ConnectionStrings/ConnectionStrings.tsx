@@ -255,7 +255,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
     }
     if (column.key === 'source') {
       if (values.references && values.references.connectionStrings) {
-        return <SettingSourceColumn name={item.name.toLowerCase()} references={values.references.connectionStrings} />;
+        return <SettingSourceColumn name={item.name} references={values.references.connectionStrings} />;
       }
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
