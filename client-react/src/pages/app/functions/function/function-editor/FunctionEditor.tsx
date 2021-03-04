@@ -3,7 +3,6 @@ import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
-import { BindingType } from '../../../../../models/functions/function-binding';
 import { Site } from '../../../../../models/site/site';
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
@@ -46,6 +45,7 @@ import { isLinuxDynamic } from '../../../../../utils/arm-utils';
 import Url from '../../../../../utils/url';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { PortalContext } from '../../../../../PortalContext';
+import { BindingManager } from '../../../../../utils/BindingManager';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -205,9 +205,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const isGetFunctionUrlVisible = () => {
     return (
-      functionInfo.properties.config &&
-      functionInfo.properties.config.bindings &&
-      !!functionInfo.properties.config.bindings.find(e => e.type === BindingType.httpTrigger || e.type === BindingType.eventGridTrigger)
+      !!BindingManager.getHttpTriggerTypeInfo(functionInfo.properties) || !!BindingManager.getEventGridTriggerInfo(functionInfo.properties)
     );
   };
 
