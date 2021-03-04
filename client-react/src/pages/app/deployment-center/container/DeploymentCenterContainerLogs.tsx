@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { CommandBar, ICommandBarItemProps, ProgressIndicator } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterContent, deploymentCenterContainerLogs, logsTimerStyle } from '../DeploymentCenter.styles';
+import { deploymentCenterContent, logsTimerStyle, deploymentCenterContainerLogsBox } from '../DeploymentCenter.styles';
 import { DeploymentCenterContainerLogsProps } from '../DeploymentCenter.types';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
@@ -11,6 +11,7 @@ import { CustomCommandBarButton } from '../../../../components/CustomCommandBarB
 const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps> = props => {
   const { logs, isLogsDataRefreshing, refresh } = props;
   const { t } = useTranslation();
+  const logsEndRef = useRef<HTMLDivElement>(null);
 
   const portalContext = useContext(PortalContext);
 
@@ -38,6 +39,14 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
     },
   ];
 
+  useEffect(() => {
+    if (!!logsEndRef.current) {
+      logsEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logsEndRef.current]);
+
   return (
     <>
       {isLogsDataRefreshing ? (
@@ -57,7 +66,10 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
               </div>
               <div className={deploymentCenterContent}>
                 {t('deploymentCenterContainerLogsDesc')}
-                <pre className={deploymentCenterContainerLogs}>{logs}</pre>
+                <div className={deploymentCenterContainerLogsBox}>
+                  {logs.trim()}
+                  <div ref={logsEndRef} />
+                </div>
               </div>
             </>
           ) : (
