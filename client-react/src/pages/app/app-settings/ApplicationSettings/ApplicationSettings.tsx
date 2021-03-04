@@ -8,17 +8,17 @@ import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { SearchBox, TooltipHost, ICommandBarItemProps, Icon } from 'office-ui-fabric-react';
+import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
-import { dirtyElementStyle, keyVaultIconStyle, sourceTextStyle } from '../AppSettings.styles';
+import { dirtyElementStyle } from '../AppSettings.styles';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { ThemeContext } from '../../../../ThemeContext';
 import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
-import { isKeyVaultReferenceResolved } from '../AppSettingsFormData';
+import SettingSourceColumn from '../SettingSourceColumn';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 
@@ -239,23 +239,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
     }
     if (column.key === 'source') {
       if (values.references && values.references.appSettings) {
-        const appSettingReference = values.references.appSettings.filter(ref => ref.name === item.name);
-        return appSettingReference.length > 0 ? (
-          <div
-            className={defaultCellStyle}
-            aria-label={`${t('azureKeyVault')} ${!isKeyVaultReferenceResolved(appSettingReference[0]) && 'not'} resolved`}>
-            <Icon
-              iconName={isKeyVaultReferenceResolved(appSettingReference[0]) ? 'Completed' : 'ErrorBadge'}
-              className={keyVaultIconStyle(theme, isKeyVaultReferenceResolved(appSettingReference[0]))}
-              ariaLabel={t('azureKeyVault')}
-            />
-            <span className={sourceTextStyle}>{t('azureKeyVault')}</span>
-          </div>
-        ) : (
-          <div className={defaultCellStyle} aria-label={t('appConfigValue')}>
-            {t('appConfigValue')}
-          </div>
-        );
+        return <SettingSourceColumn name={item.name} references={values.references.appSettings} />;
       }
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;

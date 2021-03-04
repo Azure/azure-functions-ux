@@ -6996,4 +6996,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
         <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
+    <data name="serviceLinker" xml:space="preserve">
+        <value>Service Linker</value>
+    </data>
 </root>
