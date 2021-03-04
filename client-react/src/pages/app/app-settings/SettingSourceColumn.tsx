@@ -32,6 +32,7 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
         <span className={sourceTextStyle}>{t('azureKeyVault')}</span>
       </div>
     );
+    // NOTE (krmitta): This value is shown only with the flag, and is currently for the private preview
   } else if (isServiceLinkerVisible() && isSettingServiceLinker(name)) {
     return (
       <div className={defaultCellStyle} aria-label={t('serviceLinker')}>
