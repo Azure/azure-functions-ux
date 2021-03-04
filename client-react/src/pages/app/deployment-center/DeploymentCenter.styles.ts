@@ -41,6 +41,16 @@ export const deploymentCenterContainerLogsBox = style({
   overflowWrap: 'break-word',
 });
 
+export const deploymentCenterCodeLogsBox = style({
+  position: 'fixed',
+  height: 'calc(100% - 250px)',
+  width: 'calc(100% - 50px)',
+  overflowY: 'auto',
+  marginTop: '10px',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+});
+
 export const deploymentCenterLogsError = style({
   marginTop: '20px',
   display: 'flex',

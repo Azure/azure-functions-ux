@@ -6,6 +6,7 @@ import {
   deploymentCenterContainerLogsBox,
   refreshButtonStyle,
   deploymentCenterLogsContent,
+  deploymentCenterContent,
 } from '../DeploymentCenter.styles';
 import { DeploymentCenterContainerLogsProps } from '../DeploymentCenter.types';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
@@ -37,7 +38,9 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
   }, [logsEndRef.current]);
 
   return (
-    <>
+    <div className={deploymentCenterContent}>
+      {t('deploymentCenterContainerLogsDesc')}
+
       {isLogsDataRefreshing ? (
         getProgressIndicator()
       ) : (
@@ -58,12 +61,9 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
                   {t('refresh')}
                 </CustomCommandBarButton>
               </div>
-              <div className={deploymentCenterLogsContent}>
-                {t('deploymentCenterContainerLogsDesc')}
-                <div className={deploymentCenterContainerLogsBox}>
-                  {logs.trim()}
-                  <div ref={logsEndRef} />
-                </div>
+              <div className={deploymentCenterContainerLogsBox}>
+                {logs.trim()}
+                <div ref={logsEndRef} />
               </div>
             </>
           ) : (
@@ -71,7 +71,7 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
           )}
         </>
       )}
-    </>
+    </div>
   );
 };
 
