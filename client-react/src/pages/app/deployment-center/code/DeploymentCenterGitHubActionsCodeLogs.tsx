@@ -353,7 +353,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
 
   return (
     <>
-      <DeploymentCenterCodeLogsTimer refreshLogs={refreshLogs} />
+      <DeploymentCenterCodeLogsTimer refreshLogs={refreshGitHubActionsLogs} />
 
       {isLogsDataRefreshing || isLogsLoading ? (
         getProgressIndicator()
