@@ -6144,6 +6144,12 @@
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
         <value>若執行重新部署作業，將會取消所有正在執行的部署作業而另建新的部署作業。</value>
     </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmTitle" xml:space="preserve">
+        <value>Are you sure you want to cancel this workflow run?</value>
+    </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmMessage" xml:space="preserve">
+        <value>Cancelling a workflow run will cancel deployment of your code to App Service.</value>
+    </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>確定要捨棄嗎?</value>
     </data>
@@ -6172,7 +6178,7 @@
         <value>使用者範圍</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'. Authenticating with Git requires only the username '{1}' defined below.</value>
+        <value>使用者範圍認證由您與使用者定義，可與您有權存取的所有應用程式一起使用。這些認證可與 FTP、本機 Git 及 WebDeploy 搭配使用。使用使用者層級認證向 FTP/FTPS 端點驗證時，需要下列格式的使用者名稱: '{0}'。向 Git 驗證時，只需要如下定義的使用者名稱 '{1}'。</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(您的使用者名稱)</value>
@@ -6286,28 +6292,28 @@
         <value>使用 GitHub Actions 自動建置、部署及管理您的容器應用程式。</value>
     </data>
   <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
-        <value>Cancel run</value>
+        <value>取消執行</value>
     </data>
   <data name="deploymentCenterLogSource" xml:space="preserve">
-        <value>Logs</value>
+        <value>記錄</value>
     </data>
   <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
-        <value>Build/Deploy Logs</value>
+        <value>建置/部署記錄</value>
     </data>
   <data name="deploymentCenterAppLogSource" xml:space="preserve">
-        <value>App Logs</value>
+        <value>應用程式記錄</value>
     </data>
   <data name="GitHubActionsRunCancelled" xml:space="preserve">
-        <value>Cancelled</value>
+        <value>已取消</value>
     </data>
   <data name="GitHubActionsRunSkipped" xml:space="preserve">
-        <value>Skipped</value>
+        <value>已略過</value>
     </data>
   <data name="GitHubActionsRunTimedOut" xml:space="preserve">
-        <value>Timed out</value>
+        <value>已逾時</value>
     </data>
   <data name="GitHubActionsRunActionRequired" xml:space="preserve">
-        <value>Action required</value>
+        <value>需要採取動作</value>
     </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>您必須有直接的網路存取權，才能執行函式。您的應用程式可能受到私人端點、存取限制或服務端點的限制。</value>
@@ -6382,10 +6388,10 @@
         <value>已提交重新部署要求</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} is being submitted</value>
+        <value>正在提交 Web 應用程式 {0} 的重新部署/同步作業</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
+        <value>已成功提交 Web 應用程式 {0} 的重新部署/同步作業</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>無法重新部署: {0}</value>
@@ -6958,21 +6964,33 @@
         <value>更多命令</value>
     </data>
   <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
-        <value>Click here to learn more about why CI/CD is not recommended for production slots.</value>
+        <value>按一下這裡可深入了解為何不建議生產位置使用 CI/CD。</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+        <value>正在提交 Web 應用程式 {1} 的認可 {0} 重新部署作業。</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+        <value>已成功提交 Web 應用程式 {1} 的認可 {0} 重新部署作業。</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+        <value>無法提交 Web 應用程式 {1} 的認可 {0} 重新部署作業。</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+        <value>無法提交 Web 應用程式 {1} 的認可 {0} 重新部署作業。錯誤 {2}</value>
     </data>
   <data name="deploymentCenterRedeployCommit" xml:space="preserve">
-        <value>Redeploy commit</value>
+        <value>重新部署認可</value>
+    </data>
+  <data name="resourceConnection" xml:space="preserve">
+        <value>Resource connection</value>
+    </data>
+  <data name="deploymentCenterSettingsLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment settings</value>
+    </data>
+  <data name="deploymentCenterSettingsLoading" xml:space="preserve">
+        <value>Loading deployment settings...</value>
+    </data>
+  <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
+        <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>

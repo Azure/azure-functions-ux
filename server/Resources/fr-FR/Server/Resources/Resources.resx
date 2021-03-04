@@ -6144,6 +6144,12 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
         <value>L'exécution d'une opération de redéploiement annule toute opération de déploiement existante et en crée une autre.</value>
     </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmTitle" xml:space="preserve">
+        <value>Voulez-vous vraiment annuler l'exécution de workflow ?</value>
+    </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmMessage" xml:space="preserve">
+        <value>L'annulation d'une exécution de workflow annule le déploiement de votre code sur App Service.</value>
+    </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Voulez-vous vraiment abandonner ?</value>
     </data>
@@ -6286,28 +6292,28 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Créez, déployez et gérez automatiquement votre application conteneur avec GitHub Actions.</value>
     </data>
   <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
-        <value>Cancel run</value>
+        <value>Annuler l'exécution</value>
     </data>
   <data name="deploymentCenterLogSource" xml:space="preserve">
-        <value>Logs</value>
+        <value>Journaux</value>
     </data>
   <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
-        <value>Build/Deploy Logs</value>
+        <value>Générer/déployer des journaux</value>
     </data>
   <data name="deploymentCenterAppLogSource" xml:space="preserve">
-        <value>App Logs</value>
+        <value>Journaux d'application</value>
     </data>
   <data name="GitHubActionsRunCancelled" xml:space="preserve">
-        <value>Cancelled</value>
+        <value>Annulé</value>
     </data>
   <data name="GitHubActionsRunSkipped" xml:space="preserve">
-        <value>Skipped</value>
+        <value>Ignoré</value>
     </data>
   <data name="GitHubActionsRunTimedOut" xml:space="preserve">
-        <value>Timed out</value>
+        <value>Délai expiré</value>
     </data>
   <data name="GitHubActionsRunActionRequired" xml:space="preserve">
-        <value>Action required</value>
+        <value>Action obligatoire</value>
     </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>Vous devez avoir un accès réseau direct pour pouvoir exécuter votre fonction. Votre application est peut-être limitée avec des points de terminaison privés, des restrictions d'accès ou des points de terminaison de service.</value>
@@ -6382,10 +6388,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Demande de redéploiement envoyée</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} is being submitted</value>
+        <value>L'opération de redéploiement/synchronisation pour l'application web {0} est en cours d'envoi</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
+        <value>L'opération de redéploiement/synchronisation pour l'application web {0} a été envoyée</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Échec du redéploiement : {0}</value>
@@ -6961,18 +6967,30 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Cliquez ici pour comprendre pourquoi l'intégration CI/CD n'est pas recommandée pour les emplacements de production.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+        <value>L'opération de redéploiement de la validation {0} pour l'application web {1} est en cours d'envoi.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+        <value>L'opération de redéploiement de la validation {0} pour l'application web {1} a été envoyée.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+        <value>L'envoi de l'opération de redéploiement de la validation {0} pour l'application web {1} a échoué.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+        <value>L'envoi de l'opération de redéploiement de la validation {0} pour l'application web {1} a échoué. Erreur {2}</value>
     </data>
   <data name="deploymentCenterRedeployCommit" xml:space="preserve">
-        <value>Redeploy commit</value>
+        <value>Redéployer la validation</value>
+    </data>
+  <data name="resourceConnection" xml:space="preserve">
+        <value>Connexion de ressource</value>
+    </data>
+  <data name="deploymentCenterSettingsLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment settings</value>
+    </data>
+  <data name="deploymentCenterSettingsLoading" xml:space="preserve">
+        <value>Loading deployment settings...</value>
+    </data>
+  <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
+        <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>
