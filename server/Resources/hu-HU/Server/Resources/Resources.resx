@@ -6144,6 +6144,12 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
         <value>Újbóli üzembe helyezési művelet végrehajtásával megszakítja a folyamatban lévő összes üzembe helyezési műveletet, és újat hoz létre.</value>
     </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmTitle" xml:space="preserve">
+        <value>Biztosan megszakítja a munkafolyamat-futtatást?</value>
+    </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmMessage" xml:space="preserve">
+        <value>A munkafolyamat-futtatás megszakítása megszakítja a kód App Service-ben való üzembe helyezését is.</value>
+    </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Biztosan elveti?</value>
     </data>
@@ -6286,28 +6292,28 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A tárolóalkalmazás automatikus létrehozása, üzembe helyezése és kezelése a GitHub Actionsszel.</value>
     </data>
   <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
-        <value>Cancel run</value>
+        <value>Futtatás megszakítása</value>
     </data>
   <data name="deploymentCenterLogSource" xml:space="preserve">
-        <value>Logs</value>
+        <value>Naplók</value>
     </data>
   <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
-        <value>Build/Deploy Logs</value>
+        <value>Létrehozási/üzembe helyezési naplók</value>
     </data>
   <data name="deploymentCenterAppLogSource" xml:space="preserve">
-        <value>App Logs</value>
+        <value>Alkalmazásnaplók</value>
     </data>
   <data name="GitHubActionsRunCancelled" xml:space="preserve">
-        <value>Cancelled</value>
+        <value>Megszakítva</value>
     </data>
   <data name="GitHubActionsRunSkipped" xml:space="preserve">
-        <value>Skipped</value>
+        <value>Kihagyva</value>
     </data>
   <data name="GitHubActionsRunTimedOut" xml:space="preserve">
-        <value>Timed out</value>
+        <value>Időtúllépés</value>
     </data>
   <data name="GitHubActionsRunActionRequired" xml:space="preserve">
-        <value>Action required</value>
+        <value>Beavatkozás szükséges</value>
     </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>A függvény futtatásához közvetlen hálózati hozzáférés szükséges. Előfordulhat, hogy az alkalmazás le van korlátozva privát végpontokkal, hozzáférési korlátozásokkal vagy szolgáltatási végpontokkal.</value>
@@ -6382,10 +6388,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Újbóli üzembe helyezési kérelem elküldve</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} is being submitted</value>
+        <value>A(z) {0} webalkalmazás újbóli üzembe helyezési/szinkronizálási műveletének elküldése folyamatban van</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
+        <value>Sikerült elküldeni a(z) {0} webalkalmazás újbóli üzembe helyezési/szinkronizálási műveletét</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Nem sikerült az újbóli üzembe helyezés: {0}</value>
@@ -6961,18 +6967,30 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Kattintson ide, ha többet szeretne megtudni arról, hogy miért nem ajánlott a CI/CD üzemelési pontként való használata.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+        <value>A(z) {1} webalkalmazáshoz tartozó {0} véglegesítés újbóli üzembe helyezési műveletének elküldése folyamatban van.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+        <value>Sikerült elküldeni a(z) {1} webalkalmazáshoz tartozó {0} véglegesítés újbóli üzembe helyezési műveletét.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+        <value>Nem sikerült elküldeni a(z) {1} webalkalmazáshoz tartozó {0} véglegesítés újbóli üzembe helyezési műveletét.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+        <value>Nem sikerült elküldeni a(z) {1}webalkalmazáshoz tartozó {0} véglegesítés újbóli üzembe helyezési műveletét. Hiba: {2}</value>
     </data>
   <data name="deploymentCenterRedeployCommit" xml:space="preserve">
-        <value>Redeploy commit</value>
+        <value>Véglegesítés újbóli üzembe helyezése</value>
+    </data>
+  <data name="resourceConnection" xml:space="preserve">
+        <value>Erőforrás-kapcsolat</value>
+    </data>
+  <data name="deploymentCenterSettingsLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment settings</value>
+    </data>
+  <data name="deploymentCenterSettingsLoading" xml:space="preserve">
+        <value>Loading deployment settings...</value>
+    </data>
+  <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
+        <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>

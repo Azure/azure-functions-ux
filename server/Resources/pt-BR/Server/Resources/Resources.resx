@@ -6144,6 +6144,12 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
         <value>A execução de uma operação de reimplantação cancelará todas as operações de implantação existentes em andamento e criará outra.</value>
     </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmTitle" xml:space="preserve">
+        <value>Tem certeza de que deseja cancelar esta execução de fluxo de trabalho?</value>
+    </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmMessage" xml:space="preserve">
+        <value>O cancelamento de uma execução de fluxo de trabalho cancelará a implantação do código no Serviço de Aplicativo.</value>
+    </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Tem certeza de que deseja fazer o descarte?</value>
     </data>
@@ -6286,28 +6292,28 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Crie, implante e gerencie o seu aplicativo de contêiner automaticamente com o GitHub Actions.</value>
     </data>
   <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
-        <value>Cancel run</value>
+        <value>Cancelar a execução</value>
     </data>
   <data name="deploymentCenterLogSource" xml:space="preserve">
         <value>Logs</value>
     </data>
   <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
-        <value>Build/Deploy Logs</value>
+        <value>Logs de Build/Implantação</value>
     </data>
   <data name="deploymentCenterAppLogSource" xml:space="preserve">
-        <value>App Logs</value>
+        <value>Logs do Aplicativo</value>
     </data>
   <data name="GitHubActionsRunCancelled" xml:space="preserve">
-        <value>Cancelled</value>
+        <value>Cancelado</value>
     </data>
   <data name="GitHubActionsRunSkipped" xml:space="preserve">
-        <value>Skipped</value>
+        <value>Ignorado</value>
     </data>
   <data name="GitHubActionsRunTimedOut" xml:space="preserve">
-        <value>Timed out</value>
+        <value>Tempo limite atingido</value>
     </data>
   <data name="GitHubActionsRunActionRequired" xml:space="preserve">
-        <value>Action required</value>
+        <value>Ação necessária</value>
     </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>Você precisa ter acesso direto à rede para executar sua função. O aplicativo pode ser restrito com Pontos de Extremidade Privados, Restrições de Acesso ou Pontos de Extremidade de Serviço.</value>
@@ -6382,10 +6388,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Solicitação de Reimplantação Enviada</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} is being submitted</value>
+        <value>A operação de reimplantação/sincronização do aplicativo Web {0} está sendo enviada</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
+        <value>A operação de reimplantação/sincronização do aplicativo Web {0} foi enviada com êxito</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Falha na reimplantação: {0}</value>
@@ -6961,18 +6967,30 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Clique aqui para saber mais sobre por que a CI/CD não é recomendada para slots de produção.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+        <value>A operação de reimplantação de commit {0} do aplicativo Web {1} está sendo enviada.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+        <value>A operação de reimplantação de commit {0} do aplicativo Web {1} foi enviada com êxito.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+        <value>Falha ao enviar a operação de reimplantação de commit {0} do aplicativo Web {1}.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+        <value>Falha ao enviar a operação de reimplantação de commit {0} do aplicativo Web {1}. Erro {2}</value>
     </data>
   <data name="deploymentCenterRedeployCommit" xml:space="preserve">
-        <value>Redeploy commit</value>
+        <value>Commit de reimplantação</value>
+    </data>
+  <data name="resourceConnection" xml:space="preserve">
+        <value>Conexão do recurso</value>
+    </data>
+  <data name="deploymentCenterSettingsLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment settings</value>
+    </data>
+  <data name="deploymentCenterSettingsLoading" xml:space="preserve">
+        <value>Loading deployment settings...</value>
+    </data>
+  <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
+        <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>

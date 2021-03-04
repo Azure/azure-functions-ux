@@ -6144,6 +6144,12 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
         <value>Al realizar una operación de reimplementación, se cancelará cualquier operación de implementación en curso existente y se creará una nueva.</value>
     </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmTitle" xml:space="preserve">
+        <value>¿Seguro que quiere cancelar la ejecución de este flujo de trabajo?</value>
+    </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmMessage" xml:space="preserve">
+        <value>Si se cancela la ejecución de un flujo de trabajo, también se cancelará la implementación del código para App Service.</value>
+    </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>¿Está seguro de que quiere descartar los cambios?</value>
     </data>
@@ -6286,28 +6292,28 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Compile, implemente y administre la aplicación de contenedor de forma automática con Acciones de GitHub.</value>
     </data>
   <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
-        <value>Cancel run</value>
+        <value>Cancelar ejecución</value>
     </data>
   <data name="deploymentCenterLogSource" xml:space="preserve">
-        <value>Logs</value>
+        <value>Registros</value>
     </data>
   <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
-        <value>Build/Deploy Logs</value>
+        <value>Compilar o implementar registros</value>
     </data>
   <data name="deploymentCenterAppLogSource" xml:space="preserve">
-        <value>App Logs</value>
+        <value>Registros de aplicación</value>
     </data>
   <data name="GitHubActionsRunCancelled" xml:space="preserve">
-        <value>Cancelled</value>
+        <value>Cancelado</value>
     </data>
   <data name="GitHubActionsRunSkipped" xml:space="preserve">
-        <value>Skipped</value>
+        <value>Omitido</value>
     </data>
   <data name="GitHubActionsRunTimedOut" xml:space="preserve">
-        <value>Timed out</value>
+        <value>Tiempo de espera agotado</value>
     </data>
   <data name="GitHubActionsRunActionRequired" xml:space="preserve">
-        <value>Action required</value>
+        <value>Acción requerida</value>
     </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>Debe tener acceso directo a la red para poder ejecutar la función. Puede que la aplicación esté restringida con puntos de conexión privados, restricciones de acceso o puntos de conexión de servicio.</value>
@@ -6382,10 +6388,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Solicitud de reimplementación enviada</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} is being submitted</value>
+        <value>La operación de sincronización o reimplementación de la aplicación web {0} se está enviando.</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
+        <value>La operación de sincronización o reimplementación de la aplicación web {0} se envió correctamente.</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>No se pudo volver a implementar: {0}</value>
@@ -6961,18 +6967,30 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Haga clic aquí para obtener más información sobre el motivo por el que no se recomienda usar CI o CD para los espacios de producción.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+        <value>La operación de reimplementación de la confirmación {0} de la aplicación web {1} se está enviando.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+        <value>La operación de reimplementación de la confirmación {0} de la aplicación web {1} se ha enviado correctamente.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+        <value>No se pudo enviar la operación de reimplementación de la confirmación {0} para la aplicación web {1}.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+        <value>No se pudo enviar la operación de reimplementación de la confirmación {0} para la aplicación web {1}. Error {2}</value>
     </data>
   <data name="deploymentCenterRedeployCommit" xml:space="preserve">
-        <value>Redeploy commit</value>
+        <value>Volver a implementar la confirmación</value>
+    </data>
+  <data name="resourceConnection" xml:space="preserve">
+        <value>Conexión de recursos</value>
+    </data>
+  <data name="deploymentCenterSettingsLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment settings</value>
+    </data>
+  <data name="deploymentCenterSettingsLoading" xml:space="preserve">
+        <value>Loading deployment settings...</value>
+    </data>
+  <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
+        <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>
