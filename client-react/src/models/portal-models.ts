@@ -334,3 +334,12 @@ export enum PortalTheme {
 export interface KeyValue<T> {
   [key: string]: T;
 }
+
+export enum BladeCloseReason {
+  userNavigation = 'userNavigation',
+  childClosedSelf = 'childClosedSelf',
+}
+
+export enum OpenBladeSource {
+  appSettings = 'app-settings',
+}

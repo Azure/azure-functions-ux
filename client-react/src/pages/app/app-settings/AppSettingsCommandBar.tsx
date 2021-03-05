@@ -7,6 +7,7 @@ import { CustomCommandBarButton } from '../../../components/CustomCommandBarButt
 import { IButtonProps } from 'office-ui-fabric-react';
 import StringUtils from '../../../utils/string';
 import { isServiceLinkerVisible } from './AppSettings.utils';
+import { ServiceLinkerProps } from './AppSettings.types';
 
 interface AppSettingsCommandBarProps {
   onSave: () => void;
@@ -14,10 +15,9 @@ interface AppSettingsCommandBarProps {
   refreshAppSettings: () => void;
   dirty: boolean;
   disabled: boolean;
-  onResourceConnectionClick?: () => void;
 }
 
-type AppSettingsCommandBarPropsCombined = AppSettingsCommandBarProps;
+type AppSettingsCommandBarPropsCombined = AppSettingsCommandBarProps & ServiceLinkerProps;
 const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = props => {
   const { onSave, resetForm, refreshAppSettings, dirty, disabled, onResourceConnectionClick } = props;
   const { t } = useTranslation();
