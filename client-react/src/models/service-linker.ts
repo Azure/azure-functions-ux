@@ -1,6 +1,6 @@
 import { FormAppSetting, FormConnectionString } from '../pages/app/app-settings/AppSettings.types';
 
-export interface CreateServiceLinkerResponse {
+export interface ServiceLinkerBladeResponse {
   id: string;
   isSucceeded?: boolean;
   webAppConfiguration?: ServiceLinkerWebAppConfiguration;
