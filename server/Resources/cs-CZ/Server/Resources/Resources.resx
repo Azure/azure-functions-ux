@@ -6144,6 +6144,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
         <value>Když se provede operace nového nasazení, zruší se všechny stávající probíhající operace nasazení a vytvoří se nová.</value>
     </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmTitle" xml:space="preserve">
+        <value>Opravdu chcete toto spuštění pracovního postupu zrušit?</value>
+    </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmMessage" xml:space="preserve">
+        <value>Zrušením běhu pracovního postupu zrušíte nasazení kódu do App Service.</value>
+    </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Opravdu to chcete zahodit?</value>
     </data>
@@ -6286,28 +6292,28 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Vytvářejte, nasazujte a spravujte kontejnerovou aplikaci automaticky pomocí GitHub Actions.</value>
     </data>
   <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
-        <value>Cancel run</value>
+        <value>Zrušit spuštění</value>
     </data>
   <data name="deploymentCenterLogSource" xml:space="preserve">
-        <value>Logs</value>
+        <value>Protokoly</value>
     </data>
   <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
-        <value>Build/Deploy Logs</value>
+        <value>Protokoly sestavení/nasazení</value>
     </data>
   <data name="deploymentCenterAppLogSource" xml:space="preserve">
-        <value>App Logs</value>
+        <value>Protokoly aplikace</value>
     </data>
   <data name="GitHubActionsRunCancelled" xml:space="preserve">
-        <value>Cancelled</value>
+        <value>Zrušeno</value>
     </data>
   <data name="GitHubActionsRunSkipped" xml:space="preserve">
-        <value>Skipped</value>
+        <value>Přeskočeno</value>
     </data>
   <data name="GitHubActionsRunTimedOut" xml:space="preserve">
-        <value>Timed out</value>
+        <value>Po časovém limitu</value>
     </data>
   <data name="GitHubActionsRunActionRequired" xml:space="preserve">
-        <value>Action required</value>
+        <value>Vyžaduje se akce</value>
     </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>Abyste mohli spustit svou funkci, potřebujete přímý přístup k síti. Vaše aplikace může být omezená privátními koncovými body, omezeními přístupu nebo koncovými body služeb.</value>
@@ -6382,10 +6388,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Požadavek na nové nasazení se odeslal.</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} is being submitted</value>
+        <value>Operace opětovného nasazení/synchronizace pro webovou aplikaci {0} se odesílá.</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
+        <value>Operace opětovného nasazení/synchronizace pro webovou aplikaci {0} se úspěšně odeslala.</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Nepovedlo se znovu provést nasazení: {0}</value>
@@ -6961,18 +6967,30 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Kliknutím sem získáte další informace o tom, proč se pro produkční sloty nedoporučuje CI/CD.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+        <value>Operace opětovného nasazení potvrzení {0} pro webovou aplikaci {1} se odesílá.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+        <value>Operace opětovného nasazení potvrzení {0} pro webovou aplikaci {1} byla úspěšně odeslána</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+        <value>Nepovedlo se odeslat operaci opětovného nasazení potvrzení {0} pro webovou aplikaci {1}.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+        <value>Nepovedlo se odeslat operaci opětovného nasazení potvrzení {0} pro webovou aplikaci {1}. Chyba: {2}</value>
     </data>
   <data name="deploymentCenterRedeployCommit" xml:space="preserve">
-        <value>Redeploy commit</value>
+        <value>Opětovné nasazení potvrzení</value>
+    </data>
+  <data name="resourceConnection" xml:space="preserve">
+        <value>Připojení poskytovatele</value>
+    </data>
+  <data name="deploymentCenterSettingsLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment settings</value>
+    </data>
+  <data name="deploymentCenterSettingsLoading" xml:space="preserve">
+        <value>Loading deployment settings...</value>
+    </data>
+  <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
+        <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>
