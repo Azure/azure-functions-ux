@@ -1,12 +1,10 @@
-import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import React, { Suspense, useState, useContext } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
-
+import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormValues, FormConnectionString } from '../AppSettings.types';
+import { AppSettingsFormikPropsCombined, FormConnectionString } from '../AppSettings.types';
 import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
 import { typeValueToString } from './connectionStringTypes';
 import { PermissionsContext } from '../Contexts';
@@ -21,8 +19,9 @@ import { ThemeContext } from '../../../../ThemeContext';
 import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 import SettingSourceColumn from '../SettingSourceColumn';
+import { isSettingServiceLinker, isServiceLinkerVisible } from '../AppSettings.utils';
 
-const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
+const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const { production_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !editable || saving;
   const [showPanel, setShowPanel] = useState(false);
@@ -32,7 +31,8 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
   const [filter, setFilter] = useState('');
   const [showAllValues, setShowAllValues] = useState(false);
 
-  const { t, values } = props;
+  const { values } = props;
+  const { t } = useTranslation();
   const theme = useContext(ThemeContext);
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
@@ -193,7 +193,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
             id={`app-settings-connection-strings-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}
-            onClick={() => onShowPanel(item)}
+            onClick={() => onEditButtonClick(item)}
           />
         </TooltipHost>
       );
@@ -245,7 +245,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
           id={`app-settings-connection-strings-name-${index}`}
           className={defaultCellStyle}
           disabled={disableAllControls}
-          onClick={() => onShowPanel(item)}
+          onClick={() => onEditButtonClick(item)}
           ariaLabel={item[column.fieldName!]}>
           <span aria-live="assertive" role="region">
             {item[column.fieldName!]}
@@ -348,6 +348,14 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
     ];
   };
 
+  const onEditButtonClick = async (item: FormConnectionString) => {
+    if (isServiceLinkerVisible() && isSettingServiceLinker(item.name) && !!props.onServiceLinkerUpdateClick) {
+      await props.onServiceLinkerUpdateClick(item.name);
+    } else {
+      onShowPanel(item);
+    }
+  };
+
   if (!values.connectionStrings) {
     return null;
   }
@@ -402,4 +410,4 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
   );
 };
 
-export default withTranslation('translation')(ConnectionStrings);
+export default ConnectionStrings;

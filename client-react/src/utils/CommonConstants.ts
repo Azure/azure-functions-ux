@@ -63,6 +63,7 @@ export class CommonConstants {
     websiteRunFromPackage: 'WEBSITE_RUN_FROM_PACKAGE',
     localCacheOptionSettingName: 'WEBSITE_LOCAL_CACHE_OPTION',
     functionAppEditModeSettingName: 'FUNCTION_APP_EDIT_MODE',
+    serviceLinkerPrefix: 'resourceconnector_',
   };
 
   public static readonly SkuNames = {
