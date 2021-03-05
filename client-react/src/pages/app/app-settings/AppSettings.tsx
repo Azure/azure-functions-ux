@@ -1,6 +1,6 @@
 import { Formik, FormikProps } from 'formik';
 import React, { useContext, useRef, useState } from 'react';
-import { AppSettingsFormValues, FormAppSetting, FormConnectionString } from './AppSettings.types';
+import { AppSettingsFormValues } from './AppSettings.types';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
 import AppSettingsDataLoader from './AppSettingsDataLoader';
 import AppSettingsForm from './AppSettingsForm';
@@ -16,8 +16,10 @@ import { Site } from '../../../models/site/site';
 import { MessageBarType } from 'office-ui-fabric-react';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
-import { CreateServiceLinkerResponse, ServiceLinkerWebAppConfiguration } from '../../../models/service-linker';
+import { ServiceLinkerBladeResponse } from '../../../models/service-linker';
 import { PortalContext } from '../../../PortalContext';
+import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
+import { BladeCloseReason, IBladeResult, OpenBladeSource } from '../../../models/portal-models';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -85,13 +87,17 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
     setShowSaveConfirmDialog(false);
   };
 
+  const isServiceLinkerBladeResponseSucceeded = (response?: IBladeResult<ServiceLinkerBladeResponse>) => {
+    return !!response && response.reason !== BladeCloseReason.childClosedSelf && !!response.data && response.data['isSucceeded'];
+  };
+
   const onResourceConnectionClick = async (
     initialValues: AppSettingsFormValues | null,
     setInitialValues: (values: AppSettingsFormValues | null) => void,
     currentValues: AppSettingsFormValues,
     setCurrentValues: (values: AppSettingsFormValues) => void
   ) => {
-    const response = await portalContext.openBlade<CreateServiceLinkerResponse>(
+    const response = await portalContext.openBlade<ServiceLinkerBladeResponse>(
       {
         detailBlade: 'CreateLinkerBlade',
         detailBladeInputs: {
@@ -100,9 +106,9 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
         extension: 'ServiceLinkerExtension',
         openAsContextBlade: true,
       },
-      'service-linker'
+      OpenBladeSource.appSettings
     );
-    if (!!response && !!response.data && response.data['isSucceeded']) {
+    if (isServiceLinkerBladeResponseSucceeded(response)) {
       const webAppConfig = response.data['webAppConfiguration'];
       if (!!webAppConfig && !!initialValues) {
         updateWebAppConfigForServiceLinker(webAppConfig, initialValues, setInitialValues, setCurrentValues, currentValues);
@@ -110,25 +116,31 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
     }
   };
 
-  const updateWebAppConfigForServiceLinker = (
-    webAppConfig: ServiceLinkerWebAppConfiguration,
-    initialValues: AppSettingsFormValues,
+  const onServiceLinkerUpdateClick = async (
+    settingName: string,
+    initialValues: AppSettingsFormValues | null,
     setInitialValues: (values: AppSettingsFormValues | null) => void,
-    setCurrentValues: (values: AppSettingsFormValues) => void,
-    currentValues: AppSettingsFormValues
+    currentValues: AppSettingsFormValues,
+    setCurrentValues: (values: AppSettingsFormValues) => void
   ) => {
-    const serviceLinkerAppSettings: FormAppSetting[] = webAppConfig.appSettings || [];
-    const serviceLinkerConnectionStrings: FormConnectionString[] = webAppConfig.connectionStrings || [];
-    setInitialValues({
-      ...initialValues,
-      appSettings: [...initialValues.appSettings, ...serviceLinkerAppSettings],
-      connectionStrings: [...initialValues.connectionStrings, ...serviceLinkerConnectionStrings],
-    });
-    setCurrentValues({
-      ...currentValues,
-      appSettings: [...currentValues.appSettings, ...serviceLinkerAppSettings],
-      connectionStrings: [...currentValues.connectionStrings, ...serviceLinkerConnectionStrings],
-    });
+    const response = await portalContext.openBlade<ServiceLinkerBladeResponse>(
+      {
+        detailBlade: 'UpdateLinkerBlade',
+        detailBladeInputs: {
+          sourceResourceId: resourceId,
+          configName: settingName,
+        },
+        extension: 'ServiceLinkerExtension',
+        openAsContextBlade: true,
+      },
+      OpenBladeSource.appSettings
+    );
+    if (isServiceLinkerBladeResponseSucceeded(response)) {
+      const webAppConfig = response.data['webAppConfiguration'];
+      if (!!webAppConfig && !!initialValues) {
+        updateWebAppConfigForServiceLinker(webAppConfig, initialValues, setInitialValues, setCurrentValues, currentValues);
+      }
+    }
   };
 
   return (
@@ -212,7 +224,19 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                           </div>
                           {!!initialFormValues ? (
                             <div className={formStyle}>
-                              <AppSettingsForm asyncData={asyncData} {...formProps} />
+                              <AppSettingsForm
+                                asyncData={asyncData}
+                                onServiceLinkerUpdateClick={(settingName: string) =>
+                                  onServiceLinkerUpdateClick(
+                                    settingName,
+                                    initialFormValues,
+                                    setInitialValues,
+                                    formProps.values,
+                                    formProps.setValues
+                                  )
+                                }
+                                {...formProps}
+                              />
                             </div>
                           ) : (
                             <CustomBanner message={t('configLoadFailure')} type={MessageBarType.error} />

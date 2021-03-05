@@ -2,9 +2,7 @@ import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react/lib/Pi
 import React, { useRef, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
-
 import { AppSettingsFormProps } from './AppSettings.types';
-
 import GeneralSettings, { generalSettingsDirty, generalSettingsError } from './Sections/GeneralSettings';
 import ApplicationSettingsPivot, { applicationSettingsDirty } from './Sections/ApplicationSettingsPivot';
 import FunctionRuntimeSettingsPivot, { functionRuntimeSettingsDirty } from './Sections/FunctionRuntimeSettingsPivot';
