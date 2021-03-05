@@ -6144,6 +6144,12 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
         <value>Durch das Ausführen einer erneuten Bereitstellung wird ein ggf. zurzeit ausgeführter Bereitstellungsvorgang beendet und ein neuer Vorgang erstellt.</value>
     </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmTitle" xml:space="preserve">
+        <value>Möchten Sie diese Workflowausführung abbrechen?</value>
+    </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmMessage" xml:space="preserve">
+        <value>Durch das Abbrechen einer Workflowausführung wird die Bereitstellung Ihres Codes für App Service beendet.</value>
+    </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Möchten Sie den Vorgang zum Verwerfen ausführen?</value>
     </data>
@@ -6286,28 +6292,28 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Hiermit wird Ihre Container-App automatisch mit GitHub Actions erstellt, bereitgestellt und verwaltet.</value>
     </data>
   <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
-        <value>Cancel run</value>
+        <value>Ausführung abbrechen</value>
     </data>
   <data name="deploymentCenterLogSource" xml:space="preserve">
-        <value>Logs</value>
+        <value>Protokolle</value>
     </data>
   <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
-        <value>Build/Deploy Logs</value>
+        <value>Build-/Bereitstellungsprotokolle</value>
     </data>
   <data name="deploymentCenterAppLogSource" xml:space="preserve">
-        <value>App Logs</value>
+        <value>App-Protokolle</value>
     </data>
   <data name="GitHubActionsRunCancelled" xml:space="preserve">
-        <value>Cancelled</value>
+        <value>Abgebrochen</value>
     </data>
   <data name="GitHubActionsRunSkipped" xml:space="preserve">
-        <value>Skipped</value>
+        <value>Übersprungen</value>
     </data>
   <data name="GitHubActionsRunTimedOut" xml:space="preserve">
-        <value>Timed out</value>
+        <value>Zeitüberschreitung</value>
     </data>
   <data name="GitHubActionsRunActionRequired" xml:space="preserve">
-        <value>Action required</value>
+        <value>Aktion erforderlich</value>
     </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>Sie müssen über direkten Netzwerkzugriff verfügen, um Ihre Funktion ausführen zu können. Ihre App ist möglicherweise durch private Endpunkte, Zugriffseinschränkungen oder Dienstendpunkte eingeschränkt.</value>
@@ -6382,10 +6388,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Anforderung zum erneuten Bereitstellen übermittelt</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} is being submitted</value>
+        <value>Der Vorgang zum erneuten Bereitstellen/Synchronisieren für die Web-App "{0}" wird übermittelt.</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
+        <value>Der Vorgang zum erneuten Bereitstellen/Synchronisieren für die Web-App "{0}" wurde erfolgreich übermittelt.</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Fehler beim erneuten Bereitstellen: {0}</value>
@@ -6961,18 +6967,30 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Klicken Sie hier, um mehr darüber zu erfahren, warum CI/CD für Produktionsslots nicht empfohlen wird.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+        <value>Der Vorgang zum erneuten Bereitstellen des Commits "{0}" für die Web-App "{1}" wird übermittelt.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+        <value>Der Vorgang zum erneuten Bereitstellen des Commits "{0}" für die Web-App "{1}" wurde erfolgreich übermittelt.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+        <value>Fehler beim Übermitteln des Vorgangs zum erneuten Bereitstellen des Commits "{0}" für die Web-App "{1}".</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+        <value>Fehler beim Übermitteln des Vorgangs zum erneuten Bereitstellen des Commits "{0}" für die Web-App "{1}": {2}</value>
     </data>
   <data name="deploymentCenterRedeployCommit" xml:space="preserve">
-        <value>Redeploy commit</value>
+        <value>Commit erneut bereitstellen</value>
+    </data>
+  <data name="resourceConnection" xml:space="preserve">
+        <value>Ressourcenverbindung</value>
+    </data>
+  <data name="deploymentCenterSettingsLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment settings</value>
+    </data>
+  <data name="deploymentCenterSettingsLoading" xml:space="preserve">
+        <value>Loading deployment settings...</value>
+    </data>
+  <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
+        <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>

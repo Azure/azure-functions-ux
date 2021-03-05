@@ -2588,7 +2588,7 @@
         <value>Центрально-северная часть США</value>
     </data>
   <data name="centralus" xml:space="preserve">
-        <value>центральная часть США</value>
+        <value>Центральная часть США</value>
     </data>
   <data name="brazilsouth" xml:space="preserve">
         <value>Южная Бразилия</value>
@@ -6144,6 +6144,12 @@
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
         <value>При повторном развертывании все выполняющиеся операции развертывания будут отменены и будет создана новая операция.</value>
     </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmTitle" xml:space="preserve">
+        <value>Отменить этот запуск рабочего процесса?</value>
+    </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmMessage" xml:space="preserve">
+        <value>Отмена запуска рабочего процесса также отменит развертывание кода в Службе приложений.</value>
+    </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Вы действительно хотите отменить операцию?</value>
     </data>
@@ -6286,28 +6292,28 @@
         <value>Функции GitHub Actions автоматизируют создание, развертывание и поддержку контейнерного приложения.</value>
     </data>
   <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
-        <value>Cancel run</value>
+        <value>Отменить запуск</value>
     </data>
   <data name="deploymentCenterLogSource" xml:space="preserve">
-        <value>Logs</value>
+        <value>Журналы</value>
     </data>
   <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
-        <value>Build/Deploy Logs</value>
+        <value>Журналы сборки и развертывания</value>
     </data>
   <data name="deploymentCenterAppLogSource" xml:space="preserve">
-        <value>App Logs</value>
+        <value>Журналы приложений</value>
     </data>
   <data name="GitHubActionsRunCancelled" xml:space="preserve">
-        <value>Cancelled</value>
+        <value>Отменено</value>
     </data>
   <data name="GitHubActionsRunSkipped" xml:space="preserve">
-        <value>Skipped</value>
+        <value>Пропущено</value>
     </data>
   <data name="GitHubActionsRunTimedOut" xml:space="preserve">
-        <value>Timed out</value>
+        <value>Истекло время ожидания</value>
     </data>
   <data name="GitHubActionsRunActionRequired" xml:space="preserve">
-        <value>Action required</value>
+        <value>Требуется действие</value>
     </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>Для запуска функции необходим прямой доступ к сети. Ваше приложение может блокироваться через частные конечные точки, ограничения доступа или конечные точки службы.</value>
@@ -6382,10 +6388,10 @@
         <value>Отправлен запрос на повторное развертывание</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} is being submitted</value>
+        <value>Выполняется отправка операции повторного развертывания/синхронизации для веб-приложения {0}.</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
+        <value>Операция повторного развертывания/синхронизации для веб-приложения {0} отправлена.</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Не удалось выполнить повторное развертывание: {0}</value>
@@ -6961,18 +6967,30 @@
         <value>Щелкните, чтобы получить дополнительные сведения о том, почему не рекомендуется использовать CI/CD для рабочих слотов.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+        <value>Выполняется отправка операции повторного развертывания фиксации {0} для веб-приложения {1}.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+        <value>Операция повторного развертывания фиксации {0} для веб-приложения {1} отправлена.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+        <value>Не удалось отправить операцию повторного развертывания фиксации {0} для веб-приложения {1}.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+        <value>Не удалось отправить операцию повторного развертывания фиксации {0} для веб-приложения {1}. Ошибка: {2}</value>
     </data>
   <data name="deploymentCenterRedeployCommit" xml:space="preserve">
-        <value>Redeploy commit</value>
+        <value>Повторное развертывание фиксации</value>
+    </data>
+  <data name="resourceConnection" xml:space="preserve">
+        <value>Подключение ресурсов</value>
+    </data>
+  <data name="deploymentCenterSettingsLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment settings</value>
+    </data>
+  <data name="deploymentCenterSettingsLoading" xml:space="preserve">
+        <value>Loading deployment settings...</value>
+    </data>
+  <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
+        <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>
