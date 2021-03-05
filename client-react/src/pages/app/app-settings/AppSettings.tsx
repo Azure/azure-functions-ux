@@ -19,6 +19,7 @@ import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { ServiceLinkerBladeResponse } from '../../../models/service-linker';
 import { PortalContext } from '../../../PortalContext';
 import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
+import { BladeCloseReason, IBladeResult } from '../../../models/portal-models';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -86,6 +87,10 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
     setShowSaveConfirmDialog(false);
   };
 
+  const isServiceLinkerBladeResponseSucceeded = (response?: IBladeResult<ServiceLinkerBladeResponse>) => {
+    return !!response && response.reason !== BladeCloseReason.childClosedSelf && !!response.data && response.data['isSucceeded'];
+  };
+
   const onResourceConnectionClick = async (
     initialValues: AppSettingsFormValues | null,
     setInitialValues: (values: AppSettingsFormValues | null) => void,
@@ -103,7 +108,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
       },
       'service-linker'
     );
-    if (!!response && !!response.data && response.data['isSucceeded']) {
+    if (isServiceLinkerBladeResponseSucceeded(response)) {
       const webAppConfig = response.data['webAppConfiguration'];
       if (!!webAppConfig && !!initialValues) {
         updateWebAppConfigForServiceLinker(webAppConfig, initialValues, setInitialValues, setCurrentValues, currentValues);
@@ -130,7 +135,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
       },
       'service-linker'
     );
-    if (!!response && !!response.data && response.data['isSucceeded']) {
+    if (isServiceLinkerBladeResponseSucceeded(response)) {
       const webAppConfig = response.data['webAppConfiguration'];
       if (!!webAppConfig && !!initialValues) {
         updateWebAppConfigForServiceLinker(webAppConfig, initialValues, setInitialValues, setCurrentValues, currentValues);
