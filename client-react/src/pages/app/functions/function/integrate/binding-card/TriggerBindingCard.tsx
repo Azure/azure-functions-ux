@@ -11,6 +11,7 @@ import PortalCommunicator from '../../../../../../portal-communicator';
 import { PortalContext } from '../../../../../../PortalContext';
 import { ThemeExtended } from '../../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../../ThemeContext';
+import { BindingManager } from '../../../../../../utils/BindingManager';
 import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
 import { getBindingDirection } from '../FunctionIntegrate.utils';
@@ -63,9 +64,11 @@ const getContent = (
         <li key="0">
           <Link
             onClick={() => {
-              loadBindingSettings(bindings.find(binding => binding.type === trigger.type)!.id, false).then(() => {
-                editExisting(portalCommunicator, t, functionInfo, trigger, bindingEditorContext, BindingDirection.trigger);
-              });
+              loadBindingSettings(bindings.find(binding => BindingManager.isBindingTypeEqual(binding.type, trigger.type))!.id, false).then(
+                () => {
+                  editExisting(portalCommunicator, t, functionInfo, trigger, bindingEditorContext, BindingDirection.trigger);
+                }
+              );
             }}>{`${BindingFormBuilder.getBindingTypeName(trigger, bindings)} (${trigger.name})`}</Link>
         </li>
       ) : !readOnly ? (
