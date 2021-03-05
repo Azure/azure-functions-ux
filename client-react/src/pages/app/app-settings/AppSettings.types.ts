@@ -89,7 +89,13 @@ export interface AppSettingsAsyncData {
   functionsCount: AsyncObj<number>;
 }
 
-export interface AppSettingsFormProps extends FormikProps<AppSettingsFormValues> {
+export interface ServiceLinkerProps {
+  onResourceConnectionClick?: () => void;
+  onServiceLinkerUpdateClick?: (settingName: string) => void;
+}
+
+export type AppSettingsFormikPropsCombined = FormikProps<AppSettingsFormValues> & ServiceLinkerProps;
+export interface AppSettingsFormProps extends AppSettingsFormikPropsCombined {
   asyncData: AppSettingsAsyncData;
 }
 

@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
-
 import { useTranslation } from 'react-i18next';
-import { AppSettingsFormValues } from '../AppSettings.types';
+import { AppSettingsFormikPropsCombined, AppSettingsFormValues } from '../AppSettings.types';
 import { MessageBarType, Link } from 'office-ui-fabric-react';
-import { FormikProps } from 'formik';
 import ApplicationSettings from '../ApplicationSettings/ApplicationSettings';
 import ConnectionStrings from '../ConnectionStrings/ConnectionStrings';
 import { isEqual } from 'lodash-es';
@@ -14,7 +12,7 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
-const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+const ApplicationSettingsPivot: React.FC<AppSettingsFormikPropsCombined> = props => {
   const { t } = useTranslation();
   const { app_write } = useContext(PermissionsContext);
   const site = useContext(SiteContext);
@@ -40,10 +38,10 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
           <ApplicationSettings {...props} />
         </div>
       ) : (
-          <div id="app-settings-app-settings-rbac-message">
-            <CustomBanner message={t('applicationSettingsNoPermission')} type={MessageBarType.warning} undocked={true} />
-          </div>
-        )}
+        <div id="app-settings-app-settings-rbac-message">
+          <CustomBanner message={t('applicationSettingsNoPermission')} type={MessageBarType.warning} undocked={true} />
+        </div>
+      )}
       <h3>{t('connectionStrings')}</h3>
       <p>
         <span id="connection-strings-info-message">{t('connectionStringsInfoMessage')}</span>
@@ -66,10 +64,10 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
           <ConnectionStrings {...props} />
         </div>
       ) : (
-          <div id="app-settings-connection-strings-rbac-message">
-            <CustomBanner message={t('connectionStringsNoPermissions')} type={MessageBarType.warning} undocked={true} />
-          </div>
-        )}
+        <div id="app-settings-connection-strings-rbac-message">
+          <CustomBanner message={t('connectionStringsNoPermissions')} type={MessageBarType.warning} undocked={true} />
+        </div>
+      )}
     </>
   );
 };
