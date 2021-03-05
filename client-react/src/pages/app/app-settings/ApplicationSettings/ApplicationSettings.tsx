@@ -1,11 +1,10 @@
-import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode, IDetailsList } from 'office-ui-fabric-react/lib/DetailsList';
 import React, { lazy, Suspense, useState, useContext } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
+import { AppSettingsFormikPropsCombined, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
@@ -19,10 +18,11 @@ import { ThemeContext } from '../../../../ThemeContext';
 import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 import SettingSourceColumn from '../SettingSourceColumn';
+import { isServiceLinkerVisible, isSettingServiceLinker } from '../AppSettings.utils';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 
-const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
+const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const { production_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !editable || saving;
   const [showPanel, setShowPanel] = useState(false);
@@ -32,9 +32,11 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   const [filter, setFilter] = useState('');
   const [showAllValues, setShowAllValues] = useState(false);
 
-  const { t, values } = props;
+  const { values } = props;
+  const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
+
   let appSettingsTable: IDetailsList;
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
@@ -184,7 +186,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
             id={`app-settings-application-settings-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}
-            onClick={() => onShowPanel(item)}
+            onClick={() => onEditButtonClick(item)}
           />
         </TooltipHost>
       );
@@ -229,7 +231,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           className={defaultCellStyle}
           disabled={disableAllControls}
           id={`app-settings-application-settings-name-${index}`}
-          onClick={() => onShowPanel(item)}
+          onClick={() => onEditButtonClick(item)}
           ariaLabel={item[column.fieldName!]}>
           <span aria-live="assertive" role="region">
             {item[column.fieldName!]}
@@ -336,6 +338,14 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
     return !!values.references ? columns : columns.filter(column => column.key !== 'source');
   };
 
+  const onEditButtonClick = async (item: FormAppSetting) => {
+    if (isServiceLinkerVisible() && isSettingServiceLinker(item.name) && !!props.onServiceLinkerUpdateClick) {
+      await props.onServiceLinkerUpdateClick(item.name);
+    } else {
+      onShowPanel(item);
+    }
+  };
+
   if (!values.appSettings) {
     return null;
   }
@@ -396,4 +406,4 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   );
 };
 
-export default withTranslation('translation')(ApplicationSettings);
+export default ApplicationSettings;
