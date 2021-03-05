@@ -8,6 +8,7 @@ import TextField from '../../../../components/form-controls/TextField';
 import Toggle from '../../../../components/form-controls/Toggle';
 import { Binding, BindingSetting, BindingSettingValue, BindingValidator } from '../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
+import { BindingManager } from '../../../../utils/BindingManager';
 import { getFunctionBindingDirection } from '../function/integrate/FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../function/integrate/FunctionIntegrateConstants';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
@@ -19,7 +20,7 @@ export interface BindingEditorFormValues {
 
 export class BindingFormBuilder {
   public static getBindingTypeName = (currentBinding: BindingInfo, bindings: Binding[]): string => {
-    return (bindings.find(binding => binding.type === currentBinding.type) as Binding).displayName;
+    return (bindings.find(binding => BindingManager.isBindingTypeEqual(binding.type, currentBinding.type)) as Binding).displayName;
   };
 
   constructor(
@@ -267,7 +268,7 @@ export class BindingFormBuilder {
     isDisabled: boolean,
     i: number
   ) {
-    if (this._bindingInfoList[i].type === BindingType.httpTrigger) {
+    if (BindingManager.isBindingTypeEqual(this._bindingInfoList[i].type, BindingType.httpTrigger)) {
       return (
         <Field
           label={setting.label}
