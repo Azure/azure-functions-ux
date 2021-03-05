@@ -429,45 +429,37 @@ export class GithubController {
 
   private _getGitHubClientId(): string {
     const config = this.staticReactConfig;
-    if (config.env && config.env.cloud === CloudType.mooncake) {
-      return this.configService.get('GITHUB_MOONCAKE_CLIENT_ID');
-    } else if (config.env && config.env.cloud === CloudType.fairfax) {
-      return this.configService.get('GITHUB_FAIRFAX_CLIENT_ID');
-    } else {
+    if (config.env && config.env.cloud === CloudType.public) {
       return this.configService.get('GITHUB_CLIENT_ID');
+    } else {
+      return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_ID');
     }
   }
 
   private _getGitHubClientSecret(): string {
     const config = this.staticReactConfig;
-    if (config.env && config.env.cloud === CloudType.mooncake) {
-      return this.configService.get('GITHUB_MOONCAKE_CLIENT_SECRET');
-    } else if (config.env && config.env.cloud === CloudType.fairfax) {
-      return this.configService.get('GITHUB_FAIRFAX_CLIENT_SECRET');
-    } else {
+    if (config.env && config.env.cloud === CloudType.public) {
       return this.configService.get('GITHUB_CLIENT_SECRET');
+    } else {
+      return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_SECRET');
     }
   }
 
   private _getGitHubForCreatesClientId() {
     const config = this.staticReactConfig;
-    if (config.env && config.env.cloud === CloudType.mooncake) {
-      return this.configService.get('GITHUB_FOR_CREATES_MOONCAKE_CLIENT_ID');
-    } else if (config.env && config.env.cloud === CloudType.fairfax) {
-      return this.configService.get('GITHUB_FOR_CREATES_FAIRFAX_CLIENT_ID');
-    } else {
+    if (config.env && config.env.cloud === CloudType.public) {
       return this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID');
+    } else {
+      return this.configService.get('GITHUB_FOR_CREATES_NATIONALCLOUDS_CLIENT_ID');
     }
   }
 
   private _getGitHubForCreatesClientSecret() {
     const config = this.staticReactConfig;
-    if (config.env && config.env.cloud === CloudType.mooncake) {
-      return this.configService.get('GITHUB_FOR_CREATES_MOONCAKE_CLIENT_SECRET');
-    } else if (config.env && config.env.cloud === CloudType.fairfax) {
-      return this.configService.get('GITHUB_FOR_CREATES_FAIRFAX_CLIENT_SECRET');
-    } else {
+    if (config.env && config.env.cloud === CloudType.public) {
       return this.configService.get('GITHUB_FOR_CREATES_CLIENT_SECRET');
+    } else {
+      return this.configService.get('GITHUB_FOR_CREATES_NATIONALCLOUDS_CLIENT_SECRET');
     }
   }
 }
