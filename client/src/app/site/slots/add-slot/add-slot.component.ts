@@ -2,7 +2,6 @@ import { Component, Injector, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { SiteConfig } from '../../../shared/models/arm/site-config';
 import { AiService } from '../../../shared/services/ai.service';
 import { PortalService } from '../../../shared/services/portal.service';
 import { InfoBoxType } from './../../../controls/info-box/info-box.component';
