@@ -19,7 +19,7 @@ import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { ServiceLinkerBladeResponse } from '../../../models/service-linker';
 import { PortalContext } from '../../../PortalContext';
 import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
-import { BladeCloseReason, IBladeResult } from '../../../models/portal-models';
+import { BladeCloseReason, IBladeResult, OpenBladeSource } from '../../../models/portal-models';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -106,7 +106,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
         extension: 'ServiceLinkerExtension',
         openAsContextBlade: true,
       },
-      'service-linker'
+      OpenBladeSource.appSettings
     );
     if (isServiceLinkerBladeResponseSucceeded(response)) {
       const webAppConfig = response.data['webAppConfiguration'];
@@ -133,7 +133,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
         extension: 'ServiceLinkerExtension',
         openAsContextBlade: true,
       },
-      'service-linker'
+      OpenBladeSource.appSettings
     );
     if (isServiceLinkerBladeResponseSucceeded(response)) {
       const webAppConfig = response.data['webAppConfiguration'];

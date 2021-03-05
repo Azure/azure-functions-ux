@@ -245,7 +245,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
           id={`app-settings-connection-strings-name-${index}`}
           className={defaultCellStyle}
           disabled={disableAllControls}
-          onClick={() => onShowPanel(item)}
+          onClick={() => onEditButtonClick(item)}
           ariaLabel={item[column.fieldName!]}>
           <span aria-live="assertive" role="region">
             {item[column.fieldName!]}

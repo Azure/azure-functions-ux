@@ -339,3 +339,7 @@ export enum BladeCloseReason {
   userNavigation = 'userNavigation',
   childClosedSelf = 'childClosedSelf',
 }
+
+export enum OpenBladeSource {
+  appSettings = 'app-settings',
+}
