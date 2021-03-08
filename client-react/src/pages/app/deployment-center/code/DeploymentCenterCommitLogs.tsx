@@ -197,7 +197,9 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
 
   const isAppServiceBuildService = () => {
     const scmType = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType;
-    return scmType === ScmType.BitbucketGit || scmType === ScmType.GitHub || scmType === ScmType.LocalGit;
+    return (
+      scmType === ScmType.BitbucketGit || scmType === ScmType.GitHub || scmType === ScmType.LocalGit || scmType === ScmType.ExternalGit
+    );
   };
 
   useEffect(() => {
