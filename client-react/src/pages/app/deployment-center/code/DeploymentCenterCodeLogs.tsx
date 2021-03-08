@@ -11,7 +11,7 @@ import {
 } from '../DeploymentCenter.types';
 import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured } from '../DeploymentCenter.styles';
+import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured, deploymentCenterCodeLogsBox } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
@@ -153,16 +153,17 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
 
   return (
     <>
+      <DeploymentCenterCodeLogsTimer refreshLogs={refreshLogs} />
+
       {isLogsDataRefreshing ? (
         getProgressIndicator()
       ) : deploymentsError ? (
         <div className={deploymentCenterLogsError}>{deploymentsError}</div>
       ) : deployments ? (
-        <>
-          <DeploymentCenterCodeLogsTimer refreshLogs={refreshLogs} />
+        <div className={deploymentCenterCodeLogsBox}>
           <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
           {items.length === 0 && getZeroDayContent()}
-        </>
+        </div>
       ) : (
         getProgressIndicator()
       )}

@@ -6145,6 +6145,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
         <value>Als u een bewerking voor opnieuw implementeren uitvoert, worden alle actieve implementatiebewerkingen geannuleerd en wordt er een nieuwe implementatie gemaakt.</value>
     </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmTitle" xml:space="preserve">
+        <value>Weet u zeker dat u deze werkstroomuitvoering wilt annuleren?</value>
+    </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmMessage" xml:space="preserve">
+        <value>Als u een werkstroomuitvoering annuleert, wordt de implementatie van uw code in App Service geannuleerd.</value>
+    </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Weet u zeker dat u de wijzigingen wilt negeren?</value>
     </data>
@@ -6287,28 +6293,28 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Bouw, implementeer en beheer uw container-app automatisch met GitHub Actions.</value>
     </data>
   <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
-        <value>Cancel run</value>
+        <value>Uitvoering annuleren</value>
     </data>
   <data name="deploymentCenterLogSource" xml:space="preserve">
-        <value>Logs</value>
+        <value>Logboeken</value>
     </data>
   <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
-        <value>Build/Deploy Logs</value>
+        <value>Logboeken maken/implementeren</value>
     </data>
   <data name="deploymentCenterAppLogSource" xml:space="preserve">
-        <value>App Logs</value>
+        <value>App-logboeken</value>
     </data>
   <data name="GitHubActionsRunCancelled" xml:space="preserve">
-        <value>Cancelled</value>
+        <value>Geannuleerd</value>
     </data>
   <data name="GitHubActionsRunSkipped" xml:space="preserve">
-        <value>Skipped</value>
+        <value>Overgeslagen</value>
     </data>
   <data name="GitHubActionsRunTimedOut" xml:space="preserve">
-        <value>Timed out</value>
+        <value>Er is een time-out opgetreden</value>
     </data>
   <data name="GitHubActionsRunActionRequired" xml:space="preserve">
-        <value>Action required</value>
+        <value>Actie vereist</value>
     </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>U moet rechtstreekse netwerktoegang hebben om de functie uit te voeren. Uw app is mogelijk beperkt met privé-eindpunten, toegangsbeperkingen of service-eindpunten.</value>
@@ -6383,10 +6389,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Aanvraag voor opnieuw implementeren is verzonden</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} is being submitted</value>
+        <value>De bewerking voor opnieuw implementeren/synchroniseren voor web-app {0} wordt verzonden</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
+        <value>De bewerking voor opnieuw implementeren/synchroniseren voor web-app {0} is verzonden</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Kan niet opnieuw implementeren: {0}</value>
@@ -6962,18 +6968,30 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Klik hier voor meer informatie over waarom CI/CD niet wordt aanbevolen voor productiesites.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+        <value>De bewerking voor opnieuw implementeren van het doorvoeren van {0} voor web-app {1} wordt verzonden.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+        <value>De bewerking voor opnieuw implementeren van doorvoeren {0} voor de web-app {1} is verzonden.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+        <value>Kan de bewerking voor opnieuw implementeren van het doorvoeren van {0} voor web-app {1} niet verzenden.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+        <value>Kan de bewerking voor opnieuw implementeren van het doorvoeren van {0} voor web-app {1} niet verzenden. Fout {2}</value>
     </data>
   <data name="deploymentCenterRedeployCommit" xml:space="preserve">
-        <value>Redeploy commit</value>
+        <value>Doorvoeren opnieuw implementeren</value>
+    </data>
+  <data name="resourceConnection" xml:space="preserve">
+        <value>Resourceverbinding</value>
+    </data>
+  <data name="deploymentCenterSettingsLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment settings</value>
+    </data>
+  <data name="deploymentCenterSettingsLoading" xml:space="preserve">
+        <value>Loading deployment settings...</value>
+    </data>
+  <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
+        <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>

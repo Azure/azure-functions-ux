@@ -6144,6 +6144,12 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
         <value>Yeniden dağıtma işlemi gerçekleştirmek, devam etmekte olan tüm mevcut dağıtım işlemlerini iptal eder ve yeni bir dağıtım oluşturur.</value>
     </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmTitle" xml:space="preserve">
+        <value>Bu iş akışı çalıştırmasını iptal etmek istediğinizden emin misiniz?</value>
+    </data>
+  <data name="deploymentCenterCancelWorkflowRunConfirmMessage" xml:space="preserve">
+        <value>İş akışı çalıştırmasının iptal edilmesi, kodunuzun App Service'e dağıtımını iptal eder.</value>
+    </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Atmak istediğinizden emin misiniz?</value>
     </data>
@@ -6286,28 +6292,28 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Kapsayıcı uygulamanızı GitHub Actions ile otomatik olarak oluşturun, dağıtın ve yönetin.</value>
     </data>
   <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
-        <value>Cancel run</value>
+        <value>Çalıştırmayı iptal et</value>
     </data>
   <data name="deploymentCenterLogSource" xml:space="preserve">
-        <value>Logs</value>
+        <value>Günlükler</value>
     </data>
   <data name="deploymentCenterBuildDeployLogSource" xml:space="preserve">
-        <value>Build/Deploy Logs</value>
+        <value>Derleme/Dağıtım Günlükleri</value>
     </data>
   <data name="deploymentCenterAppLogSource" xml:space="preserve">
-        <value>App Logs</value>
+        <value>Uygulama Günlükleri</value>
     </data>
   <data name="GitHubActionsRunCancelled" xml:space="preserve">
-        <value>Cancelled</value>
+        <value>İptal edildi</value>
     </data>
   <data name="GitHubActionsRunSkipped" xml:space="preserve">
-        <value>Skipped</value>
+        <value>Atlandı</value>
     </data>
   <data name="GitHubActionsRunTimedOut" xml:space="preserve">
-        <value>Timed out</value>
+        <value>Zaman aşımına uğradı</value>
     </data>
   <data name="GitHubActionsRunActionRequired" xml:space="preserve">
-        <value>Action required</value>
+        <value>Eylem gerekiyor</value>
     </data>
   <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
         <value>İşlevinizi çalıştırmak için doğrudan ağ erişiminiz olmalıdır. Uygulamanız Özel Uç Noktalar, Erişim Kısıtlamaları veya Hizmet Uç Noktalarıyla sınırlanmış olabilir.</value>
@@ -6382,10 +6388,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Yeniden Dağıtma İsteği Gönderildi</value>
     </data>
   <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} is being submitted</value>
+        <value>{0} web uygulaması için yeniden dağıtma/eşitleme işlemi gönderiliyor</value>
     </data>
   <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
-        <value>The redeploy/sync operation for web app {0} has been submitted successfully</value>
+        <value>{0} web uygulaması için yeniden dağıtma/eşitleme başarıyla güncelleştirildi</value>
     </data>
   <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
         <value>Yeniden dağıtılamadı: {0}</value>
@@ -6961,18 +6967,30 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Üretim yuvalarında CI/CD'nin neden önerilmediği hakkında daha fazla bilgi edinmek için buraya tıklayın.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
+        <value>{1} web uygulaması için yürütme {0} yeniden dağıtma işlemi gönderiliyor.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitSuccess" xml:space="preserve">
-        <value>The redeploy operation of commit {0} for web app {1} has been submitted successfully.</value>
+        <value>{1} web uygulaması için yürütme {0} yeniden dağıtma işlemi başarıyla gönderildi.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailed" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}.</value>
+        <value>{1} web uygulaması için {0} yürütmeyi yeniden dağıtma işlemi gönderilemedi.</value>
     </data>
   <data name="deploymentCenterCodeRedeployCommitFailedWithError" xml:space="preserve">
-        <value>Failed to submit the redeploy operation of commit {0} for web app {1}. Error {2}</value>
+        <value>{1} web uygulaması için {0} yürütmeyi yeniden dağıtma işlemi gönderilemedi. Hata {2}</value>
     </data>
   <data name="deploymentCenterRedeployCommit" xml:space="preserve">
-        <value>Redeploy commit</value>
+        <value>İşlemeyi yeniden dağıt</value>
+    </data>
+  <data name="resourceConnection" xml:space="preserve">
+        <value>Kaynak bağlantısı</value>
+    </data>
+  <data name="deploymentCenterSettingsLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment settings</value>
+    </data>
+  <data name="deploymentCenterSettingsLoading" xml:space="preserve">
+        <value>Loading deployment settings...</value>
+    </data>
+  <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
+        <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>

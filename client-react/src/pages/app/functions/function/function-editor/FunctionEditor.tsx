@@ -3,7 +3,6 @@ import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
-import { BindingType } from '../../../../../models/functions/function-binding';
 import { Site } from '../../../../../models/site/site';
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
@@ -31,7 +30,7 @@ import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBan
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { FunctionAppEditMode, PortalTheme } from '../../../../../models/portal-models';
+import { PortalTheme } from '../../../../../models/portal-models';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
@@ -46,6 +45,7 @@ import { isLinuxDynamic } from '../../../../../utils/arm-utils';
 import Url from '../../../../../utils/url';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { PortalContext } from '../../../../../PortalContext';
+import { BindingManager } from '../../../../../utils/BindingManager';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -205,9 +205,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const isGetFunctionUrlVisible = () => {
     return (
-      functionInfo.properties.config &&
-      functionInfo.properties.config.bindings &&
-      !!functionInfo.properties.config.bindings.find(e => e.type === BindingType.httpTrigger || e.type === BindingType.eventGridTrigger)
+      !!BindingManager.getHttpTriggerTypeInfo(functionInfo.properties) || !!BindingManager.getEventGridTriggerInfo(functionInfo.properties)
     );
   };
 
@@ -512,15 +510,16 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={onCancelButtonClick}
         />
-        {/* NOTE (krmitta): For .NET5 FunctionApps, we need to show the read-only banner irrespective of getFiles call not returning the list. */}
-        {(!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) &&
-        siteStateContext.siteAppEditState !== FunctionAppEditMode.ReadOnlyDotnet5 ? (
-          <CustomBanner
-            message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
-            type={MessageBarType.error}
-          />
-        ) : (
+        {/* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */}
+        {SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) ? (
           <EditModeBanner setBanner={setReadOnlyBanner} />
+        ) : (
+          (!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
+            <CustomBanner
+              message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
+              type={MessageBarType.error}
+            />
+          )
         )}
         <FunctionEditorFileSelectorBar
           disabled={isDisabled()}

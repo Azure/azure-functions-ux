@@ -10,11 +10,11 @@ import { Layout } from '../../../../../../components/form-controls/ReactiveFormC
 import IconButton from '../../../../../../components/IconButton/IconButton';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../../../../components/monaco-editor/monaco-editor';
 import { ArmObj } from '../../../../../../models/arm-obj';
-import { BindingType } from '../../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../../models/functions/function-info';
 import { PortalTheme } from '../../../../../../models/portal-models';
 import { StartupInfoContext } from '../../../../../../StartupInfoContext';
 import { ThemeContext } from '../../../../../../ThemeContext';
+import { BindingManager } from '../../../../../../utils/BindingManager';
 import StringUtils from '../../../../../../utils/string';
 import { EmptyNameValuePair, HttpMethods, InputFormValues, NameValuePair, UrlObj } from '../FunctionEditor.types';
 import { FunctionEditorContext } from '../FunctionEditorDataLoader';
@@ -121,9 +121,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
   const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
 
   const getDropdownOptions = (): IDropdownOption[] => {
-    const httpTrigger = functionInfo.properties.config.bindings.find(b => {
-      return b.type === BindingType.httpTrigger.toString();
-    });
+    const httpTrigger = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
     const dropdownOptions: IDropdownOption[] = [];
     if (httpTrigger && httpTrigger.methods) {
       httpTrigger.methods.forEach((m: string) => {

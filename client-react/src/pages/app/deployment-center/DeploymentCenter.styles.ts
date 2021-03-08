@@ -26,10 +26,29 @@ export const deploymentCenterConsole = (theme: ThemeExtended): string =>
     overflowWrap: 'break-word',
   });
 
-export const deploymentCenterContainerLogs = style({
+export const deploymentCenterContainerLogsBox = style({
+  fontFamily: '"Lucida Console", "Courier New", "Consolas", "monospace"',
+  color: 'white',
+  backgroundColor: 'black',
+  position: 'fixed',
+  height: 'calc(100% - 250px)',
+  width: 'calc(100% - 50px)',
+  overflowY: 'auto',
+  marginTop: '10px',
+  marginLeft: 'auto',
+  marginRight: 'auto',
   whiteSpace: 'pre-line',
-  padding: '15px',
   overflowWrap: 'break-word',
+});
+
+export const deploymentCenterCodeLogsBox = style({
+  position: 'fixed',
+  height: 'calc(100% - 250px)',
+  width: 'calc(100% - 50px)',
+  overflowY: 'auto',
+  marginTop: '10px',
+  marginLeft: 'auto',
+  marginRight: 'auto',
 });
 
 export const deploymentCenterLogsError = style({
