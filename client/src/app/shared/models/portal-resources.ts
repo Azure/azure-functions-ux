@@ -1939,8 +1939,7 @@ export class PortalResources {
   public static deploymentCenterPublishProfileCommandAriaLabel = 'deploymentCenterPublishProfileCommandAriaLabel';
   public static deploymentCenterRefreshCommandAriaLabel = 'deploymentCenterRefreshCommandAriaLabel';
   public static deploymentCenterSyncCommandAriaLabel = 'deploymentCenterSyncCommandAriaLabel';
-  public static deploymentCenterRedeployAriaLabel = 'deploymentCenterRedeployAriaLabel';
-  public static deploymentCenterRedeploy = 'deploymentCenterRedeploy';
+  public static deploymentCenterSyncAriaLabel = 'deploymentCenterSyncAriaLabel';
   public static deploymentCenterErrorFetchingInfo = 'deploymentCenterErrorFetchingInfo';
   public static deploymentCenterSettingsConfiguredViewUserNotAuthorized = 'deploymentCenterSettingsConfiguredViewUserNotAuthorized';
   public static deploymentCenterVstsInfoMessage = 'deploymentCenterVstsInfoMessage';
@@ -2280,6 +2279,8 @@ export class PortalResources {
   public static deploymentCenterCodeRedeployCommitFailed = 'deploymentCenterCodeRedeployCommitFailed';
   public static deploymentCenterCodeRedeployCommitFailedWithError = 'deploymentCenterCodeRedeployCommitFailedWithError';
   public static deploymentCenterRedeployCommit = 'deploymentCenterRedeployCommit';
+  public static deploymentCenterRedeployCommitAriaLabel = 'deploymentCenterRedeployCommitAriaLabel';
+  public static deploymentCenterCommitCommandsAriaLabel = 'deploymentCenterCommitCommandsAriaLabel';
   public static resourceConnection = 'resourceConnection';
   public static deploymentCenterSettingsLoadingAriaValue = 'deploymentCenterSettingsLoadingAriaValue';
   public static deploymentCenterSettingsLoading = 'deploymentCenterSettingsLoading';

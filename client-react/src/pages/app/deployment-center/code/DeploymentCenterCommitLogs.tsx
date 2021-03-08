@@ -168,7 +168,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
       iconProps: {
         iconName: 'Download',
       },
-      ariaLabel: t('deploymentCenterRedeployCommit'),
+      ariaLabel: t('deploymentCenterRedeployCommitAriaLabel'),
       onClick: onRedeployCommitClick,
     },
   ];
@@ -218,7 +218,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
             items={commandBarItems}
             role="nav"
             styles={CommandBarStyles}
-            ariaLabel={t('managePublishProfileCommandBarAriaLabel')}
+            ariaLabel={t('deploymentCenterCommitCommandsAriaLabel')}
             buttonAs={CustomCommandBarButton}
           />
           <CustomFocusTrapCallout

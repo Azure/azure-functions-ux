@@ -5988,11 +5988,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Deployment center sync command</value>
     </data>
-    <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
-    </data>
-    <data name="deploymentCenterRedeploy" xml:space="preserve">
-        <value>Sync</value>
+    <data name="deploymentCenterSyncAriaLabel" xml:space="preserve">
+        <value>Deployment center sync command</value>
     </data>
     <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Error fetching information</value>
@@ -6983,6 +6980,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterRedeployCommit" xml:space="preserve">
         <value>Redeploy commit</value>
+    </data>
+    <data name="deploymentCenterRedeployCommitAriaLabel" xml:space="preserve">
+        <value>Redeploy commit command</value>
+    </data>
+    <data name="deploymentCenterCommitCommandsAriaLabel" xml:space="preserve">
+        <value>Deployment center commit commands</value>
     </data>
     <data name="resourceConnection" xml:space="preserve">
         <value>Resource connection</value>
