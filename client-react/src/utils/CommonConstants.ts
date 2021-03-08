@@ -42,6 +42,7 @@ export class CommonConstants {
     enableAzureMount: 'enableAzureMount',
     showServiceLinkerConnector: 'showServiceLinkerConnector',
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
+    enableEditingForLinuxConsumption: 'enableEditingForLinuxConsumption',
   };
 
   public static readonly AppDensityLimit = 8;
