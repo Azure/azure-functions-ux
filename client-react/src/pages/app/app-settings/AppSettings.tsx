@@ -88,7 +88,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   };
 
   const isServiceLinkerBladeResponseSucceeded = (response?: IBladeResult<ServiceLinkerBladeResponse>) => {
-    return !!response && response.reason !== BladeCloseReason.childClosedSelf && !!response.data && response.data['isSucceeded'];
+    return !!response && response.reason !== BladeCloseReason.userNavigation && !!response.data && response.data['isSucceeded'];
   };
 
   const onResourceConnectionClick = async (
