@@ -69,9 +69,14 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
 
   const isFtpsDirty = (): boolean => {
     const currentUser = deploymentCenterPublishingContext.publishingUser;
+    const formPropsExist =
+      (!!formProps.values.publishingUsername || formProps.values.publishingUsername === '') &&
+      (!!formProps.values.publishingPassword || formProps.values.publishingPassword === '') &&
+      (!!formProps.values.publishingConfirmPassword || formProps.values.publishingConfirmPassword === '');
 
     return (
       !!currentUser &&
+      formPropsExist &&
       (currentUser.properties.publishingUserName !== formProps.values.publishingUsername ||
         (!!formProps.values.publishingPassword && currentUser.properties.publishingPassword !== formProps.values.publishingPassword))
     );
@@ -79,10 +84,6 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
 
   return (
     <Pivot>
-      <PivotItem headerText={t('deploymentCenterPivotItemLogsHeaderText')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
-        <DeploymentCenterContainerLogs logs={logs} isLogsDataRefreshing={isLogsDataRefreshing} refresh={refresh} />
-      </PivotItem>
-
       <PivotItem
         headerText={t('deploymentCenterPivotItemSettingsHeaderText')}
         ariaLabel={t('deploymentCenterPivotItemSettingsAriaLabel')}
@@ -90,6 +91,10 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
           CustomTabRenderer(link, defaultRenderer, theme, isSettingsDirty, t('modifiedTag'))
         }>
         <DeploymentCenterContainerSettings formProps={formProps} isDataRefreshing={isDataRefreshing} />
+      </PivotItem>
+
+      <PivotItem headerText={t('deploymentCenterPivotItemLogsHeaderText')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
+        <DeploymentCenterContainerLogs logs={logs} isLogsDataRefreshing={isLogsDataRefreshing} refresh={refresh} />
       </PivotItem>
 
       <PivotItem
