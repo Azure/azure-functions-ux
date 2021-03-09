@@ -20,7 +20,7 @@ import DeploymentCenterGitHubActionsCodeLogs from './DeploymentCenterGitHubActio
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const { formProps, deployments, deploymentsError, refreshLogs, isDataRefreshing, isLogsDataRefreshing } = props;
   const { t } = useTranslation();
-  const [selectedKey, setSelectedKey] = useState<string>('logs');
+  const [selectedKey, setSelectedKey] = useState<string>('settings');
   const [showLogsTab, setShowLogsTab] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -117,15 +117,6 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
 
   return (
     <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
-      {showLogsTab && (
-        <PivotItem
-          itemKey="logs"
-          headerText={t('deploymentCenterPivotItemLogsHeaderText')}
-          ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
-          {isScmGitHubActions ? getGitHubActionsCodeLogsComponent() : getCodeLogsComponent()}
-        </PivotItem>
-      )}
-
       <PivotItem
         itemKey="settings"
         headerText={t('deploymentCenterPivotItemSettingsHeaderText')}
@@ -135,6 +126,15 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
         }>
         <DeploymentCenterCodeSettings formProps={formProps} isDataRefreshing={isDataRefreshing} />
       </PivotItem>
+
+      {showLogsTab && (
+        <PivotItem
+          itemKey="logs"
+          headerText={t('deploymentCenterPivotItemLogsHeaderText')}
+          ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
+          {isScmGitHubActions ? getGitHubActionsCodeLogsComponent() : getCodeLogsComponent()}
+        </PivotItem>
+      )}
 
       <PivotItem
         itemKey="ftps"
