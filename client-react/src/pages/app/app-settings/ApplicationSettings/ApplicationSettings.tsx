@@ -168,7 +168,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
             id={`app-settings-application-settings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
-            onClick={() => removeItem(itemKey)}
+            onClick={() => onDeleteButtonClick(item)}
           />
         </TooltipHost>
       );
@@ -343,6 +343,14 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
       await props.onServiceLinkerUpdateClick(item.name);
     } else {
       onShowPanel(item);
+    }
+  };
+
+  const onDeleteButtonClick = async (item: FormAppSetting) => {
+    if (isServiceLinkerVisible() && isSettingServiceLinker(item.name) && !!props.onServiceLinkerDeleteClick) {
+      await props.onServiceLinkerDeleteClick(item.name);
+    } else {
+      removeItem(item.name);
     }
   };
 

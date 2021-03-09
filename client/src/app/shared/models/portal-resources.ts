@@ -2284,5 +2284,5 @@ export class PortalResources {
   public static deploymentCenterSettingsLoadingAriaValue = 'deploymentCenterSettingsLoadingAriaValue';
   public static deploymentCenterSettingsLoading = 'deploymentCenterSettingsLoading';
   public static ibizafication_readOnlyDotnet5 = 'ibizafication_readOnlyDotnet5';
-  public static serviceLinker = 'serviceLinker';
+  public static resourceConnector = 'resourceConnector';
 }

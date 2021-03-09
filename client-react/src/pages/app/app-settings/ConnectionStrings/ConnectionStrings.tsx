@@ -175,7 +175,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
             id={`app-settings-connection-strings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
-            onClick={() => removeItem(itemKey)}
+            onClick={() => onDeleteButtonClick(item)}
           />
         </TooltipHost>
       );
@@ -353,6 +353,14 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
       await props.onServiceLinkerUpdateClick(item.name);
     } else {
       onShowPanel(item);
+    }
+  };
+
+  const onDeleteButtonClick = async (item: FormConnectionString) => {
+    if (isServiceLinkerVisible() && isSettingServiceLinker(item.name) && !!props.onServiceLinkerDeleteClick) {
+      await props.onServiceLinkerDeleteClick(item.name);
+    } else {
+      removeItem(item.name);
     }
   };
 
