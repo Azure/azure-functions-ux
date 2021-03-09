@@ -143,6 +143,33 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
     }
   };
 
+  const onServiceLinkerDeleteClick = async (
+    settingName: string,
+    initialValues: AppSettingsFormValues | null,
+    setInitialValues: (values: AppSettingsFormValues | null) => void,
+    currentValues: AppSettingsFormValues,
+    setCurrentValues: (values: AppSettingsFormValues) => void
+  ) => {
+    const response = await portalContext.openBlade<ServiceLinkerBladeResponse>(
+      {
+        detailBlade: 'DeleteLinkerBlade',
+        detailBladeInputs: {
+          sourceResourceId: resourceId,
+          configName: settingName,
+        },
+        extension: 'ServiceLinkerExtension',
+        openAsContextBlade: true,
+      },
+      OpenBladeSource.appSettings
+    );
+    if (isServiceLinkerBladeResponseSucceeded(response)) {
+      const webAppConfig = response.data['webAppConfiguration'];
+      if (!!webAppConfig && !!initialValues) {
+        // TODO (krmitta): Quietly delete the settings once we get the confirmation of ServiceLinker's response
+      }
+    }
+  };
+
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
       {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings, setInitialValues, asyncData }) => (
@@ -228,6 +255,15 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                                 asyncData={asyncData}
                                 onServiceLinkerUpdateClick={(settingName: string) =>
                                   onServiceLinkerUpdateClick(
+                                    settingName,
+                                    initialFormValues,
+                                    setInitialValues,
+                                    formProps.values,
+                                    formProps.setValues
+                                  )
+                                }
+                                onServiceLinkerDeleteClick={(settingName: string) =>
+                                  onServiceLinkerDeleteClick(
                                     settingName,
                                     initialFormValues,
                                     setInitialValues,

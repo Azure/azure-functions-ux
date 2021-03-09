@@ -19,16 +19,14 @@ export const updateWebAppConfigForServiceLinker = (
   currentValues: AppSettingsFormValues
 ) => {
   // NOTE(krmitta): ServiceLinker blade returns all the associated settings.
-  // Instead of comparing and adding only those which are new/updated, we first filter all the ServiceLinker settings,
+  // Instead of comparing and adding only those which are new/updated, we first filter-out all the matching ServiceLinker settings,
   // And, then add the settings returned by ServiceLinker's blade.
 
   const serviceLinkerAppSettings: FormAppSetting[] = webAppConfig.appSettings || [];
   const serviceLinkerConnectionStrings: FormConnectionString[] = webAppConfig.connectionStrings || [];
-  let filteredAppSettings = initialValues.appSettings.filter(appSetting =>
-    appSetting.name.startsWith(CommonConstants.AppSettingNames.serviceLinkerPrefix)
-  );
-  let filteredConnectionStrings = initialValues.connectionStrings.filter(connStr =>
-    connStr.name.startsWith(CommonConstants.AppSettingNames.serviceLinkerPrefix)
+  let filteredAppSettings = initialValues.appSettings.filter(appSetting => !settingExists(appSetting.name, serviceLinkerAppSettings));
+  let filteredConnectionStrings = initialValues.connectionStrings.filter(
+    connStr => !settingExists(connStr.name, serviceLinkerConnectionStrings)
   );
 
   setInitialValues({
@@ -37,15 +35,17 @@ export const updateWebAppConfigForServiceLinker = (
     connectionStrings: [...filteredConnectionStrings, ...serviceLinkerConnectionStrings],
   });
 
-  filteredAppSettings = currentValues.appSettings.filter(appSetting =>
-    appSetting.name.startsWith(CommonConstants.AppSettingNames.serviceLinkerPrefix)
-  );
-  filteredConnectionStrings = currentValues.connectionStrings.filter(connStr =>
-    connStr.name.startsWith(CommonConstants.AppSettingNames.serviceLinkerPrefix)
+  filteredAppSettings = currentValues.appSettings.filter(appSetting => !settingExists(appSetting.name, serviceLinkerAppSettings));
+  filteredConnectionStrings = currentValues.connectionStrings.filter(
+    connStr => !settingExists(connStr.name, serviceLinkerConnectionStrings)
   );
   setCurrentValues({
     ...currentValues,
-    appSettings: [...currentValues.appSettings, ...serviceLinkerAppSettings],
-    connectionStrings: [...currentValues.connectionStrings, ...serviceLinkerConnectionStrings],
+    appSettings: [...filteredAppSettings, ...serviceLinkerAppSettings],
+    connectionStrings: [...filteredConnectionStrings, ...serviceLinkerConnectionStrings],
   });
+};
+
+export const settingExists = (settingName: string, allSettings: FormAppSetting[] | FormConnectionString[]) => {
+  return allSettings.findIndex(setting => setting.name.toLowerCase() === settingName.toLowerCase()) > -1;
 };
