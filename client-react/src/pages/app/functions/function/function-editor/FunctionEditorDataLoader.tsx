@@ -160,10 +160,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
 
     if (appSettingsResponse.metadata.success) {
-      const appSettings = appSettingsResponse.data.properties;
+      const appSettingsProperties = appSettingsResponse.data.properties;
       setAppSettings(appSettingsResponse.data);
-      if (appSettings.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
-        setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
+      if (appSettingsProperties.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
+        setWorkerRuntime(appSettingsProperties[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
       }
     } else {
       LogService.error(
