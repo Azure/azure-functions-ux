@@ -135,6 +135,10 @@ export class DeploymentCenterComponent implements OnDestroy {
     return this.scmType === 'VSTSRM';
   }
 
+  get vstsDeploymentNotSetup() {
+    return this.scmType && this.scmType !== 'VSTSRM';
+  }
+
   get noDeploymentSetup() {
     return this.scmType === 'None';
   }
