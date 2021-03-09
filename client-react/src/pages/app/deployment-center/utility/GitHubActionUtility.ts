@@ -253,11 +253,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Node.js version
       uses: actions/setup-node@v1
@@ -270,7 +270,27 @@ jobs:
         npm run build --if-present
         npm run test --if-present
 
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: node-app
+        path: .
+
+  deploy:
+    runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
+    needs: build
+    environment:
+      name: '${slot}'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: node-app
+
     - name: 'Deploy to Azure Web App'
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -307,7 +327,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Python version
       uses: actions/setup-python@v1
@@ -360,7 +380,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Python version
       uses: actions/setup-python@v1
@@ -406,11 +426,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
@@ -423,13 +443,33 @@ jobs:
     - name: dotnet publish
       run: dotnet publish -c Release -o \${{env.DOTNET_ROOT}}/myapp
 
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: .net-app
+        path: \${{env.DOTNET_ROOT}}/myapp
+
+  deploy:
+    runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
+    needs: build
+    environment:
+      name: '${slot}'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: .net-app
+
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: \${{env.DOTNET_ROOT}}/myapp `;
+        package: .`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -457,11 +497,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Java version
       uses: actions/setup-java@v1
@@ -471,13 +511,33 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
 
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: java-app
+        path: '\${{ github.workspace }}/target/*.jar'
+
+  deploy:
+    runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
+    needs: build
+    environment:
+      name: '${slot}'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: java-app
+
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: '\${{ github.workspace }}/target/*.jar'`;
+        package: '*.jar'`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -505,11 +565,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Java version
       uses: actions/setup-java@v1
@@ -519,13 +579,33 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
 
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: java-app
+        path: '\${{ github.workspace }}/target/*.war'
+
+  deploy:
+    runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
+    needs: build
+    environment:
+      name: '${slot}'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: java-app
+
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: '\${{ github.workspace }}/target/*.war'`;
+        package: '*.war'`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -552,11 +632,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: 'windows-latest'
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Setup MSBuild path
       uses: microsoft/setup-msbuild@v1.0.2
@@ -570,13 +650,33 @@ jobs:
     - name: Publish to folder
       run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\\published\\"
 
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: ASP-app
+        path: 'published'
+
+  deploy:
+    runs-on: 'windows-latest'
+    needs: build
+    environment:
+      name: '__slotname__'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: ASP-app 
+
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: \\published\\`;
+        package: .`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -614,11 +714,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: 'ubuntu-latest'
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
 
     - uses: azure/docker-login@v1
       with:
@@ -626,11 +729,23 @@ jobs:
         username: \${{ secrets.${containerUsernameSecretName} }}
         password: \${{ secrets.${containerPasswordSecretName} }}
 
-    - run: |
-        docker build . -t ${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
-        docker push ${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
+    - name: Build and push container image to registry
+      uses: docker/build-push-action@v2.2.1
+      with:
+        push: true
+        tags: __image__:\${{ github.sha }}
+        file: ./Dockerfile
+  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: '__slotname__'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
+    steps:
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -669,7 +784,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup DotNet \${{ env.DOTNET_VERSION }} Environment
       uses: actions/setup-dotnet@v1
@@ -724,7 +839,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup DotNet \${{ env.DOTNET_VERSION }} Environment
       uses: actions/setup-dotnet@v1
@@ -778,7 +893,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup Node \${{ env.NODE_VERSION }} Environment
       uses: actions/setup-node@v1
@@ -834,7 +949,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup Node \${{ env.NODE_VERSION }} Environment
       uses: actions/setup-node@v1
@@ -889,7 +1004,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
@@ -932,7 +1047,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup Java Sdk \${{ env.JAVA_VERSION }}
       uses: actions/setup-java@v1
@@ -987,7 +1102,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup Java Sdk \${{ env.JAVA_VERSION }}
       uses: actions/setup-java@v1
@@ -1041,7 +1156,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Setup Python \${{ env.PYTHON_VERSION }} Environment
       uses: actions/setup-python@v1
