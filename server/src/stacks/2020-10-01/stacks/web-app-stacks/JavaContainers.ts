@@ -114,6 +114,17 @@ export const javaContainersStack: WebAppStack = {
           }
         },
         {
+          displayText: 'JBoss EAP 7.3',
+          value: '7.3',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JBOSSEAP|7.3-java8',
+              java11Runtime: 'JBOSSEAP|7.3-java11',
+              isPreview: true,
+            },
+          },
+        },
+        {
           displayText: 'JBoss EAP 7.2',
           value: '7.2',
           stackSettings: {
