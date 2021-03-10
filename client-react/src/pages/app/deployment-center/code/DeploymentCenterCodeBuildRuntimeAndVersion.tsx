@@ -23,6 +23,7 @@ import { FunctionAppRuntimes, FunctionAppStack } from '../../../../models/stacks
 import { AppStackOs } from '../../../../models/stacks/app-stacks';
 import { KeyValue } from '../../../../models/portal-models';
 import { PortalContext } from '../../../../PortalContext';
+import { ArmArray } from '../../../../models/arm-obj';
 
 type StackSettings = WebAppRuntimes & JavaContainers | FunctionAppRuntimes;
 
@@ -33,7 +34,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   const [selectedVersion, setSelectedVersion] = useState<string | undefined>(undefined);
   // NOTE(michinoy): Disabling preferred array literal rule to allow '.find' operation on the runtimeStacksData.
   // tslint:disable-next-line: prefer-array-literal
-  const [runtimeStacksData, setRuntimeStacksData] = useState<Array<WebAppStack | FunctionAppStack>>([]);
+  const [runtimeStacksData, setRuntimeStacksData] = useState<ArmArray<WebAppStack | FunctionAppStack>>({ value: [] });
   const [runtimeStackOptions, setRuntimeStackOptions] = useState<IDropdownOption[]>([]);
   const [runtimeVersionOptions, setRuntimeVersionOptions] = useState<IDropdownOption[]>([]);
   const [defaultStack, setDefaultStack] = useState<string>('');
@@ -78,11 +79,11 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     if (runtimeStacksResponse.metadata.success) {
       // NOTE(michinoy): Disabling preferred array literal rule to allow '.map' operation on the runtimeStacksData.
       // tslint:disable-next-line: prefer-array-literal
-      const runtimeStacks = runtimeStacksResponse.data as Array<WebAppStack | FunctionAppStack>;
+      const runtimeStacks = runtimeStacksResponse.data as ArmArray<WebAppStack | FunctionAppStack>;
       setRuntimeStacksData(runtimeStacks);
       setRuntimeStackOptions(
-        runtimeStacks.map(stack => {
-          return { text: stack.displayText, key: stack.value.toLocaleLowerCase() };
+        runtimeStacks.value.map(stack => {
+          return { text: stack.properties.displayText, key: stack.properties.value.toLocaleLowerCase() };
         })
       );
     } else {
@@ -96,12 +97,12 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   };
 
   const populateVersionDropdown = (selectedStack: string) => {
-    const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === selectedStack);
+    const runtimeStack = runtimeStacksData.value.find(stack => stack.properties.value.toLocaleLowerCase() === selectedStack);
 
     if (runtimeStack) {
       const displayedVersions: IDropdownOption[] = [];
 
-      runtimeStack.majorVersions.forEach(majorVersion => {
+      runtimeStack.properties.majorVersions.forEach(majorVersion => {
         majorVersion.minorVersions.forEach(minorVersion => {
           let value = minorVersion.value;
 
