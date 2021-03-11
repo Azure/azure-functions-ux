@@ -2,6 +2,7 @@
 # Build a Node.js project using the gulp task runner.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+# For Localization task, we need to use windows image since OneLocBuildTask is not supported otherwise
 jobs:
   - job: ReactBuild
     pool:
@@ -129,8 +130,7 @@ jobs:
         inputs:
           locProj: 'server/LocProject.json'
           outDir: '$(Build.ArtifactStagingDirectory)'
-          packageSourceAuth: 'patAuth'
-          patVariable: $(OneLocBuildPAT)
+          patVariable: $(OneLocPat)
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: loc'
