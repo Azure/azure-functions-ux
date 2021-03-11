@@ -34,7 +34,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   const [selectedVersion, setSelectedVersion] = useState<string | undefined>(undefined);
   // NOTE(michinoy): Disabling preferred array literal rule to allow '.find' operation on the runtimeStacksData.
   // tslint:disable-next-line: prefer-array-literal
-  const [runtimeStacksData, setRuntimeStacksData] = useState<ArmArray<WebAppStack | FunctionAppStack>>({ value: [] });
+  const [runtimeStacksData, setRuntimeStacksData] = useState<Array<WebAppStack | FunctionAppStack>>([]);
   const [runtimeStackOptions, setRuntimeStackOptions] = useState<IDropdownOption[]>([]);
   const [runtimeVersionOptions, setRuntimeVersionOptions] = useState<IDropdownOption[]>([]);
   const [defaultStack, setDefaultStack] = useState<string>('');
@@ -79,11 +79,11 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     if (runtimeStacksResponse.metadata.success) {
       // NOTE(michinoy): Disabling preferred array literal rule to allow '.map' operation on the runtimeStacksData.
       // tslint:disable-next-line: prefer-array-literal
-      const runtimeStacks = runtimeStacksResponse.data as ArmArray<WebAppStack | FunctionAppStack>;
+      const runtimeStacks = (runtimeStacksResponse.data as ArmArray<WebAppStack | FunctionAppStack>).value.map(stack => stack.properties);
       setRuntimeStacksData(runtimeStacks);
       setRuntimeStackOptions(
-        runtimeStacks.value.map(stack => {
-          return { text: stack.properties.displayText, key: stack.properties.value.toLocaleLowerCase() };
+        runtimeStacks.map(stack => {
+          return { text: stack.displayText, key: stack.value.toLocaleLowerCase() };
         })
       );
     } else {
@@ -97,12 +97,12 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   };
 
   const populateVersionDropdown = (selectedStack: string) => {
-    const runtimeStack = runtimeStacksData.value.find(stack => stack.properties.value.toLocaleLowerCase() === selectedStack);
+    const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === selectedStack);
 
     if (runtimeStack) {
       const displayedVersions: IDropdownOption[] = [];
 
-      runtimeStack.properties.majorVersions.forEach(majorVersion => {
+      runtimeStack.majorVersions.forEach(majorVersion => {
         majorVersion.minorVersions.forEach(minorVersion => {
           let value = minorVersion.value;
 
