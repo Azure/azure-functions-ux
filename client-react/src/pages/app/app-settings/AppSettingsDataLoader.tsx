@@ -152,14 +152,22 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       if (isFunctionApp(site.data)) {
         const stacksResponse = await RuntimeStackService.getFunctionAppConfigurationStacks(isLinux ? AppStackOs.linux : AppStackOs.windows);
         if (stacksResponse.metadata.status) {
-          setFunctionAppStacks(stacksResponse.data);
+          const allFunctionAppStacks: FunctionAppStack[] = [];
+          stacksResponse.data.value.forEach(stack => {
+            allFunctionAppStacks.push(stack.properties);
+          });
+          setFunctionAppStacks(allFunctionAppStacks);
         } else {
           loadingFailed = true;
         }
       } else {
         const stacksResponse = await RuntimeStackService.getWebAppConfigurationStacks(isLinux ? AppStackOs.linux : AppStackOs.windows);
         if (stacksResponse.metadata.status) {
-          setWebAppStacks(stacksResponse.data);
+          const allWebAppStacks: WebAppStack[] = [];
+          stacksResponse.data.value.forEach(stack => {
+            allWebAppStacks.push(stack.properties);
+          });
+          setWebAppStacks(allWebAppStacks);
         } else {
           loadingFailed = true;
         }
