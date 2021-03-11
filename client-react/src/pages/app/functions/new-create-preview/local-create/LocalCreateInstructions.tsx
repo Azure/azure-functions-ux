@@ -10,7 +10,7 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import Markdown from 'markdown-to-jsx';
-import { MarkdownHighlighter } from '../../../../../components/MarkdownComponents/MarkdownComponents';
+import { MarkdownHighlighter, StackInstructions } from '../../../../../components/MarkdownComponents/MarkdownComponents';
 import { ChevronUp } from './CustomMarkdownComponents';
 import { linkStyle } from './LocalCreateInstructions.style';
 import { localCreateContainerStyle } from '../FunctionCreate.styles';
@@ -88,6 +88,12 @@ const LocalCreateInstructions: React.FC<LocalCreateInstructionsProps> = props =>
               a: {
                 props: {
                   className: linkStyle(theme),
+                },
+              },
+              StackInstructions: {
+                component: StackInstructions,
+                props: {
+                  stack: workerRuntime,
                 },
               },
             },
