@@ -130,7 +130,8 @@ jobs:
         inputs:
           locProj: 'server/LocProject.json'
           outDir: '$(Build.ArtifactStagingDirectory)'
-          patVariable: $(OneLocPat)
+          packageSourceAuth: 'patAuth'
+          patVariable: $(OneLocBuildPAT)
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: loc'
