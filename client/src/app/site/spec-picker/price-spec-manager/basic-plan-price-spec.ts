@@ -64,7 +64,10 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
         this.state = 'hidden';
       }
 
-      if (input.specPickerInput.data.isLinux && input.specPickerInput.data.isNewFunctionAppCreate) {
+      if (
+        !input.specPickerInput.data.isLinux ||
+        (input.specPickerInput.data.isLinux && input.specPickerInput.data.isNewFunctionAppCreate)
+      ) {
         return this.checkIfDreamspark(input.subscriptionId);
       }
     }
