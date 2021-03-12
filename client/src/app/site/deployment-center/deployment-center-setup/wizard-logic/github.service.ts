@@ -248,7 +248,7 @@ jobs:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Node.js version
       uses: actions/setup-node@v1
@@ -297,7 +297,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Python version
       uses: actions/setup-python@v1
@@ -349,7 +349,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Python version
       uses: actions/setup-python@v1
@@ -398,7 +398,7 @@ jobs:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
@@ -412,6 +412,7 @@ jobs:
       run: dotnet publish -c Release -o \${{env.DOTNET_ROOT}}/myapp
 
     - name: Deploy to Azure Web App
+id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -448,7 +449,7 @@ jobs:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Java version
       uses: actions/setup-java@v1
@@ -459,6 +460,7 @@ jobs:
       run: mvn clean install
 
     - name: Deploy to Azure Web App
+id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -495,7 +497,7 @@ jobs:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Java version
       uses: actions/setup-java@v1
@@ -506,6 +508,7 @@ jobs:
       run: mvn clean install
 
     - name: Deploy to Azure Web App
+id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -541,7 +544,7 @@ jobs:
     runs-on: 'windows-latest'
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Setup MSBuild path
       uses: microsoft/setup-msbuild@v1.0.0
@@ -556,6 +559,7 @@ jobs:
       run: msbuild /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=./published/ /p:PackageAsSingleFile=false
 
     - name: Deploy to Azure Web App
+id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'

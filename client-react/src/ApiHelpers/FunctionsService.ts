@@ -115,7 +115,9 @@ export default class FunctionsService {
 
   public static getQuickStartFile(filename: string, language: string) {
     return sendHttpRequest<string>({
-      url: `${Url.serviceHost}api/quickstart?language=${language}&fileName=${filename}-v2&cacheBreak=${window.appsvc &&
+      url: `${
+        Url.serviceHost
+      }api/quickstart?language=${language}&fileName=${filename}-react-localDevExperience&cacheBreak=${window.appsvc &&
         window.appsvc.cacheBreakQuery}`,
       method: 'GET',
       headers: getTextHeaders(),

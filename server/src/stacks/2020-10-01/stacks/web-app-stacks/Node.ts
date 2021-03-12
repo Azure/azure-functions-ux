@@ -55,7 +55,6 @@ export const nodeStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '14.x',
               },
-              isEarlyAccess: true,
               endOfLifeDate: node14EOL,
             },
             windowsRuntimeSettings: {
@@ -68,7 +67,6 @@ export const nodeStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '14.x',
               },
-              isEarlyAccess: true,
               endOfLifeDate: node14EOL,
             },
           },

@@ -11,6 +11,7 @@ import PortalCommunicator from '../../../../../../portal-communicator';
 import { PortalContext } from '../../../../../../PortalContext';
 import { ThemeExtended } from '../../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../../ThemeContext';
+import { BindingManager } from '../../../../../../utils/BindingManager';
 import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
 import { getBindingDirection } from '../FunctionIntegrate.utils';
@@ -67,7 +68,9 @@ const getContent = (
         <Link
           onClick={() => {
             loadBindingSettings(
-              bindings.find(binding => binding.type === item.type && binding.direction === BindingDirection.in)!.id,
+              bindings.find(
+                binding => BindingManager.isBindingTypeEqual(binding.type, item.type) && binding.direction === BindingDirection.in
+              )!.id,
               false
             ).then(() => {
               editExisting(portalCommunicator, t, functionInfo, item, bindingEditorContext, BindingDirection.in);

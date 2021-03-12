@@ -2,7 +2,6 @@ import { Component, Injector, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { SiteConfig } from '../../../shared/models/arm/site-config';
 import { AiService } from '../../../shared/services/ai.service';
 import { PortalService } from '../../../shared/services/portal.service';
 import { InfoBoxType } from './../../../controls/info-box/info-box.component';
@@ -286,7 +285,6 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     const siteId = this._slotsArm[0].id;
     const location = this._slotsArm[0].location;
     const serverFarmId = this._slotsArm[0].properties.serverFarmId;
-    const cloneConfig: SiteConfig | undefined = !this.isFunctionApp ? newSlotConfig : undefined;
 
     const slotNewInfo: SlotNewInfo = {
       resourceId: `${siteId}/slots/${newSlotName}`,
@@ -309,26 +307,36 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
       return slot.id === this.addForm.controls['cloneSrcId'].value;
     });
 
-    const newSlot: CreateSlotRequest = !!sourceSlot
-      ? {
-          location: location,
-          properties: {
-            serverFarmId: serverFarmId,
-            // If the source slot has a '/' we know it's a slot, not production
-            siteConfig: sourceSlot.name.includes('/') ? cloneConfig : undefined,
-            httpsOnly: sourceSlot.properties.httpsOnly,
-            clientCertEnabled: sourceSlot.properties.clientCertEnabled,
-            clientCertMode: sourceSlot.properties.clientCertMode,
-            clientCertExclusionPaths: sourceSlot.properties.clientCertExclusionPaths,
-          },
-        }
-      : {
-          location: location,
-          properties: {
-            serverFarmId: serverFarmId,
-            siteConfig: {},
-          },
-        };
+    let newSlot: CreateSlotRequest;
+    if (this.isFunctionApp) {
+      newSlot = {
+        location: location,
+        properties: {
+          serverFarmId: serverFarmId,
+        },
+      };
+    } else {
+      newSlot = !!sourceSlot
+        ? {
+            location: location,
+            properties: {
+              serverFarmId: serverFarmId,
+              // If the source slot has a '/' we know it's a slot, not production
+              siteConfig: sourceSlot.name.includes('/') ? newSlotConfig : undefined,
+              httpsOnly: sourceSlot.properties.httpsOnly,
+              clientCertEnabled: sourceSlot.properties.clientCertEnabled,
+              clientCertMode: sourceSlot.properties.clientCertMode,
+              clientCertExclusionPaths: sourceSlot.properties.clientCertExclusionPaths,
+            },
+          }
+        : {
+            location: location,
+            properties: {
+              serverFarmId: serverFarmId,
+              siteConfig: {},
+            },
+          };
+    }
 
     this._enableSlotOptIn(siteId)
       .switchMap(s => {

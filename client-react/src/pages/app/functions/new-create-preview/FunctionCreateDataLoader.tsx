@@ -198,7 +198,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   const fetchData = async () => {
     const appSettingsResponse = await SiteService.fetchApplicationSettings(resourceId);
     if (appSettingsResponse.metadata.success) {
-      const appSettings = appSettingsResponse.data;
+      const appSettings = appSettingsResponse.data.properties;
       if (appSettings.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
         setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
       }

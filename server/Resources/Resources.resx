@@ -5992,7 +5992,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Deployment center redeploy command</value>
     </data>
     <data name="deploymentCenterRedeploy" xml:space="preserve">
-        <value>Redeploy/Sync</value>
+        <value>Sync</value>
     </data>
     <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Error fetching information</value>
@@ -6992,5 +6992,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterSettingsLoading" xml:space="preserve">
         <value>Loading deployment settings...</value>
+    </data>
+    <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
+        <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+    </data>
+    <data name="resourceConnector" xml:space="preserve">
+        <value>Resource Connector</value>
     </data>
 </root>

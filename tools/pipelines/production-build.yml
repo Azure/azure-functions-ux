@@ -224,10 +224,8 @@ jobs:
           bitbucketClientId: $(bitbucketClientId)
           githubClientId: $(githubClientId)
           githubClientSecret: $(githubClientSecret)
-          githubMooncakeClientId: $(githubMooncakeClientId)
-          githubMooncakeClientSecret: $(githubMooncakeClientSecret)
-          githubFairfaxClientId: $(githubFairfaxClientId)
-          githubFairfaxClientSecret: $(githubFairfaxClientSecret)
+          githubNationalCloudsClientId: $(githubNationalCloudsClientId)
+          githubNationalCloudsClientSecret: $(githubNationalCloudsClientSecret)
           githubRedirectUrl: $(githubRedirectUrl)
           bitbucketClientSecret: $(bitbucketClientSecret)
           bitbucketRedirectUrl: $(bitbucketRedirectUrl)
@@ -241,10 +239,8 @@ jobs:
           staticSitesGithubClientSecret: $(staticSitesGithubClientSecret)
           githubForCreatesClientId: $(githubForCreatesClientId)
           githubForCreatesClientSecret: $(githubForCreatesClientSecret)
-          githubForCreatesMooncakeClientId: $(githubForCreatesMooncakeClientId)
-          githubForCreatesMooncakeClientSecret: $(githubForCreatesMooncakeClientSecret)
-          githubForCreatesFairfaxClientId: $(githubForCreatesFairfaxClientId)
-          githubForCreatesFairfaxClientSecret: $(githubForCreatesFairfaxClientSecret)
+          githubForCreatesNationalCloudsClientId: $(githubForCreatesNationalCloudsClientId)
+          githubForCreatesNationalCloudsClientSecret: $(githubForCreatesNationalCloudsClientSecret)
 
       - script: |
           cd server/dist

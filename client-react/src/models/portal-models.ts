@@ -323,6 +323,7 @@ export enum FunctionAppEditMode {
   ReadOnlyLock,
   ReadOnlyRbac,
   ReadOnlyCustom,
+  ReadOnlyDotnet5,
 }
 
 export enum PortalTheme {
@@ -332,4 +333,13 @@ export enum PortalTheme {
 
 export interface KeyValue<T> {
   [key: string]: T;
+}
+
+export enum BladeCloseReason {
+  userNavigation = 'userNavigation',
+  childClosedSelf = 'childClosedSelf',
+}
+
+export enum OpenBladeSource {
+  appSettings = 'app-settings',
 }

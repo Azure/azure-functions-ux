@@ -42,6 +42,7 @@ export class CommonConstants {
     enableAzureMount: 'enableAzureMount',
     showServiceLinkerConnector: 'showServiceLinkerConnector',
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
+    enableEditingForLinuxConsumption: 'enableEditingForLinuxConsumption',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -63,6 +64,7 @@ export class CommonConstants {
     websiteRunFromPackage: 'WEBSITE_RUN_FROM_PACKAGE',
     localCacheOptionSettingName: 'WEBSITE_LOCAL_CACHE_OPTION',
     functionAppEditModeSettingName: 'FUNCTION_APP_EDIT_MODE',
+    serviceLinkerPrefix: 'resourceconnector_',
   };
 
   public static readonly SkuNames = {
@@ -157,4 +159,5 @@ export enum WorkerRuntimeLanguages {
   powershell = 'powershell',
   php = 'php',
   custom = 'custom',
+  dotnet5 = 'dotnet-isolated',
 }

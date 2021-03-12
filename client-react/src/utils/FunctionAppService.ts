@@ -41,4 +41,9 @@ export default class FunctionAppService {
     const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
     return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.custom;
   }
+
+  public static usingDotnet5WorkerRuntime(appSettings: ArmObj<KeyValue<string>>): boolean {
+    const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
+    return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.dotnet5;
+  }
 }

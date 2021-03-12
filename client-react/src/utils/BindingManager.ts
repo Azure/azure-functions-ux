@@ -4,7 +4,7 @@ import { BindingInfo, BindingType } from '../models/functions/function-binding';
 export class BindingManager {
   public static getHttpTriggerTypeInfo = (functionInfo: FunctionInfo): BindingInfo | undefined => {
     return functionInfo.config && functionInfo.config.bindings
-      ? functionInfo.config.bindings.find(e => e.type === BindingType.httpTrigger)
+      ? functionInfo.config.bindings.find(e => BindingManager.isBindingTypeEqual(e.type, BindingType.httpTrigger))
       : undefined;
   };
 
@@ -18,7 +18,11 @@ export class BindingManager {
 
   public static getEventGridTriggerInfo = (functionInfo: FunctionInfo): BindingInfo | undefined => {
     return functionInfo.config && functionInfo.config.bindings
-      ? functionInfo.config.bindings.find(e => e.type === BindingType.eventGridTrigger)
+      ? functionInfo.config.bindings.find(e => BindingManager.isBindingTypeEqual(e.type, BindingType.eventGridTrigger))
       : undefined;
+  };
+
+  public static isBindingTypeEqual = (bindingType1: BindingType | string, bindingType2: BindingType | string): boolean => {
+    return bindingType1.toString().toLowerCase() === bindingType2.toString().toLowerCase();
   };
 }
