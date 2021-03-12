@@ -70,7 +70,11 @@ export abstract class DV3SeriesPriceSpec extends PriceSpec {
       this.state = this._shouldHideForExistingPlan(input.plan) ? 'hidden' : this.state;
 
       return this._checkIfSkuEnabledOnStamp(input.plan.id).switchMap(_ => {
-        return this.checkIfDreamspark(input.subscriptionId);
+        if (!input.plan.properties.reserved) {
+          return this.checkIfDreamspark(input.subscriptionId);
+        } else {
+          return Observable.of(null);
+        }
       });
     } else if (input.specPickerInput.data) {
       const isXenon = input.specPickerInput.data.hyperV || input.specPickerInput.data.isXenon;

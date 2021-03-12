@@ -73,9 +73,7 @@ export class FreePlanPriceSpec extends PriceSpec {
         this.state = 'hidden';
       }
 
-      return this._checkIfSkuEnabledOnStamp(input.plan.id).switchMap(_ => {
-        return this.checkIfDreamspark(input.subscriptionId);
-      });
+      return this._checkIfSkuEnabledOnStamp(input.plan.id);
     } else if (input.specPickerInput.data) {
       isLinux = input.specPickerInput.data.isLinux;
       if (isLinux) {

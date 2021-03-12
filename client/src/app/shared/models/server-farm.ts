@@ -4,4 +4,5 @@ export interface ServerFarm {
   provisioningState?: 'InProgress' | 'Succeeded' | 'Failed';
   hyperV?: boolean;
   numberOfWorkers?: number;
+  reserved?: boolean;
 }
