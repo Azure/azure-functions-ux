@@ -60,6 +60,8 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
       return this._checkIfSkuEnabledOnStamp(input.plan.id).switchMap(_ => {
         if (!input.plan.properties.reserved) {
           return this.checkIfDreamspark(input.subscriptionId);
+        } else {
+          return Observable.of(null);
         }
       });
     } else if (input.specPickerInput.data) {
