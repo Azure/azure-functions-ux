@@ -3,6 +3,7 @@ import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
+import { Observable } from 'rxjs/Observable';
 
 export abstract class BasicPlanPriceSpec extends PriceSpec {
   tier = Tier.basic;
@@ -50,6 +51,11 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
       ) {
         this.state = 'hidden';
       }
+      if (input.plan.properties.reserved) {
+        return Observable.of(null);
+      } else {
+        return this.checkIfDreamspark(input.subscriptionId);
+      }
     } else if (input.specPickerInput.data) {
       if (
         input.specPickerInput.data.hostingEnvironmentName ||
@@ -59,9 +65,14 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
       ) {
         this.state = 'hidden';
       }
-    }
 
-    return this.checkIfDreamspark(input.subscriptionId);
+      if (input.specPickerInput.data.isLinux && !input.specPickerInput.data.isNewFunctionAppCreate) {
+        return Observable.of(null);
+      } else {
+        return this.checkIfDreamspark(input.subscriptionId);
+      }
+    }
+    return Observable.of(null);
   }
 }
 
