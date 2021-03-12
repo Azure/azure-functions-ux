@@ -58,7 +58,11 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
       this.state = this._shouldHideForExistingPlan(input.plan) ? 'hidden' : this.state;
 
       return this._checkIfSkuEnabledOnStamp(input.plan.id).switchMap(_ => {
-        return this.checkIfDreamspark(input.subscriptionId);
+        if (!input.plan.properties.reserved) {
+          return this.checkIfDreamspark(input.subscriptionId);
+        } else {
+          return Observable.of(null);
+        }
       });
     } else if (input.specPickerInput.data) {
       this.state = this._shouldHideForNewPlan(input.specPickerInput.data) ? 'hidden' : this.state;
