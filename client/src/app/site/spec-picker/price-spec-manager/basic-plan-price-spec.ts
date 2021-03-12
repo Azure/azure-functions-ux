@@ -51,9 +51,7 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
       ) {
         this.state = 'hidden';
       }
-      if (input.plan.properties.reserved) {
-        return Observable.of(null);
-      } else {
+      if (!input.plan.properties.reserved) {
         return this.checkIfDreamspark(input.subscriptionId);
       }
     } else if (input.specPickerInput.data) {
@@ -66,9 +64,7 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
         this.state = 'hidden';
       }
 
-      if (input.specPickerInput.data.isLinux && !input.specPickerInput.data.isNewFunctionAppCreate) {
-        return Observable.of(null);
-      } else {
+      if (input.specPickerInput.data.isLinux && input.specPickerInput.data.isNewFunctionAppCreate) {
         return this.checkIfDreamspark(input.subscriptionId);
       }
     }

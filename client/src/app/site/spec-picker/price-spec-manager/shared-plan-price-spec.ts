@@ -61,9 +61,7 @@ export class SharedPlanPriceSpec extends PriceSpec {
         this.state = 'hidden';
       }
 
-      if (input.plan.properties.reserved) {
-        return Observable.of(null);
-      } else {
+      if (!input.plan.properties.reserved) {
         return this.checkIfDreamspark(input.subscriptionId);
       }
     } else if (input.specPickerInput.data) {
