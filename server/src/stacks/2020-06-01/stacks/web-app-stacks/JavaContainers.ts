@@ -107,9 +107,9 @@ export const javaContainersStack: WebAppStack = {
           stackSettings: {
             linuxContainerSettings: {
               java8Runtime: 'JBOSSEAP|7-java8',
-              java11Runtime: "JBOSSEAP|7-java11",
+              java11Runtime: 'JBOSSEAP|7-java11',
               isPreview: true,
-              isAutoUpdate: true
+              isAutoUpdate: true,
             },
           },
         },
@@ -122,7 +122,7 @@ export const javaContainersStack: WebAppStack = {
               java11Runtime: 'JBOSSEAP|7.3-java11',
               isPreview: true,
             },
-          }
+          },
         },
         {
           displayText: 'JBoss EAP 7.2',
@@ -132,8 +132,8 @@ export const javaContainersStack: WebAppStack = {
               java8Runtime: 'JBOSSEAP|7.2-java8',
               isPreview: true,
             },
-          }
-        }
+          },
+        },
       ],
     },
     {
@@ -157,14 +157,14 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: "Tomcat 9.0.41",
-          value: "9.0.41",
+          displayText: 'Tomcat 9.0.41',
+          value: '9.0.41',
           stackSettings: {
             linuxContainerSettings: {
-              java8Runtime: "TOMCAT|9.0.41-java8",
-              java11Runtime: "TOMCAT|9.0.41-java11"
-            }
-          }
+              java8Runtime: 'TOMCAT|9.0.41-java8',
+              java11Runtime: 'TOMCAT|9.0.41-java11',
+            },
+          },
         },
         {
           displayText: 'Tomcat 9.0.38',
@@ -173,7 +173,7 @@ export const javaContainersStack: WebAppStack = {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '9.0.38',
-            }
+            },
           },
         },
         {
