@@ -39,12 +39,12 @@ export class KubeApp extends Environment {
     };
 
     this.scenarioChecks[ScenarioIds.kuduBuildProvider] = {
-      id: ScenarioIds.ftpSource,
+      id: ScenarioIds.kuduBuildProvider,
       runCheck: () => ({ status: 'disabled' }),
     };
 
     this.scenarioChecks[ScenarioIds.azurePipelinesBuildProvider] = {
-      id: ScenarioIds.ftpSource,
+      id: ScenarioIds.azurePipelinesBuildProvider,
       runCheck: () => ({ status: 'disabled' }),
     };
   }
