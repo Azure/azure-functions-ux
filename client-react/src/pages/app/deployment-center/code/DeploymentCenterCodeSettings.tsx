@@ -16,7 +16,7 @@ import {
   getCodeFunctionAppCodeWorkflowInformation,
   isWorkflowOptionExistingOrAvailable,
 } from '../utility/GitHubActionUtility';
-import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { getWorkflowFileName, isGitHubActionSetupViaMetadata } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
@@ -48,19 +48,23 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [isPreviewFileButtonDisabled, setIsPreviewFileButtonDisabled] = useState(false);
   const [panelMessage, setPanelMessage] = useState('');
 
-  const isDeploymentSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.None;
+  const isDeploymentSetup = siteStateContext.isKubeApp
+    ? isGitHubActionSetupViaMetadata(deploymentCenterContext.configMetadata)
+    : deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.None;
 
   const isKuduBuild = formProps.values.buildProvider === BuildProvider.AppServiceBuildService;
   const isVstsBuild = formProps.values.buildProvider === BuildProvider.Vsts;
 
   const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
   const isGitHubActionsBuild = formProps.values.buildProvider === BuildProvider.GitHubAction;
-  const isGitHubActionsSetup =
-    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
-  const isGitHubSourceSetup =
-    deploymentCenterContext.siteConfig &&
-    (deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction ||
-      deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHub);
+  const isGitHubActionsSetup = siteStateContext.isKubeApp
+    ? isGitHubActionSetupViaMetadata(deploymentCenterContext.configMetadata)
+    : deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+  const isGitHubSourceSetup = siteStateContext.isKubeApp
+    ? isGitHubActionSetupViaMetadata(deploymentCenterContext.configMetadata)
+    : deploymentCenterContext.siteConfig &&
+      (deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction ||
+        deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHub);
   const isUsingExistingOrAvailableWorkflowConfig = isWorkflowOptionExistingOrAvailable(formProps.values.workflowOption);
 
   const isBitbucketSource = formProps.values.sourceProvider === ScmType.BitbucketGit;
@@ -204,7 +208,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {!isTfsOrVsoSetup && <DeploymentCenterCodeBuildConfiguredView />}
         </>
       ) : (
-        <div tabIndex={-1}>
+        <div>
           <DeploymentCenterCodeSourceAndBuild formProps={formProps} />
 
           {isGitHubActionsBuild && (

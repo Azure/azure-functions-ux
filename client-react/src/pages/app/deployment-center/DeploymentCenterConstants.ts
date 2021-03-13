@@ -68,4 +68,11 @@ export class DeploymentCenterConstants {
   public static readonly singleContainerQSLink = 'https://go.microsoft.com/fwlink/?linkid=873144';
   public static readonly dockerComposeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873149';
   public static readonly kubeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873150';
+
+  public static readonly metadataIsGitHubAction = 'isGitHubAction';
+  public static readonly metadataRepoUrl = 'RepoUrl';
+  public static readonly metadataBranch = 'branch';
+  public static readonly metadataOAuthToken = 'OAuthToken';
+  public static readonly metadataScmUri = 'ScmUri';
+  public static readonly metadataCloneUri = 'CloneUri';
 }

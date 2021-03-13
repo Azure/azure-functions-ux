@@ -25,6 +25,10 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
     return scenarioService.checkScenario(ScenarioIds.kuduBuildProvider, { site: siteStateContext.site }).status === 'disabled';
   };
 
+  const isAzurePipelinesDisabled = () => {
+    return scenarioService.checkScenario(ScenarioIds.azurePipelinesBuildProvider, { site: siteStateContext.site }).status === 'disabled';
+  };
+
   const permanentBuildOptions: BuildChoiceGroupOption[] = [
     {
       key: BuildProvider.AppServiceBuildService,
@@ -36,6 +40,7 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
       key: BuildProvider.Vsts,
       text: t('deploymentCenterCodeSettingsBuildVsts'),
       buildType: BuildProvider.Vsts,
+      disabled: isAzurePipelinesDisabled(),
     },
   ];
 
