@@ -10,7 +10,7 @@ import { SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-import { isContainerApp, isElastic, isFunctionApp, isLinuxApp, isLinuxDynamic } from '../../utils/arm-utils';
+import { isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
 import FunctionAppService from '../../utils/FunctionAppService';
 import { LogCategories } from '../../utils/LogCategories';
@@ -79,6 +79,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [isLinuxApplication, setIsLinuxApplication] = useState<boolean>(false);
   const [isContainerApplication, setIsContainerApplication] = useState<boolean>(false);
   const [isFunctionApplication, setIsFunctionApplication] = useState<boolean>(false);
+  const [isKubeApplication, setIsKubeApplication] = useState<boolean>(false);
 
   const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
     if (isLinuxDynamic(site)) {
@@ -223,6 +224,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         setIsLinuxApplication(isLinuxApp(siteResponse.data));
         setIsContainerApplication(isContainerApp(siteResponse.data));
         setIsFunctionApplication(isFunctionApp(siteResponse.data));
+        setIsKubeApplication(isKubeApp(siteResponse.data));
       }
       setSiteAppEditState(functionAppEditMode);
     }
@@ -251,6 +253,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     isLinuxApp: isLinuxApplication,
                     isContainerApp: isContainerApplication,
                     isFunctionApp: isFunctionApplication,
+                    isKubeApp: isKubeApplication,
                   }}>
                   <Router>
                     {/* NOTE(michinoy): The paths should be always all lowercase. */}

@@ -9,6 +9,7 @@ export interface ISiteState {
   isLinuxApp: boolean;
   isContainerApp: boolean;
   isFunctionApp: boolean;
+  isKubeApp: boolean;
   resourceId?: string;
   site?: ArmObj<Site>;
 }

@@ -43,6 +43,7 @@ export class CommonConstants {
     showServiceLinkerConnector: 'showServiceLinkerConnector',
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
     enableEditingForLinuxConsumption: 'enableEditingForLinuxConsumption',
+    treatAsKubeApp: 'treatAsKubeApp', // websitesextension_ext=appsvc.treatAsKubeApp%3Dtrue
   };
 
   public static readonly AppDensityLimit = 8;
