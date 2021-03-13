@@ -110,4 +110,5 @@ export class ScenarioIds {
   public static readonly deploymentCenterLogs = 'deploymentCenterLogs';
   public static readonly kuduBuildProvider = 'kuduBuildProvider';
   public static readonly dockerCompose = 'dockerCompose';
+  public static readonly azurePipelinesBuildProvider = 'azurePipelinesBuildProvider';
 }
