@@ -41,6 +41,7 @@ export function isWorkflowApp(obj: ArmObj<any>): boolean {
 export function isKubeApp(obj: ArmObj<unknown>): boolean {
   // NOTE(michinoy): While there is a bug in place, we can pass in a flag in the
   // url to treat the app as Kube app.
+  // BUG - https://msazure.visualstudio.com/Antares/_workitems/edit/9449377
   return AppKind.hasKinds(obj, ['kubeapp']) || Url.getFeatureValue(CommonConstants.FeatureFlags.treatAsKubeApp) === 'true';
 }
 
