@@ -132,7 +132,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   };
 
   useEffect(() => {
-    if (formProps.values.sourceProvider !== ScmType.None) {
+    if (!!formProps.values.sourceProvider && formProps.values.sourceProvider !== ScmType.None) {
       setSourceBuildProvider();
     } else {
       // NOTE(michinoy): If the source provider is set to None, it means either an initial load or discard.
