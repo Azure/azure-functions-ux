@@ -33,6 +33,11 @@ export class KubeApp extends Environment {
       runCheck: () => ({ status: 'disabled' }),
     };
 
+    this.scenarioChecks[ScenarioIds.vstsKuduSource] = {
+      id: ScenarioIds.vstsKuduSource,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
     this.scenarioChecks[ScenarioIds.ftpSource] = {
       id: ScenarioIds.ftpSource,
       runCheck: () => ({ status: 'disabled' }),

@@ -17,13 +17,18 @@ export const getLogId = (component: string, event: string): string => {
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,
   isFunctionApp: boolean,
-  siteConfig: ArmObj<SiteConfig>,
-  configMetadata: ArmObj<KeyValue<string>>,
-  applicationSettings: ArmObj<KeyValue<string>>
+  isKubeApp: boolean,
+  siteConfig?: ArmObj<SiteConfig>,
+  configMetadata?: ArmObj<KeyValue<string>>,
+  applicationSettings?: ArmObj<KeyValue<string>>
 ): RuntimeStackSetting => {
-  return isLinuxApp
-    ? getRuntimeStackSettingForLinux(isFunctionApp, siteConfig)
-    : getRuntimeStackSettingForWindows(isFunctionApp, siteConfig, configMetadata, applicationSettings);
+  if ((isLinuxApp || isKubeApp) && !!siteConfig) {
+    return getRuntimeStackSettingForLinux(isFunctionApp, siteConfig);
+  } else if (!isLinuxApp && !isKubeApp && !!siteConfig && !!configMetadata && !!applicationSettings) {
+    return getRuntimeStackSettingForWindows(isFunctionApp, siteConfig, configMetadata, applicationSettings);
+  } else {
+    return { runtimeStack: '', runtimeVersion: '' };
+  }
 };
 
 export const getTelemetryInfo = (
