@@ -11,14 +11,19 @@ import {
   DeploymentCenterFieldProps,
   DeploymentCenterCodeFormData,
   DeploymentCenterContainerFormData,
+  SourceControlProperties,
 } from '../DeploymentCenter.types';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 import { SiteStateContext } from '../../../../SiteState';
-import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { authorizeWithProvider, getTelemetryInfo, isGitHubActionSetupViaMetadata } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
 import { PortalContext } from '../../../../PortalContext';
+import { HttpResponseObject } from '../../../../ArmHelper.types';
+import { GitHubUser } from '../../../../models/github';
+import { ArmObj } from '../../../../models/arm-obj';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
 const DeploymentCenterGitHubConfiguredView: React.FC<
   DeploymentCenterFieldProps<DeploymentCenterCodeFormData | DeploymentCenterContainerFormData>
@@ -39,8 +44,9 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
   const portalContext = useContext(PortalContext);
 
   const deploymentCenterData = new DeploymentCenterData();
-  const isGitHubActionsSetup =
-    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+  const isGitHubActionsSetup = siteStateContext.isKubeApp
+    ? isGitHubActionSetupViaMetadata(deploymentCenterContext.configMetadata)
+    : deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -48,33 +54,58 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
     setIsBranchInfoMissing(false);
 
     const getGitHubUserRequest = deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken);
-    const getSourceControlDetailsResponse = deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
+    let getSourceControlDetailsRequest;
+
+    if (!siteStateContext.isKubeApp) {
+      getSourceControlDetailsRequest = deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
+    }
 
     portalContext.log(getTelemetryInfo('info', 'initialDataGitHubConfigured', 'submit'));
 
-    const [gitHubUserResponse, sourceControlDetailsResponse] = await Promise.all([getGitHubUserRequest, getSourceControlDetailsResponse]);
+    let gitHubUserResponse: HttpResponseObject<GitHubUser>;
+    let sourceControlDetailsResponse: HttpResponseObject<ArmObj<SourceControlProperties>>;
+    let repoUrl;
+    let branch;
 
-    if (sourceControlDetailsResponse.metadata.success) {
-      setRepoUrl(sourceControlDetailsResponse.data.properties.repoUrl);
-      setBranch(sourceControlDetailsResponse.data.properties.branch);
+    if (getSourceControlDetailsRequest) {
+      [gitHubUserResponse, sourceControlDetailsResponse] = await Promise.all([getGitHubUserRequest, getSourceControlDetailsRequest]);
 
-      const repoUrlSplit = sourceControlDetailsResponse.data.properties.repoUrl.split('/');
+      if (sourceControlDetailsResponse.metadata.success) {
+        repoUrl = sourceControlDetailsResponse.data.properties.repoUrl;
+        branch = sourceControlDetailsResponse.data.properties.branch;
+      } else {
+        setIsBranchInfoMissing(true);
+        setRepoUrl(t('deploymentCenterErrorFetchingInfo'));
+        setOrg(t('deploymentCenterErrorFetchingInfo'));
+        setRepo(t('deploymentCenterErrorFetchingInfo'));
+
+        portalContext.log(
+          getTelemetryInfo('error', 'sourceControlDetailsResponse', 'failed', {
+            message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
+            errorAsString: JSON.stringify(sourceControlDetailsResponse.metadata.error),
+          })
+        );
+      }
+    } else {
+      [gitHubUserResponse] = await Promise.all([getGitHubUserRequest]);
+
+      repoUrl =
+        deploymentCenterContext.configMetadata &&
+        deploymentCenterContext.configMetadata.properties[DeploymentCenterConstants.metadataRepoUrl];
+      branch =
+        deploymentCenterContext.configMetadata &&
+        deploymentCenterContext.configMetadata.properties[DeploymentCenterConstants.metadataBranch];
+    }
+
+    if (repoUrl && branch) {
+      setRepoUrl(repoUrl);
+      setBranch(branch);
+
+      const repoUrlSplit = repoUrl.split('/');
       if (repoUrlSplit.length >= 2) {
         setOrg(repoUrlSplit[repoUrlSplit.length - 2]);
         setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
       }
-    } else {
-      setIsBranchInfoMissing(true);
-      setRepoUrl(t('deploymentCenterErrorFetchingInfo'));
-      setOrg(t('deploymentCenterErrorFetchingInfo'));
-      setRepo(t('deploymentCenterErrorFetchingInfo'));
-
-      portalContext.log(
-        getTelemetryInfo('error', 'sourceControlDetailsResponse', 'failed', {
-          message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
-          errorAsString: JSON.stringify(sourceControlDetailsResponse.metadata.error),
-        })
-      );
     }
 
     if (gitHubUserResponse.metadata.success && gitHubUserResponse.data.login) {

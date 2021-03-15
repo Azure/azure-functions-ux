@@ -20,5 +20,8 @@
 "typescript.preferences.importModuleSpecifier": "relative",
 "cSpell.ignoreWords": [
     "applicationinsightapi"
+],
+"cSpell.words": [
+  "Kube"
 ]
 }
