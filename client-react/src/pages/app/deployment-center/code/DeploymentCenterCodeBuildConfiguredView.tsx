@@ -23,16 +23,14 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
   const siteStateContext = useContext(SiteStateContext);
 
   const setDefaultValues = () => {
-    const defaultStackAndVersionKeys: RuntimeStackSetting =
-      deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata && deploymentCenterContext.applicationSettings
-        ? getRuntimeStackSetting(
-            siteStateContext.isLinuxApp,
-            siteStateContext.isFunctionApp,
-            deploymentCenterContext.siteConfig,
-            deploymentCenterContext.configMetadata,
-            deploymentCenterContext.applicationSettings
-          )
-        : { runtimeStack: '', runtimeVersion: '' };
+    const defaultStackAndVersionKeys: RuntimeStackSetting = getRuntimeStackSetting(
+      siteStateContext.isLinuxApp,
+      siteStateContext.isFunctionApp,
+      siteStateContext.isKubeApp,
+      deploymentCenterContext.siteConfig,
+      deploymentCenterContext.configMetadata,
+      deploymentCenterContext.applicationSettings
+    );
 
     setDefaultStack(getRuntimeStackDisplayName(defaultStackAndVersionKeys.runtimeStack));
     setDefaultVersion(getDefaultVersionDisplayName(defaultStackAndVersionKeys.runtimeVersion));
