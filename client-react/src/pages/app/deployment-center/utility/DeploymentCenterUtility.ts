@@ -8,6 +8,7 @@ import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 import { PublishingCredentials } from '../../../../models/site/publish';
 import { LogLevel, TelemetryInfo } from '../../../../models/telemetry';
 import { LogCategories } from '../../../../utils/LogCategories';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
 export const getLogId = (component: string, event: string): string => {
   return `${component}/${event}`;
@@ -277,4 +278,12 @@ export const extractConfigFromFile = (input): Promise<string> => {
     };
     reader.readAsText(input.files[0]);
   });
+};
+
+export const isGitHubActionSetupViaMetadata = (metadata?: ArmObj<KeyValue<string>>) => {
+  return (
+    metadata &&
+    metadata[DeploymentCenterConstants.metadataIsGitHubAction] &&
+    metadata[DeploymentCenterConstants.metadataIsGitHubAction] === 'true'
+  );
 };

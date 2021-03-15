@@ -38,6 +38,11 @@ export class KubeApp extends Environment {
       runCheck: () => ({ status: 'disabled' }),
     };
 
+    this.scenarioChecks[ScenarioIds.localGitSource] = {
+      id: ScenarioIds.localGitSource,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
     this.scenarioChecks[ScenarioIds.kuduBuildProvider] = {
       id: ScenarioIds.kuduBuildProvider,
       runCheck: () => ({ status: 'disabled' }),

@@ -85,7 +85,12 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         // workaround.
         portalContext.log(getTelemetryInfo('warning', 'updateSourceControlsWorkaround', 'submit'));
 
-        return updateGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId, payload);
+        return updateGitHubActionSourceControlPropertiesManually(
+          deploymentCenterData,
+          deploymentCenterContext.resourceId,
+          payload,
+          deploymentCenterContext.gitHubToken
+        );
       } else {
         if (!updateSourceControlResponse.metadata.success) {
           portalContext.log(

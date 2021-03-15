@@ -483,7 +483,12 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
       portalContext.log(getTelemetryInfo('warning', 'updateSourceControlDetailsWorkaround', 'submit'));
 
-      return updateGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId, payload);
+      return updateGitHubActionSourceControlPropertiesManually(
+        deploymentCenterData,
+        deploymentCenterContext.resourceId,
+        payload,
+        deploymentCenterContext.gitHubToken
+      );
     } else {
       return updateSourceControlResponse;
     }
