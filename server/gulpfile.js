@@ -172,17 +172,6 @@ gulp.task('resx-to-typescript-models', function(cb) {
  *   Also it will change the file name format to Resources.<language code>.json
  */
 gulp.task('resources-convert', function() {
-
-  let languageMapping = {};
-  try {
-    const locPayloadResponse = JSON.parse(fs.readFileSync('../server/resources-resx/LocPayload.json'));
-    if(!!locPayloadResponse && locPayloadResponse['LanguageFolderMappings']) {
-      languageMapping = locPayloadResponse['LanguageFolderMappings'];
-    }
-  }catch(ex) {
-    // NOTE (krmitta): Proceed without mapping the languages if the parsing fails.
-  }
-  
   const portalResourceStream = gulp
     .src(['../server/resources-resx/**/Resources.*.resx', './Resources/Resources.resx'])
     .pipe(resx2())

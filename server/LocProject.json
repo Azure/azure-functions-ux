@@ -1,7 +1,6 @@
 {	
     "Projects": [	
-      {	
-        "LanguageSet": "Azure_Languages",	
+      {
         "LocItems": [	
           {	
             "SourceFile": "server\\Resources\\Resources.resx",	
@@ -13,4 +12,4 @@
         ]	
       }	
     ]	
-  } 
+  }
