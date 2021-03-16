@@ -63,7 +63,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   };
 
   const fetchStacks = async () => {
-    const appOs = siteStateContext.isLinuxApp ? AppStackOs.linux : AppStackOs.windows;
+    const appOs = siteStateContext.isLinuxApp || siteStateContext.isKubeApp ? AppStackOs.linux : AppStackOs.windows;
 
     portalContext.log(
       getTelemetryInfo('info', 'fetchStacks', 'submit', {
@@ -107,7 +107,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
           let value = minorVersion.value;
 
           value =
-            siteStateContext.isLinuxApp &&
+            (siteStateContext.isLinuxApp || siteStateContext.isKubeApp) &&
             minorVersion.stackSettings.linuxRuntimeSettings &&
             minorVersion.stackSettings.linuxRuntimeSettings.runtimeVersion
               ? minorVersion.stackSettings.linuxRuntimeSettings.runtimeVersion
@@ -115,6 +115,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
 
           value =
             !siteStateContext.isLinuxApp &&
+            !siteStateContext.isKubeApp &&
             minorVersion.stackSettings.windowsRuntimeSettings &&
             minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
               ? minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
@@ -242,16 +243,15 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   };
 
   const setInitialDefaultValues = () => {
-    const defaultStackAndVersion: RuntimeStackSetting =
-      deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata && deploymentCenterContext.applicationSettings
-        ? getRuntimeStackSetting(
-            siteStateContext.isLinuxApp,
-            siteStateContext.isFunctionApp,
-            deploymentCenterContext.siteConfig,
-            deploymentCenterContext.configMetadata,
-            deploymentCenterContext.applicationSettings
-          )
-        : { runtimeStack: '', runtimeVersion: '' };
+    const defaultStackAndVersion: RuntimeStackSetting = getRuntimeStackSetting(
+      siteStateContext.isLinuxApp,
+      siteStateContext.isFunctionApp,
+      siteStateContext.isKubeApp,
+      deploymentCenterContext.siteConfig,
+      deploymentCenterContext.configMetadata,
+      deploymentCenterContext.applicationSettings
+    );
+
     setDefaultStack(defaultStackAndVersion.runtimeStack);
     setDefaultVersion(defaultStackAndVersion.runtimeVersion);
   };

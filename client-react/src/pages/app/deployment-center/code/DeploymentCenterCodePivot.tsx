@@ -22,6 +22,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
   const { t } = useTranslation();
   const [selectedKey, setSelectedKey] = useState<string>('settings');
   const [showLogsTab, setShowLogsTab] = useState(true);
+  const [showFtpsTab, setShowFtpsTab] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
@@ -112,6 +113,11 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
       setShowLogsTab(scenarioStatus !== 'disabled');
     }
 
+    if (siteStateContext && siteStateContext.site) {
+      const scenarioStatus = scenarioService.checkScenario(ScenarioIds.ftpSource, { site: siteStateContext.site }).status;
+      setShowFtpsTab(scenarioStatus !== 'disabled');
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteStateContext.site]);
 
@@ -136,15 +142,17 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
         </PivotItem>
       )}
 
-      <PivotItem
-        itemKey="ftps"
-        headerText={isScmLocalGit ? t('deploymentCenterPivotItemGitFtpsHeaderText') : t('deploymentCenterPivotItemFtpsHeaderText')}
-        ariaLabel={isScmLocalGit ? t('deploymentCenterPivotItemGitFtpsAriaLabel') : t('deploymentCenterPivotItemFtpsAriaLabel')}
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, isFtpsDirty, t('modifiedTag'))
-        }>
-        <DeploymentCenterFtps formProps={formProps} isDataRefreshing={isDataRefreshing} />
-      </PivotItem>
+      {showFtpsTab && (
+        <PivotItem
+          itemKey="ftps"
+          headerText={isScmLocalGit ? t('deploymentCenterPivotItemGitFtpsHeaderText') : t('deploymentCenterPivotItemFtpsHeaderText')}
+          ariaLabel={isScmLocalGit ? t('deploymentCenterPivotItemGitFtpsAriaLabel') : t('deploymentCenterPivotItemFtpsAriaLabel')}
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            CustomTabRenderer(link, defaultRenderer, theme, isFtpsDirty, t('modifiedTag'))
+          }>
+          <DeploymentCenterFtps formProps={formProps} isDataRefreshing={isDataRefreshing} />
+        </PivotItem>
+      )}
     </Pivot>
   );
 };

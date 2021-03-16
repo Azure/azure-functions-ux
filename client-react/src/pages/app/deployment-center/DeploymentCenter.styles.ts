@@ -164,3 +164,7 @@ export const refreshButtonStyle = style({
   marginTop: '10px',
   height: '36px',
 });
+
+export const textboxPaddingStyle = style({
+  paddingTop: '10px',
+});

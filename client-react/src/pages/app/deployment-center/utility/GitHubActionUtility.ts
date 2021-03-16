@@ -14,7 +14,8 @@ import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 export const updateGitHubActionSourceControlPropertiesManually = async (
   deploymentCenterData: DeploymentCenterData,
   resourceId: string,
-  payload: SiteSourceControlRequestBody
+  payload: SiteSourceControlRequestBody,
+  gitHubToken: string
 ) => {
   // NOTE(michinoy): To be on the safe side, the update operations should be sequential rather than
   // parallel. The reason behind this is because incase the metadata update fails, but the scmtype is updated
@@ -31,13 +32,15 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
   }
 
   const properties = fetchExistingMetadataResponse.data.properties;
-  delete properties['RepoUrl'];
-  delete properties['ScmUri'];
-  delete properties['CloneUri'];
-  delete properties['branch'];
+  delete properties[DeploymentCenterConstants.metadataRepoUrl];
+  delete properties[DeploymentCenterConstants.metadataScmUri];
+  delete properties[DeploymentCenterConstants.metadataCloneUri];
+  delete properties[DeploymentCenterConstants.metadataBranch];
+  delete properties[DeploymentCenterConstants.metadataOAuthToken];
 
-  properties['RepoUrl'] = payload.repoUrl;
-  properties['branch'] = payload.branch;
+  properties[DeploymentCenterConstants.metadataRepoUrl] = payload.repoUrl;
+  properties[DeploymentCenterConstants.metadataBranch] = payload.branch;
+  properties[DeploymentCenterConstants.metadataOAuthToken] = gitHubToken;
 
   const updateMetadataResponse = await deploymentCenterData.updateConfigMetadata(resourceId, properties);
 
@@ -667,7 +670,7 @@ jobs:
     - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: ASP-app 
+          name: ASP-app
 
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
@@ -735,7 +738,7 @@ jobs:
         push: true
         tags: __image__:\${{ github.sha }}
         file: ./Dockerfile
-  
+
   deploy:
     runs-on: ubuntu-latest
     needs: build

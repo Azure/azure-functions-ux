@@ -2,6 +2,7 @@ import { AppKind } from './AppKind';
 import { ArmObj, ResourceGraphColumn, Identity, ArmSku } from '../models/arm-obj';
 import { Site } from '../models/site/site';
 import { CommonConstants } from './CommonConstants';
+import Url from './url';
 
 export function isFunctionApp(obj: ArmObj<any>): boolean {
   return AppKind.hasKinds(obj, ['functionapp']) && !AppKind.hasKinds(obj, ['botapp']);
@@ -35,6 +36,13 @@ export function isXenonApp(obj: ArmObj<Site>): boolean {
 
 export function isWorkflowApp(obj: ArmObj<any>): boolean {
   return AppKind.hasKinds(obj, ['functionapp', 'workflowapp']);
+}
+
+export function isKubeApp(obj: ArmObj<unknown>): boolean {
+  // NOTE(michinoy): While there is a bug in place, we can pass in a flag in the
+  // url to treat the app as Kube app.
+  // BUG - https://msazure.visualstudio.com/Antares/_workitems/edit/9449377
+  return AppKind.hasKinds(obj, ['kubeapp']) || Url.getFeatureValue(CommonConstants.FeatureFlags.treatAsKubeApp) === 'true';
 }
 
 export function mapResourcesTopologyToArmObjects<T>(columns: ResourceGraphColumn[], rows: any[][]): ArmObj<T>[] {
