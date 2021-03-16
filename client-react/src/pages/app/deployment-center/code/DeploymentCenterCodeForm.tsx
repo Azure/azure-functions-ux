@@ -362,13 +362,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   ) => {
     // Only do the save if build provider is set by the user and the scmtype in the config is set to none.
     // If the scmtype in the config is not none, the user should be doing a disconnect operation first.
-    // This check is in place, because the use could set the form props ina dirty state by just modifying the
+    // This check is in place, because the use could set the form props in a dirty state by just modifying the
     // publishing user information.
-    if (
-      values.buildProvider !== BuildProvider.None &&
+    const isMissingOriginalConfigScmType =
       deploymentCenterContext.siteConfig &&
-      deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
-    ) {
+      (!deploymentCenterContext.siteConfig.properties.scmType || deploymentCenterContext.siteConfig.properties.scmType === ScmType.None);
+
+    if (values.buildProvider !== BuildProvider.None && isMissingOriginalConfigScmType) {
       // NOTE(stpelleg):Reset the form values only if deployment settings need to be updated.
       formikActions.resetForm(values);
       if (values.buildProvider === BuildProvider.GitHubAction) {
