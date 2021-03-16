@@ -190,8 +190,7 @@ gulp.task('resources-convert', function() {
       rename(function(p) {
         const language = p.dirname.split(path.sep)[0];
         if (!!language && language !== '.') {
-          const langMapped = languageMapping[language];
-          p.basename = 'Resources.' + (!!langMapped ? langMapped: language);
+          p.basename = 'Resources.' + language;
         }
         p.dirname = '.';
         p.extname = '.json';
