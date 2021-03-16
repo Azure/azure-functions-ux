@@ -51,6 +51,10 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const deploymentCenterData = new DeploymentCenterData();
 
   const deployKudu = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+    return siteStateContext.isKubeApp ? setSourceControlsInMetadata(values) : deployKuduUsingSourceControls(values);
+  };
+
+  const deployKuduUsingSourceControls = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
     //(NOTE: stpelleg) Only external git is expected to be manual integration
     // If manual integration is true the site config scm type is set to be external
 
@@ -103,6 +107,35 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
 
         return updateSourceControlResponse;
       }
+    }
+  };
+
+  const setSourceControlsInMetadata = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+    const patchSiteConfigResponse = await deploymentCenterData.patchSiteConfig(deploymentCenterContext.resourceId, {
+      properties: {
+        scmType: 'GitHubAction',
+      },
+    });
+
+    if (patchSiteConfigResponse.metadata.success) {
+      portalContext.log(getTelemetryInfo('warning', 'setSourceControlsInMetadata', 'submit'));
+
+      const payload: SiteSourceControlRequestBody = {
+        repoUrl: getRepoUrl(values),
+        branch: values.branch || 'master',
+        isManualIntegration: values.sourceProvider === ScmType.ExternalGit,
+        isGitHubAction: values.buildProvider === BuildProvider.GitHubAction,
+        isMercurial: false,
+      };
+
+      return updateGitHubActionSourceControlPropertiesManually(
+        deploymentCenterData,
+        deploymentCenterContext.resourceId,
+        payload,
+        deploymentCenterContext.gitHubToken
+      );
+    } else {
+      return patchSiteConfigResponse;
     }
   };
 
