@@ -37,10 +37,12 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
   delete properties[DeploymentCenterConstants.metadataCloneUri];
   delete properties[DeploymentCenterConstants.metadataBranch];
   delete properties[DeploymentCenterConstants.metadataOAuthToken];
+  delete properties[DeploymentCenterConstants.metadataIsGitHubAction];
 
   properties[DeploymentCenterConstants.metadataRepoUrl] = payload.repoUrl;
   properties[DeploymentCenterConstants.metadataBranch] = payload.branch;
   properties[DeploymentCenterConstants.metadataOAuthToken] = gitHubToken;
+  properties[DeploymentCenterConstants.metadataIsGitHubAction] = 'true';
 
   const updateMetadataResponse = await deploymentCenterData.updateConfigMetadata(resourceId, properties);
 

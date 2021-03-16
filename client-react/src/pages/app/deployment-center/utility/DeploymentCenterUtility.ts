@@ -288,7 +288,8 @@ export const extractConfigFromFile = (input): Promise<string> => {
 export const isGitHubActionSetupViaMetadata = (metadata?: ArmObj<KeyValue<string>>) => {
   return (
     metadata &&
-    metadata[DeploymentCenterConstants.metadataIsGitHubAction] &&
-    metadata[DeploymentCenterConstants.metadataIsGitHubAction] === 'true'
+    metadata.properties &&
+    metadata.properties[DeploymentCenterConstants.metadataIsGitHubAction] &&
+    metadata.properties[DeploymentCenterConstants.metadataIsGitHubAction] === 'true'
   );
 };
