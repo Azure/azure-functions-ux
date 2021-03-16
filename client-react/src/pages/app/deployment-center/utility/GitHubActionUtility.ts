@@ -69,6 +69,54 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
   return patchSiteConfigResponse;
 };
 
+export const clearGitHubActionSourceControlPropertiesManually = async (deploymentCenterData: DeploymentCenterData, resourceId: string) => {
+  // NOTE(michinoy): To be on the safe side, the update operations should be sequential rather than
+  // parallel. The reason behind this is because incase the metadata update fails, but the scmtype is updated
+  // the /sourcecontrols API GET will start failing.
+
+  const fetchExistingMetadataResponse = await deploymentCenterData.getConfigMetadata(resourceId);
+
+  if (!fetchExistingMetadataResponse.metadata.success) {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
+      error: fetchExistingMetadataResponse.metadata.error,
+    });
+
+    return fetchExistingMetadataResponse;
+  }
+
+  const properties = fetchExistingMetadataResponse.data.properties;
+  delete properties[DeploymentCenterConstants.metadataRepoUrl];
+  delete properties[DeploymentCenterConstants.metadataScmUri];
+  delete properties[DeploymentCenterConstants.metadataCloneUri];
+  delete properties[DeploymentCenterConstants.metadataBranch];
+  delete properties[DeploymentCenterConstants.metadataOAuthToken];
+  delete properties[DeploymentCenterConstants.metadataIsGitHubAction];
+
+  const updateMetadataResponse = await deploymentCenterData.updateConfigMetadata(resourceId, properties);
+
+  if (!updateMetadataResponse.metadata.success) {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
+      error: updateMetadataResponse.metadata.error,
+    });
+
+    return updateMetadataResponse;
+  }
+
+  const patchSiteConfigResponse = await deploymentCenterData.patchSiteConfig(resourceId, {
+    properties: {
+      scmType: 'None',
+    },
+  });
+
+  if (!patchSiteConfigResponse.metadata.success) {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
+      error: patchSiteConfigResponse.metadata.error,
+    });
+  }
+
+  return patchSiteConfigResponse;
+};
+
 // Detect the specific error which is indicative of Ant89 Geo/Stamp sync issues.
 export const isApiSyncError = (error?: any): boolean => {
   return (
