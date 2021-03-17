@@ -786,7 +786,7 @@ jobs:
       uses: docker/build-push-action@v2.2.1
       with:
         push: true
-        tags: __image__:\${{ github.sha }}
+        tags: ${image}:\${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
