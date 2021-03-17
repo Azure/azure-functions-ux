@@ -59,7 +59,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isUploadingFile, setIsUploadingFile] = useState(false);
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
-  const [appSettings, setAppSettings] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -161,7 +160,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
     if (appSettingsResponse.metadata.success) {
       const appSettingsProperties = appSettingsResponse.data.properties;
-      setAppSettings(appSettingsResponse.data);
       if (appSettingsProperties.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
         setWorkerRuntime(appSettingsProperties[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
       }
@@ -575,7 +573,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             setIsUploadingFile={setIsUploadingFile}
             refreshFileList={refreshFileList}
             workerRuntime={workerRuntime}
-            appSettings={appSettings}
           />
         </div>
       ) : (
