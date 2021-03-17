@@ -30,7 +30,7 @@ import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBan
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { FunctionAppEditMode, KeyValue, PortalTheme } from '../../../../../models/portal-models';
+import { FunctionAppEditMode, PortalTheme } from '../../../../../models/portal-models';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
@@ -46,7 +46,6 @@ import Url from '../../../../../utils/url';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { PortalContext } from '../../../../../PortalContext';
 import { BindingManager } from '../../../../../utils/BindingManager';
-import FunctionAppService from '../../../../../utils/FunctionAppService';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -68,7 +67,6 @@ export interface FunctionEditorProps {
   fileList?: VfsObject[];
   testData?: string;
   workerRuntime?: string;
-  appSettings?: ArmObj<KeyValue<string>>;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
@@ -91,7 +89,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setIsUploadingFile,
     refreshFileList,
     workerRuntime,
-    appSettings,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -436,12 +433,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isAppReadOnly = (appEditState: FunctionAppEditMode) => {
-    const enabledForPythonLinuxConsumption =
-      Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxConsumption) &&
-      isLinuxDynamic(site) &&
-      !!appSettings &&
-      FunctionAppService.usingPythonWorkerRuntime(appSettings);
-    return SiteHelper.isFunctionAppReadOnly(appEditState) && !enabledForPythonLinuxConsumption;
+    return SiteHelper.isFunctionAppReadOnly(appEditState);
   };
 
   useEffect(() => {

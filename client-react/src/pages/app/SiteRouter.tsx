@@ -81,8 +81,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [isFunctionApplication, setIsFunctionApplication] = useState<boolean>(false);
   const [isKubeApplication, setIsKubeApplication] = useState<boolean>(false);
 
-  const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
-    if (isLinuxDynamic(site)) {
+  const getSiteStateFromSiteData = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
+    if (isLinuxDynamic(site) && !FunctionAppService.usingPythonLinuxConsumption(site, appSettings)) {
       return FunctionAppEditMode.ReadOnlyLinuxDynamic;
     }
 
@@ -114,7 +114,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyLocalCache;
     }
 
-    if (FunctionAppService.usingPythonWorkerRuntime(appSettings)) {
+    if (FunctionAppService.usingPythonWorkerRuntime(appSettings) && !FunctionAppService.usingPythonLinuxConsumption(site, appSettings)) {
       return FunctionAppEditMode.ReadOnlyPython;
     }
 
@@ -168,7 +168,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       const readOnlyLock = await portalContext.hasLock(trimmedResourceId, 'ReadOnly');
       let functionAppEditMode: FunctionAppEditMode | undefined;
 
-      const siteResponse = await SiteService.fetchSite(trimmedResourceId);
+      const [siteResponse, appSettingsResponse] = await Promise.all([
+        SiteService.fetchSite(trimmedResourceId),
+        SiteService.fetchApplicationSettings(trimmedResourceId),
+      ]);
 
       if (readOnlyLock) {
         functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
@@ -178,11 +181,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         if (!writePermission) {
           functionAppEditMode = FunctionAppEditMode.ReadOnlyRbac;
         } else if (siteResponse.metadata.success && isFunctionApp(siteResponse.data)) {
-          functionAppEditMode = getSiteStateFromSiteData(siteResponse.data);
+          functionAppEditMode = getSiteStateFromSiteData(siteResponse.data, appSettingsResponse.data);
 
           if (!functionAppEditMode) {
-            const appSettingsResponse = await SiteService.fetchApplicationSettings(trimmedResourceId);
-
             if (appSettingsResponse.metadata.success) {
               functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data, siteResponse.data);
             } else {
