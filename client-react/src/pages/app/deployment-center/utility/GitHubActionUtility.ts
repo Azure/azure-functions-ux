@@ -713,14 +713,14 @@ jobs:
     runs-on: 'windows-latest'
     needs: build
     environment:
-      name: '__slotname__'
+      name: '${slot}'
       url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
     - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: ASP-app
+      uses: actions/download-artifact@v2
+      with:
+        name: ASP-app
 
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
@@ -793,7 +793,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: '__slotname__'
+      name: '${slot}'
       url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
