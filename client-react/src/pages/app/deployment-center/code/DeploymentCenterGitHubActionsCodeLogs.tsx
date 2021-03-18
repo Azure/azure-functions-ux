@@ -234,7 +234,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         </Link>
       ),
       author: deployment.properties.author,
-      message: deployment.properties.deployer === 'GitHub' ? '' : deployment.properties.message,
+      message: deployment.properties.deployer === 'GITHUB_ZIP_DEPLOY' ? '' : deployment.properties.message,
       status: deployment.properties.active ? (
         <>{`${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`}</>
       ) : (
