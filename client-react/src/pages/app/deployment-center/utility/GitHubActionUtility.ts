@@ -11,6 +11,55 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
+export const updateGitHubActionAppSettingsForPython = async (
+  deploymentCenterData: DeploymentCenterData,
+  resourceId: string,
+  isFunctionApp: boolean
+) => {
+  const fetchExistingAppSettingsResponse = await deploymentCenterData.fetchApplicationSettings(resourceId);
+
+  if (!fetchExistingAppSettingsResponse.metadata.success) {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionAppSettingsForPython'), {
+      error: fetchExistingAppSettingsResponse.metadata.error,
+    });
+
+    return fetchExistingAppSettingsResponse;
+  }
+
+  let updateAppSettings = false;
+  const properties = fetchExistingAppSettingsResponse.data && fetchExistingAppSettingsResponse.data.properties;
+
+  if (properties && !properties[DeploymentCenterConstants.appSettings_SCM_DO_BUILD_DURING_DEPLOYMENT]) {
+    updateAppSettings = true;
+    properties[DeploymentCenterConstants.appSettings_SCM_DO_BUILD_DURING_DEPLOYMENT] = '1';
+  }
+
+  if (isFunctionApp && properties && !properties[DeploymentCenterConstants.appSettings_ENABLE_ORYX_BUILD]) {
+    updateAppSettings = true;
+    properties[DeploymentCenterConstants.appSettings_ENABLE_ORYX_BUILD] = '1';
+  }
+
+  fetchExistingAppSettingsResponse.data.properties = properties;
+
+  // NOTE(michinoy): ONLY update the appsettings IF one of the values is missing. This is to prevent an unnecessary restart of the app.
+  if (updateAppSettings) {
+    const updateAppSettingsResponse = await deploymentCenterData.updateApplicationSettings(
+      resourceId,
+      fetchExistingAppSettingsResponse.data
+    );
+
+    if (!updateAppSettingsResponse.metadata.success) {
+      LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionAppSettingsForPython'), {
+        error: updateAppSettingsResponse.metadata.error,
+      });
+    }
+
+    return updateAppSettingsResponse;
+  } else {
+    return fetchExistingAppSettingsResponse;
+  }
+};
+
 export const updateGitHubActionSourceControlPropertiesManually = async (
   deploymentCenterData: DeploymentCenterData,
   resourceId: string,
