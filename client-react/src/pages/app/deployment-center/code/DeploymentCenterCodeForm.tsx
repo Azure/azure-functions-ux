@@ -27,6 +27,7 @@ import {
   getCodeFunctionAppCodeWorkflowInformation,
   isApiSyncError,
   updateGitHubActionSourceControlPropertiesManually,
+  updateGitHubActionAppSettingsForPython,
 } from '../utility/GitHubActionUtility';
 import {
   getWorkflowFilePath,
@@ -38,6 +39,7 @@ import {
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { AppOs } from '../../../../models/site/site';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
+import { RuntimeStacks } from '../../../../utils/stacks-utils';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -303,6 +305,18 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       values.buildProvider === BuildProvider.GitHubAction &&
       (values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add)
     ) {
+      if (values.runtimeStack === RuntimeStacks.python) {
+        const updateAppSettingsResponse = await updateGitHubActionAppSettingsForPython(
+          deploymentCenterData,
+          deploymentCenterContext.resourceId,
+          siteStateContext.isFunctionApp
+        );
+
+        if (!updateAppSettingsResponse.metadata.success) {
+          return updateAppSettingsResponse;
+        }
+      }
+
       const gitHubActionDeployResponse = await deployGithubActions(values);
       if (!gitHubActionDeployResponse.metadata.success) {
         portalContext.log(
