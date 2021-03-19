@@ -40,6 +40,11 @@ export default class FunctionAppService {
     return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.java;
   }
 
+  public static usingNodeWorkerRuntime(appSettings: ArmObj<KeyValue<string>>): boolean {
+    const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
+    return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.nodejs;
+  }
+
   public static usingCustomWorkerRuntime(appSettings: ArmObj<KeyValue<string>>): boolean {
     const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
     return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.custom;
@@ -56,6 +61,15 @@ export default class FunctionAppService {
       isLinuxDynamic(site) &&
       !!appSettings &&
       FunctionAppService.usingPythonWorkerRuntime(appSettings)
+    );
+  }
+
+  public static usingNodeLinuxConsumption(site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean {
+    return (
+      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxConsumption) &&
+      isLinuxDynamic(site) &&
+      !!appSettings &&
+      FunctionAppService.usingNodeWorkerRuntime(appSettings)
     );
   }
 }
