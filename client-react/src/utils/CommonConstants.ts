@@ -10,6 +10,12 @@ export class CommonConstants {
     elastic: 'elastic', // only applies to server farm
     app: 'app',
     api: 'api',
+    workflowApp: 'workflowapp',
+    xenon: 'xenon',
+    // NOTE(andimarc): The kind for kube app will be switching from 'kubeapp'
+    // to 'kubernetes' se we need to account for both during the transition.
+    kubeApp: 'kubeapp',
+    kubernetes: 'kubernetes',
   };
 
   public static readonly ApiVersions = {
