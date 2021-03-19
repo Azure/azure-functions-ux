@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { ThemeContext } from '../../../ThemeContext';
+import { IconConstants } from '../../../utils/constants/IconConstants';
 import { keyVaultIconStyle, sourceTextStyle } from './AppSettings.styles';
 import { KeyVaultReferenceStatus, KeyVaultReferenceSummary } from './AppSettings.types';
 import { isServiceLinkerVisible, isSettingServiceLinker } from './AppSettings.utils';
@@ -28,12 +29,12 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
   const getKeyVaultReferenceStatusIconName = (reference: KeyVaultReferenceSummary): string => {
     const status = getKeyVaultReferenceStatus(reference);
     if (status === KeyVaultReferenceStatus.resolved) {
-      return 'Completed';
+      return IconConstants.IconNames.TickBadge;
     }
     if (status === KeyVaultReferenceStatus.initialized) {
-      return 'Info12';
+      return IconConstants.IconNames.InfoBadge;
     }
-    return 'ErrorBadge';
+    return IconConstants.IconNames.ErrorBadge;
   };
 
   const getKeyVaultReferenceStatusIconColor = (reference: KeyVaultReferenceSummary): string => {
