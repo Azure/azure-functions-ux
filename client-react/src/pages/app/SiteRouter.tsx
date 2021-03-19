@@ -81,8 +81,14 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [isFunctionApplication, setIsFunctionApplication] = useState<boolean>(false);
   const [isKubeApplication, setIsKubeApplication] = useState<boolean>(false);
 
+  const ignoreLinuxDynamicReadOnly = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean => {
+    return (
+      FunctionAppService.usingPythonLinuxConsumption(site, appSettings) || FunctionAppService.usingNodeLinuxConsumption(site, appSettings)
+    );
+  };
+
   const getSiteStateFromSiteData = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
-    if (isLinuxDynamic(site) && !FunctionAppService.usingPythonLinuxConsumption(site, appSettings)) {
+    if (isLinuxDynamic(site) && !ignoreLinuxDynamicReadOnly(site, appSettings)) {
       return FunctionAppEditMode.ReadOnlyLinuxDynamic;
     }
 
