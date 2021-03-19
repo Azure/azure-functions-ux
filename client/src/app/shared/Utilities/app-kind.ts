@@ -1,8 +1,10 @@
-import { ArmObj } from '../models/arm/arm-obj';
+export interface KindCheckInput {
+  kind: string;
+}
 
 export class AppKind {
   // Returns true if an ARM object has all of the kind values listed in kindsToCheck
-  static hasKinds<T>(obj: ArmObj<T>, kindsToCheck: string[]): boolean {
+  static hasKinds(obj: KindCheckInput, kindsToCheck: string[]): boolean {
     const objKind = obj.kind ? obj.kind.toLowerCase() : '';
 
     for (let i = 0; i < kindsToCheck.length; i++) {
@@ -15,7 +17,7 @@ export class AppKind {
   }
 
   // Returns true if an ARM object has any of the kind values listed in kindsToCheck
-  static hasAnyKind<T>(obj: ArmObj<T>, kindsToCheck: string[]): boolean {
+  static hasAnyKind(obj: KindCheckInput, kindsToCheck: string[]): boolean {
     const objKind = obj.kind ? obj.kind.toLowerCase() : '';
 
     for (let i = 0; i < kindsToCheck.length; i++) {

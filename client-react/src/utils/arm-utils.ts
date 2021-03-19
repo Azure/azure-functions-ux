@@ -9,8 +9,9 @@ export function isFunctionApp(obj: ArmObj<any>): boolean {
 }
 
 export function isLinuxApp(obj: ArmObj<any>): boolean {
-  // NOTE(andimarc): For kube apps 'linux' doesn't get added to the kind.
-  // However kube app only support so we can treat all kube apps as linux apps.
+  // NOTE(andimarc): For kube apps 'linux' doesn't currently get added to the kind.
+  // However kube apps only support linux so we can treat all kube apps as linux apps.
+  // BUG - https://msazure.visualstudio.com/Antares/_workitems/edit/9321559
   return AppKind.hasKinds(obj, [CommonConstants.Kinds.linux]) || isKubeApp(obj);
 }
 
