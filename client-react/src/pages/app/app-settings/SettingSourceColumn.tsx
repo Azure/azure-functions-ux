@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { ThemeContext } from '../../../ThemeContext';
 import { keyVaultIconStyle, sourceTextStyle } from './AppSettings.styles';
-import { KeyVaultReferenceSummary } from './AppSettings.types';
+import { KeyVaultReferenceStatus, KeyVaultReferenceSummary } from './AppSettings.types';
 import { isServiceLinkerVisible, isSettingServiceLinker } from './AppSettings.utils';
 import { isKeyVaultReferenceResolved } from './AppSettingsFormData';
 
@@ -21,14 +21,40 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
   const updatedName = name.toLowerCase();
   const filteredReference = references.filter(ref => ref.name.toLowerCase() === updatedName);
 
+  const getKeyVaultReferenceStatus = (reference: KeyVaultReferenceSummary): string => {
+    return !!reference.status ? reference.status.toLowerCase() : '';
+  };
+
+  const getKeyVaultReferenceStatusIconName = (reference: KeyVaultReferenceSummary): string => {
+    const status = getKeyVaultReferenceStatus(reference);
+    if (status === KeyVaultReferenceStatus.resolved) {
+      return 'Completed';
+    }
+    if (status === KeyVaultReferenceStatus.initialized) {
+      return 'Info12';
+    }
+    return 'ErrorBadge';
+  };
+
+  const getKeyVaultReferenceStatusIconColor = (reference: KeyVaultReferenceSummary): string => {
+    const status = getKeyVaultReferenceStatus(reference);
+    if (status === KeyVaultReferenceStatus.resolved) {
+      return theme.semanticColors.inlineSuccessText;
+    }
+    if (status === KeyVaultReferenceStatus.initialized) {
+      return theme.semanticColors.infoIcon;
+    }
+    return theme.semanticColors.inlineErrorText;
+  };
+
   if (filteredReference.length > 0) {
     return (
       <div
         className={defaultCellStyle}
         aria-label={`${t('azureKeyVault')} ${!isKeyVaultReferenceResolved(filteredReference[0]) && 'not'} resolved`}>
         <Icon
-          iconName={isKeyVaultReferenceResolved(filteredReference[0]) ? 'Completed' : 'ErrorBadge'}
-          className={keyVaultIconStyle(theme, isKeyVaultReferenceResolved(filteredReference[0]))}
+          iconName={getKeyVaultReferenceStatusIconName(filteredReference[0])}
+          className={keyVaultIconStyle(theme, getKeyVaultReferenceStatusIconColor(filteredReference[0]))}
           ariaLabel={t('azureKeyVault')}
         />
         <span className={sourceTextStyle}>{t('azureKeyVault')}</span>
