@@ -5,6 +5,7 @@ import {
   FormConnectionString,
   FormAzureStorageMounts,
   KeyVaultReferenceSummary,
+  KeyVaultReferenceStatus,
 } from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
 import { ArmObj } from '../../../models/arm-obj';
@@ -410,5 +411,5 @@ export function getCleanedReferences(references: ArmObj<{ [keyToReferenceStatuse
 }
 
 export function isKeyVaultReferenceResolved(reference: KeyVaultReferenceSummary) {
-  return reference.status.toLowerCase() === 'resolved';
+  return !!reference.status && reference.status.toLowerCase() === KeyVaultReferenceStatus.resolved;
 }
