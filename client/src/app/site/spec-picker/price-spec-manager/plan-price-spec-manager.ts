@@ -31,7 +31,7 @@ import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
-import { LogCategories, Links, ScenarioIds } from '../../../shared/models/constants';
+import { LogCategories, Links, ScenarioIds, Kinds } from '../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { AppKind } from 'app/shared/Utilities/app-kind';
@@ -680,7 +680,7 @@ export class PlanPriceSpecManager {
   private _getOsType(inputs: SpecPickerInput<PlanSpecPickerData>): OsType {
     if (this._isUpdateScenario(inputs)) {
       // If we're getting meters for an existing plan
-      return AppKind.hasKinds(this._plan, ['linux']) ? OsType.Linux : OsType.Windows;
+      return AppKind.hasKinds(this._plan, [Kinds.linux]) ? OsType.Linux : OsType.Windows;
     }
 
     // We're getting meters for a new plan
