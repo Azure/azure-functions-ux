@@ -41,7 +41,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
 
   const deploymentCenterData = new DeploymentCenterData();
   const isGitHubActionsSetup =
-    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+    !!deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
 
   const fetchData = async () => {
     setIsLoading(true);
