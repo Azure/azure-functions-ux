@@ -80,7 +80,8 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
     return fetchExistingMetadataResponse;
   }
 
-  const properties = fetchExistingMetadataResponse.data.properties;
+  const properties = !!fetchExistingMetadataResponse.data.properties ? fetchExistingMetadataResponse.data.properties : {};
+
   delete properties[DeploymentCenterConstants.metadataRepoUrl];
   delete properties[DeploymentCenterConstants.metadataScmUri];
   delete properties[DeploymentCenterConstants.metadataCloneUri];
@@ -126,14 +127,15 @@ export const clearGitHubActionSourceControlPropertiesManually = async (deploymen
   const fetchExistingMetadataResponse = await deploymentCenterData.getConfigMetadata(resourceId);
 
   if (!fetchExistingMetadataResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'clearGitHubActionSourceControlPropertiesManually'), {
       error: fetchExistingMetadataResponse.metadata.error,
     });
 
     return fetchExistingMetadataResponse;
   }
 
-  const properties = fetchExistingMetadataResponse.data.properties;
+  const properties = !!fetchExistingMetadataResponse.data.properties ? fetchExistingMetadataResponse.data.properties : {};
+
   delete properties[DeploymentCenterConstants.metadataRepoUrl];
   delete properties[DeploymentCenterConstants.metadataScmUri];
   delete properties[DeploymentCenterConstants.metadataCloneUri];
@@ -144,7 +146,7 @@ export const clearGitHubActionSourceControlPropertiesManually = async (deploymen
   const updateMetadataResponse = await deploymentCenterData.updateConfigMetadata(resourceId, properties);
 
   if (!updateMetadataResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'clearGitHubActionSourceControlPropertiesManually'), {
       error: updateMetadataResponse.metadata.error,
     });
 
@@ -158,7 +160,7 @@ export const clearGitHubActionSourceControlPropertiesManually = async (deploymen
   });
 
   if (!patchSiteConfigResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'clearGitHubActionSourceControlPropertiesManually'), {
       error: patchSiteConfigResponse.metadata.error,
     });
   }

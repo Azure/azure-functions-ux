@@ -174,9 +174,11 @@ export default class SiteService {
   public static fetchMetadata = async (resourceId: string) => {
     const id = `${resourceId}/config/metadata/list`;
     const result = await MakeArmCall<ArmObj<KeyValue<string>>>({ resourceId: id, commandName: 'fetchMetadata', method: 'POST' });
+    const properties = !!result.data && !!result.data.properties ? result.data.properties : {};
+
     LogService.trackEvent('site-service', 'metadataLoaded', {
       success: result.metadata.success,
-      resultCount: result.data && Object.keys(result.data.properties).length,
+      resultCount: Object.keys(properties).length,
     });
     return result;
   };

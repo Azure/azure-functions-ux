@@ -48,7 +48,10 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [isPreviewFileButtonDisabled, setIsPreviewFileButtonDisabled] = useState(false);
   const [panelMessage, setPanelMessage] = useState('');
 
-  const isDeploymentSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.None;
+  const isDeploymentSetup =
+    !!deploymentCenterContext.siteConfig &&
+    !!deploymentCenterContext.siteConfig.properties.scmType &&
+    deploymentCenterContext.siteConfig.properties.scmType !== ScmType.None;
 
   const isKuduBuild = formProps.values.buildProvider === BuildProvider.AppServiceBuildService;
   const isVstsBuild = formProps.values.buildProvider === BuildProvider.Vsts;
