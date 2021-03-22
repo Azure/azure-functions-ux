@@ -1,4 +1,4 @@
-import { Checkbox } from 'office-ui-fabric-react';
+import { Checkbox, IChoiceGroupOption } from 'office-ui-fabric-react';
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
@@ -8,6 +8,7 @@ import StringUtils from '../../../../utils/string';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { VirtualApplication } from '../../../../models/site/config';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
+import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
 
 export interface HandlerMappingAddEditProps {
   updateVirtualApplication: (item: VirtualApplication) => any;
@@ -76,10 +77,10 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
     setCurrentVirtualApplication({ ...currentVirtualApplication, virtualPath });
   };
 
-  const updateVirtualDirectory = (e: any, virtualDirectory: boolean) => {
+  const updateVirtualDirectory = (e: any, option: IChoiceGroupOption) => {
     setCurrentVirtualApplication({
       ...currentVirtualApplication,
-      virtualDirectory,
+      virtualDirectory: option.key === 'true',
     });
   };
   const updatePreloadEnabled = (e: any, preloadEnabled: boolean) => {
@@ -137,15 +138,24 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
           root: formElementStyle,
         }}
       />
-      <Checkbox
-        label={t('directory')}
+      <RadioButtonNoFormik
         id="va-directory-or-application"
-        defaultChecked={currentVirtualApplication.virtualDirectory}
-        onChange={updateVirtualDirectory}
+        options={[
+          {
+            key: 'false',
+            text: t('application'),
+          },
+          {
+            key: 'true',
+            text: t('directory'),
+          },
+        ]}
         disabled={virtualApplication.virtualPath === '/'}
         styles={{
           root: formElementStyle,
         }}
+        defaultChecked={currentVirtualApplication.virtualDirectory}
+        onChange={updateVirtualDirectory}
       />
       {currentVirtualApplication.virtualDirectory ? null : (
         <Checkbox
