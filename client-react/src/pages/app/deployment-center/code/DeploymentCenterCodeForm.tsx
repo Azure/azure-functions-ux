@@ -95,7 +95,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           deploymentCenterData,
           deploymentCenterContext.resourceId,
           payload,
-          deploymentCenterContext.gitHubToken
+          deploymentCenterContext.gitHubToken,
+          siteStateContext.isKubeApp
         );
       } else {
         if (!updateSourceControlResponse.metadata.success) {
@@ -113,32 +114,23 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   };
 
   const setSourceControlsInMetadata = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
-    const patchSiteConfigResponse = await deploymentCenterData.patchSiteConfig(deploymentCenterContext.resourceId, {
-      properties: {
-        scmType: 'GitHubAction',
-      },
-    });
+    portalContext.log(getTelemetryInfo('warning', 'setSourceControlsInMetadata', 'submit'));
 
-    if (patchSiteConfigResponse.metadata.success) {
-      portalContext.log(getTelemetryInfo('warning', 'setSourceControlsInMetadata', 'submit'));
+    const payload: SiteSourceControlRequestBody = {
+      repoUrl: getRepoUrl(values),
+      branch: values.branch || 'master',
+      isManualIntegration: values.sourceProvider === ScmType.ExternalGit,
+      isGitHubAction: values.buildProvider === BuildProvider.GitHubAction,
+      isMercurial: false,
+    };
 
-      const payload: SiteSourceControlRequestBody = {
-        repoUrl: getRepoUrl(values),
-        branch: values.branch || 'master',
-        isManualIntegration: values.sourceProvider === ScmType.ExternalGit,
-        isGitHubAction: values.buildProvider === BuildProvider.GitHubAction,
-        isMercurial: false,
-      };
-
-      return updateGitHubActionSourceControlPropertiesManually(
-        deploymentCenterData,
-        deploymentCenterContext.resourceId,
-        payload,
-        deploymentCenterContext.gitHubToken
-      );
-    } else {
-      return patchSiteConfigResponse;
-    }
+    return updateGitHubActionSourceControlPropertiesManually(
+      deploymentCenterData,
+      deploymentCenterContext.resourceId,
+      payload,
+      deploymentCenterContext.gitHubToken,
+      siteStateContext.isKubeApp
+    );
   };
 
   const getRepoUrl = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>): string => {
