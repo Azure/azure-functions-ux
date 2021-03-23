@@ -6999,4 +6999,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="resourceConnector" xml:space="preserve">
         <value>Resource Connector</value>
     </data>
+    <data name="keyVaultReferenceInitializedStatus" xml:space="preserve">
+        <value>The portal is not able to confirm the status of your Key Vault reference at this time.  Please confirm the status directly from the site by checking whether the environment variables under {0} have resolved.</value>
+    </data>
 </root>

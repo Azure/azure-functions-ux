@@ -17,6 +17,8 @@ import StringUtils from '../../../utils/string';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import { KeyValue } from '../../../models/portal-models';
 import { isFunctionApp } from '../../../utils/arm-utils';
+import { IconConstants } from '../../../utils/constants/IconConstants';
+import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return !!settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -410,6 +412,51 @@ export function getCleanedReferences(references: ArmObj<{ [keyToReferenceStatuse
   }));
 }
 
-export function isKeyVaultReferenceResolved(reference: KeyVaultReferenceSummary) {
+export function isKeyVaultReferenceResolved(reference: KeyVaultReferenceSummary | KeyVaultReference) {
   return !!reference.status && reference.status.toLowerCase() === KeyVaultReferenceStatus.resolved;
+}
+
+export function isKeyVaultReferenceUnResolved(reference: KeyVaultReferenceSummary | KeyVaultReference) {
+  return (
+    !!reference.status &&
+    reference.status.toLowerCase() !== KeyVaultReferenceStatus.resolved &&
+    reference.status.toLowerCase() !== KeyVaultReferenceStatus.initialized
+  );
+}
+
+export function getKeyVaultReferenceStatus(reference: KeyVaultReferenceSummary | KeyVaultReference) {
+  return !!reference.status ? reference.status.toLowerCase() : '';
+}
+
+export function getKeyVaultReferenceStatusIconProps(
+  reference: KeyVaultReferenceSummary | KeyVaultReference
+): { icon: string; type: string } {
+  const status = getKeyVaultReferenceStatus(reference);
+  if (status === KeyVaultReferenceStatus.resolved) {
+    return {
+      icon: IconConstants.IconNames.TickBadge,
+      type: 'success',
+    };
+  }
+  if (status === KeyVaultReferenceStatus.initialized) {
+    return {
+      icon: IconConstants.IconNames.InfoBadge,
+      type: 'info',
+    };
+  }
+  return {
+    icon: IconConstants.IconNames.ErrorBadge,
+    type: 'error',
+  };
+}
+
+export function getKeyVaultReferenceStatusIconColor(reference: KeyVaultReferenceSummary | KeyVaultReference, theme: ThemeExtended) {
+  const status = getKeyVaultReferenceStatus(reference);
+  if (status === KeyVaultReferenceStatus.resolved) {
+    return theme.semanticColors.inlineSuccessText;
+  }
+  if (status === KeyVaultReferenceStatus.initialized) {
+    return theme.semanticColors.infoIcon;
+  }
+  return theme.semanticColors.inlineErrorText;
 }
