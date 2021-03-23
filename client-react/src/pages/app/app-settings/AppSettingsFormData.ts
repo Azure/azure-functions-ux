@@ -453,7 +453,7 @@ export function getKeyVaultReferenceStatusIconColor(reference: KeyVaultReference
     return theme.semanticColors.inlineSuccessText;
   }
   if (status === KeyVaultReferenceStatus.initialized) {
-    return theme.semanticColors.infoIcon;
+    return theme.semanticColors.primaryButtonBackground;
   }
   return theme.semanticColors.inlineErrorText;
 }
