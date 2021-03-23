@@ -106,12 +106,30 @@ const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = pr
     }
   };
 
-  const getStatusValue = () => {
+  const getStatusLabel = () => {
     if (getKeyVaultReferenceStatus(appSettingReference) === KeyVaultReferenceStatus.initialized && !!siteStateContext.site) {
       const scmUri = Url.getScmUrl(siteStateContext.site);
-      return t('keyVaultReferenceInitializedStatus').format(scmUri);
+      return (
+        <InformationLabel
+          value={t('keyVaultReferenceInitializedStatus')}
+          id="key-status"
+          label={t('status')}
+          labelProps={getKeyVaultReferenceStatusIconProps(appSettingReference)}
+          linkWithLabel={{
+            href: scmUri,
+            value: t('clickHereToAccessSite'),
+          }}
+        />
+      );
     } else {
-      return status;
+      return (
+        <InformationLabel
+          value={status}
+          id="key-status"
+          label={t('status')}
+          labelProps={getKeyVaultReferenceStatusIconProps(appSettingReference)}
+        />
+      );
     }
   };
 
@@ -172,12 +190,7 @@ const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = pr
           {isValidValue(identityType) && (
             <InformationLabel value={`${getIdentityValue()} assigned managed identity`} id="key-identity" label={t('identity')} />
           )}
-          <InformationLabel
-            value={getStatusValue()}
-            id="key-status"
-            label={t('status')}
-            labelProps={getKeyVaultReferenceStatusIconProps(appSettingReference)}
-          />
+          {getStatusLabel()}
           {isKeyVaultReferenceUnResolved(appSettingReference) && (
             <InformationLabel value={details} id="key-error-details" label={t('errorDetails')} />
           )}

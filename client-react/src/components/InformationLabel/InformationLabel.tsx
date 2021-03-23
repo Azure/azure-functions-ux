@@ -4,6 +4,7 @@ import { Label, Link, Icon } from 'office-ui-fabric-react';
 import { style } from 'typestyle';
 import { ThemeContext } from '../../ThemeContext';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
+import { labelValueStyle } from './InformationLabel.styles';
 
 export interface CustomInformationLabelProps {
   id: string;
@@ -16,6 +17,10 @@ export interface CustomInformationLabelProps {
   };
   className?: string;
   onClick?: () => void;
+  linkWithLabel?: {
+    href: string;
+    value: string;
+  };
 }
 
 const labelIconStyle = style({
@@ -28,6 +33,8 @@ const getLabelColor = (type: 'success' | 'error' | undefined, theme: ThemeExtend
     return theme.semanticColors.inlineSuccessText;
   } else if (type === 'error') {
     return theme.semanticColors.inlineErrorText;
+  } else if (type === 'info') {
+    return theme.semanticColors.primaryButtonBackground;
   } else {
     return theme.semanticColors.textColor;
   }
@@ -47,7 +54,7 @@ const getLabelStyle = (labelProps: any, theme: ThemeExtended) => {
 };
 
 const InformationLabel: FC<CustomInformationLabelProps> = props => {
-  const { value, id, link, labelProps, className, onClick } = props;
+  const { value, id, link, labelProps, className, onClick, linkWithLabel } = props;
   const theme = useContext(ThemeContext);
 
   const getClassNameFromProps = () => {
@@ -66,7 +73,12 @@ const InformationLabel: FC<CustomInformationLabelProps> = props => {
       ) : (
         <Label id={`${id}-value`} aria-labelledby={`${id}-label`} onClick={onClick} className={getClassNameFromProps()}>
           {labelProps && labelProps.icon && <Icon iconName={labelProps.icon} className={labelIconStyle} />}
-          <span>{value}</span>
+          <span className={labelValueStyle(theme)}>{value}</span>
+          {!!linkWithLabel && (
+            <Link href={linkWithLabel.href} target="_blank">
+              {linkWithLabel.value}
+            </Link>
+          )}
         </Label>
       )}
     </ReactiveFormControl>
