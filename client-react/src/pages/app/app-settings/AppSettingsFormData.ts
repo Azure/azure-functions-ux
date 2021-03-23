@@ -412,20 +412,17 @@ export function getCleanedReferences(references: ArmObj<{ [keyToReferenceStatuse
   }));
 }
 
+export function getKeyVaultReferenceStatus(reference: KeyVaultReferenceSummary | KeyVaultReference) {
+  return !!reference.status ? reference.status.toLowerCase() : '';
+}
+
 export function isKeyVaultReferenceResolved(reference: KeyVaultReferenceSummary | KeyVaultReference) {
-  return !!reference.status && reference.status.toLowerCase() === KeyVaultReferenceStatus.resolved;
+  return getKeyVaultReferenceStatus(reference) === KeyVaultReferenceStatus.resolved;
 }
 
 export function isKeyVaultReferenceUnResolved(reference: KeyVaultReferenceSummary | KeyVaultReference) {
-  return (
-    !!reference.status &&
-    reference.status.toLowerCase() !== KeyVaultReferenceStatus.resolved &&
-    reference.status.toLowerCase() !== KeyVaultReferenceStatus.initialized
-  );
-}
-
-export function getKeyVaultReferenceStatus(reference: KeyVaultReferenceSummary | KeyVaultReference) {
-  return !!reference.status ? reference.status.toLowerCase() : '';
+  const status = getKeyVaultReferenceStatus(reference);
+  return status !== KeyVaultReferenceStatus.resolved && status !== KeyVaultReferenceStatus.initialized;
 }
 
 export function getKeyVaultReferenceStatusIconProps(
