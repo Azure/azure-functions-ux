@@ -2285,4 +2285,5 @@ export class PortalResources {
   public static deploymentCenterSettingsLoading = 'deploymentCenterSettingsLoading';
   public static ibizafication_readOnlyDotnet5 = 'ibizafication_readOnlyDotnet5';
   public static resourceConnector = 'resourceConnector';
+  public static keyVaultReferenceInitializedStatus = 'keyVaultReferenceInitializedStatus';
 }
