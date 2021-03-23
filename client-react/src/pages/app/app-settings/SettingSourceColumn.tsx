@@ -6,7 +6,11 @@ import { ThemeContext } from '../../../ThemeContext';
 import { keyVaultIconStyle, sourceTextStyle } from './AppSettings.styles';
 import { KeyVaultReferenceSummary } from './AppSettings.types';
 import { isServiceLinkerVisible, isSettingServiceLinker } from './AppSettings.utils';
-import { isKeyVaultReferenceResolved } from './AppSettingsFormData';
+import {
+  isKeyVaultReferenceResolved,
+  getKeyVaultReferenceStatusIconProps,
+  getKeyVaultReferenceStatusIconColor,
+} from './AppSettingsFormData';
 
 export interface SettingSourceColumnProps {
   name: string;
@@ -27,8 +31,8 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
         className={defaultCellStyle}
         aria-label={`${t('azureKeyVault')} ${!isKeyVaultReferenceResolved(filteredReference[0]) && 'not'} resolved`}>
         <Icon
-          iconName={isKeyVaultReferenceResolved(filteredReference[0]) ? 'Completed' : 'ErrorBadge'}
-          className={keyVaultIconStyle(theme, isKeyVaultReferenceResolved(filteredReference[0]))}
+          iconName={getKeyVaultReferenceStatusIconProps(filteredReference[0]).icon}
+          className={keyVaultIconStyle(theme, getKeyVaultReferenceStatusIconColor(filteredReference[0], theme))}
           ariaLabel={t('azureKeyVault')}
         />
         <span className={sourceTextStyle}>{t('azureKeyVault')}</span>

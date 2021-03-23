@@ -5,6 +5,7 @@ import {
   FormConnectionString,
   FormAzureStorageMounts,
   KeyVaultReferenceSummary,
+  KeyVaultReferenceStatus,
 } from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
 import { ArmObj } from '../../../models/arm-obj';
@@ -16,6 +17,8 @@ import StringUtils from '../../../utils/string';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import { KeyValue } from '../../../models/portal-models';
 import { isFunctionApp } from '../../../utils/arm-utils';
+import { IconConstants } from '../../../utils/constants/IconConstants';
+import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return !!settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -409,6 +412,48 @@ export function getCleanedReferences(references: ArmObj<{ [keyToReferenceStatuse
   }));
 }
 
-export function isKeyVaultReferenceResolved(reference: KeyVaultReferenceSummary) {
-  return reference.status.toLowerCase() === 'resolved';
+export function getKeyVaultReferenceStatus(reference: KeyVaultReferenceSummary | KeyVaultReference) {
+  return !!reference.status ? reference.status.toLowerCase() : '';
+}
+
+export function isKeyVaultReferenceResolved(reference: KeyVaultReferenceSummary | KeyVaultReference) {
+  return getKeyVaultReferenceStatus(reference) === KeyVaultReferenceStatus.resolved;
+}
+
+export function isKeyVaultReferenceUnResolved(reference: KeyVaultReferenceSummary | KeyVaultReference) {
+  const status = getKeyVaultReferenceStatus(reference);
+  return status !== KeyVaultReferenceStatus.resolved && status !== KeyVaultReferenceStatus.initialized;
+}
+
+export function getKeyVaultReferenceStatusIconProps(
+  reference: KeyVaultReferenceSummary | KeyVaultReference
+): { icon: string; type: string } {
+  const status = getKeyVaultReferenceStatus(reference);
+  if (status === KeyVaultReferenceStatus.resolved) {
+    return {
+      icon: IconConstants.IconNames.TickBadge,
+      type: 'success',
+    };
+  }
+  if (status === KeyVaultReferenceStatus.initialized) {
+    return {
+      icon: IconConstants.IconNames.InfoBadge,
+      type: 'info',
+    };
+  }
+  return {
+    icon: IconConstants.IconNames.ErrorBadge,
+    type: 'error',
+  };
+}
+
+export function getKeyVaultReferenceStatusIconColor(reference: KeyVaultReferenceSummary | KeyVaultReference, theme: ThemeExtended) {
+  const status = getKeyVaultReferenceStatus(reference);
+  if (status === KeyVaultReferenceStatus.resolved) {
+    return theme.semanticColors.inlineSuccessText;
+  }
+  if (status === KeyVaultReferenceStatus.initialized) {
+    return theme.semanticColors.primaryButtonBackground;
+  }
+  return theme.semanticColors.inlineErrorText;
 }
