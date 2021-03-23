@@ -165,7 +165,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
     if (isServiceLinkerBladeResponseSucceeded(response)) {
       const webAppConfig = response.data['webAppConfiguration'];
       if (!!webAppConfig && !!initialValues) {
-        // TODO (krmitta): Quietly delete the settings once we get the confirmation of ServiceLinker's response
+        updateWebAppConfigForServiceLinker(webAppConfig, initialValues, setInitialValues, setCurrentValues, currentValues, true);
       }
     }
   };

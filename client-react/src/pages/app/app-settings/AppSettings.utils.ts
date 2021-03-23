@@ -16,18 +16,26 @@ export const updateWebAppConfigForServiceLinker = (
   initialValues: AppSettingsFormValues,
   setInitialValues: (values: AppSettingsFormValues | null) => void,
   setCurrentValues: (values: AppSettingsFormValues) => void,
-  currentValues: AppSettingsFormValues
+  currentValues: AppSettingsFormValues,
+  deleteOperation?: boolean
 ) => {
   // NOTE(krmitta): ServiceLinker blade returns all the associated settings.
   // Instead of comparing and adding only those which are new/updated, we first filter-out all the matching ServiceLinker settings,
   // And, then add the settings returned by ServiceLinker's blade.
 
-  const serviceLinkerAppSettings: FormAppSetting[] = webAppConfig.appSettings || [];
-  const serviceLinkerConnectionStrings: FormConnectionString[] = webAppConfig.connectionStrings || [];
+  let serviceLinkerAppSettings: FormAppSetting[] = webAppConfig.appSettings || [];
+  let serviceLinkerConnectionStrings: FormConnectionString[] = webAppConfig.connectionStrings || [];
   let filteredAppSettings = initialValues.appSettings.filter(appSetting => !settingExists(appSetting.name, serviceLinkerAppSettings));
   let filteredConnectionStrings = initialValues.connectionStrings.filter(
     connStr => !settingExists(connStr.name, serviceLinkerConnectionStrings)
   );
+
+  // NOTE(krmitta): In case of delete, the settings returned are the ones deleted,
+  // so we should not them back once the initialValues are filtered.
+  if (deleteOperation) {
+    serviceLinkerAppSettings = [];
+    serviceLinkerConnectionStrings = [];
+  }
 
   setInitialValues({
     ...initialValues,
