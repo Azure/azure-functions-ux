@@ -6928,7 +6928,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>The selected version '{0}' will deprecate on {1}. Please consider updating it soon.</value>
     </data>
     <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.</value>
+        <value>Try out the new and improved Deployment Center to manage your container settings, view logs, and set up continuous deployment (CI/CD) from GitHub or your container registry.</value>
     </data>
     <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
         <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>

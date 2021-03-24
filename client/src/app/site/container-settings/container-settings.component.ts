@@ -82,6 +82,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
           this.containerSettingsManager.resetSettings(this.containerConfigureInfo);
 
           this.switchToNewExperience = () => {
+            this._logService.debug(LogCategories.containerSettings, `Switched to Deployment Center`);
             this._portalService.openFrameBlade(
               {
                 detailBlade: 'DeploymentCenterFrameBladeReact',
