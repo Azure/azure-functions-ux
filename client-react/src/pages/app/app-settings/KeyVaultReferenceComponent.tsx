@@ -9,6 +9,10 @@ import { PortalContext } from '../../../PortalContext';
 import { ArmSubcriptionDescriptor } from '../../../utils/resourceDescriptors';
 import KeyVaultService from '../../../ApiHelpers/KeyVaultService';
 import { bladeLinkStyle } from './AppSettings.styles';
+import { getKeyVaultReferenceStatus, isKeyVaultReferenceUnResolved, getKeyVaultReferenceStatusIconProps } from './AppSettingsFormData';
+import { KeyVaultReferenceStatus } from './AppSettings.types';
+import { SiteStateContext } from '../../../SiteState';
+import Url from '../../../utils/url';
 
 export interface KeyVaultReferenceComponentProps {
   appSettingReference: KeyVaultReference;
@@ -26,26 +30,15 @@ const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = pr
   const { t } = useTranslation();
   const [keyVaultResourceId, setKeyVaultResourceId] = useState<string | undefined>(undefined);
   const [initialLoading, setInitialLoading] = useState(true);
-  const { resourceId } = props;
-  const { status, vaultName = '', secretName = '', secretVersion = '', details, identityType = '' } = props.appSettingReference;
+  const { resourceId, appSettingReference } = props;
+  const { status, vaultName = '', secretName = '', secretVersion = '', details, identityType = '' } = appSettingReference;
 
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const isValidValue = (value: string): boolean => {
     return !!value && value.length > 0;
-  };
-
-  const getLabelPropsForStatus = () => {
-    if (isResolved(status)) {
-      return { icon: 'Completed', type: 'success' };
-    } else {
-      return { icon: 'ErrorBadge', type: 'error' };
-    }
-  };
-
-  const isResolved = (status: string): boolean => {
-    return status.toLocaleLowerCase() === 'resolved';
   };
 
   const getIdentityValue = (): string => {
@@ -113,6 +106,33 @@ const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = pr
     }
   };
 
+  const getStatusLabel = () => {
+    if (getKeyVaultReferenceStatus(appSettingReference) === KeyVaultReferenceStatus.initialized && !!siteStateContext.site) {
+      const scmUri = Url.getScmUrl(siteStateContext.site);
+      return (
+        <InformationLabel
+          value={t('keyVaultReferenceInitializedStatus')}
+          id="key-status"
+          label={t('status')}
+          labelProps={getKeyVaultReferenceStatusIconProps(appSettingReference)}
+          linkWithLabel={{
+            href: scmUri,
+            value: t('clickHereToAccessSite'),
+          }}
+        />
+      );
+    } else {
+      return (
+        <InformationLabel
+          value={status}
+          id="key-status"
+          label={t('status')}
+          labelProps={getKeyVaultReferenceStatusIconProps(appSettingReference)}
+        />
+      );
+    }
+  };
+
   useEffect(() => {
     fetchKeyVaultData();
 
@@ -170,8 +190,10 @@ const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = pr
           {isValidValue(identityType) && (
             <InformationLabel value={`${getIdentityValue()} assigned managed identity`} id="key-identity" label={t('identity')} />
           )}
-          <InformationLabel value={status} id="key-status" label={t('status')} labelProps={getLabelPropsForStatus()} />
-          {!isResolved(status) && <InformationLabel value={details} id="key-error-details" label={t('errorDetails')} />}
+          {getStatusLabel()}
+          {isKeyVaultReferenceUnResolved(appSettingReference) && (
+            <InformationLabel value={details} id="key-error-details" label={t('errorDetails')} />
+          )}
         </div>
       </div>
     </>

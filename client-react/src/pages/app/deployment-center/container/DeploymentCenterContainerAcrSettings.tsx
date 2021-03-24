@@ -6,6 +6,7 @@ import Dropdown from '../../../../components/form-controls/DropDown';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import TextField from '../../../../components/form-controls/TextField';
 import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterContainerComposeFileUploader';
+import ComboBox from '../../../../components/form-controls/ComboBox';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -62,7 +63,9 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
             label={t('containerACRImage')}
             name="acrImage"
             defaultSelectedKey={formProps.values.acrImage}
-            component={Dropdown}
+            component={ComboBox}
+            allowFreeform
+            autoComplete="on"
             displayInVerticalLayout={true}
             options={acrImageOptions}
             isLoading={loadingImageOptions}
