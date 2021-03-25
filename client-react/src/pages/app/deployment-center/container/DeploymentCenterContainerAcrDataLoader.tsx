@@ -10,6 +10,7 @@ import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import { useTranslation } from 'react-i18next';
 import { HttpResponseObject } from '../../../../ArmHelper.types';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
 interface RegistryIdentifiers {
   resourceId: string;
@@ -49,6 +50,22 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     if (deploymentCenterContext.siteDescriptor) {
       setLoadingRegistryOptions(true);
 
+      const appSettingServerUrl =
+        deploymentCenterContext.applicationSettings &&
+        deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.serverUrlSetting]
+          ? deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.serverUrlSetting]
+              .toLocaleLowerCase()
+              .replace('https://', '')
+          : '';
+
+      const appSettingUsername = deploymentCenterContext.applicationSettings
+        ? deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.usernameSetting]
+        : '';
+
+      const appSettingPassword = deploymentCenterContext.applicationSettings
+        ? deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.passwordSetting]
+        : '';
+
       portalContext.log(getTelemetryInfo('info', 'getAcrRegistries', 'submit'));
       const registriesResponse = await deploymentCenterData.getAcrRegistries(deploymentCenterContext.siteDescriptor.subscription);
       if (registriesResponse.metadata.success && registriesResponse.data) {
@@ -56,13 +73,30 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
           const dropdownOptions: IDropdownOption[] = [];
 
           registriesResponse.data.value.forEach(registry => {
-            registryIdentifiers.current[registry.properties.loginServer.toLocaleLowerCase()] = {
+            const loginServer = registry.properties.loginServer.toLocaleLowerCase();
+
+            registryIdentifiers.current[loginServer] = {
               resourceId: registry.id,
               location: registry.location,
             };
 
+            // NOTE(michinoy): If we already have the app settings with username and password, use that to reduce
+            // an extra call. Like this IF the registry is setup manually, there is no need to dispatch the call to
+            // get credentials.
+            if (appSettingServerUrl === loginServer && !!appSettingUsername && !!appSettingPassword) {
+              registryIdentifiers.current[loginServer].credential = {
+                username: appSettingUsername,
+                passwords: [
+                  {
+                    name: 'primary',
+                    value: appSettingPassword,
+                  },
+                ],
+              };
+            }
+
             dropdownOptions.push({
-              key: registry.properties.loginServer.toLocaleLowerCase(),
+              key: loginServer,
               text: registry.name,
             });
           });
@@ -249,10 +283,12 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   };
 
   useEffect(() => {
-    fetchData();
+    if (deploymentCenterContext.siteDescriptor && deploymentCenterContext.applicationSettings) {
+      fetchData();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext.siteDescriptor]);
+  }, [deploymentCenterContext.siteDescriptor, deploymentCenterContext.applicationSettings]);
 
   useEffect(() => {
     if (registryIdentifiers.current[formProps.values.acrLoginServer]) {

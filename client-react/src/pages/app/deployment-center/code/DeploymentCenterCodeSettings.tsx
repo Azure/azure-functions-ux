@@ -47,50 +47,76 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [workflowFilePath, setWorkflowFilePath] = useState<string>('');
   const [isPreviewFileButtonDisabled, setIsPreviewFileButtonDisabled] = useState(false);
   const [panelMessage, setPanelMessage] = useState('');
+  const [siteConfigScmType, setSiteConfigScmType] = useState<ScmType | undefined>(undefined);
+  const [shouldLoadSetupView, setShouldLoadSetupView] = useState(false);
+  const [isKuduBuild, setIsKuduBuild] = useState(false);
+  const [isVstsBuild, setIsVstsBuild] = useState(false);
+  const [isGitHubActionsBuild, setIsGitHubActionsBuild] = useState(false);
+  const [isGitHubActionsSetup, setIsGitHubActionsSetup] = useState(false);
+  const [isGitHubSource, setIsGitHubSource] = useState(false);
+  const [isGitHubSourceSetup, setIsGitHubSourceSetup] = useState(false);
+  const [isBitbucketSource, setIsBitbucketSource] = useState(false);
+  const [isBitbucketSetup, setIsBitbucketSetup] = useState(false);
+  const [isLocalGitSource, setIsLocalGitSource] = useState(false);
+  const [isLocalGitSetup, setIsLocalGitSetup] = useState(false);
+  const [isExternalGitSource, setIsExternalGitSource] = useState(false);
+  const [isExternalGitSetup, setIsExternalGitSetup] = useState(false);
+  const [isOneDriveSource, setIsOneDriveSource] = useState(false);
+  const [isOneDriveSetup, setIsOneDriveSetup] = useState(false);
+  const [isDropboxSource, setIsDropboxSource] = useState(false);
+  const [isDropboxSetup, setIsDropboxSetup] = useState(false);
+  const [isVsoSource, setIsVsoSource] = useState(false);
+  const [isVstsSetup, setIsVstsSetup] = useState(false);
+  const [isTfsOrVsoSetup, setIsTfsOrVsoSetup] = useState(false);
+  const [isUsingExistingOrAvailableWorkflowConfig, setIsUsingExistingOrAvailableWorkflowConfig] = useState(false);
 
-  const isDeploymentSetup = siteStateContext.isKubeApp
-    ? isGitHubActionSetupViaMetadata(deploymentCenterContext.configMetadata)
-    : deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.None;
+  useEffect(() => {
+    if (siteStateContext.isKubeApp && isGitHubActionSetupViaMetadata(deploymentCenterContext.configMetadata)) {
+      setSiteConfigScmType(ScmType.GitHubAction);
+    } else {
+      setSiteConfigScmType(deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext.siteConfig, deploymentCenterContext.configMetadata]);
 
-  const isKuduBuild = formProps.values.buildProvider === BuildProvider.AppServiceBuildService;
-  const isVstsBuild = formProps.values.buildProvider === BuildProvider.Vsts;
+  useEffect(() => {
+    setShouldLoadSetupView(!!siteConfigScmType && siteConfigScmType !== ScmType.None);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [siteConfigScmType, deploymentCenterContext.siteConfig, deploymentCenterContext.configMetadata]);
 
-  const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
-  const isGitHubActionsBuild = formProps.values.buildProvider === BuildProvider.GitHubAction;
-  const isGitHubActionsSetup = siteStateContext.isKubeApp
-    ? isGitHubActionSetupViaMetadata(deploymentCenterContext.configMetadata)
-    : deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
-  const isGitHubSourceSetup = siteStateContext.isKubeApp
-    ? isGitHubActionSetupViaMetadata(deploymentCenterContext.configMetadata)
-    : deploymentCenterContext.siteConfig &&
-      (deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction ||
-        deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHub);
-  const isUsingExistingOrAvailableWorkflowConfig = isWorkflowOptionExistingOrAvailable(formProps.values.workflowOption);
+  useEffect(() => {
+    setIsKuduBuild(formProps.values.buildProvider === BuildProvider.AppServiceBuildService);
+    setIsVstsBuild(formProps.values.buildProvider === BuildProvider.Vsts);
+    setIsGitHubActionsBuild(formProps.values.buildProvider === BuildProvider.GitHubAction);
 
-  const isBitbucketSource = formProps.values.sourceProvider === ScmType.BitbucketGit;
-  const isBitbucketSetup =
-    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.BitbucketGit;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.buildProvider]);
 
-  const isLocalGitSource = formProps.values.sourceProvider === ScmType.LocalGit;
-  const isLocalGitSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
+  useEffect(() => {
+    setIsGitHubSource(formProps.values.sourceProvider === ScmType.GitHub);
+    setIsBitbucketSource(formProps.values.sourceProvider === ScmType.BitbucketGit);
+    setIsLocalGitSource(formProps.values.sourceProvider === ScmType.LocalGit);
+    setIsExternalGitSource(formProps.values.sourceProvider === ScmType.ExternalGit);
+    setIsOneDriveSource(formProps.values.sourceProvider === ScmType.OneDrive);
+    setIsDropboxSource(formProps.values.sourceProvider === ScmType.Dropbox);
+    setIsVsoSource(formProps.values.sourceProvider === ScmType.Vso);
 
-  const isExternalGitSource = formProps.values.sourceProvider === ScmType.ExternalGit;
-  const isExternalGitSetup =
-    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.ExternalGit;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.sourceProvider]);
 
-  const isOneDriveSource = formProps.values.sourceProvider === ScmType.OneDrive;
-  const isOneDriveSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.OneDrive;
+  useEffect(() => {
+    setIsGitHubActionsSetup(siteConfigScmType === ScmType.GitHubAction);
+    setIsGitHubSourceSetup(siteConfigScmType === ScmType.GitHubAction || siteConfigScmType === ScmType.GitHub);
+    setIsBitbucketSetup(siteConfigScmType === ScmType.BitbucketGit);
+    setIsLocalGitSetup(siteConfigScmType === ScmType.LocalGit);
+    setIsExternalGitSetup(siteConfigScmType === ScmType.ExternalGit);
+    setIsOneDriveSetup(siteConfigScmType === ScmType.OneDrive);
+    setIsDropboxSetup(siteConfigScmType === ScmType.Dropbox);
+    setIsVstsSetup(siteConfigScmType === ScmType.Vsts);
+    setIsTfsOrVsoSetup(siteConfigScmType === ScmType.Tfs || siteConfigScmType === ScmType.Vso);
 
-  const isDropboxSource = formProps.values.sourceProvider === ScmType.Dropbox;
-  const isDropboxSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.Dropbox;
-
-  const isVstsSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vsts;
-
-  const isVsoSource = formProps.values.sourceProvider === ScmType.Vso;
-  const isTfsOrVsoSetup =
-    deploymentCenterContext.siteConfig &&
-    (deploymentCenterContext.siteConfig.properties.scmType === ScmType.Tfs ||
-      deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vso);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [siteConfigScmType, deploymentCenterContext.configMetadata]);
 
   const getWorkflowFileContent = () => {
     if (deploymentCenterContext.siteDescriptor) {
@@ -140,6 +166,8 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     } else if (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) {
       setPanelMessage(t('githubActionWorkflowOptionOverwriteIfConfigExists'));
     }
+
+    setIsUsingExistingOrAvailableWorkflowConfig(isWorkflowOptionExistingOrAvailable(formProps.values.workflowOption));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.workflowOption]);
 
@@ -182,7 +210,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
   const getSettingsControls = () => (
     <>
-      {isDeploymentSetup ? (
+      {shouldLoadSetupView ? (
         <>
           <p>
             <span id="deployment-center-settings-message">{t('deploymentCenterCodeSettingsDescription')}</span>

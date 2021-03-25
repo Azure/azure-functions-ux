@@ -1,5 +1,7 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
+import { isLinuxApp } from '../arm-utils';
+
 export class LinuxSiteEnvironment extends Environment {
   public name = 'LinuxSite';
 
@@ -179,10 +181,6 @@ export class LinuxSiteEnvironment extends Environment {
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
-    if (input && input.site && input.site.kind) {
-      return input.site.kind.toLowerCase().indexOf('linux') > -1;
-    }
-
-    return false;
+    return !!input && !!input.site && isLinuxApp(input.site);
   }
 }

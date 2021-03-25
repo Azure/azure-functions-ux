@@ -286,6 +286,8 @@ export const extractConfigFromFile = (input): Promise<string> => {
 };
 
 export const isGitHubActionSetupViaMetadata = (metadata?: ArmObj<KeyValue<string>>) => {
+  // TODO(michinoy): Once the site config patch API is done, this will not be needed.
+  // https://msazure.visualstudio.com/Antares/_workitems/edit/9572219
   return (
     metadata &&
     metadata.properties &&

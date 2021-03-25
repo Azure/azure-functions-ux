@@ -5,11 +5,14 @@ import { CommonConstants } from './CommonConstants';
 import Url from './url';
 
 export function isFunctionApp(obj: ArmObj<any>): boolean {
-  return AppKind.hasKinds(obj, ['functionapp']) && !AppKind.hasKinds(obj, ['botapp']);
+  return AppKind.hasKinds(obj, [CommonConstants.Kinds.functionApp]) && !AppKind.hasKinds(obj, [CommonConstants.Kinds.botapp]);
 }
 
 export function isLinuxApp(obj: ArmObj<any>): boolean {
-  return AppKind.hasKinds(obj, ['linux']);
+  // NOTE(andimarc): For kube apps 'linux' doesn't currently get added to the kind.
+  // However kube apps only support linux so we can treat all kube apps as linux apps.
+  // BUG - https://msazure.visualstudio.com/Antares/_workitems/edit/9321559
+  return AppKind.hasKinds(obj, [CommonConstants.Kinds.linux]) || isKubeApp(obj);
 }
 
 export function isLinuxDynamic(obj: ArmObj<Site>) {
@@ -17,7 +20,7 @@ export function isLinuxDynamic(obj: ArmObj<Site>) {
 }
 
 export function isContainerApp(obj: ArmObj<Site>): boolean {
-  return AppKind.hasKinds(obj, ['container']);
+  return AppKind.hasKinds(obj, [CommonConstants.Kinds.container]);
 }
 
 export function isElastic(obj: ArmObj<Site>): boolean {
@@ -31,18 +34,23 @@ export function isPremiumV2(obj: ArmObj<Site>): boolean {
 }
 
 export function isXenonApp(obj: ArmObj<Site>): boolean {
-  return AppKind.hasKinds(obj, ['xenon']);
+  return AppKind.hasKinds(obj, [CommonConstants.Kinds.xenon]);
 }
 
 export function isWorkflowApp(obj: ArmObj<any>): boolean {
-  return AppKind.hasKinds(obj, ['functionapp', 'workflowapp']);
+  return AppKind.hasKinds(obj, [CommonConstants.Kinds.functionApp, CommonConstants.Kinds.workflowApp]);
 }
 
 export function isKubeApp(obj: ArmObj<unknown>): boolean {
   // NOTE(michinoy): While there is a bug in place, we can pass in a flag in the
   // url to treat the app as Kube app.
   // BUG - https://msazure.visualstudio.com/Antares/_workitems/edit/9449377
-  return AppKind.hasKinds(obj, ['kubeapp']) || Url.getFeatureValue(CommonConstants.FeatureFlags.treatAsKubeApp) === 'true';
+  // NOTE(andimarc): This 'kubeapp' kind will be changing to 'kubernetes', so we're
+  // temporarily checking for both in order to gracefully handle the transition.
+  return (
+    AppKind.hasAnyKind(obj, [CommonConstants.Kinds.kubeApp, CommonConstants.Kinds.kubernetes]) ||
+    Url.getFeatureValue(CommonConstants.FeatureFlags.treatAsKubeApp) === 'true'
+  );
 }
 
 export function mapResourcesTopologyToArmObjects<T>(columns: ResourceGraphColumn[], rows: any[][]): ArmObj<T>[] {

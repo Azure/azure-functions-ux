@@ -11,11 +11,61 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
+export const updateGitHubActionAppSettingsForPython = async (
+  deploymentCenterData: DeploymentCenterData,
+  resourceId: string,
+  isFunctionApp: boolean
+) => {
+  const fetchExistingAppSettingsResponse = await deploymentCenterData.fetchApplicationSettings(resourceId);
+
+  if (!fetchExistingAppSettingsResponse.metadata.success) {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionAppSettingsForPython'), {
+      error: fetchExistingAppSettingsResponse.metadata.error,
+    });
+
+    return fetchExistingAppSettingsResponse;
+  }
+
+  let updateAppSettings = false;
+  const properties = fetchExistingAppSettingsResponse.data && fetchExistingAppSettingsResponse.data.properties;
+
+  if (properties && !properties[DeploymentCenterConstants.appSettings_SCM_DO_BUILD_DURING_DEPLOYMENT]) {
+    updateAppSettings = true;
+    properties[DeploymentCenterConstants.appSettings_SCM_DO_BUILD_DURING_DEPLOYMENT] = '1';
+  }
+
+  if (isFunctionApp && properties && !properties[DeploymentCenterConstants.appSettings_ENABLE_ORYX_BUILD]) {
+    updateAppSettings = true;
+    properties[DeploymentCenterConstants.appSettings_ENABLE_ORYX_BUILD] = '1';
+  }
+
+  fetchExistingAppSettingsResponse.data.properties = properties;
+
+  // NOTE(michinoy): ONLY update the appsettings IF one of the values is missing. This is to prevent an unnecessary restart of the app.
+  if (updateAppSettings) {
+    const updateAppSettingsResponse = await deploymentCenterData.updateApplicationSettings(
+      resourceId,
+      fetchExistingAppSettingsResponse.data
+    );
+
+    if (!updateAppSettingsResponse.metadata.success) {
+      LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionAppSettingsForPython'), {
+        error: updateAppSettingsResponse.metadata.error,
+      });
+    }
+
+    return updateAppSettingsResponse;
+  } else {
+    return fetchExistingAppSettingsResponse;
+  }
+};
+
 export const updateGitHubActionSourceControlPropertiesManually = async (
   deploymentCenterData: DeploymentCenterData,
   resourceId: string,
   payload: SiteSourceControlRequestBody,
-  gitHubToken: string
+  gitHubToken: string,
+  isKubeApp: boolean
 ) => {
   // NOTE(michinoy): To be on the safe side, the update operations should be sequential rather than
   // parallel. The reason behind this is because incase the metadata update fails, but the scmtype is updated
@@ -31,7 +81,8 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
     return fetchExistingMetadataResponse;
   }
 
-  const properties = fetchExistingMetadataResponse.data.properties;
+  const properties = !!fetchExistingMetadataResponse.data.properties ? fetchExistingMetadataResponse.data.properties : {};
+
   delete properties[DeploymentCenterConstants.metadataRepoUrl];
   delete properties[DeploymentCenterConstants.metadataScmUri];
   delete properties[DeploymentCenterConstants.metadataCloneUri];
@@ -54,22 +105,36 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
     return updateMetadataResponse;
   }
 
-  const patchSiteConfigResponse = await deploymentCenterData.patchSiteConfig(resourceId, {
-    properties: {
-      scmType: 'GitHubAction',
-    },
-  });
-
-  if (!patchSiteConfigResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
-      error: patchSiteConfigResponse.metadata.error,
+  if (isKubeApp) {
+    return updateMetadataResponse;
+  } else {
+    // TODO(michinoy): We need to re-add this call for Kube Apps once the API is available
+    // https://msazure.visualstudio.com/Antares/_workitems/edit/9572219
+    const patchSiteConfigResponse = await deploymentCenterData.patchSiteConfig(resourceId, {
+      properties: {
+        scmType: 'GitHubAction',
+      },
     });
-  }
 
-  return patchSiteConfigResponse;
+    if (!patchSiteConfigResponse.metadata.success) {
+      LogService.error(
+        LogCategories.deploymentCenter,
+        getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'),
+        {
+          error: patchSiteConfigResponse.metadata.error,
+        }
+      );
+    }
+
+    return patchSiteConfigResponse;
+  }
 };
 
-export const clearGitHubActionSourceControlPropertiesManually = async (deploymentCenterData: DeploymentCenterData, resourceId: string) => {
+export const clearGitHubActionSourceControlPropertiesManually = async (
+  deploymentCenterData: DeploymentCenterData,
+  resourceId: string,
+  isKubeApp: boolean
+) => {
   // NOTE(michinoy): To be on the safe side, the update operations should be sequential rather than
   // parallel. The reason behind this is because incase the metadata update fails, but the scmtype is updated
   // the /sourcecontrols API GET will start failing.
@@ -77,14 +142,15 @@ export const clearGitHubActionSourceControlPropertiesManually = async (deploymen
   const fetchExistingMetadataResponse = await deploymentCenterData.getConfigMetadata(resourceId);
 
   if (!fetchExistingMetadataResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'clearGitHubActionSourceControlPropertiesManually'), {
       error: fetchExistingMetadataResponse.metadata.error,
     });
 
     return fetchExistingMetadataResponse;
   }
 
-  const properties = fetchExistingMetadataResponse.data.properties;
+  const properties = !!fetchExistingMetadataResponse.data.properties ? fetchExistingMetadataResponse.data.properties : {};
+
   delete properties[DeploymentCenterConstants.metadataRepoUrl];
   delete properties[DeploymentCenterConstants.metadataScmUri];
   delete properties[DeploymentCenterConstants.metadataCloneUri];
@@ -95,26 +161,36 @@ export const clearGitHubActionSourceControlPropertiesManually = async (deploymen
   const updateMetadataResponse = await deploymentCenterData.updateConfigMetadata(resourceId, properties);
 
   if (!updateMetadataResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'clearGitHubActionSourceControlPropertiesManually'), {
       error: updateMetadataResponse.metadata.error,
     });
 
     return updateMetadataResponse;
   }
 
-  const patchSiteConfigResponse = await deploymentCenterData.patchSiteConfig(resourceId, {
-    properties: {
-      scmType: 'None',
-    },
-  });
-
-  if (!patchSiteConfigResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
-      error: patchSiteConfigResponse.metadata.error,
+  if (isKubeApp) {
+    return updateMetadataResponse;
+  } else {
+    // TODO(michinoy): We need to re-add this call for Kube Apps once the API is available
+    // https://msazure.visualstudio.com/Antares/_workitems/edit/9572219
+    const patchSiteConfigResponse = await deploymentCenterData.patchSiteConfig(resourceId, {
+      properties: {
+        scmType: 'None',
+      },
     });
-  }
 
-  return patchSiteConfigResponse;
+    if (!patchSiteConfigResponse.metadata.success) {
+      LogService.error(
+        LogCategories.deploymentCenter,
+        getLogId('GitHubActionUtility', 'clearGitHubActionSourceControlPropertiesManually'),
+        {
+          error: patchSiteConfigResponse.metadata.error,
+        }
+      );
+    }
+
+    return patchSiteConfigResponse;
+  }
 };
 
 // Detect the specific error which is indicative of Ant89 Geo/Stamp sync issues.

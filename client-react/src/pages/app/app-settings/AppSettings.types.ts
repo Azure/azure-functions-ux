@@ -137,3 +137,8 @@ export interface ShareItem {
   name: string;
   properties: ShareProperties;
 }
+
+export enum KeyVaultReferenceStatus {
+  resolved = 'resolved',
+  initialized = 'initialized',
+}

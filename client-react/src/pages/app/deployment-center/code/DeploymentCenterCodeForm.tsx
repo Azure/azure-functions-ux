@@ -27,6 +27,7 @@ import {
   getCodeFunctionAppCodeWorkflowInformation,
   isApiSyncError,
   updateGitHubActionSourceControlPropertiesManually,
+  updateGitHubActionAppSettingsForPython,
 } from '../utility/GitHubActionUtility';
 import {
   getWorkflowFilePath,
@@ -38,6 +39,7 @@ import {
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { AppOs } from '../../../../models/site/site';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
+import { RuntimeStacks } from '../../../../utils/stacks-utils';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -93,7 +95,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           deploymentCenterData,
           deploymentCenterContext.resourceId,
           payload,
-          deploymentCenterContext.gitHubToken
+          deploymentCenterContext.gitHubToken,
+          siteStateContext.isKubeApp
         );
       } else {
         if (!updateSourceControlResponse.metadata.success) {
@@ -111,32 +114,23 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   };
 
   const setSourceControlsInMetadata = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
-    const patchSiteConfigResponse = await deploymentCenterData.patchSiteConfig(deploymentCenterContext.resourceId, {
-      properties: {
-        scmType: 'GitHubAction',
-      },
-    });
+    portalContext.log(getTelemetryInfo('warning', 'setSourceControlsInMetadata', 'submit'));
 
-    if (patchSiteConfigResponse.metadata.success) {
-      portalContext.log(getTelemetryInfo('warning', 'setSourceControlsInMetadata', 'submit'));
+    const payload: SiteSourceControlRequestBody = {
+      repoUrl: getRepoUrl(values),
+      branch: values.branch || 'master',
+      isManualIntegration: values.sourceProvider === ScmType.ExternalGit,
+      isGitHubAction: values.buildProvider === BuildProvider.GitHubAction,
+      isMercurial: false,
+    };
 
-      const payload: SiteSourceControlRequestBody = {
-        repoUrl: getRepoUrl(values),
-        branch: values.branch || 'master',
-        isManualIntegration: values.sourceProvider === ScmType.ExternalGit,
-        isGitHubAction: values.buildProvider === BuildProvider.GitHubAction,
-        isMercurial: false,
-      };
-
-      return updateGitHubActionSourceControlPropertiesManually(
-        deploymentCenterData,
-        deploymentCenterContext.resourceId,
-        payload,
-        deploymentCenterContext.gitHubToken
-      );
-    } else {
-      return patchSiteConfigResponse;
-    }
+    return updateGitHubActionSourceControlPropertiesManually(
+      deploymentCenterData,
+      deploymentCenterContext.resourceId,
+      payload,
+      deploymentCenterContext.gitHubToken,
+      siteStateContext.isKubeApp
+    );
   };
 
   const getRepoUrl = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>): string => {
@@ -303,6 +297,18 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       values.buildProvider === BuildProvider.GitHubAction &&
       (values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add)
     ) {
+      if (values.runtimeStack === RuntimeStacks.python) {
+        const updateAppSettingsResponse = await updateGitHubActionAppSettingsForPython(
+          deploymentCenterData,
+          deploymentCenterContext.resourceId,
+          siteStateContext.isFunctionApp
+        );
+
+        if (!updateAppSettingsResponse.metadata.success) {
+          return updateAppSettingsResponse;
+        }
+      }
+
       const gitHubActionDeployResponse = await deployGithubActions(values);
       if (!gitHubActionDeployResponse.metadata.success) {
         portalContext.log(

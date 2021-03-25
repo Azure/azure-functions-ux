@@ -21,6 +21,7 @@ import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
 import { FunctionAppEnvironment } from './function-app.environment';
 import { WindowsCodeEnvironment } from './windows-code.environment';
 import { ContainerEnvironment } from './container.environment';
+import { KubeAppEnvironment } from './kube-app.environment';
 import { AppOnAse } from './app-on-ase.environment';
 
 export interface IScenarioService {
@@ -43,6 +44,7 @@ export class ScenarioService implements IScenarioService {
     new FunctionAppEnvironment(this._injector),
     new WindowsCodeEnvironment(this._injector),
     new ContainerEnvironment(),
+    new KubeAppEnvironment(),
     new AppOnAse(this._injector),
   ];
 
