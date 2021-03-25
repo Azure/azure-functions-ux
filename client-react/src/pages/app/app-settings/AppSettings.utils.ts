@@ -17,7 +17,7 @@ export const updateWebAppConfigForServiceLinker = (
   setInitialValues: (values: AppSettingsFormValues | null) => void,
   setCurrentValues: (values: AppSettingsFormValues) => void,
   currentValues: AppSettingsFormValues,
-  deleteOperation?: boolean
+  deleteOperationInvoked?: boolean
 ) => {
   // NOTE(krmitta): ServiceLinker blade returns all the associated settings.
   // Instead of comparing and adding only those which are new/updated, we first filter-out all the matching ServiceLinker settings,
@@ -35,8 +35,8 @@ export const updateWebAppConfigForServiceLinker = (
 
   setInitialValues({
     ...initialValues,
-    appSettings: [...filteredAppSettings, ...(deleteOperation ? [] : serviceLinkerAppSettings)],
-    connectionStrings: [...filteredConnectionStrings, ...(deleteOperation ? [] : serviceLinkerConnectionStrings)],
+    appSettings: [...filteredAppSettings, ...(deleteOperationInvoked ? [] : serviceLinkerAppSettings)],
+    connectionStrings: [...filteredConnectionStrings, ...(deleteOperationInvoked ? [] : serviceLinkerConnectionStrings)],
   });
 
   filteredAppSettings = currentValues.appSettings.filter(appSetting => !settingExists(appSetting.name, serviceLinkerAppSettings));
@@ -45,8 +45,8 @@ export const updateWebAppConfigForServiceLinker = (
   );
   setCurrentValues({
     ...currentValues,
-    appSettings: [...filteredAppSettings, ...(deleteOperation ? [] : serviceLinkerAppSettings)],
-    connectionStrings: [...filteredConnectionStrings, ...(deleteOperation ? [] : serviceLinkerConnectionStrings)],
+    appSettings: [...filteredAppSettings, ...(deleteOperationInvoked ? [] : serviceLinkerAppSettings)],
+    connectionStrings: [...filteredConnectionStrings, ...(deleteOperationInvoked ? [] : serviceLinkerConnectionStrings)],
   });
 };
 
