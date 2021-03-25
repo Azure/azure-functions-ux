@@ -359,7 +359,6 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       <h3 className={titleWithPaddingStyle}>{t('deploymentCenterSettingsBuildTitle')}</h3>
       {getCustomBanner()}
       <Field
-        id="deployment-center-code-settings-runtime-option"
         label={t('deploymentCenterSettingsRuntimeLabel')}
         name="runtimeStack"
         component={Dropdown}
@@ -368,9 +367,9 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
         selectedKey={selectedRuntime}
         onChange={updateSelectedRuntime}
         required={true}
+        aria-required={true}
       />
       <Field
-        id="deployment-center-code-settings-runtime-version-option"
         label={t('deploymentCenterSettingsRuntimeVersionLabel')}
         name="runtimeVersion"
         component={Dropdown}
@@ -379,6 +378,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
         selectedKey={selectedVersion}
         onChange={updateSelectedVersion}
         required={true}
+        aria-required={true}
       />
     </>
   );
