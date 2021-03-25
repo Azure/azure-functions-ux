@@ -140,8 +140,14 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       id: ScenarioIds.bitbucketSource,
       runCheck: () => ({ status: 'disabled' }),
     };
+
     this.scenarioChecks[ScenarioIds.vstsSource] = {
       id: ScenarioIds.vstsSource,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.vstsKuduSource] = {
+      id: ScenarioIds.vstsKuduSource,
       runCheck: () => ({ status: 'disabled' }),
     };
 
