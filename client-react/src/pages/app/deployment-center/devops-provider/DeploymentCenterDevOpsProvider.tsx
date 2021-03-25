@@ -39,7 +39,6 @@ const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderPro
       )}
 
       <Field
-        id="deployment-center-settings-organization-option"
         label={t('deploymentCenterOAuthOrganization')}
         placeholder={t('deploymentCenterOAuthOrganizationPlaceholder')}
         name="org"
@@ -49,9 +48,9 @@ const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderPro
         defaultSelectedKey={formProps.values.org}
         required={true}
         isLoading={loadingOrganizations}
+        aria-required={true}
       />
       <Field
-        id="deployment-center-settings-project-option"
         label={t('deploymentCenterProject')}
         placeholder={t('deploymentCenterProjectPlaceholder')}
         name="devOpsProjectName"
@@ -61,9 +60,9 @@ const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderPro
         defaultSelectedKey={formProps.values.devOpsProjectName}
         required={true}
         isLoading={loadingProjects}
+        aria-required={true}
       />
       <Field
-        id="deployment-center-settings-repository-option"
         label={t('deploymentCenterOAuthRepository')}
         placeholder={t('deploymentCenterOAuthRepositoryPlaceholder')}
         name="repo"
@@ -73,9 +72,9 @@ const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderPro
         defaultSelectedKey={formProps.values.repo}
         required={true}
         isLoading={loadingRepositories}
+        aria-required={true}
       />
       <Field
-        id="deployment-center-settings-branch-option"
         label={t('deploymentCenterOAuthBranch')}
         placeholder={t('deploymentCenterOAuthBranchPlaceholder')}
         name="branch"
@@ -85,6 +84,7 @@ const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderPro
         defaultSelectedKey={formProps.values.branch}
         required={true}
         isLoading={loadingBranches}
+        aria-required={true}
       />
     </>
   );

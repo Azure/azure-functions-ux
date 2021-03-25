@@ -226,7 +226,6 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       </p>
 
       <Field
-        id="deployment-center-code-settings-source-option"
         label={t('deploymentCenterSettingsSourceLabel')}
         placeholder={t('deploymentCenterCodeSettingsSourcePlaceholder')}
         name="sourceProvider"
@@ -234,6 +233,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         displayInVerticalLayout={true}
         options={getSourceOptions()}
         required={true}
+        aria-required={true}
       />
 
       {isSourceSelected &&
