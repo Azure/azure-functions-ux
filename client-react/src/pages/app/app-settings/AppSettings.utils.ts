@@ -17,14 +17,14 @@ export const updateWebAppConfigForServiceLinker = (
   setInitialValues: (values: AppSettingsFormValues | null) => void,
   setCurrentValues: (values: AppSettingsFormValues) => void,
   currentValues: AppSettingsFormValues,
-  deleteOperation?: boolean
+  deleteOperationInvoked?: boolean
 ) => {
   // NOTE(krmitta): ServiceLinker blade returns all the associated settings.
   // Instead of comparing and adding only those which are new/updated, we first filter-out all the matching ServiceLinker settings,
   // And, then add the settings returned by ServiceLinker's blade.
 
-  let serviceLinkerAppSettings: FormAppSetting[] = webAppConfig.appSettings || [];
-  let serviceLinkerConnectionStrings: FormConnectionString[] = webAppConfig.connectionStrings || [];
+  const serviceLinkerAppSettings: FormAppSetting[] = webAppConfig.appSettings || [];
+  const serviceLinkerConnectionStrings: FormConnectionString[] = webAppConfig.connectionStrings || [];
   let filteredAppSettings = initialValues.appSettings.filter(appSetting => !settingExists(appSetting.name, serviceLinkerAppSettings));
   let filteredConnectionStrings = initialValues.connectionStrings.filter(
     connStr => !settingExists(connStr.name, serviceLinkerConnectionStrings)
@@ -32,15 +32,11 @@ export const updateWebAppConfigForServiceLinker = (
 
   // NOTE(krmitta): In case of delete, the settings returned are the ones deleted,
   // so we should not them back once the initialValues are filtered.
-  if (deleteOperation) {
-    serviceLinkerAppSettings = [];
-    serviceLinkerConnectionStrings = [];
-  }
 
   setInitialValues({
     ...initialValues,
-    appSettings: [...filteredAppSettings, ...serviceLinkerAppSettings],
-    connectionStrings: [...filteredConnectionStrings, ...serviceLinkerConnectionStrings],
+    appSettings: [...filteredAppSettings, ...(deleteOperationInvoked ? [] : serviceLinkerAppSettings)],
+    connectionStrings: [...filteredConnectionStrings, ...(deleteOperationInvoked ? [] : serviceLinkerConnectionStrings)],
   });
 
   filteredAppSettings = currentValues.appSettings.filter(appSetting => !settingExists(appSetting.name, serviceLinkerAppSettings));
@@ -49,8 +45,8 @@ export const updateWebAppConfigForServiceLinker = (
   );
   setCurrentValues({
     ...currentValues,
-    appSettings: [...filteredAppSettings, ...serviceLinkerAppSettings],
-    connectionStrings: [...filteredConnectionStrings, ...serviceLinkerConnectionStrings],
+    appSettings: [...filteredAppSettings, ...(deleteOperationInvoked ? [] : serviceLinkerAppSettings)],
+    connectionStrings: [...filteredConnectionStrings, ...(deleteOperationInvoked ? [] : serviceLinkerConnectionStrings)],
   });
 };
 
