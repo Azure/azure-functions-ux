@@ -59,6 +59,15 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
   // that to the users site config.
   // Now in case if the user chooses to use an existing workflow file in their repo, we would still need to get the
   // target registry url, username, and password to update the app settings, but no workflow update is needed.
+  const getImagePlaceHolderText = () => {
+    if (isGitHubAction) {
+      return t('containerImageNamePlaceHolder');
+    } else if (siteStateContext.isLinuxApp) {
+      return t('containerImageAndTagPlaceholder');
+    } else {
+      return t('containerImageAndTagPlaceholderForWindows');
+    }
+  };
 
   return (
     <>
@@ -100,10 +109,8 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
             id="container-dockerHub-imageAndTag"
             name="dockerHubImageAndTag"
             component={TextField}
-            label={t('containerImageAndTag')}
-            placeholder={
-              siteStateContext.isLinuxApp ? t('containerImageAndTagPlaceholder') : t('containerImageAndTagPlaceholderForWindows')
-            }
+            label={isGitHubAction ? t('containerImageName') : t('containerImageAndTag')}
+            placeholder={getImagePlaceHolderText()}
             required={true}
           />
 
