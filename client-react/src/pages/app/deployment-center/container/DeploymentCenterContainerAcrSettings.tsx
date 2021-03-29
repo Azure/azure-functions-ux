@@ -35,7 +35,6 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
   useEffect(() => {
     setIsGitHubActionSelected(formProps.values.scmType === ScmType.GitHubAction);
-    //setTagSelectedKey(formProps.values.scmType === ScmType.GitHubAction ? "githubActionsTag" : formProps.values.acrTag);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.scmType]);

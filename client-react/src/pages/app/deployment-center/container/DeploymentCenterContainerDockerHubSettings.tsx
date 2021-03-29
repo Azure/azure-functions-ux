@@ -13,13 +13,14 @@ import Dropdown from '../../../../components/form-controls/DropDown';
 import { ScmType } from '../../../../models/site/config';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterContainerComposeFileUploader';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 
 const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
   const siteStateContext = useContext(SiteStateContext);
 
-  const [isGitHubAction, setIsGitHubAction] = useState(false);
+  const [isGitHubActionSelected, setIsGitHubActionSelected] = useState(false);
   const [isPrivateConfiguration, setIsPrivateConfiguration] = useState(false);
   const [isComposeOptionSelected, setIsComposeOptionSelected] = useState(false);
 
@@ -30,7 +31,7 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
   }, [formProps.values.dockerHubAccessType]);
 
   useEffect(() => {
-    setIsGitHubAction(formProps.values.scmType === ScmType.GitHubAction);
+    setIsGitHubActionSelected(formProps.values.scmType === ScmType.GitHubAction);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.scmType]);
@@ -60,7 +61,7 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
   // Now in case if the user chooses to use an existing workflow file in their repo, we would still need to get the
   // target registry url, username, and password to update the app settings, but no workflow update is needed.
   const getImagePlaceHolderText = () => {
-    if (isGitHubAction) {
+    if (isGitHubActionSelected) {
       return t('containerImageNamePlaceHolder');
     } else if (siteStateContext.isLinuxApp) {
       return t('containerImageAndTagPlaceholder');
@@ -71,7 +72,7 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
 
   return (
     <>
-      {!isGitHubAction && (
+      {!isGitHubActionSelected && (
         <Field
           id="container-dockerHub-accessType"
           name="dockerHubAccessType"
@@ -82,7 +83,7 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
         />
       )}
 
-      {(isPrivateConfiguration || isGitHubAction) && (
+      {(isPrivateConfiguration || isGitHubActionSelected) && (
         <>
           <Field
             id="container-dockerHub-username"
@@ -109,10 +110,16 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
             id="container-dockerHub-imageAndTag"
             name="dockerHubImageAndTag"
             component={TextField}
-            label={isGitHubAction ? t('containerImageName') : t('containerImageAndTag')}
+            label={isGitHubActionSelected ? t('containerImageName') : t('containerImageAndTag')}
             placeholder={getImagePlaceHolderText()}
             required={true}
           />
+
+          {isGitHubActionSelected && (
+            <ReactiveFormControl id="container-dockerHub-tag" label={t('containerACRTag')}>
+              <div>{t('containerGitHubActionsTagLabel')}</div>
+            </ReactiveFormControl>
+          )}
 
           <Field id="container-dockerHub-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
         </>
