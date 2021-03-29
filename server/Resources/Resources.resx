@@ -4235,6 +4235,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerACRTag" xml:space="preserve">
         <value>Tag</value>
     </data>
+    <data name="containerImageName" xml:space="preserve">
+        <value>Image name</value>
+    </data>
+    <data name="containerImageNamePlaceHolder" xml:space="preserve">
+        <value>E.g. nginx</value>
+    </data>
+    <data name="containerGitHubActionsTagLabel" xml:space="preserve">
+        <value>Tagged with GitHub commit ID</value>
+    </data>
     <data name="containerACRStartupFile" xml:space="preserve">
         <value>Startup File</value>
     </data>

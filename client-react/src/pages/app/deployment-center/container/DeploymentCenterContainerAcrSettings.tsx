@@ -7,6 +7,8 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import TextField from '../../../../components/form-controls/TextField';
 import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterContainerComposeFileUploader';
 import ComboBox from '../../../../components/form-controls/ComboBox';
+import { ScmType } from '../../../../models/site/config';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -23,12 +25,19 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
   const { t } = useTranslation();
 
   const [isComposeOptionSelected, setIsComposeOptionSelected] = useState(false);
+  const [isGitHubActionSelected, setIsGitHubActionSelected] = useState(false);
 
   useEffect(() => {
     setIsComposeOptionSelected(formProps.values.option === ContainerOptions.compose);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.option]);
+
+  useEffect(() => {
+    setIsGitHubActionSelected(formProps.values.scmType === ScmType.GitHubAction);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.scmType]);
 
   // NOTE(michinoy): In case of GitHub Action, we will always need to get the user credentials for their ACR
   // registry. This is because the workflow would need to use those credentials to push the images and app service
@@ -58,31 +67,52 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
       {!isComposeOptionSelected && (
         <>
-          <Field
-            id="container-acr-image"
-            label={t('containerACRImage')}
-            name="acrImage"
-            defaultSelectedKey={formProps.values.acrImage}
-            component={ComboBox}
-            allowFreeform
-            autoComplete="on"
-            displayInVerticalLayout={true}
-            options={acrImageOptions}
-            isLoading={loadingImageOptions}
-            required={true}
-          />
+          {!isGitHubActionSelected && (
+            <>
+              <Field
+                id="container-acr-image"
+                label={t('containerACRImage')}
+                name="acrImage"
+                defaultSelectedKey={formProps.values.acrImage}
+                component={ComboBox}
+                allowFreeform
+                autoComplete="on"
+                displayInVerticalLayout={true}
+                options={acrImageOptions}
+                isLoading={loadingImageOptions}
+                required={true}
+              />
 
-          <Field
-            id="container-acr-tag"
-            label={t('containerACRTag')}
-            name="acrTag"
-            defaultSelectedKey={formProps.values.acrTag}
-            component={Dropdown}
-            displayInVerticalLayout={true}
-            options={acrTagOptions}
-            isLoading={loadingTagOptions}
-            required={true}
-          />
+              <Field
+                id="container-acr-tag"
+                label={t('containerACRTag')}
+                name="acrTag"
+                defaultSelectedKey={formProps.values.acrTag}
+                component={Dropdown}
+                displayInVerticalLayout={true}
+                options={acrTagOptions}
+                isLoading={loadingTagOptions}
+                required={true}
+              />
+            </>
+          )}
+
+          {isGitHubActionSelected && (
+            <>
+              <Field
+                id="container-acr-image"
+                label={t('containerACRImage')}
+                name="acrImage"
+                component={TextField}
+                displayInVerticalLayout={true}
+                required={true}
+              />
+
+              <ReactiveFormControl id="container-acr-tag" label={t('containerACRTag')}>
+                <div>{t('containerGitHubActionsTagLabel')}</div>
+              </ReactiveFormControl>
+            </>
+          )}
 
           <Field id="container-acr-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
         </>
