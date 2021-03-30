@@ -139,7 +139,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
 
     if (!siteStateContext.isKubeApp && basicPublishingCredentialsPoliciesResponse.metadata.success) {
       setBasicPublishingCredentialsPolicies(basicPublishingCredentialsPoliciesResponse.data.properties);
-    } else {
+    } else if (!siteStateContext.isKubeApp) {
       portalContext.log(
         getTelemetryInfo('error', 'basicPublishingCredentialsPoliciesResponse', 'failed', {
           message: getErrorMessage(basicPublishingCredentialsPoliciesResponse.metadata.error),
