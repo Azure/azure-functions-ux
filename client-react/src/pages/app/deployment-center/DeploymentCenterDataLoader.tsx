@@ -106,9 +106,19 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getUserSourceControlsRequest = deploymentCenterData.getUserSourceControls();
     const getSiteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
     const getConfigMetadataRequest = deploymentCenterData.getConfigMetadata(resourceId);
-    const getBasicPublishingCredentialsPoliciesRequest = siteStateContext.isKubeApp
-      ? deploymentCenterData.getBasicPublishingCredentialsPoliciesArc()
-      : deploymentCenterData.getBasicPublishingCredentialsPolicies(resourceId);
+    const getBasicPublishingCredentialsPoliciesRequest = deploymentCenterData.getBasicPublishingCredentialsPolicies(resourceId);
+
+    const requests: Promise<any>[] = [
+      writePermissionRequest,
+      getPublishingUserRequest,
+      getSiteConfigRequest,
+      getConfigMetadataRequest,
+      getUserSourceControlsRequest,
+    ];
+
+    if (!siteStateContext.isKubeApp) {
+      requests.push(getBasicPublishingCredentialsPoliciesRequest);
+    }
 
     const [
       writePermissionResponse,
@@ -117,14 +127,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       configMetadataResponse,
       userSourceControlsResponse,
       basicPublishingCredentialsPoliciesResponse,
-    ] = await Promise.all([
-      writePermissionRequest,
-      getPublishingUserRequest,
-      getSiteConfigRequest,
-      getConfigMetadataRequest,
-      getUserSourceControlsRequest,
-      getBasicPublishingCredentialsPoliciesRequest,
-    ]);
+    ] = await Promise.all(requests);
 
     if (userSourceControlsResponse.metadata.success) {
       setUserSourceControlTokens(userSourceControlsResponse.data);
@@ -137,9 +140,13 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       );
     }
 
-    if (!siteStateContext.isKubeApp && basicPublishingCredentialsPoliciesResponse.metadata.success) {
+    if (
+      !siteStateContext.isKubeApp &&
+      !!basicPublishingCredentialsPoliciesResponse &&
+      basicPublishingCredentialsPoliciesResponse.metadata.success
+    ) {
       setBasicPublishingCredentialsPolicies(basicPublishingCredentialsPoliciesResponse.data.properties);
-    } else if (!siteStateContext.isKubeApp) {
+    } else if (!siteStateContext.isKubeApp && !!basicPublishingCredentialsPoliciesResponse) {
       portalContext.log(
         getTelemetryInfo('error', 'basicPublishingCredentialsPoliciesResponse', 'failed', {
           message: getErrorMessage(basicPublishingCredentialsPoliciesResponse.metadata.error),

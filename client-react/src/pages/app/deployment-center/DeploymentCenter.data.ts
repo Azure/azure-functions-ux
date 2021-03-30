@@ -171,10 +171,6 @@ export default class DeploymentCenterData {
     return SiteService.getBasicPublishingCredentialsPolicies(resourceId);
   };
 
-  public getBasicPublishingCredentialsPoliciesArc = () => {
-    return SiteService.getBasicPublishingCredentialsPoliciesArc();
-  };
-
   public getBitbucketUser = (bitbucketToken: string) => {
     return BitbucketService.getUser(bitbucketToken);
   };
