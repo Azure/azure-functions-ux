@@ -852,17 +852,18 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
-    - uses: azure/docker-login@v1
+    - name: Log in to registry
+      uses: docker/login@v1
       with:
-        login-server: ${loginServer}/
+        registry: ${loginServer}/
         username: \${{ secrets.${containerUsernameSecretName} }}
         password: \${{ secrets.${containerPasswordSecretName} }}
 
     - name: Build and push container image to registry
-      uses: docker/build-push-action@v2.2.1
+      uses: docker/build-push-action@v2
       with:
         push: true
-        tags: ${image}:\${{ github.sha }}
+        tags: \${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
