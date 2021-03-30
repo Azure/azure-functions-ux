@@ -285,10 +285,12 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     if (siteConfigResponse.metadata.success) {
       siteConfigResponse.data.properties.appCommandLine = values.command;
 
-      if (siteContext.isLinuxApp) {
-        siteConfigResponse.data.properties.linuxFxVersion = getFxVersion(values);
-      } else {
-        siteConfigResponse.data.properties.windowsFxVersion = getFxVersion(values);
+      if (values.scmType !== ScmType.GitHubAction) {
+        if (siteContext.isLinuxApp) {
+          siteConfigResponse.data.properties.linuxFxVersion = getFxVersion(values);
+        } else {
+          siteConfigResponse.data.properties.windowsFxVersion = getFxVersion(values);
+        }
       }
 
       portalContext.log(getTelemetryInfo('info', 'getSitupdateSiteConfigeConfig', 'submit'));
