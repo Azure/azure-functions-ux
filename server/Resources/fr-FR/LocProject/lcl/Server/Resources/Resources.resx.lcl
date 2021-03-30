@@ -12,9 +12,9 @@
   </OwnedComments>
   <Settings Name="@SettingsPath@\default.lss" Type="Lss" />
   <Item ItemId=";Resources.resx" ItemType="0" PsrId="211" Leaf="false">
-    <Disp Icon="Str" Expand="true" Disp="true" LocTbl="false" />
+    <Disp Icon="Expand" Expand="true" Disp="true" LocTbl="false" />
     <Item ItemId=";Strings" ItemType="0" PsrId="211" Leaf="false">
-      <Disp Icon="Str" LocTbl="false" />
+      <Disp Icon="Str" Disp="true" LocTbl="false" />
       <Item ItemId=";DurableFunctionsActivity_description" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[A function that will be run whenever an Activity is called by an orchestrator function.]]></Val>
@@ -2834,12 +2834,12 @@
       </Item>
       <Item ItemId=";classicContainerSettingDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
+          <Val><![CDATA[Try out the new and improved Deployment Center to manage your container settings, view logs, and set up continuous deployment (CI/CD) from GitHub or your container registry.]]></Val>
+          <Tgt Cat="Text" Stat="Update" Orig="New">
             <Val><![CDATA[Cette expérience des Paramètres de conteneur (classique) est dépréciée et sera supprimée en mars 2021. Pour continuer à gérer vos paramètres de conteneur, essayez la nouvelle expérience du Centre de déploiement.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, Checkout the new Deployment Center experience.]]></Val>
+            <Val><![CDATA[This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -2871,6 +2871,12 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Une opération est en cours. Voulez-vous vraiment quitter ?]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";clickHereToAccessSite" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[ Click here to access the app.]]></Val>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5414,12 +5420,12 @@
       </Item>
       <Item ItemId=";deploymentCenterFtpsUserScopeDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'. Authenticating with Git requires only the username '{1}' defined below.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
+          <Val><![CDATA[User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requires a username in the following format: '{0}'. Authenticating with Git requires only the username '{1}' defined below.]]></Val>
+          <Tgt Cat="Text" Stat="Update" Orig="New">
             <Val><![CDATA[Les informations d'identification de l'étendue d'utilisateur sont définies par vous, l'utilisateur, et peuvent être utilisées avec toutes les applications auxquelles vous avez accès. Vous pouvez utiliser ces informations d'identification avec FTPS, Git local et WebDeploy. L'authentification sur un point de terminaison FTPS à l'aide d'informations d'identification au niveau de l'utilisateur nécessitent un nom d'utilisateur au format suivant : « {0} ». L'authentification avec Git nécessite seulement le nom d'utilisateur « {1} » défini ci-dessous.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requirers a username in the following format: '{0}']]></Val>
+            <Val><![CDATA[User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'. Authenticating with Git requires only the username '{1}' defined below.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -5807,10 +5813,13 @@
       </Item>
       <Item ItemId=";deploymentCenterRedeploy" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Redeploy/Sync]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
+          <Val><![CDATA[Sync]]></Val>
+          <Tgt Cat="Text" Stat="Update" Orig="New">
             <Val><![CDATA[Redéployer/synchroniser]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Redeploy/Sync]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5967,6 +5976,24 @@
           <Prev Cat="Text">
             <Val><![CDATA[Use existing repository workflow]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterSettingsLoading" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Loading deployment settings...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Chargement des paramètres de déploiement...]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterSettingsLoadingAriaValue" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Loading deployment settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Chargement des paramètres de déploiement]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12051,6 +12078,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";ibizafication_readOnlyDotnet5" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[La modification d'applications de fonction .NET 5 n'est pas prise en charge dans le portail Azure. Utilisez votre environnement de développement local pour modifier cette fonction.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";ibizafication_readOnlyJava" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Editing Java Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.]]></Val>
@@ -12987,6 +13023,12 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Détails de la référence Key Vault]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";keyVaultReferenceInitializedStatus" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The portal is not able to confirm the status of your Key Vault reference at this time.  Please confirm the status directly from the app by checking whether the environment variables have resolved.]]></Val>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -16493,6 +16535,15 @@
           <Val><![CDATA[Resource connection]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Connexion de ressource]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";resourceConnector" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Resource Connector]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Connecteur de ressources]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
