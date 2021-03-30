@@ -11,6 +11,7 @@ import { HostStatus } from '../models/functions/host-status';
 import { KeyValue } from '../models/portal-models';
 import { PublishingCredentials } from '../models/site/publish';
 import { DeploymentProperties, DeploymentLogsItem, SourceControlProperties } from '../pages/app/deployment-center/DeploymentCenter.types';
+import { HttpResponseObject } from '../ArmHelper.types';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
@@ -281,5 +282,30 @@ export default class SiteService {
       resourceId: id,
       commandName: 'getBasicPublishingCredentialsPolicies',
     });
+  };
+
+  public static getBasicPublishingCredentialsPoliciesArc = () => {
+    const ret: HttpResponseObject<ArmObj<PublishingCredentialPolicies>> = {
+      metadata: {
+        success: true,
+        status: 200,
+        headers: {},
+        error: null,
+      },
+      data: {
+        id: '',
+        properties: {
+          ftp: {
+            allow: false,
+          },
+          scm: {
+            allow: false,
+          },
+        },
+        location: '',
+        name: '',
+      },
+    };
+    return Promise.resolve(ret);
   };
 }

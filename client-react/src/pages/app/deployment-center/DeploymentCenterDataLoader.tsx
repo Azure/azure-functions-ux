@@ -106,7 +106,9 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getUserSourceControlsRequest = deploymentCenterData.getUserSourceControls();
     const getSiteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
     const getConfigMetadataRequest = deploymentCenterData.getConfigMetadata(resourceId);
-    const getBasicPublishingCredentialsPoliciesRequest = deploymentCenterData.getBasicPublishingCredentialsPolicies(resourceId);
+    const getBasicPublishingCredentialsPoliciesRequest = siteStateContext.isKubeApp
+      ? deploymentCenterData.getBasicPublishingCredentialsPoliciesArc()
+      : deploymentCenterData.getBasicPublishingCredentialsPolicies(resourceId);
 
     const [
       writePermissionResponse,
@@ -135,7 +137,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       );
     }
 
-    if (basicPublishingCredentialsPoliciesResponse.metadata.success) {
+    if (!siteStateContext.isKubeApp && basicPublishingCredentialsPoliciesResponse.metadata.success) {
       setBasicPublishingCredentialsPolicies(basicPublishingCredentialsPoliciesResponse.data.properties);
     } else {
       portalContext.log(
