@@ -33,7 +33,7 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
-import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
+import { isFunctionApp, isKubeApp, isLinuxApp } from '../../../utils/arm-utils';
 import { StartupInfoContext } from '../../../StartupInfoContext';
 import { LogCategories } from '../../../utils/LogCategories';
 import { KeyValue } from '../../../models/portal-models';
@@ -143,8 +143,12 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       armCallFailed(webConfig) ||
       armCallFailed(metadata, true) ||
       armCallFailed(connectionStrings, true) ||
-      armCallFailed(applicationSettings, true) ||
-      armCallFailed(azureStorageMounts, true);
+      armCallFailed(applicationSettings, true);
+
+    // NOTE (krmitta): Don't block the entire blade incase siteResponse is returned and the app is not-kube
+    if (!site.metadata.success || !isKubeApp(site.data)) {
+      loadingFailed = loadingFailed || armCallFailed(azureStorageMounts, true);
+    }
 
     // Get stacks response
     if (!loadingFailed) {
