@@ -11,7 +11,7 @@ import PortalCommunicator from '../../../portal-communicator';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
-  const [webConfig, metadata, slotConfigNames, connectionStrings, applicationSettings, azureStorageMounts] = await Promise.all([
+  const [webConfig, metadata, slotConfigNames, connectionStrings, applicationSettings] = await Promise.all([
     SiteService.fetchWebConfig(resourceId),
     SiteService.fetchMetadata(resourceId),
     SiteService.fetchSlotConfigNames(resourceId),
