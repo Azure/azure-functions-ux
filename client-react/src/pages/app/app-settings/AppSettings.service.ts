@@ -17,7 +17,6 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     SiteService.fetchSlotConfigNames(resourceId),
     SiteService.fetchConnectionStrings(resourceId),
     SiteService.fetchApplicationSettings(resourceId),
-    SiteService.fetchAzureStorageMounts(resourceId),
   ]);
 
   return {
@@ -26,7 +25,6 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     slotConfigNames,
     connectionStrings,
     applicationSettings,
-    azureStorageMounts,
   };
 };
 
