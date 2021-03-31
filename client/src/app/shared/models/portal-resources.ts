@@ -1365,6 +1365,9 @@ export class PortalResources {
   public static containerACRRegistry = 'containerACRRegistry';
   public static containerACRImage = 'containerACRImage';
   public static containerACRTag = 'containerACRTag';
+  public static containerImageName = 'containerImageName';
+  public static containerImageNamePlaceHolder = 'containerImageNamePlaceHolder';
+  public static containerGitHubActionsTagLabel = 'containerGitHubActionsTagLabel';
   public static containerACRStartupFile = 'containerACRStartupFile';
   public static containerContinuousDeployment = 'containerContinuousDeployment';
   public static containerWebhookUrl = 'containerWebhookUrl';
