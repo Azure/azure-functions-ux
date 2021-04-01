@@ -495,6 +495,7 @@ const getPythonGithubActionWorkflowDefinitionForLinux = (
 
   return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
+# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
 name: Build and deploy Python app to Azure Web App - ${webAppName}
 
@@ -505,7 +506,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -516,18 +517,44 @@ jobs:
       with:
         python-version: '${runtimeStackVersion}'
 
-    - name: Build using AppService-Build
-      uses: azure/appservice-build@v2
+    - name: Create and start virtual environment
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+    
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+      
+    # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+    
+    - name: Upload artifact for deployment jobs
+      uses: actions/upload-artifact@v2
       with:
-        platform: python
-        platform-version: '${runtimeStackVersion}'
+        name: python-app
+        path: |
+          . 
+          !venv/
 
-    - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: '${siteName}'
-        slot-name: '${slot}'
-        publish-profile: \${{ secrets.${secretName} }}`;
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: '${slot}'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: python-app
+          path: .
+      
+      - name: 'Deploy to Azure Web App'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: '${siteName}'
+          slot-name: '${slot}'
+          publish-profile: \${{ secrets.${secretName} }}`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
