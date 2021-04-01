@@ -80,7 +80,9 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
           : true;
       }),
       acrTag: Yup.mixed().test('acrTagRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return this.parent.registrySource === ContainerRegistrySources.acr && this.parent.option !== ContainerOptions.compose
+        return this.parent.registrySource === ContainerRegistrySources.acr &&
+          this.parent.option !== ContainerOptions.compose &&
+          this.parent.scmType !== ScmType.GitHubAction
           ? !!value
           : true;
       }),
