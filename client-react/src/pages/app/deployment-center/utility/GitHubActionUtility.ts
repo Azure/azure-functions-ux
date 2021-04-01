@@ -853,7 +853,7 @@ jobs:
       uses: docker/setup-buildx-action@v1
 
     - name: Log in to registry
-      uses: docker/login@v1
+      uses: docker/login-action@v1
       with:
         registry: ${loginServer}/
         username: \${{ secrets.${containerUsernameSecretName} }}
