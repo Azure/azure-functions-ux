@@ -2844,8 +2844,8 @@
       <Item ItemId=";classicContainerSettingDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Try out the new and improved Deployment Center to manage your container settings, view logs, and set up continuous deployment (CI/CD) from GitHub or your container registry.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[このコンテナー設定 (クラシック) エクスペリエンスは非推奨であり、2021 年 3 月に廃止されます。お客様のコンテナー設定の管理を続行するには、新しいデプロイ センター エクスペリエンスをお試しください。]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[GitHub またはお客様のコンテナー レジストリからコンテナー設定の管理、ログの表示、継続的配置 (CI/CD) のセットアップを行うための、改良された新しいデプロイ センターをお試しください。]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.]]></Val>
@@ -5430,7 +5430,7 @@
       <Item ItemId=";deploymentCenterFtpsUserScopeDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requires a username in the following format: '{0}'. Authenticating with Git requires only the username '{1}' defined below.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[ユーザー スコープの資格情報は、ユーザーによって定義され、アクセス可能なすべてのアプリで使用することができます。これらの資格情報は、FTPS、ローカル Git、および WebDeploy で使用できます。ユーザー レベルの資格情報を使用して FTPS エンドポイントに対する認証を行うには、次の形式のユーザー名が必要です: '{0}'。Git での認証には、以下で定義されたユーザー名 '{1}' のみ必要です。]]></Val>
           </Tgt>
           <Prev Cat="Text">
@@ -5823,8 +5823,8 @@
       <Item ItemId=";deploymentCenterRedeploy" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Sync]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[再デプロイまたは同期]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[同期]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Redeploy/Sync]]></Val>
