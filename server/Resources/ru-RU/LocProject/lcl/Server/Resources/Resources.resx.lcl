@@ -2841,8 +2841,8 @@
       <Item ItemId=";classicContainerSettingDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Try out the new and improved Deployment Center to manage your container settings, view logs, and set up continuous deployment (CI/CD) from GitHub or your container registry.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Интерфейс "Параметры контейнера (классический)" является нерекомендуемым и будет удален в марте 2021 г. Для дальнейшего управления параметрами контейнера опробуйте новый интерфейс Центра развертывания.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Опробуйте новый усовершенствованный Центр развертывания, позволяющий управлять параметрами контейнеров, просматривать журналы и настраивать непрерывное развертывание (CI/CD) из GitHub или вашего реестра контейнеров.]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.]]></Val>
@@ -5427,8 +5427,8 @@
       <Item ItemId=";deploymentCenterFtpsUserScopeDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requires a username in the following format: '{0}'. Authenticating with Git requires only the username '{1}' defined below.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Учетные данные области пользователя определяются вами, пользователем, и действуют во всех приложениях, к которым у вас есть доступ. Эти данные можно применять для FTPS, локальных Git-репозиториев и WebDeploy. Чтобы использовать их для проверки подлинности на конечной точке FTPS, имя пользователя должно быть в следующем формате: "{0}". Для проверки подлинности в Git требуется только нижеуказанное имя пользователя "{1}".]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Учетные данные области пользователя определяются вами, пользователем, и действуют во всех приложениях, к которым у вас есть доступ. Эти данные можно применять для FTPS, локальных Git-репозиториев и WebDeploy. Чтобы использовать их для проверки подлинности на конечной точке FTPS, у имени пользователя должен быть следующий формат: "{0}". Для проверки подлинности в Git требуется только нижеуказанное имя пользователя "{1}".]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'. Authenticating with Git requires only the username '{1}' defined below.]]></Val>
@@ -5820,8 +5820,8 @@
       <Item ItemId=";deploymentCenterRedeploy" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Sync]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Повторное развертывание/синхронизация]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Синхронизация]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Redeploy/Sync]]></Val>
