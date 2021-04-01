@@ -33,7 +33,7 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
-import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
+import { isFunctionApp, isKubeApp, isLinuxApp } from '../../../utils/arm-utils';
 import { StartupInfoContext } from '../../../StartupInfoContext';
 import { LogCategories } from '../../../utils/LogCategories';
 import { KeyValue } from '../../../models/portal-models';
@@ -129,22 +129,23 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       fetchApplicationSettingValues(resourceId),
     ]);
 
-    const {
-      webConfig,
-      metadata,
-      connectionStrings,
-      applicationSettings,
-      slotConfigNames,
-      azureStorageMounts,
-    } = applicationSettingsResponse;
+    const { webConfig, metadata, connectionStrings, applicationSettings, slotConfigNames } = applicationSettingsResponse;
 
     let loadingFailed =
       armCallFailed(site) ||
       armCallFailed(webConfig) ||
       armCallFailed(metadata, true) ||
       armCallFailed(connectionStrings, true) ||
-      armCallFailed(applicationSettings, true) ||
-      armCallFailed(azureStorageMounts, true);
+      armCallFailed(applicationSettings, true);
+
+    let azureStorageMounts;
+    const isKube = site.metadata.success && isKubeApp(site.data);
+
+    // NOTE (krmitta): Don't block the entire blade incase siteResponse is returned and the app is not-kube
+    if (!isKube) {
+      azureStorageMounts = await SiteService.fetchAzureStorageMounts(resourceId);
+      loadingFailed = loadingFailed || armCallFailed(azureStorageMounts, true);
+    }
 
     // Get stacks response
     if (!loadingFailed) {
