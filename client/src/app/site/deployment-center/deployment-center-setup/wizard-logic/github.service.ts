@@ -12,7 +12,7 @@ import { Response } from '@angular/http';
 export class GithubService implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
 
-  constructor(private _cacheService: CacheService) { }
+  constructor(private _cacheService: CacheService) {}
 
   ngOnDestroy(): void {
     this._ngUnsubscribe$.next();
@@ -188,7 +188,7 @@ export class GithubService implements OnDestroy {
         // NOTE(michinoy): In case of version 5, generate the dotnet core workflow file.
         content =
           buildSettings.runtimeStackVersion.toLocaleLowerCase() === 'dotnetcore|5.0' ||
-            buildSettings.runtimeStackVersion.toLocaleLowerCase() === 'v5.0'
+          buildSettings.runtimeStackVersion.toLocaleLowerCase() === 'v5.0'
             ? this._getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion)
             : this._getAspNetGithubActionWorkflowDefinition(siteName, slotName, branch, secretName, runtimeStackVersion);
         break;
