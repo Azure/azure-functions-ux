@@ -37,7 +37,7 @@ export class StacksController {
     @Query('removePreviewStacks') removePreviewStacks?: string,
     @Query('removeNonGitHubActionStacks') removeNonGitHubActionStacks?: string
   ) {
-    validateApiVersion(apiVersion, [Versions.version20200601, Versions.version20201001]);
+    validateApiVersion(apiVersion, [Versions.version20200601, Versions.version20201001, Versions.version20201201]);
     validateOs(os);
     validateFunctionAppStack(apiVersion, stack);
     validateRemoveHiddenStacks(removeHiddenStacks);
@@ -60,7 +60,8 @@ export class StacksController {
           removePreview
         );
       }
-      case Versions.version20201001: {
+      case Versions.version20201001:
+      case Versions.version20201201: {
         return this._stackService20201001.getFunctionAppStacks(
           os,
           stack as FunctionAppStack20201001Value,
@@ -83,7 +84,7 @@ export class StacksController {
     @Query('removePreviewStacks') removePreviewStacks?: string,
     @Query('removeNonGitHubActionStacks') removeNonGitHubActionStacks?: string
   ) {
-    validateApiVersion(apiVersion, [Versions.version20200601, Versions.version20201001]);
+    validateApiVersion(apiVersion, [Versions.version20200601, Versions.version20201001, Versions.version20201201]);
     validateOs(os);
     validateWebAppStack(apiVersion, stack);
     validateRemoveHiddenStacks(removeHiddenStacks);
@@ -106,7 +107,8 @@ export class StacksController {
           removePreview
         );
       }
-      case Versions.version20201001: {
+      case Versions.version20201001:
+      case Versions.version20201201: {
         return this._stackService20201001.getWebAppStacks(
           os,
           stack as WebAppStack20201001Value,
