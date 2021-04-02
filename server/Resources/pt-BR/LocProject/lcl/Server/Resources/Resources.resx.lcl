@@ -2844,8 +2844,8 @@
       <Item ItemId=";classicContainerSettingDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Try out the new and improved Deployment Center to manage your container settings, view logs, and set up continuous deployment (CI/CD) from GitHub or your container registry.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Esta experiência das Configurações do Contêiner (Clássicas) foi preterida e será removida em março de 2021. Para continuar gerenciando as configurações do contêiner, confira a nova experiência do Centro de Implantação.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Experimente o novo Centro de Implantação aprimorado para gerenciar as configurações de contêiner, visualizar logs e configurar a CI/CD (implantação contínua) por meio do GitHub ou do registro de contêiner.]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.]]></Val>
@@ -5427,7 +5427,7 @@
       <Item ItemId=";deploymentCenterFtpsUserScopeDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requires a username in the following format: '{0}'. Authenticating with Git requires only the username '{1}' defined below.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[As credenciais no escopo do usuário são definidas por você, ou seja, o usuário, e podem ser usadas com todos os aplicativos aos quais você tem acesso. Elas podem ser usadas com o FTPS, o Git Local e o WebDeploy. A autenticação em um ponto de extremidade FTPS usando credenciais no nível do usuário exige um nome de usuário no seguinte formato: '{0}'. A autenticação no Git exige somente o nome de usuário '{1}' definido abaixo.]]></Val>
           </Tgt>
           <Prev Cat="Text">
@@ -5820,8 +5820,8 @@
       <Item ItemId=";deploymentCenterRedeploy" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Sync]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Reimplantar/Sincronizar]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Sincronizar]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Redeploy/Sync]]></Val>
@@ -11287,7 +11287,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Subscription {{displayName}} ({{ subscriptionId }}) is not white listed for running functions]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A assinatura {{displayName}} ({{ subscriptionId }}) não está na lista branca para as funções em execução]]></Val>
+            <Val><![CDATA[A assinatura {{displayName}} ({{ subscriptionId }}) não está na lista de permissões para as funções em execução]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
