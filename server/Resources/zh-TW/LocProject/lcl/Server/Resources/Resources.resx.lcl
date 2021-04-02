@@ -2841,8 +2841,8 @@
       <Item ItemId=";classicContainerSettingDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Try out the new and improved Deployment Center to manage your container settings, view logs, and set up continuous deployment (CI/CD) from GitHub or your container registry.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[此容器設定 (傳統) 體驗即將退場，預計於 2021 年 3 月移除。若要繼續管理容器設定，請嘗試新的部署中心體驗。]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[試用改進的新部署中心，來管理容器設定、檢視記錄，並從 GitHub 或您的容器登錄設定持續部署 (CI/CD)。]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.]]></Val>
@@ -5427,8 +5427,8 @@
       <Item ItemId=";deploymentCenterFtpsUserScopeDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requires a username in the following format: '{0}'. Authenticating with Git requires only the username '{1}' defined below.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[使用者範圍認證由您與使用者定義，可與您有權存取的所有應用程式一起使用。這些認證可與 FTP、本機 Git 及 WebDeploy 搭配使用。使用使用者層級認證向 FTP/FTPS 端點驗證時，需要下列格式的使用者名稱: '{0}'。向 Git 驗證時，只需要如下定義的使用者名稱 '{1}'。]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[使用者範圍認證由您與使用者定義，並可與您有權存取的所有應用程式搭配使用。這些認證可與 FTPS、本機 Git 及 WebDeploy 搭配使用。使用使用者層級認證向 FTPS 端點進行驗證時，需要下列格式的使用者名稱: '{0}'。向 Git 驗證時，只需要如下定義的使用者名稱 '{1}'。]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'. Authenticating with Git requires only the username '{1}' defined below.]]></Val>
@@ -5820,8 +5820,8 @@
       <Item ItemId=";deploymentCenterRedeploy" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Sync]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[重新部署/同步]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[同步]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Redeploy/Sync]]></Val>
