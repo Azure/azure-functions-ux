@@ -11287,7 +11287,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Subscription {{displayName}} ({{ subscriptionId }}) is not white listed for running functions]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A assinatura {{displayName}} ({{ subscriptionId }}) não está na lista branca para as funções em execução]]></Val>
+            <Val><![CDATA[A assinatura {{displayName}} ({{ subscriptionId }}) não está na lista de permissões para as funções em execução]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
