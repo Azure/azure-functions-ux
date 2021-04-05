@@ -142,16 +142,12 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       case ScmType.OneDrive:
         return `${DeploymentCenterConstants.onedriveApiUri}:/${values.folder}`;
       case ScmType.Dropbox:
-        // TODO: (stpelleg): Pending Implementation of these ScmTypes
         return `${DeploymentCenterConstants.dropboxUri}/${values.folder}`;
       case ScmType.LocalGit:
         //(note: stpelleg): Local Git does not require a Repo Url
         return '';
       case ScmType.ExternalGit:
-        if (values.externalUsername && values.externalPassword) {
-          return processExternalPrivateRepo(values.repo);
-        }
-        return values.repo;
+        return values.externalUsername && values.externalPassword ? processExternalPrivateRepo(values) : values.repo;
       case ScmType.Vso:
         return values.repo;
       default:
@@ -163,20 +159,20 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         throw Error(`Incorrect Source Provider ${values.sourceProvider}`);
     }
   };
-  const processExternalPrivateRepo = (repoUrl: string): string => {
+  const processExternalPrivateRepo = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>): string => {
     // NOTE(stpelleg): There can be multiple variations of the URL:
     // The protocol can be either https or http or ssh
     // The host part can be - username@domain.net/path/name.git
     //                        username:password@domain.net/path/name.git
     //                        domain.net/path/name.git
 
-    const repoUrlParts = repoUrl.split('://');
+    const repoUrlParts = values.repo.split('://');
     const protocol = repoUrlParts[0];
     const hostContents = repoUrlParts[1];
-    const hostContentParts = hostContents ? hostContents.split('@') : [];
-    const domainContent = hostContentParts[1] ? hostContentParts[1] : hostContentParts[0];
 
-    return protocol === 'http' || protocol === 'https' ? `${protocol}://${domainContent}` : protocol;
+    return protocol === 'http' || protocol === 'https'
+      ? `${protocol}://${values.externalUsername}:${values.externalPassword}@${hostContents}`
+      : protocol;
   };
 
   const deployGithubActions = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
