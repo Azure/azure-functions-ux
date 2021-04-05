@@ -148,12 +148,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         //(note: stpelleg): Local Git does not require a Repo Url
         return '';
       case ScmType.ExternalGit:
-        const repoUrlParts = values.repo.split('://');
-        const protocol = repoUrlParts[0];
-        const hostContents = repoUrlParts[1];
-
         if (values.externalUsername && values.externalPassword) {
-          return `${protocol}://${values.externalUsername}:${values.externalPassword}@${hostContents}`;
+          return processExternalPrivateRepo(values.repo);
         }
         return values.repo;
       case ScmType.Vso:
@@ -166,6 +162,21 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         );
         throw Error(`Incorrect Source Provider ${values.sourceProvider}`);
     }
+  };
+  const processExternalPrivateRepo = (repoUrl: string): string => {
+    // NOTE(stpelleg): There can be multiple variations of the URL:
+    // The protocol can be either https or http or ssh
+    // The host part can be - username@domain.net/path/name.git
+    //                        username:password@domain.net/path/name.git
+    //                        domain.net/path/name.git
+
+    const repoUrlParts = repoUrl.split('://');
+    const protocol = repoUrlParts[0];
+    const hostContents = repoUrlParts[1];
+    const hostContentParts = hostContents ? hostContents.split('@') : [];
+    const domainContent = hostContentParts[1] ? hostContentParts[1] : hostContentParts[0];
+
+    return protocol === 'http' || protocol === 'https' ? `${protocol}://${domainContent}` : protocol;
   };
 
   const deployGithubActions = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
