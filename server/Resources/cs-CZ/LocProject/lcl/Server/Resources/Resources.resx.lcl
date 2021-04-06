@@ -2844,8 +2844,8 @@
       <Item ItemId=";classicContainerSettingDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Try out the new and improved Deployment Center to manage your container settings, view logs, and set up continuous deployment (CI/CD) from GitHub or your container registry.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Toto Nastavení kontejneru (klasické) je zastaralé a v březnu 2021 ho odebereme. Vyzkoušejte si nové prostředí Deployment Center, v němž budete nastavení kontejnerů spravovat do budoucna.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Vyzkoušejte nové a zdokonalené Deployment Center, které nabízí správu nastavení kontejnerů a možnost zobrazit si protokoly a nastavit průběžné nasazování (CI/CD) z GitHubu nebo vašeho kontejnerového registru.]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.]]></Val>
@@ -5430,7 +5430,7 @@
       <Item ItemId=";deploymentCenterFtpsUserScopeDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTPS, Local Git and WebDeploy. Authenticating to an FTPS endpoint using user-level credentials requires a username in the following format: '{0}'. Authenticating with Git requires only the username '{1}' defined below.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Přihlašovací údaje oboru uživatelů definujete vy jakožto uživatel a dají se použít pro všechny aplikace, ke kterým máte přístup. Tyto přihlašovací údaje se dají použít pro FTPS, místní Git a WebDeploy. Ověřování u koncového bodu FTPS pomocí přihlašovacích údajů na úrovni uživatele vyžaduje uživatelské jméno v tomto formátu: {0}. K ověřování přes Git se vyžaduje jen níže definované uživatelské jméno {1}.]]></Val>
           </Tgt>
           <Prev Cat="Text">
@@ -5823,8 +5823,8 @@
       <Item ItemId=";deploymentCenterRedeploy" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Sync]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Znovu nasadit / synchronizovat]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Synchronizovat]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Redeploy/Sync]]></Val>
