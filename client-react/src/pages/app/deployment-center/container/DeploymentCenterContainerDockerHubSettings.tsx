@@ -31,7 +31,13 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
   }, [formProps.values.dockerHubAccessType]);
 
   useEffect(() => {
-    setIsGitHubActionSelected(formProps.values.scmType === ScmType.GitHubAction);
+    const isGitHubAction = formProps.values.scmType === ScmType.GitHubAction;
+
+    setIsGitHubActionSelected(isGitHubAction);
+
+    if (isGitHubAction) {
+      formProps.setFieldValue('dockerHubAccessType', ContainerDockerAccessTypes.private);
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.scmType]);
