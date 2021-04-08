@@ -2,11 +2,13 @@ import React from 'react';
 
 export interface StaticSiteSkuPickerProps {
   isStaticSiteCreate: boolean;
-  value?: string;
+  currentSku: string;
+  resourceId: string;
 }
 
 const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
-  return <div>Here</div>;
+  //TODO (stpelleg): implement sku picker
+  return <div />;
 };
 
 export default StaticSiteSkuPicker;

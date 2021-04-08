@@ -6,7 +6,7 @@ import { StartupInfoContext } from '../../StartupInfoContext';
 
 const ConfigurationLoadable: any = lazy(() => import(/* webpackChunkName: "configuration" */ './configuration/ConfigurationDataLoader'));
 
-const StaticWebAppSkuPicker: any = lazy(() => import(/* webpackChunkName:"staticwebappskupicker" */ './skupicker/StaticSiteSkuPicker'));
+const StaticSiteSkuPicker: any = lazy(() => import(/* webpackChunkName:"staticwebappskupicker" */ './skupicker/StaticSiteSkuPicker'));
 
 export interface StaticSiteRouterProps {
   subscriptionId?: string;
@@ -25,7 +25,12 @@ const StaticSiteRouter: React.FC<RouteComponentProps<StaticSiteRouterProps>> = p
             value.token && (
               <Router>
                 <ConfigurationLoadable resourceId={value.resourceId} path="/configuration" />
-                <StaticWebAppSkuPicker resourceId={value.resourceId} path="/staticsiteskupicker" />
+                <StaticSiteSkuPicker
+                  resourceId={value.resourceId}
+                  isStaticSiteCreate={value.featureInfo.data.isStaticSiteCreate}
+                  currentSku={value.featureInfo.data.currentSku}
+                  path="/staticsiteskupicker"
+                />
               </Router>
             )
           );
