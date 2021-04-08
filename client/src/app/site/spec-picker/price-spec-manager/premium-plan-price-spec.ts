@@ -4,7 +4,6 @@ import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
-import { Observable } from 'rxjs/Observable';
 
 export abstract class PremiumPlanPriceSpec extends PriceSpec {
   tier = Tier.premium;
@@ -72,10 +71,6 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
       ) {
         this.state = 'hidden';
       }
-
-      if (!input.plan.properties.reserved) {
-        return this.checkIfDreamspark(input.subscriptionId);
-      }
     } else if (input.specPickerInput.data) {
       if (
         input.specPickerInput.data.hostingEnvironmentName ||
@@ -86,10 +81,9 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
       ) {
         this.state = 'hidden';
       }
-      return this.checkIfDreamspark(input.subscriptionId);
     }
 
-    return Observable.of(null);
+    return this.checkIfDreamspark(input.subscriptionId);
   }
 }
 
