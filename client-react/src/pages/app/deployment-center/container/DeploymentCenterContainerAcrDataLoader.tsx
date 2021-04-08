@@ -197,7 +197,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       repositoriesResponse.forEach(response => {
         const dropdownOptions =
           response && response.repositories && response.repositories.length > 0
-            ? response.repositories.map(repository => ({ key: repository, text: repository }))
+            ? response.repositories.map(repository => ({ key: repository.toLocaleLowerCase(), text: repository }))
             : [];
         repositoryOptions.push(...dropdownOptions);
       });
@@ -264,7 +264,9 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       const tagOptions: IDropdownOption[] = [];
       tagsResponse.forEach(response => {
         const dropdownOptions =
-          response && response.tags && response.tags.length > 0 ? response.tags.map(tag => ({ key: tag, text: tag })) : [];
+          response && response.tags && response.tags.length > 0
+            ? response.tags.map(tag => ({ key: tag.toLocaleLowerCase(), text: tag }))
+            : [];
         tagOptions.push(...dropdownOptions);
       });
 
