@@ -8,7 +8,7 @@ export interface StaticSiteSkuPickerProps {
 
 const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   //TODO (stpelleg): implement sku picker
-  return <div>{props.resourceId}</div>;
+  return <div />;
 };
 
 export default StaticSiteSkuPicker;
