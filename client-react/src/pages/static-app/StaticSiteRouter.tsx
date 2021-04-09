@@ -1,5 +1,5 @@
-import { RouteComponentProps, Router, globalHistory } from '@reach/router';
-import React, { useContext, lazy, useEffect } from 'react';
+import { RouteComponentProps, Router } from '@reach/router';
+import React, { useContext, lazy } from 'react';
 import { ThemeContext } from '../../ThemeContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { StartupInfoContext } from '../../StartupInfoContext';
