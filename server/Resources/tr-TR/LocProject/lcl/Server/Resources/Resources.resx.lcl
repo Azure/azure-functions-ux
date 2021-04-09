@@ -10291,7 +10291,7 @@
         <Str Cat="Text">
           <Val><![CDATA[App Insights Logs]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Uygulama İçgörüleri Günlükleri]]></Val>
+            <Val><![CDATA[App Insights Günlükleri]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
