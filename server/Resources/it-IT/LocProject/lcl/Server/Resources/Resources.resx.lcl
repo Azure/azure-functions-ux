@@ -13822,7 +13822,7 @@
         <Str Cat="Text">
           <Val><![CDATA[App Insights is enabled for your function.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Application Insights non è abilitato per la funzione corrente.]]></Val>
+            <Val><![CDATA[Application Insights è abilitato per la funzione corrente.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
