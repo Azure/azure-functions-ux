@@ -19,10 +19,6 @@ export interface StaticSiteRouterProps {
 const StaticSiteRouter: React.FC<RouteComponentProps<StaticSiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
 
-  useEffect(() => {
-    console.log(globalHistory.location);
-  }, []);
-
   return (
     <main className={iconStyles(theme)}>
       <StartupInfoContext.Consumer>
