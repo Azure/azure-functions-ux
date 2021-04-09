@@ -2291,4 +2291,13 @@ export class PortalResources {
   public static keyVaultReferenceInitializedStatus = 'keyVaultReferenceInitializedStatus';
   public static clickHereToAccessSite = 'clickHereToAccessSite';
   public static pricing_workflowStandardNotAvailable = 'pricing_workflowStandardNotAvailable';
+  public static staticSitePlanComparison = 'staticSitePlanComparison';
+  public static staticSiteIncludedBandwidth = 'staticSiteIncludedBandwidth';
+  public static staticSiteBandwidthCoverage = 'staticSiteBandwidthCoverage';
+  public static staticSiteCustomDomains = 'staticSiteCustomDomains';
+  public static staticSiteSslCertificates = 'staticSiteSslCertificates';
+  public static staticSitePrivateLink = 'staticSitePrivateLink';
+  public static staticSiteCustomAuthentication = 'staticSiteCustomAuthentication';
+  public static staticSiteStorage = 'staticSiteStorage';
+  public static staticSiteAzureFunctions = 'staticSiteAzureFunctions';
 }
