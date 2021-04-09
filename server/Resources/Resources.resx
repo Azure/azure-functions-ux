@@ -7014,4 +7014,31 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="clickHereToAccessSite" xml:space="preserve">
         <value> Click here to access the app.</value>
     </data>
+    <data name="staticSitePlanComparison" xml:space="preserve">
+        <value>Plan comparison</value>
+    </data>
+    <data name="staticSiteIncludedBandwidth" xml:space="preserve">
+        <value>Included bandwidth</value>
+    </data>
+    <data name="staticSiteBandwidthCoverage" xml:space="preserve">
+        <value>Bandwidth coverage</value>
+    </data>
+    <data name="staticSiteCustomDomains" xml:space="preserve">
+        <value>Custom domains</value>
+    </data>
+    <data name="staticSiteSslCertificates" xml:space="preserve">
+        <value>SSL certificates</value>
+    </data>
+    <data name="staticSitePrivateLink" xml:space="preserve">
+        <value>Private link</value>
+    </data>
+    <data name="staticSiteCustomAuthentication" xml:space="preserve">
+        <value>Custom Authentication</value>
+    </data>
+    <data name="staticSiteStorage" xml:space="preserve">
+        <value>Storage</value>
+    </data>
+    <data name="staticSiteAzureFunctions" xml:space="preserve">
+        <value>Azure Functions</value>
+    </data>
 </root>
