@@ -1,5 +1,5 @@
-import { RouteComponentProps, Router } from '@reach/router';
-import React, { useContext, lazy } from 'react';
+import { RouteComponentProps, Router, globalHistory } from '@reach/router';
+import React, { useContext, lazy, useEffect } from 'react';
 import { ThemeContext } from '../../ThemeContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { StartupInfoContext } from '../../StartupInfoContext';
@@ -18,6 +18,10 @@ export interface StaticSiteRouterProps {
 
 const StaticSiteRouter: React.FC<RouteComponentProps<StaticSiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
+
+  useEffect(() => {
+    console.log(globalHistory.location);
+  }, []);
 
   return (
     <main className={iconStyles(theme)}>
