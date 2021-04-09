@@ -2290,4 +2290,5 @@ export class PortalResources {
   public static resourceConnector = 'resourceConnector';
   public static keyVaultReferenceInitializedStatus = 'keyVaultReferenceInitializedStatus';
   public static clickHereToAccessSite = 'clickHereToAccessSite';
+  public static pricing_workflowStandardNotAvailable = 'pricing_workflowStandardNotAvailable';
 }

@@ -1,15 +1,15 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links, Pricing } from './../../../shared/models/constants';
-import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
-import { PortalResources } from './../../../shared/models/portal-resources';
-import { ServerFarm } from './../../../shared/models/server-farm';
+import { Kinds, Links, Pricing } from '../../../shared/models/constants';
+import { Tier, SkuCode } from '../../../shared/models/serverFarmSku';
+import { PortalResources } from '../../../shared/models/portal-resources';
+import { ServerFarm } from '../../../shared/models/server-farm';
 import { Sku, ArmObj } from '../../../shared/models/arm/arm-obj';
-import { AppKind } from './../../../shared/Utilities/app-kind';
+import { AppKind } from '../../../shared/Utilities/app-kind';
 import { DV2SeriesPriceSpec } from './dV2series-price-spec';
 import { PlanSpecPickerData } from './plan-price-spec-manager';
 
-export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
-  tier = Tier.elasticPremium;
+export abstract class WorkflowStandardPlanPriceSpec extends DV2SeriesPriceSpec {
+  tier = Tier.workflowStandard;
 
   featureItems = [
     {
@@ -56,12 +56,13 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
   cssClass = 'spec premium-spec';
   priceIsBaseline = true;
 
+  // TODO(shimedh): Will update the learn more link once we get a new one from LA team. Till then using elastic premium one as they are the same under the hood.
   constructor(injector: Injector) {
-    super(injector, Tier.elasticPremium, PortalResources.pricing_epNotAvailable, Links.elasticPremiumNotAvailableLearnMore);
+    super(injector, Tier.workflowStandard, PortalResources.pricing_workflowStandardNotAvailable, Links.elasticPremiumNotAvailableLearnMore);
   }
 
   protected _matchSku(sku: Sku): boolean {
-    return sku.name.toLowerCase().startsWith('ep');
+    return sku.name.toLowerCase().startsWith('ws');
   }
 
   protected _shouldHideForNewPlan(data: PlanSpecPickerData): boolean {
@@ -70,7 +71,7 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
       data.isXenon ||
       data.hyperV ||
       !data.isFunctionApp ||
-      (data.isNewFunctionAppCreate && !data.isElastic)
+      (data.isNewFunctionAppCreate && !data.isWorkflowStandard)
     );
   }
 
@@ -80,32 +81,32 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
       !!plan.properties.hostingEnvironmentProfile ||
       plan.properties.hyperV ||
       !AppKind.hasAnyKind(plan, [Kinds.elastic]) ||
-      plan.sku.tier === Tier.workflowStandard
+      plan.sku.tier !== Tier.workflowStandard
     );
   }
 }
 
-export class ElasticPremiumSmallPlanPriceSpec extends ElasticPremiumPlanPriceSpec {
-  skuCode = SkuCode.ElasticPremium.EP1;
-  legacySkuName = 'small_elastic_premium';
+export class WorkflowStandardSmallPlanPriceSpec extends WorkflowStandardPlanPriceSpec {
+  skuCode = SkuCode.WorkflowStandard.WS1;
+  legacySkuName = SkuCode.WorkflowStandard.WS1;
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('210'),
     this._ts.instant(PortalResources.pricing_memory).format('3.5'),
     this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
   ];
 
-  meterFriendlyName = 'Premium V2 Small App Service Hours';
+  meterFriendlyName = 'Workflow Standard Small App Service Hours';
 
   specResourceSet = {
     id: this.skuCode,
     firstParty: [
       {
-        id: SkuCode.ElasticPremium.EP1CPU,
+        id: SkuCode.WorkflowStandard.WS1CPU,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
       {
-        id: SkuCode.ElasticPremium.EP1Memory,
+        id: SkuCode.WorkflowStandard.WS1Memory,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -113,27 +114,27 @@ export class ElasticPremiumSmallPlanPriceSpec extends ElasticPremiumPlanPriceSpe
   };
 }
 
-export class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPlanPriceSpec {
-  skuCode = SkuCode.ElasticPremium.EP2;
-  legacySkuName = 'medium_elastic_premium';
+export class WorkflowStandardMediumPlanPriceSpec extends WorkflowStandardPlanPriceSpec {
+  skuCode = SkuCode.WorkflowStandard.WS2;
+  legacySkuName = SkuCode.WorkflowStandard.WS2;
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('420'),
     this._ts.instant(PortalResources.pricing_memory).format('7'),
     this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
   ];
 
-  meterFriendlyName = 'Premium V2 Medium App Service Hours';
+  meterFriendlyName = 'Workflow Standard Medium App Service Hours';
 
   specResourceSet = {
     id: this.skuCode,
     firstParty: [
       {
-        id: SkuCode.ElasticPremium.EP2CPU,
+        id: SkuCode.WorkflowStandard.WS2CPU,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
       {
-        id: SkuCode.ElasticPremium.EP2Memory,
+        id: SkuCode.WorkflowStandard.WS2Memory,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -141,27 +142,27 @@ export class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPlanPriceSp
   };
 }
 
-export class ElasticPremiumLargePlanPriceSpec extends ElasticPremiumPlanPriceSpec {
-  skuCode = SkuCode.ElasticPremium.EP3;
-  legacySkuName = 'large_elastic_premium';
+export class WorkflowStandardLargePlanPriceSpec extends WorkflowStandardPlanPriceSpec {
+  skuCode = SkuCode.WorkflowStandard.WS3;
+  legacySkuName = SkuCode.WorkflowStandard.WS3;
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('840'),
     this._ts.instant(PortalResources.pricing_memory).format('14'),
     this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
   ];
 
-  meterFriendlyName = 'Premium V2 Large App Service Hours';
+  meterFriendlyName = 'Workflow Standard Large App Service Hours';
 
   specResourceSet = {
     id: this.skuCode,
     firstParty: [
       {
-        id: SkuCode.ElasticPremium.EP3CPU,
+        id: SkuCode.WorkflowStandard.WS3CPU,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
       {
-        id: SkuCode.ElasticPremium.EP3Memory,
+        id: SkuCode.WorkflowStandard.WS3Memory,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },

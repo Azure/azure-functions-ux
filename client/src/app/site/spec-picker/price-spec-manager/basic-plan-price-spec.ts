@@ -55,7 +55,8 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
         input.specPickerInput.data.hostingEnvironmentName ||
         input.specPickerInput.data.isXenon ||
         input.specPickerInput.data.hyperV ||
-        (input.specPickerInput.data.isNewFunctionAppCreate && input.specPickerInput.data.isElastic)
+        (input.specPickerInput.data.isNewFunctionAppCreate &&
+          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard))
       ) {
         this.state = 'hidden';
       }
