@@ -2293,11 +2293,25 @@ export class PortalResources {
   public static pricing_workflowStandardNotAvailable = 'pricing_workflowStandardNotAvailable';
   public static staticSitePlanComparison = 'staticSitePlanComparison';
   public static staticSiteIncludedBandwidth = 'staticSiteIncludedBandwidth';
-  public static staticSiteBandwidthCoverage = 'staticSiteBandwidthCoverage';
+  public static staticSiteBandwidthOverage = 'staticSiteBandwidthOverage';
   public static staticSiteCustomDomains = 'staticSiteCustomDomains';
   public static staticSiteSslCertificates = 'staticSiteSslCertificates';
   public static staticSitePrivateLink = 'staticSitePrivateLink';
   public static staticSiteCustomAuthentication = 'staticSiteCustomAuthentication';
   public static staticSiteStorage = 'staticSiteStorage';
   public static staticSiteAzureFunctions = 'staticSiteAzureFunctions';
+  public static staticSiteIncludedBandwidthAmount = 'staticSiteIncludedBandwidthAmount';
+  public static staticSiteStandardBandwidthOverageAmount = 'staticSiteStandardBandwidthOverageAmount';
+  public static staticSiteFreeCustomDomainAmount = 'staticSiteFreeCustomDomainAmount';
+  public static staticSiteStandardCustomDomainAmount = 'staticSiteStandardCustomDomainAmount';
+  public static staticSiteFreeAzureFunctionsAmount = 'staticSiteFreeAzureFunctionsAmount';
+  public static staticSiteStandardAzureFunctionsAmount = 'staticSiteStandardAzureFunctionsAmount';
+  public static staticSiteFreeStorageAmount = 'staticSiteFreeStorageAmount';
+  public static staticSiteStandardStorageAmount = 'staticSiteStandardStorageAmount';
+  public static staticSiteFree = 'staticSiteFree';
+  public static staticSiteStandard = 'staticSiteStandard';
+  public static staticSiteFreeDescription = 'staticSiteFreeDescription';
+  public static staticSiteStandardDescription = 'staticSiteStandardDescription';
+  public static staticSiteStandardPrice = 'staticSiteStandardPrice';
+  public static staticSiteApply = 'staticSiteApply';
 }
