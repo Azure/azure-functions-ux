@@ -7020,8 +7020,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSiteIncludedBandwidth" xml:space="preserve">
         <value>Included bandwidth</value>
     </data>
-    <data name="staticSiteBandwidthCoverage" xml:space="preserve">
-        <value>Bandwidth coverage</value>
+    <data name="staticSiteBandwidthOverage" xml:space="preserve">
+        <value>Bandwidth overage</value>
     </data>
     <data name="staticSiteCustomDomains" xml:space="preserve">
         <value>Custom domains</value>
@@ -7040,5 +7040,47 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSiteAzureFunctions" xml:space="preserve">
         <value>Azure Functions</value>
+    </data>
+    <data name="staticSiteIncludedBandwidthAmount" xml:space="preserve">
+        <value>100GB per subscription</value>
+    </data>
+    <data name="staticSiteStandardBandwidthOverageAmount" xml:space="preserve">
+        <value>$0.02 per GB per subscription</value>
+    </data>
+    <data name="staticSiteFreeCustomDomainAmount" xml:space="preserve">
+        <value>2 per app</value>
+    </data>
+    <data name="staticSiteStandardCustomDomainAmount" xml:space="preserve">
+        <value>5 per app</value>
+    </data>
+    <data name="staticSiteFreeAzureFunctionsAmount" xml:space="preserve">
+        <value>Managed</value>
+    </data>
+    <data name="staticSiteStandardAzureFunctionsAmount" xml:space="preserve">
+        <value>Managed or Bring your own</value>
+    </data>
+    <data name="staticSiteFreeStorageAmount" xml:space="preserve">
+        <value>0.25GB</value>
+    </data>
+    <data name="staticSiteStandardStorageAmount" xml:space="preserve">
+        <value>2GB</value>
+    </data>
+    <data name="staticSiteFree" xml:space="preserve">
+        <value>Free</value>
+    </data>
+    <data name="staticSiteStandard" xml:space="preserve">
+        <value>Standard</value>
+    </data>
+    <data name="staticSiteFreeDescription" xml:space="preserve">
+        <value>For hobby or personal projects</value>
+    </data>
+    <data name="staticSiteStandardDescription" xml:space="preserve">
+        <value>For general purpose production apps</value>
+    </data>
+    <data name="staticSiteStandardPrice" xml:space="preserve">
+        <value>$9/month</value>
+    </data>
+    <data name="staticSiteApply" xml:space="preserve">
+        <value>Apply</value>
     </data>
 </root>
