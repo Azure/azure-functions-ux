@@ -7014,4 +7014,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="clickHereToAccessSite" xml:space="preserve">
         <value> Click here to access the app.</value>
     </data>
+    <data name="pricing_workflowStandardNotAvailable" xml:space="preserve">
+        <value>Workflow Standard is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    </data>
 </root>

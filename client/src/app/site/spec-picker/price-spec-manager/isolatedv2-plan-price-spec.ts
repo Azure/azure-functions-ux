@@ -121,7 +121,8 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
       (!input.specPickerInput.data.allowAseV3Creation ||
         input.specPickerInput.data.isXenon ||
         input.specPickerInput.data.hyperV ||
-        (input.specPickerInput.data.isNewFunctionAppCreate && input.specPickerInput.data.isElastic))
+        (input.specPickerInput.data.isNewFunctionAppCreate &&
+          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard)))
     ) {
       this.state = 'hidden';
       return this.checkIfDreamspark(input.subscriptionId);

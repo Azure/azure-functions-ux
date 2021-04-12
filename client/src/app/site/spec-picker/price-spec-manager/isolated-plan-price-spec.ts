@@ -94,7 +94,8 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
       (!input.specPickerInput.data.allowAseV2Creation ||
         input.specPickerInput.data.isXenon ||
         input.specPickerInput.data.hyperV ||
-        (input.specPickerInput.data.isNewFunctionAppCreate && input.specPickerInput.data.isElastic))
+        (input.specPickerInput.data.isNewFunctionAppCreate &&
+          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard)))
     ) {
       this.state = 'hidden';
     }
