@@ -1,10 +1,17 @@
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
+export const gridContextPaneContainerStyle = style({
+  display: 'inline-grid',
+  gridTemplateColumns: 'auto auto auto',
+  padding: '10px 30px',
+  paddingBottom: '75px',
+});
+
 export const gridContainerStyle = style({
   display: 'inline-grid',
   gridTemplateColumns: 'auto auto auto',
-  padding: '10px',
+  padding: '10px 30px',
 });
 
 export const radioButtonStyle = style({
@@ -80,4 +87,36 @@ export const planFeaturesTitleStyle = (theme: ThemeExtended): string =>
     textAlign: 'center',
     fontWeight: 'bold',
     paddingTop: '73px',
+  });
+
+export const iconStyle = style({
+  width: '20px',
+  height: '20px',
+  verticalAlign: 'middle',
+  marginRight: '6px',
+});
+
+export const buttonStyle = style({
+  width: '100%',
+  padding: '10px 30px',
+});
+
+export const titleWithPaddingStyle = style({
+  padding: '10px 30px',
+  paddingTop: '0px',
+  fontSize: 24,
+});
+
+export const buttonFooterStyle = (theme: ThemeExtended): string =>
+  style({
+    backgroundColor: `${theme.semanticColors.background}`,
+    borderTop: `1px solid ${theme.semanticColors.bodyDivider}`,
+    padding: '16px',
+    boxSizing: 'border-box',
+    position: 'fixed',
+    marginTop: '-126px',
+    bottom: 0,
+    zIndex: 1,
+    width: '100%',
+    height: '65px',
   });

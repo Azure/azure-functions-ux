@@ -1,9 +1,10 @@
-import { DefaultButton, IChoiceGroupOption } from 'office-ui-fabric-react';
+import { DefaultButton, IChoiceGroupOption, Icon, registerIcons } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
 import { PortalContext } from '../../../PortalContext';
 import { ThemeContext } from '../../../ThemeContext';
+import { ReactComponent as CheckSvg } from '../../../images/Common/check.svg';
 import {
   gridBottomSelectedItemStyle,
   gridContainerStyle,
@@ -16,13 +17,25 @@ import {
   planFeaturesTitleStyle,
   skuTitleSelectedStyle,
   skuTitleUnselectedStyle,
+  iconStyle,
+  buttonStyle,
+  titleWithPaddingStyle,
+  buttonFooterStyle,
+  gridContextPaneContainerStyle,
 } from './StaticSiteSkuPicker.styles';
+import { getTelemetryInfo } from '../../app/deployment-center/utility/DeploymentCenterUtility';
 
 export interface StaticSiteSkuPickerProps {
   isStaticSiteCreate: boolean;
   currentSku: string;
   resourceId: string;
 }
+
+registerIcons({
+  icons: {
+    check: <CheckSvg className={iconStyle} />,
+  },
+});
 
 const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const { isStaticSiteCreate, currentSku } = props;
@@ -35,26 +48,22 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const [freeColumnClassName, setFreeColumnClassName] = useState<string>(gridSelectedItemStyle(theme));
   const [standardColumnClassName, setStandardColumnClassName] = useState<string>(gridUnselectedItemStyle(theme));
 
-  useEffect(() => {
-    if (currentSku) {
-      setSelectedSku(currentSku);
-    }
+  const applyButtonOnClick = () => {
+    portalContext.log(getTelemetryInfo('verbose', 'applyButton', 'clicked', { selectedSku: selectedSku }));
+    portalContext.closeSelf(selectedSku);
+  };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const isStandardSelected = selectedSku === 'Standard';
-    setFreeColumnClassName(isStandardSelected ? gridUnselectedItemStyle(theme) : gridSelectedItemStyle(theme));
-    setStandardColumnClassName(isStandardSelected ? gridSelectedItemStyle(theme) : gridUnselectedItemStyle(theme));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedSku]);
+  const saveButtonOnClick = () => {
+    portalContext.log(getTelemetryInfo('verbose', 'saveButton', 'clicked'));
+    //TODO (stpelleg): update static site implementation
+  };
 
   const getHeaderRow = (): JSX.Element => {
     return (
       <>
-        <div className={planFeaturesTitleStyle(theme)}>{t('Plan/Features')}</div>
+        <div className={planFeaturesTitleStyle(theme)} aria-label={t('staticSitePlanFeaturesAriaLabel')}>
+          {t('staticSitePlanFeatures')}
+        </div>
         {getFreeSkuTitleSection()}
         {getStandardSkuTitleSection()}
       </>
@@ -68,6 +77,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
           <div className={radioButtonStyle}>
             <RadioButtonNoFormik
               id="static-site-sku"
+              aria-label={t('staticSiteFreePlanAriaLabel')}
               selectedKey={selectedSku}
               options={[
                 {
@@ -94,6 +104,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
           <div className={radioButtonStyle}>
             <RadioButtonNoFormik
               id="static-site-sku"
+              aria-label={t('staticStandardPlanAriaLabel')}
               selectedKey={selectedSku}
               options={[
                 {
@@ -116,9 +127,15 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const getPriceRow = (): JSX.Element => {
     return (
       <>
-        <div className={planFeatureItemStyle(theme)}>{t('Price')}</div>
-        <div className={freeColumnClassName}>{t('staticSiteFree')}</div>
-        <div className={standardColumnClassName}>{t('staticSiteStandardPrice')}</div>
+        <div className={planFeatureItemStyle(theme)} aria-label={t('Price')}>
+          {t('Price')}
+        </div>
+        <div className={freeColumnClassName} aria-label={t('Price is free')}>
+          {t('staticSiteFree')}
+        </div>
+        <div className={standardColumnClassName} aria-label={t('Price is nine dollars each month')}>
+          {t('staticSiteStandardPrice')}
+        </div>
       </>
     );
   };
@@ -134,6 +151,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   };
 
   const getBandwidthOverageRow = (): JSX.Element => {
+    //TODO (stpelleg): billing meter implementation
     return (
       <>
         <div className={planFeatureItemStyle(theme)}>{t('staticSiteBandwidthOverage')}</div>
@@ -168,7 +186,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
       <>
         <div className={planFeatureItemStyle(theme)}>{t('staticSiteCustomAuthentication')}</div>
         <div className={freeColumnClassName}>{t(' - ')}</div>
-        <div className={standardColumnClassName}>{t('Yes')}</div>
+        <div className={standardColumnClassName}>{<Icon iconName={'check'} />}</div>
       </>
     );
   };
@@ -178,7 +196,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
       <>
         <div className={planFeatureItemStyle(theme)}>{t('staticSitePrivateLink')}</div>
         <div className={freeColumnClassName}>{t(' - ')}</div>
-        <div className={standardColumnClassName}>{t('Yes')}</div>
+        <div className={standardColumnClassName}>{<Icon iconName={'check'} />}</div>
       </>
     );
   };
@@ -221,32 +239,43 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     getAzureFunctionsRow(),
   ];
 
+  useEffect(() => {
+    if (currentSku) {
+      setSelectedSku(currentSku);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const isStandardSelected = selectedSku === 'Standard';
+    setFreeColumnClassName(isStandardSelected ? gridUnselectedItemStyle(theme) : gridSelectedItemStyle(theme));
+    setStandardColumnClassName(isStandardSelected ? gridSelectedItemStyle(theme) : gridUnselectedItemStyle(theme));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedSku]);
+
   return (
     <>
-      {isStaticSiteCreate && <h3>{t('staticSitePlanComparison')}</h3>}
+      {isStaticSiteCreate && <h2 className={titleWithPaddingStyle}>{t('staticSitePlanComparison')}</h2>}
 
-      <div className={gridContainerStyle}>{gridRows}</div>
+      <div className={isStaticSiteCreate ? gridContextPaneContainerStyle : gridContainerStyle}>{gridRows}</div>
 
       {isStaticSiteCreate && (
-        <DefaultButton
-          text={t('staticSiteApply')}
-          ariaLabel={t('staticSiteApply')}
-          onClick={() => {
-            portalContext.closeSelf(currentSku);
-          }}
-          disabled={currentSku === selectedSku}
-        />
+        <div className={buttonFooterStyle(theme)}>
+          <DefaultButton text={t('staticSiteApply')} ariaLabel={t('staticSiteApply')} onClick={applyButtonOnClick} />
+        </div>
       )}
 
       {!isStaticSiteCreate && (
-        <DefaultButton
-          text={t('Save')}
-          ariaLabel={t('Save')}
-          onClick={() => {
-            //TODO (stpelleg): billing meter implementation
-          }}
-          disabled={currentSku === selectedSku}
-        />
+        <div className={buttonStyle}>
+          <DefaultButton
+            text={t('Save')}
+            ariaLabel={t('Save')}
+            onClick={saveButtonOnClick}
+            disabled={currentSku === 'Standard' || selectedSku === 'Free'}
+          />
+        </div>
       )}
     </>
   );
