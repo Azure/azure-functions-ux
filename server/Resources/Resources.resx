@@ -7083,4 +7083,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSiteApply" xml:space="preserve">
         <value>Apply</value>
     </data>
+    <data name="staticSitePlanFeatures" xml:space="preserve">
+        <value>Plan/Features</value>
+    </data>
+    <data name="staticSitePlanFeaturesAriaLabel" xml:space="preserve">
+        <value>Plan or Features</value>
+    </data>
+    <data name="staticSiteFreePlanAriaLabel" xml:space="preserve">
+        <value>Free plan</value>
+    </data>
+    <data name="staticSiteStandardPlanAriaLabel" xml:space="preserve">
+        <value>Standard plan</value>
+    </data>
 </root>

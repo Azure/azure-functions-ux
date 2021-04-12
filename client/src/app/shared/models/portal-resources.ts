@@ -2313,4 +2313,8 @@ export class PortalResources {
   public static staticSiteStandardDescription = 'staticSiteStandardDescription';
   public static staticSiteStandardPrice = 'staticSiteStandardPrice';
   public static staticSiteApply = 'staticSiteApply';
+  public static staticSitePlanFeatures = 'staticSitePlanFeatures';
+  public static staticSitePlanFeaturesAriaLabel = 'staticSitePlanFeaturesAriaLabel';
+  public static staticSiteFreePlanAriaLabel = 'staticSiteFreePlanAriaLabel';
+  public static staticSiteStandardPlanAriaLabel = 'staticSiteStandardPlanAriaLabel';
 }
