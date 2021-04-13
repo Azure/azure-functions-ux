@@ -510,6 +510,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const deleteBulkEnvironmentVariables = () => {
     const updatedEnvironmentVariables = [...environmentVariables];
     setEnvironmentVariables(updatedEnvironmentVariables.filter(environmentVariable => !environmentVariable.checked));
+    setIsDirty(true);
   };
 
   const getConfirmDialogs = () => {
