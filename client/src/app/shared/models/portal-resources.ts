@@ -1733,7 +1733,7 @@ export class PortalResources {
   public static functionKeyNamesUnique = 'functionKeyNamesUnique';
   public static gitHubActionBuildServerDesc = 'gitHubActionBuildServerDesc';
   public static azureKeyVault = 'azureKeyVault';
-  public static appConfigValue = 'appConfigValue';
+  public static azureAppConfigValue = 'azureAppConfigValue';
   public static appSettingKeyvaultAPIError = 'appSettingKeyvaultAPIError';
   public static containerSettingsNotConfigured = 'containerSettingsNotConfigured';
   public static containerSettingsTitle = 'containerSettingsTitle';
