@@ -90,8 +90,12 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
               }}
             />
           </div>
-          <div className={skuTitleStyle}>{t('staticSiteFree')}</div>
-          <div className={skuDescriptionStyle}>{t('staticSiteFreeDescription')}</div>
+          <div className={skuTitleStyle} aria-hidden={true}>
+            {t('staticSiteFree')}
+          </div>
+          <div className={skuDescriptionStyle} aria-hidden={true}>
+            {t('staticSiteFreeDescription')}
+          </div>
         </div>
       </>
     );
@@ -104,7 +108,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
           <div className={radioButtonStyle}>
             <RadioButtonNoFormik
               id="static-site-sku"
-              aria-label={t('staticStandardPlanAriaLabel')}
+              aria-label={t('staticSiteStandardPlanAriaLabel')}
               selectedKey={selectedSku}
               options={[
                 {
@@ -117,8 +121,12 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
               }}
             />
           </div>
-          <div className={skuTitleStyle}>{t('staticSiteStandard')}</div>
-          <div className={skuDescriptionStyle}>{t('staticSiteStandardDescription')}</div>
+          <div className={skuTitleStyle} aria-hidden={true}>
+            {t('staticSiteStandard')}
+          </div>
+          <div className={skuDescriptionStyle} aria-hidden={true}>
+            {t('staticSiteStandardDescription')}
+          </div>
         </div>
       </>
     );
@@ -127,13 +135,13 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const getPriceRow = (): JSX.Element => {
     return (
       <>
-        <div className={planFeatureItemStyle(theme)} aria-label={t('Price')}>
+        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
           {t('Price')}
         </div>
-        <div className={freeColumnClassName} aria-label={t('Price is free')}>
+        <div className={freeColumnClassName} aria-hidden={true}>
           {t('staticSiteFree')}
         </div>
-        <div className={standardColumnClassName} aria-label={t('Price is nine dollars each month')}>
+        <div className={standardColumnClassName} aria-hidden={true}>
           {t('staticSiteStandardPrice')}
         </div>
       </>
@@ -143,9 +151,15 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const getIncludedBandwidthRow = (): JSX.Element => {
     return (
       <>
-        <div className={planFeatureItemStyle(theme)}>{t('staticSiteIncludedBandwidth')}</div>
-        <div className={freeColumnClassName}>{t('staticSiteIncludedBandwidthAmount')}</div>
-        <div className={standardColumnClassName}>{t('staticSiteIncludedBandwidthAmount')}</div>
+        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
+          {t('staticSiteIncludedBandwidth')}
+        </div>
+        <div className={freeColumnClassName} aria-hidden={true}>
+          {t('staticSiteIncludedBandwidthAmount')}
+        </div>
+        <div className={standardColumnClassName} aria-hidden={true}>
+          {t('staticSiteIncludedBandwidthAmount')}
+        </div>
       </>
     );
   };
@@ -154,9 +168,15 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     //TODO (stpelleg): billing meter implementation
     return (
       <>
-        <div className={planFeatureItemStyle(theme)}>{t('staticSiteBandwidthOverage')}</div>
-        <div className={freeColumnClassName}>{t(' - ')}</div>
-        <div className={standardColumnClassName}>{t('staticSiteStandardBandwidthOverageAmount')}</div>
+        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
+          {t('staticSiteBandwidthOverage')}
+        </div>
+        <div className={freeColumnClassName} aria-hidden={true}>
+          {t(' - ')}
+        </div>
+        <div className={standardColumnClassName} aria-hidden={true}>
+          {t('staticSiteStandardBandwidthOverageAmount')}
+        </div>
       </>
     );
   };
@@ -164,9 +184,15 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const getCustomDomainsRow = (): JSX.Element => {
     return (
       <>
-        <div className={planFeatureItemStyle(theme)}>{t('staticSiteCustomDomains')}</div>
-        <div className={freeColumnClassName}>{t('staticSiteFreeCustomDomainAmount')}</div>
-        <div className={standardColumnClassName}>{t('staticSiteStandardCustomDomainAmount')}</div>
+        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
+          {t('staticSiteCustomDomains')}
+        </div>
+        <div className={freeColumnClassName} aria-hidden={true}>
+          {t('staticSiteFreeCustomDomainAmount')}
+        </div>
+        <div className={standardColumnClassName} aria-hidden={true}>
+          {t('staticSiteStandardCustomDomainAmount')}
+        </div>
       </>
     );
   };
@@ -174,9 +200,15 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const getSslCertificatesRow = (): JSX.Element => {
     return (
       <>
-        <div className={planFeatureItemStyle(theme)}>{t('staticSiteSslCertificates')}</div>
-        <div className={freeColumnClassName}>{t('staticSiteFree')}</div>
-        <div className={standardColumnClassName}>{t('staticSiteFree')}</div>
+        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
+          {t('staticSiteSslCertificates')}
+        </div>
+        <div className={freeColumnClassName} aria-hidden={true}>
+          {t('staticSiteFree')}
+        </div>
+        <div className={standardColumnClassName} aria-hidden={true}>
+          {t('staticSiteFree')}
+        </div>
       </>
     );
   };
@@ -184,9 +216,15 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const getCustomAuthenticationRow = (): JSX.Element => {
     return (
       <>
-        <div className={planFeatureItemStyle(theme)}>{t('staticSiteCustomAuthentication')}</div>
-        <div className={freeColumnClassName}>{t(' - ')}</div>
-        <div className={standardColumnClassName}>{<Icon iconName={'check'} />}</div>
+        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
+          {t('staticSiteCustomAuthentication')}
+        </div>
+        <div className={freeColumnClassName} aria-hidden={true}>
+          {t(' - ')}
+        </div>
+        <div className={standardColumnClassName} aria-hidden={true}>
+          {<Icon iconName={'check'} />}
+        </div>
       </>
     );
   };
@@ -194,9 +232,15 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const getPrivateLinkRow = (): JSX.Element => {
     return (
       <>
-        <div className={planFeatureItemStyle(theme)}>{t('staticSitePrivateLink')}</div>
-        <div className={freeColumnClassName}>{t(' - ')}</div>
-        <div className={standardColumnClassName}>{<Icon iconName={'check'} />}</div>
+        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
+          {t('staticSitePrivateLink')}
+        </div>
+        <div className={freeColumnClassName} aria-hidden={true}>
+          {t(' - ')}
+        </div>
+        <div className={standardColumnClassName} aria-hidden={true}>
+          {<Icon iconName={'check'} />}
+        </div>
       </>
     );
   };
@@ -204,9 +248,15 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const getStorageRow = (): JSX.Element => {
     return (
       <>
-        <div className={planFeatureItemStyle(theme)}>{t('staticSiteStorage')}</div>
-        <div className={freeColumnClassName}>{t('staticSiteFreeStorageAmount')}</div>
-        <div className={standardColumnClassName}>{t('staticSiteStandardStorageAmount')}</div>
+        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
+          {t('staticSiteStorage')}
+        </div>
+        <div className={freeColumnClassName} aria-hidden={true}>
+          {t('staticSiteFreeStorageAmount')}
+        </div>
+        <div className={standardColumnClassName} aria-hidden={true}>
+          {t('staticSiteStandardStorageAmount')}
+        </div>
       </>
     );
   };
@@ -215,11 +265,13 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     const isFreeSelected: boolean = selectedSku === 'Free';
     return (
       <>
-        <div className={planFeatureItemStyle(theme)}>{t('staticSiteAzureFunctions')}</div>
-        <div className={isFreeSelected ? gridBottomSelectedItemStyle(theme) : freeColumnClassName}>
+        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
+          {t('staticSiteAzureFunctions')}
+        </div>
+        <div className={isFreeSelected ? gridBottomSelectedItemStyle(theme) : freeColumnClassName} aria-hidden={true}>
           {t('staticSiteFreeAzureFunctionsAmount')}
         </div>
-        <div className={!isFreeSelected ? gridBottomSelectedItemStyle(theme) : standardColumnClassName}>
+        <div className={!isFreeSelected ? gridBottomSelectedItemStyle(theme) : standardColumnClassName} aria-hidden={true}>
           {t('staticSiteStandardAzureFunctionsAmount')}
         </div>
       </>
