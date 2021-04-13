@@ -23,16 +23,13 @@ import {
   gridContextPaneContainerStyle,
 } from './StaticSiteSkuPicker.styles';
 import { getTelemetryInfo } from '../../app/deployment-center/utility/DeploymentCenterUtility';
+import { staticSiteSku } from './StaticSiteSkuPicker.types';
+import { CommonConstants } from '../../../utils/CommonConstants';
 
 export interface StaticSiteSkuPickerProps {
   isStaticSiteCreate: boolean;
   currentSku: string;
   resourceId: string;
-}
-
-export enum staticSiteSku {
-  Free = 'Free',
-  Standard = 'Standard',
 }
 
 const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
@@ -93,7 +90,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
 
   const getBandwidthOverageRow = (): JSX.Element => {
     //TODO (stpelleg): billing meter implementation
-    return getGridMiddleRow(t('staticSiteBandwidthOverage'), ' - ', t('staticSiteStandardBandwidthOverageAmount'));
+    return getGridMiddleRow(t('staticSiteBandwidthOverage'), CommonConstants.Dash, t('staticSiteStandardBandwidthOverageAmount'));
   };
 
   const getCustomDomainsRow = (): JSX.Element => {
@@ -105,11 +102,15 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   };
 
   const getCustomAuthenticationRow = (): JSX.Element => {
-    return getGridMiddleRow(t('staticSiteCustomAuthentication'), ' - ', <Icon iconName={'Accept'} className={iconStyle(theme)} />);
+    return getGridMiddleRow(
+      t('staticSiteCustomAuthentication'),
+      CommonConstants.Dash,
+      <Icon iconName={'Accept'} className={iconStyle(theme)} />
+    );
   };
 
   const getPrivateLinkRow = (): JSX.Element => {
-    return getGridMiddleRow(t('staticSitePrivateLink'), ' - ', <Icon iconName={'Accept'} className={iconStyle(theme)} />);
+    return getGridMiddleRow(t('staticSitePrivateLink'), CommonConstants.Dash, <Icon iconName={'Accept'} className={iconStyle(theme)} />);
   };
 
   const getStorageRow = (): JSX.Element => {
