@@ -47,8 +47,8 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
     );
   } else {
     return (
-      <div className={defaultCellStyle} aria-label={t('appConfigValue')}>
-        {t('appConfigValue')}
+      <div className={defaultCellStyle} aria-label={t('azureAppConfigValue')}>
+        {t('azureAppConfigValue')}
       </div>
     );
   }
