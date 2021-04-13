@@ -70,7 +70,7 @@ export abstract class PremiumV3PlanPriceSpec extends DV3SeriesPriceSpec {
   }
 
   protected _shouldHideForNewPlan(data: PlanSpecPickerData): boolean {
-    return !!data.hostingEnvironmentName || (data.isNewFunctionAppCreate && data.isElastic);
+    return !!data.hostingEnvironmentName || (data.isNewFunctionAppCreate && (data.isElastic || data.isWorkflowStandard));
   }
 
   protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean {
