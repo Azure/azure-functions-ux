@@ -5371,7 +5371,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Key vault Reference</value>
     </data>
     <data name="azureAppConfigValue" xml:space="preserve">
-        <value>Azure App Config</value>
+        <value>App Service Config</value>
     </data>
     <data name="appSettingKeyvaultAPIError" xml:space="preserve">
         <value>Error: Could not access key vault reference metadata</value>
