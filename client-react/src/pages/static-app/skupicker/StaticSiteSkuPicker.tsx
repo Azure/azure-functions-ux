@@ -1,10 +1,9 @@
-import { DefaultButton, IChoiceGroupOption, Icon, registerIcons } from 'office-ui-fabric-react';
+import { DefaultButton, IChoiceGroupOption, Icon } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
 import { PortalContext } from '../../../PortalContext';
 import { ThemeContext } from '../../../ThemeContext';
-import { ReactComponent as CheckSvg } from '../../../images/Common/check.svg';
 import {
   gridBottomSelectedItemStyle,
   gridContainerStyle,
@@ -36,12 +35,6 @@ export enum staticSiteSku {
   Standard = 'Standard',
 }
 
-registerIcons({
-  icons: {
-    check: <CheckSvg className={iconStyle} />,
-  },
-});
-
 const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const { isStaticSiteCreate, currentSku } = props;
   const { t } = useTranslation();
@@ -50,8 +43,6 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const portalContext = useContext(PortalContext);
 
   const [selectedSku, setSelectedSku] = useState<string>(staticSiteSku.Free);
-  const [freeColumnClassName, setFreeColumnClassName] = useState<string>(selectedGridItemStyle(theme));
-  const [standardColumnClassName, setStandardColumnClassName] = useState<string>(unselectedGridItemStyle(theme));
 
   const applyButtonOnClick = () => {
     portalContext.log(getTelemetryInfo('verbose', 'applyButton', 'clicked', { selectedSku: selectedSku }));
@@ -61,6 +52,14 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const saveButtonOnClick = () => {
     portalContext.log(getTelemetryInfo('verbose', 'saveButton', 'clicked'));
     //TODO (stpelleg): update static site implementation
+  };
+
+  const getFreeColumnClassname = (): string => {
+    return selectedSku === staticSiteSku.Free ? selectedGridItemStyle(theme) : unselectedGridItemStyle(theme);
+  };
+
+  const getStandardColumnClassname = (): string => {
+    return selectedSku === staticSiteSku.Standard ? selectedGridItemStyle(theme) : unselectedGridItemStyle(theme);
   };
 
   const getHeaderRow = (): JSX.Element => {
@@ -106,11 +105,11 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   };
 
   const getCustomAuthenticationRow = (): JSX.Element => {
-    return getGridMiddleRow(t('staticSiteCustomAuthentication'), ' - ', <Icon iconName={'check'} />);
+    return getGridMiddleRow(t('staticSiteCustomAuthentication'), ' - ', <Icon iconName={'Accept'} className={iconStyle(theme)} />);
   };
 
   const getPrivateLinkRow = (): JSX.Element => {
-    return getGridMiddleRow(t('staticSitePrivateLink'), ' - ', <Icon iconName={'check'} />);
+    return getGridMiddleRow(t('staticSitePrivateLink'), ' - ', <Icon iconName={'Accept'} className={iconStyle(theme)} />);
   };
 
   const getStorageRow = (): JSX.Element => {
@@ -162,10 +161,10 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
           {featureTitle}
         </div>
-        <div className={freeColumnClassName} aria-hidden={true}>
+        <div className={getFreeColumnClassname()} aria-hidden={true}>
           {freeSkuValue}
         </div>
-        <div className={standardColumnClassName} aria-hidden={true}>
+        <div className={getStandardColumnClassname()} aria-hidden={true}>
           {standardSkuValue}
         </div>
       </>
@@ -179,10 +178,10 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
           {featureTitle}
         </div>
-        <div className={!isStandardSelected ? gridBottomSelectedItemStyle(theme) : freeColumnClassName} aria-hidden={true}>
+        <div className={!isStandardSelected ? gridBottomSelectedItemStyle(theme) : getFreeColumnClassname()} aria-hidden={true}>
           {freeSkuValue}
         </div>
-        <div className={isStandardSelected ? gridBottomSelectedItemStyle(theme) : standardColumnClassName} aria-hidden={true}>
+        <div className={isStandardSelected ? gridBottomSelectedItemStyle(theme) : getStandardColumnClassname()} aria-hidden={true}>
           {standardSkuValue}
         </div>
       </>
@@ -209,14 +208,6 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    const isStandardSelected = selectedSku === staticSiteSku.Standard;
-    setFreeColumnClassName(isStandardSelected ? unselectedGridItemStyle(theme) : selectedGridItemStyle(theme));
-    setStandardColumnClassName(isStandardSelected ? selectedGridItemStyle(theme) : unselectedGridItemStyle(theme));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedSku]);
 
   return (
     <>

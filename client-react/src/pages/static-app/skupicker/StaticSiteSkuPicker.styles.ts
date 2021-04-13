@@ -89,12 +89,16 @@ export const planFeaturesTitleStyle = (theme: ThemeExtended): string =>
     paddingTop: '73px',
   });
 
-export const iconStyle = style({
-  width: '20px',
-  height: '20px',
-  verticalAlign: 'middle',
-  marginRight: '6px',
-});
+export const iconStyle = (theme: ThemeExtended): string =>
+  style({
+    width: '20px',
+    height: '20px',
+    verticalAlign: 'middle',
+    marginRight: '6px',
+    fontWeight: 'bold',
+    fontSize: '18px',
+    color: theme.palette.green,
+  });
 
 export const buttonStyle = style({
   width: '100%',
@@ -114,7 +118,6 @@ export const buttonFooterStyle = (theme: ThemeExtended): string =>
     padding: '16px',
     boxSizing: 'border-box',
     position: 'fixed',
-    marginTop: '-126px',
     bottom: 0,
     zIndex: 1,
     width: '100%',
