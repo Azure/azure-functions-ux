@@ -7036,7 +7036,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Private link</value>
     </data>
     <data name="staticSiteCustomAuthentication" xml:space="preserve">
-        <value>Custom Authentication</value>
+        <value>Custom authentication</value>
     </data>
     <data name="staticSiteStorage" xml:space="preserve">
         <value>Storage</value>
@@ -7097,5 +7097,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSiteStandardPlanAriaLabel" xml:space="preserve">
         <value>Standard plan. For general purpose production apps. Price is nine dollars per month. Included bandwidth 100GB per subscription. Bandwidth overage 2 cents per GB per subscription. Custom domains five per app. SSL certificates are free. Custom authentication supported. Private link supported. Storage 2GB. Azure functions are managed or bring your own.</value>
+    </data>
+    <data name="staticSitePrice" xml:space="preserve">
+        <value>Price</value>
     </data>
 </root>

@@ -26,14 +26,14 @@ export const planFeatureItemStyle = (theme: ThemeExtended): string =>
     fontWeight: 'bold',
   });
 
-export const gridUnselectedItemStyle = (theme: ThemeExtended): string =>
+export const unselectedGridItemStyle = (theme: ThemeExtended): string =>
   style({
     border: `1px solid ${theme.semanticColors.bodyDivider}`,
     padding: '15px',
     textAlign: 'center',
   });
 
-export const gridSelectedItemStyle = (theme: ThemeExtended): string =>
+export const selectedGridItemStyle = (theme: ThemeExtended): string =>
   style({
     borderTop: `1px solid ${theme.semanticColors.bodyDivider}`,
     borderBottom: `1px solid ${theme.semanticColors.bodyDivider}`,

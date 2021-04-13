@@ -9,8 +9,8 @@ import {
   gridBottomSelectedItemStyle,
   gridContainerStyle,
   planFeatureItemStyle,
-  gridSelectedItemStyle,
-  gridUnselectedItemStyle,
+  selectedGridItemStyle,
+  unselectedGridItemStyle,
   radioButtonStyle,
   skuTitleStyle,
   skuDescriptionStyle,
@@ -31,6 +31,11 @@ export interface StaticSiteSkuPickerProps {
   resourceId: string;
 }
 
+export enum staticSiteSku {
+  Free = 'Free',
+  Standard = 'Standard',
+}
+
 registerIcons({
   icons: {
     check: <CheckSvg className={iconStyle} />,
@@ -44,9 +49,9 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
 
-  const [selectedSku, setSelectedSku] = useState<string>('Free');
-  const [freeColumnClassName, setFreeColumnClassName] = useState<string>(gridSelectedItemStyle(theme));
-  const [standardColumnClassName, setStandardColumnClassName] = useState<string>(gridUnselectedItemStyle(theme));
+  const [selectedSku, setSelectedSku] = useState<string>(staticSiteSku.Free);
+  const [freeColumnClassName, setFreeColumnClassName] = useState<string>(selectedGridItemStyle(theme));
+  const [standardColumnClassName, setStandardColumnClassName] = useState<string>(unselectedGridItemStyle(theme));
 
   const applyButtonOnClick = () => {
     portalContext.log(getTelemetryInfo('verbose', 'applyButton', 'clicked', { selectedSku: selectedSku }));
@@ -64,215 +69,121 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         <div className={planFeaturesTitleStyle(theme)} aria-label={t('staticSitePlanFeaturesAriaLabel')}>
           {t('staticSitePlanFeatures')}
         </div>
-        {getFreeSkuTitleSection()}
-        {getStandardSkuTitleSection()}
-      </>
-    );
-  };
-
-  const getFreeSkuTitleSection = (): JSX.Element => {
-    return (
-      <>
-        <div className={selectedSku === 'Free' ? skuTitleSelectedStyle(theme) : skuTitleUnselectedStyle(theme)}>
-          <div className={radioButtonStyle}>
-            <RadioButtonNoFormik
-              id="static-site-sku"
-              aria-label={t('staticSiteFreePlanAriaLabel')}
-              selectedKey={selectedSku}
-              options={[
-                {
-                  key: 'Free',
-                  text: '',
-                },
-              ]}
-              onChange={(e: any, configOptions: IChoiceGroupOption) => {
-                setSelectedSku(configOptions.key);
-              }}
-            />
-          </div>
-          <div className={skuTitleStyle} aria-hidden={true}>
-            {t('staticSiteFree')}
-          </div>
-          <div className={skuDescriptionStyle} aria-hidden={true}>
-            {t('staticSiteFreeDescription')}
-          </div>
-        </div>
-      </>
-    );
-  };
-
-  const getStandardSkuTitleSection = (): JSX.Element => {
-    return (
-      <>
-        <div className={selectedSku === 'Standard' ? skuTitleSelectedStyle(theme) : skuTitleUnselectedStyle(theme)}>
-          <div className={radioButtonStyle}>
-            <RadioButtonNoFormik
-              id="static-site-sku"
-              aria-label={t('staticSiteStandardPlanAriaLabel')}
-              selectedKey={selectedSku}
-              options={[
-                {
-                  key: 'Standard',
-                  text: '',
-                },
-              ]}
-              onChange={(e: any, configOptions: IChoiceGroupOption) => {
-                setSelectedSku(configOptions.key);
-              }}
-            />
-          </div>
-          <div className={skuTitleStyle} aria-hidden={true}>
-            {t('staticSiteStandard')}
-          </div>
-          <div className={skuDescriptionStyle} aria-hidden={true}>
-            {t('staticSiteStandardDescription')}
-          </div>
-        </div>
+        {getSkuTitleSection(staticSiteSku.Free, t('staticSiteFreePlanAriaLabel'), t('staticSiteFree'), t('staticSiteFreeDescription'))}
+        {getSkuTitleSection(
+          staticSiteSku.Standard,
+          t('staticSiteStandardPlanAriaLabel'),
+          t('staticSiteStandard'),
+          t('staticSiteStandardDescription')
+        )}
       </>
     );
   };
 
   const getPriceRow = (): JSX.Element => {
-    return (
-      <>
-        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
-          {t('Price')}
-        </div>
-        <div className={freeColumnClassName} aria-hidden={true}>
-          {t('staticSiteFree')}
-        </div>
-        <div className={standardColumnClassName} aria-hidden={true}>
-          {t('staticSiteStandardPrice')}
-        </div>
-      </>
-    );
+    return getGridMiddleRow(t('staticSitePrice'), t('staticSiteFree'), t('staticSiteStandardPrice'));
   };
 
   const getIncludedBandwidthRow = (): JSX.Element => {
-    return (
-      <>
-        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
-          {t('staticSiteIncludedBandwidth')}
-        </div>
-        <div className={freeColumnClassName} aria-hidden={true}>
-          {t('staticSiteIncludedBandwidthAmount')}
-        </div>
-        <div className={standardColumnClassName} aria-hidden={true}>
-          {t('staticSiteIncludedBandwidthAmount')}
-        </div>
-      </>
+    return getGridMiddleRow(
+      t('staticSiteIncludedBandwidth'),
+      t('staticSiteIncludedBandwidthAmount'),
+      t('staticSiteIncludedBandwidthAmount')
     );
   };
 
   const getBandwidthOverageRow = (): JSX.Element => {
     //TODO (stpelleg): billing meter implementation
-    return (
-      <>
-        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
-          {t('staticSiteBandwidthOverage')}
-        </div>
-        <div className={freeColumnClassName} aria-hidden={true}>
-          {t(' - ')}
-        </div>
-        <div className={standardColumnClassName} aria-hidden={true}>
-          {t('staticSiteStandardBandwidthOverageAmount')}
-        </div>
-      </>
-    );
+    return getGridMiddleRow(t('staticSiteBandwidthOverage'), ' - ', t('staticSiteStandardBandwidthOverageAmount'));
   };
 
   const getCustomDomainsRow = (): JSX.Element => {
-    return (
-      <>
-        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
-          {t('staticSiteCustomDomains')}
-        </div>
-        <div className={freeColumnClassName} aria-hidden={true}>
-          {t('staticSiteFreeCustomDomainAmount')}
-        </div>
-        <div className={standardColumnClassName} aria-hidden={true}>
-          {t('staticSiteStandardCustomDomainAmount')}
-        </div>
-      </>
-    );
+    return getGridMiddleRow(t('staticSiteCustomDomains'), t('staticSiteFreeCustomDomainAmount'), t('staticSiteStandardCustomDomainAmount'));
   };
 
   const getSslCertificatesRow = (): JSX.Element => {
-    return (
-      <>
-        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
-          {t('staticSiteSslCertificates')}
-        </div>
-        <div className={freeColumnClassName} aria-hidden={true}>
-          {t('staticSiteFree')}
-        </div>
-        <div className={standardColumnClassName} aria-hidden={true}>
-          {t('staticSiteFree')}
-        </div>
-      </>
-    );
+    return getGridMiddleRow(t('staticSiteSslCertificates'), t('staticSiteFree'), t('staticSiteFree'));
   };
 
   const getCustomAuthenticationRow = (): JSX.Element => {
-    return (
-      <>
-        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
-          {t('staticSiteCustomAuthentication')}
-        </div>
-        <div className={freeColumnClassName} aria-hidden={true}>
-          {t(' - ')}
-        </div>
-        <div className={standardColumnClassName} aria-hidden={true}>
-          {<Icon iconName={'check'} />}
-        </div>
-      </>
-    );
+    return getGridMiddleRow(t('staticSiteCustomAuthentication'), ' - ', <Icon iconName={'check'} />);
   };
 
   const getPrivateLinkRow = (): JSX.Element => {
-    return (
-      <>
-        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
-          {t('staticSitePrivateLink')}
-        </div>
-        <div className={freeColumnClassName} aria-hidden={true}>
-          {t(' - ')}
-        </div>
-        <div className={standardColumnClassName} aria-hidden={true}>
-          {<Icon iconName={'check'} />}
-        </div>
-      </>
-    );
+    return getGridMiddleRow(t('staticSitePrivateLink'), ' - ', <Icon iconName={'check'} />);
   };
 
   const getStorageRow = (): JSX.Element => {
+    return getGridMiddleRow(t('staticSiteStorage'), t('staticSiteFreeStorageAmount'), t('staticSiteStandardStorageAmount'));
+  };
+
+  const getAzureFunctionsRow = (): JSX.Element => {
+    return getGridBottomRow(
+      t('staticSiteAzureFunctions'),
+      t('staticSiteFreeAzureFunctionsAmount'),
+      t('staticSiteStandardAzureFunctionsAmount')
+    );
+  };
+
+  const getSkuTitleSection = (sku: string, radioButtonAriaLabel: string, skuTitle: string, skuDescription: string): JSX.Element => {
     return (
       <>
-        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
-          {t('staticSiteStorage')}
-        </div>
-        <div className={freeColumnClassName} aria-hidden={true}>
-          {t('staticSiteFreeStorageAmount')}
-        </div>
-        <div className={standardColumnClassName} aria-hidden={true}>
-          {t('staticSiteStandardStorageAmount')}
+        <div className={selectedSku === sku ? skuTitleSelectedStyle(theme) : skuTitleUnselectedStyle(theme)}>
+          <div className={radioButtonStyle}>
+            <RadioButtonNoFormik
+              id="static-site-sku"
+              aria-label={radioButtonAriaLabel}
+              selectedKey={selectedSku}
+              options={[
+                {
+                  key: sku,
+                  text: '',
+                },
+              ]}
+              onChange={(e: any, configOptions: IChoiceGroupOption) => {
+                setSelectedSku(configOptions.key);
+              }}
+            />
+          </div>
+          <div className={skuTitleStyle} aria-hidden={true}>
+            {skuTitle}
+          </div>
+          <div className={skuDescriptionStyle} aria-hidden={true}>
+            {skuDescription}
+          </div>
         </div>
       </>
     );
   };
 
-  const getAzureFunctionsRow = (): JSX.Element => {
-    const isFreeSelected: boolean = selectedSku === 'Free';
+  const getGridMiddleRow = (featureTitle: string, freeSkuValue: string, standardSkuValue: string | JSX.Element): JSX.Element => {
     return (
       <>
         <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
-          {t('staticSiteAzureFunctions')}
+          {featureTitle}
         </div>
-        <div className={isFreeSelected ? gridBottomSelectedItemStyle(theme) : freeColumnClassName} aria-hidden={true}>
-          {t('staticSiteFreeAzureFunctionsAmount')}
+        <div className={freeColumnClassName} aria-hidden={true}>
+          {freeSkuValue}
         </div>
-        <div className={!isFreeSelected ? gridBottomSelectedItemStyle(theme) : standardColumnClassName} aria-hidden={true}>
-          {t('staticSiteStandardAzureFunctionsAmount')}
+        <div className={standardColumnClassName} aria-hidden={true}>
+          {standardSkuValue}
+        </div>
+      </>
+    );
+  };
+
+  const getGridBottomRow = (featureTitle: string, freeSkuValue: string, standardSkuValue: string | JSX.Element): JSX.Element => {
+    const isStandardSelected: boolean = selectedSku === staticSiteSku.Standard;
+    return (
+      <>
+        <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
+          {featureTitle}
+        </div>
+        <div className={!isStandardSelected ? gridBottomSelectedItemStyle(theme) : freeColumnClassName} aria-hidden={true}>
+          {freeSkuValue}
+        </div>
+        <div className={isStandardSelected ? gridBottomSelectedItemStyle(theme) : standardColumnClassName} aria-hidden={true}>
+          {standardSkuValue}
         </div>
       </>
     );
@@ -300,9 +211,9 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   }, []);
 
   useEffect(() => {
-    const isStandardSelected = selectedSku === 'Standard';
-    setFreeColumnClassName(isStandardSelected ? gridUnselectedItemStyle(theme) : gridSelectedItemStyle(theme));
-    setStandardColumnClassName(isStandardSelected ? gridSelectedItemStyle(theme) : gridUnselectedItemStyle(theme));
+    const isStandardSelected = selectedSku === staticSiteSku.Standard;
+    setFreeColumnClassName(isStandardSelected ? unselectedGridItemStyle(theme) : selectedGridItemStyle(theme));
+    setStandardColumnClassName(isStandardSelected ? selectedGridItemStyle(theme) : unselectedGridItemStyle(theme));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSku]);
@@ -325,7 +236,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
             text={t('Save')}
             ariaLabel={t('Save')}
             onClick={saveButtonOnClick}
-            disabled={currentSku === 'Standard' || selectedSku === 'Free'}
+            disabled={currentSku === staticSiteSku.Standard || selectedSku === staticSiteSku.Free}
           />
         </div>
       )}
