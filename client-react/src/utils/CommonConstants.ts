@@ -154,6 +154,8 @@ export class CommonConstants {
 
   public static readonly DefaultHiddenValue = '******';
 
+  public static readonly Dash = ' - ';
+
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
 }
 
