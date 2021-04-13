@@ -1,4 +1,4 @@
-import { DefaultButton, IChoiceGroupOption, Icon } from 'office-ui-fabric-react';
+import { CommandBar, DefaultButton, IChoiceGroupOption, ICommandBarItemProps, Icon } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
@@ -17,14 +17,17 @@ import {
   skuTitleSelectedStyle,
   skuTitleUnselectedStyle,
   iconStyle,
-  buttonStyle,
   titleWithPaddingStyle,
   buttonFooterStyle,
   gridContextPaneContainerStyle,
+  descriptionStyle,
+  smallerTitleWithPaddingStyle,
 } from './StaticSiteSkuPicker.styles';
 import { getTelemetryInfo } from '../../app/deployment-center/utility/DeploymentCenterUtility';
 import { staticSiteSku } from './StaticSiteSkuPicker.types';
 import { CommonConstants } from '../../../utils/CommonConstants';
+import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
+import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 
 export interface StaticSiteSkuPickerProps {
   isStaticSiteCreate: boolean;
@@ -49,6 +52,24 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const saveButtonOnClick = () => {
     portalContext.log(getTelemetryInfo('verbose', 'saveButton', 'clicked'));
     //TODO (stpelleg): update static site implementation
+  };
+
+  const getSaveButton = (): ICommandBarItemProps => {
+    const isSaveDisabled: boolean = currentSku === selectedSku;
+    return {
+      key: 'save',
+      name: t('save'),
+      iconProps: {
+        iconName: 'Save',
+      },
+      ariaLabel: t('save'),
+      disabled: isSaveDisabled,
+      onClick: saveButtonOnClick,
+    };
+  };
+
+  const getCommandBarItems = (): ICommandBarItemProps[] => {
+    return [getSaveButton()];
   };
 
   const getFreeColumnClassname = (): string => {
@@ -212,24 +233,28 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
 
   return (
     <>
+      {!isStaticSiteCreate && (
+        <CommandBar
+          items={getCommandBarItems()}
+          role="nav"
+          styles={CommandBarStyles}
+          ariaLabel={t('deploymentCenterCommandBarAriaLabel')}
+          buttonAs={CustomCommandBarButton}
+        />
+      )}
+
       {isStaticSiteCreate && <h2 className={titleWithPaddingStyle}>{t('staticSitePlanComparison')}</h2>}
+      {!isStaticSiteCreate && <h3 className={smallerTitleWithPaddingStyle}>{t('staticSiteChoosePlan')}</h3>}
+
+      <div className={descriptionStyle} id="hosting-plan-desc">
+        {t('staticSiteHostingPlanDescription')}
+      </div>
 
       <div className={isStaticSiteCreate ? gridContextPaneContainerStyle : gridContainerStyle}>{gridRows}</div>
 
       {isStaticSiteCreate && (
         <div className={buttonFooterStyle(theme)}>
           <DefaultButton text={t('staticSiteApply')} ariaLabel={t('staticSiteApply')} onClick={applyButtonOnClick} />
-        </div>
-      )}
-
-      {!isStaticSiteCreate && (
-        <div className={buttonStyle}>
-          <DefaultButton
-            text={t('Save')}
-            ariaLabel={t('Save')}
-            onClick={saveButtonOnClick}
-            disabled={currentSku === staticSiteSku.Standard || selectedSku === staticSiteSku.Free}
-          />
         </div>
       )}
     </>
