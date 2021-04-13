@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { ICommandBarItemProps, CommandBar, IButtonProps } from 'office-ui-fabric-react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
@@ -14,18 +14,9 @@ interface ConfigurationCommandBarProps {
 
 const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props => {
   const { save, dirty, showDiscardConfirmDialog, refresh, isLoading } = props;
-  const [commandBarItems, setCommandBarItems] = useState<ICommandBarItemProps[]>([]);
 
   const { t } = useTranslation();
   const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
-
-  const setItems = (saveDiscardDisabled: boolean) => {
-    setCommandBarItems([
-      getSaveCommandBarItem(saveDiscardDisabled),
-      getDiscardCommandBarItem(saveDiscardDisabled),
-      getRefreshCommandBarItem(),
-    ]);
-  };
 
   const getSaveCommandBarItem = (saveDiscardDisabled: boolean) => {
     return {
@@ -63,14 +54,14 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
     };
   };
 
-  useEffect(() => {
-    setItems(!dirty || isLoading);
+  const getItems = (dirty: boolean, isLoading: boolean): ICommandBarItemProps[] => {
+    const saveDiscardDisabled = !dirty || isLoading;
+    return [getSaveCommandBarItem(saveDiscardDisabled), getDiscardCommandBarItem(saveDiscardDisabled), getRefreshCommandBarItem()];
+  };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dirty, isLoading]);
   return (
     <CommandBar
-      items={commandBarItems}
+      items={getItems(dirty, isLoading)}
       role="nav"
       styles={CommandBarStyles}
       buttonAs={CustomCommandBarButton}

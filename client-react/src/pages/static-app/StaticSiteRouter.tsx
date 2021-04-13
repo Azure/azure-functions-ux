@@ -29,8 +29,8 @@ const StaticSiteRouter: React.FC<RouteComponentProps<StaticSiteRouterProps>> = p
                 <ConfigurationLoadable resourceId={value.resourceId} path="/configuration" />
                 <StaticSiteSkuPickerLoadable
                   resourceId={value.resourceId}
-                  isStaticSiteCreate={value.featureInfo.data.isStaticSiteCreate}
-                  currentSku={value.featureInfo.data.currentSku}
+                  isStaticSiteCreate={false}
+                  currentSku={''}
                   path="/staticsiteskupicker"
                 />
               </Router>
