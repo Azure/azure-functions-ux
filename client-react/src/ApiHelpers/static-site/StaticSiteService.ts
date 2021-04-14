@@ -11,4 +11,14 @@ export default class StaticSiteService {
       apiVersion: CommonConstants.ApiVersions.staticSitePreviewApiVersion20191201,
     });
   };
+
+  public static patchStaticSite = (resourceId: string, body: any) => {
+    return MakeArmCall<void>({
+      resourceId,
+      commandName: 'patchStaticSite',
+      method: 'PATCH',
+      body: body,
+      apiVersion: CommonConstants.ApiVersions.staticSitePreviewApiVersion20191201,
+    });
+  };
 }

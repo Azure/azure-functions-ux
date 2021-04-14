@@ -2321,4 +2321,7 @@ export class PortalResources {
   public static staticSitePrice = 'staticSitePrice';
   public static staticSiteHostingPlanDescription = 'staticSiteHostingPlanDescription';
   public static staticSiteChoosePlan = 'staticSiteChoosePlan';
+  public static staticSiteUpdatingHostingPlan = 'staticSiteUpdatingHostingPlan';
+  public static staticSiteUpdatingHostingPlanSuccess = 'staticSiteUpdatingHostingPlanSuccess';
+  public static staticSiteUpdatingHostingPlanFailure = 'staticSiteUpdatingHostingPlanFailure';
 }

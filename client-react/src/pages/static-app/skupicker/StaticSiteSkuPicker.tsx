@@ -24,38 +24,56 @@ import {
   smallerTitleWithPaddingStyle,
 } from './StaticSiteSkuPicker.styles';
 import { getTelemetryInfo } from '../../app/deployment-center/utility/DeploymentCenterUtility';
-import { staticSiteSku } from './StaticSiteSkuPicker.types';
+import { staticSiteSku, StaticSiteSkuPickerProps } from './StaticSiteSkuPicker.types';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
-
-export interface StaticSiteSkuPickerProps {
-  isStaticSiteCreate: boolean;
-  currentSku: string;
-  resourceId: string;
-}
+import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
+import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 
 const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
-  const { isStaticSiteCreate, currentSku } = props;
+  const { isStaticSiteCreate, currentSku, hasWritePermissions, resourceId } = props;
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
 
   const [selectedSku, setSelectedSku] = useState<string>(staticSiteSku.Free);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const applyButtonOnClick = () => {
     portalContext.log(getTelemetryInfo('verbose', 'applyButton', 'clicked', { selectedSku: selectedSku }));
     portalContext.closeSelf(selectedSku);
   };
 
-  const saveButtonOnClick = () => {
+  const saveButtonOnClick = async () => {
     portalContext.log(getTelemetryInfo('verbose', 'saveButton', 'clicked'));
-    //TODO (stpelleg): update static site implementation
+    setIsSaving(true);
+
+    const notificationId = portalContext.startNotification(t('staticSiteUpdatingHostingPlan'), t('staticSiteUpdatingHostingPlan'));
+    const patchStaticSiteSkuResponse = await StaticSiteService.patchStaticSite(resourceId, {
+      sku: {
+        name: selectedSku,
+        tier: selectedSku,
+      },
+    });
+
+    if (patchStaticSiteSkuResponse.metadata.success) {
+      portalContext.stopNotification(notificationId, true, t('staticSiteUpdatingHostingPlanSuccess'));
+    } else {
+      portalContext.stopNotification(
+        notificationId,
+        false,
+        patchStaticSiteSkuResponse.metadata.error
+          ? getErrorMessage(patchStaticSiteSkuResponse.metadata.error)
+          : t('staticSiteUpdatingHostingPlanFailure')
+      );
+    }
+
+    setIsSaving(false);
   };
 
   const getSaveButton = (): ICommandBarItemProps => {
-    const isSaveDisabled: boolean = currentSku === selectedSku;
     return {
       key: 'save',
       name: t('save'),
@@ -63,9 +81,15 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         iconName: 'Save',
       },
       ariaLabel: t('save'),
-      disabled: isSaveDisabled,
-      onClick: saveButtonOnClick,
+      disabled: isSaveButtonDisabled(),
+      onClick: () => {
+        saveButtonOnClick();
+      },
     };
+  };
+
+  const isSaveButtonDisabled = () => {
+    return currentSku === selectedSku || isSaving || !hasWritePermissions;
   };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
@@ -210,19 +234,6 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     );
   };
 
-  const gridRows: JSX.Element[] = [
-    getHeaderRow(),
-    getPriceRow(),
-    getIncludedBandwidthRow(),
-    getBandwidthOverageRow(),
-    getCustomDomainsRow(),
-    getSslCertificatesRow(),
-    getCustomAuthenticationRow(),
-    getPrivateLinkRow(),
-    getStorageRow(),
-    getAzureFunctionsRow(),
-  ];
-
   useEffect(() => {
     if (currentSku) {
       setSelectedSku(currentSku);
@@ -250,7 +261,18 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         {t('staticSiteHostingPlanDescription')}
       </div>
 
-      <div className={isStaticSiteCreate ? gridContextPaneContainerStyle : gridContainerStyle}>{gridRows}</div>
+      <div className={isStaticSiteCreate ? gridContextPaneContainerStyle : gridContainerStyle}>
+        {getHeaderRow()}
+        {getPriceRow()}
+        {getIncludedBandwidthRow()}
+        {getBandwidthOverageRow()}
+        {getCustomDomainsRow()}
+        {getSslCertificatesRow()}
+        {getCustomAuthenticationRow()}
+        {getPrivateLinkRow()}
+        {getStorageRow()}
+        {getAzureFunctionsRow()}
+      </div>
 
       {isStaticSiteCreate && (
         <div className={buttonFooterStyle(theme)}>
