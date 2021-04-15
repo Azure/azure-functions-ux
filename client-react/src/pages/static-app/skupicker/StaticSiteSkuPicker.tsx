@@ -1,4 +1,4 @@
-import { DefaultButton, IChoiceGroupOption, Icon } from 'office-ui-fabric-react';
+import { CommandBar, DefaultButton, IChoiceGroupOption, ICommandBarItemProps, Icon } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
@@ -17,38 +17,106 @@ import {
   skuTitleSelectedStyle,
   skuTitleUnselectedStyle,
   iconStyle,
-  buttonStyle,
   titleWithPaddingStyle,
   buttonFooterStyle,
   gridContextPaneContainerStyle,
+  descriptionStyle,
+  smallerTitleWithPaddingStyle,
 } from './StaticSiteSkuPicker.styles';
 import { getTelemetryInfo } from '../../app/deployment-center/utility/DeploymentCenterUtility';
-import { staticSiteSku } from './StaticSiteSkuPicker.types';
+import { staticSiteSku, StaticSiteSkuPickerProps } from './StaticSiteSkuPicker.types';
 import { CommonConstants } from '../../../utils/CommonConstants';
-
-export interface StaticSiteSkuPickerProps {
-  isStaticSiteCreate: boolean;
-  currentSku: string;
-  resourceId: string;
-}
+import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
+import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
+import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
+import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
+import { StaticSite } from '../../../models/static-site/static-site';
+import { ArmObj } from '../../../models/arm-obj';
 
 const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
-  const { isStaticSiteCreate, currentSku } = props;
+  const { isStaticSiteCreate, currentSku, hasWritePermissions, resourceId, refresh } = props;
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
 
-  const [selectedSku, setSelectedSku] = useState<string>(staticSiteSku.Free);
+  const [selectedSku, setSelectedSku] = useState<string>(currentSku); //TODO (stpelleg) WI 9741815 update type
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const applyButtonOnClick = () => {
     portalContext.log(getTelemetryInfo('verbose', 'applyButton', 'clicked', { selectedSku: selectedSku }));
     portalContext.closeSelf(selectedSku);
   };
 
-  const saveButtonOnClick = () => {
+  const saveButtonOnClick = async () => {
     portalContext.log(getTelemetryInfo('verbose', 'saveButton', 'clicked'));
-    //TODO (stpelleg): update static site implementation
+    setIsSaving(true);
+
+    const notificationId = portalContext.startNotification(t('staticSiteUpdatingHostingPlan'), t('staticSiteUpdatingHostingPlan'));
+    const staticSiteResponse = await StaticSiteService.getStaticSite(resourceId);
+
+    if (staticSiteResponse.metadata.success) {
+      await updateStaticSiteSku(staticSiteResponse.data, notificationId);
+    } else {
+      portalContext.log(getTelemetryInfo('error', 'getStaticSite', 'failed', { error: staticSiteResponse.metadata.error }));
+      portalContext.stopNotification(
+        notificationId,
+        false,
+        staticSiteResponse.metadata.error ? getErrorMessage(staticSiteResponse.metadata.error) : t('staticSiteUpdatingHostingPlanFailure')
+      );
+    }
+
+    setIsSaving(false);
+  };
+
+  const updateStaticSiteSku = async (staticSite: ArmObj<StaticSite>, notificationId: string) => {
+    //note (stpelleg): Only name and tier are needed for static web app sku but size, family, capacity are required for ARM
+    staticSite.sku = {
+      name: selectedSku,
+      tier: selectedSku,
+      size: '',
+      family: '',
+      capacity: '',
+    };
+
+    const updateStaticSiteSkuResponse = await StaticSiteService.putStaticSite(resourceId, staticSite);
+
+    if (updateStaticSiteSkuResponse.metadata.success) {
+      portalContext.stopNotification(notificationId, true, t('staticSiteUpdatingHostingPlanSuccess'));
+      refresh();
+    } else {
+      portalContext.log(getTelemetryInfo('error', 'updateStaticSiteSku', 'failed', { error: updateStaticSiteSkuResponse.metadata.error }));
+      portalContext.stopNotification(
+        notificationId,
+        false,
+        updateStaticSiteSkuResponse.metadata.error
+          ? getErrorMessage(updateStaticSiteSkuResponse.metadata.error)
+          : t('staticSiteUpdatingHostingPlanFailure')
+      );
+    }
+  };
+
+  const getSaveButton = (): ICommandBarItemProps => {
+    return {
+      key: 'save',
+      name: t('save'),
+      iconProps: {
+        iconName: 'Save',
+      },
+      ariaLabel: t('save'),
+      disabled: isSaveButtonDisabled(),
+      onClick: () => {
+        saveButtonOnClick();
+      },
+    };
+  };
+
+  const isSaveButtonDisabled = () => {
+    return (currentSku && currentSku === selectedSku) || isSaving || !hasWritePermissions;
+  };
+
+  const getCommandBarItems = (): ICommandBarItemProps[] => {
+    return [getSaveButton()];
   };
 
   const getFreeColumnClassname = (): string => {
@@ -189,18 +257,46 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     );
   };
 
-  const gridRows: JSX.Element[] = [
-    getHeaderRow(),
-    getPriceRow(),
-    getIncludedBandwidthRow(),
-    getBandwidthOverageRow(),
-    getCustomDomainsRow(),
-    getSslCertificatesRow(),
-    getCustomAuthenticationRow(),
-    getPrivateLinkRow(),
-    getStorageRow(),
-    getAzureFunctionsRow(),
-  ];
+  const getGridComponent = (): JSX.Element => {
+    return (
+      <div className={isStaticSiteCreate ? gridContextPaneContainerStyle : gridContainerStyle}>
+        {getHeaderRow()}
+        {getPriceRow()}
+        {getIncludedBandwidthRow()}
+        {getBandwidthOverageRow()}
+        {getCustomDomainsRow()}
+        {getSslCertificatesRow()}
+        {getCustomAuthenticationRow()}
+        {getPrivateLinkRow()}
+        {getStorageRow()}
+        {getAzureFunctionsRow()}
+      </div>
+    );
+  };
+
+  const getCommandBar = () => {
+    return isStaticSiteCreate ? (
+      <></>
+    ) : (
+      <CommandBar
+        items={getCommandBarItems()}
+        role="nav"
+        styles={CommandBarStyles}
+        ariaLabel={t('deploymentCenterCommandBarAriaLabel')}
+        buttonAs={CustomCommandBarButton}
+      />
+    );
+  };
+
+  const getApplyButton = () => {
+    return isStaticSiteCreate ? (
+      <div className={buttonFooterStyle(theme)}>
+        <DefaultButton text={t('staticSiteApply')} ariaLabel={t('staticSiteApply')} onClick={applyButtonOnClick} />
+      </div>
+    ) : (
+      <></>
+    );
+  };
 
   useEffect(() => {
     if (currentSku) {
@@ -212,26 +308,21 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
 
   return (
     <>
-      {isStaticSiteCreate && <h2 className={titleWithPaddingStyle}>{t('staticSitePlanComparison')}</h2>}
+      {getCommandBar()}
 
-      <div className={isStaticSiteCreate ? gridContextPaneContainerStyle : gridContainerStyle}>{gridRows}</div>
-
-      {isStaticSiteCreate && (
-        <div className={buttonFooterStyle(theme)}>
-          <DefaultButton text={t('staticSiteApply')} ariaLabel={t('staticSiteApply')} onClick={applyButtonOnClick} />
-        </div>
+      {isStaticSiteCreate ? (
+        <h2 className={titleWithPaddingStyle}>{t('staticSitePlanComparison')}</h2>
+      ) : (
+        <h3 className={smallerTitleWithPaddingStyle}>{t('staticSiteChoosePlan')}</h3>
       )}
 
-      {!isStaticSiteCreate && (
-        <div className={buttonStyle}>
-          <DefaultButton
-            text={t('Save')}
-            ariaLabel={t('Save')}
-            onClick={saveButtonOnClick}
-            disabled={currentSku === staticSiteSku.Standard || selectedSku === staticSiteSku.Free}
-          />
-        </div>
-      )}
+      <div className={descriptionStyle} id="hosting-plan-desc">
+        {t('staticSiteHostingPlanDescription')}
+      </div>
+
+      {getGridComponent()}
+
+      {getApplyButton()}
     </>
   );
 };
