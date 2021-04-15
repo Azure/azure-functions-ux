@@ -20,6 +20,7 @@ import { ServiceLinkerBladeResponse } from '../../../models/service-linker';
 import { PortalContext } from '../../../PortalContext';
 import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
 import { BladeCloseReason, IBladeResult, OpenBladeSource } from '../../../models/portal-models';
+import { isKubeApp } from '../../../utils/arm-utils';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -241,13 +242,16 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
                                 <UpsellBanner onClick={scaleUpPlan} />
                               )}
-                            {!!initialFormValues && initialFormValues.references && !initialFormValues.references.appSettings && (
-                              <CustomBanner
-                                id="appSettings-keyvault-error"
-                                message={t('appSettingKeyvaultAPIError')}
-                                type={MessageBarType.error}
-                              />
-                            )}
+                            {!!initialFormValues &&
+                              initialFormValues.references &&
+                              !initialFormValues.references.appSettings &&
+                              !isKubeApp && (
+                                <CustomBanner
+                                  id="appSettings-keyvault-error"
+                                  message={t('appSettingKeyvaultAPIError')}
+                                  type={MessageBarType.error}
+                                />
+                              )}
                           </div>
                           {!!initialFormValues ? (
                             <div className={formStyle}>
