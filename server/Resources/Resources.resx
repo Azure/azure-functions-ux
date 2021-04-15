@@ -7108,7 +7108,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Choose your plan</value>
     </data>
     <data name="staticSiteUpdatingHostingPlan" xml:space="preserve">
-        <value>Updating static site hosting plan</value>
+        <value>Updating hosting plan</value>
     </data>
     <data name="staticSiteUpdatingHostingPlanSuccess" xml:space="preserve">
         <value>Successfully updated hosting plan</value>

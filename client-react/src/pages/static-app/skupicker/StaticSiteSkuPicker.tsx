@@ -310,8 +310,11 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     <>
       {getCommandBar()}
 
-      {isStaticSiteCreate && <h2 className={titleWithPaddingStyle}>{t('staticSitePlanComparison')}</h2>}
-      {!isStaticSiteCreate && <h3 className={smallerTitleWithPaddingStyle}>{t('staticSiteChoosePlan')}</h3>}
+      {isStaticSiteCreate ? (
+        <h2 className={titleWithPaddingStyle}>{t('staticSitePlanComparison')}</h2>
+      ) : (
+        <h3 className={smallerTitleWithPaddingStyle}>{t('staticSiteChoosePlan')}</h3>
+      )}
 
       <div className={descriptionStyle} id="hosting-plan-desc">
         {t('staticSiteHostingPlanDescription')}

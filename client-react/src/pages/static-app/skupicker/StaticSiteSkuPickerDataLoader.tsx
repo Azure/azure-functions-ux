@@ -40,7 +40,7 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
 
       if (staticSiteResponse.metadata.success && staticSiteResponse.data.sku && staticSiteResponse.data.sku.name) {
         setCurrentSiteSku(staticSiteResponse.data.sku.name);
-      } else {
+      } else if (!staticSiteResponse.metadata.success) {
         portalContext.log(getTelemetryInfo('error', 'getStaticSite', 'failed', { error: staticSiteResponse.metadata.error }));
       }
     }
