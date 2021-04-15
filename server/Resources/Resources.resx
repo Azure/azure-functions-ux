@@ -7101,4 +7101,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSitePrice" xml:space="preserve">
         <value>Price</value>
     </data>
+    <data name="staticSiteHostingPlanDescription" xml:space="preserve">
+        <value>The hosting plan dictates your bandwidth, custom domain, storage, and other available features.</value>
+    </data>
+    <data name="staticSiteChoosePlan" xml:space="preserve">
+        <value>Choose your plan</value>
+    </data>
+    <data name="staticSiteUpdatingHostingPlan" xml:space="preserve">
+        <value>Updating hosting plan</value>
+    </data>
+    <data name="staticSiteUpdatingHostingPlanSuccess" xml:space="preserve">
+        <value>Successfully updated hosting plan</value>
+    </data>
+    <data name="staticSiteUpdatingHostingPlanFailure" xml:space="preserve">
+        <value>Failed to update hosting plan</value>
+    </data>
 </root>
