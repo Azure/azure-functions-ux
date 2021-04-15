@@ -26,7 +26,8 @@ export const dotnetStack: WebAppStack = {
                 isSupported: true,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '6.0.x',
               },
               isHidden: true,
             },
@@ -37,7 +38,8 @@ export const dotnetStack: WebAppStack = {
                 isSupported: false,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '6.0.x',
               },
               isHidden: true,
             },
