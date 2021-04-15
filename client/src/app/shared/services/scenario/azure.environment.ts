@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AuthzService } from '../authz.service';
 import { Url } from 'app/shared/Utilities/url';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 export class AzureEnvironment extends Environment {
   name = 'Azure';
@@ -228,7 +229,7 @@ export class AzureEnvironment extends Environment {
         limit = 20;
         break;
       default:
-        limit = 0;
+        limit = ArmUtil.isKubeApp(site) ? 20 : 0;
     }
 
     return <ScenarioResult>{
