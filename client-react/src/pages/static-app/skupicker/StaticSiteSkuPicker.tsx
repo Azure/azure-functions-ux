@@ -56,7 +56,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     const staticSiteResponse = await StaticSiteService.getStaticSite(resourceId);
 
     if (staticSiteResponse.metadata.success) {
-      updateStaticSiteSku(staticSiteResponse.data, notificationId);
+      await updateStaticSiteSku(staticSiteResponse.data, notificationId);
     } else {
       portalContext.log(getTelemetryInfo('error', 'getStaticSite', 'failed', { error: staticSiteResponse.metadata.error }));
       portalContext.stopNotification(
@@ -64,8 +64,9 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         false,
         staticSiteResponse.metadata.error ? getErrorMessage(staticSiteResponse.metadata.error) : t('staticSiteUpdatingHostingPlanFailure')
       );
-      setIsSaving(false);
     }
+
+    setIsSaving(false);
   };
 
   const updateStaticSiteSku = async (staticSite: ArmObj<StaticSite>, notificationId: string) => {
@@ -93,8 +94,6 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
           : t('staticSiteUpdatingHostingPlanFailure')
       );
     }
-
-    setIsSaving(false);
   };
 
   const getSaveButton = (): ICommandBarItemProps => {
@@ -113,7 +112,6 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   };
 
   const isSaveButtonDisabled = () => {
-    console.log('button', (currentSku && currentSku === selectedSku) || isSaving || !hasWritePermissions);
     return (currentSku && currentSku === selectedSku) || isSaving || !hasWritePermissions;
   };
 
@@ -259,33 +257,8 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     );
   };
 
-  useEffect(() => {
-    if (currentSku) {
-      setSelectedSku(currentSku);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return (
-    <>
-      {!isStaticSiteCreate && (
-        <CommandBar
-          items={getCommandBarItems()}
-          role="nav"
-          styles={CommandBarStyles}
-          ariaLabel={t('deploymentCenterCommandBarAriaLabel')}
-          buttonAs={CustomCommandBarButton}
-        />
-      )}
-
-      {isStaticSiteCreate && <h2 className={titleWithPaddingStyle}>{t('staticSitePlanComparison')}</h2>}
-      {!isStaticSiteCreate && <h3 className={smallerTitleWithPaddingStyle}>{t('staticSiteChoosePlan')}</h3>}
-
-      <div className={descriptionStyle} id="hosting-plan-desc">
-        {t('staticSiteHostingPlanDescription')}
-      </div>
-
+  const getGridComponent = (): JSX.Element => {
+    return (
       <div className={isStaticSiteCreate ? gridContextPaneContainerStyle : gridContainerStyle}>
         {getHeaderRow()}
         {getPriceRow()}
@@ -298,12 +271,55 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         {getStorageRow()}
         {getAzureFunctionsRow()}
       </div>
+    );
+  };
 
-      {isStaticSiteCreate && (
-        <div className={buttonFooterStyle(theme)}>
-          <DefaultButton text={t('staticSiteApply')} ariaLabel={t('staticSiteApply')} onClick={applyButtonOnClick} />
-        </div>
-      )}
+  const getCommandBar = () => {
+    return isStaticSiteCreate ? (
+      <></>
+    ) : (
+      <CommandBar
+        items={getCommandBarItems()}
+        role="nav"
+        styles={CommandBarStyles}
+        ariaLabel={t('deploymentCenterCommandBarAriaLabel')}
+        buttonAs={CustomCommandBarButton}
+      />
+    );
+  };
+
+  const getApplyButton = () => {
+    return isStaticSiteCreate ? (
+      <div className={buttonFooterStyle(theme)}>
+        <DefaultButton text={t('staticSiteApply')} ariaLabel={t('staticSiteApply')} onClick={applyButtonOnClick} />
+      </div>
+    ) : (
+      <></>
+    );
+  };
+
+  useEffect(() => {
+    if (currentSku) {
+      setSelectedSku(currentSku);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <>
+      {getCommandBar()}
+
+      {isStaticSiteCreate && <h2 className={titleWithPaddingStyle}>{t('staticSitePlanComparison')}</h2>}
+      {!isStaticSiteCreate && <h3 className={smallerTitleWithPaddingStyle}>{t('staticSiteChoosePlan')}</h3>}
+
+      <div className={descriptionStyle} id="hosting-plan-desc">
+        {t('staticSiteHostingPlanDescription')}
+      </div>
+
+      {getGridComponent()}
+
+      {getApplyButton()}
     </>
   );
 };

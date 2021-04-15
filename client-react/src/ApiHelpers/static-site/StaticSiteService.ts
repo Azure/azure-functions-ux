@@ -13,7 +13,7 @@ export default class StaticSiteService {
   };
 
   public static putStaticSite = (resourceId: string, body: any) => {
-    return MakeArmCall<any>({
+    return MakeArmCall<ArmObj<StaticSite>>({
       resourceId,
       method: 'PUT',
       commandName: 'putStaticSite',

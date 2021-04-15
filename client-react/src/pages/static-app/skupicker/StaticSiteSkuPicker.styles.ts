@@ -1,6 +1,8 @@
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
+const gridItemPadding = '12px';
+
 export const gridContextPaneContainerStyle = style({
   display: 'inline-grid',
   gridTemplateColumns: 'auto auto auto',
@@ -21,7 +23,7 @@ export const radioButtonStyle = style({
 export const planFeatureItemStyle = (theme: ThemeExtended): string =>
   style({
     border: `1px solid ${theme.semanticColors.bodyDivider}`,
-    padding: '12px 20px',
+    padding: `${gridItemPadding} 20px`,
     textAlign: 'center',
     fontWeight: 'bold',
   });
@@ -29,7 +31,7 @@ export const planFeatureItemStyle = (theme: ThemeExtended): string =>
 export const unselectedGridItemStyle = (theme: ThemeExtended): string =>
   style({
     border: `1px solid ${theme.semanticColors.bodyDivider}`,
-    padding: '12px',
+    padding: gridItemPadding,
     textAlign: 'center',
   });
 
@@ -39,7 +41,7 @@ export const selectedGridItemStyle = (theme: ThemeExtended): string =>
     borderBottom: `1px solid ${theme.semanticColors.bodyDivider}`,
     borderLeft: `1px solid ${theme.semanticColors.buttonPressed}`,
     borderRight: `1px solid ${theme.semanticColors.buttonPressed}`,
-    padding: '12px',
+    padding: gridItemPadding,
     textAlign: 'center',
   });
 
@@ -49,7 +51,7 @@ export const gridBottomSelectedItemStyle = (theme: ThemeExtended): string =>
     borderBottom: `1px solid ${theme.semanticColors.buttonPressed}`,
     borderLeft: `1px solid ${theme.semanticColors.buttonPressed}`,
     borderRight: `1px solid ${theme.semanticColors.buttonPressed}`,
-    padding: '12px',
+    padding: gridItemPadding,
     textAlign: 'center',
   });
 
@@ -68,7 +70,7 @@ export const skuTitleUnselectedStyle = (theme: ThemeExtended): string =>
   style({
     border: `1px solid ${theme.semanticColors.bodyDivider}`,
     textAlign: 'center',
-    padding: '12px',
+    padding: gridItemPadding,
   });
 
 export const skuTitleSelectedStyle = (theme: ThemeExtended): string =>
@@ -77,7 +79,7 @@ export const skuTitleSelectedStyle = (theme: ThemeExtended): string =>
     borderBottom: `1px solid ${theme.semanticColors.bodyDivider}`,
     borderLeft: `1px solid ${theme.semanticColors.buttonPressed}`,
     borderRight: `1px solid ${theme.semanticColors.buttonPressed}`,
-    padding: '12px',
+    padding: gridItemPadding,
     textAlign: 'center',
   });
 
