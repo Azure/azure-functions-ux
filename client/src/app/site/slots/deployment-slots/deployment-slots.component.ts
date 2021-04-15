@@ -426,7 +426,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   }
 
   private _generateRuleControl(siteArm: ArmObj<Site>): FormControl {
-    const rampUpRules = this.prodSiteConfigArm.properties.experiments.rampUpRules;
+    const rampUpRules =
+      (this.prodSiteConfigArm.properties.experiments && this.prodSiteConfigArm.properties.experiments.rampUpRules) || ([] as RoutingRule[]);
     const ruleName = siteArm.type === 'Microsoft.Web/sites' ? 'production' : this.getSegment(siteArm.name, -1);
     const rule = !rampUpRules ? null : rampUpRules.filter(r => r.name.toLowerCase() === ruleName.toLowerCase())[0];
 
@@ -470,7 +471,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
           notificationId = s.id;
 
           const siteConfigArm: ArmObj<SiteConfig> = JSON.parse(JSON.stringify(this.prodSiteConfigArm));
-          const rampUpRules = siteConfigArm.properties.experiments.rampUpRules as RoutingRule[];
+          const rampUpRules =
+            (siteConfigArm.properties.experiments && siteConfigArm.properties.experiments.rampUpRules) || ([] as RoutingRule[]);
 
           const rulesGroup: FormGroup = this.mainForm.controls['rulesGroup'] as FormGroup;
           for (const name in rulesGroup.controls) {
