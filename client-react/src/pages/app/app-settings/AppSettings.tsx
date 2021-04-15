@@ -20,6 +20,7 @@ import { ServiceLinkerBladeResponse } from '../../../models/service-linker';
 import { PortalContext } from '../../../PortalContext';
 import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
 import { BladeCloseReason, IBladeResult, OpenBladeSource } from '../../../models/portal-models';
+import { SiteStateContext } from '../../../SiteState';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -78,6 +79,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const [showSaveConfirmDialog, setShowSaveConfirmDialog] = useState(false);
 
   const portalContext = useContext(PortalContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const closeRefreshConfirmDialog = () => {
     setShowRefreshConfirmDialog(false);
@@ -241,13 +243,16 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
                                 <UpsellBanner onClick={scaleUpPlan} />
                               )}
-                            {!!initialFormValues && initialFormValues.references && !initialFormValues.references.appSettings && (
-                              <CustomBanner
-                                id="appSettings-keyvault-error"
-                                message={t('appSettingKeyvaultAPIError')}
-                                type={MessageBarType.error}
-                              />
-                            )}
+                            {!!initialFormValues &&
+                              initialFormValues.references &&
+                              !initialFormValues.references.appSettings &&
+                              !siteStateContext.isKubeApp && (
+                                <CustomBanner
+                                  id="appSettings-keyvault-error"
+                                  message={t('appSettingKeyvaultAPIError')}
+                                  type={MessageBarType.error}
+                                />
+                              )}
                           </div>
                           {!!initialFormValues ? (
                             <div className={formStyle}>
