@@ -30,15 +30,17 @@ import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
+import { StaticSite } from '../../../models/static-site/static-site';
+import { ArmObj } from '../../../models/arm-obj';
 
 const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
-  const { isStaticSiteCreate, currentSku, hasWritePermissions, resourceId } = props;
+  const { isStaticSiteCreate, currentSku, hasWritePermissions, resourceId, refresh } = props;
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
 
-  const [selectedSku, setSelectedSku] = useState<string>(staticSiteSku.Free);
+  const [selectedSku, setSelectedSku] = useState<string>(currentSku);
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const applyButtonOnClick = () => {
@@ -51,21 +53,43 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     setIsSaving(true);
 
     const notificationId = portalContext.startNotification(t('staticSiteUpdatingHostingPlan'), t('staticSiteUpdatingHostingPlan'));
-    const patchStaticSiteSkuResponse = await StaticSiteService.patchStaticSite(resourceId, {
-      sku: {
-        name: selectedSku,
-        tier: selectedSku,
-      },
-    });
+    const staticSiteResponse = await StaticSiteService.getStaticSite(resourceId);
 
-    if (patchStaticSiteSkuResponse.metadata.success) {
-      portalContext.stopNotification(notificationId, true, t('staticSiteUpdatingHostingPlanSuccess'));
+    if (staticSiteResponse.metadata.success) {
+      updateStaticSiteSku(staticSiteResponse.data, notificationId);
     } else {
+      portalContext.log(getTelemetryInfo('error', 'getStaticSite', 'failed', { error: staticSiteResponse.metadata.error }));
       portalContext.stopNotification(
         notificationId,
         false,
-        patchStaticSiteSkuResponse.metadata.error
-          ? getErrorMessage(patchStaticSiteSkuResponse.metadata.error)
+        staticSiteResponse.metadata.error ? getErrorMessage(staticSiteResponse.metadata.error) : t('staticSiteUpdatingHostingPlanFailure')
+      );
+      setIsSaving(false);
+    }
+  };
+
+  const updateStaticSiteSku = async (staticSite: ArmObj<StaticSite>, notificationId: string) => {
+    //note (stpelleg): Only name and tier are needed for static web app sku but size, family, capacity are required for ARM
+    staticSite.sku = {
+      name: selectedSku,
+      tier: selectedSku,
+      size: '',
+      family: '',
+      capacity: '',
+    };
+
+    const updateStaticSiteSkuResponse = await StaticSiteService.putStaticSite(resourceId, staticSite);
+
+    if (updateStaticSiteSkuResponse.metadata.success) {
+      portalContext.stopNotification(notificationId, true, t('staticSiteUpdatingHostingPlanSuccess'));
+      refresh();
+    } else {
+      portalContext.log(getTelemetryInfo('error', 'updateStaticSiteSku', 'failed', { error: updateStaticSiteSkuResponse.metadata.error }));
+      portalContext.stopNotification(
+        notificationId,
+        false,
+        updateStaticSiteSkuResponse.metadata.error
+          ? getErrorMessage(updateStaticSiteSkuResponse.metadata.error)
           : t('staticSiteUpdatingHostingPlanFailure')
       );
     }
@@ -89,7 +113,8 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   };
 
   const isSaveButtonDisabled = () => {
-    return currentSku === selectedSku || isSaving || !hasWritePermissions;
+    console.log('button', (currentSku && currentSku === selectedSku) || isSaving || !hasWritePermissions);
+    return (currentSku && currentSku === selectedSku) || isSaving || !hasWritePermissions;
   };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {

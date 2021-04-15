@@ -7,4 +7,5 @@ export interface StaticSiteSkuPickerProps {
   currentSku: string;
   resourceId: string;
   hasWritePermissions: boolean;
+  refresh: () => void;
 }

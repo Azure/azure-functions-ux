@@ -12,11 +12,11 @@ export default class StaticSiteService {
     });
   };
 
-  public static patchStaticSite = (resourceId: string, body: any) => {
-    return MakeArmCall<void>({
+  public static putStaticSite = (resourceId: string, body: any) => {
+    return MakeArmCall<any>({
       resourceId,
-      commandName: 'patchStaticSite',
-      method: 'PATCH',
+      method: 'PUT',
+      commandName: 'putStaticSite',
       body: body,
       apiVersion: CommonConstants.ApiVersions.staticSitePreviewApiVersion20191201,
     });
