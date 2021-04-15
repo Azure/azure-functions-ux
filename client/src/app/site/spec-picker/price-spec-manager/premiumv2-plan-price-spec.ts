@@ -69,7 +69,12 @@ export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
   }
 
   protected _shouldHideForNewPlan(data: PlanSpecPickerData): boolean {
-    return !!data.hostingEnvironmentName || data.isXenon || data.hyperV || (data.isNewFunctionAppCreate && data.isElastic);
+    return (
+      !!data.hostingEnvironmentName ||
+      data.isXenon ||
+      data.hyperV ||
+      (data.isNewFunctionAppCreate && (data.isElastic || data.isWorkflowStandard))
+    );
   }
 
   protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean {
