@@ -40,7 +40,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
 
-  const [selectedSku, setSelectedSku] = useState<string>(currentSku);
+  const [selectedSku, setSelectedSku] = useState<string>(currentSku); //TODO (stpelleg) WI 9741815 update type
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const applyButtonOnClick = () => {
