@@ -12,6 +12,40 @@ export const dotnetStack: WebAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
+      displayText: '.NET 6',
+      value: 'dotnet6',
+      minorVersions: [
+        {
+          displayText: '.NET 6',
+          value: '6',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: 'v6.0',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              isHidden: true,
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'DOTNETCORE|6.0',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              isHidden: true,
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: '.NET 5',
       value: 'dotnet5',
       minorVersions: [
