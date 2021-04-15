@@ -20,7 +20,7 @@ import { ServiceLinkerBladeResponse } from '../../../models/service-linker';
 import { PortalContext } from '../../../PortalContext';
 import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
 import { BladeCloseReason, IBladeResult, OpenBladeSource } from '../../../models/portal-models';
-import { isKubeApp } from '../../../utils/arm-utils';
+import { SiteStateContext } from '../../../SiteState';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -79,6 +79,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const [showSaveConfirmDialog, setShowSaveConfirmDialog] = useState(false);
 
   const portalContext = useContext(PortalContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const closeRefreshConfirmDialog = () => {
     setShowRefreshConfirmDialog(false);
@@ -245,7 +246,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                             {!!initialFormValues &&
                               initialFormValues.references &&
                               !initialFormValues.references.appSettings &&
-                              !isKubeApp && (
+                              !siteStateContext.isKubeApp && (
                                 <CustomBanner
                                   id="appSettings-keyvault-error"
                                   message={t('appSettingKeyvaultAPIError')}
