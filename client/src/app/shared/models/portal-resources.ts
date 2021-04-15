@@ -2319,4 +2319,9 @@ export class PortalResources {
   public static staticSiteFreePlanAriaLabel = 'staticSiteFreePlanAriaLabel';
   public static staticSiteStandardPlanAriaLabel = 'staticSiteStandardPlanAriaLabel';
   public static staticSitePrice = 'staticSitePrice';
+  public static staticSiteHostingPlanDescription = 'staticSiteHostingPlanDescription';
+  public static staticSiteChoosePlan = 'staticSiteChoosePlan';
+  public static staticSiteUpdatingHostingPlan = 'staticSiteUpdatingHostingPlan';
+  public static staticSiteUpdatingHostingPlanSuccess = 'staticSiteUpdatingHostingPlanSuccess';
+  public static staticSiteUpdatingHostingPlanFailure = 'staticSiteUpdatingHostingPlanFailure';
 }
