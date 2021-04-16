@@ -14,13 +14,10 @@ import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { ThemeContext } from '../../../ThemeContext';
 import { SiteContext } from './Contexts';
 import { isWorkflowApp } from '../../../utils/arm-utils';
-import { SiteStateContext } from '../../../SiteState';
+import { pivotWrapper } from './AppSettings.styles';
+
 export const settingsWrapper = style({
   padding: '5px 20px 5px 0px',
-});
-
-const pivotWrapper = style({
-  paddingLeft: '8px',
 });
 
 const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
@@ -28,7 +25,6 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const { values, initialValues, errors } = props;
 
   const site = useContext(SiteContext);
-  const siteStateContext = useContext(SiteStateContext);
 
   const { t } = useTranslation();
   const scenarioCheckerRef = useRef(new ScenarioService(t));
@@ -123,7 +119,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
         <></>
       )}
 
-      {enablePathMappings || (enableAzureStorageMount && !siteStateContext.isKubeApp) ? (
+      {enablePathMappings || enableAzureStorageMount ? (
         <PivotItem
           className={pivotWrapper}
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>

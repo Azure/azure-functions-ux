@@ -91,3 +91,7 @@ export const messageBannerStyle = (theme: ThemeExtended, type: MessageBarType) =
     marginBottom: '5px',
   });
 };
+
+export const pivotWrapper = style({
+  paddingLeft: '8px',
+});

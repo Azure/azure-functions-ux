@@ -57,6 +57,11 @@ export class KubeApp extends Environment {
       id: ScenarioIds.azurePipelinesBuildProvider,
       runCheck: () => ({ status: 'disabled' }),
     };
+
+    this.scenarioChecks[ScenarioIds.virtualDirectoriesSupported] = {
+      id: ScenarioIds.virtualDirectoriesSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
