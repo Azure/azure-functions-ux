@@ -225,6 +225,7 @@ export interface Properties {
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
   isDataRefreshing: boolean;
+  isCalledFromContainerSettings: boolean;
 }
 
 export interface RefreshableComponent {
@@ -233,7 +234,14 @@ export interface RefreshableComponent {
   isLogsDataRefreshing: boolean;
 }
 
-export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps & RefreshableComponent;
+export interface isCalledFromContainerSettings {
+  isCalledFromContainerSettings: boolean;
+}
+
+export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &
+  DeploymentCenterFtpsProps &
+  RefreshableComponent &
+  isCalledFromContainerSettings;
 
 export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps & RefreshableComponent;
 
