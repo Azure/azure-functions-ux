@@ -118,7 +118,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
       {isCalledFromContainerSettings && (
         <MessageBar messageBarType={MessageBarType.info} isMultiline={false} className={messageBannerClass(theme, MessageBarType.info)}>
           {t('deploymentCenterContainerSettingsBannerMessage')}
-          <Link onClick={openContainerSettingsBlade}>{t('here.')}</Link>
+          <Link onClick={openContainerSettingsBlade}>{t('deploymentCenterContainerSettingsBannerClickHere')}</Link>
         </MessageBar>
       )}
       <Pivot>

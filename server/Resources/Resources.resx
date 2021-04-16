@@ -7117,6 +7117,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Failed to update hosting plan</value>
     </data>
     <data name="deploymentCenterContainerSettingsBannerMessage" xml:space="preserve">
-        <value>If you would like to return to Container Settings (Classic) please click </value>
+        <value>Welcome to the Deployment Center, the new experience for managing deployments. Looking for Container Settings? </value>
+    </data>
+    <data name="deploymentCenterContainerSettingsBannerClickHere" xml:space="preserve">
+        <value>Click here.</value>
     </data>
 </root>
