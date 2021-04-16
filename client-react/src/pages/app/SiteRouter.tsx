@@ -2,7 +2,7 @@ import { RouteComponentProps, Router } from '@reach/router';
 import React, { createContext, lazy, useContext, useEffect, useState } from 'react';
 import SiteService from '../../ApiHelpers/SiteService';
 import { ArmObj } from '../../models/arm-obj';
-import { FunctionAppEditMode, KeyValue, SiteReadWriteState } from '../../models/portal-models';
+import { FunctionAppEditMode, IStartupInfo, KeyValue, SiteReadWriteState } from '../../models/portal-models';
 import { SiteConfig } from '../../models/site/config';
 import { Site } from '../../models/site/site';
 import { PortalContext } from '../../PortalContext';
@@ -237,6 +237,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     }
   };
 
+  const isFeatureInfoDataValid = (value: IStartupInfo<any>) => {
+    return !!value.featureInfo && !!value.featureInfo.data;
+  };
+
   useEffect(() => {
     findAndSetSiteState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -278,7 +282,13 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
                     <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
                     <FunctionMonitor resourceId={value.resourceId} path="/monitor" />
-                    <DeploymentCenter resourceId={value.resourceId} path="/deploymentcenter" />
+                    <DeploymentCenter
+                      resourceId={value.resourceId}
+                      isCalledFromContainerSettings={
+                        isFeatureInfoDataValid(value) ? value.featureInfo.data.isCalledFromContainerSettings : false
+                      }
+                      path="/deploymentcenter"
+                    />
                   </Router>
                 </SiteStateContext.Provider>
               ) : (

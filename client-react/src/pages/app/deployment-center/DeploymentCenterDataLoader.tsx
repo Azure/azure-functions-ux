@@ -36,7 +36,7 @@ enum SourceControlTypes {
 }
 
 const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
-  const { resourceId } = props;
+  const { resourceId, isCalledFromContainerSettings } = props;
   const { t } = useTranslation();
   const deploymentCenterData = new DeploymentCenterData();
   const portalContext = useContext(PortalContext);
@@ -314,9 +314,17 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         }}>
         {/* NOTE(michinoy): Load the specific experience based on the app settings */}
         {siteStateContext.isContainerApp ? (
-          <DeploymentCenterContainerDataLoader resourceId={resourceId} isDataRefreshing={isDataRefreshing} />
+          <DeploymentCenterContainerDataLoader
+            resourceId={resourceId}
+            isDataRefreshing={isDataRefreshing}
+            isCalledFromContainerSettings={isCalledFromContainerSettings}
+          />
         ) : (
-          <DeploymentCenterCodeDataLoader resourceId={resourceId} isDataRefreshing={isDataRefreshing} />
+          <DeploymentCenterCodeDataLoader
+            resourceId={resourceId}
+            isDataRefreshing={isDataRefreshing}
+            isCalledFromContainerSettings={false}
+          />
         )}
         {/* NOTE(michinoy): Load the publishing profile panel which is common between both code and container experiences  */}
         <DeploymentCenterPublishProfilePanel
