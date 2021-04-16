@@ -2324,4 +2324,5 @@ export class PortalResources {
   public static staticSiteUpdatingHostingPlan = 'staticSiteUpdatingHostingPlan';
   public static staticSiteUpdatingHostingPlanSuccess = 'staticSiteUpdatingHostingPlanSuccess';
   public static staticSiteUpdatingHostingPlanFailure = 'staticSiteUpdatingHostingPlanFailure';
+  public static deploymentCenterContainerSettingsBannerMessage = 'deploymentCenterContainerSettingsBannerMessage';
 }
