@@ -14,18 +14,18 @@ import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { ThemeContext } from '../../../ThemeContext';
 import { SiteContext } from './Contexts';
 import { isWorkflowApp } from '../../../utils/arm-utils';
+import { pivotWrapper } from './AppSettings.styles';
+
 export const settingsWrapper = style({
   padding: '5px 20px 5px 0px',
-});
-
-const pivotWrapper = style({
-  paddingLeft: '8px',
 });
 
 const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const theme = useContext(ThemeContext);
   const { values, initialValues, errors } = props;
+
   const site = useContext(SiteContext);
+
   const { t } = useTranslation();
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
