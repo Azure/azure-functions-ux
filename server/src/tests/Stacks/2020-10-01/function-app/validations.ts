@@ -45,7 +45,7 @@ function validateWindowsStacksLength(stacks) {
 
 function validateLinuxStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
 function validateNotHiddenStacksLength(stacks) {
