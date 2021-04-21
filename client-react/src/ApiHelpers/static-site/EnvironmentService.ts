@@ -17,7 +17,7 @@ export default class EnvironmentService {
 
   public static fetchEnvironmentSettings = (resourceId: string) => {
     return MakeArmCall<ArmObj<KeyValue<string>>>({
-      resourceId: `${resourceId}/listFunctionAppSettings`,
+      resourceId: `${resourceId}/listAppSettings`,
       commandName: 'fetchEnvironmentSettings',
       method: 'POST',
       apiVersion: CommonConstants.ApiVersions.staticSitePreviewApiVersion20191201,
@@ -27,7 +27,7 @@ export default class EnvironmentService {
   public static saveEnvironmentVariables = (resourceId: string, body: ArmObj<KeyValue<string>>) => {
     return MakeArmCall<ArmObj<KeyValue<string>>>({
       body,
-      resourceId: `${resourceId}/config/functionappsettings`,
+      resourceId: `${resourceId}/config/appsettings`,
       commandName: 'saveEnvironmentSettings',
       method: 'PUT',
       apiVersion: CommonConstants.ApiVersions.staticSitePreviewApiVersion20191201,
