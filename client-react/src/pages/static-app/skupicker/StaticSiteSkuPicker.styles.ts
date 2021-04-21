@@ -1,30 +1,32 @@
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
-const gridItemPadding = '12px';
+const gridItemPadding = '12px 20px';
 
 export const gridContextPaneContainerStyle = style({
   display: 'inline-grid',
-  gridTemplateColumns: 'auto auto auto',
-  padding: '10px 30px',
-  paddingBottom: '75px',
+  gridTemplateColumns: '30% 35% 35%',
+  padding: '10px 30px 75px 30px',
+  width: '93%',
 });
 
 export const gridContainerStyle = style({
   display: 'inline-grid',
-  gridTemplateColumns: 'auto auto auto',
-  padding: '10px 30px',
+  gridTemplateColumns: '30% 35% 35%',
+  padding: '10px 30px 75px 30px',
+  maxWidth: '75%',
+  minWidth: '350px',
 });
 
 export const radioButtonStyle = style({
   padding: 0,
+  marginLeft: '90%',
 });
 
 export const planFeatureItemStyle = (theme: ThemeExtended): string =>
   style({
     border: `1px solid ${theme.semanticColors.bodyDivider}`,
-    padding: `${gridItemPadding} 20px`,
-    textAlign: 'center',
+    padding: gridItemPadding,
     fontWeight: 'bold',
   });
 
@@ -32,7 +34,6 @@ export const unselectedGridItemStyle = (theme: ThemeExtended): string =>
   style({
     border: `1px solid ${theme.semanticColors.bodyDivider}`,
     padding: gridItemPadding,
-    textAlign: 'center',
   });
 
 export const selectedGridItemStyle = (theme: ThemeExtended): string =>
@@ -42,7 +43,6 @@ export const selectedGridItemStyle = (theme: ThemeExtended): string =>
     borderLeft: `1px solid ${theme.semanticColors.buttonPressed}`,
     borderRight: `1px solid ${theme.semanticColors.buttonPressed}`,
     padding: gridItemPadding,
-    textAlign: 'center',
   });
 
 export const gridBottomSelectedItemStyle = (theme: ThemeExtended): string =>
@@ -52,24 +52,20 @@ export const gridBottomSelectedItemStyle = (theme: ThemeExtended): string =>
     borderLeft: `1px solid ${theme.semanticColors.buttonPressed}`,
     borderRight: `1px solid ${theme.semanticColors.buttonPressed}`,
     padding: gridItemPadding,
-    textAlign: 'center',
   });
 
 export const skuTitleStyle = style({
   paddingTop: '0px',
-  textAlign: 'center',
   fontWeight: 'bold',
 });
 
 export const skuDescriptionStyle = style({
   paddingBottom: '30px',
-  textAlign: 'center',
 });
 
 export const skuTitleUnselectedStyle = (theme: ThemeExtended): string =>
   style({
     border: `1px solid ${theme.semanticColors.bodyDivider}`,
-    textAlign: 'center',
     padding: gridItemPadding,
   });
 
@@ -80,15 +76,13 @@ export const skuTitleSelectedStyle = (theme: ThemeExtended): string =>
     borderLeft: `1px solid ${theme.semanticColors.buttonPressed}`,
     borderRight: `1px solid ${theme.semanticColors.buttonPressed}`,
     padding: gridItemPadding,
-    textAlign: 'center',
   });
 
 export const planFeaturesTitleStyle = (theme: ThemeExtended): string =>
   style({
     border: `1px solid ${theme.semanticColors.bodyDivider}`,
-    textAlign: 'center',
     fontWeight: 'bold',
-    paddingTop: '73px',
+    padding: '73px 20px 12px 20px',
   });
 
 export const iconStyle = (theme: ThemeExtended): string =>
@@ -119,6 +113,14 @@ export const smallerTitleWithPaddingStyle = style({
   margin: '10px 0px',
   fontSize: 20,
   fontWeight: 'normal',
+});
+
+export const buttonPadding = style({
+  margin: '5px',
+  height: '24px',
+  width: '78px',
+  fontSize: '13px',
+  borderRadius: '2px',
 });
 
 export const buttonFooterStyle = (theme: ThemeExtended): string =>
