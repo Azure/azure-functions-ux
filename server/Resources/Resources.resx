@@ -6099,8 +6099,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
         <value>Logs</value>
     </data>
+    <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+        <value>Container Logs</value>
+    </data>
+    <data name="deploymentCenterPivotItemBuildLogsHeaderText" xml:space="preserve">
+        <value>Build Logs</value>
+    </data>
     <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
         <value>Deployment center logs</value>
+    </data>
+    <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
+        <value>Deployment center container logs</value>
+    </data>
+    <data name="deploymentCenterPivotItemBuildLogsAriaLabel" xml:space="preserve">
+        <value>Deployment center build logs</value>
     </data>
     <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
         <value>Settings</value>

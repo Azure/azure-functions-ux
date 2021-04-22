@@ -14,6 +14,7 @@ import { PortalContext } from '../../../../PortalContext';
 import { SiteStateContext } from '../../../../SiteState';
 import { ArmPlanDescriptor } from '../../../../utils/resourceDescriptors';
 import { messageBannerClass } from '../../../../components/CustomBanner/CustomBanner.styles';
+import DeploymentCenterGitHubActionsCodeLogs from '../code/DeploymentCenterGitHubActionsCodeLogs';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotProps> = props => {
   const { logs, formProps, isDataRefreshing, isLogsDataRefreshing, refresh, isCalledFromContainerSettings } = props;
@@ -24,6 +25,9 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
+
+  const isScmGitHubActions =
+    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
 
   const isSettingsDirty = (): boolean => {
     return (
@@ -131,9 +135,23 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
           <DeploymentCenterContainerSettings formProps={formProps} isDataRefreshing={isDataRefreshing} />
         </PivotItem>
 
-        <PivotItem headerText={t('deploymentCenterPivotItemLogsHeaderText')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
+        <PivotItem
+          headerText={
+            isScmGitHubActions ? t('deploymentCenterPivotItemContainerLogsHeaderText') : t('deploymentCenterPivotItemLogsHeaderText')
+          }
+          ariaLabel={
+            isScmGitHubActions ? t('deploymentCenterPivotItemContainerLogsAriaLabel') : t('deploymentCenterPivotItemLogsAriaLabel')
+          }>
           <DeploymentCenterContainerLogs logs={logs} isLogsDataRefreshing={isLogsDataRefreshing} refresh={refresh} />
         </PivotItem>
+
+        {isScmGitHubActions && (
+          <PivotItem
+            headerText={t('deploymentCenterPivotItemBuildLogsHeaderText')}
+            ariaLabel={t('deploymentCenterPivotItemBuildLogsAriaLabel')}>
+            <DeploymentCenterGitHubActionsCodeLogs isLogsDataRefreshing={isLogsDataRefreshing} refreshLogs={() => {}} />
+          </PivotItem>
+        )}
 
         <PivotItem
           headerText={t('deploymentCenterPivotItemFtpsHeaderText')}

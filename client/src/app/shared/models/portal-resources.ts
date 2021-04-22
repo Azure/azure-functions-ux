@@ -1976,7 +1976,11 @@ export class PortalResources {
   public static staticSite_applicationSettingValueMustBeAString = 'staticSite_applicationSettingValueMustBeAString';
   public static staticSite_readOnlyRbac = 'staticSite_readOnlyRbac';
   public static deploymentCenterPivotItemLogsHeaderText = 'deploymentCenterPivotItemLogsHeaderText';
+  public static deploymentCenterPivotItemContainerLogsHeaderText = 'deploymentCenterPivotItemContainerLogsHeaderText';
+  public static deploymentCenterPivotItemBuildLogsHeaderText = 'deploymentCenterPivotItemBuildLogsHeaderText';
   public static deploymentCenterPivotItemLogsAriaLabel = 'deploymentCenterPivotItemLogsAriaLabel';
+  public static deploymentCenterPivotItemContainerLogsAriaLabel = 'deploymentCenterPivotItemContainerLogsAriaLabel';
+  public static deploymentCenterPivotItemBuildLogsAriaLabel = 'deploymentCenterPivotItemBuildLogsAriaLabel';
   public static deploymentCenterPivotItemSettingsHeaderText = 'deploymentCenterPivotItemSettingsHeaderText';
   public static deploymentCenterPivotItemSettingsAriaLabel = 'deploymentCenterPivotItemSettingsAriaLabel';
   public static deploymentCenterPivotItemFtpsHeaderText = 'deploymentCenterPivotItemFtpsHeaderText';
