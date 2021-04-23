@@ -30,6 +30,7 @@ export const dotnetStack: WebAppStack = {
                 supportedVersion: '6.0.x',
               },
               isHidden: true,
+              isEarlyAccess: true,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|6.0',
@@ -42,6 +43,7 @@ export const dotnetStack: WebAppStack = {
                 supportedVersion: '6.0.x',
               },
               isHidden: true,
+              isEarlyAccess: true,
             },
           },
         },
