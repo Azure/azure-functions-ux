@@ -8,7 +8,11 @@ import { ArmArray } from '../models/arm-obj';
 
 export default class RuntimeStackService {
   public static getWebAppConfigurationStacks = (stacksOs: AppStackOs) => {
-    const queryParams = [`stackOsType=${stacksOs}`, `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`];
+    const queryParams = [
+      `stackOsType=${stacksOs}`,
+      `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
+      `useCanaryFusionServer=${Url.isNextEnvironment()}`,
+    ];
 
     return MakeArmCall<ArmArray<WebAppStack>>({
       resourceId: `/providers/Microsoft.Web/webAppStacks?${queryParams.join('&')}`,
@@ -19,7 +23,11 @@ export default class RuntimeStackService {
   };
 
   public static getFunctionAppConfigurationStacks = (stacksOs: AppStackOs) => {
-    const queryParams = [`stackOsType=${stacksOs}`, `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`];
+    const queryParams = [
+      `stackOsType=${stacksOs}`,
+      `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
+      `useCanaryFusionServer=${Url.isNextEnvironment()}`,
+    ];
 
     return MakeArmCall<ArmArray<FunctionAppStack>>({
       resourceId: `/providers/Microsoft.Web/functionAppStacks?${queryParams.join('&')}`,
@@ -35,6 +43,7 @@ export default class RuntimeStackService {
       `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       `removeDeprecatedStacks=${true}`,
       `removeNonGitHubActionStacks=${true}`,
+      `useCanaryFusionServer=${Url.isNextEnvironment()}`,
     ];
 
     return MakeArmCall<ArmArray<WebAppStack>>({
@@ -51,6 +60,7 @@ export default class RuntimeStackService {
       `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       `removeDeprecatedStacks=${true}`,
       `removeNonGitHubActionStacks=${true}`,
+      `useCanaryFusionServer=${Url.isNextEnvironment()}`,
     ];
 
     return MakeArmCall<ArmArray<FunctionAppStack>>({

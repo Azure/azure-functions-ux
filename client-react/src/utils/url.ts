@@ -8,6 +8,10 @@ export default class Url {
       ? `https://${window.location.hostname}:${window.location.port}/`
       : `https://${window.location.hostname}/`;
 
+  public static isNextEnvironment() {
+    return window.location.hostname === 'functions-next.azure.com';
+  }
+
   public static appendQueryString(url: string, queryString: string): string {
     if (!queryString) {
       return url;
