@@ -2883,6 +2883,9 @@
       <Item ItemId=";clickHereToAccessSite" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[ Click here to access the app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ Kattintson ide az alkalmazás eléréséhez.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -13035,6 +13038,9 @@
       <Item ItemId=";keyVaultReferenceInitializedStatus" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[The portal is not able to confirm the status of your Key Vault reference at this time.  Please confirm the status directly from the app by checking whether the environment variables have resolved.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[A portál jelenleg nem tudja megerősíteni a Key Vault-hivatkozás állapotát.  Az állapotot közvetlenül az alkalmazásból erősítse meg, ha ellenőrzi, hogy a környezeti változók megoldódott-e.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
