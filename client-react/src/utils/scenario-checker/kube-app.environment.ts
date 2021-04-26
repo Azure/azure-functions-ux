@@ -1,6 +1,8 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
 import { isKubeApp } from '../arm-utils';
+import { CommonConstants } from '../CommonConstants';
+import Url from '../url';
 
 export class KubeApp extends Environment {
   public name = 'KubeApp';
@@ -80,7 +82,9 @@ export class KubeApp extends Environment {
 
     this.scenarioChecks[ScenarioIds.incomingClientCertEnabled] = {
       id: ScenarioIds.incomingClientCertEnabled,
-      runCheck: () => ({ status: 'disabled' }),
+      runCheck: () => ({
+        status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableKubeScenarioForTesting) === 'true' ? 'enabled' : 'disabled',
+      }),
     };
 
     this.scenarioChecks[ScenarioIds.webSocketsSupported] = {

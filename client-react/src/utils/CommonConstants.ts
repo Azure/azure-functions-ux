@@ -51,6 +51,7 @@ export class CommonConstants {
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
     enableEditingForLinuxConsumption: 'enableEditingForLinuxConsumption',
     treatAsKubeApp: 'treatAsKubeApp', // websitesextension_ext=appsvc.treatAsKubeApp%3Dtrue
+    enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
   };
 
   public static readonly AppDensityLimit = 8;
