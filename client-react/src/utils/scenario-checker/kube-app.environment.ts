@@ -67,6 +67,36 @@ export class KubeApp extends Environment {
       id: ScenarioIds.azureStorageMount,
       runCheck: () => ({ status: 'disabled' }),
     };
+
+    this.scenarioChecks[ScenarioIds.linuxRemoteDebuggingSupported] = {
+      id: ScenarioIds.linuxRemoteDebuggingSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.windowsRemoteDebuggingSupported] = {
+      id: ScenarioIds.windowsRemoteDebuggingSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.incomingClientCertEnabled] = {
+      id: ScenarioIds.incomingClientCertEnabled,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.webSocketsSupported] = {
+      id: ScenarioIds.webSocketsSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.alwaysOnSupported] = {
+      id: ScenarioIds.alwaysOnSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.ftpStateSupported] = {
+      id: ScenarioIds.ftpStateSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
