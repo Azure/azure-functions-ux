@@ -2022,7 +2022,6 @@ export class PortalResources {
   public static appKeys_hostKeys_description = 'appKeys_hostKeys_description';
   public static appKeys_systemKeys_description = 'appKeys_systemKeys_description';
   public static functionKeys_description = 'functionKeys_description';
-  public static staticSite_noFunctionMessage = 'staticSite_noFunctionMessage';
   public static reset = 'reset';
   public static resetPublishProfileAriaLabel = 'resetPublishProfileAriaLabel';
   public static showApplicationPasswordAriaLabel = 'showApplicationPasswordAriaLabel';
