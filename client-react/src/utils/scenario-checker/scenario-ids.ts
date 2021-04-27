@@ -112,4 +112,5 @@ export class ScenarioIds {
   public static readonly dockerCompose = 'dockerCompose';
   public static readonly azurePipelinesBuildProvider = 'azurePipelinesBuildProvider';
   public static readonly ftpStateSupported = 'ftpStateSupported';
+  public static readonly incomingClientCertSupported = 'incomingClientCertSupported';
 }
