@@ -24,7 +24,8 @@ export const javaStack: WebAppStack = {
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -37,7 +38,8 @@ export const javaStack: WebAppStack = {
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -56,7 +58,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -74,7 +77,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '11.0.8',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -93,7 +97,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -106,7 +111,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '11.0.7',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -125,7 +131,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -138,7 +145,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '11.0.6',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -157,7 +165,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -169,7 +178,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '11.0.5_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -187,7 +197,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '11.0.3_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -205,7 +216,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '11.0.2_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -231,7 +243,8 @@ export const javaStack: WebAppStack = {
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -244,7 +257,8 @@ export const javaStack: WebAppStack = {
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -262,7 +276,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_265',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -281,7 +296,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -293,7 +309,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_252',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -312,7 +329,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -324,7 +342,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_242',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -343,7 +362,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -355,7 +375,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_232_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -373,7 +394,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_212_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -391,7 +413,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_202_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -410,7 +433,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -427,7 +451,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_181_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -446,7 +471,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -463,7 +489,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_172_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -482,7 +509,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -500,7 +528,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -519,7 +548,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -537,7 +567,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -556,7 +587,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -575,7 +607,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -593,7 +626,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -611,7 +645,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -636,7 +671,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: false,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -654,7 +690,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: false,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -672,7 +709,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: false,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -690,7 +728,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -708,7 +747,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -726,7 +766,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -744,7 +785,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -761,7 +803,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -778,7 +821,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
