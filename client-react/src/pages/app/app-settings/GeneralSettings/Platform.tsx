@@ -72,48 +72,49 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         />
       )}
 
-      {disableFtp() ? (
-        <DropdownNoFormik
-          onChange={() => {}}
-          infoBubbleMessage={t('ftpDisabledByPolicy')}
-          learnMoreLink={Links.ftpDisabledByPolicyLink}
-          label={t('ftpState')}
-          id="app-settings-ftps-state"
-          disabled={true}
-          defaultSelectedKey={'Disabled'}
-          options={[
-            {
-              key: 'Disabled',
-              text: t('disabled'),
-            },
-          ]}
-        />
-      ) : (
-        <Field
-          name="config.properties.ftpsState"
-          dirty={values.config.properties.ftpsState !== initialValues.config.properties.ftpsState}
-          component={Dropdown}
-          infoBubbleMessage={t('ftpsInfoMessage')}
-          learnMoreLink={Links.ftpInfo}
-          label={t('ftpState')}
-          id="app-settings-ftps-state"
-          disabled={disableAllControls}
-          options={[
-            {
-              key: 'AllAllowed',
-              text: t('allAllowed'),
-            },
-            {
-              key: 'FtpsOnly',
-              text: t('ftpsOnly'),
-            },
-            {
-              key: 'Disabled',
-              text: t('disabled'),
-            },
-          ]}
-        />
-      )}
+      {scenarioChecker.checkScenario(ScenarioIds.ftpStateSupported, { site }).status !== 'disabled' &&
+        (disableFtp() ? (
+          <DropdownNoFormik
+            onChange={() => {}}
+            infoBubbleMessage={t('ftpDisabledByPolicy')}
+            learnMoreLink={Links.ftpDisabledByPolicyLink}
+            label={t('ftpState')}
+            id="app-settings-ftps-state"
+            disabled={true}
+            defaultSelectedKey={'Disabled'}
+            options={[
+              {
+                key: 'Disabled',
+                text: t('disabled'),
+              },
+            ]}
+          />
+        ) : (
+          <Field
+            name="config.properties.ftpsState"
+            dirty={values.config.properties.ftpsState !== initialValues.config.properties.ftpsState}
+            component={Dropdown}
+            infoBubbleMessage={t('ftpsInfoMessage')}
+            learnMoreLink={Links.ftpInfo}
+            label={t('ftpState')}
+            id="app-settings-ftps-state"
+            disabled={disableAllControls}
+            options={[
+              {
+                key: 'AllAllowed',
+                text: t('allAllowed'),
+              },
+              {
+                key: 'FtpsOnly',
+                text: t('ftpsOnly'),
+              },
+              {
+                key: 'Disabled',
+                text: t('disabled'),
+              },
+            ]}
+          />
+        ))}
       <Field
         name="config.properties.http20Enabled"
         dirty={values.config.properties.http20Enabled !== initialValues.config.properties.http20Enabled}

@@ -2886,6 +2886,9 @@
       <Item ItemId=";clickHereToAccessSite" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[ Click here to access the app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ Klik hier voor toegang tot de app.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -13041,6 +13044,9 @@
       <Item ItemId=";keyVaultReferenceInitializedStatus" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[The portal is not able to confirm the status of your Key Vault reference at this time.  Please confirm the status directly from the app by checking whether the environment variables have resolved.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[De portal kan momenteel de status van uw Key Vault-verwijzing niet bevestigen.  Bevestig de status rechtstreeks vanuit de app door te controleren of de omgevingsvariabelen zijn opgelost.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>

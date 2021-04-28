@@ -19,6 +19,11 @@ import {
   ElasticPremiumMediumPlanPriceSpec,
   ElasticPremiumLargePlanPriceSpec,
 } from './elastic-premium-plan-price-spec';
+import {
+  WorkflowStandardSmallPlanPriceSpec,
+  WorkflowStandardMediumPlanPriceSpec,
+  WorkflowStandardLargePlanPriceSpec,
+} from './workflow-standard-plan-price-spec';
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
@@ -221,6 +226,9 @@ export class ProdSpecGroup extends PriceSpecGroup {
     new ElasticPremiumSmallPlanPriceSpec(this.injector),
     new ElasticPremiumMediumPlanPriceSpec(this.injector),
     new ElasticPremiumLargePlanPriceSpec(this.injector),
+    new WorkflowStandardSmallPlanPriceSpec(this.injector),
+    new WorkflowStandardMediumPlanPriceSpec(this.injector),
+    new WorkflowStandardLargePlanPriceSpec(this.injector),
   ];
 
   additionalSpecs = [

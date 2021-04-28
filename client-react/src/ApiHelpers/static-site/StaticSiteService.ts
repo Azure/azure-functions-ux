@@ -11,4 +11,24 @@ export default class StaticSiteService {
       apiVersion: CommonConstants.ApiVersions.staticSitePreviewApiVersion20191201,
     });
   };
+
+  public static putStaticSite = (resourceId: string, body: any) => {
+    return MakeArmCall<ArmObj<StaticSite>>({
+      resourceId,
+      method: 'PUT',
+      commandName: 'putStaticSite',
+      body: body,
+      apiVersion: CommonConstants.ApiVersions.staticSitePreviewApiVersion20191201,
+    });
+  };
+
+  public static patchStaticSite = (resourceId: string, body: any) => {
+    return MakeArmCall<ArmObj<StaticSite>>({
+      resourceId,
+      method: 'PATCH',
+      commandName: 'patchStaticSite',
+      body: body,
+      apiVersion: CommonConstants.ApiVersions.staticSiteApiVersion20201201,
+    });
+  };
 }

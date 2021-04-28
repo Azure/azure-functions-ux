@@ -1,6 +1,8 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
 import { isKubeApp } from '../arm-utils';
+import { CommonConstants } from '../CommonConstants';
+import Url from '../url';
 
 export class KubeApp extends Environment {
   public name = 'KubeApp';
@@ -56,6 +58,55 @@ export class KubeApp extends Environment {
     this.scenarioChecks[ScenarioIds.azurePipelinesBuildProvider] = {
       id: ScenarioIds.azurePipelinesBuildProvider,
       runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.virtualDirectoriesSupported] = {
+      id: ScenarioIds.virtualDirectoriesSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.azureStorageMount] = {
+      id: ScenarioIds.azureStorageMount,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.linuxRemoteDebuggingSupported] = {
+      id: ScenarioIds.linuxRemoteDebuggingSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.windowsRemoteDebuggingSupported] = {
+      id: ScenarioIds.windowsRemoteDebuggingSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.incomingClientCertEnabled] = {
+      id: ScenarioIds.incomingClientCertEnabled,
+      runCheck: () => ({
+        status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableKubeScenarioForTesting) === 'true' ? 'enabled' : 'disabled',
+      }),
+    };
+
+    this.scenarioChecks[ScenarioIds.webSocketsSupported] = {
+      id: ScenarioIds.webSocketsSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.alwaysOnSupported] = {
+      id: ScenarioIds.alwaysOnSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.ftpStateSupported] = {
+      id: ScenarioIds.ftpStateSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.incomingClientCertSupported] = {
+      id: ScenarioIds.incomingClientCertSupported,
+      runCheck: () => ({
+        status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableKubeScenarioForTesting) === 'true' ? 'enabled' : 'disabled',
+      }),
     };
   }
 

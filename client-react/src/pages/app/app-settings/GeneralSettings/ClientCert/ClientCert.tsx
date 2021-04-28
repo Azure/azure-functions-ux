@@ -69,7 +69,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     setFieldValue('site.properties.clientCertExclusionPaths', clientExclusionsPath);
     setShowPanel(false);
   };
-  return (
+  return scenarioChecker.checkScenario(ScenarioIds.incomingClientCertSupported, { site }).status !== 'disabled' ? (
     <>
       <h3>{t('incomingClientCertificates')}</h3>
       <div className={settingsWrapper}>
@@ -125,6 +125,8 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         </Stack>
       </div>
     </>
+  ) : (
+    <></>
   );
 };
 

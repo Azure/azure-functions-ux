@@ -33,6 +33,7 @@ export class CommonConstants {
     staticSitePreviewApiVersion20191201: '2019-12-01-preview',
     stacksApiVersion20201001: '2020-10-01',
     acrApiVersion20190501: '2019-05-01',
+    staticSiteApiVersion20201201: '2020-12-01',
   };
 
   public static readonly NonThemeColors = {
@@ -50,6 +51,7 @@ export class CommonConstants {
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
     enableEditingForLinuxConsumption: 'enableEditingForLinuxConsumption',
     treatAsKubeApp: 'treatAsKubeApp', // websitesextension_ext=appsvc.treatAsKubeApp%3Dtrue
+    enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -153,6 +155,8 @@ export class CommonConstants {
   };
 
   public static readonly DefaultHiddenValue = '******';
+
+  public static readonly Dash = ' - ';
 
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
 }
