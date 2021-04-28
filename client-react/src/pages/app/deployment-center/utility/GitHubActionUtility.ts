@@ -105,29 +105,19 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
     return updateMetadataResponse;
   }
 
-  if (isKubeApp) {
-    return updateMetadataResponse;
-  } else {
-    // TODO(michinoy): We need to re-add this call for Kube Apps once the API is available
-    // https://msazure.visualstudio.com/Antares/_workitems/edit/9572219
-    const patchSiteConfigResponse = await deploymentCenterData.patchSiteConfig(resourceId, {
-      properties: {
-        scmType: 'GitHubAction',
-      },
+  const patchSiteConfigResponse = await deploymentCenterData.patchSiteConfig(resourceId, {
+    properties: {
+      scmType: 'GitHubAction',
+    },
+  });
+
+  if (!patchSiteConfigResponse.metadata.success) {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
+      error: patchSiteConfigResponse.metadata.error,
     });
-
-    if (!patchSiteConfigResponse.metadata.success) {
-      LogService.error(
-        LogCategories.deploymentCenter,
-        getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'),
-        {
-          error: patchSiteConfigResponse.metadata.error,
-        }
-      );
-    }
-
-    return patchSiteConfigResponse;
   }
+
+  return patchSiteConfigResponse;
 };
 
 export const clearGitHubActionSourceControlPropertiesManually = async (
@@ -521,18 +511,18 @@ jobs:
       run: |
         python -m venv venv
         source venv/bin/activate
-    
+
     - name: Install dependencies
       run: pip install -r requirements.txt
-      
+
     # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
-    
+
     - name: Upload artifact for deployment jobs
       uses: actions/upload-artifact@v2
       with:
         name: python-app
         path: |
-          . 
+          .
           !venv/
 
   deploy:
@@ -548,7 +538,7 @@ jobs:
         with:
           name: python-app
           path: .
-      
+
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         with:

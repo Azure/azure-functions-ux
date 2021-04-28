@@ -16,7 +16,7 @@ import {
   getCodeFunctionAppCodeWorkflowInformation,
   isWorkflowOptionExistingOrAvailable,
 } from '../utility/GitHubActionUtility';
-import { getWorkflowFileName, isGitHubActionSetupViaMetadata } from '../utility/DeploymentCenterUtility';
+import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
@@ -71,11 +71,8 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [isUsingExistingOrAvailableWorkflowConfig, setIsUsingExistingOrAvailableWorkflowConfig] = useState(false);
 
   useEffect(() => {
-    if (siteStateContext.isKubeApp && isGitHubActionSetupViaMetadata(deploymentCenterContext.configMetadata)) {
-      setSiteConfigScmType(ScmType.GitHubAction);
-    } else {
-      setSiteConfigScmType(deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType);
-    }
+    setSiteConfigScmType(deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterContext.siteConfig, deploymentCenterContext.configMetadata]);
 

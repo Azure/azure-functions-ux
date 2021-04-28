@@ -16,7 +16,7 @@ import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 import { SiteStateContext } from '../../../../SiteState';
-import { authorizeWithProvider, getTelemetryInfo, isGitHubActionSetupViaMetadata } from '../utility/DeploymentCenterUtility';
+import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
 import { PortalContext } from '../../../../PortalContext';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
@@ -40,9 +40,8 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
   const portalContext = useContext(PortalContext);
 
   const deploymentCenterData = new DeploymentCenterData();
-  const isGitHubActionsSetup = siteStateContext.isKubeApp
-    ? isGitHubActionSetupViaMetadata(deploymentCenterContext.configMetadata)
-    : deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+  const isGitHubActionsSetup =
+    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
 
   const fetchData = async () => {
     setIsLoading(true);
