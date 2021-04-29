@@ -40,6 +40,7 @@ export const Links = {
   functionCreateBindingsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141857',
   functionV2MigrationLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2147591',
   earlyAccessStackLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2151539',
+  staticWebAppsPricingCalculator: 'https://go.microsoft.com/fwlink/?linkid=2162300',
 };
 
 export const DeploymentCenterLinks = {

@@ -1,4 +1,4 @@
-import { DefaultButton, IChoiceGroupOption, Icon, PrimaryButton } from 'office-ui-fabric-react';
+import { DefaultButton, IChoiceGroupOption, Icon, Link, PrimaryButton } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
@@ -29,6 +29,7 @@ import { staticSiteSku, StaticSiteSkuPickerProps } from './StaticSiteSkuPicker.t
 import { CommonConstants } from '../../../utils/CommonConstants';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
+import { Links } from '../../../utils/FwLinks';
 
 const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const { isStaticSiteCreate, currentSku, hasWritePermissions, resourceId, refresh } = props;
@@ -108,7 +109,12 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   };
 
   const getPriceRow = (): JSX.Element => {
-    return getGridMiddleRow(t('staticSitePrice'), t('staticSiteFree'), t('staticSiteStandardPrice'));
+    const pricingCalculatorLink = (
+      <Link href={Links.staticWebAppsPricingCalculator} target="_blank" aria-hidden={true}>
+        {t('staticWebAppSkuPickerCalculatePrice')}
+      </Link>
+    );
+    return getGridMiddleRow(t('staticSitePrice'), t('staticSiteFree'), pricingCalculatorLink);
   };
 
   const getIncludedBandwidthRow = (): JSX.Element => {
@@ -117,11 +123,6 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
       t('staticSiteIncludedBandwidthAmount'),
       t('staticSiteIncludedBandwidthAmount')
     );
-  };
-
-  const getBandwidthOverageRow = (): JSX.Element => {
-    //TODO (stpelleg): billing meter implementation
-    return getGridMiddleRow(t('staticSiteBandwidthOverage'), CommonConstants.Dash, t('staticSiteStandardBandwidthOverageAmount'));
   };
 
   const getCustomDomainsRow = (): JSX.Element => {
@@ -226,7 +227,6 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         {getHeaderRow()}
         {getPriceRow()}
         {getIncludedBandwidthRow()}
-        {getBandwidthOverageRow()}
         {getCustomDomainsRow()}
         {getSslCertificatesRow()}
         {getCustomAuthenticationRow()}

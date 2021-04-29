@@ -7131,4 +7131,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterContainerSettingsBannerClickHere" xml:space="preserve">
         <value>Click here.</value>
     </data>
+    <data name="staticWebAppSkuPickerCalculatePrice" xml:space="preserve">
+        <value>Calculate price</value>
+    </data>
 </root>
