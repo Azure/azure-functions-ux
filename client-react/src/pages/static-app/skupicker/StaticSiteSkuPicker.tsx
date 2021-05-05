@@ -141,10 +141,6 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     );
   };
 
-  const getPrivateLinkRow = (): JSX.Element => {
-    return getGridMiddleRow(t('staticSitePrivateLink'), CommonConstants.Dash, <Icon iconName={'Accept'} className={iconStyle(theme)} />);
-  };
-
   const getStorageRow = (): JSX.Element => {
     return getGridMiddleRow(t('staticSiteStorage'), t('staticSiteFreeStorageAmount'), t('staticSiteStandardStorageAmount'));
   };
@@ -230,7 +226,6 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         {getCustomDomainsRow()}
         {getSslCertificatesRow()}
         {getCustomAuthenticationRow()}
-        {getPrivateLinkRow()}
         {getStorageRow()}
         {getAzureFunctionsRow()}
       </div>
