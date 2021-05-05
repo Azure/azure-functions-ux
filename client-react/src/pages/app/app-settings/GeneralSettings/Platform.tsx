@@ -1,7 +1,6 @@
 import { Field, FormikProps } from 'formik';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import Dropdown from '../../../../components/form-controls/DropDown';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
@@ -71,7 +70,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       )}
-
       {scenarioChecker.checkScenario(ScenarioIds.ftpStateSupported, { site }).status !== 'disabled' &&
         (disableFtp() ? (
           <DropdownNoFormik
@@ -115,25 +113,27 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             ]}
           />
         ))}
-      <Field
-        name="config.properties.http20Enabled"
-        dirty={values.config.properties.http20Enabled !== initialValues.config.properties.http20Enabled}
-        component={Dropdown}
-        fullpage
-        label={t('httpVersion')}
-        id="app-settings-http-enabled"
-        disabled={disableAllControls}
-        options={[
-          {
-            key: true,
-            text: '2.0',
-          },
-          {
-            key: false,
-            text: '1.1',
-          },
-        ]}
-      />
+      {scenarioChecker.checkScenario(ScenarioIds.httpVersionSupported, { site }).status !== 'disabled' && (
+        <Field
+          name="config.properties.http20Enabled"
+          dirty={values.config.properties.http20Enabled !== initialValues.config.properties.http20Enabled}
+          component={Dropdown}
+          fullpage
+          label={t('httpVersion')}
+          id="app-settings-http-enabled"
+          disabled={disableAllControls}
+          options={[
+            {
+              key: true,
+              text: '2.0',
+            },
+            {
+              key: false,
+              text: '1.1',
+            },
+          ]}
+        />
+      )}
       {scenarioChecker.checkScenario(ScenarioIds.webSocketsSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.webSocketsEnabled"

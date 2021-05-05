@@ -12,15 +12,16 @@ import DebuggingWindows from '../GeneralSettings/DebuggingWindows';
 import DebuggingLinux from '../GeneralSettings/DebuggingLinux';
 import { isEqual } from 'lodash-es';
 import ClientCert from '../GeneralSettings/ClientCert/ClientCert';
+import { isKubeApp } from '../../../../utils/arm-utils';
 
 const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values } = props;
+  const { site } = values;
   const { t } = useTranslation();
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
 
   const getDebuggingRender = () => {
-    const { site } = values;
     if (scenarioChecker.checkScenario(ScenarioIds.windowsRemoteDebuggingSupported, { site }).status !== 'disabled') {
       return <DebuggingWindows {...props} />;
     }
@@ -33,10 +34,15 @@ const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   return (
     <>
       <Stacks {...props} />
-      <h3>{t('platformSettings')}</h3>
-      <div className={settingsWrapper}>
-        <Platform {...props} />
-      </div>
+      {/* NOTE (krmitta): Need to hide platform settings for KubeApp as elements within are not shown */}
+      {!isKubeApp(site) && (
+        <>
+          <h3>{t('platformSettings')}</h3>
+          <div className={settingsWrapper}>
+            <Platform {...props} />
+          </div>
+        </>
+      )}
       {getDebuggingRender()}
       <SlotAutoSwap {...props} />
       <ClientCert {...props} />

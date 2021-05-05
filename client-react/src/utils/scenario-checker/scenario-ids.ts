@@ -113,4 +113,5 @@ export class ScenarioIds {
   public static readonly azurePipelinesBuildProvider = 'azurePipelinesBuildProvider';
   public static readonly ftpStateSupported = 'ftpStateSupported';
   public static readonly incomingClientCertSupported = 'incomingClientCertSupported';
+  public static readonly httpVersionSupported = 'httpVersionSupported';
 }
