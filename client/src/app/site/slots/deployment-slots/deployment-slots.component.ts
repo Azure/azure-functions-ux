@@ -521,6 +521,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             }
           }
 
+          siteConfigArm.properties.experiments = { ...siteConfigArm.properties.experiments, rampUpRules };
+
           if (siteConfigArm.properties && siteConfigArm.properties.azureStorageAccounts) {
             delete siteConfigArm.properties.azureStorageAccounts;
           }
