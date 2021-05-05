@@ -34,7 +34,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
 
   const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
   const isScmGitHubActions =
-    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+    !!deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
 
   const goToSettingsOnClick = () => {
     portalContext.log(getTelemetryInfo('info', 'goToSettingButton', 'clicked'));
@@ -110,7 +110,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
   useEffect(() => {
     if (siteStateContext && siteStateContext.site) {
       const scenarioStatus = scenarioService.checkScenario(ScenarioIds.deploymentCenterLogs, { site: siteStateContext.site }).status;
-      setShowLogsTab(scenarioStatus !== 'disabled' && !isScmGitHubActions);
+      setShowLogsTab(scenarioStatus !== 'disabled' || (siteStateContext.isKubeApp && isScmGitHubActions));
     }
 
     if (siteStateContext && siteStateContext.site) {
@@ -119,7 +119,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext.site]);
+  }, [siteStateContext.site, deploymentCenterContext.siteConfig]);
 
   return (
     <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>

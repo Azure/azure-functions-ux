@@ -120,11 +120,7 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
   return patchSiteConfigResponse;
 };
 
-export const clearGitHubActionSourceControlPropertiesManually = async (
-  deploymentCenterData: DeploymentCenterData,
-  resourceId: string,
-  isKubeApp: boolean
-) => {
+export const clearGitHubActionSourceControlPropertiesManually = async (deploymentCenterData: DeploymentCenterData, resourceId: string) => {
   // NOTE(michinoy): To be on the safe side, the update operations should be sequential rather than
   // parallel. The reason behind this is because incase the metadata update fails, but the scmtype is updated
   // the /sourcecontrols API GET will start failing.
@@ -158,29 +154,19 @@ export const clearGitHubActionSourceControlPropertiesManually = async (
     return updateMetadataResponse;
   }
 
-  if (isKubeApp) {
-    return updateMetadataResponse;
-  } else {
-    // TODO(michinoy): We need to re-add this call for Kube Apps once the API is available
-    // https://msazure.visualstudio.com/Antares/_workitems/edit/9572219
-    const patchSiteConfigResponse = await deploymentCenterData.patchSiteConfig(resourceId, {
-      properties: {
-        scmType: 'None',
-      },
+  const patchSiteConfigResponse = await deploymentCenterData.patchSiteConfig(resourceId, {
+    properties: {
+      scmType: 'None',
+    },
+  });
+
+  if (!patchSiteConfigResponse.metadata.success) {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'clearGitHubActionSourceControlPropertiesManually'), {
+      error: patchSiteConfigResponse.metadata.error,
     });
-
-    if (!patchSiteConfigResponse.metadata.success) {
-      LogService.error(
-        LogCategories.deploymentCenter,
-        getLogId('GitHubActionUtility', 'clearGitHubActionSourceControlPropertiesManually'),
-        {
-          error: patchSiteConfigResponse.metadata.error,
-        }
-      );
-    }
-
-    return patchSiteConfigResponse;
   }
+
+  return patchSiteConfigResponse;
 };
 
 // Detect the specific error which is indicative of Ant89 Geo/Stamp sync issues.
