@@ -104,6 +104,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   };
 
   const getSiteStateFromAppSettings = (appSettings: ArmObj<KeyValue<string>>, site: ArmObj<Site>): FunctionAppEditMode | undefined => {
+    if (isKubeApp(site)) {
+      return FunctionAppEditMode.ReadOnlyArc;
+    }
+
     if (FunctionAppService.usingCustomWorkerRuntime(appSettings)) {
       return FunctionAppEditMode.ReadOnlyCustom;
     }
