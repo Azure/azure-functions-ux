@@ -34,6 +34,7 @@ const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   return (
     <>
       <Stacks {...props} />
+      {/* NOTE (krmitta): Need to hide platform settings for KubeApp as elements within are not shown */}
       {!isKubeApp(site) && (
         <>
           <h3>{t('platformSettings')}</h3>
