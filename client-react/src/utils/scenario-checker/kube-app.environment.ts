@@ -108,6 +108,16 @@ export class KubeApp extends Environment {
         status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableKubeScenarioForTesting) === 'true' ? 'enabled' : 'disabled',
       }),
     };
+
+    this.scenarioChecks[ScenarioIds.httpVersionSupported] = {
+      id: ScenarioIds.httpVersionSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.clientAffinitySupported] = {
+      id: ScenarioIds.clientAffinitySupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
