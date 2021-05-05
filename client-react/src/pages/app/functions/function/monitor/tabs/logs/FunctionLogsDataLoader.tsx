@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { logStyle } from './../../FunctionMonitor.styles';
-import { isLinuxDynamic } from '../../../../../../../utils/arm-utils';
+import { isKubeApp, isLinuxDynamic } from '../../../../../../../utils/arm-utils';
 import { LoggingOptions } from '../../../function-editor/FunctionEditor.types';
 import LoadingComponent from '../../../../../../../components/Loading/LoadingComponent';
 import FunctionLogFileStreamDataLoader from '../../../function-log/FunctionLogFileStreamDataLoader';
@@ -24,7 +24,7 @@ const FunctionLogsDataLoader: React.FC<FunctionLogsDataLoaderProps> = props => {
 
   useEffect(() => {
     if (siteStateContext.site) {
-      setIsFileSystemLoggingAvailable(!isLinuxDynamic(siteStateContext.site));
+      setIsFileSystemLoggingAvailable(!isLinuxDynamic(siteStateContext.site) && !isKubeApp(siteStateContext.site));
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

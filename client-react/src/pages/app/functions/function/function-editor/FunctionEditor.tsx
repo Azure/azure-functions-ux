@@ -41,7 +41,7 @@ import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
-import { isLinuxDynamic } from '../../../../../utils/arm-utils';
+import { isKubeApp, isLinuxDynamic } from '../../../../../utils/arm-utils';
 import Url from '../../../../../utils/url';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { PortalContext } from '../../../../../PortalContext';
@@ -119,7 +119,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const scenarioChecker = new ScenarioService(t);
 
   const showAppInsightsLogs = scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
-  const isFileSystemLoggingAvailable = site && !isLinuxDynamic(site);
+  const isFileSystemLoggingAvailable = site && !isLinuxDynamic(site) && !isKubeApp(site);
   const showLoggingOptionsDropdown = showAppInsightsLogs && isFileSystemLoggingAvailable;
   const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.siteAppEditState);
   const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
