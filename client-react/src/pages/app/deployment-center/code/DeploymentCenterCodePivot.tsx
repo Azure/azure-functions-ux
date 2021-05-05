@@ -110,7 +110,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
   useEffect(() => {
     if (siteStateContext && siteStateContext.site) {
       const scenarioStatus = scenarioService.checkScenario(ScenarioIds.deploymentCenterLogs, { site: siteStateContext.site }).status;
-      setShowLogsTab(scenarioStatus !== 'disabled');
+      setShowLogsTab(scenarioStatus !== 'disabled' && !isScmGitHubActions);
     }
 
     if (siteStateContext && siteStateContext.site) {

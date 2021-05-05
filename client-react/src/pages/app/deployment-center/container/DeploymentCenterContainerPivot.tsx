@@ -28,6 +28,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
 
   const isScmGitHubActions =
     deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+  const isNonKubeApp = !siteStateContext.isKubeApp;
 
   const isSettingsDirty = (): boolean => {
     return (
@@ -135,15 +136,17 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
           <DeploymentCenterContainerSettings formProps={formProps} isDataRefreshing={isDataRefreshing} />
         </PivotItem>
 
-        <PivotItem
-          headerText={
-            isScmGitHubActions ? t('deploymentCenterPivotItemContainerLogsHeaderText') : t('deploymentCenterPivotItemLogsHeaderText')
-          }
-          ariaLabel={
-            isScmGitHubActions ? t('deploymentCenterPivotItemContainerLogsAriaLabel') : t('deploymentCenterPivotItemLogsAriaLabel')
-          }>
-          <DeploymentCenterContainerLogs logs={logs} isLogsDataRefreshing={isLogsDataRefreshing} refresh={refresh} />
-        </PivotItem>
+        {isNonKubeApp && (
+          <PivotItem
+            headerText={
+              isScmGitHubActions ? t('deploymentCenterPivotItemContainerLogsHeaderText') : t('deploymentCenterPivotItemLogsHeaderText')
+            }
+            ariaLabel={
+              isScmGitHubActions ? t('deploymentCenterPivotItemContainerLogsAriaLabel') : t('deploymentCenterPivotItemLogsAriaLabel')
+            }>
+            <DeploymentCenterContainerLogs logs={logs} isLogsDataRefreshing={isLogsDataRefreshing} refresh={refresh} />
+          </PivotItem>
+        )}
 
         {isScmGitHubActions && (
           <PivotItem

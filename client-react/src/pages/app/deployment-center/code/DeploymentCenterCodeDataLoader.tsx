@@ -16,6 +16,7 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DeploymentCenterCodeForm from './DeploymentCenterCodeForm';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
   const { resourceId, isDataRefreshing } = props;
@@ -24,6 +25,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const portalContext = useContext(PortalContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterCodeFormBuilder = new DeploymentCenterCodeFormBuilder(t);
@@ -54,7 +56,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
 
     if (deploymentsResponse.metadata.success) {
       setDeployments(deploymentsResponse.data);
-    } else {
+    } else if (!siteStateContext.isKubeApp) {
       const errorMessage = getErrorMessage(deploymentsResponse.metadata.error);
       setDeploymentsError(
         errorMessage ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage) : t('deploymentCenterCodeDeploymentsFailed')
