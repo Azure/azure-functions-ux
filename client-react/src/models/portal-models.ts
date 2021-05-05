@@ -324,6 +324,7 @@ export enum FunctionAppEditMode {
   ReadOnlyRbac,
   ReadOnlyCustom,
   ReadOnlyDotnet5,
+  ReadOnlyArc,
 }
 
 export enum PortalTheme {

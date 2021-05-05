@@ -23,7 +23,8 @@ export default class SiteHelper {
       editMode === FunctionAppEditMode.ReadOnlyLock ||
       editMode === FunctionAppEditMode.ReadOnlyRbac ||
       editMode === FunctionAppEditMode.ReadOnlyCustom ||
-      editMode === FunctionAppEditMode.ReadOnlyDotnet5
+      editMode === FunctionAppEditMode.ReadOnlyDotnet5 ||
+      editMode === FunctionAppEditMode.ReadOnlyArc
     );
   }
 
@@ -70,6 +71,9 @@ export default class SiteHelper {
       }
       case FunctionAppEditMode.ReadOnlyDotnet5: {
         return t('ibizafication_readOnlyDotnet5');
+      }
+      case FunctionAppEditMode.ReadOnlyArc: {
+        return t('ibizafication_readOnlyArc');
       }
     }
     return t('ibizafication_readOnly');
