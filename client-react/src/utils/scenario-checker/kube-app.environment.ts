@@ -111,16 +111,12 @@ export class KubeApp extends Environment {
 
     this.scenarioChecks[ScenarioIds.httpVersionSupported] = {
       id: ScenarioIds.httpVersionSupported,
-      runCheck: () => ({
-        status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableKubeScenarioForTesting) === 'true' ? 'enabled' : 'disabled',
-      }),
+      runCheck: () => ({ status: 'disabled' }),
     };
 
     this.scenarioChecks[ScenarioIds.clientAffinitySupported] = {
       id: ScenarioIds.clientAffinitySupported,
-      runCheck: () => ({
-        status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableKubeScenarioForTesting) === 'true' ? 'enabled' : 'disabled',
-      }),
+      runCheck: () => ({ status: 'disabled' }),
     };
   }
 
