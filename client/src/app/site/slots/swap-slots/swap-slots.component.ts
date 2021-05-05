@@ -27,6 +27,7 @@ import { PortalService } from '../../../shared/services/portal.service';
 import { SiteService } from './../../../shared/services/site.service';
 import { SlotSwapGroupValidator } from './slotSwapGroupValidator';
 import { SlotSwapSlotIdValidator } from './slotSwapSlotIdValidator';
+import { ArmUtil } from '../../../shared/Utilities/arm-utils';
 
 export type SwapStep =
   | 'loading'
@@ -93,6 +94,9 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   public slotsDiffs: SlotsDiff[];
   public stickySettingDiffs: SimpleSlotsDiff[];
   public showPreviewChanges = true;
+  // TODO (refortie) #9868036: Remove this logic once the diff API is function for ARC
+  // Defaulting to true, so that UI doesn't appear while loading and then get removed
+  public isKubeApp = true;
 
   public showPhase2Controls = false;
   public phase2DropDownOptions: DropDownElement<Stage2OptionData>[];
@@ -247,18 +251,23 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   private _processLoadingResults(siteResult: HttpResult<ArmObj<Site>>, slotsResult: HttpResult<ArmArrayResult<Site>>) {
     this._slotsList = [...slotsResult.result.value];
     if (siteResult.isSuccessful) {
+      this.isKubeApp = ArmUtil.isKubeApp(siteResult.result);
+
       this._slotsList.unshift(siteResult.result);
     }
+
     const options: DropDownElement<string>[] = this._slotsList.map(slot => {
       return {
         displayLabel: slot.name ? slot.name.replace('/', '-') : '-',
         value: slot.id,
       };
     });
+
     this.destDropDownOptions = JSON.parse(JSON.stringify(options));
     if (siteResult.isSuccessful) {
       options.shift();
     }
+
     this.srcDropDownOptions = JSON.parse(JSON.stringify(options));
   }
 
