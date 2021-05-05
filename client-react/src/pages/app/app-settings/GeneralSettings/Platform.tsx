@@ -115,25 +115,27 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             ]}
           />
         ))}
-      <Field
-        name="config.properties.http20Enabled"
-        dirty={values.config.properties.http20Enabled !== initialValues.config.properties.http20Enabled}
-        component={Dropdown}
-        fullpage
-        label={t('httpVersion')}
-        id="app-settings-http-enabled"
-        disabled={disableAllControls}
-        options={[
-          {
-            key: true,
-            text: '2.0',
-          },
-          {
-            key: false,
-            text: '1.1',
-          },
-        ]}
-      />
+      {scenarioChecker.checkScenario(ScenarioIds.httpVersionSupported, { site }).status !== 'disabled' && (
+        <Field
+          name="config.properties.http20Enabled"
+          dirty={values.config.properties.http20Enabled !== initialValues.config.properties.http20Enabled}
+          component={Dropdown}
+          fullpage
+          label={t('httpVersion')}
+          id="app-settings-http-enabled"
+          disabled={disableAllControls}
+          options={[
+            {
+              key: true,
+              text: '2.0',
+            },
+            {
+              key: false,
+              text: '1.1',
+            },
+          ]}
+        />
+      )}
       {scenarioChecker.checkScenario(ScenarioIds.webSocketsSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.webSocketsEnabled"

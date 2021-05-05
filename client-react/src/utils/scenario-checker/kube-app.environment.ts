@@ -108,6 +108,20 @@ export class KubeApp extends Environment {
         status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableKubeScenarioForTesting) === 'true' ? 'enabled' : 'disabled',
       }),
     };
+
+    this.scenarioChecks[ScenarioIds.httpVersionSupported] = {
+      id: ScenarioIds.httpVersionSupported,
+      runCheck: () => ({
+        status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableKubeScenarioForTesting) === 'true' ? 'enabled' : 'disabled',
+      }),
+    };
+
+    this.scenarioChecks[ScenarioIds.clientAffinitySupported] = {
+      id: ScenarioIds.clientAffinitySupported,
+      runCheck: () => ({
+        status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableKubeScenarioForTesting) === 'true' ? 'enabled' : 'disabled',
+      }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
