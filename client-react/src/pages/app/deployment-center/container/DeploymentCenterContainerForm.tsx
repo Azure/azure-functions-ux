@@ -476,7 +476,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     if (
       !updateSourceControlResponse.metadata.success &&
       payload.isGitHubAction &&
-      isApiSyncError(updateSourceControlResponse.metadata.error)
+      (isApiSyncError(updateSourceControlResponse.metadata.error) || siteContext.isKubeApp)
     ) {
       // NOTE(michinoy): If the save operation was being done for GitHub Action, and
       // we are experiencing the API sync error, populate the source controls properties
