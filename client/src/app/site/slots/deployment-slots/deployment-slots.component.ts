@@ -24,6 +24,7 @@ import { DecimalRangeValidator } from '../../../shared/validators/decimalRangeVa
 import { RoutingSumValidator } from '../../../shared/validators/routingSumValidator';
 import { TreeViewInfo, SiteData } from '../../../tree-view/models/tree-view-info';
 import { ScenarioCheckResult } from 'app/shared/services/scenario/scenario.models';
+import { ArmUtil } from '../../../shared/Utilities/arm-utils';
 
 @Component({
   selector: 'deployment-slots',
@@ -230,7 +231,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         const scenarioInput = this._getScenarioCheckInput();
 
         const tipSupportedCheck = !!scenarioInput && this._scenarioService.checkScenario(ScenarioIds.tipSupported, scenarioInput);
-        this.tipSupported = !tipSupportedCheck || tipSupportedCheck.status !== 'disabled';
+        // TODO (refortie) #9869434 - Remove once the backend returns the ramp up rules for ARC
+        const isKubeApp = ArmUtil.isKubeApp(scenarioInput && scenarioInput.site);
+        this.tipSupported = (!tipSupportedCheck || tipSupportedCheck.status !== 'disabled') && !isKubeApp;
 
         const canScaleForSlotsCheck = !!scenarioInput && this._scenarioService.checkScenario(ScenarioIds.canScaleForSlots, scenarioInput);
         this.canScaleUp = !canScaleForSlotsCheck || canScaleForSlotsCheck.status !== 'disabled';
