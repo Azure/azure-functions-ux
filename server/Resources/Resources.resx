@@ -7014,6 +7014,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="ibizafication_readOnlyDotnet5" xml:space="preserve">
         <value>Editing .NET 5 Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
+    <data name="ibizafication_readOnlyArc" xml:space="preserve">
+        <value>Editing ARC Function Apps is not supported in the Azure portal.</value>
+    </data>
     <data name="resourceConnector" xml:space="preserve">
         <value>Resource Connector</value>
     </data>
