@@ -28,7 +28,6 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
 
   const isScmGitHubActions =
     deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
-  const isNonKubeApp = !siteStateContext.isKubeApp;
 
   const isSettingsDirty = (): boolean => {
     return (
@@ -136,7 +135,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
           <DeploymentCenterContainerSettings formProps={formProps} isDataRefreshing={isDataRefreshing} />
         </PivotItem>
 
-        {isNonKubeApp && (
+        {!siteStateContext.isKubeApp && (
           <PivotItem
             headerText={
               isScmGitHubActions ? t('deploymentCenterPivotItemContainerLogsHeaderText') : t('deploymentCenterPivotItemLogsHeaderText')
