@@ -118,6 +118,13 @@ export class KubeApp extends Environment {
       id: ScenarioIds.clientAffinitySupported,
       runCheck: () => ({ status: 'disabled' }),
     };
+    
+    this.scenarioChecks[ScenarioIds.deploymentCenterLogs] = {
+      id: ScenarioIds.deploymentCenterLogs,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

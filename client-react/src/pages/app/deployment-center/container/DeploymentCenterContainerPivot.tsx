@@ -135,15 +135,17 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
           <DeploymentCenterContainerSettings formProps={formProps} isDataRefreshing={isDataRefreshing} />
         </PivotItem>
 
-        <PivotItem
-          headerText={
-            isScmGitHubActions ? t('deploymentCenterPivotItemContainerLogsHeaderText') : t('deploymentCenterPivotItemLogsHeaderText')
-          }
-          ariaLabel={
-            isScmGitHubActions ? t('deploymentCenterPivotItemContainerLogsAriaLabel') : t('deploymentCenterPivotItemLogsAriaLabel')
-          }>
-          <DeploymentCenterContainerLogs logs={logs} isLogsDataRefreshing={isLogsDataRefreshing} refresh={refresh} />
-        </PivotItem>
+        {!siteStateContext.isKubeApp && (
+          <PivotItem
+            headerText={
+              isScmGitHubActions ? t('deploymentCenterPivotItemContainerLogsHeaderText') : t('deploymentCenterPivotItemLogsHeaderText')
+            }
+            ariaLabel={
+              isScmGitHubActions ? t('deploymentCenterPivotItemContainerLogsAriaLabel') : t('deploymentCenterPivotItemLogsAriaLabel')
+            }>
+            <DeploymentCenterContainerLogs logs={logs} isLogsDataRefreshing={isLogsDataRefreshing} refresh={refresh} />
+          </PivotItem>
+        )}
 
         {isScmGitHubActions && (
           <PivotItem
