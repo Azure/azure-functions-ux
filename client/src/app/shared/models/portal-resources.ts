@@ -2302,7 +2302,7 @@ export class PortalResources {
   public static staticSiteSslCertificates = 'staticSiteSslCertificates';
   public static staticSitePrivateLink = 'staticSitePrivateLink';
   public static staticSiteCustomAuthentication = 'staticSiteCustomAuthentication';
-  public static staticSiteStorage = 'staticSiteStorage';
+  public static staticSiteMaxAppSize = 'staticSiteMaxAppSize';
   public static staticSiteAzureFunctions = 'staticSiteAzureFunctions';
   public static staticSiteIncludedBandwidthAmount = 'staticSiteIncludedBandwidthAmount';
   public static staticSiteStandardBandwidthOverageAmount = 'staticSiteStandardBandwidthOverageAmount';
@@ -2310,8 +2310,8 @@ export class PortalResources {
   public static staticSiteStandardCustomDomainAmount = 'staticSiteStandardCustomDomainAmount';
   public static staticSiteFreeAzureFunctionsAmount = 'staticSiteFreeAzureFunctionsAmount';
   public static staticSiteStandardAzureFunctionsAmount = 'staticSiteStandardAzureFunctionsAmount';
-  public static staticSiteFreeStorageAmount = 'staticSiteFreeStorageAmount';
-  public static staticSiteStandardStorageAmount = 'staticSiteStandardStorageAmount';
+  public static staticSiteFreeAppSizeAmount = 'staticSiteFreeAppSizeAmount';
+  public static staticSiteStandardAppSizeAmount = 'staticSiteStandardAppSizeAmount';
   public static staticSiteFree = 'staticSiteFree';
   public static staticSiteStandard = 'staticSiteStandard';
   public static staticSiteFreeDescription = 'staticSiteFreeDescription';
@@ -2331,4 +2331,7 @@ export class PortalResources {
   public static deploymentCenterContainerSettingsBannerMessage = 'deploymentCenterContainerSettingsBannerMessage';
   public static deploymentCenterContainerSettingsBannerClickHere = 'deploymentCenterContainerSettingsBannerClickHere';
   public static staticWebAppSkuPickerCalculatePrice = 'staticWebAppSkuPickerCalculatePrice';
+  public static staticSiteStagingEnvironments = 'staticSiteStagingEnvironments';
+  public static staticSiteFreeStagingEnvironmentsAmount = 'staticSiteFreeStagingEnvironmentsAmount';
+  public static staticSiteStandardStagingEnvironmentsAmount = 'staticSiteStandardStagingEnvironmentsAmount';
 }

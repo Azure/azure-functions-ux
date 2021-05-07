@@ -141,8 +141,16 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     );
   };
 
-  const getStorageRow = (): JSX.Element => {
-    return getGridMiddleRow(t('staticSiteStorage'), t('staticSiteFreeStorageAmount'), t('staticSiteStandardStorageAmount'));
+  const getAppSizeRow = (): JSX.Element => {
+    return getGridMiddleRow(t('staticSiteMaxAppSize'), t('staticSiteFreeAppSizeAmount'), t('staticSiteStandardAppSizeAmount'));
+  };
+
+  const getStagingEnvironmentsRow = (): JSX.Element => {
+    return getGridMiddleRow(
+      t('staticSiteStagingEnvironments'),
+      t('staticSiteFreeStagingEnvironmentsAmount'),
+      t('staticSiteStandardStagingEnvironmentsAmount')
+    );
   };
 
   const getAzureFunctionsRow = (): JSX.Element => {
@@ -226,7 +234,8 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         {getCustomDomainsRow()}
         {getSslCertificatesRow()}
         {getCustomAuthenticationRow()}
-        {getStorageRow()}
+        {getAppSizeRow()}
+        {getStagingEnvironmentsRow()}
         {getAzureFunctionsRow()}
       </div>
     );
