@@ -454,22 +454,44 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     let branch = '';
     let repo = '';
     let org = '';
+    if (!siteStateContext.isKubeApp) {
+      const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
+      if (sourceControlDetailsResponse.metadata.success) {
+        branch = sourceControlDetailsResponse.data.properties.branch;
 
-    const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
-    if (sourceControlDetailsResponse.metadata.success) {
-      branch = sourceControlDetailsResponse.data.properties.branch;
-
-      const repoUrlSplit = sourceControlDetailsResponse.data.properties.repoUrl.split('/');
-      if (repoUrlSplit.length >= 2) {
-        org = repoUrlSplit[repoUrlSplit.length - 2];
-        repo = repoUrlSplit[repoUrlSplit.length - 1];
+        const repoUrlSplit = sourceControlDetailsResponse.data.properties.repoUrl
+          ? sourceControlDetailsResponse.data.properties.repoUrl.split('/')
+          : [];
+        if (repoUrlSplit.length >= 2) {
+          org = repoUrlSplit[repoUrlSplit.length - 2];
+          repo = repoUrlSplit[repoUrlSplit.length - 1];
+        }
+      } else {
+        portalContext.log(
+          getTelemetryInfo('error', 'getSourceControls', 'failed', {
+            message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
+          })
+        );
       }
     } else {
-      portalContext.log(
-        getTelemetryInfo('error', 'getSourceControls', 'failed', {
-          message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
-        })
-      );
+      const repoUrl =
+        deploymentCenterContext.configMetadata &&
+        deploymentCenterContext.configMetadata.properties[DeploymentCenterConstants.metadataRepoUrl]
+          ? deploymentCenterContext.configMetadata.properties[DeploymentCenterConstants.metadataRepoUrl]
+          : '';
+      branch =
+        deploymentCenterContext.configMetadata &&
+        deploymentCenterContext.configMetadata.properties[DeploymentCenterConstants.metadataBranch]
+          ? deploymentCenterContext.configMetadata.properties[DeploymentCenterConstants.metadataBranch]
+          : '';
+
+      if (repoUrl && branch) {
+        const repoUrlSplit = repoUrl.split('/');
+        if (repoUrlSplit.length >= 2) {
+          org = repoUrlSplit[repoUrlSplit.length - 2];
+          repo = repoUrlSplit[repoUrlSplit.length - 1];
+        }
+      }
     }
 
     const isProductionSlot =
