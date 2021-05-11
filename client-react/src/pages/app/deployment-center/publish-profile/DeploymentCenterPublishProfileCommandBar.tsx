@@ -44,7 +44,7 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'profile.xml';
+    a.download = 'profile.publishsettings';
     a.click();
   };
 
