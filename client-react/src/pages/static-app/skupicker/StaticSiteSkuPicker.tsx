@@ -25,7 +25,7 @@ import {
   buttonPadding,
 } from './StaticSiteSkuPicker.styles';
 import { getTelemetryInfo } from '../../app/deployment-center/utility/DeploymentCenterUtility';
-import { staticSiteSku, StaticSiteSkuPickerProps } from './StaticSiteSkuPicker.types';
+import { StaticSiteSku, StaticSiteSkuPickerProps } from './StaticSiteSkuPicker.types';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
@@ -38,7 +38,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
 
-  const [selectedSku, setSelectedSku] = useState<staticSiteSku>(currentSku);
+  const [selectedSku, setSelectedSku] = useState<StaticSiteSku>(currentSku);
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const selectButtonOnClick = () => {
@@ -84,11 +84,11 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   };
 
   const getFreeColumnClassname = (): string => {
-    return selectedSku === staticSiteSku.Free ? selectedGridItemStyle(theme) : unselectedGridItemStyle(theme);
+    return selectedSku === StaticSiteSku.Free ? selectedGridItemStyle(theme) : unselectedGridItemStyle(theme);
   };
 
   const getStandardColumnClassname = (): string => {
-    return selectedSku === staticSiteSku.Standard ? selectedGridItemStyle(theme) : unselectedGridItemStyle(theme);
+    return selectedSku === StaticSiteSku.Standard ? selectedGridItemStyle(theme) : unselectedGridItemStyle(theme);
   };
 
   const getHeaderRow = (): JSX.Element => {
@@ -97,9 +97,9 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         <div className={planFeaturesTitleStyle(theme)} aria-label={t('staticSitePlanFeaturesAriaLabel')}>
           {t('staticSitePlanFeatures')}
         </div>
-        {getSkuTitleSection(staticSiteSku.Free, t('staticSiteFreePlanAriaLabel'), t('staticSiteFree'), t('staticSiteFreeDescription'))}
+        {getSkuTitleSection(StaticSiteSku.Free, t('staticSiteFreePlanAriaLabel'), t('staticSiteFree'), t('staticSiteFreeDescription'))}
         {getSkuTitleSection(
-          staticSiteSku.Standard,
+          StaticSiteSku.Standard,
           t('staticSiteStandardPlanAriaLabel'),
           t('staticSiteStandard'),
           t('staticSiteStandardDescription')
@@ -178,9 +178,9 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
               ]}
               onChange={(e: any, configOptions: IChoiceGroupOption) => {
                 const skuName =
-                  configOptions.key.toLocaleLowerCase() === staticSiteSku.Standard.toLocaleLowerCase()
-                    ? staticSiteSku.Standard
-                    : staticSiteSku.Free;
+                  configOptions.key.toLocaleLowerCase() === StaticSiteSku.Standard.toLocaleLowerCase()
+                    ? StaticSiteSku.Standard
+                    : StaticSiteSku.Free;
                 setSelectedSku(skuName);
               }}
             />
@@ -213,7 +213,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   };
 
   const getGridBottomRow = (featureTitle: string, freeSkuValue: string, standardSkuValue: string | JSX.Element): JSX.Element => {
-    const isStandardSelected: boolean = selectedSku === staticSiteSku.Standard;
+    const isStandardSelected: boolean = selectedSku === StaticSiteSku.Standard;
     return (
       <>
         <div className={planFeatureItemStyle(theme)} aria-hidden={true}>
