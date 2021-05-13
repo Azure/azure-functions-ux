@@ -5,20 +5,22 @@ import { PortalContext } from '../../../PortalContext';
 import RbacConstants from '../../../utils/rbac-constants';
 import { getTelemetryInfo } from '../../app/deployment-center/utility/DeploymentCenterUtility';
 import StaticSiteSkuPicker from './StaticSiteSkuPicker';
+import { staticSiteSku } from './StaticSiteSkuPicker.types';
 
 export interface StaticSiteSkuPickerDataLoaderProps {
   isStaticSiteCreate: boolean;
-  currentSku: string;
+  currentSku: staticSiteSku;
   resourceId: string;
 }
+
 const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps> = props => {
   const { resourceId, isStaticSiteCreate, currentSku } = props;
 
   const portalContext = useContext(PortalContext);
 
   const [hasWritePermissions, setHasWritePermissions] = useState(true);
-  const [currentSiteSku, setCurrentSiteSku] = useState<string>(currentSku);
-  const [isLoading, setIsLoading] = useState(false);
+  const [currentSiteSku, setCurrentSiteSku] = useState<staticSiteSku>(currentSku);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -39,7 +41,12 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
       const staticSiteResponse = await StaticSiteService.getStaticSite(resourceId);
 
       if (staticSiteResponse.metadata.success && staticSiteResponse.data.sku && staticSiteResponse.data.sku.name) {
-        setCurrentSiteSku(staticSiteResponse.data.sku.name);
+        const skuName =
+          staticSiteResponse.data.sku.name &&
+          staticSiteResponse.data.sku.name.toLocaleLowerCase() === staticSiteSku.Standard.toLocaleLowerCase()
+            ? staticSiteSku.Standard
+            : staticSiteSku.Free;
+        setCurrentSiteSku(skuName);
       } else if (!staticSiteResponse.metadata.success) {
         portalContext.log(getTelemetryInfo('error', 'getStaticSite', 'failed', { error: staticSiteResponse.metadata.error }));
       }

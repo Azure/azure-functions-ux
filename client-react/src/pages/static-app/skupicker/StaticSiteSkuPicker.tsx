@@ -38,7 +38,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
 
-  const [selectedSku, setSelectedSku] = useState<string>(currentSku); //TODO (stpelleg) WI 9741815 update type
+  const [selectedSku, setSelectedSku] = useState<staticSiteSku>(currentSku);
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const selectButtonOnClick = () => {
@@ -177,7 +177,11 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
                 },
               ]}
               onChange={(e: any, configOptions: IChoiceGroupOption) => {
-                setSelectedSku(configOptions.key);
+                const skuName =
+                  configOptions.key.toLocaleLowerCase() === staticSiteSku.Standard.toLocaleLowerCase()
+                    ? staticSiteSku.Standard
+                    : staticSiteSku.Free;
+                setSelectedSku(skuName);
               }}
             />
           </div>

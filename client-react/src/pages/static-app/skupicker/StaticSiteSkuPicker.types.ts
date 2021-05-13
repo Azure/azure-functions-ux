@@ -4,7 +4,7 @@ export enum staticSiteSku {
 }
 export interface StaticSiteSkuPickerProps {
   isStaticSiteCreate: boolean;
-  currentSku: string;
+  currentSku: staticSiteSku;
   resourceId: string;
   hasWritePermissions: boolean;
   refresh: () => void;
