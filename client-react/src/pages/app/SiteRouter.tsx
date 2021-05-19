@@ -21,6 +21,7 @@ import SiteHelper from '../../utils/SiteHelper';
 import { SiteRouterData } from './SiteRouter.data';
 import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
+import Url from '../../utils/url';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -87,6 +88,14 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     );
   };
 
+  const enableLinuxElasticPremiumFlagSetForPythonOrNode = (appSettings?: ArmObj<KeyValue<string>>): boolean => {
+    return (
+      !!appSettings &&
+      (FunctionAppService.usingPythonWorkerRuntime(appSettings) || FunctionAppService.usingNodeWorkerRuntime(appSettings)) &&
+      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxPremium)
+    );
+  };
+
   const getSiteStateFromSiteData = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
     if (isLinuxDynamic(site) && !ignoreLinuxDynamicReadOnly(site, appSettings)) {
       return FunctionAppEditMode.ReadOnlyLinuxDynamic;
@@ -96,7 +105,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyBYOC;
     }
 
-    if (isLinuxApp(site) && isElastic(site)) {
+    if (isLinuxApp(site) && isElastic(site) && !enableLinuxElasticPremiumFlagSetForPythonOrNode(appSettings)) {
       return FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
     }
 
@@ -124,7 +133,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyLocalCache;
     }
 
-    if (FunctionAppService.usingPythonWorkerRuntime(appSettings) && !FunctionAppService.usingPythonLinuxConsumption(site, appSettings)) {
+    if (
+      FunctionAppService.usingPythonWorkerRuntime(appSettings) &&
+      !FunctionAppService.usingPythonLinuxConsumption(site, appSettings) &&
+      !enableLinuxElasticPremiumFlagSetForPythonOrNode(appSettings)
+    ) {
       return FunctionAppEditMode.ReadOnlyPython;
     }
 

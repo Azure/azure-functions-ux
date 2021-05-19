@@ -52,6 +52,7 @@ export class CommonConstants {
     enableEditingForLinuxConsumption: 'enableEditingForLinuxConsumption',
     treatAsKubeApp: 'treatAsKubeApp', // websitesextension_ext=appsvc.treatAsKubeApp%3Dtrue
     enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
+    enableEditingForLinuxPremium: 'enableEditingForLinuxPremium',
   };
 
   public static readonly AppDensityLimit = 8;
