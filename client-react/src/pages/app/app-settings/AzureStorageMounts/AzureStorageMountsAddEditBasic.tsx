@@ -25,7 +25,7 @@ const storageKinds = {
 };
 
 const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
-  const { errors, values, setValues, setFieldValue } = props;
+  const { errors, values, setValues, setFieldValue, disableAzureBlobOption } = props;
   const [accountSharesFiles, setAccountSharesFiles] = useState([]);
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
   const [sharesLoading, setSharesLoading] = useState(false);
@@ -39,6 +39,8 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   const accountOptions = storageAccounts.value
     .filter(val => supportsBlobStorage || val.kind !== storageKinds.BlobStorage)
     .map(val => ({ key: val.name, text: val.name }));
+
+  const defaultStorageType = disableAzureBlobOption ? StorageType.azureFiles : StorageType.azureBlob;
 
   const validateStorageContainer = (value: string): string | undefined => {
     if (
@@ -187,11 +189,12 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           name="type"
           id="azure-storage-mounts-name"
           label={t('storageType')}
+          selectedKey={defaultStorageType}
           options={[
             {
               key: 'AzureBlob',
               text: t('azureBlob'),
-              disabled: blobContainerOptions.length === 0,
+              disabled: blobContainerOptions.length === 0 || disableAzureBlobOption,
             },
             {
               key: 'AzureFiles',

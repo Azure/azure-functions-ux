@@ -15,7 +15,7 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { ThemeContext } from '../../../../ThemeContext';
 import { dirtyElementStyle } from '../AppSettings.styles';
 import { useTranslation } from 'react-i18next';
-import { isXenonApp } from '../../../../utils/arm-utils';
+import { isWindowsCode, isXenonApp } from '../../../../utils/arm-utils';
 
 const MAXALLOWEDAZUREMOUNTS = 5;
 
@@ -276,6 +276,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
             updateAzureStorageMount={item => onClosePanel(item)}
             closeBlade={onCancel}
             enableValidation={!isXenonApp(values.site)}
+            disableAzureBlobOption={isWindowsCode(values.site)}
           />
         </CustomPanel>
       </>

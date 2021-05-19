@@ -1,4 +1,3 @@
-import Url from '../url';
 import { CommonConstants } from './../CommonConstants';
 import { ScenarioIds } from './scenario-ids';
 import { Environment, ScenarioCheckInput } from './scenario.models';
@@ -20,7 +19,7 @@ export class WindowsCode extends Environment {
       id: ScenarioIds.azureStorageMount,
       runCheck: () => {
         return {
-          status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMount) ? 'enabled' : 'disabled',
+          status: 'enabled',
         };
       },
     };

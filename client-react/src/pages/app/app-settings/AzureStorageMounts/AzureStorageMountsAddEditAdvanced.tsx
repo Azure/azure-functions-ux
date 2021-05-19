@@ -11,15 +11,17 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../utils/FwLinks';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
-  const { errors, values } = props;
+  const { errors, values, disableAzureBlobOption } = props;
   const { t } = useTranslation();
+
+  const defaultStorageType = disableAzureBlobOption ? StorageType.azureFiles : StorageType.azureBlob;
 
   return (
     <>
       <Field
         component={TextField}
         name="accountName"
-        label={t('storageAccount')}
+        label={t('storageAccounts')}
         id="azure-storage-mounts-account-name"
         errorMessage={errors.accountName}
         required={true}
@@ -27,7 +29,9 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
       <Field
         component={RadioButton}
         name="type"
+        id="azure-storage-mounts-account-type"
         label={t('storageType')}
+        selectedKey={defaultStorageType}
         options={[
           {
             key: 'AzureBlob',
