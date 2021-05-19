@@ -15,6 +15,11 @@ export function isLinuxApp(obj: ArmObj<any>): boolean {
   return AppKind.hasKinds(obj, [CommonConstants.Kinds.linux]) || isKubeApp(obj);
 }
 
+export function isWindowsCode(obj: ArmObj<Site>): boolean {
+  const kind = obj.kind ? obj.kind.toLowerCase() : '';
+  return kind === CommonConstants.Kinds.app || kind === CommonConstants.Kinds.api;
+}
+
 export function isLinuxDynamic(obj: ArmObj<Site>) {
   return isLinuxApp(obj) && !!obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === CommonConstants.SkuNames.dynamic;
 }
