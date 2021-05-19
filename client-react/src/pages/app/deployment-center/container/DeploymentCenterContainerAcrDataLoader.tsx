@@ -264,9 +264,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       const tagOptions: IDropdownOption[] = [];
       tagsResponse.forEach(response => {
         const dropdownOptions =
-          response && response.tags && response.tags.length > 0
-            ? response.tags.map(tag => ({ key: tag.toLocaleLowerCase(), text: tag }))
-            : [];
+          response && response.tags && response.tags.length > 0 ? response.tags.map(tag => ({ key: tag, text: tag })) : [];
         tagOptions.push(...dropdownOptions);
       });
 

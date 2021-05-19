@@ -285,7 +285,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         composeYml: atob(registryInfo),
       };
     } else {
-      const imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(`${acrHost}/`, '');
+      const imageAndTagInfo = registryInfo.replace(`${acrHost}/`, '');
       const imageAndTagParts = imageAndTagInfo.split(':');
 
       return {
