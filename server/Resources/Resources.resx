@@ -365,7 +365,7 @@
         <value>or</value>
     </data>
     <data name="readOnlySourceControlled" xml:space="preserve">
-        <value>Your app is currently in read only mode because you have source control integration enabled. To change edit mode visit </value>
+        <value>Your app is currently in read only mode because you have source control integration enabled.</value>
     </data>
     <data name="region" xml:space="preserve">
         <value>Region</value>
@@ -2186,10 +2186,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>We are unable to update your function app's edit mode. Please try again later.</value>
     </data>
     <data name="readOnly" xml:space="preserve">
-        <value>Your app is currently in read only mode because it has been manually set to read only. To change edit mode visit </value>
+        <value>Your app is currently in read only mode because it has been manually set to read only.</value>
     </data>
     <data name="readWriteSourceControlled" xml:space="preserve">
-        <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
+        <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having source control enabled. Any changes you make may get overwritten with your next deployment.</value>
     </data>
     <data name="readOnlyGeneratedBy" xml:space="preserve">
         <value>Your app is currently in read only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
@@ -2384,7 +2384,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>A client certificate is required to call run this function. To run it from the portal you have to disable client certificate.</value>
     </data>
     <data name="readOnlySlots" xml:space="preserve">
-        <value>Your app is currently in read only mode because you have configured deployment slots. To change edit mode visit</value>
+        <value>Your app is currently in read only mode because you have configured deployment slots.</value>
     </data>
     <data name="functionRuntime_manageAppSettings" xml:space="preserve">
         <value>Manage application settings</value>
