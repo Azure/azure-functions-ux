@@ -92,31 +92,36 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
 
             const [blobs, files] = await Promise.all([blobsCall, filesCall]);
 
-            const [blobsFailure, filesFailure] = [
-              // add null check on blobs and files
-              !(blobs && blobs.metadata && blobs.metadata.success),
-              !(files && files.metadata && files.metadata.success),
-            ];
+            // add null check on blobs.metadata and files.metadata
+            const blobsMetaData = blobs && blobs.metadata;
+            const filesMetaData = files && files.metadata;
+
+            const [blobsFailure, filesFailure] = [!(blobsMetaData && blobsMetaData.success), !(filesMetaData && filesMetaData.success)];
+
+            let blobData = [];
+            let filesData = [];
 
             if (blobsFailure && supportsBlobStorage) {
               LogService.error(
                 LogCategories.appSettings,
                 'getStorageContainers',
-                `Failed to get storage containers: ${getErrorMessageOrStringify(blobs.metadata.error)}`
+                `Failed to get storage containers: ${getErrorMessageOrStringify((blobsMetaData && blobsMetaData.error) || '')}`
               );
+            } else {
+              blobData = blobs.data || [];
             }
 
             if (filesFailure) {
               LogService.error(
                 LogCategories.appSettings,
                 'getStorageFileShares',
-                `Failed to get storage file shares: ${getErrorMessageOrStringify(files.metadata.error)}`
+                `Failed to get storage file shares: ${getErrorMessageOrStringify((filesMetaData && filesMetaData.success) || '')}`
               );
+            } else {
+              filesData = files.data || [];
             }
 
             setSharesLoading(false);
-            const filesData = files.data || [];
-            const blobData = blobs.data || [];
             setAccountSharesFiles(filesData);
             setAccountSharesBlob(blobData);
             if (blobData.length === 0 || !supportsBlobStorage) {

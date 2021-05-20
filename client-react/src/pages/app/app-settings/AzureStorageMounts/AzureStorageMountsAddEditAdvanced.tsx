@@ -20,6 +20,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
   const scenarioService = new ScenarioService(t);
 
   const showWarningBanner = scenarioService.checkScenario(ScenarioIds.showAzureStorageMountWarningBanner, { site }).status === 'enabled';
+  const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
 
   return (
     <>
@@ -31,22 +32,24 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         errorMessage={errors.accountName}
         required={true}
       />
-      <Field
-        component={RadioButton}
-        name="type"
-        id="azure-storage-mounts-name"
-        label={t('storageType')}
-        options={[
-          {
-            key: 'AzureBlob',
-            text: t('azureBlob'),
-          },
-          {
-            key: 'AzureFiles',
-            text: t('azureFiles'),
-          },
-        ]}
-      />
+      {supportsBlobStorage && (
+        <Field
+          component={RadioButton}
+          name="type"
+          id="azure-storage-mounts-name"
+          label={t('storageType')}
+          options={[
+            {
+              key: 'AzureBlob',
+              text: t('azureBlob'),
+            },
+            {
+              key: 'AzureFiles',
+              text: t('azureFiles'),
+            },
+          ]}
+        />
+      )}
       {values.type === StorageType.azureBlob && showWarningBanner && (
         <CustomBanner
           id="azure-storage-mount-blob-warning"

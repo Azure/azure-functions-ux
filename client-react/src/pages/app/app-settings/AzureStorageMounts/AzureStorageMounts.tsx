@@ -15,7 +15,7 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { ThemeContext } from '../../../../ThemeContext';
 import { dirtyElementStyle } from '../AppSettings.styles';
 import { useTranslation } from 'react-i18next';
-import { isWindowsCode, isXenonApp } from '../../../../utils/arm-utils';
+import { isXenonApp } from '../../../../utils/arm-utils';
 
 const MAXALLOWEDAZUREMOUNTS = 5;
 
