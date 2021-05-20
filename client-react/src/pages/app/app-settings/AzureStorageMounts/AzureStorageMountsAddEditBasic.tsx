@@ -25,7 +25,7 @@ const storageKinds = {
 };
 
 const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
-  const { errors, values, setValues, setFieldValue, disableAzureBlobOption } = props;
+  const { errors, values, setValues, setFieldValue } = props;
   const [accountSharesFiles, setAccountSharesFiles] = useState([]);
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
   const [sharesLoading, setSharesLoading] = useState(false);
@@ -35,12 +35,11 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
 
+  const showWarningBanner = scenarioService.checkScenario(ScenarioIds.showAzureStorageMountWarningBanner, { site }).status === 'enabled';
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
   const accountOptions = storageAccounts.value
     .filter(val => supportsBlobStorage || val.kind !== storageKinds.BlobStorage)
     .map(val => ({ key: val.name, text: val.name }));
-
-  const defaultStorageType = disableAzureBlobOption ? StorageType.azureFiles : StorageType.azureBlob;
 
   const validateStorageContainer = (value: string): string | undefined => {
     if (
@@ -86,15 +85,20 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             let filesCall: any = {
               data: [],
             };
+
             if (storageAccount.kind !== storageKinds.BlobStorage) {
               filesCall = FunctionsService.getStorageFileShares(values.accountName, payload);
             }
 
             const [blobs, files] = await Promise.all([blobsCall, filesCall]);
 
-            const [blobsFailure, filesFailure] = [!blobs.metadata.success, !files.metadata.success];
+            const [blobsFailure, filesFailure] = [
+              // add null check on blobs and files
+              !(blobs && blobs.metadata && blobs.metadata.success),
+              !(files && files.metadata && files.metadata.success),
+            ];
 
-            if (blobsFailure) {
+            if (blobsFailure && supportsBlobStorage) {
               LogService.error(
                 LogCategories.appSettings,
                 'getStorageContainers',
@@ -146,6 +150,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               setAccountError(error);
             }
           } catch (err) {
+            console.log(err);
             setAccountError(t('noWriteAccessStorageAccount'));
           }
         })
@@ -189,12 +194,11 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           name="type"
           id="azure-storage-mounts-name"
           label={t('storageType')}
-          selectedKey={defaultStorageType}
           options={[
             {
               key: 'AzureBlob',
               text: t('azureBlob'),
-              disabled: blobContainerOptions.length === 0 || disableAzureBlobOption,
+              disabled: blobContainerOptions.length === 0,
             },
             {
               key: 'AzureFiles',
@@ -204,7 +208,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           ]}
         />
       )}
-      {values.type === StorageType.azureBlob && (
+      {values.type === StorageType.azureBlob && showWarningBanner && (
         <CustomBanner
           id="azure-storage-mount-blob-warning"
           message={t('readonlyBlobStorageWarning')}

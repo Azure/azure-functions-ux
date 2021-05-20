@@ -276,7 +276,6 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
             updateAzureStorageMount={item => onClosePanel(item)}
             closeBlade={onCancel}
             enableValidation={!isXenonApp(values.site)}
-            disableAzureBlobOption={isWindowsCode(values.site)}
           />
         </CustomPanel>
       </>

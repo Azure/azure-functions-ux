@@ -23,6 +23,15 @@ export class WindowsCode extends Environment {
         };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.azureBlobMount] = {
+      id: ScenarioIds.azureStorageMount,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

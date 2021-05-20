@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
 import { FormikProps, Field } from 'formik';
 import { FormAzureStorageMounts } from '../AppSettings.types';
@@ -9,12 +9,17 @@ import { StorageType } from '../../../../models/site/config';
 import { MessageBarType } from 'office-ui-fabric-react';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../utils/FwLinks';
+import { SiteContext } from '../Contexts';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
-  const { errors, values, disableAzureBlobOption } = props;
+  const { errors, values } = props;
   const { t } = useTranslation();
+  const site = useContext(SiteContext);
+  const scenarioService = new ScenarioService(t);
 
-  const defaultStorageType = disableAzureBlobOption ? StorageType.azureFiles : StorageType.azureBlob;
+  const showWarningBanner = scenarioService.checkScenario(ScenarioIds.showAzureStorageMountWarningBanner, { site }).status === 'enabled';
 
   return (
     <>
@@ -29,9 +34,8 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
       <Field
         component={RadioButton}
         name="type"
-        id="azure-storage-mounts-account-type"
+        id="azure-storage-mounts-name"
         label={t('storageType')}
-        selectedKey={defaultStorageType}
         options={[
           {
             key: 'AzureBlob',
@@ -43,7 +47,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
           },
         ]}
       />
-      {values.type === StorageType.azureBlob && (
+      {values.type === StorageType.azureBlob && showWarningBanner && (
         <CustomBanner
           id="azure-storage-mount-blob-warning"
           message={t('readonlyBlobStorageWarning')}

@@ -21,7 +21,6 @@ export interface AzureStorageMountsAddEditProps {
   azureStorageMount: FormAzureStorageMounts;
   // TODO (refortie): Temporary until xenon validation is put in
   enableValidation: boolean;
-  disableAzureBlobOption: boolean;
 }
 
 export type AzureStorageMountsAddEditPropsCombined = AzureStorageMountsAddEditProps;
