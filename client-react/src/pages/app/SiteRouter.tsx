@@ -45,9 +45,6 @@ const FunctionIntegrateLoadable: any = lazy(() =>
 const FunctionBindingLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functionbinding" */ './functions/function/integrate/BindingPanel/BindingPanel')
 );
-const FunctionCreateLoadable: any = lazy(() =>
-  import(/* webpackChunkName:"functioncreate" */ './functions/create/FunctionCreateDataLoader')
-);
 const FunctionNewCreatePreviewLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioncreate" */ './functions/new-create-preview/FunctionCreateDataLoader')
 );
@@ -291,7 +288,6 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
                     <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
                     <FunctionBindingLoadable resourceId={value.resourceId} path="/bindingeditor" />
-                    <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
                     <FunctionNewCreatePreviewLoadable resourceId={value.resourceId} path="/newcreatepreview" />
                     <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
                     <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />
