@@ -276,7 +276,10 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
   }
 
   openAdvancedEditor() {
-    window.open(`${this.context.scmUrl}/dev/wwwroot/proxies.json`);
+    // NOTE (krmitta): We need to open App Files blade but Fx doesn't allow opening a blade from context pane.
+    // To get around this limitation we will be closing this blade and pass in apt parameters to the parent blade,
+    // Upon receiving these parameters we will be opening the App Files blade from parent blade.
+    this._portalService.closeSelf({ resourceId: this.context.site.id, advancedEditorClicked: true });
   }
 
   rrOverriedValueChanges(value: any) {
