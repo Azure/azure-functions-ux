@@ -114,7 +114,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               LogService.error(
                 LogCategories.appSettings,
                 'getStorageFileShares',
-                `Failed to get storage file shares: ${getErrorMessageOrStringify((filesMetaData && filesMetaData.success) || '')}`
+                `Failed to get storage file shares: ${getErrorMessageOrStringify((filesMetaData && filesMetaData.error) || '')}`
               );
             } else {
               filesData = files.data || [];
