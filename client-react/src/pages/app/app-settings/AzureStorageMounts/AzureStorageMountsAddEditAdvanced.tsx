@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
 import { FormikProps, Field } from 'formik';
 import { FormAzureStorageMounts } from '../AppSettings.types';
@@ -14,13 +14,18 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
-  const { errors, values } = props;
+  const { errors, values, setFieldValue } = props;
   const { t } = useTranslation();
   const site = useContext(SiteContext);
   const scenarioService = new ScenarioService(t);
 
-  const showWarningBanner = scenarioService.checkScenario(ScenarioIds.showAzureStorageMountWarningBanner, { site }).status === 'enabled';
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
+
+  useEffect(() => {
+    if (!supportsBlobStorage) {
+      setFieldValue('type', 'AzureFiles');
+    }
+  }, []);
 
   return (
     <>
@@ -50,7 +55,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
           ]}
         />
       )}
-      {values.type === StorageType.azureBlob && showWarningBanner && (
+      {values.type === StorageType.azureBlob && supportsBlobStorage && (
         <CustomBanner
           id="azure-storage-mount-blob-warning"
           message={t('readonlyBlobStorageWarning')}

@@ -16,7 +16,8 @@ export function isLinuxApp(obj: ArmObj<any>): boolean {
 }
 
 export function isWindowsCode(obj: ArmObj<Site>): boolean {
-  return AppKind.hasKinds(obj, [CommonConstants.Kinds.app]) || AppKind.hasKinds(obj, [CommonConstants.Kinds.api]);
+  const kind = obj.kind ? obj.kind.toLowerCase() : '';
+  return kind === CommonConstants.Kinds.app || kind === CommonConstants.Kinds.api;
 }
 
 export function isLinuxDynamic(obj: ArmObj<Site>) {

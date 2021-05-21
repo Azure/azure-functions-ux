@@ -178,15 +178,6 @@ export class LinuxSiteEnvironment extends Environment {
         };
       },
     };
-
-    this.scenarioChecks[ScenarioIds.showAzureStorageMountWarningBanner] = {
-      id: ScenarioIds.showAzureStorageMountWarningBanner,
-      runCheck: () => {
-        return {
-          status: 'enabled',
-        };
-      },
-    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

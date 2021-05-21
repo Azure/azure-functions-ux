@@ -1,6 +1,6 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
-import { isContainerApp, isLinuxApp } from '../arm-utils';
+import { isContainerApp, isLinuxApp, isWindowsCode } from '../arm-utils';
 
 export class ContainerApp extends Environment {
   public name = 'ContainerApp';
@@ -30,6 +30,19 @@ export class ContainerApp extends Environment {
         };
       },
     };
+    this.scenarioChecks[ScenarioIds.azureBlobMount] = {
+      id: ScenarioIds.azureBlobMount,
+      runCheck: (input: ScenarioCheckInput) => {
+        if (input && input.site && isWindowsCode(input.site)) {
+          return {
+            status: 'disabled',
+          };
+        }
+        return {
+          status: 'enabled',
+        };
+      },
+    };
     this.scenarioChecks[ScenarioIds.linuxRemoteDebuggingSupported] = {
       id: ScenarioIds.linuxRemoteDebuggingSupported,
       runCheck: () => {
@@ -46,14 +59,6 @@ export class ContainerApp extends Environment {
         } else {
           return { status: 'disabled' };
         }
-      },
-    };
-    this.scenarioChecks[ScenarioIds.azureBlobMount] = {
-      id: ScenarioIds.azureStorageMount,
-      runCheck: () => {
-        return {
-          status: 'disabled',
-        };
       },
     };
   }

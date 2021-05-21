@@ -35,7 +35,6 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
 
-  const showWarningBanner = scenarioService.checkScenario(ScenarioIds.showAzureStorageMountWarningBanner, { site }).status === 'enabled';
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
   const accountOptions = storageAccounts.value
     .filter(val => supportsBlobStorage || val.kind !== storageKinds.BlobStorage)
@@ -213,7 +212,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           ]}
         />
       )}
-      {values.type === StorageType.azureBlob && showWarningBanner && (
+      {values.type === StorageType.azureBlob && supportsBlobStorage && (
         <CustomBanner
           id="azure-storage-mount-blob-warning"
           message={t('readonlyBlobStorageWarning')}
