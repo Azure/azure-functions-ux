@@ -33,7 +33,7 @@ export class ContainerApp extends Environment {
     this.scenarioChecks[ScenarioIds.azureBlobMount] = {
       id: ScenarioIds.azureBlobMount,
       runCheck: (input: ScenarioCheckInput) => {
-        if (input && input.site && isLinuxContainer(input.site)) {
+        if (input && input.site && isLinuxApp(input.site)) {
           return {
             status: 'enabled',
           };

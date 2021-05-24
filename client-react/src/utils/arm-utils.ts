@@ -19,10 +19,6 @@ export function isWindowsCode(obj: ArmObj<Site>): boolean {
   return (AppKind.hasKinds(obj, [CommonConstants.Kinds.app]) || AppKind.hasKinds(obj, [CommonConstants.Kinds.api])) && !isLinuxApp(obj);
 }
 
-export function isLinuxContainer(obj: ArmObj<Site>): boolean {
-  return isLinuxApp(obj) && isContainerApp(obj);
-}
-
 export function isLinuxDynamic(obj: ArmObj<Site>) {
   return isLinuxApp(obj) && !!obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === CommonConstants.SkuNames.dynamic;
 }
