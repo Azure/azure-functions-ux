@@ -29,7 +29,6 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
 
   return (
     <>
-      {console.log('there')}
       <Field
         component={TextField}
         name="accountName"
