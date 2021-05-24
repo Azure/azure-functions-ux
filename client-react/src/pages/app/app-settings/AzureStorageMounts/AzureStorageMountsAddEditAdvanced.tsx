@@ -14,10 +14,17 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
-  const { errors, values, setFieldValue } = props;
+  const { errors, values, setFieldValue, validateField } = props;
   const { t } = useTranslation();
   const site = useContext(SiteContext);
   const scenarioService = new ScenarioService(t);
+
+  const validateShareName = (value: any): string | undefined => {
+    if (value) {
+      return value.length === 0 ? t('validation_requiredError') : undefined;
+    }
+    return t('validation_requiredError');
+  };
 
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
 
@@ -25,6 +32,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
     if (!supportsBlobStorage) {
       setFieldValue('type', StorageType.azureFiles);
     }
+    validateField('shareName');
   }, []);
 
   return (
@@ -71,6 +79,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         id="azure-storage-mounts-share-name"
         errorMessage={errors.shareName}
         required={true}
+        validate={validateShareName}
       />
       <Field
         component={TextField}

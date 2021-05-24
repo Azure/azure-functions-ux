@@ -47,10 +47,7 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root"
-        xmlns=""
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-        xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
         <xsd:element name="root" msdata:IsDataSet="true">
             <xsd:complexType>
@@ -4878,7 +4875,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Storage account name must be lower case</value>
     </data>
     <data name="noBlobsOrFilesShares" xml:space="preserve">
-        <value>This storage account has no blob containers or file shares</value>
+        <value>This storage account has no blob containers or file shares.</value>
     </data>
     <data name="noFileShares" xml:space="preserve">
         <value>This storage account has no file shares</value>
@@ -6799,19 +6796,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Develop in portal</value>
     </data>
     <data name="fileSharesFailure" xml:space="preserve">
-        <value>Failed to fetch file shares in the storage account</value>
+        <value>Failed to fetch file shares in the storage account.</value>
     </data>
     <data name="fileSharesFailureWithError" xml:space="preserve">
-        <value>Failed to fetch file shares in the storage account with error: {0}</value>
+        <value>Failed to fetch file shares in the storage account with error: {0}.</value>
     </data>
     <data name="blobsFailure" xml:space="preserve">
-        <value>Failed to fetch blobs in the storage account</value>
+        <value>Failed to fetch blobs in the storage account.</value>
     </data>
     <data name="blobsFailureWithError" xml:space="preserve">
-        <value>Failed to fetch blobs in the storage account with error: {0}</value>
+        <value>Failed to fetch blobs in the storage account with error: {0}.</value>
     </data>
     <data name="blobsAndFileSharesFailure" xml:space="preserve">
-        <value>Failed to fetch blobs and file shares in the storage account</value>
+        <value>Failed to fetch blobs and file shares in the storage account.</value>
+    </data>
+    <data name="switchToAdvancedMode" xml:space="preserve">
+        <value>Please configure your storage mount with advanced mode.</value>
     </data>
     <data name="containerImage" xml:space="preserve">
         <value>Image name</value>

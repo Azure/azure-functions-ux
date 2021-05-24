@@ -11,12 +11,13 @@ import { StorageAccountsContext, SiteContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { MessageBarType } from 'office-ui-fabric-react';
-import { StorageType } from '../../../../models/site/config';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../utils/FwLinks';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
+import { HttpConstants } from '../../../../utils/constants/HttpConstants';
+import { StorageType } from '../../../../models/site/config';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -24,12 +25,23 @@ const storageKinds = {
   Storage: 'Storage',
 };
 
+class StorageContainerErrorSchema {
+  public blobsContainerIsEmpty: boolean;
+  public filesContainerIsEmpty: boolean;
+  public getBlobsFailure: boolean;
+  public getFilesFailure: boolean;
+  public isVnetRestrictionError: boolean;
+}
+
 const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
-  const { errors, values, setValues, setFieldValue } = props;
+  const { errors, values, setValues, setFieldValue, validateForm } = props;
   const [accountSharesFiles, setAccountSharesFiles] = useState([]);
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
   const [sharesLoading, setSharesLoading] = useState(false);
   const [accountError, setAccountError] = useState('');
+  const [storageContainerErrorSchema, setStorageContainerErrorSchema] = useState<StorageContainerErrorSchema>(
+    new StorageContainerErrorSchema()
+  );
   const storageAccounts = useContext(StorageAccountsContext);
   const site = useContext(SiteContext);
   const { t } = useTranslation();
@@ -41,6 +53,13 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     .map(val => ({ key: val.name, text: val.name }));
 
   const validateStorageContainer = (value: string): string | undefined => {
+    const vnetRestrictionError = validateGetStorageContainerFailure();
+    const emptyError = validateStorageContainerEmpty(value);
+    const error = vnetRestrictionError ? vnetRestrictionError : emptyError;
+    return error;
+  };
+
+  const validateStorageContainerEmpty = (value: string): string | undefined => {
     if (
       sharesLoading ||
       (value && values.type === 'AzureBlob'
@@ -53,10 +72,18 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     return t('validation_requiredError');
   };
 
+  const validateGetStorageContainerFailure = (): string | undefined => {
+    if (accountError) {
+      return accountError;
+    }
+    return undefined;
+  };
+
   const storageAccount = storageAccounts.value.find(x => x.name === values.accountName);
 
   useEffect(() => {
     setAccountError('');
+    setStorageContainerErrorSchema(new StorageContainerErrorSchema());
     if (storageAccount) {
       setAccountSharesBlob([]);
       setAccountSharesFiles([]);
@@ -99,63 +126,40 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
 
             let blobData = [];
             let filesData = [];
+            const errorSchema: StorageContainerErrorSchema = new StorageContainerErrorSchema();
 
             if (blobsFailure && supportsBlobStorage) {
-              LogService.error(
-                LogCategories.appSettings,
-                'getStorageContainers',
-                `Failed to get storage containers: ${getErrorMessageOrStringify(
-                  !!blobsMetaData && !!blobsMetaData.error ? blobsMetaData.error : ''
-                )}`
-              );
+              const errorMessage = getErrorMessageOrStringify(!!blobsMetaData && !!blobsMetaData.error ? blobsMetaData.error : '');
+              LogService.error(LogCategories.appSettings, 'getStorageContainers', `Failed to get storage containers: ${errorMessage}`);
+              errorSchema.blobsContainerIsEmpty = true;
+              errorSchema.getBlobsFailure = true;
+              if (errorMessage.toLocaleLowerCase() === HttpConstants.statusCodeMap['500'].toLocaleLowerCase()) {
+                errorSchema.isVnetRestrictionError = true;
+              }
             } else {
               blobData = blobs.data || [];
+              errorSchema.blobsContainerIsEmpty = blobData.length === 0;
             }
 
             if (filesFailure) {
-              LogService.error(
-                LogCategories.appSettings,
-                'getStorageFileShares',
-                `Failed to get storage file shares: ${getErrorMessageOrStringify(
-                  !!filesMetaData && !!filesMetaData.error ? filesMetaData.error : ''
-                )}`
-              );
+              const errorMessage = getErrorMessageOrStringify(!!filesMetaData && !!filesMetaData.error ? filesMetaData.error : '');
+              LogService.error(LogCategories.appSettings, 'getStorageFileShares', `Failed to get storage file shares: ${errorMessage}`);
+              errorSchema.filesContainerIsEmpty = true;
+              errorSchema.getFilesFailure = true;
+              if (errorMessage.toLocaleLowerCase() === HttpConstants.statusCodeMap['500'].toLocaleLowerCase()) {
+                errorSchema.isVnetRestrictionError = true;
+              }
             } else {
               filesData = files.data || [];
+              errorSchema.filesContainerIsEmpty = filesData.length === 0;
             }
 
-            setSharesLoading(false);
             setAccountSharesFiles(filesData);
             setAccountSharesBlob(blobData);
-            if (blobData.length === 0 || !supportsBlobStorage) {
-              setFieldValue('type', 'AzureFiles');
-            } else if (filesData.length === 0) {
-              setFieldValue('type', 'AzureBlob');
-            }
-            if (filesData.length === 0 && blobData.length === 0) {
-              let error = '';
-
-              if (!supportsBlobStorage) {
-                if (filesFailure) {
-                  error = files.metadata.error
-                    ? t('fileSharesFailureWithError').format(getErrorMessageOrStringify(files.metadata.error))
-                    : t('fileSharesFailure');
-                } else {
-                  error = t('noFileShares');
-                }
-              } else if (storageAccount.kind === storageKinds.BlobStorage) {
-                if (blobsFailure) {
-                  error = blobs.metadata.error
-                    ? t('blobsFailureWithError').format(getErrorMessageOrStringify(files.metadata.error))
-                    : t('blobsFailure');
-                } else {
-                  error = t('noBlobs');
-                }
-              } else {
-                error = t('noBlobsOrFilesShares');
-              }
-
-              setAccountError(error);
+            setSharesLoading(false);
+            setStorageContainerErrorSchema(errorSchema);
+            if (!supportsBlobStorage) {
+              setFieldValue('type', StorageType.azureFiles);
             }
           } catch (err) {
             setAccountError(t('noWriteAccessStorageAccount'));
@@ -168,6 +172,34 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.accountName]);
+
+  useEffect(() => {
+    validateForm();
+  }, [accountError]);
+
+  useEffect(() => {
+    const storageType = values.type;
+    const blobsContainerIsEmpty = storageContainerErrorSchema.blobsContainerIsEmpty;
+    const filesContainerIsEmpty = storageContainerErrorSchema.filesContainerIsEmpty;
+    const isVnetRestrictionError = storageContainerErrorSchema.isVnetRestrictionError;
+    const getBlobsFailure = storageContainerErrorSchema.getBlobsFailure;
+    const getFilesFailure = storageContainerErrorSchema.getFilesFailure;
+    if (storageType === StorageType.azureBlob && blobsContainerIsEmpty) {
+      setAccountError(
+        getBlobsFailure ? (isVnetRestrictionError ? `${t('blobsFailure')} ${t('switchToAdvancedMode')}` : t('blobsFailure')) : t('noBlobs')
+      );
+    } else if (storageType === StorageType.azureFiles && filesContainerIsEmpty) {
+      setAccountError(
+        getFilesFailure
+          ? isVnetRestrictionError
+            ? `${t('fileSharesFailure')} ${t('switchToAdvancedMode')}`
+            : t('fileSharesFailure')
+          : t('noFileShares')
+      );
+    } else {
+      setAccountError('');
+    }
+  }, [values.type, storageContainerErrorSchema]);
 
   const blobContainerOptions = accountSharesBlob.map((x: any) => ({ key: x.name, text: x.name }));
   const filesContainerOptions = accountSharesFiles.map((x: any) => ({ key: x.name, text: x.name }));
@@ -189,11 +221,6 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
         }}
         errorMessage={errors.accountName}
         required={true}
-        validate={() => {
-          if (accountError) {
-            return accountError;
-          }
-        }}
       />
       {showStorageTypeOption && (
         <Field
@@ -205,12 +232,10 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             {
               key: StorageType.azureBlob,
               text: t('azureBlob'),
-              disabled: blobContainerOptions.length === 0,
             },
             {
               key: StorageType.azureFiles,
               text: t('azureFiles'),
-              disabled: filesContainerOptions.length === 0,
             },
           ]}
         />
