@@ -104,7 +104,9 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               LogService.error(
                 LogCategories.appSettings,
                 'getStorageContainers',
-                `Failed to get storage containers: ${getErrorMessageOrStringify((blobsMetaData && blobsMetaData.error) || '')}`
+                `Failed to get storage containers: ${getErrorMessageOrStringify(
+                  !!blobsMetaData && !!blobsMetaData.error ? blobsMetaData.error : ''
+                )}`
               );
             } else {
               blobData = blobs.data || [];
@@ -114,7 +116,9 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               LogService.error(
                 LogCategories.appSettings,
                 'getStorageFileShares',
-                `Failed to get storage file shares: ${getErrorMessageOrStringify((filesMetaData && filesMetaData.error) || '')}`
+                `Failed to get storage file shares: ${getErrorMessageOrStringify(
+                  !!filesMetaData && !!filesMetaData.error ? filesMetaData.error : ''
+                )}`
               );
             } else {
               filesData = files.data || [];
@@ -199,12 +203,12 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           label={t('storageType')}
           options={[
             {
-              key: 'AzureBlob',
+              key: StorageType.azureBlob,
               text: t('azureBlob'),
               disabled: blobContainerOptions.length === 0,
             },
             {
-              key: 'AzureFiles',
+              key: StorageType.azureFiles,
               text: t('azureFiles'),
               disabled: filesContainerOptions.length === 0,
             },

@@ -23,12 +23,13 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
 
   useEffect(() => {
     if (!supportsBlobStorage) {
-      setFieldValue('type', 'AzureFiles');
+      setFieldValue('type', StorageType.azureFiles);
     }
   }, []);
 
   return (
     <>
+      {console.log('there')}
       <Field
         component={TextField}
         name="accountName"
@@ -45,11 +46,11 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
           label={t('storageType')}
           options={[
             {
-              key: 'AzureBlob',
+              key: StorageType.azureBlob,
               text: t('azureBlob'),
             },
             {
-              key: 'AzureFiles',
+              key: StorageType.azureFiles,
               text: t('azureFiles'),
             },
           ]}
