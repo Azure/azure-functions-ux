@@ -1,6 +1,6 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
-import { isContainerApp, isLinuxApp, isWindowsCode } from '../arm-utils';
+import { isContainerApp, isLinuxApp, isLinuxContainer } from '../arm-utils';
 
 export class ContainerApp extends Environment {
   public name = 'ContainerApp';
@@ -33,13 +33,13 @@ export class ContainerApp extends Environment {
     this.scenarioChecks[ScenarioIds.azureBlobMount] = {
       id: ScenarioIds.azureBlobMount,
       runCheck: (input: ScenarioCheckInput) => {
-        if (input && input.site && isWindowsCode(input.site)) {
+        if (input && input.site && isLinuxContainer(input.site)) {
           return {
-            status: 'disabled',
+            status: 'enabled',
           };
         }
         return {
-          status: 'enabled',
+          status: 'disabled',
         };
       },
     };
