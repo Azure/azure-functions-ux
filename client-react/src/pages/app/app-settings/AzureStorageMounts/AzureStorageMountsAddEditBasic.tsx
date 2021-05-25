@@ -53,16 +53,16 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     .map(val => ({ key: val.name, text: val.name }));
 
   const validateStorageContainer = (value: string): string | undefined => {
-    const vnetRestrictionError = validateGetStorageContainerFailure();
-    const emptyError = validateStorageContainerEmpty(value);
-    const error = vnetRestrictionError ? vnetRestrictionError : emptyError;
+    const emptyListError = validateNoStorageContainerAvailable();
+    const notSelectedError = validateNoStorageContainerSelected(value);
+    const error = emptyListError ? emptyListError : notSelectedError;
     return error;
   };
 
-  const validateStorageContainerEmpty = (value: string): string | undefined => {
+  const validateNoStorageContainerSelected = (value: string): string | undefined => {
     if (
       sharesLoading ||
-      (value && values.type === 'AzureBlob'
+      (value && values.type === StorageType.azureBlob
         ? blobContainerOptions.find(x => x.key === value)
         : filesContainerOptions.find(x => x.key === value))
     ) {
@@ -72,7 +72,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     return t('validation_requiredError');
   };
 
-  const validateGetStorageContainerFailure = (): string | undefined => {
+  const validateNoStorageContainerAvailable = (): string | undefined => {
     if (accountError) {
       return accountError;
     }
@@ -154,9 +154,9 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               errorSchema.filesContainerIsEmpty = filesData.length === 0;
             }
 
+            setSharesLoading(false);
             setAccountSharesFiles(filesData);
             setAccountSharesBlob(blobData);
-            setSharesLoading(false);
             setStorageContainerErrorSchema(errorSchema);
             if (!supportsBlobStorage) {
               setFieldValue('type', StorageType.azureFiles);
