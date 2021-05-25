@@ -15,11 +15,13 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 interface PathMappingsPivotProps {
   enablePathMappings: boolean;
   enableAzureStorageMount: boolean;
+  isAzureStorageMountNotInPreview: boolean;
 }
 const PathMappingsPivot: React.FC<FormikProps<AppSettingsFormValues> & PathMappingsPivotProps> = props => {
-  const { enablePathMappings, enableAzureStorageMount } = props;
+  const { enablePathMappings, enableAzureStorageMount, isAzureStorageMountNotInPreview } = props;
   const { t } = useTranslation();
   const { app_write } = useContext(PermissionsContext);
+
   return (
     <>
       {enablePathMappings && (
@@ -32,7 +34,7 @@ const PathMappingsPivot: React.FC<FormikProps<AppSettingsFormValues> & PathMappi
       )}
       {enableAzureStorageMount && (
         <>
-          <h3>{t('mountStorage')}</h3>
+          <h3>{`${t('mountStorage')}${isAzureStorageMountNotInPreview ? '' : ` ${t('mountStoragePreviewTag')}`}`}</h3>
           <p>
             <span id="mounted-storage-info">{t('mountedStorageInfo')}</span>
             <Link

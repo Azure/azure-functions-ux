@@ -62,6 +62,8 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const enableDefaultDocuments = scenarioChecker.checkScenario(ScenarioIds.defaultDocumentsSupported, { site }).status !== 'disabled';
   const enablePathMappings = scenarioChecker.checkScenario(ScenarioIds.virtualDirectoriesSupported, { site }).status !== 'disabled';
   const enableAzureStorageMount = scenarioChecker.checkScenario(ScenarioIds.azureStorageMount, { site }).status === 'enabled';
+  const isAzureStorageMountNotInPreview =
+    scenarioChecker.checkScenario(ScenarioIds.azureStorageMountPreview, { site }).status === 'disabled';
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
 
@@ -127,7 +129,12 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           }
           itemKey="pathMappings"
           linkText={t('pathMappings')}>
-          <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
+          <PathMappingsPivot
+            enableAzureStorageMount={enableAzureStorageMount}
+            enablePathMappings={enablePathMappings}
+            isAzureStorageMountNotInPreview={isAzureStorageMountNotInPreview}
+            {...props}
+          />
         </PivotItem>
       ) : (
         <></>
