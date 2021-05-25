@@ -10,6 +10,23 @@ export const pythonLinuxConfigStack: WebAppConfigStack = {
     dependency: null,
     majorVersions: [
       {
+        displayVersion: '3.9',
+        runtimeVersion: 'PYTHON|3.9',
+        isDefault: false,
+        minorVersions: [
+          {
+            displayVersion: '3.9',
+            runtimeVersion: 'PYTHON|3.9',
+            isDefault: true,
+            isRemoteDebuggingEnabled: false,
+          },
+        ],
+        applicationInsights: false,
+        isPreview: false,
+        isDeprecated: false,
+        isHidden: false,
+      },
+      {
         displayVersion: '3.8',
         runtimeVersion: 'PYTHON|3.8',
         isDefault: true,
