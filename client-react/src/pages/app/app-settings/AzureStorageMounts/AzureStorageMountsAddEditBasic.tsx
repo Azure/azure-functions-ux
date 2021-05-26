@@ -73,10 +73,31 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   };
 
   const validateNoStorageContainerAvailable = (): string | undefined => {
-    if (accountError) {
-      return accountError;
+    return !!accountError ? accountError : undefined;
+  };
+
+  const updateStorageContainerErrorMessage = (): void => {
+    const storageType = values.type;
+    const blobsContainerIsEmpty = storageContainerErrorSchema.blobsContainerIsEmpty;
+    const filesContainerIsEmpty = storageContainerErrorSchema.filesContainerIsEmpty;
+    const isVnetRestrictionError = storageContainerErrorSchema.isVnetRestrictionError;
+    const getBlobsFailure = storageContainerErrorSchema.getBlobsFailure;
+    const getFilesFailure = storageContainerErrorSchema.getFilesFailure;
+    if (storageType === StorageType.azureBlob && blobsContainerIsEmpty) {
+      setAccountError(
+        getBlobsFailure ? (isVnetRestrictionError ? `${t('blobsFailure')} ${t('switchToAdvancedMode')}` : t('blobsFailure')) : t('noBlobs')
+      );
+    } else if (storageType === StorageType.azureFiles && filesContainerIsEmpty) {
+      setAccountError(
+        getFilesFailure
+          ? isVnetRestrictionError
+            ? `${t('fileSharesFailure')} ${t('switchToAdvancedMode')}`
+            : t('fileSharesFailure')
+          : t('noFileShares')
+      );
+    } else {
+      setAccountError('');
     }
-    return undefined;
   };
 
   const storageAccount = storageAccounts.value.find(x => x.name === values.accountName);
@@ -178,27 +199,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   }, [accountError]);
 
   useEffect(() => {
-    const storageType = values.type;
-    const blobsContainerIsEmpty = storageContainerErrorSchema.blobsContainerIsEmpty;
-    const filesContainerIsEmpty = storageContainerErrorSchema.filesContainerIsEmpty;
-    const isVnetRestrictionError = storageContainerErrorSchema.isVnetRestrictionError;
-    const getBlobsFailure = storageContainerErrorSchema.getBlobsFailure;
-    const getFilesFailure = storageContainerErrorSchema.getFilesFailure;
-    if (storageType === StorageType.azureBlob && blobsContainerIsEmpty) {
-      setAccountError(
-        getBlobsFailure ? (isVnetRestrictionError ? `${t('blobsFailure')} ${t('switchToAdvancedMode')}` : t('blobsFailure')) : t('noBlobs')
-      );
-    } else if (storageType === StorageType.azureFiles && filesContainerIsEmpty) {
-      setAccountError(
-        getFilesFailure
-          ? isVnetRestrictionError
-            ? `${t('fileSharesFailure')} ${t('switchToAdvancedMode')}`
-            : t('fileSharesFailure')
-          : t('noFileShares')
-      );
-    } else {
-      setAccountError('');
-    }
+    updateStorageContainerErrorMessage();
   }, [values.type, storageContainerErrorSchema]);
 
   const blobContainerOptions = accountSharesBlob.map((x: any) => ({ key: x.name, text: x.name }));

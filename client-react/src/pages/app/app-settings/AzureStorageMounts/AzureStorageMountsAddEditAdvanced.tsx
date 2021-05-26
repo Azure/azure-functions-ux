@@ -20,10 +20,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
   const scenarioService = new ScenarioService(t);
 
   const validateShareName = (value: any): string | undefined => {
-    if (value) {
-      return value.length === 0 ? t('validation_requiredError') : undefined;
-    }
-    return t('validation_requiredError');
+    return !!value ? undefined : t('validation_requiredError');
   };
 
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
