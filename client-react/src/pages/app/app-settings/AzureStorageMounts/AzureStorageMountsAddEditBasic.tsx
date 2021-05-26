@@ -84,33 +84,47 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             let filesCall: any = {
               data: [],
             };
+
             if (storageAccount.kind !== storageKinds.BlobStorage) {
               filesCall = FunctionsService.getStorageFileShares(values.accountName, payload);
             }
 
             const [blobs, files] = await Promise.all([blobsCall, filesCall]);
 
-            const [blobsFailure, filesFailure] = [!blobs.metadata.success, !files.metadata.success];
+            // add null check on blobs.metadata and files.metadata
+            const blobsMetaData = blobs && blobs.metadata;
+            const filesMetaData = files && files.metadata;
 
-            if (blobsFailure) {
+            const [blobsFailure, filesFailure] = [!(blobsMetaData && blobsMetaData.success), !(filesMetaData && filesMetaData.success)];
+
+            let blobData = [];
+            let filesData = [];
+
+            if (blobsFailure && supportsBlobStorage) {
               LogService.error(
                 LogCategories.appSettings,
                 'getStorageContainers',
-                `Failed to get storage containers: ${getErrorMessageOrStringify(blobs.metadata.error)}`
+                `Failed to get storage containers: ${getErrorMessageOrStringify(
+                  !!blobsMetaData && !!blobsMetaData.error ? blobsMetaData.error : ''
+                )}`
               );
+            } else {
+              blobData = blobs.data || [];
             }
 
             if (filesFailure) {
               LogService.error(
                 LogCategories.appSettings,
                 'getStorageFileShares',
-                `Failed to get storage file shares: ${getErrorMessageOrStringify(files.metadata.error)}`
+                `Failed to get storage file shares: ${getErrorMessageOrStringify(
+                  !!filesMetaData && !!filesMetaData.error ? filesMetaData.error : ''
+                )}`
               );
+            } else {
+              filesData = files.data || [];
             }
 
             setSharesLoading(false);
-            const filesData = files.data || [];
-            const blobData = blobs.data || [];
             setAccountSharesFiles(filesData);
             setAccountSharesBlob(blobData);
             if (blobData.length === 0 || !supportsBlobStorage) {
@@ -189,19 +203,19 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           label={t('storageType')}
           options={[
             {
-              key: 'AzureBlob',
+              key: StorageType.azureBlob,
               text: t('azureBlob'),
               disabled: blobContainerOptions.length === 0,
             },
             {
-              key: 'AzureFiles',
+              key: StorageType.azureFiles,
               text: t('azureFiles'),
               disabled: filesContainerOptions.length === 0,
             },
           ]}
         />
       )}
-      {values.type === StorageType.azureBlob && (
+      {values.type === StorageType.azureBlob && supportsBlobStorage && (
         <CustomBanner
           id="azure-storage-mount-blob-warning"
           message={t('readonlyBlobStorageWarning')}
