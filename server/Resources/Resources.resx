@@ -47,10 +47,7 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root"
-        xmlns=""
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-        xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
         <xsd:element name="root" msdata:IsDataSet="true">
             <xsd:complexType>
@@ -4713,6 +4710,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>The path format is not valid for Linux.</value>
     </data>
     <data name="mountStorage" xml:space="preserve">
+        <value>Mount storage</value>
+    </data>
+    <data name="mountStoragePreview" xml:space="preserve">
         <value>Mount storage (Preview)</value>
     </data>
     <data name="addStorageLink" xml:space="preserve">
