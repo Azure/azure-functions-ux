@@ -2334,4 +2334,5 @@ export class PortalResources {
   public static staticSiteFreeStagingEnvironmentsAmount = 'staticSiteFreeStagingEnvironmentsAmount';
   public static staticSiteStandardStagingEnvironmentsAmount = 'staticSiteStandardStagingEnvironmentsAmount';
   public static staticSiteStandardPrice = 'staticSiteStandardPrice';
+  public static staticSiteStandardBandwidthOverage = 'staticSiteStandardBandwidthOverage';
 }

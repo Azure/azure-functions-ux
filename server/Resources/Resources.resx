@@ -7144,6 +7144,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>10</value>
     </data>
     <data name="staticSiteStandardPrice" xml:space="preserve">
-        <value>${0} per month</value>
+        <value>${0}/per app/month</value>
+    </data>
+    <data name="staticSiteStandardBandwidthOverage" xml:space="preserve">
+        <value>${0} per GB per subscription</value>
     </data>
 </root>

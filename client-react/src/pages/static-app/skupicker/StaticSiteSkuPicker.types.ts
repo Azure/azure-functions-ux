@@ -8,6 +8,7 @@ export interface StaticSiteSkuPickerProps {
   resourceId: string;
   hasWritePermissions: boolean;
   billingInformation: staticSiteBillingInformation[];
+  isBillingInformationLoading: boolean;
   refresh: () => void;
 }
 

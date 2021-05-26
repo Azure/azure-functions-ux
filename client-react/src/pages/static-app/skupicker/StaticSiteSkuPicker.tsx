@@ -25,14 +25,22 @@ import {
   buttonPadding,
 } from './StaticSiteSkuPicker.styles';
 import { getTelemetryInfo } from '../../app/deployment-center/utility/DeploymentCenterUtility';
-import { StaticSiteSku, StaticSiteSkuPickerProps } from './StaticSiteSkuPicker.types';
+import { StaticSiteBillingType, StaticSiteSku, StaticSiteSkuPickerProps } from './StaticSiteSkuPicker.types';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import { Links } from '../../../utils/FwLinks';
 
 const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
-  const { isStaticSiteCreate, currentSku, hasWritePermissions, resourceId, refresh } = props;
+  const {
+    isStaticSiteCreate,
+    currentSku,
+    hasWritePermissions,
+    resourceId,
+    billingInformation,
+    isBillingInformationLoading,
+    refresh,
+  } = props;
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
@@ -40,6 +48,8 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
 
   const [selectedSku, setSelectedSku] = useState<StaticSiteSku>(currentSku);
   const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [skuCost, setSkuCost] = useState<JSX.Element>(t('loading'));
+  const [bandwidthOverageCost, setBandwidthOverageCost] = useState<JSX.Element>(t('loading'));
 
   const selectButtonOnClick = () => {
     portalContext.log(getTelemetryInfo('verbose', 'applyButton', 'clicked', { selectedSku: selectedSku }));
@@ -109,12 +119,43 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   };
 
   const getPriceRow = (): JSX.Element => {
-    const pricingCalculatorLink = (
+    return getGridMiddleRow(t('staticSitePrice'), t('staticSiteFree'), skuCost);
+  };
+
+  const getSkuCost = (): JSX.Element => {
+    if (!!billingInformation && billingInformation.length > 0) {
+      const meter = billingInformation.find(val => val.id === StaticSiteBillingType.SWAMonthly);
+      if (!!meter && !!meter.amount) {
+        return <>{t('staticSiteStandardPrice').format(meter.amount)}</>;
+      }
+    }
+
+    return getPricingCalculatorLink();
+  };
+
+  const getBandwidthOverageRow = (): JSX.Element => {
+    return getGridMiddleRow(t('staticSiteBandwidthOverage'), t('staticSiteFree'), bandwidthOverageCost);
+  };
+
+  const getBandwidthOverageCost = (): JSX.Element => {
+    if (!!billingInformation && billingInformation.length > 0) {
+      const meter = billingInformation.find(val => val.id === StaticSiteBillingType.SWAIncremental);
+      if (!!meter && !!meter.amount) {
+        const cost = meter.amount;
+        const normalizedCost = cost < 1 ? cost.toLocaleString() + '0' : cost;
+        return <>{t('staticSiteStandardBandwidthOverage').format(normalizedCost)}</>;
+      }
+    }
+
+    return getPricingCalculatorLink();
+  };
+
+  const getPricingCalculatorLink = (): JSX.Element => {
+    return (
       <Link href={Links.staticWebAppsPricingCalculator} target="_blank" aria-hidden={true}>
         {t('staticWebAppSkuPickerCalculatePrice')}
       </Link>
     );
-    return getGridMiddleRow(t('staticSitePrice'), t('staticSiteFree'), pricingCalculatorLink);
   };
 
   const getIncludedBandwidthRow = (): JSX.Element => {
@@ -235,6 +276,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         {getHeaderRow()}
         {getPriceRow()}
         {getIncludedBandwidthRow()}
+        {getBandwidthOverageRow()}
         {getCustomDomainsRow()}
         {getSslCertificatesRow()}
         {getCustomAuthenticationRow()}
@@ -279,6 +321,15 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
       </div>
     );
   };
+
+  useEffect(() => {
+    if (!isBillingInformationLoading) {
+      setSkuCost(getSkuCost());
+      setBandwidthOverageCost(getBandwidthOverageCost());
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isBillingInformationLoading]);
 
   useEffect(() => {
     if (currentSku) {

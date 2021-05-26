@@ -22,6 +22,7 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
   const [currentSiteSku, setCurrentSiteSku] = useState<StaticSiteSku>(currentSku);
   const [billingInformation, setBillingInformation] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isBillingInformationLoading, setIsBillingInformationLoading] = useState(true);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -55,6 +56,7 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
   };
 
   const getBillingMeters = async () => {
+    setIsBillingInformationLoading(true);
     const resourceIdParts = !!resourceId ? resourceId.split('/') : [];
     const subscriptionId = !!resourceIdParts && resourceIdParts.length > 2 ? resourceIdParts[2] : '';
     const billingMetersResponse = await StaticSiteService.getStaticSiteBillingMeters(subscriptionId);
@@ -66,6 +68,7 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
         getTelemetryInfo('error', 'getStaticSiteBillingInformation', 'failed', { error: billingMetersResponse.metadata.error })
       );
     }
+    setIsBillingInformationLoading(false);
   };
 
   const refresh = () => {
@@ -89,6 +92,7 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
       currentSku={currentSiteSku}
       hasWritePermissions={hasWritePermissions}
       billingInformation={billingInformation}
+      isBillingInformationLoading={isBillingInformationLoading}
       refresh={refresh}
     />
   );
