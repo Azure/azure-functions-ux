@@ -4712,8 +4712,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="mountStorage" xml:space="preserve">
         <value>Mount storage</value>
     </data>
-    <data name="mountStoragePreviewTag" xml:space="preserve">
-        <value>(Preview)</value>
+    <data name="mountStoragePreview" xml:space="preserve">
+        <value>Mount storage (Preview)</value>
     </data>
     <data name="addStorageLink" xml:space="preserve">
         <value>Add storage</value>

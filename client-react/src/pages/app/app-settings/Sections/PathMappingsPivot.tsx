@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { useTranslation } from 'react-i18next';
@@ -6,21 +6,28 @@ import HandlerMappings from '../HandlerMappings/HandlerMappings';
 import VirtualApplications from '../VirtualApplications/VirtualApplications';
 import { isEqual } from 'lodash-es';
 import AzureStorageMounts from '../AzureStorageMounts/AzureStorageMounts';
-import { PermissionsContext } from '../Contexts';
+import { PermissionsContext, SiteContext } from '../Contexts';
 import { MessageBarType, Link } from 'office-ui-fabric-react';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { Links } from '../../../../utils/FwLinks';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 
 interface PathMappingsPivotProps {
   enablePathMappings: boolean;
   enableAzureStorageMount: boolean;
-  isAzureStorageMountNotInPreview: boolean;
 }
 const PathMappingsPivot: React.FC<FormikProps<AppSettingsFormValues> & PathMappingsPivotProps> = props => {
-  const { enablePathMappings, enableAzureStorageMount, isAzureStorageMountNotInPreview } = props;
+  const { enablePathMappings, enableAzureStorageMount } = props;
   const { t } = useTranslation();
   const { app_write } = useContext(PermissionsContext);
+  const site = useContext(SiteContext);
+  const scenarioCheckerRef = useRef(new ScenarioService(t));
+  const scenarioChecker = scenarioCheckerRef.current!;
+
+  const isAzureStorageMountNotInPreview =
+    scenarioChecker.checkScenario(ScenarioIds.azureStorageMountPreview, { site }).status === 'disabled';
 
   return (
     <>
@@ -34,7 +41,7 @@ const PathMappingsPivot: React.FC<FormikProps<AppSettingsFormValues> & PathMappi
       )}
       {enableAzureStorageMount && (
         <>
-          <h3>{`${t('mountStorage')}${isAzureStorageMountNotInPreview ? '' : ` ${t('mountStoragePreviewTag')}`}`}</h3>
+          <h3>{isAzureStorageMountNotInPreview ? t('mountStorage') : t('mountStoragePreview')}</h3>
           <p>
             <span id="mounted-storage-info">{t('mountedStorageInfo')}</span>
             <Link
