@@ -687,7 +687,10 @@ export class PortalResources {
   public static validation_slotNameReserved = 'validation_slotNameReserved';
   public static validation_fieldMaxCharacters = 'validation_fieldMaxCharacters';
   public static validation_shareNameAllowedCharacters = 'validation_shareNameAllowedCharacters';
-  public static validation_mountNameAllowedCharacters = 'validation_mountNameAllowedCharacters';
+  public static validation_linuxMountNameAllowedCharacters = 'validation_linuxMountNameAllowedCharacters';
+  public static validation_windowsWebAppMountNameAllowedCharacters = 'validation_windowsWebAppMountNameAllowedCharacters';
+  public static validation_windowsWebAppMountPath = 'validation_windowsWebAppMountPath';
+  public static validation_windowsContainerMountPath = 'validation_windowsContainerMountPath';
   public static validation_mountPathNotHome = 'validation_mountPathNotHome';
   public static error_unableToUpdateFunctionAppEditMode = 'error_unableToUpdateFunctionAppEditMode';
   public static readOnly = 'readOnly';

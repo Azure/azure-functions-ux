@@ -2173,8 +2173,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
         <value>Share name can only include alphanumeric characters, underscores, hyphens, square brackets, and parenthesis</value>
     </data>
-    <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
-        <value>Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis</value>
+    <data name="validation_linuxMountNameAllowedCharacters" xml:space="preserve">
+        <value>Mount path for Linux must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis.</value>
+    </data>
+    <data name="validation_windowsWebAppMountNameAllowedCharacters" xml:space="preserve">
+        <value>Mount path for Windows Apps must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, back slashes, square brackets, and parenthesis.</value>
+    </data>
+    <data name="validation_windowsWebAppMountPath" xml:space="preserve">
+        <value>Mount path for Windows Apps must be a single sub-directory of \mounts.</value>
+    </data>
+    <data name="validation_windowsContainerMountPath" xml:space="preserve">
+        <value>Mount path for Windows Containers must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, back slashes, square brackets, and parenthesis. A driver letter is also allowed (e.g. c:/foo/bar).</value>
     </data>
     <data name="validation_mountPathNotHome" xml:space="preserve">
         <value>Mount path cannot be '/home'</value>

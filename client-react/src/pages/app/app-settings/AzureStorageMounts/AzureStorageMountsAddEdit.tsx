@@ -8,11 +8,13 @@ import AzureStorageMountsAddEditBasic from './AzureStorageMountsAddEditBasic';
 import AzureStorageMountsAddEditAdvanced from './AzureStorageMountsAddEditAdvanced';
 import { Formik, FormikProps, Field, Form } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
-import { StorageAccountsContext } from '../Contexts';
+import { SiteContext, StorageAccountsContext } from '../Contexts';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import * as Yup from 'yup';
 import { style } from 'typestyle';
+import { isContainerApp, isWindowsCode } from '../../../../utils/arm-utils';
+import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 
 export interface AzureStorageMountsAddEditProps {
   updateAzureStorageMount: (item: FormAzureStorageMounts) => any;
@@ -27,14 +29,13 @@ export type AzureStorageMountsAddEditPropsCombined = AzureStorageMountsAddEditPr
 const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombined> = props => {
   const { closeBlade, otherAzureStorageMounts, azureStorageMount, updateAzureStorageMount, enableValidation } = props;
   const storageAccounts = useContext(StorageAccountsContext);
+  const site = useContext(SiteContext);
   const [configurationOption, setConfigurationOption] = useState('basic');
   const { t } = useTranslation();
   const [basicDisabled, setBasicDisabled] = useState(false);
   const [initialName] = useState(azureStorageMount.name);
   const [initialMountPath] = useState(azureStorageMount.mountPath);
 
-  // eslint-disable-next-line no-useless-escape
-  const mountPathRegex = /^\/[a-zA-Z0-9.\[\]\(\)\-_\/]*$/;
   const shareNameMaxLength = 64;
   const mountPathMaxLength = 256;
 
@@ -42,6 +43,38 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   const shareNameRegex = /^[a-zA-Z0-9\[\]\(\)\-_]+$/;
   const cancel = () => {
     closeBlade();
+  };
+
+  const validateMountPath = (value: string): string | undefined => {
+    if (!!value) {
+      let errorMessage = '';
+      let regex: RegExp;
+      if (isWindowsCode(site)) {
+        if (isContainerApp(site)) {
+          regex = ValidationRegex.storageMountPath.windowsContainer;
+          if (!regex.test(value)) {
+            errorMessage = t('validation_windowsContainerMountPath');
+          }
+        } else {
+          regex = ValidationRegex.storageMountPath.windowsCode;
+          if (!regex.test(value)) {
+            // eslint-disable-next-line no-useless-escape
+            const invalidChars = /^[a-zA-Z0-9._\-\[\]\(\)\/\\]*$/;
+            errorMessage = invalidChars.test(value)
+              ? t('validation_windowsWebAppMountPath')
+              : t('validation_windowsWebAppMountNameAllowedCharacters');
+          }
+        }
+      } else {
+        regex = new RegExp(ValidationRegex.storageMountPath.linux);
+        if (!regex.test(value)) {
+          errorMessage = t('validation_linuxMountNameAllowedCharacters');
+        }
+      }
+      return !!errorMessage ? errorMessage : undefined;
+    }
+
+    return t('validation_requiredError');
   };
 
   const validationSchema = Yup.object().shape({
@@ -62,7 +95,6 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     mountPath: Yup.string()
       .required(t('validation_requiredError'))
       .max(mountPathMaxLength, t('validation_fieldMaxCharacters').format(mountPathMaxLength))
-      .matches(mountPathRegex, t('validation_mountNameAllowedCharacters'))
       .test('cannotMountHomeDirectory', t('validation_mountPathNotHome'), (value: string) => value !== '/home')
       .test('cannotMountRootDirectory', t('validation_mountPathNotRoot'), (value: string) => value !== '/')
       .test('uniqueMountPath', t('mouthPathMustBeUnique'), value => {
@@ -148,6 +180,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               id={`azure-storage-mounts-path`}
               errorMessage={formProps.errors && formProps.errors.mountPath}
               required={true}
+              validate={validateMountPath}
             />
             <ActionBar
               id="handler-mappings-edit-footer"
