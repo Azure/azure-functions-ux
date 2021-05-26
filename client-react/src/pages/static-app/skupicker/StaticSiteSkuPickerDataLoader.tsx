@@ -20,13 +20,14 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
 
   const [hasWritePermissions, setHasWritePermissions] = useState(true);
   const [currentSiteSku, setCurrentSiteSku] = useState<StaticSiteSku>(currentSku);
+  const [billingInformation, setBillingInformation] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
     setIsLoading(true);
+    getBillingMeters();
 
-    await getWritePermissions();
-    await getCurrentSku();
+    await Promise.all([getWritePermissions(), getCurrentSku()]);
 
     setIsLoading(false);
   };
@@ -53,6 +54,20 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
     }
   };
 
+  const getBillingMeters = async () => {
+    const resourceIdParts = !!resourceId ? resourceId.split('/') : [];
+    const subscriptionId = !!resourceIdParts && resourceIdParts.length > 2 ? resourceIdParts[2] : '';
+    const billingMetersResponse = await StaticSiteService.getStaticSiteBillingMeters(subscriptionId);
+
+    if (billingMetersResponse.metadata.success && billingMetersResponse.data.isSuccess) {
+      setBillingInformation(billingMetersResponse.data.costs);
+    } else {
+      portalContext.log(
+        getTelemetryInfo('error', 'getStaticSiteBillingInformation', 'failed', { error: billingMetersResponse.metadata.error })
+      );
+    }
+  };
+
   const refresh = () => {
     fetchData();
   };
@@ -73,6 +88,7 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
       isStaticSiteCreate={isStaticSiteCreate}
       currentSku={currentSiteSku}
       hasWritePermissions={hasWritePermissions}
+      billingInformation={billingInformation}
       refresh={refresh}
     />
   );

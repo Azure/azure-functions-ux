@@ -2316,7 +2316,6 @@ export class PortalResources {
   public static staticSiteStandard = 'staticSiteStandard';
   public static staticSiteFreeDescription = 'staticSiteFreeDescription';
   public static staticSiteStandardDescription = 'staticSiteStandardDescription';
-  public static staticSiteStandardPrice = 'staticSiteStandardPrice';
   public static staticSiteApply = 'staticSiteApply';
   public static staticSitePlanFeatures = 'staticSitePlanFeatures';
   public static staticSitePlanFeaturesAriaLabel = 'staticSitePlanFeaturesAriaLabel';
@@ -2334,4 +2333,5 @@ export class PortalResources {
   public static staticSiteStagingEnvironments = 'staticSiteStagingEnvironments';
   public static staticSiteFreeStagingEnvironmentsAmount = 'staticSiteFreeStagingEnvironmentsAmount';
   public static staticSiteStandardStagingEnvironmentsAmount = 'staticSiteStandardStagingEnvironmentsAmount';
+  public static staticSiteStandardPrice = 'staticSiteStandardPrice';
 }
