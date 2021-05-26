@@ -25,13 +25,23 @@ const storageKinds = {
   Storage: 'Storage',
 };
 
-class StorageContainerErrorSchema {
-  public blobsContainerIsEmpty: boolean;
-  public filesContainerIsEmpty: boolean;
-  public getBlobsFailure: boolean;
-  public getFilesFailure: boolean;
-  public isVnetRestrictionError: boolean;
+interface StorageContainerErrorSchema {
+  blobsContainerIsEmpty: boolean;
+  filesContainerIsEmpty: boolean;
+  getBlobsFailure: boolean;
+  getFilesFailure: boolean;
+  isVnetRestrictionError: boolean;
 }
+
+const initializeStorageContainerErrorSchemaValue = (): StorageContainerErrorSchema => {
+  return {
+    blobsContainerIsEmpty: false,
+    filesContainerIsEmpty: false,
+    getBlobsFailure: false,
+    getFilesFailure: false,
+    isVnetRestrictionError: false,
+  };
+};
 
 const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
   const { errors, values, setValues, setFieldValue, validateForm } = props;
@@ -40,7 +50,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   const [sharesLoading, setSharesLoading] = useState(false);
   const [accountError, setAccountError] = useState('');
   const [storageContainerErrorSchema, setStorageContainerErrorSchema] = useState<StorageContainerErrorSchema>(
-    new StorageContainerErrorSchema()
+    initializeStorageContainerErrorSchemaValue()
   );
   const storageAccounts = useContext(StorageAccountsContext);
   const site = useContext(SiteContext);
@@ -55,8 +65,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   const validateStorageContainer = (value: string): string | undefined => {
     const emptyListError = validateNoStorageContainerAvailable();
     const notSelectedError = validateNoStorageContainerSelected(value);
-    const error = emptyListError ? emptyListError : notSelectedError;
-    return error;
+    return emptyListError ? emptyListError : notSelectedError;
   };
 
   const validateNoStorageContainerSelected = (value: string): string | undefined => {
@@ -104,7 +113,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
 
   useEffect(() => {
     setAccountError('');
-    setStorageContainerErrorSchema(new StorageContainerErrorSchema());
+    setStorageContainerErrorSchema(initializeStorageContainerErrorSchemaValue());
     if (storageAccount) {
       setAccountSharesBlob([]);
       setAccountSharesFiles([]);
@@ -147,7 +156,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
 
             let blobData = [];
             let filesData = [];
-            const errorSchema: StorageContainerErrorSchema = new StorageContainerErrorSchema();
+            const errorSchema: StorageContainerErrorSchema = initializeStorageContainerErrorSchemaValue();
 
             if (blobsFailure && supportsBlobStorage) {
               const errorMessage = getErrorMessageOrStringify(!!blobsMetaData && !!blobsMetaData.error ? blobsMetaData.error : '');
