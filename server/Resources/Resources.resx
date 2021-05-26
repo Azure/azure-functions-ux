@@ -4710,6 +4710,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>The path format is not valid for Linux.</value>
     </data>
     <data name="mountStorage" xml:space="preserve">
+        <value>Mount storage</value>
+    </data>
+    <data name="mountStoragePreview" xml:space="preserve">
         <value>Mount storage (Preview)</value>
     </data>
     <data name="addStorageLink" xml:space="preserve">
