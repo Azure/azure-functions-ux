@@ -2173,11 +2173,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
         <value>Share name can only include alphanumeric characters, underscores, hyphens, square brackets, and parenthesis</value>
     </data>
-    <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
-        <value>Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis</value>
+    <data name="mountPath_info" xml:space="preserve">
+        <value>Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}</value>
+    </data>
+    <data name="validation_invalidMountPath" xml:space="preserve">
+        <value>Invalid mount path</value>
     </data>
     <data name="validation_mountPathNotHome" xml:space="preserve">
         <value>Mount path cannot be '/home'</value>
+    </data>
+    <data name="validation_mouthPathMustBeUnique" xml:space="preserve">
+        <value>Mount path must be unique</value>
     </data>
     <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>We are unable to update your function app's edit mode. Please try again later.</value>
@@ -6798,20 +6804,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="developInPortal" xml:space="preserve">
         <value>Develop in portal</value>
     </data>
-    <data name="fileSharesFailure" xml:space="preserve">
-        <value>Failed to fetch file shares in the storage account. Please configure your storage mount with advanced mode.</value>
-    </data>
-    <data name="fileSharesFailureWithError" xml:space="preserve">
-        <value>Failed to fetch file shares in the storage account with error: {0}.</value>
-    </data>
-    <data name="blobsFailure" xml:space="preserve">
-        <value>Failed to fetch blobs in the storage account. Please configure your storage mount with advanced mode.</value>
-    </data>
-    <data name="blobsFailureWithError" xml:space="preserve">
-        <value>Failed to fetch blobs in the storage account with error: {0}.</value>
-    </data>
-    <data name="blobsAndFileSharesFailure" xml:space="preserve">
-        <value>Failed to fetch blobs and file shares in the storage account.</value>
+    <data name="storageAccountDetailsFetchFailure" xml:space="preserve">
+        <value>Failed to fetch storage accounts details. Please configure storage mount using advanced available under configuration options.</value>
     </data>
     <data name="containerImage" xml:space="preserve">
         <value>Image name</value>

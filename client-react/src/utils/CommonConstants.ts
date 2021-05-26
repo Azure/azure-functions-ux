@@ -49,6 +49,7 @@ export class CommonConstants {
     authTokenOverride: 'authTokenOverride',
     enableAzureMount: 'enableAzureMount',
     removeStorageMountPreviewTag: 'removeStorageMountPreviewTag',
+    enableAzureMountPathValidation: 'enableAzureMountPathValidation',
     showServiceLinkerConnector: 'showServiceLinkerConnector',
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
     enableEditingForLinuxConsumption: 'enableEditingForLinuxConsumption',
@@ -161,9 +162,30 @@ export class CommonConstants {
 
   public static readonly Dash = ' - ';
 
-  public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
-
   public static readonly serviceBmxUrl = 'https://service.bmx.azure.com';
+
+  public static readonly MountPathValidationExamples = {
+    linux: {
+      valid: '/Foo, /Foo/bar',
+      invalid: '/, /Home',
+    },
+    windowsCode: {
+      // eslint-disable-next-line no-useless-escape
+      valid: '\\foo',
+
+      // eslint-disable-next-line no-useless-escape
+      invalid: '\\, \\foo\\bar, [Cc-Zz]:\\, [Cc-Zz]:\\foo\\, [Cc-Zz]:\\foo\\, [Cc-Zz]:\\foo\\bar',
+    },
+    windowsContainer: {
+      // eslint-disable-next-line no-useless-escape
+      valid: '/foo, /foo/bar, [Cc-Zz]:\\foo, [Cc-Zz]:\\mounts\\foo\\bar',
+
+      // eslint-disable-next-line no-useless-escape
+      invalid: '/, /home, [Cc-Zz]:\\, [Cc-Zz]:\\mounts, [Cc-Zz]:\\home',
+    },
+  };
+
+  public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
 }
 
 export enum WorkerRuntimeLanguages {
