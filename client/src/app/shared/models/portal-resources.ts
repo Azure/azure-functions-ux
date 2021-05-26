@@ -1522,6 +1522,7 @@ export class PortalResources {
   public static invalidWindowsPath = 'invalidWindowsPath';
   public static invalidLinuxPath = 'invalidLinuxPath';
   public static mountStorage = 'mountStorage';
+  public static mountStoragePreview = 'mountStoragePreview';
   public static addStorageLink = 'addStorageLink';
   public static container = 'container';
   public static path = 'path';
@@ -2222,6 +2223,7 @@ export class PortalResources {
   public static blobsFailure = 'blobsFailure';
   public static blobsFailureWithError = 'blobsFailureWithError';
   public static blobsAndFileSharesFailure = 'blobsAndFileSharesFailure';
+  public static switchToAdvancedMode = 'switchToAdvancedMode';
   public static containerImage = 'containerImage';
   public static containerImagePlaceholder = 'containerImagePlaceholder';
   public static savingContainerConfiguration = 'savingContainerConfiguration';

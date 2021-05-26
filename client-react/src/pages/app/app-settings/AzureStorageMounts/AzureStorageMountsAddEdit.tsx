@@ -56,7 +56,6 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       }),
     accountName: Yup.string().required(t('validation_requiredError')),
     shareName: Yup.string()
-      .required(t('validation_requiredError'))
       .max(shareNameMaxLength, t('validation_fieldMaxCharacters').format(shareNameMaxLength))
       .matches(shareNameRegex, t('validation_shareNameAllowedCharacters')),
     accessKey: Yup.string().required(t('validation_requiredError')),
