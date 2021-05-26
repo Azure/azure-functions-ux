@@ -57,12 +57,23 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
 
   const getBillingMeters = async () => {
     setIsBillingInformationLoading(true);
-    const resourceIdParts = !!resourceId ? resourceId.split('/') : [];
+    const resourceIdParts = resourceId.split('/');
     const subscriptionId = !!resourceIdParts && resourceIdParts.length > 2 ? resourceIdParts[2] : '';
     const billingMetersResponse = await StaticSiteService.getStaticSiteBillingMeters(subscriptionId);
 
-    if (billingMetersResponse.metadata.success && billingMetersResponse.data.isSuccess) {
-      setBillingInformation(billingMetersResponse.data.costs);
+    if (billingMetersResponse.metadata.success) {
+      if (billingMetersResponse.data.isSuccess) {
+        setBillingInformation(billingMetersResponse.data.costs);
+      } else {
+        portalContext.log(
+          getTelemetryInfo('error', 'getStaticSiteBillingMeterInformation', 'failed', {
+            statusCode:
+              !!billingMetersResponse.data && !!billingMetersResponse.data.statusCode
+                ? billingMetersResponse.data.statusCode.toLocaleString()
+                : '',
+          })
+        );
+      }
     } else {
       portalContext.log(
         getTelemetryInfo('error', 'getStaticSiteBillingInformation', 'failed', { error: billingMetersResponse.metadata.error })

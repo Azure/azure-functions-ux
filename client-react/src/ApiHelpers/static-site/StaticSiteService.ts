@@ -4,7 +4,7 @@ import { StaticSite } from '../../models/static-site/static-site';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { sendHttpRequest } from '../HttpClient';
 import { getArmToken } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
-
+import { StaticSiteBillingMeter } from '../../pages/static-app/skupicker/StaticSiteSkuPicker.types';
 export default class StaticSiteService {
   public static getStaticSite = (resourceId: string) => {
     return MakeArmCall<ArmObj<StaticSite>>({
@@ -34,10 +34,11 @@ export default class StaticSiteService {
     });
   };
 
-  public static getStaticSiteBillingMeters = (subscriptionId: string) => {
-    const url = `https://service.bmx.azure.com/api/Billing/Subscription/GetSpecsCosts?api-version=${
-      CommonConstants.ApiVersions.billingApiVersion20190114
-    }`;
+  public static getStaticSiteBillingMeters = (
+    subscriptionId: string,
+    apiVersion = CommonConstants.ApiVersions.billingApiVersion20190114
+  ) => {
+    const url = `${CommonConstants.serviceBmxUrl}/api/Billing/Subscription/GetSpecsCosts?api-version=${apiVersion}`;
 
     const data = {
       subscriptionId: subscriptionId,
@@ -72,6 +73,6 @@ export default class StaticSiteService {
       Authorization: getArmToken(),
     };
 
-    return sendHttpRequest<any>({ url, method: 'POST', data, headers }, true /* excludeWellKnownHeaders */);
+    return sendHttpRequest<StaticSiteBillingMeter>({ url, method: 'POST', data, headers }, true /* excludeWellKnownHeaders */);
   };
 }

@@ -48,8 +48,8 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
 
   const [selectedSku, setSelectedSku] = useState<StaticSiteSku>(currentSku);
   const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [skuCost, setSkuCost] = useState<JSX.Element>(t('loading'));
-  const [bandwidthOverageCost, setBandwidthOverageCost] = useState<JSX.Element>(t('loading'));
+  const [skuCost, setSkuCost] = useState<JSX.Element>(<>{t('loading')}</>);
+  const [bandwidthOverageCost, setBandwidthOverageCost] = useState<JSX.Element>(<>{t('loading')}</>);
 
   const selectButtonOnClick = () => {
     portalContext.log(getTelemetryInfo('verbose', 'applyButton', 'clicked', { selectedSku: selectedSku }));
@@ -142,7 +142,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
       const meter = billingInformation.find(val => val.id === StaticSiteBillingType.SWAIncremental);
       if (!!meter && !!meter.amount) {
         const cost = meter.amount;
-        const normalizedCost = cost < 1 ? cost.toLocaleString() + '0' : cost;
+        const normalizedCost = cost < 1 ? `${cost.toLocaleString()}0` : cost;
         return <>{t('staticSiteStandardBandwidthOverage').format(normalizedCost)}</>;
       }
     }

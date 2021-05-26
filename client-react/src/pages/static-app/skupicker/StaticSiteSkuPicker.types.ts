@@ -7,7 +7,7 @@ export interface StaticSiteSkuPickerProps {
   currentSku: StaticSiteSku;
   resourceId: string;
   hasWritePermissions: boolean;
-  billingInformation: staticSiteBillingInformation[];
+  billingInformation: StaticSiteBillingInformation[];
   isBillingInformationLoading: boolean;
   refresh: () => void;
 }
@@ -17,22 +17,28 @@ export enum StaticSiteBillingType {
   SWAIncremental = 'SWAIncremental',
 }
 
-export interface staticSiteBillingInformation {
+export interface StaticSiteBillingInformation {
   amount: number;
   currencyCode: string;
-  firstParty: staticSiteFirstParty[];
+  firstParty: StaticSiteFirstParty[];
   id: string;
   statusCode: number;
 }
 
-export interface staticSiteFirstParty {
+export interface StaticSiteFirstParty {
   id: string;
-  meters: staticSiteMeters[];
+  meters: StaticSiteMeters[];
 }
 
-export interface staticSiteMeters {
+export interface StaticSiteMeters {
   amount: number;
   id: string;
   perUnitAmount: number;
   perUnitCurrencyCode: string;
+}
+
+export interface StaticSiteBillingMeter {
+  costs: StaticSiteBillingInformation[];
+  isSuccess: boolean;
+  statusCode: number;
 }

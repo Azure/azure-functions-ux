@@ -161,6 +161,8 @@ export class CommonConstants {
   public static readonly Dash = ' - ';
 
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
+
+  public static readonly serviceBmxUrl = 'https://service.bmx.azure.com';
 }
 
 export enum WorkerRuntimeLanguages {
