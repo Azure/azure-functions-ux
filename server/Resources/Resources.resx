@@ -7095,9 +7095,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSiteStandardDescription" xml:space="preserve">
         <value>For general purpose production apps</value>
     </data>
-    <data name="staticSiteStandardPrice" xml:space="preserve">
-        <value>$9/month</value>
-    </data>
     <data name="staticSiteApply" xml:space="preserve">
         <value>Apply</value>
     </data>
@@ -7148,5 +7145,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSiteStandardStagingEnvironmentsAmount" xml:space="preserve">
         <value>10</value>
+    </data>
+    <data name="staticSiteStandardPrice" xml:space="preserve">
+        <value>${0}/per app/month</value>
+    </data>
+    <data name="staticSiteStandardBandwidthOverage" xml:space="preserve">
+        <value>${0} per GB per subscription</value>
     </data>
 </root>
