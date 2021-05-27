@@ -30,7 +30,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: \${{ secrets.__containerusersecretname__ }}/__image__:${{ github.sha }}
+          tags: __publishserver__/\${{ secrets.__containerusersecretname__ }}/__image__:${{ github.sha }}
           file: ./Dockerfile
 
     deploy:
@@ -41,11 +41,11 @@ jobs:
         url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
       steps:
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: '__sitename__'
-          slot-name: '__slotname__'
-          publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
-          images: '__publishserver__/\${{ secrets.__containerusersecretname__ }}/__image__:\${{ github.sha }}'
+        - name: Deploy to Azure Web App
+          id: deploy-to-webapp
+          uses: azure/webapps-deploy@v2
+          with:
+            app-name: '__sitename__'
+            slot-name: '__slotname__'
+            publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
+            images: '__publishserver__/\${{ secrets.__containerusersecretname__ }}/__image__:\${{ github.sha }}'
