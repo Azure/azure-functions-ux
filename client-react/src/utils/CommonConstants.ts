@@ -34,6 +34,7 @@ export class CommonConstants {
     stacksApiVersion20201001: '2020-10-01',
     acrApiVersion20190501: '2019-05-01',
     staticSiteApiVersion20201201: '2020-12-01',
+    billingApiVersion20190114: '2019-01-14',
   };
 
   public static readonly NonThemeColors = {
@@ -160,6 +161,8 @@ export class CommonConstants {
   public static readonly Dash = ' - ';
 
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
+
+  public static readonly serviceBmxUrl = 'https://service.bmx.azure.com';
 }
 
 export enum WorkerRuntimeLanguages {
