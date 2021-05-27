@@ -6,9 +6,31 @@ export const phpCreateStack: WebAppCreateStack = {
   sortOrder: 3,
   versions: [
     {
+      displayText: 'PHP 8',
+      value: '8',
+      sortOrder: 0,
+      supportedPlatforms: [
+        {
+          os: 'linux',
+          isPreview: false,
+          isDeprecated: false,
+          isHidden: true,
+          applicationInsightsEnabled: false,
+          remoteDebuggingEnabled: false,
+          runtimeVersion: 'PHP|8.0',
+          sortOrder: 0,
+          githubActionSettings: {
+            supported: true,
+            recommendedVersion: '8.0',
+            notSupportedInCreates: true,
+          },
+        },
+      ],
+    },
+    {
       displayText: 'PHP 7.4',
       value: '7.4',
-      sortOrder: 0,
+      sortOrder: 1,
       supportedPlatforms: [
         {
           os: 'linux',
@@ -45,7 +67,7 @@ export const phpCreateStack: WebAppCreateStack = {
     {
       displayText: 'PHP 7.3',
       value: '7.3',
-      sortOrder: 1,
+      sortOrder: 2,
       supportedPlatforms: [
         {
           os: 'linux',
@@ -82,7 +104,7 @@ export const phpCreateStack: WebAppCreateStack = {
     {
       displayText: 'PHP 7.2',
       value: '7.2',
-      sortOrder: 2,
+      sortOrder: 3,
       supportedPlatforms: [
         {
           os: 'linux',
