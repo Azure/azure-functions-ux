@@ -2223,7 +2223,6 @@ export class PortalResources {
   public static blobsFailure = 'blobsFailure';
   public static blobsFailureWithError = 'blobsFailureWithError';
   public static blobsAndFileSharesFailure = 'blobsAndFileSharesFailure';
-  public static switchToAdvancedMode = 'switchToAdvancedMode';
   public static containerImage = 'containerImage';
   public static containerImagePlaceholder = 'containerImagePlaceholder';
   public static savingContainerConfiguration = 'savingContainerConfiguration';
