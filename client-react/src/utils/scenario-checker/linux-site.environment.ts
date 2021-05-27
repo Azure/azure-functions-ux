@@ -1,6 +1,8 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
 import { isLinuxApp } from '../arm-utils';
+import Url from '../url';
+import { CommonConstants } from '../CommonConstants';
 
 export class LinuxSiteEnvironment extends Environment {
   public name = 'LinuxSite';
@@ -183,7 +185,7 @@ export class LinuxSiteEnvironment extends Environment {
       id: ScenarioIds.azureStorageMountPreview,
       runCheck: () => {
         return {
-          status: 'disabled',
+          status: Url.getFeatureValue(CommonConstants.FeatureFlags.removeStorageMountPreviewTag) ? 'disabled' : 'enabled',
         };
       },
     };

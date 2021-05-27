@@ -1,4 +1,6 @@
-import { isWindowsCode } from '../arm-utils';
+import { isContainerApp, isWindowsCode } from '../arm-utils';
+import { CommonConstants } from '../CommonConstants';
+import Url from '../url';
 import { ScenarioIds } from './scenario-ids';
 import { Environment, ScenarioCheckInput } from './scenario.models';
 
@@ -17,9 +19,14 @@ export class WindowsCode extends Environment {
     };
     this.scenarioChecks[ScenarioIds.azureStorageMount] = {
       id: ScenarioIds.azureStorageMount,
-      runCheck: () => {
+      runCheck: input => {
+        if (input && input.site && isContainerApp(input.site)) {
+          return {
+            status: 'enabled',
+          };
+        }
         return {
-          status: 'enabled',
+          status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMount) ? 'enabled' : 'disabled',
         };
       },
     };
