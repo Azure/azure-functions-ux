@@ -137,6 +137,7 @@ export const nodeStack: WebAppStack = {
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'NODE|10-lts',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -174,6 +175,7 @@ export const nodeStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '10.15.2',
+              isDeprecated: true,
               isPreview: true,
               isHidden: true,
               remoteDebuggingSupported: false,
@@ -194,6 +196,7 @@ export const nodeStack: WebAppStack = {
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'NODE|10.14',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -206,6 +209,7 @@ export const nodeStack: WebAppStack = {
             },
             windowsRuntimeSettings: {
               runtimeVersion: '10.14.1',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -256,6 +260,7 @@ export const nodeStack: WebAppStack = {
             },
             windowsRuntimeSettings: {
               runtimeVersion: '10.0.0',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -274,6 +279,7 @@ export const nodeStack: WebAppStack = {
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'NODE|10.6',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -286,6 +292,7 @@ export const nodeStack: WebAppStack = {
             },
             windowsRuntimeSettings: {
               runtimeVersion: '10.6.0',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -303,6 +310,7 @@ export const nodeStack: WebAppStack = {
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'NODE|10.1',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
