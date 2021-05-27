@@ -30,6 +30,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
       setFieldValue('type', StorageType.azureFiles);
     }
     validateField('shareName');
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
