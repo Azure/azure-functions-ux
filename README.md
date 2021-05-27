@@ -9,10 +9,11 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 
 - [Node 10.15.2](https://nodejs.org/en/download/)
-- Angular CLI
+- [Angular CLI](https://angular.io/cli)
 
+Install the CLI using the npm package manager
 ```
-npm i -g @angular/cli
+npm install -g @angular/cli
 ```
 
 ### Project Structure and Important Places
@@ -66,7 +67,7 @@ npm start
 
 Go to https://localhost:44400 and https://localhost:44300 and bypass the self-signed cert block before going to portal
 
-To Test changes go to https://portal.azure.com/?websitesextension_functionslocal=true&websitesextension_useReactFrameBlade=true
+To Test changes go to [Here](https://portal.azure.com/?websitesextension_functionslocal=true&websitesextension_useReactFrameBlade=true)
 
 ## Running the tests
 
