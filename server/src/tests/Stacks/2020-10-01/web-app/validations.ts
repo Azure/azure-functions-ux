@@ -6,12 +6,13 @@ import { phpStack as hardCodedPhpStack } from './../../../../stacks/2020-10-01/s
 import { rubyStack as hardCodedRubyStack } from './../../../../stacks/2020-10-01/stacks/web-app-stacks/Ruby';
 import { javaStack as hardCodedJavaStack } from './../../../../stacks/2020-10-01/stacks/web-app-stacks/Java';
 import { javaContainersStack as hardCodedJavaContainersStack } from './../../../../stacks/2020-10-01/stacks/web-app-stacks/JavaContainers';
+import { staticSiteStack as hardCodedStaticSite } from './../../../../stacks/2020-10-01/stacks/web-app-stacks/StaticSite';
 
 const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(8);
 }
 
 export function validateWindowsStacks(stacks) {
@@ -31,7 +32,7 @@ function validateWindowsStackLength(stacks) {
 
 function validateLinuxStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(8);
 }
 
 function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
@@ -87,7 +88,7 @@ export function validateNotDeprecatedStacks(stacks) {
 
 function validateNotDeprecatedStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(8);
 }
 
 function validateStacksAreNotDeprecated(stacks) {
@@ -120,7 +121,7 @@ export function validateNotPreviewStacks(stacks) {
 
 function validateNotPreviewStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(8);
 }
 
 function validateStacksAreNotPreview(stacks) {
@@ -308,4 +309,22 @@ function validateGitHubActionStacksProperties(stacks) {
       });
     });
   });
+}
+
+export function validateStaticSiteInStacks(stacks) {
+  validateAllStackLength(stacks);
+  validateStaticSiteStack(stacks[7]);
+}
+
+export function validateStaticSiteFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validateStaticSiteStack(stacks[0]);
+}
+
+function validateStaticSiteStack(staticSiteStack) {
+  expect(staticSiteStack.displayText).to.equal('HTML (Static Content)');
+  expect(staticSiteStack.value).to.equal('staticsite');
+  expect(staticSiteStack.preferredOs).to.equal('linux');
+  expect(staticSiteStack.majorVersions.length).to.equal(1);
+  expect(staticSiteStack).to.deep.equal(hardCodedStaticSite);
 }
