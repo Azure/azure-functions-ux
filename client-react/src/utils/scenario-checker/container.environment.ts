@@ -30,6 +30,14 @@ export class ContainerApp extends Environment {
         };
       },
     };
+    this.scenarioChecks[ScenarioIds.azureBlobMount] = {
+      id: ScenarioIds.azureBlobMount,
+      runCheck: input => {
+        return {
+          status: !!input && !!input.site && isLinuxApp(input.site) ? 'enabled' : 'disabled',
+        };
+      },
+    };
     this.scenarioChecks[ScenarioIds.linuxRemoteDebuggingSupported] = {
       id: ScenarioIds.linuxRemoteDebuggingSupported,
       runCheck: () => {
