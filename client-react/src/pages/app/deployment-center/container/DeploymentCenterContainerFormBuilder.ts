@@ -152,13 +152,13 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     const validateYaml = (yaml: string) => this._validateYaml(yaml);
 
     return {
-      privateRegistryServerUrl: Yup.mixed()
-        .test('privateRegistryServerUrlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+      privateRegistryServerUrl: Yup.mixed().test(
+        'privateRegistryServerUrlRequired',
+        this._t('deploymentCenterFieldRequiredMessage'),
+        function(value) {
           return this.parent.registrySource === ContainerRegistrySources.privateRegistry ? !!value : true;
-        })
-        .test('privateRegistryServerUrlIsUrl', this._t('deploymentCenterServerUrlIsUrl'), function(value) {
-          return this.parent.registrySource === ContainerRegistrySources.privateRegistry ? !!value && value.startsWith('https://') : true;
-        }),
+        }
+      ),
       privateRegistryImageAndTag: Yup.mixed().test(
         'privateRegistryImageAndTagRequired',
         this._t('deploymentCenterFieldRequiredMessage'),
