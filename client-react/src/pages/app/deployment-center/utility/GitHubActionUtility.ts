@@ -866,7 +866,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: \${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
+        tags: ${server}/\${{ secrets.${containerUsernameSecretName} }}/${image}:\${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
