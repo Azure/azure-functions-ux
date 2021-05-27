@@ -2183,7 +2183,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Mount path for Windows Apps must be a single sub-directory of \mounts.</value>
     </data>
     <data name="validation_windowsContainerMountPath" xml:space="preserve">
-        <value>Mount path for Windows Containers must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, back slashes, square brackets, and parenthesis. A driver letter is also allowed (e.g. c:/foo/bar).</value>
+        <value>Mount path for Windows Containers must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, back slashes, square brackets, and parenthesis. A driver letter is also allowed to be included in the path (e.g. c:/foo/bar).</value>
     </data>
     <data name="validation_mountPathNotHome" xml:space="preserve">
         <value>Mount path cannot be '/home'</value>
