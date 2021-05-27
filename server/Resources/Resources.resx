@@ -6808,22 +6808,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Develop in portal</value>
     </data>
     <data name="fileSharesFailure" xml:space="preserve">
-        <value>Failed to fetch file shares in the storage account.</value>
+        <value>Failed to fetch file shares in the storage account. Please configure your storage mount with advanced mode.</value>
     </data>
     <data name="fileSharesFailureWithError" xml:space="preserve">
         <value>Failed to fetch file shares in the storage account with error: {0}.</value>
     </data>
     <data name="blobsFailure" xml:space="preserve">
-        <value>Failed to fetch blobs in the storage account.</value>
+        <value>Failed to fetch blobs in the storage account. Please configure your storage mount with advanced mode.</value>
     </data>
     <data name="blobsFailureWithError" xml:space="preserve">
         <value>Failed to fetch blobs in the storage account with error: {0}.</value>
     </data>
     <data name="blobsAndFileSharesFailure" xml:space="preserve">
         <value>Failed to fetch blobs and file shares in the storage account.</value>
-    </data>
-    <data name="switchToAdvancedMode" xml:space="preserve">
-        <value>Please configure your storage mount with advanced mode.</value>
     </data>
     <data name="containerImage" xml:space="preserve">
         <value>Image name</value>
