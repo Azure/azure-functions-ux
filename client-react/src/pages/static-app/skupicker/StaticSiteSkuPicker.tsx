@@ -126,7 +126,9 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     if (!!billingInformation && billingInformation.length > 0) {
       const meter = billingInformation.find(val => val.id === StaticSiteBillingType.SWAMonthly);
       if (!!meter && !!meter.amount) {
-        return <>{t('staticSiteStandardPrice').format(meter.amount)}</>;
+        const cost = meter.amount;
+        const normalizedCost = cost < 1 ? `${cost.toLocaleString()}0` : cost;
+        return <>{t('staticSiteStandardPrice').format(normalizedCost)}</>;
       }
     }
 

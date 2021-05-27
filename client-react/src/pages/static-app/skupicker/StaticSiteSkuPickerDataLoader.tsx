@@ -66,7 +66,7 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
         setBillingInformation(billingMetersResponse.data.costs);
       } else {
         portalContext.log(
-          getTelemetryInfo('error', 'getStaticSiteBillingMeterInformation', 'failed', {
+          getTelemetryInfo('info', 'getStaticSiteBillingMeterInformation', 'failed', {
             statusCode:
               !!billingMetersResponse.data && !!billingMetersResponse.data.statusCode
                 ? billingMetersResponse.data.statusCode.toLocaleString()

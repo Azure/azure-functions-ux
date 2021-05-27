@@ -4,7 +4,7 @@ import { StaticSite } from '../../models/static-site/static-site';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { sendHttpRequest } from '../HttpClient';
 import { getArmToken } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
-import { StaticSiteBillingMeter } from '../../pages/static-app/skupicker/StaticSiteSkuPicker.types';
+import { StaticSiteBillingMeter, StaticSiteBillingType } from '../../pages/static-app/skupicker/StaticSiteSkuPicker.types';
 export default class StaticSiteService {
   public static getStaticSite = (resourceId: string) => {
     return MakeArmCall<ArmObj<StaticSite>>({
@@ -44,20 +44,20 @@ export default class StaticSiteService {
       subscriptionId: subscriptionId,
       specResourceSets: [
         {
-          id: 'SWAMonthly',
+          id: StaticSiteBillingType.SWAMonthly,
           firstParty: [
             {
-              id: 'SWAMonthly',
+              id: StaticSiteBillingType.SWAMonthly,
               quantity: 1,
               resourceId: '56c80fab-f20c-5e41-951d-667dc9503604',
             },
           ],
         },
         {
-          id: 'SWAIncremental',
+          id: StaticSiteBillingType.SWAIncremental,
           firstParty: [
             {
-              id: 'SWAIncremental',
+              id: StaticSiteBillingType.SWAIncremental,
               quantity: 1,
               resourceId: '0ecf6c02-a907-5918-8591-4f912eb59a31',
             },
