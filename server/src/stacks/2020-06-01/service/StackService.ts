@@ -19,6 +19,7 @@ import { rubyStack as rubyWebAppStack } from '../stacks/web-app-stacks/Ruby';
 import { dotnetCoreStack as dotnetCoreWebAppStack } from '../stacks/web-app-stacks/DotnetCore';
 import { javaStack as javaWebAppStack } from '../stacks/web-app-stacks/Java';
 import { javaContainersStack as javaContainersWebAppStack } from '../stacks/web-app-stacks/JavaContainers';
+import { staticSiteStack as staticSiteWebAppStack } from '../stacks/web-app-stacks/StaticSite';
 
 @Injectable()
 export class StacksService20200601 {
@@ -71,6 +72,7 @@ export class StacksService20200601 {
     const rubyStackCopy = JSON.parse(JSON.stringify(rubyWebAppStack));
     const javaStackCopy = JSON.parse(JSON.stringify(javaWebAppStack));
     const javaContainersStackCopy = JSON.parse(JSON.stringify(javaContainersWebAppStack));
+    const staticSiteStackCopy = JSON.parse(JSON.stringify(staticSiteWebAppStack));
 
     let stacks: WebAppStack[] = [
       aspDotnetStackCopy,
@@ -81,6 +83,7 @@ export class StacksService20200601 {
       rubyStackCopy,
       javaStackCopy,
       javaContainersStackCopy,
+      staticSiteStackCopy,
     ];
 
     if (stackValue) {
