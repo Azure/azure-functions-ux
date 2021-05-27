@@ -19,12 +19,7 @@ export class WindowsCode extends Environment {
     };
     this.scenarioChecks[ScenarioIds.azureStorageMount] = {
       id: ScenarioIds.azureStorageMount,
-      runCheck: input => {
-        if (input && input.site && isContainerApp(input.site)) {
-          return {
-            status: 'enabled',
-          };
-        }
+      runCheck: () => {
         return {
           status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMount) ? 'enabled' : 'disabled',
         };
