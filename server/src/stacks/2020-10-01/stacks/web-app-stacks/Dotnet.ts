@@ -23,7 +23,7 @@ export const dotnetStack: WebAppStack = {
               runtimeVersion: 'v6.0',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: true,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
