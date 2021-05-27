@@ -115,6 +115,7 @@ export const nodeStack: FunctionAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '~10',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -134,6 +135,7 @@ export const nodeStack: FunctionAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'Node|10',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
