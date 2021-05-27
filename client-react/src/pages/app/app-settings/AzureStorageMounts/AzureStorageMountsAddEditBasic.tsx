@@ -187,10 +187,14 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
 
   useEffect(() => {
     validateForm();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountError]);
 
   useEffect(() => {
     updateStorageContainerErrorMessage();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.type, storageContainerErrorSchema]);
 
   const blobContainerOptions = accountSharesBlob.map((x: any) => ({ key: x.name, text: x.name }));
