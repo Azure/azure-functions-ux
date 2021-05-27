@@ -1,4 +1,4 @@
-import { isContainerApp, isWindowsCode } from '../arm-utils';
+import { isWindowsCode } from '../arm-utils';
 import { CommonConstants } from '../CommonConstants';
 import Url from '../url';
 import { ScenarioIds } from './scenario-ids';
