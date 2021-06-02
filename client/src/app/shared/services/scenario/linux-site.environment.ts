@@ -69,7 +69,7 @@ export class LinuxSiteEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.externalSource] = {
       id: ScenarioIds.externalSource,
-      runCheck: () => ({ status: 'disabled' }),
+      runCheck: () => ({ status: 'enabled' }),
     };
 
     this.scenarioChecks[ScenarioIds.addWebServerLogging] = {
