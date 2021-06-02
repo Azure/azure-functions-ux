@@ -83,7 +83,7 @@ xdescribe('Price Spec Manager', () => {
     const expectedPriceSpecInput: PriceSpecInput = {
       specPickerInput: newPlanSpecPickerInput,
       subscriptionId: newPlanSpecPickerInput.data.subscriptionId,
-      plan: null,
+      planDetails: null,
     };
 
     specManager.specGroups.forEach(g => {
@@ -106,7 +106,10 @@ xdescribe('Price Spec Manager', () => {
     const expectedPriceSpecInput: PriceSpecInput = {
       specPickerInput: existingPlanSpecPickerInput,
       subscriptionId: new ArmSubcriptionDescriptor(existingPlanSpecPickerInput.id).subscriptionId,
-      plan: planService.planToReturn,
+      planDetails: {
+        plan: planService.planToReturn,
+        containsJbossSite: false,
+      },
     };
 
     specManager.specGroups.forEach(g => {
@@ -209,7 +212,9 @@ xdescribe('Price Spec Manager', () => {
   function _verifySpecPickerInput(spy: jasmine.Spy, expectedPriceSpecInput: PriceSpecInput) {
     const actualInput = <PriceSpecInput>spy.calls.argsFor(0)[0];
     expect(actualInput.specPickerInput).toEqual(expectedPriceSpecInput.specPickerInput);
-    expect(actualInput.plan).toEqual(expectedPriceSpecInput.plan);
+    expect(actualInput.planDetails && actualInput.planDetails.plan).toEqual(
+      expectedPriceSpecInput.planDetails && expectedPriceSpecInput.planDetails.plan
+    );
     expect(actualInput.subscriptionId).toEqual(expectedPriceSpecInput.subscriptionId);
   }
 });

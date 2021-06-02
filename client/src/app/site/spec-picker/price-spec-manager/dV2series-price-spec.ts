@@ -22,7 +22,7 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
 
   protected abstract _matchSku(sku: Sku): boolean;
   protected abstract _shouldHideForNewPlan(data: PlanSpecPickerData): boolean;
-  protected abstract _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean;
+  protected abstract _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>, containsJbossSite: boolean): boolean;
 
   private _checkIfSkuEnabledOnStamp(resourceId: ResourceId) {
     if (this.state !== 'hidden') {
@@ -54,10 +54,10 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
   }
 
   runInitialization(input: PriceSpecInput) {
-    if (input.plan) {
-      this.state = this._shouldHideForExistingPlan(input.plan) ? 'hidden' : this.state;
+    if (input.planDetails) {
+      this.state = this._shouldHideForExistingPlan(input.planDetails.plan, input.planDetails.containsJbossSite) ? 'hidden' : this.state;
 
-      return this._checkIfSkuEnabledOnStamp(input.plan.id).switchMap(_ => {
+      return this._checkIfSkuEnabledOnStamp(input.planDetails.plan.id).switchMap(_ => {
         return this.checkIfDreamspark(input.subscriptionId);
       });
     } else if (input.specPickerInput.data) {

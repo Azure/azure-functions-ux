@@ -59,21 +59,22 @@ export class FreePlanPriceSpec extends PriceSpec {
 
   runInitialization(input: PriceSpecInput) {
     let isLinux = false;
-    if (input.plan) {
-      isLinux = AppKind.hasAnyKind(input.plan, [Kinds.linux]);
+    if (input.planDetails) {
+      isLinux = AppKind.hasAnyKind(input.planDetails.plan, [Kinds.linux]);
       if (isLinux) {
         this.topLevelFeatures.shift();
       }
 
       if (
-        input.plan.properties.hostingEnvironmentProfile ||
-        input.plan.properties.hyperV ||
-        AppKind.hasAnyKind(input.plan, [Kinds.elastic])
+        input.planDetails.plan.properties.hostingEnvironmentProfile ||
+        input.planDetails.plan.properties.hyperV ||
+        AppKind.hasAnyKind(input.planDetails.plan, [Kinds.elastic]) ||
+        input.planDetails.containsJbossSite
       ) {
         this.state = 'hidden';
       }
 
-      return this._checkIfSkuEnabledOnStamp(input.plan.id);
+      return this._checkIfSkuEnabledOnStamp(input.planDetails.plan.id);
     } else if (input.specPickerInput.data) {
       isLinux = input.specPickerInput.data.isLinux;
       if (isLinux) {
@@ -87,7 +88,8 @@ export class FreePlanPriceSpec extends PriceSpec {
         input.specPickerInput.data.isXenon ||
         input.specPickerInput.data.hyperV ||
         (input.specPickerInput.data.isNewFunctionAppCreate &&
-          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard))
+          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard)) ||
+        input.specPickerInput.data.isJBoss
       ) {
         this.state = 'hidden';
       }
