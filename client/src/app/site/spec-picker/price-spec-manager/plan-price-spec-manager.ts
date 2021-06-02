@@ -25,7 +25,7 @@ import { PortalService } from './../../../shared/services/portal.service';
 import { PlanService } from './../../../shared/services/plan.service';
 import { Injector, Injectable } from '@angular/core';
 import { ArmSubcriptionDescriptor, ArmResourceDescriptor } from '../../../shared/resourceDescriptors';
-import { ResourceId, ArmObj } from '../../../shared/models/arm/arm-obj';
+import { ResourceId, ArmObj, ArmArrayResult } from '../../../shared/models/arm/arm-obj';
 import { ServerFarm } from '../../../shared/models/server-farm';
 import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
@@ -38,6 +38,8 @@ import { AppKind } from 'app/shared/Utilities/app-kind';
 import { BillingService } from 'app/shared/services/billing.service';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { ServerFarmRecommendation, RecommendationRuleNames } from '../../../shared/models/arm/serverfarm-recommendation';
+import { HttpResult } from '../../../shared/models/http-result';
+import { Site } from '../../../shared/models/arm/site';
 
 export interface SpecPickerInput<T> {
   id: ResourceId;
@@ -72,6 +74,7 @@ export interface PlanSpecPickerData {
   // However, in new full screen creates it would be based on the plan type selected which will determing isElastic boolean value.
   allowAseV3Creation?: boolean; // NOTE(shimedh): This will be set for new ASP creating in existing ASEv3. It will later also be used for new app in new ASEv3 scenario from webapp create (will be enabled for GA).
   isWorkflowStandard?: boolean;
+  isJBoss?: boolean; // Set to true when creating a JBoss site.
 }
 
 export type ApplyButtonState = 'enabled' | 'disabled';
@@ -133,9 +136,10 @@ export class PlanPriceSpecManager {
     this.selectedSpecGroup = this.specGroups[0];
     let specInitCalls: Observable<void>[] = [];
 
-    return Observable.zip(this._getPlan(inputs), pricingTiers, (plan, pt) => ({
+    return Observable.zip(this._getPlan(inputs), pricingTiers, this._getServerFarmSites(inputs), (plan, pt, sites) => ({
       plan: plan,
       pricingTiers: pt,
+      serverFarmSites: sites,
     }))
       .flatMap(r => {
         // plan is null for new plans
@@ -152,7 +156,10 @@ export class PlanPriceSpecManager {
         this.specGroups.forEach(g => {
           const priceSpecInput: PriceSpecInput = {
             specPickerInput: inputs,
-            plan: this._plan,
+            planDetails: {
+              plan: this._plan,
+              containsJbossSite: this._doesPlanContainJbossSite(r.serverFarmSites),
+            },
             subscriptionId: this._subscriptionId,
           };
 
@@ -164,7 +171,7 @@ export class PlanPriceSpecManager {
         return specInitCalls.length > 0 ? Observable.zip(...specInitCalls) : Observable.of(null);
       })
       .do(() => {
-        return Observable.zip(this._getServerFarmSites(inputs), this._getServerFarmRecommendations(inputs)).subscribe();
+        return this._getServerFarmRecommendations(inputs);
       });
   }
 
@@ -575,7 +582,7 @@ export class PlanPriceSpecManager {
   private _getServerFarmSites(inputs: SpecPickerInput<PlanSpecPickerData>) {
     if (this._isUpdateScenario(inputs)) {
       this._stampIpAddresses = null;
-      return this._planService.getServerFarmSites(inputs.id, true).switchMap(response => {
+      return this._planService.getServerFarmSites(inputs.id, true).map(response => {
         if (response.isSuccessful && response.result.value.length > 0) {
           this._stampIpAddresses = {
             inboundIpAddress: response.result.value[0].properties.inboundIpAddress,
@@ -583,8 +590,10 @@ export class PlanPriceSpecManager {
             possibleInboundIpAddresses: response.result.value[0].properties.possibleInboundIpAddresses,
             possibleOutboundIpAddresses: response.result.value[0].properties.possibleOutboundIpAddresses,
           };
+
+          return response;
         }
-        return Observable.of(response);
+        return null;
       });
     }
 
@@ -615,6 +624,23 @@ export class PlanPriceSpecManager {
     }
 
     return Observable.of(null);
+  }
+
+  private _doesPlanContainJbossSite(serverFarmSitesResult: HttpResult<ArmArrayResult<Site>>): boolean {
+    if (serverFarmSitesResult && serverFarmSitesResult.isSuccessful && serverFarmSitesResult.result.value.length > 0) {
+      const serverFarmSites = serverFarmSitesResult.result.value;
+
+      return serverFarmSites.some(site => {
+        const linuxFxVersionPropIndex =
+          site.properties.siteProperties &&
+          site.properties.siteProperties.properties &&
+          site.properties.siteProperties.properties.findIndex(prop => prop.name.toLowerCase() === 'linuxfxversion');
+        const linuxFxVersion = site.properties.siteProperties.properties[linuxFxVersionPropIndex].value;
+        return linuxFxVersion && linuxFxVersion.toLowerCase().startsWith('jbosseap|');
+      });
+    }
+
+    return false;
   }
 
   // Scale operations for isolated can take a really long time.  When that happens, we'll show a warning

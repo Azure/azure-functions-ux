@@ -51,11 +51,12 @@ export class SharedPlanPriceSpec extends PriceSpec {
   cssClass = 'spec premium-spec';
 
   runInitialization(input: PriceSpecInput) {
-    if (input.plan) {
+    if (input.planDetails) {
       if (
-        input.plan.properties.hostingEnvironmentProfile ||
-        input.plan.properties.hyperV ||
-        AppKind.hasAnyKind(input.plan, [Kinds.linux, Kinds.elastic])
+        input.planDetails.plan.properties.hostingEnvironmentProfile ||
+        input.planDetails.plan.properties.hyperV ||
+        AppKind.hasAnyKind(input.planDetails.plan, [Kinds.linux, Kinds.elastic]) ||
+        input.planDetails.containsJbossSite
       ) {
         this.state = 'hidden';
       }
@@ -65,6 +66,7 @@ export class SharedPlanPriceSpec extends PriceSpec {
         input.specPickerInput.data.isLinux ||
         input.specPickerInput.data.isXenon ||
         input.specPickerInput.data.hyperV ||
+        input.specPickerInput.data.isJBoss ||
         (input.specPickerInput.data.isNewFunctionAppCreate &&
           (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard))
       ) {

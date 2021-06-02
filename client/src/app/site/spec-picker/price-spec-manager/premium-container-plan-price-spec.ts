@@ -57,7 +57,13 @@ export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
 
   runInitialization(input: PriceSpecInput) {
     // NOTE(shimedh): Only show premium container for existing xenon apps if sku is set to premiumContainer.
-    if (input.plan && input.plan.properties.hyperV && input.plan.sku.tier === Tier.premiumContainer) {
+    if (
+      input.planDetails &&
+      input.planDetails.plan &&
+      input.planDetails.plan.properties.hyperV &&
+      input.planDetails.plan.sku.tier === Tier.premiumContainer &&
+      !input.planDetails.containsJbossSite
+    ) {
       this.state = 'enabled';
     } else {
       this.state = 'hidden';
