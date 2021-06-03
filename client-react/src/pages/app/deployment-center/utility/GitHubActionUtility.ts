@@ -264,6 +264,11 @@ export const getCodeWebAppWorkflowInformation = (
           ? getAspNetGithubActionWorkflowDefinition(siteName, slotName, repoBranch, secretName, runtimeStackVersion)
           : getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion);
       break;
+    case RuntimeStacks.php:
+      content = isLinuxApp
+        ? getPhpLinuxGithubActionWorkflowDefinition(siteName, slotName, repoBranch, secretName, runtimeStackVersion)
+        : getPhpWindowsGithubActionWorkflowDefinition(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
+      break;
     default:
       throw Error(`Incorrect stack value '${runtimeStack}' provided.`);
   }
@@ -809,6 +814,150 @@ jobs:
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
         package: .`;
+};
+
+const getPhpWindowsGithubActionWorkflowDefinition = (
+  siteName: string,
+  slotName: string,
+  branch: string,
+  secretName: string,
+  runtimeStackVersion: string
+) => {
+  const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+  const slot = slotName || 'production';
+
+  return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+  # More GitHub Actions for Azure: https://github.com/Azure/actions
+  
+  name: Build and deploy PHP app to Azure Web App - ${webAppName}
+  
+  on:
+    push:
+      branches:
+        - ${branch}
+    workflow_dispatch:
+  
+  jobs:
+    build:
+      runs-on: windows-latest
+  
+      steps:
+        - uses: actions/checkout@v2
+  
+        - name: Setup PHP
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: '${runtimeStackVersion}'
+            
+        - name: Check if composer.json exists
+          id: check_files
+          uses: andstor/file-existence-action@v1
+          with:
+            files: "composer.json"
+            
+        - name: Run composer install if composer.json exists
+          if: steps.check_files.outputs.files_exists == 'true'
+          run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
+  
+        - name: Upload artifact for deployment job
+          uses: actions/upload-artifact@v2
+          with:
+            name: php-app
+            path: .
+  
+    deploy:
+      runs-on: ubuntu-latest
+      needs: build
+      environment:
+        name: '${slot}'
+        url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+  
+      steps:
+        - name: Download artifact from build job
+          uses: actions/download-artifact@v2
+          with:
+            name: php-app
+  
+        - name: 'Deploy to Azure Web App'
+          uses: azure/webapps-deploy@v2
+          id: deploy-to-webapp
+          with:
+            app-name: '${siteName}'
+            slot-name: '${slot}'
+            publish-profile: \${{ secrets.${secretName} }}
+            package: .`;
+};
+
+const getPhpLinuxGithubActionWorkflowDefinition = (
+  siteName: string,
+  slotName: string,
+  branch: string,
+  secretName: string,
+  runtimeStackVersion: string
+) => {
+  const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+  const slot = slotName || 'production';
+
+  return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+  # More GitHub Actions for Azure: https://github.com/Azure/actions
+  
+  name: Build and deploy PHP app to Azure Web App - ${webAppName}
+  
+  on:
+    push:
+      branches:
+        - ${branch}
+    workflow_dispatch:
+  
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+  
+      steps:
+        - uses: actions/checkout@v2
+  
+        - name: Setup PHP
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: '${runtimeStackVersion}'
+            
+        - name: Check if composer.json exists
+          id: check_files
+          uses: andstor/file-existence-action@v1
+          with:
+            files: "composer.json"
+  
+        - name: Run composer install if composer.json exists
+          if: steps.check_files.outputs.files_exists == 'true'
+          run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
+        
+        - name: Upload artifact for deployment job
+          uses: actions/upload-artifact@v2
+          with:
+            name: php-app
+            path: .
+  
+    deploy:
+      runs-on: ubuntu-latest
+      needs: build
+      environment:
+        name: '${slot}'
+        url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+  
+      steps:
+        - name: Download artifact from build job
+          uses: actions/download-artifact@v2
+          with:
+            name: php-app
+  
+        - name: 'Deploy to Azure Web App'
+          uses: azure/webapps-deploy@v2
+          id: deploy-to-webapp
+          with:
+            app-name: '${siteName}'
+            slot-name: '${slot}'
+            publish-profile: \${{ secrets.${secretName} }}
+            package: .`;
 };
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
