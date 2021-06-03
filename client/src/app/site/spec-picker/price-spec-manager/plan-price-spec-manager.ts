@@ -154,14 +154,18 @@ export class PlanPriceSpecManager {
         // Initialize every spec for each spec group.  For most cards this is a no-op, but
         // some require special handling so that we know if we need to hide/disable a card.
         this.specGroups.forEach(g => {
-          const priceSpecInput: PriceSpecInput = {
+          let priceSpecInput: PriceSpecInput = {
             specPickerInput: inputs,
-            planDetails: {
-              plan: this._plan,
-              containsJbossSite: this._doesPlanContainJbossSite(r.serverFarmSites),
-            },
             subscriptionId: this._subscriptionId,
           };
+
+          // Add planDetails only for update scenario.
+          if (this._isUpdateScenario(inputs)) {
+            priceSpecInput.planDetails = {
+              plan: this._plan,
+              containsJbossSite: this._doesPlanContainJbossSite(r.serverFarmSites),
+            };
+          }
 
           g.initialize(priceSpecInput);
           specInitCalls = specInitCalls.concat(g.recommendedSpecs.map(s => s.initialize(priceSpecInput)));
