@@ -73,7 +73,7 @@ export abstract class PremiumV3PlanPriceSpec extends DV3SeriesPriceSpec {
     return !!data.hostingEnvironmentName || (data.isNewFunctionAppCreate && (data.isElastic || data.isWorkflowStandard));
   }
 
-  protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean {
+  protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>, containsJbossSite: boolean): boolean {
     return (
       !!plan.properties.hostingEnvironmentProfile ||
       (plan.properties.hyperV && plan.sku.tier === Tier.premiumContainer) ||

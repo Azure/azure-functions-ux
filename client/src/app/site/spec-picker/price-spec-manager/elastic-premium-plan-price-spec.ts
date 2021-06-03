@@ -70,17 +70,19 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
       data.isXenon ||
       data.hyperV ||
       !data.isFunctionApp ||
-      (data.isNewFunctionAppCreate && !data.isElastic)
+      (data.isNewFunctionAppCreate && !data.isElastic) ||
+      data.isJBoss
     );
   }
 
   // NOTE(shimedh): Plan kind is 'elastic' for both Elastic Premium and Workflow Standard. SO we need to check sku tier as well.
-  protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean {
+  protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>, containsJbossSite: boolean): boolean {
     return (
       !!plan.properties.hostingEnvironmentProfile ||
       plan.properties.hyperV ||
       !AppKind.hasAnyKind(plan, [Kinds.elastic]) ||
-      plan.sku.tier === Tier.workflowStandard
+      plan.sku.tier === Tier.workflowStandard ||
+      containsJbossSite
     );
   }
 }

@@ -11,10 +11,15 @@ import { SpecResourceSet } from './billing-models';
 import { PriceSpecDetail } from './price-spec-detail';
 import { SpecPickerInput, PlanSpecPickerData } from './plan-price-spec-manager';
 
+export interface PlanDetailsForPriceSpecInput {
+  plan: ArmObj<ServerFarm>;
+  containsJbossSite: boolean;
+}
+
 export interface PriceSpecInput {
   specPickerInput: SpecPickerInput<PlanSpecPickerData>;
   subscriptionId: string;
-  plan?: ArmObj<ServerFarm>;
+  planDetails?: PlanDetailsForPriceSpecInput;
 }
 
 export abstract class PriceSpec {
