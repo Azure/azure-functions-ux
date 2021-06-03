@@ -24,10 +24,14 @@ export class ValidationRegex {
     // parentheses and square brackets. Drive letter (from c to z) is allowed as the prefix of the path. e.g c:/foo/bar/logs
     // /., \., [Cc-Zz]/. and [Cc-Zz]\. are invalid
     // /mounts, \mounts, c:/mounts, c:\mounts are invalid
-    // eslint-disable-next-line no-useless-escape
     windowsContainer: [
+      // eslint-disable-next-line no-useless-escape
       /^([c-zC-Z]:)?[\/\\][a-zA-Z0-9._\-\[\]\(\)\/\\]+$/,
+
+      // eslint-disable-next-line no-useless-escape
       /^([c-zC-Z]:)?[\/\\][\/\\]?(.)$/,
+
+      // eslint-disable-next-line no-useless-escape
       /^([c-zC-Z]:)?[\/\\][\/\\]?(mounts)/,
     ],
 
