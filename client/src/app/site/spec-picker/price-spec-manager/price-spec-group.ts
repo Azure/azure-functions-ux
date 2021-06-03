@@ -121,8 +121,8 @@ export class GenericSpecGroup extends PriceSpecGroup {
 
   initialize(input: PriceSpecInput) {
     this.pricingTiers.value.forEach(pricingTier => {
-      if (input.plan) {
-        if (input.plan.properties.hyperV !== pricingTier.properties.isXenon) {
+      if (input.planDetails && input.planDetails.plan) {
+        if (input.planDetails && input.planDetails.plan.properties.hyperV !== pricingTier.properties.isXenon) {
           return;
         }
       }
@@ -140,9 +140,13 @@ export class GenericSpecGroup extends PriceSpecGroup {
           return;
         }
       }
-      const numberOfWorkersRequired = (input.plan && input.plan.properties.numberOfWorkers) || 1;
+      const numberOfWorkersRequired =
+        (input.planDetails && input.planDetails.plan && input.planDetails && input.planDetails.plan.properties.numberOfWorkers) || 1;
       const spec = new GenericPlanPriceSpec(this.injector, pricingTier.properties);
-      if ((!input.plan || input.plan.sku.name !== spec.skuCode) && pricingTier.properties.availableInstances < numberOfWorkersRequired) {
+      if (
+        ((!input.planDetails && input.planDetails.plan) || (input.planDetails && input.planDetails.plan.sku.name !== spec.skuCode)) &&
+        pricingTier.properties.availableInstances < numberOfWorkersRequired
+      ) {
         spec.state = 'disabled';
         spec.disabledMessage = this.ts.instant(PortalResources.pricing_notEnoughInstances);
       } else {
@@ -262,7 +266,8 @@ export class ProdSpecGroup extends PriceSpecGroup {
     }
 
     const isPartOfPv2Experiment = FlightingUtil.checkSubscriptionInFlight(input.subscriptionId, FlightingUtil.Features.Pv2Experimentation);
-    const isLinux = (input.specPickerInput.data && input.specPickerInput.data.isLinux) || ArmUtil.isLinuxApp(input.plan);
+    const isLinux =
+      (input.specPickerInput.data && input.specPickerInput.data.isLinux) || ArmUtil.isLinuxApp(input.planDetails && input.planDetails.plan);
 
     // NOTE(michinoy): The OS type determines whether standard small plan is recommended or additional pricing tier.
     // NOTE(shimedh): If subscription is part of PV2 experiment flighting we always add standard small plan in additional pricing tier irrespective of OS.
