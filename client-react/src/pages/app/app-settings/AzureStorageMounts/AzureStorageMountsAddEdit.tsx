@@ -8,15 +8,15 @@ import AzureStorageMountsAddEditBasic from './AzureStorageMountsAddEditBasic';
 import AzureStorageMountsAddEditAdvanced from './AzureStorageMountsAddEditAdvanced';
 import { Formik, FormikProps, Field, Form } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
-import { SiteContext, StorageAccountsContext } from '../Contexts';
+import { StorageAccountsContext } from '../Contexts';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import * as Yup from 'yup';
-import { isContainerApp, isLinuxApp, isWindowsCode } from '../../../../utils/arm-utils';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import Url from '../../../../utils/url';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { style } from 'typestyle';
+import { SiteStateContext } from '../../../../SiteState';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
@@ -34,7 +34,7 @@ export type AzureStorageMountsAddEditPropsCombined = AzureStorageMountsAddEditPr
 const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombined> = props => {
   const { closeBlade, otherAzureStorageMounts, azureStorageMount, updateAzureStorageMount, enableValidation } = props;
   const storageAccounts = useContext(StorageAccountsContext);
-  const site = useContext(SiteContext);
+  const siteState = useContext(SiteStateContext);
   const [configurationOption, setConfigurationOption] = useState('basic');
   const { t } = useTranslation();
   const [basicDisabled, setBasicDisabled] = useState(false);
@@ -52,31 +52,47 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
 
   const validateMountPath = (value: string): string | undefined => {
     const isValidationEnabled = !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMountPathValidation);
-    if (!isValidationEnabled) {
+    if (!isValidationEnabled || !siteState) {
       return undefined;
     }
     if (!!value) {
-      const valid = isLinuxApp(site)
-        ? MountPathValidationRegex.linux.test(value)
-        : isContainerApp(site)
-        ? MountPathValidationRegex.windowsContainer[0].test(value) && !MountPathValidationRegex.windowsContainer[1].test(value)
-        : MountPathValidationRegex.windowsCode.test(value);
+      let valid = true;
+      if (siteState.isLinuxApp) {
+        valid = MountPathValidationRegex.linux.test(value);
+      } else if (siteState.isContainerApp) {
+        valid =
+          MountPathValidationRegex.windowsContainer[0].test(value) &&
+          !MountPathValidationRegex.windowsContainer[1].test(value) &&
+          !MountPathValidationRegex.windowsContainer[2].test(value);
+      } else {
+        valid = MountPathValidationRegex.windowsCode.test(value);
+      }
       return valid ? undefined : t('validation_invalidMountPath');
     }
     return t('validation_requiredError');
   };
 
   const displayMountPathInfoBubble = (): string => {
-    const { valid, invalid } = isLinuxApp(site)
-      ? MountPathExamples.linux
-      : isContainerApp(site)
-      ? MountPathExamples.windowsContainer
-      : MountPathExamples.windowsCode;
+    if (!siteState) {
+      return '';
+    }
+    let mountPathInfoBubble;
+    if (siteState.isLinuxApp) {
+      mountPathInfoBubble = MountPathExamples.linux;
+    } else if (siteState.isContainerApp) {
+      mountPathInfoBubble = MountPathExamples.windowsContainer;
+    } else {
+      mountPathInfoBubble = MountPathExamples.windowsCode;
+    }
+    const { valid, invalid } = mountPathInfoBubble;
     return t('mountPath_info').format(valid, invalid);
   };
 
   const setMountPathPrefix = (): string => {
-    return isWindowsCode(site) ? '/mounts' : '';
+    if (!!siteState) {
+      return siteState.isLinuxApp || siteState.isContainerApp ? '' : CommonConstants.windowsCodeMountPathPrefix;
+    }
+    return '';
   };
 
   const validationSchema = Yup.object().shape({

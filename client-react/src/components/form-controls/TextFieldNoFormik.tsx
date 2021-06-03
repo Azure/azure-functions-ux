@@ -115,7 +115,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     );
   };
 
-  const configureOfficeTextFieldProps = (): ITextFieldProps => {
+  const getTextFieldProps = (): ITextFieldProps => {
     const textFieldProps: ITextFieldProps = {
       id,
       onChange,
@@ -131,21 +131,15 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
       'aria-required': !!required,
     };
 
-    const propsWithValueField = { ...textFieldProps, value: hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : value || '' };
-    const propsWithDefaultValueField = {
-      ...textFieldProps,
-      defaultValue: hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : defaultValue || '',
-    };
-
-    return !!value ? propsWithValueField : !!defaultValue ? propsWithDefaultValueField : propsWithValueField;
+    return !!defaultValue ? { ...textFieldProps, defaultValue } : { ...textFieldProps, value: value || '' };
   };
 
-  const officeTextFieldProps = configureOfficeTextFieldProps();
+  const valueProps = hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : getTextFieldProps();
 
   return (
     <ReactiveFormControl {...props}>
       <Stack horizontal verticalAlign="center">
-        <OfficeTextField {...officeTextFieldProps} {...rest} />
+        <OfficeTextField {...valueProps} {...rest} />
         {additionalControls}
       </Stack>
     </ReactiveFormControl>

@@ -178,12 +178,14 @@ export class CommonConstants {
     },
     windowsContainer: {
       // eslint-disable-next-line no-useless-escape
-      valid: '/foo, /foo/bar, [Cc-Zz]:\\foo, [Cc-Zz]:\\mounts\\foo\\bar',
+      valid: '/foo, /foo/bar, [Cc-Zz]:\\foo, [Cc-Zz]:\\foo\\bar',
 
       // eslint-disable-next-line no-useless-escape
-      invalid: '/, /home, [Cc-Zz]:\\, [Cc-Zz]:\\mounts, [Cc-Zz]:\\home',
+      invalid: '/, /., /home, [Cc-Zz]:\\, [Cc-Zz]:\\., [Cc-Zz]:\\mounts, [Cc-Zz]:\\home',
     },
   };
+
+  public static readonly windowsCodeMountPathPrefix = '/mounts';
 
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
 }

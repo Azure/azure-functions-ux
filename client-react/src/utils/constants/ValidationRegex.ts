@@ -21,10 +21,15 @@ export class ValidationRegex {
     windowsCode: /^[\/\\](mounts)[\/\\][a-zA-Z0-9._\-\[\]\(\)]+[\/\\]*$/,
 
     // Mount path for windows container can only contain can only contain letters, digits, (_), (-), (/), (\),
-    // parentheses and square brackets. Drive letter (from c to z) is also allowed as the prefix of the path. e.g c:/foo/bar/logs
-    // /., \., [Cc-Zz]/. and [Cc-Zz]\. are also invalid
+    // parentheses and square brackets. Drive letter (from c to z) is allowed as the prefix of the path. e.g c:/foo/bar/logs
+    // /., \., [Cc-Zz]/. and [Cc-Zz]\. are invalid
+    // /mounts, \mounts, c:/mounts, c:\mounts are invalid
     // eslint-disable-next-line no-useless-escape
-    windowsContainer: [/^([c-zC-Z]:)?[\/\\][a-zA-Z0-9._\-\[\]\(\)\/\\]+$/, /^([c-zC-Z]:)?[\/\\](.)$/],
+    windowsContainer: [
+      /^([c-zC-Z]:)?[\/\\][a-zA-Z0-9._\-\[\]\(\)\/\\]+$/,
+      /^([c-zC-Z]:)?[\/\\][\/\\]?(.)$/,
+      /^([c-zC-Z]:)?[\/\\][\/\\]?(mounts)/,
+    ],
 
     // Mount path for windows container can only contain can only contain letters, digits, (_), (-), (/),
     // parentheses and square brackets. Drive letter is not allowed. e.g /foo/bar/logs
@@ -32,6 +37,6 @@ export class ValidationRegex {
     linux: /^\/[a-zA-Z0-9.\[\]\(\)\-_\/]+$/,
 
     // eslint-disable-next-line no-useless-escape
-    homeDir: /^([c-zC-Z]:)?[\/\\]([Hh]ome)$/,
+    homeDir: /^([c-zC-Z]:)?[\/\\][\/\\]?([Hh][Oo][Mm][Ee])$/,
   };
 }
