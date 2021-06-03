@@ -154,7 +154,7 @@ export class PlanPriceSpecManager {
         // Initialize every spec for each spec group.  For most cards this is a no-op, but
         // some require special handling so that we know if we need to hide/disable a card.
         this.specGroups.forEach(g => {
-          let priceSpecInput: PriceSpecInput = {
+          const priceSpecInput: PriceSpecInput = {
             specPickerInput: inputs,
             subscriptionId: this._subscriptionId,
           };
