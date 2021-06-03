@@ -131,7 +131,16 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
       'aria-required': !!required,
     };
 
-    return !!defaultValue ? { ...textFieldProps, defaultValue } : { ...textFieldProps, value: value || '' };
+    const textFieldPropsWithValueProp = { ...textFieldProps, value: value || '' };
+    const testFieldPropsWithDefaultValueProp = { ...textFieldProps, defaultValue };
+
+    if (!!value) {
+      return textFieldPropsWithValueProp;
+    }
+    if (!!defaultValue) {
+      return testFieldPropsWithDefaultValueProp;
+    }
+    return textFieldPropsWithValueProp;
   };
 
   const valueProps = hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : getTextFieldProps();
