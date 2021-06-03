@@ -42,11 +42,12 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
   cssClass = 'spec basic-spec';
 
   runInitialization(input: PriceSpecInput) {
-    if (input.plan) {
+    if (input.planDetails) {
       if (
-        input.plan.properties.hostingEnvironmentProfile ||
-        input.plan.properties.hyperV ||
-        AppKind.hasAnyKind(input.plan, [Kinds.elastic])
+        input.planDetails.plan.properties.hostingEnvironmentProfile ||
+        input.planDetails.plan.properties.hyperV ||
+        AppKind.hasAnyKind(input.planDetails.plan, [Kinds.elastic]) ||
+        input.planDetails.containsJbossSite
       ) {
         this.state = 'hidden';
       }
@@ -56,7 +57,8 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
         input.specPickerInput.data.isXenon ||
         input.specPickerInput.data.hyperV ||
         (input.specPickerInput.data.isNewFunctionAppCreate &&
-          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard))
+          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard)) ||
+        input.specPickerInput.data.isJBoss
       ) {
         this.state = 'hidden';
       }
