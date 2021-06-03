@@ -131,8 +131,12 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
       'aria-required': !!required,
     };
 
-    const textFieldPropsWithValueProp = { ...textFieldProps, value: value || '' };
-    const testFieldPropsWithDefaultValueProp = { ...textFieldProps, defaultValue };
+    const getValueProps = (val: string | undefined): string => {
+      return hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : val || '';
+    };
+
+    const textFieldPropsWithValueProp = { ...textFieldProps, value: getValueProps(value) };
+    const testFieldPropsWithDefaultValueProp = { ...textFieldProps, defaultValue: getValueProps(defaultValue) };
 
     if (!!value) {
       return textFieldPropsWithValueProp;
@@ -143,7 +147,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     return textFieldPropsWithValueProp;
   };
 
-  const valueProps = hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : getTextFieldProps();
+  const valueProps = getTextFieldProps();
 
   return (
     <ReactiveFormControl {...props}>
