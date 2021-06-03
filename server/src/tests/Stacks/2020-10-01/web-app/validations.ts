@@ -284,7 +284,7 @@ export function validateGitHubActionStacks(stacks) {
 
 function validateGitHubActionStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(4);
+  expect(stacks.length).to.equal(5);
 }
 
 function validateGitHubActionStacksProperties(stacks) {
