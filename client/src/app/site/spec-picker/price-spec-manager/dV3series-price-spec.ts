@@ -65,7 +65,7 @@ export abstract class DV3SeriesPriceSpec extends PriceSpec {
   }
 
   runInitialization(input: PriceSpecInput) {
-    if (input.planDetails.plan) {
+    if (input.planDetails) {
       this._updateHardwareItemsList(input.planDetails.plan.properties.hyperV);
       this.state = this._shouldHideForExistingPlan(input.planDetails.plan, input.planDetails.containsJbossSite) ? 'hidden' : this.state;
 

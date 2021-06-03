@@ -156,12 +156,16 @@ export class PlanPriceSpecManager {
         this.specGroups.forEach(g => {
           const priceSpecInput: PriceSpecInput = {
             specPickerInput: inputs,
-            planDetails: {
-              plan: this._plan,
-              containsJbossSite: this._doesPlanContainJbossSite(r.serverFarmSites),
-            },
             subscriptionId: this._subscriptionId,
           };
+
+          // Add planDetails only for update scenario.
+          if (this._isUpdateScenario(inputs)) {
+            priceSpecInput.planDetails = {
+              plan: this._plan,
+              containsJbossSite: this._doesPlanContainJbossSite(r.serverFarmSites),
+            };
+          }
 
           g.initialize(priceSpecInput);
           specInitCalls = specInitCalls.concat(g.recommendedSpecs.map(s => s.initialize(priceSpecInput)));
