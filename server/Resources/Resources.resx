@@ -6808,7 +6808,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Develop in portal</value>
     </data>
     <data name="storageAccountDetailsFetchFailure" xml:space="preserve">
-        <value>Failed to fetch storage account details. Please configure storage mount using advanced available under configuration options.</value>
+        <value>Failed to fetch storage account details. Please select 'Advanced' option for Configuration options selector.</value>
     </data>
     <data name="containerImage" xml:space="preserve">
         <value>Image name</value>
