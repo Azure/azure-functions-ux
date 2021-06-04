@@ -20,7 +20,9 @@ export const phpCreateStack: WebAppCreateStack = {
           runtimeVersion: 'PHP|7.4',
           sortOrder: 0,
           githubActionSettings: {
-            supported: false,
+            supported: true,
+            recommendedVersion: '7.4',
+            notSupportedInCreates: true,
           },
         },
         {
@@ -33,7 +35,9 @@ export const phpCreateStack: WebAppCreateStack = {
           runtimeVersion: '7.4',
           sortOrder: 1,
           githubActionSettings: {
-            supported: false,
+            supported: true,
+            recommendedVersion: '7.4',
+            notSupportedInCreates: true,
           },
         },
       ],
@@ -53,7 +57,9 @@ export const phpCreateStack: WebAppCreateStack = {
           runtimeVersion: 'PHP|7.3',
           sortOrder: 0,
           githubActionSettings: {
-            supported: false,
+            supported: true,
+            recommendedVersion: '7.3',
+            notSupportedInCreates: true,
           },
         },
         {
@@ -66,7 +72,9 @@ export const phpCreateStack: WebAppCreateStack = {
           runtimeVersion: '7.3',
           sortOrder: 1,
           githubActionSettings: {
-            supported: false,
+            supported: true,
+            recommendedVersion: '7.3',
+            notSupportedInCreates: true,
           },
         },
       ],

@@ -27,7 +27,9 @@ export const phpStack: WebAppStack = {
                 isSupported: false,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '7.4',
+                notSupportedInCreates: true,
               },
               endOfLifeDate: php7Point4EOL,
             },
@@ -38,7 +40,9 @@ export const phpStack: WebAppStack = {
                 isSupported: false,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '7.4',
+                notSupportedInCreates: true,
               },
               endOfLifeDate: php7Point4EOL,
             },
@@ -55,7 +59,9 @@ export const phpStack: WebAppStack = {
                 isSupported: false,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '7.3',
+                notSupportedInCreates: true,
               },
               endOfLifeDate: php7Point3EOL,
             },
@@ -66,7 +72,9 @@ export const phpStack: WebAppStack = {
                 isSupported: false,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '7.3',
+                notSupportedInCreates: true,
               },
               endOfLifeDate: php7Point3EOL,
             },
@@ -96,7 +104,7 @@ export const phpStack: WebAppStack = {
                 isSupported: false,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               endOfLifeDate: php7Point2EOL,
             },

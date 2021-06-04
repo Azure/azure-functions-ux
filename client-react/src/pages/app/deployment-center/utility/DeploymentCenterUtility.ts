@@ -85,6 +85,8 @@ const getRuntimeStackVersionForWindows = (
     // combined with the fact there is no storage of .NET CORE version, we now return an assumed value of the latest
     // .NET Core
     return '3.1';
+  } else if (stack === RuntimeStacks.php) {
+    return siteConfig.properties.phpVersion || '';
   } else {
     return '';
   }
