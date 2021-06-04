@@ -89,6 +89,8 @@ export class WorkflowService20201201 {
         return this.readWorkflowFile('web-app-configs/node-linux.config.yml');
       case RuntimeStacks.Python:
         return this.readWorkflowFile('web-app-configs/python-linux.config.yml');
+      case RuntimeStacks.Php:
+        return this.readWorkflowFile('web-app-configs/php-linux.config.yml');
       default:
         throw new HttpException(`The workflow file for the runtime stack '${runtimeStack}' and OS '${providedOs}' does not exist.`, 404);
     }
@@ -114,6 +116,8 @@ export class WorkflowService20201201 {
         return this.readWorkflowFile('web-app-configs/node-windows.config.yml');
       case RuntimeStacks.Python:
         return this.readWorkflowFile('web-app-configs/python-windows.config.yml');
+      case RuntimeStacks.Php:
+        return this.readWorkflowFile('web-app-configs/php-windows.config.yml');
       default:
         throw new HttpException(`The workflow file for the runtime stack '${runtimeStack}' and OS '${providedOs}' does not exist.`, 404);
     }
