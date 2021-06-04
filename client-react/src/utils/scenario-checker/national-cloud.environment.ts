@@ -3,7 +3,6 @@ import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { AzureEnvironment } from './azure.environment';
 import Url from '../url';
-import { isLinuxApp } from '../arm-utils';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
   public static isNationalCloud() {
@@ -117,12 +116,8 @@ export class NationalCloudEnvironment extends AzureEnvironment {
 
     this.scenarioChecks[ScenarioIds.externalSource] = {
       id: ScenarioIds.externalSource,
-      runCheck: (input: ScenarioCheckInput) => {
-        if (input && input.site && isLinuxApp(input.site)) {
-          return { status: 'disabled' };
-        } else {
-          return { status: 'enabled' };
-        }
+      runCheck: () => {
+        return { status: 'enabled' };
       },
     };
 
