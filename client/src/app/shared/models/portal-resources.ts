@@ -687,6 +687,7 @@ export class PortalResources {
   public static validation_slotNameReserved = 'validation_slotNameReserved';
   public static validation_fieldMaxCharacters = 'validation_fieldMaxCharacters';
   public static validation_shareNameAllowedCharacters = 'validation_shareNameAllowedCharacters';
+  public static validation_mountNameAllowedCharacters = 'validation_mountNameAllowedCharacters';
   public static mountPath_info = 'mountPath_info';
   public static validation_invalidMountPath = 'validation_invalidMountPath';
   public static validation_mountPathNotHome = 'validation_mountPathNotHome';

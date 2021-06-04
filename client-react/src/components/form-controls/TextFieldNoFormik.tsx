@@ -147,12 +147,10 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     return textFieldPropsWithValueProp;
   };
 
-  const valueProps = getTextFieldProps();
-
   return (
     <ReactiveFormControl {...props}>
       <Stack horizontal verticalAlign="center">
-        <OfficeTextField {...valueProps} {...rest} />
+        <OfficeTextField {...getTextFieldProps()} {...rest} />
         {additionalControls}
       </Stack>
     </ReactiveFormControl>
