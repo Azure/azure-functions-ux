@@ -128,12 +128,8 @@ export class FunctionAppEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.externalSource] = {
       id: ScenarioIds.externalSource,
-      runCheck: (input: ScenarioCheckInput) => {
-        if (input && input.site && isLinuxApp(input.site)) {
-          return { status: 'disabled' };
-        } else {
-          return { status: 'enabled' };
-        }
+      runCheck: () => {
+        return { status: 'enabled' };
       },
     };
 
