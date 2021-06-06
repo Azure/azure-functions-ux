@@ -30,7 +30,7 @@ export const aspDotnetStack: WebAppStack = {
               runtimeVersion: 'DOTNETCORE|6.0',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
