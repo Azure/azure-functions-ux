@@ -573,6 +573,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '${runtimeStackVersion}'
+        include-prerelease: true
 
     - name: Build with dotnet
       run: dotnet build --configuration Release
