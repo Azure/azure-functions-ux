@@ -20,6 +20,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '__runtimeversion__'
+          include-prerelease: true
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
@@ -41,16 +42,16 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v2
-      with:
-        name: .net-app
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: .net-app
 
-    - name: Deploy to Azure Web App
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: '__sitename__'
-        slot-name: '__slotname__'
-        publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
-        package: .
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: '__sitename__'
+          slot-name: '__slotname__'
+          publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
+          package: .
