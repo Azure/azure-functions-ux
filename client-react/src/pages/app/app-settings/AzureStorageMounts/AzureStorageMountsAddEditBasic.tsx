@@ -89,9 +89,9 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     const getBlobsFailure = storageContainerErrorSchema.getBlobsFailure;
     const getFilesFailure = storageContainerErrorSchema.getFilesFailure;
     if (storageType === StorageType.azureBlob && blobsContainerIsEmpty) {
-      setAccountError(getBlobsFailure ? t('blobsFailure') : t('noBlobs'));
+      setAccountError(getBlobsFailure ? t('storageAccountDetailsFetchFailure') : t('noBlobs'));
     } else if (storageType === StorageType.azureFiles && filesContainerIsEmpty) {
-      setAccountError(getFilesFailure ? t('fileSharesFailure') : t('noFileShares'));
+      setAccountError(getFilesFailure ? t('storageAccountDetailsFetchFailure') : t('noFileShares'));
     } else {
       setAccountError('');
     }

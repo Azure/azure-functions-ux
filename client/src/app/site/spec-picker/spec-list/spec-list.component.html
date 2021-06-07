@@ -10,7 +10,7 @@
     [hidden]="spec.state === 'hidden'"
     [id]="specGroup.id + spec.skuCode"
     tabindex="0"
-    role="radio button"
+    role="radio"
     [attr.aria-disabled]="spec.state === 'disabled'"
     [attr.aria-checked]="spec === specGroup.selectedSpec"
     [attr.aria-labelledBy]="getAriaLabelledByForSpec(spec)">
@@ -25,7 +25,7 @@
 
       <div *ngIf="spec.state === 'disabled'">
         <div class="disabledMessageDiv" title="{{ spec.disabledMessage }}">{{spec.disabledMessage}}</div>
-        <div *ngIf="spec.disabledInfoLink"><a [href]="spec.disabledInfoLink" target="_blank">{{'clickToLearnMore' | translate}}</a></div>
+        <div *ngIf="spec.disabledInfoLink"><a class="disabledMessageInfoLink" [href]="spec.disabledInfoLink" target="_blank">{{'clickToLearnMore' | translate}}</a></div>
       </div>
     </div>
   </div>

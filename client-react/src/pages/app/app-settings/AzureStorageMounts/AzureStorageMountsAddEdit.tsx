@@ -12,7 +12,16 @@ import { StorageAccountsContext } from '../Contexts';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import * as Yup from 'yup';
+import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
+import Url from '../../../../utils/url';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 import { style } from 'typestyle';
+import { SiteStateContext } from '../../../../SiteState';
+
+const MountPathValidationRegex = ValidationRegex.StorageMountPath;
+const MountPathExamples = CommonConstants.MountPathValidationExamples;
+
+const isValidationEnabled = !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMountPathValidation);
 
 export interface AzureStorageMountsAddEditProps {
   updateAzureStorageMount: (item: FormAzureStorageMounts) => any;
@@ -27,6 +36,7 @@ export type AzureStorageMountsAddEditPropsCombined = AzureStorageMountsAddEditPr
 const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombined> = props => {
   const { closeBlade, otherAzureStorageMounts, azureStorageMount, updateAzureStorageMount, enableValidation } = props;
   const storageAccounts = useContext(StorageAccountsContext);
+  const siteState = useContext(SiteStateContext);
   const [configurationOption, setConfigurationOption] = useState('basic');
   const { t } = useTranslation();
   const [basicDisabled, setBasicDisabled] = useState(false);
@@ -44,6 +54,71 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     closeBlade();
   };
 
+  const validateMountPath = (value: string): string | undefined => {
+    if (!isValidationEnabled || !siteState) {
+      return undefined;
+    }
+    if (!!value) {
+      let valid = true;
+      if (siteState.isLinuxApp) {
+        valid = MountPathValidationRegex.linux.test(value);
+      } else if (siteState.isContainerApp) {
+        valid =
+          MountPathValidationRegex.windowsContainer[0].test(value) &&
+          !MountPathValidationRegex.windowsContainer[1].test(value) &&
+          !MountPathValidationRegex.windowsContainer[2].test(value);
+      } else {
+        valid = MountPathValidationRegex.windowsCode.test(value);
+      }
+      return valid ? undefined : t('validation_invalidMountPath');
+    }
+    return t('validation_requiredError');
+  };
+
+  const displayMountPathInfoBubble = (): string => {
+    if (!isValidationEnabled || !siteState) {
+      return '';
+    }
+    let mountPathInfoBubble;
+    if (siteState.isLinuxApp) {
+      mountPathInfoBubble = MountPathExamples.linux;
+    } else if (siteState.isContainerApp) {
+      mountPathInfoBubble = MountPathExamples.windowsContainer;
+    } else {
+      mountPathInfoBubble = MountPathExamples.windowsCode;
+    }
+    const { valid, invalid } = mountPathInfoBubble;
+    return t('mountPath_info').format(valid, invalid);
+  };
+
+  const setMountPathPrefix = (): string => {
+    if (!!siteState) {
+      return siteState.isLinuxApp || siteState.isContainerApp ? '' : CommonConstants.windowsCodeMountPathPrefix;
+    }
+    return '';
+  };
+
+  let mountPathValidation = Yup.string()
+    .required(t('validation_requiredError'))
+    .max(mountPathMaxLength, t('validation_fieldMaxCharacters').format(mountPathMaxLength))
+    .test('cannotMountHomeDirectory', t('validation_mountPathNotHome'), (value: string) => {
+      const homeDir = ValidationRegex.StorageMountPath.homeDir;
+      return !homeDir.test(value);
+    })
+    .test('uniqueMountPath', t('validation_mouthPathMustBeUnique'), value => {
+      return (
+        !value ||
+        value === initialMountPath ||
+        !otherAzureStorageMounts.some(storageMount => storageMount.mountPath.toLowerCase() === value.toLowerCase())
+      );
+    });
+
+  if (!isValidationEnabled) {
+    mountPathValidation = mountPathValidation
+      .matches(mountPathRegex, t('validation_mountNameAllowedCharacters'))
+      .test('cannotMountRootDirectory', t('validation_mountPathNotRoot'), (value: string) => value !== '/');
+  }
+
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required(t('validation_requiredError'))
@@ -59,19 +134,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       .max(shareNameMaxLength, t('validation_fieldMaxCharacters').format(shareNameMaxLength))
       .matches(shareNameRegex, t('validation_shareNameAllowedCharacters')),
     accessKey: Yup.string().required(t('validation_requiredError')),
-    mountPath: Yup.string()
-      .required(t('validation_requiredError'))
-      .max(mountPathMaxLength, t('validation_fieldMaxCharacters').format(mountPathMaxLength))
-      .matches(mountPathRegex, t('validation_mountNameAllowedCharacters'))
-      .test('cannotMountHomeDirectory', t('validation_mountPathNotHome'), (value: string) => value !== '/home')
-      .test('cannotMountRootDirectory', t('validation_mountPathNotRoot'), (value: string) => value !== '/')
-      .test('uniqueMountPath', t('mouthPathMustBeUnique'), value => {
-        return (
-          !value ||
-          value === initialMountPath ||
-          !otherAzureStorageMounts.some(storageMount => storageMount.mountPath.toLowerCase() === value.toLowerCase())
-        );
-      }),
+    mountPath: mountPathValidation,
   });
 
   useEffect(() => {
@@ -146,8 +209,11 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               label={t('mountPath')}
               component={TextField}
               id={`azure-storage-mounts-path`}
+              defaultValue={setMountPathPrefix()}
+              infoBubbleMessage={displayMountPathInfoBubble()}
               errorMessage={formProps.errors && formProps.errors.mountPath}
               required={true}
+              validate={validateMountPath}
             />
             <ActionBar
               id="handler-mappings-edit-footer"
