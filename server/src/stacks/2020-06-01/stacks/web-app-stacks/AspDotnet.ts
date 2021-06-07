@@ -21,7 +21,8 @@ export const aspDotnetStack: WebAppStack = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '6.0.100-preview.1.21103.1',
+                supportedVersion: '6.0.x',
+                notSupportedInCreates: true,
               },
               isHidden: true,
               isEarlyAccess: true,
@@ -34,7 +35,8 @@ export const aspDotnetStack: WebAppStack = {
               },
               gitHubActionSettings: {
                 isSupported: true,
-                supportedVersion: '6.0.100-preview.1.21103.1',
+                supportedVersion: '6.0.x',
+                notSupportedInCreates: true,
               },
               isHidden: true,
               isEarlyAccess: true,
