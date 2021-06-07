@@ -29,6 +29,7 @@ interface CustomTextFieldProps {
 const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   const {
     value,
+    defaultValue,
     onChange,
     onBlur,
     errorMessage,
@@ -114,25 +115,42 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     );
   };
 
+  const getTextFieldProps = (): ITextFieldProps => {
+    const textFieldProps: ITextFieldProps = {
+      id,
+      onChange,
+      onBlur,
+      errorMessage,
+      onRenderSuffix,
+      tabIndex: 0,
+      styles: textFieldStyleOverrides(theme, fullpage, widthOverride),
+      required: false, // ReactiveFormControl will handle displaying required
+      // // NOTE(michinoy): even though we are handling the required display marker at
+      // // the field level, for a11y we need to have the aria-required tag set.
+      'aria-labelledby': `${id}-label`,
+      'aria-required': !!required,
+    };
+
+    const getValueProps = (val: string | undefined): string => {
+      return hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : val || '';
+    };
+
+    const textFieldPropsWithValueProp = { ...textFieldProps, value: getValueProps(value) };
+    const testFieldPropsWithDefaultValueProp = { ...textFieldProps, defaultValue: getValueProps(defaultValue) };
+
+    if (!!value) {
+      return textFieldPropsWithValueProp;
+    }
+    if (!!defaultValue) {
+      return testFieldPropsWithDefaultValueProp;
+    }
+    return textFieldPropsWithValueProp;
+  };
+
   return (
     <ReactiveFormControl {...props}>
       <Stack horizontal verticalAlign="center">
-        <OfficeTextField
-          id={id}
-          aria-labelledby={`${id}-label`}
-          value={hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : value || ''}
-          tabIndex={0}
-          onChange={onChange}
-          onBlur={onBlur}
-          errorMessage={errorMessage}
-          styles={textFieldStyleOverrides(theme, fullpage, widthOverride)}
-          onRenderSuffix={onRenderSuffix}
-          {...rest}
-          required={false} // ReactiveFormControl will handle displaying required
-          //NOTE(michinoy): even though we are handling the required display marker at
-          //the field level, for a11y we need to have the aria-required tag set.
-          aria-required={!!required}
-        />
+        <OfficeTextField {...getTextFieldProps()} {...rest} />
         {additionalControls}
       </Stack>
     </ReactiveFormControl>

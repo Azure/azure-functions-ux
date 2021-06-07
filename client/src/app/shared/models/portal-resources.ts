@@ -688,7 +688,10 @@ export class PortalResources {
   public static validation_fieldMaxCharacters = 'validation_fieldMaxCharacters';
   public static validation_shareNameAllowedCharacters = 'validation_shareNameAllowedCharacters';
   public static validation_mountNameAllowedCharacters = 'validation_mountNameAllowedCharacters';
+  public static mountPath_info = 'mountPath_info';
+  public static validation_invalidMountPath = 'validation_invalidMountPath';
   public static validation_mountPathNotHome = 'validation_mountPathNotHome';
+  public static validation_mouthPathMustBeUnique = 'validation_mouthPathMustBeUnique';
   public static error_unableToUpdateFunctionAppEditMode = 'error_unableToUpdateFunctionAppEditMode';
   public static readOnly = 'readOnly';
   public static readWriteSourceControlled = 'readWriteSourceControlled';
@@ -2218,11 +2221,7 @@ export class PortalResources {
   public static templateDetails = 'templateDetails';
   public static detailDescription = 'detailDescription';
   public static developInPortal = 'developInPortal';
-  public static fileSharesFailure = 'fileSharesFailure';
-  public static fileSharesFailureWithError = 'fileSharesFailureWithError';
-  public static blobsFailure = 'blobsFailure';
-  public static blobsFailureWithError = 'blobsFailureWithError';
-  public static blobsAndFileSharesFailure = 'blobsAndFileSharesFailure';
+  public static storageAccountDetailsFetchFailure = 'storageAccountDetailsFetchFailure';
   public static containerImage = 'containerImage';
   public static containerImagePlaceholder = 'containerImagePlaceholder';
   public static savingContainerConfiguration = 'savingContainerConfiguration';
