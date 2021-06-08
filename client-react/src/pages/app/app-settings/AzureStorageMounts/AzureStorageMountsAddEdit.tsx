@@ -210,7 +210,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               component={TextField}
               id={`azure-storage-mounts-path`}
               defaultValue={setMountPathPrefix()}
-              infoBubbleMessage={displayMountPathInfoBubble()}
+              mouseOverToolTip={displayMountPathInfoBubble()}
               errorMessage={formProps.errors && formProps.errors.mountPath}
               required={true}
               validate={validateMountPath}
