@@ -115,7 +115,7 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
           surveyId: `${featureName}- 0420`,
         },
       },
-      'function-logs'
+      'configuration'
     );
   };
 
