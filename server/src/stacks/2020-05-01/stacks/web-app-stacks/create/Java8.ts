@@ -82,7 +82,6 @@ export const java8CreateStack: WebAppCreateStack = {
       supportedPlatforms: [
         {
           os: 'linux',
-          isPreview: true,
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: false,
