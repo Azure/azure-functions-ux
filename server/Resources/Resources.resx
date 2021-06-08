@@ -6309,6 +6309,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
         <value>Version</value>
     </data>
+    <data name="deploymentCenterImageAndTagError" xml:space="preserve">
+        <value>There was an error fetching the image and tag.</value>
+    </data>
     <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>Container Registry</value>
     </data>
