@@ -108,7 +108,6 @@ export const javaContainersStack: WebAppStack = {
             linuxContainerSettings: {
               java8Runtime: 'JBOSSEAP|7-java8',
               java11Runtime: 'JBOSSEAP|7-java11',
-              isPreview: true,
               isAutoUpdate: true,
             },
           },
@@ -120,7 +119,6 @@ export const javaContainersStack: WebAppStack = {
             linuxContainerSettings: {
               java8Runtime: 'JBOSSEAP|7.3-java8',
               java11Runtime: 'JBOSSEAP|7.3-java11',
-              isPreview: true,
             },
           },
         },
@@ -130,7 +128,6 @@ export const javaContainersStack: WebAppStack = {
           stackSettings: {
             linuxContainerSettings: {
               java8Runtime: 'JBOSSEAP|7.2-java8',
-              isPreview: true,
               isDeprecated: true
             },
           },
