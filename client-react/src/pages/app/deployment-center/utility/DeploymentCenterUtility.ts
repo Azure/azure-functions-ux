@@ -1,6 +1,12 @@
-import { RuntimeStackSetting, AuthorizationResult } from '../DeploymentCenter.types';
+import {
+  RuntimeStackSetting,
+  AuthorizationResult,
+  DeploymentCenterFormData,
+  DeploymentCenterContainerFormData,
+  ContainerRegistrySources,
+} from '../DeploymentCenter.types';
 import { ArmObj } from '../../../../models/arm-obj';
-import { SiteConfig } from '../../../../models/site/config';
+import { ScmType, SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
 import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
 import { IDeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
@@ -8,6 +14,8 @@ import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 import { PublishingCredentials } from '../../../../models/site/publish';
 import { LogLevel, TelemetryInfo } from '../../../../models/telemetry';
 import { LogCategories } from '../../../../utils/LogCategories';
+import { FormikProps } from 'formik';
+import { IDeploymentCenterContext } from '../DeploymentCenterContext';
 
 export const getLogId = (component: string, event: string): string => {
   return `${component}/${event}`;
@@ -284,4 +292,73 @@ export const extractConfigFromFile = (input): Promise<string> => {
     };
     reader.readAsText(input.files[0]);
   });
+};
+
+export const isSettingsDirty = (
+  formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>,
+  deploymentCenterContext: IDeploymentCenterContext
+): boolean => {
+  return (
+    (isContainerGeneralSettingsDirty(formProps) ||
+      (formProps.values.registrySource === ContainerRegistrySources.privateRegistry && isPrivateRegistrySettingsDirty(formProps)) ||
+      (formProps.values.registrySource === ContainerRegistrySources.docker && isDockerSettingsDirty(formProps)) ||
+      (formProps.values.registrySource === ContainerRegistrySources.acr && isAcrSettingsDirty(formProps))) &&
+    !!deploymentCenterContext.siteConfig &&
+    deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
+  );
+};
+
+const isPrivateRegistrySettingsDirty = (formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>): boolean => {
+  return (
+    formProps.values.privateRegistryServerUrl !== formProps.initialValues.privateRegistryServerUrl ||
+    formProps.values.privateRegistryUsername !== formProps.initialValues.privateRegistryUsername ||
+    formProps.values.privateRegistryPassword !== formProps.initialValues.privateRegistryPassword ||
+    formProps.values.privateRegistryImageAndTag !== formProps.initialValues.privateRegistryImageAndTag ||
+    formProps.values.privateRegistryComposeYml !== formProps.initialValues.privateRegistryComposeYml
+  );
+};
+
+const isDockerSettingsDirty = (formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>): boolean => {
+  return (
+    formProps.values.dockerHubAccessType !== formProps.initialValues.dockerHubAccessType ||
+    formProps.values.dockerHubImageAndTag !== formProps.initialValues.dockerHubImageAndTag ||
+    formProps.values.dockerHubComposeYml !== formProps.initialValues.dockerHubComposeYml
+  );
+};
+
+const isAcrSettingsDirty = (formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>): boolean => {
+  return (
+    formProps.values.acrLoginServer !== formProps.initialValues.acrLoginServer ||
+    formProps.values.acrImage !== formProps.initialValues.acrImage ||
+    formProps.values.acrTag !== formProps.initialValues.acrTag ||
+    formProps.values.acrComposeYml !== formProps.initialValues.acrComposeYml
+  );
+};
+
+const isContainerGeneralSettingsDirty = (formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>): boolean => {
+  return (
+    formProps.values.scmType !== formProps.initialValues.scmType ||
+    formProps.values.option !== formProps.initialValues.option ||
+    formProps.values.registrySource !== formProps.initialValues.registrySource ||
+    formProps.values.continuousDeploymentOption !== formProps.initialValues.continuousDeploymentOption ||
+    formProps.values.command !== formProps.initialValues.command
+  );
+};
+
+export const isFtpsDirty = (
+  formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>,
+  deploymentCenterPublishingContext: IDeploymentCenterPublishingContext
+): boolean => {
+  const currentUser = deploymentCenterPublishingContext.publishingUser;
+  const formPropsExist =
+    (!!formProps.values.publishingUsername || formProps.values.publishingUsername === '') &&
+    (!!formProps.values.publishingPassword || formProps.values.publishingPassword === '') &&
+    (!!formProps.values.publishingConfirmPassword || formProps.values.publishingConfirmPassword === '');
+
+  return (
+    !!currentUser &&
+    formPropsExist &&
+    (currentUser.properties.publishingUserName !== formProps.values.publishingUsername ||
+      (!!formProps.values.publishingPassword && currentUser.properties.publishingPassword !== formProps.values.publishingPassword))
+  );
 };
