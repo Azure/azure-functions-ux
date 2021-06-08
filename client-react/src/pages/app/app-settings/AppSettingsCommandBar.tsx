@@ -64,6 +64,19 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
     };
   };
 
+  const getFeedbackItem = (): ICommandBarItemProps => {
+    return {
+      key: 'feedback',
+      name: t('leaveFeedback'),
+      iconProps: {
+        iconName: 'Heart',
+      },
+      disabled: false,
+      ariaLabel: t('leaveFeedback'),
+      onClick: openFeedbackBlade,
+    };
+  };
+
   const getButtonSeparator = (key: string) => {
     return {
       key: key,
@@ -86,12 +99,33 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
     };
   };
 
+  const openFeedbackBlade = () => {
+    const featureName = 'AppServiceConfiguration';
+    portalCommunicator.openBlade(
+      {
+        detailBlade: 'InProductFeedbackBlade',
+        extension: 'HubsExtension',
+        openAsContextBlade: true,
+        detailBladeInputs: {
+          bladeName: `${featureName}`,
+          cesQuestion: t('configurationFeedbackCESQuestion'),
+          cvaQuestion: t('configurationFeedbackCVAQuestion'),
+          extensionName: 'WebsitesExtension',
+          featureName: `${featureName}`,
+          surveyId: `${featureName}- 0420`,
+        },
+      },
+      'function-logs'
+    );
+  };
+
   // Data for CommandBar
   const getItems = (dirty: boolean, disabled: boolean): ICommandBarItemProps[] => {
     const items: ICommandBarItemProps[] = [
       getRefreshButton(dirty, disabled),
       getSaveButton(dirty, disabled),
       getDiscardButton(dirty, disabled),
+      getFeedbackItem(),
     ];
 
     if (!!onResourceConnectionClick && isServiceLinkerVisible()) {
