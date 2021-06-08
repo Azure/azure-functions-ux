@@ -7149,4 +7149,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSiteStandardBandwidthOverage" xml:space="preserve">
         <value>${0} per GB per subscription</value>
     </data>
+    <data name="configurationFeedbackCESQuestion" xml:space="preserve">
+        <value>How easy or difficult is it to use this App Service configuration page?</value>
+    </data>
+    <data name="configurationFeedbackCVAQuestion" xml:space="preserve">
+        <value>How valuable is this App Service configuration page?</value>
+    </data>
 </root>
