@@ -27,6 +27,7 @@ export interface AppInsightsSettings {
 export interface GitHubActionSettings {
   isSupported: boolean;
   supportedVersion?: string;
+  notSupportedInCreates?: boolean;
 }
 
 export interface CommonSettings {
