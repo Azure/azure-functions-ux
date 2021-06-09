@@ -18,6 +18,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
+  const hasNoWritePermission = deploymentCenterContext && !deploymentCenterContext.hasWritePermission;
 
   const isSiteLoaded = () => {
     return siteStateContext.site && siteStateContext.site.properties;
@@ -47,7 +48,11 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   };
 
   const isSaveDisabled = () => {
-    return isDisabledOnReload() || !isDirty || isVstsBuildProvider;
+    return isDisabledOnReload() || !isDirty || isVstsBuildProvider || hasNoWritePermission;
+  };
+
+  const isDiscardDisabled = () => {
+    return isDisabledOnReload() || !isDirty || hasNoWritePermission;
   };
 
   const openFeedbackBlade = () => {
@@ -143,7 +148,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Cancel',
       },
       ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
-      disabled: isDisabledOnReload() || !isDirty,
+      disabled: isDiscardDisabled(),
       onClick: onDiscardButtonClick,
     };
   };
