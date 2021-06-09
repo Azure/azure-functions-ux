@@ -30,21 +30,19 @@ export const dotnetStack: WebAppStack = {
                 supportedVersion: '6.0.x',
                 notSupportedInCreates: true,
               },
-              isHidden: true,
               isEarlyAccess: true,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|6.0',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
                 supportedVersion: '6.0.x',
                 notSupportedInCreates: true,
               },
-              isHidden: true,
               isEarlyAccess: true,
             },
           },
