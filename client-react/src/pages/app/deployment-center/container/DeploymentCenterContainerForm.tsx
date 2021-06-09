@@ -27,6 +27,8 @@ import {
   getWorkflowFilePath,
   getArmToken,
   getTelemetryInfo,
+  isSettingsDirty,
+  isFtpsDirty,
 } from '../utility/DeploymentCenterUtility';
 import { ACRWebhookPayload } from '../../../../models/acr';
 import { ScmType } from '../../../../models/site/config';
@@ -658,7 +660,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               discardFunction={() => setIsDiscardConfirmDialogVisible(true)}
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               isDataRefreshing={props.isDataRefreshing}
-              isDirty={formProps.dirty}
+              isDirty={isSettingsDirty(formProps, deploymentCenterContext) || isFtpsDirty(formProps, deploymentCenterPublishingContext)}
               isVstsBuildProvider={formProps.values.scmType === ScmType.Vsts}
             />
           </div>

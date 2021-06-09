@@ -91,8 +91,8 @@ export const java8LinuxConfigStack: WebAppConfigStack = {
           },
         ],
         applicationInsights: true,
-        isPreview: true,
         isDeprecated: false,
+        isPreview: false,
         isHidden: false,
       },
       {

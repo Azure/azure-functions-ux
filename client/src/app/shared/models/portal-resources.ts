@@ -2047,6 +2047,7 @@ export class PortalResources {
   public static deploymentCenterSettingsBuildLabel = 'deploymentCenterSettingsBuildLabel';
   public static deploymentCenterSettingsRuntimeLabel = 'deploymentCenterSettingsRuntimeLabel';
   public static deploymentCenterSettingsRuntimeVersionLabel = 'deploymentCenterSettingsRuntimeVersionLabel';
+  public static deploymentCenterImageAndTagError = 'deploymentCenterImageAndTagError';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistry =
     'deploymentCenterContainerSettingsSourceOptionContainerRegistry';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription =
@@ -2335,4 +2336,6 @@ export class PortalResources {
   public static staticSiteStandardStagingEnvironmentsAmount = 'staticSiteStandardStagingEnvironmentsAmount';
   public static staticSiteStandardPrice = 'staticSiteStandardPrice';
   public static staticSiteStandardBandwidthOverage = 'staticSiteStandardBandwidthOverage';
+  public static configurationFeedbackCESQuestion = 'configurationFeedbackCESQuestion';
+  public static configurationFeedbackCVAQuestion = 'configurationFeedbackCVAQuestion';
 }

@@ -3,7 +3,7 @@ import { Pivot, PivotItem, IPivotItemProps, MessageBar, MessageBarType, Link } f
 import DeploymentCenterContainerSettings from './DeploymentCenterContainerSettings';
 import DeploymentCenterFtps from '../DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterContainerPivotProps, ContainerRegistrySources } from '../DeploymentCenter.types';
+import { DeploymentCenterContainerPivotProps } from '../DeploymentCenter.types';
 import DeploymentCenterContainerLogs from './DeploymentCenterContainerLogs';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
@@ -15,6 +15,7 @@ import { SiteStateContext } from '../../../../SiteState';
 import { ArmPlanDescriptor } from '../../../../utils/resourceDescriptors';
 import { messageBannerClass } from '../../../../components/CustomBanner/CustomBanner.styles';
 import DeploymentCenterGitHubActionsCodeLogs from '../code/DeploymentCenterGitHubActionsCodeLogs';
+import { isFtpsDirty, isSettingsDirty } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotProps> = props => {
   const { logs, formProps, isDataRefreshing, isLogsDataRefreshing, refresh, isCalledFromContainerSettings } = props;
@@ -28,69 +29,6 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
 
   const isScmGitHubActions =
     deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
-
-  const isSettingsDirty = (): boolean => {
-    return (
-      (isContainerGeneralSettingsDirty() ||
-        (formProps.values.registrySource === ContainerRegistrySources.privateRegistry && isPrivateRegistrySettingsDirty()) ||
-        (formProps.values.registrySource === ContainerRegistrySources.docker && isDockerSettingsDirty()) ||
-        (formProps.values.registrySource === ContainerRegistrySources.acr && isAcrSettingsDirty())) &&
-      !!deploymentCenterContext.siteConfig &&
-      deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
-    );
-  };
-
-  const isPrivateRegistrySettingsDirty = (): boolean => {
-    return (
-      formProps.values.privateRegistryServerUrl !== formProps.initialValues.privateRegistryServerUrl ||
-      formProps.values.privateRegistryUsername !== formProps.initialValues.privateRegistryUsername ||
-      formProps.values.privateRegistryPassword !== formProps.initialValues.privateRegistryPassword ||
-      formProps.values.privateRegistryImageAndTag !== formProps.initialValues.privateRegistryImageAndTag ||
-      formProps.values.privateRegistryComposeYml !== formProps.initialValues.privateRegistryComposeYml
-    );
-  };
-
-  const isDockerSettingsDirty = (): boolean => {
-    return (
-      formProps.values.dockerHubAccessType !== formProps.initialValues.dockerHubAccessType ||
-      formProps.values.dockerHubImageAndTag !== formProps.initialValues.dockerHubImageAndTag ||
-      formProps.values.dockerHubComposeYml !== formProps.initialValues.dockerHubComposeYml
-    );
-  };
-
-  const isAcrSettingsDirty = (): boolean => {
-    return (
-      formProps.values.acrLoginServer !== formProps.initialValues.acrLoginServer ||
-      formProps.values.acrImage !== formProps.initialValues.acrImage ||
-      formProps.values.acrTag !== formProps.initialValues.acrTag ||
-      formProps.values.acrComposeYml !== formProps.initialValues.acrComposeYml
-    );
-  };
-
-  const isContainerGeneralSettingsDirty = (): boolean => {
-    return (
-      formProps.values.scmType !== formProps.initialValues.scmType ||
-      formProps.values.option !== formProps.initialValues.option ||
-      formProps.values.registrySource !== formProps.initialValues.registrySource ||
-      formProps.values.continuousDeploymentOption !== formProps.initialValues.continuousDeploymentOption ||
-      formProps.values.command !== formProps.initialValues.command
-    );
-  };
-
-  const isFtpsDirty = (): boolean => {
-    const currentUser = deploymentCenterPublishingContext.publishingUser;
-    const formPropsExist =
-      (!!formProps.values.publishingUsername || formProps.values.publishingUsername === '') &&
-      (!!formProps.values.publishingPassword || formProps.values.publishingPassword === '') &&
-      (!!formProps.values.publishingConfirmPassword || formProps.values.publishingConfirmPassword === '');
-
-    return (
-      !!currentUser &&
-      formPropsExist &&
-      (currentUser.properties.publishingUserName !== formProps.values.publishingUsername ||
-        (!!formProps.values.publishingPassword && currentUser.properties.publishingPassword !== formProps.values.publishingPassword))
-    );
-  };
 
   const openContainerSettingsBlade = () => {
     const serverFarmId = siteStateContext.site && siteStateContext.site.properties ? siteStateContext.site.properties.serverFarmId : '';
@@ -117,6 +55,14 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
     );
   };
 
+  const isSettingsTabDirty = () => {
+    return isSettingsDirty(formProps, deploymentCenterContext);
+  };
+
+  const isFtpsTabDirty = () => {
+    return isFtpsDirty(formProps, deploymentCenterPublishingContext);
+  };
+
   return (
     <>
       {isCalledFromContainerSettings && (
@@ -130,7 +76,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
           headerText={t('deploymentCenterPivotItemSettingsHeaderText')}
           ariaLabel={t('deploymentCenterPivotItemSettingsAriaLabel')}
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, isSettingsDirty, t('modifiedTag'))
+            CustomTabRenderer(link, defaultRenderer, theme, isSettingsTabDirty, t('modifiedTag'))
           }>
           <DeploymentCenterContainerSettings formProps={formProps} isDataRefreshing={isDataRefreshing} />
         </PivotItem>
@@ -159,7 +105,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
           headerText={t('deploymentCenterPivotItemFtpsHeaderText')}
           ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, isFtpsDirty, t('modifiedTag'))
+            CustomTabRenderer(link, defaultRenderer, theme, isFtpsTabDirty, t('modifiedTag'))
           }>
           <DeploymentCenterFtps formProps={formProps} isDataRefreshing={isDataRefreshing} />
         </PivotItem>

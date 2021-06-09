@@ -6309,6 +6309,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
         <value>Version</value>
     </data>
+    <data name="deploymentCenterImageAndTagError" xml:space="preserve">
+        <value>There was an error fetching the image and tag.</value>
+    </data>
     <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>Container Registry</value>
     </data>
@@ -7145,5 +7148,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSiteStandardBandwidthOverage" xml:space="preserve">
         <value>${0} per GB per subscription</value>
+    </data>
+    <data name="configurationFeedbackCESQuestion" xml:space="preserve">
+        <value>How easy or difficult is it to use this App Service configuration page?</value>
+    </data>
+    <data name="configurationFeedbackCVAQuestion" xml:space="preserve">
+        <value>How valuable is this App Service configuration page?</value>
     </data>
 </root>
