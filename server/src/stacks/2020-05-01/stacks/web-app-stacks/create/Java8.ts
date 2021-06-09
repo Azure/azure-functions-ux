@@ -84,6 +84,7 @@ export const java8CreateStack: WebAppCreateStack = {
           os: 'linux',
           isDeprecated: false,
           isHidden: false,
+          isPreview: false,
           applicationInsightsEnabled: false,
           remoteDebuggingEnabled: false,
           runtimeVersion: 'JBOSSEAP|7.2-java8',
