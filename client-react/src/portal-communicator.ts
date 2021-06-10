@@ -115,11 +115,11 @@ export default class PortalCommunicator {
           azureResourceManagerEndpoint: '',
           runtimeType: 'Azure',
         },
-        ajax: {
+        AppSvcAjax: {
           armCall: (requestObject: ArmRequestObject<any>) => MakeArmCall, // TODO: may not need for component...
           httpRequest: (requestObject: AxiosRequestConfig) => sendHttpRequest,
         },
-        logging: {
+        AppSvcLogging: {
           trackEvent: (category: string, id: string, data: any) => LogService.trackEvent,
           trackError: (category: string, id: string, data: any) => LogService.error,
         },

@@ -38,8 +38,8 @@ interface AppSvc {
   cacheBreakQuery?: string;
   frameId?: string;
   officeFabricIconsCdn?: string;
-  ajax?: Ajax;
-  logging?: Logging;
+  AppSvcAjax?: Ajax;
+  AppSvcLogging?: Logging;
 }
 
 declare global {
