@@ -5,10 +5,7 @@ import { KeyValue } from '../models/portal-models';
 export default class Url {
   public static serviceHost =
     window.location.hostname === 'localhost' ||
-    (window.appsvc &&
-      (window.appsvc.env.runtimeType === 'Standalone' ||
-        window.appsvc.env.runtimeType === 'OnPrem' ||
-        window.appsvc.env.runtimeType === undefined))
+    (window.appsvc && (window.appsvc.env.runtimeType === 'OnPrem' || window.appsvc.env.runtimeType === undefined))
       ? `https://${window.location.hostname}:${window.location.port}/`
       : `https://${window.location.hostname}/`;
 
@@ -98,17 +95,10 @@ export default class Url {
   }
 
   public static getMainUrl(site: ArmObj<Site>) {
-    if (window.appsvc && window.appsvc.env.runtimeType.toLowerCase() === 'standalone' && !!site) {
-      return `https://${site.properties.defaultHostName}/functions/${site.name}`;
-    }
     return `https://${site.properties.defaultHostName}`;
   }
 
   public static getScmUrl(site: ArmObj<Site>) {
-    if (window.appsvc && window.appsvc.env.runtimeType.toLowerCase() === 'standalone') {
-      return this.getMainUrl(site);
-    }
-
     const scmHost = site.properties.hostNameSslStates && site.properties.hostNameSslStates.find(s => s.hostType === HostType.Repository);
     return scmHost ? `https://${scmHost.name}` : this.getMainUrl(site);
   }

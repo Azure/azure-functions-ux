@@ -6,10 +6,9 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import { DeploymentCenterFieldProps, AuthorizationResult } from '../DeploymentCenter.types';
 import { IDropdownOption } from 'office-ui-fabric-react';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { authorizeWithProvider, getLogId } from '../utility/DeploymentCenterUtility';
+import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -17,6 +16,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const portalContext = useContext(PortalContext);
 
   const [gitHubUser, setGitHubUser] = useState<GitHubUser | undefined>(undefined);
   const [gitHubAccountStatusMessage, setGitHubAccountStatusMessage] = useState<string | undefined>(
@@ -41,6 +41,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     const newOrganizationOptions: IDropdownOption[] = [];
 
     if (gitHubUser) {
+      portalContext.log(getTelemetryInfo('info', 'getGitHubOrganizations', 'submit'));
       const gitHubOrganizationsResponse = await deploymentCenterData.getGitHubOrganizations(deploymentCenterContext.gitHubToken);
 
       if (gitHubOrganizationsResponse.metadata.success) {
@@ -52,9 +53,11 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
           }
         });
       } else {
-        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterGitHubDataLoader', 'fetchOrganizationOptions'), {
-          error: gitHubOrganizationsResponse.metadata.error,
-        });
+        portalContext.log(
+          getTelemetryInfo('error', 'getGitHubOrganizationsResponse', 'failed', {
+            errorAsString: JSON.stringify(gitHubOrganizationsResponse.metadata.error),
+          })
+        );
       }
 
       newOrganizationOptions.push({ key: gitHubUser.login, text: gitHubUser.login });
@@ -78,18 +81,23 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setRepositoryOptions([]);
     setBranchOptions([]);
 
+    portalContext.log(getTelemetryInfo('info', 'gitHubRepositories', 'submit'));
     const gitHubRepositories = await (repositories_url.toLocaleLowerCase().indexOf('github.com/users/') > -1
       ? deploymentCenterData.getGitHubUserRepositories(deploymentCenterContext.gitHubToken, (page, response) => {
-          LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterGitHubDataLoader', 'fetchRepositoryOptions-user'), {
-            page,
-            error: response && response.metadata && response.metadata.error,
-          });
+          portalContext.log(
+            getTelemetryInfo('error', 'getGitHubUserRepositoriesResponse', 'failed', {
+              page,
+              errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
+            })
+          );
         })
       : deploymentCenterData.getGitHubOrgRepositories(repositories_url, deploymentCenterContext.gitHubToken, (page, response) => {
-          LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterGitHubDataLoader', 'fetchRepositoryOptions-org'), {
-            page,
-            error: response && response.metadata && response.metadata.error,
-          });
+          portalContext.log(
+            getTelemetryInfo('error', 'getGitHubOrgRepositoriesResponse', 'failed', {
+              page,
+              errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
+            })
+          );
         }));
 
     const newRepositoryOptions: IDropdownOption[] = gitHubRepositories
@@ -114,10 +122,12 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       repo,
       deploymentCenterContext.gitHubToken,
       (page, response) => {
-        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterGitHubDataLoader', 'fetchBranchOptions'), {
-          page,
-          error: response && response.metadata && response.metadata.error,
-        });
+        portalContext.log(
+          getTelemetryInfo('error', 'getGitHubBranchesResponse', 'failed', {
+            page,
+            errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
+          })
+        );
       }
     );
 
@@ -128,6 +138,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   };
 
   const authorizeGitHubAccount = () => {
+    portalContext.log(getTelemetryInfo('info', 'gitHubAccount', 'authorize'));
     authorizeWithProvider(GitHubService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
   };
 
@@ -135,7 +146,18 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     if (authorizationResult.redirectUrl) {
       deploymentCenterData
         .getGitHubToken(authorizationResult.redirectUrl)
-        .then(response => deploymentCenterData.storeGitHubToken(response.data))
+        .then(response => {
+          if (response.metadata.success) {
+            deploymentCenterData.storeGitHubToken(response.data);
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'getGitHubTokenResponse', 'failed', {
+                errorAsString: JSON.stringify(response.metadata.error),
+              })
+            );
+            return Promise.resolve(undefined);
+          }
+        })
         .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
     } else {
       return fetchData();
@@ -150,6 +172,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   // repos, orgs, branches, workflow file, etc.
 
   const fetchData = async () => {
+    portalContext.log(getTelemetryInfo('info', 'getGitHubUser', 'submit'));
     const gitHubUserResponse = await deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken);
 
     setGitHubAccountStatusMessage(undefined);

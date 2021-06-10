@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import InformationLabel from '../../../../components/InformationLabel/InformationLabel';
-import { KeyVaultReference } from '../../../../models/site/config';
-import { ThemeContext } from '../../../../ThemeContext';
-import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
+import InformationLabel from '../../../components/InformationLabel/InformationLabel';
+import { KeyVaultReference } from '../../../models/site/config';
+import { ThemeContext } from '../../../ThemeContext';
+import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 import { style } from 'typestyle';
-import { PortalContext } from '../../../../PortalContext';
-import { ArmSubcriptionDescriptor } from '../../../../utils/resourceDescriptors';
-import KeyVaultService from '../../../../ApiHelpers/KeyVaultService';
-import { bladeLinkStyle } from '../AppSettings.styles';
+import { PortalContext } from '../../../PortalContext';
+import { ArmSubcriptionDescriptor } from '../../../utils/resourceDescriptors';
+import KeyVaultService from '../../../ApiHelpers/KeyVaultService';
+import { bladeLinkStyle } from './AppSettings.styles';
 
-export interface AppSettingReferenceProps {
+export interface KeyVaultReferenceComponentProps {
   appSettingReference: KeyVaultReference;
   resourceId: string;
 }
@@ -22,7 +22,7 @@ const elementWrapperStyle = (theme: ThemeExtended) =>
     paddingTop: '20px',
   });
 
-const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
+const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = props => {
   const { t } = useTranslation();
   const [keyVaultResourceId, setKeyVaultResourceId] = useState<string | undefined>(undefined);
   const [initialLoading, setInitialLoading] = useState(true);
@@ -177,4 +177,4 @@ const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
     </>
   );
 };
-export default AppSettingReference;
+export default KeyVaultReferenceComponent;

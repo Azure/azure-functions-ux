@@ -121,11 +121,17 @@ export class GithubService implements OnDestroy {
       .catch(e => Observable.of(null));
   }
 
-  createOrUpdateActionWorkflow(authToken: string, gitHubToken: string, content: GitHubActionWorkflowRequestContent) {
+  createOrUpdateActionWorkflow(
+    authToken: string,
+    gitHubToken: string,
+    content: GitHubActionWorkflowRequestContent,
+    replacementPublishUrl?: string
+  ) {
     return this._cacheService.put(Constants.serviceHost + `api/github/actionWorkflow`, null, {
       authToken,
       gitHubToken,
       content,
+      replacementPublishUrl,
     });
   }
 
@@ -179,7 +185,12 @@ export class GithubService implements OnDestroy {
         }
         break;
       case RuntimeStacks.aspnet:
-        content = this._getAspNetGithubActionWorkflowDefinition(siteName, slotName, branch, secretName, runtimeStackVersion);
+        // NOTE(michinoy): In case of version 5, generate the dotnet core workflow file.
+        content =
+          buildSettings.runtimeStackVersion.toLocaleLowerCase() === 'dotnetcore|5.0' ||
+          buildSettings.runtimeStackVersion.toLocaleLowerCase() === 'v5.0'
+            ? this._getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion)
+            : this._getAspNetGithubActionWorkflowDefinition(siteName, slotName, branch, secretName, runtimeStackVersion);
         break;
       default:
         throw Error(`Incorrect stack value '${buildSettings.runtimeStack}' provided.`);
@@ -305,7 +316,7 @@ jobs:
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: '${webAppName}'
+        app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
         package: '.\\myapp.zip'`;
@@ -518,7 +529,7 @@ jobs:
     return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy WAR app to Azure Web App - ${webAppName}
+name: Build and deploy ASP app to Azure Web App - ${webAppName}
 
 on:
   push:

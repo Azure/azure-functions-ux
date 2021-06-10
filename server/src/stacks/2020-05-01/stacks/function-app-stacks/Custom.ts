@@ -1,7 +1,7 @@
 import { FunctionAppStack } from '../../models/FunctionAppStackModel';
 
 export const customStack: FunctionAppStack = {
-  displayText: 'Custom',
+  displayText: 'Custom Handler',
   value: 'custom',
   sortOrder: 5,
   versions: [
@@ -14,9 +14,9 @@ export const customStack: FunctionAppStack = {
         {
           sortOrder: 0,
           os: 'windows',
-          isPreview: true,
+          isPreview: false,
           isDeprecated: false,
-          isHidden: true,
+          isHidden: false,
           applicationInsightsEnabled: true,
           runtimeVersion: 'custom',
           appSettingsDictionary: {
@@ -27,9 +27,9 @@ export const customStack: FunctionAppStack = {
         {
           sortOrder: 1,
           os: 'linux',
-          isPreview: true,
+          isPreview: false,
           isDeprecated: false,
-          isHidden: true,
+          isHidden: false,
           applicationInsightsEnabled: true,
           runtimeVersion: '',
           appSettingsDictionary: {

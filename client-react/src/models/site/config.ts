@@ -15,7 +15,7 @@ export enum ScmType {
   ExternalGit = 'ExternalGit',
   OneDrive = 'OneDrive',
   Vso = 'VSO',
-  Vsts = 'VSTS',
+  Vsts = 'VSTSRM',
 }
 
 export enum BuildProvider {
@@ -86,6 +86,7 @@ export interface SiteConfig {
   scmIpSecurityRestrictions: IpRestriction[];
   reservedInstanceCount?: number;
   functionsRuntimeScaleMonitoringEnabled?: boolean;
+  powerShellVersion?: string;
 }
 
 export interface IpRestriction {

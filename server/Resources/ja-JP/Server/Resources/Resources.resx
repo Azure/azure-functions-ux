@@ -2683,6 +2683,9 @@
   <data name="commitIdAuthor" xml:space="preserve">
         <value>コミット ID (作成者)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>コミットの作成者</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>チェックイン メッセージ</value>
     </data>
@@ -3226,9 +3229,6 @@
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Linux の最初の Basic (B1) コアは、最初の 30 日間無料です。</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Windows コンテナーはプレビュー期間中は 50% 割引で課金されます。</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>ご使用の構成では、App Service Environment (ASE) 内の Isolated 価格レベルは利用できません。ASE は Azure App Service で提供されている強力な機能で、ネットワーク分離と向上したスケーリング機能が備わっています。</value>
     </data>
@@ -3255,9 +3255,6 @@
     </data>
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>アプリの送信 IP アドレスは変更される可能性があります。</value>
-    </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>App Service プラン {0} は、プランのサイズに対して推奨されているアプリ数を超えています。</value>
     </data>
   <data name="free" xml:space="preserve">
         <value>無料</value>
@@ -3872,6 +3869,18 @@
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>デプロイをセットアップできませんでした: {0}</value>
     </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>発行ユーザーの資格情報を更新できませんでした: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>発行ユーザーの資格情報を更新できませんでした</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>発行ユーザーの資格情報が正常に更新されました</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>発行ユーザーの資格情報を更新しています</value>
+    </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>Azure Active Directory に新しいアプリケーションを登録することはできません。詳細情報: https://go.microsoft.com/fwlink/?linkid=843472。さらに詳しく: {0}</value>
     </data>
@@ -3883,6 +3892,9 @@
     </data>
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>デプロイとの接続を切断できませんでした</value>
+    </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>デプロイとの接続を切断できませんでした: {0}</value>
     </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>デプロイとの接続を切断しますか?</value>
@@ -3934,6 +3946,9 @@
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>例: nginx:latest</value>
+    </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>例: microsoft/iis:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>使用を開始するには、まず Azure Container Registry を作成してイメージを追加する必要があります。</value>
@@ -4241,6 +4256,9 @@
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Kubernetes に基づく関数は現在サポートされていません。</value>
     </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker Compose は現在サポートされていません。</value>
+    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>ポータルの編集機能は、Docker イメージとしてデプロイされた関数アプリではサポートされていません。</value>
     </data>
@@ -4276,9 +4294,6 @@
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>ポータルでの関数の編集は、Linux Premium 関数アプリ (プレビュー) ではサポートされていません。</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>単一コンテナー (プレビュー)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>その他のテンプレート...</value>
@@ -5740,19 +5755,19 @@
         <value>ワークフロー ファイル</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>保持</value>
+        <value>ワークフロー ファイルの保存</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>リポジトリ '{2}' のブランチ '{1}' からのファイル '{0}' を保持します。これにより、ブランチへのコミットでアプリへのデプロイのトリガーが可能になります。</value>
+        <value>保存すると、ワークフロー ファイルに対して行った編集を保持できますが、このアプリへのデプロイは引き続きトリガーされます。</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>削除</value>
+        <value>ワークフロー ファイルの削除</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>リポジトリ '{2}' のブランチ '{1}' からファイル '{0}' を削除します。これにより、今後このブランチへのコミットでアプリへのデプロイは行われなくなります。</value>
+        <value>ファイルは削除され、今後のコミットによってこのアプリへのデプロイがトリガーされることはありません。</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>GitHub アクションを切断すると、今後コミットによってトリガーされるデプロイは行われなくなります。</value>
+        <value>アクションを切断すると、アプリのデプロイを再構成できます。切断後のお客様のワークフロー ファイルの動作を選択します。</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>リポジトリ '{2}' のブランチ '{1}' からの GitHub アクション ワークフロー ファイル '{0}' が存在しません。デプロイを切断するには、[OK] を選択します。</value>
@@ -5926,7 +5941,7 @@
         <value>リポジトリ '{1}' にブランチ '{0}' が見つかりません。詳しく調査するには、リポジトリに移動してください。</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>GitHub アクションの切断の確認</value>
+        <value>GitHub アクションの切断</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>App Service ビルド サービスの切断の確認</value>
@@ -5942,6 +5957,9 @@
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>デプロイを切断できませんでしたが、ワークフロー ファイルは正常に削除されました。もう一度切断してみてください。</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>デプロイを切断できませんでしたが、ワークフロー ファイルは正常に削除されました。もう一度切断してみてください。エラー: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Application Insights へのリンクを確立できません。関数アプリに対する書き込みアクセス許可があることをご確認ください</value>
@@ -5967,8 +5985,23 @@
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>デプロイ センターの同期コマンド</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>デプロイ センターの再デプロイ コマンド</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>再デプロイまたは同期</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>情報のフェッチでエラーが発生しました</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>アカウント情報を取得できません</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>切断するには、Azure DevOps ポータルに移動してください。</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>現在のデプロイ構成はサポートされなくなりました。切断するには、Azure DevOps ポータルに移動してください。</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>発行プロファイルの管理</value>
@@ -6064,22 +6097,25 @@
         <value>デプロイ センターの設定</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>FTP または FTPS の資格情報</value>
+        <value>FTPS 資格情報</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>FTP または FTPS の資格情報</value>
+        <value>FTPS 資格情報</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>ローカル Git、FTP、FTPS の資格情報</value>
+        <value>ローカル Git または FTPS の資格情報</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>ローカル Git、FTP、FTPS の資格情報</value>
+        <value>ローカル Git または FTPS の資格情報</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>コンテナー ログを読み込んでいます</value>
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>コンテナー ログを読み込んでいます...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>これらは、お客様のコンテナー イメージのプロビジョニング フェーズで生成された Docker エンジンからのログです。</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>コンテナー ログを読み込めませんでした</value>
@@ -6100,19 +6136,19 @@
         <value>更新すると、保存されていない変更はすべて失われます。続行しますか?</value>
     </data>
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to refresh?</value>
+        <value>更新しますか?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>同期しますか?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>再デプロイしますか?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>再デプロイ操作を実行すると、進行中の既存のデプロイ操作がすべて取り消され、新規作成されます。</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to discard?</value>
+        <value>破棄しますか?</value>
     </data>
   <data name="deploymentCenterDataLossMessage" xml:space="preserve">
-        <value>All unsaved changes will be lost.</value>
+        <value>保存されていない変更はすべて失われます。</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>アプリケーション設定の追加</value>
@@ -6121,7 +6157,7 @@
         <value>アプリケーション設定の編集</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service では、お客様のアプリのコンテンツのアクセス、公開、変更を行うための複数のテクノロジがサポートされています。FTP/FTPS 資格情報は、アプリケーションまたはユーザーにスコープ設定できます。</value>
+        <value>App Service では、お客様のアプリのコンテンツのアクセス、公開、変更を行うための複数のテクノロジがサポートされています。FTPS 資格情報は、アプリケーションまたはユーザーにスコープ設定できます。</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>FTPS エンドポイント</value>
@@ -6130,13 +6166,13 @@
         <value>アプリケーション スコープ</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>アプリケーション スコープの資格情報は自動生成され、この特定のアプリまたはデプロイ スロットのみへのアクセスを提供します。これらの資格情報は、FTP、ローカル Git、WebDeploy で使用できます。手動で構成することはできませんが、いつでもリセットできます。</value>
+        <value>アプリケーション スコープの資格情報は自動生成され、この特定のアプリまたはデプロイ スロットのみへのアクセスが提供されます。これらの資格情報は、FTPS、ローカル Git、WebDeploy で使用できます。手動で構成することはできませんが、いつでもリセットできます。</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>ユーザー スコープ</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>ユーザー スコープの資格情報は、ユーザーによって定義され、アクセス可能なすべてのアプリで使用することができます。これらの資格情報は、FTP、ローカル Git、および WebDeploy で使用できます。ユーザー レベルの資格情報を使用して FTP/FTPS エンドポイントに対する認証を行うには、次の形式のユーザー名が必要です: '{0}'</value>
+        <value>ユーザー スコープの資格情報は、ユーザーによって定義され、アクセス可能なすべてのアプリで使用することができます。これらの資格情報は、FTPS、ローカル Git、WebDeploy で使用できます。ユーザー レベルの資格情報を使用して FTPS エンドポイントに対する認証を行うには、次の形式のユーザー名が必要です: '{0}'</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(あなたのユーザー名)</value>
@@ -6202,7 +6238,7 @@
         <value>アプリケーション発行プロファイルのパスワードをリセットしますか?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
+        <value>プロファイル パスワードをリセットすると、発行プロファイルを使用した外部統合で操作が停止します。</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>ユーザー名の長さは {0} 文字以上でなければなりません。</value>
@@ -6264,6 +6300,21 @@
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>ローカル Git</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>フォルダー</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>フォルダーの選択</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>外部 Git</value>
     </data>
@@ -6276,11 +6327,20 @@
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>リポジトリの種類</value>
     </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>メイン</value>
+    </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>プライベート</value>
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>パブリック</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>ローカル Git を使用すると、App Service プランでアプリのための単純な Git サーバーをホストできます。これを使用すると、CICD パイプラインを迅速にセットアップすることができます。</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>完了時に、ローカル Git リポジトリ URL が生成されます。</value>
@@ -6294,20 +6354,20 @@
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>Git Clone URI のフェッチでエラーが発生しました</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>同期要求を送信しました</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>再デプロイ要求が送信されました</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>Web アプリ {0} のリポジトリを更新しています</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>Web アプリ {0} のリポジトリが正常に更新されました</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>同期に失敗しました: {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>再デプロイが失敗しました: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>同期に失敗しました</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>再デプロイが失敗しました</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>レジストリの設定</value>
@@ -6498,6 +6558,12 @@
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Application Insights を基盤とする新しいログ機能はどれほど役立ちましたか?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>改善されたこの App Service デプロイ センター ページを使用するのはどれほど簡単または困難でしたか?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>改善されたこの App Service デプロイ センター ページはどれほど役立ちましたか?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>組織またはリポジトリが見つからない場合は、GitHub で追加のアクセス許可を有効にする必要があります。</value>
     </data>
@@ -6520,16 +6586,16 @@
         <value>上記の必要な設定を入力して、プレビューを有効にします。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>リポジトリ内のワークフローを上書きする</value>
+        <value>ワークフローの上書き: 選択したリポジトリとブランチ内の既存のワークフロー ファイル {0} を上書きします。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>リポジトリにワークフローを追加する</value>
+        <value>ワークフローの追加: 選択したリポジトリとブランチに新しいワークフロー ファイル {0} を追加します。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>既存のリポジトリ ワークフローを使用する</value>
+        <value>既存のワークフローを使用: 選択したリポジトリとブランチ内の既存のワークフロー ファイル {0} を使用します。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>利用可能なリポジトリ ワークフローを使用する</value>
+        <value>使用可能なワークフローの使用: 選択したリポジトリとブランチで使用可能なワークフロー ファイルのいずれかを使用します。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>ワークフロー オプションを選択してください</value>
@@ -6637,7 +6703,7 @@
         <value>FTP はアクセス ポリシーによって無効化されています。</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>カスタム関数アプリの編集は、Azure portal ではサポートされていません。この関数を編集するには、ローカルの開発環境をお使いください。</value>
+        <value>CustomHandler を使用した関数アプリの編集は、Azure portal ではサポートされていません。この関数を編集するには、ローカルの開発環境をお使いください。</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>開発環境の選択</value>
@@ -6706,18 +6772,114 @@
         <value>サーバー URL は https:// で始める必要があります</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>このスケール ユニットでは Premium V3 はサポートされていません。アプリの再デプロイまたは複製をご検討ください。</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Hyper-V 分離</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>Windows コンテナーは、Hyper-V 分離モードを使用してセキュリティ保護されています。</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>{0} 最小 ACU/vCPU</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} 個の仮想コア</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>関数をフェッチできません</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>ホスト キーを作成しています</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>システム キーを作成しています</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>関数キーを作成しています</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>{0} を作成しています</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>{0} が正常に作成されました</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>{0} の作成に失敗しました</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>{0} を作成できませんでした: {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (非推奨)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (プレビュー)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>マウント パスを '/' にすることはできません</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>ワークフロー ランタイムの設定</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>ファイルをアップロードしています</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>'{0}' をアップロードしています</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>'{0}' が正常にアップロードされました</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>'{0}' をアップロードできませんでした。5 MB を超えるファイルのアップロードは Azure portal ではサポートされていません</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (早期アクセス)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>このスケール ユニットでは Isolated V2 はサポートされていません。アプリの再デプロイまたは複製をご検討ください。</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>~3 にアップグレードした後は、基になるランタイムが ~3 を中心に統合されているため、~2 に戻ることはできません。</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>コンテナーの種類</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML が無効です</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>ファイルの選択</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>関数アプリのホストの状態をフェッチできません。ログ ストリーミングを使用するには、関数ホストが実行されていることをご確認ください。</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>プロジェクト</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>プロジェクトを選択してください</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Azure Repos のアカウントが見つかりませんでした。Azure Repos に新しいアカウントを作成してから、もう一度お試しください。</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>App Insights リソースをフェッチできませんでした。アプリの設定で適切なインストルメンテーション キーが構成されていることを確認してください。</value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>早期アクセスを使用すると、さまざまなランタイムの更新プログラムや新しいバージョンがすばやく配信されます。</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>選択されたバージョン '{0}' は非推奨です。更新することをご検討ください。</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>選択されたバージョン '{0}' は {1} に廃止されます。早めに更新することをご検討ください。</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>あと {0} 秒でログが更新されます</value>
     </data>
 </root>

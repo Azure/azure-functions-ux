@@ -38,4 +38,6 @@ export interface CommonSettings {
   isHidden?: boolean;
   endOfLifeDate?: string;
   isAutoUpdate?: boolean;
+  isEarlyAccess?: boolean;
+  gitHubActionSettings: GitHubActionSettings;
 }

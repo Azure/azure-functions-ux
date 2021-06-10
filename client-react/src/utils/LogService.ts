@@ -159,6 +159,7 @@ export default class LogService {
           resourceId: window.appsvc.resourceId,
           feature: window.appsvc.feature,
           frameId: window.appsvc.frameId,
+          sessionId: window.appsvc.sessionId,
         })
       : '';
 

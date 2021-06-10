@@ -59,7 +59,6 @@ const DeploymentCenterPublishingUser: React.FC<
             id="deployment-center-ftps-provider-username"
             name="publishingUsername"
             component={TextField}
-            widthOverride="60%"
             label={t('deploymentCenterFtpsUsernameLabel')}
           />
 
@@ -67,7 +66,6 @@ const DeploymentCenterPublishingUser: React.FC<
             id="deployment-center-ftps-provider-password"
             name="publishingPassword"
             component={TextField}
-            widthOverride="60%"
             label={t('deploymentCenterFtpsPasswordLabel')}
             type="password"
           />
@@ -76,7 +74,6 @@ const DeploymentCenterPublishingUser: React.FC<
             id="deployment-center-ftps-provider-confirm-password"
             name="publishingConfirmPassword"
             component={TextField}
-            widthOverride="60%"
             label={t('deploymentCenterFtpsConfirmPasswordLabel')}
             type="password"
           />

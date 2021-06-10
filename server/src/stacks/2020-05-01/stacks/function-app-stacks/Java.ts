@@ -46,11 +46,11 @@ export const javaStack: FunctionAppStack = {
       displayText: '11',
       value: '11',
       sortOrder: 2,
-      isDefault: true,
+      isDefault: false,
       supportedPlatforms: [
         {
           os: 'windows',
-          isPreview: true,
+          isPreview: false,
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,
@@ -63,7 +63,7 @@ export const javaStack: FunctionAppStack = {
         },
         {
           os: 'linux',
-          isPreview: true,
+          isPreview: false,
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,

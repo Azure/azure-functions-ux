@@ -2683,6 +2683,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="commitIdAuthor" xml:space="preserve">
         <value>ID de validation (auteur)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Auteur de la validation</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Message d'archivage</value>
     </data>
@@ -3226,9 +3229,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Le premier cœur De base (B1) pour Linux est gratuit pendant les 30 premiers jours !</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Les conteneurs Windows bénéficient d'une remise de 50 % pendant la préversion.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Les niveaux tarifaires Isolé dans un App Service Environment (ASE) ne sont pas disponibles pour votre configuration. Un App Service Environment (ASE) est intégré à Azure App Service et offre de puissantes fonctionnalités, comme l'isolement réseau et des fonctionnalités d'échelle améliorées.</value>
     </data>
@@ -3255,9 +3255,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Les adresses IP sortantes de votre application sont susceptibles de changer.</value>
-    </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>Votre plan App service {0} a dépassé le nombre d’applications recommandé pour sa taille.</value>
     </data>
   <data name="free" xml:space="preserve">
         <value>Gratuit</value>
@@ -3872,6 +3869,18 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>Échec de la configuration du déploiement : {0}</value>
     </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>La mise à jour des informations d'identification de l'utilisateur de publication a échoué : {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>Échec de mise à jour des informations d'identification de l'utilisateur de publication</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>Informations d'identification de l'utilisateur de publication mises à jour</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>Mise à jour des informations d'identification de l'utilisateur de publication</value>
+    </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>Vous ne pouvez pas inscrire une nouvelle application dans Azure Active Directory. En savoir plus : https://go.microsoft.com/fwlink/?linkid=843472. Plus de détails : {0}</value>
     </data>
@@ -3883,6 +3892,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Échec de déconnexion du déploiement</value>
+    </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Échec de déconnexion de votre déploiement : {0}</value>
     </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Voulez-vous vraiment déconnecter votre déploiement ?</value>
@@ -3934,6 +3946,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>Par ex., nginx:latest</value>
+    </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>Par ex., microsoft/iis:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Pour commencer, créez un registre Azure Container Registry et ajoutez une image.</value>
@@ -4241,6 +4256,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Les fonctions Kubernetes ne sont pas actuellement prises en charge.</value>
     </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker compose n'est pas pris en charge pour l'instant.</value>
+    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>La modification de fonctions dans le portail n’est pas prise en charge pour les applications de fonction déployées en tant qu’image docker.</value>
     </data>
@@ -4276,9 +4294,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>La modification de fonctions dans le portail n’est pas prise en charge pour les applications de fonction Premium Linux (préversion).</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Conteneur unique (version préliminaire)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Plus de modèles...</value>
@@ -5740,19 +5755,19 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Fichier de workflow</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Conserver</value>
+        <value>Enregistrer le fichier de workflow</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Conservez le fichier « {0} » de la branche « {1} » dans le dépôt « {2} ». De cette façon, les validations sur la branche peuvent déclencher des déploiements sur votre application.</value>
+        <value>L'enregistrement vous permet de conserver les modifications que vous avez effectuées sur le fichier de workflow, mais déclenche toujours les déploiements sur cette application.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Supprimer</value>
+        <value>Supprimer le fichier de workflow</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Supprimez le fichier « {0} » de la branche « {1} » dans le dépôt « {2} ». De cette façon, les validations sur la branche n'entraînent pas de déploiements sur votre application.</value>
+        <value>Le fichier sera supprimé et les commits à venir ne déclencheront pas de déploiement sur cette application.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>La déconnexion de l'action GitHub empêche tout déploiement futur déclenché par les validations.</value>
+        <value>La déconnexion d'une action vous permet de reconfigurer le déploiement d'application. Choisissez l'action à effectuer sur votre fichier de workflow après la déconnexion.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Le fichier de workflow d'action GitHub « {0} » de la branche « {1} » dans le dépôt « {2} » n'existe pas. Sélectionnez OK pour déconnecter le déploiement.</value>
@@ -5926,7 +5941,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>La branche « {0} » est introuvable dans le dépôt « {1} ». Accédez à votre dépôt pour une recherche approfondie.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Confirmer la déconnexion de GitHub Actions</value>
+        <value>Déconnecter GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirmer la déconnexion du service de build App Service</value>
@@ -5942,6 +5957,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>La déconnexion de votre déploiement a échoué, mais le fichier de workflow a été supprimé. Essayez de le redéconnecter.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>La déconnexion de votre déploiement a échoué, mais le fichier de workflow a été supprimé. Essayez de le redéconnecter. Erreur : {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Impossible d'établir une liaison à Application Insights. Veillez à avoir des autorisations d'écriture sur votre application de fonction</value>
@@ -5967,8 +5985,23 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Commande de synchronisation du centre de déploiement</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Commande de redéploiement du centre de déploiement</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Redéployer/synchroniser</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Erreur de récupération des informations</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>Impossible de récupérer les informations de compte.</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Accédez au portail Azure DevOps pour vous déconnecter.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>La configuration de déploiement actuelle n'est plus prise en charge. Accédez au portail Azure DevOps pour vous déconnecter.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Gérer le profil de publication</value>
@@ -6064,22 +6097,25 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Paramètres du centre de déploiement</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>Informations d'identification FTP/FTPS</value>
+        <value>Informations d'identification FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>Informations d'identification FTP ou FTPS</value>
+        <value>Informations d'identification FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>Informations d'identification Git local/FTP/FTPs</value>
+        <value>Informations d'identification FTPS/Git local</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>Informations d'identification Git local ou FTP ou FTPs</value>
+        <value>Informations d'identification FTPS ou Git local</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Chargement des journaux de conteneur</value>
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Chargement des journaux de conteneur...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>Il s'agit des journaux émis par le moteur Docker pendant la phase de provisionnement de votre image conteneur.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Impossible de charger les journaux de conteneur</value>
@@ -6100,19 +6136,19 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Les modifications non enregistrées seront perdues à l'issue de l'actualisation. Voulez-vous continuer ?</value>
     </data>
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to refresh?</value>
+        <value>Voulez-vous vraiment actualiser ?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>Voulez-vous vraiment lancer la synchronisation ?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Voulez-vous vraiment effectuer le redéploiement ?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>L'exécution d'une opération de redéploiement annule toute opération de déploiement existante et en crée une autre.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to discard?</value>
+        <value>Voulez-vous vraiment abandonner ?</value>
     </data>
   <data name="deploymentCenterDataLossMessage" xml:space="preserve">
-        <value>All unsaved changes will be lost.</value>
+        <value>Tous les changements non enregistrés sont perdus.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Ajouter un paramètre d'application</value>
@@ -6121,7 +6157,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Modifier le paramètre d'application</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service prend en charge plusieurs technologies permettant d'accéder, de publier et de modifier le contenu de votre application. Vous pouvez limiter les informations d'identification FTP/FTPS à l'application ou à l'utilisateur.</value>
+        <value>App Service prend en charge plusieurs technologies permettant d'accéder, de publier et de modifier le contenu de votre application. Vous pouvez limiter les informations d'identification FTPS à l'application ou à l'utilisateur.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>Point de terminaison FTPS</value>
@@ -6130,13 +6166,13 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Étendue d'application</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Les informations d'identification de l'étendue d'application sont générées automatiquement et fournissent un accès uniquement à cet emplacement de déploiement ou à cette application spécifique. Ces informations d'identification peuvent être utilisées avec FTP, Git local et WebDeploy. Vous ne pouvez pas les configurer manuellement, mais vous pouvez les réinitialiser à tout moment.</value>
+        <value>Les informations d'identification de l'étendue d'application sont générées automatiquement et fournissent un accès uniquement à cet emplacement de déploiement ou à cette application spécifique. Ces informations d'identification peuvent être utilisées avec FTPS, Git local et WebDeploy. Vous ne pouvez pas les configurer manuellement, mais vous pouvez les réinitialiser à tout moment.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>Étendue d'utilisateur</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Les informations d'identification de l'étendue d'utilisateur sont définies par vous, l'utilisateur, et peuvent être utilisées avec toutes les applications auxquelles vous avez accès. Vous pouvez utiliser ces informations d'identification avec FTP, Git local et WebDeploy. L'authentification sur un point de terminaison FTP/FTPS à l'aide d'informations d'identification au niveau de l'utilisateur nécessitent un nom d'utilisateur au format suivant : « {0} »</value>
+        <value>Les informations d'identification de l'étendue d'utilisateur sont définies par vous, l'utilisateur, et peuvent être utilisées avec toutes les applications auxquelles vous avez accès. Vous pouvez utiliser ces informations d'identification avec FTPS, Git local et WebDeploy. L'authentification sur un point de terminaison FTPS avec des informations d'identification au niveau de l'utilisateur nécessitent un nom d'utilisateur au format suivant : « {0} »</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(votre nom d'utilisateur)</value>
@@ -6202,7 +6238,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Réinitialiser le mot de passe du profil de publication de l'application ?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
+        <value>Si vous réinitialisez le mot de passe du profil, toutes les intégrations externes via le profil de publication cessent de fonctionner.</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>Le nom d'utilisateur doit avoir au moins {0} caractères.</value>
@@ -6264,6 +6300,21 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>Git local</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>Dossier</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>Sélectionner un dossier</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>Git externe</value>
     </data>
@@ -6276,11 +6327,20 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>Type de dépôt</value>
     </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>principal</value>
+    </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>Privé</value>
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Public</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Un dépôt Git local vous permet d'héberger un serveur Git simple pour votre application dans le cadre de votre plan App Service. Vous pouvez ainsi configurer rapidement un pipeline CICD.</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Votre URL de dépôt Git local sera générée une fois l'opération terminée.</value>
@@ -6294,20 +6354,20 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>Une erreur s'est produite pendant la récupération de l'URI Git Clone</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>Demande de synchronisation envoyée</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>Demande de redéploiement envoyée</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>Le référentiel de l’application web {0} est actuellement mis à jour</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>Le dépôt de l'application web {0} a été mis à jour</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>Échec de synchronisation : {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>Échec du redéploiement : {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>Échec de synchronisation</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>Échec du redéploiement</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Paramètres de registre</value>
@@ -6498,6 +6558,12 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>La nouvelle fonctionnalité de journal fournie par Application Insights est-elle utile ?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>Cette page améliorée du centre de déploiement App Service est-elle facile ou difficile à utiliser ?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>Cette page améliorée du centre de déploiement App Service est-elle utile ?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>Si vous ne trouvez pas d'organisation ni de dépôt, vous devrez peut-être activer des autorisations supplémentaires sur GitHub.</value>
     </data>
@@ -6520,16 +6586,16 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Renseignez les paramètres obligatoires ci-dessus pour activer la préversion.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Remplacer le workflow dans le dépôt</value>
+        <value>Remplacer le workflow : remplacer le fichier de workflow existant {0} dans le dépôt et la branche sélectionnés.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Ajouter un workflow dans le dépôt</value>
+        <value>Ajouter un workflow : ajouter un nouveau fichier de workflow {0} dans le dépôt et la branche sélectionnés.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Utiliser un workflow de dépôt existant</value>
+        <value>Utiliser le workflow existant : utiliser le fichier de workflow existant {0} dans le dépôt et la branche sélectionnés.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Utiliser un workflow de dépôt disponible</value>
+        <value>Utiliser le workflow disponible : utiliser l'un des fichiers de workflow disponibles dans le dépôt et la branche sélectionnés.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Sélectionner l'option de workflow</value>
@@ -6637,7 +6703,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>FTP est désactivé par la stratégie d'accès.</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>La modification d'applications de fonction personnalisées n'est pas prise en charge dans le portail Azure. Utilisez votre environnement de développement local pour modifier cette fonction.</value>
+        <value>La modification d'applications de fonction à l'aide de CustomHandler n'est pas prise en charge dans le portail Azure. Utilisez votre environnement de développement local pour modifier cette fonction.</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>Sélectionner l'environnement de développement</value>
@@ -6706,18 +6772,114 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>L'URL de serveur doit commencer par https://</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>Premium V3 n'est pas pris en charge pour cette unité d'échelle. Redéployez ou clonez l'application.</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Isolation Hyper-V</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>Les conteneurs Windows sont sécurisés à l'aide du mode d'isolation Hyper-V.</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>{0} ACU/processeurs virtuels minimum</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} processeur virtuel</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>Impossible de récupérer votre fonction</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>Création d'une clé d'hôte</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>Création d'une clé système</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>Création d'une clé de fonction</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>Création de {0}</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>{0} créée</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>Impossible de créer {0}</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>Impossible de créer {0} : {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (déprécié)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (préversion)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>Le chemin de montage ne peut pas être « / »</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Paramètres d'exécution du workflow</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Chargement de fichier</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Chargement de « {0} »</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>« {0} » a été chargé</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Le chargement de « {0} » a échoué. Le chargement de fichiers de plus de 5 Mo n'est pas pris en charge dans le portail Azure</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (accès en avant-première)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>Isolé V2 n'est pas pris en charge pour cette unité d'échelle. Redéployez ou clonez votre application.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>Vous ne pouvez pas revenir à ~2 après la mise à niveau vers ~3, car le runtime sous-jacent est unifié autour de ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Type de conteneur</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML non valide</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Choisir un fichier</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Impossible de récupérer l'état de l'hôte de votre application de fonction. Pour utiliser le streaming de journaux, vérifiez que votre hôte de fonction est en cours d'exécution.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Projet</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Sélectionner un projet</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Aucun compte trouvé pour Azure Repos. Créez un compte dans Azure Repos et réessayez.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>La récupération de votre ressource App Insights a échoué. Vérifiez que la clé d'instrumentation configurée dans les paramètres de l'application est correcte. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>L'accès anticipé permet de livrer rapidement les mises à jour et les nouvelles versions de plusieurs runtimes.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>La version sélectionnée « {0} » est dépréciée. Songez à la mettre à jour.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>La version sélectionnée « {0} » sera dépréciée le {1}. Songez à la mettre à jour prochainement.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Les journaux vont être actualisés dans {0} secondes</value>
     </data>
 </root>

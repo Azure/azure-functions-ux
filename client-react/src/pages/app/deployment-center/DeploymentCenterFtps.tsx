@@ -7,7 +7,12 @@ import {
 } from './DeploymentCenter.types';
 import { MessageBarType, ActionButton, ProgressIndicator } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterContent, additionalTextFieldControl, deploymentCenterInfoBannerDiv } from './DeploymentCenter.styles';
+import {
+  deploymentCenterContent,
+  additionalTextFieldControl,
+  deploymentCenterInfoBannerDiv,
+  ftpsPasswordTextboxStyle,
+} from './DeploymentCenter.styles';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
@@ -15,10 +20,9 @@ import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocu
 import { Links } from '../../../utils/FwLinks';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
 import { ScmType } from '../../../models/site/config';
-import { getGitCloneUri, getLogId } from './utility/DeploymentCenterUtility';
+import { getGitCloneUri, getTelemetryInfo } from './utility/DeploymentCenterUtility';
 import DeploymentCenterPublishingUser from './DeploymentCenterPublishingUser';
-import LogService from '../../../utils/LogService';
-import { LogCategories } from '../../../utils/LogCategories';
+import { PortalContext } from '../../../PortalContext';
 
 type PasswordFieldType = 'password' | undefined;
 
@@ -28,6 +32,7 @@ const DeploymentCenterFtps: React.FC<
   const { t } = useTranslation();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+  const portalContext = useContext(PortalContext);
 
   const { isLoading, formProps } = props;
   const { publishingProfile, resetApplicationPassword } = deploymentCenterPublishingContext;
@@ -45,7 +50,11 @@ const DeploymentCenterFtps: React.FC<
   };
 
   const resetApplicationPasswordFromCallout = () => {
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterFtps', 'resetApplicationPasswordFromCallout'), {});
+    portalContext.log(
+      getTelemetryInfo('info', 'resetFtpPassword', 'submit', {
+        location: 'ftpsTab',
+      })
+    );
 
     resetApplicationPassword();
     setIsResetCalloutHidden(true);
@@ -119,38 +128,39 @@ const DeploymentCenterFtps: React.FC<
           copyButton={true}
           disabled={true}
         />
-
-        <TextFieldNoFormik
-          id="deployment-center-ftps-application-password"
-          label={t('deploymentCenterFtpsPasswordLabel')}
-          widthOverride="100%"
-          value={publishingProfile && publishingProfile.userPWD}
-          copyButton={true}
-          disabled={true}
-          type={applicationPasswordType}
-          additionalControls={[
-            <ActionButton
-              id="deployment-center-ftps-application-password-visibility-toggle"
-              key="deployment-center-ftps-application-password-visibility-toggle"
-              className={additionalTextFieldControl}
-              ariaLabel={
-                applicationPasswordType === 'password' ? t('showApplicationPasswordAriaLabel') : t('hideApplicationPasswordAriaLabel')
-              }
-              onClick={toggleShowApplicationPassword}
-              iconProps={{ iconName: applicationPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
-              {applicationPasswordType === 'password' ? t('show') : t('hide')}
-            </ActionButton>,
-            <ActionButton
-              id="deployment-center-ftps-application-password-reset"
-              key="deployment-center-ftps-application-password-reset"
-              className={additionalTextFieldControl}
-              ariaLabel={t('resetPublishProfileAriaLabel')}
-              onClick={toggleResetCalloutVisibility}
-              iconProps={{ iconName: 'refresh' }}>
-              {t('reset')}
-            </ActionButton>,
-          ]}
-        />
+        <div className={ftpsPasswordTextboxStyle}>
+          <TextFieldNoFormik
+            id="deployment-center-ftps-application-password"
+            label={t('deploymentCenterFtpsPasswordLabel')}
+            widthOverride="100%"
+            value={publishingProfile && publishingProfile.userPWD}
+            copyButton={true}
+            disabled={true}
+            type={applicationPasswordType}
+            additionalControls={[
+              <ActionButton
+                id="deployment-center-ftps-application-password-visibility-toggle"
+                key="deployment-center-ftps-application-password-visibility-toggle"
+                className={additionalTextFieldControl}
+                ariaLabel={
+                  applicationPasswordType === 'password' ? t('showApplicationPasswordAriaLabel') : t('hideApplicationPasswordAriaLabel')
+                }
+                onClick={toggleShowApplicationPassword}
+                iconProps={{ iconName: applicationPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
+                {applicationPasswordType === 'password' ? t('show') : t('hide')}
+              </ActionButton>,
+              <ActionButton
+                id="deployment-center-ftps-application-password-reset"
+                key="deployment-center-ftps-application-password-reset"
+                className={additionalTextFieldControl}
+                ariaLabel={t('resetPublishProfileAriaLabel')}
+                onClick={toggleResetCalloutVisibility}
+                iconProps={{ iconName: 'refresh' }}>
+                {t('reset')}
+              </ActionButton>,
+            ]}
+          />
+        </div>
 
         <CustomFocusTrapCallout
           target="#deployment-center-ftps-application-password-reset"

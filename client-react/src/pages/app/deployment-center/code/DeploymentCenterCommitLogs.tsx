@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { DeploymentCenterCommitLogsProps, DeploymentLogsItem } from '../DeploymentCenter.types';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { ArmArray, ArmObj } from '../../../../models/arm-obj';
@@ -8,10 +8,17 @@ import { ProgressIndicator, IColumn, Link } from 'office-ui-fabric-react';
 import { deploymentCenterLogsError, deploymentCenterConsole } from '../DeploymentCenter.styles';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
+import { ThemeContext } from '../../../../ThemeContext';
+import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = props => {
   const { commitId } = props;
   const { t } = useTranslation();
+
+  const theme = useContext(ThemeContext);
+  const portalContext = useContext(PortalContext);
+
   const deploymentCenterData = new DeploymentCenterData();
   const [logItems, setLogItems] = useState<ArmArray<DeploymentLogsItem> | undefined>(undefined);
   const [logItemsError, setLogItemsError] = useState<string | undefined>(undefined);
@@ -19,6 +26,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
   const [logDetails, setLogDetails] = useState<string | undefined>(undefined);
 
   const fetchDeploymentLogs = async (commitIdString: string) => {
+    portalContext.log(getTelemetryInfo('info', 'fetchDeploymentLogsForCommit', 'submit'));
     const commitLogsResponse = await deploymentCenterData.getDeploymentLogs(commitIdString);
 
     if (commitLogsResponse.metadata.success) {
@@ -28,6 +36,12 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
       setLogItemsError(
         errorMessage ? t('deploymentCenterCodeLogActivityFailedWithError').format(errorMessage) : t('deploymentCenterCodeLogActivityFailed')
       );
+      portalContext.log(
+        getTelemetryInfo('error', 'commitLogsResponse', 'failed', {
+          message: errorMessage,
+          errorAsString: JSON.stringify(commitLogsResponse.metadata.error),
+        })
+      );
     }
   };
 
@@ -35,6 +49,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
     setDisplayingDetails(true);
     setLogDetails(undefined);
 
+    portalContext.log(getTelemetryInfo('info', 'showCommitDetails', 'submit'));
     const deploymentLogDetailsResponse = await deploymentCenterData.getLogDetails(commitIdString, logId);
 
     if (deploymentLogDetailsResponse.metadata.success) {
@@ -47,6 +62,12 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
       const errorMessage = getErrorMessage(deploymentLogDetailsResponse.metadata.error);
       setLogDetails(
         errorMessage ? t('deploymentCenterCodeLogDetailsFailedWithError').format(errorMessage) : t('deploymentCenterCodeLogDetailsFailed')
+      );
+      portalContext.log(
+        getTelemetryInfo('error', 'deploymentLogDetailsResponse', 'failed', {
+          message: errorMessage,
+          errorAsString: JSON.stringify(deploymentLogDetailsResponse.metadata.error),
+        })
       );
     }
   };
@@ -101,7 +122,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
           <h3>{t('logDetailsHeader')}</h3>
           {getCommitIdHeader()}
           <DisplayTableWithEmptyMessage columns={columns} items={logDisplayItems} selectionMode={0} layoutMode={1} constrainMode={0} />
-          {displayingDetails && <pre className={deploymentCenterConsole}>{logDetails ? logDetails : t('resourceSelect')}</pre>}
+          {displayingDetails && <pre className={deploymentCenterConsole(theme)}>{logDetails ? logDetails : t('resourceSelect')}</pre>}
         </>
       ) : (
         <ProgressIndicator

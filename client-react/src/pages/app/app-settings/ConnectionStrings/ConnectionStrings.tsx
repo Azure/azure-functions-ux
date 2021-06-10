@@ -13,13 +13,14 @@ import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
-import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
-import { dirtyElementStyle } from '../AppSettings.styles';
+import { SearchBox, TooltipHost, ICommandBarItemProps, Icon } from 'office-ui-fabric-react';
+import { dirtyElementStyle, keyVaultIconStyle, sourceTextStyle } from '../AppSettings.styles';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { ThemeContext } from '../../../../ThemeContext';
 import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
+import { isKeyVaultReferenceResolved } from '../AppSettingsFormData';
 
 const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { production_write, editable, saving } = useContext(PermissionsContext);
@@ -252,6 +253,27 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
         </ActionButton>
       );
     }
+    if (column.key === 'source') {
+      if (values.references && values.references.connectionStrings) {
+        const connectionStringReference = values.references.connectionStrings.filter(ref => ref.name === item.name);
+        return connectionStringReference.length > 0 ? (
+          <div
+            className={defaultCellStyle}
+            aria-label={`${t('azureKeyVault')} ${!isKeyVaultReferenceResolved(connectionStringReference[0]) && 'not'} resolved`}>
+            <Icon
+              iconName={isKeyVaultReferenceResolved(connectionStringReference[0]) ? 'Completed' : 'ErrorBadge'}
+              className={keyVaultIconStyle(theme, isKeyVaultReferenceResolved(connectionStringReference[0]))}
+              ariaLabel={t('azureKeyVault')}
+            />
+            <span className={sourceTextStyle}>{t('azureKeyVault')}</span>
+          </div>
+        ) : (
+          <div className={defaultCellStyle} aria-label={t('appConfigValue')}>
+            {t('appConfigValue')}
+          </div>
+        );
+      }
+    }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
@@ -278,6 +300,19 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: onRenderItemColumn,
+      },
+      {
+        key: 'source',
+        name: t('source'),
+        fieldName: 'source',
+        minWidth: 180,
+        maxWidth: 180,
+        isRowHeader: false,
+        data: 'string',
+        isPadded: true,
+        isResizable: false,
+        isCollapsable: false,
         onRender: onRenderItemColumn,
       },
       {

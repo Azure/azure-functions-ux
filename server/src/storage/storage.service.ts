@@ -7,17 +7,18 @@ import {
   StorageURL as FileStorageURL,
 } from '@azure/storage-file';
 import { LoggingService } from '../shared/logging/logging.service';
+import { ConfigService } from '../shared/config/config.service';
 
 const ONE_MINUTE = 60 * 1000;
 
 @Injectable()
 export class StorageService {
-  constructor(private logService: LoggingService) {}
+  constructor(private logService: LoggingService, private configService: ConfigService) {}
 
-  async getStorageContainers(accountName: string, accessKey: string, endpointSuffix = 'core.windows.net') {
+  async getStorageContainers(accountName: string, accessKey: string) {
     const credentials = new SharedKeyCredential(accountName, accessKey);
     const pipeline = StorageURL.newPipeline(credentials);
-    const serviceURL = new ServiceURL(`https://${accountName}.blob.${endpointSuffix}`, pipeline);
+    const serviceURL = new ServiceURL(`https://${accountName}.blob.${this.configService.endpointSuffix}`, pipeline);
     const aborter = Aborter.timeout(ONE_MINUTE);
     let containerSegment = await serviceURL.listContainersSegment(aborter);
 
@@ -31,10 +32,10 @@ export class StorageService {
     return containers;
   }
 
-  async getFileShares(accountName: string, accessKey: string, endpointSuffix = 'core.windows.net') {
+  async getFileShares(accountName: string, accessKey: string) {
     const credentials = new FileSharedKeyCredential(accountName, accessKey);
     const pipeline = FileStorageURL.newPipeline(credentials);
-    const serviceURL = new FileServiceURL(`https://${accountName}.file.${endpointSuffix}`, pipeline);
+    const serviceURL = new FileServiceURL(`https://${accountName}.file.${this.configService.endpointSuffix}`, pipeline);
     const aborter = FileAborter.timeout(ONE_MINUTE);
 
     let fileSegment = await serviceURL.listSharesSegment(aborter);

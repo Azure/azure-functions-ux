@@ -4,7 +4,7 @@ import { DeploymentCenterStateManager } from '../../../wizard-logic/deployment-c
 import { RuntimeStackService } from 'app/shared/services/runtimestack.service';
 import { WebAppCreateStack } from 'app/shared/models/stacks';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories, Os, RuntimeStacks } from 'app/shared/models/constants';
+import { LogCategories, Os } from 'app/shared/models/constants';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
@@ -30,7 +30,6 @@ export class StackSelectorComponent implements OnDestroy {
   public stackMismatchMessage = '';
   public selectedRuntimeStack = '';
   public selectedRuntimeStackVersion = '';
-  public showVersionSelector = true;
 
   private _ngUnsubscribe$ = new Subject();
   private _runtimeStacks: WebAppCreateStack[] = [];
@@ -146,8 +145,6 @@ export class StackSelectorComponent implements OnDestroy {
 
   private _populateRuntimeStackVersionItems(stackValue: string) {
     if (stackValue) {
-      this.showVersionSelector = stackValue !== RuntimeStacks.aspnet;
-
       const runtimeStack = this._runtimeStacks.find(stack => stack.value.toLocaleLowerCase() === stackValue);
 
       this.runtimeStackVersionItems = runtimeStack.versions.map(version => ({

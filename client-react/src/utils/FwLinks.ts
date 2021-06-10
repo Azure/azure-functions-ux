@@ -38,10 +38,14 @@ export const Links = {
   functionCreateSummaryLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141649',
   functionCreateTemplateLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141650',
   functionCreateBindingsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141857',
+  functionV2MigrationLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2147591',
+  earlyAccessStackLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2151539',
 };
 
 export const DeploymentCenterLinks = {
   appServiceDocumentation: 'https://go.microsoft.com/fwlink/?linkid=874656',
   configureDeployment: 'https://go.microsoft.com/fwlink/?linkid=2086046',
   containerContinuousDeploy: 'https://go.microsoft.com/fwlink/?linkid=2133570',
+  configureDeploymentSlots: 'https://go.microsoft.com/fwlink/?linkid=2142216',
+  configureLocalGitDeployment: 'https://go.microsoft.com/fwlink/?linkid=2151801',
 };

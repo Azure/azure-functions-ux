@@ -38,6 +38,7 @@ export const formContainerDivStyle = style({
 
 export const detailContainerStyle = style({
   marginTop: '25px',
+  paddingBottom: '57px',
 });
 
 export const dropdownIconStyle = style({
@@ -62,3 +63,8 @@ export const tableRowStyle = (theme: ThemeExtended, isSelected: boolean, isDisab
     },
   };
 };
+
+export const localCreateContainerStyle = style({
+  padding: '5px 25px',
+  paddingBottom: '57px',
+});

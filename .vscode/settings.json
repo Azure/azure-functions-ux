@@ -17,5 +17,8 @@
     "**/__snapshots__": true
   },
   "debug.node.autoAttach": "on",
-  "typescript.preferences.importModuleSpecifier": "relative"
+"typescript.preferences.importModuleSpecifier": "relative",
+"cSpell.ignoreWords": [
+    "applicationinsightapi"
+]
 }

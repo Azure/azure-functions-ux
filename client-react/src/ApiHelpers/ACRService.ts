@@ -12,7 +12,7 @@ export default class ACRService {
       resourceId: `/subscriptions/${subscriptionId}/providers/Microsoft.ContainerRegistry/registries`,
       commandName: 'getRegistries',
       method: 'GET',
-      apiVersion: CommonConstants.ApiVersions.acrApiVersion,
+      apiVersion: CommonConstants.ApiVersions.acrApiVersion20190501,
     });
   }
 
@@ -21,7 +21,7 @@ export default class ACRService {
       resourceId: `${resourceId}/listCredentials`,
       commandName: 'getCredentials',
       method: 'POST',
-      apiVersion: CommonConstants.ApiVersions.acrApiVersion,
+      apiVersion: CommonConstants.ApiVersions.acrApiVersion20190501,
     });
   }
 
@@ -38,7 +38,7 @@ export default class ACRService {
       body,
       commandName: 'updateAcrWebhook',
       method: 'PUT',
-      apiVersion: CommonConstants.ApiVersions.acrApiVersion,
+      apiVersion: CommonConstants.ApiVersions.acrApiVersion20190501,
     });
   }
 
@@ -47,7 +47,7 @@ export default class ACRService {
       resourceId,
       commandName: 'deleteAcrWebhook',
       method: 'DELETE',
-      apiVersion: CommonConstants.ApiVersions.acrApiVersion,
+      apiVersion: CommonConstants.ApiVersions.acrApiVersion20190501,
     });
   }
 

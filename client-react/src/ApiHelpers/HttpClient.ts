@@ -4,7 +4,26 @@ import { Guid } from '../utils/Guid';
 import { KeyValue } from '../models/portal-models';
 import Url from '../utils/url';
 
-export const sendHttpRequest = <T>(options: AxiosRequestConfig) => {
+export class WellKnownHeaders {
+  static readonly REQUEST_ID = 'x-ms-client-request-id';
+  static readonly SESSION_ID = 'x-ms-client-session-id';
+}
+
+export const sendHttpRequest = <T>(options: AxiosRequestConfig, excludeWellKnownHeaders = false) => {
+  options.headers = options.headers ? options.headers : {};
+
+  if (excludeWellKnownHeaders) {
+    // NOTE(michinoy): Due to the CORS errors we are seeing when calling bitbucket, onedrive, and dropbox
+    // the well known (x-ms-*) headers need to be removed from the request.
+    delete options.headers[WellKnownHeaders.SESSION_ID];
+    delete options.headers[WellKnownHeaders.REQUEST_ID];
+  } else {
+    options.headers[WellKnownHeaders.SESSION_ID] = window.appsvc && window.appsvc.sessionId;
+    if (!options.headers[WellKnownHeaders.REQUEST_ID]) {
+      options.headers[WellKnownHeaders.REQUEST_ID] = Guid.newGuid();
+    }
+  }
+
   return axios({
     ...options,
     validateStatus: () => true, // never throw error

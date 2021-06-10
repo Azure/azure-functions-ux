@@ -32,7 +32,7 @@ function validateWindowsStackLength(stacks) {
 
 function validateLinuxStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(8);
 }
 
 function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
@@ -163,10 +163,10 @@ export function validateASPFilter(stacks) {
 }
 
 function validateASPStack(aspDotnetStack) {
-  expect(aspDotnetStack.displayText).to.equal('ASP.NET');
+  expect(aspDotnetStack.displayText).to.equal('.NET');
   expect(aspDotnetStack.value).to.equal('aspnet');
   expect(aspDotnetStack.preferredOs).to.equal('windows');
-  expect(aspDotnetStack.majorVersions.length).to.equal(2);
+  expect(aspDotnetStack.majorVersions.length).to.equal(3);
   expect(aspDotnetStack).to.deep.equal(hardCodedAspDotnetStack);
 }
 

@@ -115,14 +115,32 @@ export default class GitHubService {
     return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/deleteActionWorkflow`, method: 'POST', data });
   };
 
-  public static createOrUpdateActionWorkflow = (authToken: string, gitHubToken: string, content: GitHubActionWorkflowRequestContent) => {
+  public static createOrUpdateActionWorkflow = (
+    authToken: string,
+    gitHubToken: string,
+    content: GitHubActionWorkflowRequestContent,
+    replacementPublishUrl?: string
+  ) => {
     const data = {
       authToken,
       gitHubToken,
       content,
+      replacementPublishUrl,
     };
 
     return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/actionWorkflow`, method: 'PUT', data });
+  };
+
+  public static dispatchWorkflow = (gitHubToken: string, branch: string, repo: string, workflowFileName: string) => {
+    const data = {
+      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repo}/actions/workflows/${workflowFileName}/dispatches`,
+      gitHubToken,
+      data: {
+        ref: branch,
+      },
+    };
+
+    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/dispatchWorkflow`, method: 'POST', data });
   };
 
   private static _getGitHubObjectList = async <T>(url: string, gitHubToken: string, logger?: (page, response) => void) => {

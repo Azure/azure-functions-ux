@@ -8,7 +8,7 @@ export interface IDeploymentCenterContext {
   resourceId: string;
   hasWritePermission: boolean;
   oneDriveToken: string;
-  dropBoxToken: string;
+  dropboxToken: string;
   bitbucketToken: string;
   gitHubToken: string;
   refresh: () => Promise<void>;

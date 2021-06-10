@@ -52,6 +52,7 @@ export const getMinorVersions = (builtInStacks: WebAppStack[], stack: string, ma
     return {
       text: getMinorVersionText(minVer.displayText, t, settings),
       key: settings && settings.runtimeVersion ? settings.runtimeVersion.toLocaleLowerCase() : minVer.value,
+      data: settings,
     };
   });
 };

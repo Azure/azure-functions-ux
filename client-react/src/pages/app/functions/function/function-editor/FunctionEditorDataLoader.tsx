@@ -56,6 +56,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [testData, setTestData] = useState<string | undefined>(undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isUploadingFile, setIsUploadingFile] = useState(false);
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -477,6 +478,25 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return '';
   };
 
+  const isOverlayLoadingComponentVisible = () => {
+    return isUploadingFile || isRefreshing;
+  };
+
+  const refreshFileList = async () => {
+    if (site && functionInfo && runtimeVersion) {
+      const fileListResponse = await FunctionsService.getFileContent(site.id, functionInfo.properties.name, runtimeVersion);
+      if (fileListResponse && fileListResponse.metadata.success) {
+        setFileList(fileListResponse.data as VfsObject[]);
+      } else {
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'getFileContent',
+          `Failed to get file content: ${getErrorMessageOrStringify(fileListResponse.metadata.error)}`
+        );
+      }
+    }
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -526,12 +546,15 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             isRefreshing={isRefreshing}
             xFunctionKey={getDefaultXFunctionKey()}
             getFunctionUrl={getFunctionUrl}
+            isUploadingFile={isUploadingFile}
+            setIsUploadingFile={setIsUploadingFile}
+            refreshFileList={refreshFileList}
           />
         </div>
       ) : (
         <CustomBanner message={t('functionInfoFetchError')} type={MessageBarType.error} />
       )}
-      {isRefreshing && <LoadingComponent overlay={true} />}
+      {isOverlayLoadingComponentVisible() && <LoadingComponent overlay={true} />}
     </FunctionEditorContext.Provider>
   );
 };

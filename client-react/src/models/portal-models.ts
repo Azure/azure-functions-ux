@@ -84,8 +84,9 @@ export class Verbs {
 
   public static closeBlades = 'close-blades';
   public static closeSelf = 'close-self';
-  public static logAction = 'log-action';
-  public static logMessage = 'log-message';
+  public static log = 'log';
+  public static logActionDeprecated = 'log-action';
+  public static logMessageDeprecated = 'log-message';
   public static logTimerEvent = 'log-timer-event';
   public static setDirtyState = 'set-dirtystate'; // Deprecated
   public static updateDirtyState = 'update-dirtystate';

@@ -2683,6 +2683,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="commitIdAuthor" xml:space="preserve">
         <value>ID zatwierdzenia (autor)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Autor zatwierdzenia</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Komunikat dotyczący zaewidencjonowania</value>
     </data>
@@ -3226,9 +3229,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Pierwszy rdzeń w warstwie Podstawowa (B1) dla systemu Linux jest bezpłatny przez pierwsze 30 dni!</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Opłaty za kontenery systemu Windows są naliczane z 50% rabatem w wersji zapoznawczej.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Izolowane warstwy cenowe w środowisku App Service Environment (ASE) nie są dostępne dla danej konfiguracji. Środowisko ASE to zaawansowana oferta funkcji usługi Azure App Service zapewniająca izolację sieciową i ulepszone możliwości skalowania.</value>
     </data>
@@ -3255,9 +3255,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Wychodzące adresy IP aplikacji mogą ulec zmianie.</value>
-    </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>Twój plan usługi App Service {0} przekroczył zalecaną liczbę aplikacji dla swojego rozmiaru.</value>
     </data>
   <data name="free" xml:space="preserve">
         <value>Bezpłatna</value>
@@ -3872,6 +3869,18 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>Nie można skonfigurować wdrożenia: {0}</value>
     </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>Nie można zaktualizować poświadczeń publikującego użytkownika: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>Nie można zaktualizować poświadczeń publikującego użytkownika</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>Pomyślnie zaktualizowano poświadczenia publikującego użytkownika</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>Aktualizowanie poświadczeń publikującego użytkownika</value>
+    </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>Nie można zarejestrować nowej aplikacji w usłudze Azure Active Directory. Dowiedz się więcej: https://go.microsoft.com/fwlink/?linkid=843472. Więcej szczegółów: {0}</value>
     </data>
@@ -3883,6 +3892,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Nie można odłączyć wdrożenia</value>
+    </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Nie można rozłączyć wdrożenia: {0}</value>
     </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Czy na pewno chcesz odłączyć swoje wdrożenie?</value>
@@ -3934,6 +3946,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>Na przykład nginx:latest</value>
+    </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>Np. microsoft/iis:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Aby rozpocząć, najpierw utwórz rejestr Azure Container Registry i dodaj obraz.</value>
@@ -4241,6 +4256,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Funkcje oparte na oprogramowaniu Kubernetes nie są obecnie obsługiwane.</value>
     </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Narzędzie Docker Compose nie jest obecnie obsługiwane.</value>
+    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Edytowanie funkcji w portalu nie jest obsługiwane w przypadku aplikacji funkcji wdrożonych jako obraz platformy Docker.</value>
     </data>
@@ -4276,9 +4294,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Edytowanie funkcji w portalu nie jest obsługiwane dla aplikacji funkcji Premium dla systemu Linux (wersja zapoznawcza).</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Jeden kontener (wersja zapoznawcza)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Więcej szablonów...</value>
@@ -5740,19 +5755,19 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Plik przepływu pracy</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Zachowaj</value>
+        <value>Zapisz plik przepływu pracy</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Zachowaj plik „{0}” z gałęzi „{1}” w repozytorium „{2}”. Może to spowodować wyzwalanie wdrożeń w Twojej aplikacji przy zatwierdzeniu do gałęzi.</value>
+        <value>Zapisywanie umożliwia zachowywanie wszelkich zmian wprowadzonych w pliku przepływu pracy, ale nadal będzie wyzwalać wdrożenia w tej aplikacji.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Usuń</value>
+        <value>Usuwanie pliku przepływu pracy</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Usuń plik „{0}” z gałęzi „{1}” w repozytorium „{2}”. Uniemożliwi to przyszłe wdrożenia w Twojej aplikacji przy zatwierdzaniu do tej gałęzi.</value>
+        <value>Plik zostanie usunięty, a przyszłe zatwierdzenia nie będą wyzwalać wdrożeń w tej aplikacji.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Odłączenie akcji usługi GitHub uniemożliwi wszelkie przyszłe wdrożenia wyzwalane przez zatwierdzenia.</value>
+        <value>Rozłączenie akcji umożliwia zmianę konfiguracji wdrożenia aplikacji. Wybierz, co się dzieje z plikiem przepływu pracy po rozłączeniu.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Plik przepływu pracy akcji usługi GitHub „{0}” z gałęzi „{1}” w repozytorium „{2}” nie istnieje. Wybierz przycisk „OK”, aby rozłączyć wdrożenie.</value>
@@ -5926,7 +5941,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Nie można odnaleźć gałęzi „{0}” w repozytorium „{1}”. Przejdź do repozytorium, aby kontynuować badanie.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Potwierdź rozłączenie z akcją usługi GitHub</value>
+        <value>Rozłącz akcje usługi GitHub</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Potwierdzenie rozłączenia z usługą kompilacji usługi App Service</value>
@@ -5942,6 +5957,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Nie udało się rozłączyć wdrożenia, ale plik przepływu pracy został pomyślnie usunięty. Ponów próbę rozłączenia.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Nie udało się rozłączyć wdrożenia, ale plik przepływu pracy został pomyślnie usunięty. Ponów próbę rozłączenia. Błąd: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Nie można nawiązać połączenia z usługą Application Insights. Upewnij się, że masz uprawnienia do zapisu w aplikacji funkcji</value>
@@ -5967,8 +5985,23 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Polecenie synchronizacji centrum wdrażania</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Polecenie ponownego wdrażania w centrum wdrażania</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Wdróż ponownie/synchronizuj</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Błąd podczas pobierania informacji</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>Nie można pobrać informacji o koncie</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Przejdź do portalu Azure DevOps, aby się rozłączyć.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>Bieżąca konfiguracja wdrożenia nie jest już obsługiwana. Przejdź do portalu Azure DevOps, aby się rozłączyć.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Zarządzaj profilem publikowania</value>
@@ -6064,22 +6097,25 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Ustawienia centrum wdrażania</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>Poświadczenia FTP/FTPS</value>
+        <value>Poświadczenia protokołu FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>Poświadczenia FTP lub FTPS</value>
+        <value>Poświadczenia protokołu FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>Poświadczenia lokalnego systemu Git albo serwera FTP/FTPs</value>
+        <value>Poświadczenia lokalnej usługi Git/protokołu FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>Poświadczenia lokalnego systemu Git albo serwera FTP lub FTPs</value>
+        <value>Poświadczenia lokalnej usługi Git lub protokołu FTPS</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Ładowanie dzienników kontenerów</value>
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Trwa ładowanie dzienników kontenerów...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>To są dzienniki z aparatu platformy Docker emitowane podczas fazy aprowizacji obrazu kontenera.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Nie udało się pobrać dzienników kontenerów</value>
@@ -6100,19 +6136,19 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Wszystkie niezapisane zmiany zostaną utracone podczas odświeżania. Czy na pewno chcesz kontynuować?</value>
     </data>
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to refresh?</value>
+        <value>Czy na pewno chcesz odświeżyć?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>Czy na pewno chcesz wykonać synchronizację?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Czy na pewno chcesz wykonać ponowne wdrożenie?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>Wykonanie operacji ponownego wdrażania spowoduje anulowanie istniejącej operacji wdrażania w toku i utworzenie nowej.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to discard?</value>
+        <value>Czy na pewno chcesz odrzucić?</value>
     </data>
   <data name="deploymentCenterDataLossMessage" xml:space="preserve">
-        <value>All unsaved changes will be lost.</value>
+        <value>Wszystkie niezapisane zmiany zostaną utracone.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Dodaj ustawienie aplikacji</value>
@@ -6121,7 +6157,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Edytuj ustawienie aplikacji</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>Usługa App Service obsługuje wiele technologii służących do uzyskiwania dostępu do zawartości aplikacji oraz publikowania i modyfikowania jej. Dla poświadczeń FTP/FTPS można ustawić zakres aplikacji lub użytkownika.</value>
+        <value>Usługa App Service obsługuje wiele technologii służących do uzyskiwania dostępu do zawartości aplikacji oraz publikowania i modyfikowania jej. Dla poświadczeń protokołu FTPS można ustawić zakres aplikacji lub użytkownika.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>Punkt końcowy FTPS</value>
@@ -6130,13 +6166,13 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Zakres aplikacji</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Poświadczenia zakresu aplikacji są generowane automatycznie i zapewniają dostęp tylko do tej określonej aplikacji lub miejsca wdrożenia. Te poświadczenia mogą być używane w przypadku protokołu FTP, lokalnego repozytorium Git oraz narzędzia WebDeploy. Nie można ich skonfigurować ręcznie, ale w dowolnym momencie można je zresetować.</value>
+        <value>Poświadczenia zakresu aplikacji są generowane automatycznie i zapewniają dostęp tylko do tej określonej aplikacji lub miejsca wdrożenia. Te poświadczenia mogą być używane w przypadku protokołu FTPS, lokalnego repozytorium Git oraz narzędzia WebDeploy. Nie można ich skonfigurować ręcznie, ale w dowolnym momencie można je zresetować.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>Zakres użytkownika</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Poświadczenia zakresu użytkownika są definiowane przez Ciebie (użytkownika) i mogą być używane na potrzeby wszystkich aplikacji, do których masz dostęp. Te poświadczenia mogą być używane w przypadku protokołu FTP, lokalnego repozytorium Git oraz narzędzia WebDeploy. Uwierzytelnianie w punkcie końcowym FTP/FTPS przy użyciu poświadczeń na poziomie użytkownika wymaga nazwy użytkownika w następującym formacie: „{0}”</value>
+        <value>Poświadczenia zakresu użytkownika są definiowane przez Ciebie (użytkownika) i mogą być używane na potrzeby wszystkich aplikacji, do których masz dostęp. Te poświadczenia mogą być używane w przypadku protokołu FTPS, lokalnego repozytorium Git oraz narzędzia WebDeploy. Uwierzytelnianie w punkcie końcowym FTPS przy użyciu poświadczeń na poziomie użytkownika wymaga nazwy użytkownika w następującym formacie: „{0}”</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(Twoja nazwa użytkownika)</value>
@@ -6264,6 +6300,21 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>Lokalny system Git</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>Folder</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>Wybierz folder</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>Zewnętrzne repozytorium Git</value>
     </data>
@@ -6276,11 +6327,20 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>Typ repozytorium</value>
     </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>główna</value>
+    </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>Prywatne</value>
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Publiczne</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Lokalny system Git umożliwia hostowanie prostego serwera Git dla aplikacji w planie usługi App Service. Za jego pomocą można szybko skonfigurować potok ciągłej integracji/ciągłego wdrażania.</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Adres URL lokalnego repozytorium Git zostanie wygenerowany po zakończeniu.</value>
@@ -6294,20 +6354,20 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>Wystąpił błąd podczas pobierania identyfikatora URI klona usługi Git</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>Przesłano żądanie synchronizacji</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>Przesłano żądanie ponownego wdrożenia</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>Trwa aktualizowanie repozytorium dla aplikacji internetowej {0}.</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>Repozytorium dla aplikacji internetowej {0} zostało pomyślnie zaktualizowane</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>Nie udało się wykonać synchronizacji: {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>Nie udało się wdrożyć ponownie: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>Nie udało się wykonać synchronizacji</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>Nie udało się wdrożyć ponownie</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Ustawienia rejestru</value>
@@ -6498,6 +6558,12 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Jak cenna jest nowa funkcja dzienników bazująca na usłudze Application Insights?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>Jak łatwo lub trudno jest używać tej ulepszonej strony centrum wdrażania usługi App Service?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>Jak przydatna jest ta ulepszona strona centrum wdrażania usługi App Service?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>Jeśli nie możesz znaleźć organizacji lub repozytorium, może być konieczne włączenie dodatkowych uprawnień w usłudze GitHub.</value>
     </data>
@@ -6520,16 +6586,16 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Wypełnij wymagane ustawienia powyżej, aby włączyć podgląd.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Zastąp przepływ pracy w repozytorium</value>
+        <value>Zastąp przepływ pracy: zastąp istniejący plik przepływu pracy {0} w wybranym repozytorium i wybranej gałęzi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Dodaj przepływ pracy w repozytorium</value>
+        <value>Dodaj przepływ pracy: Dodaj nowy plik przepływu pracy {0} w wybranym repozytorium i wybranej gałęzi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Użyj istniejącego przepływu pracy repozytorium</value>
+        <value>Użyj istniejącego przepływu pracy: użyj istniejącego pliku przepływu pracy {0} w wybranym repozytorium i wybranej gałęzi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Użyj dostępnego przepływu pracy repozytorium</value>
+        <value>Użyj dostępnego przepływu pracy: użyj jednego z plików przepływu pracy dostępnego w wybranym repozytorium i wybranej gałęzi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Wybierz opcję przepływu pracy</value>
@@ -6637,7 +6703,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Usługa FTP jest wyłączona przez zasady dostępu.</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>Edytowanie niestandardowej aplikacji funkcji nie jest obsługiwane w witrynie Azure Portal. Użyj lokalnego środowiska programistycznego, aby edytować tę funkcję.</value>
+        <value>Edytowanie aplikacji funkcji za pomocą elementu CustomHandler nie jest obsługiwane w witrynie Azure Portal. Użyj lokalnego środowiska programistycznego, aby edytować tę funkcję.</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>Wybierz środowisko programistyczne</value>
@@ -6706,18 +6772,114 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Adres URL serwera musi rozpoczynać się od ciągu https://</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>Warstwa Premium w wersji 3 nie jest obsługiwana w przypadku tej jednostki skalowania. Rozważ ponowne wdrożenie lub sklonowanie aplikacji.</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Izolacja funkcji Hyper-V</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>Kontenery systemu Windows są zabezpieczane przy użyciu trybu izolacji funkcji Hyper-V.</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>Minimalna liczba jednostek ACU na procesor wirtualny: {0}</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} procesor wirtualny</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>Nie można pobrać funkcji</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>Tworzenie klucza hosta</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>Tworzenie klucza systemowego</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>Tworzenie klucza funkcji</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>Tworzenie klucza {0}</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>Pomyślnie utworzono klucz {0}</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>Nie można utworzyć elementu {0}</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>Nie można utworzyć elementu {0}: {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (przestarzała)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (wersja zapoznawcza)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>Ścieżką instalacji nie może być „/”</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Ustawienia środowiska uruchomieniowego przepływu pracy</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Przekazywanie pliku</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Przekazywanie elementu „{0}”</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Pomyślnie przekazano plik „{0}”</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Nie można przekazać pliku „{0}„. Przekazywanie plików o rozmiarze ponad 5 MB nie jest obsługiwane w witrynie Azure Portal</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (Wczesny dostęp)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>Warstwa Izolowana V2 nie jest obsługiwana w przypadku tej jednostki skalowania. Rozważ ponowne wdrożenie lub sklonowanie aplikacji.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>Nie będzie można przejść z powrotem do wersji ~2 po uaktualnieniu do wersji ~3, ponieważ bazowe środowisko uruchomieniowe jest ujednolicone wokół wersji ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Typ kontenera</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Nieprawidłowy plik YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Wybierz plik</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Nie można pobrać stanu hosta aplikacji funkcji. Aby korzystać z przesyłania strumieniowego dzienników, upewnij się, że host funkcji jest uruchomiony.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Projekt</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Wybierz projekt</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Nie znaleziono żadnych kont dla usługi Azure Repos. Utwórz nowe konto w usłudze Azure Repos i spróbuj ponownie.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>Nie można pobrać zasobu usługi App Insights. Upewnij się, że w ustawieniach aplikacji skonfigurowano poprawny klucz instrumentacji. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Wczesny dostęp umożliwia szybkie dostarczanie aktualizacji i nowych wersji różnych środowisk uruchomieniowych.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>Wybrana wersja „{0}” jest przestarzała. Rozważ jej zaktualizowanie.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>Wybrana wersja „{0}” stanie się przestarzała {1}. Rozważ zaktualizowanie jej wkrótce.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Dzienniki zostaną odświeżone za {0} s</value>
     </data>
 </root>

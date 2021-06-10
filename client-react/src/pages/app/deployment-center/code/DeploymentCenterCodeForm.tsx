@@ -21,21 +21,28 @@ import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../../../models/github';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import {
-  getCodeAppWorkflowInformation,
+  getCodeWebAppWorkflowInformation,
+  getCodeFunctionAppCodeWorkflowInformation,
   isApiSyncError,
   updateGitHubActionSourceControlPropertiesManually,
 } from '../utility/GitHubActionUtility';
-import { getWorkflowFilePath, getArmToken, getLogId } from '../utility/DeploymentCenterUtility';
+import {
+  getWorkflowFilePath,
+  getArmToken,
+  getTelemetryInfo,
+  getWorkflowFileName,
+  getSourceControlsWorkflowFileName,
+} from '../utility/DeploymentCenterUtility';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { AppOs } from '../../../../models/site/site';
+import GitHubService from '../../../../ApiHelpers/GitHubService';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
-  const [isSyncConfirmDialogVisible, setIsSyncConfirmDialogVisible] = useState(false);
+  const [isRedeployConfirmDialogVisible, setIsRedeployConfirmDialogVisible] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
 
   const siteStateContext = useContext(SiteStateContext);
@@ -45,10 +52,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const deploymentCenterData = new DeploymentCenterData();
 
   const deployKudu = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+    //(NOTE: stpelleg) Only external git is expected to be manual integration
+    // If manual integration is true the site config scm type is set to be external
+
     const payload: SiteSourceControlRequestBody = {
       repoUrl: getRepoUrl(values),
       branch: values.branch || 'master',
-      isManualIntegration: isManualIntegration(values),
+      isManualIntegration: values.sourceProvider === ScmType.ExternalGit,
       isGitHubAction: values.buildProvider === BuildProvider.GitHubAction,
       isMercurial: false,
     };
@@ -60,6 +70,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
+      portalContext.log(getTelemetryInfo('info', 'updateSourceControls', 'submit'));
+
       const updateSourceControlResponse = await deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, {
         properties: payload,
       });
@@ -72,40 +84,21 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         // NOTE(michinoy): If the save operation was being done for GitHub Action, and
         // we are experiencing the GeoRegionalService API error (500), run through the
         // workaround.
-        LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeForm', 'deployKudu-apiSyncErrorWorkaround'), {
-          resourceId: deploymentCenterContext.resourceId,
-        });
+        portalContext.log(getTelemetryInfo('warning', 'updateSourceControlsWorkaround', 'submit'));
 
         return updateGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId, payload);
       } else {
         if (!updateSourceControlResponse.metadata.success) {
-          LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeForm', 'deployKudu'), {
-            resourceId: deploymentCenterContext.resourceId,
-          });
+          portalContext.log(
+            getTelemetryInfo('error', 'updateSourceControlResponse', 'failed', {
+              message: getErrorMessage(updateSourceControlResponse.metadata.error),
+              errorAsString: updateSourceControlResponse.metadata.error ? JSON.stringify(updateSourceControlResponse.metadata.error) : '',
+            })
+          );
         }
 
         return updateSourceControlResponse;
       }
-    }
-  };
-
-  const isManualIntegration = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>): boolean => {
-    switch (values.sourceProvider) {
-      case ScmType.GitHub:
-      case ScmType.BitbucketGit:
-      case ScmType.LocalGit:
-        return false;
-      case ScmType.OneDrive:
-      case ScmType.Dropbox:
-      case ScmType.ExternalGit:
-        return true;
-      default:
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterCodeCommandBar',
-          `Incorrect Source Provider ${values.sourceProvider}`
-        );
-        throw Error(`Incorrect Source Provider ${values.sourceProvider}`);
     }
   };
 
@@ -116,42 +109,62 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       case ScmType.BitbucketGit:
         return `${DeploymentCenterConstants.bitbucketUrl}/${values.org}/${values.repo}`;
       case ScmType.OneDrive:
+        return `${DeploymentCenterConstants.onedriveApiUri}:/${values.folder}`;
       case ScmType.Dropbox:
         // TODO: (stpelleg): Pending Implementation of these ScmTypes
-        throw Error('Not implemented');
+        return `${DeploymentCenterConstants.dropboxUri}/${values.folder}`;
       case ScmType.LocalGit:
         //(note: stpelleg): Local Git does not require a Repo Url
         return '';
       case ScmType.ExternalGit:
+        const repoUrlParts = values.repo.split('://');
+        const protocol = repoUrlParts[0];
+        const hostContents = repoUrlParts[1];
+
         if (values.externalUsername && values.externalPassword) {
-          const repoPath = values.repo.toLocaleLowerCase().replace('https://', '');
-          return `https://${values.externalUsername}:${values.externalPassword}@${repoPath}`;
+          return `${protocol}://${values.externalUsername}:${values.externalPassword}@${hostContents}`;
         }
         return values.repo;
+      case ScmType.Vso:
+        return values.repo;
       default:
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterCodeCommandBar',
-          `Incorrect Source Provider ${values.sourceProvider}`
+        portalContext.log(
+          getTelemetryInfo('error', 'getRepoUrl', 'incorrectValue', {
+            sourceProvider: values.sourceProvider,
+          })
         );
         throw Error(`Incorrect Source Provider ${values.sourceProvider}`);
     }
   };
 
   const deployGithubActions = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+    portalContext.log(getTelemetryInfo('info', 'commitGitHubActions', 'submit'));
+
     const repo = `${values.org}/${values.repo}`;
     const branch = values.branch || 'master';
 
-    const workflowInformation = getCodeAppWorkflowInformation(
-      values.runtimeStack,
-      values.runtimeVersion,
-      values.runtimeRecommendedVersion,
-      branch,
-      siteStateContext.isLinuxApp,
-      values.gitHubPublishProfileSecretGuid,
-      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
-      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
-    );
+    const workflowInformation = siteStateContext.isFunctionApp
+      ? getCodeFunctionAppCodeWorkflowInformation(
+          values.runtimeStack,
+          values.runtimeVersion,
+          values.runtimeRecommendedVersion,
+          branch,
+          siteStateContext.isLinuxApp,
+          values.gitHubPublishProfileSecretGuid,
+          deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+          deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+        )
+      : getCodeWebAppWorkflowInformation(
+          values.runtimeStack,
+          values.runtimeVersion,
+          values.runtimeRecommendedVersion,
+          branch,
+          siteStateContext.isLinuxApp,
+          values.gitHubPublishProfileSecretGuid,
+          deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+          deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
+          values.javaContainer
+        );
 
     const commitInfo: GitHubCommit = {
       repoName: repo,
@@ -189,7 +202,30 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       commit: commitInfo,
     };
 
-    return deploymentCenterData.createOrUpdateActionWorkflow(getArmToken(), deploymentCenterContext.gitHubToken, requestContent);
+    // NOTE(michinoy): temporary fix, while the backend reinstates the scm url in the publish url property.
+    const replacementPublishUrl = siteStateContext && siteStateContext.isLinuxApp ? getScmUri() : undefined;
+
+    return deploymentCenterData.createOrUpdateActionWorkflow(
+      getArmToken(),
+      deploymentCenterContext.gitHubToken,
+      requestContent,
+      replacementPublishUrl
+    );
+  };
+
+  const getScmUri = (): string | undefined => {
+    if (
+      deploymentCenterPublishingContext &&
+      deploymentCenterPublishingContext.publishingCredentials &&
+      deploymentCenterPublishingContext.publishingCredentials.properties.scmUri
+    ) {
+      const scmUriParts = deploymentCenterPublishingContext.publishingCredentials.properties.scmUri.split('@');
+
+      if (scmUriParts.length > 1) {
+        return scmUriParts[1];
+      }
+    }
+    return undefined;
   };
 
   const deploy = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
@@ -203,18 +239,26 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       runtimeStack,
       runtimeVersion,
       runtimeRecommendedVersion,
+      folder,
     } = values;
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'deploy'), {
-      sourceProvider,
-      buildProvider,
-      org,
-      repo,
-      branch,
-      workflowOption,
-      runtimeStack,
-      runtimeVersion,
-      runtimeRecommendedVersion,
-    });
+
+    portalContext.log(
+      getTelemetryInfo('info', 'saveDeploymentSettings', 'start', {
+        sourceProvider,
+        buildProvider,
+        org,
+        repo,
+        branch,
+        folder,
+        workflowOption,
+        runtimeStack,
+        runtimeVersion,
+        runtimeRecommendedVersion,
+        publishType: 'code',
+        appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
+        os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+      })
+    );
 
     // NOTE(michinoy): Only initiate writing a workflow configuration file if the branch does not already have it OR
     // the user opted to overwrite it.
@@ -224,9 +268,11 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     ) {
       const gitHubActionDeployResponse = await deployGithubActions(values);
       if (!gitHubActionDeployResponse.metadata.success) {
-        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'deploy'), {
-          error: gitHubActionDeployResponse.metadata.error,
-        });
+        portalContext.log(
+          getTelemetryInfo('error', 'gitHubActionDeployResponse', 'failed', {
+            errorAsString: JSON.stringify(gitHubActionDeployResponse.metadata.error),
+          })
+        );
 
         return gitHubActionDeployResponse;
       }
@@ -265,9 +311,12 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
     formikActions: FormikActions<DeploymentCenterFormData<DeploymentCenterCodeFormData>>
   ) => {
+    portalContext.log(getTelemetryInfo('info', 'onSubmitCodeForm', 'submit'));
+
     await Promise.all([updateDeploymentConfigurations(values, formikActions), updatePublishingUser(values)]);
     await deploymentCenterContext.refresh();
     formikActions.setSubmitting(false);
+    portalContext.updateDirtyState(false);
   };
 
   const updateDeploymentConfigurations = async (
@@ -299,7 +348,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       (currentUser && currentUser.properties.publishingUserName !== values.publishingUsername) ||
       (currentUser && values.publishingPassword && currentUser.properties.publishingPassword !== values.publishingPassword)
     ) {
-      LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'updatePublishingUser'), {});
+      portalContext.log(getTelemetryInfo('info', 'updatePublishingUser', 'submit'));
 
       const notificationId = portalContext.startNotification(t('UpdatingPublishingUser'), t('UpdatingPublishingUser'));
       currentUser.properties.publishingUserName = values.publishingUsername;
@@ -314,9 +363,12 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           ? portalContext.stopNotification(notificationId, false, t('UpdatingPublishingUserFailWithStatusMessage').format(errorMessage))
           : portalContext.stopNotification(notificationId, false, t('UpdatingPublishingUserFail'));
 
-        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'updatePublishingUser'), {
-          errorMessage,
-        });
+        portalContext.log(
+          getTelemetryInfo('error', 'publishingUserResponse', 'failed', {
+            message: errorMessage,
+            errorAsString: JSON.stringify(publishingUserResponse.metadata.error),
+          })
+        );
       }
     }
   };
@@ -336,32 +388,128 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     setIsRefreshConfirmDialogVisible(false);
   };
 
-  const syncFunction = async () => {
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'syncFunction'), {});
+  const redeployFunction = async () => {
+    hideRedeployConfirmDialog();
 
-    hideSyncConfirmDialog();
     const siteName = siteStateContext && siteStateContext.site ? siteStateContext.site.name : '';
     const notificationId = portalContext.startNotification(
-      t('deploymentCenterCodeSyncRequestSubmitted'),
-      t('deploymentCenterCodeSyncRequestSubmittedDesc').format(siteName)
+      t('deploymentCenterCodeRedeployRequestSubmitted'),
+      t('deploymentCenterCodeRedeployRequestSubmittedDesc').format(siteName)
     );
-    const syncResponse = await SiteService.syncSourceControls(deploymentCenterContext.resourceId);
-    if (syncResponse.metadata.success) {
-      portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeSyncSuccess').format(siteName));
-    } else {
-      const errorMessage = getErrorMessage(syncResponse.metadata.error);
-      errorMessage
-        ? portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeSyncFailWithStatusMessage').format(errorMessage))
-        : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeSyncFail'));
 
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataForm', 'syncFunction'), {
-        errorMessage,
-      });
+    const isGitHubActionsSetup =
+      deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+
+    if (isGitHubActionsSetup) {
+      redeployGitHubActions(notificationId, siteName);
+    } else {
+      redeployKudu(notificationId, siteName);
     }
   };
 
-  const hideSyncConfirmDialog = () => {
-    setIsSyncConfirmDialogVisible(false);
+  const redeployKudu = async (notificationId: string, siteName: string) => {
+    const redeployResponse = await SiteService.syncSourceControls(deploymentCenterContext.resourceId);
+    if (redeployResponse.metadata.success) {
+      portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeRedeploySuccess').format(siteName));
+    } else {
+      handleRedeployError(redeployResponse, notificationId, 'syncSourceControls');
+    }
+  };
+
+  const redeployGitHubActions = async (notificationId: string, siteName: string) => {
+    let branch = '';
+    let repo = '';
+    let org = '';
+
+    const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
+    if (sourceControlDetailsResponse.metadata.success) {
+      branch = sourceControlDetailsResponse.data.properties.branch;
+
+      const repoUrlSplit = sourceControlDetailsResponse.data.properties.repoUrl.split('/');
+      if (repoUrlSplit.length >= 2) {
+        org = repoUrlSplit[repoUrlSplit.length - 2];
+        repo = repoUrlSplit[repoUrlSplit.length - 1];
+      }
+    } else {
+      portalContext.log(
+        getTelemetryInfo('error', 'getSourceControls', 'failed', {
+          message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
+        })
+      );
+    }
+
+    const isProductionSlot =
+      deploymentCenterContext.siteDescriptor &&
+      (!deploymentCenterContext.siteDescriptor.slot || deploymentCenterContext.siteDescriptor.slot.toLocaleLowerCase() === 'production');
+
+    if (isProductionSlot) {
+      dispatchAppOrSourceControlsWorkflow(`${org}/${repo}`, branch, notificationId, siteName);
+    } else {
+      dispatchAppOnlyWorkflow(`${org}/${repo}`, branch, notificationId, siteName);
+    }
+  };
+
+  const dispatchAppOnlyWorkflow = async (repo: string, branch: string, notificationId: string, siteName: string) => {
+    const workflowFileName = getWorkflowFileName(
+      branch,
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+    );
+    const workflowDispatchResponse = await GitHubService.dispatchWorkflow(
+      deploymentCenterContext.gitHubToken,
+      branch,
+      repo,
+      workflowFileName
+    );
+
+    if (workflowDispatchResponse.metadata.success) {
+      portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeRedeploySuccess').format(siteName));
+    } else {
+      handleRedeployError(workflowDispatchResponse, notificationId, 'dispatchWorkflow');
+    }
+  };
+
+  const dispatchAppOrSourceControlsWorkflow = async (repo: string, branch: string, notificationId: string, siteName: string) => {
+    const workflowFileName = getWorkflowFileName(
+      branch,
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : ''
+    );
+    const sourceControlsWorkflowFileName = getSourceControlsWorkflowFileName(
+      branch,
+      deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '',
+      'production'
+    );
+
+    const [appWorkflowDispatchResponse, sourceControlsWorkflowDispatchResponse] = await Promise.all([
+      GitHubService.dispatchWorkflow(deploymentCenterContext.gitHubToken, branch, repo, workflowFileName),
+      GitHubService.dispatchWorkflow(deploymentCenterContext.gitHubToken, branch, repo, sourceControlsWorkflowFileName),
+    ]);
+
+    if (appWorkflowDispatchResponse.metadata.success || sourceControlsWorkflowDispatchResponse.metadata.success) {
+      portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeRedeploySuccess').format(siteName));
+    } else if (appWorkflowDispatchResponse.metadata.status === 404 && sourceControlsWorkflowDispatchResponse.metadata.status !== 404) {
+      handleRedeployError(sourceControlsWorkflowDispatchResponse, notificationId, 'dispatchWorkflow');
+    } else {
+      handleRedeployError(appWorkflowDispatchResponse, notificationId, 'dispatchWorkflow');
+    }
+  };
+
+  const handleRedeployError = (response: any, notificationId: string, action: string) => {
+    const errorMessage = getErrorMessage(response.metadata.error);
+    errorMessage
+      ? portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFailWithStatusMessage').format(errorMessage))
+      : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFail'));
+
+    portalContext.log(
+      getTelemetryInfo('error', action, 'failed', {
+        message: errorMessage,
+      })
+    );
+  };
+
+  const hideRedeployConfirmDialog = () => {
+    setIsRedeployConfirmDialogVisible(false);
   };
 
   const hideDiscardConfirmDialog = () => {
@@ -386,7 +534,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               discardFunction={() => setIsDiscardConfirmDialogVisible(true)}
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
-              sync={() => setIsSyncConfirmDialogVisible(true)}
+              redeploy={() => setIsRedeployConfirmDialogVisible(true)}
             />
           </div>
           <>
@@ -407,16 +555,16 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             <ConfirmDialog
               primaryActionButton={{
                 title: t('cancel'),
-                onClick: hideSyncConfirmDialog,
+                onClick: hideRedeployConfirmDialog,
               }}
               defaultActionButton={{
                 title: t('ok'),
-                onClick: syncFunction,
+                onClick: redeployFunction,
               }}
-              title={t('deploymentCenterSyncConfirmTitle')}
-              content={t('deploymentCenterSyncConfirmMessage')}
-              hidden={!isSyncConfirmDialogVisible}
-              onDismiss={hideSyncConfirmDialog}
+              title={t('deploymentCenterRedeployConfirmTitle')}
+              content={t('deploymentCenterRedeployConfirmMessage')}
+              hidden={!isRedeployConfirmDialogVisible}
+              onDismiss={hideRedeployConfirmDialog}
             />
             <ConfirmDialog
               primaryActionButton={{

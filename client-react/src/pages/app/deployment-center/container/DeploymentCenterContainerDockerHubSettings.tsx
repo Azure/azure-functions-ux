@@ -1,18 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Field } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
 import { IChoiceGroupOptionProps } from 'office-ui-fabric-react';
-import { ContainerDockerAccessTypes, DeploymentCenterFieldProps, DeploymentCenterContainerFormData } from '../DeploymentCenter.types';
+import {
+  ContainerDockerAccessTypes,
+  DeploymentCenterFieldProps,
+  DeploymentCenterContainerFormData,
+  ContainerOptions,
+} from '../DeploymentCenter.types';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { ScmType } from '../../../../models/site/config';
+import { SiteStateContext } from '../../../../SiteState';
+import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterContainerComposeFileUploader';
 
 const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
+  const siteStateContext = useContext(SiteStateContext);
 
   const [isGitHubAction, setIsGitHubAction] = useState(false);
   const [isPrivateConfiguration, setIsPrivateConfiguration] = useState(false);
+  const [isComposeOptionSelected, setIsComposeOptionSelected] = useState(false);
 
   useEffect(() => {
     setIsPrivateConfiguration(formProps.values.dockerHubAccessType === ContainerDockerAccessTypes.private);
@@ -25,6 +34,12 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.scmType]);
+
+  useEffect(() => {
+    setIsComposeOptionSelected(formProps.values.option === ContainerOptions.compose);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.option]);
 
   const accessTypes: IChoiceGroupOptionProps[] = [
     {
@@ -79,16 +94,39 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
         </>
       )}
 
-      <Field
-        id="container-dockerHub-imageAndTag"
-        name="dockerHubImageAndTag"
-        component={TextField}
-        label={t('containerImageAndTag')}
-        placeholder={t('containerImageAndTagPlaceholder')}
-        required={true}
-      />
+      {!isComposeOptionSelected && (
+        <>
+          <Field
+            id="container-dockerHub-imageAndTag"
+            name="dockerHubImageAndTag"
+            component={TextField}
+            label={t('containerImageAndTag')}
+            placeholder={
+              siteStateContext.isLinuxApp ? t('containerImageAndTagPlaceholder') : t('containerImageAndTagPlaceholderForWindows')
+            }
+            required={true}
+          />
 
-      <Field id="container-dockerHub-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
+          <Field id="container-dockerHub-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
+        </>
+      )}
+
+      {isComposeOptionSelected && (
+        <>
+          <Field
+            id="container-dockerHub-composeYml"
+            name="dockerHubComposeYml"
+            component={TextField}
+            label={t('config')}
+            widthOverride={'500px'}
+            multiline={true}
+            resizable={true}
+            autoAdjustHeight={true}
+            required={true}
+          />
+          <DeploymentCenterContainerComposeFileUploader {...props} />
+        </>
+      )}
     </>
   );
 };

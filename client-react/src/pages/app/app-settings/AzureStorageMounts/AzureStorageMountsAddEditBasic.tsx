@@ -15,6 +15,8 @@ import { StorageType } from '../../../../models/site/config';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../utils/FwLinks';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -88,6 +90,24 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
 
             const [blobs, files] = await Promise.all([blobsCall, filesCall]);
 
+            const [blobsFailure, filesFailure] = [!blobs.metadata.success, !files.metadata.success];
+
+            if (blobsFailure) {
+              LogService.error(
+                LogCategories.appSettings,
+                'getStorageContainers',
+                `Failed to get storage containers: ${getErrorMessageOrStringify(blobs.metadata.error)}`
+              );
+            }
+
+            if (filesFailure) {
+              LogService.error(
+                LogCategories.appSettings,
+                'getStorageFileShares',
+                `Failed to get storage file shares: ${getErrorMessageOrStringify(files.metadata.error)}`
+              );
+            }
+
             setSharesLoading(false);
             const filesData = files.data || [];
             const blobData = blobs.data || [];
@@ -99,7 +119,6 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               setFieldValue('type', 'AzureBlob');
             }
             if (filesData.length === 0 && blobData.length === 0) {
-              const [blobsFailure, filesFailure] = [!blobs.metadata.success, !files.metadata.success];
               let error = '';
 
               if (!supportsBlobStorage) {

@@ -9,11 +9,18 @@ import { IDropdownOption, IChoiceGroupOption, MessageBarType } from 'office-ui-f
 import { BitbucketUser } from '../../../models/bitbucket';
 import { RepoTypeOptions } from '../../../models/external';
 import { OneDriveUser } from '../../../models/onedrive';
+import { DropboxUser } from '../../../models/dropbox';
+
+export enum SourceControlOptions {
+  GitHub = 'github',
+  Bitbucket = 'bitbucket',
+  OneDrive = 'onedrive',
+  Dropbox = 'dropbox',
+}
 
 export enum ContainerOptions {
   docker = 'docker',
   compose = 'compose',
-  kubernetes = 'kube',
 }
 
 export enum ContainerRegistrySources {
@@ -53,6 +60,158 @@ export enum WorkflowFileDeleteOptions {
   Delete = 'Delete',
 }
 
+export enum RuntimeStackOptions {
+  Java = 'java',
+  Python = 'python',
+  DotNetCore = 'dotnetcore',
+  Ruby = 'ruby',
+  Java11 = 'java-11',
+  Java8 = 'java-8',
+  JBossEAP = 'jbosseap',
+  Node = 'node',
+  PHP = 'php',
+  AspDotNet = 'asp.net',
+  Dotnet = 'dotnet',
+}
+
+export enum RuntimeStackDisplayNames {
+  Java = 'Java',
+  Python = 'Python',
+  DotNetCore = '.NET Core',
+  Ruby = 'Ruby',
+  Java11 = 'Java 11',
+  Java8 = 'Java 8',
+  Node = 'Node',
+  PHP = 'PHP',
+  AspDotNet = 'ASP.NET',
+  Dotnet = 'Dotnet',
+}
+
+export enum RuntimeVersionOptions {
+  Java11 = 'java11',
+  Java8 = 'java8',
+}
+
+export enum RuntimeVersionDisplayNames {
+  Java11 = 'Java 11',
+  Java8 = 'Java 8',
+}
+
+export enum TargetAzDevDeployment {
+  Devfabric = 'devfabric',
+  Preflight = 'pf',
+  SU2 = 'su2',
+}
+
+export interface AzureDevOpsUrl {
+  Tfs: string;
+  Sps: string;
+  Aex: string;
+  Rmo: string;
+  PeDeploymentLevel: string;
+  PeCollectionLevel: string;
+}
+
+export interface DevOpsAccount {
+  AccountId: string;
+  NamespaceId: string;
+  AccountName: string;
+  AccountType: number;
+  AccountOwner: string;
+  CreatedBy: string;
+  CreatedDate: Date;
+  AccountStatus: number;
+  LastUpdatedBy: string;
+  Properties: any;
+  ForceMsaPassThrough: boolean;
+  OrganizationName?: string;
+  StatusReason?: string;
+}
+
+export interface DevOpsBuildDefinition {
+  repository: DevOpsBuildDefinitionRepository;
+}
+
+export interface DevOpsBuildDefinitionRepository {
+  url: string;
+  name: string;
+  defaultBranch: string;
+}
+
+export interface DevOpsProject {
+  id: string;
+  name: string;
+}
+
+export interface DevOpsRepository {
+  id: string;
+  name: string;
+  remoteUrl: string;
+  size: number;
+  sshUrl: string;
+  url: string;
+  webUrl: string;
+  project: DevOpsProject;
+}
+
+export interface DevOpsRepositories {
+  count: number;
+  value: DevOpsRepository[];
+}
+
+export interface DevOpsBranch {
+  name: string;
+  objectId: string;
+  url: string;
+}
+
+export interface DevOpsBranches {
+  count: number;
+  value: DevOpsBranch[];
+}
+
+export interface AuthenticatedUserContext {
+  authenticatedUser: AuthenticatedUser;
+  authorizedUser: AuthorizedUser;
+  instanceId: string;
+  deploymentId: string;
+  deploymentType: string;
+  locationServiceData: LocationServiceData;
+}
+
+export interface AuthenticatedUser {
+  id: string;
+  descriptor: string;
+  subjectDescriptor: string;
+  providerDisplayName: string;
+  isActive: boolean;
+  properties: Properties;
+  resourceVersion: number;
+  metaTypeId: number;
+}
+
+export interface AuthorizedUser {
+  id: string;
+  descriptor: string;
+  subjectDescriptor: string;
+  providerDisplayName: string;
+  isActive: boolean;
+  properties: Properties;
+  resourceVersion: number;
+  metaTypeId: number;
+}
+
+export interface LocationServiceData {
+  serviceOwner: string;
+  defaultAccessMappingMoniker: string;
+  lastChangeId: number;
+  lastChangeId64: number;
+}
+
+export interface Properties {
+  Account: Account;
+}
+
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
 }
@@ -87,6 +246,10 @@ export interface DeploymentCenterCommonFormData {
   externalPassword?: string;
   gitHubUser?: GitHubUser;
   bitbucketUser?: BitbucketUser;
+  oneDriveUser?: OneDriveUser;
+  dropboxUser?: DropboxUser;
+  folder?: string;
+  devOpsProjectName?: string;
 }
 
 export interface AcrFormData {
@@ -132,6 +295,7 @@ export interface DeploymentCenterCodeFormData {
   runtimeStack: string;
   runtimeVersion: string;
   runtimeRecommendedVersion: string;
+  javaContainer?: string;
 }
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
@@ -150,9 +314,14 @@ export interface DeploymentCenterContainerLogsProps {
 
 export interface DeploymentCenterCodeLogsProps {
   isLoading: boolean;
+  refreshLogs: () => void;
   deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
   goToSettings?: () => void;
+}
+
+export interface DeploymentCenterCodeLogsTimerProps {
+  refreshLogs: () => void;
 }
 
 export interface DeploymentCenterCommitLogsProps {
@@ -194,13 +363,13 @@ export interface DeploymentCenterCommandBarProps {
   discardFunction: () => void;
   showPublishProfilePanel: () => void;
   refresh: () => void;
-  sync?: () => void;
+  redeploy?: () => void;
 }
 
 export interface DeploymentCenterCodeCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterCodeFormData> {
   isLoading: boolean;
   refresh: () => void;
-  sync: () => void;
+  redeploy: () => void;
 }
 
 export interface DeploymentCenterContainerCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {
@@ -300,14 +469,11 @@ export interface CodeDeploymentsRow {
   commit: JSX.Element;
   checkinMessage: string;
   status: string;
+  author: string;
 }
 
 export interface BuildChoiceGroupOption extends IChoiceGroupOption {
   buildType: BuildProvider;
-}
-
-export interface WorkflowDropdownOption extends IDropdownOption {
-  workflowOption: WorkflowOption;
 }
 
 export interface RuntimeStackSetting {
@@ -315,7 +481,7 @@ export interface RuntimeStackSetting {
   runtimeVersion: string;
 }
 
-export class ContainerWorkflowInformation {
+export interface ContainerWorkflowInformation {
   fileName: string;
   content: string;
   publishingProfileSecretName: string;
@@ -323,7 +489,7 @@ export class ContainerWorkflowInformation {
   containerPasswordSecretName: string;
 }
 
-export class CodeWorkflowInformation {
+export interface CodeWorkflowInformation {
   fileName: string;
   secretName: string;
   content: string;
@@ -386,4 +552,26 @@ export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterConta
   loadingFolders: boolean;
   accountStatusMessage?: string;
   accountUser?: OneDriveUser;
+}
+
+export interface DeploymentCenterDropboxProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  authorizeAccount: () => void;
+  folderOptions: IDropdownOption[];
+  loadingFolders: boolean;
+  accountStatusMessage?: string;
+  accountUser?: DropboxUser;
+}
+
+export interface DeploymentCenterDevOpsProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  organizationOptions: IDropdownOption[];
+  projectOptions: IDropdownOption[];
+  repositoryOptions: IDropdownOption[];
+  branchOptions: IDropdownOption[];
+  loadingOrganizations: boolean;
+  loadingProjects: boolean;
+  loadingRepositories: boolean;
+  loadingBranches: boolean;
+  errorMessage?: string;
 }

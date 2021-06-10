@@ -21,7 +21,13 @@ import {
   isJavaStackSelected,
 } from './LinuxStacks.data';
 import JavaStack from './JavaStack';
-import { filterDeprecatedWebAppStack } from '../../../../../utils/stacks-utils';
+import {
+  filterDeprecatedWebAppStack,
+  getEarlyStackMessageParameters,
+  checkAndGetStackEOLOrDeprecatedBanner,
+  isStackVersionDeprecated,
+  isStackVersionEndOfLife,
+} from '../../../../../utils/stacks-utils';
 
 type PropsType = FormikProps<AppSettingsFormValues>;
 
@@ -37,6 +43,8 @@ const LinuxStacks: React.FC<PropsType> = props => {
 
   const [runtimeStack, setRuntimeStack] = useState<string | undefined>(undefined);
   const [majorVersionRuntime, setMajorVersionRuntime] = useState<string | null>(null);
+  const [earlyAccessInfoVisible, setEarlyAccessInfoVisible] = useState(false);
+  const [eolStackDate, setEolStackDate] = useState<string | null | undefined>(undefined);
 
   const initialVersionDetails = getVersionDetails(supportedStacks, initialValues.config.properties.linuxFxVersion);
   supportedStacks = filterDeprecatedWebAppStack(
@@ -96,8 +104,31 @@ const LinuxStacks: React.FC<PropsType> = props => {
     setMajorVersionRuntime(getSelectedMajorVersion(supportedStacks, values.config.properties.linuxFxVersion));
   };
 
+  const setStackBannerAndInfoMessage = () => {
+    setEarlyAccessInfoVisible(false);
+    setEolStackDate(undefined);
+
+    if (runtimeStack && majorVersionRuntime) {
+      const minorVersions = getMinorVersions(supportedStacks, runtimeStack, majorVersionRuntime, t);
+      const selectedMinorVersion = values.config.properties.linuxFxVersion.toLowerCase();
+      for (const minorVersion of minorVersions) {
+        if (minorVersion.key === selectedMinorVersion && minorVersion.data) {
+          setEarlyAccessInfoVisible(!!minorVersion.data.isEarlyAccess);
+
+          if (isStackVersionDeprecated(minorVersion.data)) {
+            setEolStackDate(null);
+          } else if (isStackVersionEndOfLife(minorVersion.data.endOfLifeDate)) {
+            setEolStackDate(minorVersion.data.endOfLifeDate);
+          }
+          break;
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     setRuntimeStackAndMajorVersion();
+    setStackBannerAndInfoMessage();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.config.properties.linuxFxVersion]);
@@ -127,15 +158,19 @@ const LinuxStacks: React.FC<PropsType> = props => {
                   id="linux-fx-version-major-version"
                 />
                 {majorVersionRuntime && (
-                  <Field
-                    name="config.properties.linuxFxVersion"
-                    dirty={isMinorVersionDirty()}
-                    component={Dropdown}
-                    disabled={disableAllControls}
-                    label={t('minorVersion')}
-                    id="linux-fx-version-minor-version"
-                    options={getMinorVersions(supportedStacks, runtimeStack, majorVersionRuntime, t)}
-                  />
+                  <>
+                    <Field
+                      name="config.properties.linuxFxVersion"
+                      dirty={isMinorVersionDirty()}
+                      component={Dropdown}
+                      disabled={disableAllControls}
+                      label={t('minorVersion')}
+                      id="linux-fx-version-minor-version"
+                      options={getMinorVersions(supportedStacks, runtimeStack, majorVersionRuntime, t)}
+                      {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
+                    />
+                    {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.linuxFxVersion, eolStackDate)}
+                  </>
                 )}
               </>
             ) : (

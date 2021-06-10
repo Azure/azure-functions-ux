@@ -1,9 +1,8 @@
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
-import { Links, Pricing, FeatureFlags } from '../../../shared/models/constants';
+import { Links, Pricing } from '../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
-import { Url } from '../../../../app/shared/Utilities/url';
 
 export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
   tier = Tier.premiumContainer;
@@ -57,25 +56,11 @@ export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
   }
 
   runInitialization(input: PriceSpecInput) {
-    const enablePv3Skus = Url.getFeatureValue(FeatureFlags.enablePv3Skus) === 'true';
-    if (enablePv3Skus) {
-      // NOTE(shimedh): Only show premium container for existing xenon apps if sku is set to premiumContainer.
-      if (input.plan && input.plan.properties.hyperV && input.plan.sku.tier === Tier.premiumContainer) {
-        this.state = 'enabled';
-      } else {
-        this.state = 'hidden';
-      }
+    // NOTE(shimedh): Only show premium container for existing xenon apps if sku is set to premiumContainer.
+    if (input.plan && input.plan.properties.hyperV && input.plan.sku.tier === Tier.premiumContainer) {
+      this.state = 'enabled';
     } else {
-      // TODO (shimedh): Remove the flag check and this else condition once PV3 is enabled.
-      // NOTE(michinoy): Only allow premium containers for xenon.
-      if (
-        (input.specPickerInput.data && (input.specPickerInput.data.isXenon || input.specPickerInput.data.hyperV)) ||
-        (input.plan && input.plan.properties.hyperV)
-      ) {
-        this.state = 'enabled';
-      } else {
-        this.state = 'hidden';
-      }
+      this.state = 'hidden';
     }
 
     return this.checkIfDreamspark(input.subscriptionId);

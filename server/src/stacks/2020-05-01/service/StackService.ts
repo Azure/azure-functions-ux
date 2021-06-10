@@ -146,7 +146,7 @@ export class StacksService20200501 {
     return stacks;
   }
 
-  getWebAppGitHubActionStacks(os?: 'linux' | 'windows'): WebAppCreateStack[] {
+  getWebAppGitHubActionStacks(os?: 'linux' | 'windows', removeHidden?: boolean): WebAppCreateStack[] {
     const stacks = this.getWebAppCreateStacks(os);
 
     // remove all supported platforms which are not github action supported.
@@ -154,7 +154,7 @@ export class StacksService20200501 {
       stack.versions.forEach(version =>
         ArrayUtil.remove<WebAppCreateStackVersionPlatform>(
           version.supportedPlatforms,
-          platform => !platform.githubActionSettings || !platform.githubActionSettings.supported
+          platform => !platform.githubActionSettings || !platform.githubActionSettings.supported || (removeHidden && platform.isHidden)
         )
       )
     );

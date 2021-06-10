@@ -13,10 +13,16 @@ import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, BuildChoiceGr
 import { Guid } from '../../../../utils/Guid';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import DeploymentCenterCodeBuildCallout from './DeploymentCenterCodeBuildCallout';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { SiteStateContext } from '../../../../SiteState';
+import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
+  const scenarioService = new ScenarioService(t);
 
   const [selectedBuild, setSelectedBuild] = useState<BuildProvider>(BuildProvider.None);
   const [selectedBuildChoice, setSelectedBuildChoice] = useState<BuildProvider>(BuildProvider.None);
@@ -24,6 +30,8 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const [showInfoBanner, setShowInfoBanner] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
 
   const toggleIsCalloutVisible = () => {
     setSelectedBuildChoice(selectedBuild);
@@ -38,25 +46,74 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     setShowInfoBanner(false);
   };
 
-  const sourceOptions: IDropdownOption[] = [
-    {
-      key: 'continuousDeploymentHeader',
-      text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
-      itemType: DropdownMenuItemType.Header,
-    },
-    { key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') },
-    { key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') },
-    { key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') },
-    { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
-    {
-      key: 'manualDeploymentHeader',
-      text: t('deploymentCenterCodeSettingsSourceManualDeploymentHeader'),
-      itemType: DropdownMenuItemType.Header,
-    },
-    { key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') },
-  ];
+  const getSourceOptions = (): IDropdownOption[] => [...getContinuousDeploymentOptions(), ...getManualDeploymentOptions()];
+
+  const getContinuousDeploymentOptions = (): IDropdownOption[] => {
+    const continuousDeploymentOptions: IDropdownOption[] = [];
+
+    if (scenarioService.checkScenario(ScenarioIds.githubSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.bitbucketSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.localGitSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.vstsKuduSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.Vso, text: t('deploymentCenterCodeSettingsSourceAzureRepos') });
+    }
+
+    return continuousDeploymentOptions.length > 0
+      ? [
+          {
+            key: 'continuousDeploymentHeader',
+            text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
+            itemType: DropdownMenuItemType.Header,
+          },
+          ...continuousDeploymentOptions,
+          { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
+        ]
+      : continuousDeploymentOptions;
+  };
+
+  const getManualDeploymentOptions = (): IDropdownOption[] => {
+    const manualDeploymentOptions: IDropdownOption[] = [];
+
+    if (scenarioService.checkScenario(ScenarioIds.externalSource, { site: siteStateContext.site }).status !== 'disabled') {
+      manualDeploymentOptions.push({ key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.onedriveSource, { site: siteStateContext.site }).status !== 'disabled') {
+      manualDeploymentOptions.push({ key: ScmType.OneDrive, text: t('deploymentCenterCodeSettingsSourceOneDrive') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.dropboxSource, { site: siteStateContext.site }).status !== 'disabled') {
+      manualDeploymentOptions.push({ key: ScmType.Dropbox, text: t('deploymentCenterCodeSettingsSourceDropbox') });
+    }
+
+    return manualDeploymentOptions.length > 0
+      ? [
+          {
+            key: 'manualDeploymentHeader',
+            text: t('deploymentCenterCodeSettingsSourceManualDeploymentHeader'),
+            itemType: DropdownMenuItemType.Header,
+          },
+          ...manualDeploymentOptions,
+        ]
+      : [];
+  };
 
   const updateSelectedBuild = () => {
+    portalContext.log(
+      getTelemetryInfo('info', 'buildProvider', 'updated', {
+        buildProvider: selectedBuildChoice,
+      })
+    );
+
     setSelectedBuild(selectedBuildChoice);
     formProps.setFieldValue('buildProvider', selectedBuildChoice);
     if (selectedBuildChoice === BuildProvider.GitHubAction) {
@@ -135,7 +192,12 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     <>
       {getInProductionSlot() && showInfoBanner && (
         <div className={deploymentCenterInfoBannerDiv}>
-          <CustomBanner message={t('deploymentCenterProdSlotWarning')} type={MessageBarType.info} onDismiss={closeInfoBanner} />
+          <CustomBanner
+            message={t('deploymentCenterProdSlotWarning')}
+            type={MessageBarType.info}
+            onDismiss={closeInfoBanner}
+            learnMoreLink={DeploymentCenterLinks.configureDeploymentSlots}
+          />
         </div>
       )}
 
@@ -158,7 +220,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         name="sourceProvider"
         component={Dropdown}
         displayInVerticalLayout={true}
-        options={sourceOptions}
+        options={getSourceOptions()}
         required={true}
       />
 

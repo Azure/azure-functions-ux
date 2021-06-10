@@ -6,13 +6,16 @@ import {
   WebAppRuntimes,
   JavaContainers as JavaContainersInterface,
 } from '../models/stacks/web-app-stacks';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
 import { AppStackMajorVersion, AppStackMinorVersion, AppStackOs } from '../models/stacks/app-stacks';
 import { FunctionAppStack } from '../models/stacks/function-app-stacks';
 import i18next from 'i18next';
 import LogService from './LogService';
 import { LogCategories } from './LogCategories';
 import { getDateAfterXSeconds } from './DateUtilities';
+import { Links } from './FwLinks';
+import CustomBanner from '../components/CustomBanner/CustomBanner';
+import React from 'react';
 
 const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
 
@@ -40,7 +43,11 @@ export const getStacksSummaryForDropdown = (
   return options;
 };
 
-export const getMinorVersionText = (text: string, t: i18next.TFunction, settings?: WebAppRuntimeSettings) => {
+export const getMinorVersionText = (
+  text: string,
+  t: i18next.TFunction,
+  settings?: WebAppRuntimeSettings | WindowsJavaContainerSettings | LinuxJavaContainerSettings
+) => {
   if (!!settings) {
     if (settings.isAutoUpdate) {
       return t('stackVersionAutoUpdate').format(text);
@@ -51,6 +58,9 @@ export const getMinorVersionText = (text: string, t: i18next.TFunction, settings
     if (isStackVersionEndOfLife(settings.endOfLifeDate)) {
       return t('endOfLifeTagTemplate').format(text);
     }
+    if (settings.isEarlyAccess) {
+      return t('earlyAccessTemplate').format(text);
+    }
     if (settings.isPreview) {
       return t('stackVersionPreview').format(text);
     }
@@ -58,7 +68,7 @@ export const getMinorVersionText = (text: string, t: i18next.TFunction, settings
   return text;
 };
 
-export const isStackVersionDeprecated = (settings: WebAppRuntimeSettings) => {
+export const isStackVersionDeprecated = (settings: WebAppRuntimeSettings | WindowsJavaContainerSettings | LinuxJavaContainerSettings) => {
   return settings.isDeprecated || (!!settings.endOfLifeDate && Date.parse(settings.endOfLifeDate) < Date.now());
 };
 
@@ -167,6 +177,7 @@ export const getFilteredWebStackSettings = (
 ) => {
   if (!!settings) {
     if (
+      !!ignoreStackVersion &&
       stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
       ignoreStackVersion.toLowerCase() === settings.runtimeVersion.toLowerCase()
     ) {
@@ -187,6 +198,7 @@ export const getFilteredLinuxJavaContainerSettings = (
 ) => {
   if (!!settings) {
     if (
+      !!ignoreStackVersion &&
       stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
       (!settings.java11Runtime ||
         ignoreStackVersion.toLowerCase() === settings.java11Runtime.toLowerCase() ||
@@ -210,6 +222,7 @@ export const getFilteredWindowsJavaContainerSettings = (
 ) => {
   if (!!settings) {
     if (
+      !!ignoreStackVersion &&
       stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
       ignoreStackVersion.toLowerCase() === settings.javaContainerVersion.toLowerCase()
     ) {
@@ -222,6 +235,26 @@ export const getFilteredWindowsJavaContainerSettings = (
   }
 };
 
+export const getEarlyStackMessageParameters = (isEarlyStackMessageVisible: boolean, t: i18next.TFunction) => {
+  return {
+    infoBubbleMessage: isEarlyStackMessageVisible ? t('earlyAccessStackMessage') : undefined,
+    learnMoreLink: isEarlyStackMessageVisible ? Links.earlyAccessStackLearnMore : undefined,
+  };
+};
+
+export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stackVersion: string, eolDate?: string | null) => {
+  if (eolDate === undefined) {
+    return <></>;
+  }
+  return (
+    <CustomBanner
+      type={MessageBarType.warning}
+      id={'eol-stack-banner'}
+      message={!!eolDate ? t('endOfLifeStackMessage').format(stackVersion, eolDate) : t('deprecatedStackMessage').format(stackVersion)}
+    />
+  );
+};
+
 export const JavaVersions = {
   WindowsVersion8: '1.8',
   WindowsVersion11: '11',
@@ -232,13 +265,18 @@ export const JavaVersions = {
 export const JavaContainers = {
   JavaSE: 'java',
   Tomcat: 'tomcat',
+  JBoss: 'jbosseap',
 };
 
 export const RuntimeStacks = {
-  aspnet: 'asp.net',
+  java: 'java',
   node: 'node',
   python: 'python',
   dotnetcore: 'dotnetcore',
   java8: 'java-8',
   java11: 'java-11',
+  php: 'php',
+  aspnet: 'aspnet',
+  powershell: 'powershell',
+  dotnet: 'dotnet',
 };

@@ -37,12 +37,13 @@ export abstract class DeploymentCenterFormBuilder {
       bitbucketUser: undefined,
       gitHubPublishProfileSecretGuid: '',
       externalRepoType: RepoTypeOptions.Public,
+      devOpsProject: '',
     };
   }
 
   protected generateCommonFormYupValidationSchema() {
     // NOTE(michinoy): The password should be at least eight characters long and must contain letters, numbers, and symbol.
-    const passwordMinimumRequirementsRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
+    const passwordMinimumRequirementsRegex = new RegExp(/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})$/);
     const usernameMinLength = 3;
 
     return {
@@ -68,7 +69,8 @@ export abstract class DeploymentCenterFormBuilder {
       org: Yup.mixed().test('organizationRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.sourceProvider === ScmType.GitHubAction ||
           this.parent.sourceProvider === ScmType.GitHub ||
-          this.parent.sourceProvider === ScmType.BitbucketGit
+          this.parent.sourceProvider === ScmType.BitbucketGit ||
+          this.parent.sourceProvider === ScmType.Vsts
           ? !!value
           : true;
       }),
@@ -77,18 +79,23 @@ export abstract class DeploymentCenterFormBuilder {
           return this.parent.sourceProvider === ScmType.GitHubAction ||
             this.parent.sourceProvider === ScmType.GitHub ||
             this.parent.sourceProvider === ScmType.BitbucketGit ||
-            this.parent.sourceProvider === ScmType.ExternalGit
+            this.parent.sourceProvider === ScmType.ExternalGit ||
+            this.parent.sourceProvider === ScmType.Vsts
             ? !!value
             : true;
         })
         .test('repositoryIsUrl', this._t('deploymentCenterExternalRepoMessage'), function(value) {
-          return this.parent.sourceProvider === ScmType.ExternalGit ? !!value && this.parent.repo.startsWith('https://') : true;
+          const parentRepoUrl = this.parent.repo ? this.parent.repo.toLocaleLowerCase() : '';
+          const urlIsPrefixedCorrectly = parentRepoUrl.startsWith('https://') || parentRepoUrl.startsWith('http://');
+
+          return this.parent.sourceProvider === ScmType.ExternalGit ? !!value && urlIsPrefixedCorrectly : true;
         }),
       branch: Yup.mixed().test('branchRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.sourceProvider === ScmType.GitHubAction ||
           this.parent.sourceProvider === ScmType.GitHub ||
           this.parent.sourceProvider === ScmType.BitbucketGit ||
-          this.parent.sourceProvider === ScmType.ExternalGit
+          this.parent.sourceProvider === ScmType.ExternalGit ||
+          this.parent.sourceProvider === ScmType.Vsts
           ? !!value
           : true;
       }),
@@ -102,6 +109,7 @@ export abstract class DeploymentCenterFormBuilder {
         return this.parent.externalRepoType === RepoTypeOptions.Private ? !!value : true;
       }),
       externalRepoType: Yup.mixed().notRequired(),
+      devOpsProjectName: Yup.mixed().notRequired(),
     };
   }
 

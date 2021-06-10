@@ -1,4 +1,5 @@
 <div id="container-shield" *ngIf="isLocked"></div>
+<info-box typeClass="warning" [infoText]="'classicContainerSettingDeprecationMessage' | translate"></info-box>
 <form *ngIf="!loading && containerConfigureInfo && containerConfigureInfo.container && containerConfigureInfo.containerForm" [formGroup]="form" id="container-picker">
     <group-tabs
         [control] = "form?.controls?.containerType"

@@ -111,9 +111,13 @@ export default class SiteService {
     });
   };
 
-  public static deleteSourceControlDetails = async (resourceId: string) => {
+  public static deleteSourceControlDetails = async (resourceId: string, deleteWorkflow: boolean = true) => {
+    const id = deleteWorkflow
+      ? `${resourceId}/sourcecontrols/web`
+      : `${resourceId}/sourcecontrols/web/?additionalFlags=ScmGitHubActionSkipWorkflowDelete`;
+
     return MakeArmCall<{}>({
-      resourceId: `${resourceId}/sourcecontrols/web`,
+      resourceId: id,
       commandName: 'deleteSourceControl',
       method: 'DELETE',
     });

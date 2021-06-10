@@ -36,7 +36,6 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
         selectedKeys: field.value,
         onChange: (_, option: IDropdownOption) => {
           const value = field.value as any[];
-
           if (option.selected) {
             form.setFieldValue(field.name, [...value, option.key]);
           } else {

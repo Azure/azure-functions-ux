@@ -36,7 +36,7 @@ export interface AppSettingsFormValues {
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
   basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
-  references?: AppSettingsReferences;
+  references?: KeyVaultReferences;
 }
 
 export interface FormState {
@@ -61,15 +61,16 @@ export interface StackProps extends StacksProps {
   fetchConfig?: () => any;
 }
 
-export interface AppSettingReferenceSummary {
+export interface KeyVaultReferenceSummary {
   name: string;
   reference: string;
   status: string;
   details: string;
 }
 
-export interface AppSettingsReferences {
-  appSettings: AppSettingReferenceSummary[] | null;
+export interface KeyVaultReferences {
+  appSettings?: KeyVaultReferenceSummary[];
+  connectionStrings?: KeyVaultReferenceSummary[];
 }
 
 export enum LoadingStates {

@@ -44,13 +44,17 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const [loadingMessage, setLoadingMessage] = useState<string | undefined>(t('feature_logStreamingConnecting'));
   const [allLogEntries, setAllLogEntries] = useState<LogEntry[]>([]);
   const [logStreamIndex, setLogStreamIndex] = useState(0);
+  const [startTime, setStartTime] = useState(0);
+  const [xhReqResponseText, setXhReqResponseText] = useState('');
+
+  const msInMin = 60000;
 
   const openStream = async () => {
     setLoadingMessage(t('feature_logStreamingConnecting'));
     const hostStatusResult = await FunctionsService.getHostStatus(site.id);
 
     if (hostStatusResult.metadata.success) {
-      if (hostStatusResult.data.properties.errors) {
+      if (hostStatusResult.data.properties.errors && hostStatusResult.data.properties.errors.length > 0) {
         // We should show any host status errors, but still try to connect to logstream
         setErrorMessage(hostStatusResult.data.properties.errors.join('\n'));
       } else {
@@ -69,8 +73,9 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       newXhReq.setRequestHeader('FunctionsPortal', '1');
       newXhReq.send(null);
       setXhReq(newXhReq);
+      setStartTime(new Date().getTime());
     } else {
-      setErrorMessage(t('feature_logStreamingConnectionError'));
+      setErrorMessage(t('logStreamingHostStatusError'));
       LogService.error(
         LogCategories.functionLog,
         'getHostStatus',
@@ -89,14 +94,39 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
 
   const listenToStream = () => {
     setLoadingMessage(undefined);
+    setInterval(() => keepFunctionsHostAlive(), msInMin); // ping functions host every minute
     listenForErrors();
     listenForUpdates();
+  };
+
+  const keepFunctionsHostAlive = async () => {
+    const hostStatusResult = await FunctionsService.getHostStatus(site.id);
+    if (hostStatusResult.metadata.success) {
+      if (hostStatusResult.data.properties.errors && hostStatusResult.data.properties.errors.length > 0) {
+        setErrorMessage(hostStatusResult.data.properties.errors.join('\n'));
+      } else {
+        setErrorMessage(undefined);
+      }
+    } else {
+      setErrorMessage(t('logStreamingHostStatusError'));
+      LogService.error(
+        LogCategories.functionLog,
+        'getHostStatus',
+        `Failed to get host status: ${getErrorMessageOrStringify(hostStatusResult.metadata.error)}`
+      );
+    }
   };
 
   const listenForErrors = () => {
     if (xhReq) {
       xhReq.onerror = () => {
         setErrorMessage(t('feature_logStreamingConnectionError'));
+
+        // Automatically attempt to reconnect the connection if stream has been open for less than 15 minutes
+        const errorTime = new Date().getTime();
+        if (Math.abs(startTime - errorTime) < 15 * msInMin) {
+          closeStream();
+        }
       };
     }
   };
@@ -104,20 +134,18 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const listenForUpdates = () => {
     if (xhReq) {
       xhReq.onprogress = () => {
-        printNewLogs();
+        setXhReqResponseText(xhReq.responseText);
       };
     }
   };
 
-  const printNewLogs = () => {
-    if (xhReq) {
-      const newLogStream = xhReq.responseText.substring(logStreamIndex);
-      if (started) {
-        setLogStreamIndex(xhReq.responseText.length);
-        if (newLogStream) {
-          const newLogs = processLogs(newLogStream, allLogEntries);
-          setAllLogEntries(newLogs);
-        }
+  const printNewLogs = (responseText: string) => {
+    const newLogStream = responseText.substring(logStreamIndex);
+    if (started) {
+      setLogStreamIndex(responseText.length);
+      if (newLogStream) {
+        const newLogs = processLogs(newLogStream, allLogEntries);
+        setAllLogEntries(newLogs);
       }
     }
   };
@@ -153,6 +181,12 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [started, xhReq]);
+
+  useEffect(() => {
+    printNewLogs(xhReqResponseText);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [xhReqResponseText]);
 
   return (
     <FunctionLog

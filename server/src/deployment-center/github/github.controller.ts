@@ -6,7 +6,7 @@ import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
-import { TokenData, EnvironmentUrlMappings, Environments } from '../deployment-center';
+import { EnvironmentUrlMappings, Environments } from '../deployment-center';
 
 @Controller()
 export class GithubController {
@@ -56,7 +56,8 @@ export class GithubController {
   async actionWorkflow(
     @Body('authToken') authToken: string,
     @Body('gitHubToken') gitHubToken: string,
-    @Body('content') content: GitHubActionWorkflowRequestContent
+    @Body('content') content: GitHubActionWorkflowRequestContent,
+    @Body('replacementPublishUrl') replacementPublishUrl?: string
   ) {
     // NOTE(michinoy): In order for the action workflow to successfully execute, it needs to have the secret allowing access
     // to the web app. This secret is the publish profile. This one method will retrieve publish profile, encrypt it, put it
@@ -65,6 +66,8 @@ export class GithubController {
     const publishProfileRequest = this.dcService.getSitePublishProfile(authToken, content.resourceId);
     const publicKeyRequest = this._getGitHubRepoPublicKey(gitHubToken, content.commit.repoName);
     const [publishProfile, publicKey] = await Promise.all([publishProfileRequest, publicKeyRequest]);
+
+    const profile = !!replacementPublishUrl ? this._replacePublishUrlInProfile(publishProfile, replacementPublishUrl) : publishProfile;
 
     const {
       commit,
@@ -79,12 +82,12 @@ export class GithubController {
     // along with the publish profile.
     if (containerUsernameSecretName && containerUsernameSecretValue && containerPasswordSecretName && containerPasswordSecretValue) {
       await Promise.all([
-        this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, publishProfile),
+        this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, profile),
         this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, containerUsernameSecretName, containerUsernameSecretValue),
         this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, containerPasswordSecretName, containerPasswordSecretValue),
       ]);
     } else {
-      await this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, publishProfile);
+      await this._putGitHubRepoSecret(gitHubToken, publicKey, commit.repoName, secretName, profile);
     }
 
     await this._commitFile(gitHubToken, content);
@@ -108,6 +111,25 @@ export class GithubController {
           deleteCommit.repoName
         }'.`
       );
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
+  @Post('api/github/dispatchWorkflow')
+  @HttpCode(200)
+  async dispatchWorkflow(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Body('data') data: string) {
+    try {
+      await this.httpService.post(url, data, {
+        headers: {
+          Authorization: `Bearer ${gitHubToken}`,
+        },
+      });
+    } catch (err) {
+      this.loggingService.error(`Failed to dispatch workflow file.`);
 
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
@@ -167,6 +189,39 @@ export class GithubController {
         code,
         client_id: this.configService.get('GITHUB_CLIENT_ID'),
         client_secret: this.configService.get('GITHUB_CLIENT_SECRET'),
+      });
+      const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
+      return {
+        accessToken: token,
+        refreshToken: null,
+        environment: null,
+      };
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException('Internal Server Error', 500);
+    }
+  }
+
+  @Get('auth/github/createClientId')
+  clientId() {
+    return { client_id: this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID') };
+  }
+
+  @Post('auth/github/generateCreateAccessToken')
+  @HttpCode(200)
+  async generateAccessToken(@Body('code') code: string, @Body('state') state: string) {
+    if (!code || !state) {
+      throw new HttpException('Code and State are required', 400);
+    }
+
+    try {
+      const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
+        code,
+        state,
+        client_id: this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID'),
+        client_secret: this.configService.get('GITHUB_FOR_CREATES_CLIENT_SECRET'),
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
       return {
@@ -312,5 +367,26 @@ export class GithubController {
     }
 
     return redirectUri;
+  }
+
+  private _replacePublishUrlInProfile(profile: string, replacementPublishUrl: string): string {
+    // NOTE(michinoy): If the profile already contains the replacement publish URL, than dont make any changes.
+    // else replace the specific publish url for msdeploy.
+    if (profile.indexOf(replacementPublishUrl) > -1) {
+      return profile;
+    }
+
+    this.loggingService.error(`Replacing existing publishing url with scm url '${replacementPublishUrl}'`);
+
+    // NOTE(michinoy): This is a temporary solution. We need to replace the publish URL to the scm url
+    // for GitHub Actions to be operational.
+    const startText = 'publishMethod="MSDeploy" publishUrl="';
+    const endText = ':443" msdeploySite=';
+    const startIndex = profile.indexOf(startText) + startText.length;
+    const endIndex = profile.indexOf(endText);
+    const beginningOfProfile = profile.substring(0, startIndex);
+    const endOfProfile = profile.substring(endIndex, profile.length);
+
+    return `${beginningOfProfile}${replacementPublishUrl}${endOfProfile}`;
   }
 }

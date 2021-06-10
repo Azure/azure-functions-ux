@@ -34,7 +34,7 @@ interface ActionBarProps {
 
 const elementWrapperStyle = (theme: ThemeExtended, fullPageHeight?: boolean) =>
   style({
-    position: fullPageHeight ? 'sticky' : 'absolute',
+    position: fullPageHeight ? 'fixed' : 'absolute',
     bottom: '0px',
     height: '57px',
     left: '0px',

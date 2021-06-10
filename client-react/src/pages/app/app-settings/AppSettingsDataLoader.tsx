@@ -1,6 +1,6 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
-import { AppSettingsFormValues, AppSettingsReferences, AppSettingsAsyncData, LoadingStates } from './AppSettings.types';
+import { AppSettingsFormValues, KeyVaultReferences, AppSettingsAsyncData, LoadingStates } from './AppSettings.types';
 import { convertStateToForm, convertFormToState, getCleanedReferences } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import {
@@ -13,6 +13,7 @@ import {
   fetchAzureStorageAccounts,
   getFunctions,
   fetchFunctionsHostStatus,
+  getAllConnectionStringsReferences,
 } from './AppSettings.service';
 import {
   PermissionsContext,
@@ -86,7 +87,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [appPermissions, setAppPermissions] = useState<boolean>(true);
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);
-  const [references, setReferences] = useState<AppSettingsReferences | null>(null);
+  const [references, setReferences] = useState<KeyVaultReferences | undefined>(undefined);
   const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<KeyValue<string>>>({
     name: '',
     id: '',
@@ -245,8 +246,36 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchReferences = async () => {
-    const appSettingReferences = await getAllAppSettingReferences(resourceId);
-    setReferences({ appSettings: appSettingReferences.metadata.success ? getCleanedReferences(appSettingReferences.data) : null });
+    const [appSettingReferences, connectionStringReferences] = await Promise.all([
+      getAllAppSettingReferences(resourceId),
+      getAllConnectionStringsReferences(resourceId),
+    ]);
+    let appSettingsData;
+    let connectionStringsData;
+    if (appSettingReferences.metadata.success) {
+      appSettingsData = getCleanedReferences(appSettingReferences.data);
+    } else {
+      LogService.error(
+        LogCategories.appSettings,
+        'getAllAppSettingReferences',
+        `Failed to get keyVault references: ${getErrorMessageOrStringify(appSettingReferences.metadata.error)}`
+      );
+    }
+
+    if (connectionStringReferences.metadata.success) {
+      connectionStringsData = getCleanedReferences(connectionStringReferences.data);
+    } else {
+      LogService.error(
+        LogCategories.appSettings,
+        'getAllConnectionStringsReferences',
+        `Failed to get keyVault references: ${getErrorMessageOrStringify(connectionStringReferences.metadata.error)}`
+      );
+    }
+
+    setReferences({
+      appSettings: appSettingsData,
+      connectionStrings: connectionStringsData,
+    });
   };
 
   const fetchStorageAccounts = async () => {
@@ -384,7 +413,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       ...initialValues,
       references,
     });
-    setReferences(null);
+    setReferences(undefined);
   }
 
   return (

@@ -11,7 +11,11 @@ import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/Dep
 import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
 import DeploymentCenterCodeBuildRuntimeAndVersion from './DeploymentCenterCodeBuildRuntimeAndVersion';
 import { useTranslation } from 'react-i18next';
-import { getCodeAppWorkflowInformation, isWorkflowOptionExistingOrAvailable } from '../utility/GitHubActionUtility';
+import {
+  getCodeWebAppWorkflowInformation,
+  getCodeFunctionAppCodeWorkflowInformation,
+  isWorkflowOptionExistingOrAvailable,
+} from '../utility/GitHubActionUtility';
 import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
@@ -24,6 +28,12 @@ import DeploymentCenterExternalConfiguredView from '../external-provider/Deploym
 import DeploymentCenterLocalGitProvider from '../local-git-provider/DeploymentCenterLocalGitProvider';
 import DeploymentCenterExternalProvider from '../external-provider/DeploymentCenterExternalProvider';
 import DeploymentCenterOneDriveDataLoader from '../onedrive-provider/DeploymentCenterOneDriveDataLoader';
+import DeploymentCenterOneDriveConfiguredView from '../onedrive-provider/DeploymentCenterOneDriveConfiguredView';
+import DeploymentCenterDropboxDataLoader from '../dropbox-provider/DeploymentCenterDropboxDataLoader';
+import DeploymentCenterDropboxConfiguredView from '../dropbox-provider/DeploymentCenterDropboxConfiguredView';
+import DeploymentCenterVstsBuildConfiguredView from '../devops-provider/DeploymentCenterVstsBuildConfiguredView';
+import DeploymentCenterDevOpsDataLoader from '../devops-provider/DeploymentCenterDevOpsDataLoader';
+import DeploymentCenterDevOpsKuduBuildConfiguredView from '../devops-provider/DeploymentCenterDevOpsKuduBuildConfiguredView';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -61,6 +71,18 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.ExternalGit;
 
   const isOneDriveSource = formProps.values.sourceProvider === ScmType.OneDrive;
+  const isOneDriveSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.OneDrive;
+
+  const isDropboxSource = formProps.values.sourceProvider === ScmType.Dropbox;
+  const isDropboxSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.Dropbox;
+
+  const isVstsSetup = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vsts;
+
+  const isVsoSource = formProps.values.sourceProvider === ScmType.Vso;
+  const isTfsOrVsoSetup =
+    deploymentCenterContext.siteConfig &&
+    (deploymentCenterContext.siteConfig.properties.scmType === ScmType.Tfs ||
+      deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vso);
 
   const getWorkflowFileContent = () => {
     if (deploymentCenterContext.siteDescriptor) {
@@ -72,16 +94,29 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
         (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) &&
         runtimeInfoAvailable
       ) {
-        const information = getCodeAppWorkflowInformation(
-          formProps.values.runtimeStack,
-          formProps.values.runtimeVersion,
-          formProps.values.runtimeRecommendedVersion,
-          formProps.values.branch,
-          siteStateContext.isLinuxApp,
-          formProps.values.gitHubPublishProfileSecretGuid,
-          deploymentCenterContext.siteDescriptor.site,
-          deploymentCenterContext.siteDescriptor.slot
-        );
+        const information = siteStateContext.isFunctionApp
+          ? getCodeFunctionAppCodeWorkflowInformation(
+              formProps.values.runtimeStack,
+              formProps.values.runtimeVersion,
+              formProps.values.runtimeRecommendedVersion,
+              formProps.values.branch,
+              siteStateContext.isLinuxApp,
+              formProps.values.gitHubPublishProfileSecretGuid,
+              deploymentCenterContext.siteDescriptor.site,
+              deploymentCenterContext.siteDescriptor.slot
+            )
+          : getCodeWebAppWorkflowInformation(
+              formProps.values.runtimeStack,
+              formProps.values.runtimeVersion,
+              formProps.values.runtimeRecommendedVersion,
+              formProps.values.branch,
+              siteStateContext.isLinuxApp,
+              formProps.values.gitHubPublishProfileSecretGuid,
+              deploymentCenterContext.siteDescriptor.site,
+              deploymentCenterContext.siteDescriptor.slot,
+              formProps.values.javaContainer
+            );
+
         return information.content;
       }
     }
@@ -152,13 +187,17 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
               {` ${t('learnMore')}`}
             </Link>
           </p>
-          {!isGitHubActionsSetup && <DeploymentCenterCodeSourceKuduConfiguredView formProps={formProps} />}
+          {!isGitHubActionsSetup && !isVstsSetup && <DeploymentCenterCodeSourceKuduConfiguredView formProps={formProps} />}
           {isGitHubSourceSetup && <DeploymentCenterGitHubConfiguredView formProps={formProps} />}
           {isBitbucketSetup && <DeploymentCenterBitbucketConfiguredView formProps={formProps} />}
           {isLocalGitSetup && <DeploymentCenterLocalGitConfiguredView />}
           {isExternalGitSetup && <DeploymentCenterExternalConfiguredView formProps={formProps} />}
+          {isOneDriveSetup && <DeploymentCenterOneDriveConfiguredView formProps={formProps} />}
+          {isDropboxSetup && <DeploymentCenterDropboxConfiguredView formProps={formProps} />}
+          {isVstsSetup && <DeploymentCenterVstsBuildConfiguredView />}
+          {isTfsOrVsoSetup && <DeploymentCenterDevOpsKuduBuildConfiguredView formProps={formProps} />}
 
-          <DeploymentCenterCodeBuildConfiguredView />
+          {!isTfsOrVsoSetup && <DeploymentCenterCodeBuildConfiguredView />}
         </>
       ) : (
         <>
@@ -189,6 +228,8 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {isLocalGitSource && <DeploymentCenterLocalGitProvider />}
           {isExternalGitSource && <DeploymentCenterExternalProvider formProps={formProps} />}
           {isOneDriveSource && <DeploymentCenterOneDriveDataLoader formProps={formProps} />}
+          {isDropboxSource && <DeploymentCenterDropboxDataLoader formProps={formProps} />}
+          {isVsoSource && <DeploymentCenterDevOpsDataLoader formProps={formProps} />}
         </>
       )}
     </>

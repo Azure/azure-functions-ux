@@ -2683,6 +2683,9 @@
   <data name="commitIdAuthor" xml:space="preserve">
         <value>提交 ID (作者)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>提交作者</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>签入消息</value>
     </data>
@@ -3226,9 +3229,6 @@
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>用于 Linux 的第一个 Basic (B1)核心前 30 天免费!</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Windows 容器在预览版期间费用五折。</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>应用服务环境(ASE)内的独立定价层不可用于你的配置。ASE 是 Azure 应用服务强大的功能服务，可提供网络隔离和改进的缩放功能。</value>
     </data>
@@ -3255,9 +3255,6 @@
     </data>
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>应用的传出 IP 地址可能会更改。</value>
-    </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>你的应用服务计划 {0} 已超过针对它的大小建议的应用数。</value>
     </data>
   <data name="free" xml:space="preserve">
         <value>免费</value>
@@ -3872,6 +3869,18 @@
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>未能设置部署: {0}</value>
     </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>无法更新发布用户凭据: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>无法更新发布用户凭据</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>已成功更新发布用户凭据</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>正在更新发布用户凭据</value>
+    </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>无法在 Azure Active Directory 中注册新应用。了解更多: https://go.microsoft.com/fwlink/?linkid=843472。更多详情: {0}</value>
     </data>
@@ -3883,6 +3892,9 @@
     </data>
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>未能断开你的部署</value>
+    </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>未能断开部署连接: {0}</value>
     </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>确定要断开部署吗?</value>
@@ -3934,6 +3946,9 @@
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>例如，nginx:latest</value>
+    </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>例如，microsoft/iis:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>要开始使用，首先创建 Azure 容器注册表并添加图像。</value>
@@ -4241,6 +4256,9 @@
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>当前不支持基于 Kubernetes 的功能。</value>
     </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>暂不支持 Docker Compose。</value>
+    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>以 docker 映像部署的函数应用不支持在门户中编辑函数。</value>
     </data>
@@ -4276,9 +4294,6 @@
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Linux 高级函数应用(预览版)不支持在门户中编辑函数。</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>单个容器(预览)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>更多模板...</value>
@@ -5740,19 +5755,19 @@
         <value>工作流文件</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>保留</value>
+        <value>保存工作流文件</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>保留存储库“{2}”的分支“{1}”中的文件“{0}”。这样可能会在提交到此分支时触发部署到你的应用。</value>
+        <value>通过保存，可以保留对工作流文件所做的任何编辑，但它仍然会触发部署到此应用。</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>删除</value>
+        <value>删除工作流文件</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>从存储库“{2}”的分支“{1}”中删除文件“{0}”。这样可防止以后在提交到此分支时部署到你的应用。</value>
+        <value>文件将被删除，以后的提交将不会触发部署到此应用。</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>断开连接 GitHub Actions 将阻止以后由提交触发的任何部署。</value>
+        <value>通过断开操作连接，可以重新配置应用部署。选择断开连接后工作流文件会发生什么。</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>存储库“{2}”的分支“{1}”中没有 GitHub Actions 工作流文件“{0}”。选择“确定”可断开连接部署。</value>
@@ -5926,7 +5941,7 @@
         <value>在存储库“{1}”中找不到分支“{0}”。若要进一步调查，请转到存储库。</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>确认 GitHub 操作“断开连接”</value>
+        <value>断开 GitHub Actions 连接</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>确认应用服务生成服务断开连接</value>
@@ -5942,6 +5957,9 @@
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>无法断开部署连接，但工作流文件已成功删除。请尝试重新断开连接。</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>未能断开部署连接，但工作流文件已成功删除。请尝试重新断开连接。错误: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>无法建立与 Application Insights 的链接。请确保你拥有对函数应用的写入权限</value>
@@ -5967,8 +5985,23 @@
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>部署中心同步命令</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>部署中心重新部署命令</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>重新部署/同步</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>提取信息时出错</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>无法检索帐户信息</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>请转到 Azure DevOps 门户来断开连接。</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>当前的部署配置不再受支持。请转到 Azure DevOps 门户来断开连接。</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>管理发布配置文件</value>
@@ -6064,22 +6097,25 @@
         <value>部署中心设置</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>FTP/FTPS 凭据</value>
+        <value>FTPS 凭据</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>FTP 或 FTPS 凭据</value>
+        <value>FTPS 凭据</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>本地 Git/FTP/FTPS 凭据</value>
+        <value>本地 Git/FTPS 凭据</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>本地 Git、FTP 或 FTPS 凭据</value>
+        <value>本地 Git 或 FTPS 凭据</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>正在加载容器日志</value>
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>正在加载容器日志...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>这些是在容器映像的预配阶段期间从 Docker 引擎发出的日志。</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>无法加载容器日志</value>
@@ -6100,19 +6136,19 @@
         <value>刷新时，所有未保存的更改都将丢失。是否确实要继续?</value>
     </data>
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to refresh?</value>
+        <value>是否确定要刷新?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>是否确定要同步?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>是否确定要重新部署?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>执行重新部署操作将取消正在进行的任何现有部署操作，并新建一个部署操作。</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to discard?</value>
+        <value>是否确定要放弃?</value>
     </data>
   <data name="deploymentCenterDataLossMessage" xml:space="preserve">
-        <value>All unsaved changes will be lost.</value>
+        <value>所有未保存的更改都将丢失。</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>添加应用程序设置</value>
@@ -6121,7 +6157,7 @@
         <value>编辑应用程序设置</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>应用服务支持使用多种技术来访问、发布和修改应用内容。FTP/FTPS 凭据的作用域可以限定为应用程序或用户。</value>
+        <value>应用服务支持使用多种技术来访问、发布和修改应用内容。FTPS 凭据的作用域可以限定为应用程序或用户。</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>FTPS 终结点</value>
@@ -6130,13 +6166,13 @@
         <value>应用程序作用域</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>应用程序作用域凭据是自动生成的，仅提供对此特定应用或部署槽位的访问权限。这些凭据可以与 FTP、本地 GIT 和 WebDeploy 配合使用。它们无法手动配置，但可以随时重置。</value>
+        <value>应用程序作用域凭据是自动生成的，仅提供对此特定应用或部署槽位的访问权限。这些凭据可以与 FTPS、本地 Git 和 WebDeploy 配合使用。它们无法进行手动配置，但可以随时重置。</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>用户作用域</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>用户作用域凭据由你(即用户)定义，可用于你有权访问的所有应用。这些凭据可以与 FTP、本地 Git 和 WebDeploy 配合使用。若要使用用户级凭据向 FTP/FTPS 终结点进行身份验证，用户名必须采用以下格式:“{0}”</value>
+        <value>用户作用域凭据由你(即用户)定义，可用于你有权访问的所有应用。这些凭据可以与 FTPS、本地 Git 和 WebDeploy 配合使用。若要使用用户级凭据向 FTPS 终结点进行身份验证，用户名必须采用以下格式:“{0}”</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(你的用户名)</value>
@@ -6264,6 +6300,21 @@
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>本地 Git</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>文件夹</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>选择文件夹</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>外部 Git</value>
     </data>
@@ -6276,11 +6327,20 @@
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>存储库类型</value>
     </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>主要</value>
+    </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>专用</value>
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>公共</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>使用本地 Git 可以在应用服务计划上为应用托管简单的 Git 服务器。这可用于快速设置 CICD 管道。</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>完成时会生成本地 GIT 存储库 URL。</value>
@@ -6294,20 +6354,20 @@
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>提取 Git 克隆 URI 时出错</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>已提交同步请求</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>已提交重新部署请求</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>正在更新 Web 应用 {0} 的存储库</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>已成功更新 Web 应用 {0} 的存储库</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>无法同步: {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>无法重新部署: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>无法同步</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>无法重新部署</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>注册表设置</value>
@@ -6498,6 +6558,12 @@
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Application Insights 支持的新日志功能的重要性如何?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>使用此改进后的应用服务部署中心页面的难易程度如何?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>此改进后的应用服务部署中心页面的重要性如何?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>如果找不到组织或存储库，可能需要在 GitHub 上启用附加权限。</value>
     </data>
@@ -6520,16 +6586,16 @@
         <value>请填写上面所需的设置来启用预览。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>覆盖存储库中的工作流</value>
+        <value>覆盖工作流: 覆盖所选的存储库和分支中的现有工作流文件 {0}。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>在存储库中添加工作流</value>
+        <value>添加工作流: 在所选的存储库和分支中添加新的工作流文件 {0}。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>使用现有存储库工作流</value>
+        <value>使用现有工作流: 使用所选的存储库和分支中的现有工作流文件 {0}。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>使用可用的存储库工作流</value>
+        <value>使用可用的工作流: 使用所选的存储库和分支中可用的工作流文件之一。</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>选择工作流选项</value>
@@ -6637,7 +6703,7 @@
         <value>FTP 已被访问策略禁用。</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>Azure 门户不支持编辑自定义函数应用。请使用本地开发环境来编辑此函数。</value>
+        <value>不支持在 Azure 门户中使用 CustomHandler 来编辑函数应用。请使用本地开发环境来编辑此函数。</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>选择开发环境</value>
@@ -6706,18 +6772,114 @@
         <value>服务器 URL 必须以 https:// 开头</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>此缩放单元不支持高级 V3。请考虑重新部署或克隆你的应用。</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Hyper-V 隔离</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>Windows 容器是在 Hyper-V 隔离模式下受到保护的。</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>至少 {0} 个 ACU/vCPU</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} 个 vCPU</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>无法提取函数</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>正在创建主机密钥</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>正在创建系统密钥</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>正在创建功能密钥</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>正在创建 {0}</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>已成功创建 {0}</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>无法创建 {0}</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>未能创建 {0}: {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (已弃用)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (预览)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>装载路径不得为 "/"</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>工作流运行时设置</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>正在上传文件</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>正在上传“{0}”</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>已成功上传“{0}”</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>无法上传“{0}”。不支持通过 Azure 门户上传超过 5MB 的文件</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (抢先体验) </value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>此缩放单元不支持独立 V2。请考虑重新部署或克隆应用。</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>在升级到 ~3 之后，你将无法回到 ~2，因为基础运行时是统一在 ~3 附近的。</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>容器类型</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML 无效</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>选择文件</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>无法提取函数应用的主机状态。若要使用日志流式处理，请确保函数主机正在运行。</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>项目</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>选择项目</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>找不到 Azure Repos 的帐户。请在 Azure Repos 中创建一个新帐户，然后重试。</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>未能提取 App Insights 资源。请确保在应用设置中配置了正确的检测密钥。</value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>“抢先体验”可便于快速传递更新和各种新版运行时。</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>所选版本“{0}”已弃用。请考虑更新版本。</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>所选版本“{0}”将于 {1} 弃用。请考虑尽快更新。</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>日志将在 {0} 秒后刷新</value>
     </data>
 </root>

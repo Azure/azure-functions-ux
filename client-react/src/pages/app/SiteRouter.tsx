@@ -20,6 +20,8 @@ import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
 import SiteHelper from '../../utils/SiteHelper';
 import { SiteRouterData } from './SiteRouter.data';
 import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
+import LoadingComponent from '../../components/Loading/LoadingComponent';
+import FunctionsService from '../../ApiHelpers/FunctionsService';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -77,6 +79,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [siteAppEditState, setSiteAppEditState] = useState<FunctionAppEditMode>(FunctionAppEditMode.ReadWrite);
   const [isLinuxApplication, setIsLinuxApplication] = useState<boolean>(false);
   const [isContainerApplication, setIsContainerApplication] = useState<boolean>(false);
+  const [isFunctionApplication, setIsFunctionApplication] = useState<boolean>(false);
 
   const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
     if (isLinuxDynamic(site)) {
@@ -136,7 +139,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlySlots;
     }
 
-    const slotResponse = await SiteService.fetchSlots(armSiteDescriptor.getSiteOnlyResourceId());
+    const siteOnlyResourceId = armSiteDescriptor.getSiteOnlyResourceId();
+
+    const slotResponse = await SiteService.fetchSlots(siteOnlyResourceId);
     if (slotResponse.metadata.success) {
       if (slotResponse.data.value.length > 0) {
         return FunctionAppEditMode.ReadOnlySlots;
@@ -146,6 +151,19 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         LogCategories.siteRouter,
         'getSlots',
         `Failed to get slots: ${getErrorMessageOrStringify(slotResponse.metadata.error)}`
+      );
+    }
+
+    const functionsResponse = await FunctionsService.getFunctions(siteOnlyResourceId);
+    if (functionsResponse.metadata.success) {
+      if (functionsResponse.data.value.filter(fc => !!fc.properties.config.generatedBy).length > 0) {
+        return FunctionAppEditMode.ReadOnlyVSGenerated;
+      }
+    } else {
+      LogService.error(
+        LogCategories.siteRouter,
+        'getFunctions',
+        `Failed to get functions: ${getErrorMessageOrStringify(functionsResponse.metadata.error)}`
       );
     }
 
@@ -214,6 +232,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         setStopped(siteResponse.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
         setIsLinuxApplication(isLinuxApp(siteResponse.data));
         setIsContainerApplication(isContainerApp(siteResponse.data));
+        setIsFunctionApplication(isFunctionApp(siteResponse.data));
       }
       setSiteAppEditState(functionAppEditMode);
     }
@@ -231,7 +250,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
           {value => {
             setResourceId(value.token && value.resourceId);
             return (
-              value.token && (
+              value.token &&
+              (!!site ? (
                 <SiteStateContext.Provider
                   value={{
                     site,
@@ -240,6 +260,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     resourceId,
                     isLinuxApp: isLinuxApplication,
                     isContainerApp: isContainerApplication,
+                    isFunctionApp: isFunctionApplication,
                   }}>
                   <Router>
                     {/* NOTE(michinoy): The paths should be always all lowercase. */}
@@ -260,7 +281,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <DeploymentCenter resourceId={value.resourceId} path="/deploymentcenter" />
                   </Router>
                 </SiteStateContext.Provider>
-              )
+              ) : (
+                <LoadingComponent />
+              ))
             );
           }}
         </StartupInfoContext.Consumer>

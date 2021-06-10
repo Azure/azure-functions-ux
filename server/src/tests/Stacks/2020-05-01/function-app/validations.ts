@@ -15,7 +15,7 @@ export function validateAllStackLength(stacks) {
 
 export function validateNonHiddenStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
 export function validateDotnetCoreStack(stacks) {
@@ -34,7 +34,7 @@ export function validateNodeStack(stacks) {
   expect(nodeStack.displayText).to.equal('Node.js');
   expect(nodeStack.value).to.equal('node');
   expect(nodeStack.sortOrder).to.equal(1);
-  expect(nodeStack.versions.length).to.equal(2);
+  expect(nodeStack.versions.length).to.equal(3);
   expect(nodeStack).to.deep.equal(hardCodedNodeStack);
 }
 
@@ -44,7 +44,7 @@ export function validatePythonStack(stacks) {
   expect(pythonStack.displayText).to.equal('Python');
   expect(pythonStack.value).to.equal('python');
   expect(pythonStack.sortOrder).to.equal(2);
-  expect(pythonStack.versions.length).to.equal(3);
+  expect(pythonStack.versions.length).to.equal(4);
   expect(pythonStack).to.deep.equal(hardCodedPythonStack);
 }
 
@@ -71,7 +71,7 @@ export function validatePowershellCoreStack(stacks) {
 export function validateCustomStack(stacks) {
   validateAllStackLength(stacks);
   const customStack = stacks[5];
-  expect(customStack.displayText).to.equal('Custom');
+  expect(customStack.displayText).to.equal('Custom Handler');
   expect(customStack.value).to.equal('custom');
   expect(customStack.sortOrder).to.equal(5);
   expect(customStack.versions.length).to.equal(1);

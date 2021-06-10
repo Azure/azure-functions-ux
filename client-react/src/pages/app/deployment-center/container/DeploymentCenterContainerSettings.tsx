@@ -233,7 +233,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
     setShowSourceSelectionOption(siteStateContext && siteStateContext.isLinuxApp);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext]);
+  }, [siteStateContext.isLinuxApp]);
 
   const renderSetupView = () => {
     return (

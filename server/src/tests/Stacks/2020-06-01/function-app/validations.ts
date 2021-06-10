@@ -51,7 +51,7 @@ function validateLinuxStacksLength(stacks) {
 
 function validateNotHiddenStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(6);
+  expect(stacks.length).to.equal(7);
 }
 
 function validateNotDeprecatedStacksLength(stacks) {
@@ -61,7 +61,7 @@ function validateNotDeprecatedStacksLength(stacks) {
 
 function validateNotPreviewStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(6);
+  expect(stacks.length).to.equal(7);
 }
 
 function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
@@ -168,7 +168,7 @@ function validateNodeStack(nodeStack) {
   expect(nodeStack.displayText).to.equal('Node.js');
   expect(nodeStack.value).to.equal('node');
   expect(nodeStack.preferredOs).to.equal('windows');
-  expect(nodeStack.majorVersions.length).to.equal(4);
+  expect(nodeStack.majorVersions.length).to.equal(5);
   expect(nodeStack).to.deep.equal(hardCodedNodeStack);
 }
 
@@ -255,7 +255,7 @@ export function validateCustomStackFilter(stacks) {
 }
 
 function validateCustomStack(customStack) {
-  expect(customStack.displayText).to.equal('Custom');
+  expect(customStack.displayText).to.equal('Custom Handler');
   expect(customStack.value).to.equal('custom');
   expect(customStack.preferredOs).to.equal('windows');
   expect(customStack.majorVersions.length).to.equal(1);

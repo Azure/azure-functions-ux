@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { DeploymentCenterOneDriveProviderProps } from '../DeploymentCenter.types';
 import DeploymentCenterOneDriveAccount from './DeploymentCenterOneDriveAccount';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { useTranslation } from 'react-i18next';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterOneDriveProvider: React.FC<DeploymentCenterOneDriveProviderProps> = props => {
   const { formProps, accountUser, folderOptions, loadingFolders } = props;
 
   const { t } = useTranslation();
+
+  const siteStateContext = useContext(SiteStateContext);
+
+  const getDefaultSelectedKey = () => {
+    if (!formProps.values.folder && siteStateContext.site && siteStateContext.site.properties && siteStateContext.site.properties.name) {
+      formProps.setFieldValue('folder', siteStateContext.site.properties.name);
+    }
+
+    return formProps.values.folder;
+  };
 
   return (
     <>
@@ -16,7 +27,7 @@ const DeploymentCenterOneDriveProvider: React.FC<DeploymentCenterOneDriveProvide
 
       <DeploymentCenterOneDriveAccount {...props} />
 
-      {accountUser && accountUser.displayName && (
+      {accountUser && accountUser.createdBy.user.displayName && (
         <>
           <Field
             id="deployment-center-settings-folder-option"
@@ -25,7 +36,8 @@ const DeploymentCenterOneDriveProvider: React.FC<DeploymentCenterOneDriveProvide
             component={Dropdown}
             displayInVerticalLayout={true}
             options={folderOptions}
-            defaultSelectedKey={formProps.values.org}
+            defaultSelectedKey={getDefaultSelectedKey()}
+            placeholder={t('deploymentCenterCodeFolderPlaceholder')}
             required={true}
             isLoading={loadingFolders}
           />

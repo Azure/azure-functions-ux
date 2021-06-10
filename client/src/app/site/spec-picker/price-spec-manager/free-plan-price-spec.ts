@@ -80,6 +80,10 @@ export class FreePlanPriceSpec extends PriceSpec {
       isLinux = input.specPickerInput.data.isLinux;
       if (isLinux) {
         this.topLevelFeatures.shift();
+        // NOTE(shimedh): Linux FunctionApp's don't work on Free sku's. Hide Free sku for Linux FunctionApp create scenario.
+        if (input.specPickerInput.data.isFunctionApp) {
+          this.state = 'hidden';
+        }
       }
 
       if (

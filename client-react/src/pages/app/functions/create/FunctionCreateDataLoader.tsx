@@ -22,7 +22,9 @@ export interface FunctionCreateDataLoaderState {
   functionTemplates: FunctionTemplate[] | undefined;
   functionsInfo: ArmObj<FunctionInfo>[] | undefined;
   bindings: Binding[] | undefined;
-  hostStatus: HostStatus | undefined;
+  hostStatus: HostStatus | null | undefined;
+  functionTemplatesError: string;
+  hostStatusError: string;
 }
 
 class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderProps, FunctionCreateDataLoaderState> {
@@ -34,6 +36,8 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
       functionsInfo: undefined,
       bindings: undefined,
       hostStatus: undefined,
+      functionTemplatesError: '',
+      hostStatusError: '',
     };
   }
 
@@ -44,7 +48,7 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
   }
 
   public render() {
-    if (!this.state.functionTemplates || !this.state.hostStatus) {
+    if (this.state.functionTemplates === undefined || this.state.hostStatus === undefined) {
       return <LoadingComponent />;
     }
 
@@ -60,6 +64,8 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
           bindings={this.state.bindings}
           hostStatus={this.state.hostStatus}
           resourceId={resourceId}
+          functionTemplatesError={this.state.functionTemplatesError}
+          hostStatusError={this.state.hostStatusError}
         />
       </FunctionCreateContext.Provider>
     );
@@ -75,11 +81,13 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
           functionTemplates: r.data.properties,
         });
       } else {
-        LogService.trackEvent(
-          LogCategories.functionCreate,
-          'getTemplates',
-          `Failed to get templates: ${getErrorMessageOrStringify(r.metadata.error)}`
-        );
+        const errorMessage = `Failed to get function templates: ${getErrorMessageOrStringify(r.metadata.error)}`;
+        this.setState({
+          ...this.state,
+          functionTemplates: [],
+          functionTemplatesError: errorMessage,
+        });
+        LogService.trackEvent(LogCategories.functionCreate, 'getTemplates', errorMessage);
       }
     });
   }
@@ -141,11 +149,13 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
           hostStatus: r.data.properties,
         });
       } else {
-        LogService.trackEvent(
-          LogCategories.functionCreate,
-          'getHostStatus',
-          `Failed to get hostStatus: ${getErrorMessageOrStringify(r.metadata.error)}`
-        );
+        const errorMessage = `Failed to get function host status: ${getErrorMessageOrStringify(r.metadata.error)}`;
+        this.setState({
+          ...this.state,
+          hostStatus: null,
+          hostStatusError: errorMessage,
+        });
+        LogService.trackEvent(LogCategories.functionCreate, 'getHostStatus', errorMessage);
       }
     });
   }

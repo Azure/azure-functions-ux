@@ -2683,6 +2683,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="commitIdAuthor" xml:space="preserve">
         <value>ID de consolidação (autor)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Consolidar Autor</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Mensagem de Entrada</value>
     </data>
@@ -3226,9 +3229,6 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>O primeiro núcleo Basic (B1) para Linux é gratuito durante os primeiros 30 dias!</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Os contentores do Windows são faturados com 50% de desconto durante a pré-visualização.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Os escalões de preço isolados num Ambiente do Serviço de Aplicações (ASE) não estão disponíveis para a sua configuração. Um ASE é uma oferta poderosa do Serviço de Aplicações do Azure que proporciona isolamento de rede e capacidades de dimensionamento melhoradas.</value>
     </data>
@@ -3255,9 +3255,6 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     </data>
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Os endereços IP enviados para a sua aplicação poderão ser alterados.</value>
-    </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>O seu plano do serviço de aplicações {0} excedeu o número recomendado de aplicações para o seu tamanho.</value>
     </data>
   <data name="free" xml:space="preserve">
         <value>Gratuito</value>
@@ -3872,6 +3869,18 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>Falha ao configurar implementação: {0}</value>
     </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>Falha ao atualizar as credenciais do utilizador de publicação: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>Falha ao atualizar as credenciais do utilizador de publicação</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>Credenciais do utilizador de publicação atualizadas com êxito</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>A atualizar credenciais do utilizador de publicação</value>
+    </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>Não pode registar uma nova aplicação no Azure Active Directory. Saiba mais: https://go.microsoft.com/fwlink/?linkid=843472. Mais detalhes: {0}</value>
     </data>
@@ -3883,6 +3892,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     </data>
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Falha ao desligar a sua implementação</value>
+    </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Falha ao desligar a sua implementação: {0}</value>
     </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Tem a certeza de que pretende desligar a sua implementação?</value>
@@ -3934,6 +3946,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>Por exemplo, nginx:latest</value>
+    </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>Por exemplo, microsoft/iis:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Para começar, crie primeiro um Azure Container Registry e adicione uma imagem.</value>
@@ -4241,6 +4256,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>As funções baseadas em Kubernetes não são atualmente suportadas.</value>
     </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>O Docker Compose não é suportado atualmente.</value>
+    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Editar funções no portal não é suportado para aplicações de funções implementadas como uma imagem de docker.</value>
     </data>
@@ -4276,9 +4294,6 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Editar funções no portal não é suportado para Aplicações de Função de Consumo Linux (Pré-visualização).</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Contentor Único (Pré-visualização)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Mais modelos...</value>
@@ -5740,19 +5755,19 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Ficheiro de fluxo de trabalho</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Preservar</value>
+        <value>Guardar ficheiro de fluxo de trabalho</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Preservar o ficheiro "{0}" do ramo "{1}" no repositório "{2}". Isto pode acionar implementações na sua aplicação em consolidações no ramo.</value>
+        <value>Ao guardar, mantém todas as edições efetuadas no ficheiro de fluxo de trabalho, mas continuará a acionar implementações nesta aplicação.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Eliminar</value>
+        <value>Eliminar ficheiro de fluxo de trabalho</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Elimine o ficheiro "{0}" do ramo "{1}" no repositório "{2}". Isto evitará futuras implementações na sua aplicação em consolidações neste ramo.</value>
+        <value>O ficheiro será removido e as consolidações futuras não acionarão implementações para esta aplicação.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Desativar a Ação do GitHub impedirá quaisquer futuras implementações acionadas por consolidações.</value>
+        <value>Desligar uma ação permite reconfigurar a implementação da aplicação. Escolha o que acontece com o seu ficheiro de fluxo de trabalho depois de desligar.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>O ficheiro de fluxo de trabalho da Ação do GitHub "{0}" do ramo "{1}" no repositório "{2}" não existe. Selecione "OK" para desligar a implementação.</value>
@@ -5926,7 +5941,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Não é possível encontrar o ramo "{0}" no repositório "{1}". Navegue para o seu repositório para investigar mais.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Confirmar Desligação da Ação do GitHub</value>
+        <value>Desligar GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirmar Desconexão do Serviço de Compilação do Serviço de Aplicações</value>
@@ -5942,6 +5957,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Falha ao desligar a sua implementação, mas o ficheiro de fluxo de trabalho foi eliminado com êxito. Tente desligar novamente.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Falha ao desligar a sua implementação, mas o ficheiro de fluxo de trabalho foi eliminado com êxito. Tente desligar novamente. Erro: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Não é possível estabelecer uma ligação ao Application Insights. Certifique-se de que tem permissões de escrita na sua Aplicação de funções</value>
@@ -5967,8 +5985,23 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Comando de sincronização do centro de implementação</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Comando para reimplementar do centro de implementações</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Reimplementar/Sincronizar</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Erro ao obter informações</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>Não é possível obter as informações da conta</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Aceda ao portal do Azure DevOps para desligar.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>A configuração de implementação atual já não é suportada. Aceda ao portal do Azure DevOps para desligar.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Gerir perfil de publicação</value>
@@ -6064,22 +6097,25 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Definições do centro de implementação</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>Credenciais de FTP/FTPs</value>
+        <value>Credenciais FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>Credenciais de FTP ou FTPs</value>
+        <value>Credenciais FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>Credenciais de Git/FTP/FTPs locais</value>
+        <value>Credenciais Local Git/FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>Credenciais de Git ou FTP ou FTPs locais</value>
+        <value>Credenciais Local Git ou FTPS</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>A carregar registos dos contentores</value>
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>A carregar registos dos contentores...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>Estes são os registos do Docker Engine emitidos durante a fase de aprovisionamento da sua imagem do contentor.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Falha ao carregar registos dos contentores</value>
@@ -6100,19 +6136,19 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>As alterações não guardadas serão perdidas na atualização. Tem a certeza de que pretende continuar?</value>
     </data>
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to refresh?</value>
+        <value>Quer mesmo atualizar?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>Quer mesmo sincronizar?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Quer mesmo reimplementar?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Performing a sync operation will cancel any existing deployment operation in progress and create a new one.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>Realizar uma operação de reimplementação irá cancelar qualquer operação de implementação existente em curso e criar uma nova.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
-        <value>Are you sure you want to discard?</value>
+        <value>Quer mesmo eliminar?</value>
     </data>
   <data name="deploymentCenterDataLossMessage" xml:space="preserve">
-        <value>All unsaved changes will be lost.</value>
+        <value>Todas as alterações não guardadas serão perdidas.</value>
     </data>
   <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
         <value>Adicionar definição de aplicação</value>
@@ -6121,7 +6157,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Editar definição de aplicação</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>O Serviço de Aplicações suporta várias tecnologias para aceder, publicar e modificar o conteúdo da sua aplicação. Pode definir o âmbito das credenciais de FTP/FTPS para aplicação ou utilizador.</value>
+        <value>O Serviço de Aplicações suporta várias tecnologias para aceder, publicar e modificar o conteúdo da sua aplicação. Pode definir o âmbito das credenciais FTPS para a aplicação ou o utilizador.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>Ponto final de FTPS</value>
@@ -6130,13 +6166,13 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Âmbito de aplicação</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>As credenciais de âmbito de aplicação são geradas automaticamente e dão acesso apenas a esta aplicação ou a este bloco de implementação específico. Estas credenciais podem ser utilizadas com FTP, Local Git e WebDeploy. Não podem ser configuradas manualmente, mas podem ser repostas a qualquer momento.</value>
+        <value>As credenciais de âmbito de aplicação são geradas automaticamente e dão acesso apenas a esta aplicação ou bloco de implementação específico. Estas credenciais podem ser utilizadas com FTPS, Local Git e WebDeploy. Não podem ser configuradas manualmente, mas podem ser repostas a qualquer momento.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>Âmbito de utilizador</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>As credenciais de âmbito de utilizador são definidas por si, enquanto utilizador, e podem ser utilizadas com todas as aplicações a que tem acesso. Estas credenciais podem ser utilizadas com FTP, Local Git e WebDeploy. A autenticação para um ponto final de FTP/FTPS utilizando credenciais de nível de utilizador exige um nome de utilizador no seguinte formato: "{0}"</value>
+        <value>As credenciais de âmbito de utilizador são definidas por si, pelo utilizador, e podem ser utilizadas com todas as aplicações a que tem acesso. Estas credenciais podem ser utilizadas com FTPS, Local Git e WebDeploy. A autenticação para um ponto final FTPS com credenciais de nível de utilizador exige um nome de utilizador no seguinte formato: "{0}"</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(o seu nome de utilizador)</value>
@@ -6202,7 +6238,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Repor palavra-passe do perfil de publicação da aplicação?</value>
     </data>
   <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>By resetting the profile password any external integrations via the publishing profile will cease to operate.</value>
+        <value>Quando repõe a palavra-passe do perfil, todas as integrações externas realizadas através do perfil de publicação deixarão de funcionar.</value>
     </data>
   <data name="usernameLengthRequirements" xml:space="preserve">
         <value>O nome de utilizador tem de ter, pelo menos, {0} carateres de comprimento.</value>
@@ -6264,6 +6300,21 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>Git Local</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>Pasta</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>Selecionar pasta</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>Git Externo</value>
     </data>
@@ -6276,11 +6327,20 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>Tipo de Repositório</value>
     </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>principal</value>
+    </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>Privado</value>
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Público</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>O Git local permite-lhe alojar um servidor Git simples para a sua aplicação no seu plano do Serviço de Aplicações. Pode utilizar este procedimento para configurar rapidamente um pipeline CICD.</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>O url do repositório git local será gerado após a conclusão.</value>
@@ -6294,20 +6354,20 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>Ocorreu um erro ao obter o URI do Git Clone</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>Pedido de Sincronização Submetido</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>Pedido de Reimplementação Submetido</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>O repositório da aplicação Web {0} está a ser atualizado</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>O repositório para a aplicação web {0} foi atualizado com êxito</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>Falha ao sincronizar: {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>Falha ao reimplementar: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>Falha ao sincronizar</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>Falha ao reimplementar</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Definições de registo</value>
@@ -6498,6 +6558,12 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Qual a utilidade da nova funcionalidade de registos, com tecnologia Application Insights?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>Quão fácil ou difícil é utilizar esta página melhorada do centro implementações do Serviço de Aplicações?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>Quão útil é esta página melhorada do centro de implementações do Serviço de Aplicações?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>Se não consegue localizar uma organização ou um repositório, poderá ter de ativar permissões adicionais no GitHub.</value>
     </data>
@@ -6520,16 +6586,16 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Preencha as definições necessárias acima para ativar a pré-visualização.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Substituir o fluxo de trabalho no repositório</value>
+        <value>Substituir o fluxo de trabalho: substitua o ficheiro de fluxo de trabalho {0} existente no repositório e ramo selecionados.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Adicionar um fluxo de trabalho no repositório</value>
+        <value>Adicionar um fluxo de trabalho: adicione um novo ficheiro de fluxo de trabalho {0} no repositório e ramo selecionados.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Utilizar fluxo de trabalho do repositório existente</value>
+        <value>Utilizar fluxo de trabalho existente: utilize o ficheiro de fluxo de trabalho {0} existente no repositório e ramo selecionados.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Utilizar fluxo de trabalho de repositório existente</value>
+        <value>Utilizar fluxo de trabalho disponível: utilize um dos ficheiros de fluxo de trabalho disponíveis no repositório e ramo selecionados.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Selecionar opção de fluxo de trabalho</value>
@@ -6637,7 +6703,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>O FTP é desativado pela política de acesso.</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>A edição de Aplicações de Funções Personalizadas não é suportada no portal do Azure. Utilize o seu ambiente de desenvolvimento local para editar esta função.</value>
+        <value>A edição de Aplicações de Funções com o CustomHandler não é suportada no portal do Azure. Utilize o seu ambiente de desenvolvimento local para editar esta função.</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>Selecionar ambiente de desenvolvimento</value>
@@ -6706,18 +6772,114 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>O URL de servidor tem de começar com https://</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>O Premium V3 não é suportado nesta unidade de escala. Considere voltar a implementar ou a clonar a aplicação.</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Isolamento de Hiper-V</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>Os contentores do Windows são protegidos através do modo de isolamento de Hyper-V.</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>{0} mínimo de ACU/vCPU</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>{0} vCPU</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>Não é possível obter a sua função</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>A criar chave de anfitrião</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>A criar chave do sistema</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>A criar chave de função</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>A criar {0}</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>{0} criadas com êxito</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>Falha ao criar {0}</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>Falha ao criar {0}: {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (preterido)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (pré-visualização)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>O caminho de montagem não pode ser "/"</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Definições de runtime do fluxo de trabalho</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>A carregar ficheiro</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>A carregar "{0}"</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>"{0}" carregado com êxito</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Falha ao carregar "{0}". O carregamento de ficheiros acima dos 5 MB não é suportado a partir do portal do Azure</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (Acesso Antecipado)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>O V2 Isolado não é suportado por esta unidade de escala. Considere voltar a implementar ou clonar a aplicação.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>Não poderá voltar a ~2 após a atualização para ~3, uma vez que o runtime subjacente é unificado a cerca de ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Tipo de Contentor</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>YAML inválido</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Escolher ficheiro</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Não é possível obter o estado de anfitrião da sua aplicação de funções. Para utilizar a transmissão de registos, certifique-se de que o anfitrião da função está em execução.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Projeto</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Selecionar projeto</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Não foram encontradas contas do Azure Repos. Crie uma nova conta no Azure Repos e tente novamente.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>Falha ao obter o seu recurso do App Insights. Certifique-se de que tem a chave de instrumentação correta configurada nas definições da aplicação. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>O Acesso Antecipado permite a entrega rápida de atualizações e novas versões de vários runtimes.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>A versão "{0}" selecionada está preterida. Considere atualizá-la.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>A versão "{0}" selecionada estará preterida a {1}. Considere atualizá-la em breve.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Os registos serão atualizados em {0} segundos</value>
     </data>
 </root>

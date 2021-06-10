@@ -1,0 +1,35 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - __sitename__
+
+on:
+  push:
+    branches:
+      - __branch__
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: azure/docker-login@v1
+        with:
+          login-server: __loginserver__/
+          username: \${{ secrets.__containerusersecretname__ }}
+          password: \${{ secrets.__containerpasswordsecretname__ }}
+
+      - run: |
+          docker build . -t __publishserver__/\${{ secrets.__containerusersecretname__ }}/__image__:\${{ github.sha }}
+          docker push __publishserver__/\${{ secrets.__containerusersecretname__ }}/__image__:\${{ github.sha }}
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: '__sitename__'
+          slot-name: '__slotname__'
+          publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
+          images: '__publishserver__/\${{ secrets.__containerusersecretname__ }}/__image__:\${{ github.sha }}'

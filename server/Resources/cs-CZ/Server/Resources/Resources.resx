@@ -2683,6 +2683,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="commitIdAuthor" xml:space="preserve">
         <value>ID potvrzení (autor)</value>
     </data>
+  <data name="commitAuthor" xml:space="preserve">
+        <value>Autor potvrzení změn</value>
+    </data>
   <data name="checkinMessage" xml:space="preserve">
         <value>Zpráva pro vrácení se změnami</value>
     </data>
@@ -3226,9 +3229,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>První jádro Basic (B1) pro Linux je prvních 30 dní zdarma!</value>
     </data>
-  <data name="pricing_windowsContainers" xml:space="preserve">
-        <value>Kontejnery Windows se během verze Preview účtují s 50% slevou.</value>
-    </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
         <value>Izolované cenové úrovně ve službě App Service Environment (ASE) nejsou pro vaši konfiguraci k dispozici. ASE je výkonná funkce, která nabízí službu Azure App Service. Ta poskytuje funkce pro izolování sítě a vylepšené škálování.</value>
     </data>
@@ -3255,9 +3255,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Odchozí IP adresy pro vaši aplikaci se můžou změnit.</value>
-    </data>
-  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
-        <value>Váš plán služby App Service {0} překročil počet aplikací doporučený pro jeho velikost.</value>
     </data>
   <data name="free" xml:space="preserve">
         <value>Zdarma</value>
@@ -3872,6 +3869,18 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
         <value>Nepovedlo se nastavit nasazení: {0}</value>
     </data>
+  <data name="UpdatingPublishingUserFailWithStatusMessage" xml:space="preserve">
+        <value>Nepovedlo se aktualizovat přihlašovací údaje publikujícího uživatele: {0}</value>
+    </data>
+  <data name="UpdatingPublishingUserFail" xml:space="preserve">
+        <value>Nepovedlo se aktualizovat přihlašovací údaje publikujícího uživatele.</value>
+    </data>
+  <data name="UpdatingPublishingUserSuccess" xml:space="preserve">
+        <value>Přihlašovací údaje publikujícího uživatele se úspěšně aktualizovaly.</value>
+    </data>
+  <data name="UpdatingPublishingUser" xml:space="preserve">
+        <value>Aktualizují se přihlašovací údaje publikujícího uživatele.</value>
+    </data>
   <data name="noPermissionsToCreateApp" xml:space="preserve">
         <value>Nemůžete zaregistrovat novou aplikaci do Azure Active Directory. Další informace: https://go.microsoft.com/fwlink/?linkid=843472. Další podrobnosti: {0}</value>
     </data>
@@ -3883,6 +3892,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="disconnectingDeploymentFail" xml:space="preserve">
         <value>Vaše nasazení se nepovedlo odpojit.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWithMessage" xml:space="preserve">
+        <value>Vaše nasazení se nepovedlo odpojit: {0}</value>
     </data>
   <data name="disconnectConfirm" xml:space="preserve">
         <value>Opravdu chcete odpojit své nasazení?</value>
@@ -3934,6 +3946,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
         <value>Např. nginx:latest</value>
+    </data>
+  <data name="containerImageAndTagPlaceholderForWindows" xml:space="preserve">
+        <value>Např. microsoft/iis:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Pokud chcete začít, nejdříve vytvořte registr služby Azure Container Registry a přidejte image.</value>
@@ -4241,6 +4256,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="functionsKubernetesDisableMessage" xml:space="preserve">
         <value>Funkce založené na Kubernetes se v současné době nepodporují.</value>
     </data>
+  <data name="dockerComposeDisabledMessage" xml:space="preserve">
+        <value>Docker Compose se v současné době nepodporuje.</value>
+    </data>
   <data name="readOnlyBYOC" xml:space="preserve">
         <value>Na portálu se úpravy aplikací funkcí nasazených jako image Dockeru nepodporují.</value>
     </data>
@@ -4276,9 +4294,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
         <value>Úprava funkcí na portálu se pro aplikace funkcí (Preview) s plánem Premium v Linuxu nepodporuje.</value>
-    </data>
-  <data name="singleContainerPreviewTitle" xml:space="preserve">
-        <value>Single Container (Preview)</value>
     </data>
   <data name="moreTemplatesTitle" xml:space="preserve">
         <value>Další šablony...</value>
@@ -5740,19 +5755,19 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Soubor pracovního postupu</value>
     </data>
   <data name="githubActionWorkflowFilePreserveLabel" xml:space="preserve">
-        <value>Zachovat</value>
+        <value>Uložit soubor pracovního postupu</value>
     </data>
   <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Zachovejte soubor {0} z větve {1} v úložišti {2}. Tím se můžou aktivovat nasazení do aplikace při potvrzování do této větve.</value>
+        <value>Ukládání umožňuje zachovat všechny úpravy, které jste provedli v souboru pracovního prostoru, ale stále se aktivují nasazení do této aplikace.</value>
     </data>
   <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
-        <value>Odstranit</value>
+        <value>Odstranit soubor pracovního postupu</value>
     </data>
   <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>Odstraňte soubor {0} z větve {1} v úložišti {2}. Tím se zabrání budoucím nasazením do aplikace při potvrzování do této větve.</value>
+        <value>Soubor se odebere a budoucí potvrzení neaktivují nasazení do této aplikace.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
-        <value>Odpojení akce GitHub Actions zabrání budoucím nasazením aktivovaným potvrzeními.</value>
+        <value>Odpojení akce umožňuje překonfigurovat nasazení aplikace. Zvolte, co se po odpojení stane se souborem pracovního postupu.</value>
     </data>
   <data name="githubActionWorkflowFileDeletePanelNoChoiceDescription" xml:space="preserve">
         <value>Soubor pracovního postupu GitHub Actions {0} z větve {1} v úložišti {2} neexistuje. Pokud chcete nasazení odpojit, vyberte OK.</value>
@@ -5926,7 +5941,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>V úložišti {1} se nepovedlo najít větev {0}. Pokud to chcete prověřit důkladněji, přejděte prosím na úložiště.</value>
     </data>
   <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
-        <value>Potvrdit odpojení akce GitHubu</value>
+        <value>Odpojit GitHub Actions</value>
     </data>
   <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Potvrdit odpojení sestavovací služby App Service</value>
@@ -5942,6 +5957,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Vaše nasazení se nepovedlo odpojit, ale soubor pracovního postupu se úspěšně odstranil. Zkuste nasazení odpojit znovu.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+        <value>Vaše nasazení se nepovedlo odpojit, ale soubor pracovního postupu se úspěšně odstranil. Zkuste nasazení odpojit znovu. Chyba: {0}</value>
     </data>
   <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
         <value>Nepovedlo se vytvořit propojení s Application Insights. Ujistěte se prosím, že v aplikaci funkcí máte oprávnění k zápisu.</value>
@@ -5967,8 +5985,23 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Příkaz pro synchronizaci v centru Deployment Center</value>
     </data>
+  <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
+        <value>Příkaz pro nové nasazení centra Deployment Center</value>
+    </data>
+  <data name="deploymentCenterRedeploy" xml:space="preserve">
+        <value>Znovu nasadit / synchronizovat</value>
+    </data>
   <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
         <value>Při načítání informací došlo k chybě.</value>
+    </data>
+  <data name="deploymentCenterSettingsConfiguredViewUserNotAuthorized" xml:space="preserve">
+        <value>Nepovedlo se načíst informace o účtu.</value>
+    </data>
+  <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
+        <value>Pokud se chcete odpojit, přejděte prosím na portál Azure DevOps.</value>
+    </data>
+  <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
+        <value>Aktuální konfigurace nasazení se už nepodporuje. Pokud se chcete odpojit, přejděte prosím na portál Azure DevOps.</value>
     </data>
   <data name="managePublishProfile" xml:space="preserve">
         <value>Spravovat profil publikování</value>
@@ -6064,22 +6097,25 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nastavení centra Deployment Center</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>Přihlašovací údaje k FTP/FTPS</value>
+        <value>Přihlašovací údaje k FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>Přihlašovací údaje k FTP nebo FTPS</value>
+        <value>Přihlašovací údaje k FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsHeaderText" xml:space="preserve">
-        <value>Přihlašovací údaje k místnímu Gitu / FTP / FTPS</value>
+        <value>Přihlašovací údaje k místnímu Gitu nebo FTPS</value>
     </data>
   <data name="deploymentCenterPivotItemGitFtpsAriaLabel" xml:space="preserve">
-        <value>Přihlašovací údaje k místnímu Gitu, FTP nebo FTPS</value>
+        <value>Přihlašovací údaje k místnímu Gitu nebo FTPS</value>
     </data>
   <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
         <value>Načítají se protokoly kontejnerů</value>
     </data>
   <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
         <value>Načítají se protokoly kontejnerů...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsDesc" xml:space="preserve">
+        <value>Během fáze zřizování image kontejneru modul Dockeru vygeneroval protokoly.</value>
     </data>
   <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Nepovedlo se načíst protokoly kontejnerů.</value>
@@ -6102,11 +6138,11 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCenterRefreshConfirmTitle" xml:space="preserve">
         <value>Opravdu chcete provést aktualizaci?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmTitle" xml:space="preserve">
-        <value>Opravdu chcete provést synchronizaci?</value>
+  <data name="deploymentCenterRedeployConfirmTitle" xml:space="preserve">
+        <value>Opravdu chcete nasazení provést znovu?</value>
     </data>
-  <data name="deploymentCenterSyncConfirmMessage" xml:space="preserve">
-        <value>Když se provede operace synchronizace, zruší se všechny stávající probíhající operace nasazení a vytvoří se nová.</value>
+  <data name="deploymentCenterRedeployConfirmMessage" xml:space="preserve">
+        <value>Když se provede operace nového nasazení, zruší se všechny stávající probíhající operace nasazení a vytvoří se nová.</value>
     </data>
   <data name="deploymentCenterDiscardConfirmTitle" xml:space="preserve">
         <value>Opravdu to chcete zahodit?</value>
@@ -6121,7 +6157,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Upravit nastavení aplikace</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service podporuje několik technologií pro přístup, publikování a úpravu obsahu aplikace. Obor přihlašovacích údajů FTP/FTPS se dá vymezit na aplikaci nebo na uživatele.</value>
+        <value>App Service podporuje několik technologií pro přístup, publikování a úpravu obsahu aplikace. Obor přihlašovacích údajů FTPS se dá vymezit na aplikaci nebo na uživatele.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
         <value>Koncový bod FTPS</value>
@@ -6130,13 +6166,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Obor aplikace</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Přihlašovací údaje oboru aplikace se generují automaticky a umožňují přístup jen k této konkrétní aplikaci nebo slotu nasazení. Tyto přihlašovací údaje se dají použít pro FTP, místní Git a WebDeploy. Nedají se konfigurovat ručně, ale kdykoli je možné je resetovat.</value>
+        <value>Přihlašovací údaje oboru aplikace se generují automaticky a umožňují přístup jen k této konkrétní aplikaci nebo slotu nasazení. Tyto přihlašovací údaje se dají použít pro FTPS, místní Git a WebDeploy. Nedají se konfigurovat ručně, ale kdykoli je možné je resetovat.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
         <value>Obor uživatele</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>Přihlašovací údaje oboru uživatelů definujete vy jakožto uživatel a dají se použít pro všechny aplikace, ke kterým máte přístup. Tyto přihlašovací údaje se dají použít pro FTP, místní Git a WebDeploy. Ověřování u koncového bodu FTP/FTPS pomocí přihlašovacích údajů na úrovni uživatele vyžaduje uživatelské jméno v tomto formátu: {0}</value>
+        <value>Přihlašovací údaje oboru uživatelů definujete vy jakožto uživatel a dají se použít pro všechny aplikace, ke kterým máte přístup. Tyto přihlašovací údaje se dají použít pro FTPS, místní Git a WebDeploy. Ověřování u koncového bodu FTPS pomocí přihlašovacích údajů na úrovni uživatele vyžaduje uživatelské jméno v tomto formátu: {0}</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(vaše uživatelské jméno)</value>
@@ -6264,6 +6300,21 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCenterCodeLocalGitTitle" xml:space="preserve">
         <value>Místní Git</value>
     </data>
+  <data name="deploymentCenterCodeOneDriveTitle" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeDropboxTitle" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeAzureReposTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterCodeFolder" xml:space="preserve">
+        <value>Složka</value>
+    </data>
+  <data name="deploymentCenterCodeFolderPlaceholder" xml:space="preserve">
+        <value>Vybrat složku</value>
+    </data>
   <data name="deploymentCenterCodeExternalGitTitle" xml:space="preserve">
         <value>Externí Git</value>
     </data>
@@ -6276,11 +6327,20 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCenterCodeExternalRepositoryTypeLabel" xml:space="preserve">
         <value>Typ úložiště</value>
     </data>
+  <data name="deploymentCenterCodeExternalRepositoryPlaceholder" xml:space="preserve">
+        <value>https://microsoft.com</value>
+    </data>
+  <data name="deploymentCenterCodeExternalBranchPlaceholder" xml:space="preserve">
+        <value>hlavní</value>
+    </data>
   <data name="deploymentCenterCodeExternalPrivateRepositoryOption" xml:space="preserve">
         <value>Privátní</value>
     </data>
   <data name="deploymentCenterCodeExternalPublicRepositoryOption" xml:space="preserve">
         <value>Veřejné</value>
+    </data>
+  <data name="deploymentCenterCodeLocalGitDesc" xml:space="preserve">
+        <value>Místní Git umožňuje hostovat jednoduchý server Git pro aplikaci v plánu služby App Service. Ten se dá použít k rychlému nastavení kanálu CICD.</value>
     </data>
   <data name="deploymentCenterCodeLocalGitRepositorySetupMessage" xml:space="preserve">
         <value>Adresa URL vašeho místního úložiště Git se vygeneruje po dokončení.</value>
@@ -6294,20 +6354,20 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCenterCodeLocalGitFetchCloneUriError" xml:space="preserve">
         <value>Při načítání identifikátoru URI klonu Gitu došlo k chybě.</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmitted" xml:space="preserve">
-        <value>Žádost o synchronizaci se odeslala.</value>
+  <data name="deploymentCenterCodeRedeployRequestSubmitted" xml:space="preserve">
+        <value>Požadavek na nové nasazení se odeslal.</value>
     </data>
-  <data name="deploymentCenterCodeSyncRequestSubmittedDesc" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeployRequestSubmittedDesc" xml:space="preserve">
         <value>Úložiště pro webovou aplikaci {0} se právě aktualizuje.</value>
     </data>
-  <data name="deploymentCenterCodeSyncSuccess" xml:space="preserve">
+  <data name="deploymentCenterCodeRedeploySuccess" xml:space="preserve">
         <value>Úložiště pro webovou aplikaci {0} se úspěšně aktualizovalo.</value>
     </data>
-  <data name="deploymentCenterCodeSyncFailWithStatusMessage" xml:space="preserve">
-        <value>Nepovedlo se synchronizovat: {0}</value>
+  <data name="deploymentCenterCodeRedeployFailWithStatusMessage" xml:space="preserve">
+        <value>Nepovedlo se znovu provést nasazení: {0}</value>
     </data>
-  <data name="deploymentCenterCodeSyncFail" xml:space="preserve">
-        <value>Nepovedlo se synchronizovat</value>
+  <data name="deploymentCenterCodeRedeployFail" xml:space="preserve">
+        <value>Nepovedlo se znovu provést nasazení</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Nastavení registru</value>
@@ -6498,6 +6558,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>Jak užitečná je nová funkce protokolů, která používá Application Insights?</value>
     </data>
+  <data name="deploymentCenterFeedbackCESQuestion" xml:space="preserve">
+        <value>Jak snadné nebo obtížné je používat tuto vylepšenou stránku centra nasazení funkce App Service Environment?</value>
+    </data>
+  <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
+        <value>Jak užitečná je tato vylepšená stránka centra nasazení funkce App Service Environment?</value>
+    </data>
   <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
         <value>Pokud se vám nedaří najít organizaci nebo úložiště, bude možná nutné povolit v GitHubu další oprávnění.</value>
     </data>
@@ -6520,16 +6586,16 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Pokud chcete povolit náhled, vyplňte požadovaná nastavení výše.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Přepsat pracovní postup v úložišti</value>
+        <value>Přepsat pracovní postup: Přepíše existující soubor pracovního postupu {0} ve vybraném úložišti a větvi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionAdd" xml:space="preserve">
-        <value>Přidat pracovní postup do úložiště</value>
+        <value>Přidat pracovní postup: Přidá nový soubor pracovního postupu {0} do vybraného úložiště a větve.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Použít existující pracovní postup úložiště</value>
+        <value>Použít existující pracovní postup: Použije existující soubor pracovního postupu {0} ve vybraném úložišti a větvi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionUseAvailable" xml:space="preserve">
-        <value>Použít dostupný pracovní postup úložiště</value>
+        <value>Použít dostupný pracovní postup: Použije jeden ze souborů pracovních postupů dostupných ve vybraném úložišti a větvi.</value>
     </data>
   <data name="deploymentCenterSettingsGitHubActionWorkflowOptionPlaceholder" xml:space="preserve">
         <value>Vybrat možnost pracovního postupu</value>
@@ -6637,7 +6703,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Zásady přístupu zakazují protokol FTP.</value>
     </data>
   <data name="ibizafication_readOnlyCustom" xml:space="preserve">
-        <value>Na portálu Azure Portal se úpravy vlastních aplikací funkcí nepodporují. K úpravě této funkce použijte místní vývojové prostředí.</value>
+        <value>Na portálu Azure Portal se úpravy aplikací funkcí pomocí rutiny CustomHandler nepodporují. K úpravě této funkce použijte místní vývojové prostředí.</value>
     </data>
   <data name="selectDevelopmentEnvironment" xml:space="preserve">
         <value>Vyberte vývojové prostředí.</value>
@@ -6706,18 +6772,114 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Adresa URL serveru musí začínat https://.</value>
     </data>
   <data name="pricing_pv3NotAvailable" xml:space="preserve">
-        <value>Premium V3 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+        <value>Premium V3 se pro tuto jednotku škálování nepodporuje. Zvažte prosím možnost aplikaci naklonovat nebo znovu nasadit.</value>
     </data>
   <data name="hyperVIsolation" xml:space="preserve">
-        <value>Hyper-V Isolation</value>
+        <value>Izolace Hyper-V</value>
     </data>
   <data name="hyperVIsolationDesc" xml:space="preserve">
-        <value>Windows containers are secured using Hyper-V isolation mode.</value>
+        <value>Kontejnery Windows jsou zabezpečené pomocí režimu izolace Hyper-V.</value>
     </data>
   <data name="pricing_ACU_Pv3" xml:space="preserve">
-        <value>{0} minimum ACU/vCore</value>
+        <value>Minimálně {0} ACU/vCPU</value>
     </data>
   <data name="pricing_vCores" xml:space="preserve">
-        <value>{0} vCores</value>
+        <value>Počet vCPU: {0}</value>
+    </data>
+  <data name="functionInfoFetchError" xml:space="preserve">
+        <value>Nepovedlo se načíst vaši funkci.</value>
+    </data>
+  <data name="createHostKeyNotification" xml:space="preserve">
+        <value>Vytváří se klíč hostitele</value>
+    </data>
+  <data name="createSystemKeyNotification" xml:space="preserve">
+        <value>Vytváří se systémový klíč</value>
+    </data>
+  <data name="createFunctionKeyNotification" xml:space="preserve">
+        <value>Vytváří se klíč funkce</value>
+    </data>
+  <data name="createKeyNotificationDetails" xml:space="preserve">
+        <value>Vytváří se {0}.</value>
+    </data>
+  <data name="createKeyNotificationSuccess" xml:space="preserve">
+        <value>Klíč {0} se úspěšně vytvořil.</value>
+    </data>
+  <data name="createKeyNotificationFailed" xml:space="preserve">
+        <value>Nepovedlo se vytvořit {0}.</value>
+    </data>
+  <data name="createKeyNotificationFailedDetails" xml:space="preserve">
+        <value>Nepovedlo se vytvořit {0}: {1}</value>
+    </data>
+  <data name="stackVersionDeprecated" xml:space="preserve">
+        <value>{0} (zastaralé)</value>
+    </data>
+  <data name="stackVersionPreview" xml:space="preserve">
+        <value>{0} (preview)</value>
+    </data>
+  <data name="validation_mountPathNotRoot" xml:space="preserve">
+        <value>Cesta pro připojení nemůže být /.</value>
+    </data>
+  <data name="workflowRuntimeSettings" xml:space="preserve">
+        <value>Nastavení modulu runtime pracovního postupu</value>
+    </data>
+  <data name="uploadingFile" xml:space="preserve">
+        <value>Nahrává se soubor.</value>
+    </data>
+  <data name="uploadingFileWithName" xml:space="preserve">
+        <value>Ukládá se {0}.</value>
+    </data>
+  <data name="uploadingFileSuccessWithName" xml:space="preserve">
+        <value>Soubor {0} se úspěšně nahrál.</value>
+    </data>
+  <data name="uploadingFileFailureWithName" xml:space="preserve">
+        <value>Nepovedlo se nahrát {0}. Nahrávání souborů větších než 5 MB se na portálu Azure Portal nepodporuje.</value>
+    </data>
+  <data name="earlyAccessTemplate" xml:space="preserve">
+        <value>{0} (dřívější přístup)</value>
+    </data>
+  <data name="pricing_iv2NotAvailable" xml:space="preserve">
+        <value>Isolated V2 se pro tuto jednotku škálování nepodporuje. Zvažte prosím možnost aplikaci znovu nasadit nebo klonovat.</value>
+    </data>
+  <data name="movingFromV2Warning" xml:space="preserve">
+        <value>Po upgradu na ~3 se nebudete moct přesunout zpět na ~2, protože základní modul runtime je sjednocený okolo ~3.</value>
+    </data>
+  <data name="deploymentCenterContainerType" xml:space="preserve">
+        <value>Typ kontejneru</value>
+    </data>
+  <data name="deploymentCenterInvalidYaml" xml:space="preserve">
+        <value>Neplatný kód YAML</value>
+    </data>
+  <data name="deploymentCenterChooseFile" xml:space="preserve">
+        <value>Vybrat soubor</value>
+    </data>
+  <data name="logStreamingHostStatusError" xml:space="preserve">
+        <value>Nepovedlo se načíst stav hostitele aplikace funkcí. Pokud chcete používat streamování protokolů, ujistěte se prosím, že hostitel funkcí je spuštěný.</value>
+    </data>
+  <data name="deploymentCenterCodeDevOpsTitle" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterProject" xml:space="preserve">
+        <value>Projekt</value>
+    </data>
+  <data name="deploymentCenterProjectPlaceholder" xml:space="preserve">
+        <value>Vyberte projekt.</value>
+    </data>
+  <data name="deploymentCenterDevOpsNoAccounts" xml:space="preserve">
+        <value>Pro Azure Repos se nenašly žádné účty. Vytvořte prosím nový účet ve službě Azure Repos a zkuste to znovu.</value>
+    </data>
+  <data name="appInsightsKeyError" xml:space="preserve">
+        <value>Nepovedlo se načíst prostředek App Insights. Ujistěte se prosím, že je v nastavení aplikace nakonfigurovaný správný instrumentační klíč. </value>
+    </data>
+  <data name="earlyAccessStackMessage" xml:space="preserve">
+        <value>Dřívější přístup umožňuje rychlé doručování aktualizací a nových verzí různých modulů runtime.</value>
+    </data>
+  <data name="deprecatedStackMessage" xml:space="preserve">
+        <value>Vybraná verze {0} je zastaralá. Zvažte prosím možnost ji aktualizovat.</value>
+    </data>
+  <data name="endOfLifeStackMessage" xml:space="preserve">
+        <value>Vybraná verze {0} se od {1} přestane používat. Zvažte prosím možnost ji v blízké době aktualizovat.</value>
+    </data>
+  <data name="logsRefreshTimerMessage" xml:space="preserve">
+        <value>Protokoly se aktualizují za {0} s.</value>
     </data>
 </root>

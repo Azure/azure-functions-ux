@@ -56,16 +56,16 @@ export function validateGithubActionWindowsStackLength(stacks) {
 
 export function validateGithubActionLinuxStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(5);
+  expect(stacks.length).to.equal(6);
 }
 
 export function validateASPCreateStack(stacks) {
   validateCreateStackLength(stacks);
   const aspStack = stacks[0];
-  expect(aspStack.displayText).to.equal('ASP.NET');
+  expect(aspStack.displayText).to.equal('.NET');
   expect(aspStack.value).to.equal('ASP.NET');
   expect(aspStack.sortOrder).to.equal(0);
-  expect(aspStack.versions.length).to.equal(2);
+  expect(aspStack.versions.length).to.equal(3);
   expect(aspStack).to.deep.equal(aspDotnetCreateStack);
 }
 
@@ -75,7 +75,7 @@ export function validateNodeCreateStack(stacks) {
   expect(nodeStack.displayText).to.equal('Node');
   expect(nodeStack.value).to.equal('Node');
   expect(nodeStack.sortOrder).to.equal(1);
-  expect(nodeStack.versions.length).to.equal(7);
+  expect(nodeStack.versions.length).to.equal(8);
   expect(nodeStack).to.deep.equal(nodeCreateStack);
 }
 
@@ -95,7 +95,7 @@ export function validatePHPCreateStack(stacks) {
   expect(phpStack.displayText).to.equal('PHP');
   expect(phpStack.value).to.equal('PHP');
   expect(phpStack.sortOrder).to.equal(3);
-  expect(phpStack.versions.length).to.equal(2);
+  expect(phpStack.versions.length).to.equal(3);
   expect(phpStack).to.deep.equal(phpCreateStack);
 }
 

@@ -15,6 +15,7 @@ import { ScenarioService } from '../../../utils/scenario-checker/scenario.servic
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { ThemeContext } from '../../../ThemeContext';
 import { SiteContext } from './Contexts';
+import { isWorkflowApp } from '../../../utils/arm-utils';
 export const settingsWrapper = style({
   padding: '5px 20px 5px 0px',
 });
@@ -85,7 +86,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
             CustomTabRenderer(link, defaultRenderer, theme, functionRuntimeSettingsDirtyCheck, dirtyLabel)
           }
           itemKey="functionRuntimeSettings"
-          linkText={t('functionRuntimeSettings')}>
+          linkText={isWorkflowApp(site) ? t('workflowRuntimeSettings') : t('functionRuntimeSettings')}>
           <FunctionRuntimeSettingsPivot {...props} />
         </PivotItem>
       ) : (
