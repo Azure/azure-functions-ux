@@ -39,6 +39,10 @@ import { Dispatch, SetStateAction } from 'react';
 import { ThemeExtended } from './theme/SemanticColorsExtended';
 import { sendHttpRequest, getJsonHeaders } from './ApiHelpers/HttpClient';
 import { TelemetryInfo } from './models/telemetry';
+import MakeArmCall from './ApiHelpers/ArmHelper';
+import { AxiosRequestConfig } from 'axios';
+import { ArmRequestObject } from './ArmHelper.types';
+import LogService from './utils/LogService';
 export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
@@ -110,6 +114,14 @@ export default class PortalCommunicator {
           appName: '',
           azureResourceManagerEndpoint: '',
           runtimeType: 'Azure',
+        },
+        ajax: {
+          armCall: (requestObject: ArmRequestObject<any>) => MakeArmCall, // TODO: may not need for component...
+          httpRequest: (requestObject: AxiosRequestConfig) => sendHttpRequest,
+        },
+        logging: {
+          trackEvent: (category: string, id: string, data: any) => LogService.trackEvent,
+          trackError: (category: string, id: string, data: any) => LogService.error,
         },
       };
 

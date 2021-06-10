@@ -18,6 +18,16 @@ interface Environment {
   appName: string;
 }
 
+interface Ajax {
+  armCall: Function;
+  httpRequest: Function;
+}
+
+interface Logging {
+  trackEvent: Function;
+  trackError: Function;
+}
+
 interface AppSvc {
   env: Environment;
   version: string;
@@ -28,6 +38,8 @@ interface AppSvc {
   cacheBreakQuery?: string;
   frameId?: string;
   officeFabricIconsCdn?: string;
+  ajax?: Ajax;
+  logging?: Logging;
 }
 
 declare global {
