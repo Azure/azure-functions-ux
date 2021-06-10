@@ -7,12 +7,13 @@ import { dotnetCoreStack as hardCodedDotnetCoreStack } from './../../../../stack
 import { rubyStack as hardCodedRubyStack } from './../../../../stacks/2020-06-01/stacks/web-app-stacks/Ruby';
 import { javaStack as hardCodedJavaStack } from './../../../../stacks/2020-06-01/stacks/web-app-stacks/Java';
 import { javaContainersStack as hardCodedJavaContainersStack } from './../../../../stacks/2020-06-01/stacks/web-app-stacks/JavaContainers';
+import { staticSiteStack as hardCodedStaticSite } from './../../../../stacks/2020-06-01/stacks/web-app-stacks/StaticSite';
 
 const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(9);
 }
 
 export function validateWindowsStacks(stacks) {
@@ -32,7 +33,7 @@ function validateWindowsStackLength(stacks) {
 
 function validateLinuxStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(9);
 }
 
 function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
@@ -88,7 +89,7 @@ export function validateNotDeprecatedStacks(stacks) {
 
 function validateNotDeprecatedStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(9);
 }
 
 function validateStacksAreNotDeprecated(stacks) {
@@ -121,7 +122,7 @@ export function validateNotPreviewStacks(stacks) {
 
 function validateNotPreviewStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(9);
 }
 
 function validateStacksAreNotPreview(stacks) {
@@ -294,4 +295,22 @@ function validateJavaContainersStack(javaContainersStack) {
   expect(javaContainersStack.preferredOs).to.equal(undefined);
   expect(javaContainersStack.majorVersions.length).to.equal(9);
   expect(javaContainersStack).to.deep.equal(hardCodedJavaContainersStack);
+}
+
+export function validateStaticSiteInStacks(stacks) {
+  validateAllStackLength(stacks);
+  validateStaticSiteStack(stacks[8]);
+}
+
+export function validateStaticSiteFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validateStaticSiteStack(stacks[0]);
+}
+
+function validateStaticSiteStack(staticSiteStack) {
+  expect(staticSiteStack.displayText).to.equal('HTML (Static Content)');
+  expect(staticSiteStack.value).to.equal('staticsite');
+  expect(staticSiteStack.preferredOs).to.equal('linux');
+  expect(staticSiteStack.majorVersions.length).to.equal(1);
+  expect(staticSiteStack).to.deep.equal(hardCodedStaticSite);
 }
