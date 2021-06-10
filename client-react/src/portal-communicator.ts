@@ -116,7 +116,7 @@ export default class PortalCommunicator {
           runtimeType: 'Azure',
         },
         AppSvcAjax: {
-          armCall: (requestObject: ArmRequestObject<any>) => MakeArmCall, // TODO: may not need for component...
+          armCall: (requestObject: ArmRequestObject<any>) => MakeArmCall,
           httpRequest: (requestObject: AxiosRequestConfig) => sendHttpRequest,
         },
         AppSvcLogging: {
