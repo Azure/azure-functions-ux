@@ -1908,6 +1908,9 @@
       <Item ItemId=";azureAppConfigValue" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Service Config]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[App Service 구성]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -3177,12 +3180,18 @@
       <Item ItemId=";configurationFeedbackCESQuestion" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[How easy or difficult is it to use this App Service configuration page?]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[이 App Service 구성 페이지를 사용하는 것의 난이도는 어느 정도입니까?]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";configurationFeedbackCVAQuestion" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[How valuable is this App Service configuration page?]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[이 App Service 구성 페이지가 얼마나 유용합니까?]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -3501,6 +3510,9 @@
       <Item ItemId=";containerGitHubActionsTagLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Tagged with GitHub commit ID]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[GitHub 커밋 ID로 태그 지정됨]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5220,6 +5232,9 @@
       <Item ItemId=";deploymentCenterContainerSettingsBannerMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Welcome to the Deployment Center, the new experience for managing deployments. Looking for Container Settings? ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[배포 관리를 위한 새로운 경험인 배포 센터에 오신 것을 환영합니다. 컨테이너 설정을 찾고 계신가요?]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5535,6 +5550,9 @@
       <Item ItemId=";deploymentCenterImageAndTagError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[There was an error fetching the image and tag.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[이미지와 태그을 가져오는 동안 오류가 발생했습니다.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5694,18 +5712,27 @@
       <Item ItemId=";deploymentCenterPivotItemBuildLogsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Deployment center build logs]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[배포 센터 빌드 로그]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";deploymentCenterPivotItemBuildLogsHeaderText" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Build Logs]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[빌드 로그]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";deploymentCenterPivotItemContainerLogsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Deployment center container logs]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[배포 센터 컨테이너 로그]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12102,6 +12129,9 @@
       <Item ItemId=";ibizafication_readOnlyArc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Editing ARC Function Apps is not supported in the Azure portal.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ARC 함수 앱 편집은 Azure Portal에서 지원되지 않습니다.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -13908,6 +13938,9 @@
       <Item ItemId=";mountPath_info" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[다음은 유효한 탑재 경로의 예입니다. {0}. 다음은 잘못된 탑재 경로의 예입니다. {1}]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -13927,7 +13960,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Mount storage (Preview)]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[스토리지 마운트(미리 보기)]]></Val>
+            <Val><![CDATA[스토리지 탑재(미리 보기)]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -14295,7 +14328,7 @@
       <Item ItemId=";noBlobsOrFilesShares" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[This storage account has no blob containers or file shares.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[이 스토리지 계정에 blob 컨테이너 또는 파일 공유가 없습니다.]]></Val>
           </Tgt>
           <Prev Cat="Text">
@@ -15876,6 +15909,9 @@
       <Item ItemId=";pricing_workflowStandardNotAvailable" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Workflow Standard is not supported for this scale unit. Please consider redeploying or cloning your app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[워크플로 표준은 이 배율 단위에는 지원되지 않습니다. 앱 재배포 또는 복제를 고려하세요.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -16314,8 +16350,8 @@
       <Item ItemId=";readWriteSourceControlled" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Your app is currently in read/write mode because you've set the edit mode to read/write despite having source control enabled. Any changes you make may get overwritten with your next deployment.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[소스 제어를 사용하도록 설정했음에도 불구하고 편집 모드를 읽기/쓰기로 설정했으므로 현재 앱은 읽기/쓰기 모드입니다. 변경한 내용을 다음 배포 시 덮어쓸 수 있습니다. 편집 모드를 변경하려면 다음을 방문하세요. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[소스 제어를 사용하도록 설정했음에도 불구하고 편집 모드를 읽기/쓰기로 설정했으므로 현재 앱은 읽기/쓰기 모드입니다. 변경한 내용을 다음 배포 시 덮어쓸 수 있습니다.]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Your app is currently in read/write mode because you've set the edit mode to read/write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit ]]></Val>
@@ -18555,6 +18591,9 @@
       <Item ItemId=";staticSiteBandwidthOverage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Bandwidth overage]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[대역폭 초과분]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18562,7 +18601,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Choose your plan]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[요금제 선택]]></Val>
+            <Val><![CDATA[플랜 선택]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18570,6 +18609,9 @@
       <Item ItemId=";staticSiteCustomAuthentication" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Custom authentication]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[사용자 지정 인증]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18594,6 +18636,9 @@
       <Item ItemId=";staticSiteFreeAppSizeAmount" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[250MB]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[250MB]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18609,18 +18654,27 @@
       <Item ItemId=";staticSiteFreeCustomDomainAmount" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[2 per app]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[앱당 2개]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSiteFreeDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[For hobby or personal projects]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[취미 또는 개인 프로젝트용]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSiteFreePlanAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Free plan. For hobby or personal projects. Price is free. Included bandwidth 100GB per subscription. Bandwidth overage not applicable. Custom domains two per app. SSL certificates are free. Custom authentication not supported. Private link not supported. Storage 0.25GB. Azure functions are managed.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[무료 플랜입니다. 취미나 개인적인 프로젝트용입니다. 요금은 무료입니다. 구독당 100GB의 대역폭이 포함되어 있습니다. 대역폭 초과 기간을 적용할 수 없습니다. 앱당 2개의 사용자 지정 도메인입니다. SSL 인증서는 무료입니다. 사용자 지정 인증이 지원되지 않습니다. 개인 링크가 지원되지 않습니다. 스토리지 0.25GB. Azure 기능이 관리됩니다.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18645,36 +18699,54 @@
       <Item ItemId=";staticSiteIncludedBandwidth" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Included bandwidth]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[포함된 대역폭]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSiteIncludedBandwidthAmount" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[100GB per subscription]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[구독당 100GB]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSiteMaxAppSize" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Max app size]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[최대 앱 크기]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSitePlanComparison" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Plan comparison]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[플랜 비교]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSitePlanFeatures" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Plan/Features]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[계획/기능]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSitePlanFeaturesAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Plan or Features]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[계획 또는 기능]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18708,6 +18780,9 @@
       <Item ItemId=";staticSiteStagingEnvironments" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Staging environments]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[스테이징 환경]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18723,48 +18798,72 @@
       <Item ItemId=";staticSiteStandardAppSizeAmount" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[500MB]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[500MB]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSiteStandardAzureFunctionsAmount" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Managed or Bring your own]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[관리 또는 나만의 작업 환경]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSiteStandardBandwidthOverage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[${0} per GB per subscription]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[구독당 GB당 ${0}]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSiteStandardBandwidthOverageAmount" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[$0.02 per GB per subscription]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[구독당 GB당 $0.02]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSiteStandardCustomDomainAmount" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[5 per app]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[앱당 5개]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSiteStandardDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[For general purpose production apps]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[범용 프로덕션 앱용]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSiteStandardPlanAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Standard plan. For general purpose production apps. Price is nine dollars per month. Included bandwidth 100GB per subscription. Bandwidth overage 2 cents per GB per subscription. Custom domains five per app. SSL certificates are free. Custom authentication supported. Private link supported. Storage 2GB. Azure functions are managed or bring your own.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[표준 플랜입니다. 범용 프로덕션 앱입니다. 가격은 한 달에 9달러입니다. 구독당 100GB의 대역폭이 포함되어 있습니다. 구독당 GB당 2센트를 초과하는 대역폭입니다. 사용자 지정 도메인은 앱당 5개입니다. SSL 인증서는 무료입니다. 사용자 지정 인증이 지원됩니다. 개인 링크가 지원됩니다. 스토리지 2GB입니다. Azure 기능을 관리하거나 사용자 고유의 기능을 가져옵니다.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSiteStandardPrice" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[${0}/per app/month]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[${0}/앱당/월]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18780,18 +18879,27 @@
       <Item ItemId=";staticSiteUpdatingHostingPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Updating hosting plan]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[호스팅 계획을 업데이트하는 중]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSiteUpdatingHostingPlanFailure" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Failed to update hosting plan]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[호스팅 계획을 업데이트하지 못했습니다.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSiteUpdatingHostingPlanSuccess" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Successfully updated hosting plan]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[호스팅 계획을 업데이트했습니다.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -19020,6 +19128,9 @@
       <Item ItemId=";staticWebAppSkuPickerCalculatePrice" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Calculate price]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[가격 계산]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -19101,6 +19212,9 @@
       <Item ItemId=";storageAccountDetailsFetchFailure" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Failed to fetch storage account details. Please select 'Advanced' option for Configuration options selector.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[스토리지 계정 세부 정보를 가져오지 못했습니다. 구성 옵션 선택기에 대해 '고급' 옵션을 선택하세요.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21246,6 +21360,9 @@
       <Item ItemId=";validation_invalidMountPath" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Invalid mount path]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[잘못된 탑재 경로]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21300,6 +21417,9 @@
       <Item ItemId=";validation_mouthPathMustBeUnique" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Mount path must be unique]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[탑재 경로는 고유해야 합니다.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
