@@ -157,6 +157,15 @@ export class NationalCloudEnvironment extends AzureEnvironment {
         };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.azureStorageMountPreview] = {
+      id: ScenarioIds.azureStorageMountPreview,
+      runCheck: () => {
+        return {
+          status: 'enabled',
+        };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

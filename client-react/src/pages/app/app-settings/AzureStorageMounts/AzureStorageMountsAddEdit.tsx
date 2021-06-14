@@ -17,11 +17,13 @@ import Url from '../../../../utils/url';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { style } from 'typestyle';
 import { SiteStateContext } from '../../../../SiteState';
+import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
 
 const isValidationEnabled = !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMountPathValidation);
+const isNationalCloud = NationalCloudEnvironment.isNationalCloud();
 
 export interface AzureStorageMountsAddEditProps {
   updateAzureStorageMount: (item: FormAzureStorageMounts) => any;
@@ -54,38 +56,51 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     closeBlade();
   };
 
+  const getWindowsMountPathValidation = (value: string): boolean => {
+    let valid = true;
+    if (!siteState) {
+      return valid;
+    }
+    if (siteState.isContainerApp) {
+      valid =
+        MountPathValidationRegex.windowsContainer[0].test(value) &&
+        !MountPathValidationRegex.windowsContainer[1].test(value) &&
+        !MountPathValidationRegex.windowsContainer[2].test(value);
+    } else {
+      valid = MountPathValidationRegex.windowsCode.test(value);
+    }
+
+    return valid;
+  };
+
   const validateMountPath = (value: string): string | undefined => {
-    if (!isValidationEnabled || !siteState) {
+    if (isNationalCloud || !siteState) {
       return undefined;
     }
-    if (!!value) {
-      let valid = true;
-      if (siteState.isLinuxApp) {
-        valid = MountPathValidationRegex.linux.test(value);
-      } else if (siteState.isContainerApp) {
-        valid =
-          MountPathValidationRegex.windowsContainer[0].test(value) &&
-          !MountPathValidationRegex.windowsContainer[1].test(value) &&
-          !MountPathValidationRegex.windowsContainer[2].test(value);
-      } else {
-        valid = MountPathValidationRegex.windowsCode.test(value);
-      }
-      return valid ? undefined : t('validation_invalidMountPath');
+    if (!value) {
+      return t('validation_requiredError');
     }
-    return t('validation_requiredError');
+
+    let valid = true;
+    if (siteState.isLinuxApp) {
+      valid = MountPathValidationRegex.linux.test(value);
+    } else if (isValidationEnabled) {
+      valid = getWindowsMountPathValidation(value);
+    }
+    return valid ? undefined : t('validation_invalidMountPath');
   };
 
   const displayMountPathInfoBubble = (): string => {
-    if (!isValidationEnabled || !siteState) {
+    if (isNationalCloud || !siteState) {
       return '';
     }
     let mountPathInfoBubble;
     if (siteState.isLinuxApp) {
       mountPathInfoBubble = MountPathExamples.linux;
-    } else if (siteState.isContainerApp) {
-      mountPathInfoBubble = MountPathExamples.windowsContainer;
+    } else if (isValidationEnabled) {
+      mountPathInfoBubble = siteState.isContainerApp ? MountPathExamples.windowsContainer : MountPathExamples.windowsCode;
     } else {
-      mountPathInfoBubble = MountPathExamples.windowsCode;
+      return '';
     }
     const { valid, invalid } = mountPathInfoBubble;
     return t('mountPath_info').format(valid, invalid);
@@ -113,7 +128,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       );
     });
 
-  if (!isValidationEnabled) {
+  if (isNationalCloud || (!isValidationEnabled && !!siteState && !siteState.isLinuxApp)) {
     mountPathValidation = mountPathValidation
       .matches(mountPathRegex, t('validation_mountNameAllowedCharacters'))
       .test('cannotMountRootDirectory', t('validation_mountPathNotRoot'), (value: string) => value !== '/');
