@@ -125,15 +125,15 @@ export class WorkflowService20201201 {
 
   javaWarWorkflowCheck(variables: { [key: string]: string }) {
     return (
-      variables &&
-      variables['javaContainer'] &&
+      !!variables &&
+      !!variables['javaContainer'] &&
       (variables['javaContainer'].toLocaleLowerCase() === JavaContainers.Tomcat ||
         variables['javaContainer'].toLocaleLowerCase() === JavaContainers.JBoss)
     );
   }
 
   javaJarWorkflowCheck(variables: { [key: string]: string }) {
-    return variables && variables['javaContainer'] && variables['javaContainer'].toLocaleLowerCase() === JavaContainers.JavaSE;
+    return !!variables && !!variables['javaContainer'] && variables['javaContainer'].toLocaleLowerCase() === JavaContainers.JavaSE;
   }
 
   getContainerWorkflowFile(os: string) {
