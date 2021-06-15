@@ -56,6 +56,17 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     closeBlade();
   };
 
+  const isNationalCloudOrSiteStateIsNull = (): boolean => {
+    return isNationalCloud || !siteState;
+  };
+
+  const getLinuxMountPathValidation = (value: string): boolean => {
+    if (!siteState) {
+      return true;
+    }
+    return MountPathValidationRegex.linux.test(value);
+  };
+
   const getWindowsMountPathValidation = (value: string): boolean => {
     let valid = true;
     if (!siteState) {
@@ -74,7 +85,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   };
 
   const validateMountPath = (value: string): string | undefined => {
-    if (isNationalCloud || !siteState) {
+    if (isNationalCloudOrSiteStateIsNull()) {
       return undefined;
     }
     if (!value) {
@@ -83,7 +94,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
 
     let valid = true;
     if (siteState.isLinuxApp) {
-      valid = MountPathValidationRegex.linux.test(value);
+      valid = getLinuxMountPathValidation(value);
     } else if (isValidationEnabled) {
       valid = getWindowsMountPathValidation(value);
     }
@@ -91,7 +102,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   };
 
   const displayMountPathInfoBubble = (): string => {
-    if (isNationalCloud || !siteState) {
+    if (isNationalCloudOrSiteStateIsNull()) {
       return '';
     }
     let mountPathInfoBubble;
