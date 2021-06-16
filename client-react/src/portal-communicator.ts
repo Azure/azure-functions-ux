@@ -115,14 +115,6 @@ export default class PortalCommunicator {
           azureResourceManagerEndpoint: '',
           runtimeType: 'Azure',
         },
-        AppSvcAjax: {
-          armCall: (requestObject: ArmRequestObject<any>) => MakeArmCall,
-          httpRequest: (requestObject: AxiosRequestConfig) => sendHttpRequest,
-        },
-        AppSvcLogging: {
-          trackEvent: (category: string, id: string, data: any) => LogService.trackEvent,
-          trackError: (category: string, id: string, data: any) => LogService.error,
-        },
       };
 
       this.getDebugInformation()
@@ -138,6 +130,14 @@ export default class PortalCommunicator {
                 appName: response.data.appName,
                 azureResourceManagerEndpoint: '',
                 runtimeType: 'Azure',
+              },
+              AppSvcAjax: {
+                armCall: (requestObject: ArmRequestObject<any>) => MakeArmCall(requestObject),
+                httpRequest: (requestObject: AxiosRequestConfig) => sendHttpRequest(requestObject),
+              },
+              AppSvcLogging: {
+                trackEvent: (category: string, id: string, data: any) => LogService.trackEvent,
+                trackError: (category: string, id: string, data: any) => LogService.error,
               },
             };
           }

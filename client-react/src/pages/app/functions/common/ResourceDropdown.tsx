@@ -91,7 +91,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
       {!isDisabled ? (
         <div style={linkPaddingStyle}>
           <Link id="target" onClick={() => setIsDialogVisible(true)}>
-            {'New'}
+            Create new
           </Link>
           {setting.resource === BindingSettingResource.Storage && (
             <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
