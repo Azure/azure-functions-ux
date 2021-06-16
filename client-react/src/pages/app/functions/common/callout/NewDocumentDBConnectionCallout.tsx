@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 // import { NewConnectionCalloutProps } from './Callout.properties';
 import { useTranslation } from 'react-i18next';
 import { paddingSidesStyle } from './Callout.styles';
@@ -70,7 +70,7 @@ const NewDocumentDBConnectionCallout = props => {
   const [submittedTemplate, setSubmittedTemplate] = useState(''); // The submitted template (used to guarantee consistency with the template that's being worked with)
   const [submittedAccountName, setSubmittedAccountName] = useState('');
   const theme = useContext(ThemeContext);
-  // const formRef = useRef<any>(null);
+  const formRef = useRef<any>(null);
   const { t } = useTranslation();
   const { setIsDialogVisible } = props;
 
@@ -81,31 +81,23 @@ const NewDocumentDBConnectionCallout = props => {
 
   //Do what we need to with the finalized template string
   const handleSubmitTemplate = () => {
-    setSubmittedAccountName('asd'); // formRef.current.values.accountName
     setSubmittedTemplate(cosmosDbTemplate);
+    setSubmittedAccountName(JSON.parse(cosmosDbTemplate).name);
 
-    console.log(submittedTemplate);
+    console.log(cosmosDbTemplate);
   };
-
-  // Semi-hacky fix to issue where callout would dismiss before state update, causing previous form values to be shown
-  // On further notes, dismissCallout's code has to be re-included here because React gets cranky otherwise
-  useEffect(() => {
-    setIsDialogVisible(false);
-
-    // Check submittedAccount name against Formik's current value and reset if different
-    /*if (!!submittedTemplate && formRef.current.values.accountName !== submittedAccountName) {
-      formRef.current.setFieldValue('accountName', submittedAccountName);
-    }*/
-  }, [submittedTemplate, submittedAccountName, setIsDialogVisible]);
 
   const dismissCallout = () => {
     setIsDialogVisible(false);
 
     // Check submittedAccount name against Formik's current value and reset if different
-    /*if (!!submittedTemplate && formRef.current.values.accountName !== submittedAccountName) {
+    if (!!submittedTemplate && formRef.current.state.values.accountName !== submittedAccountName) {
       formRef.current.setFieldValue('accountName', submittedAccountName);
-    }*/
+    }
   };
+
+  // Semi-hacky fix to issue where callout would dismiss before state update, causing previous form values to be shown
+  useEffect(dismissCallout, [submittedTemplate, submittedAccountName, formRef]);
 
   return (
     <div style={paddingSidesStyle}>
@@ -119,11 +111,7 @@ const NewDocumentDBConnectionCallout = props => {
         .
       </div>
 
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmitTemplate}
-        // innerRef={formRef}
-      >
+      <Formik initialValues={initialValues} onSubmit={handleSubmitTemplate} ref={formRef}>
         {(formProps: FormikProps<CreateCosmosDbFormValues>) => (
           <Form>
             <CosmosDbCreator
