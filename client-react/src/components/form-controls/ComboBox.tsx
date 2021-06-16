@@ -4,7 +4,7 @@ import get from 'lodash-es/get';
 import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
 import { ThemeContext } from '../../ThemeContext';
 import ComboBoxNoFormik from './ComboBoxnoFormik';
-import { IComboBoxProps, IComboBoxOption, IComboBox } from 'office-ui-fabric-react';
+import { IComboBoxProps, IComboBoxOption, IComboBox, IDropdownOption } from 'office-ui-fabric-react';
 interface CustomComboBoxProps {
   id: string;
   upsellMessage?: string;
@@ -13,7 +13,7 @@ interface CustomComboBoxProps {
   errorMessage?: string;
   dirty?: boolean;
   value: string;
-  setOptions?: any;
+  setOptions?: React.Dispatch<React.SetStateAction<IDropdownOption[]>>;
   onChange: (event: React.FormEvent<IComboBox>, option?: IComboBoxOption, index?: number, value?: string) => void;
   learnMoreLink?: string;
 }
