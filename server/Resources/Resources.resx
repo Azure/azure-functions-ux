@@ -5547,6 +5547,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
         <value>New Cosmos DB connection</value>
     </data>
+    <data name="documentDBCallout_newDocumentDBAccount" xml:space="preserve">
+        <value>Create a Cosmos DB account</value>
+    </data>
     <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB Account</value>
     </data>

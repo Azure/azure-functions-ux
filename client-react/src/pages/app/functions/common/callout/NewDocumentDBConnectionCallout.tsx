@@ -102,7 +102,7 @@ const NewDocumentDBConnectionCallout = props => {
 
   return (
     <div style={paddingSidesStyle}>
-      <h4 className={hdrStyle(theme)}>{t('documentDBCallout_newDocumentDBConnection')}</h4>
+      <h4 className={hdrStyle(theme)}>{t('documentDBCallout_newDocumentDBAccount')}</h4>
       <div className={subtextStyle(theme)}>
         Selecting Create new here will create a new <strong>serverless</strong> account in the same <strong>Resource Group</strong> and{' '}
         <strong>location</strong>. For more options, go to{' '}
@@ -120,7 +120,8 @@ const NewDocumentDBConnectionCallout = props => {
               template={cosmosDbTemplate}
               formProps={formProps}
               armAuthToken={startupInfoContext.token}
-              location="east-us"
+              location={'east-us'}
+              language={startupInfoContext.effectiveLocale}
               horizontal
             />
 
@@ -134,11 +135,11 @@ const NewDocumentDBConnectionCallout = props => {
                   formProps.values.accountName === submittedAccountName
                 }
                 styles={primaryButtonStyle(theme)}>
-                Create
+                {t('create')}
               </PrimaryButton>
 
               <DefaultButton className={buttonStyle(theme, false)} onClick={dismissCallout}>
-                Cancel
+                {t('cancel')}
               </DefaultButton>
             </Stack>
           </Form>
