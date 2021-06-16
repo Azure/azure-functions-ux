@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 // import { NewConnectionCalloutProps } from './Callout.properties';
 import { useTranslation } from 'react-i18next';
 import { paddingSidesStyle } from './Callout.styles';
@@ -10,8 +10,8 @@ import { style } from 'typestyle';
 import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 import { IButtonStyles } from 'office-ui-fabric-react';
 import { mergeStyles } from '@uifabric/merge-styles';
-import { useContext } from 'react';
 import { ThemeContext } from '../../../../../ThemeContext';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
 
 const hdrStyle = (theme: ThemeExtended) =>
   style({
@@ -70,6 +70,7 @@ const NewDocumentDBConnectionCallout = props => {
   const [submittedTemplate, setSubmittedTemplate] = useState(''); // The submitted template (used to guarantee consistency with the template that's being worked with)
   const [submittedAccountName, setSubmittedAccountName] = useState('');
   const theme = useContext(ThemeContext);
+  const startupInfoContext = useContext(StartupInfoContext);
   const formRef = useRef<any>(null);
   const { t } = useTranslation();
   const { setIsDialogVisible } = props;
@@ -118,6 +119,7 @@ const NewDocumentDBConnectionCallout = props => {
               setTemplate={setCosmosDbTemplate}
               template={cosmosDbTemplate}
               formProps={formProps}
+              armAuthToken={startupInfoContext.token}
               location="east-us"
               horizontal
             />
