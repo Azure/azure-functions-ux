@@ -12,6 +12,8 @@ import { IButtonStyles } from 'office-ui-fabric-react';
 import { mergeStyles } from '@uifabric/merge-styles';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
+import { makeArmDeployment } from '../../../../../ApiHelpers/ArmHelper';
+import { ArmResourceDescriptor } from '../../../../../utils/resourceDescriptors';
 
 const hdrStyle = (theme: ThemeExtended) =>
   style({
@@ -84,6 +86,11 @@ const NewDocumentDBConnectionCallout = props => {
   const handleSubmitTemplate = () => {
     setSubmittedTemplate(cosmosDbTemplate);
     setSubmittedAccountName(JSON.parse(cosmosDbTemplate).name);
+
+    // TODO: Testing ARM deployment
+    // TODO: resources[] in highest level of form component
+    const { subscription, resourceGroup } = new ArmResourceDescriptor(props.resourceId);
+    makeArmDeployment(subscription, resourceGroup, `[${cosmosDbTemplate}]`);
 
     console.log(cosmosDbTemplate);
   };

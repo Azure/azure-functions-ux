@@ -37,6 +37,16 @@ interface ArmBatchResponse {
   responses: ArmBatchObject[];
 }
 
+interface IArmDeploymentTemplate {
+  $schema: string;
+  contentVersion: '1.0.0.0'; // This isn't a "recurring setup" type of template, so this can stay constant
+  parameters: Object;
+  functions: any[];
+  variables: Object;
+  resources: Object[];
+  outputs: Object;
+}
+
 const bufferTimeInterval = 100; // ms
 const maxBufferSize = 20;
 const armSubject$ = new Subject<InternalArmRequest>();
@@ -260,6 +270,68 @@ export const MakePagedArmCall = async <T>(requestObject: ArmRequestObject<ArmArr
   }
 
   return results;
+};
+
+// Makes ARM deployment to resource group (https://docs.microsoft.com/en-us/rest/api/resources/deployments/create-or-update)
+// TODO: Portal Notification about deployment (and in actual blade)
+// TODO: Verify what (if any) handling we need to do with response
+// TODO: Telemetry
+export const makeArmDeployment = async (subId: string, rscGrp: string, resources: string): Promise<HttpResponseObject<any>> => {
+  // We take in resources (plural) just in case we need the functionality to deploy >1 resource in the future
+  const deploymentMethod = 'PUT';
+  const deploymentName = `Microsoft.DocumentDB-DatabaseAccount-${Guid.newShortGuid()}`;
+  const deploymentApiVersion = '2021-04-01';
+  const deploymentEndpoint = `https://management.azure.com/subscriptions/${subId}/resourcegroups/${rscGrp}/providers/Microsoft.Resources/deployments/${deploymentName}?api-version=${deploymentApiVersion}`;
+
+  const reqHeaders = {
+    Authorization: `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`,
+    'Content-Type': 'application/json',
+  };
+
+  const armDeploymentTemplate: IArmDeploymentTemplate = {
+    $schema: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#',
+    contentVersion: '1.0.0.0',
+    parameters: {},
+    functions: [],
+    variables: {},
+    resources: JSON.parse(resources),
+    outputs: {},
+  };
+
+  const reqBody = {
+    properties: {
+      mode: 'Incremental', // Leaves other resources in rscGrp unchanged
+      template: armDeploymentTemplate,
+    },
+  };
+
+  console.log({
+    deploymentEndpoint,
+    reqHeaders,
+    reqBody,
+  }); // TODO: Testing
+
+  // TODO: try ARM call
+  const response = await axios({
+    url: deploymentEndpoint,
+    method: deploymentMethod,
+    headers: reqHeaders,
+    data: reqBody,
+    validateStatus: () => true,
+  });
+  const respSuccess = response.status < 300;
+  const ret: HttpResponseObject<any> = {
+    metadata: {
+      success: respSuccess,
+      status: response.status,
+      headers: response.headers,
+      error: respSuccess ? null : response.data,
+    },
+    data: respSuccess ? response.data : null,
+  };
+
+  console.log(ret); // TODO: Testing
+  return ret;
 };
 
 export default MakeArmCall;
