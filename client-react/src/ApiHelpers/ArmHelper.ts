@@ -276,17 +276,12 @@ export const MakePagedArmCall = async <T>(requestObject: ArmRequestObject<ArmArr
 // TODO: Portal Notification about deployment (and in actual blade)
 // TODO: Verify what (if any) handling we need to do with response
 // TODO: Telemetry
-export const makeArmDeployment = async (subId: string, rscGrp: string, resources: string): Promise<HttpResponseObject<any>> => {
+export const makeArmDeployment = async (subId: string, rscGrp: string, resources: Object[]): Promise<HttpResponseObject<any>> => {
   // We take in resources (plural) just in case we need the functionality to deploy >1 resource in the future
   const deploymentMethod = 'PUT';
   const deploymentName = `Microsoft.DocumentDB-DatabaseAccount-${Guid.newShortGuid()}`;
   const deploymentApiVersion = '2021-04-01';
-  const deploymentEndpoint = `https://management.azure.com/subscriptions/${subId}/resourcegroups/${rscGrp}/providers/Microsoft.Resources/deployments/${deploymentName}?api-version=${deploymentApiVersion}`;
-
-  const reqHeaders = {
-    Authorization: `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`,
-    'Content-Type': 'application/json',
-  };
+  const deploymentEndpoint = `/subscriptions/${subId}/resourcegroups/${rscGrp}/providers/Microsoft.Resources/deployments/${deploymentName}`;
 
   const armDeploymentTemplate: IArmDeploymentTemplate = {
     $schema: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#',
@@ -294,7 +289,7 @@ export const makeArmDeployment = async (subId: string, rscGrp: string, resources
     parameters: {},
     functions: [],
     variables: {},
-    resources: JSON.parse(resources),
+    resources,
     outputs: {},
   };
 
@@ -304,27 +299,20 @@ export const makeArmDeployment = async (subId: string, rscGrp: string, resources
       template: armDeploymentTemplate,
     },
   };
-
-  console.log({
-    deploymentEndpoint,
-    reqHeaders,
-    reqBody,
-  }); // TODO: Testing
-
-  // TODO: try ARM call
-  const response = await axios({
-    url: deploymentEndpoint,
+  const response = await MakeArmCall({
+    resourceId: deploymentEndpoint,
+    commandName: 'deployment', // TODO: This can be empty and not affect the outcome (it still works), so not sure what this does or what it should be...
     method: deploymentMethod,
-    headers: reqHeaders,
-    data: reqBody,
-    validateStatus: () => true,
+    apiVersion: deploymentApiVersion,
+    body: reqBody,
   });
-  const respSuccess = response.status < 300;
+
+  const respSuccess = response.metadata.status < 300;
   const ret: HttpResponseObject<any> = {
     metadata: {
       success: respSuccess,
-      status: response.status,
-      headers: response.headers,
+      status: response.metadata.status,
+      headers: response.metadata.headers,
       error: respSuccess ? null : response.data,
     },
     data: respSuccess ? response.data : null,
