@@ -13,6 +13,15 @@ import { VfsObject } from '../models/functions/vfs';
 import { Method } from 'axios';
 import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
+import { makeArmDeployment } from './ArmHelper';
+import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
+
+interface IFunctionInfo {
+  functionAppId: string;
+  functionName: string;
+  files: KeyValue<string>;
+  functionConfig: FunctionConfig;
+}
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -53,6 +62,39 @@ export default class FunctionsService {
       method: 'PUT',
       body: functionInfo,
     });
+  };
+
+  // Doc for Function ARM template: https://docs.microsoft.com/en-us/azure/templates/microsoft.web/sites/functions?tabs=json
+  public static deployFunctionAndResources = (
+    resourceId: string,
+    armResources: Object[],
+    functionInfo: IFunctionInfo,
+    appSettings: ArmObj<KeyValue<string>>
+  ) => {
+    const { functionAppId, functionName, functionConfig, files } = functionInfo;
+    const { subscription, resourceGroup } = new ArmResourceDescriptor(resourceId);
+
+    const filesCopy = Object.assign({}, files);
+    const sampleData = JSON.stringify(filesCopy['sample.dat']);
+    delete filesCopy['sample.dat'];
+    let resourcesToDeploy = armResources;
+
+    const functionArmRscTemplate = {
+      name: `${functionAppId}/${functionName}`,
+      type: 'Microsoft.Web/sites/functions',
+      apiVersion: '2020-12-01',
+      properties: {
+        config: functionConfig,
+        files: filesCopy,
+        test_data: sampleData,
+      },
+    };
+
+    resourcesToDeploy.push(functionArmRscTemplate);
+
+    // TODO: app settings ARM resource template stuff
+
+    return makeArmDeployment(subscription, resourceGroup, armResources);
   };
 
   public static getBindings = (functionAppId: string) => {

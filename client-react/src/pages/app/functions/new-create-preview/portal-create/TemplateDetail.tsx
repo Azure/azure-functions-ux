@@ -24,10 +24,11 @@ export interface TemplateDetailProps {
   formProps: FormikProps<CreateFunctionFormValues>;
   setBuilder: (builder?: CreateFunctionFormBuilder) => void;
   builder?: CreateFunctionFormBuilder;
+  setArmResources: (armResources: Object[]) => void;
 }
 
 const TemplateDetail: React.FC<TemplateDetailProps> = props => {
-  const { resourceId, selectedTemplate, formProps, builder, setBuilder } = props;
+  const { resourceId, selectedTemplate, formProps, builder, setBuilder, setArmResources } = props;
   const { t } = useTranslation();
 
   const [functionsInfo, setFunctionsInfo] = useState<ArmObj<FunctionInfo>[] | undefined | null>(undefined);
@@ -128,7 +129,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     return !functionsInfo || !bindings || !builder ? (
       <BasicShimmerLines />
     ) : (
-      builder.getFields(formProps, !!functionCreateContext.creatingFunction)
+      builder.getFields(formProps, setArmResources, !!functionCreateContext.creatingFunction)
     );
   };
 

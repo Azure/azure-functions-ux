@@ -34,7 +34,7 @@ import { PortalContext } from '../../../../PortalContext';
 import FunctionCreateData from './FunctionCreate.data';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { ArmObj } from '../../../../models/arm-obj';
-import { KeyValue } from '../../../../models/portal-models';
+// import { KeyValue } from '../../../../models/portal-models';
 import Url from '../../../../utils/url';
 import { HostStatus } from '../../../../models/functions/host-status';
 import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateContext';
@@ -66,6 +66,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
   const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplate | undefined>(undefined);
   const [templates, setTemplates] = useState<FunctionTemplate[] | undefined | null>(undefined);
+  const [armResources, setArmResources] = useState<Object[]>([]); // TODO: get an interface for this
   const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus> | undefined>(undefined);
   const [creatingFunction, setCreatingFunction] = useState(false);
 
@@ -228,7 +229,9 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     }
   };
 
-  const updateAppSettings = async (appSettings: ArmObj<KeyValue<string>>) => {
+  // For now (6/18/2021), this function is getting axed (along with its notification(s))
+  // until the new UI flow for the ARM deployment is figured out
+  /*const updateAppSettings = async (appSettings: ArmObj<KeyValue<string>>) => {
     const notificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
     const updateAppSettingsResponse = await FunctionCreateData.updateAppSettings(resourceId, appSettings);
     if (updateAppSettingsResponse.metadata.success) {
@@ -242,7 +245,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         `Failed to update Application Settings: ${getErrorMessageOrStringify(updateAppSettingsResponse.metadata.error)}`
       );
     }
-  };
+  }; */
 
   const addFunction = async (formValues: CreateFunctionFormValues) => {
     if (selectedTemplate) {
@@ -260,7 +263,22 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         'FunctionCreateClicked',
         FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
       );
-      const createFunctionResponse = await FunctionCreateData.createFunction(resourceId, functionName, files, config);
+
+      // FunctionCreateData.createFunction(resourceId, functionName, files, config);
+      const splitRscId = resourceId.split('/');
+      const functionAppId = splitRscId[splitRscId.length - 1];
+      const createFunctionResponse = await FunctionCreateData.deployFunctionAndResources(
+        resourceId,
+        armResources,
+        {
+          functionAppId,
+          functionName,
+          files,
+          functionConfig: config,
+        },
+        formValues.newAppSettings
+      );
+
       if (createFunctionResponse.metadata.success) {
         LogService.trackEvent(
           LogCategories.localDevExperience,
@@ -291,9 +309,9 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
 
   const onSubmit = (formValues?: CreateFunctionFormValues) => {
     if (!!formValues) {
-      if (formValues.newAppSettings) {
+      /*if (formValues.newAppSettings) {
         updateAppSettings(formValues.newAppSettings);
-      }
+      } // Since this is all now being done in an ARM deployment, we'll do this in a single function */
       addFunction(formValues);
     }
   };
@@ -348,6 +366,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
                   setSelectedTemplate={setSelectedTemplate}
                   templates={templates}
                   setTemplates={setTemplates}
+                  setArmResources={setArmResources}
                   hostStatus={hostStatus}
                   setHostStatus={setHostStatus}
                 />

@@ -49,6 +49,25 @@ export default class FunctionCreateData {
     return FunctionsService.createFunction(functionAppId, functionName, files, functionConfig);
   }
 
+  public static deployFunctionAndResources = (
+    resourceId: string,
+    armResources: Object[],
+    functionInfo: any,
+    appSettings: ArmObj<KeyValue<string>>
+  ) => {
+    return FunctionsService.deployFunctionAndResources(
+      resourceId,
+      armResources,
+      {
+        functionAppId: functionInfo.functionAppId,
+        functionName: functionInfo.functionName,
+        files: functionInfo.files,
+        functionConfig: functionInfo.functionConfig,
+      },
+      appSettings
+    );
+  };
+
   public static getHostStatus(resourceId: string) {
     return FunctionsService.getHostStatus(resourceId);
   }

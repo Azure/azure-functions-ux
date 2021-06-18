@@ -33,9 +33,13 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
     return Object.assign({}, functionNameValue, bindingFormValues) as CreateFunctionFormValues;
   }
 
-  public getFields(formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
+  public getFields(
+    formProps: FormikProps<CreateFunctionFormValues>,
+    setArmResources: (armResources: Object[]) => void,
+    isDisabled: boolean
+  ) {
     const nameField: JSX.Element[] = [this._getFunctionNameTextField(formProps, isDisabled)];
-    const bindingFields: JSX.Element[] = super.getFields(formProps, isDisabled, false);
+    const bindingFields: JSX.Element[] = super.getFields(formProps, setArmResources, isDisabled, false);
     return nameField.concat(bindingFields);
   }
 

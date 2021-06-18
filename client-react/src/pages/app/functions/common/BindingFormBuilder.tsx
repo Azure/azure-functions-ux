@@ -54,7 +54,12 @@ export class BindingFormBuilder {
     return initialFormValues;
   }
 
-  public getFields(formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean, includeRules: boolean) {
+  public getFields(
+    formProps: FormikProps<BindingEditorFormValues>,
+    setArmResources: (armResources: Object[]) => void,
+    isDisabled: boolean,
+    includeRules: boolean
+  ) {
     const fields: JSX.Element[] = [];
     const ignoredFields: string[] = [];
 
@@ -68,7 +73,7 @@ export class BindingFormBuilder {
 
       for (const setting of binding.settings || []) {
         if (!ignoredFields.includes(setting.name)) {
-          this._addField(fields, setting, formProps, isDisabled, i);
+          this._addField(fields, setting, formProps, setArmResources, isDisabled, i);
         }
       }
 
@@ -141,13 +146,14 @@ export class BindingFormBuilder {
     fields: JSX.Element[],
     setting: BindingSetting,
     formProps: FormikProps<BindingEditorFormValues>,
+    setArmResources: (template: Object[]) => void,
     isDisabled: boolean,
     i: number
   ) {
     switch (setting.value) {
       case BindingSettingValue.string:
         if (setting.resource) {
-          fields.push(this._getResourceField(setting, formProps, isDisabled, this._resourceId));
+          fields.push(this._getResourceField(setting, formProps, setArmResources, isDisabled, this._resourceId));
         } else {
           fields.push(this._getTextField(setting, formProps, isDisabled));
         }
@@ -238,6 +244,7 @@ export class BindingFormBuilder {
   private _getResourceField(
     setting: BindingSetting,
     formProps: FormikProps<BindingEditorFormValues>,
+    setArmResources: (armResources: Object[]) => void,
     isDisabled: boolean,
     resourceId: string
   ) {
@@ -257,6 +264,7 @@ export class BindingFormBuilder {
         required={setting.required}
         key={setting.name}
         {...formProps}
+        setArmResources={setArmResources}
         dirty={false}
       />
     );

@@ -301,7 +301,7 @@ export const makeArmDeployment = async (subId: string, rscGrp: string, resources
   };
   const response = await MakeArmCall({
     resourceId: deploymentEndpoint,
-    commandName: 'deployment', // TODO: This can be empty and not affect the outcome (it still works), so not sure what this does or what it should be...
+    commandName: 'armDeployment',
     method: deploymentMethod,
     apiVersion: deploymentApiVersion,
     body: reqBody,
@@ -313,12 +313,11 @@ export const makeArmDeployment = async (subId: string, rscGrp: string, resources
       success: respSuccess,
       status: response.metadata.status,
       headers: response.metadata.headers,
-      error: respSuccess ? null : response.data,
+      error: respSuccess ? null : response.data, // TODO: Response format slightly different for this type of call so errors not getting picked up
     },
     data: respSuccess ? response.data : null,
   };
 
-  console.log(ret); // TODO: Testing
   return ret;
 };
 

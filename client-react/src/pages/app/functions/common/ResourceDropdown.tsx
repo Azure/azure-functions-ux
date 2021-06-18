@@ -25,10 +25,11 @@ import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConne
 export interface ResourceDropdownProps {
   setting: BindingSetting;
   resourceId: string;
+  setArmResources: (template: Object[]) => void;
 }
 
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
-  const { setting, resourceId, form: formProps, field, isDisabled } = props;
+  const { setting, resourceId, form: formProps, field, isDisabled, setArmResources } = props;
   const siteStateContext = useContext(SiteStateContext);
   const { t } = useTranslation();
 
