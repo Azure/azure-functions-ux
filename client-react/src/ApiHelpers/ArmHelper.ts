@@ -273,11 +273,7 @@ export const MakePagedArmCall = async <T>(requestObject: ArmRequestObject<ArmArr
 };
 
 // Makes ARM deployment to resource group (https://docs.microsoft.com/en-us/rest/api/resources/deployments/create-or-update)
-// TODO: Portal Notification about deployment (and in actual blade)
-// TODO: Verify what (if any) handling we need to do with response
-// TODO: Telemetry
 export const makeArmDeployment = async (subId: string, rscGrp: string, resources: Object[]): Promise<HttpResponseObject<any>> => {
-  // We take in resources (plural) just in case we need the functionality to deploy >1 resource in the future
   const deploymentMethod = 'PUT';
   const deploymentName = `Microsoft.DocumentDB-DatabaseAccount-${Guid.newShortGuid()}`;
   const deploymentApiVersion = '2021-04-01';
@@ -313,7 +309,7 @@ export const makeArmDeployment = async (subId: string, rscGrp: string, resources
       success: respSuccess,
       status: response.metadata.status,
       headers: response.metadata.headers,
-      error: respSuccess ? null : response.data, // TODO: Response format slightly different for this type of call so errors not getting picked up
+      error: respSuccess ? null : response.metadata.error,
     },
     data: respSuccess ? response.data : null,
   };

@@ -17,6 +17,7 @@ import { detailContainerStyle } from '../FunctionCreate.styles';
 import BasicShimmerLines from '../../../../../components/shimmer/BasicShimmerLines';
 import { FunctionCreateContext } from '../FunctionCreateContext';
 import { Links } from '../../../../../utils/FwLinks';
+import { IArmRscTemplate } from '../FunctionCreateDataLoader';
 
 export interface TemplateDetailProps {
   resourceId: string;
@@ -24,7 +25,7 @@ export interface TemplateDetailProps {
   formProps: FormikProps<CreateFunctionFormValues>;
   setBuilder: (builder?: CreateFunctionFormBuilder) => void;
   builder?: CreateFunctionFormBuilder;
-  setArmResources: (armResources: Object[]) => void;
+  setArmResources: (armResources: IArmRscTemplate[]) => void;
 }
 
 const TemplateDetail: React.FC<TemplateDetailProps> = props => {

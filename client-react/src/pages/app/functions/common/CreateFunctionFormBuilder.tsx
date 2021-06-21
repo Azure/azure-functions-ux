@@ -7,6 +7,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { Binding } from '../../../../models/functions/binding';
 import { BindingInfo } from '../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
+import { IArmRscTemplate } from '../new-create-preview/FunctionCreateDataLoader';
 import { BindingEditorFormValues, BindingFormBuilder } from './BindingFormBuilder';
 
 export interface CreateFunctionFormValues extends BindingEditorFormValues {
@@ -35,7 +36,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
 
   public getFields(
     formProps: FormikProps<CreateFunctionFormValues>,
-    setArmResources: (armResources: Object[]) => void,
+    setArmResources: (armResources: IArmRscTemplate[]) => void,
     isDisabled: boolean
   ) {
     const nameField: JSX.Element[] = [this._getFunctionNameTextField(formProps, isDisabled)];

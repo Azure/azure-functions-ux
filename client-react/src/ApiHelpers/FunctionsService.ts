@@ -15,6 +15,8 @@ import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
 import { makeArmDeployment } from './ArmHelper';
 import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
+import { IArmRscTemplate } from '../pages/app/functions/new-create-preview/FunctionCreateDataLoader';
+import { CommonConstants } from '../utils/CommonConstants';
 
 interface IFunctionInfo {
   functionAppId: string;
@@ -67,13 +69,23 @@ export default class FunctionsService {
   // Doc for Function ARM template: https://docs.microsoft.com/en-us/azure/templates/microsoft.web/sites/functions?tabs=json
   public static deployFunctionAndResources = (
     resourceId: string,
-    armResources: Object[],
+    armResources: IArmRscTemplate[],
     functionInfo: IFunctionInfo,
-    appSettings: ArmObj<KeyValue<string>>
+    appSettings: ArmObj<KeyValue<string>>,
+    currentAppSettings: any
   ) => {
     const { functionAppId, functionName, functionConfig, files } = functionInfo;
     const { subscription, resourceGroup } = new ArmResourceDescriptor(resourceId);
 
+    // Handle any of the function's dependencies
+    let funcDependencies: string[] = [];
+    if (armResources.length > 0) {
+      armResources.forEach(armRsc => {
+        funcDependencies.push(`[resourceId('${armRsc.type}', '${armRsc.name}')]`);
+      });
+    }
+
+    // Establish the Function's ARM template
     const filesCopy = Object.assign({}, files);
     const sampleData = JSON.stringify(filesCopy['sample.dat']);
     delete filesCopy['sample.dat'];
@@ -82,7 +94,8 @@ export default class FunctionsService {
     const functionArmRscTemplate = {
       name: `${functionAppId}/${functionName}`,
       type: 'Microsoft.Web/sites/functions',
-      apiVersion: '2020-12-01',
+      apiVersion: CommonConstants.ApiVersions.sitesApiVersion20201201,
+      dependsOn: funcDependencies,
       properties: {
         config: functionConfig,
         files: filesCopy,
@@ -92,7 +105,20 @@ export default class FunctionsService {
 
     resourcesToDeploy.push(functionArmRscTemplate);
 
-    // TODO: app settings ARM resource template stuff
+    if (appSettings) {
+      // Combine the current FuncApp settings with the new ones to deploy
+      let appSettingsValues = { ...currentAppSettings, ...appSettings.properties };
+
+      const appSettingsArmRscTemplate = {
+        name: `${functionAppId}/appsettings`,
+        type: 'Microsoft.Web/sites/config',
+        apiVersion: CommonConstants.ApiVersions.sitesApiVersion20201201,
+        dependsOn: [`[resourceId('Microsoft.Web/sites/functions', '${functionAppId}', '${functionName}')]`],
+        properties: appSettingsValues,
+      };
+
+      resourcesToDeploy.push(appSettingsArmRscTemplate);
+    }
 
     return makeArmDeployment(subscription, resourceGroup, armResources);
   };

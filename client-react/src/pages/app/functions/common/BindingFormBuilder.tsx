@@ -11,6 +11,7 @@ import { BindingInfo, BindingType } from '../../../../models/functions/function-
 import { BindingManager } from '../../../../utils/BindingManager';
 import { getFunctionBindingDirection } from '../function/integrate/FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../function/integrate/FunctionIntegrateConstants';
+import { IArmRscTemplate } from '../new-create-preview/FunctionCreateDataLoader';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
 
@@ -56,7 +57,7 @@ export class BindingFormBuilder {
 
   public getFields(
     formProps: FormikProps<BindingEditorFormValues>,
-    setArmResources: (armResources: Object[]) => void,
+    setArmResources: (armResources: IArmRscTemplate[]) => void,
     isDisabled: boolean,
     includeRules: boolean
   ) {
@@ -146,7 +147,7 @@ export class BindingFormBuilder {
     fields: JSX.Element[],
     setting: BindingSetting,
     formProps: FormikProps<BindingEditorFormValues>,
-    setArmResources: (template: Object[]) => void,
+    setArmResources: (template: IArmRscTemplate[]) => void,
     isDisabled: boolean,
     i: number
   ) {
@@ -244,7 +245,7 @@ export class BindingFormBuilder {
   private _getResourceField(
     setting: BindingSetting,
     formProps: FormikProps<BindingEditorFormValues>,
-    setArmResources: (armResources: Object[]) => void,
+    setArmResources: (armResources: IArmRscTemplate[]) => void,
     isDisabled: boolean,
     resourceId: string
   ) {

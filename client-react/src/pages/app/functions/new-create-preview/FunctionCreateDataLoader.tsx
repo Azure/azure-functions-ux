@@ -26,7 +26,7 @@ import SiteService from '../../../../ApiHelpers/SiteService';
 import { CommonConstants, WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
-import { getErrorMessageOrStringify, getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import MakeArmCall, { getErrorMessageOrStringify, getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { isLinuxApp, isElastic, isKubeApp } from '../../../../utils/arm-utils';
 import SiteHelper from '../../../../utils/SiteHelper';
 import LocalCreateInstructions from './local-create/LocalCreateInstructions';
@@ -34,7 +34,7 @@ import { PortalContext } from '../../../../PortalContext';
 import FunctionCreateData from './FunctionCreate.data';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { ArmObj } from '../../../../models/arm-obj';
-// import { KeyValue } from '../../../../models/portal-models';
+import { KeyValue } from '../../../../models/portal-models';
 import Url from '../../../../utils/url';
 import { HostStatus } from '../../../../models/functions/host-status';
 import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateContext';
@@ -52,6 +52,14 @@ export interface FunctionCreateDataLoaderProps {
   resourceId: string;
 }
 
+export interface IArmRscTemplate {
+  name: string;
+  apiVersion: string;
+  type: string;
+  dependsOn?: string[];
+  properties?: KeyValue<any>;
+}
+
 const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props => {
   const { resourceId } = props;
 
@@ -66,7 +74,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
   const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplate | undefined>(undefined);
   const [templates, setTemplates] = useState<FunctionTemplate[] | undefined | null>(undefined);
-  const [armResources, setArmResources] = useState<Object[]>([]); // TODO: get an interface for this
+  const [armResources, setArmResources] = useState<IArmRscTemplate[]>([]);
   const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus> | undefined>(undefined);
   const [creatingFunction, setCreatingFunction] = useState(false);
 
@@ -247,6 +255,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     }
   }; */
 
+  // TODO: Portal Notification about deployment status (and in actual blade)
   const addFunction = async (formValues: CreateFunctionFormValues) => {
     if (selectedTemplate) {
       setCreatingFunction(true);
@@ -267,6 +276,17 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
       // FunctionCreateData.createFunction(resourceId, functionName, files, config);
       const splitRscId = resourceId.split('/');
       const functionAppId = splitRscId[splitRscId.length - 1];
+
+      // We need to get the current appsettings to include in the
+      // deployment as they get overwritten otherwise
+      const getAppSettingsResponse = await MakeArmCall<any>({
+        method: 'POST',
+        resourceId: `${resourceId}/config/appsettings/list`,
+        commandName: 'getFunctionAppSettings',
+      });
+
+      const currentAppSettings = getAppSettingsResponse.data.properties;
+
       const createFunctionResponse = await FunctionCreateData.deployFunctionAndResources(
         resourceId,
         armResources,
@@ -276,7 +296,8 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
           files,
           functionConfig: config,
         },
-        formValues.newAppSettings
+        formValues.newAppSettings,
+        currentAppSettings
       );
 
       if (createFunctionResponse.metadata.success) {
@@ -287,7 +308,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         );
         portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
         const id = `${resourceId}/functions/${functionName}`;
-        portalCommunicator.closeSelf(id);
+        portalCommunicator.closeSelf(id); // TODO: Don't do this now that we do a deployment
       } else {
         LogService.trackEvent(
           LogCategories.localDevExperience,

@@ -35,6 +35,7 @@ export class CommonConstants {
     acrApiVersion20190501: '2019-05-01',
     staticSiteApiVersion20201201: '2020-12-01',
     billingApiVersion20190114: '2019-01-14',
+    sitesApiVersion20201201: '2020-12-01',
   };
 
   public static readonly NonThemeColors = {

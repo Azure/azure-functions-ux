@@ -8,6 +8,7 @@ import SiteService from '../../../../ApiHelpers/SiteService';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { HostStatus } from '../../../../models/functions/host-status';
 import Url from '../../../../utils/url';
+import { IArmRscTemplate } from './FunctionCreateDataLoader';
 
 export default class FunctionCreateData {
   public static getTemplates(resourceId: string) {
@@ -51,9 +52,10 @@ export default class FunctionCreateData {
 
   public static deployFunctionAndResources = (
     resourceId: string,
-    armResources: Object[],
+    armResources: IArmRscTemplate[],
     functionInfo: any,
-    appSettings: ArmObj<KeyValue<string>>
+    appSettings: ArmObj<KeyValue<string>>,
+    currentAppSettings: any
   ) => {
     return FunctionsService.deployFunctionAndResources(
       resourceId,
@@ -64,7 +66,8 @@ export default class FunctionCreateData {
         files: functionInfo.files,
         functionConfig: functionInfo.functionConfig,
       },
-      appSettings
+      appSettings,
+      currentAppSettings
     );
   };
 
