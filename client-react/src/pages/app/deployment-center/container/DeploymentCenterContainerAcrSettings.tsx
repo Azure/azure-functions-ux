@@ -49,12 +49,20 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
   }, [acrRegistryOptions]);
 
   useEffect(() => {
+    //NOTE(stpelleg): If the value is in the form but the call to get images fails, we should still show the image
+    if (!!formProps && !!formProps.values && !!formProps.values.acrImage && acrImageOptions.length === 0) {
+      acrImageOptions.push({ key: formProps.values.acrImage, text: formProps.values.acrImage });
+    }
     setACRImageOptions(acrImageOptions);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [acrImageOptions]);
 
   useEffect(() => {
+    //NOTE(stpelleg): If the value is in the form but the call to get tags fails, we should still show the tag
+    if (!!formProps && !!formProps.values && !!formProps.values.acrTag && acrTagOptions.length === 0) {
+      acrTagOptions.push({ key: formProps.values.acrTag, text: formProps.values.acrTag });
+    }
     setACRTagOptions(acrTagOptions);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
