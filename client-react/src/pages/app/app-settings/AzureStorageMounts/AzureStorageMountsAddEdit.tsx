@@ -170,7 +170,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     } else if (azureStorageMount.accountName && !storageAccounts.value.find(x => x.name === azureStorageMount.accountName)) {
       setConfigurationOption('advanced');
     }
-
+    console.log('');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
