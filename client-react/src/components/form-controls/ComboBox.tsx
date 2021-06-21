@@ -22,11 +22,11 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
   const { field, form, options, styles, setOptions, allowFreeform, ...rest } = props;
   const theme = useContext(ThemeContext);
   const onChange = (event: React.FormEvent<IComboBox>, option?: IComboBoxOption, index?: number, value?: string): void => {
-    if (!!allowFreeform && !option && value) {
+    if (!!allowFreeform && !option && !!value) {
       // If allowFreeform is true, the newly selected option might be something the user typed that
       // doesn't exist in the options list yet. So there's extra work to manually add it.
       option = { key: value, text: value };
-      setOptions && setOptions(prevOptions => [...prevOptions, option!]);
+      !!setOptions && setOptions(prevOptions => [...prevOptions, option!]);
     }
 
     if (option) {
