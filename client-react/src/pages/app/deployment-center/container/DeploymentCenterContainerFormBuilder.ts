@@ -205,7 +205,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   private _getContainerRegistrySource(): ContainerRegistrySources {
     const serverUrl = this._getServerUrl();
 
-    if (this._isServerUrlAcr(serverUrl) || this._isLinuxFxVersionAcr()) {
+    if (this._isAcrConfigured(serverUrl)) {
       return ContainerRegistrySources.acr;
     } else if (this._isServerUrlDockerHub(serverUrl)) {
       return ContainerRegistrySources.docker;
@@ -261,7 +261,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     }
 
     const isDockerCompose = this._isComposeContainerOption(fxVersion);
-    if (this._isServerUrlAcr(appSettingServerUrl) || this._isLinuxFxVersionAcr()) {
+    if (this._isAcrConfigured(appSettingServerUrl)) {
       return this._getAcrFxVersionParts(appSettingServerUrl, fxVersionParts[1], isDockerCompose);
     } else if (this._isServerUrlDockerHub(appSettingServerUrl)) {
       return this._getDockerHubFxVersionParts(fxVersionParts[1], isDockerCompose);
@@ -351,7 +351,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getAcrFormData(serverUrl: string, username: string, password: string, fxVersionParts: FxVersionParts): AcrFormData {
-    if (this._isServerUrlAcr(serverUrl) || this._isLinuxFxVersionAcr()) {
+    if (this._isAcrConfigured(serverUrl)) {
       return {
         acrLoginServer: fxVersionParts.server.toLocaleLowerCase(),
         acrImage: fxVersionParts.image,
@@ -485,5 +485,9 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   private _getContinuousDeploymentOption(): ContinuousDeploymentOption {
     const value = this._applicationSettings && this._applicationSettings.properties[DeploymentCenterConstants.enableCISetting];
     return value && value.toLocaleLowerCase() === 'true' ? ContinuousDeploymentOption.on : ContinuousDeploymentOption.off;
+  }
+
+  private _isAcrConfigured(serverUrl: string): boolean {
+    return this._isServerUrlAcr(serverUrl) || this._isLinuxFxVersionAcr();
   }
 }
