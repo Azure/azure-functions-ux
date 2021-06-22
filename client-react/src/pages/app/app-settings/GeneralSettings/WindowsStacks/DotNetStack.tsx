@@ -10,6 +10,7 @@ import {
   isStackVersionEndOfLife,
   checkAndGetStackEOLOrDeprecatedBanner,
   defaultDotnetCoreMajorVersion,
+  NETFRAMEWORKVERSION5,
 } from '../../../../../utils/stacks-utils';
 import { AppStackMinorVersion, AppStackOs } from '../../../../../models/stacks/app-stacks';
 import { StackProps } from './WindowsStacks';
@@ -18,6 +19,7 @@ import { IDropdownOption } from 'office-ui-fabric-react';
 import { WebAppRuntimes, WebAppStack, JavaContainers as JavaContainersInterface } from '../../../../../models/stacks/web-app-stacks';
 import { AppSettingsFormValues } from '../../AppSettings.types';
 import { toInteger } from 'lodash-es';
+import { PortalContext } from '../../../../../PortalContext';
 
 const DotNetStack: React.SFC<StackProps> = props => {
   const { values, initialValues } = props;
@@ -27,6 +29,7 @@ const DotNetStack: React.SFC<StackProps> = props => {
   const [versionDropdownValue, setVersionDropdownValue] = useState<string | undefined>(undefined);
 
   const { app_write, editable, saving } = useContext(PermissionsContext);
+  const portalCommunicator = useContext(PortalContext);
 
   const disableAllControls = !app_write || !editable || saving;
   const { t } = useTranslation();
@@ -80,19 +83,43 @@ const DotNetStack: React.SFC<StackProps> = props => {
 
   const setInitialDropdownValues = (values: AppSettingsFormValues) => {
     setVersionDropdownValue(undefined);
+
+    // NOTE (krmitta): If we see either "dotnet" or "dotnetcore" in the metadata,
+    // then we look at netframeworkversion.
+    // If it's 5 or higher, then we show that version.
+    // If it's lower, then we look at the metadata property again.
+    // If the value is "dotnetcore", then we show ".Net core (3.1, 2.1)".
+    // But if it's "dotnet", then we show classic .Net.
     const netFrameworkVersion = values.config.properties.netFrameworkVersion;
     if (!!netFrameworkVersion) {
-      const netFrameworkVersionSubstring = netFrameworkVersion.substring(1);
-      const netFrameworkVersionInt = !!netFrameworkVersionSubstring ? netFrameworkVersionSubstring.split('.')[0] : undefined;
-      if (!!netFrameworkVersionInt && toInteger(netFrameworkVersionInt) >= 5) {
-        setVersionDropdownValue(netFrameworkVersion);
-        return;
+      try {
+        const netFrameworkVersionSubstring = netFrameworkVersion.substring(1);
+        const netFrameworkVersionInt = !!netFrameworkVersionSubstring ? netFrameworkVersionSubstring.split('.')[0] : undefined;
+        if (!!netFrameworkVersionInt && toInteger(netFrameworkVersionInt) >= NETFRAMEWORKVERSION5) {
+          setVersionDropdownValue(netFrameworkVersion);
+          return;
+        }
+      } catch (err) {
+        portalCommunicator.log({
+          action: 'Configuration',
+          actionModifier: 'WindowsStacks',
+          logLevel: 'error',
+          data: {
+            error: err,
+            version: netFrameworkVersion,
+          },
+          resourceId: props.initialValues.site.id,
+        });
       }
     }
+    setInitialDropdownValueFromMetada(values);
+  };
+
+  const setInitialDropdownValueFromMetada = (values: AppSettingsFormValues) => {
     if (values.currentlySelectedStack.toLowerCase() === RuntimeStacks.dotnetcore) {
       setVersionDropdownValue(RuntimeStacks.dotnetcore);
     } else {
-      setVersionDropdownValue(netFrameworkVersion);
+      setVersionDropdownValue(values.config.properties.netFrameworkVersion);
     }
   };
 
