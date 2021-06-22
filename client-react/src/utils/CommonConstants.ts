@@ -49,7 +49,6 @@ export class CommonConstants {
     targetAzDevDeployment: 'targetAzDevDeployment',
     authTokenOverride: 'authTokenOverride',
     enableAzureMount: 'enableAzureMount',
-    removeStorageMountPreviewTag: 'removeStorageMountPreviewTag',
     enableAzureMountPathValidation: 'enableAzureMountPathValidation',
     showServiceLinkerConnector: 'showServiceLinkerConnector',
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',

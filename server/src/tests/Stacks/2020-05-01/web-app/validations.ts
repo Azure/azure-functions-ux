@@ -95,7 +95,7 @@ export function validatePHPCreateStack(stacks) {
   expect(phpStack.displayText).to.equal('PHP');
   expect(phpStack.value).to.equal('PHP');
   expect(phpStack.sortOrder).to.equal(3);
-  expect(phpStack.versions.length).to.equal(3);
+  expect(phpStack.versions.length).to.equal(4);
   expect(phpStack).to.deep.equal(phpCreateStack);
 }
 
@@ -247,7 +247,7 @@ export function validatePHPLinuxConfigStack(stacks) {
   expect(phpStack.type).to.equal('Microsoft.Web/availableStacks?osTypeSelected=Linux');
   expect(phpStack.properties.name).to.equal('php');
   expect(phpStack.properties.display).to.equal('PHP');
-  expect(phpStack.properties.majorVersions.length).to.equal(4);
+  expect(phpStack.properties.majorVersions.length).to.equal(5);
   expect(phpStack).to.deep.equal(phpLinuxConfigStack);
 }
 

@@ -21,6 +21,8 @@ import {
   validateJavaContainersInStacks,
   validateJavaContainersFilter,
   validateGitHubActionStacks,
+  validateStaticSiteInStacks,
+  validateStaticSiteFilter,
 } from './validations';
 
 const stacksService = new StacksService20201001();
@@ -211,6 +213,24 @@ describe('WebApp Stacks Test 2020-10-01', () => {
     it('should validate only stacks supporting GitHub Action are returned', done => {
       const stacks = stacksService.getWebAppStacks(undefined, undefined, undefined, undefined, undefined, true);
       validateGitHubActionStacks(stacks);
+      done();
+    });
+  });
+
+  // Test Static Site stack
+  describe('Test the Static Site stack', () => {
+    it('should validate the Static Site stack', done => {
+      const stacks = stacksService.getWebAppStacks();
+      validateStaticSiteInStacks(stacks);
+      done();
+    });
+  });
+
+  // Test Static Site stack filter
+  describe('Test the Static Site stack filter', () => {
+    it('should validate the Static Site stack filter', done => {
+      const stacks = stacksService.getWebAppStacks(undefined, 'staticsite');
+      validateStaticSiteFilter(stacks);
       done();
     });
   });

@@ -1,7 +1,7 @@
 import { AppStack, CommonSettings, AppInsightsSettings, GitHubActionSettings } from './AppStackModel';
 
 export type WebAppStack = AppStack<WebAppRuntimes & JavaContainers, WebAppStackValue>;
-export type WebAppStackValue = 'dotnet' | 'java' | 'javacontainers' | 'node' | 'php' | 'python' | 'ruby';
+export type WebAppStackValue = 'dotnet' | 'java' | 'javacontainers' | 'node' | 'php' | 'python' | 'ruby' | 'staticsite';
 
 export interface WebAppRuntimes {
   linuxRuntimeSettings?: WebAppRuntimeSettings;
