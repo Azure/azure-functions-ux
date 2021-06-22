@@ -1812,6 +1812,10 @@ export class PortalResources {
   public static createFunctionNotificationFailed = 'createFunctionNotificationFailed';
   public static createFunctionNotificationFailedDetails = 'createFunctionNotificationFailedDetails';
   public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
+  public static createFunctionDeploymentNotification = 'createFunctionDeploymentNotification';
+  public static createFunctionDeploymentNotificationDetails = 'createFunctionDeploymentNotificationDetails';
+  public static createFunctionDeploymentNotificationSuccess = 'createFunctionDeploymentNotificationSuccess';
+  public static createFunctionDeploymentNotificationFailed = 'createFunctionDeploymentNotificationFailed';
   public static readonlyBlobStorageWarning = 'readonlyBlobStorageWarning';
   public static quickstartHeader = 'quickstartHeader';
   public static quickstartDesc = 'quickstartDesc';

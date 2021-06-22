@@ -280,7 +280,6 @@ export const makeArmDeployment = async (
   resources: Object[]
 ): Promise<HttpResponseObject<any>> => {
   const deploymentMethod = 'PUT';
-  const deploymentApiVersion = '2021-04-01';
   const deploymentEndpoint = `/subscriptions/${subId}/resourcegroups/${rscGrp}/providers/Microsoft.Resources/deployments/${deploymentName}`;
 
   const armDeploymentTemplate: IArmDeploymentTemplate = {
@@ -303,7 +302,7 @@ export const makeArmDeployment = async (
     resourceId: deploymentEndpoint,
     commandName: 'armDeployment',
     method: deploymentMethod,
-    apiVersion: deploymentApiVersion,
+    apiVersion: CommonConstants.ApiVersions.armDeploymentApiVersion20210401,
     body: reqBody,
   });
 

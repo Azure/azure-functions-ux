@@ -51,6 +51,7 @@ export default class FunctionCreateData {
   }
 
   public static deployFunctionAndResources = (
+    deploymentName: string,
     resourceId: string,
     armResources: IArmRscTemplate[],
     functionInfo: any,
@@ -58,6 +59,7 @@ export default class FunctionCreateData {
     currentAppSettings: any
   ) => {
     return FunctionsService.deployFunctionAndResources(
+      deploymentName,
       resourceId,
       armResources,
       {

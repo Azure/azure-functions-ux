@@ -39,6 +39,7 @@ import Url from '../../../../utils/url';
 import { HostStatus } from '../../../../models/functions/host-status';
 import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateContext';
 import { Links } from '../../../../utils/FwLinks';
+import { Guid } from '../../../../utils/Guid';
 
 registerIcons({
   icons: {
@@ -255,13 +256,61 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     }
   }; */
 
-  // TODO: Portal Notification about deployment status (and in actual blade)
+  const trackDeploymentStatus = async (deploymentName: string, notificationId: string) => {
+    const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
+    const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
+    const deploymentStatusResponse = await MakeArmCall<any>({
+      resourceId: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}`,
+      commandName: 'getDeploymentStatus',
+      apiVersion: CommonConstants.ApiVersions.armDeploymentApiVersion20210401,
+    });
+
+    console.log(JSON.stringify(deploymentStatusResponse));
+
+    if (deploymentStatusResponse.metadata.success) {
+      const deploymentStatus: string = deploymentStatusResponse.data.properties.provisioningState;
+
+      if (deploymentStatus.toLowerCase() === 'succeeded') {
+        portalCommunicator.stopNotification(
+          notificationId,
+          true,
+          t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp)
+        );
+      } else if (deploymentStatus.toLowerCase() === 'failed') {
+        portalCommunicator.stopNotification(
+          notificationId,
+          false,
+          t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp, deploymentStatusResponse.data.properties.error)
+        );
+      } else {
+        await new Promise(resolve => {
+          setTimeout(resolve, 2500);
+        });
+
+        console.log('Recursion!');
+        await trackDeploymentStatus(deploymentName, notificationId); // TODO: do we need to clear the timeout or does it just fizzle out...?
+      }
+    } else {
+      portalCommunicator.stopNotification(
+        notificationId,
+        false,
+        t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp, deploymentStatusResponse.metadata.error)
+      );
+      LogService.error(
+        LogCategories.localDevExperience,
+        'trackFunctionDeploymentFailed',
+        `Failed to track Function deployment: ${deploymentStatusResponse.metadata.error}`
+      );
+    }
+  };
+
   const addFunction = async (formValues: CreateFunctionFormValues) => {
     if (selectedTemplate) {
       setCreatingFunction(true);
       const config = FunctionCreateData.buildFunctionConfig(selectedTemplate.bindings || [], formValues);
       const { functionName } = formValues;
       const { files } = selectedTemplate;
+      const deploymentName = `Microsoft.Web-Function-${Guid.newShortGuid()}`;
       const notificationId = portalCommunicator.startNotification(
         t('createFunctionNotication'),
         t('createFunctionNotificationDetails').format(functionName)
@@ -288,6 +337,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
       const currentAppSettings = getAppSettingsResponse.data.properties;
 
       const createFunctionResponse = await FunctionCreateData.deployFunctionAndResources(
+        deploymentName,
         resourceId,
         armResources,
         {
@@ -301,14 +351,24 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
       );
 
       if (createFunctionResponse.metadata.success) {
+        const deploymentNotificationId = portalCommunicator.startNotification(
+          t('createFunctionDeploymentNotification'),
+          t('createFunctionDeploymentNotificationDetails').format(functionName)
+        );
+
         LogService.trackEvent(
           LogCategories.localDevExperience,
           'FunctionCreateSucceeded',
           FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
         );
         portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
+
+        // TODO: See if there's some way to do this so that it won't get cancelled when the function-create blade is closed
+        // Track the status of the deployed resources for the deployment notification
+        await trackDeploymentStatus(deploymentName, deploymentNotificationId);
+
         const id = `${resourceId}/functions/${functionName}`;
-        portalCommunicator.closeSelf(id); // TODO: Don't do this now that we do a deployment
+        portalCommunicator.closeSelf(id);
       } else {
         LogService.trackEvent(
           LogCategories.localDevExperience,

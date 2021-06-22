@@ -17,7 +17,6 @@ import { makeArmDeployment } from './ArmHelper';
 import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
 import { IArmRscTemplate } from '../pages/app/functions/new-create-preview/FunctionCreateDataLoader';
 import { CommonConstants } from '../utils/CommonConstants';
-import { Guid } from '../utils/Guid';
 
 interface IFunctionInfo {
   functionAppId: string;
@@ -70,6 +69,7 @@ export default class FunctionsService {
   // Doc for Function ARM template: https://docs.microsoft.com/en-us/azure/templates/microsoft.web/sites/functions?tabs=json
   // The current order we deploy the resources in is: Function -> CDB Account -> App Settings
   public static deployFunctionAndResources = (
+    deploymentName: string,
     resourceId: string,
     armResources: IArmRscTemplate[],
     functionInfo: IFunctionInfo,
@@ -78,7 +78,6 @@ export default class FunctionsService {
   ) => {
     const { functionAppId, functionName, functionConfig, files } = functionInfo;
     const { subscription, resourceGroup } = new ArmResourceDescriptor(resourceId);
-    const deploymentName = `Microsoft.Web-Function-${Guid.newShortGuid()}`;
     let isCdbDeployment = false;
     let cdbAcctName = '';
 
