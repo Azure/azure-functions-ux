@@ -79,6 +79,8 @@ export default class FunctionsService {
     const { functionAppId, functionName, functionConfig, files } = functionInfo;
     const { subscription, resourceGroup } = new ArmResourceDescriptor(resourceId);
     const deploymentName = `Microsoft.Web-Function-${Guid.newShortGuid()}`;
+    let isCdbDeployment = false;
+    let cdbAcctName = '';
 
     // Establish the Function's ARM template
     const filesCopy = Object.assign({}, files);
@@ -102,6 +104,11 @@ export default class FunctionsService {
     const appSettingsDependencies: string[] = [];
     if (armResources.length > 0) {
       armResources.forEach(armRsc => {
+        if (armRsc.type === 'Microsoft.DocumentDB/databaseAccounts') {
+          isCdbDeployment = true;
+          cdbAcctName = armRsc.name;
+        }
+
         const funcDependency = `[resourceId('${functionArmRscTemplate.type}', '${functionAppId}', '${functionName}')]`;
 
         if (armRsc.dependsOn) {
@@ -122,9 +129,23 @@ export default class FunctionsService {
 
     resourcesToDeploy.push(functionArmRscTemplate);
 
-    if (appSettings) {
+    // TODO: If not creating a new CDB account, then the below code chunk won't trigger (which is what we want).
+    // However, we need to 1. Make sure we still reference the right appsetting, and 2. Trigger the below code chunk
+    // w/ the user's input if they do Custom App Setting
+
+    if (appSettings || isCdbDeployment) {
       // Combine the current FuncApp settings with the new ones to deploy
-      let appSettingsValues = { ...currentAppSettings, ...appSettings.properties };
+      let appSettingsValues = {};
+
+      // Get Primary Connection string to CDB account if that's what we're deploying
+      if (isCdbDeployment) {
+        appSettingsValues = { ...currentAppSettings };
+        appSettingsValues[
+          `${cdbAcctName}_DOCUMENTDB`
+        ] = `[listConnectionStrings(resourceId('Microsoft.DocumentDB/databaseAccounts', '${cdbAcctName}'), '2019-12-12').connectionStrings[0].connectionString]`;
+      } else {
+        appSettingsValues = { ...currentAppSettings, ...appSettings.properties };
+      }
 
       const appSettingsArmRscTemplate = {
         name: `${functionAppId}/appsettings`,
