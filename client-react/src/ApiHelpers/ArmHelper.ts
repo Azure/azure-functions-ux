@@ -273,9 +273,13 @@ export const MakePagedArmCall = async <T>(requestObject: ArmRequestObject<ArmArr
 };
 
 // Makes ARM deployment to resource group (https://docs.microsoft.com/en-us/rest/api/resources/deployments/create-or-update)
-export const makeArmDeployment = async (subId: string, rscGrp: string, resources: Object[]): Promise<HttpResponseObject<any>> => {
+export const makeArmDeployment = async (
+  deploymentName: string,
+  subId: string,
+  rscGrp: string,
+  resources: Object[]
+): Promise<HttpResponseObject<any>> => {
   const deploymentMethod = 'PUT';
-  const deploymentName = `Microsoft.DocumentDB-DatabaseAccount-${Guid.newShortGuid()}`;
   const deploymentApiVersion = '2021-04-01';
   const deploymentEndpoint = `/subscriptions/${subId}/resourcegroups/${rscGrp}/providers/Microsoft.Resources/deployments/${deploymentName}`;
 

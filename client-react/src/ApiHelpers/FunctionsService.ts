@@ -17,6 +17,7 @@ import { makeArmDeployment } from './ArmHelper';
 import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
 import { IArmRscTemplate } from '../pages/app/functions/new-create-preview/FunctionCreateDataLoader';
 import { CommonConstants } from '../utils/CommonConstants';
+import { Guid } from '../utils/Guid';
 
 interface IFunctionInfo {
   functionAppId: string;
@@ -67,6 +68,7 @@ export default class FunctionsService {
   };
 
   // Doc for Function ARM template: https://docs.microsoft.com/en-us/azure/templates/microsoft.web/sites/functions?tabs=json
+  // The current order we deploy the resources in is: Function -> CDB Account -> App Settings
   public static deployFunctionAndResources = (
     resourceId: string,
     armResources: IArmRscTemplate[],
@@ -76,14 +78,7 @@ export default class FunctionsService {
   ) => {
     const { functionAppId, functionName, functionConfig, files } = functionInfo;
     const { subscription, resourceGroup } = new ArmResourceDescriptor(resourceId);
-
-    // Handle any of the function's dependencies
-    let funcDependencies: string[] = [];
-    if (armResources.length > 0) {
-      armResources.forEach(armRsc => {
-        funcDependencies.push(`[resourceId('${armRsc.type}', '${armRsc.name}')]`);
-      });
-    }
+    const deploymentName = `Microsoft.Web-Function-${Guid.newShortGuid()}`;
 
     // Establish the Function's ARM template
     const filesCopy = Object.assign({}, files);
@@ -95,13 +90,35 @@ export default class FunctionsService {
       name: `${functionAppId}/${functionName}`,
       type: 'Microsoft.Web/sites/functions',
       apiVersion: CommonConstants.ApiVersions.sitesApiVersion20201201,
-      dependsOn: funcDependencies,
       properties: {
         config: functionConfig,
         files: filesCopy,
         test_data: sampleData,
       },
     };
+
+    // Make all extra resources dependent on the Function
+    // and build dependency list for appsettings
+    const appSettingsDependencies: string[] = [];
+    if (armResources.length > 0) {
+      armResources.forEach(armRsc => {
+        const funcDependency = `[resourceId('${functionArmRscTemplate.type}', '${functionAppId}', '${functionName}')]`;
+
+        if (armRsc.dependsOn) {
+          armRsc.dependsOn = [...armRsc.dependsOn, funcDependency];
+        } else {
+          armRsc.dependsOn = [funcDependency];
+        }
+
+        const rscNameArr = armRsc.name.split('/');
+
+        if (rscNameArr.length > 1) {
+          appSettingsDependencies.push(`[resourceId('${armRsc.type}', '${rscNameArr[0]}', '${rscNameArr[1]}')]`);
+        } else {
+          appSettingsDependencies.push(`[resourceId('${armRsc.type}', '${rscNameArr[0]}')]`);
+        }
+      });
+    }
 
     resourcesToDeploy.push(functionArmRscTemplate);
 
@@ -113,14 +130,14 @@ export default class FunctionsService {
         name: `${functionAppId}/appsettings`,
         type: 'Microsoft.Web/sites/config',
         apiVersion: CommonConstants.ApiVersions.sitesApiVersion20201201,
-        dependsOn: [`[resourceId('Microsoft.Web/sites/functions', '${functionAppId}', '${functionName}')]`],
+        dependsOn: appSettingsDependencies,
         properties: appSettingsValues,
       };
 
       resourcesToDeploy.push(appSettingsArmRscTemplate);
     }
 
-    return makeArmDeployment(subscription, resourceGroup, armResources);
+    return makeArmDeployment(deploymentName, subscription, resourceGroup, armResources);
   };
 
   public static getBindings = (functionAppId: string) => {
