@@ -225,6 +225,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
                     ? StaticSiteSku.Standard
                     : StaticSiteSku.Free;
                 setSelectedSku(skuName);
+                portalContext.log(getTelemetryInfo('info', 'skuRadioButton', 'clicked', { selectedSku: skuName }));
               }}
             />
           </div>
