@@ -17,6 +17,7 @@ import DropdownNoFormik from '../../../../../components/form-controls/DropDownno
 import { IDropdownOption } from 'office-ui-fabric-react';
 import { WebAppRuntimes, WebAppStack, JavaContainers as JavaContainersInterface } from '../../../../../models/stacks/web-app-stacks';
 import { AppSettingsFormValues } from '../../AppSettings.types';
+import { toInteger } from 'lodash-es';
 
 const DotNetStack: React.SFC<StackProps> = props => {
   const { values, initialValues } = props;
@@ -79,10 +80,19 @@ const DotNetStack: React.SFC<StackProps> = props => {
 
   const setInitialDropdownValues = (values: AppSettingsFormValues) => {
     setVersionDropdownValue(undefined);
+    const netFrameworkVersion = values.config.properties.netFrameworkVersion;
+    if (!!netFrameworkVersion) {
+      const netFrameworkVersionSubstring = netFrameworkVersion.substring(1);
+      const netFrameworkVersionInt = !!netFrameworkVersionSubstring ? netFrameworkVersionSubstring.split('.')[0] : undefined;
+      if (!!netFrameworkVersionInt && toInteger(netFrameworkVersionInt) >= 5) {
+        setVersionDropdownValue(netFrameworkVersion);
+        return;
+      }
+    }
     if (values.currentlySelectedStack.toLowerCase() === RuntimeStacks.dotnetcore) {
       setVersionDropdownValue(RuntimeStacks.dotnetcore);
     } else {
-      setVersionDropdownValue(values.config.properties.netFrameworkVersion);
+      setVersionDropdownValue(netFrameworkVersion);
     }
   };
 
