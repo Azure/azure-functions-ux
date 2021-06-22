@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { ContainerOptions, DeploymentCenterContainerAcrSettingsProps } from '../DeploymentCenter.types';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
-import Dropdown from '../../../../components/form-controls/DropDown';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import TextField from '../../../../components/form-controls/TextField';
 import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterContainerComposeFileUploader';
 import ComboBox from '../../../../components/form-controls/ComboBox';
 import { ScmType } from '../../../../models/site/config';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import { IDropdownOption } from 'office-ui-fabric-react';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -26,6 +26,9 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
   const [isComposeOptionSelected, setIsComposeOptionSelected] = useState(false);
   const [isGitHubActionSelected, setIsGitHubActionSelected] = useState(false);
+  const [aCRRegistryOptions, setACRRegistryOptions] = useState<IDropdownOption[]>(acrRegistryOptions);
+  const [aCRImageOptions, setACRImageOptions] = useState<IDropdownOption[]>(acrImageOptions);
+  const [aCRTagOptions, setACRTagOptions] = useState<IDropdownOption[]>(acrTagOptions);
 
   useEffect(() => {
     setIsComposeOptionSelected(formProps.values.option === ContainerOptions.compose);
@@ -38,6 +41,32 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.scmType]);
+
+  useEffect(() => {
+    setACRRegistryOptions(acrRegistryOptions);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [acrRegistryOptions]);
+
+  useEffect(() => {
+    //NOTE(stpelleg): If the value is in the form but the call to get images fails, we should still show the image
+    if (!!formProps && !!formProps.values && !!formProps.values.acrImage && acrImageOptions.length === 0) {
+      acrImageOptions.push({ key: formProps.values.acrImage, text: formProps.values.acrImage });
+    }
+    setACRImageOptions(acrImageOptions);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [acrImageOptions]);
+
+  useEffect(() => {
+    //NOTE(stpelleg): If the value is in the form but the call to get tags fails, we should still show the tag
+    if (!!formProps && !!formProps.values && !!formProps.values.acrTag && acrTagOptions.length === 0) {
+      acrTagOptions.push({ key: formProps.values.acrTag, text: formProps.values.acrTag });
+    }
+    setACRTagOptions(acrTagOptions);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [acrTagOptions]);
 
   // NOTE(michinoy): In case of GitHub Action, we will always need to get the user credentials for their ACR
   // registry. This is because the workflow would need to use those credentials to push the images and app service
@@ -57,10 +86,13 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         id="container-acr-repository"
         label={t('containerACRRegistry')}
         name="acrLoginServer"
-        defaultSelectedKey={formProps.values.acrLoginServer}
-        component={Dropdown}
+        selectedKey={formProps.values.acrLoginServer}
+        component={ComboBox}
+        allowFreeform
+        autoComplete="on"
+        options={aCRRegistryOptions}
+        setOptions={setACRRegistryOptions}
         displayInVerticalLayout={true}
-        options={acrRegistryOptions}
         isLoading={loadingAcrRegistryOptions}
         required={true}
       />
@@ -73,12 +105,13 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
                 id="container-acr-image"
                 label={t('containerACRImage')}
                 name="acrImage"
-                defaultSelectedKey={formProps.values.acrImage}
+                selectedKey={formProps.values.acrImage}
                 component={ComboBox}
                 allowFreeform
                 autoComplete="on"
+                options={aCRImageOptions}
+                setOptions={setACRImageOptions}
                 displayInVerticalLayout={true}
-                options={acrImageOptions}
                 isLoading={loadingImageOptions}
                 required={true}
               />
@@ -87,10 +120,13 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
                 id="container-acr-tag"
                 label={t('containerACRTag')}
                 name="acrTag"
-                defaultSelectedKey={formProps.values.acrTag}
-                component={Dropdown}
+                selectedKey={formProps.values.acrTag}
+                component={ComboBox}
+                allowFreeform
+                autoComplete="on"
+                options={aCRTagOptions}
+                setOptions={setACRTagOptions}
                 displayInVerticalLayout={true}
-                options={acrTagOptions}
                 isLoading={loadingTagOptions}
                 required={true}
               />

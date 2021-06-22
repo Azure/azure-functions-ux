@@ -4,7 +4,7 @@ import get from 'lodash-es/get';
 import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
 import { ThemeContext } from '../../ThemeContext';
 import ComboBoxNoFormik from './ComboBoxnoFormik';
-import { IComboBoxProps, IComboBoxOption } from 'office-ui-fabric-react';
+import { IComboBoxProps, IComboBoxOption, IComboBox, IDropdownOption } from 'office-ui-fabric-react';
 interface CustomComboBoxProps {
   id: string;
   upsellMessage?: string;
@@ -13,15 +13,22 @@ interface CustomComboBoxProps {
   errorMessage?: string;
   dirty?: boolean;
   value: string;
-  onChange: (e: unknown, option: IComboBoxOption) => void;
+  setOptions?: React.Dispatch<React.SetStateAction<IDropdownOption[]>>;
+  onChange: (event: React.FormEvent<IComboBox>, option?: IComboBoxOption, index?: number, value?: string) => void;
   learnMoreLink?: string;
 }
 
 const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
-  const { field, form, options, styles, ...rest } = props;
-
+  const { field, form, options, styles, setOptions, allowFreeform, ...rest } = props;
   const theme = useContext(ThemeContext);
-  const onChange = (e: unknown, option: IComboBoxOption) => {
+  const onChange = (event: React.FormEvent<IComboBox>, option?: IComboBoxOption, index?: number, value?: string): void => {
+    if (!!allowFreeform && !option && !!value) {
+      // If allowFreeform is true, the newly selected option might be something the user typed that
+      // doesn't exist in the options list yet. So there's extra work to manually add it.
+      option = { key: value, text: value };
+      !!setOptions && setOptions(prevOptions => [...prevOptions, option!]);
+    }
+
     if (option) {
       form.setFieldValue(field.name, option.key);
     } else {
@@ -38,6 +45,7 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
       onBlur={field.onBlur}
       errorMessage={errorMessage}
       styles={ComboBoxStyles(theme)}
+      allowFreeform={allowFreeform}
       {...rest}
     />
   );
