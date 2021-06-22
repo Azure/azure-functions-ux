@@ -205,7 +205,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   private _getContainerRegistrySource(): ContainerRegistrySources {
     const serverUrl = this._getServerUrl();
 
-    if (this._isServerUrlAcr(serverUrl)) {
+    if (this._isAcrConfigured(serverUrl)) {
       return ContainerRegistrySources.acr;
     } else if (this._isServerUrlDockerHub(serverUrl)) {
       return ContainerRegistrySources.docker;
@@ -261,7 +261,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     }
 
     const isDockerCompose = this._isComposeContainerOption(fxVersion);
-    if (this._isServerUrlAcr(appSettingServerUrl)) {
+    if (this._isAcrConfigured(appSettingServerUrl)) {
       return this._getAcrFxVersionParts(appSettingServerUrl, fxVersionParts[1], isDockerCompose);
     } else if (this._isServerUrlDockerHub(appSettingServerUrl)) {
       return this._getDockerHubFxVersionParts(fxVersionParts[1], isDockerCompose);
@@ -274,7 +274,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     // NOTE(michinoy): For ACR the username is not in the FxVersion. The image and/or tags could definitely have /'s.
     // In this case, remove the serverInfo from the FxVersion and compute the image and tag by splitting on :.
 
-    const acrHost = this._getHostFromServerUrl(appSettingServerUrl);
+    const acrHost = appSettingServerUrl ? this._getHostFromServerUrl(appSettingServerUrl) : this._getHostFromServerUrl(registryInfo);
 
     if (isDockerCompose) {
       return {
@@ -351,7 +351,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getAcrFormData(serverUrl: string, username: string, password: string, fxVersionParts: FxVersionParts): AcrFormData {
-    if (this._isServerUrlAcr(serverUrl)) {
+    if (this._isAcrConfigured(serverUrl)) {
       return {
         acrLoginServer: fxVersionParts.server.toLocaleLowerCase(),
         acrImage: fxVersionParts.image,
@@ -423,6 +423,21 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     }
   }
 
+  private _isLinuxFxVersionAcr(): boolean {
+    if (!this._siteConfig) {
+      return false;
+    }
+    const fxVersion = this._siteConfig.properties.linuxFxVersion || this._siteConfig.properties.windowsFxVersion;
+    const fxVersionParts = fxVersion.split('|');
+
+    if (fxVersionParts.length < 2) {
+      throw Error(`Incorrect fxVersion set in the site config: ${fxVersion}`);
+    }
+
+    const registryInfo = fxVersionParts[1];
+    return !!registryInfo && registryInfo.indexOf(DeploymentCenterConstants.acrUriHost) > -1;
+  }
+
   private _isServerUrlAcr(serverUrl: string): boolean {
     return !!serverUrl && serverUrl.indexOf(DeploymentCenterConstants.acrUriHost) > -1;
   }
@@ -470,5 +485,9 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   private _getContinuousDeploymentOption(): ContinuousDeploymentOption {
     const value = this._applicationSettings && this._applicationSettings.properties[DeploymentCenterConstants.enableCISetting];
     return value && value.toLocaleLowerCase() === 'true' ? ContinuousDeploymentOption.on : ContinuousDeploymentOption.off;
+  }
+
+  private _isAcrConfigured(serverUrl: string): boolean {
+    return this._isServerUrlAcr(serverUrl) || this._isLinuxFxVersionAcr();
   }
 }

@@ -107,6 +107,23 @@ export const phpLinuxConfigStack: WebAppConfigStack = {
         isDeprecated: false,
         isHidden: false,
       },
+      {
+        displayVersion: '8.0',
+        runtimeVersion: 'PHP|8.0',
+        isDefault: false,
+        minorVersions: [
+          {
+            displayVersion: '8.0',
+            runtimeVersion: 'PHP|8.0',
+            isDefault: true,
+            isRemoteDebuggingEnabled: false,
+          },
+        ],
+        applicationInsights: false,
+        isPreview: false,
+        isDeprecated: false,
+        isHidden: true,
+      },
     ],
     frameworks: [],
     isDeprecated: null,

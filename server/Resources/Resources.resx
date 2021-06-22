@@ -6967,10 +6967,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Failed to load ACR Registries.</value>
     </data>
     <data name="deploymentCenterContainerAcrFailedToLoadCredentialsWithError" xml:space="preserve">
-        <value>Failed to load ACR Credentials needed to load Images and Tags - {0}.</value>
+        <value>Failed to load ACR Credentials needed to load Images and Tags - {0}. Please enter the Image and Tag below.</value>
     </data>
     <data name="deploymentCenterContainerAcrFailedToLoadCredentials" xml:space="preserve">
-        <value>Failed to load ACR Credentials needed to load Images and Tags.</value>
+        <value>Failed to load ACR Credentials needed to load Images and Tags. Please enter the Image and Tag below.</value>
     </data>
     <data name="deploymentCenterContainerAcrFailedToLoadImagesWithError" xml:space="preserve">
         <value>Failed to load ACR Images - {0}.</value>
