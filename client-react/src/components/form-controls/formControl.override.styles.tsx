@@ -85,6 +85,7 @@ export const addEditFormStyle = style({ paddingBottom: '60px' });
 export const formStackStyle = (upsellIcon: boolean, fullpage: boolean) =>
   style({
     minWidth: upsellIcon && fullpage ? '220px' : '200px',
+    paddingRight: '8px',
   });
 
 export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean) =>
@@ -107,7 +108,7 @@ export const hostStyle = (multiline?: boolean) =>
     overflow: !multiline ? 'hidden' : 'visible',
     textOverflow: 'ellipsis',
     whiteSpace: !multiline ? 'nowrap' : 'normal',
-    maxWidth: 250,
+    maxWidth: !multiline ? 250 : 200,
   });
 
 export const stackControlStyle = () =>

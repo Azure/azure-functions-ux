@@ -96,7 +96,6 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps
                     setKeyList(undefined);
                   }}
                   errorMessage={undefined}
-                  layout={Layout.Vertical}
                   {...props}
                   id="newDocumentDBConnection"
                   mouseOverToolTip={undefined}

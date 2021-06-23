@@ -109,9 +109,9 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
             id={`${id}-label`}>
             <TooltipHost overflowMode={TooltipOverflowMode.Self} content={label} hostClassName={hostStyle(multiline)} styles={tooltipStyle}>
               {label}
+              {getRequiredIcon(theme, required)}
+              {getMouseOverToolTip(`${children.props.id}-tooltip`, mouseOverToolTip)}
             </TooltipHost>
-            {getRequiredIcon(theme, required)}
-            {getMouseOverToolTip(`${children.props.id}-tooltip`, mouseOverToolTip)}
           </Label>
         </Stack>
       )}

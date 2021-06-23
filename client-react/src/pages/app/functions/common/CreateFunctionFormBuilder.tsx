@@ -64,7 +64,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
         component={TextField}
         disabled={isDisabled}
         validate={(value: string) => this._validateFunctionName(value)}
-        layout={Layout.Vertical}
+        layout={Layout.Horizontal}
         required={true}
         key={0}
         {...formProps}
