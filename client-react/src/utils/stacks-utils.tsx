@@ -18,6 +18,7 @@ import CustomBanner from '../components/CustomBanner/CustomBanner';
 import React from 'react';
 
 const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
+export const NETFRAMEWORKVERSION5 = 5;
 
 export const getStacksSummaryForDropdown = (
   stack: WebAppStack | FunctionAppStack,

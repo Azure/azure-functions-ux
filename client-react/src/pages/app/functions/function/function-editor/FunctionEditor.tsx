@@ -129,14 +129,19 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       return;
     }
 
-    LogService.trackEvent(LogCategories.FunctionEdit, 'onSaveClicked', {
-      resourceId: siteStateContext.resourceId,
-      sessionId: Url.getParameterByName(null, 'sessionId'),
-      siteKind: site.kind,
-      isLinux: site.properties.isLinux,
-      runtime: runtimeVersion,
-      stack: workerRuntime,
-      sku: site.properties.sku,
+    portalCommunicator.log({
+      action: 'functionEditor',
+      actionModifier: 'saveClicked',
+      resourceId: siteStateContext.resourceId || '',
+      logLevel: 'info',
+      data: {
+        sessionId: Url.getParameterByName(null, 'sessionId'),
+        siteKind: site.kind,
+        isLinux: site.properties.isLinux,
+        runtime: runtimeVersion,
+        stack: workerRuntime,
+        sku: site.properties.sku,
+      },
     });
 
     setSavingFile(true);
