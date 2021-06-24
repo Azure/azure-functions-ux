@@ -205,6 +205,14 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     );
   };
 
+  const getPrivateEndpointsRow = (): JSX.Element => {
+    return getGridMiddleRow(
+      t('staticSitePrivateEndpoints'),
+      CommonConstants.Dash,
+      <Icon iconName={'Accept'} className={iconStyle(theme)} />
+    );
+  };
+
   const getSkuTitleSection = (sku: string, radioButtonAriaLabel: string, skuTitle: string, skuDescription: string): JSX.Element => {
     return (
       <>
@@ -284,6 +292,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         {getCustomDomainsRow()}
         {getSslCertificatesRow()}
         {getCustomAuthenticationRow()}
+        {getPrivateEndpointsRow()}
         {getAppSizeRow()}
         {getStagingEnvironmentsRow()}
         {getAzureFunctionsRow()}

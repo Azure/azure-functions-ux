@@ -7044,8 +7044,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSiteSslCertificates" xml:space="preserve">
         <value>SSL certificates</value>
     </data>
-    <data name="staticSitePrivateLink" xml:space="preserve">
-        <value>Private link</value>
+    <data name="staticSitePrivateEndpoints" xml:space="preserve">
+        <value>Private endpoints</value>
     </data>
     <data name="staticSiteCustomAuthentication" xml:space="preserve">
         <value>Custom authentication</value>
