@@ -156,8 +156,6 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
                 {...props}
-                layout={Layout.Vertical} // Layout needs to be here or it gets overridden from props
-                multiline={false} // Same as above, here to overwrite prop
               />
             )}
           </Callout>
