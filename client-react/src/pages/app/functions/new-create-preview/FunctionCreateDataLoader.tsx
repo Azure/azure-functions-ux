@@ -256,7 +256,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     }
   }; */
 
-  const trackDeploymentStatus = async (deploymentName: string, notificationId: string) => {
+  /*const trackDeploymentStatus = async (deploymentName: string, notificationId: string) => {
     const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
     const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
     const deploymentStatusResponse = await MakeArmCall<any>({
@@ -302,7 +302,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         `Failed to track Function deployment: ${deploymentStatusResponse.metadata.error}`
       );
     }
-  };
+  };*/
 
   const addFunction = async (formValues: CreateFunctionFormValues) => {
     if (selectedTemplate) {
@@ -350,22 +350,27 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         currentAppSettings
       );
 
-      if (createFunctionResponse.metadata.success) {
-        const deploymentNotificationId = portalCommunicator.startNotification(
-          t('createFunctionDeploymentNotification'),
-          t('createFunctionDeploymentNotificationDetails').format(functionName)
-        );
+      // Deployment notification
+      const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
+      const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
+      portalCommunicator.executeArmUpdateRequest<any>({
+        uri: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}?api-version=${
+          CommonConstants.ApiVersions.armDeploymentApiVersion20210401
+        }`,
+        //type: 'POST',
+        notificationTitle: t('createFunctionDeploymentNotification'),
+        notificationDescription: t('createFunctionDeploymentNotificationDetails').format(functionName),
+        notificationSuccessDescription: t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp),
+        notificationFailureDescription: t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp),
+      });
 
+      if (createFunctionResponse.metadata.success) {
         LogService.trackEvent(
           LogCategories.localDevExperience,
           'FunctionCreateSucceeded',
           FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
         );
         portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
-
-        // TODO: See if there's some way to do this so that it won't get cancelled when the function-create blade is closed
-        // Track the status of the deployed resources for the deployment notification
-        await trackDeploymentStatus(deploymentName, deploymentNotificationId);
 
         const id = `${resourceId}/functions/${functionName}`;
         portalCommunicator.closeSelf(id);

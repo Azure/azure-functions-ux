@@ -5614,10 +5614,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Deploying resources for {0}</value>
     </data>
     <data name="createFunctionDeploymentNotificationSuccess" xml:space="preserve">
-        <value>Deployment {0} to resource group {1} was successful.</value>
+        <value>Deployment '{0}' to resource group '{1}' was successful</value>
     </data>
     <data name="createFunctionDeploymentNotificationFailed" xml:space="preserve">
-        <value>Deployment {0} to resource group {1} failed: {2}</value>
+        <value>Deployment '{0}' to resource group '{1}' failed</value>
     </data>
     <data name="readonlyBlobStorageWarning" xml:space="preserve">
         <value>Mounted Blob containers will become read only in Feb 2020.</value>
