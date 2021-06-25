@@ -18774,11 +18774,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";staticSitePrivateLink" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";staticSitePrivateEndpoints" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Private link]]></Val>
+          <Val><![CDATA[Private endpoints]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Liaison privée]]></Val>
+            <Val><![CDATA[Points de terminaison privés]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18875,10 +18875,13 @@
       </Item>
       <Item ItemId=";staticSiteStandardPrice" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[${0}/per app/month]]></Val>
+          <Val><![CDATA[{0}/per app/month]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} $/application/mois]]></Val>
+            <Val><![CDATA[{0}/application/mois]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[${0}/per app/month]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
