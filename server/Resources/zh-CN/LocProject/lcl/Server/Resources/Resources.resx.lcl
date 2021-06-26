@@ -18888,8 +18888,8 @@
       <Item ItemId=";staticSiteStandardPrice" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[{0}/per app/month]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[{0} 美元/应用/月]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0}/应用/月]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[${0}/per app/month]]></Val>
