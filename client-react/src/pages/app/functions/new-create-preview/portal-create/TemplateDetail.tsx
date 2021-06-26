@@ -147,6 +147,10 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
   }, [selectedTemplate]);
 
   useEffect(() => {
+    formProps.validateForm();
+  }, [formProps.touched]);
+
+  useEffect(() => {
     fetchFunctionInfo();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
