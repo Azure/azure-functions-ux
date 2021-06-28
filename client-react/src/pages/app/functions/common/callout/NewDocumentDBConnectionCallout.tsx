@@ -86,7 +86,9 @@ const NewDocumentDBConnectionCallout = props => {
     const cdbTemplateObj = JSON.parse(cosmosDbTemplate);
     setSubmittedAccountName(cdbTemplateObj.name);
 
-    setArmResources([cdbTemplateObj]); // I think at this point in the form we can safely assign the whole armResources array to this...
+    if (!!setArmResources) {
+      setArmResources([cdbTemplateObj]); // I think at this point in the form we can safely assign the whole armResources array to this...
+    }
     console.log(cosmosDbTemplate);
   };
 
