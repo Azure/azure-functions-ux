@@ -15,6 +15,7 @@ import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { getFunctionBindingDirection } from '../FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
 import { Links } from '../../../../../../utils/FwLinks';
+import { any } from 'joi';
 
 export interface BindingCreatorProps {
   bindingDirection: BindingDirection;
@@ -150,6 +151,21 @@ const bindingTypeSpecificFields = (
   }
 
   const builder = new BindingFormBuilder([formProps.values], [binding], functionAppId, t);
+
+  // Place the connection setting at the beginning of the form
+  // NOTE (nlayne): This may require some reordering of the actual metadata in the backend
+  // if any further changes need to be made
+  if (binding.settings) {
+    const connectionSettingIndex = binding.settings.findIndex(
+      setting => setting.name === 'connection' || setting.name === 'connectionStringSetting'
+    );
+    if (connectionSettingIndex) {
+      const connectionSetting = binding.settings[connectionSettingIndex];
+
+      binding.settings.splice(connectionSettingIndex, 1);
+      binding.settings.unshift(connectionSetting);
+    }
+  }
 
   return builder.getFields(formProps, false, true);
 };
