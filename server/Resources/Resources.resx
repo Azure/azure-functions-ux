@@ -7059,8 +7059,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSiteSslCertificates" xml:space="preserve">
         <value>SSL certificates</value>
     </data>
-    <data name="staticSitePrivateLink" xml:space="preserve">
-        <value>Private link</value>
+    <data name="staticSitePrivateEndpoints" xml:space="preserve">
+        <value>Private endpoints</value>
     </data>
     <data name="staticSiteCustomAuthentication" xml:space="preserve">
         <value>Custom authentication</value>
@@ -7159,7 +7159,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>10</value>
     </data>
     <data name="staticSiteStandardPrice" xml:space="preserve">
-        <value>${0}/per app/month</value>
+        <value>{0}/per app/month</value>
     </data>
     <data name="staticSiteStandardBandwidthOverage" xml:space="preserve">
         <value>${0} per GB per subscription</value>

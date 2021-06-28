@@ -2306,7 +2306,7 @@ export class PortalResources {
   public static staticSiteBandwidthOverage = 'staticSiteBandwidthOverage';
   public static staticSiteCustomDomains = 'staticSiteCustomDomains';
   public static staticSiteSslCertificates = 'staticSiteSslCertificates';
-  public static staticSitePrivateLink = 'staticSitePrivateLink';
+  public static staticSitePrivateEndpoints = 'staticSitePrivateEndpoints';
   public static staticSiteCustomAuthentication = 'staticSiteCustomAuthentication';
   public static staticSiteMaxAppSize = 'staticSiteMaxAppSize';
   public static staticSiteAzureFunctions = 'staticSiteAzureFunctions';
