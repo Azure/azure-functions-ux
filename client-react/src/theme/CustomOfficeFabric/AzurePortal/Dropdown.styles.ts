@@ -99,6 +99,7 @@ export const DropDownStyles = props => {
           ['&:hover .' + globalClassnames.titleHasError]: borderColorError,
           ['&:active .' + globalClassnames.titleHasError]: borderColorError,
           ['&:focus .' + globalClassnames.titleHasError]: borderColorError,
+          [`.${globalClassnames.titleHasError}`]: borderColorError,
         },
       },
       {
