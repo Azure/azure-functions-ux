@@ -15,7 +15,6 @@ import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { getFunctionBindingDirection } from '../FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
 import { Links } from '../../../../../../utils/FwLinks';
-import { any } from 'joi';
 
 export interface BindingCreatorProps {
   bindingDirection: BindingDirection;
