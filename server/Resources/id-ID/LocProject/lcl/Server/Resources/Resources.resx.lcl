@@ -4841,19 +4841,25 @@
       </Item>
       <Item ItemId=";deploymentCenterContainerAcrFailedToLoadCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Failed to load ACR Credentials needed to load Images and Tags.]]></Val>
+          <Val><![CDATA[Failed to load ACR Credentials needed to load Images and Tags. Please enter the Image and Tag below.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Gagal memuat Kredensial ACR yang diperlukan untuk memuat Gambar dan Tag.]]></Val>
+            <Val><![CDATA[Gagal memuat Kredensial ACR yang diperlukan untuk memuat Gambar dan Tag. Masukkan Gambar dan Tag di bawah ini.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Failed to load ACR Credentials needed to load Images and Tags.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";deploymentCenterContainerAcrFailedToLoadCredentialsWithError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Failed to load ACR Credentials needed to load Images and Tags - {0}.]]></Val>
+          <Val><![CDATA[Failed to load ACR Credentials needed to load Images and Tags - {0}. Please enter the Image and Tag below.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Gagal memuat Kredensial ACR yang diperlukan untuk memuat Gambar dan Tag - {0}.]]></Val>
+            <Val><![CDATA[Gagal memuat kredensial ACR yang diperlukan untuk memuat gambar dan {0} tag. Silakan masukkan Gambar dan Tag di bawah.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Failed to load ACR Credentials needed to load Images and Tags - {0}.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -17886,11 +17892,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";staticSitePrivateLink" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";staticSitePrivateEndpoints" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Private link]]></Val>
+          <Val><![CDATA[Private endpoints]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Private link]]></Val>
+            <Val><![CDATA[Titik akhir privat]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -17987,10 +17993,13 @@
       </Item>
       <Item ItemId=";staticSiteStandardPrice" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[${0}/per app/month]]></Val>
+          <Val><![CDATA[{0}/per app/month]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[${0}/per aplikasi/bulan]]></Val>
+            <Val><![CDATA[{0}/per aplikasi/bulan]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[${0}/per app/month]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
