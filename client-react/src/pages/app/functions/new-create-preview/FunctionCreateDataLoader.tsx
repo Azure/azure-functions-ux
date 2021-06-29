@@ -16,7 +16,8 @@ import { Layout } from '../../../../components/form-controls/ReactiveFormControl
 import ActionBar from '../../../../components/ActionBar';
 import TemplateList from './portal-create/TemplateList';
 import { Formik, FormikProps } from 'formik';
-import { CreateFunctionFormValues, CreateFunctionFormBuilder } from '../common/CreateFunctionFormBuilder';
+import { FunctionFormBuilder } from '../common/CreateFunctionFormBuilderFactory';
+import { CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { DevelopmentExperience } from './FunctionCreate.types';
 import { ReactComponent as VSCodeIconSvg } from '../../../../images/Functions/vs_code.svg';
 import { ReactComponent as TerminalIconSvg } from '../../../../images/Functions/terminal.svg';
@@ -70,7 +71,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   const { t } = useTranslation();
 
   const [initialFormValues, setInitialFormValues] = useState<CreateFunctionFormValues | undefined>(undefined);
-  const [templateDetailFormBuilder, setTemplateDetailFormBuilder] = useState<CreateFunctionFormBuilder | undefined>(undefined);
+  const [templateDetailFormBuilder, setTemplateDetailFormBuilder] = useState<FunctionFormBuilder | undefined>(undefined);
   const [selectedDropdownKey, setSelectedDropdownKey] = useState<DevelopmentExperience | undefined>(undefined);
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
   const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplate | undefined>(undefined);

@@ -24,7 +24,8 @@ import {
   containerStyle,
   tableRowStyle,
 } from '../FunctionCreate.styles';
-import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
+import { FunctionFormBuilder } from '../../common/CreateFunctionFormBuilderFactory';
+import { CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
 import { FormikProps } from 'formik';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { HostStatus } from '../../../../../models/functions/host-status';
@@ -40,7 +41,7 @@ import { IArmRscTemplate } from '../FunctionCreateDataLoader';
 export interface TemplateListProps {
   resourceId: string;
   formProps: FormikProps<CreateFunctionFormValues>;
-  setBuilder: (builder?: CreateFunctionFormBuilder) => void;
+  setBuilder: (builder?: FunctionFormBuilder) => void;
   setSelectedTemplate: (template?: FunctionTemplate) => void;
   setTemplates: (template?: FunctionTemplate[] | null) => void;
   setArmResources: (armResources: IArmRscTemplate[]) => void;
@@ -48,7 +49,7 @@ export interface TemplateListProps {
   templates?: FunctionTemplate[] | null;
   hostStatus?: ArmObj<HostStatus>;
   selectedTemplate?: FunctionTemplate;
-  builder?: CreateFunctionFormBuilder;
+  builder?: FunctionFormBuilder;
 }
 
 const TemplateList: React.FC<TemplateListProps> = props => {

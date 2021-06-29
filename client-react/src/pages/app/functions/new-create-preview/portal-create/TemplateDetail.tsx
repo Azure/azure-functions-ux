@@ -11,7 +11,8 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import FunctionCreateData from '../FunctionCreate.data';
-import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
+import CreateFunctionFormBuilderFactory, { FunctionFormBuilder } from '../../common/CreateFunctionFormBuilderFactory';
+import { CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
 import { FormikProps } from 'formik';
 import { detailContainerStyle } from '../FunctionCreate.styles';
 import BasicShimmerLines from '../../../../../components/shimmer/BasicShimmerLines';
@@ -23,8 +24,8 @@ export interface TemplateDetailProps {
   resourceId: string;
   selectedTemplate: FunctionTemplate;
   formProps: FormikProps<CreateFunctionFormValues>;
-  setBuilder: (builder?: CreateFunctionFormBuilder) => void;
-  builder?: CreateFunctionFormBuilder;
+  setBuilder: (builder?: FunctionFormBuilder) => void;
+  builder?: FunctionFormBuilder;
   setArmResources: (armResources: IArmRscTemplate[]) => void;
 }
 
@@ -111,10 +112,11 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     return requiredBindings;
   };
 
-  const createBuilder = () => {
+  const createFactory = () => {
     if (functionsInfo && bindings) {
-      setBuilder(
-        new CreateFunctionFormBuilder(
+      createBuilder(
+        new CreateFunctionFormBuilderFactory(
+          selectedTemplate.id,
           selectedTemplate.bindings || [],
           bindings,
           resourceId,
@@ -126,6 +128,10 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     }
   };
 
+  const createBuilder = (formBuilderFactory: CreateFunctionFormBuilderFactory) => {
+    setBuilder(formBuilderFactory.formBuilder);
+  };
+
   const getDetails = () => {
     return !functionsInfo || !bindings || !builder ? (
       <BasicShimmerLines />
@@ -135,7 +141,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
   };
 
   useEffect(() => {
-    createBuilder();
+    createFactory();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [functionsInfo, bindings]);

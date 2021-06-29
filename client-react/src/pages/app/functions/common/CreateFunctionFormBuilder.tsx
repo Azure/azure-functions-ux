@@ -44,7 +44,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
     return nameField.concat(bindingFields);
   }
 
-  private _getInitialFunctionName(): string {
+  protected _getInitialFunctionName(): string {
     let i = 1;
     while (true) {
       // eslint-disable-next-line no-loop-func
@@ -60,7 +60,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
     }
   }
 
-  private _getFunctionNameTextField(formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
+  protected _getFunctionNameTextField(formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
     return (
       <Field
         label={this.t('functionCreate_newFunction')}
@@ -78,7 +78,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
     );
   }
 
-  private _validateFunctionName(name: string): string | undefined {
+  protected _validateFunctionName(name: string): string | undefined {
     let error: string | undefined;
     const validNameRegExp = new RegExp('^[a-zA-Z][a-zA-Z0-9_-]{0,127}$');
 
