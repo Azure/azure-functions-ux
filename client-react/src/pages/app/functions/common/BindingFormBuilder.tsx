@@ -26,16 +26,16 @@ export class BindingFormBuilder {
 
   constructor(
     private _bindingInfoList: BindingInfo[],
-    private _bindingList: Binding[],
-    private _resourceId: string,
-    private _t: i18next.TFunction
+    protected bindingList: Binding[],
+    protected _resourceId: string,
+    protected t: i18next.TFunction
   ) {}
 
   public getInitialFormValues(): BindingEditorFormValues {
     const initialFormValues: BindingEditorFormValues = {};
 
     let i = 0;
-    for (const binding of this._bindingList) {
+    for (const binding of this.bindingList) {
       for (const setting of binding.settings || []) {
         let value = this._bindingInfoList[i][setting.name];
 
@@ -65,7 +65,7 @@ export class BindingFormBuilder {
     const ignoredFields: string[] = [];
 
     let i = 0;
-    for (const binding of this._bindingList) {
+    for (const binding of this.bindingList) {
       // We don't want to use the rule for HTTP as it doesn't offer the user anything
       // and we can't restore the state of the rule properly on a second load
       if (includeRules && formProps.values['type'] !== FunctionIntegrateConstants.httpType) {
@@ -171,7 +171,7 @@ export class BindingFormBuilder {
     }
   }
 
-  private _getTextField(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
+  protected _getTextField(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     return (
       <Field
         label={setting.label}
@@ -181,7 +181,7 @@ export class BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         layout={Layout.Vertical}
-        mouseOverToolTip={setting.help}
+        mouseOverToolTip={setting.help ? setting.help : undefined}
         required={setting.required}
         key={setting.name}
         {...formProps}
@@ -212,7 +212,7 @@ export class BindingFormBuilder {
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
         layout={Layout.Vertical}
-        mouseOverToolTip={setting.help}
+        mouseOverToolTip={setting.help ? setting.help : undefined}
         required={setting.required}
         key={setting.name}
         {...formProps}
@@ -229,11 +229,11 @@ export class BindingFormBuilder {
         id={setting.name}
         component={Toggle}
         disabled={isDisabled}
-        onText={this._t('yes')}
-        offText={this._t('no')}
+        onText={this.t('yes')}
+        offText={this.t('no')}
         validate={(value: boolean) => this._validateBoolean(value, setting.required)}
         layout={Layout.Vertical}
-        mouseOverToolTip={setting.help}
+        mouseOverToolTip={setting.help ? setting.help : undefined}
         required={setting.required}
         key={setting.name}
         {...formProps}
@@ -242,7 +242,7 @@ export class BindingFormBuilder {
     );
   }
 
-  private _getResourceField(
+  protected _getResourceField(
     setting: BindingSetting,
     formProps: FormikProps<BindingEditorFormValues>,
     setArmResources: ((armResources: IArmRscTemplate[]) => void) | null,
@@ -261,7 +261,7 @@ export class BindingFormBuilder {
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
         layout={Layout.Vertical}
-        mouseOverToolTip={setting.help}
+        mouseOverToolTip={setting.help ? setting.help : undefined}
         required={setting.required}
         key={setting.name}
         {...formProps}
@@ -289,7 +289,7 @@ export class BindingFormBuilder {
           validate={value => this._validateText(value, setting.required, setting.validators)}
           onPanel={true}
           layout={Layout.Vertical}
-          mouseOverToolTip={setting.help}
+          mouseOverToolTip={setting.help ? setting.help : undefined}
           required={setting.required}
           key={setting.name}
           {...formProps}
@@ -316,7 +316,7 @@ export class BindingFormBuilder {
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
         layout={Layout.Vertical}
-        mouseOverToolTip={setting.help}
+        mouseOverToolTip={setting.help ? setting.help : undefined}
         required={setting.required}
         key={setting.name}
         {...formProps}
@@ -328,7 +328,7 @@ export class BindingFormBuilder {
   private _validateText(value: string, required: boolean, validators?: BindingValidator[]): string | undefined {
     let error: string | undefined;
     if (required && !value) {
-      error = this._t('fieldRequired');
+      error = this.t('fieldRequired');
     }
 
     if (value && validators) {
@@ -345,7 +345,7 @@ export class BindingFormBuilder {
   private _validateBoolean(value: boolean, required: boolean): string | undefined {
     let error: string | undefined;
     if (required && value === undefined) {
-      error = this._t('fieldRequired');
+      error = this.t('fieldRequired');
     }
 
     return error;

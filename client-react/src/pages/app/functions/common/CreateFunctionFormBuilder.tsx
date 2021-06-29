@@ -14,6 +14,65 @@ export interface CreateFunctionFormValues extends BindingEditorFormValues {
   functionName: string;
 }
 
+export const getInitialFunctionName = (functionsInfo: ArmObj<FunctionInfo>[], defaultName: string): string => {
+  let i = 1;
+  while (true) {
+    // eslint-disable-next-line no-loop-func
+    const func = functionsInfo.find(value => {
+      return `${defaultName.toLowerCase()}${i.toString()}` === value.properties.name.toLowerCase();
+    });
+
+    if (func) {
+      i = i + 1;
+    } else {
+      return defaultName + i;
+    }
+  }
+};
+
+export const getFunctionNameTextField = (
+  formProps: FormikProps<CreateFunctionFormValues>,
+  isDisabled: boolean,
+  functionsInfo: ArmObj<FunctionInfo>[],
+  t: i18next.TFunction
+) => {
+  const validateFunctionName = (name: string): string | undefined => {
+    let error: string | undefined;
+    const validNameRegExp = new RegExp('^[a-zA-Z][a-zA-Z0-9_-]{0,127}$');
+
+    if (!name) {
+      error = t('fieldRequired');
+    } else if (!validNameRegExp.test(name) || name.toLowerCase() === 'host') {
+      error = t('functionNew_nameError');
+    } else {
+      const nameAlreadyUsed = functionsInfo.find(f => {
+        return f.properties.name.toLowerCase() === name.toLowerCase();
+      });
+      if (nameAlreadyUsed) {
+        error = t('functionNew_functionExists', { name });
+      }
+    }
+
+    return error;
+  };
+
+  return (
+    <Field
+      label={t('functionCreate_newFunction')}
+      name={'functionName'}
+      id={'functionName'}
+      component={TextField}
+      disabled={isDisabled}
+      validate={(value: string) => validateFunctionName(value)}
+      layout={Layout.Vertical}
+      required={true}
+      key={0}
+      {...formProps}
+      dirty={false}
+    />
+  );
+};
+
 export class CreateFunctionFormBuilder extends BindingFormBuilder {
   constructor(
     bindingInfo: BindingInfo[],
@@ -27,7 +86,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
   }
 
   public getInitialFormValues() {
-    const functionNameValue = { functionName: this._getInitialFunctionName() };
+    const functionNameValue = { functionName: getInitialFunctionName(this._functionsInfo, this._defaultName) };
     const bindingFormValues = super.getInitialFormValues();
     delete bindingFormValues.direction;
     delete bindingFormValues.type;
@@ -39,62 +98,8 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
     setArmResources: (armResources: IArmRscTemplate[]) => void,
     isDisabled: boolean
   ) {
-    const nameField: JSX.Element[] = [this._getFunctionNameTextField(formProps, isDisabled)];
+    const nameField: JSX.Element[] = [getFunctionNameTextField(formProps, isDisabled, this._functionsInfo, this.t)];
     const bindingFields: JSX.Element[] = super.getFields(formProps, setArmResources, isDisabled, false);
     return nameField.concat(bindingFields);
-  }
-
-  protected _getInitialFunctionName(): string {
-    let i = 1;
-    while (true) {
-      // eslint-disable-next-line no-loop-func
-      const func = this._functionsInfo.find(value => {
-        return `${this._defaultName.toLowerCase()}${i.toString()}` === value.properties.name.toLowerCase();
-      });
-
-      if (func) {
-        i = i + 1;
-      } else {
-        return this._defaultName + i;
-      }
-    }
-  }
-
-  protected _getFunctionNameTextField(formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
-    return (
-      <Field
-        label={this.t('functionCreate_newFunction')}
-        name={'functionName'}
-        id={'functionName'}
-        component={TextField}
-        disabled={isDisabled}
-        validate={(value: string) => this._validateFunctionName(value)}
-        layout={Layout.Vertical}
-        required={true}
-        key={0}
-        {...formProps}
-        dirty={false}
-      />
-    );
-  }
-
-  protected _validateFunctionName(name: string): string | undefined {
-    let error: string | undefined;
-    const validNameRegExp = new RegExp('^[a-zA-Z][a-zA-Z0-9_-]{0,127}$');
-
-    if (!name) {
-      error = this.t('fieldRequired');
-    } else if (!validNameRegExp.test(name) || name.toLowerCase() === 'host') {
-      error = this.t('functionNew_nameError');
-    } else {
-      const nameAlreadyUsed = this._functionsInfo.find(f => {
-        return f.properties.name.toLowerCase() === name.toLowerCase();
-      });
-      if (nameAlreadyUsed) {
-        error = this.t('functionNew_functionExists', { name });
-      }
-    }
-
-    return error;
   }
 }

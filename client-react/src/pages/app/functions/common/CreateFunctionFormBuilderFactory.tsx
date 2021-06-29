@@ -10,7 +10,7 @@ import i18next from 'i18next';
 export type FunctionFormBuilder = CreateFunctionFormBuilder | CosmosDbFunctionFormBuilder;
 
 class CreateFunctionFormBuilderFactory {
-  public formBuilder;
+  public formBuilder: FunctionFormBuilder;
 
   constructor(
     templateId: string,
@@ -26,12 +26,10 @@ class CreateFunctionFormBuilderFactory {
     switch (lowerTemplateIdWithoutLanguage) {
       case BindingType.cosmosDBTrigger.toLowerCase():
         this.formBuilder = new CosmosDbFunctionFormBuilder(bindingInfo, bindings, resourceId, functionsInfo, defaultName, t);
-        console.log('CDB');
         break;
 
       default:
         this.formBuilder = new CreateFunctionFormBuilder(bindingInfo, bindings, resourceId, functionsInfo, defaultName, t);
-        console.log('Not CDB');
     }
   }
 }
