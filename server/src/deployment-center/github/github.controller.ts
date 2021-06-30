@@ -36,16 +36,12 @@ export class GithubController {
           url,
           {},
           {
-            headers: {
-              Authorization: `Bearer ${gitHubToken}`,
-            },
+            headers: this._getAuthorizationHeader(gitHubToken),
           }
         );
       } else {
         response = await this.httpService.get(url, {
-          headers: {
-            Authorization: `Bearer ${gitHubToken}`,
-          },
+          headers: this._getAuthorizationHeader(gitHubToken),
         });
       }
 
@@ -121,9 +117,7 @@ export class GithubController {
 
     try {
       await this.httpService.delete(url, {
-        headers: {
-          Authorization: `Bearer ${gitHubToken}`,
-        },
+        headers: this._getAuthorizationHeader(gitHubToken),
         data: deleteCommit,
       });
     } catch (err) {
@@ -145,9 +139,7 @@ export class GithubController {
   async dispatchWorkflow(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Body('data') data: string) {
     try {
       await this.httpService.post(url, data, {
-        headers: {
-          Authorization: `Bearer ${gitHubToken}`,
-        },
+        headers: this._getAuthorizationHeader(gitHubToken),
       });
     } catch (err) {
       this.loggingService.error(`Failed to dispatch workflow file.`);
@@ -256,14 +248,18 @@ export class GithubController {
     }
   }
 
+  private _getAuthorizationHeader(accessToken: string): { Authorization: string } {
+    return {
+      Authorization: `token ${accessToken}`,
+    };
+  }
+
   private async _getGitHubRepoPublicKey(gitHubToken: string, repoName: string): Promise<GitHubSecretPublicKey> {
     const url = `${this.githubApiUrl}/repos/${repoName}/actions/secrets/public-key`;
 
     try {
       const response = await this.httpService.get(url, {
-        headers: {
-          Authorization: `Bearer ${gitHubToken}`,
-        },
+        headers: this._getAuthorizationHeader(gitHubToken),
       });
 
       return response.data;
@@ -299,9 +295,7 @@ export class GithubController {
 
     try {
       const config = {
-        headers: {
-          Authorization: `Bearer ${gitHubToken}`,
-        },
+        headers: this._getAuthorizationHeader(gitHubToken),
       };
 
       const data = {
@@ -333,9 +327,7 @@ export class GithubController {
 
     try {
       await this.httpService.put(url, commitContent, {
-        headers: {
-          Authorization: `Bearer ${gitHubToken}`,
-        },
+        headers: this._getAuthorizationHeader(gitHubToken),
       });
     } catch (err) {
       this.loggingService.error(
