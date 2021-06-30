@@ -72,7 +72,7 @@ const NewCosmosDBAccountCallout = props => {
   const startupInfoContext = useContext(StartupInfoContext);
   const formRef = useRef<any>(null);
   const { t } = useTranslation();
-  const { setIsDialogVisible, setArmResources, setNewDatabaseAccountName } = props;
+  const { setIsDialogVisible, setArmResources, setNewDatabaseAccountName, setSelectedItem } = props;
 
   const initialValues: CreateCosmosDbFormValues = {
     accountName: '',
@@ -85,6 +85,7 @@ const NewCosmosDBAccountCallout = props => {
     const cdbTemplateObj = JSON.parse(cosmosDbTemplate);
     setSubmittedAccountName(cdbTemplateObj.name);
     setNewDatabaseAccountName(cdbTemplateObj.name);
+    setSelectedItem({ key: `${cdbTemplateObj.name}_DOCUMENTDB`, text: cdbTemplateObj.name });
 
     if (!!setArmResources) {
       // TODO: may need to pass down the armResources state from FunctionCreateDataLoader to make sure nothing gets overwritten

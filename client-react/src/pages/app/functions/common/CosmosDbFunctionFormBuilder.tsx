@@ -31,6 +31,10 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     const bindingFormValues = super.getInitialFormValues();
     delete bindingFormValues.direction;
     delete bindingFormValues.type;
+
+    bindingFormValues.connectionType = 'automatic';
+    bindingFormValues.partitionKeyPath = '/id';
+
     return Object.assign({}, functionNameValue, bindingFormValues) as CreateFunctionFormValues;
   }
 
@@ -214,9 +218,9 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     setArmResources: (armResources: IArmRscTemplate[]) => void
   ) {
     return (
-      <>
+      <React.Fragment key="pdFields">
         {formProps.values.connectionType === 'automatic' && (
-          <>
+          <React.Fragment key="automaticCdbTemplate">
             {this._getResourceField(this.bindingList[0].settings![1], formProps, setArmResources, false, this._resourceId)}
             {formProps.values[this.bindingList[0].settings![1].name] &&
               this._getTextField(this.bindingList[0].settings![2], formProps, false)}
@@ -224,11 +228,11 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
               this._getTextField(this.bindingList[0].settings![3], formProps, false)}
             {formProps.values[this.bindingList[0].settings![3].name] &&
               this._getTextField(this.bindingList[0].settings![4], formProps, false)}
-          </>
+          </React.Fragment>
         )}
 
         {formProps.values.connectionType === 'manual' && (
-          <>
+          <React.Fragment key="manualCdbTemplate">
             <h3>Custom app setting</h3>
             {this._getTextField(
               {
@@ -258,9 +262,9 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
             {this._getTextField(this.bindingList[0].settings![2], formProps, false)}
             {this._getTextField(this.bindingList[0].settings![3], formProps, false)}
             {this._getTextField(this.bindingList[0].settings![4], formProps, false)}
-          </>
+          </React.Fragment>
         )}
-      </>
+      </React.Fragment>
     );
   }
 }

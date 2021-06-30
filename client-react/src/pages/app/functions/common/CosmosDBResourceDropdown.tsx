@@ -51,14 +51,12 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
 
   const getDocumentDBAccounts = (): IDropdownOption[] => {
     const result: IDropdownOption[] = newDatabaseAccountName
-      ? [{ key: newDatabaseAccountName, text: `(new) ${newDatabaseAccountName}` }]
+      ? [{ key: `${newDatabaseAccountName}_DOCUMENTDB`, text: `(new) ${newDatabaseAccountName}` }]
       : [];
 
-    if (databaseAccounts) {
-      databaseAccounts.value.forEach(dbAcct => {
-        result.push({ key: `${dbAcct.name}_DOCUMENTDB`, text: dbAcct.name });
-      });
-    }
+    databaseAccounts!.value.forEach(dbAcct => {
+      result.push({ key: `${dbAcct.name}_DOCUMENTDB`, text: dbAcct.name });
+    });
 
     return result;
   };
@@ -68,9 +66,10 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
     formProps: FormikProps<BindingEditorFormValues>,
     field: { name: string; value: any }
   ) => {
+    console.log(option);
     if (option) {
-      const dbAcctName = option.key;
-      const dbAcctConnectionSettingKey = `${dbAcctName}_DOCUMENTDB`;
+      const dbAcctConnectionSettingKey = option.key as string; // `${dbAcctName}_DOCUMENTDB`
+      const dbAcctName = dbAcctConnectionSettingKey.split('_')[0];
       formProps.setFieldValue(field.name, dbAcctConnectionSettingKey);
 
       // Always add the appsetting for CDB to simplify between new/existing DB accounts (FunctionsService deploy handles setting overlaps)
