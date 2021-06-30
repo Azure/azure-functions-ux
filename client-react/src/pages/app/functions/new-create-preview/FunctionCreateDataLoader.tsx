@@ -304,35 +304,31 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
 
       const currentAppSettings = getAppSettingsResponse.data.properties;
 
-      // TODO: Create function here
-      // FunctionCreateData.createFunction(resourceId, functionName, files, config);
+      const createFunctionResponse = await FunctionCreateData.createFunction(resourceId, functionName, files, config);
 
-      const createFunctionResponse = await FunctionCreateData.deployFunctionAndResources(
+      const deployResourcesResponse = await FunctionCreateData.deployFunctionAndResources(
         deploymentName,
         resourceId,
         armResources,
-        {
-          functionAppId,
-          functionName,
-          files,
-          functionConfig: config,
-        },
+        functionAppId,
         newAppSettings,
         currentAppSettings
       );
 
       // Deployment notification
-      const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
-      const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
-      portalCommunicator.executeArmUpdateRequest<any>({
-        uri: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}?api-version=${
-          CommonConstants.ApiVersions.armDeploymentApiVersion20210401
-        }`,
-        notificationTitle: t('createFunctionDeploymentNotification'),
-        notificationDescription: t('createFunctionDeploymentNotificationDetails').format(functionName),
-        notificationSuccessDescription: t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp),
-        notificationFailureDescription: t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp),
-      });
+      if (deployResourcesResponse.metadata.success) {
+        const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
+        const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
+        portalCommunicator.executeArmUpdateRequest<any>({
+          uri: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}?api-version=${
+            CommonConstants.ApiVersions.armDeploymentApiVersion20210401
+          }`,
+          notificationTitle: t('createFunctionDeploymentNotification'),
+          notificationDescription: t('createFunctionDeploymentNotificationDetails').format(functionName),
+          notificationSuccessDescription: t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp),
+          notificationFailureDescription: t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp),
+        });
+      }
 
       if (createFunctionResponse.metadata.success) {
         LogService.trackEvent(

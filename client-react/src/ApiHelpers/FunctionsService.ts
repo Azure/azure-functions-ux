@@ -72,48 +72,22 @@ export default class FunctionsService {
     deploymentName: string,
     resourceId: string,
     armResources: IArmRscTemplate[],
-    functionInfo: IFunctionInfo,
+    functionAppId: string,
     appSettings: ArmObj<KeyValue<string>>,
     currentAppSettings: any
   ) => {
-    const { functionAppId, functionName, functionConfig, files } = functionInfo;
     const { subscription, resourceGroup } = new ArmResourceDescriptor(resourceId);
     let isCdbDeployment = false;
     let cdbAcctName = '';
-
-    // Establish the Function's ARM template
-    const filesCopy = Object.assign({}, files);
-    const sampleData = JSON.stringify(filesCopy['sample.dat']);
-    delete filesCopy['sample.dat'];
     let resourcesToDeploy = armResources;
 
-    const functionArmRscTemplate = {
-      name: `${functionAppId}/${functionName}`,
-      type: 'Microsoft.Web/sites/functions',
-      apiVersion: CommonConstants.ApiVersions.sitesApiVersion20201201,
-      properties: {
-        config: functionConfig,
-        files: filesCopy,
-        test_data: sampleData,
-      },
-    };
-
-    // Make all extra resources dependent on the Function
-    // and build dependency list for appsettings
+    // Build dependency list for AppSettings
     const appSettingsDependencies: string[] = [];
     if (armResources.length > 0) {
-      const funcDependency = `[resourceId('${functionArmRscTemplate.type}', '${functionAppId}', '${functionName}')]`;
-
       armResources.forEach(armRsc => {
         if (armRsc.type === 'Microsoft.DocumentDB/databaseAccounts') {
           isCdbDeployment = true;
           cdbAcctName = armRsc.name;
-        }
-
-        if (armRsc.dependsOn) {
-          armRsc.dependsOn = [...armRsc.dependsOn, funcDependency];
-        } else {
-          armRsc.dependsOn = [funcDependency];
         }
 
         const rscNameArr = armRsc.name.split('/');
@@ -125,8 +99,6 @@ export default class FunctionsService {
         }
       });
     }
-
-    resourcesToDeploy.push(functionArmRscTemplate);
 
     if (appSettings || isCdbDeployment) {
       // Combine the current FuncApp settings with the new ones to deploy

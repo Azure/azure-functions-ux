@@ -54,7 +54,7 @@ export default class FunctionCreateData {
     deploymentName: string,
     resourceId: string,
     armResources: IArmRscTemplate[],
-    functionInfo: any,
+    functionAppId: string,
     appSettings: ArmObj<KeyValue<string>>,
     currentAppSettings: any
   ) => {
@@ -62,12 +62,7 @@ export default class FunctionCreateData {
       deploymentName,
       resourceId,
       armResources,
-      {
-        functionAppId: functionInfo.functionAppId,
-        functionName: functionInfo.functionName,
-        files: functionInfo.files,
-        functionConfig: functionInfo.functionConfig,
-      },
+      functionAppId,
       appSettings,
       currentAppSettings
     );
