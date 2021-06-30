@@ -24,4 +24,12 @@ export default class DocumentDBService {
       apiVersion: CommonConstants.ApiVersions.documentDBApiVersion20150408,
     });
   };
+
+  public static fetchDatabases = (resourceId: string) => {
+    // TODO
+  };
+
+  public static fetchContainers = (resourceId: string) => {
+    // TODO
+  };
 }

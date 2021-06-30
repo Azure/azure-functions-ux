@@ -325,7 +325,7 @@ export class BindingFormBuilder {
     );
   }
 
-  private _validateText(value: string, required: boolean, validators?: BindingValidator[]): string | undefined {
+  protected _validateText(value: string, required: boolean, validators?: BindingValidator[]): string | undefined {
     let error: string | undefined;
     if (required && !value) {
       error = this.t('fieldRequired');

@@ -10,6 +10,7 @@ import { Field, FormikProps } from 'formik';
 import { IArmRscTemplate } from '../new-create-preview/FunctionCreateDataLoader';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
+import CosmosDBResourceDropdown from './CosmosDBResourceDropdown';
 
 class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
   constructor(
@@ -34,9 +35,6 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
   }
 
   private _modifyMetadata() {
-    console.log(this.bindingList);
-    console.log(this.bindingList[0].settings![1]);
-
     // This functionality works on the assumption that the indices don't change (6/29/2021)
     if (this.bindingList && this.bindingList[0] && this.bindingList[0].settings) {
       // Modify existing fields
@@ -110,15 +108,16 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
         id={setting.name}
         component={RadioButtonNoFormik}
         disabled={isDisabled}
-        selectedKey={setting.defaultValue}
+        defaultSelectedKey={setting.defaultValue}
+        selectedKey={formProps.values[setting.name]}
         options={setting.options}
-        onChange={e => formProps.setFieldValue(setting.name, e.key)}
-        validate={value => this._validateRadioButton(value, setting.required)}
+        onChange={(event, option) => formProps.setFieldValue(setting.name, option.key)}
+        validate={value => this._validateRadioButton(value, setting.required)} // TODO: These'll have to be updated to the new validation method when that PR gets merged in
         onPanel={true}
         layout={Layout.Vertical} // TODO: Update this to horizontal when merging with horizontal form PR
         mouseOverToolTip={setting.help ? setting.help : undefined}
-        required={setting.required}
         key={setting.name}
+        required={setting.required}
         {...formProps}
         dirty={false}
       />
@@ -134,6 +133,35 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     return error;
   }
 
+  protected _getResourceField(
+    setting: BindingSetting,
+    formProps: FormikProps<CreateFunctionFormValues>,
+    setArmResources: (armResources: IArmRscTemplate[]) => void,
+    isDisabled: boolean,
+    resourceId: string
+  ) {
+    return (
+      <Field
+        label={setting.label}
+        name={setting.name}
+        id={setting.name}
+        component={CosmosDBResourceDropdown}
+        setting={setting}
+        resourceId={resourceId}
+        disabled={isDisabled}
+        validate={value => this._validateText(value, setting.required, setting.validators)} // TODO: These'll have to be updated to the new validation method when that PR gets merged in
+        onPanel={true}
+        layout={Layout.Vertical} // TODO: Update this to horizontal when merging with horizontal form PR
+        mouseOverToolTip={setting.help ? setting.help : undefined}
+        required={setting.required}
+        key={setting.name}
+        {...formProps}
+        setArmResources={setArmResources}
+        dirty={false}
+      />
+    );
+  }
+
   private _getComboBoxField(
     setting: BindingSetting,
     formProps: FormikProps<CreateFunctionFormValues>,
@@ -146,11 +174,11 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
         label={setting.label}
         name={setting.name}
         id={setting.name}
-        component={CosmosDbComboBox}
+        component={CosmosDBComboBox}
         setting={setting}
         resourceId={resourceId}
         disabled={isDisabled}
-        validate={value => this._validateComboBox(value, setting.required, setting.validators)}
+        validate={value => this._validateComboBox(value, setting.required, setting.validators)} // TODO: These'll have to be updated to the new validation method when that PR gets merged in
         onPanel={true}
         layout={Layout.Vertical} // TODO: Update this to horizontal when merging with horizontal form PR
         mouseOverToolTip={setting.help ? setting.help : undefined}
@@ -187,7 +215,6 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
   ) {
     return (
       <>
-        {console.log(formProps)}
         {formProps.values.connectionType === 'automatic' && (
           <>
             {this._getResourceField(this.bindingList[0].settings![1], formProps, setArmResources, false, this._resourceId)}
@@ -228,6 +255,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
             )}
 
             <h3>Cosmos DB details</h3>
+            {this._getTextField(this.bindingList[0].settings![2], formProps, false)}
             {this._getTextField(this.bindingList[0].settings![3], formProps, false)}
             {this._getTextField(this.bindingList[0].settings![4], formProps, false)}
           </>
@@ -240,4 +268,6 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
 export default CosmosDbFunctionFormBuilder;
 
 // Placing this here for now just for ease of implementation (can be abstracted later if necessary)
-const CosmosDbComboBox = () => {};
+const CosmosDBComboBox = () => {
+  return <>{/* TODO */}</>;
+};

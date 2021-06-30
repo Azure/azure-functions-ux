@@ -257,57 +257,24 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     }
   }; */
 
-  /*const trackDeploymentStatus = async (deploymentName: string, notificationId: string) => {
-    const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
-    const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
-    const deploymentStatusResponse = await MakeArmCall<any>({
-      resourceId: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}`,
-      commandName: 'getDeploymentStatus',
-      apiVersion: CommonConstants.ApiVersions.armDeploymentApiVersion20210401,
-    });
-
-    console.log(JSON.stringify(deploymentStatusResponse));
-
-    if (deploymentStatusResponse.metadata.success) {
-      const deploymentStatus: string = deploymentStatusResponse.data.properties.provisioningState;
-
-      if (deploymentStatus.toLowerCase() === 'succeeded') {
-        portalCommunicator.stopNotification(
-          notificationId,
-          true,
-          t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp)
-        );
-      } else if (deploymentStatus.toLowerCase() === 'failed') {
-        portalCommunicator.stopNotification(
-          notificationId,
-          false,
-          t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp, deploymentStatusResponse.data.properties.error)
-        );
-      } else {
-        await new Promise(resolve => {
-          setTimeout(resolve, 2500);
-        });
-
-        console.log('Recursion!');
-        await trackDeploymentStatus(deploymentName, notificationId); // TODO: do we need to clear the timeout or does it just fizzle out...?
-      }
-    } else {
-      portalCommunicator.stopNotification(
-        notificationId,
-        false,
-        t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp, deploymentStatusResponse.metadata.error)
-      );
-      LogService.error(
-        LogCategories.localDevExperience,
-        'trackFunctionDeploymentFailed',
-        `Failed to track Function deployment: ${deploymentStatusResponse.metadata.error}`
-      );
-    }
-  };*/
-
   const addFunction = async (formValues: CreateFunctionFormValues) => {
     if (selectedTemplate) {
       setCreatingFunction(true);
+
+      let newAppSettings = formValues.newAppSettings;
+      // Handle custom app settings for CDB template
+      if (formValues.connectionType && formValues.connectionType === 'manual') {
+        formValues.connectionStringSetting = formValues.customAppSettingKey;
+
+        newAppSettings = {
+          properties: {
+            [formValues.customAppSettingKey]: formValues.customAppSettingValue,
+          },
+        };
+      }
+
+      console.log(formValues);
+
       const config = FunctionCreateData.buildFunctionConfig(selectedTemplate.bindings || [], formValues);
       const { functionName } = formValues;
       const { files } = selectedTemplate;
@@ -323,12 +290,12 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
       );
 
-      // FunctionCreateData.createFunction(resourceId, functionName, files, config);
       const splitRscId = resourceId.split('/');
       const functionAppId = splitRscId[splitRscId.length - 1];
 
       // We need to get the current appsettings to include in the
       // deployment as they get overwritten otherwise
+      // TODO: Consider using SiteService to fetchApplicationSettings
       const getAppSettingsResponse = await MakeArmCall<any>({
         method: 'POST',
         resourceId: `${resourceId}/config/appsettings/list`,
@@ -336,6 +303,9 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
       });
 
       const currentAppSettings = getAppSettingsResponse.data.properties;
+
+      // TODO: Create function here
+      // FunctionCreateData.createFunction(resourceId, functionName, files, config);
 
       const createFunctionResponse = await FunctionCreateData.deployFunctionAndResources(
         deploymentName,
@@ -347,7 +317,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
           files,
           functionConfig: config,
         },
-        formValues.newAppSettings,
+        newAppSettings,
         currentAppSettings
       );
 
@@ -358,7 +328,6 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         uri: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}?api-version=${
           CommonConstants.ApiVersions.armDeploymentApiVersion20210401
         }`,
-        //type: 'POST',
         notificationTitle: t('createFunctionDeploymentNotification'),
         notificationDescription: t('createFunctionDeploymentNotificationDetails').format(functionName),
         notificationSuccessDescription: t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp),

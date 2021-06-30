@@ -102,13 +102,13 @@ export default class FunctionsService {
     // and build dependency list for appsettings
     const appSettingsDependencies: string[] = [];
     if (armResources.length > 0) {
+      const funcDependency = `[resourceId('${functionArmRscTemplate.type}', '${functionAppId}', '${functionName}')]`;
+
       armResources.forEach(armRsc => {
         if (armRsc.type === 'Microsoft.DocumentDB/databaseAccounts') {
           isCdbDeployment = true;
           cdbAcctName = armRsc.name;
         }
-
-        const funcDependency = `[resourceId('${functionArmRscTemplate.type}', '${functionAppId}', '${functionName}')]`;
 
         if (armRsc.dependsOn) {
           armRsc.dependsOn = [...armRsc.dependsOn, funcDependency];
@@ -128,22 +128,24 @@ export default class FunctionsService {
 
     resourcesToDeploy.push(functionArmRscTemplate);
 
-    // TODO: If not creating a new CDB account, then the below code chunk won't trigger (which is what we want).
-    // However, we need to 1. Make sure we still reference the right appsetting, and 2. Trigger the below code chunk
-    // w/ the user's input if they do Custom App Setting
-
     if (appSettings || isCdbDeployment) {
       // Combine the current FuncApp settings with the new ones to deploy
-      let appSettingsValues = {};
+      let appSettingsValues = { ...currentAppSettings };
 
       // Get Primary Connection string to CDB account if that's what we're deploying
       if (isCdbDeployment) {
-        appSettingsValues = { ...currentAppSettings };
+        const connectionStringKey = `${cdbAcctName}_DOCUMENTDB`;
+
         appSettingsValues[
-          `${cdbAcctName}_DOCUMENTDB`
+          connectionStringKey
         ] = `[listConnectionStrings(resourceId('Microsoft.DocumentDB/databaseAccounts', '${cdbAcctName}'), '2019-12-12').connectionStrings[0].connectionString]`;
       } else {
-        appSettingsValues = { ...currentAppSettings, ...appSettings.properties };
+        // Check that we're not duplicating any settings (specifically for Cosmos DB as of 6/30/2021)
+        Object.keys(appSettings.properties).forEach(key => {
+          if (!(key in currentAppSettings)) {
+            appSettingsValues[key] = appSettings.properties[key];
+          }
+        });
       }
 
       const appSettingsArmRscTemplate = {
