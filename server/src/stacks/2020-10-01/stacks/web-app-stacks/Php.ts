@@ -18,7 +18,7 @@ export const phpStack: WebAppStack = {
       value: '8',
       minorVersions: [
         {
-          displayText: '8.0',
+          displayText: 'PHP 8.0',
           value: '8.0',
           stackSettings: {
             linuxRuntimeSettings: {
