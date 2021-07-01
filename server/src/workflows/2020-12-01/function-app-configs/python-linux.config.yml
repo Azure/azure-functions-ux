@@ -24,7 +24,7 @@ jobs:
       - name: Setup Python version
         uses: actions/setup-python@v1
         with:
-          python-version: \${{ env.PYTHON_VERSION }}
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Create and start virtual environment
         run: |
@@ -64,7 +64,7 @@ jobs:
         with:
           app-name: '__sitename__'
           slot-name: '__slotname__'
-          package: \${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          publish-profile: ${{ secrets.__publishingprofilesecretname__ }}
           scm-do-build-during-deployment: true
           enable-oryx-build: true
