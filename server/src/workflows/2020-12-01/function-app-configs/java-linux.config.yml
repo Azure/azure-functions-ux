@@ -21,15 +21,15 @@ jobs:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v2
 
-      - name: Setup Java Sdk \${{ env.JAVA_VERSION }}
+      - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v1
         with:
-          java-version: \${{ env.JAVA_VERSION }}
+          java-version: ${{ env.JAVA_VERSION }}
 
       - name: 'Restore Project Dependencies Using Mvn'
         shell: pwsh
         run: |
-          pushd './\${{ env.PACKAGE_DIRECTORY }}'
+          pushd './${{ env.PACKAGE_DIRECTORY }}'
           mvn clean package
           popd
       - name: 'Run Azure Functions Action'
@@ -38,6 +38,6 @@ jobs:
         with:
           app-name: '__sitename__'
           slot-name: '__slotname__'
-          publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
-          package: '\${{ env.PACKAGE_DIRECTORY }}'
+          publish-profile: ${{ secrets.__publishingprofilesecretname__ }}
+          package: '${{ env.PACKAGE_DIRECTORY }}'
           respect-pom-xml: true
