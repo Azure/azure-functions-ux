@@ -47,6 +47,7 @@ export interface TemplateListProps {
   setArmResources: (armResources: IArmRscTemplate[]) => void;
   setHostStatus: (hostStatus?: ArmObj<HostStatus>) => void;
   templates?: FunctionTemplate[] | null;
+  armResources: IArmRscTemplate[];
   hostStatus?: ArmObj<HostStatus>;
   selectedTemplate?: FunctionTemplate;
   builder?: FunctionFormBuilder;
@@ -63,6 +64,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
     templates,
     setTemplates,
     setArmResources,
+    armResources,
     hostStatus,
     setHostStatus,
   } = props;
@@ -258,6 +260,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
           setBuilder={setBuilder}
           builder={builder}
           setArmResources={setArmResources}
+          armResources={armResources}
         />
       )}
     </div>

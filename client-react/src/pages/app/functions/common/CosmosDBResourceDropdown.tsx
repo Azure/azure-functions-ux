@@ -22,6 +22,7 @@ interface CosmosDBResourceDropdownProps {
   setting: BindingSetting;
   resourceId: string;
   setArmResources: (template: IArmRscTemplate[]) => void;
+  armResources: IArmRscTemplate[];
 }
 
 const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
@@ -32,6 +33,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
   const [databaseAccounts, setDatabaseAccounts] = useState<ArmArray<DatabaseAccount> | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<IDropdownOption | undefined>(undefined);
   const [newDatabaseAccountName, setNewDatabaseAccountName] = useState<string | undefined>(undefined);
+  const [newDbAcctType, setNewDbAcctType] = useState<string | undefined>(undefined);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const [shownMissingOptionError, setShownMissingOptionError] = useState<boolean>(false);
 
@@ -51,11 +53,11 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
 
   const getDocumentDBAccounts = (): IDropdownOption[] => {
     const result: IDropdownOption[] = newDatabaseAccountName
-      ? [{ key: `${newDatabaseAccountName}_DOCUMENTDB`, text: `(new) ${newDatabaseAccountName}` }]
+      ? [{ key: `${newDatabaseAccountName}_DOCUMENTDB`, text: `(new) ${newDatabaseAccountName}`, data: newDbAcctType }]
       : [];
 
     databaseAccounts!.value.forEach(dbAcct => {
-      result.push({ key: `${dbAcct.name}_DOCUMENTDB`, text: dbAcct.name });
+      result.push({ key: `${dbAcct.name}_DOCUMENTDB`, text: dbAcct.name, data: dbAcct.kind });
     });
 
     return result;
@@ -66,11 +68,11 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
     formProps: FormikProps<BindingEditorFormValues>,
     field: { name: string; value: any }
   ) => {
-    console.log(option);
     if (option) {
       const dbAcctConnectionSettingKey = option.key as string; // `${dbAcctName}_DOCUMENTDB`
       const dbAcctName = dbAcctConnectionSettingKey.split('_')[0];
       formProps.setFieldValue(field.name, dbAcctConnectionSettingKey);
+      formProps.setStatus({ dbAcctType: option.data });
 
       // Always add the appsetting for CDB to simplify between new/existing DB accounts (FunctionsService deploy handles setting overlaps)
       let newAppSettings = {
@@ -98,6 +100,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
   // Set the onload value
   if (!field.value && options.length > 0) {
     formProps.setFieldValue(field.name, options[0].key);
+    formProps.setStatus({ dbAcctType: options[0].data });
   }
 
   // Set the value when coming back from the callout
@@ -129,6 +132,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
             <NewCosmosDBAccountCallout
               resourceId={resourceId}
               setNewDatabaseAccountName={setNewDatabaseAccountName}
+              setNewDbAcctType={setNewDbAcctType}
               setSelectedItem={setSelectedItem}
               setIsDialogVisible={setIsDialogVisible}
               {...props}

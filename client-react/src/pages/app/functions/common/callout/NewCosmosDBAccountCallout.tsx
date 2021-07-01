@@ -72,7 +72,7 @@ const NewCosmosDBAccountCallout = props => {
   const startupInfoContext = useContext(StartupInfoContext);
   const formRef = useRef<any>(null);
   const { t } = useTranslation();
-  const { setIsDialogVisible, setArmResources, setNewDatabaseAccountName, setSelectedItem } = props;
+  const { setIsDialogVisible, setArmResources, setNewDatabaseAccountName, setSelectedItem, setNewDbAcctType, armResources } = props;
 
   const initialValues: CreateCosmosDbFormValues = {
     accountName: '',
@@ -85,12 +85,11 @@ const NewCosmosDBAccountCallout = props => {
     const cdbTemplateObj = JSON.parse(cosmosDbTemplate);
     setSubmittedAccountName(cdbTemplateObj.name);
     setNewDatabaseAccountName(cdbTemplateObj.name);
-    setSelectedItem({ key: `${cdbTemplateObj.name}_DOCUMENTDB`, text: cdbTemplateObj.name });
+    setNewDbAcctType(cdbTemplateObj.kind);
+    setSelectedItem({ key: `${cdbTemplateObj.name}_DOCUMENTDB`, text: cdbTemplateObj.name, data: cdbTemplateObj.kind });
 
     if (!!setArmResources) {
-      // TODO: may need to pass down the armResources state from FunctionCreateDataLoader to make sure nothing gets overwritten
-      // Or just make sure we actually don't ever overwrite anything (Ex: user creates database/container resources then sets new account)
-      setArmResources([cdbTemplateObj]); // I think at this point in the form we can safely assign the whole armResources array to this...
+      setArmResources([...armResources, cdbTemplateObj]);
     }
   };
 

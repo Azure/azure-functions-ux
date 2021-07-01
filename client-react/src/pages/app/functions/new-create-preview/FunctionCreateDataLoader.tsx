@@ -273,8 +273,6 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         };
       }
 
-      console.log(formValues);
-
       const config = FunctionCreateData.buildFunctionConfig(selectedTemplate.bindings || [], formValues);
       const { functionName } = formValues;
       const { files } = selectedTemplate;
@@ -306,28 +304,31 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
 
       const createFunctionResponse = await FunctionCreateData.createFunction(resourceId, functionName, files, config);
 
-      const deployResourcesResponse = await FunctionCreateData.deployFunctionAndResources(
-        deploymentName,
-        resourceId,
-        armResources,
-        functionAppId,
-        newAppSettings,
-        currentAppSettings
-      );
+      // Note(nlayne): Only do deployment stuff if we have resources or new appsettings to deploy
+      if (!!newAppSettings || armResources.length > 0) {
+        const deployResourcesResponse = await FunctionCreateData.deployFunctionAndResources(
+          deploymentName,
+          resourceId,
+          armResources,
+          functionAppId,
+          newAppSettings,
+          currentAppSettings
+        );
 
-      // Deployment notification
-      if (deployResourcesResponse.metadata.success) {
-        const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
-        const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
-        portalCommunicator.executeArmUpdateRequest<any>({
-          uri: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}?api-version=${
-            CommonConstants.ApiVersions.armDeploymentApiVersion20210401
-          }`,
-          notificationTitle: t('createFunctionDeploymentNotification'),
-          notificationDescription: t('createFunctionDeploymentNotificationDetails').format(functionName),
-          notificationSuccessDescription: t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp),
-          notificationFailureDescription: t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp),
-        });
+        // Deployment notification
+        if (deployResourcesResponse.metadata.success) {
+          const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
+          const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
+          portalCommunicator.executeArmUpdateRequest<any>({
+            uri: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}?api-version=${
+              CommonConstants.ApiVersions.armDeploymentApiVersion20210401
+            }`,
+            notificationTitle: t('createFunctionDeploymentNotification'),
+            notificationDescription: t('createFunctionDeploymentNotificationDetails').format(functionName),
+            notificationSuccessDescription: t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp),
+            notificationFailureDescription: t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp),
+          });
+        }
       }
 
       if (createFunctionResponse.metadata.success) {
@@ -418,6 +419,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
                   setSelectedTemplate={setSelectedTemplate}
                   templates={templates}
                   setTemplates={setTemplates}
+                  armResources={armResources}
                   setArmResources={setArmResources}
                   hostStatus={hostStatus}
                   setHostStatus={setHostStatus}

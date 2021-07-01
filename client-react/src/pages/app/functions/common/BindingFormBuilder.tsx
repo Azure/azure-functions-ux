@@ -58,6 +58,7 @@ export class BindingFormBuilder {
   public getFields(
     formProps: FormikProps<BindingEditorFormValues>,
     setArmResources: ((armResources: IArmRscTemplate[]) => void) | null,
+    armResources: IArmRscTemplate[] | null,
     isDisabled: boolean,
     includeRules: boolean
   ) {
@@ -74,7 +75,15 @@ export class BindingFormBuilder {
 
       for (const setting of binding.settings || []) {
         if (!ignoredFields.includes(setting.name)) {
-          this._addField(fields, setting, formProps, !!setArmResources ? setArmResources : null, isDisabled, i);
+          this._addField(
+            fields,
+            setting,
+            formProps,
+            !!setArmResources ? setArmResources : null,
+            !!armResources ? armResources : null,
+            isDisabled,
+            i
+          );
         }
       }
 
@@ -148,13 +157,23 @@ export class BindingFormBuilder {
     setting: BindingSetting,
     formProps: FormikProps<BindingEditorFormValues>,
     setArmResources: ((template: IArmRscTemplate[]) => void) | null,
+    armResources: IArmRscTemplate[] | null,
     isDisabled: boolean,
     i: number
   ) {
     switch (setting.value) {
       case BindingSettingValue.string:
         if (setting.resource) {
-          fields.push(this._getResourceField(setting, formProps, !!setArmResources ? setArmResources : null, isDisabled, this._resourceId));
+          fields.push(
+            this._getResourceField(
+              setting,
+              formProps,
+              !!setArmResources ? setArmResources : null,
+              !!armResources ? armResources : null,
+              isDisabled,
+              this._resourceId
+            )
+          );
         } else {
           fields.push(this._getTextField(setting, formProps, isDisabled));
         }
@@ -246,6 +265,7 @@ export class BindingFormBuilder {
     setting: BindingSetting,
     formProps: FormikProps<BindingEditorFormValues>,
     setArmResources: ((armResources: IArmRscTemplate[]) => void) | null,
+    armResources: IArmRscTemplate[] | null,
     isDisabled: boolean,
     resourceId: string
   ) {
@@ -266,6 +286,7 @@ export class BindingFormBuilder {
         key={setting.name}
         {...formProps}
         setArmResources={!!setArmResources ? setArmResources : null}
+        armResources={armResources}
         dirty={false}
       />
     );

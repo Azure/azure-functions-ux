@@ -27,10 +27,11 @@ export interface TemplateDetailProps {
   setBuilder: (builder?: FunctionFormBuilder) => void;
   builder?: FunctionFormBuilder;
   setArmResources: (armResources: IArmRscTemplate[]) => void;
+  armResources: IArmRscTemplate[];
 }
 
 const TemplateDetail: React.FC<TemplateDetailProps> = props => {
-  const { resourceId, selectedTemplate, formProps, builder, setBuilder, setArmResources } = props;
+  const { resourceId, selectedTemplate, formProps, builder, setBuilder, setArmResources, armResources } = props;
   const { t } = useTranslation();
 
   const [functionsInfo, setFunctionsInfo] = useState<ArmObj<FunctionInfo>[] | undefined | null>(undefined);
@@ -136,7 +137,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     return !functionsInfo || !bindings || !builder ? (
       <BasicShimmerLines />
     ) : (
-      builder.getFields(formProps, setArmResources, !!functionCreateContext.creatingFunction)
+      builder.getFields(formProps, setArmResources, armResources, !!functionCreateContext.creatingFunction)
     );
   };
 

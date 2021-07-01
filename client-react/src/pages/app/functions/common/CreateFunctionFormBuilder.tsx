@@ -80,7 +80,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
     resourceId: string,
     private _functionsInfo: ArmObj<FunctionInfo>[],
     private _defaultName: string,
-    private t: i18next.TFunction
+    protected t: i18next.TFunction
   ) {
     super(bindingInfo, bindings, resourceId, t);
   }
@@ -96,10 +96,11 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
   public getFields(
     formProps: FormikProps<CreateFunctionFormValues>,
     setArmResources: (armResources: IArmRscTemplate[]) => void,
+    armResources: IArmRscTemplate[],
     isDisabled: boolean
   ) {
     const nameField: JSX.Element[] = [getFunctionNameTextField(formProps, isDisabled, this._functionsInfo, this.t)];
-    const bindingFields: JSX.Element[] = super.getFields(formProps, setArmResources, isDisabled, false);
+    const bindingFields: JSX.Element[] = super.getFields(formProps, setArmResources, armResources, isDisabled, false);
     return nameField.concat(bindingFields);
   }
 }

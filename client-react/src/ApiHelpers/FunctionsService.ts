@@ -18,13 +18,6 @@ import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
 import { IArmRscTemplate } from '../pages/app/functions/new-create-preview/FunctionCreateDataLoader';
 import { CommonConstants } from '../utils/CommonConstants';
 
-interface IFunctionInfo {
-  functionAppId: string;
-  functionName: string;
-  files: KeyValue<string>;
-  functionConfig: FunctionConfig;
-}
-
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
     const id = `${resourceId}/host/default/properties/status`;
@@ -83,8 +76,8 @@ export default class FunctionsService {
 
     // Build dependency list for AppSettings
     const appSettingsDependencies: string[] = [];
-    if (armResources.length > 0) {
-      armResources.forEach(armRsc => {
+    if (resourcesToDeploy.length > 0) {
+      resourcesToDeploy.forEach(armRsc => {
         if (armRsc.type === 'Microsoft.DocumentDB/databaseAccounts') {
           isCdbDeployment = true;
           cdbAcctName = armRsc.name;
@@ -92,8 +85,10 @@ export default class FunctionsService {
 
         const rscNameArr = armRsc.name.split('/');
 
-        if (rscNameArr.length > 1) {
+        if (rscNameArr.length === 2) {
           appSettingsDependencies.push(`[resourceId('${armRsc.type}', '${rscNameArr[0]}', '${rscNameArr[1]}')]`);
+        } else if (rscNameArr.length === 3) {
+          appSettingsDependencies.push(`[resourceId('${armRsc.type}', '${rscNameArr[0]}', '${rscNameArr[1]}', '${rscNameArr[2]}')]`);
         } else {
           appSettingsDependencies.push(`[resourceId('${armRsc.type}', '${rscNameArr[0]}')]`);
         }
@@ -131,7 +126,8 @@ export default class FunctionsService {
       resourcesToDeploy.push(appSettingsArmRscTemplate);
     }
 
-    return makeArmDeployment(deploymentName, subscription, resourceGroup, armResources);
+    console.log(JSON.stringify(resourcesToDeploy));
+    return makeArmDeployment(deploymentName, subscription, resourceGroup, resourcesToDeploy);
   };
 
   public static getBindings = (functionAppId: string) => {
