@@ -239,25 +239,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     }
   };
 
-  // For now (6/18/2021), this function is getting axed (along with its notification(s))
-  // until the new UI flow for the ARM deployment is figured out
-  /*const updateAppSettings = async (appSettings: ArmObj<KeyValue<string>>) => {
-    const notificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
-    const updateAppSettingsResponse = await FunctionCreateData.updateAppSettings(resourceId, appSettings);
-    if (updateAppSettingsResponse.metadata.success) {
-      portalCommunicator.stopNotification(notificationId, true, t('configUpdateSuccess'));
-    } else {
-      const errorMessage = getErrorMessage(updateAppSettingsResponse.metadata.error) || t('configUpdateFailure');
-      portalCommunicator.stopNotification(notificationId, false, errorMessage);
-      LogService.trackEvent(
-        LogCategories.localDevExperience,
-        'updateAppSettings',
-        `Failed to update Application Settings: ${getErrorMessageOrStringify(updateAppSettingsResponse.metadata.error)}`
-      );
-    }
-  }; */
-
-  const addFunction = async (formValues: CreateFunctionFormValues) => {
+  const createFunction = async (formValues: CreateFunctionFormValues) => {
     if (selectedTemplate) {
       setCreatingFunction(true);
 
@@ -362,10 +344,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
 
   const onSubmit = (formValues?: CreateFunctionFormValues) => {
     if (!!formValues) {
-      /*if (formValues.newAppSettings) {
-        updateAppSettings(formValues.newAppSettings);
-      } // Since this is all now being done in an ARM deployment, we'll do this in a single function */
-      addFunction(formValues);
+      createFunction(formValues);
     }
   };
 

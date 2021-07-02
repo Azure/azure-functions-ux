@@ -76,19 +76,8 @@ const CosmosDBComboBox = props => {
     field: { name: string; value: any }
   ) => {
     if (option) {
-      const dbAcctConnectionSettingKey = option.key as string; // Format: `${dbAcctName}_DOCUMENTDB`
-      const dbAcctName = dbAcctConnectionSettingKey.split('_')[0];
-      formProps.setFieldValue(field.name, dbAcctConnectionSettingKey);
-
-      // Always add the appsetting for CDB to simplify between new/existing DB accounts (FunctionsService deploy handles setting overlaps)
-      let newAppSettings = {
-        properties: {},
-      };
-
-      newAppSettings.properties[
-        dbAcctConnectionSettingKey
-      ] = `[listConnectionStrings(resourceId('Microsoft.DocumentDB/databaseAccounts', '${dbAcctName}'), '2019-12-12').connectionStrings[0].connectionString]`;
-      formProps.setFieldValue('newAppSettings', newAppSettings);
+      const dbOrContName = option.key as string;
+      formProps.setFieldValue(field.name, dbOrContName);
     }
   };
 
@@ -223,7 +212,7 @@ const CosmosDBComboBox = props => {
         {...props}
       />
 
-      {console.log(formProps.values)}
+      {console.log(formProps.values) /* TODO: remove this */}
 
       {!isDisabled ? (
         <div style={linkPaddingStyle}>

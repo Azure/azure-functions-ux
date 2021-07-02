@@ -98,10 +98,12 @@ export default class FunctionsService {
     if (appSettings || isCdbDeployment) {
       // Combine the current FuncApp settings with the new ones to deploy
       let appSettingsValues = { ...currentAppSettings };
+      let noNewValues = true;
 
       // Get Primary Connection string to CDB account if that's what we're deploying
       if (isCdbDeployment) {
         const connectionStringKey = `${cdbAcctName}_DOCUMENTDB`;
+        noNewValues = false;
 
         appSettingsValues[
           connectionStringKey
@@ -111,19 +113,24 @@ export default class FunctionsService {
         Object.keys(appSettings.properties).forEach(key => {
           if (!(key in currentAppSettings)) {
             appSettingsValues[key] = appSettings.properties[key];
+            noNewValues = false;
           }
         });
       }
 
-      const appSettingsArmRscTemplate = {
-        name: `${functionAppId}/appsettings`,
-        type: 'Microsoft.Web/sites/config',
-        apiVersion: CommonConstants.ApiVersions.sitesApiVersion20201201,
-        dependsOn: appSettingsDependencies,
-        properties: appSettingsValues,
-      };
+      // Due to some CDB template functionality, we need to double check
+      // that there's actually new appsettings, otherwise don't deploy it
+      if (!noNewValues) {
+        const appSettingsArmRscTemplate = {
+          name: `${functionAppId}/appsettings`,
+          type: 'Microsoft.Web/sites/config',
+          apiVersion: CommonConstants.ApiVersions.sitesApiVersion20201201,
+          dependsOn: appSettingsDependencies,
+          properties: appSettingsValues,
+        };
 
-      resourcesToDeploy.push(appSettingsArmRscTemplate);
+        resourcesToDeploy.push(appSettingsArmRscTemplate);
+      }
     }
 
     return makeArmDeployment(deploymentName, subscription, resourceGroup, resourcesToDeploy);
