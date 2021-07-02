@@ -317,6 +317,10 @@ export const makeArmDeployment = async (
     data: respSuccess ? response.data : null,
   };
 
+  if (!respSuccess) {
+    console.error(`[ARM Deployment Error]: ${JSON.stringify(ret.metadata.error)}`);
+  }
+
   return ret;
 };
 

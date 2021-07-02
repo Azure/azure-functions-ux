@@ -126,7 +126,6 @@ export default class FunctionsService {
       resourcesToDeploy.push(appSettingsArmRscTemplate);
     }
 
-    console.log(JSON.stringify(resourcesToDeploy));
     return makeArmDeployment(deploymentName, subscription, resourceGroup, resourcesToDeploy);
   };
 

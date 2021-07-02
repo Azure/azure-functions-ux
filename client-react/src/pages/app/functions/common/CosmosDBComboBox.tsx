@@ -170,7 +170,7 @@ const CosmosDBComboBox = props => {
     armResources.forEach(rsc => {
       if (rsc.type === 'Microsoft.DocumentDB/databaseAccounts') {
         containerTemplate.dependsOn = [
-          `[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', '${dbAcctName}', '${databaseName}')`,
+          `[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', '${dbAcctName}', '${databaseName}')]`,
         ];
         return;
       }
