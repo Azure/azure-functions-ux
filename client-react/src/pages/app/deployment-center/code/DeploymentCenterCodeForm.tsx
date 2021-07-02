@@ -287,6 +287,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         runtimeRecommendedVersion,
         publishType: 'code',
         appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
+        isKubeApp: siteStateContext.isKubeApp ? 'true' : 'false',
         os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
       })
     );
@@ -324,16 +325,29 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     return deployKudu(values);
   };
 
+  const logSaveConclusion = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>, success: boolean) => {
+    const { sourceProvider } = values;
+
+    portalContext.log(
+      getTelemetryInfo('info', 'saveDeploymentSettings', 'end', {
+        sourceProvider,
+        success: success ? 'true' : 'false',
+      })
+    );
+  };
+
   const saveGithubActionsDeploymentSettings = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
     const notificationId = portalContext.startNotification(t('settingupDeployment'), t('githubActionSavingSettings'));
     const deployResponse = await deploy(values);
     if (deployResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('githubActionSettingsSavedSuccessfully'));
+      logSaveConclusion(values, true);
     } else {
       const errorMessage = getErrorMessage(deployResponse.metadata.error);
       errorMessage
         ? portalContext.stopNotification(notificationId, false, t('settingupDeploymentFailWithStatusMessage').format(errorMessage))
         : portalContext.stopNotification(notificationId, false, t('settingupDeploymentFail'));
+      logSaveConclusion(values, false);
     }
   };
 
@@ -342,11 +356,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     const deployResponse = await deploy(values);
     if (deployResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('settingupDeploymentSuccess'));
+      logSaveConclusion(values, true);
     } else {
       const errorMessage = getErrorMessage(deployResponse.metadata.error);
       errorMessage
         ? portalContext.stopNotification(notificationId, false, t('settingupDeploymentFailWithStatusMessage').format(errorMessage))
         : portalContext.stopNotification(notificationId, false, t('settingupDeploymentFail'));
+      logSaveConclusion(values, false);
     }
   };
 

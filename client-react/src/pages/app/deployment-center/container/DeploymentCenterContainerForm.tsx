@@ -343,6 +343,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       }
 
       portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
+      logSaveConclusion(values, true);
     } else {
       let errorMessage = !updateAppSettingsResponse.success ? getErrorMessage(updateAppSettingsResponse.error) : '';
 
@@ -357,6 +358,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       } else {
         portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
       }
+      logSaveConclusion(values, false);
     }
   };
 
@@ -543,6 +545,17 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     return responseResult;
   };
 
+  const logSaveConclusion = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>, success: boolean) => {
+    const { scmType } = values;
+
+    portalContext.log(
+      getTelemetryInfo('info', 'saveDeploymentSettings', 'end', {
+        sourceProvider: scmType,
+        success: success ? 'true' : 'false',
+      })
+    );
+  };
+
   const saveGithubActionContainerSettings = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
     const notificationId = portalContext.startNotification(t('savingContainerConfiguration'), t('savingContainerConfiguration'));
 
@@ -563,6 +576,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
     if (containerConfigurationSucceeded) {
       portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
+      logSaveConclusion(values, true);
     } else {
       if (errorMessage) {
         portalContext.stopNotification(
@@ -573,6 +587,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       } else {
         portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
       }
+      logSaveConclusion(values, false);
     }
   };
 
@@ -588,7 +603,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     const { scmType, org, repo, branch, workflowOption, registrySource, option, acrLoginServer, privateRegistryServerUrl } = values;
     portalContext.log(
       getTelemetryInfo('info', 'saveDeploymentSettings', 'start', {
-        scmType,
+        sourceProvider: scmType,
         org,
         repo,
         branch,
@@ -599,6 +614,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         privateRegistryServerUrl,
         publishType: 'container',
         appType: siteContext.isFunctionApp ? 'functionApp' : 'webApp',
+        isKubeApp: siteContext.isKubeApp ? 'true' : 'false',
         os: siteContext.isLinuxApp ? AppOs.linux : AppOs.windows,
       })
     );
