@@ -59,8 +59,6 @@ export default class FunctionsService {
     });
   };
 
-  // Doc for Function ARM template: https://docs.microsoft.com/en-us/azure/templates/microsoft.web/sites/functions?tabs=json
-  // The current order we deploy the resources in is: Function -> CDB Account -> App Settings
   public static deployFunctionAndResources = (
     deploymentName: string,
     resourceId: string,

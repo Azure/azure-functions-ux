@@ -55,10 +55,13 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
     const result: IDropdownOption[] = newDatabaseAccountName
       ? [{ key: `${newDatabaseAccountName}_DOCUMENTDB`, text: `(new) ${newDatabaseAccountName}`, data: newDbAcctType }]
       : [];
+    // formProps.setStatus({ ...formProps.status, isNewDbAcct: !!newDatabaseAccountName }); TODO: Left off with this breaking things
 
-    databaseAccounts!.value.forEach(dbAcct => {
-      result.push({ key: `${dbAcct.name}_DOCUMENTDB`, text: dbAcct.name, data: dbAcct.kind });
-    });
+    if (databaseAccounts) {
+      databaseAccounts.value.forEach(dbAcct => {
+        result.push({ key: `${dbAcct.name}_DOCUMENTDB`, text: dbAcct.name, data: dbAcct.kind });
+      });
+    }
 
     return result;
   };
@@ -72,7 +75,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
       const dbAcctConnectionSettingKey = option.key as string; // `${dbAcctName}_DOCUMENTDB`
       const dbAcctName = dbAcctConnectionSettingKey.split('_')[0];
       formProps.setFieldValue(field.name, dbAcctConnectionSettingKey);
-      formProps.setStatus({ dbAcctType: option.data });
+      formProps.setStatus({ ...formProps.status, dbAcctType: option.data });
 
       // Always add the appsetting for CDB to simplify between new/existing DB accounts (FunctionsService deploy handles setting overlaps)
       let newAppSettings = {
@@ -100,7 +103,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
   // Set the onload value
   if (!field.value && options.length > 0) {
     formProps.setFieldValue(field.name, options[0].key);
-    formProps.setStatus({ dbAcctType: options[0].data });
+    formProps.setStatus({ ...formProps.status, dbAcctType: options[0].data });
   }
 
   // Set the value when coming back from the callout

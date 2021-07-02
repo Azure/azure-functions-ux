@@ -96,7 +96,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     const connectionTypeField = this._getRadioButtonField(this.bindingList[0].settings![0], formProps, isDisabled, this.t);
     formFields.push(connectionTypeField);
 
-    const progressiveDisclosureElement = this._getProgressiveDisclosureFields(formProps, setArmResources, armResources);
+    const progressiveDisclosureElement = this._getProgressiveDisclosureFields(formProps, setArmResources, armResources, isDisabled);
     formFields.push(progressiveDisclosureElement);
 
     return formFields;
@@ -219,23 +219,45 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     return error;
   }
 
-  // TODO: all 'isDisableds' set to false for now
   private _getProgressiveDisclosureFields(
     formProps: FormikProps<CreateFunctionFormValues>,
     setArmResources: (armResources: IArmRscTemplate[]) => void,
-    armResources: IArmRscTemplate[]
+    armResources: IArmRscTemplate[],
+    isDisabled: boolean
   ) {
     return (
       <React.Fragment key="pdFields">
         {formProps.values.connectionType === 'automatic' && (
           <React.Fragment key="automaticCdbTemplate">
-            {this._getResourceField(this.bindingList[0].settings![1], formProps, setArmResources, armResources, false, this._resourceId)}
+            {this._getResourceField(
+              this.bindingList[0].settings![1],
+              formProps,
+              setArmResources,
+              armResources,
+              isDisabled,
+              this._resourceId
+            )}
             {formProps.values[this.bindingList[0].settings![1].name] &&
-              this._getComboBoxField(this.bindingList[0].settings![2], formProps, setArmResources, armResources, false, this._resourceId)}
+              this._getComboBoxField(
+                this.bindingList[0].settings![2],
+                formProps,
+                setArmResources,
+                armResources,
+                isDisabled,
+                this._resourceId
+              )}
             {formProps.values[this.bindingList[0].settings![2].name] &&
-              this._getComboBoxField(this.bindingList[0].settings![3], formProps, setArmResources, armResources, false, this._resourceId)}
-            {formProps.values[this.bindingList[0].settings![3].name] &&
-              this._getTextField(this.bindingList[0].settings![4], formProps, false)}
+              this._getComboBoxField(
+                this.bindingList[0].settings![3],
+                formProps,
+                setArmResources,
+                armResources,
+                isDisabled,
+                this._resourceId
+              )}
+            {formProps.status &&
+              formProps.status.isNewContainer &&
+              this._getTextField(this.bindingList[0].settings![4], formProps, isDisabled)}
           </React.Fragment>
         )}
 
@@ -252,7 +274,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
                 help: 'Enter the key/value pair for the Cosmos DB custom app setting.',
               },
               formProps,
-              false
+              isDisabled
             )}
             {this._getTextField(
               {
@@ -263,13 +285,12 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
                 label: 'Value',
               },
               formProps,
-              false
+              isDisabled
             )}
 
             <h3>Cosmos DB details</h3>
-            {this._getTextField(this.bindingList[0].settings![2], formProps, false)}
-            {this._getTextField(this.bindingList[0].settings![3], formProps, false)}
-            {this._getTextField(this.bindingList[0].settings![4], formProps, false)}
+            {this._getTextField(this.bindingList[0].settings![2], formProps, isDisabled)}
+            {this._getTextField(this.bindingList[0].settings![3], formProps, isDisabled)}
           </React.Fragment>
         )}
       </React.Fragment>

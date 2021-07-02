@@ -111,7 +111,7 @@ const NewCosmosDBAccountCallout = props => {
       <div className={subtextStyle(theme)}>
         Create a new serverless account in the same Azure region and resource group as the function. For more options, go to{' '}
         <Link href="https://docs.microsoft.com/en-us/azure/cosmos-db/choose-api" target="_blank" rel="noopener noreferrer">
-          Create Cosmos DB account
+          Create Cosmos DB account {/* TODO: localization for this */}
         </Link>
         .
       </div>

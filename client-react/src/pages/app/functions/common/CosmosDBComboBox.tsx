@@ -84,6 +84,7 @@ const CosmosDBComboBox = props => {
   const getDatabasesOrContainers = (): IComboBoxOption[] => {
     if (setting.name === 'databaseName') {
       const result: IComboBoxOption[] = newDatabaseName ? [{ key: newDatabaseName, text: `(new) ${newDatabaseName}` }] : [];
+      // formProps.setStatus({ ...formProps.status, isNewDatabase: !!newDatabaseName }); TODO: Left off with this breaking things
 
       if (databases) {
         databases.forEach(database => {
@@ -94,6 +95,7 @@ const CosmosDBComboBox = props => {
       return result;
     } else if (setting.name === 'collectionName') {
       const result: IComboBoxOption[] = newContainerName ? [{ key: newContainerName, text: `(new) ${newContainerName}` }] : [];
+      // formProps.setStatus({ ...formProps.status, isNewContainer: !!newContainerName }); TODO: Left off with this breaking things
 
       if (containers) {
         containers.forEach(container => {
@@ -147,7 +149,6 @@ const CosmosDBComboBox = props => {
       properties: {
         resource: {
           id: `${containerName}`,
-          // TODO: Get the partition key to use 'formProps.values.partitionKeyPath'
           partitionKey: {
             paths: ['/id'],
             kind: 'Hash',
@@ -211,8 +212,6 @@ const CosmosDBComboBox = props => {
         defaultSelectedKey={formProps.values.repo}
         {...props}
       />
-
-      {console.log(formProps.values) /* TODO: remove this */}
 
       {!isDisabled ? (
         <div style={linkPaddingStyle}>
