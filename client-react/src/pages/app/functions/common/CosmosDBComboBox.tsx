@@ -129,7 +129,6 @@ const CosmosDBComboBox = props => {
     }
   };
 
-  // TODO: consider moving these two functions into DocumentDBService
   const getNewDatabaseArmTemplate = (databaseName: string) => {
     const dbAcctName = formProps.values.connectionStringSetting.split('_')[0];
 
@@ -144,10 +143,12 @@ const CosmosDBComboBox = props => {
       },
     };
 
+    // Handle MongoDB CosmosDB stuff (in addition to SQL)
     if (formProps.status.dbAcctType === 'MongoDB') {
       databaseTemplate.type = 'Microsoft.DocumentDB/databaseAccounts/mongodbDatabases';
     }
 
+    // If we're creating a new DB account, make sure to dependsOn it
     armResources.forEach(rsc => {
       if (rsc.type === 'Microsoft.DocumentDB/databaseAccounts') {
         databaseTemplate.dependsOn = [`[resourceId('Microsoft.DocumentDB/databaseAccounts', '${dbAcctName}')]`];
@@ -177,6 +178,7 @@ const CosmosDBComboBox = props => {
       },
     };
 
+    // If we're creating a new DB account and/or database, make sure to dependsOn it
     armResources.forEach(rsc => {
       if (rsc.type === 'Microsoft.DocumentDB/databaseAccounts') {
         containerTemplate.dependsOn = [
@@ -186,6 +188,7 @@ const CosmosDBComboBox = props => {
       }
     });
 
+    // Handle MongoDB CosmosDB stuff (in addition to SQL)
     if (formProps.status.dbAcctType === 'MongoDB') {
       containerTemplate.type = 'Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections';
       delete containerTemplate.properties.resource.partitionKey;

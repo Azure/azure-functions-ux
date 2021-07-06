@@ -286,10 +286,8 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
 
       const createFunctionResponse = await FunctionCreateData.createFunction(resourceId, functionName, files, config);
 
-      // Note(nlayne): Only do deployment stuff if we have resources or new appsettings to deploy
+      // NOTE(nlayne): Only do deployment stuff if we have resources or new appsettings to deploy
       if (!!newAppSettings || armResources.length > 0) {
-        // TODO: if formProps.status.isNewContainer && dbAcctType === 'GlobalDocumentDB' -> set partitionKeyPath in the applicable armRsc
-
         const deployResourcesResponse = await FunctionCreateData.deployFunctionAndResources(
           deploymentName,
           resourceId,

@@ -30,7 +30,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
   }
 
   public getInitialFormValues() {
-    if (!this._metadataHasBeenUpdated) return {};
+    if (!this._metadataHasBeenUpdated) return {} as CreateFunctionFormValues;
 
     const functionNameValue = { functionName: getInitialFunctionName(this._functionsInfo, this._defaultName) };
     const bindingFormValues = super.getInitialFormValues();
