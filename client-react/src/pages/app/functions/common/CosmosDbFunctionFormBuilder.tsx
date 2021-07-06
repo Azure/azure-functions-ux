@@ -171,6 +171,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     );
   }
 
+  // TODO: validate this, and confirm resourceDropdown's still works (set validators in metadata and make sure validation functions work)
   private _getComboBoxField(
     setting: BindingSetting,
     formProps: FormikProps<CreateFunctionFormValues>,

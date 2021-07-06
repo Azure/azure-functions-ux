@@ -51,11 +51,14 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
     });
   }, [resourceId]);
 
+  useEffect(() => {
+    formProps.setStatus({ ...formProps.status, isNewDbAcct: !!newDatabaseAccountName });
+  }, [newDatabaseAccountName]);
+
   const getDocumentDBAccounts = (): IDropdownOption[] => {
     const result: IDropdownOption[] = newDatabaseAccountName
       ? [{ key: `${newDatabaseAccountName}_DOCUMENTDB`, text: `(new) ${newDatabaseAccountName}`, data: newDbAcctType }]
       : [];
-    // formProps.setStatus({ ...formProps.status, isNewDbAcct: !!newDatabaseAccountName }); TODO: Left off with this breaking things
 
     if (databaseAccounts) {
       databaseAccounts.value.forEach(dbAcct => {
@@ -72,10 +75,17 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
     field: { name: string; value: any }
   ) => {
     if (option) {
-      const dbAcctConnectionSettingKey = option.key as string; // `${dbAcctName}_DOCUMENTDB`
+      const dbAcctConnectionSettingKey = option.key as string; // Format: `${dbAcctName}_DOCUMENTDB`
       const dbAcctName = dbAcctConnectionSettingKey.split('_')[0];
       formProps.setFieldValue(field.name, dbAcctConnectionSettingKey);
       formProps.setStatus({ ...formProps.status, dbAcctType: option.data });
+
+      // Make sure the isNewDbAcct status is staying up-to-date with the selected option
+      if (!selectedItem && formProps.status && formProps.status.isNewDbAcct) {
+        formProps.setStatus({ ...formProps.status, isNewDbAcct: false });
+      } else if (option.text.includes('(new)') && formProps.status && !formProps.status.isNewDbAcct) {
+        formProps.setStatus({ ...formProps.status, isNewDbAcct: true });
+      }
 
       // Always add the appsetting for CDB to simplify between new/existing DB accounts (FunctionsService deploy handles setting overlaps)
       let newAppSettings = {
@@ -92,7 +102,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
   // If we are readonly, don't rely on app settings, assume that the saved value is correct
   if (SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
     return <Dropdown options={[{ text: field.value, key: field.value }]} selectedKey={field.value} {...props} />;
-  }
+  } // TODO: see if we need this
 
   if (!databaseAccounts) {
     return <LoadingComponent />;
@@ -100,9 +110,8 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
 
   const options = getDocumentDBAccounts();
 
-  // Set the onload value
-  if (!field.value && options.length > 0) {
-    formProps.setFieldValue(field.name, options[0].key);
+  // Set database account type (SQL, mongoDB, etc)
+  if (formProps.status && !formProps.status.dbAcctType && options.length > 0) {
     formProps.setStatus({ ...formProps.status, dbAcctType: options[0].data });
   }
 
@@ -113,18 +122,21 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
   }
 
   if (field.value && !options.some(option => option.key === field.value) && !shownMissingOptionError) {
-    formProps.setFieldError(field.name, t('resourceDropdown_missingAppSetting'));
+    formProps.setFieldError(field.name, t('resourceDropdown_missingAppSetting')); // TODO: update this, or check if we even need this function
     setShownMissingOptionError(true);
+  }
+
+  // TODO: consider using 'options.length < 1' as the check here
+  let placeholder: string | undefined = undefined;
+  if (!databaseAccounts) {
+    placeholder = '(new) Database account'; // TODO: localization for these
+  } else {
+    placeholder = 'Select a Cosmos DB account';
   }
 
   return (
     <div>
-      <Dropdown
-        options={options}
-        placeholder={options.length < 1 ? t('resourceDropdown_noAppSettingsFound') : undefined}
-        onChange={(_e, option) => onChange(option, formProps, field)}
-        {...props}
-      />
+      <Dropdown options={options} onChange={(_e, option) => onChange(option, formProps, field)} {...props} placeholder={placeholder} />
       {!isDisabled ? (
         <div style={linkPaddingStyle}>
           <Link id="target" onClick={() => setIsDialogVisible(true)}>

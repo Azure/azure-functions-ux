@@ -33,8 +33,12 @@ const CosmosDBComboBox = props => {
     const dbAcctName = formProps.values.connectionStringSetting.split('_')[0];
     const dbAcctType = formProps.status.dbAcctType;
 
-    // TODO: Don't do this if creating new dbAcct
     if (setting.name === 'databaseName') {
+      if (formProps.status && formProps.status.isNewDbAcct) {
+        setDatabases(undefined);
+        return;
+      }
+
       DocumentDBService.fetchDatabases(resourceId, dbAcctName, dbAcctType).then(r => {
         if (!r.metadata.success) {
           LogService.error(
@@ -54,7 +58,13 @@ const CosmosDBComboBox = props => {
     const dbAcctName = formProps.values.connectionStringSetting.split('_')[0];
     const dbAcctType = formProps.status.dbAcctType;
 
-    if (setting.name === 'collectionName' && !newDatabaseName) {
+    if (setting.name === 'collectionName') {
+      // TODO: try to use newDatabaseName as check?
+      if (formProps.status && formProps.status.isNewDatabase) {
+        setContainers(undefined);
+        return;
+      }
+
       DocumentDBService.fetchContainers(resourceId, dbAcctName, dbAcctType, formProps.values.databaseName).then(r => {
         if (!r.metadata.success) {
           LogService.error(
@@ -68,6 +78,18 @@ const CosmosDBComboBox = props => {
       });
     }
   }, [formProps.values.databaseName]);
+
+  useEffect(() => {
+    if (setting.name === 'databaseName') {
+      formProps.setStatus({ ...formProps.status, isNewDatabase: !!newDatabaseName });
+    }
+  }, [newDatabaseName]);
+
+  useEffect(() => {
+    if (setting.name === 'collectionName') {
+      formProps.setStatus({ ...formProps.status, isNewContainer: !!newContainerName });
+    }
+  }, [newContainerName]);
 
   const onChange = (
     option: IComboBoxOption | undefined,
@@ -84,7 +106,6 @@ const CosmosDBComboBox = props => {
   const getDatabasesOrContainers = (): IComboBoxOption[] => {
     if (setting.name === 'databaseName') {
       const result: IComboBoxOption[] = newDatabaseName ? [{ key: newDatabaseName, text: `(new) ${newDatabaseName}` }] : [];
-      // formProps.setStatus({ ...formProps.status, isNewDatabase: !!newDatabaseName }); TODO: Left off with this breaking things
 
       if (databases) {
         databases.forEach(database => {
@@ -95,7 +116,6 @@ const CosmosDBComboBox = props => {
       return result;
     } else if (setting.name === 'collectionName') {
       const result: IComboBoxOption[] = newContainerName ? [{ key: newContainerName, text: `(new) ${newContainerName}` }] : [];
-      // formProps.setStatus({ ...formProps.status, isNewContainer: !!newContainerName }); TODO: Left off with this breaking things
 
       if (containers) {
         containers.forEach(container => {
@@ -202,6 +222,21 @@ const CosmosDBComboBox = props => {
     setSelectedItem(undefined);
   }
 
+  let placeholder: string | undefined = undefined;
+  if (setting.name === 'databaseName') {
+    if (!databases) {
+      placeholder = '(new) Database';
+    } else {
+      placeholder = 'Select a database';
+    }
+  } else if (setting.name === 'collectionName') {
+    if (!containers) {
+      placeholder = '(new) Container';
+    } else {
+      placeholder = 'Select a container';
+    }
+  }
+
   return (
     <>
       <ComboBox
@@ -211,6 +246,7 @@ const CosmosDBComboBox = props => {
         options={options}
         defaultSelectedKey={formProps.values.repo}
         {...props}
+        placeholder={placeholder}
       />
 
       {!isDisabled ? (
