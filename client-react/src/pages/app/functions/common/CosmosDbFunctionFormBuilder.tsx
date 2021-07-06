@@ -3,7 +3,7 @@ import { BindingFormBuilder } from './BindingFormBuilder';
 import { CreateFunctionFormValues, getInitialFunctionName, getFunctionNameTextField } from './CreateFunctionFormBuilder';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Binding, BindingSettingValue, BindingSetting, BindingValidator } from '../../../../models/functions/binding';
-import { BindingInfo } from '../../../../models/functions/function-binding';
+import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import i18next from 'i18next';
 import { Field, FormikProps } from 'formik';
@@ -14,6 +14,8 @@ import CosmosDBResourceDropdown from './CosmosDBResourceDropdown';
 import CosmosDBComboBox from './CosmosDBComboBox';
 
 class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
+  private _metadataHasBeenUpdated: boolean;
+
   constructor(
     bindingInfo: BindingInfo[],
     bindings: Binding[],
@@ -28,6 +30,8 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
   }
 
   public getInitialFormValues() {
+    if (!this._metadataHasBeenUpdated) return {};
+
     const functionNameValue = { functionName: getInitialFunctionName(this._functionsInfo, this._defaultName) };
     const bindingFormValues = super.getInitialFormValues();
     delete bindingFormValues.direction;
@@ -41,9 +45,15 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
 
   private _modifyMetadata() {
     // This functionality works on the assumption that the indices don't change (6/29/2021)
-    if (this.bindingList && this.bindingList[0] && this.bindingList[0].settings) {
+    if (
+      this.bindingList &&
+      this.bindingList[0] &&
+      this.bindingList[0].settings &&
+      this.bindingList[0].type === BindingType.cosmosDBTrigger
+    ) {
       // Modify existing fields
       this.bindingList[0].settings[0].label = 'Cosmos DB account';
+      delete this.bindingList[0].settings[0].help;
       this.bindingList[0].settings[1].label = 'Database';
       this.bindingList[0].settings[2].label = 'Container';
 
@@ -79,6 +89,8 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
         help:
           'The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume. For small read-heavy workloads or write-heavy workloads of any size, id is often a good choice.',
       });
+
+      this._metadataHasBeenUpdated = true;
     }
   }
 
@@ -88,6 +100,8 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     armResources: IArmRscTemplate[],
     isDisabled: boolean
   ) {
+    if (!this._metadataHasBeenUpdated) return [];
+
     const formFields: JSX.Element[] = [];
 
     const nameField: JSX.Element = getFunctionNameTextField(formProps, isDisabled, this._functionsInfo, this.t);
