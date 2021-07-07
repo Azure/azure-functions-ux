@@ -366,7 +366,7 @@ export const isFtpsDirty = (
 export const getGitHubCommitMessage = (deploymentMessage: string): string => {
   if (deploymentMessage) {
     const deploymentMessageJson = JSON.parse(deploymentMessage);
-    return deploymentMessageJson.commitMessage ? deploymentMessageJson.commitMessage : deploymentMessage;
+    return !!deploymentMessageJson && !!deploymentMessageJson.commitMessage ? deploymentMessageJson.commitMessage : deploymentMessage;
   }
   return deploymentMessage;
 };
