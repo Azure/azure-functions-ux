@@ -40,6 +40,7 @@ import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishing
 import { AppOs } from '../../../../models/site/site';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
+import { Guid } from '../../../../utils/Guid';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -259,7 +260,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     return undefined;
   };
 
-  const deploy = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+  const deploy = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>, requestId: string) => {
     const {
       sourceProvider,
       buildProvider,
@@ -289,6 +290,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
         isKubeApp: siteStateContext.isKubeApp ? 'true' : 'false',
         os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+        requestId,
       })
     );
 
@@ -325,44 +327,63 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     return deployKudu(values);
   };
 
-  const logSaveConclusion = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>, success: boolean) => {
+  const logSaveConclusion = (
+    values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
+    success: boolean,
+    requestId: string,
+    startTime: number
+  ) => {
     const { sourceProvider } = values;
+    const endTime = new Date().getTime();
+    const duration = endTime - startTime;
+
+    console.log(duration);
 
     portalContext.log(
       getTelemetryInfo('info', 'saveDeploymentSettings', 'end', {
+        requestId,
         sourceProvider,
         success: success ? 'true' : 'false',
+        duration: `${duration.toLocaleString()}`,
       })
     );
   };
 
-  const saveGithubActionsDeploymentSettings = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+  const saveGithubActionsDeploymentSettings = async (
+    values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
+    requestId: string,
+    startTime: number
+  ) => {
     const notificationId = portalContext.startNotification(t('settingupDeployment'), t('githubActionSavingSettings'));
-    const deployResponse = await deploy(values);
+    const deployResponse = await deploy(values, requestId);
     if (deployResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('githubActionSettingsSavedSuccessfully'));
-      logSaveConclusion(values, true);
+      logSaveConclusion(values, true, requestId, startTime);
     } else {
       const errorMessage = getErrorMessage(deployResponse.metadata.error);
       errorMessage
         ? portalContext.stopNotification(notificationId, false, t('settingupDeploymentFailWithStatusMessage').format(errorMessage))
         : portalContext.stopNotification(notificationId, false, t('settingupDeploymentFail'));
-      logSaveConclusion(values, false);
+      logSaveConclusion(values, false, requestId, startTime);
     }
   };
 
-  const saveAppServiceDeploymentSettings = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+  const saveAppServiceDeploymentSettings = async (
+    values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
+    requestId: string,
+    startTime: number
+  ) => {
     const notificationId = portalContext.startNotification(t('settingupDeployment'), t('settingupDeployment'));
-    const deployResponse = await deploy(values);
+    const deployResponse = await deploy(values, requestId);
     if (deployResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('settingupDeploymentSuccess'));
-      logSaveConclusion(values, true);
+      logSaveConclusion(values, true, requestId, startTime);
     } else {
       const errorMessage = getErrorMessage(deployResponse.metadata.error);
       errorMessage
         ? portalContext.stopNotification(notificationId, false, t('settingupDeploymentFailWithStatusMessage').format(errorMessage))
         : portalContext.stopNotification(notificationId, false, t('settingupDeploymentFail'));
-      logSaveConclusion(values, false);
+      logSaveConclusion(values, false, requestId, startTime);
     }
   };
 
@@ -393,10 +414,12 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     if (values.buildProvider !== BuildProvider.None && isMissingOriginalConfigScmType) {
       // NOTE(stpelleg):Reset the form values only if deployment settings need to be updated.
       formikActions.resetForm(values);
+      const requestId = Guid.newGuid();
+      const startTime = new Date().getTime();
       if (values.buildProvider === BuildProvider.GitHubAction) {
-        await saveGithubActionsDeploymentSettings(values);
+        await saveGithubActionsDeploymentSettings(values, requestId, startTime);
       } else {
-        await saveAppServiceDeploymentSettings(values);
+        await saveAppServiceDeploymentSettings(values, requestId, startTime);
       }
     }
   };

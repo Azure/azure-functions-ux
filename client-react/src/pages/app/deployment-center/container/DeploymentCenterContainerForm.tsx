@@ -41,6 +41,7 @@ import {
 } from '../utility/GitHubActionUtility';
 import { GitHubCommit, GitHubActionWorkflowRequestContent } from '../../../../models/github';
 import { AppOs } from '../../../../models/site/site';
+import { Guid } from '../../../../utils/Guid';
 
 interface ResponseResult {
   success: boolean;
@@ -330,7 +331,11 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     return responseResult;
   };
 
-  const saveDirectRegistrySettings = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+  const saveDirectRegistrySettings = async (
+    values: DeploymentCenterFormData<DeploymentCenterContainerFormData>,
+    requestId: string,
+    startTime: number
+  ) => {
     const notificationId = portalContext.startNotification(t('savingContainerConfiguration'), t('savingContainerConfiguration'));
 
     const [updateAppSettingsResponse, updateSiteConfigResponse] = await Promise.all([updateAppSettings(values), updateSiteConfig(values)]);
@@ -343,7 +348,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       }
 
       portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
-      logSaveConclusion(values, true);
+      logSaveConclusion(values, true, requestId, startTime);
     } else {
       let errorMessage = !updateAppSettingsResponse.success ? getErrorMessage(updateAppSettingsResponse.error) : '';
 
@@ -358,7 +363,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       } else {
         portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
       }
-      logSaveConclusion(values, false);
+      logSaveConclusion(values, false, requestId, startTime);
     }
   };
 
@@ -545,18 +550,32 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     return responseResult;
   };
 
-  const logSaveConclusion = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>, success: boolean) => {
+  const logSaveConclusion = (
+    values: DeploymentCenterFormData<DeploymentCenterContainerFormData>,
+    success: boolean,
+    requestId: string,
+    startTime: number
+  ) => {
     const { scmType } = values;
+    const endTime = new Date().getTime();
+    const duration = endTime - startTime;
 
     portalContext.log(
       getTelemetryInfo('info', 'saveDeploymentSettings', 'end', {
+        requestId: requestId,
+        buildProvider: scmType === ScmType.GitHubAction ? scmType : '',
         sourceProvider: scmType,
         success: success ? 'true' : 'false',
+        duration: `${duration.toLocaleString()}`,
       })
     );
   };
 
-  const saveGithubActionContainerSettings = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+  const saveGithubActionContainerSettings = async (
+    values: DeploymentCenterFormData<DeploymentCenterContainerFormData>,
+    requestId: string,
+    startTime: number
+  ) => {
     const notificationId = portalContext.startNotification(t('savingContainerConfiguration'), t('savingContainerConfiguration'));
 
     portalContext.log(getTelemetryInfo('info', 'saveGithubActionContainerSettings', 'submit'));
@@ -576,7 +595,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
     if (containerConfigurationSucceeded) {
       portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
-      logSaveConclusion(values, true);
+      logSaveConclusion(values, true, requestId, startTime);
     } else {
       if (errorMessage) {
         portalContext.stopNotification(
@@ -587,7 +606,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       } else {
         portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
       }
-      logSaveConclusion(values, false);
+      logSaveConclusion(values, false, requestId, startTime);
     }
   };
 
@@ -601,6 +620,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
   const updateDeploymentConfigurations = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
     const { scmType, org, repo, branch, workflowOption, registrySource, option, acrLoginServer, privateRegistryServerUrl } = values;
+    const requestId = Guid.newGuid();
     portalContext.log(
       getTelemetryInfo('info', 'saveDeploymentSettings', 'start', {
         sourceProvider: scmType,
@@ -616,6 +636,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         appType: siteContext.isFunctionApp ? 'functionApp' : 'webApp',
         isKubeApp: siteContext.isKubeApp ? 'true' : 'false',
         os: siteContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+        requestId,
       })
     );
 
@@ -624,10 +645,11 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     // This check is in place, because the use could set the form props ina dirty state by just modifying the
     // publishing user information.
     if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None) {
+      const startTime = new Date().getTime();
       if (values.scmType === ScmType.GitHubAction) {
-        await saveGithubActionContainerSettings(values);
+        await saveGithubActionContainerSettings(values, requestId, startTime);
       } else {
-        await saveDirectRegistrySettings(values);
+        await saveDirectRegistrySettings(values, requestId, startTime);
       }
     }
   };
