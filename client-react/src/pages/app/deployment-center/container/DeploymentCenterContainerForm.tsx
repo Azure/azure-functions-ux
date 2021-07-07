@@ -624,6 +624,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     portalContext.log(
       getTelemetryInfo('info', 'saveDeploymentSettings', 'start', {
         sourceProvider: scmType,
+        buildProvider: scmType === ScmType.GitHubAction ? scmType : '',
         org,
         repo,
         branch,

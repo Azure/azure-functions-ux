@@ -333,13 +333,14 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     requestId: string,
     startTime: number
   ) => {
-    const { sourceProvider } = values;
+    const { sourceProvider, buildProvider } = values;
     const endTime = new Date().getTime();
     const duration = endTime - startTime;
 
     portalContext.log(
       getTelemetryInfo('info', 'saveDeploymentSettings', 'end', {
         requestId,
+        buildProvider,
         sourceProvider,
         success: success ? 'true' : 'false',
         duration: `${duration.toLocaleString()}`,
