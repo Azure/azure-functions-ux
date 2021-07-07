@@ -15,6 +15,7 @@ import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { getFunctionBindingDirection } from '../FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
 import { Links } from '../../../../../../utils/FwLinks';
+import { CommonConstants } from '../../../../../../utils/CommonConstants';
 
 export interface BindingCreatorProps {
   bindingDirection: BindingDirection;
@@ -153,12 +154,14 @@ const bindingTypeSpecificFields = (
 
   // Place the connection setting at the beginning of the form
   // NOTE (nlayne): This may require some reordering of the actual metadata in the backend
-  // if any further changes need to be made
+  // if any further changes need to be made (otherwise things will get very messy very quickly)
   if (binding.settings) {
     const connectionSettingIndex = binding.settings.findIndex(
-      setting => setting.name === 'connection' || setting.name === 'connectionStringSetting'
+      setting =>
+        setting.name === CommonConstants.BindingSettingNames.connection ||
+        setting.name === CommonConstants.BindingSettingNames.connectionStringSetting
     );
-    if (connectionSettingIndex) {
+    if (!!connectionSettingIndex) {
       const connectionSetting = binding.settings[connectionSettingIndex];
 
       binding.settings.splice(connectionSettingIndex, 1);
