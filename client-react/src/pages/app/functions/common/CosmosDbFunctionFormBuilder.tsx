@@ -79,7 +79,6 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
         label: 'Cosmos DB connection',
       });
 
-      // TODO: add validator to require / at beginning
       this.bindingList[0].settings.push({
         name: 'partitionKeyPath',
         value: BindingSettingValue.string,
@@ -87,7 +86,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
         required: true,
         label: 'Partition key path',
         help:
-          'The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume. For small read-heavy workloads or write-heavy workloads of any size, id is often a good choice.',
+          'The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume. Select /id for either small read-heavy workloads or write-heavy workloads of any size',
       });
 
       this._metadataHasBeenUpdated = true;
@@ -272,7 +271,9 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
               )}
             {formProps.status &&
               formProps.status.isNewContainer &&
+              formProps.status.dbAcctType !== 'MongoDB' &&
               this._getTextField(this.bindingList[0].settings![4], formProps, isDisabled)}
+            {/* TODO: set validator to force '/' at beginning (partitionKeyPath) */}
           </React.Fragment>
         )}
 

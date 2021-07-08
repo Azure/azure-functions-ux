@@ -305,6 +305,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
             uri: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}?api-version=${
               CommonConstants.ApiVersions.armDeploymentApiVersion20210401
             }`,
+            // content: '', // TODO: pass in the template and let this handle the deployment
             notificationTitle: t('createFunctionDeploymentNotification'),
             notificationDescription: t('createFunctionDeploymentNotificationDetails').format(functionName),
             notificationSuccessDescription: t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp),

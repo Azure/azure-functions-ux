@@ -26,7 +26,7 @@ interface CosmosDBResourceDropdownProps {
 }
 
 const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
-  const { resourceId, form: formProps, field, isDisabled } = props;
+  const { resourceId, form: formProps, field, isDisabled, setArmResources, armResources } = props;
   const siteStateContext = useContext(SiteStateContext);
   const { t } = useTranslation();
 
@@ -36,6 +36,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
   const [newDbAcctType, setNewDbAcctType] = useState<string | undefined>(undefined);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const [shownMissingOptionError, setShownMissingOptionError] = useState<boolean>(false);
+  const [storedArmTemplate, setStoredArmTemplate] = useState<any>(undefined);
 
   useEffect(() => {
     DocumentDBService.fetchDatabaseAccounts(resourceId).then(r => {
@@ -82,9 +83,31 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
 
       // Make sure the isNewDbAcct status is staying up-to-date with the selected option
       if (!selectedItem && formProps.status && formProps.status.isNewDbAcct) {
-        formProps.setStatus({ ...formProps.status, isNewDbAcct: false });
+        formProps.setStatus({ ...formProps.status, isNewDbAcct: false, isNewDatabase: false, isNewContainer: false });
+        formProps.setFieldValue('databaseName', '');
+        formProps.setFieldValue('collectionName', '');
+
+        // Find & store into storedArmTemplate, then delete template from armResources (since this is dbAcct, just clear all below resources (db & cont))
+        armResources.forEach((armRsc, index) => {
+          if (armRsc.type.toLowerCase().includes('databaseaccounts') && armRsc.name.split('/').length === 1) {
+            setStoredArmTemplate(armResources[index]);
+            setArmResources([]);
+          }
+        });
       } else if (option.text.includes('(new)') && formProps.status && !formProps.status.isNewDbAcct) {
         formProps.setStatus({ ...formProps.status, isNewDbAcct: true });
+
+        // If template already in armResources (should mean user generated new one) don't do anything, otherwise reinstate storedArmTemplate to armResources
+        let isTemplateFound = false;
+        armResources.forEach((armRsc, index) => {
+          if (armRsc.type.toLowerCase().includes('databaseaccounts') && armRsc.name.split('/').length === 1) {
+            isTemplateFound = true;
+          }
+        });
+
+        if (isTemplateFound && !!storedArmTemplate) {
+          setArmResources([...armResources, storedArmTemplate]);
+        }
       }
 
       // Always add the appsetting for CDB to simplify between new/existing DB accounts (FunctionsService deploy handles setting overlaps)

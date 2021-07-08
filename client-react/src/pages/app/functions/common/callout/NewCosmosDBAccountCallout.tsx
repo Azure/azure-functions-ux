@@ -89,7 +89,7 @@ const NewCosmosDBAccountCallout = props => {
     setSelectedItem({ key: `${cdbTemplateObj.name}_DOCUMENTDB`, text: cdbTemplateObj.name, data: cdbTemplateObj.kind });
 
     if (!!setArmResources) {
-      setArmResources([...armResources, cdbTemplateObj]);
+      setArmResources(prevArmResources => [...prevArmResources, cdbTemplateObj]);
     }
   };
 
