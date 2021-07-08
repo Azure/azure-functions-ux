@@ -362,3 +362,11 @@ export const isFtpsDirty = (
       (!!formProps.values.publishingPassword && currentUser.properties.publishingPassword !== formProps.values.publishingPassword))
   );
 };
+
+export const getGitHubCommitMessage = (deploymentMessage: string): string => {
+  if (deploymentMessage) {
+    const deploymentMessageJson = JSON.parse(deploymentMessage);
+    return !!deploymentMessageJson && !!deploymentMessageJson.commitMessage ? deploymentMessageJson.commitMessage : deploymentMessage;
+  }
+  return deploymentMessage;
+};
