@@ -22,6 +22,35 @@ interface CreateContainerFormValues {
   containerName: string;
 }
 
+// TODO1: if problems with overwrites, try including removing container template in here as well (should be safe)
+export const removeCurrentDatabaseArmTemplate = (armResources, setArmResources, setStoredArmTemplate: any = null) => {
+  // Find and, if found, remove the template
+  let modifiableArmResources = armResources;
+  armResources.forEach((armRsc, index) => {
+    if (armRsc.type.toLowerCase().includes('databases') && armRsc.name.split('/').length === 2) {
+      if (!!setStoredArmTemplate) {
+        setStoredArmTemplate(armResources[index]);
+      }
+      modifiableArmResources.splice(index, 1);
+      setArmResources(modifiableArmResources);
+    }
+  });
+};
+
+export const removeCurrentContainerArmTemplate = (armResources, setArmResources, setStoredArmTemplate: any = null) => {
+  // Find and, if found, remove the template
+  let modifiableArmResources = armResources;
+  armResources.forEach((armRsc, index) => {
+    if (armRsc.type.toLowerCase().includes('containers') || armRsc.type.toLowerCase().includes('collections')) {
+      if (!!setStoredArmTemplate) {
+        setStoredArmTemplate(armResources[index]);
+      }
+      modifiableArmResources.splice(index, 1);
+      setArmResources(modifiableArmResources);
+    }
+  });
+};
+
 const CosmosDBComboBox = props => {
   const { setting, resourceId, form: formProps, field, isDisabled, setArmResources, armResources } = props;
   const [databases, setDatabases] = useState<any>(undefined);
@@ -36,10 +65,6 @@ const CosmosDBComboBox = props => {
   // If new DB account, automatically set new database/container
   useEffect(() => {
     if (formProps.status && formProps.status.isNewDbAcct) {
-      formProps.setFieldValue('databaseName', 'CosmosDatabase');
-      formProps.setFieldValue('collectionName', 'CosmosContainer');
-
-      formProps.setStatus({ ...formProps.status, isNewDatabase: true, isNewContainer: true });
       setNewDatabaseName(undefined);
       setNewContainerName(undefined);
     }
@@ -64,19 +89,35 @@ const CosmosDBComboBox = props => {
           );
           return;
         }
-        setDatabases(r.data.value);
+        setDatabases(r.data.value.length === 0 ? undefined : r.data.value);
+
+        if (r.data.value.length === 0) {
+          formProps.setStatus({ ...formProps.status, isNewDatabase: true, isNewContainer: true });
+          formProps.setFieldValue('databaseName', 'CosmosDatabase');
+          formProps.setFieldValue('collectionName', 'CosmosContainer');
+
+          removeCurrentDatabaseArmTemplate(armResources, setArmResources);
+          removeCurrentContainerArmTemplate(armResources, setArmResources);
+          const newDatabaseTemplate = DocumentDBService.getNewDatabaseArmTemplate('CosmosDatabase', formProps, armResources);
+          const newContainerTemplate = DocumentDBService.getNewContainerArmTemplate(
+            'CosmosContainer',
+            formProps,
+            armResources,
+            undefined,
+            'CosmosDatabase'
+          );
+
+          setArmResources(prevArmResources => [...prevArmResources, newDatabaseTemplate, newContainerTemplate]);
+        } else {
+          formProps.setStatus({ ...formProps.status, isNewDatabase: false, isNewContainer: false });
+          formProps.setFieldValue('databaseName', '');
+          formProps.setFieldValue('collectionName', '');
+          removeCurrentDatabaseArmTemplate(armResources, setArmResources);
+          removeCurrentContainerArmTemplate(armResources, setArmResources);
+        }
       });
     }
   }, [formProps.values.connectionStringSetting, formProps.status.isNewDbAcct]);
-
-  // If new database, set new container
-  useEffect(() => {
-    if (formProps.status && formProps.status.isNewDatabase) {
-      formProps.setFieldValue('collectionName', 'CosmosContainer');
-      formProps.setStatus({ ...formProps.status, isNewContainer: true });
-      setNewContainerName(undefined);
-    }
-  }, [formProps.status.isNewDatabase]);
 
   // Anytime database value updates, either set containers as empty (if db is new) or fetch existing ones
   useEffect(() => {
@@ -98,7 +139,27 @@ const CosmosDBComboBox = props => {
           );
           return;
         }
-        setContainers(r.data.value);
+        setContainers(r.data.value.length === 0 ? undefined : r.data.value);
+
+        if (r.data.value.length === 0) {
+          formProps.setStatus({ ...formProps.status, isNewContainer: true });
+          formProps.setFieldValue('collectionName', 'CosmosContainer');
+
+          removeCurrentContainerArmTemplate(armResources, setArmResources);
+          const newContainerTemplate = DocumentDBService.getNewContainerArmTemplate(
+            'CosmosContainer',
+            formProps,
+            armResources,
+            undefined,
+            'CosmosDatabase'
+          );
+
+          setArmResources(prevArmResources => [...prevArmResources, newContainerTemplate]);
+        } else {
+          formProps.setStatus({ ...formProps.status, isNewContainer: false });
+          formProps.setFieldValue('collectionName', '');
+          removeCurrentContainerArmTemplate(armResources, setArmResources);
+        }
       });
     }
   }, [formProps.values.databaseName, formProps.status.isNewDatabase]);
@@ -120,22 +181,6 @@ const CosmosDBComboBox = props => {
     });
   }, [formProps.values.partitionKeyPath]);
 
-  // If dbAcct changes (causing database name change), update database
-  useEffect(() => {
-    // Had to set this as the arm templates wouldn't generate on load otherwise
-    if (isDatabase() && formProps.values.databaseName === 'CosmosDatabase') {
-      console.log('Should generate DB template');
-      setArmResources(prevRscs => [...prevRscs, getNewDatabaseArmTemplate('CosmosDatabase')]);
-    }
-  }, [formProps.values.databaseName]);
-
-  // If database changes, update container
-  useEffect(() => {
-    if (isContainer() && formProps.values.collectionName === 'CosmosContainer') {
-      setArmResources(prevRscs => [...prevRscs, getNewContainerArmTemplate('CosmosContainer')]);
-    }
-  }, [formProps.values.databaseName]);
-
   const isDatabase = () => setting.name === 'databaseName';
   const isContainer = () => setting.name === 'collectionName';
 
@@ -149,10 +194,18 @@ const CosmosDBComboBox = props => {
       const dbOrContName = option.key as string;
       formProps.setFieldValue(field.name, dbOrContName);
 
-      if (!selectedItem) {
+      if (
+        !selectedItem &&
+        formProps.status &&
+        ((isDatabase() && formProps.status.isNewDatabase) || (isContainer() && formProps.status.isNewContainer))
+      ) {
         // Find & store into storedArmTemplate, then delete template from armResources
-        let modifiableArmResources = armResources;
         if (isDatabase()) {
+          removeCurrentContainerArmTemplate(armResources, setArmResources); // TODO1: may have race condition here, if so just implement full logic in below block
+          formProps.setStatus({ ...formProps.status, isNewDatabase: false, isNewContainer: false });
+          formProps.setFieldValue('collectionName', '');
+          let modifiableArmResources = armResources;
+
           armResources.forEach((armRsc, index) => {
             if (armRsc.type.toLowerCase().includes('databases') && armRsc.name.split('/').length === 2) {
               setStoredArmTemplate(armResources[index]);
@@ -160,7 +213,10 @@ const CosmosDBComboBox = props => {
               setArmResources(modifiableArmResources);
             }
           });
-        } else {
+        } else if (isContainer()) {
+          formProps.setStatus({ ...formProps.status, isNewContainer: false });
+          let modifiableArmResources = armResources;
+
           armResources.forEach((armRsc, index) => {
             if (armRsc.type.toLowerCase().includes('containers') || armRsc.type.toLowerCase().includes('collections')) {
               setStoredArmTemplate(armResources[index]);
@@ -174,21 +230,39 @@ const CosmosDBComboBox = props => {
         let isTemplateFound = false;
 
         if (isDatabase()) {
+          formProps.setStatus({ ...formProps.status, isNewDatabase: true, isNewContainer: true });
+          formProps.setFieldValue('collectionName', 'CosmosContainer');
+
+          removeCurrentContainerArmTemplate(armResources, setArmResources);
+          const newContainerTemplate = DocumentDBService.getNewContainerArmTemplate(
+            'CosmosContainer',
+            formProps,
+            armResources,
+            undefined,
+            option.key as string
+          );
+
           armResources.forEach((armRsc, index) => {
             if (armRsc.type.toLowerCase().includes('databases') && armRsc.name.split('/').length === 2) {
               isTemplateFound = true;
             }
           });
-        } else {
+
+          if (!isTemplateFound && !!storedArmTemplate) {
+            setArmResources([...armResources, storedArmTemplate, newContainerTemplate]);
+          }
+        } else if (isContainer()) {
+          formProps.setStatus({ ...formProps.status, isNewContainer: true });
+
           armResources.forEach((armRsc, index) => {
             if (armRsc.type.toLowerCase().includes('containers') || armRsc.type.toLowerCase().includes('collections')) {
               isTemplateFound = true;
             }
           });
-        }
 
-        if (isTemplateFound && !!storedArmTemplate) {
-          setArmResources([...armResources, storedArmTemplate]);
+          if (!isTemplateFound && !!storedArmTemplate) {
+            setArmResources([...armResources, storedArmTemplate]);
+          }
         }
       }
     }
@@ -203,10 +277,22 @@ const CosmosDBComboBox = props => {
 
     // Generate a new template each time value is changed (this is similar to fusion-controls functionality)
     if (isDatabase()) {
-      const databaseArmTemplate = getNewDatabaseArmTemplate(value);
-      setArmResources([...armResources, databaseArmTemplate]);
+      formProps.setFieldValue('collectionName', 'CosmosContainer');
+      removeCurrentDatabaseArmTemplate(armResources, setArmResources, setStoredArmTemplate);
+      removeCurrentContainerArmTemplate(armResources, setArmResources);
+      const databaseArmTemplate = DocumentDBService.getNewDatabaseArmTemplate(value, formProps, armResources);
+      const containerArmTemplate = DocumentDBService.getNewContainerArmTemplate(
+        'CosmosContainer',
+        formProps,
+        armResources,
+        undefined,
+        value
+      );
+
+      setArmResources([...armResources, databaseArmTemplate, containerArmTemplate]);
     } else if (isContainer()) {
-      const containerArmTemplate = getNewContainerArmTemplate(value);
+      removeCurrentContainerArmTemplate(armResources, setArmResources, setStoredArmTemplate);
+      const containerArmTemplate = DocumentDBService.getNewContainerArmTemplate(value, formProps, armResources);
       setArmResources([...armResources, containerArmTemplate]);
 
       // Set PKP value back to default (/id) so that we don't accidentally NOT set it in the template
@@ -243,109 +329,6 @@ const CosmosDBComboBox = props => {
     }
   };
 
-  const getNewDatabaseArmTemplate = (databaseName: string) => {
-    const dbAcctName = formProps.values.connectionStringSetting.split('_')[0];
-
-    // Make sure the template doesn't already exist (in case we go from creating one in the textfield to creating one through the callout)
-    removeCurrentDatabaseArmTemplate();
-
-    let databaseTemplate: any = {
-      type: 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases',
-      apiVersion: '2021-04-15',
-      name: `${dbAcctName}/${databaseName}`,
-      properties: {
-        resource: {
-          id: `${databaseName}`,
-        },
-      },
-    };
-
-    // Handle MongoDB CosmosDB stuff (in addition to SQL)
-    if (formProps.status.dbAcctType === 'MongoDB') {
-      databaseTemplate.type = 'Microsoft.DocumentDB/databaseAccounts/mongodbDatabases';
-    }
-
-    // If we're creating a new DB account, make sure to dependsOn it
-    armResources.forEach(rsc => {
-      if (rsc.type === 'Microsoft.DocumentDB/databaseAccounts') {
-        databaseTemplate.dependsOn = [`[resourceId('Microsoft.DocumentDB/databaseAccounts', '${dbAcctName}')]`];
-        return;
-      }
-    });
-
-    return databaseTemplate;
-  };
-
-  const removeCurrentDatabaseArmTemplate = () => {
-    // Find and, if found, remove the template
-    let modifiableArmResources = armResources;
-    armResources.forEach((armRsc, index) => {
-      if (armRsc.type.toLowerCase().includes('databases') && armRsc.name.split('/').length === 2) {
-        setStoredArmTemplate(armResources[index]);
-        modifiableArmResources.splice(index, 1);
-        setArmResources(modifiableArmResources);
-      }
-    });
-  };
-
-  const getNewContainerArmTemplate = (containerName: string) => {
-    const dbAcctName = formProps.values.connectionStringSetting.split('_')[0];
-    const databaseName = formProps.values.databaseName;
-
-    // Make sure the template doesn't already exist (in case we go from creating one in the textfield to creating one through the callout)
-    removeCurrentContainerArmTemplate();
-
-    let containerTemplate: any = {
-      type: 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers',
-      apiVersion: '2021-04-15',
-      name: `${dbAcctName}/${databaseName}/${containerName}`,
-      properties: {
-        resource: {
-          id: `${containerName}`,
-          partitionKey: {
-            paths: ['/id'],
-            kind: 'Hash',
-          },
-        },
-      },
-    };
-
-    // If we're creating a new DB account and/or database, make sure to dependsOn it
-    armResources.forEach(rsc => {
-      if (rsc.type === 'Microsoft.DocumentDB/databaseAccounts') {
-        containerTemplate.dependsOn = [
-          `[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', '${dbAcctName}', '${databaseName}')]`,
-        ];
-        return;
-      }
-    });
-
-    // Handle MongoDB CosmosDB stuff (in addition to SQL)
-    if (formProps.status.dbAcctType === 'MongoDB') {
-      containerTemplate.type = 'Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections';
-      delete containerTemplate.properties.resource.partitionKey;
-      if (containerTemplate.dependsOn) {
-        containerTemplate.dependsOn = [
-          `[resourceId('Microsoft.DocumentDB/databaseAccounts/mongodbDatabases', '${dbAcctName}', '${databaseName}')`,
-        ];
-      }
-    }
-
-    return containerTemplate;
-  };
-
-  const removeCurrentContainerArmTemplate = () => {
-    // Find and, if found, remove the template
-    let modifiableArmResources = armResources;
-    armResources.forEach((armRsc, index) => {
-      if (armRsc.type.toLowerCase().includes('containers') || armRsc.type.toLowerCase().includes('collections')) {
-        setStoredArmTemplate(armResources[index]);
-        modifiableArmResources.splice(index, 1);
-        setArmResources(modifiableArmResources);
-      }
-    });
-  };
-
   const handleCalloutSubmit = (formValues: FormikValues) => {
     setIsDialogVisible(false);
     if (isDatabase()) {
@@ -353,13 +336,28 @@ const CosmosDBComboBox = props => {
       setNewDatabaseName(formValues.newDatabaseName);
       formProps.setStatus({ ...formProps.status, isNewDatabase: true });
 
-      setArmResources([...armResources, getNewDatabaseArmTemplate(formValues.newDatabaseName)]);
+      removeCurrentDatabaseArmTemplate(armResources, setArmResources, setStoredArmTemplate);
+      removeCurrentContainerArmTemplate(armResources, setArmResources);
+      const newDatabaseTemplate = DocumentDBService.getNewDatabaseArmTemplate(formValues.newDatabaseName, formProps, armResources);
+      const newContainerTemplate = DocumentDBService.getNewContainerArmTemplate(
+        'CosmosContainer',
+        formProps,
+        armResources,
+        undefined,
+        formValues.newDatabaseName
+      );
+      formProps.setStatus({ ...formProps.status, isNewDatabase: true, isNewContainer: true });
+      formProps.setFieldValue('collectionName', 'CosmosContainer');
+
+      setArmResources([...armResources, newDatabaseTemplate, newContainerTemplate]);
     } else if (isContainer()) {
       setSelectedItem({ key: formValues.newContainerName, text: formValues.newContainerName });
       setNewContainerName(formValues.newContainerName);
       formProps.setStatus({ ...formProps.status, isNewContainer: true });
 
-      setArmResources([...armResources, getNewContainerArmTemplate(formValues.newContainerName)]);
+      removeCurrentContainerArmTemplate(armResources, setArmResources, setStoredArmTemplate);
+      const newContainerTemplate = DocumentDBService.getNewContainerArmTemplate(formValues.newContainerName, formProps, armResources);
+      setArmResources([...armResources, newContainerTemplate]);
     }
   };
 
@@ -384,10 +382,8 @@ const CosmosDBComboBox = props => {
 
   return (
     <>
-      {console.log(formProps.values)}
-      {console.log(formProps.status)}
-      {console.log(armResources)}
-      {(isDatabase() && !formProps.status.isNewDbAcct) || (isContainer() && !formProps.status.isNewDatabase) ? (
+      {(isDatabase() && !formProps.status.isNewDbAcct && !!databases) ||
+      (isContainer() && !formProps.status.isNewDatabase && !!containers) ? (
         <>
           <ComboBox
             allowFreeform={false}

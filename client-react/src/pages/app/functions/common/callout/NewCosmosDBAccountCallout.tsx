@@ -11,6 +11,8 @@ import { IButtonStyles } from 'office-ui-fabric-react';
 import { mergeStyles } from '@uifabric/merge-styles';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
+import { removeCurrentContainerArmTemplate, removeCurrentDatabaseArmTemplate } from '../CosmosDBComboBox';
+import DocumentDBService from '../../../../../ApiHelpers/DocumentDBService';
 
 const hdrStyle = (theme: ThemeExtended) =>
   style({
@@ -72,7 +74,15 @@ const NewCosmosDBAccountCallout = props => {
   const startupInfoContext = useContext(StartupInfoContext);
   const formRef = useRef<any>(null);
   const { t } = useTranslation();
-  const { setIsDialogVisible, setArmResources, setNewDatabaseAccountName, setSelectedItem, setNewDbAcctType, armResources } = props;
+  const {
+    setIsDialogVisible,
+    setArmResources,
+    setNewDatabaseAccountName,
+    setSelectedItem,
+    setNewDbAcctType,
+    form: formProps,
+    armResources,
+  } = props;
 
   const initialValues: CreateCosmosDbFormValues = {
     accountName: '',
@@ -89,7 +99,27 @@ const NewCosmosDBAccountCallout = props => {
     setSelectedItem({ key: `${cdbTemplateObj.name}_DOCUMENTDB`, text: cdbTemplateObj.name, data: cdbTemplateObj.kind });
 
     if (!!setArmResources) {
-      setArmResources(prevArmResources => [...prevArmResources, cdbTemplateObj]);
+      formProps.setStatus({ ...formProps.status, isNewDbAcct: true, isNewDatabase: true, isNewContainer: true });
+      formProps.setFieldValue('databaseName', 'CosmosDatabase');
+      formProps.setFieldValue('collectionName', 'CosmosContainer');
+
+      removeCurrentDatabaseArmTemplate(armResources, setArmResources);
+      removeCurrentContainerArmTemplate(armResources, setArmResources);
+      const newDatabaseTemplate = DocumentDBService.getNewDatabaseArmTemplate(
+        'CosmosDatabase',
+        formProps,
+        armResources,
+        cdbTemplateObj.name
+      );
+      const newContainerTemplate = DocumentDBService.getNewContainerArmTemplate(
+        'CosmosContainer',
+        formProps,
+        armResources,
+        cdbTemplateObj.name,
+        'CosmosDatabase'
+      );
+
+      setArmResources(prevArmResources => [...prevArmResources, cdbTemplateObj, newDatabaseTemplate, newContainerTemplate]);
     }
   };
 

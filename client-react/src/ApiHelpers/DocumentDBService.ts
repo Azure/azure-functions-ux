@@ -75,4 +75,92 @@ export default class DocumentDBService {
       apiVersion: CommonConstants.ApiVersions.documentDBApiVersion20150408,
     });
   };
+
+  public static getNewDatabaseArmTemplate = (
+    databaseName: string,
+    formProps: any,
+    armResources: any[],
+    dbAcctName: string | undefined = undefined
+  ) => {
+    const dbAcct = dbAcctName ? dbAcctName : formProps.values.connectionStringSetting.split('_')[0];
+
+    let databaseTemplate: any = {
+      type: 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases',
+      apiVersion: '2021-04-15',
+      name: `${dbAcct}/${databaseName}`,
+      properties: {
+        resource: {
+          id: `${databaseName}`,
+        },
+      },
+    };
+
+    // Handle MongoDB CosmosDB stuff (in addition to SQL)
+    if (formProps.status.dbAcctType === 'MongoDB') {
+      databaseTemplate.type = 'Microsoft.DocumentDB/databaseAccounts/mongodbDatabases';
+    }
+
+    // If we're creating a new DB account, make sure to dependsOn it
+    if (!dbAcctName) {
+      armResources.forEach(rsc => {
+        if (rsc.type === 'Microsoft.DocumentDB/databaseAccounts') {
+          databaseTemplate.dependsOn = [`[resourceId('Microsoft.DocumentDB/databaseAccounts', '${dbAcct}')]`];
+          return;
+        }
+      });
+    } else {
+      databaseTemplate.dependsOn = [`[resourceId('Microsoft.DocumentDB/databaseAccounts', '${dbAcct}')]`];
+    }
+
+    return databaseTemplate;
+  };
+
+  public static getNewContainerArmTemplate = (
+    containerName: string,
+    formProps: any,
+    armResources: any[],
+    dbAcctName: string | undefined = undefined,
+    databaseName: string | undefined = undefined
+  ) => {
+    const dbAcct = dbAcctName ? dbAcctName : formProps.values.connectionStringSetting.split('_')[0];
+    const database = databaseName ? databaseName : formProps.values.databaseName;
+
+    let containerTemplate: any = {
+      type: 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers',
+      apiVersion: '2021-04-15',
+      name: `${dbAcct}/${database}/${containerName}`,
+      properties: {
+        resource: {
+          id: `${containerName}`,
+          partitionKey: {
+            paths: ['/id'],
+            kind: 'Hash',
+          },
+        },
+      },
+    };
+
+    // If we're creating a new DB account and/or database, make sure to dependsOn it
+    if (!dbAcctName && !databaseName) {
+      armResources.forEach(rsc => {
+        if (rsc.type === 'Microsoft.DocumentDB/databaseAccounts') {
+          containerTemplate.dependsOn = [`[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', '${dbAcct}', '${database}')]`];
+          return;
+        }
+      });
+    } else {
+      containerTemplate.dependsOn = [`[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', '${dbAcct}', '${database}')]`];
+    }
+
+    // Handle MongoDB CosmosDB stuff (in addition to SQL)
+    if (formProps.status.dbAcctType === 'MongoDB') {
+      containerTemplate.type = 'Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections';
+      delete containerTemplate.properties.resource.partitionKey;
+      if (containerTemplate.dependsOn) {
+        containerTemplate.dependsOn = [`[resourceId('Microsoft.DocumentDB/databaseAccounts/mongodbDatabases', '${dbAcct}', '${database}')`];
+      }
+    }
+
+    return containerTemplate;
+  };
 }

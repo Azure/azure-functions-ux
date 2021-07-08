@@ -17,6 +17,7 @@ import { BindingEditorFormValues } from './BindingFormBuilder';
 import { calloutStyleField, linkPaddingStyle } from './callout/Callout.styles';
 import NewCosmosDBAccountCallout from './callout/NewCosmosDBAccountCallout';
 import { DatabaseAccount } from '../../../../models/documentDB';
+import { removeCurrentContainerArmTemplate, removeCurrentDatabaseArmTemplate } from './CosmosDBComboBox';
 
 interface CosmosDBResourceDropdownProps {
   setting: BindingSetting;
@@ -38,6 +39,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
   const [shownMissingOptionError, setShownMissingOptionError] = useState<boolean>(false);
   const [storedArmTemplate, setStoredArmTemplate] = useState<any>(undefined);
 
+  // Fetches existing database accounts
   useEffect(() => {
     DocumentDBService.fetchDatabaseAccounts(resourceId).then(r => {
       if (!r.metadata.success) {
@@ -52,6 +54,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
     });
   }, [resourceId]);
 
+  // Triggers when we create a new dbAcct
   useEffect(() => {
     formProps.setStatus({ ...formProps.status, isNewDbAcct: !!newDatabaseAccountName });
   }, [newDatabaseAccountName]);
@@ -95,7 +98,25 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
           }
         });
       } else if (option.text.includes('(new)') && formProps.status && !formProps.status.isNewDbAcct) {
-        formProps.setStatus({ ...formProps.status, isNewDbAcct: true });
+        formProps.setStatus({ ...formProps.status, isNewDbAcct: true, isNewDatabase: true, isNewContainer: true });
+        formProps.setFieldValue('databaseName', 'CosmosDatabase');
+        formProps.setFieldValue('collectionName', 'CosmosContainer');
+
+        removeCurrentDatabaseArmTemplate(armResources, setArmResources);
+        removeCurrentContainerArmTemplate(armResources, setArmResources);
+        const newDatabaseTemplate = DocumentDBService.getNewDatabaseArmTemplate(
+          'CosmosDatabase',
+          formProps,
+          armResources,
+          !!storedArmTemplate ? storedArmTemplate.name : undefined
+        );
+        const newContainerTemplate = DocumentDBService.getNewContainerArmTemplate(
+          'CosmosContainer',
+          formProps,
+          armResources,
+          !!storedArmTemplate ? storedArmTemplate.name : undefined,
+          'CosmosDatabase'
+        );
 
         // If template already in armResources (should mean user generated new one) don't do anything, otherwise reinstate storedArmTemplate to armResources
         let isTemplateFound = false;
@@ -105,8 +126,8 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
           }
         });
 
-        if (isTemplateFound && !!storedArmTemplate) {
-          setArmResources([...armResources, storedArmTemplate]);
+        if (!isTemplateFound && !!storedArmTemplate) {
+          setArmResources(prevArmResources => [...prevArmResources, storedArmTemplate, newDatabaseTemplate, newContainerTemplate]);
         }
       }
 
