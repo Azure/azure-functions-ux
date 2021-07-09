@@ -139,9 +139,9 @@ const NewCosmosDBAccountCallout = props => {
     <div style={paddingSidesStyle}>
       <h4 className={hdrStyle(theme)}>{t('documentDBCallout_newDocumentDBAccount')}</h4>
       <div className={subtextStyle(theme)}>
-        Create a new serverless account in the same Azure region and resource group as the function. For more options, go to{' '}
-        <Link href="https://docs.microsoft.com/en-us/azure/cosmos-db/choose-api" target="_blank" rel="noopener noreferrer">
-          Create Cosmos DB account {/* TODO: localization for this */}
+        {t('documentDBCallout_newDocumentDBAccountSubtext') + ' '}
+        <Link href="https://aka.ms/AAd5pzp" target="_blank" rel="noopener noreferrer">
+          {t('documentDBCallout_newDocumentDBAccountLink')}
         </Link>
         .
       </div>
@@ -154,7 +154,6 @@ const NewCosmosDBAccountCallout = props => {
               template={cosmosDbTemplate}
               formProps={formProps}
               armAuthToken={startupInfoContext.token}
-              location={'east-us'}
               language={startupInfoContext.effectiveLocale}
               horizontal
             />

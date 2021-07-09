@@ -12,6 +12,7 @@ import { Layout } from '../../../../components/form-controls/ReactiveFormControl
 import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
 import CosmosDBResourceDropdown from './CosmosDBResourceDropdown';
 import CosmosDBComboBox from './CosmosDBComboBox';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
   private _metadataHasBeenUpdated: boolean;
@@ -38,7 +39,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     delete bindingFormValues.type;
 
     bindingFormValues.connectionType = 'automatic';
-    bindingFormValues.partitionKeyPath = '/id';
+    bindingFormValues.partitionKeyPath = CommonConstants.CosmosDbDefaults.partitionKeyPath;
 
     return Object.assign({}, functionNameValue, bindingFormValues) as CreateFunctionFormValues;
   }
@@ -52,10 +53,32 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
       this.bindingList[0].type === BindingType.cosmosDBTrigger
     ) {
       // Modify existing fields
-      this.bindingList[0].settings[0].label = 'Cosmos DB account';
+      this.bindingList[0].settings[0].label = this.t('cosmosDbAccount');
       delete this.bindingList[0].settings[0].help;
-      this.bindingList[0].settings[1].label = 'Database';
-      this.bindingList[0].settings[2].label = 'Container';
+
+      this.bindingList[0].settings[1].label = this.t('database');
+      this.bindingList[0].settings[1].validators = [
+        {
+          expression: '^[^/\\\\#?]+$',
+          errorText: this.t('databaseNameCharacters'),
+        },
+        {
+          expression: '[^\\s]+$',
+          errorText: this.t('databaseNameSpace'),
+        },
+      ];
+
+      this.bindingList[0].settings[2].label = this.t('container');
+      this.bindingList[0].settings[2].validators = [
+        {
+          expression: '^[^/\\\\#?]+$',
+          errorText: this.t('containerNameCharacters'),
+        },
+        {
+          expression: '[^\\s]+$',
+          errorText: this.t('containerNameSpace'),
+        },
+      ];
 
       // Remove unneeded fields
       this.bindingList[0].settings.splice(3, 2);
@@ -76,17 +99,22 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
           },
         ],
         required: true,
-        label: 'Cosmos DB connection',
+        label: this.t('cosmosDbConnection'),
       });
 
       this.bindingList[0].settings.push({
         name: 'partitionKeyPath',
         value: BindingSettingValue.string,
-        defaultValue: '/id',
+        defaultValue: CommonConstants.CosmosDbDefaults.partitionKeyPath,
         required: true,
         label: 'Partition key path',
-        help:
-          'The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume. Select /id for either small read-heavy workloads or write-heavy workloads of any size',
+        validators: [
+          {
+            expression: '^[/].*',
+            errorText: this.t('partitionKeyPathSlash'),
+          },
+        ],
+        help: this.t('partitionKeyPathHelp'),
       });
 
       this._metadataHasBeenUpdated = true;
@@ -184,7 +212,6 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     );
   }
 
-  // TODO: validate this, and confirm resourceDropdown's still works (set validators in metadata and make sure validation functions work)
   private _getComboBoxField(
     setting: BindingSetting,
     formProps: FormikProps<CreateFunctionFormValues>,
@@ -271,9 +298,8 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
               )}
             {formProps.status &&
               formProps.status.isNewContainer &&
-              formProps.status.dbAcctType !== 'MongoDB' &&
+              formProps.status.dbAcctType !== CommonConstants.CosmosDbTypes.mongoDb &&
               this._getTextField(this.bindingList[0].settings![4], formProps, isDisabled)}
-            {/* TODO: set validator to force '/' at beginning (partitionKeyPath) */}
           </React.Fragment>
         )}
 
@@ -286,8 +312,8 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
                 value: BindingSettingValue.string,
                 defaultValue: '',
                 required: true,
-                label: 'Key',
-                help: 'Enter the key/value pair for the Cosmos DB custom app setting.',
+                label: this.t('key'),
+                help: this.t('cosmosDb_customAppSettingKeyHelp'),
               },
               formProps,
               isDisabled
@@ -298,7 +324,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
                 value: BindingSettingValue.string,
                 defaultValue: '',
                 required: true,
-                label: 'Value',
+                label: this.t('value'),
               },
               formProps,
               isDisabled

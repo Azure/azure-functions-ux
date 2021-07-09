@@ -35,11 +35,11 @@ export default class DocumentDBService {
     if (isContainer && !databaseName) return '';
 
     switch (dbAcctType) {
-      case 'GlobalDocumentDB':
+      case CommonConstants.CosmosDbTypes.globalDocumentDb:
         endpoint += !isContainer ? 'sqlDatabases' : `sqlDatabases/${databaseName}/containers`;
         break;
 
-      case 'MongoDB':
+      case CommonConstants.CosmosDbTypes.mongoDb:
         endpoint += !isContainer ? 'mongodbDatabases' : `mongodbDatabases/${databaseName}/collections`;
         break;
 
@@ -86,7 +86,7 @@ export default class DocumentDBService {
 
     let databaseTemplate: any = {
       type: 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases',
-      apiVersion: '2021-04-15',
+      apiVersion: CommonConstants.ApiVersions.documentDBApiVersion20210415,
       name: `${dbAcct}/${databaseName}`,
       properties: {
         resource: {
@@ -96,7 +96,7 @@ export default class DocumentDBService {
     };
 
     // Handle MongoDB CosmosDB stuff (in addition to SQL)
-    if (formProps.status.dbAcctType === 'MongoDB') {
+    if (formProps.status && formProps.status.dbAcctType === CommonConstants.CosmosDbTypes.mongoDb) {
       databaseTemplate.type = 'Microsoft.DocumentDB/databaseAccounts/mongodbDatabases';
     }
 
@@ -127,7 +127,7 @@ export default class DocumentDBService {
 
     let containerTemplate: any = {
       type: 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers',
-      apiVersion: '2021-04-15',
+      apiVersion: CommonConstants.ApiVersions.documentDBApiVersion20210415,
       name: `${dbAcct}/${database}/${containerName}`,
       properties: {
         resource: {
@@ -153,7 +153,7 @@ export default class DocumentDBService {
     }
 
     // Handle MongoDB CosmosDB stuff (in addition to SQL)
-    if (formProps.status.dbAcctType === 'MongoDB') {
+    if (formProps.status && formProps.status.dbAcctType === CommonConstants.CosmosDbTypes.mongoDb) {
       containerTemplate.type = 'Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections';
       delete containerTemplate.properties.resource.partitionKey;
       if (containerTemplate.dependsOn) {

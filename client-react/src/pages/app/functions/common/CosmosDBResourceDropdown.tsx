@@ -1,6 +1,6 @@
 import { FieldProps, FormikProps } from 'formik';
 import { Callout, IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import DocumentDBService from '../../../../ApiHelpers/DocumentDBService';
@@ -8,16 +8,15 @@ import Dropdown, { CustomDropdownProps } from '../../../../components/form-contr
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ArmArray } from '../../../../models/arm-obj';
 import { BindingSetting } from '../../../../models/functions/binding';
-import { SiteStateContext } from '../../../../SiteState';
 import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
-import SiteHelper from '../../../../utils/SiteHelper';
 import { IArmRscTemplate } from '../new-create-preview/FunctionCreateDataLoader';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 import { calloutStyleField, linkPaddingStyle } from './callout/Callout.styles';
 import NewCosmosDBAccountCallout from './callout/NewCosmosDBAccountCallout';
 import { DatabaseAccount } from '../../../../models/documentDB';
 import { removeCurrentContainerArmTemplate, removeCurrentDatabaseArmTemplate } from './CosmosDBComboBox';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 interface CosmosDBResourceDropdownProps {
   setting: BindingSetting;
@@ -28,7 +27,6 @@ interface CosmosDBResourceDropdownProps {
 
 const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const { resourceId, form: formProps, field, isDisabled, setArmResources, armResources } = props;
-  const siteStateContext = useContext(SiteStateContext);
   const { t } = useTranslation();
 
   const [databaseAccounts, setDatabaseAccounts] = useState<ArmArray<DatabaseAccount> | undefined>(undefined);
@@ -36,7 +34,6 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
   const [newDatabaseAccountName, setNewDatabaseAccountName] = useState<string | undefined>(undefined);
   const [newDbAcctType, setNewDbAcctType] = useState<string | undefined>(undefined);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
-  const [shownMissingOptionError, setShownMissingOptionError] = useState<boolean>(false);
   const [storedArmTemplate, setStoredArmTemplate] = useState<any>(undefined);
 
   // Fetches existing database accounts
@@ -53,11 +50,6 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
       setDatabaseAccounts(r.data);
     });
   }, [resourceId]);
-
-  // Triggers when we create a new dbAcct
-  useEffect(() => {
-    formProps.setStatus({ ...formProps.status, isNewDbAcct: !!newDatabaseAccountName });
-  }, [newDatabaseAccountName]);
 
   const getDocumentDBAccounts = (): IDropdownOption[] => {
     const result: IDropdownOption[] = newDatabaseAccountName
@@ -99,23 +91,23 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
         });
       } else if (option.text.includes('(new)') && formProps.status && !formProps.status.isNewDbAcct) {
         formProps.setStatus({ ...formProps.status, isNewDbAcct: true, isNewDatabase: true, isNewContainer: true });
-        formProps.setFieldValue('databaseName', 'CosmosDatabase');
-        formProps.setFieldValue('collectionName', 'CosmosContainer');
+        formProps.setFieldValue('databaseName', CommonConstants.CosmosDbDefaults.databaseName);
+        formProps.setFieldValue('collectionName', CommonConstants.CosmosDbDefaults.containerName);
 
         removeCurrentDatabaseArmTemplate(armResources, setArmResources);
         removeCurrentContainerArmTemplate(armResources, setArmResources);
         const newDatabaseTemplate = DocumentDBService.getNewDatabaseArmTemplate(
-          'CosmosDatabase',
+          CommonConstants.CosmosDbDefaults.databaseName,
           formProps,
           armResources,
           !!storedArmTemplate ? storedArmTemplate.name : undefined
         );
         const newContainerTemplate = DocumentDBService.getNewContainerArmTemplate(
-          'CosmosContainer',
+          CommonConstants.CosmosDbDefaults.containerName,
           formProps,
           armResources,
           !!storedArmTemplate ? storedArmTemplate.name : undefined,
-          'CosmosDatabase'
+          CommonConstants.CosmosDbDefaults.databaseName
         );
 
         // If template already in armResources (should mean user generated new one) don't do anything, otherwise reinstate storedArmTemplate to armResources
@@ -143,11 +135,6 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
     }
   };
 
-  // If we are readonly, don't rely on app settings, assume that the saved value is correct
-  if (SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
-    return <Dropdown options={[{ text: field.value, key: field.value }]} selectedKey={field.value} {...props} />;
-  } // TODO: see if we need this
-
   if (!databaseAccounts) {
     return <LoadingComponent />;
   }
@@ -165,17 +152,11 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
     setSelectedItem(undefined);
   }
 
-  if (field.value && !options.some(option => option.key === field.value) && !shownMissingOptionError) {
-    formProps.setFieldError(field.name, t('resourceDropdown_missingAppSetting')); // TODO: update this, or check if we even need this function
-    setShownMissingOptionError(true);
-  }
-
-  // TODO: consider using 'options.length < 1' as the check here
   let placeholder: string | undefined = undefined;
-  if (!databaseAccounts) {
-    placeholder = '(new) Database account'; // TODO: localization for these
+  if (options.length < 1) {
+    placeholder = t('newDatabaseAccountPlaceholder');
   } else {
-    placeholder = 'Select a Cosmos DB account';
+    placeholder = t('selectCosmosDbAccount');
   }
 
   return (
@@ -184,7 +165,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
       {!isDisabled ? (
         <div style={linkPaddingStyle}>
           <Link id="target" onClick={() => setIsDialogVisible(true)}>
-            Create an account
+            {t('createAnAccount')}
           </Link>
 
           <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>

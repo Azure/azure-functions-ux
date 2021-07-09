@@ -37,6 +37,7 @@ export class CommonConstants {
     billingApiVersion20190114: '2019-01-14',
     sitesApiVersion20201201: '2020-12-01',
     armDeploymentApiVersion20210401: '2021-04-01',
+    documentDBApiVersion20210415: '2021-04-15',
   };
 
   public static readonly NonThemeColors = {
@@ -80,6 +81,17 @@ export class CommonConstants {
     functionAppEditModeSettingName: 'FUNCTION_APP_EDIT_MODE',
     serviceLinkerPrefix: 'resourceconnector_',
     enableOryxBuild: 'ENABLE_ORYX_BUILD',
+  };
+
+  public static readonly CosmosDbTypes = {
+    mongoDb: 'MongoDB',
+    globalDocumentDb: 'GlobalDocumentDB',
+  };
+
+  public static readonly CosmosDbDefaults = {
+    databaseName: 'CosmosDatabase',
+    containerName: 'CosmosContainer',
+    partitionKeyPath: '/id',
   };
 
   public static readonly SkuNames = {
