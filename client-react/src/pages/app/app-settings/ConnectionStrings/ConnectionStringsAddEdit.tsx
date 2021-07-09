@@ -19,7 +19,7 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import KeyVaultReferenceComponent from '../KeyVaultReferenceComponent';
 import { KeyVaultReference } from '../../../../models/site/config';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import { getConnectionStringReference } from '../AppSettings.service';
+import { getAllConnectionStringsReferences } from '../AppSettings.service';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
@@ -38,9 +38,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
   const [nameError, setNameError] = useState('');
   const [valueError, setValueError] = useState('');
   const [currentConnectionString, setCurrentConnectionString] = useState(connectionString);
-  const [currentConnectionStringReference, setCurrentConnectionStringReference] = useState<ArmObj<KeyVaultReference> | undefined>(
-    undefined
-  );
+  const [currentConnectionStringReference, setCurrentConnectionStringReference] = useState<KeyVaultReference | undefined>(undefined);
 
   const { t } = useTranslation();
 
@@ -91,9 +89,9 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
       connectionString.name === currentConnectionString.name &&
       connectionString.value === currentConnectionString.value &&
       currentConnectionStringReference &&
-      currentConnectionStringReference.properties.secretName &&
+      currentConnectionStringReference.secretName &&
       currentConnectionString.name &&
-      currentConnectionString.name.toLowerCase() === currentConnectionStringReference.properties.secretName.toLowerCase()
+      currentConnectionString.name.toLowerCase() === currentConnectionStringReference.secretName.toLowerCase()
     );
   };
 
@@ -106,14 +104,20 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
   };
 
   const getKeyVaultReference = async () => {
-    const keyVaultReference = await getConnectionStringReference(site.id, currentConnectionString.name);
-    if (keyVaultReference.metadata.success) {
-      setCurrentConnectionStringReference(keyVaultReference.data);
+    // NOTE (krmitta): The backend API to get a single reference fails if the app-setting name contains special characters.
+    // There will be a fix for that in ANT96 but in the meantime we need to use all the references and then get the one needed.
+    const allKeyVaultReferences = await getAllConnectionStringsReferences(site.id);
+    const name = currentConnectionString.name;
+    if (allKeyVaultReferences.metadata.success && !!allKeyVaultReferences.data.properties.keyToReferenceStatuses) {
+      const keyToReferenceStatuses = allKeyVaultReferences.data.properties.keyToReferenceStatuses;
+      if (keyToReferenceStatuses[name]) {
+        setCurrentConnectionStringReference(keyToReferenceStatuses[name]);
+      }
     } else {
       LogService.error(
         LogCategories.appSettings,
         'getConnectionStringKeyVaultReference',
-        `Failed to get keyVault reference: ${getErrorMessageOrStringify(keyVaultReference.metadata.error)}`
+        `Failed to get keyVault reference: ${getErrorMessageOrStringify(allKeyVaultReferences.metadata.error)}`
       );
     }
   };
@@ -218,7 +222,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
         />
       </form>
       {isConnectionStringReferenceVisible() && isValidKeyVaultReference() && currentConnectionStringReference && (
-        <KeyVaultReferenceComponent resourceId={site.id} appSettingReference={currentConnectionStringReference.properties} />
+        <KeyVaultReferenceComponent resourceId={site.id} appSettingReference={currentConnectionStringReference} />
       )}
     </>
   );
