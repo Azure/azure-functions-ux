@@ -189,6 +189,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     isDisabled: boolean,
     resourceId: string
   ) {
+    // TODO: make sure the styles are updated for the (resource) dropdown here in-line with the onload-validation-errors PR style update (AB#10184885)
     return (
       <Field
         label={setting.label}

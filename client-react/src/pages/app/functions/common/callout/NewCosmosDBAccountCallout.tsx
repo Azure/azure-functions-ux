@@ -3,16 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { paddingSidesStyle } from './Callout.styles';
 import { CosmosDbCreator, CreateCosmosDbFormValues } from '../../../../../fusion-controls/src/cosmos-db/CosmosDbCreator';
 import { Formik, Form, FormikProps } from 'formik';
-import { Link, Stack, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
+import { Link, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
 
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
-import { IButtonStyles } from 'office-ui-fabric-react';
-import { mergeStyles } from '@uifabric/merge-styles';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { removeCurrentContainerArmTemplate, removeCurrentDatabaseArmTemplate } from '../CosmosDBComboBox';
 import DocumentDBService from '../../../../../ApiHelpers/DocumentDBService';
+import { buttonStyle } from '../../../../../components/ActionBar';
 
 const hdrStyle = (theme: ThemeExtended) =>
   style({
@@ -35,36 +34,6 @@ const subtextStyle = (theme: ThemeExtended) =>
 const buttonContainerStyle = style({
   marginTop: '25px',
 });
-
-const primaryButtonStyle = (theme: ThemeExtended) => {
-  const styles: IButtonStyles = {
-    labelDisabled: {
-      color: `${theme.semanticColors.primaryButtonTextDisabled} !important`,
-    },
-  };
-
-  return styles;
-};
-
-const buttonStyle = (theme: ThemeExtended, isPrimary: boolean) =>
-  mergeStyles({
-    padding: '3px 20px',
-    height: '24px',
-    marginRight: `${isPrimary ? '8px' : '0'}`,
-    color: `${isPrimary ? theme.semanticColors.primaryButtonText : theme.semanticColors.textColor}`,
-    borderColor: `${isPrimary ? theme.semanticColors.primaryButtonBorder : theme.semanticColors.buttonBorder}`,
-    selectors: {
-      ':hover': {
-        backgroundColor: `${
-          isPrimary ? theme.semanticColors.primaryButtonBackgroundHovered : theme.semanticColors.buttonHovered
-        } !important`,
-        color: `${isPrimary ? theme.semanticColors.primaryButtonTextHovered : theme.semanticColors.textColor}`,
-      },
-      ':active': {
-        color: `${isPrimary ? theme.semanticColors.primaryButtonTextPressed : theme.semanticColors.textColor}`,
-      },
-    },
-  });
 
 const NewCosmosDBAccountCallout = props => {
   const [cosmosDbTemplate, setCosmosDbTemplate] = useState(''); // The current template (that's constantly updated on input change)
@@ -158,23 +127,29 @@ const NewCosmosDBAccountCallout = props => {
               horizontal
             />
 
-            <Stack horizontal verticalAlign="center" className={buttonContainerStyle}>
+            <div className={buttonContainerStyle}>
               <PrimaryButton
                 className={buttonStyle(theme, true)}
+                styles={{
+                  root: [
+                    {
+                      marginLeft: '0px !important',
+                    },
+                  ],
+                }}
                 onClick={formProps.submitForm}
                 disabled={
                   formProps.values.accountName === '' ||
                   formProps.errors.accountName !== undefined ||
                   formProps.values.accountName === submittedAccountName
-                }
-                styles={primaryButtonStyle(theme)}>
+                }>
                 {t('create')}
               </PrimaryButton>
 
               <DefaultButton className={buttonStyle(theme, false)} onClick={dismissCallout}>
                 {t('cancel')}
               </DefaultButton>
-            </Stack>
+            </div>
           </Form>
         )}
       </Formik>

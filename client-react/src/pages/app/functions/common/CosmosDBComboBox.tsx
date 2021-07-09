@@ -1,16 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ComboBox from '../../../../components/form-controls/ComboBox';
-import { IComboBoxOption, Link, PrimaryButton, DefaultButton, Stack, Callout } from 'office-ui-fabric-react';
+import { IComboBoxOption, Link, PrimaryButton, DefaultButton, Callout } from 'office-ui-fabric-react';
 import DocumentDBService from '../../../../ApiHelpers/DocumentDBService';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import { CreateFunctionFormValues } from './CreateFunctionFormBuilder';
 import { FormikProps, Formik, Form, Field, FormikValues } from 'formik';
-import { calloutStyleField, linkPaddingStyle } from './callout/Callout.styles';
+import { linkPaddingStyle } from './callout/Callout.styles';
 import TextField from '../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { ThemeContext } from '../../../../ThemeContext';
+import { buttonStyle } from '../../../../components/ActionBar';
+import { style } from 'typestyle';
+
+const buttonContainerStyle = style({
+  marginTop: '10px',
+});
+
+const databaseContainerCalloutStyle = style({
+  padding: '16px 24px',
+  minHeight: 150,
+  width: 325,
+});
+
+const calloutHdrStyle = style({
+  margin: '5px 0',
+});
 
 interface CreateDatabaseFormValues {
   databaseName: string;
@@ -57,6 +74,7 @@ const CosmosDBComboBox = props => {
   const [selectedItem, setSelectedItem] = useState<IComboBoxOption | undefined>(undefined);
   const [storedArmTemplate, setStoredArmTemplate] = useState<any>(undefined);
   const [isDialogVisible, setIsDialogVisible] = useState(false);
+  const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 
   // If new DB account, automatically set new database/container
@@ -431,6 +449,15 @@ const CosmosDBComboBox = props => {
             options={options}
             {...props}
             placeholder={placeholder}
+            styles={{
+              optionsContainer: {
+                selectors: {
+                  '.ms-ComboBox-option': {
+                    padding: '0px !important',
+                  },
+                },
+              },
+            }}
           />
 
           {!isDisabled ? (
@@ -443,8 +470,8 @@ const CosmosDBComboBox = props => {
                 onDismiss={() => setIsDialogVisible(false)}
                 target={isDatabase() ? '#dbComboBoxLink' : '#contComboBoxLink'}
                 hidden={!isDialogVisible}
-                style={calloutStyleField}>
-                <h3>{isDatabase() ? t('createADatabase') : t('createAContainer')}</h3>
+                className={databaseContainerCalloutStyle}>
+                <h3 className={calloutHdrStyle}>{isDatabase() ? t('createADatabase') : t('createAContainer')}</h3>
 
                 <Formik initialValues={isDatabase() ? { databaseName: '' } : { containerName: '' }} onSubmit={handleCalloutSubmit}>
                   {(formProps: FormikProps<CreateDatabaseFormValues | CreateContainerFormValues>) => (
@@ -453,24 +480,30 @@ const CosmosDBComboBox = props => {
                         name={isDatabase() ? 'newDatabaseName' : 'newContainerName'}
                         id={isDatabase() ? 'newDatabaseName' : 'newContainerName'}
                         component={TextField}
+                        label={isDatabase() ? t('database') : t('container')}
                         required
                         validate={validateDatabaseOrContainerName}
                       />
 
-                      <Stack horizontal verticalAlign="center" /*className={}*/>
+                      <div className={buttonContainerStyle}>
                         <PrimaryButton
-                          //className={buttonStyle(theme, true)}
+                          className={buttonStyle(theme, true)}
+                          styles={{
+                            root: [
+                              {
+                                marginLeft: '0px !important',
+                              },
+                            ],
+                          }}
                           onClick={formProps.submitForm}
-                          disabled={Object.keys(formProps.errors).length > 0}
-                          //styles={primaryButtonStyle(theme)}
-                        >
+                          disabled={Object.keys(formProps.errors).length > 0}>
                           {t('create')}
                         </PrimaryButton>
 
-                        <DefaultButton /*className={buttonStyle(theme, false)}*/ onClick={() => setIsDialogVisible(false)}>
+                        <DefaultButton className={buttonStyle(theme, false)} onClick={() => setIsDialogVisible(false)}>
                           {t('cancel')}
                         </DefaultButton>
-                      </Stack>
+                      </div>
                     </Form>
                   )}
                 </Formik>
