@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Kinds, Pricing } from './../../../shared/models/constants';
+import { Kinds, LogCategories, Pricing } from './../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
@@ -122,13 +122,23 @@ export class FreePlanPriceSpec extends PriceSpec {
 
   private _checkIfSkuEnabledInRegion(subscriptionId: ResourceId, location: string, isLinux: boolean, isXenonWorkersEnabled: boolean) {
     if (this.state !== 'hidden' && this.state !== 'disabled') {
-      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this.tier, isLinux, isXenonWorkersEnabled).do(geoRegions => {
-        if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
-          this.state = 'disabled';
-          this.disabledMessage = this._ts.instant(PortalResources.pricing_freeLinuxNotAvailable);
-          this.disabledInfoLink = '';
-        }
-      });
+      return this._planService
+        .getAvailableGeoRegionsForSku(subscriptionId, this.tier, isLinux, isXenonWorkersEnabled)
+        .do(geoRegions => {
+          if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
+            this.state = 'disabled';
+            this.disabledMessage = this._ts.instant(PortalResources.pricing_freeLinuxNotAvailable);
+            this.disabledInfoLink = '';
+          }
+        })
+        .catch(e => {
+          this._logService.error(
+            LogCategories.specPicker,
+            '/get-available-georegions-for-sku',
+            `Failed to get available georegions for sku: ${e}`
+          );
+          return Observable.of(null);
+        });
     }
 
     return Observable.of(null);

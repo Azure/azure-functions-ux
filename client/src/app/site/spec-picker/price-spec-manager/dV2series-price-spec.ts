@@ -1,5 +1,6 @@
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { LogCategories } from './../../../shared/models/constants';
 import { ServerFarm } from './../../../shared/models/server-farm';
 import { ArmObj, ResourceId, Sku } from '../../../shared/models/arm/arm-obj';
 import { PlanService } from './../../../shared/services/plan.service';
@@ -41,13 +42,23 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
 
   private _checkIfSkuEnabledInRegion(subscriptionId: ResourceId, location: string, isLinux: boolean, isXenonWorkersEnabled: boolean) {
     if (this.state !== 'hidden' && this.state !== 'disabled') {
-      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this._sku, isLinux, isXenonWorkersEnabled).do(geoRegions => {
-        if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
-          this.state = 'disabled';
-          this.disabledMessage = this._skuNotAvailableMessage;
-          this.disabledInfoLink = this._skuNotAvailableLink;
-        }
-      });
+      return this._planService
+        .getAvailableGeoRegionsForSku(subscriptionId, this._sku, isLinux, isXenonWorkersEnabled)
+        .do(geoRegions => {
+          if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
+            this.state = 'disabled';
+            this.disabledMessage = this._skuNotAvailableMessage;
+            this.disabledInfoLink = this._skuNotAvailableLink;
+          }
+        })
+        .catch(e => {
+          this._logService.error(
+            LogCategories.specPicker,
+            '/get-available-georegions-for-sku',
+            `Failed to get available georegions for sku: ${e}`
+          );
+          return Observable.of(null);
+        });
     }
 
     return Observable.of(null);
