@@ -40,8 +40,11 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     // NOTE (krmitta): The backend API to get a single reference fails if the app-setting name contains special characters.
     // There will be a fix for that in ANT96 but in the meantime we need to use all the references and then get the one needed.
     const allKeyVaultReferences = await getAllAppSettingReferences(site.id);
-    const name = currentAppSetting.name;
-    const keyVaultReference = getKeyVaultReferenceFromList(allKeyVaultReferences, name, 'getApplicationSettingKeyVaultReference');
+    const keyVaultReference = getKeyVaultReferenceFromList(
+      allKeyVaultReferences,
+      currentAppSetting.name,
+      'getApplicationSettingKeyVaultReference'
+    );
     if (keyVaultReference) {
       setCurrentAppSettingReference(keyVaultReference);
     }

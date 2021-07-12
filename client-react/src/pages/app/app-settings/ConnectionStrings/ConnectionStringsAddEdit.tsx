@@ -104,8 +104,11 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
     // NOTE (krmitta): The backend API to get a single reference fails if the app-setting name contains special characters.
     // There will be a fix for that in ANT96 but in the meantime we need to use all the references and then get the one needed.
     const allKeyVaultReferences = await getAllConnectionStringsReferences(site.id);
-    const name = currentConnectionString.name;
-    const keyVaultReference = getKeyVaultReferenceFromList(allKeyVaultReferences, name, 'getConnectionStringKeyVaultReference');
+    const keyVaultReference = getKeyVaultReferenceFromList(
+      allKeyVaultReferences,
+      currentConnectionString.name,
+      'getConnectionStringKeyVaultReference'
+    );
     if (keyVaultReference) {
       setCurrentConnectionStringReference(keyVaultReference);
     }
