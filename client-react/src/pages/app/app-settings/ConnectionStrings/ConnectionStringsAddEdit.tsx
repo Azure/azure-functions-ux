@@ -2,7 +2,6 @@ import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormConnectionString } from '../AppSettings.types';
@@ -20,9 +19,7 @@ import KeyVaultReferenceComponent from '../KeyVaultReferenceComponent';
 import { KeyVaultReference } from '../../../../models/site/config';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { getAllConnectionStringsReferences } from '../AppSettings.service';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import { getKeyVaultReferenceFromList } from '../AppSettings.utils';
 
 export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: FormConnectionString) => any;
@@ -108,17 +105,9 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
     // There will be a fix for that in ANT96 but in the meantime we need to use all the references and then get the one needed.
     const allKeyVaultReferences = await getAllConnectionStringsReferences(site.id);
     const name = currentConnectionString.name;
-    if (allKeyVaultReferences.metadata.success && !!allKeyVaultReferences.data.properties.keyToReferenceStatuses) {
-      const keyToReferenceStatuses = allKeyVaultReferences.data.properties.keyToReferenceStatuses;
-      if (keyToReferenceStatuses[name]) {
-        setCurrentConnectionStringReference(keyToReferenceStatuses[name]);
-      }
-    } else {
-      LogService.error(
-        LogCategories.appSettings,
-        'getConnectionStringKeyVaultReference',
-        `Failed to get keyVault reference: ${getErrorMessageOrStringify(allKeyVaultReferences.metadata.error)}`
-      );
+    const keyVaultReference = getKeyVaultReferenceFromList(allKeyVaultReferences, name, 'getConnectionStringKeyVaultReference');
+    if (keyVaultReference) {
+      setCurrentConnectionStringReference(keyVaultReference);
     }
   };
 

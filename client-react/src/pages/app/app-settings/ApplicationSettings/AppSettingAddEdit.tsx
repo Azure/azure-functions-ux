@@ -14,11 +14,9 @@ import { isLinuxApp } from '../../../../utils/arm-utils';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import KeyVaultReferenceComponent from '../KeyVaultReferenceComponent';
+import { getKeyVaultReferenceFromList } from '../AppSettings.utils';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;
@@ -43,17 +41,9 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     // There will be a fix for that in ANT96 but in the meantime we need to use all the references and then get the one needed.
     const allKeyVaultReferences = await getAllAppSettingReferences(site.id);
     const name = currentAppSetting.name;
-    if (allKeyVaultReferences.metadata.success && !!allKeyVaultReferences.data.properties.keyToReferenceStatuses) {
-      const keyToReferenceStatuses = allKeyVaultReferences.data.properties.keyToReferenceStatuses;
-      if (keyToReferenceStatuses[name]) {
-        setCurrentAppSettingReference(keyToReferenceStatuses[name]);
-      }
-    } else {
-      LogService.error(
-        LogCategories.appSettings,
-        'getApplicationSettingKeyVaultReference',
-        `Failed to get keyVault reference: ${getErrorMessageOrStringify(allKeyVaultReferences.metadata.error)}`
-      );
+    const keyVaultReference = getKeyVaultReferenceFromList(allKeyVaultReferences, name, 'getApplicationSettingKeyVaultReference');
+    if (keyVaultReference) {
+      setCurrentAppSettingReference(keyVaultReference);
     }
   };
 
