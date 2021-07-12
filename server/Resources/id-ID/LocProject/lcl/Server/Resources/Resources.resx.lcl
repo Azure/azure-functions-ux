@@ -3538,7 +3538,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Click here to configure container settings.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Klik di sini untuk mengonfigurasi pengaturan container.]]></Val>
+            <Val><![CDATA[Klik di sini untuk mengonfigurasi pengaturan kontainer.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -12382,7 +12382,7 @@
         <Str Cat="Text">
           <Val><![CDATA[The web container version used to run your web app if using Java]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Versi container web yang digunakan untuk menjalankan aplikasi web Anda jika menggunakan Java]]></Val>
+            <Val><![CDATA[Versi kontainer web yang digunakan untuk menjalankan aplikasi web Anda jika menggunakan Java]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -15898,7 +15898,7 @@
         <Str Cat="Text">
           <Val><![CDATA[A resource group is a container that holds related resources for an Azure solution.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Grup sumber daya adalah penampung yang menampung sumber daya terkait untuk sebuah solusi Azure.]]></Val>
+            <Val><![CDATA[Grup sumber daya adalah kontainer yang menampung sumber daya terkait untuk sebuah solusi Azure.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

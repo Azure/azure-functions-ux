@@ -333,7 +333,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         {(formProps: FormikProps<CreateFunctionFormValues>) => {
           const actionBarPrimaryButtonProps = {
             id: 'add',
-            title: creatingFunction ? <Spinner /> : t('add'),
+            title: creatingFunction ? <Spinner /> : t('create'),
             onClick: () => {
               setAllFieldsTouched(formProps);
               formProps.submitForm();
