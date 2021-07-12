@@ -50,22 +50,13 @@ export default class FunctionCreateData {
     return FunctionsService.createFunction(functionAppId, functionName, files, functionConfig);
   }
 
-  public static deployFunctionAndResources = (
-    deploymentName: string,
-    resourceId: string,
+  public static getDeploymentTemplate = (
     armResources: IArmRscTemplate[],
     functionAppId: string,
     appSettings: ArmObj<KeyValue<string>>,
     currentAppSettings: any
   ) => {
-    return FunctionsService.deployFunctionAndResources(
-      deploymentName,
-      resourceId,
-      armResources,
-      functionAppId,
-      appSettings,
-      currentAppSettings
-    );
+    return FunctionsService.getDeploymentTemplate(armResources, functionAppId, appSettings, currentAppSettings);
   };
 
   public static getHostStatus(resourceId: string) {

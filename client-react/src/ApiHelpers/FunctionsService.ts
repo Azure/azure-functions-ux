@@ -13,8 +13,7 @@ import { VfsObject } from '../models/functions/vfs';
 import { Method } from 'axios';
 import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
-import { makeArmDeployment } from './ArmHelper';
-import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
+import { getArmDeploymentTemplate } from './ArmHelper';
 import { IArmRscTemplate } from '../pages/app/functions/new-create-preview/FunctionCreateDataLoader';
 import { CommonConstants } from '../utils/CommonConstants';
 
@@ -59,15 +58,12 @@ export default class FunctionsService {
     });
   };
 
-  public static deployFunctionAndResources = (
-    deploymentName: string,
-    resourceId: string,
+  public static getDeploymentTemplate = (
     armResources: IArmRscTemplate[],
     functionAppId: string,
     appSettings: ArmObj<KeyValue<string>>,
     currentAppSettings: any
   ) => {
-    const { subscription, resourceGroup } = new ArmResourceDescriptor(resourceId);
     let isCdbDeployment = false;
     let cdbAcctName = '';
     let resourcesToDeploy = armResources;
@@ -131,7 +127,7 @@ export default class FunctionsService {
       }
     }
 
-    return makeArmDeployment(deploymentName, subscription, resourceGroup, resourcesToDeploy);
+    return getArmDeploymentTemplate(resourcesToDeploy);
   };
 
   public static getBindings = (functionAppId: string) => {

@@ -273,22 +273,14 @@ export const MakePagedArmCall = async <T>(requestObject: ArmRequestObject<ArmArr
 };
 
 // Makes ARM deployment to resource group (https://docs.microsoft.com/en-us/rest/api/resources/deployments/create-or-update)
-export const makeArmDeployment = async (
-  deploymentName: string,
-  subId: string,
-  rscGrp: string,
-  resources: Object[]
-): Promise<HttpResponseObject<any>> => {
-  const deploymentMethod = 'PUT';
-  const deploymentEndpoint = `/subscriptions/${subId}/resourcegroups/${rscGrp}/providers/Microsoft.Resources/deployments/${deploymentName}`;
-
+export const getArmDeploymentTemplate = (resources: Object[]) => {
   const armDeploymentTemplate: IArmDeploymentTemplate = {
     $schema: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#',
     contentVersion: '1.0.0.0',
     parameters: {},
     functions: [],
     variables: {},
-    resources,
+    resources, // Input the resources passed in here
     outputs: {},
   };
 
@@ -298,30 +290,8 @@ export const makeArmDeployment = async (
       template: armDeploymentTemplate,
     },
   };
-  const response = await MakeArmCall({
-    resourceId: deploymentEndpoint,
-    commandName: 'armDeployment',
-    method: deploymentMethod,
-    apiVersion: CommonConstants.ApiVersions.armDeploymentApiVersion20210401,
-    body: reqBody,
-  });
 
-  const respSuccess = response.metadata.status < 300;
-  const ret: HttpResponseObject<any> = {
-    metadata: {
-      success: respSuccess,
-      status: response.metadata.status,
-      headers: response.metadata.headers,
-      error: respSuccess ? null : response.metadata.error,
-    },
-    data: respSuccess ? response.data : null,
-  };
-
-  if (!respSuccess) {
-    console.error(`[ARM Deployment Error]: ${JSON.stringify(ret.metadata.error)}`);
-  }
-
-  return ret;
+  return reqBody;
 };
 
 export default MakeArmCall;

@@ -288,30 +288,27 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
 
       // NOTE(nlayne): Only do deployment stuff if we have resources or new appsettings to deploy
       if (!!newAppSettings || armResources.length > 0) {
-        const deployResourcesResponse = await FunctionCreateData.deployFunctionAndResources(
-          deploymentName,
-          resourceId,
+        const armDeploymentTemplate = FunctionCreateData.getDeploymentTemplate(
           armResources,
           functionAppId,
           newAppSettings,
           currentAppSettings
         );
 
-        // Deployment notification
-        if (deployResourcesResponse.metadata.success) {
-          const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
-          const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
-          portalCommunicator.executeArmUpdateRequest<any>({
-            uri: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}?api-version=${
-              CommonConstants.ApiVersions.armDeploymentApiVersion20210401
-            }`,
-            // content: '', // TODO: pass in the template and let this handle the deployment
-            notificationTitle: t('createFunctionDeploymentNotification'),
-            notificationDescription: t('createFunctionDeploymentNotificationDetails').format(functionName),
-            notificationSuccessDescription: t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp),
-            notificationFailureDescription: t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp),
-          });
-        }
+        // Hand ARM deployment template to Ibiza to do deployment/notification)
+        const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
+        const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
+        portalCommunicator.executeArmUpdateRequest<any>({
+          uri: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}?api-version=${
+            CommonConstants.ApiVersions.armDeploymentApiVersion20210401
+          }`,
+          type: 'PUT',
+          content: armDeploymentTemplate,
+          notificationTitle: t('createFunctionDeploymentNotification'),
+          notificationDescription: t('createFunctionDeploymentNotificationDetails').format(functionName),
+          notificationSuccessDescription: t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp),
+          notificationFailureDescription: t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp),
+        });
       }
 
       if (createFunctionResponse.metadata.success) {
