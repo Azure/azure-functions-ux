@@ -295,20 +295,23 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
           currentAppSettings
         );
 
-        // Hand ARM deployment template to Ibiza to do deployment/notification)
-        const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
-        const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
-        portalCommunicator.executeArmUpdateRequest<any>({
-          uri: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}?api-version=${
-            CommonConstants.ApiVersions.armDeploymentApiVersion20210401
-          }`,
-          type: 'PUT',
-          content: armDeploymentTemplate,
-          notificationTitle: t('createFunctionDeploymentNotification'),
-          notificationDescription: t('createFunctionDeploymentNotificationDetails').format(functionName),
-          notificationSuccessDescription: t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp),
-          notificationFailureDescription: t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp),
-        });
+        // Double (or maybe even triple at this point) check that we don't do a deployment w/ no resources
+        if (armDeploymentTemplate.properties.template.resources.length > 0) {
+          // Hand ARM deployment template to Ibiza to do deployment/notification
+          const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
+          const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
+          portalCommunicator.executeArmUpdateRequest<any>({
+            uri: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}?api-version=${
+              CommonConstants.ApiVersions.armDeploymentApiVersion20210401
+            }`,
+            type: 'PUT',
+            content: armDeploymentTemplate,
+            notificationTitle: t('createFunctionDeploymentNotification'),
+            notificationDescription: t('createFunctionDeploymentNotificationDetails').format(functionName),
+            notificationSuccessDescription: t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp),
+            notificationFailureDescription: t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp),
+          });
+        }
       }
 
       if (createFunctionResponse.metadata.success) {
