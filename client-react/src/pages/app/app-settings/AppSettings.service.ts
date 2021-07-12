@@ -9,6 +9,7 @@ import MakeArmCall from '../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import PortalCommunicator from '../../../portal-communicator';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
+import { ConfigKeyVaultReferenceList } from './AppSettings.types';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
   const [webConfig, metadata, slotConfigNames, connectionStrings, applicationSettings] = await Promise.all([
@@ -92,7 +93,7 @@ export const getConnectionStringReference = async (
 
 export const getAllAppSettingReferences = async (resourceId: string) => {
   const id = `${resourceId}/config/configreferences/appsettings`;
-  return MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
+  return MakeArmCall<ArmObj<ConfigKeyVaultReferenceList>>({
     resourceId: id,
     commandName: 'getAllAppSettingReferences',
     method: 'GET',
@@ -101,7 +102,7 @@ export const getAllAppSettingReferences = async (resourceId: string) => {
 
 export const getAllConnectionStringsReferences = async (resourceId: string) => {
   const id = `${resourceId}/config/configreferences/connectionstrings`;
-  return MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
+  return MakeArmCall<ArmObj<ConfigKeyVaultReferenceList>>({
     resourceId: id,
     commandName: 'getAllConnectionStringsReferences',
     method: 'GET',
