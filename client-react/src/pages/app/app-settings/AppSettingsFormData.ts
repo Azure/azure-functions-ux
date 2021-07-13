@@ -6,6 +6,7 @@ import {
   FormAzureStorageMounts,
   KeyVaultReferenceSummary,
   KeyVaultReferenceStatus,
+  ConfigKeyVaultReferenceList,
 } from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
 import { ArmObj } from '../../../models/arm-obj';
@@ -399,7 +400,7 @@ export function getConfigWithStackSettings(config: SiteConfig, values: AppSettin
   return configCopy;
 }
 
-export function getCleanedReferences(references: ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>) {
+export function getCleanedReferences(references: ArmObj<ConfigKeyVaultReferenceList>) {
   if (!references.properties.keyToReferenceStatuses) {
     return [];
   }
