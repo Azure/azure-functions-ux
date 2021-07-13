@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MessageBarType } from 'office-ui-fabric-react';
-import { BuildProvider } from '../../../../models/site/config';
 import {
   DeploymentCenterFieldProps,
   DeploymentCenterCodeFormData,
@@ -18,8 +16,7 @@ import {
   getRuntimeStackSetting,
   getTelemetryInfo,
 } from '../utility/DeploymentCenterUtility';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { deploymentCenterInfoBannerDiv, titleWithPaddingStyle } from '../DeploymentCenter.styles';
+import { titleWithPaddingStyle } from '../DeploymentCenter.styles';
 import { SiteStateContext } from '../../../../SiteState';
 import { JavaContainers, WebAppRuntimes, WebAppStack } from '../../../../models/stacks/web-app-stacks';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
@@ -41,17 +38,11 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   const [defaultStack, setDefaultStack] = useState<string>('');
   const [defaultVersion, setDefaultVersion] = useState<string>('');
   const [javaContainer, setJavaContainer] = useState<string>('');
-  const [stackNotSupportedMessage, setStackNotSupportedMessage] = useState<string>('');
-  const [showNotSupportedWarningBar, setShowNotSupportedWarningBar] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
-
-  const closeStackNotSupportedWarningBanner = () => {
-    setShowNotSupportedWarningBar(false);
-  };
 
   const fetchStacks = async () => {
     const appOs = siteStateContext.isLinuxApp || siteStateContext.isKubeApp ? AppStackOs.linux : AppStackOs.windows;
@@ -175,51 +166,6 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     formProps.setFieldValue('runtimeRecommendedVersion', version);
   };
 
-  const updateStackNotSupportedMessage = () => {
-    if (deploymentCenterContext.siteDescriptor) {
-      const siteName = deploymentCenterContext.siteDescriptor.site;
-      const slotName = deploymentCenterContext.siteDescriptor.slot;
-      setShowNotSupportedWarningBar(true);
-      setStackNotSupportedMessage(
-        t('githubActionStackNotSupportedMessage', { appName: slotName ? `${siteName} (${slotName})` : siteName, stack: defaultStack })
-      );
-    } else {
-      setStackNotSupportedMessage('');
-    }
-  };
-
-  const setGitHubActionsNotSupportedMessage = () => {
-    // If the users app was built using a stack that is not supported, show a warning message.
-    if (formProps.values.buildProvider === BuildProvider.GitHubAction && !!formProps.values.runtimeStack && runtimeStacksData.length >= 1) {
-      const appSelectedStack = runtimeStacksData.filter(
-        item => item.value.toString() === formProps.values.runtimeStack.toLocaleLowerCase()
-      );
-
-      if (appSelectedStack && appSelectedStack.length === 1) {
-        setStackNotSupportedMessage('');
-      } else {
-        updateStackNotSupportedMessage();
-      }
-    }
-  };
-
-  const getStackNotSupportedBanner = () => {
-    return (
-      <>
-        {stackNotSupportedMessage && showNotSupportedWarningBar && (
-          <div className={deploymentCenterInfoBannerDiv}>
-            <CustomBanner
-              id="stack-not-supported-message"
-              message={stackNotSupportedMessage}
-              type={MessageBarType.warning}
-              onDismiss={closeStackNotSupportedWarningBanner}
-            />
-          </div>
-        )}
-      </>
-    );
-  };
-
   const addGitHubActionRuntimeVersionMapping = (
     stack: string,
     minorVersion: string,
@@ -269,7 +215,6 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     if (!!defaultStack && runtimeStacksData.length > 0) {
       updateJavaContainer();
       setGitHubActionsRecommendedVersion();
-      setGitHubActionsNotSupportedMessage();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -278,8 +223,6 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   return (
     <>
       <h3 className={titleWithPaddingStyle}>{t('deploymentCenterSettingsBuildTitle')}</h3>
-
-      {getStackNotSupportedBanner()}
 
       <ReactiveFormControl id="deployment-center-code-settings-runtime-stack" label={t('deploymentCenterSettingsRuntimeLabel')}>
         <div>{defaultStack}</div>

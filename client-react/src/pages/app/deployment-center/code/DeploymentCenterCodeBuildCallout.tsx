@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { DefaultButton, Callout, ChoiceGroup, PrimaryButton } from 'office-ui-fabric-react';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { calloutStyle, calloutContent, calloutContentButton, additionalTextFieldControl } from '../DeploymentCenter.styles';
-import { BuildChoiceGroupOption, DeploymentCenterCodeBuildCalloutProps } from '../DeploymentCenter.types';
+import { BuildChoiceGroupOption, DeploymentCenterCodeBuildCalloutProps, RuntimeStackOptions } from '../DeploymentCenter.types';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
@@ -16,10 +16,13 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
     toggleIsCalloutVisible,
     updateSelectedBuild,
     formProps,
+    runtimeStack,
   } = props;
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
   const siteStateContext = useContext(SiteStateContext);
+
+  const isGitHubActionEnabled = runtimeStack !== RuntimeStackOptions.Ruby;
 
   const isKuduDisabled = () => {
     return scenarioService.checkScenario(ScenarioIds.kuduBuildProvider, { site: siteStateContext.site }).status === 'disabled';
@@ -45,7 +48,7 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
   ];
 
   const getBuildOptions = () => {
-    return formProps.values.sourceProvider === ScmType.GitHub
+    return formProps.values.sourceProvider === ScmType.GitHub && isGitHubActionEnabled
       ? [
           {
             key: BuildProvider.GitHubAction,

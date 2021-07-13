@@ -443,6 +443,7 @@ export interface DeploymentCenterCodeBuildCalloutProps {
   toggleIsCalloutVisible: () => void;
   updateSelectedBuild: () => void;
   formProps: FormikProps<DeploymentCenterFormData<any>>;
+  runtimeStack: string;
 }
 
 export interface AuthorizationResult {
