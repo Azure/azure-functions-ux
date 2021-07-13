@@ -1,0 +1,10 @@
+{
+    "cosmosDb": {
+        "label_accountName": "Account name",
+        "tooltip_accountName": "Todo",
+        "label_apiType": "API type",
+        "tooltip_apiType": "Todo2",
+        "error_accountNameReq": "Account name is required",
+        "error_invalidAccountName": "The account name must consist of 3 - 34 lowercase letters, numbers, or '-' characters"
+    }
+}
