@@ -4,6 +4,8 @@ import { TextUtilitiesService } from '../../../../../../../utils/textUtilities';
 import { style } from 'typestyle';
 import { BindingDirection } from '../../../../../../../models/functions/binding';
 import { useEffect } from 'react';
+import { useContext } from 'react';
+import { PortalContext } from '../../../../../../../PortalContext';
 // import { useTranslation } from 'react-i18next';
 
 const codeBoxStyles = style({
@@ -36,6 +38,7 @@ const CosmosDbIntegration = (props: ICosmosDbIntegrationProps) => {
   const [subtext] = useState(
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nun in congue sapien, nec volutpat libero. Proin ut suscipit urna. Nunc commodo.'
   );
+  const portalCommunicator = useContext(PortalContext);
 
   const copyToClipboard = () => {
     TextUtilitiesService.copyContentToClipboard((codeText as string) || '');
@@ -63,25 +66,20 @@ const CosmosDbIntegration = (props: ICosmosDbIntegrationProps) => {
           <span>Copy</span>
         </Stack>
 
-        <Link href="">Go to your Cosmos DB account</Link>
-
-        {/* TODO: see if Link here can open new blade, otherwise open in new tab
-                    
-                    The below function may give some clues:
-
-                    const getEventGridSubscriptionUrl = (code: string) => {
-                        const eventGridSubscriptionUrlEndPoint =
-                        !!runtimeVersion && runtimeVersion === RuntimeExtensionMajorVersions.v1
-                            ? CommonConstants.EventGridSubscriptionEndpoints.v1
-                            : CommonConstants.EventGridSubscriptionEndpoints.v2;
-                        return !!siteStateContext.site
-                        ? `${Url.getMainUrl(siteStateContext.site)}/${eventGridSubscriptionUrlEndPoint}?functionName=${
-                            functionInfo.properties.name
-                            }&code=${code}`
-                        : '';
-                    };
-                    
-                */}
+        <Link
+          // TODO: Finalize the blade we open
+          onClick={() =>
+            portalCommunicator.openBlade(
+              {
+                detailBlade: 'ListSecretVersionsBlade',
+                detailBladeInputs: { id: 'asd', vaultId: 'asd' },
+                extension: 'Microsoft_Azure_KeyVault',
+              },
+              'vaultBlade'
+            )
+          }>
+          Go to your Cosmos DB account
+        </Link>
       </Stack>
     </div>
   );
