@@ -4,6 +4,11 @@ import {
   DeploymentCenterFormData,
   DeploymentCenterContainerFormData,
   ContainerRegistrySources,
+  RuntimeVersionOptions,
+  RuntimeVersionDisplayNames,
+  RuntimeStackOptions,
+  RuntimeStackDisplayNames,
+  JavaContainerDisplayNames,
 } from '../DeploymentCenter.types';
 import { ArmObj } from '../../../../models/arm-obj';
 import { ScmType, SiteConfig } from '../../../../models/site/config';
@@ -364,9 +369,69 @@ export const isFtpsDirty = (
 };
 
 export const getGitHubCommitMessage = (deploymentMessage: string): string => {
-  if (deploymentMessage) {
+  if (!!deploymentMessage) {
     const deploymentMessageJson = JSON.parse(deploymentMessage);
     return !!deploymentMessageJson && !!deploymentMessageJson.commitMessage ? deploymentMessageJson.commitMessage : deploymentMessage;
   }
   return deploymentMessage;
+};
+
+export const getDefaultVersionDisplayName = (version: string, isLinuxApp: boolean) => {
+  return isLinuxApp ? getLinuxDefaultVersionDisplayName(version) : getWindowsDefaultVersionDisplayName(version);
+};
+
+export const getLinuxDefaultVersionDisplayName = (version: string) => {
+  //NOTE(stpelleg): Java is different
+  if (version === RuntimeVersionOptions.Java11) {
+    return RuntimeVersionDisplayNames.Java11;
+  } else if (version === RuntimeVersionOptions.Java8) {
+    return RuntimeVersionDisplayNames.Java8;
+  }
+  const versionNameParts: string[] = version.toLocaleLowerCase().split('|');
+
+  return versionNameParts.length === 2
+    ? `${getRuntimeStackDisplayName(versionNameParts[0])} ${versionNameParts[1].replace('-', ' ').toUpperCase()}`
+    : version;
+};
+
+export const getWindowsDefaultVersionDisplayName = (version: string) => {
+  return version.replace('-', ' ');
+};
+
+export const getRuntimeStackDisplayName = (stack: string) => {
+  const stackName = stack.toLocaleLowerCase();
+  switch (stackName) {
+    case RuntimeStackOptions.Python:
+      return RuntimeStackDisplayNames.Python;
+    case RuntimeStackOptions.DotNetCore:
+      return RuntimeStackDisplayNames.DotNetCore;
+    case RuntimeStackOptions.Ruby:
+      return RuntimeStackDisplayNames.Ruby;
+    case RuntimeStackOptions.Java:
+      return RuntimeStackDisplayNames.Java;
+    case RuntimeStackOptions.Node:
+      return RuntimeStackDisplayNames.Node;
+    case RuntimeStackOptions.PHP:
+      return RuntimeStackDisplayNames.PHP;
+    case RuntimeStackOptions.AspDotNet:
+      return RuntimeStackDisplayNames.AspDotNet;
+    case RuntimeStackOptions.Dotnet:
+      return RuntimeStackDisplayNames.Dotnet;
+    default:
+      return '';
+  }
+};
+
+export const getJavaContainerDisplayName = (stack: string) => {
+  const stackName = stack.toLocaleLowerCase();
+  switch (stackName) {
+    case JavaContainers.JavaSE:
+      return JavaContainerDisplayNames.JavaSE;
+    case JavaContainers.Tomcat:
+      return JavaContainerDisplayNames.Tomcat;
+    case JavaContainers.JBoss:
+      return JavaContainerDisplayNames.JBoss;
+    default:
+      return '';
+  }
 };

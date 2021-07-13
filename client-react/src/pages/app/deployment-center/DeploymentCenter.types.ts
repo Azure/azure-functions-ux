@@ -84,12 +84,13 @@ export enum RuntimeStackDisplayNames {
   Node = 'Node',
   PHP = 'PHP',
   AspDotNet = 'ASP.NET',
-  Dotnet = 'Dotnet',
+  Dotnet = '.NET',
 }
 
 export enum RuntimeVersionOptions {
   Java11 = 'java11',
   Java8 = 'java8',
+  Java8Linux = 'jre8',
 }
 
 export enum RuntimeVersionDisplayNames {
@@ -111,6 +112,12 @@ export enum GitHubActionRunConclusion {
   Skipped = 'skipped',
   TimedOut = 'timed_out',
   ActionRequired = 'action_required',
+}
+
+export enum JavaContainerDisplayNames {
+  JavaSE = 'Java SE',
+  Tomcat = 'Tomcat',
+  JBoss = 'JBoss EAP',
 }
 
 export interface AzureDevOpsUrl {
@@ -219,7 +226,7 @@ export interface LocationServiceData {
 }
 
 export interface Properties {
-  Account: Account;
+  Account: DevOpsAccount;
 }
 
 export interface DeploymentCenterDataLoaderProps {
