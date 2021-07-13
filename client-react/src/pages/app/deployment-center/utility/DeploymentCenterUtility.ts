@@ -21,6 +21,7 @@ import { LogLevel, TelemetryInfo } from '../../../../models/telemetry';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { FormikProps } from 'formik';
 import { IDeploymentCenterContext } from '../DeploymentCenterContext';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 export const getLogId = (component: string, event: string): string => {
   return `${component}/${event}`;
@@ -390,12 +391,12 @@ export const getLinuxDefaultVersionDisplayName = (version: string) => {
   const versionNameParts: string[] = version.toLocaleLowerCase().split('|');
 
   return versionNameParts.length === 2
-    ? `${getRuntimeStackDisplayName(versionNameParts[0])} ${versionNameParts[1].replace('-', ' ').toUpperCase()}`
+    ? `${getRuntimeStackDisplayName(versionNameParts[0])} ${versionNameParts[1].replace(CommonConstants.Hyphen, ' ').toUpperCase()}`
     : version;
 };
 
 export const getWindowsDefaultVersionDisplayName = (version: string) => {
-  return version.replace('-', ' ');
+  return version.replace(CommonConstants.Hyphen, ' ');
 };
 
 export const getRuntimeStackDisplayName = (stack: string) => {

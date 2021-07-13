@@ -226,7 +226,7 @@ export interface LocationServiceData {
 }
 
 export interface Properties {
-  Account: DevOpsAccount;
+  Account: Account;
 }
 
 export interface DeploymentCenterDataLoaderProps {
