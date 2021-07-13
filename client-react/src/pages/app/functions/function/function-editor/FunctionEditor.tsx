@@ -46,6 +46,7 @@ import Url from '../../../../../utils/url';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { PortalContext } from '../../../../../PortalContext';
 import { BindingManager } from '../../../../../utils/BindingManager';
+import FunctionTestIntegrationFactory from './function-test/FunctionTestIntegrationFactory';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -55,6 +56,10 @@ export interface FunctionEditorProps {
   urlObjs: UrlObj[];
   showTestPanel: boolean;
   setShowTestPanel: (showPanel: boolean) => void;
+  showTestIntegrationPanel: boolean;
+  setShowTestIntegrationPanel: (showPanel: boolean) => void;
+  testIntegrationList: JSX.Element[];
+  setTestIntegrationList: (newTestIntegrationList: JSX.Element[]) => void;
   refresh: () => void;
   isRefreshing: boolean;
   getFunctionUrl: (key?: string) => string;
@@ -80,6 +85,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     urlObjs,
     showTestPanel,
     setShowTestPanel,
+    showTestIntegrationPanel,
+    setShowTestIntegrationPanel,
+    testIntegrationList,
+    setTestIntegrationList,
     testData,
     refresh,
     isRefreshing,
@@ -326,6 +335,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     );
   };
 
+  const getTestIntegrationHeaderContent = (): JSX.Element => {
+    return <h1>{t('function_testIntegration')}</h1>;
+  };
+
   const changePivotTab = (pivotItem: PivotType) => {
     setSelectedPivotTab(pivotItem);
   };
@@ -490,6 +503,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           functionInfo={functionInfo}
           runtimeVersion={runtimeVersion}
           upload={uploadFile}
+          testIntegrationList={testIntegrationList}
+          setShowTestIntegrationPanel={setShowTestIntegrationPanel}
         />
         <ConfirmDialog
           primaryActionButton={{
@@ -563,6 +578,19 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           getFunctionUrl={getFunctionUrl}
         />
       </CustomPanel>
+      <FunctionTestIntegrationFactory
+        panelProps={{
+          type: PanelType.medium,
+          isOpen: showTestIntegrationPanel,
+          onDismiss: () => setShowTestIntegrationPanel(false),
+          headerContent: getTestIntegrationHeaderContent(),
+          isBlocking: false,
+          customStyle: testPanelStyle,
+        }}
+        functionInfo={functionInfo.properties}
+        testIntegrationList={testIntegrationList}
+        setTestIntegrationList={setTestIntegrationList}
+      />
       {isLoading() && <LoadingComponent />}
       {!logPanelFullscreen && (
         <div className={editorDivStyle}>

@@ -7155,4 +7155,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="configurationFeedbackCVAQuestion" xml:space="preserve">
         <value>How valuable is this App Service configuration page?</value>
     </data>
+    <data name="function_testIntegration" xml:space="preserve">
+        <value>Test integration</value>
+    </data>
+    <data name="function_testIntegrationAriaLabel" xml:space="preserve">
+        <value>Open panel to test integration with different bindings.</value>
+    </data>
 </root>

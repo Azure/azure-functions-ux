@@ -2338,4 +2338,6 @@ export class PortalResources {
   public static staticSiteStandardBandwidthOverage = 'staticSiteStandardBandwidthOverage';
   public static configurationFeedbackCESQuestion = 'configurationFeedbackCESQuestion';
   public static configurationFeedbackCVAQuestion = 'configurationFeedbackCVAQuestion';
+  public static function_testIntegration = 'function_testIntegration';
+  public static function_testIntegrationAriaLabel = 'function_testIntegrationAriaLabel';
 }
