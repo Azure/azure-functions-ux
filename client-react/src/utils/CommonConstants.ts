@@ -162,6 +162,8 @@ export class CommonConstants {
 
   public static readonly Dash = ' - ';
 
+  public static readonly Hyphen = '-';
+
   public static readonly serviceBmxUrl = 'https://service.bmx.azure.com';
 
   public static readonly MountPathValidationExamples = {
