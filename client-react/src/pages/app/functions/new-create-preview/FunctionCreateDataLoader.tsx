@@ -404,6 +404,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
                   hostStatus={hostStatus}
                   setHostStatus={setHostStatus}
                 />
+                {console.log(armResources)}
               </div>
               <ActionBar
                 fullPageHeight={true}

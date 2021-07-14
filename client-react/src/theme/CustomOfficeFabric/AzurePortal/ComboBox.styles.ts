@@ -86,8 +86,6 @@ export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
       color: semanticColors.errorText,
     },
     optionsContainer: {
-      height: DROPDOWN_ITEMHEIGHT + 2,
-      overflow: 'hidden',
       verticalAlign: 'middle',
       selectors: {
         '.ms-ComboBox-header': {

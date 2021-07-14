@@ -72,7 +72,7 @@ const CosmosDBComboBox = props => {
   const [containers, setContainers] = useState<any>(undefined);
   const [newContainerName, setNewContainerName] = useState<string | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<IComboBoxOption | undefined>(undefined);
-  const [storedArmTemplate, setStoredArmTemplate] = useState<any>(undefined);
+  const [, setStoredArmTemplate] = useState<any>(undefined);
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
@@ -267,26 +267,37 @@ const CosmosDBComboBox = props => {
             option.key as string
           );
 
-          armResources.forEach((armRsc, index) => {
+          armResources.forEach(armRsc => {
             if (armRsc.type.toLowerCase().includes('databases') && armRsc.name.split('/').length === 2) {
               isTemplateFound = true;
             }
           });
 
-          if (!isTemplateFound && !!storedArmTemplate) {
-            setArmResources([...armResources, storedArmTemplate, newContainerTemplate]);
+          if (!isTemplateFound) {
+            // Regenerate the database template in case the database account was changed
+            const newDatabaseTemplate = DocumentDBService.getNewDatabaseArmTemplate(
+              option.key as string,
+              formProps,
+              armResources,
+              undefined
+            );
+
+            setArmResources([...armResources, newDatabaseTemplate, newContainerTemplate]);
           }
         } else if (isContainer()) {
           formProps.setStatus({ ...formProps.status, isNewContainer: true });
 
-          armResources.forEach((armRsc, index) => {
+          armResources.forEach(armRsc => {
             if (armRsc.type.toLowerCase().includes('containers') || armRsc.type.toLowerCase().includes('collections')) {
               isTemplateFound = true;
             }
           });
 
-          if (!isTemplateFound && !!storedArmTemplate) {
-            setArmResources([...armResources, storedArmTemplate]);
+          if (!isTemplateFound) {
+            // Regenerate the container template in case the database was changed
+            const newContainerTemplate = DocumentDBService.getNewContainerArmTemplate(option.key as string, formProps, armResources);
+
+            setArmResources([...armResources, newContainerTemplate]);
           }
         }
       }
@@ -449,15 +460,6 @@ const CosmosDBComboBox = props => {
             options={options}
             {...props}
             placeholder={placeholder}
-            styles={{
-              optionsContainer: {
-                selectors: {
-                  '.ms-ComboBox-option': {
-                    padding: '0px !important',
-                  },
-                },
-              },
-            }}
           />
 
           {!isDisabled ? (

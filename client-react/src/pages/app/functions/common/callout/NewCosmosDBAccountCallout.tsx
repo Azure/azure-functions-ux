@@ -58,6 +58,17 @@ const NewCosmosDBAccountCallout = props => {
     // apiType: 'coreSql',
   };
 
+  const removeCurrentDatabaseAccountArmTemplate = () => {
+    // Find and, if found, remove the template
+    let modifiableArmResources = armResources;
+    armResources.forEach((armRsc, index) => {
+      if (armRsc.type === 'Microsoft.DocumentDB/databaseAccounts') {
+        modifiableArmResources.splice(index, 1);
+        setArmResources(modifiableArmResources);
+      }
+    });
+  };
+
   //Do what we need to with the finalized template string
   const handleSubmitTemplate = () => {
     setSubmittedTemplate(cosmosDbTemplate);
@@ -72,6 +83,7 @@ const NewCosmosDBAccountCallout = props => {
       formProps.setFieldValue('databaseName', 'CosmosDatabase');
       formProps.setFieldValue('collectionName', 'CosmosContainer');
 
+      removeCurrentDatabaseAccountArmTemplate();
       removeCurrentDatabaseArmTemplate(armResources, setArmResources);
       removeCurrentContainerArmTemplate(armResources, setArmResources);
       const newDatabaseTemplate = DocumentDBService.getNewDatabaseArmTemplate(
