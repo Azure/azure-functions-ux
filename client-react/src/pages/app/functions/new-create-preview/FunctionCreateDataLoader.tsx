@@ -50,6 +50,8 @@ registerIcons({
   },
 });
 
+export type TSetArmResources = (template: IArmRscTemplate[] | ((prevArmResources: IArmRscTemplate[]) => IArmRscTemplate[])) => void;
+
 export interface FunctionCreateDataLoaderProps {
   resourceId: string;
 }
