@@ -67,6 +67,8 @@ export default class FunctionsService {
     let isCdbDeployment = false;
     let cdbAcctName = '';
     let resourcesToDeploy = armResources;
+    let templateParameterSettings = {};
+    let templateParameters = {};
 
     // Build dependency list for AppSettings
     const appSettingsDependencies: string[] = [];
@@ -115,6 +117,27 @@ export default class FunctionsService {
       // Due to some CDB template functionality, we need to double check
       // that there's actually new appsettings, otherwise don't deploy it
       if (!noNewValues) {
+        // Alter appsettings resource to use secureString parameters (in ARM template)
+        Object.keys(appSettingsValues).forEach(appSettingKey => {
+          // Don't secureString-ify template functions (some can be, but list ones can't, so we just won't for all of them)
+          if (
+            appSettingsValues[appSettingKey][0] !== '[' &&
+            appSettingsValues[appSettingKey][appSettingsValues[appSettingKey].length - 1] !== ']'
+          ) {
+            // Establish the parameter within the deployment template
+            templateParameterSettings[appSettingKey] = {
+              type: 'secureString',
+            };
+
+            // Configure the value of the parameter to be sent in the ARM deployment request body
+            templateParameters[appSettingKey] = {
+              value: appSettingsValues[appSettingKey],
+            };
+
+            appSettingsValues[appSettingKey] = `[parameters('${appSettingKey}')]`;
+          }
+        });
+
         const appSettingsArmRscTemplate = {
           name: `${functionAppId}/appsettings`,
           type: 'Microsoft.Web/sites/config',
@@ -127,7 +150,7 @@ export default class FunctionsService {
       }
     }
 
-    return getArmDeploymentTemplate(resourcesToDeploy);
+    return getArmDeploymentTemplate(resourcesToDeploy, templateParameterSettings, templateParameters);
   };
 
   public static getBindings = (functionAppId: string) => {

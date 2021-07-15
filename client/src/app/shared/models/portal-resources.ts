@@ -1799,7 +1799,6 @@ export class PortalResources {
   public static documentDBCallout_newDocumentDBConnection = 'documentDBCallout_newDocumentDBConnection';
   public static documentDBCallout_newDocumentDBAccount = 'documentDBCallout_newDocumentDBAccount';
   public static documentDBCallout_newDocumentDBAccountSubtext = 'documentDBCallout_newDocumentDBAccountSubtext';
-  public static name = 'name';
   public static connectionStringSetting = 'connectionStringSetting';
   public static documentDBCallout_newDocumentDBAccountLink = 'documentDBCallout_newDocumentDBAccountLink';
   public static documentDBCallout_azureCosmosDBAccount = 'documentDBCallout_azureCosmosDBAccount';

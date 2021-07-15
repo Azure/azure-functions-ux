@@ -273,11 +273,11 @@ export const MakePagedArmCall = async <T>(requestObject: ArmRequestObject<ArmArr
 };
 
 // Makes ARM deployment to resource group (https://docs.microsoft.com/en-us/rest/api/resources/deployments/create-or-update)
-export const getArmDeploymentTemplate = (resources: Object[]) => {
+export const getArmDeploymentTemplate = (resources: Object[], parameterSettings: Object = {}, parameters: Object = {}) => {
   const armDeploymentTemplate: IArmDeploymentTemplate = {
     $schema: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#',
     contentVersion: '1.0.0.0',
-    parameters: {},
+    parameters: parameterSettings, // Input parameter settings, if any, here
     functions: [],
     variables: {},
     resources, // Input the resources passed in here
@@ -288,6 +288,7 @@ export const getArmDeploymentTemplate = (resources: Object[]) => {
     properties: {
       mode: 'Incremental', // Leaves other resources in rscGrp unchanged
       template: armDeploymentTemplate,
+      parameters, // Pass in the actual parameter values (if any) here
     },
   };
 
