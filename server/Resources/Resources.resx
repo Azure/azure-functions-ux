@@ -5571,6 +5571,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="documentDBCallout_newDocumentDBAccountSubtext" xml:space="preserve">
         <value>Create a new serverless account in the same Azure region and resource group as the function. For more options, go to</value>
     </data>
+    <data name="connectionStringSetting" xml:space="preserve">
+        <value>Connection string setting</value>
+    </data>
     <data name="documentDBCallout_newDocumentDBAccountLink" xml:space="preserve">
         <value>Create Cosmos DB account</value>
     </data>

@@ -313,7 +313,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
                 value: BindingSettingValue.string,
                 defaultValue: '',
                 required: true,
-                label: this.t('key'),
+                label: this.t('nameRes'),
                 help: this.t('cosmosDb_customAppSettingKeyHelp'),
               },
               formProps,
@@ -325,7 +325,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
                 value: BindingSettingValue.string,
                 defaultValue: '',
                 required: true,
-                label: this.t('value'),
+                label: this.t('connectionStringSetting'),
               },
               formProps,
               isDisabled
