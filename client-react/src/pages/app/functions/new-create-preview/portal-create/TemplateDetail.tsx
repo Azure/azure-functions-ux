@@ -11,23 +11,27 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import FunctionCreateData from '../FunctionCreate.data';
-import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
+import CreateFunctionFormBuilderFactory, { FunctionFormBuilder } from '../../common/CreateFunctionFormBuilderFactory';
+import { CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
 import { FormikProps } from 'formik';
 import { detailContainerStyle } from '../FunctionCreate.styles';
 import BasicShimmerLines from '../../../../../components/shimmer/BasicShimmerLines';
 import { FunctionCreateContext } from '../FunctionCreateContext';
 import { Links } from '../../../../../utils/FwLinks';
+import { IArmRscTemplate } from '../FunctionCreateDataLoader';
 
 export interface TemplateDetailProps {
   resourceId: string;
   selectedTemplate: FunctionTemplate;
   formProps: FormikProps<CreateFunctionFormValues>;
-  setBuilder: (builder?: CreateFunctionFormBuilder) => void;
-  builder?: CreateFunctionFormBuilder;
+  setBuilder: (builder?: FunctionFormBuilder) => void;
+  builder?: FunctionFormBuilder;
+  setArmResources: (armResources: IArmRscTemplate[]) => void;
+  armResources: IArmRscTemplate[];
 }
 
 const TemplateDetail: React.FC<TemplateDetailProps> = props => {
-  const { resourceId, selectedTemplate, formProps, builder, setBuilder } = props;
+  const { resourceId, selectedTemplate, formProps, builder, setBuilder, setArmResources, armResources } = props;
   const { t } = useTranslation();
 
   const [functionsInfo, setFunctionsInfo] = useState<ArmObj<FunctionInfo>[] | undefined | null>(undefined);
@@ -109,10 +113,11 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     return requiredBindings;
   };
 
-  const createBuilder = () => {
+  const createFactory = () => {
     if (functionsInfo && bindings) {
-      setBuilder(
-        new CreateFunctionFormBuilder(
+      createBuilder(
+        new CreateFunctionFormBuilderFactory(
+          selectedTemplate.id,
           selectedTemplate.bindings || [],
           bindings,
           resourceId,
@@ -124,16 +129,20 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     }
   };
 
+  const createBuilder = (formBuilderFactory: CreateFunctionFormBuilderFactory) => {
+    setBuilder(formBuilderFactory.formBuilder);
+  };
+
   const getDetails = () => {
     return !functionsInfo || !bindings || !builder ? (
       <BasicShimmerLines />
     ) : (
-      builder.getFields(formProps, !!functionCreateContext.creatingFunction)
+      builder.getFields(formProps, setArmResources, armResources, !!functionCreateContext.creatingFunction)
     );
   };
 
   useEffect(() => {
-    createBuilder();
+    createFactory();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [functionsInfo, bindings]);

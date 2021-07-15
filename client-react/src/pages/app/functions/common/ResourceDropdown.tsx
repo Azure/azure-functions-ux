@@ -14,6 +14,7 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
 import SiteHelper from '../../../../utils/SiteHelper';
 import StringUtils from '../../../../utils/string';
+import { IArmRscTemplate } from '../new-create-preview/FunctionCreateDataLoader';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 import { calloutStyleField, linkPaddingStyle } from './callout/Callout.styles';
 import NewAppSettingCallout from './callout/NewAppSettingCallout';
@@ -25,6 +26,7 @@ import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConne
 export interface ResourceDropdownProps {
   setting: BindingSetting;
   resourceId: string;
+  setArmResources: ((template: IArmRscTemplate[]) => void) | null;
 }
 
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
@@ -91,7 +93,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
       {!isDisabled ? (
         <div style={linkPaddingStyle}>
           <Link id="target" onClick={() => setIsDialogVisible(true)}>
-            {'New'}
+            Create new
           </Link>
           {setting.resource === BindingSettingResource.Storage && (
             <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>

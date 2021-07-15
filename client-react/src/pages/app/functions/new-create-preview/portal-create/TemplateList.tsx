@@ -24,7 +24,8 @@ import {
   containerStyle,
   tableRowStyle,
 } from '../FunctionCreate.styles';
-import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
+import { FunctionFormBuilder } from '../../common/CreateFunctionFormBuilderFactory';
+import { CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
 import { FormikProps } from 'formik';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { HostStatus } from '../../../../../models/functions/host-status';
@@ -35,18 +36,21 @@ import { FunctionCreateContext } from '../FunctionCreateContext';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { Links } from '../../../../../utils/FwLinks';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
+import { IArmRscTemplate } from '../FunctionCreateDataLoader';
 
 export interface TemplateListProps {
   resourceId: string;
   formProps: FormikProps<CreateFunctionFormValues>;
-  setBuilder: (builder?: CreateFunctionFormBuilder) => void;
+  setBuilder: (builder?: FunctionFormBuilder) => void;
   setSelectedTemplate: (template?: FunctionTemplate) => void;
   setTemplates: (template?: FunctionTemplate[] | null) => void;
+  setArmResources: (armResources: IArmRscTemplate[]) => void;
   setHostStatus: (hostStatus?: ArmObj<HostStatus>) => void;
   templates?: FunctionTemplate[] | null;
+  armResources: IArmRscTemplate[];
   hostStatus?: ArmObj<HostStatus>;
   selectedTemplate?: FunctionTemplate;
-  builder?: CreateFunctionFormBuilder;
+  builder?: FunctionFormBuilder;
 }
 
 const TemplateList: React.FC<TemplateListProps> = props => {
@@ -59,6 +63,8 @@ const TemplateList: React.FC<TemplateListProps> = props => {
     setSelectedTemplate,
     templates,
     setTemplates,
+    setArmResources,
+    armResources,
     hostStatus,
     setHostStatus,
   } = props;
@@ -253,6 +259,8 @@ const TemplateList: React.FC<TemplateListProps> = props => {
           formProps={formProps}
           setBuilder={setBuilder}
           builder={builder}
+          setArmResources={setArmResources}
+          armResources={armResources}
         />
       )}
     </div>

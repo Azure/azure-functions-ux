@@ -13,6 +13,9 @@ import { VfsObject } from '../models/functions/vfs';
 import { Method } from 'axios';
 import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
+import { getArmDeploymentTemplate } from './ArmHelper';
+import { IArmRscTemplate } from '../pages/app/functions/new-create-preview/FunctionCreateDataLoader';
+import { CommonConstants } from '../utils/CommonConstants';
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -53,6 +56,101 @@ export default class FunctionsService {
       method: 'PUT',
       body: functionInfo,
     });
+  };
+
+  public static getDeploymentTemplate = (
+    armResources: IArmRscTemplate[],
+    functionAppId: string,
+    appSettings: ArmObj<KeyValue<string>>,
+    currentAppSettings: any
+  ) => {
+    let isCdbDeployment = false;
+    let cdbAcctName = '';
+    let resourcesToDeploy = armResources;
+    let templateParameterSettings = {};
+    let templateParameters = {};
+
+    // Build dependency list for AppSettings
+    const appSettingsDependencies: string[] = [];
+    if (resourcesToDeploy.length > 0) {
+      resourcesToDeploy.forEach(armRsc => {
+        if (armRsc.type === 'Microsoft.DocumentDB/databaseAccounts') {
+          isCdbDeployment = true;
+          cdbAcctName = armRsc.name;
+        }
+
+        const rscNameArr = armRsc.name.split('/');
+
+        if (rscNameArr.length === 2) {
+          appSettingsDependencies.push(`[resourceId('${armRsc.type}', '${rscNameArr[0]}', '${rscNameArr[1]}')]`);
+        } else if (rscNameArr.length === 3) {
+          appSettingsDependencies.push(`[resourceId('${armRsc.type}', '${rscNameArr[0]}', '${rscNameArr[1]}', '${rscNameArr[2]}')]`);
+        } else {
+          appSettingsDependencies.push(`[resourceId('${armRsc.type}', '${rscNameArr[0]}')]`);
+        }
+      });
+    }
+
+    if (appSettings || isCdbDeployment) {
+      // Combine the current FuncApp settings with the new ones to deploy
+      let appSettingsValues = { ...currentAppSettings };
+      let noNewValues = true;
+
+      // Get Primary Connection string to CDB account if that's what we're deploying
+      if (isCdbDeployment) {
+        const connectionStringKey = `${cdbAcctName}_DOCUMENTDB`;
+        noNewValues = false;
+
+        appSettingsValues[
+          connectionStringKey
+        ] = `[listConnectionStrings(resourceId('Microsoft.DocumentDB/databaseAccounts', '${cdbAcctName}'), '2019-12-12').connectionStrings[0].connectionString]`;
+      } else {
+        // Check that we're not duplicating any settings (specifically for Cosmos DB as of 6/30/2021)
+        Object.keys(appSettings.properties).forEach(key => {
+          if (!(key in currentAppSettings)) {
+            appSettingsValues[key] = appSettings.properties[key];
+            noNewValues = false;
+          }
+        });
+      }
+
+      // Due to some CDB template functionality, we need to double check
+      // that there's actually new appsettings, otherwise don't deploy it
+      if (!noNewValues) {
+        // Alter appsettings resource to use secureString parameters (in ARM template)
+        Object.keys(appSettingsValues).forEach(appSettingKey => {
+          // Don't secureString-ify template functions (some can be, but list ones can't, so we just won't for all of them)
+          if (
+            appSettingsValues[appSettingKey][0] !== '[' &&
+            appSettingsValues[appSettingKey][appSettingsValues[appSettingKey].length - 1] !== ']'
+          ) {
+            // Establish the parameter within the deployment template
+            templateParameterSettings[appSettingKey] = {
+              type: 'secureString',
+            };
+
+            // Configure the value of the parameter to be sent in the ARM deployment request body
+            templateParameters[appSettingKey] = {
+              value: appSettingsValues[appSettingKey],
+            };
+
+            appSettingsValues[appSettingKey] = `[parameters('${appSettingKey}')]`;
+          }
+        });
+
+        const appSettingsArmRscTemplate = {
+          name: `${functionAppId}/appsettings`,
+          type: 'Microsoft.Web/sites/config',
+          apiVersion: CommonConstants.ApiVersions.sitesApiVersion20201201,
+          dependsOn: appSettingsDependencies,
+          properties: appSettingsValues,
+        };
+
+        resourcesToDeploy.push(appSettingsArmRscTemplate);
+      }
+    }
+
+    return getArmDeploymentTemplate(resourcesToDeploy, templateParameterSettings, templateParameters);
   };
 
   public static getBindings = (functionAppId: string) => {
