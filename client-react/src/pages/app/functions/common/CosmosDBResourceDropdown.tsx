@@ -10,7 +10,7 @@ import { ArmArray } from '../../../../models/arm-obj';
 import { BindingSetting } from '../../../../models/functions/binding';
 import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
-import { IArmRscTemplate } from '../new-create-preview/FunctionCreateDataLoader';
+import { IArmRscTemplate, TSetArmResources } from '../new-create-preview/FunctionCreateDataLoader';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 import { calloutStyleField, linkPaddingStyle } from './callout/Callout.styles';
 import NewCosmosDBAccountCallout from './callout/NewCosmosDBAccountCallout';
@@ -21,7 +21,7 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 interface CosmosDBResourceDropdownProps {
   setting: BindingSetting;
   resourceId: string;
-  setArmResources: (template: IArmRscTemplate[]) => void;
+  setArmResources: TSetArmResources;
   armResources: IArmRscTemplate[];
 }
 
@@ -112,14 +112,17 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
 
         // If template already in armResources (should mean user generated new one) don't do anything, otherwise reinstate storedArmTemplate to armResources
         let isTemplateFound = false;
-        armResources.forEach((armRsc, index) => {
+        armResources.forEach(armRsc => {
           if (armRsc.type.toLowerCase().includes('databaseaccounts') && armRsc.name.split('/').length === 1) {
             isTemplateFound = true;
           }
         });
 
         if (!isTemplateFound && !!storedArmTemplate) {
-          setArmResources(prevArmResources => [...prevArmResources, storedArmTemplate, newDatabaseTemplate, newContainerTemplate]);
+          setArmResources(
+            (prevArmResources: IArmRscTemplate[]) =>
+              [...prevArmResources, storedArmTemplate, newDatabaseTemplate, newContainerTemplate] as IArmRscTemplate[]
+          );
         }
       }
 

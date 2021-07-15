@@ -36,7 +36,7 @@ import { FunctionCreateContext } from '../FunctionCreateContext';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { Links } from '../../../../../utils/FwLinks';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
-import { IArmRscTemplate } from '../FunctionCreateDataLoader';
+import { IArmRscTemplate, TSetArmResources } from '../FunctionCreateDataLoader';
 
 export interface TemplateListProps {
   resourceId: string;
@@ -44,7 +44,7 @@ export interface TemplateListProps {
   setBuilder: (builder?: FunctionFormBuilder) => void;
   setSelectedTemplate: (template?: FunctionTemplate) => void;
   setTemplates: (template?: FunctionTemplate[] | null) => void;
-  setArmResources: (armResources: IArmRscTemplate[]) => void;
+  setArmResources: TSetArmResources;
   setHostStatus: (hostStatus?: ArmObj<HostStatus>) => void;
   templates?: FunctionTemplate[] | null;
   armResources: IArmRscTemplate[];

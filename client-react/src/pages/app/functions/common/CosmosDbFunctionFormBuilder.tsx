@@ -7,7 +7,7 @@ import { BindingInfo, BindingType } from '../../../../models/functions/function-
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import i18next from 'i18next';
 import { Field, FormikProps } from 'formik';
-import { IArmRscTemplate } from '../new-create-preview/FunctionCreateDataLoader';
+import { IArmRscTemplate, TSetArmResources } from '../new-create-preview/FunctionCreateDataLoader';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
 import CosmosDBResourceDropdown from './CosmosDBResourceDropdown';
@@ -123,7 +123,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
 
   public getFields(
     formProps: FormikProps<CreateFunctionFormValues>,
-    setArmResources: (armResources: IArmRscTemplate[]) => void,
+    setArmResources: TSetArmResources,
     armResources: IArmRscTemplate[],
     isDisabled: boolean
   ) {
@@ -184,7 +184,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
   protected _getResourceField(
     setting: BindingSetting,
     formProps: FormikProps<CreateFunctionFormValues>,
-    setArmResources: (armResources: IArmRscTemplate[]) => void,
+    setArmResources: TSetArmResources,
     armResources: IArmRscTemplate[],
     isDisabled: boolean,
     resourceId: string
@@ -216,7 +216,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
   private _getComboBoxField(
     setting: BindingSetting,
     formProps: FormikProps<CreateFunctionFormValues>,
-    setArmResources: (armResources: IArmRscTemplate[]) => void,
+    setArmResources: TSetArmResources,
     armResources: IArmRscTemplate[],
     isDisabled: boolean,
     resourceId: string
@@ -263,7 +263,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
 
   private _getProgressiveDisclosureFields(
     formProps: FormikProps<CreateFunctionFormValues>,
-    setArmResources: (armResources: IArmRscTemplate[]) => void,
+    setArmResources: TSetArmResources,
     armResources: IArmRscTemplate[],
     isDisabled: boolean
   ) {
