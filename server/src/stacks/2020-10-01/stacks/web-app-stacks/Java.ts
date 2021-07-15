@@ -703,7 +703,7 @@ export const javaStack: WebAppStack = {
               isDeprecated: false,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: true,
+                isSupported: false,
                 isDefaultOff: true,
               },
               gitHubActionSettings: {
