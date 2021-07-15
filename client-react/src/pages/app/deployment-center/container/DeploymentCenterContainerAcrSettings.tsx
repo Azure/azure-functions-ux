@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ContainerOptions, DeploymentCenterContainerAcrSettingsProps } from '../DeploymentCenter.types';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -9,9 +9,12 @@ import ComboBox from '../../../../components/form-controls/ComboBox';
 import { ScmType } from '../../../../models/site/config';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { IDropdownOption } from 'office-ui-fabric-react';
+import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
+    acrSubscriptionOptions,
     acrRegistryOptions,
     acrImageOptions,
     acrTagOptions,
@@ -24,8 +27,11 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
   } = props;
   const { t } = useTranslation();
 
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
+
   const [isComposeOptionSelected, setIsComposeOptionSelected] = useState(false);
   const [isGitHubActionSelected, setIsGitHubActionSelected] = useState(false);
+  const [aCRSubscriptionOptions, setACRSubscriptionOptions] = useState<IDropdownOption[]>(acrSubscriptionOptions);
   const [aCRRegistryOptions, setACRRegistryOptions] = useState<IDropdownOption[]>(acrRegistryOptions);
   const [aCRImageOptions, setACRImageOptions] = useState<IDropdownOption[]>(acrImageOptions);
   const [aCRTagOptions, setACRTagOptions] = useState<IDropdownOption[]>(acrTagOptions);
@@ -41,6 +47,12 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.scmType]);
+
+  useEffect(() => {
+    setACRSubscriptionOptions(acrSubscriptionOptions);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [acrSubscriptionOptions]);
 
   useEffect(() => {
     setACRRegistryOptions(acrRegistryOptions);
@@ -81,6 +93,18 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
       {acrStatusMessage && acrStatusMessageType && (
         <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} />
       )}
+
+      <ComboBoxNoFormik
+        id="container-acr-subscription"
+        label={t('subscription')}
+        //selectedKey={deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.subscription : ''}
+        allowFreeform
+        autoComplete="on"
+        options={aCRSubscriptionOptions}
+        required={true}
+        onChange={() => {}}
+        value={deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.subscription : ''}
+      />
 
       <Field
         id="container-acr-repository"
