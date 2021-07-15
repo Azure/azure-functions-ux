@@ -9,7 +9,13 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { deploymentCenterInfoBannerDiv, additionalTextFieldControl } from '../DeploymentCenter.styles';
-import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, BuildChoiceGroupOption } from '../DeploymentCenter.types';
+import {
+  DeploymentCenterFieldProps,
+  DeploymentCenterCodeFormData,
+  BuildChoiceGroupOption,
+  RuntimeStackOptions,
+  RuntimeStackSetting,
+} from '../DeploymentCenter.types';
 import { Guid } from '../../../../utils/Guid';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import DeploymentCenterCodeBuildCallout from './DeploymentCenterCodeBuildCallout';
@@ -17,7 +23,7 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
 import { PortalContext } from '../../../../PortalContext';
-import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { getRuntimeStackSetting, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -151,20 +157,34 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   const setSourceBuildProvider = () => {
     if (formProps.values.sourceProvider === ScmType.GitHub) {
-      setSelectedBuild(BuildProvider.GitHubAction);
-      formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
-      formProps.setFieldValue(
-        'gitHubPublishProfileSecretGuid',
-        Guid.newGuid()
-          .toLowerCase()
-          .replace(/[-]/g, '')
-      );
+      //Note (stpelleg): Need to disable GitHub Actions for Ruby as we do not support it
+      if (!!defaultStackAndVersion && defaultStackAndVersion.runtimeStack.toLocaleLowerCase() === RuntimeStackOptions.Ruby) {
+        setSelectedBuild(BuildProvider.AppServiceBuildService);
+        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
+      } else {
+        setSelectedBuild(BuildProvider.GitHubAction);
+        formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
+        formProps.setFieldValue(
+          'gitHubPublishProfileSecretGuid',
+          Guid.newGuid()
+            .toLowerCase()
+            .replace(/[-]/g, '')
+        );
+      }
     } else {
       setSelectedBuild(BuildProvider.AppServiceBuildService);
       formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
     }
   };
 
+  const defaultStackAndVersion: RuntimeStackSetting = getRuntimeStackSetting(
+    siteStateContext.isLinuxApp,
+    siteStateContext.isFunctionApp,
+    siteStateContext.isKubeApp,
+    deploymentCenterContext.siteConfig,
+    deploymentCenterContext.configMetadata,
+    deploymentCenterContext.applicationSettings
+  );
   const isSourceSelected = formProps.values.sourceProvider !== ScmType.None;
   const calloutOkButtonDisabled = selectedBuildChoice === selectedBuild;
   const isAzureDevOpsSupportedBuild =
@@ -193,6 +213,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
           toggleIsCalloutVisible={toggleIsCalloutVisible}
           updateSelectedBuild={updateSelectedBuild}
           formProps={formProps}
+          runtimeStack={defaultStackAndVersion.runtimeStack}
         />
       )
     );
