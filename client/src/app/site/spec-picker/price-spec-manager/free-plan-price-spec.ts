@@ -132,6 +132,7 @@ export class FreePlanPriceSpec extends PriceSpec {
           }
         })
         .catch(e => {
+          this.skuAvailabilityCheckFailed = true;
           this._logService.error(
             LogCategories.specPicker,
             '/get-available-georegions-for-sku',

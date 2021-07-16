@@ -52,6 +52,7 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
           }
         })
         .catch(e => {
+          this.skuAvailabilityCheckFailed = true;
           this._logService.error(
             LogCategories.specPicker,
             '/get-available-georegions-for-sku',
