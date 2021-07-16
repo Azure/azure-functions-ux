@@ -13,7 +13,6 @@ interface IFunctionTestIntegrationFactoryProps {
   setTestIntegrationList: (newTestIntegrationList: JSX.Element[]) => void;
 }
 
-// TODO: test if we can open a new blade from here (portalCommunicator)
 const FunctionTestIntegrationFactory = (props: IFunctionTestIntegrationFactoryProps) => {
   const { panelProps, functionInfo, testIntegrationList, setTestIntegrationList } = props;
 
