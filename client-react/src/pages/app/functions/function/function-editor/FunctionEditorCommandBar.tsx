@@ -23,6 +23,8 @@ interface FunctionEditorCommandBarProps {
   testFunction: () => void;
   refreshFunction: () => void;
   upload: (file: any) => void;
+  testIntegrationList: JSX.Element[];
+  setShowTestIntegrationPanel: (showTestIntegrationPanel: boolean) => void;
   isGetFunctionUrlVisible: boolean;
   dirty: boolean;
   disabled: boolean;
@@ -46,6 +48,8 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
     functionInfo,
     runtimeVersion,
     upload,
+    testIntegrationList,
+    setShowTestIntegrationPanel,
   } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
@@ -164,6 +168,20 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         ariaLabel: t('functionEditorGetFunctionUrlAriaLabel'),
         onClick: onClickGetFunctionUrlCommand,
         componentRef: ref => (getFunctionUrlButtonRef.current = ref),
+      });
+    }
+
+    // websitesextension_ext=appsvc.showFunctionTestIntegrationPanel%3Dtrue
+    if (testIntegrationList.length > 0 && !!Url.getFeatureValue(CommonConstants.FeatureFlags.showFunctionTestIntegrationPanel)) {
+      items.push({
+        key: 'testIntegration',
+        text: t('function_testIntegration'),
+        iconProps: {
+          iconName: 'TestBeaker',
+        },
+        disabled: disabled,
+        ariaLabel: t('function_testIntegrationAriaLabel'),
+        onClick: () => setShowTestIntegrationPanel(true),
       });
     }
 

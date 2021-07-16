@@ -55,6 +55,7 @@ export class CommonConstants {
     treatAsKubeApp: 'treatAsKubeApp', // websitesextension_ext=appsvc.treatAsKubeApp%3Dtrue
     enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
     enableEditingForLinuxPremium: 'enableEditingForLinuxPremium',
+    showFunctionTestIntegrationPanel: 'showFunctionTestIntegrationPanel',
   };
 
   public static readonly AppDensityLimit = 8;
