@@ -7245,4 +7245,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterJavaWebServerStack" xml:space="preserve">
         <value>Java web server stack</value>
     </data>
+    <data name="cosmosDb_label_accountName" xml:space="preserve">
+        <value>Account name</value>
+    </data>
+    <data name="cosmosDb_tooltip_accountName" xml:space="preserve">
+        <value>Todo</value>
+    </data>
+    <data name="cosmosDb_label_apiType" xml:space="preserve">
+        <value>API type</value>
+    </data>
+    <data name="cosmosDb_tooltip_apiType" xml:space="preserve">
+        <value>Todo2</value>
+    </data>
+    <data name="cosmosDb_error_accountNameReq" xml:space="preserve">
+        <value>Account name is required</value>
+    </data>
+    <data name="cosmosDb_error_invalidAccountName" xml:space="preserve">
+        <value>The account name must consist of 3 - 34 lowercase letters, numbers, or '-' characters</value>
+    </data>
 </root>

@@ -3,7 +3,6 @@ import CosmosDbControls from './CosmosDbControls';
 import { Field, FormikProps } from 'formik';
 import { Stack, TextField, Icon } from 'office-ui-fabric-react';
 import InputLabel from '../common/components/InputLabel';
-import i18n from '../common/utils/i18n';
 import { debounce } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../common/ThemeContext';
@@ -57,9 +56,9 @@ export const CosmosDbCreator = (props: CosmosDbCreatorProps) => {
     const validNameRegExp = new RegExp('^[a-z0-9-]{3,44}$'); // Lowercase letters, numbers, '-'; 3 - 44 characters
 
     if (!name) {
-      error = t('cosmosDb.error_accountNameReq');
+      error = t('cosmosDb_error_accountNameReq');
     } else if (!validNameRegExp.test(name)) {
-      error = t('cosmosDb.error_invalidAccountName');
+      error = t('cosmosDb_error_invalidAccountName');
     } else {
       // Check if DB account name is available
       // Docs: https://docs.microsoft.com/en-us/rest/api/cosmos-db-resource-provider/2021-04-15/database-accounts/check-name-exists
@@ -118,15 +117,10 @@ export const CosmosDbCreator = (props: CosmosDbCreatorProps) => {
 
   useEffect(generateCosmosDbTemplate, [setTemplate, formProps, formProps.values]);
 
-  // Change language according to one passed in as prop
-  useEffect(() => {
-    i18n.changeLanguage(props.language ? props.language : 'en');
-  }, [props.language]);
-
   return (
     <>
       <Stack horizontal={props.horizontal} verticalAlign="center" className={inputStackStyle}>
-        <InputLabel htmlFor="accountName" labelText={t('cosmosDb.label_accountName')} required />
+        <InputLabel htmlFor="accountName" labelText={t('cosmosDb_label_accountName')} required />
         <Field
           name="accountName"
           id="accountName"
@@ -152,7 +146,7 @@ export const CosmosDbCreator = (props: CosmosDbCreatorProps) => {
       )}
 
       <Stack horizontal={props.horizontal} verticalAlign="center" className={inputStackStyle}>
-        <InputLabel /* htmlFor='apiType' */ labelText={t('cosmosDb.label_apiType')} required />
+        <InputLabel /* htmlFor='apiType' */ labelText={t('cosmosDb_label_apiType')} required />
         {/* Disabled (along with apiTypeOptions) until future notice (as of 6/3/2021)
                 <Field
                     name='apiType'

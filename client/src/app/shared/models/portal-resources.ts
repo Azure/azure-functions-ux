@@ -2367,4 +2367,10 @@ export class PortalResources {
   public static configurationFeedbackCESQuestion = 'configurationFeedbackCESQuestion';
   public static configurationFeedbackCVAQuestion = 'configurationFeedbackCVAQuestion';
   public static deploymentCenterJavaWebServerStack = 'deploymentCenterJavaWebServerStack';
+  public static cosmosDb_label_accountName = 'cosmosDb_label_accountName';
+  public static cosmosDb_tooltip_accountName = 'cosmosDb_tooltip_accountName';
+  public static cosmosDb_label_apiType = 'cosmosDb_label_apiType';
+  public static cosmosDb_tooltip_apiType = 'cosmosDb_tooltip_apiType';
+  public static cosmosDb_error_accountNameReq = 'cosmosDb_error_accountNameReq';
+  public static cosmosDb_error_invalidAccountName = 'cosmosDb_error_invalidAccountName';
 }
