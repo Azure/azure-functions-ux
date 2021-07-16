@@ -565,6 +565,7 @@ export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterCont
 export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {
   fetchImages: (loginServer: string) => void;
   fetchTags: (image: string) => void;
+  fetchRegistriesInSub(subscription: string);
   acrSubscriptionOptions: IDropdownOption[];
   acrRegistryOptions: IDropdownOption[];
   acrImageOptions: IDropdownOption[];
@@ -572,6 +573,7 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   loadingRegistryOptions: boolean;
   loadingImageOptions: boolean;
   loadingTagOptions: boolean;
+  acrSubscription: string;
   acrStatusMessage?: string;
   acrStatusMessageType?: MessageBarType;
 }

@@ -79,54 +79,52 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       const registriesResponse = await deploymentCenterData.getAcrRegistries(subscription);
       if (registriesResponse.metadata.success && registriesResponse.data) {
         if (registriesResponse.data.value.length > 0) {
+          setAcrStatusMessage('');
           const dropdownOptions: IDropdownOption[] = [];
 
           //Check to see if the acr exists in the current subscription
           const isAcrInSameSubscription = registriesResponse.data.value.find(
-            registry => registry.properties.loginServer === formProps.values.acrLoginServer
+            registry => registry.properties.loginServer.toLocaleLowerCase() === formProps.values.acrLoginServer.toLocaleLowerCase()
           );
-          if (!isAcrInSameSubscription) {
-            fetchHiddenAcrTag();
-          } else {
-            registriesResponse.data.value.forEach(registry => {
-              const loginServer = registry.properties.loginServer.toLocaleLowerCase();
+          if (!isAcrInSameSubscription && formProps.values.acrLoginServer) {
+            await fetchHiddenAcrTag();
+          }
+          registriesResponse.data.value.forEach(registry => {
+            const loginServer = registry.properties.loginServer;
 
-              registryIdentifiers.current[loginServer] = {
-                resourceId: registry.id,
-                location: registry.location,
+            registryIdentifiers.current[loginServer] = {
+              resourceId: registry.id,
+              location: registry.location,
+            };
+
+            // NOTE(michinoy): If we already have the app settings with username and password, use that to reduce
+            // an extra call. Like this IF the registry is setup manually, there is no need to dispatch the call to
+            // get credentials.
+            if (appSettingServerUrl === loginServer && !!appSettingUsername && !!appSettingPassword) {
+              registryIdentifiers.current[loginServer].credential = {
+                username: appSettingUsername,
+                passwords: [
+                  {
+                    name: 'primary',
+                    value: appSettingPassword,
+                  },
+                ],
               };
-
-              // NOTE(michinoy): If we already have the app settings with username and password, use that to reduce
-              // an extra call. Like this IF the registry is setup manually, there is no need to dispatch the call to
-              // get credentials.
-              if (appSettingServerUrl === loginServer && !!appSettingUsername && !!appSettingPassword) {
-                registryIdentifiers.current[loginServer].credential = {
-                  username: appSettingUsername,
-                  passwords: [
-                    {
-                      name: 'primary',
-                      value: appSettingPassword,
-                    },
-                  ],
-                };
-              }
-
-              dropdownOptions.push({
-                key: loginServer,
-                text: registry.name,
-              });
-            });
-
-            setAcrRegistryOptions(dropdownOptions);
-
-            if (formProps.values.acrLoginServer) {
-              fetchRepositories(formProps.values.acrLoginServer);
             }
+
+            dropdownOptions.push({
+              key: loginServer,
+              text: registry.name,
+            });
+          });
+
+          setAcrRegistryOptions(dropdownOptions);
+
+          if (formProps.values.acrLoginServer) {
+            fetchRepositories(formProps.values.acrLoginServer);
           }
         } else {
-          setAcrStatusMessage(
-            t('deploymentCenterContainerAcrRegistrieNotAvailable').format(deploymentCenterContext.siteDescriptor.subscription)
-          );
+          setAcrStatusMessage(t('deploymentCenterContainerAcrRegistrieNotAvailable').format(subscription));
           setAcrStatusMessageType(MessageBarType.warning);
         }
       } else {
@@ -324,10 +322,11 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     return '';
   };
 
-  const parseHiddenTag = (tag: string) => {
-    if (tag) {
-      const tagJson = JSON.parse(tag);
-      return tagJson[''] ? tagJson[''] : '';
+  const parseHiddenTag = (tagValue: string) => {
+    if (!!tagValue) {
+      const tagJson = JSON.parse(tagValue);
+      const subId = tagJson['subscriptionId'] ? tagJson['subscriptionId'] : '';
+      setSubscription(subId);
     }
     return '';
   };
@@ -357,18 +356,27 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   }, [formProps.values.acrLoginServer, formProps.values.acrImage]);
 
   useEffect(() => {
-    if (subscription) {
-      fetchRegistries();
-    }
+    fetchRegistries();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subscription]);
+
+  const fetchRegistriesInSub = (subscription: string) => {
+    formProps.setFieldValue('acrLoginServer', '');
+    formProps.setFieldValue('acrImage', '');
+    formProps.setFieldValue('acrTag', '');
+    setAcrRegistryOptions([]);
+    setAcrImageOptions([]);
+    setAcrTagOptions([]);
+    setSubscription(subscription);
+  };
 
   return (
     <DeploymentCenterContainerAcrSettings
       {...props}
       fetchImages={fetchRepositories}
       fetchTags={fetchTags}
+      fetchRegistriesInSub={fetchRegistriesInSub}
       acrSubscriptionOptions={subscriptionOptions}
       acrRegistryOptions={acrRegistryOptions}
       acrImageOptions={acrImageOptions}
@@ -378,6 +386,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       loadingTagOptions={loadingTagOptions}
       acrStatusMessage={acrStatusMessage}
       acrStatusMessageType={acrStatusMessageType}
+      acrSubscription={subscription}
     />
   );
 };

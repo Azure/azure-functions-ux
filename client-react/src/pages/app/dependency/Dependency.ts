@@ -6,23 +6,8 @@ import { CommonConstants } from '../../../utils/CommonConstants';
 export abstract class Dependency {
   public async updateTags(resourceId: string, resourceName: string, subscriptions?: ISubscription[]): Promise<string> {
     // Calls into discoverResourceId to get resourceId and sets it in Tags property for resource
-    const acrInformation = await this.discoverResourceId(resourceName, subscriptions);
-    if (!!acrInformation) {
-      //call to tags
-      const siteResponse = await SiteService.fetchSite(resourceId);
-      if (siteResponse.metadata.success && !!siteResponse.data.tags) {
-        let tags = siteResponse.data.tags;
-        tags[this._getTagName(CommonConstants.DeploymentCenterACRTag, true)] = JSON.stringify(acrInformation);
-        const update = await SiteService.updateSite(resourceId, siteResponse.data);
-        if (!update.metadata.success) {
-          //logError
-        }
-        return acrInformation.subscriptionId;
-      } else if (!siteResponse.metadata.success) {
-        //log error
-      }
-    }
-    return '';
+    const tagInformation = await this.discoverResourceId(resourceName, subscriptions);
+    return this.updateId(resourceId, tagInformation);
   }
 
   public async getTag(resourceId: string, tag: string, isTagHidden: boolean) {
@@ -37,17 +22,13 @@ export abstract class Dependency {
     return undefined;
   }
 
-  private _getTagName(tagName: string, isHidden: boolean) {
+  protected _getTagName(tagName: string, isHidden: boolean) {
     return isHidden ? `hidden-link: ${tagName}` : tagName;
   }
 
   abstract discoverResourceId(resourceName: string, subscriptions?: ISubscription[]);
-}
 
-export class AppInsightsDependency extends Dependency {
-  discoverResourceId(resourceName: string) {
-    //TODO queries app settings and ARG to get resourceId and returns that to the parent
-  }
+  abstract updateId(resourceId: string, tagInformation: any);
 }
 
 export class AcrDependency extends Dependency {
@@ -59,6 +40,28 @@ export class AcrDependency extends Dependency {
     } else {
       return undefined;
       //log error
+    }
+  }
+
+  async updateId(resourceId: string, tagInformation: any) {
+    if (!!tagInformation && tagInformation.id) {
+      //call to tags
+      const siteResponse = await SiteService.fetchSite(resourceId);
+      if (siteResponse.metadata.success && !!siteResponse.data.tags) {
+        let tags = siteResponse.data.tags;
+        const resourceJson = {
+          resourceId: tagInformation.id,
+          subscriptionId: tagInformation.subscriptionId,
+        };
+        tags[this._getTagName(CommonConstants.DeploymentCenterACRTag, true)] = JSON.stringify(resourceJson);
+        const update = await SiteService.updateSite(resourceId, siteResponse.data);
+        if (!update.metadata.success) {
+          //logError
+        }
+        return tagInformation.subscriptionId;
+      } else if (!siteResponse.metadata.success) {
+        //log error
+      }
     }
   }
 }

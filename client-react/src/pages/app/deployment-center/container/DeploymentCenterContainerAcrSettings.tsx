@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ContainerOptions, DeploymentCenterContainerAcrSettingsProps } from '../DeploymentCenter.types';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,6 @@ import { ScmType } from '../../../../models/site/config';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -24,10 +23,10 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     loadingRegistryOptions: loadingAcrRegistryOptions,
     loadingImageOptions,
     loadingTagOptions,
+    acrSubscription,
+    fetchRegistriesInSub,
   } = props;
   const { t } = useTranslation();
-
-  const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const [isComposeOptionSelected, setIsComposeOptionSelected] = useState(false);
   const [isGitHubActionSelected, setIsGitHubActionSelected] = useState(false);
@@ -97,20 +96,19 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
       <ComboBoxNoFormik
         id="container-acr-subscription"
         label={t('subscription')}
-        //selectedKey={deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.subscription : ''}
         allowFreeform
         autoComplete="on"
         options={aCRSubscriptionOptions}
         required={true}
-        onChange={() => {}}
-        value={deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.subscription : ''}
+        onChange={(val, newSub) => fetchRegistriesInSub(newSub.key)}
+        value={acrSubscription}
       />
 
       <Field
         id="container-acr-repository"
         label={t('containerACRRegistry')}
         name="acrLoginServer"
-        selectedKey={formProps.values.acrLoginServer}
+        selectedKey={!!formProps.values.acrLoginServer ? formProps.values.acrLoginServer.toLocaleLowerCase() : ''}
         component={ComboBox}
         allowFreeform
         autoComplete="on"
