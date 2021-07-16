@@ -22,7 +22,7 @@ const FunctionTestIntegrationFactory = (props: IFunctionTestIntegrationFactoryPr
 
     // Search for the binding types we currently support for 'test integration'
     if (functionInfo.config && functionInfo.config.bindings) {
-      functionInfo.config.bindings.find(binding => {
+      functionInfo.config.bindings.forEach(binding => {
         if (BindingManager.isBindingTypeEqual(binding.type, BindingType.cosmosDBTrigger)) {
           // Cosmos DB trigger
           bindingComponentList.push(<CosmosDbIntegration type={BindingDirection.trigger} />);

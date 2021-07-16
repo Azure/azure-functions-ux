@@ -171,7 +171,8 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
       });
     }
 
-    if (testIntegrationList.length > 0) {
+    // websitesextension_ext=appsvc.showFunctionTestIntegrationPanel%3Dtrue
+    if (testIntegrationList.length > 0 && !!Url.getFeatureValue(CommonConstants.FeatureFlags.showFunctionTestIntegrationPanel)) {
       items.push({
         key: 'testIntegration',
         text: t('function_testIntegration'),
