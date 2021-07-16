@@ -13,7 +13,7 @@ export const linkPaddingStyle = {
 };
 
 export const calloutStyleField = {
-  padding: '10px',
+  padding: '16px 24px',
   minHeight: 175,
-  width: 400,
+  width: 450,
 };

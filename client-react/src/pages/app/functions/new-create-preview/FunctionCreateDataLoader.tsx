@@ -16,7 +16,8 @@ import { Layout } from '../../../../components/form-controls/ReactiveFormControl
 import ActionBar from '../../../../components/ActionBar';
 import TemplateList from './portal-create/TemplateList';
 import { Formik, FormikProps } from 'formik';
-import { CreateFunctionFormValues, CreateFunctionFormBuilder } from '../common/CreateFunctionFormBuilder';
+import { FunctionFormBuilder } from '../common/CreateFunctionFormBuilderFactory';
+import { CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { DevelopmentExperience } from './FunctionCreate.types';
 import { ReactComponent as VSCodeIconSvg } from '../../../../images/Functions/vs_code.svg';
 import { ReactComponent as TerminalIconSvg } from '../../../../images/Functions/terminal.svg';
@@ -26,7 +27,7 @@ import SiteService from '../../../../ApiHelpers/SiteService';
 import { CommonConstants, WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
-import { getErrorMessageOrStringify, getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import MakeArmCall, { getErrorMessageOrStringify, getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { isLinuxApp, isElastic, isKubeApp } from '../../../../utils/arm-utils';
 import SiteHelper from '../../../../utils/SiteHelper';
 import LocalCreateInstructions from './local-create/LocalCreateInstructions';
@@ -39,6 +40,7 @@ import Url from '../../../../utils/url';
 import { HostStatus } from '../../../../models/functions/host-status';
 import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateContext';
 import { Links } from '../../../../utils/FwLinks';
+import { Guid } from '../../../../utils/Guid';
 
 registerIcons({
   icons: {
@@ -48,8 +50,18 @@ registerIcons({
   },
 });
 
+export type TSetArmResources = (template: IArmRscTemplate[] | ((prevArmResources: IArmRscTemplate[]) => IArmRscTemplate[])) => void;
+
 export interface FunctionCreateDataLoaderProps {
   resourceId: string;
+}
+
+export interface IArmRscTemplate {
+  name: string;
+  apiVersion: string;
+  type: string;
+  dependsOn?: string[];
+  properties?: KeyValue<any>;
 }
 
 const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props => {
@@ -61,11 +73,12 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   const { t } = useTranslation();
 
   const [initialFormValues, setInitialFormValues] = useState<CreateFunctionFormValues | undefined>(undefined);
-  const [templateDetailFormBuilder, setTemplateDetailFormBuilder] = useState<CreateFunctionFormBuilder | undefined>(undefined);
+  const [templateDetailFormBuilder, setTemplateDetailFormBuilder] = useState<FunctionFormBuilder | undefined>(undefined);
   const [selectedDropdownKey, setSelectedDropdownKey] = useState<DevelopmentExperience | undefined>(undefined);
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
   const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplate | undefined>(undefined);
   const [templates, setTemplates] = useState<FunctionTemplate[] | undefined | null>(undefined);
+  const [armResources, setArmResources] = useState<IArmRscTemplate[]>([]);
   const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus> | undefined>(undefined);
   const [creatingFunction, setCreatingFunction] = useState(false);
 
@@ -228,28 +241,26 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     }
   };
 
-  const updateAppSettings = async (appSettings: ArmObj<KeyValue<string>>) => {
-    const notificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
-    const updateAppSettingsResponse = await FunctionCreateData.updateAppSettings(resourceId, appSettings);
-    if (updateAppSettingsResponse.metadata.success) {
-      portalCommunicator.stopNotification(notificationId, true, t('configUpdateSuccess'));
-    } else {
-      const errorMessage = getErrorMessage(updateAppSettingsResponse.metadata.error) || t('configUpdateFailure');
-      portalCommunicator.stopNotification(notificationId, false, errorMessage);
-      LogService.trackEvent(
-        LogCategories.localDevExperience,
-        'updateAppSettings',
-        `Failed to update Application Settings: ${getErrorMessageOrStringify(updateAppSettingsResponse.metadata.error)}`
-      );
-    }
-  };
-
-  const addFunction = async (formValues: CreateFunctionFormValues) => {
+  const createFunction = async (formValues: CreateFunctionFormValues) => {
     if (selectedTemplate) {
       setCreatingFunction(true);
+
+      let newAppSettings = formValues.newAppSettings;
+      // Handle custom app settings for CDB template
+      if (formValues.connectionType && formValues.connectionType === 'manual') {
+        formValues.connectionStringSetting = formValues.customAppSettingKey;
+
+        newAppSettings = {
+          properties: {
+            [formValues.customAppSettingKey]: formValues.customAppSettingValue,
+          },
+        };
+      }
+
       const config = FunctionCreateData.buildFunctionConfig(selectedTemplate.bindings || [], formValues);
       const { functionName } = formValues;
       const { files } = selectedTemplate;
+      const deploymentName = `Microsoft.Web-Function-${Guid.newShortGuid()}`;
       const notificationId = portalCommunicator.startNotification(
         t('createFunctionNotication'),
         t('createFunctionNotificationDetails').format(functionName)
@@ -260,7 +271,51 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         'FunctionCreateClicked',
         FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
       );
+
+      const splitRscId = resourceId.split('/');
+      const functionAppId = splitRscId[splitRscId.length - 1];
+
+      // We need to get the current appsettings to include in the
+      // deployment as they get overwritten otherwise
+      // TODO: Consider using SiteService to fetchApplicationSettings
+      const getAppSettingsResponse = await MakeArmCall<any>({
+        method: 'POST',
+        resourceId: `${resourceId}/config/appsettings/list`,
+        commandName: 'getFunctionAppSettings',
+      });
+
+      const currentAppSettings = getAppSettingsResponse.data.properties;
+
       const createFunctionResponse = await FunctionCreateData.createFunction(resourceId, functionName, files, config);
+
+      // NOTE(nlayne): Only do deployment stuff if we have resources or new appsettings to deploy
+      if (!!newAppSettings || armResources.length > 0) {
+        const armDeploymentTemplate = FunctionCreateData.getDeploymentTemplate(
+          armResources,
+          functionAppId,
+          newAppSettings,
+          currentAppSettings
+        );
+
+        // Double (or maybe even triple at this point) check that we don't do a deployment w/ no resources
+        if (armDeploymentTemplate.properties.template.resources.length > 0) {
+          // Hand ARM deployment template to Ibiza to do deployment/notification
+          const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
+          const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
+          portalCommunicator.executeArmUpdateRequest<any>({
+            uri: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}?api-version=${
+              CommonConstants.ApiVersions.armDeploymentApiVersion20210401
+            }`,
+            type: 'PUT',
+            content: armDeploymentTemplate,
+            notificationTitle: t('createFunctionDeploymentNotification'),
+            notificationDescription: t('createFunctionDeploymentNotificationDetails').format(functionName),
+            notificationSuccessDescription: t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp),
+            notificationFailureDescription: t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp),
+          });
+        }
+      }
+
       if (createFunctionResponse.metadata.success) {
         LogService.trackEvent(
           LogCategories.localDevExperience,
@@ -268,6 +323,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
           FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
         );
         portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
+
         const id = `${resourceId}/functions/${functionName}`;
         portalCommunicator.closeSelf(id);
       } else {
@@ -291,10 +347,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
 
   const onSubmit = (formValues?: CreateFunctionFormValues) => {
     if (!!formValues) {
-      if (formValues.newAppSettings) {
-        updateAppSettings(formValues.newAppSettings);
-      }
-      addFunction(formValues);
+      createFunction(formValues);
     }
   };
 
@@ -348,6 +401,8 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
                   setSelectedTemplate={setSelectedTemplate}
                   templates={templates}
                   setTemplates={setTemplates}
+                  armResources={armResources}
+                  setArmResources={setArmResources}
                   hostStatus={hostStatus}
                   setHostStatus={setHostStatus}
                 />
