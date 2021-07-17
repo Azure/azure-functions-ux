@@ -21423,8 +21423,8 @@
       <Item ItemId=";validation_linuxConnectionStringNameError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_"). For hierarchical config, use double underscore instead ("__") instead of colon (":").]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Namen voor verbindingsreeksen mogen alleen letters, cijfers (0-9), punten (.) en onderstrepingstekens (_) bevatten]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Namen van verbindingsreeksen mogen alleen letters, cijfers (0-9), punten (.) en onderstrepingstekens (_) bevatten. Gebruik voor hiërarchische configuratie in plaats daarvan dubbele onderstrepingstekens (__) in plaats van dubbele punt (:).]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")]]></Val>
