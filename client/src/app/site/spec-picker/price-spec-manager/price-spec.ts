@@ -49,6 +49,7 @@ export abstract class PriceSpec {
   priceString: string;
   price: number;
   priceIsBaseline = false;
+  jbossMultiplier = 0;
 
   protected _billingService: BillingService;
   protected _logService: LogService;
