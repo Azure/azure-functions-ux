@@ -153,6 +153,8 @@ export class IsolatedV2SmallPlanPriceSpec extends IsolatedV2PlanPriceSpec {
       },
     ],
   };
+
+  jbossMultiplier = 2;
 }
 
 export class IsolatedV2MediumPlanPriceSpec extends IsolatedV2PlanPriceSpec {
@@ -176,6 +178,8 @@ export class IsolatedV2MediumPlanPriceSpec extends IsolatedV2PlanPriceSpec {
       },
     ],
   };
+
+  jbossMultiplier = 4;
 }
 
 export class IsolatedV2LargePlanPriceSpec extends IsolatedV2PlanPriceSpec {
@@ -199,4 +203,6 @@ export class IsolatedV2LargePlanPriceSpec extends IsolatedV2PlanPriceSpec {
       },
     ],
   };
+
+  jbossMultiplier = 8;
 }

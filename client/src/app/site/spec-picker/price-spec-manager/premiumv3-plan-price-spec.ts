@@ -103,6 +103,8 @@ export class PremiumV3SmallPlanPriceSpec extends PremiumV3PlanPriceSpec {
       },
     ],
   };
+
+  jbossMultiplier = 2;
 }
 
 export class PremiumV3MediumPlanPriceSpec extends PremiumV3PlanPriceSpec {
@@ -126,6 +128,8 @@ export class PremiumV3MediumPlanPriceSpec extends PremiumV3PlanPriceSpec {
       },
     ],
   };
+
+  jbossMultiplier = 4;
 }
 
 export class PremiumV3LargePlanPriceSpec extends PremiumV3PlanPriceSpec {
@@ -149,4 +153,6 @@ export class PremiumV3LargePlanPriceSpec extends PremiumV3PlanPriceSpec {
       },
     ],
   };
+
+  jbossMultiplier = 8;
 }

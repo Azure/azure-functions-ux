@@ -31,7 +31,7 @@ import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
-import { LogCategories, Links, ScenarioIds, Kinds } from '../../../shared/models/constants';
+import { LogCategories, Links, ScenarioIds, Kinds, Pricing } from '../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { AppKind } from 'app/shared/Utilities/app-kind';
@@ -83,6 +83,7 @@ export type ApplyButtonState = 'enabled' | 'disabled';
 export class PlanPriceSpecManager {
   private readonly DynamicSku = 'Y1';
   private readonly StampIpAddressesDelimeter = ',';
+  private readonly JbossMeterShortName = 'JBossEAP';
 
   selectedSpecGroup: PriceSpecGroup;
   specGroups: PriceSpecGroup[] = [];
@@ -103,6 +104,7 @@ export class PlanPriceSpecManager {
   private _ngUnsubscribe$ = new Subject();
   private _appDensityWarningMessage = null;
   private _stampIpAddresses: StampIpAddresses;
+  private _planContainsJbossSite = false;
 
   constructor(
     private _authZService: AuthzService,
@@ -144,6 +146,7 @@ export class PlanPriceSpecManager {
       .flatMap(r => {
         // plan is null for new plans
         this._plan = r.plan;
+        this._planContainsJbossSite = this._doesPlanContainJbossSite(r.serverFarmSites);
 
         if (r.pricingTiers) {
           this.specGroups = [
@@ -163,7 +166,7 @@ export class PlanPriceSpecManager {
           if (this._isUpdateScenario(inputs)) {
             priceSpecInput.planDetails = {
               plan: this._plan,
-              containsJbossSite: this._doesPlanContainJbossSite(r.serverFarmSites),
+              containsJbossSite: this._planContainsJbossSite,
             };
           }
 
@@ -184,17 +187,18 @@ export class PlanPriceSpecManager {
       // Spec costs is supplied by Pricing Tier api in OnPrem Environment
       return Observable.of(null);
     }
+
     return this._getBillingMeters(this._inputs)
       .switchMap(meters => {
-        if (!meters) {
+        if (!meters.regionalMeters) {
           return Observable.of(null);
         }
         let specResourceSets: SpecResourceSet[] = [];
         let specsToAllowZeroCost: string[] = [];
 
         this.specGroups.forEach(g => {
-          g.recommendedSpecs.forEach(s => this._setBillingResourceIdAndQuantity(s, meters));
-          g.additionalSpecs.forEach(s => this._setBillingResourceIdAndQuantity(s, meters));
+          g.recommendedSpecs.forEach(s => this._setBillingResourceIdAndQuantity(s, meters.regionalMeters, meters.jbossMeter));
+          g.additionalSpecs.forEach(s => this._setBillingResourceIdAndQuantity(s, meters.regionalMeters, meters.jbossMeter));
 
           specResourceSets = this._concatAllResourceSetsForSpecs(specResourceSets, g.recommendedSpecs);
           specResourceSets = this._concatAllResourceSetsForSpecs(specResourceSets, g.additionalSpecs);
@@ -699,13 +703,44 @@ export class PlanPriceSpecManager {
 
   private _getBillingMeters(inputs: SpecPickerInput<PlanSpecPickerData>) {
     const osType = this._getOsType(inputs);
-    if (this._isUpdateScenario(inputs)) {
-      // If we're getting meters for an existing plan
-      return this._planService.getBillingMeters(this._subscriptionId, osType, this._plan.location);
-    }
+    const includeJbossCost = this._isUpdateScenario(this._inputs) ? this._planContainsJbossSite : this._inputs.data.isJBoss;
 
-    // We're getting meters for a new plan
-    return this._planService.getBillingMeters(inputs.data.subscriptionId, osType, inputs.data.location);
+    const regionalMetersPromise = this._isUpdateScenario(inputs)
+      ? this._planService.getBillingMeters(this._subscriptionId, osType, this._plan.location) // We're getting meters for an existing plan
+      : this._planService.getBillingMeters(inputs.data.subscriptionId, osType, inputs.data.location); // We're getting meters for a new plan
+
+    const globalMetersPromise = includeJbossCost
+      ? this._planService.getBillingMeters(this._subscriptionId, osType, 'global')
+      : Observable.of<ArmObj<BillingMeter>[]>([]);
+
+    return Observable.zip(regionalMetersPromise, globalMetersPromise).map(result => {
+      const [regionalMeters, globalMeters] = result;
+
+      let jbossMeter: ArmObj<BillingMeter> = null;
+
+      if (includeJbossCost) {
+        if (!!regionalMeters) {
+          // Try to find JBOSS meter in regional meters.
+          jbossMeter = regionalMeters.find(m => (m.properties.shortName || '').toLowerCase() === this.JbossMeterShortName.toLowerCase());
+        }
+
+        if (!jbossMeter && !!globalMeters) {
+          // Try to find JBOSS meter in global meters since it wasn't in regional meters.
+          jbossMeter = globalMeters.find(m => (m.properties.shortName || '').toLowerCase() === this.JbossMeterShortName.toLowerCase());
+        }
+
+        if (!jbossMeter) {
+          this._logService.error(LogCategories.specPicker, '/meter-not-found', {
+            firstPartyResourceMeterId: this.JbossMeterShortName,
+            skuCode: this.JbossMeterShortName,
+            osType: osType,
+            location: this._isUpdateScenario(this._inputs) ? this._plan.location : this._inputs.data.location,
+          });
+        }
+      }
+
+      return { regionalMeters, jbossMeter };
+    });
   }
 
   private _getOsType(inputs: SpecPickerInput<PlanSpecPickerData>): OsType {
@@ -718,7 +753,7 @@ export class PlanPriceSpecManager {
     return inputs.data.isLinux ? OsType.Linux : OsType.Windows;
   }
 
-  private _setBillingResourceIdAndQuantity(spec: PriceSpec, billingMeters: ArmObj<BillingMeter>[]) {
+  private _setBillingResourceIdAndQuantity(spec: PriceSpec, billingMeters: ArmObj<BillingMeter>[], jbossMeter: ArmObj<BillingMeter>) {
     if (!spec.meterFriendlyName) {
       throw Error('meterFriendlyName must be set');
     }
@@ -750,6 +785,14 @@ export class PlanPriceSpecManager {
         firstPartyResource.quantity = firstPartyResource.quantity * billingMeter.properties.multiplier;
       }
     });
+
+    if (!!jbossMeter && !!spec.jbossMultiplier) {
+      spec.specResourceSet.firstParty.push({
+        id: jbossMeter.properties.shortName,
+        quantity: Pricing.hoursInAzureMonth * spec.jbossMultiplier,
+        resourceId: jbossMeter.properties.meterId,
+      });
+    }
   }
 
   private _updatePriceStrings(result: SpecCostQueryResult, specs: PriceSpec[]) {
