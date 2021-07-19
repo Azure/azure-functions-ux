@@ -21411,8 +21411,8 @@
       <Item ItemId=";validation_linuxConnectionStringNameError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_"). For hierarchical config, use double underscore instead ("__") instead of colon (":").]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Os nomes da Cadeia de Ligação apenas podem conter letras, números (0-9), pontos (".") e carateres de sublinhado ("_")]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Os nomes de Cadeias de Ligação só podem conter letras, números (0-9), pontos (“.”) e carateres de sublinhado (“_”). Para configurações hierárquicas, use carateres de sublinhado duplos (“__”) em vez de dois pontos (“:”).]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")]]></Val>
