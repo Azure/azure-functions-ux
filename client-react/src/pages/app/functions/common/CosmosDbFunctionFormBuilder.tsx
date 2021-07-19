@@ -91,11 +91,11 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
         options: [
           {
             key: 'automatic',
-            text: 'Automatic',
+            text: this.t('automatic'),
           },
           {
             key: 'manual',
-            text: 'Manual',
+            text: this.t('manual'),
           },
         ],
         required: true,

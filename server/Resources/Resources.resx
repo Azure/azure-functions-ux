@@ -147,6 +147,12 @@
     <data name="function" xml:space="preserve">
         <value>Function</value>
     </data>
+    <data name="automatic" xml:space="preserve">
+        <value>Automatic</value>
+    </data>
+    <data name="manual" xml:space="preserve">
+        <value>Manual</value>
+    </data>
     <data name="functionCreateErrorDetails" xml:space="preserve">
         <value>Create Function Error: {{error}}</value>
     </data>
