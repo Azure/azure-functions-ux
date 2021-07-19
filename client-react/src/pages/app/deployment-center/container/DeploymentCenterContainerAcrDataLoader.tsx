@@ -153,15 +153,16 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setAcrTagOptions([]);
     setAcrStatusMessage(undefined);
     setAcrStatusMessageType(undefined);
+    const serverUrl = !!loginServer ? loginServer.toLocaleLowerCase() : '';
 
-    const selectedRegistryIdentifier = registryIdentifiers.current[loginServer];
+    const selectedRegistryIdentifier = registryIdentifiers.current[serverUrl];
 
     if (!!selectedRegistryIdentifier && !selectedRegistryIdentifier.credential) {
       portalContext.log(getTelemetryInfo('info', 'listAcrCredentials', 'submit'));
       const credentialsResponse = await deploymentCenterData.listAcrCredentials(selectedRegistryIdentifier.resourceId);
 
       if (credentialsResponse.metadata.success && credentialsResponse.data.passwords && credentialsResponse.data.passwords.length > 0) {
-        registryIdentifiers.current[loginServer].credential = credentialsResponse.data;
+        registryIdentifiers.current[serverUrl].credential = credentialsResponse.data;
       } else {
         const errorMessage = getErrorMessage(credentialsResponse.metadata.error);
         const statusMessage = errorMessage
@@ -180,7 +181,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       }
     }
 
-    const credentials = registryIdentifiers.current[loginServer] ? registryIdentifiers.current[loginServer].credential : undefined;
+    const credentials = registryIdentifiers.current[serverUrl] ? registryIdentifiers.current[serverUrl].credential : undefined;
 
     if (credentials) {
       const username = credentials.username;
@@ -246,8 +247,8 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setAcrStatusMessage(undefined);
     setAcrStatusMessageType(undefined);
 
-    const loginServer = formProps.values.acrLoginServer;
-    const credentials = registryIdentifiers.current[loginServer].credential;
+    const loginServer = !!formProps.values.acrLoginServer ? formProps.values.acrLoginServer.toLocaleLowerCase() : '';
+    const credentials = registryIdentifiers.current[loginServer] ? registryIdentifiers.current[loginServer].credential : undefined;
 
     if (credentials) {
       const username = credentials.username;
@@ -299,18 +300,26 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
   const fetchHiddenAcrTag = async () => {
     const acrTagInstance = new AcrDependency();
-    const hiddenTag = await acrTagInstance.getTag(deploymentCenterContext.resourceId, CommonConstants.DeploymentCenterACRTag, true);
+    const hiddenTag = await acrTagInstance.getTag(
+      portalContext,
+      deploymentCenterContext.resourceId,
+      CommonConstants.DeploymentCenterACRTag,
+      true
+    );
     if (!!hiddenTag) {
       //has ACR in another subscription
       parseHiddenTag(hiddenTag);
     } else {
       const acrName = getAcrNameFromLoginServer(formProps.values.acrLoginServer);
       const newsubscriptionId = await acrTagInstance.updateTags(
+        portalContext,
         deploymentCenterContext.resourceId,
         acrName,
         startupInfoContext.subscriptions
       );
-      setSubscription(newsubscriptionId ? newsubscriptionId : '');
+      if (newsubscriptionId) {
+        setSubscription(newsubscriptionId);
+      }
     }
   };
 
