@@ -14,6 +14,8 @@ export class PortalResources {
   public static memory = 'memory';
   public static storage = 'storage';
   public static function = 'function';
+  public static automatic = 'automatic';
+  public static manual = 'manual';
   public static functionCreateErrorDetails = 'functionCreateErrorDetails';
   public static functionCreateErrorMessage = 'functionCreateErrorMessage';
   public static functionDev_functionErrorDetails = 'functionDev_functionErrorDetails';

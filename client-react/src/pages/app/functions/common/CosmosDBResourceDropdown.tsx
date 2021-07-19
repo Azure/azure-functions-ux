@@ -53,7 +53,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
 
   const getDocumentDBAccounts = (): IDropdownOption[] => {
     const result: IDropdownOption[] = newDatabaseAccountName
-      ? [{ key: `${newDatabaseAccountName}_DOCUMENTDB`, text: `(new) ${newDatabaseAccountName}`, data: newDbAcctType }]
+      ? [{ key: `${newDatabaseAccountName}_DOCUMENTDB`, text: `(New) ${newDatabaseAccountName}`, data: newDbAcctType }]
       : [];
 
     if (databaseAccounts) {
@@ -89,7 +89,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
             setArmResources([]);
           }
         });
-      } else if (option.text.includes('(new)') && formProps.status && !formProps.status.isNewDbAcct) {
+      } else if (option.text.includes('(New)') && formProps.status && !formProps.status.isNewDbAcct) {
         formProps.setStatus({ ...formProps.status, isNewDbAcct: true, isNewDatabase: true, isNewContainer: true });
         formProps.setFieldValue('databaseName', CommonConstants.CosmosDbDefaults.databaseName);
         formProps.setFieldValue('collectionName', CommonConstants.CosmosDbDefaults.containerName);

@@ -250,7 +250,7 @@ const CosmosDBComboBox = props => {
             }
           });
         }
-      } else if (option.text.includes('(new)')) {
+      } else if (option.text.includes('(New)')) {
         // If template already in armResources (should mean user generated new one) don't do anything, otherwise reinstate storedArmTemplate to armResources
         let isTemplateFound = false;
 
@@ -341,7 +341,7 @@ const CosmosDBComboBox = props => {
 
   const getDatabasesOrContainers = (): IComboBoxOption[] => {
     if (isDatabase()) {
-      const result: IComboBoxOption[] = newDatabaseName ? [{ key: newDatabaseName, text: `(new) ${newDatabaseName}` }] : [];
+      const result: IComboBoxOption[] = newDatabaseName ? [{ key: newDatabaseName, text: `(New) ${newDatabaseName}` }] : [];
 
       if (databases) {
         databases.forEach(database => {
@@ -351,7 +351,7 @@ const CosmosDBComboBox = props => {
 
       return result;
     } else if (isContainer()) {
-      const result: IComboBoxOption[] = newContainerName ? [{ key: newContainerName, text: `(new) ${newContainerName}` }] : [];
+      const result: IComboBoxOption[] = newContainerName ? [{ key: newContainerName, text: `(New) ${newContainerName}` }] : [];
 
       if (containers) {
         containers.forEach(container => {
