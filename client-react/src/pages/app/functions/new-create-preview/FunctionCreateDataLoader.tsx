@@ -41,6 +41,7 @@ import { HostStatus } from '../../../../models/functions/host-status';
 import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateContext';
 import { Links } from '../../../../utils/FwLinks';
 import { Guid } from '../../../../utils/Guid';
+import RbacConstants from '../../../../utils/rbac-constants';
 
 registerIcons({
   icons: {
@@ -242,6 +243,22 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     }
   };
 
+  const updateAppSettings = async (appSettings: ArmObj<KeyValue<string>>) => {
+    const notificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
+    const updateAppSettingsResponse = await FunctionCreateData.updateAppSettings(resourceId, appSettings);
+    if (updateAppSettingsResponse.metadata.success) {
+      portalCommunicator.stopNotification(notificationId, true, t('configUpdateSuccess'));
+    } else {
+      const errorMessage = getErrorMessage(updateAppSettingsResponse.metadata.error) || t('configUpdateFailure');
+      portalCommunicator.stopNotification(notificationId, false, errorMessage);
+      LogService.trackEvent(
+        LogCategories.localDevExperience,
+        'updateAppSettings',
+        `Failed to update Application Settings: ${getErrorMessageOrStringify(updateAppSettingsResponse.metadata.error)}`
+      );
+    }
+  };
+
   const createFunction = async (formValues: CreateFunctionFormValues) => {
     if (selectedTemplate) {
       if (!resourceId) {
@@ -267,6 +284,18 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         };
       }
 
+      // Sub/rscGrp read-only users have to use REST API instead of normal deployments for appsettings
+      let rscIdToCheck = resourceId.split('/providers')[0];
+      const rscGrpWritePermission = await portalCommunicator.hasPermission(rscIdToCheck, [RbacConstants.writeScope]);
+      rscIdToCheck = rscIdToCheck.split('/resourceGroups')[0];
+      const subWritePermission = await portalCommunicator.hasPermission(rscIdToCheck, [RbacConstants.writeScope]);
+
+      if (!subWritePermission || !rscGrpWritePermission) {
+        updateAppSettings(newAppSettings);
+
+        newAppSettings = null;
+      }
+
       const config = FunctionCreateData.buildFunctionConfig(selectedTemplate.bindings || [], formValues);
       const { functionName } = formValues;
       const { files } = selectedTemplate;
@@ -285,21 +314,20 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
       const splitRscId = resourceId.split('/');
       const functionAppId = splitRscId[splitRscId.length - 1];
 
-      // We need to get the current appsettings to include in the
-      // deployment as they get overwritten otherwise
-      // TODO: Consider using SiteService to fetchApplicationSettings
-      const getAppSettingsResponse = await MakeArmCall<any>({
-        method: 'POST',
-        resourceId: `${resourceId}/config/appsettings/list`,
-        commandName: 'getFunctionAppSettings',
-      });
-
-      const currentAppSettings = getAppSettingsResponse.data.properties;
-
       const createFunctionResponse = await FunctionCreateData.createFunction(resourceId, functionName, files, config);
 
       // NOTE(nlayne): Only do deployment stuff if we have resources or new appsettings to deploy
       if (!!newAppSettings || armResources.length > 0) {
+        // We need to get the current appsettings to include in the
+        // deployment as they get overwritten otherwise
+        const getAppSettingsResponse = await MakeArmCall<any>({
+          method: 'POST',
+          resourceId: `${resourceId}/config/appsettings/list`,
+          commandName: 'getFunctionAppSettings',
+        });
+
+        const currentAppSettings = getAppSettingsResponse.data.properties;
+
         const armDeploymentTemplate = FunctionCreateData.getDeploymentTemplate(
           armResources,
           functionAppId,

@@ -5757,6 +5757,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionCreate_noResourceIdError" xml:space="preserve">
         <value>Resource Id is unavailable</value>
     </data>
+    <data name="functionCreate_subRscGrpReadOnly" xml:space="preserve">
+        <value>Automatic mode is disabled for users with read-only permissions in their subscription or resource group</value>
+    </data>
     <data name="noExistingDatabaseAccountPlaceholder" xml:space="preserve">
         <value>No existing accounts available</value>
     </data>

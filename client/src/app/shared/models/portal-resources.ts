@@ -1860,6 +1860,8 @@ export class PortalResources {
   public static githubActionWorkflowFileExists = 'githubActionWorkflowFileExists';
   public static remoteDebuggingVS2015NotSupported = 'remoteDebuggingVS2015NotSupported';
   public static functionCreate_selectTemplate = 'functionCreate_selectTemplate';
+  public static functionCreate_noResourceIdError = 'functionCreate_noResourceIdError';
+  public static functionCreate_subRscGrpReadOnly = 'functionCreate_subRscGrpReadOnly';
   public static noExistingDatabaseAccountPlaceholder = 'noExistingDatabaseAccountPlaceholder';
   public static selectCosmosDbAccount = 'selectCosmosDbAccount';
   public static createAnAccount = 'createAnAccount';

@@ -19,6 +19,8 @@ import BasicShimmerLines from '../../../../../components/shimmer/BasicShimmerLin
 import { FunctionCreateContext } from '../FunctionCreateContext';
 import { Links } from '../../../../../utils/FwLinks';
 import { IArmRscTemplate, TSetArmResources } from '../FunctionCreateDataLoader';
+import { PortalContext } from '../../../../../PortalContext';
+import RbacConstants from '../../../../../utils/rbac-constants';
 
 export interface TemplateDetailProps {
   resourceId: string;
@@ -33,6 +35,7 @@ export interface TemplateDetailProps {
 const TemplateDetail: React.FC<TemplateDetailProps> = props => {
   const { resourceId, selectedTemplate, formProps, builder, setBuilder, setArmResources, armResources } = props;
   const { t } = useTranslation();
+  const portalCommunicator = useContext(PortalContext);
 
   const [functionsInfo, setFunctionsInfo] = useState<ArmObj<FunctionInfo>[] | undefined | null>(undefined);
   const [bindings, setBindings] = useState<Binding[] | undefined | null>(undefined);
@@ -113,8 +116,13 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
     return requiredBindings;
   };
 
-  const createFactory = () => {
-    if (functionsInfo && bindings) {
+  const createFactory = async () => {
+    if (functionsInfo && bindings && !!resourceId) {
+      let rscIdToCheck = resourceId.split('/providers')[0];
+      const rscGrpWritePermission = await portalCommunicator.hasPermission(rscIdToCheck, [RbacConstants.writeScope]);
+      rscIdToCheck = rscIdToCheck.split('/resourceGroups')[0];
+      const subWritePermission = await portalCommunicator.hasPermission(rscIdToCheck, [RbacConstants.writeScope]);
+
       createBuilder(
         new CreateFunctionFormBuilderFactory(
           selectedTemplate.id,
@@ -123,6 +131,8 @@ const TemplateDetail: React.FC<TemplateDetailProps> = props => {
           resourceId,
           functionsInfo,
           selectedTemplate.defaultFunctionName || 'NewFunction',
+          rscGrpWritePermission,
+          subWritePermission,
           t
         )
       );

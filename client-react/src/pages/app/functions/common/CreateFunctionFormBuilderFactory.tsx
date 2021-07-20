@@ -19,13 +19,24 @@ class CreateFunctionFormBuilderFactory {
     resourceId: string,
     functionsInfo: ArmObj<FunctionInfo>[],
     defaultName: string,
+    rscGrpWritePermission: boolean,
+    subWritePermission: boolean,
     t: i18next.TFunction
   ) {
     const lowerTemplateIdWithoutLanguage = templateId.toLowerCase().split('-')[0];
 
     switch (lowerTemplateIdWithoutLanguage) {
       case BindingType.cosmosDBTrigger.toLowerCase():
-        this.formBuilder = new CosmosDbFunctionFormBuilder(bindingInfo, bindings, resourceId, functionsInfo, defaultName, t);
+        this.formBuilder = new CosmosDbFunctionFormBuilder(
+          bindingInfo,
+          bindings,
+          resourceId,
+          functionsInfo,
+          defaultName,
+          rscGrpWritePermission,
+          subWritePermission,
+          t
+        );
         break;
 
       default:

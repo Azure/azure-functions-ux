@@ -13,6 +13,7 @@ import RadioButtonNoFormik from '../../../../components/form-controls/RadioButto
 import CosmosDBResourceDropdown from './CosmosDBResourceDropdown';
 import CosmosDBComboBox from './CosmosDBComboBox';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 
 class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
   private _metadataHasBeenUpdated: boolean;
@@ -23,6 +24,8 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     resourceId: string,
     private _functionsInfo: ArmObj<FunctionInfo>[],
     private _defaultName: string,
+    private _rscGrpWritePermission: boolean,
+    private _subWritePermission: boolean,
     t: i18next.TFunction
   ) {
     super(bindingInfo, bindings, resourceId, t);
@@ -38,7 +41,11 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     delete bindingFormValues.direction;
     delete bindingFormValues.type;
 
-    bindingFormValues.connectionType = 'automatic';
+    if (!this._subWritePermission || !this._rscGrpWritePermission) {
+      bindingFormValues.connectionType = 'manual';
+    } else {
+      bindingFormValues.connectionType = 'automatic';
+    }
     bindingFormValues.partitionKeyPath = CommonConstants.CosmosDbDefaults.partitionKeyPath;
 
     return Object.assign({}, functionNameValue, bindingFormValues) as CreateFunctionFormValues;
@@ -92,6 +99,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
           {
             key: 'automatic',
             text: this.t('automatic'),
+            disabled: !this._subWritePermission || !this._rscGrpWritePermission,
           },
           {
             key: 'manual',
@@ -134,8 +142,14 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     const nameField: JSX.Element = getFunctionNameTextField(formProps, isDisabled, this._functionsInfo, this.t);
     formFields.push(nameField);
 
-    const connectionTypeField = this._getRadioButtonField(this.bindingList[0].settings![0], formProps, isDisabled, this.t);
+    const connectionTypeField = this._getRadioButtonField(this.bindingList[0].settings![0], formProps, isDisabled);
     formFields.push(connectionTypeField);
+
+    // If sub/rscGrp are read-only, put a banner letting user know they can only use manual
+    if (!this._subWritePermission || !this._rscGrpWritePermission) {
+      const readOnlyBanner: JSX.Element = this._getReadOnlyBanner(this.t);
+      formFields.push(readOnlyBanner);
+    }
 
     const progressiveDisclosureElement = this._getProgressiveDisclosureFields(formProps, setArmResources, armResources, isDisabled);
     formFields.push(progressiveDisclosureElement);
@@ -143,12 +157,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     return formFields;
   }
 
-  private _getRadioButtonField(
-    setting: BindingSetting,
-    formProps: FormikProps<CreateFunctionFormValues>,
-    isDisabled: boolean,
-    t: i18next.TFunction
-  ) {
+  private _getRadioButtonField(setting: BindingSetting, formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
     return (
       <Field
         label={setting.label}
@@ -259,6 +268,25 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     }
 
     return error;
+  }
+
+  private _getReadOnlyBanner(t: i18next.TFunction) {
+    return (
+      <MessageBar
+        messageBarType={MessageBarType.warning}
+        styles={{
+          root: {
+            // backgroundColor: 'rgba(0, 0, 0, 0.0)',
+            marginTop: '-20px',
+            paddingLeft: '0px',
+          },
+          iconContainer: {
+            marginLeft: '0px',
+          },
+        }}>
+        {t('functionCreate_subRscGrpReadOnly')}
+      </MessageBar>
+    );
   }
 
   private _getProgressiveDisclosureFields(
