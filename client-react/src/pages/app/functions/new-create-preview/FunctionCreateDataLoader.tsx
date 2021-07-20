@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, IDropdownOption, ResponsiveMode, registerIcons, Icon, Spinner } from 'office-ui-fabric-react';
+import { Link, IDropdownOption, ResponsiveMode, registerIcons, Icon, Spinner, MessageBarType } from 'office-ui-fabric-react';
 import {
   containerStyle,
   developmentEnvironmentStyle,
@@ -13,7 +13,7 @@ import {
 } from './FunctionCreate.styles';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
-import ActionBar from '../../../../components/ActionBar';
+import ActionBar, { StatusMessage } from '../../../../components/ActionBar';
 import TemplateList from './portal-create/TemplateList';
 import { Formik, FormikProps } from 'formik';
 import { FunctionFormBuilder } from '../common/CreateFunctionFormBuilderFactory';
@@ -81,6 +81,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   const [armResources, setArmResources] = useState<IArmRscTemplate[]>([]);
   const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus> | undefined>(undefined);
   const [creatingFunction, setCreatingFunction] = useState(false);
+  const [createExperienceStatusMessage, setCreateExperienceStatusMessage] = useState<StatusMessage | undefined>(undefined);
 
   const onDevelopmentEnvironmentChange = (event: any, option: IDropdownOption) => {
     setSelectedTemplate(undefined);
@@ -243,6 +244,15 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
 
   const createFunction = async (formValues: CreateFunctionFormValues) => {
     if (selectedTemplate) {
+      if (!resourceId) {
+        setCreateExperienceStatusMessage({
+          level: MessageBarType.error,
+          message: t('functionCreate_noResourceIdError'),
+        });
+
+        return;
+      }
+
       setCreatingFunction(true);
 
       let newAppSettings = formValues.newAppSettings;
@@ -412,6 +422,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
                 id="add-function-footer"
                 primaryButton={actionBarPrimaryButtonProps}
                 secondaryButton={actionBarSecondaryButtonProps}
+                statusMessage={createExperienceStatusMessage}
               />
             </form>
           );
