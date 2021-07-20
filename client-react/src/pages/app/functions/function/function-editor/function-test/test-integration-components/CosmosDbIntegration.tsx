@@ -28,10 +28,12 @@ const CodeBox = props => {
 
 interface ICosmosDbIntegrationProps {
   type: BindingDirection;
+  resourceId: string | undefined;
+  dbAcctName: string | undefined;
 }
 
 const CosmosDbIntegration = (props: ICosmosDbIntegrationProps) => {
-  const { type } = props;
+  const { type, resourceId, dbAcctName } = props;
   // const { t } = useTranslation(); // TODO: implement localization when content is finalized
   const [codeText] = useState(`# placeholder text\n\n# ☆*:.｡.o(≧▽≦)o.｡.:*☆`);
   const [title, setTitle] = useState('');
@@ -42,6 +44,23 @@ const CosmosDbIntegration = (props: ICosmosDbIntegrationProps) => {
 
   const copyToClipboard = () => {
     TextUtilitiesService.copyContentToClipboard((codeText as string) || '');
+  };
+
+  const goToCosmosDatabaseAccountBlade = () => {
+    if (!resourceId || !dbAcctName) return;
+
+    const rscIdPrefix = resourceId.split('/Microsoft.Web')[0];
+
+    portalCommunicator.openBlade(
+      {
+        // TODO: May need to account for different Cosmos DB account *types*
+        detailBlade: 'DatabaseAccountTemplateBladeForGlobalDb',
+        // TODO: May (or may not) need to account for CDB accounts in different subscriptions/resource groups than the function
+        detailBladeInputs: { id: `${rscIdPrefix}/Microsoft.DocumentDB/databaseAccounts/${dbAcctName}` },
+        extension: 'Microsoft_Azure_DocumentDB',
+      },
+      'databaseAccountBlade'
+    );
   };
 
   useEffect(() => {
@@ -66,20 +85,7 @@ const CosmosDbIntegration = (props: ICosmosDbIntegrationProps) => {
           <span>Copy</span>
         </Stack>
 
-        <Link
-          // TODO: Finalize the blade we open
-          onClick={() =>
-            portalCommunicator.openBlade(
-              {
-                detailBlade: 'ListSecretVersionsBlade',
-                detailBladeInputs: { id: 'asd', vaultId: 'asd' },
-                extension: 'Microsoft_Azure_KeyVault',
-              },
-              'vaultBlade'
-            )
-          }>
-          Go to your Cosmos DB account
-        </Link>
+        <Link onClick={goToCosmosDatabaseAccountBlade}>Go to your Cosmos DB account</Link>
       </Stack>
     </div>
   );

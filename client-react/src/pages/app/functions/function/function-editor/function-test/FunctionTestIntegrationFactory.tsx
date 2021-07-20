@@ -8,13 +8,16 @@ import CustomPanel from '../../../../../../components/CustomPanel/CustomPanel';
 
 interface IFunctionTestIntegrationFactoryProps {
   panelProps: any;
+  resourceId: string | undefined;
   functionInfo: FunctionInfo;
   testIntegrationList: JSX.Element[];
   setTestIntegrationList: (newTestIntegrationList: JSX.Element[]) => void;
 }
 
 const FunctionTestIntegrationFactory = (props: IFunctionTestIntegrationFactoryProps) => {
-  const { panelProps, functionInfo, testIntegrationList, setTestIntegrationList } = props;
+  const { panelProps, resourceId, functionInfo, testIntegrationList, setTestIntegrationList } = props;
+
+  console.log(functionInfo);
 
   const buildTestIntegrationList = () => {
     let bindingComponentList: JSX.Element[] = [];
@@ -24,10 +27,22 @@ const FunctionTestIntegrationFactory = (props: IFunctionTestIntegrationFactoryPr
       functionInfo.config.bindings.forEach(binding => {
         if (BindingManager.isBindingTypeEqual(binding.type, BindingType.cosmosDBTrigger)) {
           // Cosmos DB trigger
-          bindingComponentList.push(<CosmosDbIntegration type={BindingDirection.trigger} />);
+          bindingComponentList.push(
+            <CosmosDbIntegration
+              type={BindingDirection.trigger}
+              resourceId={resourceId}
+              dbAcctName={!!binding.connectionStringSetting ? binding.connectionStringSetting.split('_')[0] : undefined}
+            />
+          );
         } else if (BindingManager.isBindingTypeEqual(binding.type, BindingType.cosmosDB)) {
           // Cosmos DB input or output
-          bindingComponentList.push(<CosmosDbIntegration type={binding.direction} />);
+          bindingComponentList.push(
+            <CosmosDbIntegration
+              type={binding.direction}
+              resourceId={resourceId}
+              dbAcctName={!!binding.connectionStringSetting ? binding.connectionStringSetting.split('_')[0] : undefined}
+            />
+          );
         }
 
         // TODO: discuss Event Grid integration with designers

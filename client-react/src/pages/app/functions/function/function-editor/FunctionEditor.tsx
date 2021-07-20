@@ -587,6 +587,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           isBlocking: false,
           customStyle: testPanelStyle,
         }}
+        resourceId={siteStateContext.resourceId}
         functionInfo={functionInfo.properties}
         testIntegrationList={testIntegrationList}
         setTestIntegrationList={setTestIntegrationList}

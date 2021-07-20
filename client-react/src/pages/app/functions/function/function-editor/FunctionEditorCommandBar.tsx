@@ -97,7 +97,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
   };
 
   const getItems = (): ICommandBarItemProps[] => {
-    const items: ICommandBarItemProps[] = [
+    let items: ICommandBarItemProps[] = [
       {
         key: 'save',
         text: t('save'),
@@ -173,6 +173,10 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
 
     // websitesextension_ext=appsvc.showFunctionTestIntegrationPanel%3Dtrue
     if (testIntegrationList.length > 0 && !!Url.getFeatureValue(CommonConstants.FeatureFlags.showFunctionTestIntegrationPanel)) {
+      // Find & remove 'Test/Run' button
+      items = items.filter(item => item.key !== 'testAndRun');
+
+      // Add 'Test integration' button
       items.push({
         key: 'testIntegration',
         text: t('function_testIntegration'),
