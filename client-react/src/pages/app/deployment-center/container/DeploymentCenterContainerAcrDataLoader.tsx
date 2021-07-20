@@ -11,7 +11,7 @@ import { PortalContext } from '../../../../PortalContext';
 import { useTranslation } from 'react-i18next';
 import { HttpResponseObject } from '../../../../ArmHelper.types';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
-import { AcrDependency } from '../../dependency/Dependency';
+import { AcrDependency } from '../../../../utils/dependency/Dependency';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 interface RegistryIdentifiers {
@@ -64,7 +64,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.serverUrlSetting]
           ? deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.serverUrlSetting]
               .toLocaleLowerCase()
-              .replace('https://', '')
+              .replace(CommonConstants.DeploymentCenterConstants.https, '')
           : '';
 
       const appSettingUsername = deploymentCenterContext.applicationSettings
@@ -303,7 +303,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     const hiddenTag = await acrTagInstance.getTag(
       portalContext,
       deploymentCenterContext.resourceId,
-      CommonConstants.DeploymentCenterACRTag,
+      CommonConstants.DeploymentCenterConstants.acrTag,
       true
     );
     if (!!hiddenTag) {
@@ -317,14 +317,14 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         acrName,
         startupInfoContext.subscriptions
       );
-      if (newsubscriptionId) {
+      if (!!newsubscriptionId) {
         setSubscription(newsubscriptionId);
       }
     }
   };
 
   const getAcrNameFromLoginServer = (loginServer: string): string => {
-    if (loginServer) {
+    if (!!loginServer) {
       const loginServerParts = loginServer.split('.');
       return loginServerParts.length > 0 ? loginServerParts[0] : '';
     }
@@ -332,12 +332,26 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   };
 
   const parseHiddenTag = (tagValue: string) => {
-    if (!!tagValue) {
-      const tagJson = JSON.parse(tagValue);
-      const subId = tagJson['subscriptionId'] ? tagJson['subscriptionId'] : '';
-      setSubscription(subId);
+    try {
+      if (!!tagValue) {
+        const tagJson = JSON.parse(tagValue);
+        const subId = tagJson['subscriptionId'] ? tagJson['subscriptionId'] : '';
+        setSubscription(subId);
+      }
+      return '';
+    } catch {
+      portalContext.log(getTelemetryInfo('error', 'parseHiddenTag', 'failed'));
     }
-    return '';
+  };
+
+  const setRegistriesInSub = (subscription: string) => {
+    formProps.setFieldValue('acrLoginServer', '');
+    formProps.setFieldValue('acrImage', '');
+    formProps.setFieldValue('acrTag', '');
+    setAcrRegistryOptions([]);
+    setAcrImageOptions([]);
+    setAcrTagOptions([]);
+    setSubscription(subscription);
   };
 
   useEffect(() => {
@@ -370,22 +384,12 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subscription]);
 
-  const fetchRegistriesInSub = (subscription: string) => {
-    formProps.setFieldValue('acrLoginServer', '');
-    formProps.setFieldValue('acrImage', '');
-    formProps.setFieldValue('acrTag', '');
-    setAcrRegistryOptions([]);
-    setAcrImageOptions([]);
-    setAcrTagOptions([]);
-    setSubscription(subscription);
-  };
-
   return (
     <DeploymentCenterContainerAcrSettings
       {...props}
       fetchImages={fetchRepositories}
       fetchTags={fetchTags}
-      fetchRegistriesInSub={fetchRegistriesInSub}
+      fetchRegistriesInSub={setRegistriesInSub}
       acrSubscriptionOptions={subscriptionOptions}
       acrRegistryOptions={acrRegistryOptions}
       acrImageOptions={acrImageOptions}

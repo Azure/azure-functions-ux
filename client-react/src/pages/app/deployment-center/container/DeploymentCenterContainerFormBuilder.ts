@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import * as yamlLint from 'yaml-lint';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 interface YamlValidationResult {
   valid: boolean;
@@ -460,9 +461,11 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   private _getHostFromServerUrl(serverUrl: string, caseSensitiveCheck: boolean): string {
     // In case of either https://xyz.com or https://xyz.com/ or https://xyz.com/a return xyz.com
     //(note) stpelleg: ACR requires a case sensitive check but private registry does not
-    const host = caseSensitiveCheck ? serverUrl.replace('https://', '') : serverUrl.toLocaleLowerCase().replace('https://', '');
+    const host = caseSensitiveCheck
+      ? serverUrl.replace(CommonConstants.DeploymentCenterConstants.https, '')
+      : serverUrl.toLocaleLowerCase().replace(CommonConstants.DeploymentCenterConstants.https, '');
     const hostParts = host.split('/');
-    return hostParts[0];
+    return hostParts.length > 0 ? hostParts[0] : serverUrl;
   }
 
   private _validateYaml(yaml: string): Promise<YamlValidationResult> {

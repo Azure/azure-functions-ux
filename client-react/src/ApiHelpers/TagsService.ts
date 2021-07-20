@@ -1,5 +1,6 @@
 import { ArmObj } from '../models/arm-obj';
 import { ISubscription } from '../models/subscription';
+import { acrARGInfo } from '../pages/app/deployment-center/DeploymentCenter.types';
 import { CommonConstants } from '../utils/CommonConstants';
 import { ARGRequest, MakeAzureResourceGraphCall } from './ArgHelper';
 import MakeArmCall from './ArmHelper';
@@ -27,6 +28,6 @@ export default class TagsService {
       query: queryString,
     };
 
-    return MakeAzureResourceGraphCall<ArmObj<any>[]>(request, 'fetchAcr');
+    return MakeAzureResourceGraphCall<ArmObj<acrARGInfo>[]>(request, 'fetchAcr');
   };
 }

@@ -191,7 +191,12 @@ export class CommonConstants {
 
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
 
-  public static readonly DeploymentCenterACRTag = 'acrResourceId';
+  public static hiddenLink = 'hidden-link';
+
+  public static readonly DeploymentCenterConstants = {
+    acrTag: 'acrResourceId',
+    https: 'https://',
+  };
 }
 
 export enum WorkerRuntimeLanguages {

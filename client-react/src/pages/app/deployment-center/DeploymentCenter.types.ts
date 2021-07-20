@@ -640,3 +640,12 @@ export interface GitHubActionsRun {
     message: string;
   };
 }
+
+export interface acrARGInfo {
+  id: string;
+  location: string;
+  name: string;
+  resourceGroup: string;
+  subscriptionId: string;
+  type: string;
+}

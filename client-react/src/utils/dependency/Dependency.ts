@@ -1,10 +1,10 @@
-import SiteService from '../../../ApiHelpers/SiteService';
-import TagsService from '../../../ApiHelpers/TagsService';
-import { KeyValue } from '../../../models/portal-models';
-import { ISubscription } from '../../../models/subscription';
-import PortalCommunicator from '../../../portal-communicator';
-import { CommonConstants } from '../../../utils/CommonConstants';
-import { getTelemetryInfo } from '../deployment-center/utility/DeploymentCenterUtility';
+import SiteService from '../../ApiHelpers/SiteService';
+import TagsService from '../../ApiHelpers/TagsService';
+import { KeyValue } from '../../models/portal-models';
+import { ISubscription } from '../../models/subscription';
+import PortalCommunicator from '../../portal-communicator';
+import { CommonConstants } from '../CommonConstants';
+import { getTelemetryInfo } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
 
 export abstract class Dependency {
   public async updateTags(
@@ -21,9 +21,11 @@ export abstract class Dependency {
   public async getTag(portalContext: PortalCommunicator, resourceId: string, tag: string, isTagHidden: boolean) {
     const tagName = this._getTagName(tag, isTagHidden);
     const site = await SiteService.fetchSite(resourceId);
-    if (site.metadata.success && !!site.data.tags && !!site.data.tags[tagName]) {
-      return site.data.tags[tagName];
-    } else if (!site.metadata.success) {
+    if (site.metadata.success) {
+      if (!!site.data.tags && !!site.data.tags[tagName]) {
+        return site.data.tags[tagName];
+      }
+    } else {
       portalContext.log(
         getTelemetryInfo('error', 'getSite', 'failed', {
           error: site.metadata.error,
@@ -35,7 +37,7 @@ export abstract class Dependency {
   }
 
   protected _getTagName(tagName: string, isHidden: boolean) {
-    return isHidden ? `hidden-link: ${tagName}` : tagName;
+    return isHidden ? `${CommonConstants.hiddenLink}: ${tagName}` : tagName;
   }
 
   abstract discoverResourceId(portalContext: PortalCommunicator, resourceName: string, subscriptions?: ISubscription[]);
@@ -47,8 +49,11 @@ export class AcrDependency extends Dependency {
   async discoverResourceId(portalContext: PortalCommunicator, resourceName: string, subscriptions: ISubscription[]) {
     // queries for ACR instance and returns resourceId
     const result = await TagsService.fetchAcrResourceId(resourceName, subscriptions);
-    if (!!result && result.length > 0) {
-      return result[0];
+    if (!!result) {
+      if (result.length > 0) {
+        console.log(result);
+        return result[0];
+      }
     } else {
       portalContext.log(
         getTelemetryInfo('error', 'getAcrResourceId', 'failed', {
@@ -69,17 +74,10 @@ export class AcrDependency extends Dependency {
         };
 
         const acrTag: KeyValue<string> = {};
-        acrTag[this._getTagName(CommonConstants.DeploymentCenterACRTag, true)] = JSON.stringify(acrResourceJson);
+        acrTag[this._getTagName(CommonConstants.DeploymentCenterConstants.acrTag, true)] = JSON.stringify(acrResourceJson);
         siteResponse.data.tags = { ...siteResponse.data.tags, ...acrTag };
+        await SiteService.updateSite(resourceId, siteResponse.data);
 
-        const update = await SiteService.updateSite(resourceId, siteResponse.data);
-        if (!update.metadata.success) {
-          portalContext.log(
-            getTelemetryInfo('error', 'getAcrResourceId', 'failed', {
-              error: update.metadata.error,
-            })
-          );
-        }
         return tagInformation.subscriptionId;
       } else if (!siteResponse.metadata.success) {
         portalContext.log(
