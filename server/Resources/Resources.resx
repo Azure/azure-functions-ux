@@ -5754,8 +5754,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionCreate_selectTemplate" xml:space="preserve">
         <value>Select a template in the previous tab to see the details.</value>
     </data>
-    <data name="newDatabaseAccountPlaceholder" xml:space="preserve">
-        <value>(new) Database account</value>
+    <data name="noExistingDatabaseAccountPlaceholder" xml:space="preserve">
+        <value>No existing accounts available</value>
     </data>
     <data name="selectCosmosDbAccount" xml:space="preserve">
         <value>Select a Cosmos DB account</value>

@@ -157,7 +157,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
 
   let placeholder: string | undefined = undefined;
   if (options.length < 1) {
-    placeholder = t('newDatabaseAccountPlaceholder');
+    placeholder = t('noExistingDatabaseAccountPlaceholder');
   } else {
     placeholder = t('selectCosmosDbAccount');
   }
