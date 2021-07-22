@@ -2,6 +2,7 @@
     class="info-box"
     [ngClass]="typeClass"
     [class.clickable]="!!infoLink || !!infoActionFn"
+    [class.hideBottomMargin]="hideBottomMargin"
     (click)="onClick($event)"
     [attr.tabindex]="(!!infoLink || !!infoActionFn) ? 0 : null"
     (keydown)="onKeyPress($event)">
