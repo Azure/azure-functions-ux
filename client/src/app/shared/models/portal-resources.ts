@@ -1862,6 +1862,7 @@ export class PortalResources {
   public static configureHostJson = 'configureHostJson';
   public static pricing_pv2FlexStampInfoMessage = 'pricing_pv2FlexStampInfoMessage';
   public static pricing_pv2FlexStampCheckboxLabel = 'pricing_pv2FlexStampCheckboxLabel';
+  public static pricing_skuCheckWarning = 'pricing_skuCheckWarning';
   public static githubActionWorkflowOption = 'githubActionWorkflowOption';
   public static githubActionWorkflowOptionOverwrite = 'githubActionWorkflowOptionOverwrite';
   public static githubActionWorkflowOptionUseExisting = 'githubActionWorkflowOptionUseExisting';
