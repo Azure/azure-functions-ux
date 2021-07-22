@@ -73,4 +73,8 @@ export default class FunctionAppService {
       FunctionAppService.usingNodeWorkerRuntime(appSettings)
     );
   }
+
+  public static getAzureFilesSetting(appSettings: ArmObj<KeyValue<string>>): string {
+    return appSettings.properties[CommonConstants.AppSettingNames.azureFilesSettingName] || '';
+  }
 }

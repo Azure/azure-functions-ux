@@ -5,6 +5,7 @@ import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Combo
 import { ThemeContext } from '../../ThemeContext';
 import ComboBoxNoFormik from './ComboBoxnoFormik';
 import { IComboBoxProps, IComboBoxOption, IComboBox, IDropdownOption } from 'office-ui-fabric-react';
+
 interface CustomComboBoxProps {
   id: string;
   upsellMessage?: string;
@@ -16,11 +17,13 @@ interface CustomComboBoxProps {
   setOptions?: React.Dispatch<React.SetStateAction<IDropdownOption[]>>;
   onChange: (event: React.FormEvent<IComboBox>, option?: IComboBoxOption, index?: number, value?: string) => void;
   learnMoreLink?: string;
+  isLoading?: boolean;
 }
 
 const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
-  const { field, form, options, styles, setOptions, allowFreeform, ...rest } = props;
+  const { field, form, options, styles, setOptions, allowFreeform, isLoading, ...rest } = props;
   const theme = useContext(ThemeContext);
+
   const onChange = (event: React.FormEvent<IComboBox>, option?: IComboBoxOption, index?: number, value?: string): void => {
     if (!!allowFreeform && !option && !!value) {
       // If allowFreeform is true, the newly selected option might be something the user typed that
@@ -35,7 +38,9 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
       form.setFieldValue(field.name, '');
     }
   };
+
   const errorMessage = get(form.errors, field.name, '') as string;
+
   return (
     <ComboBoxNoFormik
       selectedKey={field.value === undefined ? 'null' : field.value}
@@ -46,6 +51,7 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
       errorMessage={errorMessage}
       styles={ComboBoxStyles(theme)}
       allowFreeform={allowFreeform}
+      disabled={isLoading || props.disabled}
       {...rest}
     />
   );

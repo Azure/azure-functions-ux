@@ -2342,4 +2342,5 @@ export class PortalResources {
   public static function_testIntegration = 'function_testIntegration';
   public static function_testIntegrationAriaLabel = 'function_testIntegrationAriaLabel';
   public static deploymentCenterJavaWebServerStack = 'deploymentCenterJavaWebServerStack';
+  public static readOnlyMissingAzureFilesSetting = 'readOnlyMissingAzureFilesSetting';
 }

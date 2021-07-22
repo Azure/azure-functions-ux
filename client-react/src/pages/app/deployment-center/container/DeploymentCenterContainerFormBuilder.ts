@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import * as yamlLint from 'yaml-lint';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 interface YamlValidationResult {
   valid: boolean;
@@ -216,6 +217,10 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
 
   private _getServerUrl(): string {
     const value = this._applicationSettings && this._applicationSettings.properties[DeploymentCenterConstants.serverUrlSetting];
+    if (!!value && this._isAcrConfigured(value)) {
+      return value;
+    }
+
     return value ? value.toLocaleLowerCase() : '';
   }
 
@@ -274,7 +279,9 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     // NOTE(michinoy): For ACR the username is not in the FxVersion. The image and/or tags could definitely have /'s.
     // In this case, remove the serverInfo from the FxVersion and compute the image and tag by splitting on :.
 
-    const acrHost = appSettingServerUrl ? this._getHostFromServerUrl(appSettingServerUrl) : this._getHostFromServerUrl(registryInfo);
+    const acrHost = appSettingServerUrl
+      ? this._getHostFromServerUrl(appSettingServerUrl, true)
+      : this._getHostFromServerUrl(registryInfo, true);
 
     if (isDockerCompose) {
       return {
@@ -326,7 +333,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     // Each registry would have its own convention forked from how dockerHub does things. In this case, we have
     // the serverUrl, we should remove that, but return the rest as image and tag.
 
-    const privateRegistryHost = this._getHostFromServerUrl(appSettingServerUrl);
+    const privateRegistryHost = this._getHostFromServerUrl(appSettingServerUrl, false);
 
     if (isDockerCompose) {
       return {
@@ -353,7 +360,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   private _getAcrFormData(serverUrl: string, username: string, password: string, fxVersionParts: FxVersionParts): AcrFormData {
     if (this._isAcrConfigured(serverUrl)) {
       return {
-        acrLoginServer: fxVersionParts.server.toLocaleLowerCase(),
+        acrLoginServer: fxVersionParts.server,
         acrImage: fxVersionParts.image,
         acrTag: fxVersionParts.tag,
         acrComposeYml: fxVersionParts.composeYml,
@@ -451,11 +458,14 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     return fxVersionParts[0].toLocaleLowerCase() === DeploymentCenterConstants.composePrefix.toLocaleLowerCase();
   }
 
-  private _getHostFromServerUrl(serverUrl: string): string {
+  private _getHostFromServerUrl(serverUrl: string, caseSensitiveCheck: boolean): string {
     // In case of either https://xyz.com or https://xyz.com/ or https://xyz.com/a return xyz.com
-    const host = serverUrl.toLocaleLowerCase().replace('https://', '');
+    //(note) stpelleg: ACR requires a case sensitive check but private registry does not
+    const host = caseSensitiveCheck
+      ? serverUrl.replace(CommonConstants.DeploymentCenterConstants.https, '')
+      : serverUrl.toLocaleLowerCase().replace(CommonConstants.DeploymentCenterConstants.https, '');
     const hostParts = host.split('/');
-    return hostParts[0];
+    return hostParts.length > 0 ? hostParts[0] : serverUrl;
   }
 
   private _validateYaml(yaml: string): Promise<YamlValidationResult> {
