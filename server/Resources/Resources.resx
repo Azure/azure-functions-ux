@@ -7159,6 +7159,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Java web server stack</value>
     </data>
     <data name="readOnlyMissingAzureFilesSetting" xml:space="preserve">
-        <value>Editing functions in the portal is not supported when you deploy functions using local development.</value>
+        <value>This function has been edited through an external editor. Portal editing is disabled.</value>
     </data>
 </root>
