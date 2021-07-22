@@ -2340,4 +2340,5 @@ export class PortalResources {
   public static configurationFeedbackCESQuestion = 'configurationFeedbackCESQuestion';
   public static configurationFeedbackCVAQuestion = 'configurationFeedbackCVAQuestion';
   public static deploymentCenterJavaWebServerStack = 'deploymentCenterJavaWebServerStack';
+  public static readOnlyMissingAzureFilesSetting = 'readOnlyMissingAzureFilesSetting';
 }
