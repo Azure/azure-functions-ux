@@ -326,6 +326,7 @@ export enum FunctionAppEditMode {
   ReadOnlyCustom,
   ReadOnlyDotnet5,
   ReadOnlyArc,
+  ReadOnlyAzureFiles,
 }
 
 export enum PortalTheme {
