@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FunctionInfo } from '../../../../../../models/functions/function-info';
-import { BindingDirection, BindingType } from '../../../../../../models/functions/function-binding';
+import { BindingDirection, BindingInfo, BindingType } from '../../../../../../models/functions/function-binding';
 import { BindingManager } from '../../../../../../utils/BindingManager';
 import CosmosDbIntegration from './test-integration-components/CosmosDbIntegration';
 import CustomPanel from '../../../../../../components/CustomPanel/CustomPanel';
@@ -8,16 +8,24 @@ import CustomPanel from '../../../../../../components/CustomPanel/CustomPanel';
 
 interface IFunctionTestIntegrationFactoryProps {
   panelProps: any;
-  resourceId: string | undefined;
   functionInfo: FunctionInfo;
   testIntegrationList: JSX.Element[];
   setTestIntegrationList: (newTestIntegrationList: JSX.Element[]) => void;
+  resourceId?: string;
 }
 
-const FunctionTestIntegrationFactory = (props: IFunctionTestIntegrationFactoryProps) => {
+const FunctionTestIntegrationFactory: React.FC<IFunctionTestIntegrationFactoryProps> = props => {
   const { panelProps, resourceId, functionInfo, testIntegrationList, setTestIntegrationList } = props;
 
-  console.log(functionInfo);
+  const getDbAcctName = (binding: BindingInfo) => {
+    let dbAcctName: string | undefined;
+
+    if (!!binding.connectionStringSetting && binding.connectionStringSetting.split('_').length > 0) {
+      dbAcctName = binding.connectionStringSetting.split('_')[0];
+    }
+
+    return dbAcctName;
+  };
 
   const buildTestIntegrationList = () => {
     let bindingComponentList: JSX.Element[] = [];
@@ -28,20 +36,12 @@ const FunctionTestIntegrationFactory = (props: IFunctionTestIntegrationFactoryPr
         if (BindingManager.isBindingTypeEqual(binding.type, BindingType.cosmosDBTrigger)) {
           // Cosmos DB trigger
           bindingComponentList.push(
-            <CosmosDbIntegration
-              type={BindingDirection.trigger}
-              resourceId={resourceId}
-              dbAcctName={!!binding.connectionStringSetting ? binding.connectionStringSetting.split('_')[0] : undefined}
-            />
+            <CosmosDbIntegration type={BindingDirection.trigger} resourceId={resourceId} dbAcctName={getDbAcctName(binding)} />
           );
         } else if (BindingManager.isBindingTypeEqual(binding.type, BindingType.cosmosDB)) {
           // Cosmos DB input or output
           bindingComponentList.push(
-            <CosmosDbIntegration
-              type={binding.direction}
-              resourceId={resourceId}
-              dbAcctName={!!binding.connectionStringSetting ? binding.connectionStringSetting.split('_')[0] : undefined}
-            />
+            <CosmosDbIntegration type={binding.direction} resourceId={resourceId} dbAcctName={getDbAcctName(binding)} />
           );
         }
 
@@ -53,6 +53,7 @@ const FunctionTestIntegrationFactory = (props: IFunctionTestIntegrationFactoryPr
   };
 
   // Check for binding types that we 'test integration' with when function info updates
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(buildTestIntegrationList, [functionInfo]);
 
   return (

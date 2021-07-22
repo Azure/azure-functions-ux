@@ -1,40 +1,31 @@
 import React, { useState } from 'react';
 import { Stack, IconButton, Link } from 'office-ui-fabric-react';
 import { TextUtilitiesService } from '../../../../../../../utils/textUtilities';
-import { style } from 'typestyle';
 import { BindingDirection } from '../../../../../../../models/functions/binding';
 import { useEffect } from 'react';
 import { useContext } from 'react';
 import { PortalContext } from '../../../../../../../PortalContext';
-// import { useTranslation } from 'react-i18next';
+import { codeBoxStyles } from './CommonTestIntegration.styles';
+import { useTranslation } from 'react-i18next';
 
-const codeBoxStyles = style({
-  border: '1px solid #E1DFDD',
-  boxSizing: 'border-box',
-  borderRadius: '2px',
-  padding: '14px 18px',
-  fontFamily: 'Consolas',
-  whiteSpace: 'pre-wrap', // Supports newlines/tabs in the codeText
-});
-
-const CodeBox = props => {
+const TestIntegrationInstructions = props => {
   const { codeText } = props;
   return (
     <div className={codeBoxStyles}>
-      <p>{codeText}</p>
+      <code>{codeText}</code>
     </div>
   );
 };
 
 interface ICosmosDbIntegrationProps {
   type: BindingDirection;
-  resourceId: string | undefined;
-  dbAcctName: string | undefined;
+  resourceId?: string;
+  dbAcctName?: string;
 }
 
 const CosmosDbIntegration = (props: ICosmosDbIntegrationProps) => {
   const { type, resourceId, dbAcctName } = props;
-  // const { t } = useTranslation(); // TODO: implement localization when content is finalized
+  const { t } = useTranslation();
   const [codeText] = useState(`# placeholder text\n\n# ☆*:.｡.o(≧▽≦)o.｡.:*☆`);
   const [title, setTitle] = useState('');
   const [subtext] = useState(
@@ -46,17 +37,22 @@ const CosmosDbIntegration = (props: ICosmosDbIntegrationProps) => {
     TextUtilitiesService.copyContentToClipboard((codeText as string) || '');
   };
 
-  const goToCosmosDatabaseAccountBlade = () => {
+  const getRscIdForCosmosDbAcct = () => {
     if (!resourceId || !dbAcctName) return;
 
     const rscIdPrefix = resourceId.split('/Microsoft.Web')[0];
+    return `${rscIdPrefix}/Microsoft.DocumentDB/databaseAccounts/${dbAcctName}`;
+  };
+
+  const goToCosmosDatabaseAccountBlade = () => {
+    if (!resourceId || !dbAcctName) return;
 
     portalCommunicator.openBlade(
       {
         // TODO: May need to account for different Cosmos DB account *types*
         detailBlade: 'DatabaseAccountTemplateBladeForGlobalDb',
         // TODO: May (or may not) need to account for CDB accounts in different subscriptions/resource groups than the function
-        detailBladeInputs: { id: `${rscIdPrefix}/Microsoft.DocumentDB/databaseAccounts/${dbAcctName}` },
+        detailBladeInputs: { id: getRscIdForCosmosDbAcct() },
         extension: 'Microsoft_Azure_DocumentDB',
       },
       'databaseAccountBlade'
@@ -77,12 +73,11 @@ const CosmosDbIntegration = (props: ICosmosDbIntegrationProps) => {
     <div key={`cosmosDb-${type}`}>
       <h3>{title}</h3>
       <p>{subtext}</p>
-
-      <CodeBox codeText={codeText} />
+      <TestIntegrationInstructions codeText={codeText} />
       <Stack horizontal verticalAlign="center" horizontalAlign="space-between">
         <Stack horizontal verticalAlign="center">
           <IconButton iconProps={{ iconName: 'Copy' }} onClick={copyToClipboard} />
-          <span>Copy</span>
+          <span>{t('copypre_copy')}</span>
         </Stack>
 
         <Link onClick={goToCosmosDatabaseAccountBlade}>Go to your Cosmos DB account</Link>

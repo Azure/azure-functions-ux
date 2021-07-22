@@ -339,6 +339,25 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return <h1>{t('function_testIntegration')}</h1>;
   };
 
+  const getTestIntegrationPanel = (): JSX.Element => {
+    return (
+      <FunctionTestIntegrationFactory
+        panelProps={{
+          type: PanelType.medium,
+          isOpen: showTestIntegrationPanel,
+          onDismiss: () => setShowTestIntegrationPanel(false),
+          headerContent: getTestIntegrationHeaderContent(),
+          isBlocking: false,
+          customStyle: testPanelStyle,
+        }}
+        resourceId={siteStateContext.resourceId}
+        functionInfo={functionInfo.properties}
+        testIntegrationList={testIntegrationList}
+        setTestIntegrationList={setTestIntegrationList}
+      />
+    );
+  };
+
   const changePivotTab = (pivotItem: PivotType) => {
     setSelectedPivotTab(pivotItem);
   };
@@ -578,20 +597,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           getFunctionUrl={getFunctionUrl}
         />
       </CustomPanel>
-      <FunctionTestIntegrationFactory
-        panelProps={{
-          type: PanelType.medium,
-          isOpen: showTestIntegrationPanel,
-          onDismiss: () => setShowTestIntegrationPanel(false),
-          headerContent: getTestIntegrationHeaderContent(),
-          isBlocking: false,
-          customStyle: testPanelStyle,
-        }}
-        resourceId={siteStateContext.resourceId}
-        functionInfo={functionInfo.properties}
-        testIntegrationList={testIntegrationList}
-        setTestIntegrationList={setTestIntegrationList}
-      />
+      {getTestIntegrationPanel()}
       {isLoading() && <LoadingComponent />}
       {!logPanelFullscreen && (
         <div className={editorDivStyle}>
