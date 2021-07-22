@@ -78,6 +78,7 @@ export class CommonConstants {
     functionAppEditModeSettingName: 'FUNCTION_APP_EDIT_MODE',
     serviceLinkerPrefix: 'resourceconnector_',
     enableOryxBuild: 'ENABLE_ORYX_BUILD',
+    azureFilesSettingName: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING',
   };
 
   public static readonly SkuNames = {

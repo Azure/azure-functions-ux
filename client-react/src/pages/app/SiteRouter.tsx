@@ -10,7 +10,16 @@ import { SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-import { isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from '../../utils/arm-utils';
+import {
+  isContainerApp,
+  isDynamic,
+  isElastic,
+  isFunctionApp,
+  isKubeApp,
+  isLinuxApp,
+  isLinuxDynamic,
+  isPremiumV2,
+} from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
 import FunctionAppService from '../../utils/FunctionAppService';
 import { LogCategories } from '../../utils/LogCategories';
@@ -140,6 +149,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
 
     if (FunctionAppService.usingJavaWorkerRuntime(appSettings)) {
       return FunctionAppEditMode.ReadOnlyJava;
+    }
+
+    if (isDynamic(site) && isPremiumV2(site) && !FunctionAppService.getAzureFilesSetting(appSettings)) {
     }
 
     const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName] || '';

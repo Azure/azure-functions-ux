@@ -7158,4 +7158,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterJavaWebServerStack" xml:space="preserve">
         <value>Java web server stack</value>
     </data>
+    <data name="readOnlyMissingAzureFilesSetting" xml:space="preserve">
+        <value>Editing functions in the portal is not supported when you deploy functions using local development.</value>
+    </data>
 </root>
