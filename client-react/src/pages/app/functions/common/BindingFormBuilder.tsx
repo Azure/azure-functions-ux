@@ -126,7 +126,7 @@ export class BindingFormBuilder {
             options={ruleOptions}
             disabled={isDisabled}
             onPanel={true}
-            layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
+            layout={this._getFieldLayout()}
             mouseOverToolTip={rule.help}
             required={true}
             key={ruleName}
@@ -165,6 +165,10 @@ export class BindingFormBuilder {
     }
   }
 
+  private _getFieldLayout() {
+    return this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical;
+  }
+
   private _getTextField(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     return (
       <Field
@@ -174,7 +178,7 @@ export class BindingFormBuilder {
         component={TextField}
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
-        layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
+        layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
@@ -205,7 +209,7 @@ export class BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
-        layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
+        layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
@@ -226,7 +230,7 @@ export class BindingFormBuilder {
         onText={this._t('yes')}
         offText={this._t('no')}
         validate={(value: boolean) => this._validateBoolean(value, setting.required)}
-        layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
+        layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
@@ -253,7 +257,7 @@ export class BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
-        layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
+        layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
@@ -280,7 +284,7 @@ export class BindingFormBuilder {
           disabled={isDisabled}
           validate={value => this._validateText(value, setting.required, setting.validators)}
           onPanel={true}
-          layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
+          layout={this._getFieldLayout()}
           mouseOverToolTip={setting.help}
           required={setting.required}
           key={setting.name}
@@ -307,7 +311,7 @@ export class BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
-        layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
+        layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}

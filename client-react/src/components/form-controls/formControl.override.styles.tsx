@@ -5,7 +5,10 @@ import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
 
-const formDefaultWidth = '275px';
+const FORM_DEFAULT_WIDTH = '275px';
+const FULL_PAGE_WIDTH = '220px';
+const NOT_FULL_PAGE_WIDTH = '200px';
+
 export const dropdownStyleOverrides = (theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => styleProps => {
   const baseStyle = DropDownStyles({ ...styleProps, widthOverride });
   return {
@@ -13,7 +16,7 @@ export const dropdownStyleOverrides = (theme: ThemeExtended, fullpage: boolean, 
     root: [
       ...baseStyle.root,
       {
-        width: widthOverride || formDefaultWidth,
+        width: widthOverride || FORM_DEFAULT_WIDTH,
       },
     ],
     title: [...baseStyle.title],
@@ -26,7 +29,7 @@ export const dropdownStyleOverrides = (theme: ThemeExtended, fullpage: boolean, 
     dropdown: [
       ...baseStyle.dropdown,
       {
-        width: widthOverride || formDefaultWidth,
+        width: widthOverride || FORM_DEFAULT_WIDTH,
         maxWidth: widthOverride || baseStyle.dropdown[1].maxWidth,
       },
     ],
@@ -40,7 +43,7 @@ export const comboboxStyleOverrides = (theme: ThemeExtended, fullpage: boolean, 
     root: [
       ...baseStyle.root,
       {
-        width: widthOverride || formDefaultWidth,
+        width: widthOverride || FORM_DEFAULT_WIDTH,
       },
     ],
   } as IDropdownStyles;
@@ -51,10 +54,10 @@ export const textFieldStyleOverrides = (theme: ThemeExtended, fullpage: boolean,
   return {
     ...baseStyle,
     root: {
-      width: widthOverride || formDefaultWidth,
+      width: widthOverride || FORM_DEFAULT_WIDTH,
     },
     field: {
-      width: widthOverride || formDefaultWidth,
+      width: widthOverride || FORM_DEFAULT_WIDTH,
     },
     suffix: {
       paddingRight: '0px',
@@ -84,15 +87,15 @@ export const addEditFormStyle = style({ paddingBottom: '60px' });
 
 export const formStackStyle = (upsellIcon: boolean, fullpage: boolean, horizontal?: boolean) =>
   style({
-    minWidth: upsellIcon && fullpage ? '220px' : '200px',
-    maxWidth: horizontal ? (upsellIcon && fullpage ? '220px' : '200px') : '',
+    minWidth: upsellIcon && fullpage ? FULL_PAGE_WIDTH : NOT_FULL_PAGE_WIDTH,
+    maxWidth: horizontal ? (upsellIcon && fullpage ? FULL_PAGE_WIDTH : NOT_FULL_PAGE_WIDTH) : '',
     paddingRight: '8px',
   });
 
 export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean, horizontal?: boolean) =>
   style({
-    minWidth: upsellIcon && fullpage ? '220px' : '200px',
-    maxWidth: horizontal ? (upsellIcon && fullpage ? '220px' : '200px') : '',
+    minWidth: upsellIcon && fullpage ? FULL_PAGE_WIDTH : NOT_FULL_PAGE_WIDTH,
+    maxWidth: horizontal ? (upsellIcon && fullpage ? FULL_PAGE_WIDTH : NOT_FULL_PAGE_WIDTH) : '',
     paddingRight: '5px',
   });
 
@@ -110,7 +113,7 @@ export const hostStyle = (multiline?: boolean, horizontal?: boolean) =>
     overflow: !multiline ? 'hidden' : 'visible',
     textOverflow: 'ellipsis',
     whiteSpace: !multiline ? 'nowrap' : 'normal',
-    maxWidth: !horizontal ? 250 : '85%',
+    maxWidth: horizontal ? '85%' : '100%',
   });
 
 export const stackControlStyle = () =>
