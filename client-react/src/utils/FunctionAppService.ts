@@ -11,6 +11,7 @@ export default class FunctionAppService {
       appSettings.properties[CommonConstants.AppSettingNames.websiteUseZip] ||
       appSettings.properties[CommonConstants.AppSettingNames.websiteRunFromZip] ||
       appSettings.properties[CommonConstants.AppSettingNames.websiteRunFromPackage] ||
+      appSettings.properties[CommonConstants.AppSettingNames.enableOryxBuild] ||
       '0'
     );
   }

@@ -5063,19 +5063,25 @@
       </Item>
       <Item ItemId=";deploymentCenterContainerAcrFailedToLoadCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Failed to load ACR Credentials needed to load Images and Tags.]]></Val>
+          <Val><![CDATA[Failed to load ACR Credentials needed to load Images and Tags. Please enter the Image and Tag below.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kan de ACR-referenties die nodig zijn voor het laden van installatiekopieën en tags niet laden.]]></Val>
+            <Val><![CDATA[Kan de ACR referenties niet laden die nodig zijn om afbeeldingen en tags te laden. Voer de afbeelding en tag hieronder in.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Failed to load ACR Credentials needed to load Images and Tags.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";deploymentCenterContainerAcrFailedToLoadCredentialsWithError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Failed to load ACR Credentials needed to load Images and Tags - {0}.]]></Val>
+          <Val><![CDATA[Failed to load ACR Credentials needed to load Images and Tags - {0}. Please enter the Image and Tag below.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kan de ACR-referenties die nodig zijn voor het laden van installatiekopieën en tags niet laden - {0}.]]></Val>
+            <Val><![CDATA[Kan de ACR referenties niet laden die nodig zijn om afbeeldingen en tags te laden: {0}. Voer de afbeelding en tag hieronder in.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Failed to load ACR Credentials needed to load Images and Tags - {0}.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5564,6 +5570,15 @@
           <Val><![CDATA[Invalid YAML]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Ongeldige YAML]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterJavaWebServerStack" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Java web server stack]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Java-webserverstack]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18780,11 +18795,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";staticSitePrivateLink" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";staticSitePrivateEndpoints" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Private link]]></Val>
+          <Val><![CDATA[Private endpoints]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Private Link]]></Val>
+            <Val><![CDATA[Privé-eindpunten]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18881,10 +18896,13 @@
       </Item>
       <Item ItemId=";staticSiteStandardPrice" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[${0}/per app/month]]></Val>
+          <Val><![CDATA[{0}/per app/month]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[${0}/per app/maand]]></Val>
+            <Val><![CDATA[{0}/per app/maand]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[${0}/per app/month]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21404,10 +21422,13 @@
       </Item>
       <Item ItemId=";validation_linuxConnectionStringNameError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")]]></Val>
+          <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_"). For hierarchical config, use double underscore instead ("__") instead of colon (":").]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Namen voor verbindingsreeksen mogen alleen letters, cijfers (0-9), punten (.) en onderstrepingstekens (_) bevatten]]></Val>
+            <Val><![CDATA[Namen van verbindingsreeksen mogen alleen letters, cijfers (0-9), punten (.) en onderstrepingstekens (_) bevatten. Gebruik voor hiërarchische configuratie in plaats daarvan dubbele onderstrepingstekens (__) in plaats van dubbele punt (:).]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

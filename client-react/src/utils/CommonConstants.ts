@@ -77,6 +77,7 @@ export class CommonConstants {
     localCacheOptionSettingName: 'WEBSITE_LOCAL_CACHE_OPTION',
     functionAppEditModeSettingName: 'FUNCTION_APP_EDIT_MODE',
     serviceLinkerPrefix: 'resourceconnector_',
+    enableOryxBuild: 'ENABLE_ORYX_BUILD',
   };
 
   public static readonly SkuNames = {
@@ -160,6 +161,8 @@ export class CommonConstants {
   public static readonly DefaultHiddenValue = '******';
 
   public static readonly Dash = ' - ';
+
+  public static readonly Hyphen = '-';
 
   public static readonly serviceBmxUrl = 'https://service.bmx.azure.com';
 

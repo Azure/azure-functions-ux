@@ -19,7 +19,12 @@ import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { getSourceControlsWorkflowFileName, getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import {
+  getGitHubCommitMessage,
+  getSourceControlsWorkflowFileName,
+  getTelemetryInfo,
+  getWorkflowFileName,
+} from '../utility/DeploymentCenterUtility';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { dateTimeComparatorReverse } from './DeploymentCenterCodeLogs';
@@ -220,6 +225,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   };
 
   const getZipDeployRow = (deployment: ArmObj<DeploymentProperties>, index: number): GitHubActionsCodeDeploymentsRow => {
+    const isGitHubDeployment = deployment.properties.deployer === 'Push-Deployer' || deployment.properties.deployer === 'GITHUB_ZIP_DEPLOY';
     return {
       index: index,
       group: -1,
@@ -234,7 +240,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         </Link>
       ),
       author: deployment.properties.author,
-      message: deployment.properties.deployer === 'GITHUB_ZIP_DEPLOY' ? '' : deployment.properties.message,
+      message: isGitHubDeployment ? getGitHubCommitMessage(deployment.properties.message) : deployment.properties.message,
       status: deployment.properties.active ? (
         <>{`${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`}</>
       ) : (

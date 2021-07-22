@@ -1,9 +1,5 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
-import { BuildProvider } from '../../../../models/site/config';
-import { Field } from 'formik';
-import Dropdown from '../../../../components/form-controls/DropDown';
 import {
   DeploymentCenterFieldProps,
   DeploymentCenterCodeFormData,
@@ -13,54 +9,40 @@ import {
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { getRuntimeStackSetting, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { deploymentCenterInfoBannerDiv, titleWithPaddingStyle } from '../DeploymentCenter.styles';
+import {
+  getDefaultVersionDisplayName,
+  getJavaContainerDisplayName,
+  getRuntimeStackDisplayName,
+  getRuntimeStackSetting,
+  getTelemetryInfo,
+} from '../utility/DeploymentCenterUtility';
+import { titleWithPaddingStyle } from '../DeploymentCenter.styles';
 import { SiteStateContext } from '../../../../SiteState';
 import { JavaContainers, WebAppRuntimes, WebAppStack } from '../../../../models/stacks/web-app-stacks';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { FunctionAppRuntimes, FunctionAppStack } from '../../../../models/stacks/function-app-stacks';
 import { AppStackOs } from '../../../../models/stacks/app-stacks';
-import { KeyValue } from '../../../../models/portal-models';
 import { PortalContext } from '../../../../PortalContext';
 import { ArmArray } from '../../../../models/arm-obj';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import { KeyValue } from '../../../../models/portal-models';
 
 type StackSettings = WebAppRuntimes & JavaContainers | FunctionAppRuntimes;
 
 const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
-  const [selectedRuntime, setSelectedRuntime] = useState<string | undefined>(undefined);
-  const [selectedVersion, setSelectedVersion] = useState<string | undefined>(undefined);
   // NOTE(michinoy): Disabling preferred array literal rule to allow '.find' operation on the runtimeStacksData.
   // tslint:disable-next-line: prefer-array-literal
   const [runtimeStacksData, setRuntimeStacksData] = useState<Array<WebAppStack | FunctionAppStack>>([]);
-  const [runtimeStackOptions, setRuntimeStackOptions] = useState<IDropdownOption[]>([]);
-  const [runtimeVersionOptions, setRuntimeVersionOptions] = useState<IDropdownOption[]>([]);
   const [defaultStack, setDefaultStack] = useState<string>('');
   const [defaultVersion, setDefaultVersion] = useState<string>('');
-  const [stackNotSupportedMessage, setStackNotSupportedMessage] = useState<string>('');
-  const [stackMismatchMessage, setStackMismatchMessage] = useState<string>('');
-  const [showNotSupportedWarningBar, setShowNotSupportedWarningBar] = useState(true);
-  const [showMismatchWarningBar, setShowMismatchWarningBar] = useState(true);
-
-  // NOTE(michinoy): aggregate a cache of os, runtimestack, minor version, and github action
-  // recommended version mapping. This will make the look up post selection of dropdowns much
-  // simpler.
-  const gitHubActionRuntimeVersionMapping = useRef<KeyValue<string>>({});
+  const [javaContainer, setJavaContainer] = useState<string>('');
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
-
-  const closeStackNotSupportedWarningBanner = () => {
-    setShowNotSupportedWarningBar(false);
-  };
-
-  const closeStackMismatchWarningBanner = () => {
-    setShowMismatchWarningBar(false);
-  };
 
   const fetchStacks = async () => {
     const appOs = siteStateContext.isLinuxApp || siteStateContext.isKubeApp ? AppStackOs.linux : AppStackOs.windows;
@@ -81,11 +63,6 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       // tslint:disable-next-line: prefer-array-literal
       const runtimeStacks = (runtimeStacksResponse.data as ArmArray<WebAppStack | FunctionAppStack>).value.map(stack => stack.properties);
       setRuntimeStacksData(runtimeStacks);
-      setRuntimeStackOptions(
-        runtimeStacks.map(stack => {
-          return { text: stack.displayText, key: stack.value.toLocaleLowerCase() };
-        })
-      );
     } else {
       portalContext.log(
         getTelemetryInfo('error', 'runtimeStacksResponse', 'failed', {
@@ -96,12 +73,57 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     }
   };
 
-  const populateVersionDropdown = (selectedStack: string) => {
-    const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === selectedStack);
+  const setDefaultValues = () => {
+    const defaultStackAndVersion: RuntimeStackSetting = getRuntimeStackSetting(
+      siteStateContext.isLinuxApp,
+      siteStateContext.isFunctionApp,
+      siteStateContext.isKubeApp,
+      deploymentCenterContext.siteConfig,
+      deploymentCenterContext.configMetadata,
+      deploymentCenterContext.applicationSettings
+    );
+
+    //Note (stpelleg): Java is different
+    if (defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java11) {
+      defaultStackAndVersion.runtimeVersion = '11.0';
+    } else if (
+      defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java8 ||
+      defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java8Linux
+    ) {
+      defaultStackAndVersion.runtimeVersion = '8.0';
+    }
+
+    formProps.setFieldValue('runtimeStack', defaultStackAndVersion.runtimeStack);
+    formProps.setFieldValue('runtimeVersion', defaultStackAndVersion.runtimeVersion.toLocaleLowerCase());
+
+    setDefaultStack(getRuntimeStackDisplayName(defaultStackAndVersion.runtimeStack));
+    setDefaultVersion(getDefaultVersionDisplayName(defaultStackAndVersion.runtimeVersion, siteStateContext.isLinuxApp));
+  };
+
+  const updateJavaContainer = () => {
+    if (deploymentCenterContext.siteConfig && formProps.values.runtimeStack && formProps.values.runtimeStack === RuntimeStacks.java) {
+      const siteConfigJavaContainer = siteStateContext.isLinuxApp
+        ? deploymentCenterContext.siteConfig.properties.linuxFxVersion.toLowerCase().split('|')[0]
+        : deploymentCenterContext.siteConfig.properties.javaContainer &&
+          deploymentCenterContext.siteConfig.properties.javaContainer.toLowerCase();
+
+      formProps.setFieldValue('javaContainer', siteConfigJavaContainer);
+      setJavaContainer(getJavaContainerDisplayName(siteConfigJavaContainer));
+    } else {
+      formProps.setFieldValue('javaContainer', '');
+      setJavaContainer('');
+    }
+  };
+
+  const setGitHubActionsRecommendedVersion = () => {
+    // NOTE(michinoy): Try our best to get the GitHub Action recommended version from the stacks API. At worst case,
+    // select the minor version. Do not fail at this point, like this in case if a new stack is incorrectly added, we can
+    // always fall back on the minor version instead of blocking or messing customers workflow file.
+    const gitHubActionRuntimeVersionMapping: KeyValue<string> = {};
+    const curStack = formProps.values.runtimeStack || '';
+    const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === curStack);
 
     if (runtimeStack) {
-      const displayedVersions: IDropdownOption[] = [];
-
       runtimeStack.majorVersions.forEach(majorVersion => {
         majorVersion.minorVersions.forEach(minorVersion => {
           let value = minorVersion.value;
@@ -121,142 +143,35 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
               ? minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
               : value;
 
-          addGitHubActionRuntimeVersionMapping(selectedStack, value.toLocaleLowerCase(), minorVersion.stackSettings);
-          displayedVersions.push({ text: minorVersion.displayText, key: value.toLocaleLowerCase() });
+          addGitHubActionRuntimeVersionMapping(
+            curStack,
+            value.toLocaleLowerCase(),
+            minorVersion.stackSettings,
+            gitHubActionRuntimeVersionMapping
+          );
         });
       });
-
-      setRuntimeVersionOptions(displayedVersions);
-    }
-  };
-
-  const updateStackMismatchMessage = () => {
-    if (deploymentCenterContext.siteDescriptor) {
-      const siteName = deploymentCenterContext.siteDescriptor.site;
-      const slotName = deploymentCenterContext.siteDescriptor.slot;
-      setShowMismatchWarningBar(true);
-      setStackMismatchMessage(
-        t('githubActionStackMismatchMessage', {
-          appName: slotName ? `${siteName} (${slotName})` : siteName,
-          stack: defaultStack,
-        })
-      );
-    } else {
-      setStackMismatchMessage('');
-    }
-  };
-
-  const updateSelectedRuntime = (e: any, option: IDropdownOption) => {
-    setSelectedRuntime(option.key.toString());
-    formProps.setFieldValue('runtimeStack', option.key.toString());
-
-    // NOTE(michinoy): Show a warning message if the user selects a stack which does not match what their app is configured with.
-    if (defaultStack && option.key.toString() !== defaultStack.toLocaleLowerCase() && !stackNotSupportedMessage) {
-      updateStackMismatchMessage();
-    } else {
-      setStackMismatchMessage('');
     }
 
-    populateVersionDropdown(option.key.toString());
-  };
-
-  const updateSelectedVersion = (e: any, option: IDropdownOption) => {
-    setSelectedVersion(option.key.toString());
-
-    formProps.setFieldValue('runtimeVersion', option.key.toString());
-    formProps.setFieldValue(
-      'runtimeRecommendedVersion',
-      getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, option.key.toString())
-    );
-  };
-
-  const getRuntimeStackRecommendedVersion = (stackValue: string, runtimeVersionValue: string): string => {
-    const key = generateGitHubActionRuntimeVersionMappingKey(siteStateContext.isLinuxApp, stackValue, runtimeVersionValue);
-
-    return gitHubActionRuntimeVersionMapping.current[key] ? gitHubActionRuntimeVersionMapping.current[key] : runtimeVersionValue;
-  };
-
-  const setDefaultSelectedRuntimeVersion = () => {
-    // NOTE(michinoy): once the stack versions dropdown is populated, default selection can be done in either of following ways:
-    // 1. If the stack version is selected for the app and it exists in the list
-    // 2. Select the first item in the list if the stack version does not exist (e.g. .NET Core) Or does not exist in the list (e.g. Node LTS)
-    let defaultRuntimeVersion = defaultVersion;
-    if (defaultRuntimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java11) {
-      defaultRuntimeVersion = '11.0';
-    } else if (defaultRuntimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java8) {
-      defaultRuntimeVersion = '8.0';
+    //Note (stpelleg): Java is different
+    let curVersion = formProps.values.runtimeVersion || '';
+    if (curVersion === '11.0') {
+      curVersion = '11';
+    } else if (curVersion === '8.0') {
+      curVersion = '8';
     }
 
-    if (runtimeVersionOptions.length >= 1) {
-      const defaultRuntimeVersionOption = runtimeVersionOptions.filter(
-        item => item.key.toString().toLocaleLowerCase() === defaultRuntimeVersion.toLocaleLowerCase()
-      );
-
-      if (defaultRuntimeVersionOption && defaultRuntimeVersionOption.length === 1) {
-        setSelectedVersion(defaultRuntimeVersionOption[0].key.toString());
-        formProps.setFieldValue('runtimeVersion', defaultRuntimeVersionOption[0].key.toString());
-        formProps.setFieldValue(
-          'runtimeRecommendedVersion',
-          getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, defaultRuntimeVersionOption[0].key.toString())
-        );
-      } else {
-        setSelectedVersion(runtimeVersionOptions[0].key.toString());
-        formProps.setFieldValue('runtimeVersion', runtimeVersionOptions[0].key.toString());
-        formProps.setFieldValue(
-          'runtimeRecommendedVersion',
-          getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, runtimeVersionOptions[0].key.toString())
-        );
-      }
-    }
+    const key = generateGitHubActionRuntimeVersionMappingKey(siteStateContext.isLinuxApp, curStack, curVersion);
+    const version = gitHubActionRuntimeVersionMapping[key] ? gitHubActionRuntimeVersionMapping[key] : curVersion;
+    formProps.setFieldValue('runtimeRecommendedVersion', version);
   };
 
-  const updateStackNotSupportedMessage = () => {
-    if (deploymentCenterContext.siteDescriptor) {
-      const siteName = deploymentCenterContext.siteDescriptor.site;
-      const slotName = deploymentCenterContext.siteDescriptor.slot;
-      setShowNotSupportedWarningBar(true);
-      setStackNotSupportedMessage(
-        t('githubActionStackNotSupportedMessage', { appName: slotName ? `${siteName} (${slotName})` : siteName, stack: defaultStack })
-      );
-    } else {
-      setStackNotSupportedMessage('');
-    }
-  };
-
-  const setDefaultSelectedRuntimeStack = () => {
-    // NOTE(michinoy): Once the dropdown is populated, preselect stack that the user had selected during create.
-    // If the users app was built using a stack that is not supported, show a warning message.
-    if (formProps.values.buildProvider === BuildProvider.GitHubAction && defaultStack && runtimeStackOptions.length >= 1) {
-      const appSelectedStack = runtimeStackOptions.filter(item => item.key.toString() === defaultStack.toLocaleLowerCase());
-
-      if (appSelectedStack && appSelectedStack.length === 1) {
-        const appSelectedStackKey = appSelectedStack[0].key.toString();
-        setStackNotSupportedMessage('');
-        setStackMismatchMessage('');
-        setSelectedRuntime(appSelectedStackKey);
-        formProps.setFieldValue('runtimeStack', appSelectedStackKey);
-        populateVersionDropdown(appSelectedStackKey);
-      } else {
-        updateStackNotSupportedMessage();
-      }
-    }
-  };
-
-  const setInitialDefaultValues = () => {
-    const defaultStackAndVersion: RuntimeStackSetting = getRuntimeStackSetting(
-      siteStateContext.isLinuxApp,
-      siteStateContext.isFunctionApp,
-      siteStateContext.isKubeApp,
-      deploymentCenterContext.siteConfig,
-      deploymentCenterContext.configMetadata,
-      deploymentCenterContext.applicationSettings
-    );
-
-    setDefaultStack(defaultStackAndVersion.runtimeStack);
-    setDefaultVersion(defaultStackAndVersion.runtimeVersion);
-  };
-
-  const addGitHubActionRuntimeVersionMapping = (stack: string, minorVersion: string, stackSettings: StackSettings) => {
+  const addGitHubActionRuntimeVersionMapping = (
+    stack: string,
+    minorVersion: string,
+    stackSettings: StackSettings,
+    gitHubActionRuntimeVersionMapping: KeyValue<string>
+  ) => {
     // NOTE(michinoy): Try our best to get the GitHub Action recommended version from the stacks API. At worst case,
     // select the minor version. Do not fail at this point, like this in case if a new stack is incorrectly added, we can
     // always fall back on the minor version instead of blocking or messing customers workflow file.
@@ -273,7 +188,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
         : minorVersion;
     }
 
-    gitHubActionRuntimeVersionMapping.current[key] = version;
+    gitHubActionRuntimeVersionMapping[key] = version;
   };
 
   const generateGitHubActionRuntimeVersionMappingKey = (isLinuxApp: boolean, stack: string, minorVersion: string): string => {
@@ -281,105 +196,47 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     return `${os}-${stack.toLocaleLowerCase()}-${minorVersion.toLocaleLowerCase()}`;
   };
 
-  useEffect(() => {
+  const initializeFormValues = () => {
     formProps.setFieldValue('runtimeStack', '');
     formProps.setFieldValue('runtimeVersion', '');
     formProps.setFieldValue('runtimeRecommendedVersion', '');
     formProps.setFieldValue('javaContainer', '');
+  };
 
-    setInitialDefaultValues();
+  useEffect(() => {
+    initializeFormValues();
     fetchStacks();
+    setDefaultValues();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    formProps.setFieldValue('runtimeStack', '');
-    formProps.setFieldValue('runtimeVersion', '');
-    formProps.setFieldValue('runtimeRecommendedVersion', '');
-    formProps.setFieldValue('javaContainer', '');
-
-    setDefaultSelectedRuntimeStack();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runtimeStackOptions, formProps.values.buildProvider]);
-
-  useEffect(() => {
-    formProps.setFieldValue('runtimeVersion', '');
-    formProps.setFieldValue('runtimeRecommendedVersion', '');
-
-    setDefaultSelectedRuntimeVersion();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runtimeVersionOptions]);
-
-  useEffect(() => {
-    // Set java container as needed.
-    if (deploymentCenterContext.siteConfig && formProps.values.runtimeStack && formProps.values.runtimeStack === RuntimeStacks.java) {
-      const siteConfigJavaContainer = siteStateContext.isLinuxApp
-        ? deploymentCenterContext.siteConfig.properties.linuxFxVersion.toLowerCase().split('|')[0]
-        : deploymentCenterContext.siteConfig.properties.javaContainer &&
-          deploymentCenterContext.siteConfig.properties.javaContainer.toLowerCase();
-
-      formProps.setFieldValue('javaContainer', siteConfigJavaContainer);
-    } else {
-      formProps.setFieldValue('javaContainer', '');
+    if (!!defaultStack && runtimeStacksData.length > 0) {
+      updateJavaContainer();
+      setGitHubActionsRecommendedVersion();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formProps.values.runtimeStack]);
 
-  const getCustomBanner = () => {
-    return (
-      <>
-        {stackNotSupportedMessage && showNotSupportedWarningBar && (
-          <div className={deploymentCenterInfoBannerDiv}>
-            <CustomBanner
-              id="stack-not-supported-message"
-              message={stackNotSupportedMessage}
-              type={MessageBarType.warning}
-              onDismiss={closeStackNotSupportedWarningBanner}
-            />
-          </div>
-        )}
-        {stackMismatchMessage && showMismatchWarningBar && (
-          <div className={deploymentCenterInfoBannerDiv}>
-            <CustomBanner
-              id="stack-mismatch-message"
-              message={stackMismatchMessage}
-              type={MessageBarType.warning}
-              onDismiss={closeStackMismatchWarningBanner}
-            />
-          </div>
-        )}
-      </>
-    );
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultStack, runtimeStacksData]);
 
   return (
     <>
       <h3 className={titleWithPaddingStyle}>{t('deploymentCenterSettingsBuildTitle')}</h3>
-      {getCustomBanner()}
-      <Field
-        label={t('deploymentCenterSettingsRuntimeLabel')}
-        name="runtimeStack"
-        component={Dropdown}
-        displayInVerticalLayout={true}
-        options={runtimeStackOptions}
-        selectedKey={selectedRuntime}
-        onChange={updateSelectedRuntime}
-        required={true}
-        aria-required={true}
-      />
-      <Field
-        label={t('deploymentCenterSettingsRuntimeVersionLabel')}
-        name="runtimeVersion"
-        component={Dropdown}
-        displayInVerticalLayout={true}
-        options={runtimeVersionOptions}
-        selectedKey={selectedVersion}
-        onChange={updateSelectedVersion}
-        required={true}
-        aria-required={true}
-      />
+
+      <ReactiveFormControl id="deployment-center-code-settings-runtime-stack" label={t('deploymentCenterSettingsRuntimeLabel')}>
+        <div>{defaultStack}</div>
+      </ReactiveFormControl>
+
+      <ReactiveFormControl id="deployment-center-code-settings-runtime-version" label={t('deploymentCenterSettingsRuntimeVersionLabel')}>
+        <div>{defaultVersion}</div>
+      </ReactiveFormControl>
+
+      {javaContainer && (
+        <ReactiveFormControl id="deployment-center-code-settings-java-container" label={t('deploymentCenterJavaWebServerStack')}>
+          <div>{javaContainer}</div>
+        </ReactiveFormControl>
+      )}
     </>
   );
 };

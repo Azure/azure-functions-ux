@@ -3,6 +3,10 @@
 .info-box {
   margin-bottom: 10px;
 
+  &.hideBottomMargin {
+    margin-bottom: 0px;
+  };
+
   background-color: $info-box-color;
 
   &.clickable:hover {
