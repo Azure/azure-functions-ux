@@ -149,7 +149,7 @@ const bindingTypeSpecificFields = (
     formProps.setValues(cleanedValues);
   }
 
-  const builder = new BindingFormBuilder([formProps.values], [binding], functionAppId, t);
+  const builder = new BindingFormBuilder([formProps.values], [binding], functionAppId, t, false);
 
   return builder.getFields(formProps, false, true);
 };

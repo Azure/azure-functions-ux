@@ -82,15 +82,17 @@ export const learnMoreLinkStyle = style({ minWidth: '70px' });
 
 export const addEditFormStyle = style({ paddingBottom: '60px' });
 
-export const formStackStyle = (upsellIcon: boolean, fullpage: boolean) =>
+export const formStackStyle = (upsellIcon: boolean, fullpage: boolean, horizontal?: boolean) =>
   style({
     minWidth: upsellIcon && fullpage ? '220px' : '200px',
+    maxWidth: horizontal ? (upsellIcon && fullpage ? '220px' : '200px') : '',
     paddingRight: '8px',
   });
 
-export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean) =>
+export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean, horizontal?: boolean) =>
   style({
     minWidth: upsellIcon && fullpage ? '220px' : '200px',
+    maxWidth: horizontal ? (upsellIcon && fullpage ? '220px' : '200px') : '',
     paddingRight: '5px',
   });
 
@@ -103,12 +105,12 @@ export const filterTextFieldStyle = { root: { marginTop: '5px', height: '25px', 
 
 export const tooltipStyle: Partial<ITooltipHostStyles> = { root: { display: 'inline', float: 'left' } };
 
-export const hostStyle = (multiline?: boolean) =>
+export const hostStyle = (multiline?: boolean, horizontal?: boolean) =>
   style({
     overflow: !multiline ? 'hidden' : 'visible',
     textOverflow: 'ellipsis',
     whiteSpace: !multiline ? 'nowrap' : 'normal',
-    maxWidth: !multiline ? 250 : 200,
+    maxWidth: !horizontal ? 250 : '85%',
   });
 
 export const stackControlStyle = () =>

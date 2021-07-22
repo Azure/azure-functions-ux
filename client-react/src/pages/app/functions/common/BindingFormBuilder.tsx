@@ -27,7 +27,8 @@ export class BindingFormBuilder {
     private _bindingInfoList: BindingInfo[],
     private _bindingList: Binding[],
     private _resourceId: string,
-    private _t: i18next.TFunction
+    private _t: i18next.TFunction,
+    private _areCreateFunctionFieldsHorizontal: boolean
   ) {}
 
   public getInitialFormValues(): BindingEditorFormValues {
@@ -122,11 +123,10 @@ export class BindingFormBuilder {
             name={ruleName}
             id={ruleName}
             component={Dropdown}
-            multiline={true}
             options={ruleOptions}
             disabled={isDisabled}
             onPanel={true}
-            layout={Layout.Horizontal}
+            layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
             mouseOverToolTip={rule.help}
             required={true}
             key={ruleName}
@@ -174,7 +174,7 @@ export class BindingFormBuilder {
         component={TextField}
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
-        layout={Layout.Horizontal}
+        layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
@@ -201,12 +201,11 @@ export class BindingFormBuilder {
         name={setting.name}
         id={setting.name}
         component={Dropdown}
-        multiline={true}
         options={options}
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
-        layout={Layout.Horizontal}
+        layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
@@ -223,12 +222,11 @@ export class BindingFormBuilder {
         name={setting.name}
         id={setting.name}
         component={Toggle}
-        multiline={true}
         disabled={isDisabled}
         onText={this._t('yes')}
         offText={this._t('no')}
         validate={(value: boolean) => this._validateBoolean(value, setting.required)}
-        layout={Layout.Horizontal}
+        layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
@@ -250,13 +248,12 @@ export class BindingFormBuilder {
         name={setting.name}
         id={setting.name}
         component={ResourceDropdown}
-        multiline={true}
         setting={setting}
         resourceId={resourceId}
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
-        layout={Layout.Horizontal}
+        layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
@@ -279,12 +276,11 @@ export class BindingFormBuilder {
           name={setting.name}
           id={setting.name}
           component={HttpMethodMultiDropdown}
-          multiline={true}
           setting={setting}
           disabled={isDisabled}
           validate={value => this._validateText(value, setting.required, setting.validators)}
           onPanel={true}
-          layout={Layout.Horizontal}
+          layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
           mouseOverToolTip={setting.help}
           required={setting.required}
           key={setting.name}
@@ -306,13 +302,12 @@ export class BindingFormBuilder {
         name={setting.name}
         id={setting.name}
         component={Dropdown}
-        multiline={true}
         options={options}
         multiSelect
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
-        layout={Layout.Horizontal}
+        layout={this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}

@@ -22,7 +22,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
     private _defaultName: string,
     private t: i18next.TFunction
   ) {
-    super(bindingInfo, bindings, resourceId, t);
+    super(bindingInfo, bindings, resourceId, t, true);
   }
 
   public getInitialFormValues() {

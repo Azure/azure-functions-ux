@@ -60,6 +60,7 @@ export const tableRowStyle = (theme: ThemeExtended, isSelected: boolean, isDisab
     root: {
       background: isSelected ? theme.semanticColors.itemBackgroundOnSelect : theme.semanticColors.background,
       cursor: isDisabled ? 'not-allowed' : 'pointer',
+      overflow: 'hidden',
     },
   };
 };

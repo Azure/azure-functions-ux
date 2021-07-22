@@ -96,22 +96,26 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
       horizontal={horizontal}
       className={`${!!formControlClassName ? formControlClassName : ''} ${controlContainerStyle(!!upsellMessage, fullPage)}`}>
       {(label || (pushContentRight && fullPage)) && (
-        <Stack horizontal className={formStackStyle(!!upsellMessage, fullPage)}>
+        <Stack horizontal className={formStackStyle(!!upsellMessage, fullPage, horizontal)}>
           {upsellMessage && (
             <div className={upsellIconStyle}>
               <UpsellIcon upsellMessage={upsellMessage} />
             </div>
           )}
           <Label
-            className={`${!!customLabelClassName ? customLabelClassName : ''} ${formLabelStyle(!!upsellMessage, fullPage)} ${
+            className={`${!!customLabelClassName ? customLabelClassName : ''} ${formLabelStyle(!!upsellMessage, fullPage, horizontal)} ${
               dirty ? dirtyElementStyle(theme, true) : ''
             }`}
             id={`${id}-label`}>
-            <TooltipHost overflowMode={TooltipOverflowMode.Self} content={label} hostClassName={hostStyle(multiline)} styles={tooltipStyle}>
+            <TooltipHost
+              overflowMode={TooltipOverflowMode.Self}
+              content={label}
+              hostClassName={hostStyle(multiline, horizontal)}
+              styles={tooltipStyle}>
               {label}
-              {getRequiredIcon(theme, required)}
-              {getMouseOverToolTip(`${children.props.id}-tooltip`, mouseOverToolTip)}
             </TooltipHost>
+            {getRequiredIcon(theme, required)}
+            {getMouseOverToolTip(`${children.props.id}-tooltip`, mouseOverToolTip)}
           </Label>
         </Stack>
       )}
