@@ -122,7 +122,7 @@ export const phpLinuxConfigStack: WebAppConfigStack = {
         applicationInsights: false,
         isPreview: false,
         isDeprecated: false,
-        isHidden: true,
+        isHidden: false,
       },
     ],
     frameworks: [],

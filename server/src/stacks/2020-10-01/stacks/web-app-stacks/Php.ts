@@ -23,7 +23,7 @@ export const phpStack: WebAppStack = {
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'PHP|8.0',
-              isHidden: true,
+              isHidden: false,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
