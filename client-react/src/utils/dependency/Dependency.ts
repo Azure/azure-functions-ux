@@ -45,7 +45,6 @@ export class AcrDependency extends Dependency {
     const result = await TagsService.fetchAcrResourceId(resourceName);
     if (!!result) {
       if (result.length > 0) {
-        console.log(result);
         return result[0];
       }
     } else {
