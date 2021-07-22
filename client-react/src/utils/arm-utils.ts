@@ -21,7 +21,7 @@ export function isWindowsCode(obj: ArmObj<Site>): boolean {
 }
 
 export function isLinuxDynamic(obj: ArmObj<Site>) {
-  return isLinuxApp(obj) && !!obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === CommonConstants.SkuNames.dynamic;
+  return isLinuxApp(obj) && isDynamic(obj);
 }
 
 export function isContainerApp(obj: ArmObj<Site>): boolean {
@@ -56,6 +56,10 @@ export function isKubeApp(obj: ArmObj<unknown>): boolean {
     AppKind.hasAnyKind(obj, [CommonConstants.Kinds.kubeApp, CommonConstants.Kinds.kubernetes]) ||
     Url.getFeatureValue(CommonConstants.FeatureFlags.treatAsKubeApp) === 'true'
   );
+}
+
+export function isDynamic(obj: ArmObj<Site>) {
+  return !!obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === CommonConstants.SkuNames.dynamic;
 }
 
 export function mapResourcesTopologyToArmObjects<T>(columns: ResourceGraphColumn[], rows: any[][]): ArmObj<T>[] {
