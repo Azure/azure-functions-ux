@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { HttpResponseObject } from '../../../../ArmHelper.types';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import { AcrDependency } from '../../../../utils/dependency/Dependency';
-import { StartupInfoContext } from '../../../../StartupInfoContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 interface RegistryIdentifiers {
   resourceId: string;
@@ -27,9 +26,8 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
-  const startupInfoContext = useContext(StartupInfoContext);
   const [subscription, setSubscription] = useState<string>(
-    deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.subscription : ''
+    !!deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.subscription : ''
   );
   const [acrRegistryOptions, setAcrRegistryOptions] = useState<IDropdownOption[]>([]);
   const [acrImageOptions, setAcrImageOptions] = useState<IDropdownOption[]>([]);
@@ -40,12 +38,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const [loadingImageOptions, setLoadingImageOptions] = useState(false);
   const [loadingTagOptions, setLoadingTagOptions] = useState(false);
   const registryIdentifiers = useRef<{ [key: string]: RegistryIdentifiers }>({});
-
-  const subscriptionOptions = startupInfoContext.subscriptions
-    ? startupInfoContext.subscriptions.map(subscription => ({ key: subscription.subscriptionId, text: subscription.subscriptionId }))
-    : [];
+  const [subscriptionOptions, setSubscriptionOptions] = useState<IDropdownOption[]>([]);
 
   const fetchData = () => {
+    fetchAllSubscriptions();
     registryIdentifiers.current = {};
     setAcrRegistryOptions([]);
     setAcrImageOptions([]);
@@ -298,6 +294,19 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setLoadingTagOptions(false);
   };
 
+  const fetchAllSubscriptions = async () => {
+    const subscriptionsObservable = await portalContext.getAllSubscriptions();
+    let subscriptionDropdownOptions: IDropdownOption[] = [];
+
+    subscriptionsObservable.subscribe(subscriptionArray => {
+      subscriptionArray.forEach(subscription =>
+        subscriptionDropdownOptions.push({ key: subscription.subscriptionId, text: subscription.displayName })
+      );
+      setSubscriptionOptions(subscriptionDropdownOptions);
+      setSubscription(subscription);
+    });
+  };
+
   const fetchHiddenAcrTag = async () => {
     const acrTagInstance = new AcrDependency();
     const hiddenTag = await acrTagInstance.getTag(
@@ -311,12 +320,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       parseHiddenTag(hiddenTag);
     } else {
       const acrName = getAcrNameFromLoginServer(formProps.values.acrLoginServer);
-      const newsubscriptionId = await acrTagInstance.updateTags(
-        portalContext,
-        deploymentCenterContext.resourceId,
-        acrName,
-        startupInfoContext.subscriptions
-      );
+      const newsubscriptionId = await acrTagInstance.updateTags(portalContext, deploymentCenterContext.resourceId, acrName);
       if (!!newsubscriptionId) {
         setSubscription(newsubscriptionId);
       }

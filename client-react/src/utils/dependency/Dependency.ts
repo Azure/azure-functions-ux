@@ -1,20 +1,14 @@
 import SiteService from '../../ApiHelpers/SiteService';
 import TagsService from '../../ApiHelpers/TagsService';
 import { KeyValue } from '../../models/portal-models';
-import { ISubscription } from '../../models/subscription';
 import PortalCommunicator from '../../portal-communicator';
 import { CommonConstants } from '../CommonConstants';
 import { getTelemetryInfo } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
 
 export abstract class Dependency {
-  public async updateTags(
-    portalContext: PortalCommunicator,
-    resourceId: string,
-    resourceName: string,
-    subscriptions?: ISubscription[]
-  ): Promise<string> {
+  public async updateTags(portalContext: PortalCommunicator, resourceId: string, resourceName: string): Promise<string> {
     // Calls into discoverResourceId to get resourceId and sets it in Tags property for resource
-    const tagInformation = await this.discoverResourceId(portalContext, resourceName, subscriptions);
+    const tagInformation = await this.discoverResourceId(portalContext, resourceName);
     return this.updateId(portalContext, resourceId, tagInformation);
   }
 
@@ -40,15 +34,15 @@ export abstract class Dependency {
     return isHidden ? `${CommonConstants.hiddenLink}: ${tagName}` : tagName;
   }
 
-  abstract discoverResourceId(portalContext: PortalCommunicator, resourceName: string, subscriptions?: ISubscription[]);
+  abstract discoverResourceId(portalContext: PortalCommunicator, resourceName: string);
 
   abstract updateId(portalContext: PortalCommunicator, resourceId: string, tagInformation: any);
 }
 
 export class AcrDependency extends Dependency {
-  async discoverResourceId(portalContext: PortalCommunicator, resourceName: string, subscriptions: ISubscription[]) {
+  async discoverResourceId(portalContext: PortalCommunicator, resourceName: string) {
     // queries for ACR instance and returns resourceId
-    const result = await TagsService.fetchAcrResourceId(resourceName, subscriptions);
+    const result = await TagsService.fetchAcrResourceId(resourceName);
     if (!!result) {
       if (result.length > 0) {
         console.log(result);
