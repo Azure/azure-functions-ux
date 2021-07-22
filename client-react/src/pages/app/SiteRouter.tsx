@@ -152,6 +152,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     }
 
     if (isDynamic(site) && isPremiumV2(site) && !FunctionAppService.getAzureFilesSetting(appSettings)) {
+      return FunctionAppEditMode.ReadOnlyAzureFiles;
     }
 
     const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName] || '';
