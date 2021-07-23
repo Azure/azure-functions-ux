@@ -15858,6 +15858,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";pricing_skuCheckWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Some SKUs might not be available in your region.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Es posible que algunas SKU no estén disponibles en su región.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";pricing_slotsDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Up to {0} staging slots to use for testing and deployments before swapping them into production.]]></Val>
