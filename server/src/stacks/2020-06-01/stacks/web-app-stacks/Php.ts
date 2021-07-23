@@ -61,23 +61,6 @@ export const phpStack: WebAppStack = {
             },
           },
         },
-        {
-          displayText: 'PHP 7.2',
-          value: '7.2',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '7.2',
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: false,
-              },
-              endOfLifeDate: php7Point2EOL,
-            },
-          },
-        },
       ],
     },
   ],

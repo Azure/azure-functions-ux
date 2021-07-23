@@ -159,12 +159,16 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.51',
-          value: '8.5.51',
+          displayText: 'Tomcat 8.5.58',
+          value: '8.5.58',
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
-              javaContainerVersion: '8.5.51',
+              javaContainerVersion: '8.5.58',
+            },
+            linuxContainerSettings: {
+              java11Runtime: 'TOMCAT|8.5.58-java11',
+              java8Runtime: 'TOMCAT|8.5.58-java8', // Note (allisonm): Newer Tomcat versions use java8, not jre8
             },
           },
         },
