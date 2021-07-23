@@ -9,9 +9,11 @@ import ComboBox from '../../../../components/form-controls/ComboBox';
 import { ScmType } from '../../../../models/site/config';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { IDropdownOption } from 'office-ui-fabric-react';
+import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
+    acrSubscriptionOptions,
     acrRegistryOptions,
     acrImageOptions,
     acrTagOptions,
@@ -21,11 +23,14 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     loadingRegistryOptions: loadingAcrRegistryOptions,
     loadingImageOptions,
     loadingTagOptions,
+    acrSubscription,
+    fetchRegistriesInSub,
   } = props;
   const { t } = useTranslation();
 
   const [isComposeOptionSelected, setIsComposeOptionSelected] = useState(false);
   const [isGitHubActionSelected, setIsGitHubActionSelected] = useState(false);
+  const [aCRSubscriptionOptions, setACRSubscriptionOptions] = useState<IDropdownOption[]>(acrSubscriptionOptions);
   const [aCRRegistryOptions, setACRRegistryOptions] = useState<IDropdownOption[]>(acrRegistryOptions);
   const [aCRImageOptions, setACRImageOptions] = useState<IDropdownOption[]>(acrImageOptions);
   const [aCRTagOptions, setACRTagOptions] = useState<IDropdownOption[]>(acrTagOptions);
@@ -41,6 +46,12 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.scmType]);
+
+  useEffect(() => {
+    setACRSubscriptionOptions(acrSubscriptionOptions);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [acrSubscriptionOptions]);
 
   useEffect(() => {
     setACRRegistryOptions(acrRegistryOptions);
@@ -82,11 +93,22 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} />
       )}
 
+      <ComboBoxNoFormik
+        id="container-acr-subscription"
+        label={t('subscription')}
+        allowFreeform
+        autoComplete="on"
+        options={aCRSubscriptionOptions}
+        required={true}
+        onChange={(val, newSub) => fetchRegistriesInSub(newSub.key)}
+        value={acrSubscription}
+      />
+
       <Field
         id="container-acr-repository"
         label={t('containerACRRegistry')}
         name="acrLoginServer"
-        selectedKey={formProps.values.acrLoginServer}
+        selectedKey={!!formProps.values.acrLoginServer ? formProps.values.acrLoginServer.toLocaleLowerCase() : ''}
         component={ComboBox}
         allowFreeform
         autoComplete="on"

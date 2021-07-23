@@ -88,6 +88,7 @@ export class PlanPriceSpecManager {
   selectedSpecGroup: PriceSpecGroup;
   specGroups: PriceSpecGroup[] = [];
   specSpecificBanner: BannerMessage;
+  skuCheckBanner: BannerMessage = null;
 
   get currentSkuCode(): string {
     if (!this._plan) {
@@ -178,6 +179,14 @@ export class PlanPriceSpecManager {
         return specInitCalls.length > 0 ? Observable.zip(...specInitCalls) : Observable.of(null);
       })
       .do(() => {
+        if (this._shouldShowSkuCheckWarning()) {
+          this.skuCheckBanner = {
+            level: BannerMessageLevel.WARNING,
+            message: this._ts.instant(PortalResources.pricing_skuCheckWarning),
+          };
+        } else {
+          this.skuCheckBanner = null;
+        }
         return this._getServerFarmRecommendations(inputs);
       });
   }
@@ -487,6 +496,24 @@ export class PlanPriceSpecManager {
         }
       }
     }
+  }
+
+  private _shouldShowSkuCheckWarning(): boolean {
+    const specGroups = this.specGroups || [];
+
+    for (let i = 0; i < specGroups.length; i++) {
+      const recommendedSpecs = (!!specGroups[i] && specGroups[i].recommendedSpecs) || [];
+      const additionalSpecs = (!!specGroups[i] && specGroups[i].additionalSpecs) || [];
+
+      const allSpecs = [...recommendedSpecs, ...additionalSpecs];
+      for (let j = 0; j < allSpecs.length; j++) {
+        if (allSpecs[j].skuAvailabilityCheckFailed) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   private _shouldShowAppDensityWarning(skuCode: string): boolean {
