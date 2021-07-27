@@ -442,11 +442,11 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     }
 
     const registryInfo = fxVersionParts[1];
-    return !!registryInfo && registryInfo.indexOf(DeploymentCenterConstants.acrUriHost) > -1;
+    return !!registryInfo && registryInfo.indexOf(DeploymentCenterConstants.acrUriBody) > -1;
   }
 
   private _isServerUrlAcr(serverUrl: string): boolean {
-    return !!serverUrl && serverUrl.indexOf(DeploymentCenterConstants.acrUriHost) > -1;
+    return !!serverUrl && serverUrl.indexOf(DeploymentCenterConstants.acrUriBody) > -1;
   }
 
   private _isServerUrlDockerHub(serverUrl: string): boolean {
