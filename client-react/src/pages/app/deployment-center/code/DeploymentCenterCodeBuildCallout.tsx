@@ -7,6 +7,7 @@ import { BuildChoiceGroupOption, DeploymentCenterCodeBuildCalloutProps, RuntimeS
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCalloutProps> = props => {
   const {
@@ -21,8 +22,9 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
   const siteStateContext = useContext(SiteStateContext);
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
 
-  const isGitHubActionEnabled = runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby;
+  const isGitHubActionEnabled = runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby && !deploymentCenterContext.isIlbASE;
 
   const isKuduDisabled = () => {
     return scenarioService.checkScenario(ScenarioIds.kuduBuildProvider, { site: siteStateContext.site }).status === 'disabled';

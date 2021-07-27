@@ -27,6 +27,8 @@ import { PublishingCredentialPolicies } from '../../../models/site/site';
 import DeploymentCenterContainerDataLoader from './container/DeploymentCenterContainerDataLoader';
 import DeploymentCenterCodeDataLoader from './code/DeploymentCenterCodeDataLoader';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
+import HostingEnvironmentService from '../../../ApiHelpers/HostingEnvironmentService';
+import { InternalLoadBalancingMode } from '../../../models/hostingEnvironment/hosting-environment';
 
 enum SourceControlTypes {
   oneDrive = 'onedrive',
@@ -58,6 +60,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [basicPublishingCredentialsPolicies, setBasicPublishingCredentialsPolicies] = useState<PublishingCredentialPolicies | undefined>(
     undefined
   );
+  const [isIlbASE, setIsIlbASE] = useState<boolean>(false);
   const [isDataRefreshing, setIsDataRefreshing] = useState(true);
 
   const processPublishProfileResponse = (publishProfileResponse: HttpResponseObject<string>) => {
@@ -120,6 +123,10 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       requests.push(getBasicPublishingCredentialsPoliciesRequest);
     }
 
+    if (!!siteStateContext.site && !!siteStateContext.site.properties.hostingEnvironmentId) {
+      requests.push(HostingEnvironmentService.fetchHostingEnvironment(siteStateContext.site.properties.hostingEnvironmentId));
+    }
+
     const [
       writePermissionResponse,
       publishingUserResponse,
@@ -127,6 +134,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       configMetadataResponse,
       userSourceControlsResponse,
       basicPublishingCredentialsPoliciesResponse,
+      hostingEnvironmentResponse,
     ] = await Promise.all(requests);
 
     if (userSourceControlsResponse.metadata.success) {
@@ -136,6 +144,25 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         getTelemetryInfo('error', 'userSourceControlsResponse', 'failed', {
           message: getErrorMessage(userSourceControlsResponse.metadata.error),
           errorAsString: userSourceControlsResponse.metadata.error ? JSON.stringify(userSourceControlsResponse.metadata.error) : '',
+        })
+      );
+    }
+
+    if (
+      !!siteStateContext.site &&
+      !!siteStateContext.site.properties.hostingEnvironmentId &&
+      !!hostingEnvironmentResponse &&
+      hostingEnvironmentResponse.metadata.success
+    ) {
+      setIsIlbASE(
+        !!hostingEnvironmentResponse.data.properties.internalLoadBalancingMode &&
+          hostingEnvironmentResponse.data.properties.internalLoadBalancingMode === InternalLoadBalancingMode.PublishingAndWeb
+      );
+    } else if (!!hostingEnvironmentResponse && !hostingEnvironmentResponse.metadata.success) {
+      portalContext.log(
+        getTelemetryInfo('error', 'getHostingEnvironment', 'failed', {
+          message: getErrorMessage(hostingEnvironmentResponse.metadata.error),
+          errorAsString: hostingEnvironmentResponse.metadata.error ? JSON.stringify(hostingEnvironmentResponse.metadata.error) : '',
         })
       );
     }
@@ -298,6 +325,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         dropboxToken,
         bitbucketToken,
         gitHubToken,
+        isIlbASE,
         refresh,
         refreshUserSourceControlTokens,
       }}>
