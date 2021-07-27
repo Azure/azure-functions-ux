@@ -158,7 +158,10 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const setSourceBuildProvider = () => {
     if (formProps.values.sourceProvider === ScmType.GitHub) {
       //Note (stpelleg): Need to disable GitHub Actions for Ruby as we do not support it
-      if (!!defaultStackAndVersion && defaultStackAndVersion.runtimeStack.toLocaleLowerCase() === RuntimeStackOptions.Ruby) {
+      if (
+        (!!defaultStackAndVersion && defaultStackAndVersion.runtimeStack.toLocaleLowerCase() === RuntimeStackOptions.Ruby) ||
+        deploymentCenterContext.isIlbASE
+      ) {
         setSelectedBuild(BuildProvider.AppServiceBuildService);
         formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
       } else {
