@@ -351,6 +351,12 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
             notificationSuccessDescription: t('createFunctionDeploymentNotificationSuccess').format(deploymentName, rscGrp),
             notificationFailureDescription: t('createFunctionDeploymentNotificationFailed').format(deploymentName, rscGrp),
           });
+
+          LogService.trackEvent(
+            LogCategories.functionCreate,
+            'ResourceDeployment',
+            `Deployed ${armDeploymentTemplate.properties.template.resources.length} resources with function creation`
+          );
         }
       }
 

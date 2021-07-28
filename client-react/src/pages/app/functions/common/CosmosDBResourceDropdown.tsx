@@ -89,6 +89,12 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
             setArmResources([]);
           }
         });
+
+        LogService.trackEvent(
+          LogCategories.functionCreate,
+          'cosmosDbTemplate',
+          'Selected an existing database account after creating new one'
+        );
       } else if (option.text.includes('(New)') && formProps.status && !formProps.status.isNewDbAcct) {
         formProps.setStatus({ ...formProps.status, isNewDbAcct: true, isNewDatabase: true, isNewContainer: true });
         formProps.setFieldValue('databaseName', CommonConstants.CosmosDbDefaults.databaseName);
@@ -123,7 +129,11 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
             (prevArmResources: IArmRscTemplate[]) =>
               [...prevArmResources, storedArmTemplate, newDatabaseTemplate, newContainerTemplate] as IArmRscTemplate[]
           );
+
+          LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', 'Re-selected new database account');
         }
+      } else {
+        LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', 'Selected an existing database account');
       }
 
       // Always add the appsetting for CDB to simplify between new/existing DB accounts (FunctionsService deploy handles setting overlaps)

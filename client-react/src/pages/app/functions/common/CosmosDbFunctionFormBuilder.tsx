@@ -14,6 +14,8 @@ import CosmosDBResourceDropdown from './CosmosDBResourceDropdown';
 import CosmosDBComboBox from './CosmosDBComboBox';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
   private _metadataHasBeenUpdated: boolean;
@@ -168,7 +170,10 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
         defaultSelectedKey={setting.defaultValue}
         selectedKey={formProps.values[setting.name]}
         options={setting.options}
-        onChange={(event, option) => formProps.setFieldValue(setting.name, option.key)}
+        onChange={(event, option) => {
+          formProps.setFieldValue(setting.name, option.key);
+          LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', `Chose form option: ${option.key}`);
+        }}
         validate={value => this._validateRadioButton(value, setting.required)} // TODO: These'll have to be updated to the new validation method when that PR gets merged in
         onPanel={true}
         layout={Layout.Vertical} // TODO: Update this to horizontal when merging with horizontal form PR

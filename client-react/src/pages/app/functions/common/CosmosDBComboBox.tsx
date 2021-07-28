@@ -238,6 +238,8 @@ const CosmosDBComboBox = props => {
               setArmResources(modifiableArmResources);
             }
           });
+
+          LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', 'Selected existing database after creating new one');
         } else if (isContainer()) {
           formProps.setStatus({ ...formProps.status, isNewContainer: false });
           let modifiableArmResources = armResources;
@@ -249,6 +251,8 @@ const CosmosDBComboBox = props => {
               setArmResources(modifiableArmResources);
             }
           });
+
+          LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', 'Selected existing container after creating new one');
         }
       } else if (option.text.includes('(New)')) {
         // If template already in armResources (should mean user generated new one) don't do anything, otherwise reinstate storedArmTemplate to armResources
@@ -283,6 +287,8 @@ const CosmosDBComboBox = props => {
             );
 
             setArmResources([...armResources, newDatabaseTemplate, newContainerTemplate]);
+
+            LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', 'Re-selected new database');
           }
         } else if (isContainer()) {
           formProps.setStatus({ ...formProps.status, isNewContainer: true });
@@ -298,7 +304,15 @@ const CosmosDBComboBox = props => {
             const newContainerTemplate = DocumentDBService.getNewContainerArmTemplate(option.key as string, formProps, armResources);
 
             setArmResources([...armResources, newContainerTemplate]);
+
+            LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', 'Re-selected new container');
           }
+        }
+      } else {
+        if (isDatabase()) {
+          LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', 'Selected an existing database');
+        } else {
+          LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', 'Selected an existing container');
         }
       }
     }
@@ -386,6 +400,8 @@ const CosmosDBComboBox = props => {
       formProps.setFieldValue('collectionName', CommonConstants.CosmosDbDefaults.containerName);
 
       setArmResources([...armResources, newDatabaseTemplate, newContainerTemplate]);
+
+      LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', 'Created new database template');
     } else if (isContainer()) {
       setSelectedItem({ key: formValues.newContainerName, text: formValues.newContainerName });
       setNewContainerName(formValues.newContainerName);
@@ -394,6 +410,8 @@ const CosmosDBComboBox = props => {
       removeCurrentContainerArmTemplate(armResources, setArmResources, setStoredArmTemplate);
       const newContainerTemplate = DocumentDBService.getNewContainerArmTemplate(formValues.newContainerName, formProps, armResources);
       setArmResources([...armResources, newContainerTemplate]);
+
+      LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', 'Created new container template');
     }
   };
 
@@ -441,10 +459,14 @@ const CosmosDBComboBox = props => {
   if (isDatabase()) {
     if (databases) {
       placeholder = t('selectADatabase');
+    } else {
+      LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', 'No existing databases were found');
     }
   } else if (isContainer()) {
     if (containers) {
       placeholder = t('selectAContainer');
+    } else {
+      LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', 'No existing containers were found');
     }
   }
 

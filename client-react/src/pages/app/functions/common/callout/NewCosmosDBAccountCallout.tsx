@@ -12,6 +12,8 @@ import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { removeCurrentContainerArmTemplate, removeCurrentDatabaseArmTemplate } from '../CosmosDBComboBox';
 import DocumentDBService from '../../../../../ApiHelpers/DocumentDBService';
 import { buttonStyle } from '../../../../../components/ActionBar';
+import LogService from '../../../../../utils/LogService';
+import { LogCategories } from '../../../../../utils/LogCategories';
 
 const hdrStyle = (theme: ThemeExtended) =>
   style({
@@ -102,6 +104,8 @@ const NewCosmosDBAccountCallout = props => {
 
       setArmResources(prevArmResources => [...prevArmResources, cdbTemplateObj, newDatabaseTemplate, newContainerTemplate]);
     }
+
+    LogService.trackEvent(LogCategories.functionCreate, 'cosmosDbTemplate', 'Created new database account template');
   };
 
   const dismissCallout = () => {
