@@ -21,7 +21,7 @@ const Toggle = (props: FieldProps & IToggleProps & CustomToggleProps) => {
   const checked = field.value;
   const errorMessage = get(form.errors, field.name, '') as string;
 
-  return <ToggleNoFormik checked={checked} onChange={onChange} onBlur={field.onBlur} errorMessage={errorMessage} {...props} />;
+  return <ToggleNoFormik {...props} checked={checked} onChange={onChange} onBlur={field.onBlur} errorMessage={errorMessage} />;
 };
 
 export default Toggle;

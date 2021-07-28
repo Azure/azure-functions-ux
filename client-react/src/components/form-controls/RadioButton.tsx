@@ -24,13 +24,13 @@ const RadioButton: React.SFC<IChoiceGroupProps & FieldProps & RadioButtonProps> 
   };
   return (
     <RadioButtonNoFormik
+      {...rest}
       ariaLabelledBy={`${props.id}-label`}
       id={props.id}
       selectedKey={field.value}
       options={options}
       onChange={onChange}
       styles={displayInVerticalLayout ? ChoiceGroupVerticalStyles : ChoiceGroupStyles}
-      {...rest}
     />
   );
 };

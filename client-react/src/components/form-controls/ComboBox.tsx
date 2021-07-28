@@ -38,6 +38,7 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
   const errorMessage = get(form.errors, field.name, '') as string;
   return (
     <ComboBoxNoFormik
+      {...rest}
       selectedKey={field.value === undefined ? 'null' : field.value}
       ariaLabel={props.label}
       options={options}
@@ -46,7 +47,6 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
       errorMessage={errorMessage}
       styles={ComboBoxStyles(theme)}
       allowFreeform={allowFreeform}
-      {...rest}
     />
   );
 };

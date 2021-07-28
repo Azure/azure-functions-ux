@@ -34,7 +34,7 @@ export const dropdownStyleOverrides = (theme: ThemeExtended, fullpage: boolean, 
 };
 
 export const comboboxStyleOverrides = (theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => {
-  const baseStyle = ComboBoxStyles(theme);
+  const baseStyle = ComboBoxStyles(theme) as any;
   return {
     ...baseStyle,
     root: [

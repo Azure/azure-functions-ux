@@ -32,12 +32,12 @@ const RadioButtonNoFormik: React.SFC<IChoiceGroupProps & RadioButtonProps> = pro
   return (
     <ReactiveFormControl {...props}>
       <ChoiceGroup
+        {...rest}
         ariaLabelledBy={`${props.id}-label`}
         id={props.id}
         options={optionsWithMargin}
         onChange={onChange}
         styles={ChoiceGroupStyles}
-        {...rest}
       />
     </ReactiveFormControl>
   );

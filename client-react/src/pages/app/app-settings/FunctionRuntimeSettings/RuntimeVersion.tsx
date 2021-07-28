@@ -208,7 +208,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     runtimeMajorVersion === RuntimeExtensionMajorVersions.custom ? t('functionsRuntimeVersionCustomInfo') : undefined;
 
   const existingFunctionsMessage = isExistingFunctionsWarningNeeded(runtimeMajorVersion)
-    ? t('functionsRuntimeVersionExistingFunctionsWarning').format(getRuntimeVersionInUse(), runtimeMajorVersion)
+    ? t('functionsRuntimeVersionExistingFunctionsWarning')?.format(getRuntimeVersionInUse(), runtimeMajorVersion)
     : undefined;
 
   useEffect(() => {
@@ -230,7 +230,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
               onClick: onVersionChangeDismiss,
             }}
             title={t('functionsRuntimeVersionExistingFunctionsConfirmationTitle')}
-            content={t('functionsRuntimeVersionExistingFunctionsConfirmationMessage').format(getRuntimeVersionInUse(), pendingVersion)}
+            content={t('functionsRuntimeVersionExistingFunctionsConfirmationMessage')?.format(getRuntimeVersionInUse(), pendingVersion) ?? ''}
             hidden={!pendingVersion}
             onDismiss={onVersionChangeDismiss}
           />

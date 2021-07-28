@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "target": "es5",
     "allowJs": true,
     "skipLibCheck": true,
@@ -13,13 +16,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "alwaysStrict": true,
     "strictFunctionTypes": false,
     "strictPropertyInitialization": false,
     "noImplicitAny": false,
-    "noUnusedLocals": true,
-    "downlevelIteration": true
+    "noUnusedLocals": false,
+    "downlevelIteration": true,
+    "noFallthroughCasesInSwitch": true,
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }
