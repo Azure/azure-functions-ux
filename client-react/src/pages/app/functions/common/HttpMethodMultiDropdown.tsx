@@ -29,7 +29,7 @@ const HttpMethodMultiDropdown: React.SFC<HttpMethodMultiDropdownProps & CustomDr
     }
   }
 
-  return <Dropdown options={options} multiSelect {...props} />;
+  return <Dropdown multiSelect {...props} options={options} />;
 };
 
 export default HttpMethodMultiDropdown;

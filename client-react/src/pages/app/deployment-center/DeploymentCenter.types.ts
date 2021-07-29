@@ -226,7 +226,7 @@ export interface LocationServiceData {
 }
 
 export interface Properties {
-  Account: Account;
+  Account: unknown;
 }
 
 export interface DeploymentCenterDataLoaderProps {
