@@ -2,7 +2,7 @@
 # https://docs.microsoft.com/en-us/vsts/pipelines/process/phases
 
 pool:
-  vmImage: 'macOS-10.14'
+  vmImage: 'ubuntu-latest'
 steps:
   - task: NodeTool@0
     inputs:
