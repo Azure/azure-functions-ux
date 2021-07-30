@@ -8,10 +8,10 @@ export const KeyvaultUri = 'https://vault.azure.net';
 
 @Injectable()
 export class ConfigService implements OnModuleInit {
-  private readonly dotEnvConfig: { [key: string]: string };
+  private readonly dotEnvConfig: dotenv.DotenvParseOutput;
 
   constructor(private httpService: HttpService) {
-    this.dotEnvConfig = dotenv.config();
+    this.dotEnvConfig = dotenv.config().parsed;
   }
 
   async onModuleInit() {
