@@ -369,7 +369,7 @@ export default class AppInsightsService {
     return { metadata: { success, error, appInsightsKeyType }, data: aiResourceId };
   };
 
-  private static _getAppInsightsComponentFromConnectionString = (connectionString: string, subscriptions: ISubscription[]) => {
+  private static _getAppInsightsComponentFromConnectionString = (connectionString: string, subscriptions: ISubscription[] = []) => {
     const subscriptionIds = subscriptions.map(subscription => subscription.subscriptionId);
     const body = {
       query: `where type == 'microsoft.insights/components' | where isnotempty(properties) | where properties.ConnectionString == '${connectionString}'`,
@@ -400,7 +400,7 @@ export default class AppInsightsService {
     });
   };
 
-  private static _getAppInsightsComponentFromInstrumentationKey = (instrumentationKey: string, subscriptions: ISubscription[]) => {
+  private static _getAppInsightsComponentFromInstrumentationKey = (instrumentationKey: string, subscriptions: ISubscription[] = []) => {
     const subscriptionIds = subscriptions.map(subscription => subscription.subscriptionId);
     const body = {
       query: `where type == 'microsoft.insights/components' | where isnotempty(properties) | where properties.InstrumentationKey == '${instrumentationKey}'`,
@@ -455,45 +455,38 @@ export default class AppInsightsService {
   }
 
   private static _formLast30DayUrl = (appInsightsAppId: string): string => {
-    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
-      CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
-    }&queryType=getLast30DaySummary`;
+    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
+      }&queryType=getLast30DaySummary`;
   };
 
   private static _formInvocationTracesUrl = (appInsightsAppId: string): string => {
-    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
-      CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
-    }&queryType=getInvocationTraces`;
+    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
+      }&queryType=getInvocationTraces`;
   };
 
   private static _formOrchestrationTracesUrl = (appInsightsAppId: string): string => {
-    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
-      CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
-    }&queryType=getOrchestrationTraces`;
+    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
+      }&queryType=getOrchestrationTraces`;
   };
 
   private static _formEntityTracesUrl = (appInsightsAppId: string): string => {
-    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
-      CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
-    }&queryType=getEntityTraces`;
+    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
+      }&queryType=getEntityTraces`;
   };
 
   private static _formEntityTraceDetailsUrl = (appInsightsAppId: string): string => {
-    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
-      CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
-    }&queryType=getEntityTraceDetails`;
+    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
+      }&queryType=getEntityTraceDetails`;
   };
 
   private static _formInvocationTraceDetailsUrl = (appInsightsAppId: string): string => {
-    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
-      CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
-    }&queryType=getInvocationTraceDetails`;
+    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
+      }&queryType=getInvocationTraceDetails`;
   };
 
   private static _formOrchestrationTraceDetailsUrl = (appInsightsAppId: string): string => {
-    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
-      CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
-    }&queryType=getOrchestrationTraceDetails`;
+    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
+      }&queryType=getOrchestrationTraceDetails`;
   };
 
   private static _getEndpoint = (): string => {
