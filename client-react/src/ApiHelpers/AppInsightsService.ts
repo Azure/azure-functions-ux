@@ -369,7 +369,7 @@ export default class AppInsightsService {
     return { metadata: { success, error, appInsightsKeyType }, data: aiResourceId };
   };
 
-  private static _getAppInsightsComponentFromConnectionString = (connectionString: string, subscriptions: ISubscription[] = []) => {
+  private static _getAppInsightsComponentFromConnectionString = (connectionString: string, subscriptions: ISubscription[]) => {
     const subscriptionIds = subscriptions.map(subscription => subscription.subscriptionId);
     const body = {
       query: `where type == 'microsoft.insights/components' | where isnotempty(properties) | where properties.ConnectionString == '${connectionString}'`,
@@ -400,7 +400,7 @@ export default class AppInsightsService {
     });
   };
 
-  private static _getAppInsightsComponentFromInstrumentationKey = (instrumentationKey: string, subscriptions: ISubscription[] = []) => {
+  private static _getAppInsightsComponentFromInstrumentationKey = (instrumentationKey: string, subscriptions: ISubscription[]) => {
     const subscriptionIds = subscriptions.map(subscription => subscription.subscriptionId);
     const body = {
       query: `where type == 'microsoft.insights/components' | where isnotempty(properties) | where properties.InstrumentationKey == '${instrumentationKey}'`,
