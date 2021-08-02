@@ -2329,8 +2329,6 @@ export class PortalResources {
   public static staticSiteUpdatingHostingPlan = 'staticSiteUpdatingHostingPlan';
   public static staticSiteUpdatingHostingPlanSuccess = 'staticSiteUpdatingHostingPlanSuccess';
   public static staticSiteUpdatingHostingPlanFailure = 'staticSiteUpdatingHostingPlanFailure';
-  public static deploymentCenterContainerSettingsBannerMessage = 'deploymentCenterContainerSettingsBannerMessage';
-  public static deploymentCenterContainerSettingsBannerClickHere = 'deploymentCenterContainerSettingsBannerClickHere';
   public static staticWebAppSkuPickerCalculatePrice = 'staticWebAppSkuPickerCalculatePrice';
   public static staticSiteStagingEnvironments = 'staticSiteStagingEnvironments';
   public static staticSiteFreeStagingEnvironmentsAmount = 'staticSiteFreeStagingEnvironmentsAmount';
