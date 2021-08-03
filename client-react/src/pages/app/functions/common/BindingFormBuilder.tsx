@@ -13,10 +13,16 @@ import { getFunctionBindingDirection } from '../function/integrate/FunctionInteg
 import { FunctionIntegrateConstants } from '../function/integrate/FunctionIntegrateConstants';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
+import { style } from 'typestyle';
 
 export interface BindingEditorFormValues {
   [key: string]: any;
 }
+
+export const horizontalLabelStyle = style({
+  width: '1500px',
+  maxWidth: '1500px !important',
+});
 
 export class BindingFormBuilder {
   public static getBindingTypeName = (currentBinding: BindingInfo, bindings: Binding[]): string => {
@@ -132,6 +138,8 @@ export class BindingFormBuilder {
             key={ruleName}
             {...formProps}
             dirty={false}
+            customLabelClassName={this._getHorizontalLabelStyle()}
+            customLabelStackClassName={this._getHorizontalLabelStyle()}
           />
         );
       });
@@ -169,6 +177,10 @@ export class BindingFormBuilder {
     return this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical;
   }
 
+  private _getHorizontalLabelStyle() {
+    return this._getFieldLayout() === Layout.Horizontal ? horizontalLabelStyle : undefined;
+  }
+
   private _getTextField(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     return (
       <Field
@@ -184,6 +196,8 @@ export class BindingFormBuilder {
         key={setting.name}
         {...formProps}
         dirty={false}
+        customLabelClassName={this._getHorizontalLabelStyle()}
+        customLabelStackClassName={this._getHorizontalLabelStyle()}
       />
     );
   }
@@ -215,6 +229,8 @@ export class BindingFormBuilder {
         key={setting.name}
         {...formProps}
         dirty={false}
+        customLabelClassName={this._getHorizontalLabelStyle()}
+        customLabelStackClassName={this._getHorizontalLabelStyle()}
       />
     );
   }
@@ -236,6 +252,8 @@ export class BindingFormBuilder {
         key={setting.name}
         {...formProps}
         dirty={false}
+        customLabelClassName={this._getHorizontalLabelStyle()}
+        customLabelStackClassName={this._getHorizontalLabelStyle()}
       />
     );
   }
@@ -263,6 +281,8 @@ export class BindingFormBuilder {
         key={setting.name}
         {...formProps}
         dirty={false}
+        customLabelClassName={this._getHorizontalLabelStyle()}
+        customLabelStackClassName={this._getHorizontalLabelStyle()}
       />
     );
   }
@@ -290,6 +310,8 @@ export class BindingFormBuilder {
           key={setting.name}
           {...formProps}
           dirty={false}
+          customLabelClassName={this._getHorizontalLabelStyle()}
+          customLabelStackClassName={this._getHorizontalLabelStyle()}
         />
       );
     }
@@ -317,6 +339,8 @@ export class BindingFormBuilder {
         key={setting.name}
         {...formProps}
         dirty={false}
+        customLabelClassName={this._getHorizontalLabelStyle()}
+        customLabelStackClassName={this._getHorizontalLabelStyle()}
       />
     );
   }

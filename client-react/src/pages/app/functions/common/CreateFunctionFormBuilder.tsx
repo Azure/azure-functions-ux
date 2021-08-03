@@ -7,7 +7,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { Binding } from '../../../../models/functions/binding';
 import { BindingInfo } from '../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import { BindingEditorFormValues, BindingFormBuilder } from './BindingFormBuilder';
+import { BindingEditorFormValues, BindingFormBuilder, horizontalLabelStyle } from './BindingFormBuilder';
 
 export interface CreateFunctionFormValues extends BindingEditorFormValues {
   functionName: string;
@@ -69,6 +69,8 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
         key={0}
         {...formProps}
         dirty={false}
+        customLabelClassName={horizontalLabelStyle}
+        customLabelStackClassName={horizontalLabelStyle}
       />
     );
   }

@@ -13,10 +13,11 @@ export const linkPaddingStyle = {
 };
 
 export const horizontalLinkPaddingStyle = {
-  marginTop: '-20px',
+  marginTop: '-10px',
+  textAlign: 'right',
   paddingBottom: '10px',
-  paddingLeft: '200px',
-  width: '100%',
+  marginRight: '245px',
+  minWidth: '230px',
 };
 
 export const calloutStyleField = {

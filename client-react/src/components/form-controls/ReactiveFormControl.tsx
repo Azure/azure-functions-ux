@@ -39,6 +39,7 @@ interface ReactiveFormControlProps {
   dirty?: boolean;
   formControlClassName?: string;
   customLabelClassName?: string;
+  customLabelStackClassName?: string;
   layout?: Layout;
   mouseOverToolTip?: string;
   required?: boolean;
@@ -56,6 +57,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
     dirty,
     formControlClassName,
     customLabelClassName,
+    customLabelStackClassName,
     layout,
     children,
     id,
@@ -96,7 +98,11 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
       horizontal={horizontal}
       className={`${!!formControlClassName ? formControlClassName : ''} ${controlContainerStyle(!!upsellMessage, fullPage)}`}>
       {(label || (pushContentRight && fullPage)) && (
-        <Stack horizontal className={formStackStyle(!!upsellMessage, fullPage, horizontal)}>
+        <Stack
+          horizontal
+          className={`${formStackStyle(!!upsellMessage, fullPage, horizontal)} ${
+            !!customLabelStackClassName ? customLabelStackClassName : ''
+          }`}>
           {upsellMessage && (
             <div className={upsellIconStyle}>
               <UpsellIcon upsellMessage={upsellMessage} />
