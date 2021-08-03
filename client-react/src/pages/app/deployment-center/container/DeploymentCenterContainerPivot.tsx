@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Pivot, PivotItem, IPivotItemProps, MessageBar, MessageBarType, Link } from 'office-ui-fabric-react';
+import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react';
 import DeploymentCenterContainerSettings from './DeploymentCenterContainerSettings';
 import DeploymentCenterFtps from '../DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
@@ -10,50 +10,21 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { ThemeContext } from '../../../../ThemeContext';
 import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
-import { PortalContext } from '../../../../PortalContext';
 import { SiteStateContext } from '../../../../SiteState';
-import { ArmPlanDescriptor } from '../../../../utils/resourceDescriptors';
-import { messageBannerClass } from '../../../../components/CustomBanner/CustomBanner.styles';
 import DeploymentCenterGitHubActionsCodeLogs from '../code/DeploymentCenterGitHubActionsCodeLogs';
 import { isFtpsDirty, isSettingsDirty } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotProps> = props => {
-  const { logs, formProps, isDataRefreshing, isLogsDataRefreshing, refresh, isCalledFromContainerSettings } = props;
+  const { logs, formProps, isDataRefreshing, isLogsDataRefreshing, refresh } = props;
   const { t } = useTranslation();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const theme = useContext(ThemeContext);
-  const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
 
   const isScmGitHubActions =
     deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
-
-  const openContainerSettingsBlade = () => {
-    const serverFarmId = siteStateContext.site && siteStateContext.site.properties ? siteStateContext.site.properties.serverFarmId : '';
-    const subscriptionId = serverFarmId ? new ArmPlanDescriptor(serverFarmId).subscription : '';
-
-    portalContext.openBlade(
-      {
-        detailBlade: 'ContainerSettingsFrameBlade',
-        detailBladeInputs: {
-          id: deploymentCenterContext.resourceId,
-          data: {
-            resourceId: deploymentCenterContext.resourceId,
-            isFunctionApp: siteStateContext.isFunctionApp,
-            subscriptionId: subscriptionId,
-            location: siteStateContext.site ? siteStateContext.site.location : '',
-            os: siteStateContext.isLinuxApp ? 'linux' : 'windows',
-            fromMenu: true,
-            containerFormData: null,
-          },
-        },
-        extension: 'WebsitesExtension',
-      },
-      'containerSettings'
-    );
-  };
 
   const isSettingsTabDirty = () => {
     return isSettingsDirty(formProps, deploymentCenterContext);
@@ -65,12 +36,6 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
 
   return (
     <>
-      {isCalledFromContainerSettings && (
-        <MessageBar messageBarType={MessageBarType.info} isMultiline={false} className={messageBannerClass(theme, MessageBarType.info)}>
-          {t('deploymentCenterContainerSettingsBannerMessage')}
-          <Link onClick={openContainerSettingsBlade}>{t('deploymentCenterContainerSettingsBannerClickHere')}</Link>
-        </MessageBar>
-      )}
       <Pivot>
         <PivotItem
           headerText={t('deploymentCenterPivotItemSettingsHeaderText')}
