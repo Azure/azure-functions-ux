@@ -1862,6 +1862,7 @@ export class PortalResources {
   public static configureHostJson = 'configureHostJson';
   public static pricing_pv2FlexStampInfoMessage = 'pricing_pv2FlexStampInfoMessage';
   public static pricing_pv2FlexStampCheckboxLabel = 'pricing_pv2FlexStampCheckboxLabel';
+  public static pricing_skuCheckWarning = 'pricing_skuCheckWarning';
   public static githubActionWorkflowOption = 'githubActionWorkflowOption';
   public static githubActionWorkflowOptionOverwrite = 'githubActionWorkflowOptionOverwrite';
   public static githubActionWorkflowOptionUseExisting = 'githubActionWorkflowOptionUseExisting';
@@ -2328,8 +2329,6 @@ export class PortalResources {
   public static staticSiteUpdatingHostingPlan = 'staticSiteUpdatingHostingPlan';
   public static staticSiteUpdatingHostingPlanSuccess = 'staticSiteUpdatingHostingPlanSuccess';
   public static staticSiteUpdatingHostingPlanFailure = 'staticSiteUpdatingHostingPlanFailure';
-  public static deploymentCenterContainerSettingsBannerMessage = 'deploymentCenterContainerSettingsBannerMessage';
-  public static deploymentCenterContainerSettingsBannerClickHere = 'deploymentCenterContainerSettingsBannerClickHere';
   public static staticWebAppSkuPickerCalculatePrice = 'staticWebAppSkuPickerCalculatePrice';
   public static staticSiteStagingEnvironments = 'staticSiteStagingEnvironments';
   public static staticSiteFreeStagingEnvironmentsAmount = 'staticSiteFreeStagingEnvironmentsAmount';
@@ -2338,4 +2337,6 @@ export class PortalResources {
   public static staticSiteStandardBandwidthOverage = 'staticSiteStandardBandwidthOverage';
   public static configurationFeedbackCESQuestion = 'configurationFeedbackCESQuestion';
   public static configurationFeedbackCVAQuestion = 'configurationFeedbackCVAQuestion';
+  public static deploymentCenterJavaWebServerStack = 'deploymentCenterJavaWebServerStack';
+  public static readOnlyMissingAzureFilesSetting = 'readOnlyMissingAzureFilesSetting';
 }

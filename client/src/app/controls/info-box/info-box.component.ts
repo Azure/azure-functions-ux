@@ -31,6 +31,8 @@ export class InfoBoxComponent {
   infoActionIcon: string = null;
   @Input()
   dismissable = false;
+  @Input()
+  hideBottomMargin = false;
 
   @Input('typeClass')
   set type(value: InfoBoxType) {

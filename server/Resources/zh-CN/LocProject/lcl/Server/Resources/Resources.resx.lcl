@@ -5571,6 +5571,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterJavaWebServerStack" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Java web server stack]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Java Web 服务器堆栈]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterKuduBuildDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Building with App Service Build Service.]]></Val>
@@ -21410,10 +21419,13 @@
       </Item>
       <Item ItemId=";validation_linuxConnectionStringNameError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")]]></Val>
+          <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_"). For hierarchical config, use double underscore instead ("__") instead of colon (":").]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[连接字符串名称只能包含字母、数字(0-9)、句点(".")和下划线("_")]]></Val>
+            <Val><![CDATA[连接字符串名称只能包含字母、数字(0-9)、句点(".")、下划线("_")。对于分层配置，请改用双下划线("__")而不是冒号(":")。]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

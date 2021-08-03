@@ -285,6 +285,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     const siteId = this._slotsArm[0].id;
     const location = this._slotsArm[0].location;
     const serverFarmId = this._slotsArm[0].properties.serverFarmId;
+    const kind = this._slotsArm[0].kind;
 
     const slotNewInfo: SlotNewInfo = {
       resourceId: `${siteId}/slots/${newSlotName}`,
@@ -311,6 +312,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     if (this.isFunctionApp) {
       newSlot = {
         location: location,
+        kind: kind,
         properties: {
           serverFarmId: serverFarmId,
         },
@@ -319,6 +321,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
       newSlot = !!sourceSlot
         ? {
             location: location,
+            kind: kind,
             properties: {
               serverFarmId: serverFarmId,
               // If the source slot has a '/' we know it's a slot, not production
@@ -331,6 +334,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
           }
         : {
             location: location,
+            kind: kind,
             properties: {
               serverFarmId: serverFarmId,
               siteConfig: {},

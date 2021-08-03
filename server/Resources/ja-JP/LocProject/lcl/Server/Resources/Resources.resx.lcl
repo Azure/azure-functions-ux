@@ -5574,6 +5574,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterJavaWebServerStack" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Java web server stack]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Java Web サーバーのスタック]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterKuduBuildDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Building with App Service Build Service.]]></Val>
@@ -15855,6 +15864,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";pricing_skuCheckWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Some SKUs might not be available in your region.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[一部の SKU は、お客様のリージョンでは利用できない可能性があります。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";pricing_slotsDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Up to {0} staging slots to use for testing and deployments before swapping them into production.]]></Val>
@@ -21434,10 +21452,13 @@
       </Item>
       <Item ItemId=";validation_linuxConnectionStringNameError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")]]></Val>
+          <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_"). For hierarchical config, use double underscore instead ("__") instead of colon (":").]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[接続文字列名に使用できるのは、英字、数字 (0-9)、ピリオド (".")、アンダースコア ("_") のみです]]></Val>
+            <Val><![CDATA[接続文字列名に使用できるのは、文字、数字 (0-9)、ピリオド (".")、アンダースコア ("_") のみです。階層構成の場合、コロン (":") の代わりに二重アンダースコア ("__") を使用します。]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
