@@ -3,10 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { DefaultButton, Callout, ChoiceGroup, PrimaryButton } from 'office-ui-fabric-react';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { calloutStyle, calloutContent, calloutContentButton, additionalTextFieldControl } from '../DeploymentCenter.styles';
-import { BuildChoiceGroupOption, DeploymentCenterCodeBuildCalloutProps } from '../DeploymentCenter.types';
+import { BuildChoiceGroupOption, DeploymentCenterCodeBuildCalloutProps, RuntimeStackOptions } from '../DeploymentCenter.types';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCalloutProps> = props => {
   const {
@@ -16,10 +17,14 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
     toggleIsCalloutVisible,
     updateSelectedBuild,
     formProps,
+    runtimeStack,
   } = props;
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
   const siteStateContext = useContext(SiteStateContext);
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
+
+  const isGitHubActionEnabled = runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby && !deploymentCenterContext.isIlbASE;
 
   const isKuduDisabled = () => {
     return scenarioService.checkScenario(ScenarioIds.kuduBuildProvider, { site: siteStateContext.site }).status === 'disabled';
@@ -45,7 +50,7 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
   ];
 
   const getBuildOptions = () => {
-    return formProps.values.sourceProvider === ScmType.GitHub
+    return formProps.values.sourceProvider === ScmType.GitHub && isGitHubActionEnabled
       ? [
           {
             key: BuildProvider.GitHubAction,

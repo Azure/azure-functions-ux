@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { AvailableStack } from '../../../models/available-stacks';
-import { AzureStorageMount, SiteConfig, VirtualApplication } from '../../../models/site/config';
+import { AzureStorageMount, KeyVaultReference, SiteConfig, VirtualApplication } from '../../../models/site/config';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site, PublishingCredentialPolicies } from '../../../models/site/site';
 import { HostStatus } from '../../../models/functions/host-status';
@@ -141,4 +141,8 @@ export interface ShareItem {
 export enum KeyVaultReferenceStatus {
   resolved = 'resolved',
   initialized = 'initialized',
+}
+
+export interface ConfigKeyVaultReferenceList {
+  keyToReferenceStatuses: { [name: string]: KeyVaultReference };
 }
