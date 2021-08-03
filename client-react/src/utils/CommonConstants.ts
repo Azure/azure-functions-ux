@@ -35,6 +35,8 @@ export class CommonConstants {
     acrApiVersion20190501: '2019-05-01',
     staticSiteApiVersion20201201: '2020-12-01',
     billingApiVersion20190114: '2019-01-14',
+    argApiVersion20210301: '2021-03-01',
+    argApiVersion20180901Preview: '2018-09-01-preview',
   };
 
   public static readonly NonThemeColors = {
@@ -191,6 +193,13 @@ export class CommonConstants {
   public static readonly windowsCodeMountPathPrefix = '/mounts';
 
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
+
+  public static hiddenLink = 'hidden-link';
+
+  public static readonly DeploymentCenterConstants = {
+    acrTag: 'acrResourceId',
+    https: 'https://',
+  };
 }
 
 export enum WorkerRuntimeLanguages {

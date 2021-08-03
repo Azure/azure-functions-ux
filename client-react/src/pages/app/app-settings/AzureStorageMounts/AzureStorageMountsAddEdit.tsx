@@ -17,13 +17,11 @@ import Url from '../../../../utils/url';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { style } from 'typestyle';
 import { SiteStateContext } from '../../../../SiteState';
-import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
 
 const isValidationEnabled = !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMountPathValidation);
-const isNationalCloud = NationalCloudEnvironment.isNationalCloud();
 
 export interface AzureStorageMountsAddEditProps {
   updateAzureStorageMount: (item: FormAzureStorageMounts) => any;
@@ -56,10 +54,6 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     closeBlade();
   };
 
-  const isNationalCloudOrSiteStateIsNull = (): boolean => {
-    return isNationalCloud || !siteState;
-  };
-
   const getLinuxMountPathValidation = (value: string): boolean => {
     if (!siteState) {
       return true;
@@ -85,7 +79,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   };
 
   const validateMountPath = (value: string): string | undefined => {
-    if (isNationalCloudOrSiteStateIsNull()) {
+    if (!siteState) {
       return undefined;
     }
     if (!value) {
@@ -102,7 +96,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   };
 
   const displayMountPathInfoBubble = (): string => {
-    if (isNationalCloudOrSiteStateIsNull()) {
+    if (!siteState) {
       return '';
     }
     let mountPathInfoBubble;
@@ -139,7 +133,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       );
     });
 
-  if (isNationalCloud || (!isValidationEnabled && !!siteState && !siteState.isLinuxApp)) {
+  if (!isValidationEnabled && !!siteState && !siteState.isLinuxApp) {
     mountPathValidation = mountPathValidation
       .matches(mountPathRegex, t('validation_mountNameAllowedCharacters'))
       .test('cannotMountRootDirectory', t('validation_mountPathNotRoot'), (value: string) => value !== '/');
