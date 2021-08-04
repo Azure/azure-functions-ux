@@ -7062,9 +7062,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSiteIncludedBandwidthAmount" xml:space="preserve">
         <value>100GB per subscription</value>
     </data>
-    <data name="staticSiteStandardBandwidthOverageAmount" xml:space="preserve">
-        <value>$0.02 per GB per subscription</value>
-    </data>
     <data name="staticSiteFreeCustomDomainAmount" xml:space="preserve">
         <value>2 per app</value>
     </data>
@@ -7144,7 +7141,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>{0}/per app/month</value>
     </data>
     <data name="staticSiteStandardBandwidthOverage" xml:space="preserve">
-        <value>${0} per GB per subscription</value>
+        <value>{0} per GB per subscription</value>
     </data>
     <data name="configurationFeedbackCESQuestion" xml:space="preserve">
         <value>How easy or difficult is it to use this App Service configuration page?</value>
