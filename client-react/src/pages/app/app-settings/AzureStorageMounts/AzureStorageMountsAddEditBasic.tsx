@@ -82,8 +82,8 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     return !!accountError ? accountError : undefined;
   };
 
-  const getAccessKey = (): string => {
-    return initialValues.accountName === values.accountName ? initialValues.accessKey || '' : '';
+  const getAccessKey = (key: string): string => {
+    return initialValues.accountName === values.accountName && !!initialValues.accessKey ? initialValues.accessKey : key;
   };
 
   const updateStorageContainerErrorMessage = (): void => {
@@ -117,10 +117,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           };
 
           // Keep the original key if there is one, otherwise assign data.keys[0] to access key
-          let key = getAccessKey();
-          if (key === '') {
-            key = data.keys[0].value;
-          }
+          const key = getAccessKey(data.keys[0].value);
           setAccessKey(key);
           const payload = {
             accountName: values.accountName,
