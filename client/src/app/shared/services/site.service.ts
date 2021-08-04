@@ -31,9 +31,18 @@ type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
 export class SiteService {
   private readonly _client: ConditionalHttpClient;
+  private static readonly _configSettingsToIgnore = ['ipSecurityRestrictions', 'scmIpSecurityRestrictions'];
 
   constructor(userService: UserService, injector: Injector, private _cacheService: CacheService) {
     this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
+  }
+
+  private static _removePropertiesFromSiteConfig(siteConfig: Partial<SiteConfig>, settingsToIgnore: string[]) {
+    if (!!siteConfig && !!settingsToIgnore) {
+      settingsToIgnore.forEach(settingToIgnore => {
+        delete siteConfig[settingToIgnore];
+      });
+    }
   }
 
   getSite(resourceId: string, force?: boolean): Result<ArmObj<Site>> {
@@ -178,8 +187,15 @@ export class SiteService {
     return this._client.execute({ resourceId: resourceId }, t => getPublishingCredentials);
   }
 
-  updateSiteConfig(resourceId: string, siteConfig: ArmObj<SiteConfig>) {
-    const putSiteConfig = this._cacheService.putArm(`${resourceId}/config/web`, ARMApiVersions.antaresApiVersion20181101, siteConfig);
+  getSiteConfigSettingsToIgnore() {
+    return SiteService._configSettingsToIgnore;
+  }
+
+  updateSiteConfig(resourceId: string, siteConfig: ArmObj<SiteConfig>, settingsToIgnore: string[] = SiteService._configSettingsToIgnore) {
+    const payload = { ...siteConfig };
+    SiteService._removePropertiesFromSiteConfig(siteConfig.properties, settingsToIgnore);
+
+    const putSiteConfig = this._cacheService.putArm(`${resourceId}/config/web`, ARMApiVersions.antaresApiVersion20181101, payload);
     return this._client.execute({ resourceId: resourceId }, t => putSiteConfig);
   }
 

@@ -126,10 +126,9 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     if (!!billingInformation && billingInformation.length > 0) {
       const meter = billingInformation.find(val => val.id === StaticSiteBillingType.SWAMonthly);
       if (!!meter && !!meter.amount) {
-        const cost = meter.amount;
+        const cost = meter.amount.toFixed(2);
         const currency = meter.currencyCode;
-        const normalizedCost = cost < 1 ? `${cost.toLocaleString()}0` : cost;
-        return <>{t('staticSiteStandardPrice').format(`${normalizedCost} ${currency}`)}</>;
+        return <>{t('staticSiteStandardPrice').format(`${cost} ${currency}`)}</>;
       }
     }
 
@@ -144,9 +143,9 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     if (!!billingInformation && billingInformation.length > 0) {
       const meter = billingInformation.find(val => val.id === StaticSiteBillingType.SWAIncremental);
       if (!!meter && !!meter.amount) {
-        const cost = meter.amount;
-        const normalizedCost = cost < 1 ? `${cost.toLocaleString()}0` : cost;
-        return <>{t('staticSiteStandardBandwidthOverage').format(normalizedCost)}</>;
+        const cost = meter.amount.toFixed(2);
+        const currency = meter.currencyCode;
+        return <>{t('staticSiteStandardBandwidthOverage').format(`${cost} ${currency}`)}</>;
       }
     }
 

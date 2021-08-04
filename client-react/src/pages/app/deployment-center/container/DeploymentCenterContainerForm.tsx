@@ -296,13 +296,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         }
       }
 
-      // The user may have VNET security restrictions enabled. If so, then including "ipSecurityRestrictions" or "scmIpSecurityRestrictions" in the payload for
-      // the config/web API means that the call will require joinViaServiceEndpoint/action permissions on the given subnet(s) referenced in the security restrictions.
-      // If the user doesn't have these permissions, the config/web API call will fail. (This is true even if these properties are just being round-tripped.)
-      // Since this UI doesn't allow modifying these properties, we can just remove them from the config object to avoid the unnecessary permissions requirement.
-      delete (siteConfigResponse.data.properties as any).ipSecurityRestrictions;
-      delete (siteConfigResponse.data.properties as any).scmIpSecurityRestrictions;
-
       portalContext.log(getTelemetryInfo('info', 'getSitupdateSiteConfigeConfig', 'submit'));
       const saveSiteConfigResponse = await deploymentCenterData.updateSiteConfig(resourceId, siteConfigResponse.data);
       if (!saveSiteConfigResponse.metadata.success) {
