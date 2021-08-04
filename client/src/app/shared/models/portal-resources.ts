@@ -2307,7 +2307,6 @@ export class PortalResources {
   public static staticSiteMaxAppSize = 'staticSiteMaxAppSize';
   public static staticSiteAzureFunctions = 'staticSiteAzureFunctions';
   public static staticSiteIncludedBandwidthAmount = 'staticSiteIncludedBandwidthAmount';
-  public static staticSiteStandardBandwidthOverageAmount = 'staticSiteStandardBandwidthOverageAmount';
   public static staticSiteFreeCustomDomainAmount = 'staticSiteFreeCustomDomainAmount';
   public static staticSiteStandardCustomDomainAmount = 'staticSiteStandardCustomDomainAmount';
   public static staticSiteFreeAzureFunctionsAmount = 'staticSiteFreeAzureFunctionsAmount';
