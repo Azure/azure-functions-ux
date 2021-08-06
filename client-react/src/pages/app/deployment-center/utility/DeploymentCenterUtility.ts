@@ -152,7 +152,7 @@ const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
 
   if (runtimeStack === JavaContainers.JavaSE || runtimeStack === JavaContainers.Tomcat || runtimeStack === JavaContainers.JBoss) {
-    const fxVersionParts = !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('-') : [];
+    const fxVersionParts = !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
     return fxVersionParts.length === 2 ? fxVersionParts[1].toLocaleLowerCase() : '';
   }
 
