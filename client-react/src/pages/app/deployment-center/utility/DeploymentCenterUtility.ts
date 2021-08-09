@@ -369,14 +369,6 @@ export const isFtpsDirty = (
   );
 };
 
-export const getGitHubCommitMessage = (deploymentMessage: string): string => {
-  if (!!deploymentMessage) {
-    const deploymentMessageJson = JSON.parse(deploymentMessage);
-    return !!deploymentMessageJson && !!deploymentMessageJson.commitMessage ? deploymentMessageJson.commitMessage : deploymentMessage;
-  }
-  return deploymentMessage;
-};
-
 export const getDefaultVersionDisplayName = (version: string, isLinuxApp: boolean) => {
   return isLinuxApp ? getLinuxDefaultVersionDisplayName(version) : getWindowsDefaultVersionDisplayName(version);
 };
