@@ -2307,7 +2307,6 @@ export class PortalResources {
   public static staticSiteMaxAppSize = 'staticSiteMaxAppSize';
   public static staticSiteAzureFunctions = 'staticSiteAzureFunctions';
   public static staticSiteIncludedBandwidthAmount = 'staticSiteIncludedBandwidthAmount';
-  public static staticSiteStandardBandwidthOverageAmount = 'staticSiteStandardBandwidthOverageAmount';
   public static staticSiteFreeCustomDomainAmount = 'staticSiteFreeCustomDomainAmount';
   public static staticSiteStandardCustomDomainAmount = 'staticSiteStandardCustomDomainAmount';
   public static staticSiteFreeAzureFunctionsAmount = 'staticSiteFreeAzureFunctionsAmount';
@@ -2329,8 +2328,6 @@ export class PortalResources {
   public static staticSiteUpdatingHostingPlan = 'staticSiteUpdatingHostingPlan';
   public static staticSiteUpdatingHostingPlanSuccess = 'staticSiteUpdatingHostingPlanSuccess';
   public static staticSiteUpdatingHostingPlanFailure = 'staticSiteUpdatingHostingPlanFailure';
-  public static deploymentCenterContainerSettingsBannerMessage = 'deploymentCenterContainerSettingsBannerMessage';
-  public static deploymentCenterContainerSettingsBannerClickHere = 'deploymentCenterContainerSettingsBannerClickHere';
   public static staticWebAppSkuPickerCalculatePrice = 'staticWebAppSkuPickerCalculatePrice';
   public static staticSiteStagingEnvironments = 'staticSiteStagingEnvironments';
   public static staticSiteFreeStagingEnvironmentsAmount = 'staticSiteFreeStagingEnvironmentsAmount';
