@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
-import { PrimaryButton, Label, Link } from 'office-ui-fabric-react';
+import { PrimaryButton, Label, Link, TooltipHost, IconButton } from 'office-ui-fabric-react';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl } from '../DeploymentCenter.styles';
+import { additionalTextFieldControl, changeAccountInfoButtonStyle } from '../DeploymentCenter.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 
@@ -35,6 +35,15 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
             aria-label={t('deploymentCenterOAuthChangeAccount')}>
             {t('deploymentCenterOAuthChangeAccount')}
           </Link>
+          <TooltipHost
+            content="In order to sign in with a different account, please go to www.github.com and log out of the account currently signed into GitHub."
+            id="deployment-center-github-change-account-message">
+            <IconButton
+              iconProps={{ iconName: 'Info' }}
+              ariaLabel="deployment-center-github-change-account-iconbutton"
+              className={changeAccountInfoButtonStyle}
+            />
+          </TooltipHost>
         </div>
       </ReactiveFormControl>
     </>
