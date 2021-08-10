@@ -148,7 +148,6 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
-                justifyItems: 'center',
                 paddingTop: '10px',
                 paddingLeft: '5px',
               },
