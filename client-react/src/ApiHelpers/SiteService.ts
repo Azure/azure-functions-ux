@@ -13,7 +13,7 @@ import { PublishingCredentials } from '../models/site/publish';
 import { DeploymentProperties, DeploymentLogsItem, SourceControlProperties } from '../pages/app/deployment-center/DeploymentCenter.types';
 
 export default class SiteService {
-  private static readonly _configSettingsToIgnore = ['ipSecurityRestrictions', 'scmIpSecurityRestrictions', 'azureStorageAccounts'];
+  public static readonly _configSettingsToIgnore = ['ipSecurityRestrictions', 'scmIpSecurityRestrictions', 'azureStorageAccounts'];
 
   private static _removePropertiesFromSiteConfig = (siteConfig: Partial<SiteConfig>, settingsToIgnore: string[]) => {
     if (!!siteConfig && !!settingsToIgnore) {
