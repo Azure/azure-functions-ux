@@ -12,6 +12,7 @@ import {
 import { HttpResponseObject } from '../ArmHelper.types';
 import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
 import { ProviderToken } from '../models/provider';
+//import { Method } from 'axios';
 
 export default class GitHubService {
   public static authorizeUrl = `${Url.serviceHost}auth/github/authorize`;
@@ -197,4 +198,39 @@ export default class GitHubService {
       method: 'POST',
     });
   };
+
+  // private static _getSpecificGitHubObjectList = async <T>(url: string, gitHubToken: string, apiName: string, method: Method, logger?: (page, response) => void) => {
+  //   const githubObjectList: T[] = [];
+  //   let lastPageNumber = 1;
+  //   for (let page = 1; page <= lastPageNumber; page++) {
+  //     const pageResponse = await GitHubService._sendSpecificGitHubRequest<T[]>(gitHubToken, apiName, method, page);
+  //     if (pageResponse.metadata.success) {
+  //       githubObjectList.push(...pageResponse.data);
+
+  //       const linkHeader = pageResponse.metadata.headers.link;
+  //       if (linkHeader) {
+  //         const links = getLinksFromLinkHeader(linkHeader);
+  //         const thisLastPageNumber = getLastPageNumberFromLinks(links);
+  //         lastPageNumber = thisLastPageNumber > 10 ? 10 : thisLastPageNumber;
+  //       }
+  //     } else if (logger) {
+  //       logger(page, pageResponse);
+  //     }
+  //   }
+
+  //   return githubObjectList;
+  // };
+
+  // private static _sendSpecificGitHubRequest = <T>(gitHubToken: string, apiName: string, method: Method, page: number) => {
+  //   const data = {
+  //     gitHubToken,
+  //     page
+  //   };
+
+  //   return sendHttpRequest<T>({
+  //     data,
+  //     url: `${Url.serviceHost}api/github/${apiName}`,
+  //     method,
+  //   });
+  // };
 }
