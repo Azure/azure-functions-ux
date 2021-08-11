@@ -35,12 +35,10 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
             aria-label={t('deploymentCenterOAuthChangeAccount')}>
             {t('deploymentCenterOAuthChangeAccount')}
           </Link>
-          <TooltipHost
-            content="In order to sign in with a different account, please go to www.github.com and log out of the account currently signed into GitHub."
-            id="deployment-center-github-change-account-message">
+          <TooltipHost content={t('deploymentCenterChangeAccountInfoMessage')} id="deployment-center-github-change-account-message">
             <IconButton
               iconProps={{ iconName: 'Info' }}
-              ariaLabel="deployment-center-github-change-account-iconbutton"
+              aria-label={t('deploymentCenterChangeAccountInfoButton')}
               className={changeAccountInfoButtonStyle}
             />
           </TooltipHost>
