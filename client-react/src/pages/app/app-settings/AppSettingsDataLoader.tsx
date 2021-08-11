@@ -393,9 +393,9 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       values.azureStorageMounts,
       initialValues && initialValues.azureStorageMounts
     );
-    let configSettingToIgnore = SiteService._configSettingsToIgnore.slice();
+    let configSettingToIgnore = SiteService.getSiteConfigSettingsToIgnore();
     if (shouldUpdateAzureStorageMount) {
-      configSettingToIgnore = configSettingToIgnore.slice(0, 2);
+      configSettingToIgnore = configSettingToIgnore.filter(config => config !== 'azureStorageAccounts');
     }
 
     const [siteUpdate, slotConfigNamesUpdate] = [
