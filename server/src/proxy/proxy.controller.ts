@@ -2,6 +2,7 @@ import { Controller, Post, Body, Res } from '@nestjs/common';
 import { HttpService } from '../shared/http/http.service';
 import { LoggingService } from '../shared/logging/logging.service';
 import { Response } from 'express';
+import { Method } from 'axios';
 
 @Controller('api')
 export class ProxyController {
@@ -29,7 +30,7 @@ export class ProxyController {
     return this.makeCall(proxyMethod, proxyHeaders, proxyUrl, proxyBody, res);
   }
 
-  private async makeCall(method: string, headers: any, url: string, body: any, res: Response) {
+  private async makeCall(method: Method, headers: any, url: string, body: any, res: Response) {
     try {
       const result = await this.httpService.request({
         method,
