@@ -1,5 +1,5 @@
 import { FieldProps, FormikProps } from 'formik';
-import { Callout, IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
+import { Callout, DirectionalHint, IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
@@ -15,7 +15,8 @@ import LogService from '../../../../utils/LogService';
 import SiteHelper from '../../../../utils/SiteHelper';
 import StringUtils from '../../../../utils/string';
 import { BindingEditorFormValues } from './BindingFormBuilder';
-import { calloutStyleField, linkPaddingStyle } from './callout/Callout.styles';
+import { calloutStyleField, linkPaddingStyle, horizontalLinkPaddingStyle } from './callout/Callout.styles';
+import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 import NewAppSettingCallout from './callout/NewAppSettingCallout';
 import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCallout';
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
@@ -28,7 +29,7 @@ export interface ResourceDropdownProps {
 }
 
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
-  const { setting, resourceId, form: formProps, field, isDisabled } = props;
+  const { setting, resourceId, form: formProps, field, isDisabled, layout } = props;
   const siteStateContext = useContext(SiteStateContext);
   const { t } = useTranslation();
 
@@ -89,60 +90,65 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
         options={options}
       />
       {!isDisabled ? (
-        <div style={linkPaddingStyle}>
+        <div style={layout === Layout.Vertical ? linkPaddingStyle : horizontalLinkPaddingStyle}>
           <Link id="target" onClick={() => setIsDialogVisible(true)}>
             {'New'}
           </Link>
-          {setting.resource === BindingSettingResource.Storage && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
+          <Callout
+            onDismiss={() => setIsDialogVisible(false)}
+            target={'#target'}
+            hidden={!isDialogVisible}
+            style={calloutStyleField}
+            directionalHint={DirectionalHint.bottomCenter}>
+            {setting.resource === BindingSettingResource.Storage && (
               <NewStorageAccountConnectionCallout
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
                 {...props}
+                layout={Layout.Vertical} // Layout needs to be here or it gets overridden from props
+                multiline={false} // Same as above, here to overwrite prop
                 resourceId={resourceId}
               />
-            </Callout>
-          )}
-          {setting.resource === BindingSettingResource.EventHub && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
+            )}
+            {setting.resource === BindingSettingResource.EventHub && (
               <NewEventHubConnectionCallout
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
                 {...props}
+                layout={Layout.Vertical} // Layout needs to be here or it gets overridden from props
+                multiline={false} // Same as above, here to overwrite prop
                 resourceId={resourceId}
               />
-            </Callout>
-          )}
-          {setting.resource === BindingSettingResource.ServiceBus && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
+            )}
+            {setting.resource === BindingSettingResource.ServiceBus && (
               <NewServiceBusConnectionCallout
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
                 {...props}
+                layout={Layout.Vertical} // Layout needs to be here or it gets overridden from props
+                multiline={false} // Same as above, here to overwrite prop
                 resourceId={resourceId}
               />
-            </Callout>
-          )}
-          {setting.resource === BindingSettingResource.DocumentDB && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
+            )}
+            {setting.resource === BindingSettingResource.DocumentDB && (
               <NewDocumentDBConnectionCallout
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
                 {...props}
+                layout={Layout.Vertical} // Layout needs to be here or it gets overridden from props
+                multiline={false} // Same as above, here to overwrite prop
                 resourceId={resourceId}
               />
-            </Callout>
-          )}
-          {setting.resource === BindingSettingResource.AppSetting && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
+            )}
+            {setting.resource === BindingSettingResource.AppSetting && (
               <NewAppSettingCallout
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
@@ -151,8 +157,8 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
                 {...props}
                 resourceId={resourceId}
               />
-            </Callout>
-          )}
+            )}
+          </Callout>
         </div>
       ) : (
         undefined
