@@ -20,6 +20,7 @@ export interface CustomDropdownProps {
   layout?: Layout;
   mouseOverToolTip?: string;
   isLoading?: boolean;
+  multiline?: boolean;
 }
 
 export const LoadingDropdownSpinnerStyle = style({

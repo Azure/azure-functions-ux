@@ -150,7 +150,7 @@ const bindingTypeSpecificFields = (
     formProps.setValues(cleanedValues);
   }
 
-  const builder = new BindingFormBuilder([formProps.values], [binding], functionAppId, t);
+  const builder = new BindingFormBuilder([formProps.values], [binding], functionAppId, t, false);
 
   // Place the connection setting at the beginning of the form
   // NOTE (nlayne): This may require some reordering of the actual metadata in the backend
