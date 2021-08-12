@@ -143,7 +143,7 @@ const getRuntimeStackSettingForWindows = (
   return stackData;
 };
 
-const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>) => {
+const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>, isFunctionApp: boolean) => {
   // NOTE(stpelleg): Java is special, so need to handle it carefully.
   if (!siteConfig.properties.linuxFxVersion) {
     return '';
@@ -152,7 +152,12 @@ const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
 
   if (runtimeStack === JavaContainers.JavaSE || runtimeStack === JavaContainers.Tomcat || runtimeStack === JavaContainers.JBoss) {
-    const fxVersionParts = !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('-') : [];
+    let fxVersionParts: string[];
+    if (isFunctionApp) {
+      fxVersionParts = linuxFxVersionParts;
+    } else {
+      fxVersionParts = !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('-') : [];
+    }
     return fxVersionParts.length === 2 ? fxVersionParts[1].toLocaleLowerCase() : '';
   }
 
@@ -183,7 +188,7 @@ const getRuntimeStackSettingForLinux = (isFunctionApp: boolean, siteConfig: ArmO
 
   stackData.runtimeStack = isFunctionApp ? getFunctionAppRuntimeStackForLinux(siteConfig) : getWebAppRuntimeStackForLinux(siteConfig);
 
-  stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig);
+  stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig, isFunctionApp);
 
   return stackData;
 };
@@ -367,14 +372,6 @@ export const isFtpsDirty = (
     (currentUser.properties.publishingUserName !== formProps.values.publishingUsername ||
       (!!formProps.values.publishingPassword && currentUser.properties.publishingPassword !== formProps.values.publishingPassword))
   );
-};
-
-export const getGitHubCommitMessage = (deploymentMessage: string): string => {
-  if (!!deploymentMessage) {
-    const deploymentMessageJson = JSON.parse(deploymentMessage);
-    return !!deploymentMessageJson && !!deploymentMessageJson.commitMessage ? deploymentMessageJson.commitMessage : deploymentMessage;
-  }
-  return deploymentMessage;
 };
 
 export const getDefaultVersionDisplayName = (version: string, isLinuxApp: boolean) => {

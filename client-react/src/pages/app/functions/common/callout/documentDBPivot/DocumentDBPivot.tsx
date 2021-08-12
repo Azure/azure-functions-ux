@@ -89,7 +89,6 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps
               <>
                 <Dropdown
                   label={t('documentDBPivot_databaseAccount')}
-                  options={databaseAccountOptions}
                   selectedKey={formValues.databaseAccount && formValues.databaseAccount.id}
                   onChange={(o, e) => {
                     setFormValues({ databaseAccount: e && e.data });
@@ -98,6 +97,7 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps
                   errorMessage={undefined}
                   layout={Layout.Vertical}
                   {...props}
+                  options={databaseAccountOptions}
                   id="newDocumentDBConnection"
                   mouseOverToolTip={undefined}
                 />
