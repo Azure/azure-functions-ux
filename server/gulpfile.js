@@ -66,7 +66,7 @@ gulp.task('package-version', () => {
   //
   return gulp
     .src('package.json')
-    .pipe(string_replace('"version": "0.0.0"', `"version": "${getBuildVersion()}"`))
+    .pipe(string_replace('0.0.0', getBuildVersion()))
     .pipe(gulp.dest('dist'));
 });
 
@@ -546,7 +546,7 @@ function newGuid() {
 }
 
 function getBuildVersion() {
-  return !!process.env.BUILD_BUILDID ? `1.0.${process.env.BUILD_BUILDID}` : '1.0.0';
+  return !!process.env.BUILD_BUILDID ? `1.0.${process.env.BUILD_BUILDID}` : '0.0.0';
 }
 
 function getFiles(folders) {
