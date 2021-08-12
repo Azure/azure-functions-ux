@@ -9,7 +9,7 @@ import { FeatureComponent } from './../../../shared/components/feature-component
 import { FunctionAppContext } from './../../../shared/function-app-context';
 import { ApplicationSettings } from './../../../shared/models/arm/application-settings';
 import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
-import { CreateSlotRequest, Site } from './../../../shared/models/arm/site';
+import { CreateSlotRequest, ExtendedLocation, Site } from './../../../shared/models/arm/site';
 import {
   Constants,
   FunctionAppVersion,
@@ -74,6 +74,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
   private _siteId: string;
   private _slotsArm: ArmObj<Site>[];
   private _functionAppContext: FunctionAppContext;
+  private _isKubeApp = false;
 
   constructor(
     private _fb: FormBuilder,
@@ -126,6 +127,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
         this.slotOptInNeeded = false;
         this.slotOptInEnabled = false;
         this.isFunctionApp = false;
+        this._isKubeApp = false;
 
         this.progressMessage = null;
         this.progressMessageClass = 'info';
@@ -156,7 +158,9 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
             errorMessage: (siteResult.error && siteResult.error.message) || '',
           });
         } else {
-          this.isFunctionApp = ArmUtil.isFunctionApp(siteResult.result);
+          const site = siteResult.result;
+          this.isFunctionApp = ArmUtil.isFunctionApp(site);
+          this._isKubeApp = ArmUtil.isKubeApp(site);
         }
 
         if (!slotsResult.isSuccessful) {
@@ -309,6 +313,21 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     });
 
     let newSlot: CreateSlotRequest;
+    let extendedLocation: ExtendedLocation;
+
+    if (this._isKubeApp) {
+      const armSiteDescriptor = new ArmSiteDescriptor(siteId);
+      const websiteIddObject = armSiteDescriptor.getWebsiteId();
+      extendedLocation = {
+        name: `/subscriptions/${websiteIddObject.SubscriptionId}/resourcegroups/${
+          websiteIddObject.ResourceGroup
+        }/providers/microsoft.extendedlocations/customlocations/${newSlotName}-location`,
+        type: 'CustomLocation',
+      };
+    } else {
+      extendedLocation = undefined;
+    }
+
     if (this.isFunctionApp) {
       newSlot = {
         location: location,
@@ -322,6 +341,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
         ? {
             location: location,
             kind: kind,
+            extendedLocation: extendedLocation,
             properties: {
               serverFarmId: serverFarmId,
               // If the source slot has a '/' we know it's a slot, not production
@@ -335,6 +355,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
         : {
             location: location,
             kind: kind,
+            extendedLocation: extendedLocation,
             properties: {
               serverFarmId: serverFarmId,
               siteConfig: {},

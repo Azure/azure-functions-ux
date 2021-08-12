@@ -80,4 +80,10 @@ export interface CreateSlotRequest {
     clientCertMode?: string;
     clientCertExclusionPaths?: string[];
   };
+  extendedLocation?: ExtendedLocation;
+}
+
+export interface ExtendedLocation {
+  name: string;
+  type: string;
 }
