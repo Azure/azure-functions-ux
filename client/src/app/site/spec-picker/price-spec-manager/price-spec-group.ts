@@ -1,4 +1,4 @@
-import { Links, FeatureFlags } from 'app/shared/models/constants';
+import { Links, LogCategories } from 'app/shared/models/constants';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { FreePlanPriceSpec } from './free-plan-price-spec';
 import { SharedPlanPriceSpec } from './shared-plan-price-spec';
@@ -8,6 +8,7 @@ import { PremiumV2SmallPlanPriceSpec, PremiumV2MediumPlanPriceSpec, PremiumV2Lar
 import { PremiumSmallPlanPriceSpec, PremiumMediumPlanPriceSpec, PremiumLargePlanPriceSpec } from './premium-plan-price-spec';
 import { IsolatedSmallPlanPriceSpec, IsolatedMediumPlanPriceSpec, IsolatedLargePlanPriceSpec } from './isolated-plan-price-spec';
 import { PremiumV3SmallPlanPriceSpec, PremiumV3MediumPlanPriceSpec, PremiumV3LargePlanPriceSpec } from './premiumv3-plan-price-spec';
+import { IsolatedV2SmallPlanPriceSpec, IsolatedV2MediumPlanPriceSpec, IsolatedV2LargePlanPriceSpec } from './isolatedv2-plan-price-spec';
 import {
   PremiumContainerSmallPriceSpec,
   PremiumContainerMediumPriceSpec,
@@ -18,6 +19,11 @@ import {
   ElasticPremiumMediumPlanPriceSpec,
   ElasticPremiumLargePlanPriceSpec,
 } from './elastic-premium-plan-price-spec';
+import {
+  WorkflowStandardSmallPlanPriceSpec,
+  WorkflowStandardMediumPlanPriceSpec,
+  WorkflowStandardLargePlanPriceSpec,
+} from './workflow-standard-plan-price-spec';
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,7 +32,8 @@ import { PlanPriceSpecManager } from './plan-price-spec-manager';
 import { GenericPlanPriceSpec } from './generic-plan-price-spec';
 import { PricingTier } from 'app/shared/models/arm/pricingtier';
 import { ArmArrayResult } from 'app/shared/models/arm/arm-obj';
-import { Url } from 'app/shared/Utilities/url';
+import { FlightingUtil } from '../../../shared/Utilities/flighting-utility';
+import { PortalService } from '../../../shared/services/portal.service';
 
 export enum BannerMessageLevel {
   ERROR = 'error',
@@ -78,10 +85,12 @@ export abstract class PriceSpecGroup {
   isExpanded = false;
 
   protected ts: TranslateService;
+  protected portalService: PortalService;
 
   constructor(protected injector: Injector, protected specManager: PlanPriceSpecManager) {
     this.ts = injector.get(TranslateService);
     this.emptyInfoLinkText = this.ts.instant(PortalResources.clickToLearnMore);
+    this.portalService = injector.get(PortalService);
   }
 
   abstract initialize(input: PriceSpecInput);
@@ -112,8 +121,8 @@ export class GenericSpecGroup extends PriceSpecGroup {
 
   initialize(input: PriceSpecInput) {
     this.pricingTiers.value.forEach(pricingTier => {
-      if (input.plan) {
-        if (input.plan.properties.hyperV !== pricingTier.properties.isXenon) {
+      if (input.planDetails && input.planDetails.plan) {
+        if (input.planDetails && input.planDetails.plan.properties.hyperV !== pricingTier.properties.isXenon) {
           return;
         }
       }
@@ -131,9 +140,13 @@ export class GenericSpecGroup extends PriceSpecGroup {
           return;
         }
       }
-      const numberOfWorkersRequired = (input.plan && input.plan.properties.numberOfWorkers) || 1;
+      const numberOfWorkersRequired =
+        (input.planDetails && input.planDetails.plan && input.planDetails && input.planDetails.plan.properties.numberOfWorkers) || 1;
       const spec = new GenericPlanPriceSpec(this.injector, pricingTier.properties);
-      if ((!input.plan || input.plan.sku.name !== spec.skuCode) && pricingTier.properties.availableInstances < numberOfWorkersRequired) {
+      if (
+        ((!input.planDetails && input.planDetails.plan) || (input.planDetails && input.planDetails.plan.sku.name !== spec.skuCode)) &&
+        pricingTier.properties.availableInstances < numberOfWorkersRequired
+      ) {
         spec.state = 'disabled';
         spec.disabledMessage = this.ts.instant(PortalResources.pricing_notEnoughInstances);
       } else {
@@ -193,17 +206,10 @@ export class DevSpecGroup extends PriceSpecGroup {
 
   initialize(input: PriceSpecInput) {
     if (input.specPickerInput.data) {
-      const enablePv3Skus = Url.getFeatureValue(FeatureFlags.enablePv3Skus) === 'true';
       if (input.specPickerInput.data.isLinux) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_linuxTrial),
           level: BannerMessageLevel.INFO,
-        };
-      } else if (!enablePv3Skus && (input.specPickerInput.data.isXenon || input.specPickerInput.data.hyperV)) {
-        this.bannerMessage = {
-          message: this.ts.instant(PortalResources.pricing_windowsContainers),
-          level: BannerMessageLevel.INFO,
-          infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013',
         };
       }
     }
@@ -224,6 +230,9 @@ export class ProdSpecGroup extends PriceSpecGroup {
     new ElasticPremiumSmallPlanPriceSpec(this.injector),
     new ElasticPremiumMediumPlanPriceSpec(this.injector),
     new ElasticPremiumLargePlanPriceSpec(this.injector),
+    new WorkflowStandardSmallPlanPriceSpec(this.injector),
+    new WorkflowStandardMediumPlanPriceSpec(this.injector),
+    new WorkflowStandardLargePlanPriceSpec(this.injector),
   ];
 
   additionalSpecs = [
@@ -248,23 +257,28 @@ export class ProdSpecGroup extends PriceSpecGroup {
 
   initialize(input: PriceSpecInput) {
     if (input.specPickerInput.data) {
-      const enablePv3Skus = Url.getFeatureValue(FeatureFlags.enablePv3Skus) === 'true';
       if (input.specPickerInput.data.isLinux) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_linuxTrial),
           level: BannerMessageLevel.INFO,
         };
-      } else if (!enablePv3Skus && (input.specPickerInput.data.isXenon || input.specPickerInput.data.hyperV)) {
-        this.bannerMessage = {
-          message: this.ts.instant(PortalResources.pricing_windowsContainers),
-          level: BannerMessageLevel.INFO,
-          infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013',
-        };
       }
     }
 
+    const isPartOfPv2Experiment = FlightingUtil.checkSubscriptionInFlight(input.subscriptionId, FlightingUtil.Features.Pv2Experimentation);
+    const isLinux =
+      (input.specPickerInput.data && input.specPickerInput.data.isLinux) || ArmUtil.isLinuxApp(input.planDetails && input.planDetails.plan);
+
     // NOTE(michinoy): The OS type determines whether standard small plan is recommended or additional pricing tier.
-    if ((input.specPickerInput.data && input.specPickerInput.data.isLinux) || ArmUtil.isLinuxApp(input.plan)) {
+    // NOTE(shimedh): If subscription is part of PV2 experiment flighting we always add standard small plan in additional pricing tier irrespective of OS.
+    if (isPartOfPv2Experiment) {
+      this.additionalSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
+      this.portalService.logAction('specPicker', LogCategories.specPickerPv2Experiment, {
+        subscriptionId: input.subscriptionId,
+        isLinux: `${isLinux}`,
+        isPartOfPv2Experiment: `${isPartOfPv2Experiment}`,
+      });
+    } else if (isLinux) {
       this.additionalSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
     } else {
       this.recommendedSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
@@ -277,6 +291,9 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
     new IsolatedSmallPlanPriceSpec(this.injector),
     new IsolatedMediumPlanPriceSpec(this.injector),
     new IsolatedLargePlanPriceSpec(this.injector),
+    new IsolatedV2SmallPlanPriceSpec(this.injector),
+    new IsolatedV2MediumPlanPriceSpec(this.injector),
+    new IsolatedV2LargePlanPriceSpec(this.injector),
   ];
 
   additionalSpecs = [];

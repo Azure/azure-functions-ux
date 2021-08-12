@@ -1,83 +1,46 @@
 import React, { useEffect, useContext, useState } from 'react';
-import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { AppOs } from '../../../../models/site/site';
-import LogService from '../../../../utils/LogService';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { WebAppCreateStack } from '../../../../models/available-stacks';
-import { LogCategories } from '../../../../utils/LogCategories';
 import { RuntimeStackSetting } from '../DeploymentCenter.types';
-import { getRuntimeStackSetting } from '../utility/DeploymentCenterUtility';
+import { getDefaultVersionDisplayName, getRuntimeStackDisplayName, getRuntimeStackSetting } from '../utility/DeploymentCenterUtility';
 import { useTranslation } from 'react-i18next';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { ScmType } from '../../../../models/site/config';
 import { SiteStateContext } from '../../../../SiteState';
+import { titleWithPaddingStyle } from '../DeploymentCenter.styles';
 
 const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
   const { t } = useTranslation();
   const [defaultStack, setDefaultStack] = useState<string>(t('loading'));
   const [defaultVersion, setDefaultVersion] = useState<string | undefined>(t('loading'));
 
-  const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
 
-  const fetchData = async () => {
-    const appOs = siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows;
-    const runtimeStacksResponse = await deploymentCenterData.getRuntimeStacks(appOs);
+  const setDefaultValues = () => {
+    const defaultStackAndVersionKeys: RuntimeStackSetting = getRuntimeStackSetting(
+      siteStateContext.isLinuxApp,
+      siteStateContext.isFunctionApp,
+      siteStateContext.isKubeApp,
+      deploymentCenterContext.siteConfig,
+      deploymentCenterContext.configMetadata,
+      deploymentCenterContext.applicationSettings
+    );
 
-    if (runtimeStacksResponse.metadata.success) {
-      setDefaultValues(runtimeStacksResponse.data);
-    } else {
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterFetchRuntimeStacks',
-        `Failed to get runtime stacks with error: ${getErrorMessage(runtimeStacksResponse.metadata.error)}`
-      );
-    }
-  };
-
-  const getDefaultVersion = (appSelectedStack: WebAppCreateStack, defaultVersionKey: string) => {
-    if (appSelectedStack.versions.length >= 1) {
-      const defaultRuntimeVersionOption = appSelectedStack.versions.filter(
-        version => version.supportedPlatforms[0].runtimeVersion.toLocaleLowerCase() === defaultVersionKey.toLocaleLowerCase()
-      );
-
-      if (defaultRuntimeVersionOption && defaultRuntimeVersionOption.length === 1) {
-        setDefaultVersion(defaultRuntimeVersionOption[0].displayText);
-      } else {
-        setDefaultVersion(undefined);
-      }
-    }
-  };
-
-  const setDefaultValues = (runtimeStacksData: WebAppCreateStack[]) => {
-    const defaultStackAndVersionKeys: RuntimeStackSetting =
-      deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata && deploymentCenterContext.applicationSettings
-        ? getRuntimeStackSetting(
-            siteStateContext.isLinuxApp,
-            deploymentCenterContext.siteConfig,
-            deploymentCenterContext.configMetadata,
-            deploymentCenterContext.applicationSettings
-          )
-        : { runtimeStack: '', runtimeVersion: '' };
-
-    if (runtimeStacksData.length >= 1) {
-      const appSelectedStack = runtimeStacksData.filter(
-        stack => stack.value.toLocaleLowerCase() === defaultStackAndVersionKeys.runtimeStack.toLocaleLowerCase()
-      );
-      if (appSelectedStack && appSelectedStack.length === 1) {
-        setDefaultStack(appSelectedStack[0].displayText);
-        getDefaultVersion(appSelectedStack[0], defaultStackAndVersionKeys.runtimeVersion);
-      }
-    }
+    setDefaultStack(getRuntimeStackDisplayName(defaultStackAndVersionKeys.runtimeStack));
+    setDefaultVersion(getDefaultVersionDisplayName(defaultStackAndVersionKeys.runtimeVersion, siteStateContext.isLinuxApp));
   };
 
   useEffect(() => {
-    fetchData();
+    setDefaultValues();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setDefaultValues();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext, siteStateContext]);
 
   const showRuntimeAndVersion = () => {
     if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType !== ScmType.Vsts) {
@@ -119,7 +82,7 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
 
   return (
     <>
-      <h3>{t('deploymentCenterSettingsBuildTitle')}</h3>
+      <h3 className={titleWithPaddingStyle}>{t('deploymentCenterSettingsBuildTitle')}</h3>
       {getBuildProvider()}
       {showRuntimeAndVersion()}
     </>

@@ -14,6 +14,13 @@ import {
 import * as Yup from 'yup';
 import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import * as yamlLint from 'yaml-lint';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+
+interface YamlValidationResult {
+  valid: boolean;
+  errorMessage?: string;
+}
 
 interface FxVersionParts {
   containerOption: ContainerOptions;
@@ -25,19 +32,19 @@ interface FxVersionParts {
 
 export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBuilder {
   public generateFormData(): DeploymentCenterFormData<DeploymentCenterContainerFormData> {
-    const fxVersionParts = this._getFxVersionParts();
     const serverUrl = this._getServerUrl();
     const username = this._getUsername();
     const password = this._getPassword();
+    const fxVersionParts = this._getFxVersionParts(serverUrl, username);
 
     return {
       scmType: this._siteConfig ? this._siteConfig.properties.scmType : ScmType.None,
-      option: this._getContainerOption(),
+      option: fxVersionParts.containerOption,
       registrySource: this._getContainerRegistrySource(),
       command: this._getCommand(),
       gitHubContainerPasswordSecretGuid: '',
       gitHubContainerUsernameSecretGuid: '',
-      continuousDeploymentOption: ContinuousDeploymentOption.off,
+      continuousDeploymentOption: this._getContinuousDeploymentOption(),
       ...this._getAcrFormData(serverUrl, username, password, fxVersionParts),
       ...this._getDockerHubFormData(serverUrl, username, password, fxVersionParts),
       ...this._getPrivateRegistryFormData(serverUrl, username, password, fxVersionParts),
@@ -62,21 +69,41 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getAcrFormValidationSchema(): Yup.ObjectSchemaDefinition<AcrFormData> {
+    const validateYaml = (yaml: string) => this._validateYaml(yaml);
+
     return {
       acrLoginServer: Yup.mixed().test('acrLoginServerRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.registrySource === ContainerRegistrySources.acr ? !!value : true;
       }),
       acrImage: Yup.mixed().test('acrImageRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return this.parent.registrySource === ContainerRegistrySources.acr ? !!value : true;
-      }),
-      acrTag: Yup.mixed().test('acrTagRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return this.parent.registrySource === ContainerRegistrySources.acr ? !!value : true;
-      }),
-      acrComposeYml: Yup.mixed().test('acrComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return this.parent.registrySource === ContainerRegistrySources.acr && this.parent.options === ContainerOptions.compose
+        return this.parent.registrySource === ContainerRegistrySources.acr && this.parent.option !== ContainerOptions.compose
           ? !!value
           : true;
       }),
+      acrTag: Yup.mixed().test('acrTagRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.registrySource === ContainerRegistrySources.acr &&
+          this.parent.option !== ContainerOptions.compose &&
+          this.parent.scmType !== ScmType.GitHubAction
+          ? !!value
+          : true;
+      }),
+      acrComposeYml: Yup.mixed()
+        .test('acrComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return this.parent.registrySource === ContainerRegistrySources.acr && this.parent.option === ContainerOptions.compose
+            ? !!value
+            : true;
+        })
+        .test('acrComposeYmlValidation', this._t('deploymentCenterInvalidYaml'), function(value) {
+          return validateYaml(value).then(result => {
+            if (!result.valid) {
+              return this.createError({
+                message: result.errorMessage,
+              });
+            }
+
+            return result.valid;
+          });
+        }),
       acrUsername: Yup.mixed().notRequired(),
       acrPassword: Yup.mixed().notRequired(),
       acrResourceId: Yup.mixed().notRequired(),
@@ -85,19 +112,33 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getDockerHubFormValidationSchema(): Yup.ObjectSchemaDefinition<DockerHubFormData> {
+    const validateYaml = (yaml: string) => this._validateYaml(yaml);
+
     return {
       dockerHubImageAndTag: Yup.mixed().test('dockerHubImageAndTagRequired', this._t('deploymentCenterFieldRequiredMessage'), function(
         value
       ) {
-        return this.parent.registrySource === ContainerRegistrySources.docker ? !!value : true;
-      }),
-      dockerHubComposeYml: Yup.mixed().test('dockerHubComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(
-        value
-      ) {
-        return this.parent.registrySource === ContainerRegistrySources.docker && this.parent.options === ContainerOptions.compose
+        return this.parent.registrySource === ContainerRegistrySources.docker && this.parent.option !== ContainerOptions.compose
           ? !!value
           : true;
       }),
+      dockerHubComposeYml: Yup.mixed()
+        .test('dockerHubComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return this.parent.registrySource === ContainerRegistrySources.docker && this.parent.option === ContainerOptions.compose
+            ? !!value
+            : true;
+        })
+        .test('dockerHubComposeYmlValidation', this._t('deploymentCenterInvalidYaml'), function(value) {
+          return validateYaml(value).then(result => {
+            if (!result.valid) {
+              return this.createError({
+                message: result.errorMessage,
+              });
+            }
+
+            return result.valid;
+          });
+        }),
       dockerHubAccessType: Yup.mixed().required(this._t('deploymentCenterFieldRequiredMessage')),
       dockerHubUsername: Yup.mixed().test('dockerHubUsernameRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.dockerHubAccessType === ContainerDockerAccessTypes.private ? !!value : true;
@@ -109,6 +150,8 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getPrivateRegistryFormValidationSchema(): Yup.ObjectSchemaDefinition<PrivateRegistryFormData> {
+    const validateYaml = (yaml: string) => this._validateYaml(yaml);
+
     return {
       privateRegistryServerUrl: Yup.mixed()
         .test('privateRegistryServerUrlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
@@ -121,14 +164,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         'privateRegistryImageAndTagRequired',
         this._t('deploymentCenterFieldRequiredMessage'),
         function(value) {
-          return this.parent.registrySource === ContainerRegistrySources.privateRegistry ? !!value : true;
-        }
-      ),
-      privateRegistryComposeYml: Yup.mixed().test(
-        'privateRegistryComposeYmlRequired',
-        this._t('deploymentCenterFieldRequiredMessage'),
-        function(value) {
-          return this.parent.registrySource === ContainerRegistrySources.docker && this.parent.options === ContainerOptions.compose
+          return this.parent.registrySource === ContainerRegistrySources.privateRegistry && this.parent.option !== ContainerOptions.compose
             ? !!value
             : true;
         }
@@ -147,19 +183,30 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
           return !!this.parent.privateRegistryUsername ? !!value : true;
         }
       ),
-    };
-  }
+      privateRegistryComposeYml: Yup.mixed()
+        .test('privateRegistryComposeYmlRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return this.parent.registrySource === ContainerRegistrySources.privateRegistry && this.parent.option === ContainerOptions.compose
+            ? !!value
+            : true;
+        })
+        .test('privateRegistryComposeYmlValidation', this._t('deploymentCenterInvalidYaml'), function(value) {
+          return validateYaml(value).then(result => {
+            if (!result.valid) {
+              return this.createError({
+                message: result.errorMessage,
+              });
+            }
 
-  private _getContainerOption(): ContainerOptions {
-    // TODO(michinoy): For now we will only support docker (single container) option. See following work item for enabling compose:
-    // https://msazure.visualstudio.com/Antares/_workitems/edit/8238865
-    return ContainerOptions.docker;
+            return result.valid;
+          });
+        }),
+    };
   }
 
   private _getContainerRegistrySource(): ContainerRegistrySources {
     const serverUrl = this._getServerUrl();
 
-    if (this._isServerUrlAcr(serverUrl)) {
+    if (this._isAcrConfigured(serverUrl)) {
       return ContainerRegistrySources.acr;
     } else if (this._isServerUrlDockerHub(serverUrl)) {
       return ContainerRegistrySources.docker;
@@ -170,6 +217,10 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
 
   private _getServerUrl(): string {
     const value = this._applicationSettings && this._applicationSettings.properties[DeploymentCenterConstants.serverUrlSetting];
+    if (!!value && this._isAcrConfigured(value)) {
+      return value;
+    }
+
     return value ? value.toLocaleLowerCase() : '';
   }
 
@@ -187,7 +238,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     return this._siteConfig && this._siteConfig.properties.appCommandLine ? this._siteConfig.properties.appCommandLine : '';
   }
 
-  private _getFxVersionParts(): FxVersionParts {
+  private _getFxVersionParts(appSettingServerUrl: string, appSettingUsername: string): FxVersionParts {
     if (!this._siteConfig) {
       return {
         server: '',
@@ -206,6 +257,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     // docker fxVersion with serverPath: DOCKER|<serverPath>/<imageName>:<tag>
     // docker fxVersion without serverPath: DOCKER|<imageName>:<tag>
     // docker fxVersion without tag: DOCKER|<image>
+    // image and tag each could also contain /'s
     const fxVersion = this._siteConfig.properties.linuxFxVersion || this._siteConfig.properties.windowsFxVersion;
     const fxVersionParts = fxVersion.split('|');
 
@@ -213,31 +265,92 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       throw Error(`Incorrect fxVersion set in the site config: ${fxVersion}`);
     }
 
-    if (this._isComposeContainerOption(fxVersion)) {
+    const isDockerCompose = this._isComposeContainerOption(fxVersion);
+    if (this._isAcrConfigured(appSettingServerUrl)) {
+      return this._getAcrFxVersionParts(appSettingServerUrl, fxVersionParts[1], isDockerCompose);
+    } else if (this._isServerUrlDockerHub(appSettingServerUrl)) {
+      return this._getDockerHubFxVersionParts(fxVersionParts[1], isDockerCompose);
+    } else {
+      return this._getPrivateRegistryFxVersionParts(appSettingServerUrl, fxVersionParts[1], isDockerCompose);
+    }
+  }
+
+  private _getAcrFxVersionParts(appSettingServerUrl: string, registryInfo: string, isDockerCompose: boolean): FxVersionParts {
+    // NOTE(michinoy): For ACR the username is not in the FxVersion. The image and/or tags could definitely have /'s.
+    // In this case, remove the serverInfo from the FxVersion and compute the image and tag by splitting on :.
+
+    const acrHost = appSettingServerUrl
+      ? this._getHostFromServerUrl(appSettingServerUrl, true)
+      : this._getHostFromServerUrl(registryInfo, true);
+
+    if (isDockerCompose) {
       return {
-        server: '',
+        server: acrHost,
         image: '',
         tag: '',
         containerOption: ContainerOptions.compose,
-        composeYml: btoa(fxVersionParts[1]),
+        composeYml: atob(registryInfo),
       };
     } else {
-      const registryParts = fxVersionParts[1].split(':');
-      const imageParts = registryParts[0].split('/');
-      const tag = registryParts[1] ? registryParts[1] : '';
-      const server = imageParts.length > 1 ? imageParts[0] : '';
-
-      let image = imageParts[0];
-      if (imageParts.length > 2) {
-        image = imageParts[2];
-      } else if (imageParts.length > 1) {
-        image = imageParts[1];
-      }
+      const imageAndTagInfo = registryInfo.replace(`${acrHost}/`, '');
+      const imageAndTagParts = imageAndTagInfo.split(':');
 
       return {
-        server,
-        image,
-        tag,
+        server: acrHost,
+        image: imageAndTagParts[0],
+        tag: imageAndTagParts[1] ? imageAndTagParts[1] : 'latest',
+        containerOption: ContainerOptions.docker,
+        composeYml: '',
+      };
+    }
+  }
+
+  private _getDockerHubFxVersionParts(registryInfo: string, isDockerCompose: boolean): FxVersionParts {
+    if (isDockerCompose) {
+      return {
+        server: DeploymentCenterConstants.dockerHubServerUrlHost,
+        image: '',
+        tag: '',
+        containerOption: ContainerOptions.compose,
+        composeYml: atob(registryInfo),
+      };
+    } else {
+      const imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(`${DeploymentCenterConstants.dockerHubServerUrlHost}/`, '');
+      const imageAndTagParts = imageAndTagInfo.split(':');
+
+      return {
+        server: DeploymentCenterConstants.dockerHubServerUrlHost,
+        image: imageAndTagParts[0],
+        tag: imageAndTagParts[1] ? imageAndTagParts[1] : 'latest',
+        containerOption: ContainerOptions.docker,
+        composeYml: '',
+      };
+    }
+  }
+
+  private _getPrivateRegistryFxVersionParts(appSettingServerUrl: string, registryInfo: string, isDockerCompose: boolean): FxVersionParts {
+    // NOTE(michinoy): Unlike ACR and DockerHub, we dont actually know how a private registry text is formed.
+    // Each registry would have its own convention forked from how dockerHub does things. In this case, we have
+    // the serverUrl, we should remove that, but return the rest as image and tag.
+
+    const privateRegistryHost = this._getHostFromServerUrl(appSettingServerUrl, false);
+
+    if (isDockerCompose) {
+      return {
+        server: privateRegistryHost,
+        image: '',
+        tag: '',
+        containerOption: ContainerOptions.compose,
+        composeYml: atob(registryInfo),
+      };
+    } else {
+      const imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(`${privateRegistryHost}/`, '');
+      const imageAndTagParts = imageAndTagInfo.split(':');
+
+      return {
+        server: privateRegistryHost,
+        image: imageAndTagParts[0],
+        tag: imageAndTagParts[1] ? imageAndTagParts[1] : 'latest',
         containerOption: ContainerOptions.docker,
         composeYml: '',
       };
@@ -245,9 +358,9 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getAcrFormData(serverUrl: string, username: string, password: string, fxVersionParts: FxVersionParts): AcrFormData {
-    if (this._isServerUrlAcr(serverUrl)) {
+    if (this._isAcrConfigured(serverUrl)) {
       return {
-        acrLoginServer: fxVersionParts.server.toLocaleLowerCase(),
+        acrLoginServer: fxVersionParts.server,
         acrImage: fxVersionParts.image,
         acrTag: fxVersionParts.tag,
         acrComposeYml: fxVersionParts.composeYml,
@@ -317,8 +430,23 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     }
   }
 
+  private _isLinuxFxVersionAcr(): boolean {
+    if (!this._siteConfig) {
+      return false;
+    }
+    const fxVersion = this._siteConfig.properties.linuxFxVersion || this._siteConfig.properties.windowsFxVersion;
+    const fxVersionParts = fxVersion.split('|');
+
+    if (fxVersionParts.length < 2) {
+      throw Error(`Incorrect fxVersion set in the site config: ${fxVersion}`);
+    }
+
+    const registryInfo = fxVersionParts[1];
+    return !!registryInfo && registryInfo.indexOf(DeploymentCenterConstants.acrUriBody) > -1;
+  }
+
   private _isServerUrlAcr(serverUrl: string): boolean {
-    return !!serverUrl && serverUrl.indexOf(DeploymentCenterConstants.acrUriHost) > -1;
+    return !!serverUrl && serverUrl.indexOf(DeploymentCenterConstants.acrUriBody) > -1;
   }
 
   private _isServerUrlDockerHub(serverUrl: string): boolean {
@@ -328,5 +456,48 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   private _isComposeContainerOption(fxVersion: string): boolean {
     const fxVersionParts = fxVersion ? fxVersion.split('|') : [];
     return fxVersionParts[0].toLocaleLowerCase() === DeploymentCenterConstants.composePrefix.toLocaleLowerCase();
+  }
+
+  private _getHostFromServerUrl(serverUrl: string, caseSensitiveCheck: boolean): string {
+    // In case of either https://xyz.com or https://xyz.com/ or https://xyz.com/a return xyz.com
+    //(note) stpelleg: ACR requires a case sensitive check but private registry does not
+    const host = caseSensitiveCheck
+      ? serverUrl.replace(CommonConstants.DeploymentCenterConstants.https, '')
+      : serverUrl.toLocaleLowerCase().replace(CommonConstants.DeploymentCenterConstants.https, '');
+    const hostParts = host.split('/');
+    return hostParts.length > 0 ? hostParts[0] : serverUrl;
+  }
+
+  private _validateYaml(yaml: string): Promise<YamlValidationResult> {
+    return new Promise(resolve => {
+      if (yaml) {
+        yamlLint
+          .lint(yaml)
+          .then(() => {
+            resolve({
+              valid: true,
+            });
+          })
+          .catch(error => {
+            resolve({
+              valid: false,
+              errorMessage: this._t('configYamlInvalid').format(error),
+            });
+          });
+      } else {
+        resolve({
+          valid: true,
+        });
+      }
+    });
+  }
+
+  private _getContinuousDeploymentOption(): ContinuousDeploymentOption {
+    const value = this._applicationSettings && this._applicationSettings.properties[DeploymentCenterConstants.enableCISetting];
+    return value && value.toLocaleLowerCase() === 'true' ? ContinuousDeploymentOption.on : ContinuousDeploymentOption.off;
+  }
+
+  private _isAcrConfigured(serverUrl: string): boolean {
+    return this._isServerUrlAcr(serverUrl) || this._isLinuxFxVersionAcr();
   }
 }

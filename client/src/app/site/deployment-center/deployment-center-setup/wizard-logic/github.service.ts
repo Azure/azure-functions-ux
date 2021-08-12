@@ -121,11 +121,17 @@ export class GithubService implements OnDestroy {
       .catch(e => Observable.of(null));
   }
 
-  createOrUpdateActionWorkflow(authToken: string, gitHubToken: string, content: GitHubActionWorkflowRequestContent) {
+  createOrUpdateActionWorkflow(
+    authToken: string,
+    gitHubToken: string,
+    content: GitHubActionWorkflowRequestContent,
+    replacementPublishUrl?: string
+  ) {
     return this._cacheService.put(Constants.serviceHost + `api/github/actionWorkflow`, null, {
       authToken,
       gitHubToken,
       content,
+      replacementPublishUrl,
     });
   }
 
@@ -179,7 +185,12 @@ export class GithubService implements OnDestroy {
         }
         break;
       case RuntimeStacks.aspnet:
-        content = this._getAspNetGithubActionWorkflowDefinition(siteName, slotName, branch, secretName, runtimeStackVersion);
+        // NOTE(michinoy): In case of version 5, generate the dotnet core workflow file.
+        content =
+          buildSettings.runtimeStackVersion.toLocaleLowerCase() === 'dotnetcore|5.0' ||
+          buildSettings.runtimeStackVersion.toLocaleLowerCase() === 'v5.0'
+            ? this._getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion)
+            : this._getAspNetGithubActionWorkflowDefinition(siteName, slotName, branch, secretName, runtimeStackVersion);
         break;
       default:
         throw Error(`Incorrect stack value '${buildSettings.runtimeStack}' provided.`);
@@ -237,7 +248,7 @@ jobs:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Node.js version
       uses: actions/setup-node@v1
@@ -286,7 +297,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Python version
       uses: actions/setup-python@v1
@@ -305,7 +316,7 @@ jobs:
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: '${webAppName}'
+        app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
         package: '.\\myapp.zip'`;
@@ -325,6 +336,7 @@ jobs:
 
     return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
+# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
 name: Build and deploy Python app to Azure Web App - ${webAppName}
 
@@ -332,27 +344,55 @@ on:
   push:
     branches:
       - ${branch}
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Python version
       uses: actions/setup-python@v1
       with:
         python-version: '${runtimeStackVersion}'
 
-    - name: Build using AppService-Build
-      uses: azure/appservice-build@v2
+    - name: Create and start virtual environment
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+    
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+      
+    # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+
+    - name: Upload artifact for deployment jobs
+      uses: actions/upload-artifact@v2
       with:
-        platform: python
-        platform-version: '${runtimeStackVersion}'
+        name: python-app
+        path: |
+          . 
+          !venv/
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: '${slot}'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: python-app
+          path: .
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
+      id: deploy-to-webapp
       with:
         app-name: '${siteName}'
         slot-name: '${slot}'
@@ -387,7 +427,7 @@ jobs:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
@@ -401,6 +441,7 @@ jobs:
       run: dotnet publish -c Release -o \${{env.DOTNET_ROOT}}/myapp
 
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -437,7 +478,7 @@ jobs:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Java version
       uses: actions/setup-java@v1
@@ -448,6 +489,7 @@ jobs:
       run: mvn clean install
 
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -484,7 +526,7 @@ jobs:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up Java version
       uses: actions/setup-java@v1
@@ -495,6 +537,7 @@ jobs:
       run: mvn clean install
 
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'
@@ -518,7 +561,7 @@ jobs:
     return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy WAR app to Azure Web App - ${webAppName}
+name: Build and deploy ASP app to Azure Web App - ${webAppName}
 
 on:
   push:
@@ -530,7 +573,7 @@ jobs:
     runs-on: 'windows-latest'
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Setup MSBuild path
       uses: microsoft/setup-msbuild@v1.0.0
@@ -545,6 +588,7 @@ jobs:
       run: msbuild /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=./published/ /p:PackageAsSingleFile=false
 
     - name: Deploy to Azure Web App
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: '${siteName}'

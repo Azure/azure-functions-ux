@@ -1,5 +1,5 @@
 // NOTE (krmitta): Should match with the schema coming from the backend: stacks/webapp/2020-06-01/stack.model.ts
-import { AppInsightsSettings, GitHubActionSettings, CommonSettings, AppStack } from './app-stacks';
+import { AppInsightsSettings, CommonSettings, AppStack } from './app-stacks';
 
 export interface WebAppRuntimes {
   linuxRuntimeSettings?: WebAppRuntimeSettings;
@@ -10,7 +10,6 @@ export interface WebAppRuntimeSettings extends CommonSettings {
   runtimeVersion: string;
   remoteDebuggingSupported: boolean;
   appInsightsSettings: AppInsightsSettings;
-  gitHubActionSettings: GitHubActionSettings;
 }
 
 export interface JavaContainers {

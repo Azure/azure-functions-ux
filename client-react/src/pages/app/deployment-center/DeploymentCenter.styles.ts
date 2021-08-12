@@ -1,4 +1,5 @@
 import { style } from 'typestyle';
+import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
 export const commandBarSticky = style({
   position: 'sticky',
@@ -15,23 +16,47 @@ export const deploymentCenterContent = style({
   maxWidth: '800px',
 });
 
-export const deploymentCenterConsole = style({
+export const deploymentCenterConsole = (theme: ThemeExtended): string =>
+  style({
+    whiteSpace: 'pre-line',
+    backgroundColor: `${theme.semanticColors.bodyStandoutBackground}`,
+    padding: '15px',
+    borderWidth: 'thin',
+    borderStyle: 'solid',
+    overflowWrap: 'break-word',
+  });
+
+export const deploymentCenterContainerLogsBox = style({
+  fontFamily: '"Lucida Console", "Courier New", "Consolas", "monospace"',
+  color: 'white',
+  backgroundColor: 'black',
+  position: 'fixed',
+  height: 'calc(100% - 250px)',
+  width: 'calc(100% - 50px)',
+  overflowY: 'auto',
+  marginTop: '10px',
+  marginLeft: 'auto',
+  marginRight: 'auto',
   whiteSpace: 'pre-line',
-  backgroundColor: '#f3f2f1',
-  padding: '15px',
-  borderWidth: 'thin',
-  borderStyle: 'solid',
   overflowWrap: 'break-word',
 });
 
-export const deploymentCenterContainerLogs = style({
-  whiteSpace: 'pre-line',
-  padding: '15px',
-  overflowWrap: 'break-word',
+export const deploymentCenterCodeLogsBox = style({
+  position: 'fixed',
+  height: 'calc(100% - 250px)',
+  width: 'calc(100% - 50px)',
+  overflowY: 'auto',
+  marginTop: '10px',
+  marginLeft: 'auto',
+  marginRight: 'auto',
 });
 
 export const deploymentCenterLogsError = style({
   marginTop: '20px',
+  display: 'flex',
+  flexWrap: 'wrap',
+  overflowWrap: 'normal',
+  fontFamily: 'monospace',
 });
 
 export const additionalTextFieldControl = style({
@@ -80,10 +105,70 @@ export const calloutContentButton = style({
 
 export const choiceGroupSubLabel = style({
   paddingLeft: '26px',
-  fontSize: '12px',
   color: '#605E5C',
+  paddingTop: '10px',
+  paddingBottom: '10px',
 });
 
 export const panelBanner = style({
   position: 'relative',
+});
+
+export const disconnectLink = style({
+  display: 'block',
+  marginTop: '5px',
+});
+
+export const panelOverflowStyle = {
+  content: [
+    {
+      overflowX: 'hidden',
+    },
+  ],
+};
+
+export const ftpsPasswordTextboxStyle = style({
+  display: 'inline-table',
+  width: '119%',
+});
+
+export const disconnectWorkflowInfoStyle = style({
+  marginTop: '15px',
+  marginBottom: '15px',
+});
+
+export const logsTimerStyle = style({
+  marginTop: '10px',
+});
+
+export const closePublishProfileButtonStyle = style({
+  marginTop: '100%',
+  bottom: '20px',
+  position: 'absolute',
+});
+
+export const closePreviewButtonStyle = style({
+  marginTop: '10px',
+  position: 'relative',
+});
+
+export const titleWithPaddingStyle = style({
+  paddingTop: '10px',
+});
+
+export const vstsDescriptionStyle = style({
+  paddingTop: '15px',
+});
+
+export const refreshButtonStyle = style({
+  marginTop: '10px',
+  height: '36px',
+});
+
+export const textboxPaddingStyle = style({
+  paddingTop: '10px',
+});
+
+export const changeAccountInfoButtonStyle = style({
+  paddingBottom: '10px',
 });

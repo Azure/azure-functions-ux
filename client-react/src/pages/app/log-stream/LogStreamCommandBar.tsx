@@ -77,6 +77,7 @@ export const LogStreamCommandBar: React.FC<LogStreamCommandBarPropsCombined> = p
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
   const { reconnect, pause, start, clear, isStreaming, logEntries, logType, logsEnabled } = props;
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
 
   const customButton = (buttonProps: IButtonProps) => {
     return (
@@ -102,6 +103,7 @@ export const LogStreamCommandBar: React.FC<LogStreamCommandBarPropsCombined> = p
       items={getItems(reconnect, pause, start, clear, isStreaming, logEntries, logType, logsEnabled, t)}
       role="nav"
       buttonAs={customButton}
+      overflowButtonProps={overflowButtonProps}
       styles={{
         root: {
           borderBottom: '1px solid rgba(204,204,204,.8)',

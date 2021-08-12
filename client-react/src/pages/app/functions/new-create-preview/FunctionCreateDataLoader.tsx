@@ -27,7 +27,7 @@ import { CommonConstants, WorkerRuntimeLanguages } from '../../../../utils/Commo
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessageOrStringify, getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { isLinuxApp, isElastic } from '../../../../utils/arm-utils';
+import { isLinuxApp, isElastic, isKubeApp } from '../../../../utils/arm-utils';
 import SiteHelper from '../../../../utils/SiteHelper';
 import LocalCreateInstructions from './local-create/LocalCreateInstructions';
 import { PortalContext } from '../../../../PortalContext';
@@ -103,7 +103,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   };
 
   const isDevelopInPortalOptionVisible = () => {
-    return !SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState);
+    return !!site && !SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) && !isKubeApp(site);
   };
 
   const getVSDropdownOption = (): IDropdownOption => {
@@ -198,7 +198,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   const fetchData = async () => {
     const appSettingsResponse = await SiteService.fetchApplicationSettings(resourceId);
     if (appSettingsResponse.metadata.success) {
-      const appSettings = appSettingsResponse.data;
+      const appSettings = appSettingsResponse.data.properties;
       if (appSettings.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
         setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
       }
@@ -324,7 +324,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         {(formProps: FormikProps<CreateFunctionFormValues>) => {
           const actionBarPrimaryButtonProps = {
             id: 'add',
-            title: creatingFunction ? <Spinner /> : t('add'),
+            title: creatingFunction ? <Spinner /> : t('create'),
             onClick: formProps.submitForm,
             disable: !initialFormValues || creatingFunction,
           };

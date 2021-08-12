@@ -30,6 +30,7 @@ import StringUtils from '../../../../../utils/string';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -56,6 +57,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [testData, setTestData] = useState<string | undefined>(undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isUploadingFile, setIsUploadingFile] = useState(false);
+  const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -74,6 +77,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       FunctionsService.fetchKeys(resourceId),
       SiteService.fetchFunctionsHostStatus(siteResourceId),
     ]);
+
+    // NOTE (krmitta): App-Settings are going to be used to fetch the workerRuntime,
+    // for logging purposes only. Thus we are not going to block on this.
+    fetchAppSettings(siteResourceId);
 
     if (siteResponse.metadata.success) {
       setSite(siteResponse.data);
@@ -146,6 +153,23 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
     setInitialLoading(false);
     setIsRefreshing(false);
+  };
+
+  const fetchAppSettings = async (siteResourceId: string) => {
+    const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
+
+    if (appSettingsResponse.metadata.success) {
+      const appSettingsProperties = appSettingsResponse.data.properties;
+      if (appSettingsProperties.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
+        setWorkerRuntime(appSettingsProperties[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
+      }
+    } else {
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'fetchAppSettings',
+        `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
+      );
+    }
   };
 
   const createAndGetFunctionInvokeUrlPath = (key?: string) => {
@@ -477,6 +501,25 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return '';
   };
 
+  const isOverlayLoadingComponentVisible = () => {
+    return isUploadingFile || isRefreshing;
+  };
+
+  const refreshFileList = async () => {
+    if (site && functionInfo && runtimeVersion) {
+      const fileListResponse = await FunctionsService.getFileContent(site.id, functionInfo.properties.name, runtimeVersion);
+      if (fileListResponse && fileListResponse.metadata.success) {
+        setFileList(fileListResponse.data as VfsObject[]);
+      } else {
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'getFileContent',
+          `Failed to get file content: ${getErrorMessageOrStringify(fileListResponse.metadata.error)}`
+        );
+      }
+    }
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -526,12 +569,16 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             isRefreshing={isRefreshing}
             xFunctionKey={getDefaultXFunctionKey()}
             getFunctionUrl={getFunctionUrl}
+            isUploadingFile={isUploadingFile}
+            setIsUploadingFile={setIsUploadingFile}
+            refreshFileList={refreshFileList}
+            workerRuntime={workerRuntime}
           />
         </div>
       ) : (
         <CustomBanner message={t('functionInfoFetchError')} type={MessageBarType.error} />
       )}
-      {isRefreshing && <LoadingComponent overlay={true} />}
+      {isOverlayLoadingComponentVisible() && <LoadingComponent overlay={true} />}
     </FunctionEditorContext.Provider>
   );
 };

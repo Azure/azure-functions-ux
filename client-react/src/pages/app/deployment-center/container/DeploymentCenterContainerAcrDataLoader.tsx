@@ -5,11 +5,14 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { ACRCredential } from '../../../../models/acr';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { getLogId } from '../utility/DeploymentCenterUtility';
-
+import { ACRCredential, ACRRepositories, ACRTags } from '../../../../models/acr';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { PortalContext } from '../../../../PortalContext';
+import { useTranslation } from 'react-i18next';
+import { HttpResponseObject } from '../../../../ArmHelper.types';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import { AcrDependency } from '../../../../utils/dependency/Dependency';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 interface RegistryIdentifiers {
   resourceId: string;
   location: string;
@@ -18,9 +21,14 @@ interface RegistryIdentifiers {
 
 const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;
+  const { t } = useTranslation();
+
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
-
+  const portalContext = useContext(PortalContext);
+  const [subscription, setSubscription] = useState<string>(
+    !!deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.subscription : ''
+  );
   const [acrRegistryOptions, setAcrRegistryOptions] = useState<IDropdownOption[]>([]);
   const [acrImageOptions, setAcrImageOptions] = useState<IDropdownOption[]>([]);
   const [acrTagOptions, setAcrTagOptions] = useState<IDropdownOption[]>([]);
@@ -30,8 +38,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const [loadingImageOptions, setLoadingImageOptions] = useState(false);
   const [loadingTagOptions, setLoadingTagOptions] = useState(false);
   const registryIdentifiers = useRef<{ [key: string]: RegistryIdentifiers }>({});
+  const [subscriptionOptions, setSubscriptionOptions] = useState<IDropdownOption[]>([]);
 
   const fetchData = () => {
+    fetchAllSubscriptions();
     registryIdentifiers.current = {};
     setAcrRegistryOptions([]);
     setAcrImageOptions([]);
@@ -44,38 +54,90 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const fetchRegistries = async () => {
     if (deploymentCenterContext.siteDescriptor) {
       setLoadingRegistryOptions(true);
-      const registriesResponse = await deploymentCenterData.getAcrRegistries(deploymentCenterContext.siteDescriptor.subscription);
+
+      const appSettingServerUrl =
+        deploymentCenterContext.applicationSettings &&
+        deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.serverUrlSetting]
+          ? deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.serverUrlSetting]
+              .toLocaleLowerCase()
+              .replace(CommonConstants.DeploymentCenterConstants.https, '')
+          : '';
+
+      const appSettingUsername = deploymentCenterContext.applicationSettings
+        ? deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.usernameSetting]
+        : '';
+
+      const appSettingPassword = deploymentCenterContext.applicationSettings
+        ? deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.passwordSetting]
+        : '';
+
+      portalContext.log(getTelemetryInfo('info', 'getAcrRegistries', 'submit'));
+      const registriesResponse = await deploymentCenterData.getAcrRegistries(subscription);
       if (registriesResponse.metadata.success && registriesResponse.data) {
-        const adminEnabledRegistries = registriesResponse.data.value.filter(registry => registry.properties.adminUserEnabled);
-        const dropdownOptions: IDropdownOption[] = [];
+        if (registriesResponse.data.value.length > 0) {
+          setAcrStatusMessage('');
+          const dropdownOptions: IDropdownOption[] = [];
 
-        adminEnabledRegistries.forEach(registry => {
-          registryIdentifiers.current[registry.properties.loginServer.toLocaleLowerCase()] = {
-            resourceId: registry.id,
-            location: registry.location,
-          };
+          //Check to see if the acr exists in the current subscription
+          const isAcrInSameSubscription = registriesResponse.data.value.find(
+            registry => registry.properties.loginServer.toLocaleLowerCase() === formProps.values.acrLoginServer.toLocaleLowerCase()
+          );
+          if (!isAcrInSameSubscription && formProps.values.acrLoginServer) {
+            await fetchHiddenAcrTag();
+          }
+          registriesResponse.data.value.forEach(registry => {
+            const loginServer = registry.properties.loginServer;
 
-          dropdownOptions.push({
-            key: registry.properties.loginServer.toLocaleLowerCase(),
-            text: registry.name,
+            registryIdentifiers.current[loginServer] = {
+              resourceId: registry.id,
+              location: registry.location,
+            };
+
+            // NOTE(michinoy): If we already have the app settings with username and password, use that to reduce
+            // an extra call. Like this IF the registry is setup manually, there is no need to dispatch the call to
+            // get credentials.
+            if (appSettingServerUrl === loginServer && !!appSettingUsername && !!appSettingPassword) {
+              registryIdentifiers.current[loginServer].credential = {
+                username: appSettingUsername,
+                passwords: [
+                  {
+                    name: 'primary',
+                    value: appSettingPassword,
+                  },
+                ],
+              };
+            }
+
+            dropdownOptions.push({
+              key: loginServer,
+              text: registry.name,
+            });
           });
-        });
 
-        setAcrRegistryOptions(dropdownOptions);
+          setAcrRegistryOptions(dropdownOptions);
 
-        if (formProps.values.acrLoginServer) {
-          fetchRepositories(formProps.values.acrLoginServer);
+          if (formProps.values.acrLoginServer) {
+            fetchRepositories(formProps.values.acrLoginServer);
+          }
+        } else {
+          setAcrStatusMessage(t('deploymentCenterContainerAcrRegistrieNotAvailable').format(subscription));
+          setAcrStatusMessageType(MessageBarType.warning);
         }
       } else {
         const errorMessage = getErrorMessage(registriesResponse.metadata.error);
-        if (errorMessage) {
-          setAcrStatusMessage(errorMessage);
-          setAcrStatusMessageType(MessageBarType.error);
-        }
+        const statusMessage = errorMessage
+          ? t('deploymentCenterContainerAcrFailedToLoadRegistriesWithError').format(errorMessage)
+          : t('deploymentCenterContainerAcrFailedToLoadRegistries');
 
-        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerAcrDataLoader', 'fetchRegistries'), {
-          error: registriesResponse.metadata.error,
-        });
+        setAcrStatusMessage(statusMessage);
+        setAcrStatusMessageType(MessageBarType.error);
+
+        portalContext.log(
+          getTelemetryInfo('error', 'registriesResponse', 'failed', {
+            message: getErrorMessage(registriesResponse.metadata.error),
+            error: registriesResponse.metadata.error,
+          })
+        );
       }
     }
 
@@ -87,52 +149,79 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setAcrTagOptions([]);
     setAcrStatusMessage(undefined);
     setAcrStatusMessageType(undefined);
+    const serverUrl = !!loginServer ? loginServer.toLocaleLowerCase() : '';
 
-    const selectedRegistryIdentifier = registryIdentifiers.current[loginServer];
+    const selectedRegistryIdentifier = registryIdentifiers.current[serverUrl];
 
-    if (!selectedRegistryIdentifier.credential) {
+    if (!!selectedRegistryIdentifier && !selectedRegistryIdentifier.credential) {
+      portalContext.log(getTelemetryInfo('info', 'listAcrCredentials', 'submit'));
       const credentialsResponse = await deploymentCenterData.listAcrCredentials(selectedRegistryIdentifier.resourceId);
 
       if (credentialsResponse.metadata.success && credentialsResponse.data.passwords && credentialsResponse.data.passwords.length > 0) {
-        selectedRegistryIdentifier.credential = credentialsResponse.data;
+        registryIdentifiers.current[serverUrl].credential = credentialsResponse.data;
       } else {
         const errorMessage = getErrorMessage(credentialsResponse.metadata.error);
-        if (errorMessage) {
-          setAcrStatusMessage(errorMessage);
-          setAcrStatusMessageType(MessageBarType.error);
-        }
+        const statusMessage = errorMessage
+          ? t('deploymentCenterContainerAcrFailedToLoadCredentialsWithError').format(errorMessage)
+          : t('deploymentCenterContainerAcrFailedToLoadCredentials');
 
-        LogService.error(
-          LogCategories.deploymentCenter,
-          getLogId('DeploymentCenterContainerAcrDataLoader', 'fetchRepositories-credentials'),
-          {
+        setAcrStatusMessage(statusMessage);
+        setAcrStatusMessageType(MessageBarType.error);
+
+        portalContext.log(
+          getTelemetryInfo('error', 'credentialsResponse', 'failed', {
+            message: getErrorMessage(credentialsResponse.metadata.error),
             error: credentialsResponse.metadata.error,
-          }
+          })
         );
       }
     }
 
-    const credentials = selectedRegistryIdentifier.credential;
+    const credentials = registryIdentifiers.current[serverUrl] ? registryIdentifiers.current[serverUrl].credential : undefined;
 
     if (credentials) {
       const username = credentials.username;
       const password = credentials.passwords[0].value;
+      let failedNetworkCall = false;
+      let errorMessage = '';
 
-      const repositoriesResponse = await deploymentCenterData.getAcrRepositories(loginServer, username, password, (page, response) => {
-        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerAcrDataLoader', 'fetchRepositories'), {
-          page,
-          error: response && response.metadata && response.metadata.error,
-        });
-      });
+      portalContext.log(getTelemetryInfo('info', 'getAcrRepositories', 'submit'));
+      const repositoriesResponse = await deploymentCenterData.getAcrRepositories(
+        loginServer,
+        username,
+        password,
+        (page, response: HttpResponseObject<ACRRepositories>) => {
+          portalContext.log(
+            // NOTE(michinoy): 2021-02-04, Generally a bad idea to log the entire response object. But I am unable to identify what error is being returned,
+            // thus logging the entire response object.
+            getTelemetryInfo('error', 'getAcrRepositoriesResponse', 'failed', {
+              page: page,
+              error: response.metadata.error,
+            })
+          );
+
+          failedNetworkCall = response.metadata.success;
+          errorMessage = getErrorMessage(response.metadata.error);
+        }
+      );
 
       const repositoryOptions: IDropdownOption[] = [];
       repositoriesResponse.forEach(response => {
         const dropdownOptions =
           response && response.repositories && response.repositories.length > 0
-            ? response.repositories.map(repository => ({ key: repository, text: repository }))
+            ? response.repositories.map(repository => ({ key: repository.toLocaleLowerCase(), text: repository }))
             : [];
         repositoryOptions.push(...dropdownOptions);
       });
+
+      if (repositoryOptions.length === 0 && failedNetworkCall) {
+        const statusMessage = errorMessage
+          ? t('deploymentCenterContainerAcrFailedToLoadImagesWithError').format(errorMessage)
+          : t('deploymentCenterContainerAcrFailedToLoadImages');
+
+        setAcrStatusMessage(statusMessage);
+        setAcrStatusMessageType(MessageBarType.error);
+      }
 
       formProps.setFieldValue('acrResourceId', selectedRegistryIdentifier.resourceId);
       formProps.setFieldValue('acrLocation', selectedRegistryIdentifier.location);
@@ -154,19 +243,35 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setAcrStatusMessage(undefined);
     setAcrStatusMessageType(undefined);
 
-    const loginServer = formProps.values.acrLoginServer;
-    const credentials = registryIdentifiers.current[loginServer].credential;
+    const loginServer = !!formProps.values.acrLoginServer ? formProps.values.acrLoginServer.toLocaleLowerCase() : '';
+    const credentials = registryIdentifiers.current[loginServer] ? registryIdentifiers.current[loginServer].credential : undefined;
 
     if (credentials) {
       const username = credentials.username;
       const password = credentials.passwords[0].value;
+      let failedNetworkCall = false;
+      let errorMessage = '';
 
-      const tagsResponse = await deploymentCenterData.getAcrTags(loginServer, imageSelected, username, password, (page, response) => {
-        LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerAcrDataLoader', 'fetchTags'), {
-          page,
-          error: response && response.metadata && response.metadata.error,
-        });
-      });
+      portalContext.log(getTelemetryInfo('info', 'getAcrTags', 'submit'));
+      const tagsResponse = await deploymentCenterData.getAcrTags(
+        loginServer,
+        imageSelected,
+        username,
+        password,
+        (page, response: HttpResponseObject<ACRTags>) => {
+          portalContext.log(
+            // NOTE(michinoy): 2021-02-04, Generally a bad idea to log the entire response object. But I am unable to identify what error is being returned,
+            // thus logging the entire response object.
+            getTelemetryInfo('error', 'getAcrTagsResponse', 'failed', {
+              page: page,
+              error: response.metadata.error,
+            })
+          );
+
+          failedNetworkCall = response.metadata.success;
+          errorMessage = getErrorMessage(response.metadata.error);
+        }
+      );
 
       const tagOptions: IDropdownOption[] = [];
       tagsResponse.forEach(response => {
@@ -175,16 +280,91 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         tagOptions.push(...dropdownOptions);
       });
 
+      if (tagOptions.length === 0 && failedNetworkCall) {
+        const statusMessage = errorMessage
+          ? t('deploymentCenterContainerAcrFailedToLoadTagsWithError').format(errorMessage)
+          : t('deploymentCenterContainerAcrFailedToLoadTags');
+
+        setAcrStatusMessage(statusMessage);
+        setAcrStatusMessageType(MessageBarType.error);
+      }
+
       setAcrTagOptions(tagOptions);
     }
     setLoadingTagOptions(false);
   };
 
+  const fetchAllSubscriptions = async () => {
+    const subscriptionsObservable = await portalContext.getAllSubscriptions();
+    let subscriptionDropdownOptions: IDropdownOption[] = [];
+
+    subscriptionsObservable.subscribe(subscriptionArray => {
+      subscriptionArray.forEach(subscription =>
+        subscriptionDropdownOptions.push({ key: subscription.subscriptionId, text: subscription.displayName })
+      );
+      setSubscriptionOptions(subscriptionDropdownOptions);
+      setSubscription(subscription);
+    });
+  };
+
+  const fetchHiddenAcrTag = async () => {
+    const acrTagInstance = new AcrDependency();
+    const hiddenTag = await acrTagInstance.getTag(
+      portalContext,
+      deploymentCenterContext.resourceId,
+      CommonConstants.DeploymentCenterConstants.acrTag,
+      true
+    );
+    if (!!hiddenTag) {
+      //has ACR in another subscription
+      parseHiddenTag(hiddenTag);
+    } else {
+      const acrName = getAcrNameFromLoginServer(formProps.values.acrLoginServer);
+      const newsubscriptionId = await acrTagInstance.updateTags(portalContext, deploymentCenterContext.resourceId, acrName);
+      if (!!newsubscriptionId) {
+        setSubscription(newsubscriptionId);
+      }
+    }
+  };
+
+  const getAcrNameFromLoginServer = (loginServer: string): string => {
+    if (!!loginServer) {
+      const loginServerParts = loginServer.split('.');
+      return loginServerParts.length > 0 ? loginServerParts[0] : '';
+    }
+    return '';
+  };
+
+  const parseHiddenTag = (tagValue: string) => {
+    try {
+      if (!!tagValue) {
+        const tagJson = JSON.parse(tagValue);
+        const subId = tagJson['subscriptionId'] ? tagJson['subscriptionId'] : '';
+        setSubscription(subId);
+      }
+      return '';
+    } catch {
+      portalContext.log(getTelemetryInfo('error', 'parseHiddenTag', 'failed'));
+    }
+  };
+
+  const setRegistriesInSub = (subscription: string) => {
+    formProps.setFieldValue('acrLoginServer', '');
+    formProps.setFieldValue('acrImage', '');
+    formProps.setFieldValue('acrTag', '');
+    setAcrRegistryOptions([]);
+    setAcrImageOptions([]);
+    setAcrTagOptions([]);
+    setSubscription(subscription);
+  };
+
   useEffect(() => {
-    fetchData();
+    if (deploymentCenterContext.siteDescriptor && deploymentCenterContext.applicationSettings) {
+      fetchData();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext]);
+  }, [deploymentCenterContext.siteDescriptor, deploymentCenterContext.applicationSettings]);
 
   useEffect(() => {
     if (registryIdentifiers.current[formProps.values.acrLoginServer]) {
@@ -192,7 +372,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [registryIdentifiers.current[formProps.values.acrLoginServer], formProps.values.acrLoginServer]);
+  }, [formProps.values.acrLoginServer]);
 
   useEffect(() => {
     if (registryIdentifiers.current[formProps.values.acrLoginServer] && formProps.values.acrImage) {
@@ -200,13 +380,21 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [registryIdentifiers.current[formProps.values.acrLoginServer], formProps.values.acrLoginServer, formProps.values.acrImage]);
+  }, [formProps.values.acrLoginServer, formProps.values.acrImage]);
+
+  useEffect(() => {
+    fetchRegistries();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subscription]);
 
   return (
     <DeploymentCenterContainerAcrSettings
       {...props}
       fetchImages={fetchRepositories}
       fetchTags={fetchTags}
+      fetchRegistriesInSub={setRegistriesInSub}
+      acrSubscriptionOptions={subscriptionOptions}
       acrRegistryOptions={acrRegistryOptions}
       acrImageOptions={acrImageOptions}
       acrTagOptions={acrTagOptions}
@@ -215,6 +403,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       loadingTagOptions={loadingTagOptions}
       acrStatusMessage={acrStatusMessage}
       acrStatusMessageType={acrStatusMessageType}
+      acrSubscription={subscription}
     />
   );
 };

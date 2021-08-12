@@ -5,7 +5,7 @@ import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzureP
 import { PortalContext } from '../../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
 import FunctionEditorGetFunctionUrlCallout from './FunctionEditorGetFunctionUrlCallout';
-import { IContextualMenuRenderItem, TooltipHost } from 'office-ui-fabric-react';
+import { IButtonProps, IContextualMenuRenderItem, TooltipHost } from 'office-ui-fabric-react';
 import { UrlObj, UrlType } from './FunctionEditor.types';
 import { toolTipStyle } from './FunctionEditor.styles';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
@@ -22,6 +22,7 @@ interface FunctionEditorCommandBarProps {
   resetFunction: () => void;
   testFunction: () => void;
   refreshFunction: () => void;
+  upload: (file: any) => void;
   isGetFunctionUrlVisible: boolean;
   dirty: boolean;
   disabled: boolean;
@@ -44,6 +45,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
     refreshFunction,
     functionInfo,
     runtimeVersion,
+    upload,
   } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
@@ -51,11 +53,26 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
   const siteStateContext = useContext(SiteStateContext);
 
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+
   const onClickGetFunctionUrlCommand = () => {
     setIsDialogVisible(true);
   };
 
   const getFunctionUrlButtonRef = useRef<IContextualMenuRenderItem | null>(null);
+  const uploadFileRef = useRef<HTMLInputElement | null>(null);
+
+  const onUploadButtonClick = () => {
+    if (uploadFileRef && uploadFileRef.current) {
+      uploadFileRef.current.click();
+    }
+  };
+
+  const uploadFile = e => {
+    const file = e.target && e.target.files && e.target.files.length > 0 && e.target.files[0];
+    if (file) {
+      upload(file);
+    }
+  };
 
   const onTestItemRender = (item: any, dismissMenu: () => void) => {
     const tooltipId = 'tooltip-id';
@@ -118,6 +135,22 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         onClick: testFunction,
         onRender: onTestItemRender,
       },
+      {
+        key: 'upload',
+        text: t('fileExplorer_upload'),
+        iconProps: {
+          iconName: 'Upload',
+        },
+        disabled: disabled || testDisabled,
+        ariaLabel: t('fileExplorer_upload'),
+        onClick: onUploadButtonClick,
+      },
+      {
+        // NOTE(krmitta): This hidden element is needed to map the upload button to input field
+        key: 'upload-file-input',
+        text: t('fileExplorer_upload'),
+        onRender: () => <input ref={ref => (uploadFileRef.current = ref)} style={{ display: 'none' }} type="file" onChange={uploadFile} />,
+      },
     ];
 
     if (isGetFunctionUrlVisible) {
@@ -179,6 +212,8 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
     }
   };
 
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
+
   useEffect(() => {
     portalCommunicator.updateDirtyState(dirty);
   }, [dirty, portalCommunicator]);
@@ -191,6 +226,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         styles={CommandBarStyles}
         ariaLabel={t('functionEditorCommandBarAriaLabel')}
         buttonAs={CustomCommandBarButton}
+        overflowButtonProps={overflowButtonProps}
       />
       {isDialogVisible && (
         <FunctionEditorGetFunctionUrlCallout

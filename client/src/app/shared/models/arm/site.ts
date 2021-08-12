@@ -68,9 +68,13 @@ export interface PublishingCredentialPolicies {
 // Strongly typed request to create a new slot with sticky settings
 export interface CreateSlotRequest {
   location: string;
+  kind: string;
   properties: {
     serverFarmId: string;
-    siteConfig?: SiteConfig;
+    // When not cloning we provide an empty object for the config
+    // When cloning prod, we omit the config
+    // When cloning non-prod we provide the config
+    siteConfig?: SiteConfig | {};
     httpsOnly?: boolean;
     clientCertEnabled?: boolean;
     clientCertMode?: string;

@@ -13,7 +13,7 @@ export interface CustomDropdownProps {
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
-  label: string;
+  label?: string;
   learnMoreLink?: string;
   dirty?: boolean;
   onPanel?: boolean;
@@ -36,7 +36,6 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
         selectedKeys: field.value,
         onChange: (_, option: IDropdownOption) => {
           const value = field.value as any[];
-
           if (option.selected) {
             form.setFieldValue(field.name, [...value, option.key]);
           } else {

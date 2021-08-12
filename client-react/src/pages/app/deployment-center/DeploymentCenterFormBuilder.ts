@@ -37,13 +37,17 @@ export abstract class DeploymentCenterFormBuilder {
       bitbucketUser: undefined,
       gitHubPublishProfileSecretGuid: '',
       externalRepoType: RepoTypeOptions.Public,
+      devOpsProject: '',
     };
   }
 
   protected generateCommonFormYupValidationSchema() {
     // NOTE(michinoy): The password should be at least eight characters long and must contain letters, numbers, and symbol.
-    const passwordMinimumRequirementsRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
+    const passwordMinimumRequirementsRegex = new RegExp(/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})$/);
     const usernameMinLength = 3;
+    const getPublishingUsername = () => {
+      return this._publishingUser && this._publishingUser.properties ? this._publishingUser.properties.publishingUserName : '';
+    };
 
     return {
       publishingUsername: Yup.string()
@@ -53,13 +57,21 @@ export abstract class DeploymentCenterFormBuilder {
         .test('validatePublishingUsername', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
           return value || !this.parent.publishingPassword;
         }),
-      publishingPassword: Yup.string().test('publishingPasswordRequirements', this._t('userCredsError'), value => {
-        return !value || passwordMinimumRequirementsRegex.test(value);
-      }),
+      publishingPassword: Yup.string()
+        .test('publishingPasswordRequirements', this._t('userCredsError'), value => {
+          return !value || passwordMinimumRequirementsRegex.test(value);
+        })
+        .test('passwordRequiredWhenUsernameChanged', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return this.parent.publishingUsername && this.parent.publishingUsername !== getPublishingUsername() ? value : true;
+        }),
       // NOTE(michinoy): Cannot use the arrow operator for the test function as 'this' context is required.
-      publishingConfirmPassword: Yup.string().test('validatePublishingConfirmPassword', this._t('nomatchpassword'), function(value) {
-        return !this.parent.publishingPassword || this.parent.publishingPassword === value;
-      }),
+      publishingConfirmPassword: Yup.string()
+        .test('validatePublishingConfirmPassword', this._t('nomatchpassword'), function(value) {
+          return !this.parent.publishingPassword || this.parent.publishingPassword === value;
+        })
+        .test('confirmPasswordRequiredWhenUsernameChanged', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return this.parent.publishingUsername && this.parent.publishingUsername !== getPublishingUsername() ? value : true;
+        }),
       workflowOption: Yup.mixed().test('workflowOptionRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.buildProvider === BuildProvider.GitHubAction
           ? this.parent.branch && this.parent.workflowOption !== 'none'
@@ -68,27 +80,26 @@ export abstract class DeploymentCenterFormBuilder {
       org: Yup.mixed().test('organizationRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.sourceProvider === ScmType.GitHubAction ||
           this.parent.sourceProvider === ScmType.GitHub ||
-          this.parent.sourceProvider === ScmType.BitbucketGit
+          this.parent.sourceProvider === ScmType.BitbucketGit ||
+          this.parent.sourceProvider === ScmType.Vsts
           ? !!value
           : true;
       }),
-      repo: Yup.mixed()
-        .test('repositoryRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-          return this.parent.sourceProvider === ScmType.GitHubAction ||
-            this.parent.sourceProvider === ScmType.GitHub ||
-            this.parent.sourceProvider === ScmType.BitbucketGit ||
-            this.parent.sourceProvider === ScmType.ExternalGit
-            ? !!value
-            : true;
-        })
-        .test('repositoryIsUrl', this._t('deploymentCenterExternalRepoMessage'), function(value) {
-          return this.parent.sourceProvider === ScmType.ExternalGit ? !!value && this.parent.repo.startsWith('https://') : true;
-        }),
+      repo: Yup.mixed().test('repositoryRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.sourceProvider === ScmType.GitHubAction ||
+          this.parent.sourceProvider === ScmType.GitHub ||
+          this.parent.sourceProvider === ScmType.BitbucketGit ||
+          this.parent.sourceProvider === ScmType.ExternalGit ||
+          this.parent.sourceProvider === ScmType.Vsts
+          ? !!value
+          : true;
+      }),
       branch: Yup.mixed().test('branchRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.sourceProvider === ScmType.GitHubAction ||
           this.parent.sourceProvider === ScmType.GitHub ||
           this.parent.sourceProvider === ScmType.BitbucketGit ||
-          this.parent.sourceProvider === ScmType.ExternalGit
+          this.parent.sourceProvider === ScmType.ExternalGit ||
+          this.parent.sourceProvider === ScmType.Vsts
           ? !!value
           : true;
       }),
@@ -102,6 +113,7 @@ export abstract class DeploymentCenterFormBuilder {
         return this.parent.externalRepoType === RepoTypeOptions.Private ? !!value : true;
       }),
       externalRepoType: Yup.mixed().notRequired(),
+      devOpsProjectName: Yup.mixed().notRequired(),
     };
   }
 

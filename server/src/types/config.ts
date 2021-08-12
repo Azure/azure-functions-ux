@@ -22,7 +22,15 @@ export interface AngularHomeConfig extends StaticAngularConfig {
   clientOptimizationsOff: boolean;
 }
 
-export type CloudType = 'onprem' | 'public' | 'fairfax' | 'mooncake' | 'blackforest' | 'usnat' | 'ussec';
+export enum CloudType {
+  onprem = 'onprem',
+  public = 'public',
+  fairfax = 'fairfax',
+  mooncake = 'mooncake',
+  blackforest = 'blackforest',
+  usnat = 'usnat',
+  ussec = 'ussec',
+}
 
 export interface ReactEnvironment {
   hostName: string;

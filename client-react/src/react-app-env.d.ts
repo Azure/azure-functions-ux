@@ -12,7 +12,7 @@ declare module 'office-ui-fabric-react/lib/TeachingBubble' {
 
 interface Environment {
   hostName: string;
-  runtimeType: 'OnPrem' | 'Azure' | 'Standalone';
+  runtimeType: 'OnPrem' | 'Azure';
   azureResourceManagerEndpoint?: string;
   armToken?: string;
   appName: string;
@@ -21,11 +21,13 @@ interface Environment {
 interface AppSvc {
   env: Environment;
   version: string;
+  sessionId: string;
   resourceId?: string;
   feature?: string;
   cdn?: string;
   cacheBreakQuery?: string;
   frameId?: string;
+  officeFabricIconsCdn?: string;
 }
 
 declare global {

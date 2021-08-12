@@ -8,11 +8,12 @@ export interface IDeploymentCenterContext {
   resourceId: string;
   hasWritePermission: boolean;
   oneDriveToken: string;
-  dropBoxToken: string;
+  dropboxToken: string;
   bitbucketToken: string;
   gitHubToken: string;
-  refresh: () => void;
+  refresh: () => Promise<void>;
   refreshUserSourceControlTokens: () => void;
+  isIlbASE: boolean;
   siteConfig?: ArmObj<SiteConfig>;
   siteDescriptor?: ArmSiteDescriptor;
   applicationSettings?: ArmObj<KeyValue<string>>;

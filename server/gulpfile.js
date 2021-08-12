@@ -46,7 +46,7 @@ gulp.task('replace-tokens-for-minimized-angular', cb => {
     config.main = index.match(/main.*?\.bundle.js/)[0];
     config.styles = index.match(/styles.*?\.bundle.css/)[0];
     const configFile = path.join(ngMinPath, `${getBuildVersion()}.json`);
-    const configContents = new Buffer(JSON.stringify(config));
+    const configContents = new Buffer.from(JSON.stringify(config));
     fs.writeFileSync(configFile, configContents);
   }
   cb();
@@ -66,7 +66,7 @@ gulp.task('package-version', () => {
   //
   return gulp
     .src('package.json')
-    .pipe(string_replace('0.0.0', getBuildVersion()))
+    .pipe(string_replace('"version": "0.0.0"', `"version": "${getBuildVersion()}"`))
     .pipe(gulp.dest('dist'));
 });
 
@@ -93,6 +93,8 @@ gulp.task('replace-environment-variables', cb => {
       githubClientId: process.env.githubClientId || '',
       githubClientSecret: process.env.githubClientSecret || '',
       githubRedirectUrl: process.env.githubRedirectUrl || '',
+      githubNationalCloudsClientId: process.env.githubNationalCloudsClientId || '',
+      githubNationalCloudsClientSecret: process.env.githubNationalCloudsClientSecret || '',
       bitbucketClientSecret: process.env.bitbucketClientSecret || '',
       bitbucketRedirectUrl: process.env.bitbucketRedirectUrl || '',
       dropboxClientSecret: process.env.dropboxClientSecret || '',
@@ -103,6 +105,10 @@ gulp.task('replace-environment-variables', cb => {
       onedriveRedirectUrl: process.env.onedriveRedirectUrl || '',
       staticSitesGithubClientId: process.env.staticSitesGithubClientId || '',
       staticSitesGithubClientSecret: process.env.staticSitesGithubClientSecret || '',
+      githubForCreatesClientId: process.env.githubForCreatesClientId || '',
+      githubForCreatesClientSecret: process.env.githubForCreatesClientSecret || '',
+      githubForCreatesNationalCloudsClientId: process.env.githubForCreatesNationalCloudsClientId || '',
+      githubForCreatesNationalCloudsClientSecret: process.env.githubForCreatesNationalCloudsClientSecret || '',
       HashSalt: hashSalt,
       version: getBuildVersion(),
       cacheBreakQuery: newGuid(),
@@ -123,7 +129,7 @@ gulp.task('inject-environment-variables', gulp.series('copy-env-template-to-env'
  *   Bundle Up production server static files
  */
 gulp.task('bundle-static-files', function() {
-  return gulp.src(['src/**/*.json', 'src/**/*.md']).pipe(gulp.dest('dist'));
+  return gulp.src(['src/**/*.json', 'src/**/*.md', 'src/**/*.config.yml']).pipe(gulp.dest('dist'));
 });
 
 /********
@@ -146,7 +152,7 @@ gulp.task('resx-to-typescript-models', function(cb) {
   typescriptFileContent += `}`;
   let writePath = path.normalize(path.join(__dirname, '..', 'client', 'src', 'app', 'shared', 'models'));
   let writeFile = path.join(writePath, 'portal-resources.ts');
-  fs.writeFileSync(writeFile, new Buffer(typescriptFileContent));
+  fs.writeFileSync(writeFile, new Buffer.from(typescriptFileContent));
   return gulp
     .src(writeFile)
     .pipe(
@@ -167,7 +173,7 @@ gulp.task('resx-to-typescript-models', function(cb) {
  */
 gulp.task('resources-convert', function() {
   const portalResourceStream = gulp
-    .src(['./Resources/**/Resources.resx'])
+    .src(['../server/resources-resx/**/Resources.*.resx', './Resources/Resources.resx'])
     .pipe(resx2())
     .pipe(
       rename(function(p) {
@@ -377,7 +383,7 @@ gulp.task('build-templates', function(cb) {
       fs.mkdirSync(writePath);
     }
     writePath = path.join(writePath, version + '.json');
-    fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateListJson)));
+    fs.writeFileSync(writePath, new Buffer.from(JSON.stringify(templateListJson)));
   });
   cb();
 });
@@ -405,7 +411,7 @@ gulp.task('build-bindings', function(cb) {
       fs.mkdirSync(writePath);
     }
     writePath = path.join(writePath, version + '.json');
-    fs.writeFileSync(writePath, new Buffer(JSON.stringify(bindingFile)));
+    fs.writeFileSync(writePath, new Buffer.from(JSON.stringify(bindingFile)));
   });
   cb();
 });
@@ -456,7 +462,7 @@ gulp.task('list-numeric-versions', function(cb) {
     fs.mkdirSync(writePath);
   }
   writePath = path.join(writePath, 'supportedFunctionsFxVersions.json');
-  fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateVersions)));
+  fs.writeFileSync(writePath, new Buffer.from(JSON.stringify(templateVersions)));
   cb();
 });
 
@@ -540,7 +546,7 @@ function newGuid() {
 }
 
 function getBuildVersion() {
-  return !!process.env.BUILD_BUILDID ? `1.0.${process.env.BUILD_BUILDID}` : '0.0.0';
+  return !!process.env.BUILD_BUILDID ? `1.0.${process.env.BUILD_BUILDID}` : '1.0.0';
 }
 
 function getFiles(folders) {

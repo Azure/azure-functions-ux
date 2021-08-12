@@ -4,8 +4,6 @@ import DeploymentCenterData from './DeploymentCenter.data';
 import { PortalContext } from '../../../PortalContext';
 import { SiteStateContext } from '../../../SiteState';
 import RbacConstants from '../../../utils/rbac-constants';
-import LogService from '../../../utils/LogService';
-import { LogCategories } from '../../../utils/LogCategories';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import {
   parsePublishProfileXml,
@@ -28,7 +26,9 @@ import { SourceControl } from '../../../models/provider';
 import { PublishingCredentialPolicies } from '../../../models/site/site';
 import DeploymentCenterContainerDataLoader from './container/DeploymentCenterContainerDataLoader';
 import DeploymentCenterCodeDataLoader from './code/DeploymentCenterCodeDataLoader';
-import { getLogId } from './utility/DeploymentCenterUtility';
+import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
+import HostingEnvironmentService from '../../../ApiHelpers/HostingEnvironmentService';
+import { InternalLoadBalancingMode } from '../../../models/hostingEnvironment/hosting-environment';
 
 enum SourceControlTypes {
   oneDrive = 'onedrive',
@@ -54,21 +54,26 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [siteConfig, setSiteConfig] = useState<ArmObj<SiteConfig> | undefined>(undefined);
   const [configMetadata, setConfigMetadata] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
   const [oneDriveToken, setOneDriveToken] = useState<string>('');
-  const [dropBoxToken, setDropBoxToken] = useState<string>('');
+  const [dropboxToken, setDropboxToken] = useState<string>('');
   const [bitbucketToken, setBitbucketToken] = useState<string>('');
   const [gitHubToken, setGitHubToken] = useState<string>('');
   const [basicPublishingCredentialsPolicies, setBasicPublishingCredentialsPolicies] = useState<PublishingCredentialPolicies | undefined>(
     undefined
   );
+  const [isIlbASE, setIsIlbASE] = useState<boolean>(false);
+  const [isDataRefreshing, setIsDataRefreshing] = useState(true);
 
   const processPublishProfileResponse = (publishProfileResponse: HttpResponseObject<string>) => {
     if (publishProfileResponse.metadata.success) {
       const publishingProfiles = parsePublishProfileXml(publishProfileResponse.data);
       setPublishingProfile(publishingProfiles.filter(profile => profile.publishMethod === PublishMethod.FTP)[0]);
     } else {
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterDataLoader', 'processPublishProfileResponse'), {
-        error: publishProfileResponse.metadata.error,
-      });
+      portalContext.log(
+        getTelemetryInfo('error', 'processPublishProfileResponse', 'failed', {
+          message: getErrorMessage(publishProfileResponse.metadata.error),
+          errorAsString: publishProfileResponse.metadata.error ? JSON.stringify(publishProfileResponse.metadata.error) : '',
+        })
+      );
     }
   };
 
@@ -85,15 +90,19 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       processPublishProfileResponse(publishProfileResponse);
       portalContext.stopNotification(notificationId, true, t('siteSummary_resetProfileNotifySuccess'));
     } else {
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterDataLoader', 'resetApplicationPassword'), {
-        error: resetResponse.metadata.error,
-      });
+      portalContext.log(
+        getTelemetryInfo('error', 'resetPublishProfileResponse', 'failed', {
+          message: getErrorMessage(resetResponse.metadata.error),
+          errorAsString: resetResponse.metadata.error ? JSON.stringify(resetResponse.metadata.error) : '',
+        })
+      );
       portalContext.stopNotification(notificationId, false, t('siteSummary_resetProfileNotifyFail'));
     }
   };
 
   const fetchData = async () => {
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterDataLoader', 'fetchData'), {});
+    portalContext.log(getTelemetryInfo('info', 'initialDataRequest', 'submit'));
+    setIsDataRefreshing(true);
 
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
@@ -102,6 +111,22 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getConfigMetadataRequest = deploymentCenterData.getConfigMetadata(resourceId);
     const getBasicPublishingCredentialsPoliciesRequest = deploymentCenterData.getBasicPublishingCredentialsPolicies(resourceId);
 
+    const requests: Promise<any>[] = [
+      writePermissionRequest,
+      getPublishingUserRequest,
+      getSiteConfigRequest,
+      getConfigMetadataRequest,
+      getUserSourceControlsRequest,
+    ];
+
+    if (!siteStateContext.isKubeApp) {
+      requests.push(getBasicPublishingCredentialsPoliciesRequest);
+    }
+
+    if (!!siteStateContext.site && !!siteStateContext.site.properties.hostingEnvironmentId) {
+      requests.push(HostingEnvironmentService.fetchHostingEnvironment(siteStateContext.site.properties.hostingEnvironmentId));
+    }
+
     const [
       writePermissionResponse,
       publishingUserResponse,
@@ -109,21 +134,54 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       configMetadataResponse,
       userSourceControlsResponse,
       basicPublishingCredentialsPoliciesResponse,
-    ] = await Promise.all([
-      writePermissionRequest,
-      getPublishingUserRequest,
-      getSiteConfigRequest,
-      getConfigMetadataRequest,
-      getUserSourceControlsRequest,
-      getBasicPublishingCredentialsPoliciesRequest,
-    ]);
+      hostingEnvironmentResponse,
+    ] = await Promise.all(requests);
 
     if (userSourceControlsResponse.metadata.success) {
       setUserSourceControlTokens(userSourceControlsResponse.data);
+    } else {
+      portalContext.log(
+        getTelemetryInfo('error', 'userSourceControlsResponse', 'failed', {
+          message: getErrorMessage(userSourceControlsResponse.metadata.error),
+          errorAsString: userSourceControlsResponse.metadata.error ? JSON.stringify(userSourceControlsResponse.metadata.error) : '',
+        })
+      );
     }
 
-    if (basicPublishingCredentialsPoliciesResponse.metadata.success) {
+    if (
+      !!siteStateContext.site &&
+      !!siteStateContext.site.properties.hostingEnvironmentId &&
+      !!hostingEnvironmentResponse &&
+      hostingEnvironmentResponse.metadata.success
+    ) {
+      setIsIlbASE(
+        !!hostingEnvironmentResponse.data.properties.internalLoadBalancingMode &&
+          hostingEnvironmentResponse.data.properties.internalLoadBalancingMode === InternalLoadBalancingMode.PublishingAndWeb
+      );
+    } else if (!!hostingEnvironmentResponse && !hostingEnvironmentResponse.metadata.success) {
+      portalContext.log(
+        getTelemetryInfo('error', 'getHostingEnvironment', 'failed', {
+          message: getErrorMessage(hostingEnvironmentResponse.metadata.error),
+          errorAsString: hostingEnvironmentResponse.metadata.error ? JSON.stringify(hostingEnvironmentResponse.metadata.error) : '',
+        })
+      );
+    }
+
+    if (
+      !siteStateContext.isKubeApp &&
+      !!basicPublishingCredentialsPoliciesResponse &&
+      basicPublishingCredentialsPoliciesResponse.metadata.success
+    ) {
       setBasicPublishingCredentialsPolicies(basicPublishingCredentialsPoliciesResponse.data.properties);
+    } else if (!siteStateContext.isKubeApp && !!basicPublishingCredentialsPoliciesResponse) {
+      portalContext.log(
+        getTelemetryInfo('error', 'basicPublishingCredentialsPoliciesResponse', 'failed', {
+          message: getErrorMessage(basicPublishingCredentialsPoliciesResponse.metadata.error),
+          errorAsString: basicPublishingCredentialsPoliciesResponse.metadata.error
+            ? JSON.stringify(basicPublishingCredentialsPoliciesResponse.metadata.error)
+            : '',
+        })
+      );
     }
 
     setSiteDescriptor(new ArmSiteDescriptor(resourceId));
@@ -132,20 +190,22 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     if (siteConfigResponse.metadata.success) {
       setSiteConfig(siteConfigResponse.data);
     } else {
-      LogService.error(
-        LogCategories.deploymentCenter,
-        getLogId('DeploymentCenterDataLoader', 'fetchData'),
-        `Failed to get site config with error: ${getErrorMessage(siteConfigResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'siteConfigResponse', 'failed', {
+          message: getErrorMessage(siteConfigResponse.metadata.error),
+          errorAsString: siteConfigResponse.metadata.error ? JSON.stringify(siteConfigResponse.metadata.error) : '',
+        })
       );
     }
 
     if (configMetadataResponse.metadata.success) {
       setConfigMetadata(configMetadataResponse.data);
     } else {
-      LogService.error(
-        LogCategories.deploymentCenter,
-        getLogId('DeploymentCenterDataLoader', 'fetchData'),
-        `Failed to get site metadata with error: ${getErrorMessage(configMetadataResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'configMetadataResponse', 'failed', {
+          message: getErrorMessage(configMetadataResponse.metadata.error),
+          errorAsString: configMetadataResponse.metadata.error ? JSON.stringify(configMetadataResponse.metadata.error) : '',
+        })
       );
     }
 
@@ -155,14 +215,17 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       setPublishingUserFetchFailedMessage(
         t('publishingUserFetchFailedMessage').format(getErrorMessage(publishingUserResponse.metadata.error))
       );
-      LogService.error(
-        LogCategories.deploymentCenter,
-        getLogId('DeploymentCenterDataLoader', 'fetchData'),
-        `Failed to fetch publishing user with error: ${getErrorMessage(publishingUserResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'publishingUserResponse', 'failed', {
+          message: getErrorMessage(publishingUserResponse.metadata.error),
+          errorAsString: publishingUserResponse.metadata.error ? JSON.stringify(publishingUserResponse.metadata.error) : '',
+        })
       );
     }
 
     if (writePermissionResponse) {
+      portalContext.log(getTelemetryInfo('info', 'writePermissionDataRequest', 'submit'));
+
       const getPublishingCredentialsRequest = deploymentCenterData.getPublishingCredentials(resourceId);
       const getPublishProfileRequest = deploymentCenterData.getPublishProfile(resourceId);
       const fetchApplicationSettingsRequest = deploymentCenterData.fetchApplicationSettings(resourceId);
@@ -175,25 +238,31 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       if (fetchApplicationSettingsResponse.metadata.success) {
         setApplicationSettings(fetchApplicationSettingsResponse.data);
       } else {
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterFtpsDataLoader',
-          `Failed to get site application settings with error: ${getErrorMessage(fetchApplicationSettingsResponse.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'fetchApplicationSettingsResponse', 'failed', {
+            message: getErrorMessage(fetchApplicationSettingsResponse.metadata.error),
+            errorAsString: fetchApplicationSettingsResponse.metadata.error
+              ? JSON.stringify(fetchApplicationSettingsResponse.metadata.error)
+              : '',
+          })
         );
       }
 
       if (publishingCredentialsResponse.metadata.success) {
         setPublishingCredentials(publishingCredentialsResponse.data);
       } else {
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterFtpsDataLoader',
-          `Failed to fetch publishing credentials with error: ${getErrorMessage(publishingCredentialsResponse.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'publishingCredentialsResponse', 'failed', {
+            message: getErrorMessage(publishingCredentialsResponse.metadata.error),
+            errorAsString: publishingCredentialsResponse.metadata.error ? JSON.stringify(publishingCredentialsResponse.metadata.error) : '',
+          })
         );
       }
 
       processPublishProfileResponse(publishProfileResponse);
     }
+
+    setIsDataRefreshing(false);
   };
 
   const setUserSourceControlTokens = (sourceControls: ArmArray<SourceControl>) => {
@@ -201,15 +270,24 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       sourceControl && sourceControl.properties.token ? sourceControl.properties.token : '';
 
     setOneDriveToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.oneDrive)));
-    setDropBoxToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.dropBox)));
+    setDropboxToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.dropBox)));
     setBitbucketToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.bitBucket)));
     setGitHubToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.gitHub)));
   };
 
   const refreshUserSourceControlTokens = async () => {
+    portalContext.log(getTelemetryInfo('info', 'refreshUserSourceControlTokens', 'submit'));
+
     const userSourceControlsResponse = await deploymentCenterData.getUserSourceControls();
     if (userSourceControlsResponse.metadata.success) {
       setUserSourceControlTokens(userSourceControlsResponse.data);
+    } else {
+      portalContext.log(
+        getTelemetryInfo('error', 'userSourceControlsResponse', 'failed', {
+          message: getErrorMessage(userSourceControlsResponse.metadata.error),
+          errorAsString: userSourceControlsResponse.metadata.error ? JSON.stringify(userSourceControlsResponse.metadata.error) : '',
+        })
+      );
     }
   };
 
@@ -221,15 +299,17 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     setIsPublishProfilePanelOpen(false);
   };
 
-  const refresh = () => {
-    fetchData();
+  const refresh = async () => {
+    return fetchData();
   };
 
   useEffect(() => {
-    fetchData();
+    if (siteStateContext.site && resourceId) {
+      fetchData();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext]);
+  }, [siteStateContext.site]);
 
   return siteStateContext.site ? (
     // NOTE(michinoy): Populate common deployment center level properties
@@ -242,9 +322,10 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         applicationSettings,
         configMetadata,
         oneDriveToken,
-        dropBoxToken,
+        dropboxToken,
         bitbucketToken,
         gitHubToken,
+        isIlbASE,
         refresh,
         refreshUserSourceControlTokens,
       }}>
@@ -261,9 +342,9 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         }}>
         {/* NOTE(michinoy): Load the specific experience based on the app settings */}
         {siteStateContext.isContainerApp ? (
-          <DeploymentCenterContainerDataLoader resourceId={resourceId} />
+          <DeploymentCenterContainerDataLoader resourceId={resourceId} isDataRefreshing={isDataRefreshing} />
         ) : (
-          <DeploymentCenterCodeDataLoader resourceId={resourceId} />
+          <DeploymentCenterCodeDataLoader resourceId={resourceId} isDataRefreshing={isDataRefreshing} />
         )}
         {/* NOTE(michinoy): Load the publishing profile panel which is common between both code and container experiences  */}
         <DeploymentCenterPublishProfilePanel

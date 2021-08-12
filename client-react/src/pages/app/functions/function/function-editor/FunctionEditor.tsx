@@ -3,7 +3,6 @@ import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
-import { BindingType } from '../../../../../models/functions/function-binding';
 import { Site } from '../../../../../models/site/site';
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
@@ -31,7 +30,7 @@ import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBan
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { PortalTheme } from '../../../../../models/portal-models';
+import { FunctionAppEditMode, PortalTheme } from '../../../../../models/portal-models';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
@@ -42,8 +41,11 @@ import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
-import { isLinuxDynamic } from '../../../../../utils/arm-utils';
+import { isKubeApp, isLinuxDynamic } from '../../../../../utils/arm-utils';
 import Url from '../../../../../utils/url';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
+import { PortalContext } from '../../../../../PortalContext';
+import { BindingManager } from '../../../../../utils/BindingManager';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -56,11 +58,15 @@ export interface FunctionEditorProps {
   refresh: () => void;
   isRefreshing: boolean;
   getFunctionUrl: (key?: string) => string;
+  isUploadingFile: boolean;
+  setIsUploadingFile: (isUploadingFile: boolean) => void;
+  refreshFileList: () => void;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
   testData?: string;
+  workerRuntime?: string;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
@@ -79,6 +85,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     isRefreshing,
     xFunctionKey,
     getFunctionUrl,
+    isUploadingFile,
+    setIsUploadingFile,
+    refreshFileList,
+    workerRuntime,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -104,11 +114,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const siteStateContext = useContext(SiteStateContext);
   const startUpInfoContext = useContext(StartupInfoContext);
   const functionEditorContext = useContext(FunctionEditorContext);
+  const portalCommunicator = useContext(PortalContext);
 
   const scenarioChecker = new ScenarioService(t);
 
   const showAppInsightsLogs = scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
-  const isFileSystemLoggingAvailable = site && !isLinuxDynamic(site);
+  const isFileSystemLoggingAvailable = site && !isLinuxDynamic(site) && !isKubeApp(site);
   const showLoggingOptionsDropdown = showAppInsightsLogs && isFileSystemLoggingAvailable;
   const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.siteAppEditState);
   const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
@@ -117,19 +128,31 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (!selectedFile) {
       return;
     }
+
+    portalCommunicator.log({
+      action: 'functionEditor',
+      actionModifier: 'saveClicked',
+      resourceId: siteStateContext.resourceId || '',
+      logLevel: 'info',
+      data: {
+        sessionId: Url.getParameterByName(null, 'sessionId'),
+        siteKind: site.kind,
+        isLinux: site.properties.isLinux,
+        runtime: runtimeVersion,
+        stack: workerRuntime,
+        sku: site.properties.sku,
+      },
+    });
+
     setSavingFile(true);
     const fileData = selectedFile.data;
-    const headers = {
-      'Content-Type': fileData.mime,
-      'If-Match': '*',
-    };
     const fileResponse = await FunctionsService.saveFileContent(
       site.id,
       fileData.name,
       fileContent.latest,
       functionInfo.properties.name,
       runtimeVersion,
-      headers
+      functionEditorContext.getSaveFileHeaders(fileData.mime)
     );
     if (fileResponse.metadata.success) {
       setFileContent({ ...fileContent, default: fileContent.latest });
@@ -187,9 +210,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const isGetFunctionUrlVisible = () => {
     return (
-      functionInfo.properties.config &&
-      functionInfo.properties.config.bindings &&
-      !!functionInfo.properties.config.bindings.find(e => e.type === BindingType.httpTrigger || e.type === BindingType.eventGridTrigger)
+      !!BindingManager.getHttpTriggerTypeInfo(functionInfo.properties) || !!BindingManager.getEventGridTriggerInfo(functionInfo.properties)
     );
   };
 
@@ -278,7 +299,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isDisabled = () => {
-    return isLoading() || functionRunning || isRefreshing;
+    return isLoading() || functionRunning || isRefreshing || isUploadingFile;
   };
 
   const onCancelButtonClick = () => {
@@ -365,6 +386,61 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     });
   };
 
+  const uploadFile = async (file: any) => {
+    const xhr = new XMLHttpRequest();
+    const url = `${window.appsvc &&
+      window.appsvc.env &&
+      window.appsvc.env.azureResourceManagerEndpoint}${FunctionsService.getSaveFileContentUrl(
+      site.id,
+      file.name,
+      functionInfo.properties.name,
+      runtimeVersion,
+      CommonConstants.ApiVersions.antaresApiVersion20181101
+    )}`;
+    const headers = functionEditorContext.getSaveFileHeaders(file.type);
+    headers['Cache-Control'] = 'no-cache';
+    headers['Authorization'] = `Bearer ${startUpInfoContext.token}`;
+
+    const fileName = file.name;
+    const notificationId = portalCommunicator.startNotification(t('uploadingFile'), t('uploadingFileWithName').format(fileName));
+
+    xhr.onloadstart = async loadStartEvent => {
+      setIsUploadingFile(true);
+    };
+    xhr.onloadend = async loadEndEvent => {
+      setIsUploadingFile(false);
+      if (loadEndEvent.target && !!loadEndEvent.target['status'] && loadEndEvent.target['status'] < 300) {
+        if (!!fileList && fileList.length > 0) {
+          refreshFileList();
+        } else {
+          refresh();
+        }
+        portalCommunicator.stopNotification(notificationId, true, t('uploadingFileSuccessWithName').format(fileName));
+      } else {
+        portalCommunicator.stopNotification(notificationId, false, t('uploadingFileFailureWithName').format(fileName));
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'functionEditorFileUpload',
+          `Failed to upload file: ${loadEndEvent.target && loadEndEvent.target['response']}`
+        );
+      }
+    };
+
+    xhr.open('PUT', url, true);
+
+    for (const headerKey in headers) {
+      if (headerKey in headers) {
+        xhr.setRequestHeader(headerKey, headers[headerKey]);
+      }
+    }
+
+    xhr.send(file);
+  };
+
+  const isAppReadOnly = (appEditState: FunctionAppEditMode) => {
+    return SiteHelper.isFunctionAppReadOnly(appEditState);
+  };
+
   useEffect(() => {
     setLogPanelHeight(logPanelExpanded ? minimumLogPanelHeight : 0);
 
@@ -413,6 +489,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           testDisabled={isTestDisabled()}
           functionInfo={functionInfo}
           runtimeVersion={runtimeVersion}
+          upload={uploadFile}
         />
         <ConfirmDialog
           primaryActionButton={{
@@ -442,13 +519,16 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={onCancelButtonClick}
         />
-        {!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable) ? (
-          <CustomBanner
-            message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
-            type={MessageBarType.error}
-          />
-        ) : (
+        {/* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */}
+        {isAppReadOnly(siteStateContext.siteAppEditState) ? (
           <EditModeBanner setBanner={setReadOnlyBanner} />
+        ) : (
+          (!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
+            <CustomBanner
+              message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
+              type={MessageBarType.error}
+            />
+          )
         )}
         <FunctionEditorFileSelectorBar
           disabled={isDisabled()}
@@ -497,7 +577,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               scrollBeyondLastLine: false,
               cursorBlinking: true,
               renderWhitespace: 'all',
-              readOnly: SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) || appReadOnlyPermission,
+              readOnly: isAppReadOnly(siteStateContext.siteAppEditState) || appReadOnlyPermission,
               extraEditorClassName: editorStyle,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}

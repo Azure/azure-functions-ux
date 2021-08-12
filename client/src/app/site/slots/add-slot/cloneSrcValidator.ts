@@ -51,14 +51,21 @@ export class CloneSrcValidator implements AsyncValidator {
         Observable.zip(
           this._siteService.getSiteConfig(cloneSrcId),
           this._siteService.getAppSettings(cloneSrcId),
-          this._siteService.getConnectionStrings(cloneSrcId)
+          this._siteService.getConnectionStrings(cloneSrcId),
+          this._siteService.getAzureStorageAccounts(cloneSrcId)
         ).subscribe(r => {
-          const [siteConfigResult, appSettingsResult, connectionStringsResult] = r;
+          const [siteConfigResult, appSettingsResult, connectionStringsResult, azureStorageAccountsResult] = r;
 
-          if (siteConfigResult.isSuccessful && appSettingsResult.isSuccessful && connectionStringsResult.isSuccessful) {
+          if (
+            siteConfigResult.isSuccessful &&
+            appSettingsResult.isSuccessful &&
+            connectionStringsResult.isSuccessful &&
+            azureStorageAccountsResult.isSuccessful
+          ) {
             const cloneSrcConfig = siteConfigResult.result.properties;
             cloneSrcConfig.appSettings = this._convertAppSettings(appSettingsResult.result.properties);
             cloneSrcConfig.connectionStrings = this._convertConnectionStrings(connectionStringsResult.result.properties);
+            cloneSrcConfig.azureStorageAccounts = azureStorageAccountsResult.result.properties;
             cloneSrcConfigCtrl.setValue(cloneSrcConfig);
             resolve(null);
           } else {

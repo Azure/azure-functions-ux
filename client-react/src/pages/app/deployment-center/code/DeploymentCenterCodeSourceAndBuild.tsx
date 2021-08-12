@@ -9,14 +9,26 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { deploymentCenterInfoBannerDiv, additionalTextFieldControl } from '../DeploymentCenter.styles';
-import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, BuildChoiceGroupOption } from '../DeploymentCenter.types';
+import {
+  DeploymentCenterFieldProps,
+  DeploymentCenterCodeFormData,
+  BuildChoiceGroupOption,
+  RuntimeStackOptions,
+  RuntimeStackSetting,
+} from '../DeploymentCenter.types';
 import { Guid } from '../../../../utils/Guid';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import DeploymentCenterCodeBuildCallout from './DeploymentCenterCodeBuildCallout';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { SiteStateContext } from '../../../../SiteState';
+import { PortalContext } from '../../../../PortalContext';
+import { getRuntimeStackSetting, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
+  const scenarioService = new ScenarioService(t);
 
   const [selectedBuild, setSelectedBuild] = useState<BuildProvider>(BuildProvider.None);
   const [selectedBuildChoice, setSelectedBuildChoice] = useState<BuildProvider>(BuildProvider.None);
@@ -24,6 +36,8 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const [showInfoBanner, setShowInfoBanner] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
 
   const toggleIsCalloutVisible = () => {
     setSelectedBuildChoice(selectedBuild);
@@ -38,25 +52,74 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     setShowInfoBanner(false);
   };
 
-  const sourceOptions: IDropdownOption[] = [
-    {
-      key: 'continuousDeploymentHeader',
-      text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
-      itemType: DropdownMenuItemType.Header,
-    },
-    { key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') },
-    { key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') },
-    { key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') },
-    { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
-    {
-      key: 'manualDeploymentHeader',
-      text: t('deploymentCenterCodeSettingsSourceManualDeploymentHeader'),
-      itemType: DropdownMenuItemType.Header,
-    },
-    { key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') },
-  ];
+  const getSourceOptions = (): IDropdownOption[] => [...getContinuousDeploymentOptions(), ...getManualDeploymentOptions()];
+
+  const getContinuousDeploymentOptions = (): IDropdownOption[] => {
+    const continuousDeploymentOptions: IDropdownOption[] = [];
+
+    if (scenarioService.checkScenario(ScenarioIds.githubSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.bitbucketSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.localGitSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.vstsKuduSource, { site: siteStateContext.site }).status !== 'disabled') {
+      continuousDeploymentOptions.push({ key: ScmType.Vso, text: t('deploymentCenterCodeSettingsSourceAzureRepos') });
+    }
+
+    return continuousDeploymentOptions.length > 0
+      ? [
+          {
+            key: 'continuousDeploymentHeader',
+            text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
+            itemType: DropdownMenuItemType.Header,
+          },
+          ...continuousDeploymentOptions,
+          { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
+        ]
+      : continuousDeploymentOptions;
+  };
+
+  const getManualDeploymentOptions = (): IDropdownOption[] => {
+    const manualDeploymentOptions: IDropdownOption[] = [];
+
+    if (scenarioService.checkScenario(ScenarioIds.externalSource, { site: siteStateContext.site }).status !== 'disabled') {
+      manualDeploymentOptions.push({ key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.onedriveSource, { site: siteStateContext.site }).status !== 'disabled') {
+      manualDeploymentOptions.push({ key: ScmType.OneDrive, text: t('deploymentCenterCodeSettingsSourceOneDrive') });
+    }
+
+    if (scenarioService.checkScenario(ScenarioIds.dropboxSource, { site: siteStateContext.site }).status !== 'disabled') {
+      manualDeploymentOptions.push({ key: ScmType.Dropbox, text: t('deploymentCenterCodeSettingsSourceDropbox') });
+    }
+
+    return manualDeploymentOptions.length > 0
+      ? [
+          {
+            key: 'manualDeploymentHeader',
+            text: t('deploymentCenterCodeSettingsSourceManualDeploymentHeader'),
+            itemType: DropdownMenuItemType.Header,
+          },
+          ...manualDeploymentOptions,
+        ]
+      : [];
+  };
 
   const updateSelectedBuild = () => {
+    portalContext.log(
+      getTelemetryInfo('info', 'buildProvider', 'updated', {
+        buildProvider: selectedBuildChoice,
+      })
+    );
+
     setSelectedBuild(selectedBuildChoice);
     formProps.setFieldValue('buildProvider', selectedBuildChoice);
     if (selectedBuildChoice === BuildProvider.GitHubAction) {
@@ -75,7 +138,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   };
 
   useEffect(() => {
-    if (formProps.values.sourceProvider !== ScmType.None) {
+    if (!!formProps.values.sourceProvider && formProps.values.sourceProvider !== ScmType.None) {
       setSourceBuildProvider();
     } else {
       // NOTE(michinoy): If the source provider is set to None, it means either an initial load or discard.
@@ -94,27 +157,53 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   const setSourceBuildProvider = () => {
     if (formProps.values.sourceProvider === ScmType.GitHub) {
-      setSelectedBuild(BuildProvider.GitHubAction);
-      formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
-      formProps.setFieldValue(
-        'gitHubPublishProfileSecretGuid',
-        Guid.newGuid()
-          .toLowerCase()
-          .replace(/[-]/g, '')
-      );
+      //Note (stpelleg): Need to disable GitHub Actions for Ruby and ILB ASE as we do not support it
+      if (
+        (!!defaultStackAndVersion && defaultStackAndVersion.runtimeStack.toLocaleLowerCase() === RuntimeStackOptions.Ruby) ||
+        deploymentCenterContext.isIlbASE
+      ) {
+        setSelectedBuild(BuildProvider.AppServiceBuildService);
+        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
+      } else {
+        setSelectedBuild(BuildProvider.GitHubAction);
+        formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
+        formProps.setFieldValue(
+          'gitHubPublishProfileSecretGuid',
+          Guid.newGuid()
+            .toLowerCase()
+            .replace(/[-]/g, '')
+        );
+      }
     } else {
       setSelectedBuild(BuildProvider.AppServiceBuildService);
       formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
     }
   };
 
+  const defaultStackAndVersion: RuntimeStackSetting = getRuntimeStackSetting(
+    siteStateContext.isLinuxApp,
+    siteStateContext.isFunctionApp,
+    siteStateContext.isKubeApp,
+    deploymentCenterContext.siteConfig,
+    deploymentCenterContext.configMetadata,
+    deploymentCenterContext.applicationSettings
+  );
   const isSourceSelected = formProps.values.sourceProvider !== ScmType.None;
-  const isGitHubSource = formProps.values.sourceProvider === ScmType.GitHub;
-  const isGitHubActionsBuild = formProps.values.buildProvider === BuildProvider.GitHubAction;
   const calloutOkButtonDisabled = selectedBuildChoice === selectedBuild;
+  const isAzureDevOpsSupportedBuild =
+    formProps.values.sourceProvider === ScmType.GitHub ||
+    formProps.values.sourceProvider === ScmType.Vso ||
+    formProps.values.sourceProvider === ScmType.ExternalGit;
 
   const getBuildDescription = () => {
-    return isGitHubActionsBuild ? t('deploymentCenterGitHubActionsBuildDescription') : t('deploymentCenterKuduBuildDescription');
+    switch (formProps.values.buildProvider) {
+      case BuildProvider.GitHubAction:
+        return t('deploymentCenterGitHubActionsBuildDescription');
+      case BuildProvider.AppServiceBuildService:
+        return t('deploymentCenterKuduBuildDescription');
+      case BuildProvider.Vsts:
+        return t('deploymentCenterVstsBuildDescription');
+    }
   };
 
   const getCalloutContent = () => {
@@ -126,6 +215,8 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
           calloutOkButtonDisabled={calloutOkButtonDisabled}
           toggleIsCalloutVisible={toggleIsCalloutVisible}
           updateSelectedBuild={updateSelectedBuild}
+          formProps={formProps}
+          runtimeStack={defaultStackAndVersion.runtimeStack}
         />
       )
     );
@@ -135,7 +226,14 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     <>
       {getInProductionSlot() && showInfoBanner && (
         <div className={deploymentCenterInfoBannerDiv}>
-          <CustomBanner message={t('deploymentCenterProdSlotWarning')} type={MessageBarType.info} onDismiss={closeInfoBanner} />
+          <CustomBanner
+            id="deployment-center-prod-slot-warning"
+            message={t('deploymentCenterProdSlotWarning')}
+            type={MessageBarType.info}
+            onDismiss={closeInfoBanner}
+            learnMoreLink={DeploymentCenterLinks.configureDeploymentSlots}
+            learnMoreLinkAriaLabel={t('deploymentCenterProdSlotWarningLinkAriaLabel')}
+          />
         </div>
       )}
 
@@ -152,18 +250,18 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       </p>
 
       <Field
-        id="deployment-center-code-settings-source-option"
         label={t('deploymentCenterSettingsSourceLabel')}
         placeholder={t('deploymentCenterCodeSettingsSourcePlaceholder')}
         name="sourceProvider"
         component={Dropdown}
         displayInVerticalLayout={true}
-        options={sourceOptions}
+        options={getSourceOptions()}
         required={true}
+        aria-required={true}
       />
 
       {isSourceSelected &&
-        (isGitHubSource ? (
+        (isAzureDevOpsSupportedBuild ? (
           <>
             <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
               <div>

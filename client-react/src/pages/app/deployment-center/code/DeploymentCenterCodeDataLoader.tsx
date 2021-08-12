@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { SiteStateContext } from '../../../../SiteState';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { ArmArray } from '../../../../models/arm-obj';
 import {
@@ -15,22 +14,23 @@ import { useTranslation } from 'react-i18next';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DeploymentCenterCodeForm from './DeploymentCenterCodeForm';
-import LogService from '../../../../utils/LogService';
-import { getLogId } from '../utility/DeploymentCenterUtility';
-import { LogCategories } from '../../../../utils/LogCategories';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
-  const { resourceId } = props;
+  const { resourceId, isDataRefreshing } = props;
   const { t } = useTranslation();
 
-  const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+  const portalContext = useContext(PortalContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterCodeFormBuilder = new DeploymentCenterCodeFormBuilder(t);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLogsDataRefreshing, setIsLogsDataRefreshing] = useState(false);
   const [deployments, setDeployments] = useState<ArmArray<DeploymentProperties> | undefined>(undefined);
   const [deploymentsError, setDeploymentsError] = useState<string | undefined>(undefined);
   const [codeFormData, setCodeFormData] = useState<DeploymentCenterFormData<DeploymentCenterCodeFormData> | undefined>(undefined);
@@ -38,25 +38,30 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
     DeploymentCenterYupValidationSchemaType<DeploymentCenterCodeFormData> | undefined
   >(undefined);
 
-  const fetchData = async () => {
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataLoader', 'fetchData'), {});
+  const fetchInitialLogsData = async () => {
+    portalContext.log(
+      getTelemetryInfo('info', 'initialDataRequest', 'submit', {
+        publishType: 'code',
+      })
+    );
+    setIsLogsDataRefreshing(true);
+    await fetchDeploymentLogs();
+    setIsLogsDataRefreshing(false);
+  };
 
+  const fetchDeploymentLogs = async () => {
+    // NOTE(michinoy): We should prevent adding logs for this method. The reason is because it is called
+    // on a frequency, currently it is set to 30 seconds.
     const deploymentsResponse = await deploymentCenterData.getSiteDeployments(resourceId);
 
     if (deploymentsResponse.metadata.success) {
       setDeployments(deploymentsResponse.data);
-    } else {
+    } else if (!siteStateContext.isKubeApp) {
       const errorMessage = getErrorMessage(deploymentsResponse.metadata.error);
       setDeploymentsError(
         errorMessage ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage) : t('deploymentCenterCodeDeploymentsFailed')
       );
-
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataLoader', 'fetchData'), {
-        error: deploymentsResponse.metadata.error,
-      });
     }
-
-    setIsLoading(false);
   };
 
   const generateForm = () => {
@@ -80,20 +85,44 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
     setCodeFormData(formData);
     setCodeFormValidationSchema(deploymentCenterCodeFormBuilder.generateYupValidationSchema());
 
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterCodeDataLoader', 'generateForm'), formData);
+    // NOTE(michinoy): Prevent logging form data here as it could contain secrets (e.g. publishing password)
+    portalContext.log(
+      getTelemetryInfo('info', 'generateForm', 'generated', {
+        publishType: 'code',
+      })
+    );
+  };
+
+  const refreshLogs = () => {
+    fetchDeploymentLogs();
   };
 
   const refresh = () => {
-    setIsLoading(true);
-    fetchData();
+    portalContext.log(
+      getTelemetryInfo('info', 'refresh', 'submit', {
+        publishType: 'code',
+      })
+    );
+
+    fetchInitialLogsData();
     deploymentCenterContext.refresh();
   };
 
   useEffect(() => {
-    fetchData();
-    generateForm();
+    if (deploymentCenterContext.resourceId) {
+      fetchInitialLogsData();
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext, deploymentCenterContext]);
+  }, [deploymentCenterContext.resourceId]);
+
+  useEffect(() => {
+    if (deploymentCenterContext.applicationSettings && deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata) {
+      generateForm();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext.applicationSettings, deploymentCenterContext.siteConfig, deploymentCenterContext.configMetadata]);
 
   return (
     <DeploymentCenterCodeForm
@@ -101,8 +130,10 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
       deploymentsError={deploymentsError}
       formData={codeFormData}
       formValidationSchema={codeFormValidationSchema}
-      isLoading={isLoading}
       refresh={refresh}
+      refreshLogs={refreshLogs}
+      isDataRefreshing={isDataRefreshing}
+      isLogsDataRefreshing={isLogsDataRefreshing}
     />
   );
 };

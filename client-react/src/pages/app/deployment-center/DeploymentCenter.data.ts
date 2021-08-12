@@ -5,7 +5,6 @@ import ProviderService from '../../../ApiHelpers/ProviderService';
 import SiteService from '../../../ApiHelpers/SiteService';
 import GitHubService from '../../../ApiHelpers/GitHubService';
 import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
-import { AppOsType } from '../../../models/site/site';
 import { GitHubActionWorkflowRequestContent } from '../../../models/github';
 import { ProviderToken } from '../../../models/provider';
 import BitbucketService from '../../../ApiHelpers/BitbucketService';
@@ -14,8 +13,14 @@ import ACRService from '../../../ApiHelpers/ACRService';
 import { ACRWebhookPayload } from '../../../models/acr';
 import { SiteConfig } from '../../../models/site/config';
 import { KeyValue } from '../../../models/portal-models';
+import { SourceControlOptions } from './DeploymentCenter.types';
+import DropboxService from '../../../ApiHelpers/DropboxService';
+import { AppStackOs } from '../../../models/stacks/app-stacks';
+import AzureDevOpsService from '../../../AzureDevOpsService';
 
 export default class DeploymentCenterData {
+  private _azureDevOpsService = new AzureDevOpsService();
+
   public fetchContainerLogs = (resourceId: string) => {
     return ContainerLogsService.fetchContainerLogs(resourceId);
   };
@@ -68,12 +73,16 @@ export default class DeploymentCenterData {
     return SiteService.getLogDetails(deploymentId, logId);
   };
 
+  public redeployCommit = (resourceId: string, commitId: string) => {
+    return SiteService.redeployCommit(resourceId, commitId);
+  };
+
   public getSourceControlDetails = (resourceId: string) => {
     return SiteService.getSourceControlDetails(resourceId);
   };
 
-  public deleteSourceControlDetails = (resourceId: string) => {
-    return SiteService.deleteSourceControlDetails(resourceId);
+  public deleteSourceControlDetails = (resourceId: string, deleteWorkflow: boolean = true) => {
+    return SiteService.deleteSourceControlDetails(resourceId, deleteWorkflow);
   };
 
   public updateSourceControlDetails = (resourceId: string, body: any) => {
@@ -128,17 +137,26 @@ export default class DeploymentCenterData {
     return GitHubService.deleteActionWorkflow(gitHubToken, org, repo, branch, workflowFilePath, message, sha);
   };
 
-  public createOrUpdateActionWorkflow = (authToken: string, gitHubToken: string, content: GitHubActionWorkflowRequestContent) => {
-    return GitHubService.createOrUpdateActionWorkflow(authToken, gitHubToken, content);
+  public createOrUpdateActionWorkflow = (
+    authToken: string,
+    gitHubToken: string,
+    content: GitHubActionWorkflowRequestContent,
+    replacementPublishUrl?: string
+  ) => {
+    return GitHubService.createOrUpdateActionWorkflow(authToken, gitHubToken, content, replacementPublishUrl);
   };
 
-  public getRuntimeStacks = (stacksOs: AppOsType) => {
+  public getWebAppRuntimeStacks = (stacksOs: AppStackOs) => {
     return RuntimeStackService.getWebAppGitHubActionStacks(stacksOs);
+  };
+
+  public getFunctionAppRuntimeStacks = (stacksOs: AppStackOs) => {
+    return RuntimeStackService.getFunctionAppGitHubActionStacks(stacksOs);
   };
 
   public storeGitHubToken = (providerToken: ProviderToken) => {
     return ProviderService.updateUserSourceControl(
-      'github',
+      SourceControlOptions.GitHub,
       providerToken.accessToken,
       providerToken.refreshToken,
       providerToken.environment
@@ -163,7 +181,7 @@ export default class DeploymentCenterData {
 
   public storeBitbucketToken = (providerToken: ProviderToken) => {
     return ProviderService.updateUserSourceControl(
-      'bitbucket',
+      SourceControlOptions.Bitbucket,
       providerToken.accessToken,
       providerToken.refreshToken,
       providerToken.environment
@@ -186,8 +204,38 @@ export default class DeploymentCenterData {
     return OneDriveService.getToken(oneDriveToken);
   };
 
+  public storeOneDriveToken = (providerToken: ProviderToken) => {
+    return ProviderService.updateUserSourceControl(
+      SourceControlOptions.OneDrive,
+      providerToken.accessToken,
+      providerToken.refreshToken,
+      providerToken.environment
+    );
+  };
+
   public getOneDriveFolders = (oneDriveToken: string) => {
     return OneDriveService.getFolders(oneDriveToken);
+  };
+
+  public getDropboxUser = (dropboxToken: string) => {
+    return DropboxService.getUser(dropboxToken);
+  };
+
+  public getDropboxToken = (dropboxToken: string) => {
+    return DropboxService.getToken(dropboxToken);
+  };
+
+  public storeDropboxToken = (providerToken: ProviderToken) => {
+    return ProviderService.updateUserSourceControl(
+      SourceControlOptions.Dropbox,
+      providerToken.accessToken,
+      providerToken.refreshToken,
+      providerToken.environment
+    );
+  };
+
+  public getDropboxFolders = (dropboxToken: string) => {
+    return DropboxService.getFolders(dropboxToken);
   };
 
   public getAcrRegistries = (subscriptionId: string) => {
@@ -220,5 +268,33 @@ export default class DeploymentCenterData {
 
   public updateApplicationSettings = (resourceId: string, appSettings: ArmObj<{ [name: string]: string }>) => {
     return SiteService.updateApplicationSettings(resourceId, appSettings);
+  };
+
+  public getAccounts = () => {
+    return this._azureDevOpsService.getAccounts();
+  };
+
+  public getAzureDevOpsUrl = () => {
+    return this._azureDevOpsService.getAzureDevOpsUrl();
+  };
+
+  public getAzureDevOpsBuildDef = (accountName: string, buildDefinitionProjectUrl: string, buildDefinitionId: string) => {
+    return this._azureDevOpsService.getBuildDef(accountName, buildDefinitionProjectUrl, buildDefinitionId);
+  };
+
+  public getAzureDevOpsRepositories = (accountName: string) => {
+    return this._azureDevOpsService.getRepositoriesForAccount(accountName);
+  };
+
+  public getAzureDevOpsBranches = (accountName: string, repositoryId: string) => {
+    return this._azureDevOpsService.getBranchesForRepo(accountName, repositoryId);
+  };
+
+  public listWorkflowRuns = (gitHubToken: string, org: string, repo: string, workflowFileName: string) => {
+    return GitHubService.listWorkflowRuns(gitHubToken, org, repo, workflowFileName);
+  };
+
+  public cancelWorkflowRun = (gitHubToken: string, url: string) => {
+    return GitHubService.cancelWorkflowRun(gitHubToken, url);
   };
 }

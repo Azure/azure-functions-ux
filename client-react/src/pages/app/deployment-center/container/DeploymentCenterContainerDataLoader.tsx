@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { SiteStateContext } from '../../../../SiteState';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import {
   DeploymentCenterFormData,
@@ -13,22 +12,21 @@ import { DeploymentCenterContainerFormBuilder } from '../container/DeploymentCen
 import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DeploymentCenterContainerForm from './DeploymentCenterContainerForm';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { getLogId } from '../utility/DeploymentCenterUtility';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
-  const { resourceId } = props;
+  const { resourceId, isDataRefreshing } = props;
   const { t } = useTranslation();
 
-  const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+  const portalContext = useContext(PortalContext);
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLogsDataRefreshing, setIsLogsDataRefreshing] = useState(false);
   const [logs, setLogs] = useState<string | undefined>(undefined);
 
   const [containerFormData, setContainerFormData] = useState<DeploymentCenterFormData<DeploymentCenterContainerFormData> | undefined>(
@@ -38,7 +36,14 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
     DeploymentCenterYupValidationSchemaType<DeploymentCenterContainerFormData> | undefined
   >(undefined);
 
-  const fetchData = async () => {
+  const fetchInitialLogsData = async () => {
+    portalContext.log(
+      getTelemetryInfo('info', 'initialDataRequest', 'submit', {
+        publishType: 'container',
+      })
+    );
+    setIsLogsDataRefreshing(true);
+
     const containerLogsResponse = await deploymentCenterData.fetchContainerLogs(resourceId);
 
     if (containerLogsResponse.metadata.success) {
@@ -49,12 +54,15 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
         errorMessage ? t('deploymentCenterContainerLogsFailedWithError').format(errorMessage) : t('deploymentCenterContainerLogsFailed')
       );
 
-      LogService.error(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerDataLoader', 'updatePublishingUser'), {
-        error: containerLogsResponse.metadata.error,
-      });
+      portalContext.log(
+        getTelemetryInfo('error', 'containerLogsResponse', 'failed', {
+          message: getErrorMessage(containerLogsResponse.metadata.error),
+          errorAsString: JSON.stringify(containerLogsResponse.metadata.error),
+        })
+      );
     }
 
-    setIsLoading(false);
+    setIsLogsDataRefreshing(false);
   };
 
   const generateForm = () => {
@@ -75,31 +83,51 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
     }
 
     const formData = deploymentCenterContainerFormBuilder.generateFormData();
-    setContainerFormData(deploymentCenterContainerFormBuilder.generateFormData());
+    setContainerFormData(formData);
     setContainerFormValidationSchema(deploymentCenterContainerFormBuilder.generateYupValidationSchema());
 
-    LogService.trackEvent(LogCategories.deploymentCenter, getLogId('DeploymentCenterContainerDataLoader', 'generateForm'), formData);
+    // NOTE(michinoy): Prevent logging form data here as it could contain secrets (e.g. publishing password)
+    portalContext.log(
+      getTelemetryInfo('info', 'generateForm', 'generated', {
+        publishType: 'container',
+      })
+    );
   };
 
   const refresh = () => {
-    setIsLoading(true);
-    fetchData();
+    portalContext.log(
+      getTelemetryInfo('info', 'refresh', 'submit', {
+        publishType: 'container',
+      })
+    );
+
+    fetchInitialLogsData();
     deploymentCenterContext.refresh();
   };
 
   useEffect(() => {
-    fetchData();
-    generateForm();
+    if (deploymentCenterContext.resourceId) {
+      fetchInitialLogsData();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext, deploymentCenterContext]);
+  }, [deploymentCenterContext.resourceId]);
+
+  useEffect(() => {
+    if (deploymentCenterContext.applicationSettings && deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata) {
+      generateForm();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext.applicationSettings, deploymentCenterContext.siteConfig, deploymentCenterContext.configMetadata]);
 
   return (
     <DeploymentCenterContainerForm
       logs={logs}
       formData={containerFormData}
       formValidationSchema={containerFormValidationSchema}
-      isLoading={isLoading}
+      isLogsDataRefreshing={isLogsDataRefreshing}
+      isDataRefreshing={isDataRefreshing}
       refresh={refresh}
     />
   );

@@ -1,5 +1,5 @@
 import i18next from 'i18next';
-import { CommandBar, ICommandBarItemProps, ICommandBarStyles, ProgressIndicator } from 'office-ui-fabric-react';
+import { CommandBar, IButtonProps, ICommandBarItemProps, ICommandBarStyles, ProgressIndicator } from 'office-ui-fabric-react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomCommandBarButton } from '../../../../../../components/CustomCommandBarButton';
@@ -37,6 +37,7 @@ const EditBindingCommandBar: React.FC<EditBindingCommandBarProps> = props => {
   const { loading } = props;
   const theme = useContext(ThemeContext);
   const commandBarStyles = CommandBarStyles(theme, loading);
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
 
   return (
     <>
@@ -46,6 +47,7 @@ const EditBindingCommandBar: React.FC<EditBindingCommandBarProps> = props => {
         styles={commandBarStyles}
         ariaLabel={t('editBindingCommands')}
         buttonAs={CustomCommandBarButton}
+        overflowButtonProps={overflowButtonProps}
       />
       {loading && <ProgressIndicator />}
     </>

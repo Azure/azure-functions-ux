@@ -8,11 +8,19 @@ import { GitHubUser } from '../../../models/github';
 import { IDropdownOption, IChoiceGroupOption, MessageBarType } from 'office-ui-fabric-react';
 import { BitbucketUser } from '../../../models/bitbucket';
 import { RepoTypeOptions } from '../../../models/external';
+import { OneDriveUser } from '../../../models/onedrive';
+import { DropboxUser } from '../../../models/dropbox';
+
+export enum SourceControlOptions {
+  GitHub = 'github',
+  Bitbucket = 'bitbucket',
+  OneDrive = 'onedrive',
+  Dropbox = 'dropbox',
+}
 
 export enum ContainerOptions {
   docker = 'docker',
   compose = 'compose',
-  kubernetes = 'kube',
 }
 
 export enum ContainerRegistrySources {
@@ -52,12 +60,184 @@ export enum WorkflowFileDeleteOptions {
   Delete = 'Delete',
 }
 
+export enum RuntimeStackOptions {
+  Java = 'java',
+  Python = 'python',
+  DotNetCore = 'dotnetcore',
+  Ruby = 'ruby',
+  Java11 = 'java-11',
+  Java8 = 'java-8',
+  JBossEAP = 'jbosseap',
+  Node = 'node',
+  PHP = 'php',
+  AspDotNet = 'asp.net',
+  Dotnet = 'dotnet',
+}
+
+export enum RuntimeStackDisplayNames {
+  Java = 'Java',
+  Python = 'Python',
+  DotNetCore = '.NET Core',
+  Ruby = 'Ruby',
+  Java11 = 'Java 11',
+  Java8 = 'Java 8',
+  Node = 'Node',
+  PHP = 'PHP',
+  AspDotNet = 'ASP.NET',
+  Dotnet = '.NET',
+}
+
+export enum RuntimeVersionOptions {
+  Java11 = 'java11',
+  Java8 = 'java8',
+  Java8Linux = 'jre8',
+}
+
+export enum RuntimeVersionDisplayNames {
+  Java11 = 'Java 11',
+  Java8 = 'Java 8',
+}
+
+export enum TargetAzDevDeployment {
+  Devfabric = 'devfabric',
+  Preflight = 'pf',
+  SU2 = 'su2',
+}
+
+export enum GitHubActionRunConclusion {
+  Success = 'success',
+  Failure = 'failure',
+  Cancelled = 'cancelled',
+  Neutral = 'neutral',
+  Skipped = 'skipped',
+  TimedOut = 'timed_out',
+  ActionRequired = 'action_required',
+}
+
+export enum JavaContainerDisplayNames {
+  JavaSE = 'Java SE',
+  Tomcat = 'Tomcat',
+  JBoss = 'JBoss EAP',
+}
+
+export interface AzureDevOpsUrl {
+  Tfs: string;
+  Sps: string;
+  Aex: string;
+  Rmo: string;
+  PeDeploymentLevel: string;
+  PeCollectionLevel: string;
+}
+
+export interface DevOpsAccount {
+  AccountId: string;
+  NamespaceId: string;
+  AccountName: string;
+  AccountType: number;
+  AccountOwner: string;
+  CreatedBy: string;
+  CreatedDate: Date;
+  AccountStatus: number;
+  LastUpdatedBy: string;
+  Properties: any;
+  ForceMsaPassThrough: boolean;
+  OrganizationName?: string;
+  StatusReason?: string;
+}
+
+export interface DevOpsBuildDefinition {
+  repository: DevOpsBuildDefinitionRepository;
+}
+
+export interface DevOpsBuildDefinitionRepository {
+  url: string;
+  name: string;
+  defaultBranch: string;
+}
+
+export interface DevOpsProject {
+  id: string;
+  name: string;
+}
+
+export interface DevOpsRepository {
+  id: string;
+  name: string;
+  remoteUrl: string;
+  size: number;
+  sshUrl: string;
+  url: string;
+  webUrl: string;
+  project: DevOpsProject;
+}
+
+export interface DevOpsRepositories {
+  count: number;
+  value: DevOpsRepository[];
+}
+
+export interface DevOpsBranch {
+  name: string;
+  objectId: string;
+  url: string;
+}
+
+export interface DevOpsBranches {
+  count: number;
+  value: DevOpsBranch[];
+}
+
+export interface AuthenticatedUserContext {
+  authenticatedUser: AuthenticatedUser;
+  authorizedUser: AuthorizedUser;
+  instanceId: string;
+  deploymentId: string;
+  deploymentType: string;
+  locationServiceData: LocationServiceData;
+}
+
+export interface AuthenticatedUser {
+  id: string;
+  descriptor: string;
+  subjectDescriptor: string;
+  providerDisplayName: string;
+  isActive: boolean;
+  properties: Properties;
+  resourceVersion: number;
+  metaTypeId: number;
+}
+
+export interface AuthorizedUser {
+  id: string;
+  descriptor: string;
+  subjectDescriptor: string;
+  providerDisplayName: string;
+  isActive: boolean;
+  properties: Properties;
+  resourceVersion: number;
+  metaTypeId: number;
+}
+
+export interface LocationServiceData {
+  serviceOwner: string;
+  defaultAccessMappingMoniker: string;
+  lastChangeId: number;
+  lastChangeId64: number;
+}
+
+export interface Properties {
+  Account: unknown;
+}
+
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
+  isDataRefreshing: boolean;
 }
 
 export interface RefreshableComponent {
   refresh: () => void;
+  isDataRefreshing: boolean;
+  isLogsDataRefreshing: boolean;
 }
 
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps & RefreshableComponent;
@@ -86,6 +266,10 @@ export interface DeploymentCenterCommonFormData {
   externalPassword?: string;
   gitHubUser?: GitHubUser;
   bitbucketUser?: BitbucketUser;
+  oneDriveUser?: OneDriveUser;
+  dropboxUser?: DropboxUser;
+  folder?: string;
+  devOpsProjectName?: string;
 }
 
 export interface AcrFormData {
@@ -131,10 +315,12 @@ export interface DeploymentCenterCodeFormData {
   runtimeStack: string;
   runtimeVersion: string;
   runtimeRecommendedVersion: string;
+  javaContainer?: string;
 }
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
   formProps: FormikProps<DeploymentCenterFormData<T>>;
+  isDataRefreshing?: boolean;
 }
 
 export interface DeploymentCenterGitHubWorkflowConfigSelectorProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -143,18 +329,25 @@ export interface DeploymentCenterGitHubWorkflowConfigSelectorProps<T = Deploymen
 }
 
 export interface DeploymentCenterContainerLogsProps {
-  isLoading: boolean;
+  isLogsDataRefreshing: boolean;
+  refresh: () => void;
   logs?: string;
 }
 
 export interface DeploymentCenterCodeLogsProps {
-  isLoading: boolean;
+  isLogsDataRefreshing: boolean;
+  refreshLogs: () => void;
   deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
   goToSettings?: () => void;
 }
 
+export interface DeploymentCenterCodeLogsTimerProps {
+  refreshLogs: () => void;
+}
+
 export interface DeploymentCenterCommitLogsProps {
+  dismissLogPanel: () => void;
   commitId?: string;
 }
 
@@ -167,11 +360,10 @@ export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
 }
 
 export interface DeploymentCenterFtpsProps {
-  isLoading: boolean;
+  isDataRefreshing?: boolean;
 }
 
 export interface DeploymentCenterFormProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
-  isLoading: boolean;
   formData?: DeploymentCenterFormData<T>;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType<T>;
 }
@@ -187,24 +379,22 @@ export type DeploymentCenterCodeFormProps = DeploymentCenterCodeProps & Deployme
 export type DeploymentCenterCodePivotProps = DeploymentCenterCodeFormProps & DeploymentCenterFieldProps<DeploymentCenterCodeFormData>;
 
 export interface DeploymentCenterCommandBarProps {
-  isLoading: boolean;
+  isDataRefreshing: boolean;
   isDirty: boolean;
+  isVstsBuildProvider: boolean;
   saveFunction: () => void;
   discardFunction: () => void;
   showPublishProfilePanel: () => void;
-  refresh: () => void;
-  sync?: () => void;
+  redeploy?: () => void;
 }
 
 export interface DeploymentCenterCodeCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterCodeFormData> {
   isLoading: boolean;
-  refresh: () => void;
-  sync: () => void;
+  redeploy: () => void;
 }
 
 export interface DeploymentCenterContainerCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {
   isLoading: boolean;
-  refresh: () => void;
 }
 
 export interface DeploymentCenterPublishProfilePanelProps {
@@ -230,15 +420,12 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   accountUser?: GitHubUser;
 }
 
-export interface DeploymentCenterGitHubConfiguredViewProps {
-  isGitHubActionsSetup?: boolean;
-}
-
 export interface DeploymentCenterGitHubDisconnectProps {
   branch: string;
   org: string;
   repo: string;
   repoUrl: string;
+  formProps: FormikProps<DeploymentCenterFormData<any>>;
 }
 
 export interface DeploymentCenterCodeBuildCalloutProps {
@@ -247,6 +434,8 @@ export interface DeploymentCenterCodeBuildCalloutProps {
   calloutOkButtonDisabled: boolean;
   toggleIsCalloutVisible: () => void;
   updateSelectedBuild: () => void;
+  formProps: FormikProps<DeploymentCenterFormData<any>>;
+  runtimeStack: string;
 }
 
 export interface AuthorizationResult {
@@ -300,16 +489,13 @@ export interface CodeDeploymentsRow {
   rawTime: moment.Moment;
   displayTime: string;
   commit: JSX.Element;
-  checkinMessage: string;
+  message: string;
   status: string;
+  author: string;
 }
 
 export interface BuildChoiceGroupOption extends IChoiceGroupOption {
   buildType: BuildProvider;
-}
-
-export interface WorkflowDropdownOption extends IDropdownOption {
-  workflowOption: WorkflowOption;
 }
 
 export interface RuntimeStackSetting {
@@ -317,7 +503,7 @@ export interface RuntimeStackSetting {
   runtimeVersion: string;
 }
 
-export class ContainerWorkflowInformation {
+export interface ContainerWorkflowInformation {
   fileName: string;
   content: string;
   publishingProfileSecretName: string;
@@ -325,7 +511,7 @@ export class ContainerWorkflowInformation {
   containerPasswordSecretName: string;
 }
 
-export class CodeWorkflowInformation {
+export interface CodeWorkflowInformation {
   fileName: string;
   secretName: string;
   content: string;
@@ -371,12 +557,87 @@ export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterCont
 export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {
   fetchImages: (loginServer: string) => void;
   fetchTags: (image: string) => void;
+  fetchRegistriesInSub(subscription: string);
+  acrSubscriptionOptions: IDropdownOption[];
   acrRegistryOptions: IDropdownOption[];
   acrImageOptions: IDropdownOption[];
   acrTagOptions: IDropdownOption[];
   loadingRegistryOptions: boolean;
   loadingImageOptions: boolean;
   loadingTagOptions: boolean;
+  acrSubscription: string;
   acrStatusMessage?: string;
   acrStatusMessageType?: MessageBarType;
+}
+
+export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  authorizeAccount: () => void;
+  folderOptions: IDropdownOption[];
+  loadingFolders: boolean;
+  accountStatusMessage?: string;
+  accountUser?: OneDriveUser;
+}
+
+export interface DeploymentCenterDropboxProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  authorizeAccount: () => void;
+  folderOptions: IDropdownOption[];
+  loadingFolders: boolean;
+  accountStatusMessage?: string;
+  accountUser?: DropboxUser;
+}
+
+export interface DeploymentCenterDevOpsProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
+  organizationOptions: IDropdownOption[];
+  projectOptions: IDropdownOption[];
+  repositoryOptions: IDropdownOption[];
+  branchOptions: IDropdownOption[];
+  loadingOrganizations: boolean;
+  loadingProjects: boolean;
+  loadingRepositories: boolean;
+  loadingBranches: boolean;
+  errorMessage?: string;
+}
+export interface GitHubActionsCodeDeploymentsRow {
+  index: number;
+  rawTime: moment.Moment;
+  displayTime: string;
+  commit: string;
+  logSource: JSX.Element;
+  message: string;
+  status: JSX.Element;
+  commitId: string;
+  author: string;
+  group: number;
+}
+
+export interface GitHubActionsRun {
+  cancel_url: string;
+  html_url: string;
+  logs_url: string;
+  workflow_id: number;
+  status: string;
+  conclusion: string;
+  created_at: string;
+  updated_at: string;
+  run_number: number;
+  head_commit: {
+    id: string;
+    author: {
+      name: string;
+      email: string;
+    };
+    message: string;
+  };
+}
+
+export interface acrARGInfo {
+  id: string;
+  location: string;
+  name: string;
+  resourceGroup: string;
+  subscriptionId: string;
+  type: string;
 }

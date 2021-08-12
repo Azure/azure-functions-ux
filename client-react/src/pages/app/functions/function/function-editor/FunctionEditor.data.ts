@@ -63,4 +63,11 @@ export default class FunctionEditorData {
   public isEventGridTriggerFunction(functionInfo: ArmObj<FunctionInfo>) {
     return BindingManager.getEventGridTriggerInfo(functionInfo.properties);
   }
+
+  public getSaveFileHeaders(mime: string) {
+    return {
+      'Content-Type': mime,
+      'If-Match': '*',
+    };
+  }
 }

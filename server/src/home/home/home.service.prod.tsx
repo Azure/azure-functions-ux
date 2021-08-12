@@ -7,6 +7,7 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import { Home } from './views/home';
 import { LoggingService } from '../../shared/logging/logging.service';
+import { EventType } from '../../shared/logging/etw.service';
 @Injectable()
 export class HomeServiceProd extends HomeService implements OnModuleInit {
   protected angularConfig: any = null;
@@ -49,17 +50,18 @@ export class HomeServiceProd extends HomeService implements OnModuleInit {
 
     if (await exists(reactHtmlFilePath)) {
       const html = await readFile(reactHtmlFilePath, { encoding: 'utf8' });
+
+      // I experimented with using XML parsers but it turns out that this was actually simpler and just as reliable for our limited use case.
       const scriptTagRegex = /<script type="text\/javascript" id="appsvcConfig">(.*?)<\/script>/i;
       const scriptTagFormat = `<script type="text/javascript" id="appsvcConfig">{0}</script>`;
 
       try {
-        const config = this._configService.staticReactConfig;
-        const configString = `window.appsvc = ${JSON.stringify(config)}`;
+        const configString = `window.appsvc = ${JSON.stringify(this._configService.staticReactConfig)}`;
         const newScriptTagString = scriptTagFormat.replace('{0}', configString);
         newHtml = html.replace(scriptTagRegex, newScriptTagString);
-        this._logService.trackEvent('React-Transform', { success: 'true', error: null });
+        this._logService.trackEvent('React-Transform', { success: 'true', error: null }, undefined, EventType.Info);
       } catch (e) {
-        this._logService.trackEvent('React-Transform', { success: 'false', error: e });
+        this._logService.trackEvent('React-Transform', { success: 'false', error: e }, undefined, EventType.Error);
         this._logService.error('Failed to transform React index.html file', e);
 
         throw e;

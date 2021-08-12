@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IChoiceGroupOption, Link } from 'office-ui-fabric-react';
 import { Field } from 'formik';
@@ -6,9 +6,19 @@ import RadioButton from '../../../../components/form-controls/RadioButton';
 import { ScmType } from '../../../../models/site/config';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { SiteStateContext } from '../../../../SiteState';
+import { DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
-const DeploymentCenterContainerSource: React.FC<{}> = props => {
+const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { t } = useTranslation();
+  const { formProps } = props;
+
+  const scenarioService = new ScenarioService(t);
+  const siteStateContext = useContext(SiteStateContext);
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const options: IChoiceGroupOption[] = [
     {
@@ -22,6 +32,13 @@ const DeploymentCenterContainerSource: React.FC<{}> = props => {
       text: `${t('deploymentCenterContainerSettingsSourceOptionGitHubActions')}: ${t(
         'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription'
       )}`,
+      disabled:
+        deploymentCenterContext.isIlbASE ||
+        scenarioService.checkScenario(ScenarioIds.githubSource, { site: siteStateContext.site }).status === 'disabled',
+    },
+    {
+      key: ScmType.Vsts,
+      text: `${t('deploymentCenterCodeSettingsBuildVsts')}: ${t('deploymentCenterVstsDocsMessage')}`,
     },
   ];
 
@@ -46,7 +63,7 @@ const DeploymentCenterContainerSource: React.FC<{}> = props => {
         component={RadioButton}
         displayInVerticalLayout={true}
         options={options}
-        defaultSelectedKey={ScmType.None}
+        defaultSelectedKey={formProps.values.scmType}
         required={true}
       />
     </>

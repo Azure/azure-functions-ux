@@ -8,11 +8,42 @@ export class WorkflowAppEnvironment extends FunctionAppEnvironment {
   constructor(t: (string) => string) {
     super(t);
 
-    this.scenarioChecks[ScenarioIds.showFunctionRuntimeSettings] = {
-      id: ScenarioIds.showFunctionRuntimeSettings,
+    this.scenarioChecks[ScenarioIds.runtimeScaleMonitoringSupported] = {
+      id: ScenarioIds.runtimeScaleMonitoringSupported,
+      runCheck: () => {
+        return { status: 'enabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.showRuntimeVersionSetting] = {
+      id: ScenarioIds.showRuntimeVersionSetting,
       runCheck: () => {
         return { status: 'disabled' };
       },
+    };
+
+    this.scenarioChecks[ScenarioIds.alwaysOnSupported] = {
+      id: ScenarioIds.alwaysOnSupported,
+      runCheck: input => {
+        if (input && input.site && input.site.properties && input.site.properties.sku) {
+          const { sku } = input.site.properties;
+          if (
+            sku.toLowerCase() === 'workflowstandard' ||
+            sku.toLowerCase() === 'elasticpremium' ||
+            sku.toLowerCase() === 'elasticisolated'
+          ) {
+            return { status: 'disabled' };
+          } else {
+            return { status: 'enabled' };
+          }
+        }
+        return { status: 'enabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.clientAffinitySupported] = {
+      id: ScenarioIds.clientAffinitySupported,
+      runCheck: () => ({ status: 'disabled' }),
     };
   }
 

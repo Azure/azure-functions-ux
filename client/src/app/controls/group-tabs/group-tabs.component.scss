@@ -19,6 +19,7 @@ nav {
   padding-top: 7px;
   box-shadow: $card-box-shadow;
   outline-offset: -2px;
+  outline-color: #0B9ECB;
 
   h3 {
     margin-top: 2px;
@@ -43,6 +44,7 @@ nav {
   .group-tab {
     background-color: lighten($chrome-color-dark, 10%);
     box-shadow: $card-box-shadow-hover-dark;
+    outline-color: #077A9A;
 
     &.selected-container {
       background-color: $chrome-color-dark;

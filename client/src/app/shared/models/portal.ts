@@ -74,6 +74,7 @@ export class Verbs {
   public static getStartupInfo = 'get-startup-info';
   public static openBlade = 'open-blade';
   public static openBlade2 = 'open-blade2';
+  public static switchMenuItem = 'switch-menu-item';
 
   public static openBladeCollector = 'open-blade-collector'; // Deprecated
   public static openBladeCollectorInputs = 'open-blade-collector-inputs'; // Deprecated

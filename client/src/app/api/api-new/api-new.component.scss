@@ -1,50 +1,50 @@
 @import '../../../sass/common/variables';
 
 form > div {
-    padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .long {
-    width: 720px !important;
+  width: 720px !important;
 }
 
 .edit {
-    width: 740px;
-    padding-bottom: 10px;
+  width: 740px;
+  padding-bottom: 10px;
 }
 
 .newproxy-container {
-    padding-top: 10px;
-    padding-right: 25px;
-    padding-left: 25px;
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
 
-    input[type=text]{
-        height: 23px;
-    }
+  input[type='text'] {
+    height: 23px;
+  }
 
-    input[type=checkbox]{
-        height: 15px;
-        width: 15px;
-    }
+  input[type='checkbox'] {
+    height: 15px;
+    width: 15px;
+  }
 
-    select{
-        height: 23px;
-    }
+  select {
+    height: 23px;
+  }
 }
 
 .custom-button {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .header {
-    display: flex;
-    div:nth-child(1) {
-        flex-grow:1;
-        align-items:center;
-    }
-    div:nth-child(2) {
-        flex-grow:0;
-    }
+  display: flex;
+  div:nth-child(1) {
+    flex-grow: 1;
+    align-items: center;
+  }
+  div:nth-child(2) {
+    flex-grow: 0;
+  }
 }
 
 command-bar {
@@ -55,5 +55,5 @@ command-bar {
 }
 
 .field-textbox {
-    width: 300px;
+  width: 300px;
 }

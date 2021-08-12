@@ -132,8 +132,6 @@ export enum AppOs {
   windows = 'windows',
 }
 
-export type AppOsType = AppOs.linux | AppOs.windows;
-
 export interface CredentialPolicy {
   allow: boolean;
 }

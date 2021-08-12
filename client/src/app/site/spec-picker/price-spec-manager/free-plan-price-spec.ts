@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Kinds, Pricing } from './../../../shared/models/constants';
+import { Kinds, LogCategories, Pricing } from './../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
@@ -59,39 +59,47 @@ export class FreePlanPriceSpec extends PriceSpec {
 
   runInitialization(input: PriceSpecInput) {
     let isLinux = false;
-    if (input.plan) {
-      isLinux = AppKind.hasAnyKind(input.plan, [Kinds.linux]);
+    if (input.planDetails) {
+      isLinux = AppKind.hasAnyKind(input.planDetails.plan, [Kinds.linux]);
       if (isLinux) {
         this.topLevelFeatures.shift();
       }
 
       if (
-        input.plan.properties.hostingEnvironmentProfile ||
-        input.plan.properties.hyperV ||
-        AppKind.hasAnyKind(input.plan, [Kinds.elastic])
+        input.planDetails.plan.properties.hostingEnvironmentProfile ||
+        input.planDetails.plan.properties.hyperV ||
+        AppKind.hasAnyKind(input.planDetails.plan, [Kinds.elastic]) ||
+        input.planDetails.containsJbossSite
       ) {
         this.state = 'hidden';
       }
 
-      return this._checkIfSkuEnabledOnStamp(input.plan.id).switchMap(_ => {
-        return this.checkIfDreamspark(input.subscriptionId);
-      });
+      return this._checkIfSkuEnabledOnStamp(input.planDetails.plan.id);
     } else if (input.specPickerInput.data) {
       isLinux = input.specPickerInput.data.isLinux;
       if (isLinux) {
         this.topLevelFeatures.shift();
       }
 
+      // NOTE(shimedh): FunctionApp's don't work on Free sku's (Linux as well as Windows). Hide Free sku for Linux FunctionApp create scenario.
       if (
+        input.specPickerInput.data.isFunctionApp ||
         input.specPickerInput.data.hostingEnvironmentName ||
         input.specPickerInput.data.isXenon ||
         input.specPickerInput.data.hyperV ||
-        (input.specPickerInput.data.isNewFunctionAppCreate && input.specPickerInput.data.isElastic)
+        (input.specPickerInput.data.isNewFunctionAppCreate &&
+          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard)) ||
+        input.specPickerInput.data.isJBoss
       ) {
         this.state = 'hidden';
       }
 
-      return this._checkIfSkuEnabledInRegion(input.subscriptionId, input.specPickerInput.data.location, input.specPickerInput.data.isLinux);
+      return this._checkIfSkuEnabledInRegion(
+        input.subscriptionId,
+        input.specPickerInput.data.location,
+        input.specPickerInput.data.isLinux,
+        false
+      );
     }
 
     return Observable.of(null);
@@ -112,15 +120,26 @@ export class FreePlanPriceSpec extends PriceSpec {
     return Observable.of(null);
   }
 
-  private _checkIfSkuEnabledInRegion(subscriptionId: ResourceId, location: string, isLinux: boolean) {
+  private _checkIfSkuEnabledInRegion(subscriptionId: ResourceId, location: string, isLinux: boolean, isXenonWorkersEnabled: boolean) {
     if (this.state !== 'hidden' && this.state !== 'disabled') {
-      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this.tier, isLinux).do(geoRegions => {
-        if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
-          this.state = 'disabled';
-          this.disabledMessage = this._ts.instant(PortalResources.pricing_freeLinuxNotAvailable);
-          this.disabledInfoLink = '';
-        }
-      });
+      return this._planService
+        .getAvailableGeoRegionsForSku(subscriptionId, this.tier, isLinux, isXenonWorkersEnabled)
+        .do(geoRegions => {
+          if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
+            this.state = 'disabled';
+            this.disabledMessage = this._ts.instant(PortalResources.pricing_freeLinuxNotAvailable);
+            this.disabledInfoLink = '';
+          }
+        })
+        .catch(e => {
+          this.skuAvailabilityCheckFailed = true;
+          this._logService.error(
+            LogCategories.specPicker,
+            '/get-available-georegions-for-sku',
+            `Failed to get available georegions for sku: ${e}`
+          );
+          return Observable.of(null);
+        });
     }
 
     return Observable.of(null);

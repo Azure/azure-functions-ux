@@ -43,13 +43,14 @@ async function bootstrap() {
     });
   }
 
-  // this should only apply to local development.  In Azure we rely on cors rules defined by the web app
+  // This only applies to local development.  In Azure the CORS rules defined on the app takes precedence
   app.enableCors();
   app.useStaticAssets(join(__dirname, 'public'));
   app.useStaticAssets(join(__dirname, 'public', 'react'));
   app.use(
     helmet({
       frameguard: false,
+      contentSecurityPolicy: false,
     })
   );
   app.use(cookieParser());
@@ -65,7 +66,6 @@ async function bootstrap() {
     })
   );
   app.enable('trust proxy');
-
   const port = normalizePort(process.env.PORT || '3000');
   await app.listen(port);
 }

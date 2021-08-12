@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ICommandBarItemProps, CommandBar } from 'office-ui-fabric-react';
+import { ICommandBarItemProps, CommandBar, IButtonProps } from 'office-ui-fabric-react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { SiteStateContext } from '../../../SiteState';
@@ -8,13 +8,17 @@ import { DeploymentCenterCommandBarProps } from './DeploymentCenter.types';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { ScmType } from '../../../models/site/config';
 import { PortalContext } from '../../../PortalContext';
+import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, sync, isLoading, isDirty } = props;
+  const { saveFunction, discardFunction, showPublishProfilePanel, redeploy, isDataRefreshing, isDirty, isVstsBuildProvider } = props;
   const { t } = useTranslation();
+
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
+  const hasNoWritePermission = deploymentCenterContext && !deploymentCenterContext.hasWritePermission;
 
   const isSiteLoaded = () => {
     return siteStateContext.site && siteStateContext.site.properties;
@@ -30,17 +34,25 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   };
 
   const isDisabledOnReload = () => {
-    return !isSiteLoaded() || isLoading;
+    return !isSiteLoaded() || isDataRefreshing;
   };
 
-  const isSyncDisabled = () => {
+  const isRedeployDisabled = () => {
     return (
       isDisabledOnReload() ||
       (deploymentCenterContext.siteConfig &&
         (deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit ||
-          deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction ||
+          deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vsts ||
           deploymentCenterContext.siteConfig.properties.scmType === ScmType.None))
     );
+  };
+
+  const isSaveDisabled = () => {
+    return isDisabledOnReload() || !isDirty || isVstsBuildProvider || hasNoWritePermission;
+  };
+
+  const isDiscardDisabled = () => {
+    return isDisabledOnReload() || !isDirty || hasNoWritePermission;
   };
 
   const openFeedbackBlade = () => {
@@ -69,16 +81,50 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       getDiscardButton(),
       getBrowseButton(),
       getManagePublishProfileButton(),
-      getRefreshButton(),
     ];
 
     if (!siteStateContext.isContainerApp) {
-      commandBarItems.push(getSyncButton());
+      commandBarItems.push(getRedeployButton());
     }
 
     commandBarItems.push(getFeedbackItem());
 
     return commandBarItems;
+  };
+
+  const onSaveButtonClick = () => {
+    portalContext.log(getTelemetryInfo('info', 'saveButton', 'clicked'));
+    saveFunction();
+  };
+
+  const onDiscardButtonClick = () => {
+    portalContext.log(getTelemetryInfo('info', 'discardButton', 'clicked'));
+    discardFunction();
+  };
+
+  const onBrowseButtonClick = () => {
+    portalContext.log(getTelemetryInfo('info', 'browseButton', 'clicked'));
+    onBrowseClick();
+  };
+
+  const onManagePublishProfileButtonClick = () => {
+    portalContext.log(getTelemetryInfo('info', 'managePublishProfileButton', 'clicked'));
+    showPublishProfilePanel();
+  };
+
+  const onRedeployClick = () => {
+    portalContext.log(getTelemetryInfo('info', 'redeployButton', 'clicked'));
+
+    if (redeploy) {
+      redeploy();
+    } else {
+      portalContext.log(getTelemetryInfo('error', 'redeployButton', 'undefined'));
+    }
+  };
+
+  const onFeedbackButtonClick = () => {
+    portalContext.log(getTelemetryInfo('info', 'feedbackButton', 'clicked'));
+    openFeedbackBlade();
   };
 
   const getSaveButton = (): ICommandBarItemProps => {
@@ -89,8 +135,8 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Save',
       },
       ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
-      disabled: isDisabledOnReload() || !isDirty,
-      onClick: saveFunction,
+      disabled: isSaveDisabled(),
+      onClick: onSaveButtonClick,
     };
   };
 
@@ -102,8 +148,8 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Cancel',
       },
       ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
-      disabled: isDisabledOnReload() || !isDirty,
-      onClick: discardFunction,
+      disabled: isDiscardDisabled(),
+      onClick: onDiscardButtonClick,
     };
   };
 
@@ -116,7 +162,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
       ariaLabel: t('deploymentCenterBrowseCommandAriaLabel'),
       disabled: !isSiteLoaded() || !isBrowseEnabled(),
-      onClick: onBrowseClick,
+      onClick: onBrowseButtonClick,
     };
   };
 
@@ -129,33 +175,20 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
       ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
       disabled: !isSiteLoaded(),
-      onClick: showPublishProfilePanel,
+      onClick: onManagePublishProfileButtonClick,
     };
   };
 
-  const getRefreshButton = (): ICommandBarItemProps => {
+  const getRedeployButton = (): ICommandBarItemProps => {
     return {
-      key: 'refresh',
-      name: t('refresh'),
+      key: 'redeploy',
+      name: t('deploymentCenterRedeploy'),
       iconProps: {
-        iconName: 'Refresh',
+        iconName: 'Redeploy',
       },
-      ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
-      disabled: isDisabledOnReload(),
-      onClick: refresh,
-    };
-  };
-
-  const getSyncButton = (): ICommandBarItemProps => {
-    return {
-      key: 'sync',
-      name: t('sync'),
-      iconProps: {
-        iconName: 'Sync',
-      },
-      ariaLabel: t('deploymentCenterSyncCommandAriaLabel'),
-      disabled: isSyncDisabled(),
-      onClick: sync,
+      ariaLabel: t('deploymentCenterRedeployAriaLabel'),
+      disabled: isRedeployDisabled(),
+      onClick: onRedeployClick,
     };
   };
 
@@ -168,7 +201,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
       disabled: false,
       ariaLabel: t('leaveFeedback'),
-      onClick: openFeedbackBlade,
+      onClick: onFeedbackButtonClick,
     };
   };
 
@@ -179,6 +212,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       styles={CommandBarStyles}
       ariaLabel={t('deploymentCenterCommandBarAriaLabel')}
       buttonAs={CustomCommandBarButton}
+      overflowButtonProps={overflowButtonProps}
     />
   );
 };

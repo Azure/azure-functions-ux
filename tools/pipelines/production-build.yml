@@ -2,6 +2,7 @@
 # Build a Node.js project using the gulp task runner.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+# For Localization task, we need to use windows image since OneLocBuildTask is not supported otherwise
 jobs:
   - job: ReactBuild
     pool:
@@ -9,7 +10,7 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '10.x'
+          versionSpec: '14.x'
         displayName: 'Install Node.js'
 
       - script: |
@@ -50,7 +51,7 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '8.x'
+          versionSpec: '14.x'
         displayName: 'Install Node.js'
 
       - script: |
@@ -81,7 +82,7 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '8.x'
+          versionSpec: '14.x'
         displayName: 'Install Node.js'
 
       - script: |
@@ -121,6 +122,22 @@ jobs:
         inputs:
           ArtifactName: angular-min
 
+  - job: Localization
+    pool:
+      vmImage: 'vs2017-win2016'
+    steps:
+      - task: OneLocBuild@2
+        inputs:
+          locProj: 'server/LocProject.json'
+          outDir: '$(Build.ArtifactStagingDirectory)'
+          packageSourceAuth: 'patAuth'
+          patVariable: $(OneLocBuildPAT)
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: loc'
+        inputs:
+          ArtifactName: loc
+
   - job: Server
     pool:
       vmImage: 'macOS-10.14'
@@ -128,11 +145,24 @@ jobs:
       - AngularFull
       - AngularMin
       - ReactBuild
+      - Localization
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '10.x'
+          versionSpec: '14.x'
         displayName: 'Install Node.js'
+
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download Loc Artifacts'
+        inputs:
+          artifactName: loc
+          downloadPath: $(System.DefaultWorkingDirectory)
+
+      - task: CopyFiles@2
+        displayName: 'Copy Loc to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/loc/loc
+          TargetFolder: server/resources-resx
 
       - script: |
           cd server
@@ -180,6 +210,12 @@ jobs:
           SourceFolder: $(System.DefaultWorkingDirectory)/react-build
           TargetFolder: server/dist
 
+      - task: CopyFiles@2
+        displayName: 'Copy EtwLogger Folder to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: server/EtwLogger
+          TargetFolder: server/dist/EtwLogger
+
       - script: |
           cd server
           npm run bundle
@@ -188,6 +224,8 @@ jobs:
           bitbucketClientId: $(bitbucketClientId)
           githubClientId: $(githubClientId)
           githubClientSecret: $(githubClientSecret)
+          githubNationalCloudsClientId: $(githubNationalCloudsClientId)
+          githubNationalCloudsClientSecret: $(githubNationalCloudsClientSecret)
           githubRedirectUrl: $(githubRedirectUrl)
           bitbucketClientSecret: $(bitbucketClientSecret)
           bitbucketRedirectUrl: $(bitbucketRedirectUrl)
@@ -199,6 +237,10 @@ jobs:
           onedriveRedirectUrl: $(onedriveRedirectUrl)
           staticSitesGithubClientId: $(staticSitesGithubClientId)
           staticSitesGithubClientSecret: $(staticSitesGithubClientSecret)
+          githubForCreatesClientId: $(githubForCreatesClientId)
+          githubForCreatesClientSecret: $(githubForCreatesClientSecret)
+          githubForCreatesNationalCloudsClientId: $(githubForCreatesNationalCloudsClientId)
+          githubForCreatesNationalCloudsClientSecret: $(githubForCreatesNationalCloudsClientSecret)
 
       - script: |
           cd server/dist

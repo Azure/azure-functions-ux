@@ -1,5 +1,5 @@
 import { Formik, FormikProps } from 'formik';
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
 import AppSettingsDataLoader from './AppSettingsDataLoader';
@@ -16,6 +16,11 @@ import { Site } from '../../../models/site/site';
 import { MessageBarType } from 'office-ui-fabric-react';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import { ServiceLinkerBladeResponse } from '../../../models/service-linker';
+import { PortalContext } from '../../../PortalContext';
+import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
+import { BladeCloseReason, IBladeResult, OpenBladeSource } from '../../../models/portal-models';
+import { SiteStateContext } from '../../../SiteState';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -73,6 +78,9 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const [showRefreshConfirmDialog, setShowRefreshConfirmDialog] = useState(false);
   const [showSaveConfirmDialog, setShowSaveConfirmDialog] = useState(false);
 
+  const portalContext = useContext(PortalContext);
+  const siteStateContext = useContext(SiteStateContext);
+
   const closeRefreshConfirmDialog = () => {
     setShowRefreshConfirmDialog(false);
   };
@@ -81,9 +89,92 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
     setShowSaveConfirmDialog(false);
   };
 
+  const isServiceLinkerBladeResponseSucceeded = (response?: IBladeResult<ServiceLinkerBladeResponse>) => {
+    return !!response && response.reason !== BladeCloseReason.userNavigation && !!response.data && response.data['isSucceeded'];
+  };
+
+  const onResourceConnectionClick = async (
+    initialValues: AppSettingsFormValues | null,
+    setInitialValues: (values: AppSettingsFormValues | null) => void,
+    currentValues: AppSettingsFormValues,
+    setCurrentValues: (values: AppSettingsFormValues) => void
+  ) => {
+    const response = await portalContext.openBlade<ServiceLinkerBladeResponse>(
+      {
+        detailBlade: 'CreateLinkerBlade',
+        detailBladeInputs: {
+          sourceResourceId: resourceId,
+        },
+        extension: 'ServiceLinkerExtension',
+        openAsContextBlade: true,
+      },
+      OpenBladeSource.appSettings
+    );
+    if (isServiceLinkerBladeResponseSucceeded(response)) {
+      const webAppConfig = response.data['webAppConfiguration'];
+      if (!!webAppConfig && !!initialValues) {
+        updateWebAppConfigForServiceLinker(webAppConfig, initialValues, setInitialValues, setCurrentValues, currentValues);
+      }
+    }
+  };
+
+  const onServiceLinkerUpdateClick = async (
+    settingName: string,
+    initialValues: AppSettingsFormValues | null,
+    setInitialValues: (values: AppSettingsFormValues | null) => void,
+    currentValues: AppSettingsFormValues,
+    setCurrentValues: (values: AppSettingsFormValues) => void
+  ) => {
+    const response = await portalContext.openBlade<ServiceLinkerBladeResponse>(
+      {
+        detailBlade: 'UpdateLinkerBlade',
+        detailBladeInputs: {
+          sourceResourceId: resourceId,
+          configName: settingName,
+        },
+        extension: 'ServiceLinkerExtension',
+        openAsContextBlade: true,
+      },
+      OpenBladeSource.appSettings
+    );
+    if (isServiceLinkerBladeResponseSucceeded(response)) {
+      const webAppConfig = response.data['webAppConfiguration'];
+      if (!!webAppConfig && !!initialValues) {
+        updateWebAppConfigForServiceLinker(webAppConfig, initialValues, setInitialValues, setCurrentValues, currentValues);
+      }
+    }
+  };
+
+  const onServiceLinkerDeleteClick = async (
+    settingName: string,
+    initialValues: AppSettingsFormValues | null,
+    setInitialValues: (values: AppSettingsFormValues | null) => void,
+    currentValues: AppSettingsFormValues,
+    setCurrentValues: (values: AppSettingsFormValues) => void
+  ) => {
+    const response = await portalContext.openBlade<ServiceLinkerBladeResponse>(
+      {
+        detailBlade: 'DeleteLinkerBlade',
+        detailBladeInputs: {
+          sourceResourceId: resourceId,
+          configName: settingName,
+        },
+        extension: 'ServiceLinkerExtension',
+        openAsContextBlade: true,
+      },
+      OpenBladeSource.appSettings
+    );
+    if (isServiceLinkerBladeResponseSucceeded(response)) {
+      const webAppConfig = response.data['webAppConfiguration'];
+      if (!!webAppConfig && !!initialValues) {
+        updateWebAppConfigForServiceLinker(webAppConfig, initialValues, setInitialValues, setCurrentValues, currentValues, true);
+      }
+    }
+  };
+
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
-      {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings, asyncData }) => (
+      {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings, setInitialValues, asyncData }) => (
         <PermissionsContext.Consumer>
           {permissions => {
             return (
@@ -109,6 +200,9 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               refreshAppSettings={() => setShowRefreshConfirmDialog(true)}
                               disabled={permissions.saving}
                               dirty={formProps.dirty}
+                              onResourceConnectionClick={() =>
+                                onResourceConnectionClick(initialFormValues, setInitialValues, formProps.values, formProps.setValues)
+                              }
                             />
                             <ConfirmDialog
                               primaryActionButton={{
@@ -149,17 +243,41 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
                                 <UpsellBanner onClick={scaleUpPlan} />
                               )}
-                            {!!initialFormValues && initialFormValues.references && !initialFormValues.references.appSettings && (
-                              <CustomBanner
-                                id="appSettings-keyvault-error"
-                                message={t('appSettingKeyvaultAPIError')}
-                                type={MessageBarType.error}
-                              />
-                            )}
+                            {!!initialFormValues &&
+                              initialFormValues.references &&
+                              !initialFormValues.references.appSettings &&
+                              !siteStateContext.isKubeApp && (
+                                <CustomBanner
+                                  id="appSettings-keyvault-error"
+                                  message={t('appSettingKeyvaultAPIError')}
+                                  type={MessageBarType.error}
+                                />
+                              )}
                           </div>
                           {!!initialFormValues ? (
                             <div className={formStyle}>
-                              <AppSettingsForm asyncData={asyncData} {...formProps} />
+                              <AppSettingsForm
+                                asyncData={asyncData}
+                                onServiceLinkerUpdateClick={(settingName: string) =>
+                                  onServiceLinkerUpdateClick(
+                                    settingName,
+                                    initialFormValues,
+                                    setInitialValues,
+                                    formProps.values,
+                                    formProps.setValues
+                                  )
+                                }
+                                onServiceLinkerDeleteClick={(settingName: string) =>
+                                  onServiceLinkerDeleteClick(
+                                    settingName,
+                                    initialFormValues,
+                                    setInitialValues,
+                                    formProps.values,
+                                    formProps.setValues
+                                  )
+                                }
+                                {...formProps}
+                              />
                             </div>
                           ) : (
                             <CustomBanner message={t('configLoadFailure')} type={MessageBarType.error} />

@@ -15,22 +15,23 @@ export enum ScmType {
   ExternalGit = 'ExternalGit',
   OneDrive = 'OneDrive',
   Vso = 'VSO',
-  Vsts = 'VSTS',
+  Vsts = 'VSTSRM',
 }
 
 export enum BuildProvider {
   None = 'None',
   GitHubAction = 'GitHubAction',
   AppServiceBuildService = 'AppServiceBuildService',
+  Vsts = 'Vsts',
 }
 
 export interface SiteConfig {
   numberOfWorkers: number;
   defaultDocuments: string[];
   netFrameworkVersion: string;
-  phpVersion: string;
+  phpVersion: string | null;
   pythonVersion: string;
-  nodeVersion: string;
+  nodeVersion: string | null;
   windowsFxVersion: string;
   linuxFxVersion: string;
   minTlsVersion: string;
@@ -82,10 +83,11 @@ export interface SiteConfig {
   cors: Cors;
   localMySqlEnabled: boolean;
   appCommandLine: string;
-  ipSecurityRestrictions: IpRestriction[];
-  scmIpSecurityRestrictions: IpRestriction[];
+  ipSecurityRestrictions?: IpRestriction[];
+  scmIpSecurityRestrictions?: IpRestriction[];
   reservedInstanceCount?: number;
   functionsRuntimeScaleMonitoringEnabled?: boolean;
+  powerShellVersion?: string;
 }
 
 export interface IpRestriction {

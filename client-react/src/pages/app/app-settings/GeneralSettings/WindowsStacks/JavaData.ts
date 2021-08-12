@@ -74,6 +74,7 @@ export const getJavaMinorVersionAsDropdownOptions = (
             ? minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
             : minorVersion.value,
           text: getMinorVersionText(minorVersion.displayText, t, minorVersion.stackSettings.windowsRuntimeSettings),
+          data: minorVersion,
         });
       }
     });
@@ -114,7 +115,8 @@ export const getFrameworkVersionOptions = (
       if (containerSettings) {
         options.push({
           key: containerSettings.javaContainerVersion ? containerSettings.javaContainerVersion : minorVersion.value,
-          text: containerSettings.isAutoUpdate ? t('stackVersionAutoUpdate').format(minorVersion.displayText) : minorVersion.displayText,
+          text: getMinorVersionText(minorVersion.displayText, t, minorVersion.stackSettings.windowsContainerSettings),
+          data: minorVersion,
         });
       }
     });

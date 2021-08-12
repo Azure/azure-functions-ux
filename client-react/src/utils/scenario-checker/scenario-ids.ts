@@ -57,7 +57,6 @@ export class ScenarioIds {
   public static readonly headerOnTopOfSideNav = 'headerOnTopOfSideNav';
   public static readonly topBarWarning = 'TopBarWarning';
   public static readonly userMenu = 'UserMenu';
-  public static readonly standAloneUserMenu = 'StandAloneUserMenu';
   public static readonly useCustomFunctionInputPicker = 'UseCustomFunctionInputPicker';
   public static readonly quickStartLink = 'QuickStartLink';
   public static readonly webSocketsEnabled = 'WebSocketsEnabled';
@@ -70,7 +69,6 @@ export class ScenarioIds {
   public static readonly enableExportToPowerApps = 'EnableExportToPowerApps';
   public static readonly disabledBindings = 'disabledBindings';
   public static readonly monitoring = 'monitoring';
-  public static readonly addHTTPSwitch = 'addHTTPSwitch';
   public static readonly vstsDeploymentHide = 'vstsDeploymentHide';
   public static readonly vstsDeploymentPermission = 'vstsDeploymentPermission';
   public static readonly deploymentCenter = 'deploymentCenter';
@@ -92,6 +90,7 @@ export class ScenarioIds {
   public static readonly clientAffinitySupported = 'clientAffinitySupported';
   public static readonly alwaysOnSupported = 'alwaysOnSupported';
   public static readonly azureStorageMount = 'azureStorageMount';
+  public static readonly azureStorageMountPreview = 'azureStorageMountPreview';
   public static readonly showAppSettingsUpsell = 'showAppSettingsUpsell';
   public static readonly remoteDebuggingSupported = 'RemoteDebuggingSupported';
   public static readonly useOldScaleUpBlade = 'UseOldScaleUpBlade';
@@ -108,4 +107,12 @@ export class ScenarioIds {
   public static readonly runtimeScaleMonitoringSupported = 'runtimeScaleMonitoringSupported';
   public static readonly xenonAppRuntimeStack = 'xenonAppRuntimeStack';
   public static readonly showAppInsightsLogs = 'showAppInsightsLogs';
+  public static readonly showRuntimeVersionSetting = 'showRuntimeVersionSetting';
+  public static readonly deploymentCenterLogs = 'deploymentCenterLogs';
+  public static readonly kuduBuildProvider = 'kuduBuildProvider';
+  public static readonly dockerCompose = 'dockerCompose';
+  public static readonly azurePipelinesBuildProvider = 'azurePipelinesBuildProvider';
+  public static readonly ftpStateSupported = 'ftpStateSupported';
+  public static readonly incomingClientCertSupported = 'incomingClientCertSupported';
+  public static readonly httpVersionSupported = 'httpVersionSupported';
 }

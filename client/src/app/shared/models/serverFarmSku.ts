@@ -11,6 +11,8 @@ export class Tier {
   public static readonly elasticPremium = 'ElasticPremium';
   public static readonly elasticIsolated = 'ElasticIsolated';
   public static readonly premiumV3 = 'PremiumV3';
+  public static readonly isolatedV2 = 'IsolatedV2';
+  public static readonly workflowStandard = 'WorkflowStandard';
 }
 
 export class SkuCode {
@@ -74,5 +76,23 @@ export class SkuCode {
     P1V3: 'P1V3',
     P2V3: 'P2V3',
     P3V3: 'P3V3',
+  };
+
+  public static readonly IsolatedV2 = {
+    I1V2: 'I1V2',
+    I2V2: 'I2V2',
+    I3V2: 'I3V2',
+  };
+
+  public static readonly WorkflowStandard = {
+    WS1: 'WS1',
+    WS2: 'WS2',
+    WS3: 'WS3',
+    WS1CPU: 'WS1-C',
+    WS1Memory: 'WS1-M',
+    WS2CPU: 'WS2-C',
+    WS2Memory: 'WS2-M',
+    WS3CPU: 'WS3-C',
+    WS3Memory: 'WS3-M',
   };
 }

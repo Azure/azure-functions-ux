@@ -2,6 +2,7 @@ import { Controller, Post, Query, Req, Body, Header, Res, HttpException } from '
 import { DeploymentCenterService } from '../deployment-center.service';
 import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
+import { EventType } from '../../shared/logging/etw.service';
 
 interface Authorization {
   parameters: { [key: string]: string };
@@ -17,17 +18,22 @@ interface CodeRepository {
 
 @Controller('api')
 export class AzureDevOpsController {
-  constructor(private dcService: DeploymentCenterService, private loggingService: LoggingService, private httpService: HttpService) { }
+  constructor(private dcService: DeploymentCenterService, private loggingService: LoggingService, private httpService: HttpService) {}
 
   @Post('setupvso')
   async setupvso(@Query('accountName') accountName: string, @Body('githubToken') githubToken: string, @Body() body: any, @Req() req) {
-    this.loggingService.trackEvent('/api/setupvso/received-request', {
-      accountName: req.query.accountName,
-    });
+    this.loggingService.trackEvent(
+      '/api/setupvso/received-request',
+      {
+        accountName: req.query.accountName,
+      },
+      undefined,
+      EventType.Info
+    );
 
     const uri = `https://${
       req.query.accountName
-      }.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`;
+    }.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`;
 
     const passHeaders = req.headers;
 
@@ -39,9 +45,14 @@ export class AzureDevOpsController {
     }
 
     if (repository && repository.type === 'GitHub') {
-      this.loggingService.trackEvent('/api/setupvso/dispatch-github-token-request', {
-        accountName: req.query.accountName,
-      });
+      this.loggingService.trackEvent(
+        '/api/setupvso/dispatch-github-token-request',
+        {
+          accountName: req.query.accountName,
+        },
+        undefined,
+        EventType.Info
+      );
 
       repository.authorizationInfo.parameters.AccessToken = githubToken;
     }
@@ -59,10 +70,15 @@ export class AzureDevOpsController {
         headers['X-VSS-ForceMsaPassThrough'] = 'true';
       }
 
-      this.loggingService.trackEvent('/api/setupvso/dispatch-vs-request', {
-        uri,
-        method: 'post',
-      });
+      this.loggingService.trackEvent(
+        '/api/setupvso/dispatch-vs-request',
+        {
+          uri,
+          method: 'post',
+        },
+        undefined,
+        EventType.Info
+      );
 
       const result = await this.httpService.post(uri, body, {
         headers,

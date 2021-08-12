@@ -21,6 +21,7 @@ interface ActionBarButtonProps {
   title: string | JSX.Element;
   disable: boolean;
   onClick: () => void;
+  autoFocus?: boolean;
 }
 interface ActionBarProps {
   id: string;
@@ -34,7 +35,7 @@ interface ActionBarProps {
 
 const elementWrapperStyle = (theme: ThemeExtended, fullPageHeight?: boolean) =>
   style({
-    position: fullPageHeight ? 'sticky' : 'absolute',
+    position: fullPageHeight ? 'fixed' : 'absolute',
     bottom: '0px',
     height: '57px',
     left: '0px',
@@ -105,7 +106,8 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({
           id={`${id}-${primaryButton.id}`}
           className={buttonStyle(theme, true)}
           onClick={primaryButton.onClick}
-          disabled={primaryButton.disable}>
+          disabled={primaryButton.disable}
+          autoFocus={!!primaryButton.autoFocus}>
           {typeof primaryButtonTitle !== 'string' ? primaryButtonTitle : t(primaryButtonTitle)}
         </PrimaryButton>
         {secondaryButton && (
@@ -146,7 +148,6 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
-                justifyItems: 'center',
                 paddingTop: '10px',
                 paddingLeft: '5px',
               },

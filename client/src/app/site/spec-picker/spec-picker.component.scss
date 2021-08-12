@@ -153,6 +153,10 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
       -webkit-line-clamp: 3;
       overflow: hidden;
     }
+
+    .disabledMessageInfoLink {
+      color: #08397D;
+    }
   }
 
   .spec-expander {
@@ -294,7 +298,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
       margin-left: 5px;
       height: 27px;
       left: 45px;
-      font-size: 14px;
+      font-size: 12px;
     }
   }
 }
@@ -326,6 +330,10 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
     &.disabled {
       background-color: lighten($chrome-color-dark, 10%);
       color: $default-text-color-dark;
+    }
+
+    .disabledMessageInfoLink {
+      color: #6FABFA;
     }
   }
 

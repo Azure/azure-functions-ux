@@ -25,18 +25,22 @@ import { PortalService } from './../../../shared/services/portal.service';
 import { PlanService } from './../../../shared/services/plan.service';
 import { Injector, Injectable } from '@angular/core';
 import { ArmSubcriptionDescriptor, ArmResourceDescriptor } from '../../../shared/resourceDescriptors';
-import { ResourceId, ArmObj } from '../../../shared/models/arm/arm-obj';
+import { ResourceId, ArmObj, ArmArrayResult } from '../../../shared/models/arm/arm-obj';
 import { ServerFarm } from '../../../shared/models/server-farm';
 import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
-import { LogCategories, Links, ScenarioIds, Constants } from '../../../shared/models/constants';
+import { LogCategories, Links, ScenarioIds, Kinds, Pricing } from '../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { AppKind } from 'app/shared/Utilities/app-kind';
 import { BillingService } from 'app/shared/services/billing.service';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
+import { ServerFarmRecommendation, RecommendationRuleNames } from '../../../shared/models/arm/serverfarm-recommendation';
+import { HttpResult } from '../../../shared/models/http-result';
+import { Site } from '../../../shared/models/arm/site';
+import { NationalCloudEnvironment } from 'app/shared/services/scenario/national-cloud.environment';
 
 export interface SpecPickerInput<T> {
   id: ResourceId;
@@ -69,6 +73,9 @@ export interface PlanSpecPickerData {
   isNewFunctionAppCreate?: boolean; // NOTE(shimedh): We need this additional flag temporarily to make it work with old and new FunctionApp creates.
   // Since old creates always shows elastic premium sku's along with other sku's.
   // However, in new full screen creates it would be based on the plan type selected which will determing isElastic boolean value.
+  allowAseV3Creation?: boolean; // NOTE(shimedh): This will be set for new ASP creating in existing ASEv3. It will later also be used for new app in new ASEv3 scenario from webapp create (will be enabled for GA).
+  isWorkflowStandard?: boolean;
+  isJBoss?: boolean; // Set to true when creating a JBoss site.
 }
 
 export type ApplyButtonState = 'enabled' | 'disabled';
@@ -77,10 +84,12 @@ export type ApplyButtonState = 'enabled' | 'disabled';
 export class PlanPriceSpecManager {
   private readonly DynamicSku = 'Y1';
   private readonly StampIpAddressesDelimeter = ',';
+  private readonly JbossMeterShortName = 'JBossEAP';
 
   selectedSpecGroup: PriceSpecGroup;
   specGroups: PriceSpecGroup[] = [];
   specSpecificBanner: BannerMessage;
+  skuCheckBanner: BannerMessage = null;
 
   get currentSkuCode(): string {
     if (!this._plan) {
@@ -95,8 +104,9 @@ export class PlanPriceSpecManager {
   private _subscriptionId: string;
   private _inputs: SpecPickerInput<PlanSpecPickerData>;
   private _ngUnsubscribe$ = new Subject();
-  private _numberOfSites = 0;
+  private _appDensityWarningMessage = null;
   private _stampIpAddresses: StampIpAddresses;
+  private _planContainsJbossSite = false;
 
   constructor(
     private _authZService: AuthzService,
@@ -130,13 +140,15 @@ export class PlanPriceSpecManager {
     this.selectedSpecGroup = this.specGroups[0];
     let specInitCalls: Observable<void>[] = [];
 
-    return Observable.zip(this._getPlan(inputs), pricingTiers, (plan, pt) => ({
+    return Observable.zip(this._getPlan(inputs), pricingTiers, this._getServerFarmSites(inputs), (plan, pt, sites) => ({
       plan: plan,
       pricingTiers: pt,
+      serverFarmSites: sites,
     }))
       .flatMap(r => {
         // plan is null for new plans
         this._plan = r.plan;
+        this._planContainsJbossSite = this._doesPlanContainJbossSite(r.serverFarmSites);
 
         if (r.pricingTiers) {
           this.specGroups = [
@@ -149,9 +161,16 @@ export class PlanPriceSpecManager {
         this.specGroups.forEach(g => {
           const priceSpecInput: PriceSpecInput = {
             specPickerInput: inputs,
-            plan: this._plan,
             subscriptionId: this._subscriptionId,
           };
+
+          // Add planDetails only for update scenario.
+          if (this._isUpdateScenario(inputs)) {
+            priceSpecInput.planDetails = {
+              plan: this._plan,
+              containsJbossSite: this._planContainsJbossSite,
+            };
+          }
 
           g.initialize(priceSpecInput);
           specInitCalls = specInitCalls.concat(g.recommendedSpecs.map(s => s.initialize(priceSpecInput)));
@@ -161,7 +180,15 @@ export class PlanPriceSpecManager {
         return specInitCalls.length > 0 ? Observable.zip(...specInitCalls) : Observable.of(null);
       })
       .do(() => {
-        return this._getServerFarmSites(inputs);
+        if (this._shouldShowSkuCheckWarning()) {
+          this.skuCheckBanner = {
+            level: BannerMessageLevel.WARNING,
+            message: this._ts.instant(PortalResources.pricing_skuCheckWarning),
+          };
+        } else {
+          this.skuCheckBanner = null;
+        }
+        return this._getServerFarmRecommendations(inputs);
       });
   }
 
@@ -178,9 +205,14 @@ export class PlanPriceSpecManager {
         let specResourceSets: SpecResourceSet[] = [];
         let specsToAllowZeroCost: string[] = [];
 
+        const includeJbossCost = this._isUpdateScenario(this._inputs) ? this._planContainsJbossSite : this._inputs.data.isJBoss;
         this.specGroups.forEach(g => {
-          g.recommendedSpecs.forEach(s => this._setBillingResourceId(s, meters));
-          g.additionalSpecs.forEach(s => this._setBillingResourceId(s, meters));
+          g.recommendedSpecs.forEach(s =>
+            this._setBillingResourceIdAndQuantity(s, meters, !NationalCloudEnvironment.isNationalCloud() && includeJbossCost)
+          );
+          g.additionalSpecs.forEach(s =>
+            this._setBillingResourceIdAndQuantity(s, meters, !NationalCloudEnvironment.isNationalCloud() && includeJbossCost)
+          );
 
           specResourceSets = this._concatAllResourceSetsForSpecs(specResourceSets, g.recommendedSpecs);
           specResourceSets = this._concatAllResourceSetsForSpecs(specResourceSets, g.additionalSpecs);
@@ -471,11 +503,29 @@ export class PlanPriceSpecManager {
     }
   }
 
+  private _shouldShowSkuCheckWarning(): boolean {
+    const specGroups = this.specGroups || [];
+
+    for (let i = 0; i < specGroups.length; i++) {
+      const recommendedSpecs = (!!specGroups[i] && specGroups[i].recommendedSpecs) || [];
+      const additionalSpecs = (!!specGroups[i] && specGroups[i].additionalSpecs) || [];
+
+      const allSpecs = [...recommendedSpecs, ...additionalSpecs];
+      for (let j = 0; j < allSpecs.length; j++) {
+        if (allSpecs[j].skuAvailabilityCheckFailed) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   private _shouldShowAppDensityWarning(skuCode: string): boolean {
     return (
       this._scenarioService.checkScenario(ScenarioIds.appDensity).status !== 'disabled' &&
       this._isAppDensitySkuCode(skuCode) &&
-      this._numberOfSites >= Constants.appDensityLimit
+      !!this._appDensityWarningMessage
     );
   }
 
@@ -495,7 +545,7 @@ export class PlanPriceSpecManager {
   private _updateAppDensityStatusMessage(spec: PriceSpec) {
     if (this._shouldShowAppDensityWarning(spec.skuCode)) {
       this._specPicker.statusMessage = {
-        message: this._ts.instant(PortalResources.pricing_appDensityWarningMessage).format(this._plan.name),
+        message: this._appDensityWarningMessage,
         level: 'warning',
         infoLink: Links.appDensityWarningLink,
         infoLinkAriaLabel: this._ts.instant(PortalResources.pricing_appDensityWarningMessageAriaLabel),
@@ -571,28 +621,66 @@ export class PlanPriceSpecManager {
 
   private _getServerFarmSites(inputs: SpecPickerInput<PlanSpecPickerData>) {
     if (this._isUpdateScenario(inputs)) {
-      this._numberOfSites = 0;
       this._stampIpAddresses = null;
-      return this._planService.getServerFarmSites(inputs.id, true).subscribe(
-        response => {
-          if (response.isSuccessful) {
-            this._numberOfSites = this._numberOfSites + response.result.value.length;
-            this._stampIpAddresses = {
-              inboundIpAddress: response.result.value[0].properties.inboundIpAddress,
-              outboundIpAddresses: response.result.value[0].properties.outboundIpAddresses,
-              possibleInboundIpAddresses: response.result.value[0].properties.possibleInboundIpAddresses,
-              possibleOutboundIpAddresses: response.result.value[0].properties.possibleOutboundIpAddresses,
-            };
-          }
-        },
-        null,
-        () => {
-          this._updateAppDensityStatusMessage(this.selectedSpecGroup.selectedSpec);
+      return this._planService.getServerFarmSites(inputs.id, true).map(response => {
+        if (response.isSuccessful && response.result.value.length > 0) {
+          this._stampIpAddresses = {
+            inboundIpAddress: response.result.value[0].properties.inboundIpAddress,
+            outboundIpAddresses: response.result.value[0].properties.outboundIpAddresses,
+            possibleInboundIpAddresses: response.result.value[0].properties.possibleInboundIpAddresses,
+            possibleOutboundIpAddresses: response.result.value[0].properties.possibleOutboundIpAddresses,
+          };
+
+          return response;
         }
-      );
+        return null;
+      });
     }
 
     return Observable.of(null);
+  }
+
+  private _getServerFarmRecommendations(inputs: SpecPickerInput<PlanSpecPickerData>) {
+    if (this._isUpdateScenario(inputs)) {
+      this._appDensityWarningMessage = null;
+      return this._planService
+        .getServerFarmRecommendations(inputs.id, true)
+        .switchMap(response => {
+          if (response.isSuccessful && response.result.value.length > 0) {
+            const results = response.result.value;
+            const appDensityRecommendationIndex = results.findIndex((result: ArmObj<ServerFarmRecommendation>) => {
+              return result.properties.ruleName.toLocaleLowerCase() === RecommendationRuleNames.AppDensity.toLocaleLowerCase();
+            });
+
+            if (appDensityRecommendationIndex > -1) {
+              this._appDensityWarningMessage = results[appDensityRecommendationIndex].properties.message;
+            }
+          }
+          return Observable.of(response);
+        })
+        .do(() => {
+          this._updateAppDensityStatusMessage(this.selectedSpecGroup.selectedSpec);
+        });
+    }
+
+    return Observable.of(null);
+  }
+
+  private _doesPlanContainJbossSite(serverFarmSitesResult: HttpResult<ArmArrayResult<Site>>): boolean {
+    if (serverFarmSitesResult && serverFarmSitesResult.isSuccessful && serverFarmSitesResult.result.value.length > 0) {
+      const serverFarmSites = serverFarmSitesResult.result.value;
+
+      return serverFarmSites.some(site => {
+        const linuxFxVersionPropIndex =
+          site.properties.siteProperties &&
+          site.properties.siteProperties.properties &&
+          site.properties.siteProperties.properties.findIndex(prop => prop.name.toLowerCase() === 'linuxfxversion');
+        const linuxFxVersion = site.properties.siteProperties.properties[linuxFxVersionPropIndex].value;
+        return linuxFxVersion && linuxFxVersion.toLowerCase().startsWith('jbosseap|');
+      });
+    }
+
+    return false;
   }
 
   // Scale operations for isolated can take a really long time.  When that happens, we'll show a warning
@@ -659,20 +747,28 @@ export class PlanPriceSpecManager {
   private _getOsType(inputs: SpecPickerInput<PlanSpecPickerData>): OsType {
     if (this._isUpdateScenario(inputs)) {
       // If we're getting meters for an existing plan
-      return AppKind.hasKinds(this._plan, ['linux']) ? OsType.Linux : OsType.Windows;
+      return AppKind.hasKinds(this._plan, [Kinds.linux]) ? OsType.Linux : OsType.Windows;
     }
 
     // We're getting meters for a new plan
     return inputs.data.isLinux ? OsType.Linux : OsType.Windows;
   }
 
-  private _setBillingResourceId(spec: PriceSpec, billingMeters: ArmObj<BillingMeter>[]) {
+  private _setBillingResourceIdAndQuantity(spec: PriceSpec, billingMeters: ArmObj<BillingMeter>[], includeJbossConst: boolean) {
     if (!spec.meterFriendlyName) {
       throw Error('meterFriendlyName must be set');
     }
 
     if (!spec.specResourceSet || !spec.specResourceSet.firstParty || spec.specResourceSet.firstParty.length < 1) {
       throw Error('Spec must contain a specResourceSet with at least one firstParty item defined');
+    }
+
+    if (includeJbossConst) {
+      spec.specResourceSet.firstParty.push({
+        id: this.JbossMeterShortName,
+        quantity: Pricing.hoursInAzureMonth * spec.jbossMultiplier,
+        resourceId: null,
+      });
     }
 
     spec.specResourceSet.firstParty.forEach(firstPartyResource => {
@@ -695,6 +791,7 @@ export class PlanPriceSpecManager {
         }
       } else {
         firstPartyResource.resourceId = billingMeter.properties.meterId;
+        firstPartyResource.quantity = firstPartyResource.quantity * billingMeter.properties.multiplier;
       }
     });
   }
