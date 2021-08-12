@@ -25,7 +25,6 @@ const RadioButton: React.SFC<IChoiceGroupProps & FieldProps & RadioButtonProps> 
   return (
     <RadioButtonNoFormik
       ariaLabelledBy={`${props.id}-label`}
-      id={props.id}
       selectedKey={field.value}
       options={options}
       onChange={onChange}

@@ -46,7 +46,7 @@ gulp.task('replace-tokens-for-minimized-angular', cb => {
     config.main = index.match(/main.*?\.bundle.js/)[0];
     config.styles = index.match(/styles.*?\.bundle.css/)[0];
     const configFile = path.join(ngMinPath, `${getBuildVersion()}.json`);
-    const configContents = new Buffer(JSON.stringify(config));
+    const configContents = new Buffer.from(JSON.stringify(config));
     fs.writeFileSync(configFile, configContents);
   }
   cb();
@@ -66,7 +66,7 @@ gulp.task('package-version', () => {
   //
   return gulp
     .src('package.json')
-    .pipe(string_replace('0.0.0', getBuildVersion()))
+    .pipe(string_replace('"version": "0.0.0"', `"version": "${getBuildVersion()}"`))
     .pipe(gulp.dest('dist'));
 });
 
@@ -152,7 +152,7 @@ gulp.task('resx-to-typescript-models', function(cb) {
   typescriptFileContent += `}`;
   let writePath = path.normalize(path.join(__dirname, '..', 'client', 'src', 'app', 'shared', 'models'));
   let writeFile = path.join(writePath, 'portal-resources.ts');
-  fs.writeFileSync(writeFile, new Buffer(typescriptFileContent));
+  fs.writeFileSync(writeFile, new Buffer.from(typescriptFileContent));
   return gulp
     .src(writeFile)
     .pipe(
@@ -383,7 +383,7 @@ gulp.task('build-templates', function(cb) {
       fs.mkdirSync(writePath);
     }
     writePath = path.join(writePath, version + '.json');
-    fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateListJson)));
+    fs.writeFileSync(writePath, new Buffer.from(JSON.stringify(templateListJson)));
   });
   cb();
 });
@@ -411,7 +411,7 @@ gulp.task('build-bindings', function(cb) {
       fs.mkdirSync(writePath);
     }
     writePath = path.join(writePath, version + '.json');
-    fs.writeFileSync(writePath, new Buffer(JSON.stringify(bindingFile)));
+    fs.writeFileSync(writePath, new Buffer.from(JSON.stringify(bindingFile)));
   });
   cb();
 });
@@ -462,7 +462,7 @@ gulp.task('list-numeric-versions', function(cb) {
     fs.mkdirSync(writePath);
   }
   writePath = path.join(writePath, 'supportedFunctionsFxVersions.json');
-  fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateVersions)));
+  fs.writeFileSync(writePath, new Buffer.from(JSON.stringify(templateVersions)));
   cb();
 });
 
@@ -546,7 +546,7 @@ function newGuid() {
 }
 
 function getBuildVersion() {
-  return !!process.env.BUILD_BUILDID ? `1.0.${process.env.BUILD_BUILDID}` : '0.0.0';
+  return !!process.env.BUILD_BUILDID ? `1.0.${process.env.BUILD_BUILDID}` : '1.0.0';
 }
 
 function getFiles(folders) {

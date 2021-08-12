@@ -1,9 +1,9 @@
-import { Logger, LoggerService } from '@nestjs/common';
+import { ConsoleLogger, LoggerService } from '@nestjs/common';
 import { AppServicePerformanceCounters } from '../../types/app-service-performance-counters';
 import * as appInsights from 'applicationinsights';
 import { EtwService, EventType } from './etw.service';
 
-export class LoggingService extends Logger implements LoggerService {
+export class LoggingService extends ConsoleLogger implements LoggerService {
   private client: appInsights.TelemetryClient;
   private etwService: EtwService;
 

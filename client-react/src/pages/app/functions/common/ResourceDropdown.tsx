@@ -55,7 +55,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
 
   // If we are readonly, don't rely on app settings, assume that the saved value is correct
   if (SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
-    return <Dropdown options={[{ text: field.value, key: field.value }]} selectedKey={field.value} {...props} />;
+    return <Dropdown selectedKey={field.value} {...props} options={[{ text: field.value, key: field.value }]} />;
   }
 
   if (!appSettings) {
@@ -84,10 +84,10 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   return (
     <div>
       <Dropdown
-        options={options}
         placeholder={options.length < 1 ? t('resourceDropdown_noAppSettingsFound') : undefined}
         onChange={(_e, option) => onChange(option, formProps, field, appSettings)}
         {...props}
+        options={options}
       />
       {!isDisabled ? (
         <div style={layout === Layout.Vertical ? linkPaddingStyle : horizontalLinkPaddingStyle}>
@@ -102,7 +102,6 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
             directionalHint={DirectionalHint.bottomCenter}>
             {setting.resource === BindingSettingResource.Storage && (
               <NewStorageAccountConnectionCallout
-                resourceId={resourceId}
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
@@ -110,11 +109,11 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
                 {...props}
                 layout={Layout.Vertical} // Layout needs to be here or it gets overridden from props
                 multiline={false} // Same as above, here to overwrite prop
+                resourceId={resourceId}
               />
             )}
             {setting.resource === BindingSettingResource.EventHub && (
               <NewEventHubConnectionCallout
-                resourceId={resourceId}
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
@@ -122,11 +121,11 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
                 {...props}
                 layout={Layout.Vertical} // Layout needs to be here or it gets overridden from props
                 multiline={false} // Same as above, here to overwrite prop
+                resourceId={resourceId}
               />
             )}
             {setting.resource === BindingSettingResource.ServiceBus && (
               <NewServiceBusConnectionCallout
-                resourceId={resourceId}
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
@@ -134,11 +133,11 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
                 {...props}
                 layout={Layout.Vertical} // Layout needs to be here or it gets overridden from props
                 multiline={false} // Same as above, here to overwrite prop
+                resourceId={resourceId}
               />
             )}
             {setting.resource === BindingSettingResource.DocumentDB && (
               <NewDocumentDBConnectionCallout
-                resourceId={resourceId}
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
@@ -146,16 +145,17 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
                 {...props}
                 layout={Layout.Vertical} // Layout needs to be here or it gets overridden from props
                 multiline={false} // Same as above, here to overwrite prop
+                resourceId={resourceId}
               />
             )}
             {setting.resource === BindingSettingResource.AppSetting && (
               <NewAppSettingCallout
-                resourceId={resourceId}
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
                 {...props}
+                resourceId={resourceId}
               />
             )}
           </Callout>

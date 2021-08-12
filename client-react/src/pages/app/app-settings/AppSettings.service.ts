@@ -45,8 +45,8 @@ export const fetchSlots = (resourceId: string) => {
   return SiteService.fetchSlots(resourceId);
 };
 
-export const updateSite = (resourceId: string, site: ArmObj<Site>) => {
-  return SiteService.updateSite(resourceId, site);
+export const updateSite = (resourceId: string, site: ArmObj<Site>, configSettingsToIgnore?: string[]) => {
+  return SiteService.updateSite(resourceId, site, configSettingsToIgnore);
 };
 
 export const updateWebConfig = (resourceId: string, siteConfig: ArmObj<SiteConfig>) => {
