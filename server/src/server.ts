@@ -66,7 +66,6 @@ async function bootstrap() {
     })
   );
   app.enable('trust proxy');
-  app.en;
   const port = normalizePort(process.env.PORT || '3000');
   await app.listen(port);
 }
