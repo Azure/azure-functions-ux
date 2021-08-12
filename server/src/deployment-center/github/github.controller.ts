@@ -102,9 +102,9 @@ export class GithubController {
 
   @Post('api/github/getOrganizations')
   @HttpCode(200)
-  async getOrganizations(@Body('gitHubToken') gitHubToken: string, @Body('page') page: AxiosRequestConfig, @Res() res) {
+  async getOrganizations(@Body('gitHubToken') gitHubToken: string, @Body('page') page: number, @Res() res) {
     try {
-      const url = `${this.githubApiUrl}/user/orgs&page=${page}`;
+      const url = `${this.githubApiUrl}/user/orgs?page=${page}`;
       const response = await this.httpService.get(url, {
         headers: this._getAuthorizationHeader(gitHubToken),
       });
@@ -134,14 +134,9 @@ export class GithubController {
 
   @Post('api/github/getOrgRepositories')
   @HttpCode(200)
-  async getOrgRepositories(
-    @Body('gitHubToken') gitHubToken: string,
-    @Body('page') page: AxiosRequestConfig,
-    @Body('org') org: string,
-    @Res() res
-  ) {
+  async getOrgRepositories(@Body('gitHubToken') gitHubToken: string, @Body('org') org: string, @Body('page') page: number, @Res() res) {
     try {
-      const url = `${this.githubApiUrl}/orgs/${org}/repos&page=${page}`;
+      const url = `${this.githubApiUrl}/orgs/${org}/repos?page=${page}`;
       const response = await this.httpService.get(url, {
         headers: this._getAuthorizationHeader(gitHubToken),
       });
@@ -171,7 +166,7 @@ export class GithubController {
 
   @Post('api/github/getUserRepositories')
   @HttpCode(200)
-  async getUserRepositories(@Body('gitHubToken') gitHubToken: string, @Body('page') page: AxiosRequestConfig, @Res() res) {
+  async getUserRepositories(@Body('gitHubToken') gitHubToken: string, @Body('page') page: number, @Res() res) {
     try {
       const url = `${this.githubApiUrl}/user/repos?type=owner&page=${page}`;
       const response = await this.httpService.get(url, {
@@ -205,13 +200,52 @@ export class GithubController {
   @HttpCode(200)
   async getBranches(
     @Body('gitHubToken') gitHubToken: string,
-    @Body('page') page: AxiosRequestConfig,
+    @Body('page') page: number,
     @Body('org') org: string,
     @Body('repo') repo: string,
     @Res() res
   ) {
     try {
       const url = `${this.githubApiUrl}/repos/${org}/${repo}/branches?per_page=100&page=${page}`;
+      const response = await this.httpService.get(url, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+
+      if (response.headers.link) {
+        res.setHeader('link', response.headers.link);
+      }
+
+      if (response.headers['x-oauth-scopes']) {
+        res.setHeader(
+          'x-oauth-scopes',
+          response.headers['x-oauth-scopes']
+            .split(',')
+            .map((value: string) => value.trim())
+            .join(',')
+        );
+      }
+
+      res.json(response.data);
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
+  @Post('api/github/getWorkflowConfiguration')
+  @HttpCode(200)
+  async getWorkflowConfiguration(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('workflowYmlPath') workflowYmlPath: string,
+    @Body('branchName') branchName: string,
+    @Res() res
+  ) {
+    try {
+      const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents/${workflowYmlPath}?ref=${branchName}`;
       const response = await this.httpService.get(url, {
         headers: this._getAuthorizationHeader(gitHubToken),
       });
@@ -284,10 +318,11 @@ export class GithubController {
     @Body('org') org: string,
     @Body('repo') repo: string,
     @Body('workflowFileName') workflowFileName: string,
+    @Body('page') page: number,
     @Res() res
   ) {
     try {
-      const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/workflows/${workflowFileName}/runs?page=1`;
+      const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/workflows/${workflowFileName}/runs?page=${page}`;
       const response = await this.httpService.get(url, {
         headers: this._getAuthorizationHeader(gitHubToken),
       });
@@ -317,13 +352,22 @@ export class GithubController {
 
   @Post('api/github/cancelWorkflowRun')
   @HttpCode(200)
-  async cancelWorkflowRun(@Body('gitHubToken') gitHubToken: string, @Res() res) {
+  async cancelWorkflowRun(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('workflowId') workflowId: string,
+    @Res() res
+  ) {
     try {
-      const url = `${this.githubApiUrl}/user/orgs`;
-      const response = await this.httpService.get(url, {
-        headers: this._getAuthorizationHeader(gitHubToken),
-      });
-
+      const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${workflowId}/cancel`;
+      const response = await this.httpService.post(
+        url,
+        {},
+        {
+          headers: this._getAuthorizationHeader(gitHubToken),
+        }
+      );
       if (response.headers.link) {
         res.setHeader('link', response.headers.link);
       }
