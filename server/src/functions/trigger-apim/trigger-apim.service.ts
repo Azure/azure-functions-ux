@@ -1,4 +1,5 @@
 import { Injectable, HttpException } from '@nestjs/common';
+import { AxiosRequestConfig, Method } from 'axios';
 import { ConfigService } from '../../shared/config/config.service';
 import { HttpService } from '../../shared/http/http.service';
 interface TriggerRequest {
@@ -21,9 +22,9 @@ export class TriggerApimService {
     headers['Ocp-Apim-Subscription-Key'] = process.env.APIMSubscriptionKey;
     headers['Ocp-Apim-Trace'] = 'true';
 
-    const request = {
+    const request: AxiosRequestConfig = {
       headers,
-      method: 'POST',
+      method: 'POST' as Method,
       data: content.body,
       url: content.url,
     };

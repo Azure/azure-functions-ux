@@ -2307,7 +2307,6 @@ export class PortalResources {
   public static staticSiteMaxAppSize = 'staticSiteMaxAppSize';
   public static staticSiteAzureFunctions = 'staticSiteAzureFunctions';
   public static staticSiteIncludedBandwidthAmount = 'staticSiteIncludedBandwidthAmount';
-  public static staticSiteStandardBandwidthOverageAmount = 'staticSiteStandardBandwidthOverageAmount';
   public static staticSiteFreeCustomDomainAmount = 'staticSiteFreeCustomDomainAmount';
   public static staticSiteStandardCustomDomainAmount = 'staticSiteStandardCustomDomainAmount';
   public static staticSiteFreeAzureFunctionsAmount = 'staticSiteFreeAzureFunctionsAmount';
@@ -2339,4 +2338,6 @@ export class PortalResources {
   public static configurationFeedbackCVAQuestion = 'configurationFeedbackCVAQuestion';
   public static deploymentCenterJavaWebServerStack = 'deploymentCenterJavaWebServerStack';
   public static readOnlyMissingAzureFilesSetting = 'readOnlyMissingAzureFilesSetting';
+  public static deploymentCenterChangeAccountInfoMessage = 'deploymentCenterChangeAccountInfoMessage';
+  public static deploymentCenterChangeAccountInfoButton = 'deploymentCenterChangeAccountInfoButton';
 }
