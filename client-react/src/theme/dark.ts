@@ -110,7 +110,7 @@ const semanticColors = {
   bodyDivider: AzurePortalColors.sectionDividerScrollbar,
 
   disabledBackground: AzurePortalColors.buttonDisabled,
-  disabledText: AzurePortalColors.disabledText,
+
   disabledBodyText: AzurePortalColors.disabledText,
   disabledSubtext: AzurePortalColors.disabledText,
 
@@ -119,13 +119,8 @@ const semanticColors = {
   variantBorderHovered: AzurePortalColors.standardControlOutlineHover,
   defaultStateBackground: AzurePortalColors.standardControlOutlineDisabled,
 
-  successText: AzurePortalColors.successText,
-  successBackground: AzurePortalColors.successBackground,
   warningText: AzurePortalColors.textColor,
-  warningBackground: AzurePortalColors.warningBackground,
   warningHighlight: AzurePortalColors.warningIcon,
-  errorText: AzurePortalColors.inlineErrorText,
-  errorBackground: AzurePortalColors.errorBackground,
   blockingBackground: AzurePortalColors.errorBackground,
 
   inputBorder: AzurePortalColors.textControlOutlineRest,

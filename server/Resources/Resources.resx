@@ -7062,9 +7062,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSiteIncludedBandwidthAmount" xml:space="preserve">
         <value>100GB per subscription</value>
     </data>
-    <data name="staticSiteStandardBandwidthOverageAmount" xml:space="preserve">
-        <value>$0.02 per GB per subscription</value>
-    </data>
     <data name="staticSiteFreeCustomDomainAmount" xml:space="preserve">
         <value>2 per app</value>
     </data>
@@ -7128,12 +7125,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSiteUpdatingHostingPlanFailure" xml:space="preserve">
         <value>Failed to update hosting plan</value>
     </data>
-    <data name="deploymentCenterContainerSettingsBannerMessage" xml:space="preserve">
-        <value>Welcome to the Deployment Center, the new experience for managing deployments. Looking for Container Settings? </value>
-    </data>
-    <data name="deploymentCenterContainerSettingsBannerClickHere" xml:space="preserve">
-        <value>Click here.</value>
-    </data>
     <data name="staticWebAppSkuPickerCalculatePrice" xml:space="preserve">
         <value>Calculate price</value>
     </data>
@@ -7150,7 +7141,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>{0}/per app/month</value>
     </data>
     <data name="staticSiteStandardBandwidthOverage" xml:space="preserve">
-        <value>${0} per GB per subscription</value>
+        <value>{0} per GB per subscription</value>
     </data>
     <data name="configurationFeedbackCESQuestion" xml:space="preserve">
         <value>How easy or difficult is it to use this App Service configuration page?</value>
@@ -7169,5 +7160,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="readOnlyMissingAzureFilesSetting" xml:space="preserve">
         <value>This function has been edited through an external editor. Portal editing is disabled.</value>
+    </data>
+    <data name="deploymentCenterChangeAccountInfoMessage" xml:space="preserve">
+        <value>In order to sign in with a different account, please go to www.github.com and log out of the account currently signed into GitHub.</value>
+    </data>
+    <data name="deploymentCenterChangeAccountInfoButton" xml:space="preserve">
+        <value>Change account information</value>
     </data>
 </root>

@@ -13,6 +13,7 @@ export interface IDeploymentCenterContext {
   gitHubToken: string;
   refresh: () => Promise<void>;
   refreshUserSourceControlTokens: () => void;
+  isIlbASE: boolean;
   siteConfig?: ArmObj<SiteConfig>;
   siteDescriptor?: ArmSiteDescriptor;
   applicationSettings?: ArmObj<KeyValue<string>>;

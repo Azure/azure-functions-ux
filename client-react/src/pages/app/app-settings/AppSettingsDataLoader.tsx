@@ -1,6 +1,12 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
-import { AppSettingsFormValues, KeyVaultReferences, AppSettingsAsyncData, LoadingStates } from './AppSettings.types';
+import {
+  AppSettingsFormValues,
+  KeyVaultReferences,
+  AppSettingsAsyncData,
+  LoadingStates,
+  FormAzureStorageMounts,
+} from './AppSettings.types';
 import { convertStateToForm, convertFormToState, getCleanedReferences } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import {
@@ -177,15 +183,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
     setLoadingFailure(loadingFailed);
 
-    // The user may have VNET security restrictions enabled. If so, then including "ipSecurityRestrictions" or "scmIpSecurityRestrictions" in the payload for
-    // the config/web API means that the call will require joinViaServiceEndpoint/action permissions on the given subnet(s) referenced in the security restrictions.
-    // If the user doesn't have these permissions, the config/web API call will fail. (This is true even if these properties are just being round-tripped.)
-    // Since this UI doesn't allow modifying these properties, we can just remove them from the config object to avoid the unnecessary permissions requirement.
-    if (webConfig.data) {
-      delete webConfig.data.properties.ipSecurityRestrictions;
-      delete webConfig.data.properties.scmIpSecurityRestrictions;
-    }
-
     if (!loadingFailed) {
       setCurrentSiteNonForm(site.data);
       if (isFunctionApp(site.data)) {
@@ -361,6 +358,27 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     loadData();
   };
 
+  const isAzureStorageMountUpdated = (current: FormAzureStorageMounts[], origin: FormAzureStorageMounts[] | null) => {
+    if (!!origin) {
+      if (current.length !== origin.length) {
+        return true;
+      }
+      return current.some(itemCurrent => {
+        return !origin.some(itemOrigin => {
+          return (
+            itemOrigin.accessKey === itemCurrent.accessKey &&
+            itemOrigin.accountName === itemCurrent.accountName &&
+            itemOrigin.mountPath === itemCurrent.mountPath &&
+            itemOrigin.name === itemCurrent.name &&
+            itemOrigin.shareName === itemCurrent.shareName &&
+            itemOrigin.type === itemCurrent.type
+          );
+        });
+      });
+    }
+    return true;
+  };
+
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
     setSaving(true);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
@@ -371,8 +389,17 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       slotConfigNamesFromApi
     );
 
+    const shouldUpdateAzureStorageMount = isAzureStorageMountUpdated(
+      values.azureStorageMounts,
+      initialValues && initialValues.azureStorageMounts
+    );
+    let configSettingToIgnore = SiteService.getSiteConfigSettingsToIgnore();
+    if (shouldUpdateAzureStorageMount) {
+      configSettingToIgnore = configSettingToIgnore.filter(config => config !== 'azureStorageAccounts');
+    }
+
     const [siteUpdate, slotConfigNamesUpdate] = [
-      updateSite(resourceId, site),
+      updateSite(resourceId, site, configSettingToIgnore),
       productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
     ];
 

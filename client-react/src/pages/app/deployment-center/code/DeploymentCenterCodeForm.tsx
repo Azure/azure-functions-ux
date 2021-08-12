@@ -41,6 +41,7 @@ import { AppOs } from '../../../../models/site/site';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { Guid } from '../../../../utils/Guid';
+import { KeyValue } from '../../../../models/portal-models';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -260,39 +261,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     return undefined;
   };
 
-  const deploy = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>, requestId: string) => {
-    const {
-      sourceProvider,
-      buildProvider,
-      org,
-      repo,
-      branch,
-      workflowOption,
-      runtimeStack,
-      runtimeVersion,
-      runtimeRecommendedVersion,
-      folder,
-    } = values;
-
-    portalContext.log(
-      getTelemetryInfo('info', 'saveDeploymentSettings', 'start', {
-        sourceProvider,
-        buildProvider,
-        org,
-        repo,
-        branch,
-        folder,
-        workflowOption,
-        runtimeStack,
-        runtimeVersion,
-        runtimeRecommendedVersion,
-        publishType: 'code',
-        appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
-        isKubeApp: siteStateContext.isKubeApp ? 'true' : 'false',
-        os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
-        requestId,
-      })
-    );
+  const deploy = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>, deploymentProperties: KeyValue<any>) => {
+    portalContext.log(getTelemetryInfo('info', 'saveDeploymentSettings', 'start', deploymentProperties));
 
     // NOTE(michinoy): Only initiate writing a workflow configuration file if the branch does not already have it OR
     // the user opted to overwrite it.
@@ -327,62 +297,48 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     return deployKudu(values);
   };
 
-  const logSaveConclusion = (
-    values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
-    success: boolean,
-    requestId: string,
-    startTime: number
-  ) => {
-    const { sourceProvider, buildProvider } = values;
+  const logSaveConclusion = (success: boolean, deploymentProperties: KeyValue<any>) => {
     const endTime = new Date().getTime();
-    const duration = endTime - startTime;
+    const duration = endTime - deploymentProperties.startTime;
+    deploymentProperties.success = success ? 'true' : 'false';
+    deploymentProperties.duration = `${duration.toLocaleString()}`;
 
-    portalContext.log(
-      getTelemetryInfo('info', 'saveDeploymentSettings', 'end', {
-        requestId,
-        buildProvider,
-        sourceProvider,
-        success: success ? 'true' : 'false',
-        duration: `${duration.toLocaleString()}`,
-      })
-    );
+    portalContext.log(getTelemetryInfo('info', 'saveDeploymentSettings', 'end', deploymentProperties));
   };
 
   const saveGithubActionsDeploymentSettings = async (
     values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
-    requestId: string,
-    startTime: number
+    deploymentProperties: KeyValue<any>
   ) => {
     const notificationId = portalContext.startNotification(t('settingupDeployment'), t('githubActionSavingSettings'));
-    const deployResponse = await deploy(values, requestId);
+    const deployResponse = await deploy(values, deploymentProperties);
     if (deployResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('githubActionSettingsSavedSuccessfully'));
-      logSaveConclusion(values, true, requestId, startTime);
+      logSaveConclusion(true, deploymentProperties);
     } else {
       const errorMessage = getErrorMessage(deployResponse.metadata.error);
       errorMessage
         ? portalContext.stopNotification(notificationId, false, t('settingupDeploymentFailWithStatusMessage').format(errorMessage))
         : portalContext.stopNotification(notificationId, false, t('settingupDeploymentFail'));
-      logSaveConclusion(values, false, requestId, startTime);
+      logSaveConclusion(false, deploymentProperties);
     }
   };
 
   const saveAppServiceDeploymentSettings = async (
     values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
-    requestId: string,
-    startTime: number
+    deploymentProperties: KeyValue<any>
   ) => {
     const notificationId = portalContext.startNotification(t('settingupDeployment'), t('settingupDeployment'));
-    const deployResponse = await deploy(values, requestId);
+    const deployResponse = await deploy(values, deploymentProperties);
     if (deployResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('settingupDeploymentSuccess'));
-      logSaveConclusion(values, true, requestId, startTime);
+      logSaveConclusion(true, deploymentProperties);
     } else {
       const errorMessage = getErrorMessage(deployResponse.metadata.error);
       errorMessage
         ? portalContext.stopNotification(notificationId, false, t('settingupDeploymentFailWithStatusMessage').format(errorMessage))
         : portalContext.stopNotification(notificationId, false, t('settingupDeploymentFail'));
-      logSaveConclusion(values, false, requestId, startTime);
+      logSaveConclusion(false, deploymentProperties);
     }
   };
 
@@ -402,6 +358,18 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
     formikActions: FormikActions<DeploymentCenterFormData<DeploymentCenterCodeFormData>>
   ) => {
+    const {
+      sourceProvider,
+      buildProvider,
+      org,
+      repo,
+      branch,
+      workflowOption,
+      runtimeStack,
+      runtimeVersion,
+      runtimeRecommendedVersion,
+      folder,
+    } = values;
     // Only do the save if build provider is set by the user and the scmtype in the config is set to none.
     // If the scmtype in the config is not none, the user should be doing a disconnect operation first.
     // This check is in place, because the use could set the form props in a dirty state by just modifying the
@@ -415,10 +383,29 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       formikActions.resetForm(values);
       const requestId = Guid.newGuid();
       const startTime = new Date().getTime();
+      const deploymentProperties: KeyValue<any> = {
+        sourceProvider,
+        buildProvider,
+        org,
+        repo,
+        branch,
+        folder,
+        workflowOption,
+        runtimeStack,
+        runtimeVersion,
+        runtimeRecommendedVersion,
+        publishType: 'code',
+        appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
+        isKubeApp: siteStateContext.isKubeApp ? 'true' : 'false',
+        os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+        requestId,
+        startTime,
+      };
+
       if (values.buildProvider === BuildProvider.GitHubAction) {
-        await saveGithubActionsDeploymentSettings(values, requestId, startTime);
+        await saveGithubActionsDeploymentSettings(values, deploymentProperties);
       } else {
-        await saveAppServiceDeploymentSettings(values, requestId, startTime);
+        await saveAppServiceDeploymentSettings(values, deploymentProperties);
       }
     }
   };

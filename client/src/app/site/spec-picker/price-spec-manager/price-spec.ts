@@ -50,6 +50,7 @@ export abstract class PriceSpec {
   price: number;
   priceIsBaseline = false;
   skuAvailabilityCheckFailed = false;
+  jbossMultiplier = 0;
 
   protected _billingService: BillingService;
   protected _logService: LogService;
@@ -89,5 +90,5 @@ export abstract class PriceSpec {
     return null;
   }
 
-  public updateUpsellBanner(): void {}
+  public updateUpsellBanner(): void { }
 }

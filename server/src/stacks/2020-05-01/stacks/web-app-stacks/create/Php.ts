@@ -14,7 +14,7 @@ export const phpCreateStack: WebAppCreateStack = {
           os: 'linux',
           isPreview: false,
           isDeprecated: false,
-          isHidden: true,
+          isHidden: false,
           applicationInsightsEnabled: false,
           remoteDebuggingEnabled: false,
           runtimeVersion: 'PHP|8.0',
