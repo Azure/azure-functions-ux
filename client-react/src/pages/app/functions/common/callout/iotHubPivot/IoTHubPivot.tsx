@@ -105,7 +105,6 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
               <>
                 <Dropdown
                   label={t('iotHubPivot_IoTHub')}
-                  options={iotHubOptions}
                   selectedKey={formValues.iotHub && formValues.iotHub.id}
                   onChange={(event, option) => {
                     setFormValues({ iotHub: option && option.data, endpoint: undefined });
@@ -115,6 +114,7 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
                   errorMessage={undefined}
                   layout={Layout.Vertical}
                   {...props}
+                  options={iotHubOptions}
                   id="newIotHubConnection"
                   mouseOverToolTip={undefined}
                 />
@@ -124,7 +124,6 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
                 ) : (
                   <Dropdown
                     label={t('iotHubPivot_Endpoint')}
-                    options={endpointOptions}
                     selectedKey={formValues.endpoint}
                     onChange={(o, e) => {
                       setFormValues({ ...formValues, endpoint: e && e.data });
@@ -132,6 +131,7 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
                     errorMessage={undefined}
                     layout={Layout.Vertical}
                     {...props}
+                    options={endpointOptions}
                     id="newIotHubEndpointConnection"
                     mouseOverToolTip={undefined}
                   />
