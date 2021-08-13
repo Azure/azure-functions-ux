@@ -1,5 +1,5 @@
 import { Injectable, HttpException } from '@nestjs/common';
-import { BlobServiceClient, StorageSharedKeyCredential } from '@azure/storage-blob';
+import { Aborter, ServiceURL, SharedKeyCredential, StorageURL } from '@azure/storage-blob';
 import {
   Aborter as FileAborter,
   ServiceURL as FileServiceURL,
@@ -16,20 +16,20 @@ export class StorageService {
   constructor(private logService: LoggingService, private configService: ConfigService) {}
 
   async getStorageContainers(accountName: string, accessKey: string) {
-    const credentials = new StorageSharedKeyCredential(accountName, accessKey);
-    const blobServiceClient = new BlobServiceClient(
-      `https://${accountName}.blob.${this.configService.endpointSuffix}`,
-      credentials
-    );
-    let containers =  blobServiceClient.listContainers();
-    let retContainers = [];
-    let nextContainers = await containers.next();
-    while(!nextContainers.done) {
-      retContainers.push(nextContainers.value)
-      nextContainers = await containers.next();
-    }
+    const credentials = new SharedKeyCredential(accountName, accessKey);
+    const pipeline = StorageURL.newPipeline(credentials);
+    const serviceURL = new ServiceURL(`https://${accountName}.blob.${this.configService.endpointSuffix}`, pipeline);
+    const aborter = Aborter.timeout(ONE_MINUTE);
+    let containerSegment = await serviceURL.listContainersSegment(aborter);
 
-    return retContainers;
+    let containers = containerSegment.containerItems;
+
+    while (containerSegment.nextMarker) {
+      containerSegment = await serviceURL.listContainersSegment(aborter, containerSegment.nextMarker);
+      containers = containers.concat(containerSegment.containerItems);
+    }
+    this.logService.log({ containers: containers.length }, 'Get Storage Containers');
+    return containers;
   }
 
   async getFileShares(accountName: string, accessKey: string) {

@@ -83,8 +83,8 @@ export interface SiteConfig {
   cors: Cors;
   localMySqlEnabled: boolean;
   appCommandLine: string;
-  ipSecurityRestrictions?: IpRestriction[];
-  scmIpSecurityRestrictions?: IpRestriction[];
+  ipSecurityRestrictions: IpRestriction[];
+  scmIpSecurityRestrictions: IpRestriction[];
   reservedInstanceCount?: number;
   functionsRuntimeScaleMonitoringEnabled?: boolean;
   powerShellVersion?: string;

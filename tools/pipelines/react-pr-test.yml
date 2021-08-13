@@ -2,11 +2,11 @@
 # https://docs.microsoft.com/en-us/vsts/pipelines/process/phases
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'macOS-10.14'
 steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '14.x'
+      versionSpec: '8.x'
     displayName: 'Install Node.js'
 
   - script: |

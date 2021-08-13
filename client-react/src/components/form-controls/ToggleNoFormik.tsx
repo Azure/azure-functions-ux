@@ -9,7 +9,7 @@ interface CustomToggleProps {
   label?: string;
   errorMessage?: string; // Currently unsupported by office framework for toggle
   checked?: boolean;
-  onChange?: (_e, checked: boolean) => void;
+  onChange: (_e, checked: boolean) => void;
 }
 
 const ToggleNoFormik = (props: IToggleProps & CustomToggleProps) => {

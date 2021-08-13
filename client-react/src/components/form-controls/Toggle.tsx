@@ -8,7 +8,7 @@ export interface CustomToggleProps {
   id: string;
   infoBubbleMessage?: string;
   label: string;
-  onChange?: (_e, checked: boolean) => void;
+  onChange: (_e, checked: boolean) => void;
 }
 
 const Toggle = (props: FieldProps & IToggleProps & CustomToggleProps) => {

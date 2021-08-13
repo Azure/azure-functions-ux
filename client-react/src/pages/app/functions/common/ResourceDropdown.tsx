@@ -1,5 +1,5 @@
 import { FieldProps, FormikProps } from 'formik';
-import { Callout, IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
+import { Callout, DirectionalHint, IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
@@ -15,7 +15,8 @@ import LogService from '../../../../utils/LogService';
 import SiteHelper from '../../../../utils/SiteHelper';
 import StringUtils from '../../../../utils/string';
 import { BindingEditorFormValues } from './BindingFormBuilder';
-import { calloutStyleField, linkPaddingStyle } from './callout/Callout.styles';
+import { calloutStyleField, linkPaddingStyle, horizontalLinkPaddingStyle } from './callout/Callout.styles';
+import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 import NewAppSettingCallout from './callout/NewAppSettingCallout';
 import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCallout';
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
@@ -28,7 +29,7 @@ export interface ResourceDropdownProps {
 }
 
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
-  const { setting, resourceId, form: formProps, field, isDisabled } = props;
+  const { setting, resourceId, form: formProps, field, isDisabled, layout } = props;
   const siteStateContext = useContext(SiteStateContext);
   const { t } = useTranslation();
 
@@ -54,7 +55,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
 
   // If we are readonly, don't rely on app settings, assume that the saved value is correct
   if (SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
-    return <Dropdown selectedKey={field.value} {...props} options={[{ text: field.value, key: field.value }]} />;
+    return <Dropdown options={[{ text: field.value, key: field.value }]} selectedKey={field.value} {...props} />;
   }
 
   if (!appSettings) {
@@ -83,6 +84,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   return (
     <div>
       <Dropdown
+        options={options}
         placeholder={options.length < 1 ? t('resourceDropdown_noAppSettingsFound') : undefined}
         onChange={(_e, option) => onChange(option, formProps, field, appSettings)}
         {...props}
@@ -93,70 +95,67 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
         options={options}
       />
       {!isDisabled ? (
-        <div style={linkPaddingStyle}>
+        <div style={layout === Layout.Vertical ? linkPaddingStyle : horizontalLinkPaddingStyle}>
           <Link id="target" onClick={() => setIsDialogVisible(true)}>
             {'New'}
           </Link>
-          {setting.resource === BindingSettingResource.Storage && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
+          <Callout
+            onDismiss={() => setIsDialogVisible(false)}
+            target={'#target'}
+            hidden={!isDialogVisible}
+            style={calloutStyleField}
+            directionalHint={DirectionalHint.bottomCenter}>
+            {setting.resource === BindingSettingResource.Storage && (
               <NewStorageAccountConnectionCallout
+                resourceId={resourceId}
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
                 {...props}
-                resourceId={resourceId}
               />
-            </Callout>
-          )}
-          {setting.resource === BindingSettingResource.EventHub && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
+            )}
+            {setting.resource === BindingSettingResource.EventHub && (
               <NewEventHubConnectionCallout
+                resourceId={resourceId}
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
                 {...props}
-                resourceId={resourceId}
               />
-            </Callout>
-          )}
-          {setting.resource === BindingSettingResource.ServiceBus && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
+            )}
+            {setting.resource === BindingSettingResource.ServiceBus && (
               <NewServiceBusConnectionCallout
+                resourceId={resourceId}
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
                 {...props}
-                resourceId={resourceId}
               />
-            </Callout>
-          )}
-          {setting.resource === BindingSettingResource.DocumentDB && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
+            )}
+            {setting.resource === BindingSettingResource.DocumentDB && (
               <NewDocumentDBConnectionCallout
+                resourceId={resourceId}
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
                 {...props}
-                resourceId={resourceId}
               />
-            </Callout>
-          )}
-          {setting.resource === BindingSettingResource.AppSetting && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
+            )}
+            {setting.resource === BindingSettingResource.AppSetting && (
               <NewAppSettingCallout
+                resourceId={resourceId}
                 appSettingKeys={appSettingKeys}
                 setNewAppSetting={setNewAppSetting}
                 setSelectedItem={setSelectedItem}
                 setIsDialogVisible={setIsDialogVisible}
                 {...props}
-                resourceId={resourceId}
               />
-            </Callout>
-          )}
+            )}
+          </Callout>
         </div>
       ) : (
         undefined

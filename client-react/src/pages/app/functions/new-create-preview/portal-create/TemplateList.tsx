@@ -141,7 +141,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
         name: t('template'),
         fieldName: 'template',
         minWidth: 100,
-        maxWidth: 170,
+        maxWidth: 225,
         isResizable: true,
         isMultiline: true,
         onRender: onRenderItemColumn,

@@ -7,7 +7,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { Binding } from '../../../../models/functions/binding';
 import { BindingInfo } from '../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import { BindingEditorFormValues, BindingFormBuilder } from './BindingFormBuilder';
+import { BindingEditorFormValues, BindingFormBuilder, horizontalLabelStyle } from './BindingFormBuilder';
 
 export interface CreateFunctionFormValues extends BindingEditorFormValues {
   functionName: string;
@@ -22,7 +22,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
     private _defaultName: string,
     private t: i18next.TFunction
   ) {
-    super(bindingInfo, bindings, resourceId, t);
+    super(bindingInfo, bindings, resourceId, t, true);
   }
 
   public getInitialFormValues() {
@@ -64,11 +64,13 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
         component={TextField}
         disabled={isDisabled}
         validate={(value: string) => this._validateFunctionName(value)}
-        layout={Layout.Vertical}
+        layout={Layout.Horizontal}
         required={true}
         key={0}
         {...formProps}
         dirty={false}
+        customLabelClassName={horizontalLabelStyle}
+        customLabelStackClassName={horizontalLabelStyle}
       />
     );
   }
