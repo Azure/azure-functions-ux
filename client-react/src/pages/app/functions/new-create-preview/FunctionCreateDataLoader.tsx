@@ -285,9 +285,9 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
       }
 
       // Sub/rscGrp read-only users have to use REST API instead of normal deployments for appsettings
-      let rscIdToCheck = resourceId.split('/providers')[0];
+      let rscIdToCheck = resourceId.toLowerCase().split('/providers')[0];
       const rscGrpWritePermission = await portalCommunicator.hasPermission(rscIdToCheck, [RbacConstants.writeScope]);
-      rscIdToCheck = rscIdToCheck.split('/resourceGroups')[0];
+      rscIdToCheck = rscIdToCheck.split('/resourcegroups')[0];
       const subWritePermission = await portalCommunicator.hasPermission(rscIdToCheck, [RbacConstants.writeScope]);
 
       if (!subWritePermission || !rscGrpWritePermission) {
@@ -338,8 +338,8 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         // Double (or maybe even triple at this point) check that we don't do a deployment w/ no resources
         if (armDeploymentTemplate.properties.template.resources.length > 0) {
           // Hand ARM deployment template to Ibiza to do deployment/notification
-          const subAndRscGrpRscId = resourceId.split('/Microsoft.Web')[0];
-          const rscGrp = subAndRscGrpRscId.split('resourceGroups/')[1].split('/')[0];
+          const subAndRscGrpRscId = resourceId.toLowerCase().split('/microsoft.web')[0];
+          const rscGrp = subAndRscGrpRscId.split('resourcegroups/')[1].split('/')[0];
           portalCommunicator.executeArmUpdateRequest<any>({
             uri: `${subAndRscGrpRscId}/Microsoft.Resources/deployments/${deploymentName}?api-version=${
               CommonConstants.ApiVersions.armDeploymentApiVersion20210401
