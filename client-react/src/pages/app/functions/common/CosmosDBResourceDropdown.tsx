@@ -177,7 +177,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
     <div>
       <Dropdown options={options} onChange={(_e, option) => onChange(option, formProps, field)} {...props} placeholder={placeholder} />
       {!isDisabled ? (
-        <div style={layout === Layout.Vertical ? linkPaddingStyle : horizontalLinkPaddingStyle}>
+        <div style={layout === Layout.Vertical ? linkPaddingStyle : horizontalLinkPaddingStyle('162px', '315px')}>
           <Link id="target" onClick={() => setIsDialogVisible(true)}>
             {t('createAnAccount')}
           </Link>

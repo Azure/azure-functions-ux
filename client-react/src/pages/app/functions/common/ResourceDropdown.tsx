@@ -92,7 +92,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
         {...props}
       />
       {!isDisabled ? (
-        <div style={layout === Layout.Vertical ? linkPaddingStyle : horizontalLinkPaddingStyle}>
+        <div style={layout === Layout.Vertical ? linkPaddingStyle : horizontalLinkPaddingStyle()}>
           <Link id="target" onClick={() => setIsDialogVisible(true)}>
             Create new
           </Link>

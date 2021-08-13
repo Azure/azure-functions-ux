@@ -7,13 +7,14 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import { CreateFunctionFormValues } from './CreateFunctionFormBuilder';
 import { FormikProps, Formik, Form, Field, FormikValues } from 'formik';
-import { linkPaddingStyle } from './callout/Callout.styles';
+import { horizontalLinkPaddingStyle, linkPaddingStyle } from './callout/Callout.styles';
 import TextField from '../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { ThemeContext } from '../../../../ThemeContext';
 import { buttonStyle } from '../../../../components/ActionBar';
 import { style } from 'typestyle';
+import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 
 const buttonContainerStyle = style({
   marginTop: '10px',
@@ -66,7 +67,7 @@ export const removeCurrentContainerArmTemplate = (armResources, setArmResources,
 };
 
 const CosmosDBComboBox = props => {
-  const { setting, resourceId, form: formProps, field, isDisabled, setArmResources, armResources } = props;
+  const { setting, resourceId, form: formProps, field, isDisabled, setArmResources, armResources, layout } = props;
   const [databases, setDatabases] = useState<any>(undefined);
   const [newDatabaseName, setNewDatabaseName] = useState<string | undefined>(undefined);
   const [containers, setContainers] = useState<any>(undefined);
@@ -485,7 +486,7 @@ const CosmosDBComboBox = props => {
           />
 
           {!isDisabled ? (
-            <div style={linkPaddingStyle}>
+            <div style={layout === Layout.Vertical ? linkPaddingStyle : horizontalLinkPaddingStyle('162px', '315px')}>
               <Link id={isDatabase() ? 'dbComboBoxLink' : 'contComboBoxLink'} onClick={() => setIsDialogVisible(true)}>
                 {isDatabase() ? t('createADatabase') : t('createAContainer')}
               </Link>
