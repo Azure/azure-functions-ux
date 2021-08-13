@@ -61,11 +61,11 @@ const CosmosDbIntegration = (props: ICosmosDbIntegrationProps) => {
 
   useEffect(() => {
     if (type === BindingDirection.trigger) {
-      setTitle('Cosmos DB Trigger');
+      setTitle(t('cosmosDbTrigger'));
     } else if (type === BindingDirection.in) {
-      setTitle('Cosmos DB input');
+      setTitle(t('cosmosDbInput'));
     } else {
-      setTitle('Cosmos DB output');
+      setTitle(t('cosmosDbOutput'));
     }
   }, []);
 

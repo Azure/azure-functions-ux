@@ -7167,4 +7167,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterChangeAccountInfoButton" xml:space="preserve">
         <value>Change account information</value>
     </data>
+    <data name="cosmosDbTrigger" xml:space="preserve">
+        <value>Cosmos DB Trigger</value>
+    </data>
+    <data name="cosmosDbInput" xml:space="preserve">
+        <value>Cosmos DB input</value>
+    </data>
+    <data name="cosmosDbOutput" xml:space="preserve">
+        <value>Cosmos DB output</value>
+    </data>
+    <data name="eventGridInput" xml:space="preserve">
+        <value>Event Grid input</value>
+    </data>
+    <data name="goToEventGridAccount" xml:space="preserve">
+        <value>Go to your Event Grid account</value>
+    </data>
+    <data name="learnMoreAboutEventGridInputs" xml:space="preserve">
+        <value>Learn more about Event Grid inputs</value>
+    </data>
 </root>
