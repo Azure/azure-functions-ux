@@ -104,7 +104,7 @@ export abstract class PriceSpec {
     LogService.debug(LogCategories.specPicker, `Completed runInitialize for ${this.skuCode}`);
   }
 
-  public abstract runInitialization(input: PriceSpecInput): Promise<any>;
+  public abstract async runInitialization(input: PriceSpecInput): Promise<any>;
 
   // NOTE(shimedh): This should return the target spec for upsell.
   public getUpsellSpecSkuCode(): string | null {
