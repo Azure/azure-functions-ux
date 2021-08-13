@@ -5226,24 +5226,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterContainerSettingsBannerClickHere" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Click here.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Щелкните здесь.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";deploymentCenterContainerSettingsBannerMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Welcome to the Deployment Center, the new experience for managing deployments. Looking for Container Settings? ]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Добро пожаловать в Центр развертывания — новый интерфейс для управления развертываниями. Ищете параметры контейнера? ]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";deploymentCenterContainerSettingsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Use these settings to configure your container app deployment model and registry. We recommend GitHub Actions for greater operational efficiency.]]></Val>
@@ -18872,19 +18854,13 @@
       </Item>
       <Item ItemId=";staticSiteStandardBandwidthOverage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[${0} per GB per subscription]]></Val>
+          <Val><![CDATA[{0} per GB per subscription]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} долл. США за ГБ для каждой подписки]]></Val>
+            <Val><![CDATA[{0} за ГБ для каждой подписки]]></Val>
           </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";staticSiteStandardBandwidthOverageAmount" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[$0.02 per GB per subscription]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[0,02 долл. США за ГБ для каждой подписки]]></Val>
-          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[${0} per GB per subscription]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
