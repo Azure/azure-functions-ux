@@ -2,7 +2,7 @@ import { RouteComponentProps, Router } from '@reach/router';
 import React, { createContext, lazy, useContext, useEffect, useState } from 'react';
 import SiteService from '../../ApiHelpers/SiteService';
 import { ArmObj } from '../../models/arm-obj';
-import { FunctionAppEditMode, IStartupInfo, KeyValue, SiteReadWriteState } from '../../models/portal-models';
+import { FunctionAppEditMode, KeyValue, SiteReadWriteState } from '../../models/portal-models';
 import { SiteConfig } from '../../models/site/config';
 import { Site } from '../../models/site/site';
 import { PortalContext } from '../../PortalContext';
@@ -10,7 +10,16 @@ import { SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-import { isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from '../../utils/arm-utils';
+import {
+  isContainerApp,
+  isDynamic,
+  isElastic,
+  isFunctionApp,
+  isKubeApp,
+  isLinuxApp,
+  isLinuxDynamic,
+  isPremiumV2,
+} from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
 import FunctionAppService from '../../utils/FunctionAppService';
 import { LogCategories } from '../../utils/LogCategories';
@@ -142,6 +151,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyJava;
     }
 
+    if ((isDynamic(site) || isPremiumV2(site)) && !FunctionAppService.getAzureFilesSetting(appSettings)) {
+      return FunctionAppEditMode.ReadOnlyAzureFiles;
+    }
+
     const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName] || '';
     if (editModeString.toLowerCase() === SiteReadWriteState.readonly) {
       return FunctionAppEditMode.ReadOnly;
@@ -251,10 +264,6 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     }
   };
 
-  const isFeatureInfoDataValid = (value: IStartupInfo<any>) => {
-    return !!value.featureInfo && !!value.featureInfo.data;
-  };
-
   useEffect(() => {
     findAndSetSiteState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -295,13 +304,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
                     <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
                     <FunctionMonitor resourceId={value.resourceId} path="/monitor" />
-                    <DeploymentCenter
-                      resourceId={value.resourceId}
-                      isCalledFromContainerSettings={
-                        isFeatureInfoDataValid(value) ? value.featureInfo.data.isCalledFromContainerSettings : false
-                      }
-                      path="/deploymentcenter"
-                    />
+                    <DeploymentCenter resourceId={value.resourceId} path="/deploymentcenter" />
                   </Router>
                 </SiteStateContext.Provider>
               ) : (

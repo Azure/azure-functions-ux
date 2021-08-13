@@ -5229,24 +5229,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterContainerSettingsBannerClickHere" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Click here.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Klikněte sem.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";deploymentCenterContainerSettingsBannerMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Welcome to the Deployment Center, the new experience for managing deployments. Looking for Container Settings? ]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Vítá vás centrum Deployment Center, nové prostředí pro správu nasazení. Hledáte nastavení kontejneru? ]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";deploymentCenterContainerSettingsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Use these settings to configure your container app deployment model and registry. We recommend GitHub Actions for greater operational efficiency.]]></Val>
@@ -15876,6 +15858,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";pricing_skuCheckWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Some SKUs might not be available in your region.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Některé skladové položky nemusí být ve vaší oblasti dostupné.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";pricing_slotsDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Up to {0} staging slots to use for testing and deployments before swapping them into production.]]></Val>
@@ -16311,6 +16302,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[There is a read-only lock on the following slots: '{{slotNames}}']]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";readOnlyMissingAzureFilesSetting" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[This function has been edited through an external editor. Portal editing is disabled.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Tato funkce byla upravena pomocí externího editoru. Úpravy portálu jsou zakázané.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18869,19 +18869,13 @@
       </Item>
       <Item ItemId=";staticSiteStandardBandwidthOverage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[${0} per GB per subscription]]></Val>
+          <Val><![CDATA[{0} per GB per subscription]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0}$ na 1GB na předplatné]]></Val>
+            <Val><![CDATA[{0} na 1GB na předplatné]]></Val>
           </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";staticSiteStandardBandwidthOverageAmount" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[$0.02 per GB per subscription]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[$0.02 na 1GB na předplatné]]></Val>
-          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[${0} per GB per subscription]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21438,8 +21432,8 @@
       <Item ItemId=";validation_linuxConnectionStringNameError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_"). For hierarchical config, use double underscore instead ("__") instead of colon (":").]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Názvy připojovacích řetězců můžou obsahovat jen písmena, číslice (0–9), tečky (.) a podtržítka (_).]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Názvy připojovacích řetězců můžou obsahovat jenom písmena, číslice (0–⁠9), tečky (.) a podtržítka (_). Pro hierarchickou konfiguraci používejte místo dvojtečky (":") dvojité podtržítko ("__").]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")]]></Val>

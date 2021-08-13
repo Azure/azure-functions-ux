@@ -64,7 +64,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
     return <div />;
   }
 
-  const builder = new BindingFormBuilder([currentBindingInfo], [currentBinding], functionAppId, t);
+  const builder = new BindingFormBuilder([currentBindingInfo], [currentBinding], functionAppId, t, false);
   const initialFormValues: BindingEditorFormValues = builder.getInitialFormValues();
 
   const submit = (newBindingInfo: BindingInfo) => {

@@ -31,7 +31,7 @@ import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
-import { LogCategories, Links, ScenarioIds, Kinds } from '../../../shared/models/constants';
+import { LogCategories, Links, ScenarioIds, Kinds, Pricing } from '../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { AppKind } from 'app/shared/Utilities/app-kind';
@@ -40,6 +40,7 @@ import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { ServerFarmRecommendation, RecommendationRuleNames } from '../../../shared/models/arm/serverfarm-recommendation';
 import { HttpResult } from '../../../shared/models/http-result';
 import { Site } from '../../../shared/models/arm/site';
+import { NationalCloudEnvironment } from 'app/shared/services/scenario/national-cloud.environment';
 
 export interface SpecPickerInput<T> {
   id: ResourceId;
@@ -83,10 +84,12 @@ export type ApplyButtonState = 'enabled' | 'disabled';
 export class PlanPriceSpecManager {
   private readonly DynamicSku = 'Y1';
   private readonly StampIpAddressesDelimeter = ',';
+  private readonly JbossMeterShortName = 'JBossEAP';
 
   selectedSpecGroup: PriceSpecGroup;
   specGroups: PriceSpecGroup[] = [];
   specSpecificBanner: BannerMessage;
+  skuCheckBanner: BannerMessage = null;
 
   get currentSkuCode(): string {
     if (!this._plan) {
@@ -103,6 +106,7 @@ export class PlanPriceSpecManager {
   private _ngUnsubscribe$ = new Subject();
   private _appDensityWarningMessage = null;
   private _stampIpAddresses: StampIpAddresses;
+  private _planContainsJbossSite = false;
 
   constructor(
     private _authZService: AuthzService,
@@ -144,6 +148,7 @@ export class PlanPriceSpecManager {
       .flatMap(r => {
         // plan is null for new plans
         this._plan = r.plan;
+        this._planContainsJbossSite = this._doesPlanContainJbossSite(r.serverFarmSites);
 
         if (r.pricingTiers) {
           this.specGroups = [
@@ -163,7 +168,7 @@ export class PlanPriceSpecManager {
           if (this._isUpdateScenario(inputs)) {
             priceSpecInput.planDetails = {
               plan: this._plan,
-              containsJbossSite: this._doesPlanContainJbossSite(r.serverFarmSites),
+              containsJbossSite: this._planContainsJbossSite,
             };
           }
 
@@ -175,6 +180,14 @@ export class PlanPriceSpecManager {
         return specInitCalls.length > 0 ? Observable.zip(...specInitCalls) : Observable.of(null);
       })
       .do(() => {
+        if (this._shouldShowSkuCheckWarning()) {
+          this.skuCheckBanner = {
+            level: BannerMessageLevel.WARNING,
+            message: this._ts.instant(PortalResources.pricing_skuCheckWarning),
+          };
+        } else {
+          this.skuCheckBanner = null;
+        }
         return this._getServerFarmRecommendations(inputs);
       });
   }
@@ -192,9 +205,14 @@ export class PlanPriceSpecManager {
         let specResourceSets: SpecResourceSet[] = [];
         let specsToAllowZeroCost: string[] = [];
 
+        const includeJbossCost = this._isUpdateScenario(this._inputs) ? this._planContainsJbossSite : this._inputs.data.isJBoss;
         this.specGroups.forEach(g => {
-          g.recommendedSpecs.forEach(s => this._setBillingResourceIdAndQuantity(s, meters));
-          g.additionalSpecs.forEach(s => this._setBillingResourceIdAndQuantity(s, meters));
+          g.recommendedSpecs.forEach(s =>
+            this._setBillingResourceIdAndQuantity(s, meters, !NationalCloudEnvironment.isNationalCloud() && includeJbossCost)
+          );
+          g.additionalSpecs.forEach(s =>
+            this._setBillingResourceIdAndQuantity(s, meters, !NationalCloudEnvironment.isNationalCloud() && includeJbossCost)
+          );
 
           specResourceSets = this._concatAllResourceSetsForSpecs(specResourceSets, g.recommendedSpecs);
           specResourceSets = this._concatAllResourceSetsForSpecs(specResourceSets, g.additionalSpecs);
@@ -485,6 +503,24 @@ export class PlanPriceSpecManager {
     }
   }
 
+  private _shouldShowSkuCheckWarning(): boolean {
+    const specGroups = this.specGroups || [];
+
+    for (let i = 0; i < specGroups.length; i++) {
+      const recommendedSpecs = (!!specGroups[i] && specGroups[i].recommendedSpecs) || [];
+      const additionalSpecs = (!!specGroups[i] && specGroups[i].additionalSpecs) || [];
+
+      const allSpecs = [...recommendedSpecs, ...additionalSpecs];
+      for (let j = 0; j < allSpecs.length; j++) {
+        if (allSpecs[j].skuAvailabilityCheckFailed) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   private _shouldShowAppDensityWarning(skuCode: string): boolean {
     return (
       this._scenarioService.checkScenario(ScenarioIds.appDensity).status !== 'disabled' &&
@@ -718,13 +754,21 @@ export class PlanPriceSpecManager {
     return inputs.data.isLinux ? OsType.Linux : OsType.Windows;
   }
 
-  private _setBillingResourceIdAndQuantity(spec: PriceSpec, billingMeters: ArmObj<BillingMeter>[]) {
+  private _setBillingResourceIdAndQuantity(spec: PriceSpec, billingMeters: ArmObj<BillingMeter>[], includeJbossConst: boolean) {
     if (!spec.meterFriendlyName) {
       throw Error('meterFriendlyName must be set');
     }
 
     if (!spec.specResourceSet || !spec.specResourceSet.firstParty || spec.specResourceSet.firstParty.length < 1) {
       throw Error('Spec must contain a specResourceSet with at least one firstParty item defined');
+    }
+
+    if (includeJbossConst) {
+      spec.specResourceSet.firstParty.push({
+        id: this.JbossMeterShortName,
+        quantity: Pricing.hoursInAzureMonth * spec.jbossMultiplier,
+        resourceId: null,
+      });
     }
 
     spec.specResourceSet.firstParty.forEach(firstPartyResource => {

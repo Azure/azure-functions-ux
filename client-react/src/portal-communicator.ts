@@ -209,6 +209,22 @@ export default class PortalCommunicator {
     );
   }
 
+  public getAllSubscriptions(): Observable<ISubscription[]> {
+    const payload: IDataMessage<any> = {
+      operationId: Guid.newGuid(),
+      data: {},
+    };
+
+    PortalCommunicator.postMessage(Verbs.getAllSubscriptions, this.packageData(payload));
+    return this.operationStream.pipe(
+      filter(o => o.operationId === payload.operationId),
+      first(),
+      map((r: IDataMessage<IDataMessageResult<ISubscription[]>>) => {
+        return r.data.result;
+      })
+    );
+  }
+
   public closeBlades() {
     PortalCommunicator.postMessage(Verbs.closeBlades, this.packageData({}));
   }

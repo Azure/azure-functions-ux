@@ -10,6 +10,7 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
 import { DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { t } = useTranslation();
@@ -17,6 +18,7 @@ const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<Deplo
 
   const scenarioService = new ScenarioService(t);
   const siteStateContext = useContext(SiteStateContext);
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const options: IChoiceGroupOption[] = [
     {
@@ -30,7 +32,9 @@ const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<Deplo
       text: `${t('deploymentCenterContainerSettingsSourceOptionGitHubActions')}: ${t(
         'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription'
       )}`,
-      disabled: scenarioService.checkScenario(ScenarioIds.githubSource, { site: siteStateContext.site }).status === 'disabled',
+      disabled:
+        deploymentCenterContext.isIlbASE ||
+        scenarioService.checkScenario(ScenarioIds.githubSource, { site: siteStateContext.site }).status === 'disabled',
     },
     {
       key: ScmType.Vsts,

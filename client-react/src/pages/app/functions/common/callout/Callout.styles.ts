@@ -12,6 +12,14 @@ export const linkPaddingStyle = {
   paddingBottom: '10px',
 };
 
+export const horizontalLinkPaddingStyle = {
+  marginTop: '-10px',
+  textAlign: 'right',
+  paddingBottom: '10px',
+  marginRight: '245px',
+  minWidth: '230px',
+};
+
 export const calloutStyleField = {
   padding: '16px 24px',
   minHeight: 175,

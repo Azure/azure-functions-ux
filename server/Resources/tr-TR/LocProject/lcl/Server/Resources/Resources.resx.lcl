@@ -5229,24 +5229,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterContainerSettingsBannerClickHere" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Click here.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Buraya tıklayın.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";deploymentCenterContainerSettingsBannerMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Welcome to the Deployment Center, the new experience for managing deployments. Looking for Container Settings? ]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Dağıtımları yönetmeye yönelik yeni deneyim olan Dağıtım Merkezi’ne hoş geldiniz. Kapsayıcı Ayarlarını mı arıyorsunuz? ]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";deploymentCenterContainerSettingsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Use these settings to configure your container app deployment model and registry. We recommend GitHub Actions for greater operational efficiency.]]></Val>
@@ -15855,6 +15837,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";pricing_skuCheckWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Some SKUs might not be available in your region.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bazı SKU’lar bölgenizde kullanılamıyor olabilir.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";pricing_slotsDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Up to {0} staging slots to use for testing and deployments before swapping them into production.]]></Val>
@@ -16290,6 +16281,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[There is a read-only lock on the following slots: '{{slotNames}}']]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";readOnlyMissingAzureFilesSetting" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[This function has been edited through an external editor. Portal editing is disabled.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bu işlev bir dış düzenleyici aracılığıyla düzenlendi. Portal düzenleme devre dışı.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18848,19 +18848,13 @@
       </Item>
       <Item ItemId=";staticSiteStandardBandwidthOverage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[${0} per GB per subscription]]></Val>
+          <Val><![CDATA[{0} per GB per subscription]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Her abonelik için GB başına {0} ABD Doları]]></Val>
+            <Val><![CDATA[Her abonelik için GB başına {0}]]></Val>
           </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";staticSiteStandardBandwidthOverageAmount" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[$0.02 per GB per subscription]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Her abonelik için GB başına 0,02 ABD Doları]]></Val>
-          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[${0} per GB per subscription]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21417,8 +21411,8 @@
       <Item ItemId=";validation_linuxConnectionStringNameError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_"). For hierarchical config, use double underscore instead ("__") instead of colon (":").]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Bağlantı Dizesi adları yalnızca harf, rakam (0-9), nokta (".") ve alt çizgi ("_") içerebilir]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bağlantı Dizesi adları yalnızca harf, sayı (0-9), nokta (".") ve alt çizgi ("_") içerebilir. Hiyerarşik yapılandırma için iki nokta (":") yerine iki alt çizgi ("__") kullanın.]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")]]></Val>

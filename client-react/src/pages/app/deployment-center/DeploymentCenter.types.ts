@@ -226,13 +226,12 @@ export interface LocationServiceData {
 }
 
 export interface Properties {
-  Account: Account;
+  Account: unknown;
 }
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
   isDataRefreshing: boolean;
-  isCalledFromContainerSettings: boolean;
 }
 
 export interface RefreshableComponent {
@@ -241,14 +240,7 @@ export interface RefreshableComponent {
   isLogsDataRefreshing: boolean;
 }
 
-export interface isCalledFromContainerSettings {
-  isCalledFromContainerSettings: boolean;
-}
-
-export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &
-  DeploymentCenterFtpsProps &
-  RefreshableComponent &
-  isCalledFromContainerSettings;
+export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps & RefreshableComponent;
 
 export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps & RefreshableComponent;
 
@@ -565,12 +557,15 @@ export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterCont
 export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {
   fetchImages: (loginServer: string) => void;
   fetchTags: (image: string) => void;
+  fetchRegistriesInSub(subscription: string);
+  acrSubscriptionOptions: IDropdownOption[];
   acrRegistryOptions: IDropdownOption[];
   acrImageOptions: IDropdownOption[];
   acrTagOptions: IDropdownOption[];
   loadingRegistryOptions: boolean;
   loadingImageOptions: boolean;
   loadingTagOptions: boolean;
+  acrSubscription: string;
   acrStatusMessage?: string;
   acrStatusMessageType?: MessageBarType;
 }
@@ -636,4 +631,13 @@ export interface GitHubActionsRun {
     };
     message: string;
   };
+}
+
+export interface acrARGInfo {
+  id: string;
+  location: string;
+  name: string;
+  resourceGroup: string;
+  subscriptionId: string;
+  type: string;
 }
