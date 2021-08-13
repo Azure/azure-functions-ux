@@ -8,7 +8,7 @@ import { Binding } from '../../../../models/functions/binding';
 import { BindingInfo } from '../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { IArmRscTemplate, TSetArmResources } from '../new-create-preview/FunctionCreateDataLoader';
-import { BindingEditorFormValues, BindingFormBuilder } from './BindingFormBuilder';
+import { BindingEditorFormValues, BindingFormBuilder, horizontalLabelStyle } from './BindingFormBuilder';
 
 export interface CreateFunctionFormValues extends BindingEditorFormValues {
   functionName: string;
@@ -64,11 +64,13 @@ export const getFunctionNameTextField = (
       component={TextField}
       disabled={isDisabled}
       validate={(value: string) => validateFunctionName(value)}
-      layout={Layout.Vertical}
+      layout={Layout.Horizontal}
       required={true}
       key={0}
       {...formProps}
       dirty={false}
+      customLabelClassName={horizontalLabelStyle}
+      customLabelStackClassName={horizontalLabelStyle}
     />
   );
 };
@@ -82,7 +84,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
     private _defaultName: string,
     protected t: i18next.TFunction
   ) {
-    super(bindingInfo, bindings, resourceId, t);
+    super(bindingInfo, bindings, resourceId, t, true);
   }
 
   public getInitialFormValues() {

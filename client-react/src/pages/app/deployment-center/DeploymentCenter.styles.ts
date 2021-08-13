@@ -168,3 +168,7 @@ export const refreshButtonStyle = style({
 export const textboxPaddingStyle = style({
   paddingTop: '10px',
 });
+
+export const changeAccountInfoButtonStyle = style({
+  paddingBottom: '10px',
+});

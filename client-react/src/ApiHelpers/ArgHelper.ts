@@ -2,9 +2,10 @@ import MakeArmCall from './ArmHelper';
 import { HttpResponseObject } from '../ArmHelper.types';
 import LogService from '../utils/LogService';
 import { LogCategories } from '../utils/LogCategories';
+import { CommonConstants } from '../utils/CommonConstants';
 
 export interface ARGRequest {
-  subscriptions: string[];
+  subscriptions?: string[];
   query: string;
   options?: ARGOptions;
 }
@@ -36,27 +37,35 @@ export interface ARGOptions {
   $skipToken?: string;
 }
 
-export function MakeAzureResourceGraphCall<T>(request: ARGRequest, commandName: string) {
+export function MakeAzureResourceGraphCall<T>(
+  request: ARGRequest,
+  commandName: string,
+  apiVersion = CommonConstants.ApiVersions.argApiVersion20180901Preview
+) {
   return MakeArmCall<ARGRequest>({
     commandName,
     resourceId: `/providers/Microsoft.ResourceGraph/resources`,
-    apiVersion: '2018-09-01-preview',
+    apiVersion: apiVersion,
     method: 'POST',
     body: request,
   }).then(argResponse => {
     const r: HttpResponseObject<ARGResponse> = argResponse as any;
     if (r.metadata.success) {
-      const response: ARGResponseObjData = (r.data as any).data;
+      const response: any = (r.data as any).data;
       let results: T[] = [];
-      for (const row of response.rows) {
-        const obj = {};
+      if (!!response && !!response.rows && !!response.columns) {
+        for (const row of response.rows) {
+          const obj = {};
 
-        // tslint:disable-next-line: no-increment-decrement
-        for (let colIndex = 0; colIndex < response.columns.length; colIndex++) {
-          obj[response.columns[colIndex].name] = row[colIndex];
+          // tslint:disable-next-line: no-increment-decrement
+          for (let colIndex = 0; colIndex < response.columns.length; colIndex++) {
+            obj[response.columns[colIndex].name] = row[colIndex];
+          }
+
+          results = [...results, obj as T];
         }
-
-        results = [...results, obj as T];
+      } else if (apiVersion === CommonConstants.ApiVersions.argApiVersion20210301) {
+        return response;
       }
 
       if (r.data.$skipToken) {

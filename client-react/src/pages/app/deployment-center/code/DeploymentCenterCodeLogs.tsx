@@ -19,7 +19,6 @@ import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { getGitHubCommitMessage } from '../utility/DeploymentCenterUtility';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {
@@ -64,7 +63,6 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   };
 
   const getDeploymentRow = (deployment: ArmObj<DeploymentProperties>, index: number): CodeDeploymentsRow => {
-    const isGitHubDeployment = deployment.properties.deployer === 'Push-Deployer' || deployment.properties.deployer === 'GITHUB_ZIP_DEPLOY';
     return {
       index: index,
       rawTime: moment(deployment.properties.received_time),
@@ -76,7 +74,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
         </Link>
       ),
       author: deployment.properties.author,
-      message: isGitHubDeployment ? getGitHubCommitMessage(deployment.properties.message) : deployment.properties.message,
+      message: deployment.properties.message,
       status: deployment.properties.active
         ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
         : `${getStatusString(deployment.properties.status, deployment.properties.progress)}`,

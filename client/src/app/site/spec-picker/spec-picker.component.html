@@ -13,6 +13,13 @@
     [attr.aria-label]="specManager.selectedSpecGroup.title">
 
     <section>
+
+      <info-box *ngIf="!!specManager.skuCheckBanner"
+        [isBanner]="true"
+        [infoText]="specManager.skuCheckBanner.message"
+        [typeClass]="specManager.skuCheckBanner.level"
+        [hideBottomMargin]="!!specManager.specSpecificBanner || !!specManager.selectedSpecGroup.bannerMessage"></info-box>
+
       <ng-container *ngIf="!specManager.specSpecificBanner">
         <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage?.infoLink"
           [isBanner]="true"

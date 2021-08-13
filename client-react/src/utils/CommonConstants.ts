@@ -81,6 +81,7 @@ export class CommonConstants {
     functionAppEditModeSettingName: 'FUNCTION_APP_EDIT_MODE',
     serviceLinkerPrefix: 'resourceconnector_',
     enableOryxBuild: 'ENABLE_ORYX_BUILD',
+    azureFilesSettingName: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING',
   };
 
   public static readonly CosmosDbTypes = {
@@ -204,6 +205,18 @@ export class CommonConstants {
   public static readonly windowsCodeMountPathPrefix = '/mounts';
 
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
+
+  public static readonly BindingSettingNames = {
+    connection: 'connection',
+    connectionStringSetting: 'connectionStringSetting',
+  };
+
+  public static hiddenLink = 'hidden-link';
+
+  public static readonly DeploymentCenterConstants = {
+    acrTag: 'acrResourceId',
+    https: 'https://',
+  };
 }
 
 export enum WorkerRuntimeLanguages {

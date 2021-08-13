@@ -1,5 +1,5 @@
 import React from 'react';
-import { BindingFormBuilder } from './BindingFormBuilder';
+import { BindingFormBuilder, horizontalLabelStyle } from './BindingFormBuilder';
 import { CreateFunctionFormValues, getInitialFunctionName, getFunctionNameTextField } from './CreateFunctionFormBuilder';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Binding, BindingSettingValue, BindingSetting, BindingValidator } from '../../../../models/functions/binding';
@@ -30,7 +30,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
     private _subWritePermission: boolean,
     t: i18next.TFunction
   ) {
-    super(bindingInfo, bindings, resourceId, t);
+    super(bindingInfo, bindings, resourceId, t, true);
 
     this._modifyMetadata();
   }
@@ -176,12 +176,14 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
         }}
         validate={value => this._validateRadioButton(value, setting.required)} // TODO: These'll have to be updated to the new validation method when that PR gets merged in
         onPanel={true}
-        layout={Layout.Vertical} // TODO: Update this to horizontal when merging with horizontal form PR
+        layout={Layout.Horizontal}
         mouseOverToolTip={setting.help ? setting.help : undefined}
         key={setting.name}
         required={setting.required}
         {...formProps}
         dirty={false}
+        customLabelClassName={horizontalLabelStyle}
+        customLabelStackClassName={horizontalLabelStyle}
       />
     );
   }
@@ -215,7 +217,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)} // TODO: These'll have to be updated to the new validation method when that PR gets merged in
         onPanel={true}
-        layout={Layout.Vertical} // TODO: Update this to horizontal when merging with horizontal form PR
+        layout={Layout.Horizontal}
         mouseOverToolTip={setting.help ? setting.help : undefined}
         required={setting.required}
         key={setting.name}
@@ -223,6 +225,8 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
         setArmResources={setArmResources}
         armResources={armResources}
         dirty={false}
+        customLabelClassName={horizontalLabelStyle}
+        customLabelStackClassName={horizontalLabelStyle}
       />
     );
   }
@@ -246,7 +250,7 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateComboBox(value, setting.required, setting.validators)} // TODO: These'll have to be updated to the new validation method when that PR gets merged in
         onPanel={true}
-        layout={Layout.Vertical} // TODO: Update this to horizontal when merging with horizontal form PR
+        layout={Layout.Horizontal}
         mouseOverToolTip={setting.help ? setting.help : undefined}
         required={setting.required}
         key={setting.name}
@@ -254,6 +258,8 @@ class CosmosDbFunctionFormBuilder extends BindingFormBuilder {
         setArmResources={setArmResources}
         armResources={armResources}
         dirty={false}
+        customLabelClassName={horizontalLabelStyle}
+        customLabelStackClassName={horizontalLabelStyle}
       />
     );
   }
