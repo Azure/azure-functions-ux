@@ -1,17 +1,17 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { Constants } from '../../constants';
-import { HttpService  } from '../../shared/http/http.service';
+import { HttpService } from '../../shared/http/http.service';
 import { CloudType, StaticAngularConfig, StaticReactConfig } from '../../types/config';
 export const KeyvaultApiVersion = '2016-10-01';
 export const KeyvaultUri = 'https://vault.azure.net';
 
 @Injectable()
 export class ConfigService implements OnModuleInit {
-  private readonly dotEnvConfig: dotenv.DotenvParseOutput;
+  private readonly dotEnvConfig: { [key: string]: string };
 
   constructor(private httpService: HttpService) {
-    this.dotEnvConfig = dotenv.config().parsed;
+    this.dotEnvConfig = dotenv.config();
   }
 
   async onModuleInit() {

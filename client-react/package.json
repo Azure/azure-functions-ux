@@ -20,12 +20,12 @@
     "monaco-editor": "^0.15.6",
     "office-ui-fabric-react": "^6.211.2",
     "re-resizable": "^6.2.0",
-    "react": "17.0.2",
+    "react": "16.8.1",
     "react-app-polyfill": "^0.2.0",
-    "react-app-rewired": "^2.1.8",
-    "react-dom": "17.0.2",
+    "react-app-rewired": "^2.1.0",
+    "react-dom": "16.8.1",
     "react-i18next": "^10.0.4",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^3.3.0",
     "react-svg": "^7.2.6",
     "react-use": "^5.4.1",
     "rxjs": "^6.4.0",
@@ -72,7 +72,11 @@
     "jest-mock-axios": "^2.1.11",
     "monaco-editor-webpack-plugin": "^1.7.0",
     "react-test-renderer": "^16.8.1",
-    "typescript": "^4.3.5",
+    "tslint": "^5.12.1",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react-hooks": "^1.1.0",
+    "typescript": "^3.3.3",
     "webpack-bundle-analyzer": "^3.3.2"
   },
   "proxy": "https://localhost:44300",
@@ -98,24 +102,12 @@
       "html"
     ]
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 10",
+    "not op_mini all"
+  ],
   "engines": {
     "yarn": "NO LONGER USED - Please use npm"
   }

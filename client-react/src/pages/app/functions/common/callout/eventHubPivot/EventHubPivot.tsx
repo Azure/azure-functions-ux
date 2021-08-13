@@ -150,6 +150,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
               <>
                 <Dropdown
                   label={t('eventHubPicker_namespace')}
+                  options={namespaceOptions}
                   selectedKey={formValues.namespace && formValues.namespace.id}
                   onChange={(o, e) => {
                     setFormValues({ namespace: e && e.data, eventHub: undefined, policy: undefined });
@@ -160,7 +161,6 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
                   errorMessage={undefined}
                   layout={Layout.Vertical}
                   {...props}
-                  options={namespaceOptions}
                   id="newEventHubNamespaceConnection"
                   mouseOverToolTip={undefined}
                 />
@@ -171,6 +171,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
                   <>
                     <Dropdown
                       label={t('eventHubPicker_eventHub')}
+                      options={eventHubOptions}
                       selectedKey={formValues.eventHub && formValues.eventHub.id}
                       onChange={(o, e) => {
                         setFormValues({ ...formValues, eventHub: e && e.data, policy: undefined });
@@ -180,7 +181,6 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
                       errorMessage={undefined}
                       layout={Layout.Vertical}
                       {...props}
-                      options={eventHubOptions}
                       id="newEventHubConnection"
                       mouseOverToolTip={undefined}
                     />
@@ -191,6 +191,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
                       <>
                         <Dropdown
                           label={t('eventHubPicker_policy')}
+                          options={policyOptions}
                           selectedKey={formValues.policy && formValues.policy.id}
                           onChange={(o, e) => {
                             setFormValues({ ...formValues, policy: e && e.data });
@@ -199,7 +200,6 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
                           errorMessage={undefined}
                           layout={Layout.Vertical}
                           {...props}
-                          options={policyOptions}
                           id="newEventHubPolicyConnection"
                           mouseOverToolTip={undefined}
                         />
