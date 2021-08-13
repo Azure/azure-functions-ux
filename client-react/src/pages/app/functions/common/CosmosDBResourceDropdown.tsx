@@ -12,11 +12,12 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
 import { IArmRscTemplate, TSetArmResources } from '../new-create-preview/FunctionCreateDataLoader';
 import { BindingEditorFormValues } from './BindingFormBuilder';
-import { calloutStyleField, linkPaddingStyle } from './callout/Callout.styles';
+import { calloutStyleField, horizontalLinkPaddingStyle, linkPaddingStyle } from './callout/Callout.styles';
 import NewCosmosDBAccountCallout from './callout/NewCosmosDBAccountCallout';
 import { DatabaseAccount } from '../../../../models/documentDB';
 import { removeCurrentContainerArmTemplate, removeCurrentDatabaseArmTemplate } from './CosmosDBComboBox';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 
 interface CosmosDBResourceDropdownProps {
   setting: BindingSetting;
@@ -26,7 +27,7 @@ interface CosmosDBResourceDropdownProps {
 }
 
 const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
-  const { resourceId, form: formProps, field, isDisabled, setArmResources, armResources } = props;
+  const { resourceId, form: formProps, field, isDisabled, setArmResources, armResources, layout } = props;
   const { t } = useTranslation();
 
   const [databaseAccounts, setDatabaseAccounts] = useState<ArmArray<DatabaseAccount> | undefined>(undefined);
@@ -176,7 +177,7 @@ const ResourceDropdown: React.SFC<CosmosDBResourceDropdownProps & CustomDropdown
     <div>
       <Dropdown options={options} onChange={(_e, option) => onChange(option, formProps, field)} {...props} placeholder={placeholder} />
       {!isDisabled ? (
-        <div style={linkPaddingStyle}>
+        <div style={layout === Layout.Vertical ? linkPaddingStyle : horizontalLinkPaddingStyle}>
           <Link id="target" onClick={() => setIsDialogVisible(true)}>
             {t('createAnAccount')}
           </Link>
