@@ -195,6 +195,11 @@ export class CommonConstants {
 
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
 
+  public static readonly BindingSettingNames = {
+    connection: 'connection',
+    connectionStringSetting: 'connectionStringSetting',
+  };
+  
   public static hiddenLink = 'hidden-link';
 
   public static readonly DeploymentCenterConstants = {

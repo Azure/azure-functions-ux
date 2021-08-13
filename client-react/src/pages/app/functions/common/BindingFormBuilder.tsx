@@ -13,10 +13,16 @@ import { getFunctionBindingDirection } from '../function/integrate/FunctionInteg
 import { FunctionIntegrateConstants } from '../function/integrate/FunctionIntegrateConstants';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
+import { style } from 'typestyle';
 
 export interface BindingEditorFormValues {
   [key: string]: any;
 }
+
+export const horizontalLabelStyle = style({
+  width: '1500px',
+  maxWidth: '1500px !important',
+});
 
 export class BindingFormBuilder {
   public static getBindingTypeName = (currentBinding: BindingInfo, bindings: Binding[]): string => {
@@ -27,7 +33,8 @@ export class BindingFormBuilder {
     private _bindingInfoList: BindingInfo[],
     private _bindingList: Binding[],
     private _resourceId: string,
-    private _t: i18next.TFunction
+    private _t: i18next.TFunction,
+    private _areCreateFunctionFieldsHorizontal: boolean
   ) {}
 
   public getInitialFormValues(): BindingEditorFormValues {
@@ -125,12 +132,14 @@ export class BindingFormBuilder {
             options={ruleOptions}
             disabled={isDisabled}
             onPanel={true}
-            layout={Layout.Vertical}
+            layout={this._getFieldLayout()}
             mouseOverToolTip={rule.help}
             required={true}
             key={ruleName}
             {...formProps}
             dirty={false}
+            customLabelClassName={this._getHorizontalLabelStyle()}
+            customLabelStackClassName={this._getHorizontalLabelStyle()}
           />
         );
       });
@@ -164,6 +173,14 @@ export class BindingFormBuilder {
     }
   }
 
+  private _getFieldLayout() {
+    return this._areCreateFunctionFieldsHorizontal ? Layout.Horizontal : Layout.Vertical;
+  }
+
+  private _getHorizontalLabelStyle() {
+    return this._getFieldLayout() === Layout.Horizontal ? horizontalLabelStyle : undefined;
+  }
+
   private _getTextField(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     return (
       <Field
@@ -173,12 +190,14 @@ export class BindingFormBuilder {
         component={TextField}
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
-        layout={Layout.Vertical}
+        layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
         {...formProps}
         dirty={false}
+        customLabelClassName={this._getHorizontalLabelStyle()}
+        customLabelStackClassName={this._getHorizontalLabelStyle()}
       />
     );
   }
@@ -204,12 +223,14 @@ export class BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
-        layout={Layout.Vertical}
+        layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
         {...formProps}
         dirty={false}
+        customLabelClassName={this._getHorizontalLabelStyle()}
+        customLabelStackClassName={this._getHorizontalLabelStyle()}
       />
     );
   }
@@ -225,12 +246,14 @@ export class BindingFormBuilder {
         onText={this._t('yes')}
         offText={this._t('no')}
         validate={(value: boolean) => this._validateBoolean(value, setting.required)}
-        layout={Layout.Vertical}
+        layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
         {...formProps}
         dirty={false}
+        customLabelClassName={this._getHorizontalLabelStyle()}
+        customLabelStackClassName={this._getHorizontalLabelStyle()}
       />
     );
   }
@@ -252,12 +275,14 @@ export class BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
-        layout={Layout.Vertical}
+        layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
         {...formProps}
         dirty={false}
+        customLabelClassName={this._getHorizontalLabelStyle()}
+        customLabelStackClassName={this._getHorizontalLabelStyle()}
       />
     );
   }
@@ -279,12 +304,14 @@ export class BindingFormBuilder {
           disabled={isDisabled}
           validate={value => this._validateText(value, setting.required, setting.validators)}
           onPanel={true}
-          layout={Layout.Vertical}
+          layout={this._getFieldLayout()}
           mouseOverToolTip={setting.help}
           required={setting.required}
           key={setting.name}
           {...formProps}
           dirty={false}
+          customLabelClassName={this._getHorizontalLabelStyle()}
+          customLabelStackClassName={this._getHorizontalLabelStyle()}
         />
       );
     }
@@ -306,12 +333,14 @@ export class BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
-        layout={Layout.Vertical}
+        layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
         {...formProps}
         dirty={false}
+        customLabelClassName={this._getHorizontalLabelStyle()}
+        customLabelStackClassName={this._getHorizontalLabelStyle()}
       />
     );
   }

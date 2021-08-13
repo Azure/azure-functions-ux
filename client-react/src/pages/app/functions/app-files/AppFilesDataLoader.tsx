@@ -90,7 +90,7 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   return (
     <AppFilesContext.Provider value={appFilesData}>
       {siteStateContext.stopped && <CustomBanner message={t('noAppFilesWhileFunctionAppStopped')} type={MessageBarType.warning} />}
-      <AppFiles site={site} fileList={fileList} runtimeVersion={runtimeVersion} refreshFunction={refresh} isRefreshing={isRefreshing} />
+      <AppFiles site={site} fileList={fileList} runtimeVersion={runtimeVersion} refreshFunction={refresh} isRefreshing={isRefreshing} />}
     </AppFilesContext.Provider>
   );
 };
