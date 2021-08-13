@@ -11,6 +11,7 @@ import { BindingInfo, BindingType } from '../../../../models/functions/function-
 import { BindingManager } from '../../../../utils/BindingManager';
 import { getFunctionBindingDirection } from '../function/integrate/FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../function/integrate/FunctionIntegrateConstants';
+import { IArmRscTemplate, TSetArmResources } from '../new-create-preview/FunctionCreateDataLoader';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
 import { style } from 'typestyle';
@@ -31,9 +32,9 @@ export class BindingFormBuilder {
 
   constructor(
     private _bindingInfoList: BindingInfo[],
-    private _bindingList: Binding[],
-    private _resourceId: string,
-    private _t: i18next.TFunction,
+    protected bindingList: Binding[],
+    protected _resourceId: string,
+    protected t: i18next.TFunction,
     private _areCreateFunctionFieldsHorizontal: boolean
   ) {}
 
@@ -41,7 +42,7 @@ export class BindingFormBuilder {
     const initialFormValues: BindingEditorFormValues = {};
 
     let i = 0;
-    for (const binding of this._bindingList) {
+    for (const binding of this.bindingList) {
       for (const setting of binding.settings || []) {
         let value = this._bindingInfoList[i][setting.name];
 
@@ -61,12 +62,18 @@ export class BindingFormBuilder {
     return initialFormValues;
   }
 
-  public getFields(formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean, includeRules: boolean) {
+  public getFields(
+    formProps: FormikProps<BindingEditorFormValues>,
+    setArmResources: TSetArmResources | null,
+    armResources: IArmRscTemplate[] | null,
+    isDisabled: boolean,
+    includeRules: boolean
+  ) {
     const fields: JSX.Element[] = [];
     const ignoredFields: string[] = [];
 
     let i = 0;
-    for (const binding of this._bindingList) {
+    for (const binding of this.bindingList) {
       // We don't want to use the rule for HTTP as it doesn't offer the user anything
       // and we can't restore the state of the rule properly on a second load
       if (includeRules && formProps.values['type'] !== FunctionIntegrateConstants.httpType) {
@@ -75,7 +82,15 @@ export class BindingFormBuilder {
 
       for (const setting of binding.settings || []) {
         if (!ignoredFields.includes(setting.name)) {
-          this._addField(fields, setting, formProps, isDisabled, i);
+          this._addField(
+            fields,
+            setting,
+            formProps,
+            !!setArmResources ? setArmResources : null,
+            !!armResources ? armResources : null,
+            isDisabled,
+            i
+          );
         }
       }
 
@@ -150,13 +165,24 @@ export class BindingFormBuilder {
     fields: JSX.Element[],
     setting: BindingSetting,
     formProps: FormikProps<BindingEditorFormValues>,
+    setArmResources: TSetArmResources | null,
+    armResources: IArmRscTemplate[] | null,
     isDisabled: boolean,
     i: number
   ) {
     switch (setting.value) {
       case BindingSettingValue.string:
         if (setting.resource) {
-          fields.push(this._getResourceField(setting, formProps, isDisabled, this._resourceId));
+          fields.push(
+            this._getResourceField(
+              setting,
+              formProps,
+              !!setArmResources ? setArmResources : null,
+              !!armResources ? armResources : null,
+              isDisabled,
+              this._resourceId
+            )
+          );
         } else {
           fields.push(this._getTextField(setting, formProps, isDisabled));
         }
@@ -181,7 +207,7 @@ export class BindingFormBuilder {
     return this._getFieldLayout() === Layout.Horizontal ? horizontalLabelStyle : undefined;
   }
 
-  private _getTextField(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
+  protected _getTextField(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     return (
       <Field
         label={setting.label}
@@ -190,8 +216,8 @@ export class BindingFormBuilder {
         component={TextField}
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
+        mouseOverToolTip={setting.help ? setting.help : undefined}
         layout={this._getFieldLayout()}
-        mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
         {...formProps}
@@ -223,8 +249,8 @@ export class BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
+        mouseOverToolTip={setting.help ? setting.help : undefined}
         layout={this._getFieldLayout()}
-        mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
         {...formProps}
@@ -243,11 +269,11 @@ export class BindingFormBuilder {
         id={setting.name}
         component={Toggle}
         disabled={isDisabled}
-        onText={this._t('yes')}
-        offText={this._t('no')}
+        onText={this.t('yes')}
+        offText={this.t('no')}
         validate={(value: boolean) => this._validateBoolean(value, setting.required)}
+        mouseOverToolTip={setting.help ? setting.help : undefined}
         layout={this._getFieldLayout()}
-        mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
         {...formProps}
@@ -258,9 +284,11 @@ export class BindingFormBuilder {
     );
   }
 
-  private _getResourceField(
+  protected _getResourceField(
     setting: BindingSetting,
     formProps: FormikProps<BindingEditorFormValues>,
+    setArmResources: TSetArmResources | null,
+    armResources: IArmRscTemplate[] | null,
     isDisabled: boolean,
     resourceId: string
   ) {
@@ -275,11 +303,13 @@ export class BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
+        mouseOverToolTip={setting.help ? setting.help : undefined}
         layout={this._getFieldLayout()}
-        mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
         {...formProps}
+        setArmResources={!!setArmResources ? setArmResources : null}
+        armResources={armResources}
         dirty={false}
         customLabelClassName={this._getHorizontalLabelStyle()}
         customLabelStackClassName={this._getHorizontalLabelStyle()}
@@ -304,8 +334,8 @@ export class BindingFormBuilder {
           disabled={isDisabled}
           validate={value => this._validateText(value, setting.required, setting.validators)}
           onPanel={true}
+          mouseOverToolTip={setting.help ? setting.help : undefined}
           layout={this._getFieldLayout()}
-          mouseOverToolTip={setting.help}
           required={setting.required}
           key={setting.name}
           {...formProps}
@@ -333,8 +363,8 @@ export class BindingFormBuilder {
         disabled={isDisabled}
         validate={value => this._validateText(value, setting.required, setting.validators)}
         onPanel={true}
+        mouseOverToolTip={setting.help ? setting.help : undefined}
         layout={this._getFieldLayout()}
-        mouseOverToolTip={setting.help}
         required={setting.required}
         key={setting.name}
         {...formProps}
@@ -345,10 +375,10 @@ export class BindingFormBuilder {
     );
   }
 
-  private _validateText(value: string, required: boolean, validators?: BindingValidator[]): string | undefined {
+  protected _validateText(value: string, required: boolean, validators?: BindingValidator[]): string | undefined {
     let error: string | undefined;
     if (required && !value) {
-      error = this._t('fieldRequired');
+      error = this.t('fieldRequired');
     }
 
     if (value && validators) {
@@ -365,7 +395,7 @@ export class BindingFormBuilder {
   private _validateBoolean(value: boolean, required: boolean): string | undefined {
     let error: string | undefined;
     if (required && value === undefined) {
-      error = this._t('fieldRequired');
+      error = this.t('fieldRequired');
     }
 
     return error;

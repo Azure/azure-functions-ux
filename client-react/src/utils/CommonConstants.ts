@@ -35,8 +35,9 @@ export class CommonConstants {
     acrApiVersion20190501: '2019-05-01',
     staticSiteApiVersion20201201: '2020-12-01',
     billingApiVersion20190114: '2019-01-14',
-    argApiVersion20210301: '2021-03-01',
-    argApiVersion20180901Preview: '2018-09-01-preview',
+    sitesApiVersion20201201: '2020-12-01',
+    armDeploymentApiVersion20210401: '2021-04-01',
+    documentDBApiVersion20210415: '2021-04-15',
   };
 
   public static readonly NonThemeColors = {
@@ -81,6 +82,17 @@ export class CommonConstants {
     serviceLinkerPrefix: 'resourceconnector_',
     enableOryxBuild: 'ENABLE_ORYX_BUILD',
     azureFilesSettingName: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING',
+  };
+
+  public static readonly CosmosDbTypes = {
+    mongoDb: 'MongoDB',
+    globalDocumentDb: 'GlobalDocumentDB',
+  };
+
+  public static readonly CosmosDbDefaults = {
+    databaseName: 'CosmosDatabase',
+    containerName: 'CosmosContainer',
+    partitionKeyPath: '/id',
   };
 
   public static readonly SkuNames = {
@@ -198,7 +210,7 @@ export class CommonConstants {
     connection: 'connection',
     connectionStringSetting: 'connectionStringSetting',
   };
-  
+
   public static hiddenLink = 'hidden-link';
 
   public static readonly DeploymentCenterConstants = {

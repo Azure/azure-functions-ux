@@ -14,6 +14,7 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
 import SiteHelper from '../../../../utils/SiteHelper';
 import StringUtils from '../../../../utils/string';
+import { TSetArmResources } from '../new-create-preview/FunctionCreateDataLoader';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 import { calloutStyleField, linkPaddingStyle, horizontalLinkPaddingStyle } from './callout/Callout.styles';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
@@ -26,6 +27,7 @@ import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConne
 export interface ResourceDropdownProps {
   setting: BindingSetting;
   resourceId: string;
+  setArmResources: TSetArmResources | null;
 }
 
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
@@ -90,9 +92,9 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
         {...props}
       />
       {!isDisabled ? (
-        <div style={layout === Layout.Vertical ? linkPaddingStyle : horizontalLinkPaddingStyle}>
+        <div style={layout === Layout.Vertical ? linkPaddingStyle : horizontalLinkPaddingStyle()}>
           <Link id="target" onClick={() => setIsDialogVisible(true)}>
-            {'New'}
+            Create new
           </Link>
           <Callout
             onDismiss={() => setIsDialogVisible(false)}

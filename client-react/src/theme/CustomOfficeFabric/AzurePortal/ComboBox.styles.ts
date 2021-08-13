@@ -3,6 +3,8 @@ import { Depths } from './AzureDepths';
 import { IComboBoxStyles } from 'office-ui-fabric-react/lib/ComboBox';
 import * as StyleConstants from './Constants';
 
+const DROPDOWN_ITEMHEIGHT = 23;
+
 export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
   const { semanticColors, fonts } = theme;
 
@@ -33,10 +35,10 @@ export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
       height: StyleConstants.inputControlHeightInner,
       selectors: {
         '::placeholder': {
-          fontStyle: 'italic',
+          fontStyle: 'normal',
         },
         '::-ms-input-placeholder': {
-          fontStyle: 'italic',
+          fontStyle: 'normal',
         },
       },
     },
@@ -80,7 +82,7 @@ export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
       height: '1px',
     },
     errorMessage: {
-      ...fonts.medium,
+      ...fonts.small,
       color: semanticColors.errorText,
     },
     optionsContainer: {
@@ -92,7 +94,22 @@ export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
         },
         '.ms-ComboBox-option': {
           ...fonts.medium,
+          backgroundColor: 'transparent',
+          boxSizing: 'border-box',
           color: semanticColors.bodyText,
+          cursor: 'pointer',
+          display: 'block',
+          padding: `0 ${DROPDOWN_ITEMHEIGHT}px 0 12px`,
+          width: '100%',
+          minHeight: DROPDOWN_ITEMHEIGHT,
+          lineHeight: DROPDOWN_ITEMHEIGHT - 2,
+          height: 'auto',
+          position: 'relative',
+          border: '1px solid transparent',
+          wordWrap: 'break-word',
+          overflowWrap: 'break-word',
+          textAlign: 'left',
+          textOverflow: 'ellipsis',
           selectors: {
             ':hover': {
               backgroundColor: semanticColors.menuItemBackgroundHovered,

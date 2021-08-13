@@ -37,6 +37,16 @@ interface ArmBatchResponse {
   responses: ArmBatchObject[];
 }
 
+interface IArmDeploymentTemplate {
+  $schema: string;
+  contentVersion: '1.0.0.0'; // This isn't a "recurring setup" type of template, so this can stay constant
+  parameters: Object;
+  functions: any[];
+  variables: Object;
+  resources: Object[];
+  outputs: Object;
+}
+
 const bufferTimeInterval = 100; // ms
 const maxBufferSize = 20;
 const armSubject$ = new Subject<InternalArmRequest>();
@@ -260,6 +270,29 @@ export const MakePagedArmCall = async <T>(requestObject: ArmRequestObject<ArmArr
   }
 
   return results;
+};
+
+// Makes ARM deployment to resource group (https://docs.microsoft.com/en-us/rest/api/resources/deployments/create-or-update)
+export const getArmDeploymentTemplate = (resources: Object[], parameterSettings: Object = {}, parameters: Object = {}) => {
+  const armDeploymentTemplate: IArmDeploymentTemplate = {
+    $schema: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#',
+    contentVersion: '1.0.0.0',
+    parameters: parameterSettings, // Input parameter settings, if any, here
+    functions: [],
+    variables: {},
+    resources, // Input the resources passed in here
+    outputs: {},
+  };
+
+  const reqBody = {
+    properties: {
+      mode: 'Incremental', // Leaves other resources in rscGrp unchanged
+      template: armDeploymentTemplate,
+      parameters, // Pass in the actual parameter values (if any) here
+    },
+  };
+
+  return reqBody;
 };
 
 export default MakeArmCall;
