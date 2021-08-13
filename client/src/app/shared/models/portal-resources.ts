@@ -2343,8 +2343,6 @@ export class PortalResources {
   public static function_testIntegrationAriaLabel = 'function_testIntegrationAriaLabel';
   public static deploymentCenterJavaWebServerStack = 'deploymentCenterJavaWebServerStack';
   public static readOnlyMissingAzureFilesSetting = 'readOnlyMissingAzureFilesSetting';
-  public static deploymentCenterJavaWebServerStack = 'deploymentCenterJavaWebServerStack';
-  public static readOnlyMissingAzureFilesSetting = 'readOnlyMissingAzureFilesSetting';
   public static deploymentCenterChangeAccountInfoMessage = 'deploymentCenterChangeAccountInfoMessage';
   public static deploymentCenterChangeAccountInfoButton = 'deploymentCenterChangeAccountInfoButton';
 }
