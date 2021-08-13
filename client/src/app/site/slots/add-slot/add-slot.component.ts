@@ -317,10 +317,10 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
 
     if (this._isKubeApp) {
       const armSiteDescriptor = new ArmSiteDescriptor(siteId);
-      const websiteIddObject = armSiteDescriptor.getWebsiteId();
+      const websiteIdObject = armSiteDescriptor.getWebsiteId();
       extendedLocation = {
-        name: `/subscriptions/${websiteIddObject.SubscriptionId}/resourcegroups/${
-          websiteIddObject.ResourceGroup
+        name: `/subscriptions/${websiteIdObject.SubscriptionId}/resourcegroups/${
+          websiteIdObject.ResourceGroup
         }/providers/microsoft.extendedlocations/customlocations/${newSlotName}-location`,
         type: 'CustomLocation',
       };
