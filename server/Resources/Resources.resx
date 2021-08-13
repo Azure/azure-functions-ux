@@ -7149,6 +7149,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="configurationFeedbackCVAQuestion" xml:space="preserve">
         <value>How valuable is this App Service configuration page?</value>
     </data>
+    <data name="function_testIntegration" xml:space="preserve">
+        <value>Test integration</value>
+    </data>
+    <data name="function_testIntegrationAriaLabel" xml:space="preserve">
+        <value>Open panel to test integration with different bindings.</value>
+    </data>
     <data name="deploymentCenterJavaWebServerStack" xml:space="preserve">
         <value>Java web server stack</value>
     </data>
@@ -7160,5 +7166,23 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterChangeAccountInfoButton" xml:space="preserve">
         <value>Change account information</value>
+    </data>
+    <data name="cosmosDbTrigger" xml:space="preserve">
+        <value>Cosmos DB Trigger</value>
+    </data>
+    <data name="cosmosDbInput" xml:space="preserve">
+        <value>Cosmos DB input</value>
+    </data>
+    <data name="cosmosDbOutput" xml:space="preserve">
+        <value>Cosmos DB output</value>
+    </data>
+    <data name="eventGridInput" xml:space="preserve">
+        <value>Event Grid input</value>
+    </data>
+    <data name="goToEventGridAccount" xml:space="preserve">
+        <value>Go to your Event Grid account</value>
+    </data>
+    <data name="learnMoreAboutEventGridInputs" xml:space="preserve">
+        <value>Learn more about Event Grid inputs</value>
     </data>
 </root>

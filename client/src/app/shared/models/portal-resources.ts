@@ -2307,6 +2307,7 @@ export class PortalResources {
   public static staticSiteMaxAppSize = 'staticSiteMaxAppSize';
   public static staticSiteAzureFunctions = 'staticSiteAzureFunctions';
   public static staticSiteIncludedBandwidthAmount = 'staticSiteIncludedBandwidthAmount';
+  public static staticSiteStandardBandwidthOverageAmount = 'staticSiteStandardBandwidthOverageAmount';
   public static staticSiteFreeCustomDomainAmount = 'staticSiteFreeCustomDomainAmount';
   public static staticSiteStandardCustomDomainAmount = 'staticSiteStandardCustomDomainAmount';
   public static staticSiteFreeAzureFunctionsAmount = 'staticSiteFreeAzureFunctionsAmount';
@@ -2328,6 +2329,8 @@ export class PortalResources {
   public static staticSiteUpdatingHostingPlan = 'staticSiteUpdatingHostingPlan';
   public static staticSiteUpdatingHostingPlanSuccess = 'staticSiteUpdatingHostingPlanSuccess';
   public static staticSiteUpdatingHostingPlanFailure = 'staticSiteUpdatingHostingPlanFailure';
+  public static deploymentCenterContainerSettingsBannerMessage = 'deploymentCenterContainerSettingsBannerMessage';
+  public static deploymentCenterContainerSettingsBannerClickHere = 'deploymentCenterContainerSettingsBannerClickHere';
   public static staticWebAppSkuPickerCalculatePrice = 'staticWebAppSkuPickerCalculatePrice';
   public static staticSiteStagingEnvironments = 'staticSiteStagingEnvironments';
   public static staticSiteFreeStagingEnvironmentsAmount = 'staticSiteFreeStagingEnvironmentsAmount';
@@ -2336,6 +2339,8 @@ export class PortalResources {
   public static staticSiteStandardBandwidthOverage = 'staticSiteStandardBandwidthOverage';
   public static configurationFeedbackCESQuestion = 'configurationFeedbackCESQuestion';
   public static configurationFeedbackCVAQuestion = 'configurationFeedbackCVAQuestion';
+  public static function_testIntegration = 'function_testIntegration';
+  public static function_testIntegrationAriaLabel = 'function_testIntegrationAriaLabel';
   public static deploymentCenterJavaWebServerStack = 'deploymentCenterJavaWebServerStack';
   public static readOnlyMissingAzureFilesSetting = 'readOnlyMissingAzureFilesSetting';
   public static deploymentCenterChangeAccountInfoMessage = 'deploymentCenterChangeAccountInfoMessage';
