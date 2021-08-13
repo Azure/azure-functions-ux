@@ -189,7 +189,7 @@ export class BindingFormBuilder {
         id={setting.name}
         component={TextField}
         disabled={isDisabled}
-        validate={value => this._validateText(value, setting.required, setting.validators)}
+        validate={value => (formProps.touched[setting.name] ? this._validateText(value, setting.required, setting.validators) : undefined)}
         layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
         required={setting.required}
@@ -221,7 +221,7 @@ export class BindingFormBuilder {
         component={Dropdown}
         options={options}
         disabled={isDisabled}
-        validate={value => this._validateText(value, setting.required, setting.validators)}
+        validate={value => (formProps.touched[setting.name] ? this._validateText(value, setting.required, setting.validators) : undefined)}
         onPanel={true}
         layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
@@ -273,7 +273,7 @@ export class BindingFormBuilder {
         setting={setting}
         resourceId={resourceId}
         disabled={isDisabled}
-        validate={value => this._validateText(value, setting.required, setting.validators)}
+        validate={value => (formProps.touched[setting.name] ? this._validateText(value, setting.required, setting.validators) : undefined)}
         onPanel={true}
         layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}

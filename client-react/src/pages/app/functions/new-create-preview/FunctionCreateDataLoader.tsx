@@ -314,6 +314,15 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     );
   };
 
+  // Intern Rage (nlayne): Formik is supposed to do this for us, but it doesn't
+  // (may be due to older version), so I'll just do it myself (this is so user can't
+  // successfully submit if they haven't touched any fields themselves)
+  const setAllFieldsTouched = (formProps: FormikProps<CreateFunctionFormValues>) => {
+    Object.keys(formProps.initialValues).forEach((propertyKey, index) => {
+      formProps.setFieldTouched(propertyKey, true);
+    });
+  };
+
   const getPortalCreateComponent = (): JSX.Element => {
     return (
       <Formik
@@ -325,7 +334,10 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
           const actionBarPrimaryButtonProps = {
             id: 'add',
             title: creatingFunction ? <Spinner /> : t('create'),
-            onClick: formProps.submitForm,
+            onClick: () => {
+              setAllFieldsTouched(formProps);
+              formProps.submitForm();
+            },
             disable: !initialFormValues || creatingFunction,
           };
 

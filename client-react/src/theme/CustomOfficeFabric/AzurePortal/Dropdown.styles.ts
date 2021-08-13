@@ -1,6 +1,7 @@
 // tslint:disable:prefer-template
 import { ThemeExtended } from '../../SemanticColorsExtended';
 import { getGlobalClassNames, IStyle } from '@uifabric/styling';
+import * as StyleConstants from './Constants';
 
 const GlobalClassNames = {
   root: 'ms-Dropdown-container',
@@ -28,6 +29,7 @@ export const DropDownStyles = props => {
 
   const borderColorError: IStyle = {
     borderColor: semanticColors.errorText,
+    borderWidth: StyleConstants.borderWidthError,
   };
 
   const itemSelectors = (isSelected: boolean = false) => {
@@ -97,6 +99,7 @@ export const DropDownStyles = props => {
           ['&:hover .' + globalClassnames.titleHasError]: borderColorError,
           ['&:active .' + globalClassnames.titleHasError]: borderColorError,
           ['&:focus .' + globalClassnames.titleHasError]: borderColorError,
+          [`.${globalClassnames.titleHasError}`]: borderColorError,
         },
       },
       {
@@ -124,7 +127,7 @@ export const DropDownStyles = props => {
     ],
     caretDown: [{ color: semanticColors.textColor }],
     caretDownWrapper: [{ height: `${DROPDOWN_HEIGHT}px`, lineHeight: `${DROPDOWN_HEIGHT}px` }],
-    errorMessage: [{ color: semanticColors.inlineErrorText }],
+    errorMessage: [{ color: semanticColors.errorText }],
     callout: [
       {
         border: `1px solid ${semanticColors.standardControlOutlineRest}`,

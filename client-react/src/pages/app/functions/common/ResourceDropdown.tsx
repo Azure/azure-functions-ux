@@ -84,10 +84,14 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   return (
     <div>
       <Dropdown
-        options={options}
         placeholder={options.length < 1 ? t('resourceDropdown_noAppSettingsFound') : undefined}
         onChange={(_e, option) => onChange(option, formProps, field, appSettings)}
         {...props}
+        onBlur={e => {
+          field.onBlur(e);
+          formProps.setFieldTouched(field.name, true);
+        }}
+        options={options}
       />
       {!isDisabled ? (
         <div style={layout === Layout.Vertical ? linkPaddingStyle : horizontalLinkPaddingStyle}>
