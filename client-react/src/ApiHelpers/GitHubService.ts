@@ -12,7 +12,7 @@ import {
 import { HttpResponseObject } from '../ArmHelper.types';
 import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
 import { ProviderToken } from '../models/provider';
-//import { Method } from 'axios';
+import { Method } from 'axios';
 
 export default class GitHubService {
   public static authorizeUrl = `${Url.serviceHost}auth/github/authorize`;
@@ -24,6 +24,14 @@ export default class GitHubService {
     };
 
     return sendHttpRequest<GitHubUser>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+  };
+
+  public static getUserWithoutPassthrough = (gitHubToken: string) => {
+    const data = {
+      gitHubToken,
+    };
+
+    return sendHttpRequest<GitHubUser>({ url: `${Url.serviceHost}api/github/getUser`, method: 'POST', data });
   };
 
   public static getToken = (redirectUrl: string): Promise<HttpResponseObject<ProviderToken>> => {
@@ -43,8 +51,23 @@ export default class GitHubService {
     return sendHttpRequest<GitHubOrganizations[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
+  public static getOrganizationsWithoutPassthrough = (gitHubToken: string, logger?: (page, response) => void) => {
+    const data = {
+      gitHubToken,
+    };
+    return GitHubService._getSpecificGitHubObjectList<GitHubOrganizations>(data, 'getOrganizations', 'POST', logger);
+  };
+
   public static getOrgRepositories = async (repositories_url: string, gitHubToken: string, logger?: (page, response) => void) => {
     return GitHubService._getGitHubObjectList<GitHubRepository>(`${repositories_url}/repos?per_page=100`, gitHubToken, logger);
+  };
+
+  public static getOrgRepositoriesWithoutPassthrough = async (org: string, gitHubToken: string, logger?: (page, response) => void) => {
+    const data = {
+      gitHubToken,
+      org,
+    };
+    return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getOrgRepositories', 'POST', logger);
   };
 
   public static getUserRepositories = async (gitHubToken: string, logger?: (page, response) => void) => {
@@ -55,12 +78,33 @@ export default class GitHubService {
     );
   };
 
+  public static getUserRepositoriesWithoutPassthrough = async (gitHubToken: string, logger?: (page, response) => void) => {
+    const data = {
+      gitHubToken,
+    };
+    return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getUserRepositories', 'POST', logger);
+  };
+
   public static getBranches = async (org: string, repo: string, gitHubToken: string, logger?: (page, response) => void) => {
     return GitHubService._getGitHubObjectList<GitHubBranch>(
       `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/branches?per_page=100`,
       gitHubToken,
       logger
     );
+  };
+
+  public static getBranchesWithoutPassthrough = async (
+    org: string,
+    repo: string,
+    gitHubToken: string,
+    logger?: (page, response) => void
+  ) => {
+    const data = {
+      gitHubToken,
+      org,
+      repo,
+    };
+    return GitHubService._getSpecificGitHubObjectList<GitHubBranch>(data, 'getBranches', 'POST', logger);
   };
 
   public static getAllWorkflowConfigurations = (org: string, repo: string, branchName: string, gitHubToken: string) => {
@@ -70,6 +114,17 @@ export default class GitHubService {
     };
 
     return sendHttpRequest<FileContent[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+  };
+
+  public static getAllWorkflowConfigurationsWithoutPassthrough = (org: string, repo: string, branchName: string, gitHubToken: string) => {
+    const data = {
+      gitHubToken,
+      org,
+      repo,
+      branchName,
+    };
+
+    return sendHttpRequest<FileContent[]>({ url: `${Url.serviceHost}api/github/getAllWorkflowConfigurations`, method: 'POST', data });
   };
 
   public static getWorkflowConfiguration = (
@@ -85,6 +140,25 @@ export default class GitHubService {
     };
 
     return sendHttpRequest<FileContent>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+  };
+
+  public static getWorkflowConfigurationWithoutPassthrough = (
+    org: string,
+    repo: string,
+    branchName: string,
+    workflowYmlPath: string,
+    gitHubToken: string
+  ) => {
+    const data = {
+      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/contents/${workflowYmlPath}?ref=${branchName}`,
+      gitHubToken,
+      org,
+      repo,
+      workflowYmlPath,
+      branchName,
+    };
+
+    return sendHttpRequest<FileContent>({ url: `${Url.serviceHost}api/github/getWorkflowConfiguration`, method: 'POST', data });
   };
 
   public static deleteActionWorkflow = (
@@ -154,6 +228,18 @@ export default class GitHubService {
     return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
+  public static listWorkflowRunsWithoutPassthrough = (gitHubToken: string, org: string, repo: string, workflowFileName: string) => {
+    const data = {
+      gitHubToken,
+      org,
+      repo,
+      workflowFileName,
+      page: 1,
+    };
+
+    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/listWorkflowRuns`, method: 'POST', data });
+  };
+
   public static cancelWorkflowRun = (gitHubToken: string, url: string) => {
     const data = {
       url,
@@ -162,6 +248,22 @@ export default class GitHubService {
     };
 
     return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+  };
+
+  public static cancelWorkflowRunWithoutPassthorugh = (gitHubToken: string, url: string) => {
+    const cancelUrlParts = !!url ? url.split('/') : [];
+    const org = !!cancelUrlParts && cancelUrlParts.length > 9 ? cancelUrlParts[4] : '';
+    const repo = !!cancelUrlParts && cancelUrlParts.length > 9 ? cancelUrlParts[5] : '';
+    const workflowId = !!cancelUrlParts && cancelUrlParts.length > 9 ? cancelUrlParts[8] : '';
+
+    const data = {
+      gitHubToken,
+      org,
+      repo,
+      workflowId: workflowId,
+    };
+
+    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/cancelWorkflowRun`, method: 'POST', data });
   };
 
   private static _getGitHubObjectList = async <T>(url: string, gitHubToken: string, logger?: (page, response) => void) => {
@@ -199,38 +301,39 @@ export default class GitHubService {
     });
   };
 
-  // private static _getSpecificGitHubObjectList = async <T>(url: string, gitHubToken: string, apiName: string, method: Method, logger?: (page, response) => void) => {
-  //   const githubObjectList: T[] = [];
-  //   let lastPageNumber = 1;
-  //   for (let page = 1; page <= lastPageNumber; page++) {
-  //     const pageResponse = await GitHubService._sendSpecificGitHubRequest<T[]>(gitHubToken, apiName, method, page);
-  //     if (pageResponse.metadata.success) {
-  //       githubObjectList.push(...pageResponse.data);
+  private static _getSpecificGitHubObjectList = async <T>(
+    data: any,
+    apiName: string,
+    method: Method,
+    logger?: (page, response) => void
+  ) => {
+    const githubObjectList: T[] = [];
+    let lastPageNumber = 1;
+    for (let page = 1; page <= lastPageNumber; page++) {
+      data.page = page;
+      const pageResponse = await GitHubService._sendSpecificGitHubRequest<T[]>(data, apiName, method);
+      if (pageResponse.metadata.success) {
+        githubObjectList.push(...pageResponse.data);
 
-  //       const linkHeader = pageResponse.metadata.headers.link;
-  //       if (linkHeader) {
-  //         const links = getLinksFromLinkHeader(linkHeader);
-  //         const thisLastPageNumber = getLastPageNumberFromLinks(links);
-  //         lastPageNumber = thisLastPageNumber > 10 ? 10 : thisLastPageNumber;
-  //       }
-  //     } else if (logger) {
-  //       logger(page, pageResponse);
-  //     }
-  //   }
+        const linkHeader = pageResponse.metadata.headers.link;
+        if (linkHeader) {
+          const links = getLinksFromLinkHeader(linkHeader);
+          const thisLastPageNumber = getLastPageNumberFromLinks(links);
+          lastPageNumber = thisLastPageNumber > 10 ? 10 : thisLastPageNumber;
+        }
+      } else if (logger) {
+        logger(page, pageResponse);
+      }
+    }
 
-  //   return githubObjectList;
-  // };
+    return githubObjectList;
+  };
 
-  // private static _sendSpecificGitHubRequest = <T>(gitHubToken: string, apiName: string, method: Method, page: number) => {
-  //   const data = {
-  //     gitHubToken,
-  //     page
-  //   };
-
-  //   return sendHttpRequest<T>({
-  //     data,
-  //     url: `${Url.serviceHost}api/github/${apiName}`,
-  //     method,
-  //   });
-  // };
+  private static _sendSpecificGitHubRequest = <T>(data: any, apiName: string, method: Method) => {
+    return sendHttpRequest<T>({
+      data,
+      url: `${Url.serviceHost}api/github/${apiName}`,
+      method,
+    });
+  };
 }
