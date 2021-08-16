@@ -16,13 +16,15 @@ export class StorageService {
   constructor(private logService: LoggingService, private configService: ConfigService) {}
 
   async getStorageContainers(accountName: string, accessKey: string) {
-    const credentials = new SharedKeyCredential(accountName, accessKey);
-    const pipeline = StorageURL.newPipeline(credentials);
-    const serviceURL = new ServiceURL(`https://${accountName}.blob.${this.configService.endpointSuffix}`, pipeline);
-    const aborter = Aborter.timeout(ONE_MINUTE);
-    let containerSegment = await serviceURL.listContainersSegment(aborter);
-
-    let containers = containerSegment.containerItems;
+    const credentials = new StorageSharedKeyCredential(accountName, accessKey);
+    const blobServiceClient = new BlobServiceClient(`https://${accountName}.blob.${this.configService.endpointSuffix}`, credentials);
+    let containers = blobServiceClient.listContainers();
+    let retContainers = [];
+    let nextContainers = await containers.next();
+    while (!nextContainers.done) {
+      retContainers.push(nextContainers.value);
+      nextContainers = await containers.next();
+    }
 
     while (containerSegment.nextMarker) {
       containerSegment = await serviceURL.listContainersSegment(aborter, containerSegment.nextMarker);

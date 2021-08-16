@@ -43,7 +43,7 @@ export const powershellStack: FunctionAppStack = {
                 isSupported: true,
               },
               gitHubActionSettings: {
-                isSupported: true
+                isSupported: true,
               },
               appSettingsDictionary: {
                 FUNCTIONS_WORKER_RUNTIME: 'powershell',

@@ -90,5 +90,5 @@ export abstract class PriceSpec {
     return null;
   }
 
-  public updateUpsellBanner(): void { }
+  public updateUpsellBanner(): void {}
 }

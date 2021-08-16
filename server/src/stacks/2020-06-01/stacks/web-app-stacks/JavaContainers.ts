@@ -128,7 +128,7 @@ export const javaContainersStack: WebAppStack = {
           stackSettings: {
             linuxContainerSettings: {
               java8Runtime: 'JBOSSEAP|7.2-java8',
-              isDeprecated: true
+              isDeprecated: true,
             },
           },
         },
