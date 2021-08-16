@@ -33,7 +33,6 @@ const RadioButtonNoFormik: React.SFC<IChoiceGroupProps & RadioButtonProps> = pro
     <ReactiveFormControl {...props}>
       <ChoiceGroup
         ariaLabelledBy={`${props.id}-label`}
-        id={props.id}
         options={optionsWithMargin}
         onChange={onChange}
         styles={ChoiceGroupStyles}

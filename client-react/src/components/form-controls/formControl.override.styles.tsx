@@ -41,7 +41,7 @@ export const comboboxStyleOverrides = (theme: ThemeExtended, fullpage: boolean, 
   return {
     ...baseStyle,
     root: [
-      ...baseStyle.root,
+      ...(baseStyle.root as any),
       {
         width: widthOverride || FORM_DEFAULT_WIDTH,
       },
