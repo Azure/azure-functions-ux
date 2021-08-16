@@ -10,10 +10,10 @@ export class ACRController {
   async getRepositories(
     @Body('loginServer') loginServer: string,
     @Body('encodedUserInfo') encodedUserInfo: string,
-    @Body('page') page: number,
-    @Res() res
+    @Res() res,
+    @Body('last') last?: any
   ) {
-    const url = `https://${loginServer}/v2/_catalog?page=${page}`;
+    const url = !last ? `https://${loginServer}/v2/_catalog` : `https://${loginServer}/v2/_catalog?last=${last}&n=100&orderby=`;
     await this._makeGetCallWithLinkHeader(url, encodedUserInfo, res);
   }
 
@@ -23,10 +23,12 @@ export class ACRController {
     @Body('loginServer') loginServer: string,
     @Body('repository') repository: string,
     @Body('encodedUserInfo') encodedUserInfo: string,
-    @Body('page') page: number,
-    @Res() res
+    @Res() res,
+    @Body('last') last?: any
   ) {
-    const url = `https://${loginServer}/v2/${repository}/tags/list?page=${page}`;
+    const url = !last
+      ? `https://${loginServer}/v2/${repository}/tags/list`
+      : `https://${loginServer}/v2/${repository}/tags/list?last=${last}&n=100&orderby=`;
     await this._makeGetCallWithLinkHeader(url, encodedUserInfo, res);
   }
 

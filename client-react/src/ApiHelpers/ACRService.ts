@@ -3,7 +3,7 @@ import { ArmArray, ArmObj } from '../models/arm-obj';
 import { ACRRegistry, ACRWebhookPayload, ACRCredential, ACRRepositories, ACRTags } from '../models/acr';
 import { CommonConstants } from '../utils/CommonConstants';
 import { HttpResponseObject } from '../ArmHelper.types';
-import { getLastPageNumberFromLinks, getLinksFromLinkHeader, sendHttpRequest } from './HttpClient';
+import { getLastItemFromLinks, getLinksFromLinkHeader, sendHttpRequest } from './HttpClient';
 import Url from '../utils/url';
 import { Method } from 'axios';
 
@@ -102,7 +102,7 @@ export default class ACRService {
       encodedUserInfo,
     };
 
-    return ACRService._dispatchSpecificPageableRequest<ACRRepositories>(data, 'getTags', 'POST', logger);
+    return ACRService._dispatchSpecificPageableRequest<ACRTags>(data, 'getTags', 'POST', logger);
   }
 
   private static async _dispatchPageableRequest<T>(
@@ -147,23 +147,24 @@ export default class ACRService {
     logger?: (page, error) => void
   ): Promise<T[]> {
     const acrObjectList: T[] = [];
-    let lastPageNumber = 1;
-    for (let page = 1; page <= lastPageNumber; page++) {
-      data.page = page;
+    let nextLink = '';
+    do {
+      nextLink = '';
       const pageResponse = await this._sendSpecificACRRequest<T>(data, apiName, method);
       if (pageResponse.metadata.success) {
         acrObjectList.push(pageResponse.data);
 
         const linkHeader = pageResponse.metadata.headers.link;
-        if (linkHeader) {
+        if (!!linkHeader) {
           const links = getLinksFromLinkHeader(linkHeader);
-          const thisLastPageNumber = getLastPageNumberFromLinks(links);
-          lastPageNumber = thisLastPageNumber > 10 ? 10 : thisLastPageNumber;
+          const lastItem = getLastItemFromLinks(links);
+          data.last = !!lastItem ? lastItem : '';
+          nextLink = !!links && !!links.next ? links.next : '';
         }
       } else if (logger) {
-        logger(page, pageResponse);
+        logger(nextLink, pageResponse);
       }
-    }
+    } while (nextLink);
 
     return acrObjectList;
   }
