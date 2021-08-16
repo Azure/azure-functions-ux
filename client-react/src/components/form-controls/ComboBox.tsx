@@ -15,7 +15,7 @@ interface CustomComboBoxProps {
   dirty?: boolean;
   value: string;
   setOptions?: React.Dispatch<React.SetStateAction<IDropdownOption[]>>;
-  onChange: (event: React.FormEvent<IComboBox>, option?: IComboBoxOption, index?: number, value?: string) => void;
+  onChange?: (event: React.FormEvent<IComboBox>, option?: IComboBoxOption, index?: number, value?: string) => void;
   learnMoreLink?: string;
   isLoading?: boolean;
 }
