@@ -68,6 +68,101 @@ export class GithubController {
     }
   }
 
+  @Post('api/github/getUser')
+  @HttpCode(200)
+  async getUser(@Body('gitHubToken') gitHubToken: string, @Res() res) {
+    const url = `${this.githubApiUrl}/user`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getOrganizations')
+  @HttpCode(200)
+  async getOrganizations(@Body('gitHubToken') gitHubToken: string, @Body('page') page: number, @Res() res) {
+    const url = `${this.githubApiUrl}/user/orgs?page=${page}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getOrgRepositories')
+  @HttpCode(200)
+  async getOrgRepositories(@Body('gitHubToken') gitHubToken: string, @Body('org') org: string, @Body('page') page: number, @Res() res) {
+    const url = `${this.githubApiUrl}/orgs/${org}/repos?page=${page}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getUserRepositories')
+  @HttpCode(200)
+  async getUserRepositories(@Body('gitHubToken') gitHubToken: string, @Body('page') page: number, @Res() res) {
+    const url = `${this.githubApiUrl}/user/repos?type=owner&page=${page}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getBranches')
+  @HttpCode(200)
+  async getBranches(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('page') page: number,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/branches?per_page=100&page=${page}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getWorkflowConfiguration')
+  @HttpCode(200)
+  async getWorkflowConfiguration(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('workflowYmlPath') workflowYmlPath: string,
+    @Body('branchName') branchName: string,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents/${workflowYmlPath}?ref=${branchName}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getAllWorkflowConfigurations')
+  @HttpCode(200)
+  async getAllWorkflowConfigurations(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('branchName') branchName: string,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents/.github/workflows?ref=${branchName}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/listWorkflowRuns')
+  @HttpCode(200)
+  async listWorkflowRuns(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('workflowFileName') workflowFileName: string,
+    @Body('page') page: number,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/workflows/${workflowFileName}/runs?page=${page}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/cancelWorkflowRun')
+  @HttpCode(200)
+  async cancelWorkflowRun(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('workflowId') workflowId: string,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${workflowId}/cancel`;
+    await this._makePostCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
   @Put('api/github/actionWorkflow')
   @HttpCode(200)
   async actionWorkflow(
@@ -452,6 +547,67 @@ export class GithubController {
       return this.configService.get('GITHUB_FOR_CREATES_CLIENT_SECRET');
     } else {
       return this.configService.get('GITHUB_FOR_CREATES_NATIONALCLOUDS_CLIENT_SECRET');
+    }
+  }
+
+  private async _makeGetCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res: any) {
+    try {
+      const response = await this.httpService.get(url, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+
+      if (response.headers.link) {
+        res.setHeader('link', response.headers.link);
+      }
+
+      if (response.headers['x-oauth-scopes']) {
+        res.setHeader(
+          'x-oauth-scopes',
+          response.headers['x-oauth-scopes']
+            .split(',')
+            .map((value: string) => value.trim())
+            .join(',')
+        );
+      }
+
+      res.json(response.data);
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
+  private async _makePostCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res: any) {
+    try {
+      const response = await this.httpService.post(
+        url,
+        {},
+        {
+          headers: this._getAuthorizationHeader(gitHubToken),
+        }
+      );
+      if (response.headers.link) {
+        res.setHeader('link', response.headers.link);
+      }
+
+      if (response.headers['x-oauth-scopes']) {
+        res.setHeader(
+          'x-oauth-scopes',
+          response.headers['x-oauth-scopes']
+            .split(',')
+            .map((value: string) => value.trim())
+            .join(',')
+        );
+      }
+
+      res.json(response.data);
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
     }
   }
 }
