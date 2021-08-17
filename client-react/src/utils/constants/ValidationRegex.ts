@@ -20,7 +20,7 @@ export class ValidationRegex {
     // eslint-disable-next-line no-useless-escape
     windowsCode: /^[\/\\](mounts)[\/\\][a-zA-Z0-9._\-\[\]\(\)]+[\/\\]*$/,
 
-    // Mount path for windows container can only contain can only contain letters, digits, (_), (-), (/), (\),
+    // Mount path for windows container can contain only letters, digits, (_), (-), (/), (\),
     // parentheses and square brackets. Drive letter (from c to z) is allowed as the prefix of the path. e.g c:/foo/bar/logs
     // /., \., [Cc-Zz]/. and [Cc-Zz]\. are invalid
     // /mounts, \mounts, c:/mounts, c:\mounts are invalid
