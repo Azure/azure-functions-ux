@@ -3,8 +3,9 @@ import { ArmArray, ArmObj } from '../models/arm-obj';
 import { ACRRegistry, ACRWebhookPayload, ACRCredential, ACRRepositories, ACRTags } from '../models/acr';
 import { CommonConstants } from '../utils/CommonConstants';
 import { HttpResponseObject } from '../ArmHelper.types';
-import { sendHttpRequest } from './HttpClient';
+import { getLastItemFromLinks, getLinksFromLinkHeader, sendHttpRequest } from './HttpClient';
 import Url from '../utils/url';
+import { Method } from 'axios';
 
 export default class ACRService {
   public static getRegistries(subscriptionId: string) {
@@ -64,6 +65,16 @@ export default class ACRService {
     return ACRService._dispatchPageableRequest<ACRRepositories>(loginServer, url, headers, logger);
   }
 
+  public static getRepositoriesWithoutPassthrough(loginServer: string, username: string, password: string, logger?: (page, error) => void) {
+    const encodedUserInfo = btoa(`${username}:${password}`);
+    const data = {
+      loginServer,
+      encodedUserInfo,
+    };
+
+    return ACRService._dispatchSpecificPageableRequest<ACRRepositories>(data, 'getRepositories', 'POST', logger);
+  }
+
   public static getTags(loginServer: string, repository: string, username: string, password: string, logger?: (page, error) => void) {
     const encoded = btoa(`${username}:${password}`);
 
@@ -75,6 +86,23 @@ export default class ACRService {
     const url = `https://${loginServer}/v2/${repository}/tags/list`;
 
     return this._dispatchPageableRequest<ACRTags>(loginServer, url, headers, logger);
+  }
+
+  public static getTagsWithoutPassthrough(
+    loginServer: string,
+    repository: string,
+    username: string,
+    password: string,
+    logger?: (page, error) => void
+  ) {
+    const encodedUserInfo = btoa(`${username}:${password}`);
+    const data = {
+      loginServer,
+      repository,
+      encodedUserInfo,
+    };
+
+    return ACRService._dispatchSpecificPageableRequest<ACRTags>(data, 'getTags', 'POST', logger);
   }
 
   private static async _dispatchPageableRequest<T>(
@@ -111,6 +139,43 @@ export default class ACRService {
 
     return items;
   }
+
+  private static async _dispatchSpecificPageableRequest<T>(
+    data: any,
+    apiName: string,
+    method: Method,
+    logger?: (page, error) => void
+  ): Promise<T[]> {
+    const acrObjectList: T[] = [];
+    let nextLink = '';
+    do {
+      nextLink = '';
+      const pageResponse = await this._sendSpecificACRRequest<T>(data, apiName, method);
+      if (pageResponse.metadata.success) {
+        acrObjectList.push(pageResponse.data);
+
+        const linkHeader = pageResponse.metadata.headers.link;
+        if (!!linkHeader) {
+          const links = getLinksFromLinkHeader(linkHeader);
+          const lastItem = getLastItemFromLinks(links);
+          data.last = !!lastItem ? lastItem : '';
+          nextLink = !!links && !!links.next ? links.next : '';
+        }
+      } else if (logger) {
+        logger(nextLink, pageResponse);
+      }
+    } while (nextLink);
+
+    return acrObjectList;
+  }
+
+  private static _sendSpecificACRRequest = <T>(data: any, apiName: string, method: Method) => {
+    return sendHttpRequest<T>({
+      data,
+      url: `${Url.serviceHost}api/acr/${apiName}`,
+      method,
+    });
+  };
 
   private static _generatePassthroughObject(url: string, headers: { [key: string]: string }) {
     return {
