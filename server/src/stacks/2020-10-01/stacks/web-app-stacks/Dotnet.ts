@@ -192,6 +192,7 @@ export const dotnetStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '2.1',
               remoteDebuggingSupported: false,
+              isDeprecated: true,
               appInsightsSettings: {
                 isSupported: true,
               },
@@ -204,6 +205,7 @@ export const dotnetStack: WebAppStack = {
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|2.1',
               remoteDebuggingSupported: false,
+              isDeprecated: true,
               appInsightsSettings: {
                 isSupported: false,
               },
