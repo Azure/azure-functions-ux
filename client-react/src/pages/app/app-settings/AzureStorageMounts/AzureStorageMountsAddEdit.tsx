@@ -17,6 +17,7 @@ import Url from '../../../../utils/url';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { style } from 'typestyle';
 import { SiteStateContext } from '../../../../SiteState';
+import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
@@ -54,6 +55,13 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     closeBlade();
   };
 
+  const isContainerAtPublicCloud = () => {
+    const isPublicCloud = !NationalCloudEnvironment.isNationalCloud();
+    const isContainer = !!siteState ? siteState.isContainerApp : false;
+
+    return isPublicCloud && isContainer;
+  };
+
   const getLinuxMountPathValidation = (value: string): boolean => {
     if (!siteState) {
       return true;
@@ -89,7 +97,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     let valid = true;
     if (siteState.isLinuxApp) {
       valid = getLinuxMountPathValidation(value);
-    } else if (isValidationEnabled) {
+    } else if (isContainerAtPublicCloud() || isValidationEnabled) {
       valid = getWindowsMountPathValidation(value);
     }
     return valid ? undefined : t('validation_invalidMountPath');
@@ -102,6 +110,8 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     let mountPathInfoBubble;
     if (siteState.isLinuxApp) {
       mountPathInfoBubble = MountPathExamples.linux;
+    } else if (isContainerAtPublicCloud()) {
+      mountPathInfoBubble = MountPathExamples.windowsContainer;
     } else if (isValidationEnabled) {
       mountPathInfoBubble = siteState.isContainerApp ? MountPathExamples.windowsContainer : MountPathExamples.windowsCode;
     } else {
@@ -133,7 +143,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       );
     });
 
-  if (!isValidationEnabled && !!siteState && !siteState.isLinuxApp) {
+  if (!isValidationEnabled && !!siteState && !siteState.isLinuxApp && !isContainerAtPublicCloud()) {
     mountPathValidation = mountPathValidation
       .matches(mountPathRegex, t('validation_mountNameAllowedCharacters'))
       .test('cannotMountRootDirectory', t('validation_mountPathNotRoot'), (value: string) => value !== '/');
