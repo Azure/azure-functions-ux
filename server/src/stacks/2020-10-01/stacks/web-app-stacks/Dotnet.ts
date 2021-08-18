@@ -2,7 +2,7 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 
 const dotnetCore3Point0EOL = new Date(2020, 3, 3).toString();
 const dotnetCore2Point2EOL = new Date(2019, 12, 23).toString();
-const dotnetCore2Point1EOL = new Date(2021, 8, 21).toString();
+const dotnetCore2Point1EOL = new Date(2021, 7, 21).toString();
 const dotnetCore2Point0EOL = new Date(2018, 10, 1).toString();
 const dotnetCore1EOL = new Date(2019, 6, 27).toString();
 
@@ -192,6 +192,7 @@ export const dotnetStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '2.1',
               remoteDebuggingSupported: false,
+              isDeprecated: true,
               appInsightsSettings: {
                 isSupported: true,
               },
@@ -204,6 +205,7 @@ export const dotnetStack: WebAppStack = {
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|2.1',
               remoteDebuggingSupported: false,
+              isDeprecated: true,
               appInsightsSettings: {
                 isSupported: false,
               },
