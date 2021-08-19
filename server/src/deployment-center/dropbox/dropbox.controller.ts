@@ -16,30 +16,6 @@ export class DropboxController {
     private httpService: HttpService
   ) {}
 
-  @Post('api/dropbox/passthrough')
-  @HttpCode(200)
-  async passthrough(
-    @Body('dropBoxToken') dropBoxToken: string,
-    @Body('url') url: string,
-    @Body('content_type') contentType: string,
-    @Body('arg') arg
-  ) {
-    try {
-      const response = await this.httpService.post(url, arg, {
-        headers: {
-          Authorization: `Bearer ${dropBoxToken}`,
-          'Content-Type': contentType || '',
-        },
-      });
-      return response.data;
-    } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
-    }
-  }
-
   @Get('auth/dropbox/authorize')
   async authorize(@Session() session, @Response() res) {
     let stateKey = '';
