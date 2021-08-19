@@ -47,7 +47,7 @@ const WindowsStacks: React.FC<StackProps> = props => {
       });
   };
 
-  const setInitialStackDropdownValues = (values: AppSettingsFormValues) => {
+  const setStackDropdownValues = (values: AppSettingsFormValues) => {
     setStackDropdownValue(
       values.currentlySelectedStack.toLowerCase() === RuntimeStacks.dotnetcore ? RuntimeStacks.dotnet : values.currentlySelectedStack
     );
@@ -60,10 +60,10 @@ const WindowsStacks: React.FC<StackProps> = props => {
   };
 
   useEffect(() => {
-    setInitialStackDropdownValues(initialValues);
+    setStackDropdownValues(values);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialValues.currentlySelectedStack]);
+  }, [values, values.currentlySelectedStack]);
   return (
     <>
       <DropdownNoFormik
