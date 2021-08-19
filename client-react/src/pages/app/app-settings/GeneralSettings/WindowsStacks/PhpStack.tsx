@@ -64,7 +64,7 @@ const PhpStack: React.SFC<StackProps> = props => {
     setStackBannerAndInfoMessage();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values.config.properties.linuxFxVersion]);
+  }, [values.config.properties.phpVersion]);
 
   if (!phpStack) {
     return null;

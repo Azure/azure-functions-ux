@@ -81,7 +81,7 @@ const DotNetStack: React.SFC<StackProps> = props => {
     }
   };
 
-  const setInitialDropdownValues = (values: AppSettingsFormValues) => {
+  const setDropdownValues = (values: AppSettingsFormValues) => {
     setVersionDropdownValue(undefined);
 
     // NOTE (krmitta): If we see either "dotnet" or "dotnetcore" in the metadata,
@@ -112,10 +112,10 @@ const DotNetStack: React.SFC<StackProps> = props => {
         });
       }
     }
-    setInitialDropdownValueFromMetada(values);
+    setDropdownValueFromMetadata(values);
   };
 
-  const setInitialDropdownValueFromMetada = (values: AppSettingsFormValues) => {
+  const setDropdownValueFromMetadata = (values: AppSettingsFormValues) => {
     if (values.currentlySelectedStack.toLowerCase() === RuntimeStacks.dotnetcore) {
       setVersionDropdownValue(RuntimeStacks.dotnetcore);
     } else {
@@ -124,10 +124,10 @@ const DotNetStack: React.SFC<StackProps> = props => {
   };
 
   useEffect(() => {
-    setInitialDropdownValues(initialValues);
+    setDropdownValues(values);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialValues.config.properties.netFrameworkVersion, initialValues.currentlySelectedStack]);
+  }, [values, values.config.properties.netFrameworkVersion, values.currentlySelectedStack]);
   useEffect(() => {
     setStackBannerAndInfoMessage();
 
