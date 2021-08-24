@@ -504,9 +504,7 @@ export class GithubController {
   }
 
   private _getRedirectUri(host: string): string {
-    const redirectUri =
-      this.configService.get('GITHUB_REDIRECT_URL') ||
-      `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Prod]}/auth/github/callback`;
+    const redirectUri = `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Dev]}/auth/github/callback`;
 
     const [redirectUriToLower, hostUrlToLower] = [redirectUri.toLocaleLowerCase(), `https://${host}`.toLocaleLowerCase()];
     const [redirectEnv, clientEnv] = [this._getEnvironment(redirectUriToLower), this._getEnvironment(hostUrlToLower)];

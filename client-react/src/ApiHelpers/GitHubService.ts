@@ -15,7 +15,8 @@ import { ProviderToken } from '../models/provider';
 import { Method } from 'axios';
 
 export default class GitHubService {
-  public static authorizeUrl = `${Url.serviceHost}auth/github/authorize`;
+  public static serviceHost = GitHubService.serviceHost.replace('44400', '44300');
+  public static authorizeUrl = `${GitHubService.serviceHost}auth/github/authorize`;
 
   public static getUser = (gitHubToken: string) => {
     const data = {
@@ -23,7 +24,7 @@ export default class GitHubService {
       gitHubToken,
     };
 
-    return sendHttpRequest<GitHubUser>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+    return sendHttpRequest<GitHubUser>({ url: `${GitHubService.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
   public static getUserWithoutPassthrough = (gitHubToken: string) => {
@@ -31,7 +32,7 @@ export default class GitHubService {
       gitHubToken,
     };
 
-    return sendHttpRequest<GitHubUser>({ url: `${Url.serviceHost}api/github/getUser`, method: 'POST', data });
+    return sendHttpRequest<GitHubUser>({ url: `${GitHubService.serviceHost}api/github/getUser`, method: 'POST', data });
   };
 
   public static getToken = (redirectUrl: string): Promise<HttpResponseObject<ProviderToken>> => {
@@ -39,14 +40,14 @@ export default class GitHubService {
       redirUrl: redirectUrl,
     };
 
-    return sendHttpRequest<ProviderToken>({ url: `${Url.serviceHost}auth/github/getToken`, method: 'POST', data });
+    return sendHttpRequest<ProviderToken>({ url: `${GitHubService.serviceHost}auth/github/getToken`, method: 'POST', data });
   };
 
   public static resetToken = (gitHubToken: string): Promise<HttpResponseObject<ProviderToken>> => {
     const data = {
       gitHubToken,
     };
-    return sendHttpRequest<ProviderToken>({ url: `${Url.serviceHost}api/github/resetToken`, method: 'PATCH', data });
+    return sendHttpRequest<ProviderToken>({ url: `${GitHubService.serviceHost}api/github/resetToken`, method: 'PATCH', data });
   };
 
   public static getOrganizations = (gitHubToken: string) => {
@@ -55,7 +56,7 @@ export default class GitHubService {
       gitHubToken,
     };
 
-    return sendHttpRequest<GitHubOrganizations[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+    return sendHttpRequest<GitHubOrganizations[]>({ url: `${GitHubService.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
   public static getOrganizationsWithoutPassthrough = (gitHubToken: string, logger?: (page, response) => void) => {
@@ -120,7 +121,7 @@ export default class GitHubService {
       gitHubToken,
     };
 
-    return sendHttpRequest<FileContent[]>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+    return sendHttpRequest<FileContent[]>({ url: `${GitHubService.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
   public static getAllWorkflowConfigurationsWithoutPassthrough = (org: string, repo: string, branchName: string, gitHubToken: string) => {
@@ -131,7 +132,11 @@ export default class GitHubService {
       branchName,
     };
 
-    return sendHttpRequest<FileContent[]>({ url: `${Url.serviceHost}api/github/getAllWorkflowConfigurations`, method: 'POST', data });
+    return sendHttpRequest<FileContent[]>({
+      url: `${GitHubService.serviceHost}api/github/getAllWorkflowConfigurations`,
+      method: 'POST',
+      data,
+    });
   };
 
   public static getWorkflowConfiguration = (
@@ -146,7 +151,7 @@ export default class GitHubService {
       gitHubToken,
     };
 
-    return sendHttpRequest<FileContent>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+    return sendHttpRequest<FileContent>({ url: `${GitHubService.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
   public static getWorkflowConfigurationWithoutPassthrough = (
@@ -165,7 +170,7 @@ export default class GitHubService {
       branchName,
     };
 
-    return sendHttpRequest<FileContent>({ url: `${Url.serviceHost}api/github/getWorkflowConfiguration`, method: 'POST', data });
+    return sendHttpRequest<FileContent>({ url: `${GitHubService.serviceHost}api/github/getWorkflowConfiguration`, method: 'POST', data });
   };
 
   public static deleteActionWorkflow = (
@@ -194,7 +199,7 @@ export default class GitHubService {
       deleteCommit,
     };
 
-    return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/deleteActionWorkflow`, method: 'POST', data });
+    return sendHttpRequest<void>({ url: `${GitHubService.serviceHost}api/github/deleteActionWorkflow`, method: 'POST', data });
   };
 
   public static createOrUpdateActionWorkflow = (
@@ -210,7 +215,7 @@ export default class GitHubService {
       replacementPublishUrl,
     };
 
-    return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/actionWorkflow`, method: 'PUT', data });
+    return sendHttpRequest<void>({ url: `${GitHubService.serviceHost}api/github/actionWorkflow`, method: 'PUT', data });
   };
 
   public static dispatchWorkflow = (gitHubToken: string, branch: string, repo: string, workflowFileName: string) => {
@@ -222,7 +227,7 @@ export default class GitHubService {
       },
     };
 
-    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/dispatchWorkflow`, method: 'POST', data });
+    return sendHttpRequest<any>({ url: `${GitHubService.serviceHost}api/github/dispatchWorkflow`, method: 'POST', data });
   };
 
   public static listWorkflowRuns = (gitHubToken: string, org: string, repo: string, workflowFileName: string) => {
@@ -232,7 +237,7 @@ export default class GitHubService {
       gitHubToken,
     };
 
-    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+    return sendHttpRequest<any>({ url: `${GitHubService.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
   public static listWorkflowRunsWithoutPassthrough = (gitHubToken: string, org: string, repo: string, workflowFileName: string) => {
@@ -244,7 +249,7 @@ export default class GitHubService {
       page: 1,
     };
 
-    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/listWorkflowRuns`, method: 'POST', data });
+    return sendHttpRequest<any>({ url: `${GitHubService.serviceHost}api/github/listWorkflowRuns`, method: 'POST', data });
   };
 
   public static cancelWorkflowRun = (gitHubToken: string, url: string) => {
@@ -254,7 +259,7 @@ export default class GitHubService {
       method: 'POST',
     };
 
-    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/passthrough`, method: 'POST', data });
+    return sendHttpRequest<any>({ url: `${GitHubService.serviceHost}api/github/passthrough`, method: 'POST', data });
   };
 
   public static cancelWorkflowRunWithoutPassthorugh = (gitHubToken: string, url: string) => {
@@ -270,7 +275,7 @@ export default class GitHubService {
       workflowId: workflowId,
     };
 
-    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/cancelWorkflowRun`, method: 'POST', data });
+    return sendHttpRequest<any>({ url: `${GitHubService.serviceHost}api/github/cancelWorkflowRun`, method: 'POST', data });
   };
 
   private static _getGitHubObjectList = async <T>(url: string, gitHubToken: string, logger?: (page, response) => void) => {
@@ -303,7 +308,7 @@ export default class GitHubService {
 
     return sendHttpRequest<T>({
       data,
-      url: `${Url.serviceHost}api/github/passthrough`,
+      url: `${GitHubService.serviceHost}api/github/passthrough`,
       method: 'POST',
     });
   };
@@ -339,7 +344,7 @@ export default class GitHubService {
   private static _sendSpecificGitHubRequest = <T>(data: any, apiName: string, method: Method) => {
     return sendHttpRequest<T>({
       data,
-      url: `${Url.serviceHost}api/github/${apiName}`,
+      url: `${GitHubService.serviceHost}api/github/${apiName}`,
       method,
     });
   };
