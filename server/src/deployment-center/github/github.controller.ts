@@ -272,22 +272,17 @@ export class GithubController {
   }
 
   @Get('auth/github/callback')
-  callback() {
-    return 'Successfully Authenticated. Redirecting...';
+  async callback(@Headers('host') host: string, @Res() res, @Query('code') code, @Query('state') state) {
+    if (host.indexOf('localhost') !== -1) {
+      res.redirect(`https://localhost:44400/auth/github/callback?code=${code}&state=${state}`);
+    } else {
+      return 'Successfully Authenticated. Redirecting...';
+    }
   }
 
   @Post('auth/github/getToken')
   @HttpCode(200)
   async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
-    const state = this.dcService.getParameterByName('state', redirUrl);
-    if (
-      !session ||
-      !session[Constants.oauthApis.github_state_key] ||
-      this.dcService.hashStateGuid(session[Constants.oauthApis.github_state_key]) !== state
-    ) {
-      this.loggingService.error({}, '', 'github-invalid-sate-key');
-      throw new HttpException('Not Authorized', 403);
-    }
     const code = this.dcService.getParameterByName('code', redirUrl);
 
     try {
@@ -452,9 +447,7 @@ export class GithubController {
   }
 
   private _getRedirectUri(host: string): string {
-    const redirectUri =
-      this.configService.get('GITHUB_REDIRECT_URL') ||
-      `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Prod]}/auth/github/callback`;
+    const redirectUri = `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Dev]}/auth/github/callback`;
 
     const [redirectUriToLower, hostUrlToLower] = [redirectUri.toLocaleLowerCase(), `https://${host}`.toLocaleLowerCase()];
     const [redirectEnv, clientEnv] = [this._getEnvironment(redirectUriToLower), this._getEnvironment(hostUrlToLower)];
@@ -515,21 +508,11 @@ export class GithubController {
   }
 
   private _getGitHubClientId(): string {
-    const config = this.staticReactConfig;
-    if (config.env && config.env.cloud === CloudType.public) {
-      return this.configService.get('GITHUB_CLIENT_ID');
-    } else {
-      return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_ID');
-    }
+    return 'YOUR CLIENT ID';
   }
 
   private _getGitHubClientSecret(): string {
-    const config = this.staticReactConfig;
-    if (config.env && config.env.cloud === CloudType.public) {
-      return this.configService.get('GITHUB_CLIENT_SECRET');
-    } else {
-      return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_SECRET');
-    }
+    return 'YOUR CLIENT SECRET';
   }
 
   private _getGitHubForCreatesClientId() {

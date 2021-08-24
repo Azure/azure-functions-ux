@@ -227,15 +227,19 @@ export const authorizeWithProvider = (
 
     // Check for authorization status every 100 ms.
     const timerId = setInterval(() => {
-      if (oauthWindow && oauthWindow.document && oauthWindow.document.URL && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
-        resolve({
-          timerId,
-          redirectUrl: oauthWindow.document.URL,
-        });
-      } else if (oauthWindow && oauthWindow.closed) {
-        resolve({
-          timerId,
-        });
+      try {
+        if (oauthWindow && oauthWindow.document && oauthWindow.document.URL && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
+          resolve({
+            timerId,
+            redirectUrl: oauthWindow.document.URL,
+          });
+        } else if (oauthWindow && oauthWindow.closed) {
+          resolve({
+            timerId,
+          });
+        }
+      } catch {
+        // do nothing
       }
     }, 100);
 

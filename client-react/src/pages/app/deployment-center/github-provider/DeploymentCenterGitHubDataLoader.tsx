@@ -145,7 +145,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
       deploymentCenterData
-        .getGitHubToken(authorizationResult.redirectUrl)
+        .getGitHubToken(authorizationResult.redirectUrl.replace('44400', '44300'))
         .then(response => {
           if (response.metadata.success) {
             deploymentCenterData.storeGitHubToken(response.data);
