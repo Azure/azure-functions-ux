@@ -298,15 +298,6 @@ export class GithubController {
   @Post('auth/github/getToken')
   @HttpCode(200)
   async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
-    const state = this.dcService.getParameterByName('state', redirUrl);
-    if (
-      !session ||
-      !session[Constants.oauthApis.github_state_key] ||
-      this.dcService.hashStateGuid(session[Constants.oauthApis.github_state_key]) !== state
-    ) {
-      this.loggingService.error({}, '', 'github-invalid-sate-key');
-      throw new HttpException('Not Authorized', 403);
-    }
     const code = this.dcService.getParameterByName('code', redirUrl);
 
     try {
