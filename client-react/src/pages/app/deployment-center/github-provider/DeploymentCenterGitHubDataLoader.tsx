@@ -30,7 +30,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [loadingRepositories, setLoadingRepositories] = useState(false);
   const [loadingBranches, setLoadingBranches] = useState(false);
   const [hasDeprecatedToken, setHasDeprecatedToken] = useState(false);
-
   const gitHubOrgToUrlMapping = useRef<{ [key: string]: string }>({});
 
   const fetchOrganizationOptions = async () => {

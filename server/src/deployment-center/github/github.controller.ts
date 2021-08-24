@@ -287,8 +287,12 @@ export class GithubController {
   }
 
   @Get('auth/github/callback')
-  callback() {
-    return 'Successfully Authenticated. Redirecting...';
+  async callback(@Headers('host') host: string, @Res() res, @Query('code') code, @Query('state') state) {
+    if (host.indexOf('localhost') !== -1) {
+      res.redirect(`https://localhost:44400/auth/github/callback?code=${code}&state=${state}`);
+    } else {
+      return 'Successfully Authenticated. Redirecting...';
+    }
   }
 
   @Post('auth/github/getToken')
