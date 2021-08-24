@@ -15,7 +15,7 @@ import { ProviderToken } from '../models/provider';
 import { Method } from 'axios';
 
 export default class GitHubService {
-  public static serviceHost = GitHubService.serviceHost.replace('44400', '44300');
+  public static serviceHost = Url.serviceHost.replace('44400', '44300');
   public static authorizeUrl = `${GitHubService.serviceHost}auth/github/authorize`;
 
   public static getUser = (gitHubToken: string) => {
