@@ -3,7 +3,7 @@ import DeploymentCenterGitHubProvider from './DeploymentCenterGitHubProvider';
 import { GitHubUser } from '../../../../models/github';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import GitHubService from '../../../../ApiHelpers/GitHubService';
+// import GitHubService from '../../../../ApiHelpers/GitHubService';
 import { DeploymentCenterFieldProps, AuthorizationResult } from '../DeploymentCenter.types';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
@@ -29,6 +29,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [loadingOrganizations, setLoadingOrganizations] = useState(false);
   const [loadingRepositories, setLoadingRepositories] = useState(false);
   const [loadingBranches, setLoadingBranches] = useState(false);
+  const [hasDeprecatedToken, setHasDeprecatedToken] = useState(false);
 
   const gitHubOrgToUrlMapping = useRef<{ [key: string]: string }>({});
 
@@ -139,7 +140,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   const authorizeGitHubAccount = () => {
     portalContext.log(getTelemetryInfo('info', 'gitHubAccount', 'authorize'));
-    authorizeWithProvider(GitHubService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
+    authorizeWithProvider('https://localhost:44300/auth/github/authorize', startingAuthCallback, completingAuthCallBack);
   };
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
@@ -168,12 +169,46 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setGitHubAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
   };
 
+  const resetToken = async () => {
+    // portalContext.log(getTelemetryInfo('info', 'resetGitHubToken', 'authorize', {
+    //   'message' : 'User has deprecated github oauth token format, resetting their access token'
+    // }));
+    // portalContext.log(getTelemetryInfo('info', 'authorizing git hub account?', 'authorize', {
+    //   'message' : 'Trying to authorize git hub account before resetting the token'
+    // }));
+    // authorizeGitHubAccount();
+    if (gitHubUser && deploymentCenterContext.gitHubToken) {
+      const response = await deploymentCenterData.resetToken(deploymentCenterContext.gitHubToken);
+      if (response.metadata.success) {
+        deploymentCenterData.storeGitHubToken(response.data);
+      } else {
+        portalContext.log(
+          getTelemetryInfo('error', 'resetToken', 'failed', {
+            errorAsString: JSON.stringify(response.metadata.error),
+          })
+        );
+      }
+    }
+  };
+
   // TODO(michinoy): We will need to add methods here to manage github specific network calls such as:
   // repos, orgs, branches, workflow file, etc.
 
   const fetchData = async () => {
     portalContext.log(getTelemetryInfo('info', 'getGitHubUser', 'submit'));
     const gitHubUserResponse = await deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken);
+
+    // TODO(yoonaoh): Remove this later
+    // deploymentCenterContext.gitHubToken = "lsdkjfalsdkjflasdkjfaldkj";
+
+    if (deploymentCenterContext.gitHubToken.startsWith('gho')) {
+      portalContext.log(
+        getTelemetryInfo('warning', 'checkDeprecatedToken', 'submit', {
+          resourceId: deploymentCenterContext.resourceId,
+        })
+      );
+      setHasDeprecatedToken(true);
+    }
 
     setGitHubAccountStatusMessage(undefined);
 
@@ -229,6 +264,8 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       loadingOrganizations={loadingOrganizations}
       loadingRepositories={loadingRepositories}
       loadingBranches={loadingBranches}
+      hasDeprecatedToken={hasDeprecatedToken}
+      resetToken={resetToken}
     />
   );
 };

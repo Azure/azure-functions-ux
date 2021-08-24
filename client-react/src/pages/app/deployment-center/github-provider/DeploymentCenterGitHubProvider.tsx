@@ -1,14 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterGitHubAccount from './DeploymentCenterGitHubAccount';
 import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
 import { Field } from 'formik';
 import { SiteStateContext } from '../../../../SiteState';
 import ComboBox from '../../../../components/form-controls/ComboBox';
+import { Dialog, DialogFooter, DialogType, MessageBar, MessageBarType, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 
 const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderProps> = props => {
   const { t } = useTranslation();
   const siteStateContext = useContext(SiteStateContext);
+  const [hideDialog, toggleHideDialog] = useState(true);
 
   const {
     formProps,
@@ -19,13 +22,48 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
     loadingOrganizations,
     loadingRepositories,
     loadingBranches,
+    hasDeprecatedToken,
+    resetToken,
   } = props;
+
+  const deprecatedTokensBanner = hasDeprecatedToken ? (
+    <div id="deployment-center-deprecated-tokens-banner" className={deploymentCenterInfoBannerDiv} onClick={() => toggleHideDialog(false)}>
+      <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
+        {`${t('deploymentCenterDeprecatedTokenWarningMessage')}`}
+      </MessageBar>
+    </div>
+  ) : (
+    <></>
+  );
+
+  const deprecatedTokensDialog = hasDeprecatedToken ? (
+    <div>
+      <Dialog
+        hidden={hideDialog}
+        onDismiss={() => toggleHideDialog(true)}
+        dialogContentProps={{
+          type: DialogType.normal,
+          title: `${t('deploymentCenterDeprecatedTokenDialogTitle')}`,
+          subText: `${t('deploymentCenterDeprecatedTokenDialogBody')}`,
+        }}>
+        <DialogFooter>
+          <PrimaryButton onClick={resetToken} text={`${t('update')}`} />
+          <DefaultButton onClick={() => toggleHideDialog(true)} text={`${t('cancel')}`} />
+        </DialogFooter>
+      </Dialog>
+    </div>
+  ) : (
+    <></>
+  );
 
   return (
     <>
       <h3>{siteStateContext.isContainerApp ? t('deploymentCenterContainerGitHubActionsTitle') : t('deploymentCenterCodeGitHubTitle')}</h3>
 
       <DeploymentCenterGitHubAccount {...props} />
+
+      {deprecatedTokensBanner}
+      {deprecatedTokensDialog}
 
       {accountUser && accountUser.login && (
         <>

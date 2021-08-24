@@ -1,4 +1,19 @@
-import { Controller, Post, Body, HttpException, Response, Get, Session, HttpCode, Res, Put, Query, Headers, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpException,
+  Response,
+  Get,
+  Session,
+  HttpCode,
+  Res,
+  Put,
+  Query,
+  Headers,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
 import { LoggingService } from '../../shared/logging/logging.service';
@@ -343,6 +358,48 @@ export class GithubController {
     }
   }
 
+  @Patch('api/github/resetToken')
+  @HttpCode(200)
+  async resetToken(@Body('gitHubToken') gitHubToken: string) {
+    try {
+      // Use basic authentication first to access endpoint
+
+      // FOR PROD PURPOSES
+      const basicAuthValue = Buffer.from(`${this._getGitHubClientId()}:${this._getGitHubClientSecret()}`).toString('base64');
+      const newToken = await this.httpService.patch(
+        `${this.githubApiUrl}/applications/${this._getGitHubClientId()}/token`,
+        {
+          access_token: gitHubToken,
+        },
+        {
+          headers: { Authorization: `Basic ${basicAuthValue}` },
+        }
+      );
+
+      // FOR LOCAL TESTING PURPOSES
+      // const basicAuthValue = Buffer.from(`${this.configService.get('GITHUB_CLIENT_ID')}:${this.configService.get('GITHUB_CLIENT_SECRET')}`).toString('base64');
+      // const newToken = await this.httpService.patch(`${this.githubApiUrl}/applications/${this.configService.get('GITHUB_CLIENT_ID')}/token`, {
+      //   access_token: gitHubToken
+      // },{
+      //   headers: { Authorization: `Basic ${basicAuthValue}`}
+      // });
+      return {
+        accessToken: newToken,
+        refreshToken: null,
+        environment: null,
+      };
+    } catch (err) {
+      this.loggingService.error(`Failed to refresh token for ${this._getGitHubClientId()}.`);
+      // this.loggingService.error(`Failed to refresh token for ${this.configService.get('GITHUB_CLIENT_ID')}.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      } else {
+        throw new HttpException(err, 500);
+      }
+    }
+  }
+
   private _getAuthorizationHeader(accessToken: string): { Authorization: string } {
     return {
       Authorization: `token ${accessToken}`,
@@ -515,21 +572,23 @@ export class GithubController {
   }
 
   private _getGitHubClientId(): string {
-    const config = this.staticReactConfig;
-    if (config.env && config.env.cloud === CloudType.public) {
-      return this.configService.get('GITHUB_CLIENT_ID');
-    } else {
-      return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_ID');
-    }
+    return this.configService.get('GITHUB_CLIENT_ID');
+    // const config = this.staticReactConfig;
+    // if (config.env && config.env.cloud === CloudType.public) {
+    //   return this.configService.get('GITHUB_CLIENT_ID');
+    // } else {
+    //   return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_ID');
+    // }
   }
 
   private _getGitHubClientSecret(): string {
-    const config = this.staticReactConfig;
-    if (config.env && config.env.cloud === CloudType.public) {
-      return this.configService.get('GITHUB_CLIENT_SECRET');
-    } else {
-      return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_SECRET');
-    }
+    return this.configService.get('GITHUB_CLIENT_SECRET');
+    // const config = this.staticReactConfig;
+    // if (config.env && config.env.cloud === CloudType.public) {
+    //   return this.configService.get('GITHUB_CLIENT_SECRET');
+    // } else {
+    //   return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_SECRET');
+    // }
   }
 
   private _getGitHubForCreatesClientId() {
