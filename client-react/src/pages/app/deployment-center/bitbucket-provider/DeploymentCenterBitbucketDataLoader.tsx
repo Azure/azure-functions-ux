@@ -125,21 +125,18 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      deploymentCenterData
-        .getBitbucketToken(authorizationResult.redirectUrl)
-        .then(response => {
-          if (response.metadata.success) {
-            deploymentCenterData.storeBitbucketToken(response.data);
-          } else {
-            portalContext.log(
-              getTelemetryInfo('error', 'getBitBucketTokenResponse', 'failed', {
-                error: response.metadata.error,
-              })
-            );
-            return Promise.resolve(undefined);
-          }
-        })
-        .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+      deploymentCenterData.getBitbucketToken(authorizationResult.redirectUrl).then(response => {
+        if (response.metadata.success) {
+          deploymentCenterData.storeBitbucketToken(response.data).then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'getBitBucketTokenResponse', 'failed', {
+              error: response.metadata.error,
+            })
+          );
+          return Promise.resolve(undefined);
+        }
+      });
     } else {
       return fetchData();
     }
