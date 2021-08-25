@@ -53,19 +53,6 @@ export default class ACRService {
   }
 
   public static getRepositories(loginServer: string, username: string, password: string, logger?: (page, error) => void) {
-    const encoded = btoa(`${username}:${password}`);
-
-    const headers = {
-      Authorization: `Basic ${encoded}`,
-      'Content-Type': 'application/json',
-    };
-
-    const url = `https://${loginServer}/v2/_catalog`;
-
-    return ACRService._dispatchPageableRequest<ACRRepositories>(loginServer, url, headers, logger);
-  }
-
-  public static getRepositoriesWithoutPassthrough(loginServer: string, username: string, password: string, logger?: (page, error) => void) {
     const encodedUserInfo = btoa(`${username}:${password}`);
     const data = {
       loginServer,
@@ -76,25 +63,6 @@ export default class ACRService {
   }
 
   public static getTags(loginServer: string, repository: string, username: string, password: string, logger?: (page, error) => void) {
-    const encoded = btoa(`${username}:${password}`);
-
-    const headers = {
-      Authorization: `Basic ${encoded}`,
-      'Content-Type': 'application/json',
-    };
-
-    const url = `https://${loginServer}/v2/${repository}/tags/list`;
-
-    return this._dispatchPageableRequest<ACRTags>(loginServer, url, headers, logger);
-  }
-
-  public static getTagsWithoutPassthrough(
-    loginServer: string,
-    repository: string,
-    username: string,
-    password: string,
-    logger?: (page, error) => void
-  ) {
     const encodedUserInfo = btoa(`${username}:${password}`);
     const data = {
       loginServer,
@@ -103,41 +71,6 @@ export default class ACRService {
     };
 
     return ACRService._dispatchSpecificPageableRequest<ACRTags>(data, 'getTags', 'POST', logger);
-  }
-
-  private static async _dispatchPageableRequest<T>(
-    loginServer: string,
-    originalUrl: string,
-    headers: { [key: string]: string },
-    logger?: (page, error) => void
-  ): Promise<T[]> {
-    const items: T[] = [];
-    let nextLink = originalUrl;
-    let page = 1;
-    do {
-      const passThroughUrl = `/api/passthrough?q=${nextLink}`;
-      const data = ACRService._generatePassthroughObject(nextLink, headers);
-
-      const response = await sendHttpRequest<T>({
-        data,
-        url: `${Url.serviceHost}${passThroughUrl}`,
-        method: 'POST',
-      });
-
-      if (response.metadata.success) {
-        nextLink = ACRService._getNextLink(loginServer, response);
-        items.push(response.data);
-      } else {
-        nextLink = '';
-        if (logger) {
-          logger(page, response);
-        }
-      }
-
-      page = page + 1;
-    } while (nextLink);
-
-    return items;
   }
 
   private static async _dispatchSpecificPageableRequest<T>(
@@ -176,15 +109,6 @@ export default class ACRService {
       method,
     });
   };
-
-  private static _generatePassthroughObject(url: string, headers: { [key: string]: string }) {
-    return {
-      method: 'GET',
-      url: url,
-      body: null,
-      headers: headers,
-    };
-  }
 
   public static _getNextLink(loginServer: string, response: HttpResponseObject<unknown>): string {
     if (response && response.metadata.success) {

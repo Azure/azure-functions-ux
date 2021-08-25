@@ -12,25 +12,7 @@ export class BitbucketsController {
     private configService: ConfigService,
     private loggingService: LoggingService,
     private httpService: HttpService
-  ) { }
-
-  @Post('api/bitbucket/passthrough')
-  @HttpCode(200)
-  async passthrough(@Body('bitBucketToken') bitBucketToken: string, @Body('url') url: string) {
-    try {
-      const response = await this.httpService.get(url, {
-        headers: {
-          Authorization: `Bearer ${bitBucketToken}`,
-        },
-      });
-      return response.data;
-    } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
-    }
-  }
+  ) {}
 
   @Get('auth/bitbucket/authorize')
   async authorize(@Session() session, @Response() res) {
@@ -59,11 +41,7 @@ export class BitbucketsController {
 
   @Post('auth/bitbucket/getToken')
   @HttpCode(200)
-  async getToken(
-    @Session() session,
-    @Body('redirUrl') redirUrl: string,
-    @Headers('origin') origin: string
-  ) {
+  async getToken(@Session() session, @Body('redirUrl') redirUrl: string, @Headers('origin') origin: string) {
     const state = this.dcService.getParameterByName('state', redirUrl);
     const environment = this.dcService.getEnvironment(origin);
     if (!environment) {
@@ -96,7 +74,7 @@ export class BitbucketsController {
       return {
         accessToken: r.data.access_token,
         refreshToken: r.data.refresh_token,
-        environment: environment
+        environment: environment,
       };
     } catch (err) {
       if (err.response) {
