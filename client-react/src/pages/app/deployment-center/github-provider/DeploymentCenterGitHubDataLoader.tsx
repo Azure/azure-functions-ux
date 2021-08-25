@@ -3,7 +3,7 @@ import DeploymentCenterGitHubProvider from './DeploymentCenterGitHubProvider';
 import { GitHubUser } from '../../../../models/github';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterData from '../DeploymentCenter.data';
-// import GitHubService from '../../../../ApiHelpers/GitHubService';
+import GitHubService from '../../../../ApiHelpers/GitHubService';
 import { DeploymentCenterFieldProps, AuthorizationResult } from '../DeploymentCenter.types';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
@@ -30,6 +30,8 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [loadingRepositories, setLoadingRepositories] = useState(false);
   const [loadingBranches, setLoadingBranches] = useState(false);
   const [hasDeprecatedToken, setHasDeprecatedToken] = useState(false);
+  const [updateTokenSuccess, setUpdateTokenSuccess] = useState(false);
+
   const gitHubOrgToUrlMapping = useRef<{ [key: string]: string }>({});
 
   const fetchOrganizationOptions = async () => {
@@ -139,7 +141,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   const authorizeGitHubAccount = () => {
     portalContext.log(getTelemetryInfo('info', 'gitHubAccount', 'authorize'));
-    authorizeWithProvider('https://localhost:44300/auth/github/authorize', startingAuthCallback, completingAuthCallBack);
+    authorizeWithProvider(GitHubService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
   };
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
@@ -166,17 +168,14 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   };
 
   const resetToken = async () => {
-    // portalContext.log(getTelemetryInfo('info', 'resetGitHubToken', 'authorize', {
-    //   'message' : 'User has deprecated github oauth token format, resetting their access token'
-    // }));
-    // portalContext.log(getTelemetryInfo('info', 'authorizing git hub account?', 'authorize', {
-    //   'message' : 'Trying to authorize git hub account before resetting the token'
-    // }));
-    // authorizeGitHubAccount();
     if (gitHubUser && deploymentCenterContext.gitHubToken) {
       const response = await deploymentCenterData.resetToken(deploymentCenterContext.gitHubToken);
       if (response.metadata.success) {
         deploymentCenterData.storeGitHubToken(response.data);
+        deploymentCenterContext.refreshUserSourceControlTokens();
+        deploymentCenterContext.gitHubToken = response.data.accessToken;
+        setHasDeprecatedToken(false);
+        setUpdateTokenSuccess(true);
       } else {
         portalContext.log(
           getTelemetryInfo('error', 'resetToken', 'failed', {
@@ -194,24 +193,21 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     portalContext.log(getTelemetryInfo('info', 'getGitHubUser', 'submit'));
     const gitHubUserResponse = await deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken);
 
-    // TODO(yoonaoh): Remove this later
-    // deploymentCenterContext.gitHubToken = "lsdkjfalsdkjflasdkjfaldkj";
-
-    if (deploymentCenterContext.gitHubToken.startsWith('gho')) {
-      portalContext.log(
-        getTelemetryInfo('warning', 'checkDeprecatedToken', 'submit', {
-          resourceId: deploymentCenterContext.resourceId,
-        })
-      );
-      setHasDeprecatedToken(true);
-    }
-
     setGitHubAccountStatusMessage(undefined);
 
     if (gitHubUserResponse.metadata.success && gitHubUserResponse.data.login) {
       // NOTE(michinoy): if unsuccessful, assume the user needs to authorize.
       setGitHubUser(gitHubUserResponse.data);
       formProps.setFieldValue('gitHubUser', gitHubUserResponse.data);
+    }
+
+    if (!deploymentCenterContext.gitHubToken.startsWith('gho')) {
+      portalContext.log(
+        getTelemetryInfo('warning', 'checkDeprecatedToken', 'submit', {
+          resourceId: deploymentCenterContext.resourceId,
+        })
+      );
+      setHasDeprecatedToken(true);
     }
   };
 
@@ -261,6 +257,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       loadingRepositories={loadingRepositories}
       loadingBranches={loadingBranches}
       hasDeprecatedToken={hasDeprecatedToken}
+      updateTokenSuccess={updateTokenSuccess}
       resetToken={resetToken}
     />
   );

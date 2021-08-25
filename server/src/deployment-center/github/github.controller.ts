@@ -287,17 +287,22 @@ export class GithubController {
   }
 
   @Get('auth/github/callback')
-  async callback(@Headers('host') host: string, @Res() res, @Query('code') code, @Query('state') state) {
-    if (host.indexOf('localhost') !== -1) {
-      res.redirect(`https://localhost:44400/auth/github/callback?code=${code}&state=${state}`);
-    } else {
-      return 'Successfully Authenticated. Redirecting...';
-    }
+  callback() {
+    return 'Successfully Authenticated. Redirecting...';
   }
 
   @Post('auth/github/getToken')
   @HttpCode(200)
   async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
+    const state = this.dcService.getParameterByName('state', redirUrl);
+    if (
+      !session ||
+      !session[Constants.oauthApis.github_state_key] ||
+      this.dcService.hashStateGuid(session[Constants.oauthApis.github_state_key]) !== state
+    ) {
+      this.loggingService.error({}, '', 'github-invalid-sate-key');
+      throw new HttpException('Not Authorized', 403);
+    }
     const code = this.dcService.getParameterByName('code', redirUrl);
 
     try {
@@ -357,11 +362,8 @@ export class GithubController {
   @HttpCode(200)
   async resetToken(@Body('gitHubToken') gitHubToken: string) {
     try {
-      // Use basic authentication first to access endpoint
-
-      // FOR PROD PURPOSES
-      const basicAuthValue = Buffer.from(`${this._getGitHubClientId()}:${this._getGitHubClientSecret()}`).toString('base64');
-      const newToken = await this.httpService.patch(
+      const basicAuthValue = Buffer.from(`${this._getGitHubClientId()}:${this._getGitHubClientSecret()}`, 'utf8').toString('base64');
+      const r = await this.httpService.patch(
         `${this.githubApiUrl}/applications/${this._getGitHubClientId()}/token`,
         {
           access_token: gitHubToken,
@@ -371,21 +373,13 @@ export class GithubController {
         }
       );
 
-      // FOR LOCAL TESTING PURPOSES
-      // const basicAuthValue = Buffer.from(`${this.configService.get('GITHUB_CLIENT_ID')}:${this.configService.get('GITHUB_CLIENT_SECRET')}`).toString('base64');
-      // const newToken = await this.httpService.patch(`${this.githubApiUrl}/applications/${this.configService.get('GITHUB_CLIENT_ID')}/token`, {
-      //   access_token: gitHubToken
-      // },{
-      //   headers: { Authorization: `Basic ${basicAuthValue}`}
-      // });
       return {
-        accessToken: newToken,
+        accessToken: r.data.token,
         refreshToken: null,
         environment: null,
       };
     } catch (err) {
       this.loggingService.error(`Failed to refresh token for ${this._getGitHubClientId()}.`);
-      // this.loggingService.error(`Failed to refresh token for ${this.configService.get('GITHUB_CLIENT_ID')}.`);
 
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
@@ -504,8 +498,9 @@ export class GithubController {
   }
 
   private _getRedirectUri(host: string): string {
-    const redirectUri = `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Dev]}/auth/github/callback`;
-
+    const redirectUri =
+      this.configService.get('GITHUB_REDIRECT_URL') ||
+      `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Prod]}/auth/github/callback`;
     const [redirectUriToLower, hostUrlToLower] = [redirectUri.toLocaleLowerCase(), `https://${host}`.toLocaleLowerCase()];
     const [redirectEnv, clientEnv] = [this._getEnvironment(redirectUriToLower), this._getEnvironment(hostUrlToLower)];
 
@@ -565,23 +560,21 @@ export class GithubController {
   }
 
   private _getGitHubClientId(): string {
-    return this.configService.get('GITHUB_CLIENT_ID');
-    // const config = this.staticReactConfig;
-    // if (config.env && config.env.cloud === CloudType.public) {
-    //   return this.configService.get('GITHUB_CLIENT_ID');
-    // } else {
-    //   return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_ID');
-    // }
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.public) {
+      return this.configService.get('GITHUB_CLIENT_ID');
+    } else {
+      return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_ID');
+    }
   }
 
   private _getGitHubClientSecret(): string {
-    return this.configService.get('GITHUB_CLIENT_SECRET');
-    // const config = this.staticReactConfig;
-    // if (config.env && config.env.cloud === CloudType.public) {
-    //   return this.configService.get('GITHUB_CLIENT_SECRET');
-    // } else {
-    //   return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_SECRET');
-    // }
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.public) {
+      return this.configService.get('GITHUB_CLIENT_SECRET');
+    } else {
+      return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_SECRET');
+    }
   }
 
   private _getGitHubForCreatesClientId() {

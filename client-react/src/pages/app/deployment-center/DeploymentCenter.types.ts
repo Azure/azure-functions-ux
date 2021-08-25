@@ -419,6 +419,7 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   accountStatusMessage?: string;
   accountUser?: GitHubUser;
   hasDeprecatedToken?: boolean;
+  updateTokenSuccess?: boolean;
   resetToken?: () => void;
 }
 

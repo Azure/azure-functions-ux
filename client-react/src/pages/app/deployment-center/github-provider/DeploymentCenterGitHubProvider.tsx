@@ -12,6 +12,7 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
   const { t } = useTranslation();
   const siteStateContext = useContext(SiteStateContext);
   const [hideDialog, toggleHideDialog] = useState(true);
+  const [hideMessage, toggleHideMessage] = useState(false);
 
   const {
     formProps,
@@ -23,11 +24,12 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
     loadingRepositories,
     loadingBranches,
     hasDeprecatedToken,
+    updateTokenSuccess,
     resetToken,
   } = props;
 
   const deprecatedTokensBanner = hasDeprecatedToken ? (
-    <div id="deployment-center-deprecated-tokens-banner" className={deploymentCenterInfoBannerDiv} onClick={() => toggleHideDialog(false)}>
+    <div id="deployment-center-deprecated-token-banner" className={deploymentCenterInfoBannerDiv} onClick={() => toggleHideDialog(false)}>
       <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
         {`${t('deploymentCenterDeprecatedTokenWarningMessage')}`}
       </MessageBar>
@@ -47,10 +49,26 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
           subText: `${t('deploymentCenterDeprecatedTokenDialogBody')}`,
         }}>
         <DialogFooter>
-          <PrimaryButton onClick={resetToken} text={`${t('update')}`} />
+          <PrimaryButton
+            onClick={() => {
+              toggleHideDialog(true);
+              resetToken ? resetToken() : () => {};
+            }}
+            text={`${t('update')}`}
+          />
           <DefaultButton onClick={() => toggleHideDialog(true)} text={`${t('cancel')}`} />
         </DialogFooter>
       </Dialog>
+    </div>
+  ) : (
+    <></>
+  );
+
+  const updateTokenSuccessBanner = updateTokenSuccess ? (
+    <div id="deployment-center-update-token-success-banner" className={deploymentCenterInfoBannerDiv} hidden={hideMessage}>
+      <MessageBar messageBarType={MessageBarType.success} isMultiline={false} onDismiss={() => toggleHideMessage(true)}>
+        {`${t('deploymentCenterUpdateTokenSuccessMessage')}`}
+      </MessageBar>
     </div>
   ) : (
     <></>
@@ -64,6 +82,7 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
 
       {deprecatedTokensBanner}
       {deprecatedTokensDialog}
+      {updateTokenSuccessBanner}
 
       {accountUser && accountUser.login && (
         <>

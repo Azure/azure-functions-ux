@@ -2343,4 +2343,5 @@ export class PortalResources {
   public static deploymentCenterDeprecatedTokenWarningMessage = 'deploymentCenterDeprecatedTokenWarningMessage';
   public static deploymentCenterDeprecatedTokenDialogTitle = 'deploymentCenterDeprecatedTokenDialogTitle';
   public static deploymentCenterDeprecatedTokenDialogBody = 'deploymentCenterDeprecatedTokenDialogBody';
+  public static deploymentCenterUpdateTokenSuccessMessage = 'deploymentCenterUpdateTokenSuccessMessage';
 }
