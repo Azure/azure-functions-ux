@@ -161,7 +161,7 @@ const bindingTypeSpecificFields = (
         setting.name === CommonConstants.BindingSettingNames.connection ||
         setting.name === CommonConstants.BindingSettingNames.connectionStringSetting
     );
-    if (!!connectionSettingIndex) {
+    if (connectionSettingIndex >= 0) {
       const connectionSetting = binding.settings[connectionSettingIndex];
 
       binding.settings.splice(connectionSettingIndex, 1);
