@@ -79,22 +79,19 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      deploymentCenterData
-        .getOneDriveToken(authorizationResult.redirectUrl)
-        .then(response => {
-          if (response.metadata.success) {
-            deploymentCenterData.storeOneDriveToken(response.data);
-          } else {
-            portalContext.log(
-              getTelemetryInfo('error', 'authorizeOneDriveAccount', 'failed', {
-                message: getErrorMessage(response.metadata.error),
-                error: response.metadata.error,
-              })
-            );
-            return Promise.resolve(undefined);
-          }
-        })
-        .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+      deploymentCenterData.getOneDriveToken(authorizationResult.redirectUrl).then(response => {
+        if (response.metadata.success) {
+          deploymentCenterData.storeOneDriveToken(response.data).then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'authorizeOneDriveAccount', 'failed', {
+              message: getErrorMessage(response.metadata.error),
+              error: response.metadata.error,
+            })
+          );
+          return Promise.resolve(undefined);
+        }
+      });
     } else {
       return fetchData();
     }
