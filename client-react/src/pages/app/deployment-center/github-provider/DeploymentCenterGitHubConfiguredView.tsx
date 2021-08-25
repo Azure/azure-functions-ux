@@ -124,24 +124,23 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      deploymentCenterData
-        .getGitHubToken(authorizationResult.redirectUrl)
-        .then(response => {
-          if (response.metadata.success) {
-            return deploymentCenterData.storeGitHubToken(response.data);
-          } else {
-            // NOTE(michinoy): This is all related to the handshake between us and the provider.
-            // If this fails, there isn't much the user can do except retry.
-            portalContext.log(
-              getTelemetryInfo('error', 'getGitHubTokenResponse', 'failed', {
-                errorAsString: JSON.stringify(response.metadata.error),
-              })
-            );
+      deploymentCenterData.getGitHubToken(authorizationResult.redirectUrl).then(response => {
+        if (response.metadata.success) {
+          deploymentCenterData.storeGitHubToken(response.data).then(() => {
+            deploymentCenterContext.refresh();
+          });
+        } else {
+          // NOTE(michinoy): This is all related to the handshake between us and the provider.
+          // If this fails, there isn't much the user can do except retry.
+          portalContext.log(
+            getTelemetryInfo('error', 'getGitHubTokenResponse', 'failed', {
+              errorAsString: JSON.stringify(response.metadata.error),
+            })
+          );
 
-            return Promise.resolve(null);
-          }
-        })
-        .then(() => fetchData());
+          return Promise.resolve(null);
+        }
+      });
     } else {
       return fetchData();
     }

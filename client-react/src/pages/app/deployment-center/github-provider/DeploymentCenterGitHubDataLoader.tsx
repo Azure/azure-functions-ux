@@ -144,21 +144,18 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      deploymentCenterData
-        .getGitHubToken(authorizationResult.redirectUrl)
-        .then(response => {
-          if (response.metadata.success) {
-            deploymentCenterData.storeGitHubToken(response.data);
-          } else {
-            portalContext.log(
-              getTelemetryInfo('error', 'getGitHubTokenResponse', 'failed', {
-                errorAsString: JSON.stringify(response.metadata.error),
-              })
-            );
-            return Promise.resolve(undefined);
-          }
-        })
-        .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+      deploymentCenterData.getGitHubToken(authorizationResult.redirectUrl).then(response => {
+        if (response.metadata.success) {
+          deploymentCenterData.storeGitHubToken(response.data).then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'getGitHubTokenResponse', 'failed', {
+              errorAsString: JSON.stringify(response.metadata.error),
+            })
+          );
+          return Promise.resolve(undefined);
+        }
+      });
     } else {
       return fetchData();
     }
