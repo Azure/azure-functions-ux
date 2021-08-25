@@ -46,6 +46,7 @@ export class ACRController {
 
       if (response.headers.link) {
         res.setHeader('link', response.headers.link);
+        res.setHeader('access-control-expose-headers', 'link');
       }
 
       res.json(response.data);

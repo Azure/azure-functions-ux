@@ -8,24 +8,6 @@ import { HttpService } from '../../shared/http/http.service';
 export class OnedriveController {
   constructor(private dcService: DeploymentCenterService, private loggingService: LoggingService, private httpService: HttpService) {}
 
-  @Post('api/onedrive/passthrough')
-  @HttpCode(200)
-  async passthrough(@Body('oneDriveToken') oneDriveToken: string, @Body('url') url: string) {
-    try {
-      const response = await this.httpService.get(url, {
-        headers: {
-          Authorization: `Bearer ${oneDriveToken}`,
-        },
-      });
-      return response.data;
-    } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
-    }
-  }
-
   @Get('auth/onedrive/authorize')
   async authorize(@Session() session, @Response() res) {
     let stateKey = '';

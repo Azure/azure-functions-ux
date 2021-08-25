@@ -101,12 +101,8 @@ export default class DeploymentCenterData {
     return GitHubService.getToken(redirectUrl);
   };
 
-  public resetToken = (gitHubToken: string) => {
-    return GitHubService.resetToken(gitHubToken);
-  };
-
-  public getGitHubOrganizations = (gitHubToken: string) => {
-    return GitHubService.getOrganizations(gitHubToken);
+  public getGitHubOrganizations = (gitHubToken: string, logger?: (page, response) => void) => {
+    return GitHubService.getOrganizations(gitHubToken, logger);
   };
 
   public getGitHubOrgRepositories = (repositories_url: string, gitHubToken: string, logger?: (page, response) => void) => {

@@ -42,26 +42,26 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
     if (gitHubUser) {
       portalContext.log(getTelemetryInfo('info', 'getGitHubOrganizations', 'submit'));
-      const gitHubOrganizationsResponse = await deploymentCenterData.getGitHubOrganizations(deploymentCenterContext.gitHubToken);
+      const gitHubOrganizations = await deploymentCenterData.getGitHubOrganizations(
+        deploymentCenterContext.gitHubToken,
+        (page, response) => {
+          portalContext.log(
+            getTelemetryInfo('error', 'getGitHubUserRepositoriesResponse', 'failed', {
+              page,
+              errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
+            })
+          );
+        }
+      );
 
-      if (gitHubOrganizationsResponse.metadata.success) {
-        gitHubOrganizationsResponse.data.forEach(org => {
-          newOrganizationOptions.push({ key: org.login, text: org.login });
-
-          if (!gitHubOrgToUrlMapping.current[org.login]) {
-            gitHubOrgToUrlMapping.current[org.login] = org.url;
-          }
-        });
-      } else {
-        portalContext.log(
-          getTelemetryInfo('error', 'getGitHubOrganizationsResponse', 'failed', {
-            errorAsString: JSON.stringify(gitHubOrganizationsResponse.metadata.error),
-          })
-        );
-      }
+      gitHubOrganizations.forEach(org => {
+        newOrganizationOptions.push({ key: org.login, text: org.login });
+        if (!gitHubOrgToUrlMapping.current[org.login]) {
+          gitHubOrgToUrlMapping.current[org.login] = org.url;
+        }
+      });
 
       newOrganizationOptions.push({ key: gitHubUser.login, text: gitHubUser.login });
-
       if (!gitHubOrgToUrlMapping.current[gitHubUser.login]) {
         gitHubOrgToUrlMapping.current[gitHubUser.login] = gitHubUser.repos_url;
       }
@@ -144,21 +144,18 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      deploymentCenterData
-        .getGitHubToken(authorizationResult.redirectUrl.replace('44400', '44300'))
-        .then(response => {
-          if (response.metadata.success) {
-            deploymentCenterData.storeGitHubToken(response.data);
-          } else {
-            portalContext.log(
-              getTelemetryInfo('error', 'getGitHubTokenResponse', 'failed', {
-                errorAsString: JSON.stringify(response.metadata.error),
-              })
-            );
-            return Promise.resolve(undefined);
-          }
-        })
-        .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+      deploymentCenterData.getGitHubToken(authorizationResult.redirectUrl).then(response => {
+        if (response.metadata.success) {
+          deploymentCenterData.storeGitHubToken(response.data).then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'getGitHubTokenResponse', 'failed', {
+              errorAsString: JSON.stringify(response.metadata.error),
+            })
+          );
+          return Promise.resolve(undefined);
+        }
+      });
     } else {
       return fetchData();
     }
