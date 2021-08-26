@@ -171,9 +171,11 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     if (!!gitHubUser && !!deploymentCenterContext.gitHubToken) {
       const response = await deploymentCenterData.resetToken(deploymentCenterContext.gitHubToken);
       if (response.metadata.success) {
-        deploymentCenterData.storeGitHubToken(response.data).then(() => deploymentCenterContext.refreshUserSourceControlTokens());
-        setHasDeprecatedToken(false);
-        setUpdateTokenSuccess(true);
+        deploymentCenterData.storeGitHubToken(response.data).then(() => {
+          deploymentCenterContext.refreshUserSourceControlTokens();
+          setHasDeprecatedToken(false);
+          setUpdateTokenSuccess(true);
+        });
       } else {
         portalContext.log(
           getTelemetryInfo('error', 'resetToken', 'failed', {
@@ -199,7 +201,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       formProps.setFieldValue('gitHubUser', gitHubUserResponse.data);
     }
 
-    if (!deploymentCenterContext.gitHubToken.startsWith('gho')) {
+    if (!!deploymentCenterContext.gitHubToken && !deploymentCenterContext.gitHubToken.startsWith('gho')) {
       portalContext.log(
         getTelemetryInfo('info', 'checkDeprecatedToken', 'submit', {
           resourceId: deploymentCenterContext.resourceId,
