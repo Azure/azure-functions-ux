@@ -2092,6 +2092,8 @@ export class PortalResources {
   public static deploymentCenterCodeRedeploySuccess = 'deploymentCenterCodeRedeploySuccess';
   public static deploymentCenterCodeRedeployFailWithStatusMessage = 'deploymentCenterCodeRedeployFailWithStatusMessage';
   public static deploymentCenterCodeRedeployFail = 'deploymentCenterCodeRedeployFail';
+  public static deploymentCenterCodeRedeployFailWorkflowDispatchTriggerMessage =
+    'deploymentCenterCodeRedeployFailWorkflowDispatchTriggerMessage';
   public static deploymentCenterContainerRegistrySettingsTitle = 'deploymentCenterContainerRegistrySettingsTitle';
   public static deploymentCenterContainerRegistryOptionsLabel = 'deploymentCenterContainerRegistryOptionsLabel';
   public static deploymentCenterContainerRegistrySourceLabel = 'deploymentCenterContainerRegistrySourceLabel';
