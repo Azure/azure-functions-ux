@@ -1,4 +1,19 @@
-import { Controller, Post, Body, HttpException, Response, Get, Session, HttpCode, Res, Put, Query, Headers, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpException,
+  Response,
+  Get,
+  Session,
+  HttpCode,
+  Res,
+  Put,
+  Query,
+  Headers,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
 import { LoggingService } from '../../shared/logging/logging.service';
@@ -343,9 +358,46 @@ export class GithubController {
     }
   }
 
+  @Patch('api/github/resetToken')
+  @HttpCode(200)
+  async resetToken(@Body('gitHubToken') gitHubToken: string) {
+    try {
+      const r = await this.httpService.patch(
+        `${this.githubApiUrl}/applications/${this._getGitHubClientId()}/token`,
+        {
+          access_token: gitHubToken,
+        },
+        {
+          headers: this._getGitHubOAuthAppBasicAuthHeader(),
+        }
+      );
+
+      return {
+        accessToken: r.data.token,
+        refreshToken: null,
+        environment: null,
+      };
+    } catch (err) {
+      this.loggingService.error(`Failed to refresh token.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      } else {
+        throw new HttpException(err, 500);
+      }
+    }
+  }
+
   private _getAuthorizationHeader(accessToken: string): { Authorization: string } {
     return {
       Authorization: `token ${accessToken}`,
+    };
+  }
+
+  private _getGitHubOAuthAppBasicAuthHeader(): { Authorization: string } {
+    const basicAuthValue = Buffer.from(`${this._getGitHubClientId()}:${this._getGitHubClientSecret()}`, 'utf8').toString('base64');
+    return {
+      Authorization: `Basic ${basicAuthValue}`,
     };
   }
 
@@ -455,7 +507,6 @@ export class GithubController {
     const redirectUri =
       this.configService.get('GITHUB_REDIRECT_URL') ||
       `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Prod]}/auth/github/callback`;
-
     const [redirectUriToLower, hostUrlToLower] = [redirectUri.toLocaleLowerCase(), `https://${host}`.toLocaleLowerCase()];
     const [redirectEnv, clientEnv] = [this._getEnvironment(redirectUriToLower), this._getEnvironment(hostUrlToLower)];
 

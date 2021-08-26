@@ -418,6 +418,9 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   loadingBranches: boolean;
   accountStatusMessage?: string;
   accountUser?: GitHubUser;
+  hasDeprecatedToken?: boolean;
+  updateTokenSuccess?: boolean;
+  resetToken?: () => void;
 }
 
 export interface DeploymentCenterGitHubDisconnectProps {
