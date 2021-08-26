@@ -87,8 +87,8 @@ export abstract class PremiumV3PlanPriceSpec extends DV3SeriesPriceSpec {
       this.featureItems = this.featureItems.filter(i => i.title !== this._ts.instant(PortalResources.pricing_trafficManager));
       this.featureItems.splice(0, 0, {
         iconUrl: 'image/support.svg',
-        title: this._ts.instant('JBoss EAP Integrated Support'),
-        description: this._ts.instant('Automatically receive integrated technical support from Red Hat and Azure for your JBoss EAP sites'),
+        title: this._ts.instant(PortalResources.pricing_jboss),
+        description: this._ts.instant(PortalResources.pricing_jbossDesc),
       });
     }
   }
