@@ -7162,21 +7162,21 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Change account information</value>
     </data>
     <data name="deploymentCenterDeprecatedTokenWarningMessage" xml:space="preserve">
-        <value> Your GitHub token is outdated and needs to be refreshed. Click here to update your token to the latest secure format. This should not cause any downtime or changes to your app's configuration.</value>
+        <value>Your GitHub token is outdated and needs to be refreshed. Click here to update your token to the latest secure format. This should not cause any downtime or changes to your app's configuration.</value>
     </data>
     <data name="deploymentCenterDeprecatedTokenDialogTitle" xml:space="preserve">
-        <value> Update Token </value>
+        <value>Update Token</value>
     </data>
     <data name="deploymentCenterDeprecatedTokenDialogBody" xml:space="preserve">
-        <value> Do you want to update your GitHub token? </value>
+        <value>Do you want to update your GitHub token?</value>
     </data>
     <data name="deploymentCenterUpdateTokenSuccessMessage" xml:space="preserve">
-        <value> Succesfully updated your GitHub token. </value>
+        <value>Succesfully updated your GitHub token.</value>
     </data>
     <data name="update" xml:space="preserve">
-        <value> Update </value>
+        <value>Update</value>
     </data>
     <data name="cancel" xml:space="preserve">
-        <value> Cancel </value>
+        <value>Cancel</value>
     </data>
 </root>

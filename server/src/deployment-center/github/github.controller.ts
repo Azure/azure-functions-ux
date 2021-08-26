@@ -362,14 +362,13 @@ export class GithubController {
   @HttpCode(200)
   async resetToken(@Body('gitHubToken') gitHubToken: string) {
     try {
-      const basicAuthValue = Buffer.from(`${this._getGitHubClientId()}:${this._getGitHubClientSecret()}`, 'utf8').toString('base64');
       const r = await this.httpService.patch(
         `${this.githubApiUrl}/applications/${this._getGitHubClientId()}/token`,
         {
           access_token: gitHubToken,
         },
         {
-          headers: { Authorization: `Basic ${basicAuthValue}` },
+          headers: this._getGitHubOAuthAppBasicAuthHeader(),
         }
       );
 
@@ -379,7 +378,7 @@ export class GithubController {
         environment: null,
       };
     } catch (err) {
-      this.loggingService.error(`Failed to refresh token for ${this._getGitHubClientId()}.`);
+      this.loggingService.error(`Failed to refresh token.`);
 
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
@@ -392,6 +391,13 @@ export class GithubController {
   private _getAuthorizationHeader(accessToken: string): { Authorization: string } {
     return {
       Authorization: `token ${accessToken}`,
+    };
+  }
+
+  private _getGitHubOAuthAppBasicAuthHeader(): { Authorization: string } {
+    const basicAuthValue = Buffer.from(`${this._getGitHubClientId()}:${this._getGitHubClientSecret()}`, 'utf8').toString('base64');
+    return {
+      Authorization: `Basic ${basicAuthValue}`,
     };
   }
 
