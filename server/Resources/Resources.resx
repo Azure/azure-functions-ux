@@ -7173,10 +7173,4 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterUpdateTokenSuccessMessage" xml:space="preserve">
         <value>Succesfully updated your GitHub token.</value>
     </data>
-    <data name="update" xml:space="preserve">
-        <value>Update</value>
-    </data>
-    <data name="cancel" xml:space="preserve">
-        <value>Cancel</value>
-    </data>
 </root>
