@@ -163,6 +163,10 @@ export default class DeploymentCenterData {
     );
   };
 
+  public resetToken = (gitHubToken: string) => {
+    return GitHubService.resetToken(gitHubToken);
+  };
+
   public getUserSourceControls = () => {
     return ProviderService.getUserSourceControls();
   };

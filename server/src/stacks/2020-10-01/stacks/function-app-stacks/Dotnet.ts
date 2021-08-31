@@ -36,6 +36,7 @@ export const dotnetStack: FunctionAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNET|6.0',
+              isHidden: true,
               isEarlyAccess: true,
               isPreview: true,
               remoteDebuggingSupported: false,

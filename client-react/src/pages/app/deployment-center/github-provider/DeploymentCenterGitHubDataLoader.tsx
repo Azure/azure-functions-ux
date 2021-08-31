@@ -29,6 +29,8 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [loadingOrganizations, setLoadingOrganizations] = useState(false);
   const [loadingRepositories, setLoadingRepositories] = useState(false);
   const [loadingBranches, setLoadingBranches] = useState(false);
+  const [hasDeprecatedToken, setHasDeprecatedToken] = useState(false);
+  const [updateTokenSuccess, setUpdateTokenSuccess] = useState(false);
 
   const gitHubOrgToUrlMapping = useRef<{ [key: string]: string }>({});
 
@@ -165,6 +167,25 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setGitHubAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
   };
 
+  const resetToken = async () => {
+    if (!!gitHubUser && !!deploymentCenterContext.gitHubToken) {
+      const response = await deploymentCenterData.resetToken(deploymentCenterContext.gitHubToken);
+      if (response.metadata.success) {
+        deploymentCenterData.storeGitHubToken(response.data).then(() => {
+          deploymentCenterContext.refreshUserSourceControlTokens();
+          setHasDeprecatedToken(false);
+          setUpdateTokenSuccess(true);
+        });
+      } else {
+        portalContext.log(
+          getTelemetryInfo('error', 'resetToken', 'failed', {
+            errorAsString: JSON.stringify(response.metadata.error),
+          })
+        );
+      }
+    }
+  };
+
   // TODO(michinoy): We will need to add methods here to manage github specific network calls such as:
   // repos, orgs, branches, workflow file, etc.
 
@@ -178,6 +199,15 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       // NOTE(michinoy): if unsuccessful, assume the user needs to authorize.
       setGitHubUser(gitHubUserResponse.data);
       formProps.setFieldValue('gitHubUser', gitHubUserResponse.data);
+    }
+
+    if (!!deploymentCenterContext.gitHubToken && !deploymentCenterContext.gitHubToken.startsWith('gho')) {
+      portalContext.log(
+        getTelemetryInfo('info', 'checkDeprecatedToken', 'submit', {
+          resourceId: deploymentCenterContext.resourceId,
+        })
+      );
+      setHasDeprecatedToken(true);
     }
   };
 
@@ -226,6 +256,9 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       loadingOrganizations={loadingOrganizations}
       loadingRepositories={loadingRepositories}
       loadingBranches={loadingBranches}
+      hasDeprecatedToken={hasDeprecatedToken}
+      updateTokenSuccess={updateTokenSuccess}
+      resetToken={resetToken}
     />
   );
 };
