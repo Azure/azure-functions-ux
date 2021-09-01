@@ -93,7 +93,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
             })
           );
         })
-      : deploymentCenterData.getGitHubOrgRepositories(repositories_url, deploymentCenterContext.gitHubToken, (page, response) => {
+      : deploymentCenterData.getGitHubOrgRepositories(formProps.values.org, deploymentCenterContext.gitHubToken, (page, response) => {
           portalContext.log(
             getTelemetryInfo('error', 'getGitHubOrgRepositoriesResponse', 'failed', {
               page,
