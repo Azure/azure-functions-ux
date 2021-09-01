@@ -43,6 +43,7 @@ import GitHubService from '../../../../ApiHelpers/GitHubService';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { Guid } from '../../../../utils/Guid';
 import { KeyValue } from '../../../../models/portal-models';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -565,7 +566,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
 
     const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
     const repoUrl = sourceControlDetailsResponse.data.properties.repoUrl;
-
     const workflowFileInfo: WorkflowFileUrlInfo = {
       repoUrl: repoUrl,
       branch: branch,
@@ -589,11 +589,11 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const handleRedeployError = async (response: any, notificationId: string, action: string, workflowFileUrlInfo?: WorkflowFileUrlInfo) => {
     let errorMessage = getErrorMessage(response.metadata.error);
 
-    if (errorMessage === "Workflow does not have 'workflow_dispatch' trigger" && !!workflowFileUrlInfo) {
+    if (errorMessage.toLowerCase() === CommonConstants.workflowDispatchTriggerErrorMessage && !!workflowFileUrlInfo) {
       const url = `${workflowFileUrlInfo.repoUrl}/blob/${workflowFileUrlInfo.branch}/.github/workflows/${
         workflowFileUrlInfo.workflowFileName
       }`;
-      errorMessage = t('deploymentCenterCodeRedeployFailWorkflowDispatchTriggerMessage').format(url);
+      errorMessage = t('missingWorkflowDispatchTrigger').format(url);
     }
 
     errorMessage
