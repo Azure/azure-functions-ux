@@ -644,3 +644,9 @@ export interface acrARGInfo {
   subscriptionId: string;
   type: string;
 }
+
+export interface WorkflowFileUrlInfo {
+  repoUrl: string;
+  branch: string;
+  workflowFileName: string;
+}

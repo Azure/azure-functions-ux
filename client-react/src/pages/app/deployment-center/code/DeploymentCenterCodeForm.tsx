@@ -21,6 +21,7 @@ import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../../../models/github';
 import DeploymentCenterData from '../DeploymentCenter.data';
+import { WorkflowFileUrlInfo } from '../DeploymentCenter.types';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import {
   getCodeWebAppWorkflowInformation,
@@ -42,6 +43,7 @@ import GitHubService from '../../../../ApiHelpers/GitHubService';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { Guid } from '../../../../utils/Guid';
 import { KeyValue } from '../../../../models/portal-models';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -562,6 +564,14 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       'production'
     );
 
+    const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
+    const repoUrl = sourceControlDetailsResponse.data.properties.repoUrl;
+    const workflowFileInfo: WorkflowFileUrlInfo = {
+      repoUrl: repoUrl,
+      branch: branch,
+      workflowFileName: workflowFileName,
+    };
+
     const [appWorkflowDispatchResponse, sourceControlsWorkflowDispatchResponse] = await Promise.all([
       GitHubService.dispatchWorkflow(deploymentCenterContext.gitHubToken, branch, repo, workflowFileName),
       GitHubService.dispatchWorkflow(deploymentCenterContext.gitHubToken, branch, repo, sourceControlsWorkflowFileName),
@@ -570,14 +580,22 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     if (appWorkflowDispatchResponse.metadata.success || sourceControlsWorkflowDispatchResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeRedeploySuccess').format(siteName));
     } else if (appWorkflowDispatchResponse.metadata.status === 404 && sourceControlsWorkflowDispatchResponse.metadata.status !== 404) {
-      handleRedeployError(sourceControlsWorkflowDispatchResponse, notificationId, 'dispatchWorkflow');
+      handleRedeployError(sourceControlsWorkflowDispatchResponse, notificationId, 'dispatchWorkflow', workflowFileInfo);
     } else {
-      handleRedeployError(appWorkflowDispatchResponse, notificationId, 'dispatchWorkflow');
+      handleRedeployError(appWorkflowDispatchResponse, notificationId, 'dispatchWorkflow', workflowFileInfo);
     }
   };
 
-  const handleRedeployError = (response: any, notificationId: string, action: string) => {
-    const errorMessage = getErrorMessage(response.metadata.error);
+  const handleRedeployError = async (response: any, notificationId: string, action: string, workflowFileUrlInfo?: WorkflowFileUrlInfo) => {
+    let errorMessage = getErrorMessage(response.metadata.error);
+
+    if (errorMessage.toLowerCase() === CommonConstants.workflowDispatchTriggerErrorMessage && !!workflowFileUrlInfo) {
+      const url = `${workflowFileUrlInfo.repoUrl}/blob/${workflowFileUrlInfo.branch}/.github/workflows/${
+        workflowFileUrlInfo.workflowFileName
+      }`;
+      errorMessage = t('missingWorkflowDispatchTrigger').format(url);
+    }
+
     errorMessage
       ? portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFailWithStatusMessage').format(errorMessage))
       : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFail'));
