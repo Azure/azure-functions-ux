@@ -144,15 +144,23 @@ export default class SiteService {
     });
   };
 
-  public static getSourceControlDetails = async (resourceId: string) => {
+  public static getSourceControlDetails = async (
+    resourceId: string,
+    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20201201
+  ) => {
     return MakeArmCall<ArmObj<SourceControlProperties>>({
       resourceId: `${resourceId}/sourcecontrols/web`,
       commandName: 'fetchSourceControl',
       method: 'GET',
+      apiVersion: apiVersion,
     });
   };
 
-  public static deleteSourceControlDetails = async (resourceId: string, deleteWorkflow: boolean = true) => {
+  public static deleteSourceControlDetails = async (
+    resourceId: string,
+    deleteWorkflow: boolean = true,
+    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20201201
+  ) => {
     const id = deleteWorkflow
       ? `${resourceId}/sourcecontrols/web`
       : `${resourceId}/sourcecontrols/web/?additionalFlags=ScmGitHubActionSkipWorkflowDelete`;
@@ -161,16 +169,21 @@ export default class SiteService {
       resourceId: id,
       commandName: 'deleteSourceControl',
       method: 'DELETE',
+      apiVersion: apiVersion,
     });
   };
 
-  public static updateSourceControlDetails = (resourceId: string, body: any) => {
+  public static updateSourceControlDetails = (
+    resourceId: string,
+    body: any,
+    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20201201
+  ) => {
     return MakeArmCall<void>({
       method: 'PUT',
       resourceId: `${resourceId}/sourcecontrols/web`,
       body: body,
       commandName: 'updateDeployment',
-      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+      apiVersion: apiVersion,
     });
   };
 

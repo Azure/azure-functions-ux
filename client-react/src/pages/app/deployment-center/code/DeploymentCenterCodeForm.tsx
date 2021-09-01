@@ -6,6 +6,10 @@ import {
   DeploymentCenterCodeFormData,
   SiteSourceControlRequestBody,
   WorkflowOption,
+  SiteSourceControlGitHubActionsRequestBody,
+  AppType,
+  PublishType,
+  RuntimeStackOptions,
 } from '../DeploymentCenter.types';
 import { KeyCodes } from 'office-ui-fabric-react';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
@@ -29,6 +33,7 @@ import {
   isApiSyncError,
   updateGitHubActionSourceControlPropertiesManually,
   updateGitHubActionAppSettingsForPython,
+  getRuntimeVersion,
 } from '../utility/GitHubActionUtility';
 import {
   getWorkflowFilePath,
@@ -64,13 +69,10 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     //(NOTE: stpelleg) Only external git is expected to be manual integration
     // If manual integration is true the site config scm type is set to be external
 
-    const payload: SiteSourceControlRequestBody = {
-      repoUrl: getRepoUrl(values),
-      branch: values.branch || 'master',
-      isManualIntegration: values.sourceProvider === ScmType.ExternalGit,
-      isGitHubAction: values.buildProvider === BuildProvider.GitHubAction,
-      isMercurial: false,
-    };
+    const payload: SiteSourceControlRequestBody | SiteSourceControlGitHubActionsRequestBody =
+      values.buildProvider === BuildProvider.GitHubAction
+        ? getGitHubActionsSourceControlsPayload(values)
+        : getKuduSourceControlsPayload(values);
 
     if (values.sourceProvider === ScmType.LocalGit) {
       return deploymentCenterData.patchSiteConfig(deploymentCenterContext.resourceId, {
@@ -115,6 +117,55 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         return updateSourceControlResponse;
       }
     }
+  };
+
+  const getKuduSourceControlsPayload = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>): SiteSourceControlRequestBody => {
+    return {
+      repoUrl: getRepoUrl(values),
+      branch: values.branch || 'master',
+      isManualIntegration: values.sourceProvider === ScmType.ExternalGit,
+      isGitHubAction: false,
+      isMercurial: false,
+    };
+  };
+
+  const getGitHubActionsSourceControlsPayload = (
+    values: DeploymentCenterFormData<DeploymentCenterCodeFormData>
+  ): SiteSourceControlGitHubActionsRequestBody => {
+    const variables = getGitHubActionsConfigurationVariables(values);
+
+    return {
+      repoUrl: getRepoUrl(values),
+      branch: values.branch || 'master',
+      isManualIntegration: false,
+      isGitHubAction: true,
+      deploymentRollbackEnabled: false,
+      isMercurial: false,
+      gitHubActionConfiguration: {
+        generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
+        workflowSettings: {
+          appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
+          publishType: PublishType.Code,
+          os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+          runtimeStack: values.runtimeStack,
+          workflowApiVersion: DeploymentCenterConstants.ApiVersions.workflowApiVersion20201201,
+          slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
+          variables: variables,
+        },
+      },
+    };
+  };
+
+  const getGitHubActionsConfigurationVariables = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+    const variables = {
+      runtimeVersion: getRuntimeVersion(siteStateContext.isLinuxApp, values.runtimeVersion, values.runtimeRecommendedVersion),
+    };
+
+    if (values.runtimeStack === RuntimeStackOptions.Java) {
+      variables['javaContainer'] = values.javaContainer;
+    }
+
+    return variables;
   };
 
   const setSourceControlsInMetadata = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
