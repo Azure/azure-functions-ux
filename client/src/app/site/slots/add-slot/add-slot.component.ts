@@ -321,7 +321,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
       extendedLocation = {
         name: `/subscriptions/${websiteIdObject.SubscriptionId}/resourcegroups/${
           websiteIdObject.ResourceGroup
-        }/providers/microsoft.extendedlocations/customlocations/${newSlotName}-location`,
+        }/providers/microsoft.extendedlocation/customlocations/${newSlotName}-location`,
         type: 'CustomLocation',
       };
     } else {
