@@ -700,7 +700,7 @@ export const javaStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '1.7',
               isAutoUpdate: true,
-              isDeprecated: false,
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -719,7 +719,7 @@ export const javaStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '1.7.0_292',
-              isDeprecated: false,
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -738,7 +738,7 @@ export const javaStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '1.7.0_272',
-              isDeprecated: false,
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -757,7 +757,7 @@ export const javaStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '1.7.0_262',
-              isDeprecated: false,
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
