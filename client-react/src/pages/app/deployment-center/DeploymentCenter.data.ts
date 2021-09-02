@@ -105,8 +105,8 @@ export default class DeploymentCenterData {
     return GitHubService.getOrganizations(gitHubToken, logger);
   };
 
-  public getGitHubOrgRepositories = (repositories_url: string, gitHubToken: string, logger?: (page, response) => void) => {
-    return GitHubService.getOrgRepositories(repositories_url, gitHubToken, logger);
+  public getGitHubOrgRepositories = (org: string, gitHubToken: string, logger?: (page, response) => void) => {
+    return GitHubService.getOrgRepositories(org, gitHubToken, logger);
   };
 
   public getGitHubUserRepositories = (gitHubToken: string, logger?: (page, response) => void) => {
@@ -161,6 +161,10 @@ export default class DeploymentCenterData {
       providerToken.refreshToken,
       providerToken.environment
     );
+  };
+
+  public resetToken = (gitHubToken: string) => {
+    return GitHubService.resetToken(gitHubToken);
   };
 
   public getUserSourceControls = () => {

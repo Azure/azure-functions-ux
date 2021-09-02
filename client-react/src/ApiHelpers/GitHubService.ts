@@ -33,6 +33,13 @@ export default class GitHubService {
     return sendHttpRequest<ProviderToken>({ url: `${Url.serviceHost}auth/github/getToken`, method: 'POST', data });
   };
 
+  public static resetToken = (gitHubToken: string): Promise<HttpResponseObject<ProviderToken>> => {
+    const data = {
+      gitHubToken,
+    };
+    return sendHttpRequest<ProviderToken>({ url: `${Url.serviceHost}api/github/resetToken`, method: 'PATCH', data });
+  };
+
   public static getOrganizations = (gitHubToken: string, logger?: (page, response) => void) => {
     const data = {
       gitHubToken,

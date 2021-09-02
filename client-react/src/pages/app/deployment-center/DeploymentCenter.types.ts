@@ -418,6 +418,9 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   loadingBranches: boolean;
   accountStatusMessage?: string;
   accountUser?: GitHubUser;
+  hasDeprecatedToken?: boolean;
+  updateTokenSuccess?: boolean;
+  resetToken?: () => void;
 }
 
 export interface DeploymentCenterGitHubDisconnectProps {
@@ -640,4 +643,10 @@ export interface acrARGInfo {
   resourceGroup: string;
   subscriptionId: string;
   type: string;
+}
+
+export interface WorkflowFileUrlInfo {
+  repoUrl: string;
+  branch: string;
+  workflowFileName: string;
 }

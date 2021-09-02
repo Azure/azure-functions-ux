@@ -198,13 +198,15 @@ export class CommonConstants {
     connection: 'connection',
     connectionStringSetting: 'connectionStringSetting',
   };
-  
+
   public static hiddenLink = 'hidden-link';
 
   public static readonly DeploymentCenterConstants = {
     acrTag: 'acrResourceId',
     https: 'https://',
   };
+
+  public static readonly workflowDispatchTriggerErrorMessage = "workflow does not have 'workflow_dispatch' trigger";
 }
 
 export enum WorkerRuntimeLanguages {

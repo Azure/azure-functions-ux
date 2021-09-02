@@ -2340,4 +2340,9 @@ export class PortalResources {
   public static readOnlyMissingAzureFilesSetting = 'readOnlyMissingAzureFilesSetting';
   public static deploymentCenterChangeAccountInfoMessage = 'deploymentCenterChangeAccountInfoMessage';
   public static deploymentCenterChangeAccountInfoButton = 'deploymentCenterChangeAccountInfoButton';
+  public static deploymentCenterDeprecatedTokenWarningMessage = 'deploymentCenterDeprecatedTokenWarningMessage';
+  public static deploymentCenterDeprecatedTokenDialogTitle = 'deploymentCenterDeprecatedTokenDialogTitle';
+  public static deploymentCenterDeprecatedTokenDialogBody = 'deploymentCenterDeprecatedTokenDialogBody';
+  public static deploymentCenterUpdateTokenSuccessMessage = 'deploymentCenterUpdateTokenSuccessMessage';
+  public static missingWorkflowDispatchTrigger = 'missingWorkflowDispatchTrigger';
 }

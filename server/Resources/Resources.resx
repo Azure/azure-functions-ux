@@ -7161,4 +7161,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterChangeAccountInfoButton" xml:space="preserve">
         <value>Change account information</value>
     </data>
+    <data name="deploymentCenterDeprecatedTokenWarningMessage" xml:space="preserve">
+        <value>Your GitHub token is outdated and needs to be refreshed. Click here to update your token to the latest secure format. This should not cause any downtime or changes to your app's configuration.</value>
+    </data>
+    <data name="deploymentCenterDeprecatedTokenDialogTitle" xml:space="preserve">
+        <value>Update Token</value>
+    </data>
+    <data name="deploymentCenterDeprecatedTokenDialogBody" xml:space="preserve">
+        <value>Do you want to update your GitHub token?</value>
+    </data>
+    <data name="deploymentCenterUpdateTokenSuccessMessage" xml:space="preserve">
+        <value>Succesfully updated your GitHub token.</value>
+    </data>
+    <data name="missingWorkflowDispatchTrigger" xml:space="preserve">
+        <value>Redeployment failed because your workflow file in your repository does not have a 'workflow_dispatch' trigger. To fix, add the 'workflow_dispatch' trigger to the workflow file under {0}</value>
+    </data>
 </root>
