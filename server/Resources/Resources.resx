@@ -7173,4 +7173,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterUpdateTokenSuccessMessage" xml:space="preserve">
         <value>Succesfully updated your GitHub token.</value>
     </data>
+    <data name="missingWorkflowDispatchTrigger" xml:space="preserve">
+        <value>Redeployment failed because your workflow file in your repository does not have a 'workflow_dispatch' trigger. To fix, add the 'workflow_dispatch' trigger to the workflow file under {0}</value>
+    </data>
 </root>
