@@ -26,6 +26,16 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Java SE 11.0.11',
+          value: '11.0.11',
+          stackSettings: {
+            linuxContainerSettings: {
+              // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.8 prevents auto-updates
+              java11Runtime: 'JAVA|11.0.11',
+            },
+          },
+        },
+        {
           displayText: 'Java SE 11.0.9',
           value: '11.0.9',
           stackSettings: {
@@ -62,6 +72,16 @@ export const javaContainersStack: WebAppStack = {
             linuxContainerSettings: {
               // Note (allisonm): This doesn't have suffix of -java11 since setting to 11.0.5 prevents auto-updates
               java11Runtime: 'JAVA|11.0.5',
+            },
+          },
+        },
+        {
+          displayText: 'Java SE 8u292',
+          // note (jafreebe): Java SE 8u242 is pinned version that maps to the below value
+          value: '1.8.292',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JAVA|8u292',
             },
           },
         },
@@ -151,6 +171,20 @@ export const javaContainersStack: WebAppStack = {
               java11Runtime: 'TOMCAT|9.0-java11',
               java8Runtime: 'TOMCAT|9.0-jre8',
               isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Tomcat 9.0.46',
+          value: '9.0.46',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '9.0.46',
+            },
+            linuxContainerSettings: {
+              java11Runtime: 'TOMCAT|9.0.46-java11',
+              java8Runtime: 'TOMCAT|9.0.46-java8', // Note (allisonm): Newer Tomcat versions use java8, not jre8
             },
           },
         },
@@ -297,6 +331,20 @@ export const javaContainersStack: WebAppStack = {
               java11Runtime: 'TOMCAT|8.5-java11',
               java8Runtime: 'TOMCAT|8.5-jre8',
               isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Tomcat 8.5.66',
+          value: '8.5.66',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'TOMCAT|8.5.66-java8',
+              java11Runtime: 'TOMCAT|8.5.66-java11',
+            },
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '8.5.66',
             },
           },
         },
