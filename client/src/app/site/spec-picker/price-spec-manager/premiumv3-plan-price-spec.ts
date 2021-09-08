@@ -7,6 +7,7 @@ import { Sku, ArmObj } from '../../../shared/models/arm/arm-obj';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { DV3SeriesPriceSpec } from './dV3series-price-spec';
 import { PlanSpecPickerData, PlanPriceSpecManager } from './plan-price-spec-manager';
+import { PriceSpecInput } from './price-spec';
 
 export abstract class PremiumV3PlanPriceSpec extends DV3SeriesPriceSpec {
   tier = Tier.premiumV3;
@@ -79,6 +80,17 @@ export abstract class PremiumV3PlanPriceSpec extends DV3SeriesPriceSpec {
       (plan.properties.hyperV && plan.sku.tier === Tier.premiumContainer) ||
       AppKind.hasAnyKind(plan, [Kinds.elastic])
     );
+  }
+
+  protected _updateFeatureItemsList(input: PriceSpecInput) {
+    if ((input.planDetails && input.planDetails.containsJbossSite) || (input.specPickerInput.data && input.specPickerInput.data.isJBoss)) {
+      this.featureItems = this.featureItems.filter(i => i.title !== this._ts.instant(PortalResources.pricing_trafficManager));
+      this.featureItems.splice(0, 0, {
+        iconUrl: 'image/support.svg',
+        title: this._ts.instant(PortalResources.pricing_jboss),
+        description: this._ts.instant(PortalResources.pricing_jbossDesc),
+      });
+    }
   }
 }
 
