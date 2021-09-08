@@ -137,6 +137,11 @@ export enum JavaContainers {
   JBoss = 'jbosseap',
 }
 
+export enum DotnetRuntimeVersion {
+  aspNetv4 = 'v4.0',
+  aspNetv2 = 'v2.0',
+}
+
 export interface AzureDevOpsUrl {
   Tfs: string;
   Sps: string;
@@ -370,7 +375,7 @@ export interface DeploymentCenterCommitLogsProps {
 
 export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
   isPreviewFileButtonDisabled: boolean;
-  getWorkflowFileContent: () => string;
+  getWorkflowFileContent: () => Promise<string>;
   workflowFilePath?: string;
   panelMessage?: string;
   panelMessageType?: MessageBarType;

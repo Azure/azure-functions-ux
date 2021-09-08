@@ -301,4 +301,14 @@ export default class DeploymentCenterData {
   public cancelWorkflowRun = (gitHubToken: string, url: string) => {
     return GitHubService.cancelWorkflowRun(gitHubToken, url);
   };
+
+  public getWorkflowFile = (
+    appType: string,
+    publishType: string,
+    os: string,
+    variables: { [key: string]: string },
+    runtimeStack?: string
+  ) => {
+    return GitHubService.getWorkflowFile(appType, publishType, os, variables, runtimeStack);
+  };
 }

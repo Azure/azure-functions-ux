@@ -18,12 +18,12 @@ export const deploymentCenterContent = style({
 
 export const deploymentCenterConsole = (theme: ThemeExtended): string =>
   style({
-    whiteSpace: 'pre-line',
     backgroundColor: `${theme.semanticColors.bodyStandoutBackground}`,
     padding: '15px',
     borderWidth: 'thin',
     borderStyle: 'solid',
-    overflowWrap: 'break-word',
+    overflowX: 'scroll',
+    marginBottom: '68px',
   });
 
 export const deploymentCenterContainerLogsBox = style({
@@ -148,8 +148,10 @@ export const closePublishProfileButtonStyle = style({
 });
 
 export const closePreviewButtonStyle = style({
-  marginTop: '10px',
-  position: 'relative',
+  height: '32px',
+  width: '80px',
+  fontSize: '14px',
+  borderRadius: '2px',
 });
 
 export const titleWithPaddingStyle = style({
@@ -172,3 +174,16 @@ export const textboxPaddingStyle = style({
 export const changeAccountInfoButtonStyle = style({
   paddingBottom: '10px',
 });
+
+export const buttonFooterStyle = (theme: ThemeExtended): string =>
+  style({
+    backgroundColor: `${theme.semanticColors.background}`,
+    borderTop: `1px solid ${theme.semanticColors.bodyDivider}`,
+    padding: '16px 48px',
+    boxSizing: 'border-box',
+    position: 'fixed',
+    bottom: 0,
+    zIndex: 1,
+    width: '100%',
+    height: '68px',
+  });

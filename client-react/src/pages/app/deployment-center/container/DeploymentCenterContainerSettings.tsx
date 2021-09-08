@@ -5,6 +5,8 @@ import {
   DeploymentCenterFieldProps,
   DeploymentCenterContainerFormData,
   WorkflowOption,
+  AppType,
+  PublishType,
 } from '../DeploymentCenter.types';
 import { ScmType } from '../../../../models/site/config';
 import DeploymentCenterContainerRegistrySettings from './DeploymentCenterContainerRegistrySettings';
@@ -16,9 +18,8 @@ import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/Dep
 import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { useTranslation } from 'react-i18next';
-import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import { Guid } from '../../../../utils/Guid';
-import { getContainerAppWorkflowInformation } from '../utility/GitHubActionUtility';
 import DeploymentCenterContainerContinuousDeploymentSettings from './DeploymentCenterContainerContinuousDeploymentSettings';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentCenterGitHubConfiguredView';
@@ -26,6 +27,9 @@ import DeploymentCenterContainerSettingsReadOnlyView from './DeploymentCenterCon
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterVstsBuildProvider from '../devops-provider/DeploymentCenterVstsBuildProvider';
 import { ProgressIndicator } from 'office-ui-fabric-react';
+import { AppOs } from '../../../../models/site/site';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -48,6 +52,8 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
+  const deploymentCenterData = new DeploymentCenterData();
+  const portalContext = useContext(PortalContext);
 
   const isGitHubActionSelected = formProps.values.scmType === ScmType.GitHubAction;
   const isVstsSelected = formProps.values.scmType === ScmType.Vsts;
@@ -55,23 +61,53 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const isDockerHubConfigured = formProps.values.registrySource === ContainerRegistrySources.docker;
   const isPrivateRegistryConfigured = formProps.values.registrySource === ContainerRegistrySources.privateRegistry;
 
-  const getWorkflowFileContent = () => {
+  const getWorkflowFileVariables = () => {
+    const slotName = !!deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '';
+    const siteName = !!deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '';
+    const loginServer = serverUrl.toLocaleLowerCase();
+
+    // NOTE(stpelleg): For dockerHub the server URL contains /v1 at the end.
+    // The server used in the image should not have that part.
+    const server =
+      loginServer.indexOf(DeploymentCenterConstants.dockerHubServerUrlHost) > -1
+        ? DeploymentCenterConstants.dockerHubServerUrlHost
+        : loginServer.replace('https://', '');
+    return {
+      siteName: slotName ? `${siteName}(${slotName})` : siteName,
+      slotName: slotName || 'production',
+      branch: formProps.values.branch || 'master',
+      publishingProfileSecretName: `AzureAppService_PublishProfile_${formProps.values.gitHubPublishProfileSecretGuid}`,
+      loginServer: loginServer,
+      publishServer: server,
+      image: image,
+      containerUserSecretName: `AzureAppService_ContainerUsername_${formProps.values.gitHubContainerUsernameSecretGuid}`,
+      containerPasswordSecretName: `AzureAppService_ContainerPassword_${formProps.values.gitHubContainerPasswordSecretGuid}`,
+    };
+  };
+
+  const getWorkflowFileContent = async () => {
     if (deploymentCenterContext.siteDescriptor) {
       if (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig) {
         return githubActionExistingWorkflowContents;
       } else if (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) {
-        const information = getContainerAppWorkflowInformation(
-          serverUrl,
-          image,
-          formProps.values.branch,
-          formProps.values.gitHubPublishProfileSecretGuid,
-          formProps.values.gitHubContainerUsernameSecretGuid,
-          formProps.values.gitHubContainerPasswordSecretGuid,
-          deploymentCenterContext.siteDescriptor.site,
-          deploymentCenterContext.siteDescriptor.slot
-        );
+        const variables = getWorkflowFileVariables();
+        const appType = siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp;
+        const os = siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows;
 
-        return information.content;
+        const getWorkflowFile = await deploymentCenterData.getWorkflowFile(appType, PublishType.Container, os, variables);
+        if (getWorkflowFile.metadata.success) {
+          return getWorkflowFile.data;
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'getWorkflowFile', 'failed', {
+              appType: appType,
+              publishType: PublishType.Code,
+              os: os,
+              branch: variables.branch,
+            })
+          );
+          return t('deploymentCenterWorkflowError');
+        }
       }
     }
 
