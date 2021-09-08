@@ -61,18 +61,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const deploymentCenterData = new DeploymentCenterData();
 
-  const deployKudu = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
-    return siteStateContext.isKubeApp ? setSourceControlsInMetadata(values) : deployKuduUsingSourceControls(values);
-  };
-
-  const deployKuduUsingSourceControls = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+  const deployUsingSourceControls = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
     //(NOTE: stpelleg) Only external git is expected to be manual integration
     // If manual integration is true the site config scm type is set to be external
-
-    const payload: SiteSourceControlRequestBody | SiteSourceControlGitHubActionsRequestBody =
-      values.buildProvider === BuildProvider.GitHubAction
-        ? getGitHubActionsSourceControlsPayload(values)
-        : getKuduSourceControlsPayload(values);
+    const deployGithubActionsWithSourceControlsApi = !siteStateContext.isKubeApp && values.buildProvider === BuildProvider.GitHubAction;
+    const payload: SiteSourceControlRequestBody | SiteSourceControlGitHubActionsRequestBody = deployGithubActionsWithSourceControlsApi
+      ? getGitHubActionsSourceControlsPayload(values)
+      : getKuduSourceControlsPayload(values);
 
     if (values.sourceProvider === ScmType.LocalGit) {
       return deploymentCenterData.patchSiteConfig(deploymentCenterContext.resourceId, {
@@ -148,7 +143,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           publishType: PublishType.Code,
           os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
           runtimeStack: values.runtimeStack,
-          workflowApiVersion: DeploymentCenterConstants.ApiVersions.workflowApiVersion20201201,
+          workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20201201,
           slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
           variables: variables,
         },
@@ -223,7 +218,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     }
   };
 
-  const deployGithubActions = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+  const deployGithubActionsManually = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
     portalContext.log(getTelemetryInfo('info', 'commitGitHubActions', 'submit'));
 
     const repo = `${values.org}/${values.repo}`;
@@ -335,19 +330,21 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         }
       }
 
-      const gitHubActionDeployResponse = await deployGithubActions(values);
-      if (!gitHubActionDeployResponse.metadata.success) {
-        portalContext.log(
-          getTelemetryInfo('error', 'gitHubActionDeployResponse', 'failed', {
-            errorAsString: JSON.stringify(gitHubActionDeployResponse.metadata.error),
-          })
-        );
+      if (siteStateContext.isKubeApp) {
+        const gitHubActionDeployResponse = await deployGithubActionsManually(values);
+        if (!gitHubActionDeployResponse.metadata.success) {
+          portalContext.log(
+            getTelemetryInfo('error', 'gitHubActionDeployResponse', 'failed', {
+              errorAsString: JSON.stringify(gitHubActionDeployResponse.metadata.error),
+            })
+          );
 
-        return gitHubActionDeployResponse;
+          return gitHubActionDeployResponse;
+        }
       }
     }
 
-    return deployKudu(values);
+    return siteStateContext.isKubeApp ? setSourceControlsInMetadata(values) : deployUsingSourceControls(values);
   };
 
   const logSaveConclusion = (success: boolean, deploymentProperties: KeyValue<any>) => {

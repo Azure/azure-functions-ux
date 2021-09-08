@@ -578,10 +578,10 @@ export interface SiteSourceControlGitHubActionsRequestBody {
       appType: AppType;
       publishType: PublishType;
       os: string;
-      runtimeStack: string;
       workflowApiVersion: string;
       slotName: string;
       variables: KeyValue<string>;
+      runtimeStack?: string;
     };
   };
 }
