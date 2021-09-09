@@ -245,7 +245,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
 
         {isGitHubActionSelected && (
           <>
-            <DeploymentCenterGitHubDataLoader formProps={formProps} />{' '}
+            <DeploymentCenterGitHubDataLoader isGitHubActions={isGitHubActionSelected} formProps={formProps} />{' '}
             <DeploymentCenterGitHubWorkflowConfigSelector
               formProps={formProps}
               setGithubActionExistingWorkflowContents={setGithubActionExistingWorkflowContents}

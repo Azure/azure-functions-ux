@@ -320,6 +320,7 @@ export interface DeploymentCenterCodeFormData {
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
   formProps: FormikProps<DeploymentCenterFormData<T>>;
+  isGitHubActions?: boolean;
   isDataRefreshing?: boolean;
 }
 
