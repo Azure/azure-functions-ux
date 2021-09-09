@@ -5,6 +5,8 @@ import {
   DeploymentCenterCodeFormData,
   RuntimeStackSetting,
   RuntimeVersionOptions,
+  RuntimeStackOptions,
+  DotnetRuntimeVersion,
 } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
@@ -186,6 +188,17 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       version = stackSettings.windowsRuntimeSettings.gitHubActionSettings.supportedVersion
         ? stackSettings.windowsRuntimeSettings.gitHubActionSettings.supportedVersion
         : minorVersion;
+
+      //NOTE(stpelleg): Need to get Dotnet version from runtime settings if ASPNET
+      if (!!stack && stack.toLocaleLowerCase() === RuntimeStackOptions.Dotnet) {
+        const dotnetversion =
+          !!stackSettings.windowsRuntimeSettings && !!stackSettings.windowsRuntimeSettings.runtimeVersion
+            ? stackSettings.windowsRuntimeSettings.runtimeVersion
+            : '';
+        if (!!dotnetversion && (dotnetversion === DotnetRuntimeVersion.aspNetv4 || dotnetversion === DotnetRuntimeVersion.aspNetv2)) {
+          version = dotnetversion;
+        }
+      }
     }
 
     gitHubActionRuntimeVersionMapping[key] = version;

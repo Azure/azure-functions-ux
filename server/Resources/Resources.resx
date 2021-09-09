@@ -3310,6 +3310,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="pricing_customDomainsSslDesc" xml:space="preserve">
         <value>Configure and purchase custom domains with SNI SSL bindings</value>
     </data>
+    <data name="pricing_jboss" xml:space="preserve">
+        <value>JBoss EAP Integrated Support</value>
+    </data>
+    <data name="pricing_jbossDesc" xml:space="preserve">
+        <value>Automatically receive integrated technical support from Red Hat and Azure for your JBoss EAP sites</value>
+    </data>
     <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
         <value>Configure and purchase custom domains with SNI and IP SSL bindings</value>
     </data>
@@ -7175,5 +7181,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="missingWorkflowDispatchTrigger" xml:space="preserve">
         <value>Redeployment failed because your workflow file in your repository does not have a 'workflow_dispatch' trigger. To fix, add the 'workflow_dispatch' trigger to the workflow file under {0}</value>
+    </data>
+    <data name="deploymentCenterWorkflowError" xml:space="preserve">
+        <value>There was an error fetching the workflow file.</value>
     </data>
 </root>

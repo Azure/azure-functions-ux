@@ -1061,6 +1061,8 @@ export class PortalResources {
   public static pricing_sharedDisk = 'pricing_sharedDisk';
   public static pricing_customDomainsSsl = 'pricing_customDomainsSsl';
   public static pricing_customDomainsSslDesc = 'pricing_customDomainsSslDesc';
+  public static pricing_jboss = 'pricing_jboss';
+  public static pricing_jbossDesc = 'pricing_jbossDesc';
   public static pricing_customDomainsIpSslDesc = 'pricing_customDomainsIpSslDesc';
   public static pricing_manualScale = 'pricing_manualScale';
   public static pricing_rapidScale = 'pricing_rapidScale';
