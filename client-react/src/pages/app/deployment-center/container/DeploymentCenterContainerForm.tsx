@@ -10,9 +10,6 @@ import {
   SiteSourceControlRequestBody,
   WorkflowOption,
   ContainerDockerAccessTypes,
-  SiteSourceControlGitHubActionsRequestBody,
-  AppType,
-  PublishType,
 } from '../DeploymentCenter.types';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
@@ -46,7 +43,6 @@ import { GitHubCommit, GitHubActionWorkflowRequestContent } from '../../../../mo
 import { AppOs } from '../../../../models/site/site';
 import { Guid } from '../../../../utils/Guid';
 import { KeyValue } from '../../../../models/portal-models';
-import { CommonConstants } from '../../../../utils/CommonConstants';
 
 interface ResponseResult {
   success: boolean;
@@ -377,7 +373,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     return imageValue.split(':')[0];
   };
 
-  const deployGithubActionsManually = async (
+  const updateGitHubActionSettings = async (
     values: DeploymentCenterFormData<DeploymentCenterContainerFormData>
   ): Promise<ResponseResult> => {
     if (
@@ -471,70 +467,14 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     };
   };
 
-  const getGitHubActionsConfigurationVariables = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
-    const serverUrl = getServerUrl(values);
-    const image = getImageForGitHubAction(values);
-    const loginServer = serverUrl.toLocaleLowerCase();
-
-    // NOTE(stpelleg): For dockerHub the server URL contains /v1 at the end.
-    // The server used in the image should not have that part.
-    const server =
-      loginServer.indexOf(DeploymentCenterConstants.dockerHubServerUrlHost) > -1
-        ? DeploymentCenterConstants.dockerHubServerUrlHost
-        : loginServer.replace('https://', '');
-
-    const variables = {
-      loginServer: loginServer,
-      publishServer: server,
-      image: image,
-    };
-
-    return variables;
-  };
-
-  const getAppSourceControlsPayload = (
-    values: DeploymentCenterFormData<DeploymentCenterContainerFormData>
-  ): SiteSourceControlRequestBody => {
-    return {
-      repoUrl: `${DeploymentCenterConstants.githubUri}/${values.org}/${values.repo}`,
-      branch: values.branch || 'master',
-      isManualIntegration: false,
-      isGitHubAction: true,
-      isMercurial: false,
-    };
-  };
-
-  const getGitHubActionsSourceControlsPayload = (
-    values: DeploymentCenterFormData<DeploymentCenterContainerFormData>
-  ): SiteSourceControlGitHubActionsRequestBody => {
-    const variables = getGitHubActionsConfigurationVariables(values);
-
-    return {
-      repoUrl: `${DeploymentCenterConstants.githubUri}/${values.org}/${values.repo}`,
-      branch: values.branch || 'master',
-      isManualIntegration: false,
-      isGitHubAction: true,
-      deploymentRollbackEnabled: false,
-      isMercurial: false,
-      gitHubActionConfiguration: {
-        generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
-        workflowSettings: {
-          appType: siteContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
-          publishType: PublishType.Code,
-          os: siteContext.isLinuxApp ? AppOs.linux : AppOs.windows,
-          workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20201201,
-          slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
-          variables: variables,
-        },
-      },
-    };
-  };
-
   const updateSourceControlDetails = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
-    const deployGithubActionsWithSourceControlsApi = !siteContext.isKubeApp && values.scmType === ScmType.GitHubAction;
-    const payload: SiteSourceControlRequestBody | SiteSourceControlGitHubActionsRequestBody = deployGithubActionsWithSourceControlsApi
-      ? getGitHubActionsSourceControlsPayload(values)
-      : getAppSourceControlsPayload(values);
+    const payload: SiteSourceControlRequestBody = {
+      repoUrl: `${DeploymentCenterConstants.githubUri}/${values.org}/${values.repo}`,
+      branch: values.branch || 'master',
+      isManualIntegration: false,
+      isGitHubAction: true,
+      isMercurial: false,
+    };
 
     portalContext.log(getTelemetryInfo('info', 'updateSourceControlDetails', 'submit'));
 
@@ -618,23 +558,18 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     const notificationId = portalContext.startNotification(t('savingContainerConfiguration'), t('savingContainerConfiguration'));
 
     portalContext.log(getTelemetryInfo('info', 'saveGithubActionContainerSettings', 'submit'));
+    const updateGitHubActionSettingsResponse = await updateGitHubActionSettings(values);
     let containerConfigurationSucceeded = true;
     let errorMessage = '';
 
-    if (siteContext.isKubeApp) {
-      const deployGitHubActionsManuallyResponse = await deployGithubActionsManually(values);
-      if (!deployGitHubActionsManuallyResponse.success) {
-        errorMessage = getErrorMessage(deployGitHubActionsManuallyResponse.error);
-        containerConfigurationSucceeded = false;
-      }
-    }
-
-    if (containerConfigurationSucceeded) {
+    if (updateGitHubActionSettingsResponse.success) {
       const updateApplicationPropertiesResponse = await updateApplicationProperties(values);
+
       if (!updateApplicationPropertiesResponse.success) {
         errorMessage = getErrorMessage(updateApplicationPropertiesResponse.error);
-        containerConfigurationSucceeded = false;
       }
+    } else {
+      errorMessage = getErrorMessage(updateGitHubActionSettingsResponse.error);
     }
 
     if (containerConfigurationSucceeded) {
