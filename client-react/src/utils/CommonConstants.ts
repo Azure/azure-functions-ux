@@ -209,6 +209,10 @@ export class CommonConstants {
   };
 
   public static readonly workflowDispatchTriggerErrorMessage = "workflow does not have 'workflow_dispatch' trigger";
+
+  public static readonly production = 'production';
+
+  public static readonly master = 'master';
 }
 
 export enum WorkerRuntimeLanguages {

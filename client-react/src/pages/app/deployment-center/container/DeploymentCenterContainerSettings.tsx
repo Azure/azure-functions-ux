@@ -30,6 +30,7 @@ import { ProgressIndicator } from 'office-ui-fabric-react';
 import { AppOs } from '../../../../models/site/site';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -52,8 +53,8 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
-  const deploymentCenterData = new DeploymentCenterData();
   const portalContext = useContext(PortalContext);
+  const deploymentCenterData = new DeploymentCenterData();
 
   const isGitHubActionSelected = formProps.values.scmType === ScmType.GitHubAction;
   const isVstsSelected = formProps.values.scmType === ScmType.Vsts;
@@ -71,11 +72,11 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
     const server =
       loginServer.indexOf(DeploymentCenterConstants.dockerHubServerUrlHost) > -1
         ? DeploymentCenterConstants.dockerHubServerUrlHost
-        : loginServer.replace('https://', '');
+        : loginServer.replace(CommonConstants.DeploymentCenterConstants.https, '');
     return {
       siteName: slotName ? `${siteName}(${slotName})` : siteName,
-      slotName: slotName || 'production',
-      branch: formProps.values.branch || 'master',
+      slotName: slotName || CommonConstants.production,
+      branch: formProps.values.branch || CommonConstants.master,
       publishingProfileSecretName: `AzureAppService_PublishProfile_${formProps.values.gitHubPublishProfileSecretGuid}`,
       loginServer: loginServer,
       publishServer: server,

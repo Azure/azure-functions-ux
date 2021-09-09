@@ -14,6 +14,7 @@ import { DeploymentCenterConstants } from '../pages/app/deployment-center/Deploy
 import { ProviderToken } from '../models/provider';
 import { Method } from 'axios';
 import { CommonConstants } from '../utils/CommonConstants';
+import { KeyValue } from '../models/portal-models';
 
 export default class GitHubService {
   public static authorizeUrl = `${Url.serviceHost}auth/github/authorize`;
@@ -191,7 +192,7 @@ export default class GitHubService {
     appType: string,
     publishType: string,
     os: string,
-    variables: { [key: string]: string },
+    variables: KeyValue<string>,
     runtimeStack?: string,
     apiVersion = CommonConstants.ApiVersions.workflowApiVersion20201201
   ) => {

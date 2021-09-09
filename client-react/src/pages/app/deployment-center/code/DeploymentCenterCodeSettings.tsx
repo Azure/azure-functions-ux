@@ -41,6 +41,7 @@ import DeploymentCenterVstsBuildProvider from '../devops-provider/DeploymentCent
 import { AppOs } from '../../../../models/site/site';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -48,8 +49,8 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
-  const deploymentCenterData = new DeploymentCenterData();
   const portalContext = useContext(PortalContext);
+  const deploymentCenterData = new DeploymentCenterData();
 
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
   const [workflowFilePath, setWorkflowFilePath] = useState<string>('');
@@ -129,13 +130,13 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
     const variables = {
       siteName: slotName ? `${siteName}(${slotName})` : siteName,
-      slotName: slotName || 'production',
+      slotName: slotName || CommonConstants.production,
       runtimeVersion: getRuntimeVersion(
         siteStateContext.isLinuxApp,
         formProps.values.runtimeVersion,
         formProps.values.runtimeRecommendedVersion
       ),
-      branch: formProps.values.branch || 'master',
+      branch: formProps.values.branch || CommonConstants.master,
       publishingProfileSecretName: `AzureAppService_PublishProfile_${formProps.values.gitHubPublishProfileSecretGuid}`,
     };
 

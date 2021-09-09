@@ -144,10 +144,7 @@ export default class SiteService {
     });
   };
 
-  public static getSourceControlDetails = async (
-    resourceId: string,
-    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20201201
-  ) => {
+  public static getSourceControlDetails = (resourceId: string, apiVersion = CommonConstants.ApiVersions.antaresApiVersion20201201) => {
     return MakeArmCall<ArmObj<SourceControlProperties>>({
       resourceId: `${resourceId}/sourcecontrols/web`,
       commandName: 'fetchSourceControl',
@@ -156,7 +153,7 @@ export default class SiteService {
     });
   };
 
-  public static deleteSourceControlDetails = async (
+  public static deleteSourceControlDetails = (
     resourceId: string,
     deleteWorkflow: boolean = true,
     apiVersion = CommonConstants.ApiVersions.antaresApiVersion20201201
