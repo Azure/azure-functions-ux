@@ -105,12 +105,12 @@ export default class DeploymentCenterData {
     return GitHubService.getOrganizations(gitHubToken, logger);
   };
 
-  public getGitHubOrgRepositories = (org: string, gitHubToken: string, logger?: (page, response) => void) => {
-    return GitHubService.getOrgRepositories(org, gitHubToken, logger);
+  public getGitHubOrgRepositories = (org: string, gitHubToken: string, logger?: (page, response) => void, searchTerm?: string) => {
+    return GitHubService.getOrgRepositories(org, gitHubToken, logger, searchTerm);
   };
 
-  public getGitHubUserRepositories = (gitHubToken: string, logger?: (page, response) => void) => {
-    return GitHubService.getUserRepositories(gitHubToken, logger);
+  public getGitHubUserRepositories = (gitHubToken: string, logger?: (page, response) => void, searchTerm?: string) => {
+    return GitHubService.getUserRepositories(gitHubToken, logger, searchTerm);
   };
 
   public getGitHubBranches = (org: string, repo: string, gitHubToken: string, logger?: (page, response) => void) => {
