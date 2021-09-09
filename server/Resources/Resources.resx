@@ -7182,4 +7182,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="missingWorkflowDispatchTrigger" xml:space="preserve">
         <value>Redeployment failed because your workflow file in your repository does not have a 'workflow_dispatch' trigger. To fix, add the 'workflow_dispatch' trigger to the workflow file under {0}</value>
     </data>
+    <data name="deploymentCenterWorkflowError" xml:space="preserve">
+        <value>There was an error fetching the workflow file.</value>
+    </data>
 </root>
