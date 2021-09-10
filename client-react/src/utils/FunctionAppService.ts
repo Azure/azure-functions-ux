@@ -56,6 +56,11 @@ export default class FunctionAppService {
     return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.dotnet5;
   }
 
+  public static usingPowershellWorkerRuntime(appSettings: ArmObj<KeyValue<string>>): boolean {
+    const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
+    return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.powershell;
+  }
+
   public static usingPythonLinuxConsumption(site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean {
     return (
       !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxConsumption) &&
@@ -71,6 +76,15 @@ export default class FunctionAppService {
       isLinuxDynamic(site) &&
       !!appSettings &&
       FunctionAppService.usingNodeWorkerRuntime(appSettings)
+    );
+  }
+
+  public static usingPowershellLinuxConsumption(site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean {
+    return (
+      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxConsumption) &&
+      isLinuxDynamic(site) &&
+      !!appSettings &&
+      FunctionAppService.usingPowershellWorkerRuntime(appSettings)
     );
   }
 
