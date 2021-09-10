@@ -33,6 +33,11 @@ export function isElastic(obj: ArmObj<Site>): boolean {
   return sku === CommonConstants.SkuNames.elasticPremium || sku === CommonConstants.SkuNames.elasticIsolated;
 }
 
+export function isElasticPremium(obj: ArmObj<Site>): boolean {
+  const sku = obj.properties.sku && obj.properties.sku.toLocaleLowerCase();
+  return sku === CommonConstants.SkuNames.elasticPremium;
+}
+
 export function isPremiumV2(obj: ArmObj<Site>): boolean {
   const sku = obj.properties.sku && obj.properties.sku.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.premiumV2;

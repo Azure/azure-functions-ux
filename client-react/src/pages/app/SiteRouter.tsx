@@ -14,11 +14,11 @@ import {
   isContainerApp,
   isDynamic,
   isElastic,
+  isElasticPremium,
   isFunctionApp,
   isKubeApp,
   isLinuxApp,
   isLinuxDynamic,
-  isPremiumV2,
 } from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
 import FunctionAppService from '../../utils/FunctionAppService';
@@ -88,22 +88,26 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [isFunctionApplication, setIsFunctionApplication] = useState<boolean>(false);
   const [isKubeApplication, setIsKubeApplication] = useState<boolean>(false);
 
-  const ignoreLinuxDynamicReadOnly = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean => {
+  const enableLinuxDynamicFlagSet = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean => {
     return (
-      FunctionAppService.usingPythonLinuxConsumption(site, appSettings) || FunctionAppService.usingNodeLinuxConsumption(site, appSettings)
+      FunctionAppService.usingPythonLinuxConsumption(site, appSettings) ||
+      FunctionAppService.usingNodeLinuxConsumption(site, appSettings) ||
+      FunctionAppService.usingPowershellLinuxConsumption(site, appSettings)
     );
   };
 
-  const enableLinuxElasticPremiumFlagSetForPythonOrNode = (appSettings?: ArmObj<KeyValue<string>>): boolean => {
+  const enableLinuxElasticPremiumFlagSet = (appSettings?: ArmObj<KeyValue<string>>): boolean => {
     return (
       !!appSettings &&
-      (FunctionAppService.usingPythonWorkerRuntime(appSettings) || FunctionAppService.usingNodeWorkerRuntime(appSettings)) &&
+      (FunctionAppService.usingPythonWorkerRuntime(appSettings) ||
+        FunctionAppService.usingNodeWorkerRuntime(appSettings) ||
+        FunctionAppService.usingPowershellWorkerRuntime(appSettings)) &&
       !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxPremium)
     );
   };
 
   const getSiteStateFromSiteData = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
-    if (isLinuxDynamic(site) && !ignoreLinuxDynamicReadOnly(site, appSettings)) {
+    if (isLinuxDynamic(site) && !enableLinuxDynamicFlagSet(site, appSettings)) {
       return FunctionAppEditMode.ReadOnlyLinuxDynamic;
     }
 
@@ -111,7 +115,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyBYOC;
     }
 
-    if (isLinuxApp(site) && isElastic(site) && !enableLinuxElasticPremiumFlagSetForPythonOrNode(appSettings)) {
+    if (isLinuxApp(site) && isElastic(site) && !enableLinuxElasticPremiumFlagSet(appSettings)) {
       return FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
     }
 
@@ -142,7 +146,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     if (
       FunctionAppService.usingPythonWorkerRuntime(appSettings) &&
       !FunctionAppService.usingPythonLinuxConsumption(site, appSettings) &&
-      !enableLinuxElasticPremiumFlagSetForPythonOrNode(appSettings)
+      !enableLinuxElasticPremiumFlagSet(appSettings)
     ) {
       return FunctionAppEditMode.ReadOnlyPython;
     }
@@ -151,7 +155,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyJava;
     }
 
-    if ((isDynamic(site) || isPremiumV2(site)) && !FunctionAppService.getAzureFilesSetting(appSettings)) {
+    if ((isDynamic(site) || isElasticPremium(site)) && !FunctionAppService.getAzureFilesSetting(appSettings)) {
       return FunctionAppEditMode.ReadOnlyAzureFiles;
     }
 
