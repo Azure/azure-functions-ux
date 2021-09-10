@@ -13,6 +13,8 @@ import { HttpResponseObject } from '../ArmHelper.types';
 import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
 import { ProviderToken } from '../models/provider';
 import { Method } from 'axios';
+import { CommonConstants } from '../utils/CommonConstants';
+import { KeyValue } from '../models/portal-models';
 
 export default class GitHubService {
   public static authorizeUrl = `${Url.serviceHost}auth/github/authorize`;
@@ -204,6 +206,27 @@ export default class GitHubService {
     };
 
     return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/cancelWorkflowRun`, method: 'POST', data });
+  };
+
+  public static getWorkflowFile = (
+    appType: string,
+    publishType: string,
+    os: string,
+    variables: KeyValue<string>,
+    runtimeStack?: string,
+    apiVersion = CommonConstants.ApiVersions.workflowApiVersion20201201
+  ) => {
+    //(NOTE) stpelleg: This will eventually move to calling an ARM api instead of the functions server
+    const url = `${Url.serviceHost}/workflows/generate?api-version=${apiVersion}`;
+    const data = {
+      appType: appType,
+      publishType: publishType,
+      os: os,
+      runtimeStack: runtimeStack || '',
+      variables: variables,
+    };
+
+    return sendHttpRequest<string>({ url: url, method: 'POST', data });
   };
 
   private static _getSpecificGitHubObjectList = async <T>(

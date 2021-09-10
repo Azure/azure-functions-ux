@@ -20,6 +20,7 @@ export class CommonConstants {
 
   public static readonly ApiVersions = {
     antaresApiVersion20181101: '2018-11-01',
+    antaresApiVersion20201201: '2020-12-01',
     armBatchApi20151101: '2015-11-01',
     resourceGraphApiVersion20180901preview: '2018-09-01-preview',
     storageApiVersion20180701: '2018-07-01',
@@ -37,6 +38,7 @@ export class CommonConstants {
     billingApiVersion20190114: '2019-01-14',
     argApiVersion20210301: '2021-03-01',
     argApiVersion20180901Preview: '2018-09-01-preview',
+    workflowApiVersion20201201: '2020-12-01',
   };
 
   public static readonly NonThemeColors = {
@@ -207,6 +209,10 @@ export class CommonConstants {
   };
 
   public static readonly workflowDispatchTriggerErrorMessage = "workflow does not have 'workflow_dispatch' trigger";
+
+  public static readonly production = 'production';
+
+  public static readonly master = 'master';
 }
 
 export enum WorkerRuntimeLanguages {

@@ -10,6 +10,7 @@ import { BitbucketUser } from '../../../models/bitbucket';
 import { RepoTypeOptions } from '../../../models/external';
 import { OneDriveUser } from '../../../models/onedrive';
 import { DropboxUser } from '../../../models/dropbox';
+import { KeyValue } from '../../../models/portal-models';
 
 export enum SourceControlOptions {
   GitHub = 'github',
@@ -118,6 +119,27 @@ export enum JavaContainerDisplayNames {
   JavaSE = 'Java SE',
   Tomcat = 'Tomcat',
   JBoss = 'JBoss EAP',
+}
+
+export enum PublishType {
+  Code = 'code',
+  Container = 'container',
+}
+
+export enum AppType {
+  WebApp = 'webapp',
+  FunctionApp = 'functionapp',
+}
+
+export enum JavaContainers {
+  JavaSE = 'java',
+  Tomcat = 'tomcat',
+  JBoss = 'jbosseap',
+}
+
+export enum DotnetRuntimeVersion {
+  aspNetv4 = 'v4.0',
+  aspNetv2 = 'v2.0',
 }
 
 export interface AzureDevOpsUrl {
@@ -354,7 +376,7 @@ export interface DeploymentCenterCommitLogsProps {
 
 export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
   isPreviewFileButtonDisabled: boolean;
-  getWorkflowFileContent: () => string;
+  getWorkflowFileContent: () => Promise<string>;
   workflowFilePath?: string;
   panelMessage?: string;
   panelMessageType?: MessageBarType;
@@ -544,6 +566,26 @@ export interface SiteSourceControlRequestBody {
   isManualIntegration: boolean;
   isGitHubAction: boolean;
   isMercurial: boolean;
+}
+export interface SiteSourceControlGitHubActionsRequestBody {
+  repoUrl: string;
+  branch: string;
+  isManualIntegration: boolean;
+  isGitHubAction: boolean;
+  deploymentRollbackEnabled: boolean;
+  isMercurial: boolean;
+  gitHubActionConfiguration: {
+    generateWorkflowFile: boolean;
+    workflowSettings: {
+      appType: AppType;
+      publishType: PublishType;
+      os: string;
+      workflowApiVersion: string;
+      slotName: string;
+      variables: KeyValue<string>;
+      runtimeStack?: string;
+    };
+  };
 }
 
 export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>

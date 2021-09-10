@@ -42,4 +42,17 @@ export class SpecListComponent implements OnChanges {
     const specDivId = `${this.specGroup.id}${spec.skuCode}`;
     return !!this.isRecommendedList ? `recommendedTierHeaderId ${specDivId}` : `additionalTierHeaderId ${specDivId}`;
   }
+
+  getAriaDescribedByForTopFeatures(spec: PriceSpec): string {
+    let describedByIds = [];
+    spec.topLevelFeatures.forEach((_element, index) => {
+      describedByIds.push(this.getTopFeatureId(spec, index));
+    });
+
+    return describedByIds.join(' ');
+  }
+
+  getTopFeatureId(spec: PriceSpec, index: number): string {
+    return `${spec.skuCode}-topFeature${index}`;
+  }
 }
