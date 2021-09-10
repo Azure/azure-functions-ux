@@ -56,7 +56,7 @@ export default class GitHubService {
     };
 
     if (!searchTerm) {
-      return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getOrgRepositories', 'POST', logger, 1);
+      return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getOrgRepositories', 'POST', logger, 2);
     } else {
       return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(
         { ...data, searchTerm },
@@ -73,7 +73,7 @@ export default class GitHubService {
     };
 
     if (!searchTerm) {
-      return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getUserRepositories', 'POST', logger, 1);
+      return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getUserRepositories', 'POST', logger, 2);
     } else {
       return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(
         { ...data, searchTerm },
@@ -238,7 +238,7 @@ export default class GitHubService {
   ) => {
     const githubObjectList: T[] = [];
     let lastPageNumber = 1;
-    const MAX_NUM_PAGES = maxNumPages ? maxNumPages : 10;
+    // const MAX_NUM_PAGES = maxNumPages ? maxNumPages : 10;
     for (let page = 1; page <= lastPageNumber; page++) {
       data.page = page;
       const pageResponse = await GitHubService._sendSpecificGitHubRequest<T[]>(data, apiName, method);
@@ -249,7 +249,7 @@ export default class GitHubService {
         if (linkHeader) {
           const links = getLinksFromLinkHeader(linkHeader);
           const thisLastPageNumber = getLastPageNumberFromLinks(links);
-          lastPageNumber = thisLastPageNumber > MAX_NUM_PAGES ? MAX_NUM_PAGES : thisLastPageNumber;
+          lastPageNumber = thisLastPageNumber > 10 ? 10 : thisLastPageNumber;
         }
       } else if (logger) {
         logger(page, pageResponse);

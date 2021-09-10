@@ -109,10 +109,11 @@ export class GithubController {
   async getSearchOrgRepositories(
     @Body('gitHubToken') gitHubToken: string,
     @Body('org') org: string,
-    @Body('searchTerm') searchTerm: string
+    @Body('searchTerm') searchTerm: string,
+    @Body('page') page: number
   ) {
     try {
-      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+org:${org}`;
+      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+org:${org}&page=${page}`;
       const r = await this.httpService.get(encodeURI(url), {
         headers: this._getAuthorizationHeader(gitHubToken),
       });
@@ -137,11 +138,10 @@ export class GithubController {
 
   @Post('api/github/getSearchUserRepositories')
   @HttpCode(200)
-  async getSearchUserRepositories(
-    @Body('gitHubToken') gitHubToken: string,
-    @Body('username') username: string,
-    @Body('searchTerm') searchTerm: string
-  ) {
+  async getSearchUserRepositories(@Body('gitHubToken') gitHubToken: string, @Body('searchTerm') searchTerm: string) {
+    const userResponse = await this.httpService.get(`${this.githubApiUrl}/user`, { headers: this._getAuthorizationHeader(gitHubToken) });
+    const username = userResponse.data.login;
+
     try {
       const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+user:${username}`;
       const r = await this.httpService.get(encodeURI(url), {
