@@ -105,8 +105,8 @@ export default class DeploymentCenterData {
     return GitHubService.getOrganizations(gitHubToken, logger);
   };
 
-  public getGitHubOrgRepositories = (repositories_url: string, gitHubToken: string, logger?: (page, response) => void) => {
-    return GitHubService.getOrgRepositories(repositories_url, gitHubToken, logger);
+  public getGitHubOrgRepositories = (org: string, gitHubToken: string, logger?: (page, response) => void) => {
+    return GitHubService.getOrgRepositories(org, gitHubToken, logger);
   };
 
   public getGitHubUserRepositories = (gitHubToken: string, logger?: (page, response) => void) => {
@@ -300,5 +300,9 @@ export default class DeploymentCenterData {
 
   public cancelWorkflowRun = (gitHubToken: string, url: string) => {
     return GitHubService.cancelWorkflowRun(gitHubToken, url);
+  };
+
+  public getWorkflowFile = (appType: string, publishType: string, os: string, variables: KeyValue<string>, runtimeStack?: string) => {
+    return GitHubService.getWorkflowFile(appType, publishType, os, variables, runtimeStack);
   };
 }

@@ -330,7 +330,7 @@ export const getCodeFunctionAppCodeWorkflowInformation = (
   };
 };
 
-const getRuntimeVersion = (isLinuxApp: boolean, runtimeVersion: string, runtimeStackRecommendedVersion: string) => {
+export const getRuntimeVersion = (isLinuxApp: boolean, runtimeVersion: string, runtimeStackRecommendedVersion: string) => {
   if (runtimeStackRecommendedVersion) {
     return runtimeStackRecommendedVersion;
   } else {

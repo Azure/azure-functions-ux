@@ -12,7 +12,7 @@ import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
-  const { formProps } = props;
+  const { formProps, isGitHubActions } = props;
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -93,7 +93,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
             })
           );
         })
-      : deploymentCenterData.getGitHubOrgRepositories(repositories_url, deploymentCenterContext.gitHubToken, (page, response) => {
+      : deploymentCenterData.getGitHubOrgRepositories(formProps.values.org, deploymentCenterContext.gitHubToken, (page, response) => {
           portalContext.log(
             getTelemetryInfo('error', 'getGitHubOrgRepositoriesResponse', 'failed', {
               page,
@@ -102,9 +102,14 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
           );
         }));
 
-    const newRepositoryOptions: IDropdownOption[] = gitHubRepositories
-      .filter(repo => !repo.permissions || repo.permissions.admin)
-      .map(repo => ({ key: repo.name, text: repo.name }));
+    let newRepositoryOptions: IDropdownOption[] = [];
+    if (isGitHubActions) {
+      newRepositoryOptions = gitHubRepositories.map(repo => ({ key: repo.name, text: repo.name }));
+    } else {
+      newRepositoryOptions = gitHubRepositories
+        .filter(repo => !repo.permissions || repo.permissions.admin)
+        .map(repo => ({ key: repo.name, text: repo.name }));
+    }
 
     setRepositoryOptions(newRepositoryOptions);
     setLoadingRepositories(false);
