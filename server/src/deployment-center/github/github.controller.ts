@@ -109,11 +109,15 @@ export class GithubController {
   async getSearchOrgRepositories(
     @Body('gitHubToken') gitHubToken: string,
     @Body('org') org: string,
-    @Body('searchTerm') searchTerm: string,
-    @Body('page') page: number
+    @Body('searchTerm') searchTerm: string
   ) {
     try {
-      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+org:${org}&page=${page}`;
+      console.log(searchTerm);
+      // console.log(searchTerm.trim());
+      //console.log(searchTerm.replace(' ', ''));
+      const trimSearchTerm = searchTerm.replace(/(\r\n|\n|\r)/gm, '');
+      const url = `${this.githubApiUrl}/search/repositories?q=${trimSearchTerm} in:name+org:${org}`;
+      console.log(url);
       const r = await this.httpService.get(encodeURI(url), {
         headers: this._getAuthorizationHeader(gitHubToken),
       });
@@ -149,7 +153,7 @@ export class GithubController {
       });
       return r.data.items;
     } catch (err) {
-      this.loggingService.error(`Failed retrieve user repositories with given search term.`);
+      this.loggingService.error(`Failed retrieve user repositories with given search term. Get search user repositories called? `);
 
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);

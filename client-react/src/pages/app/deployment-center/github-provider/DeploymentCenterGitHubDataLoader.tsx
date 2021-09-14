@@ -86,6 +86,8 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setRepositoryOptions([]);
     setBranchOptions([]);
 
+    console.log(`search term:${searchTerm}`);
+
     portalContext.log(getTelemetryInfo('info', 'gitHubRepositories', 'submit'));
     const gitHubRepositories = await (repositories_url.toLocaleLowerCase().indexOf('github.com/users/') > -1
       ? deploymentCenterData.getGitHubUserRepositories(
@@ -234,12 +236,10 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     searchTerm$.current.next(value);
   };
 
-  const watchforSearchTermUpdates = async (searchTerm$: Subject<string>) => {
+  const watchForSearchTermUpdates = async (searchTerm$: Subject<string>) => {
     searchTerm$.pipe(debounceTime(300)).subscribe(text => {
-      if (!!text) {
-        if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
-          fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org], text);
-        }
+      if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
+        fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org], text);
       }
     });
   };
@@ -263,8 +263,8 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   useEffect(() => {
     if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
+      watchForSearchTermUpdates(searchTerm$.current);
       fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org]);
-      watchforSearchTermUpdates(searchTerm$.current);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
