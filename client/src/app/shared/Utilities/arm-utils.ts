@@ -7,6 +7,7 @@ import { ArmObj, ResourceTopologyColumn, Identity, Sku } from './../models/arm/a
 import { FeatureFlags, Kinds } from '../models/constants';
 import { AppKind } from './app-kind';
 import { Url } from './url';
+import { NationalCloudEnvironment } from '../services/scenario/national-cloud.environment';
 
 export namespace ArmUtil {
   export function isFunctionApp(obj: ArmObj<any> | FunctionContainer): boolean {
@@ -50,6 +51,10 @@ export namespace ArmUtil {
     return (
       (obj && AppKind.hasAnyKind(obj, [Kinds.kubeApp, Kinds.kubernetes])) || Url.getFeatureValue(FeatureFlags.treatAsKubeApp) === 'true'
     );
+  }
+
+  export function isASEV3GenerallyAccessible(): boolean {
+    return !NationalCloudEnvironment.isNationalCloud() || NationalCloudEnvironment.isFairFax();
   }
 
   export function mapArmSiteToContext(obj: ArmObj<Site>, injector: Injector): FunctionAppContext {
