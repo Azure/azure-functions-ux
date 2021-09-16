@@ -73,7 +73,7 @@ export interface PlanSpecPickerData {
   isNewFunctionAppCreate?: boolean; // NOTE(shimedh): We need this additional flag temporarily to make it work with old and new FunctionApp creates.
   // Since old creates always shows elastic premium sku's along with other sku's.
   // However, in new full screen creates it would be based on the plan type selected which will determing isElastic boolean value.
-  allowAseV3Creation?: boolean; // NOTE(shimedh): This will be set for new ASP creating in existing ASEv3. It will later also be used for new app in new ASEv3 scenario from webapp create (will be enabled for GA).
+  allowAseV3Creation?: boolean; // NOTE(shimedh): This will be set for new ASP creating in existing ASEv3 and for new app in new ASEv3.
   isWorkflowStandard?: boolean;
   isJBoss?: boolean; // Set to true when creating a JBoss site.
 }
