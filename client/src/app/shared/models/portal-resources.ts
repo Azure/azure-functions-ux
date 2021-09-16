@@ -2347,4 +2347,5 @@ export class PortalResources {
   public static deploymentCenterDeprecatedTokenDialogBody = 'deploymentCenterDeprecatedTokenDialogBody';
   public static deploymentCenterUpdateTokenSuccessMessage = 'deploymentCenterUpdateTokenSuccessMessage';
   public static missingWorkflowDispatchTrigger = 'missingWorkflowDispatchTrigger';
+  public static deploymentCenterWorkflowError = 'deploymentCenterWorkflowError';
 }
