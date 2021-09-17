@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links, Pricing } from '../../../shared/models/constants';
+import { Kinds, Links, Pricing, FeatureFlags } from '../../../shared/models/constants';
 import { Tier, SkuCode } from '../../../shared/models/serverFarmSku';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { AseService } from '../../../shared/services/ase.service';
@@ -9,8 +9,7 @@ import { PriceSpec, PriceSpecInput } from './price-spec';
 import { PlanService } from './../../../shared/services/plan.service';
 import { ResourceId, Sku } from '../../../shared/models/arm/arm-obj';
 import { Observable } from 'rxjs/Rx';
-import Url from '../../../../../../client-react/src/utils/url';
-import { CommonConstants } from '../../../../../../client-react/src/utils/CommonConstants';
+import { Url } from '../../../../app/shared/Utilities/url';
 
 export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
   tier = Tier.isolatedV2;
@@ -94,8 +93,8 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
   }
 
   //TODO (miabebax): Once ANT 96 is deployed, we will remove this conditional check to allow Xenon ASPs to be created in ASEv3. (WI#: 10941757)
-  private _hideIsolatedV2SpecsForXenon(isXenon: boolean, isHyperV: boolean): boolean {
-    return !Url.getFeatureValue(CommonConstants.FeatureFlags.showIsolatedV2ForXenon) && (isXenon || isHyperV);
+  private _hideIsolatedV2SpecsForXenon(isXenon: boolean = false, isHyperV: boolean = false): boolean {
+    return !(Url.getFeatureValue(FeatureFlags.showIsolatedV2ForXenon) === 'true') && (isXenon || isHyperV);
   }
 
   runInitialization(input: PriceSpecInput) {
