@@ -39,10 +39,15 @@ export default class SiteService {
     const siteConfig = !!rest && !!rest.properties && rest.properties.siteConfig;
     SiteService._removePropertiesFromSiteConfig(siteConfig, configSettingsToIgnore);
 
+    // Setting virtualNetworkSubnetId to undefined since we do a linked access check against the network RP for this property.
+    // So if the user doesn't have permissions to that RP, then this call will fail.
+    const virtualNetworkSubnetId = undefined;
+
     const payload = {
       ...rest,
       properties: {
         ...rest.properties,
+        virtualNetworkSubnetId,
         siteConfig,
       },
     };
