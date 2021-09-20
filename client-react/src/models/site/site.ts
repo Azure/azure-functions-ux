@@ -113,6 +113,7 @@ export interface Site {
   dailyMemoryTimeQuota: number;
   siteDisabledReason: SiteDisabledReason;
   possibleInboundIpAddresses?: string;
+  virtualNetworkSubnetId?: string;
 }
 
 export interface HostNameSslState {
