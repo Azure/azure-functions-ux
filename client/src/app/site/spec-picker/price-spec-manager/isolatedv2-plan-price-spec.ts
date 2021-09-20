@@ -3,7 +3,7 @@ import { Kinds, Links, Pricing } from '../../../shared/models/constants';
 import { Tier, SkuCode } from '../../../shared/models/serverFarmSku';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { AseService } from '../../../shared/services/ase.service';
-import { NationalCloudEnvironment } from '../../../shared/services/scenario/national-cloud.environment';
+import { ArmUtil } from '../../../shared/Utilities/arm-utils';
 import { AppKind } from '../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { PlanService } from './../../../shared/services/plan.service';
@@ -92,7 +92,7 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
   }
 
   runInitialization(input: PriceSpecInput) {
-    if (NationalCloudEnvironment.isBlackforest()) {
+    if (!ArmUtil.isASEV3GenerallyAccessible()) {
       this.state = 'hidden';
     } else if (input.planDetails) {
       if (
