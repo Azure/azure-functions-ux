@@ -353,6 +353,26 @@ export const javaStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Java 1.8.0_275',
+          value: '8.0.275',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+              runtimeVersion: '',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
           displayText: 'Java 1.8.0_265',
           value: '8.0.265',
           stackSettings: {

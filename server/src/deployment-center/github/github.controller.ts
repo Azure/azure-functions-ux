@@ -675,6 +675,7 @@ export class GithubController {
         );
       }
 
+      res.setHeader('access-control-expose-headers', 'link, x-oauth-scopes');
       res.json(response.data);
     } catch (err) {
       if (err.response) {
@@ -707,6 +708,7 @@ export class GithubController {
         );
       }
 
+      res.setHeader('access-control-expose-headers', 'link, x-oauth-scopes');
       res.json(response.data);
     } catch (err) {
       if (err.response) {
