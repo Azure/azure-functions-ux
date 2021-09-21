@@ -32,8 +32,8 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [hasDeprecatedToken, setHasDeprecatedToken] = useState(false);
   const [updateTokenSuccess, setUpdateTokenSuccess] = useState(false);
 
-  //const searchTerm$ = useRef(new Subject<string>());
   const gitHubOrgToUrlMapping = useRef<{ [key: string]: string }>({});
+
   const fetchOrganizationOptions = async () => {
     setLoadingOrganizations(true);
     gitHubOrgToUrlMapping.current = {};
@@ -41,6 +41,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setRepositoryOptions([]);
     setBranchOptions([]);
     const newOrganizationOptions: IDropdownOption[] = [];
+
     if (gitHubUser) {
       portalContext.log(getTelemetryInfo('info', 'getGitHubOrganizations', 'submit'));
       const gitHubOrganizations = await deploymentCenterData.getGitHubOrganizations(
@@ -104,6 +105,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
           },
           searchTerm
         ));
+
     let newRepositoryOptions: IDropdownOption[] = [];
     if (isGitHubActions) {
       newRepositoryOptions = gitHubRepositories.map(repo => ({ key: repo.name, text: repo.name }));
@@ -112,9 +114,12 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
         .filter(repo => !repo.permissions || repo.permissions.admin)
         .map(repo => ({ key: repo.name, text: repo.name }));
     }
+
     newRepositoryOptions.sort((a, b) => a.text.localeCompare(b.text));
+
     setRepositoryOptions(newRepositoryOptions);
     setLoadingRepositories(false);
+
     // If the form props already contains selected data, set the default to that value.
     if (formProps.values.org && formProps.values.repo) {
       fetchBranchOptions(formProps.values.org, formProps.values.repo);
@@ -228,12 +233,14 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   useEffect(() => {
     if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
       fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org]);
+    } else if (!formProps.values.org) {
+      setBranchOptions([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.org]);
 
   useEffect(() => {
-    if (formProps.values.searchTerm && formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
+    if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
       fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org], formProps.values.searchTerm);
     }
   }, [formProps.values.searchTerm]);
@@ -260,7 +267,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       hasDeprecatedToken={hasDeprecatedToken}
       updateTokenSuccess={updateTokenSuccess}
       resetToken={resetToken}
-      // onSearchTermChange={onSearchTermChange}
     />
   );
 };

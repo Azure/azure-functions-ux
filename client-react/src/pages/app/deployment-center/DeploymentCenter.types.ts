@@ -445,7 +445,6 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   hasDeprecatedToken?: boolean;
   updateTokenSuccess?: boolean;
   resetToken?: () => void;
-  onSearchTermChange?: (value: string) => void;
 }
 
 export interface DeploymentCenterGitHubDisconnectProps {

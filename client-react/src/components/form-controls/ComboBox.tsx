@@ -22,63 +22,6 @@ interface CustomComboBoxProps {
   searchable?: boolean;
 }
 
-// class ComboBox extends React.Component<FieldProps & IComboBoxProps & CustomComboBoxProps & any> {
-//   private theme = useContext(ThemeContext);
-//   private inputDebouncer = new Subject<EventMsg>();
-//   private errorMessage = get(this.props.form.errors, this.props.field.name, '') as string;
-//   private onChange = (event: React.FormEvent<IComboBox>, option?: IComboBoxOption, index?: number, value?: string): void => {
-//     const { field, form, allowFreeform, setOptions } = this.props;
-//     if (!!allowFreeform && !option && !!value) {
-//       // If allowFreeform is true, the newly selected option might be something the user typed that
-//       // doesn't exist in the options list yet. So there's extra work to manually add it.
-//       option = { key: value, text: value };
-//       !!setOptions && setOptions(prevOptions => [...prevOptions, option!]);
-//     }
-//     if (!!value) {
-//       this.inputDebouncer.next({event, value});
-//     }
-
-//     if (option) {
-//       form.setFieldValue(field.name, option.key);
-//     } else {
-//       form.setFieldValue(field.name, '');
-//     }
-//   };
-//   public componentDidMount() {
-//     const { field, form } = this.props;
-//     console.log(`field name: ${field.name}`);
-//     this.inputDebouncer.pipe(debounceTime(300)).subscribe(({ event, value }) => {
-//       form.setFieldValue(field.name, value);
-//       field.onChange(event);
-//     });
-//   }
-//   public render() {
-//     const { field, allowFreeform, options, isLoading, ...rest } = this.props;
-//     return (
-//       <ComboBoxNoFormik
-//         id={"combobox-component"}
-//         label={"combobox-component"}
-//         value={field.value === undefined ? 'null' : field.value}
-//         selectedKey={field.value === undefined ? 'null' : field.value}
-//         ariaLabel={this.props.label}
-//         options={options}
-//         onChange={this.onChange}
-//         onBlur={field.onBlur}
-//         errorMessage={this.errorMessage}
-//         styles={ComboBoxStyles(this.theme)}
-//         allowFreeform={allowFreeform}
-//         disabled={isLoading || this.props.disabled}
-//         {...rest}
-//       />
-//     );
-//   }
-//   // private watchForSearchTermUpdates = async (searchTerm$: Subject<string>) => {
-//   //     this.inputDebouncer.pipe(debounceTime(300)).subscribe(text => {
-
-//   //   });
-//   // };
-
-// }
 const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
   const { field, form, options, styles, setOptions, allowFreeform, isLoading, searchable, text, ...rest } = props;
   const theme = useContext(ThemeContext);
@@ -112,10 +55,9 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
   };
 
   const watchForSearchTermUpdates = async () => {
-    inputDebouncer.current.pipe(debounceTime(300)).subscribe(value => {
+    inputDebouncer.current.pipe(debounceTime(500)).subscribe(value => {
       form.setFieldValue('searchTerm', value);
       setSearchTerm(value);
-      console.log(`value: ${value}`);
       if (!value) {
         form.setFieldValue(field.name, '');
       }

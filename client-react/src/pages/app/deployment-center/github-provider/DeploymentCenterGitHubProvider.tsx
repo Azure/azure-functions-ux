@@ -26,7 +26,6 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
     hasDeprecatedToken,
     updateTokenSuccess,
     resetToken,
-    // onSearchTermChange,
   } = props;
 
   const deprecatedTokensBanner = hasDeprecatedToken ? (
@@ -115,7 +114,6 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
             required={true}
             isLoading={loadingRepositories}
             searchable={true}
-            shouldRestoreFocus={true}
           />
           <Field
             id="deployment-center-settings-branch-option"
