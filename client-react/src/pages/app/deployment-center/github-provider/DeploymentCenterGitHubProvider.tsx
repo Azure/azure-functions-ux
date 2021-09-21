@@ -26,7 +26,7 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
     hasDeprecatedToken,
     updateTokenSuccess,
     resetToken,
-    onSearchTermChange,
+    // onSearchTermChange,
   } = props;
 
   const deprecatedTokensBanner = hasDeprecatedToken ? (
@@ -114,11 +114,8 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
             defaultSelectedKey={formProps.values.repo}
             required={true}
             isLoading={loadingRepositories}
-            autofill={{
-              onInputValueChange: (newValue: string) => {
-                onSearchTermChange(newValue);
-              },
-            }}
+            searchable={true}
+            shouldRestoreFocus={true}
           />
           <Field
             id="deployment-center-settings-branch-option"

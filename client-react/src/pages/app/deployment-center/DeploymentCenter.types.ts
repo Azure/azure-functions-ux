@@ -292,6 +292,7 @@ export interface DeploymentCenterCommonFormData {
   dropboxUser?: DropboxUser;
   folder?: string;
   devOpsProjectName?: string;
+  searchTerm?: string;
 }
 
 export interface AcrFormData {
@@ -444,7 +445,7 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   hasDeprecatedToken?: boolean;
   updateTokenSuccess?: boolean;
   resetToken?: () => void;
-  onSearchTermChange: (value: string) => void;
+  onSearchTermChange?: (value: string) => void;
 }
 
 export interface DeploymentCenterGitHubDisconnectProps {

@@ -109,22 +109,22 @@ export class GithubController {
   async getSearchOrgRepositories(
     @Body('gitHubToken') gitHubToken: string,
     @Body('org') org: string,
-    @Body('searchTerm') searchTerm: string
+    @Body('searchTerm') searchTerm: string,
+    @Body('page') page: number
   ) {
     try {
-      console.log(searchTerm);
-      // console.log(searchTerm.trim());
-      //console.log(searchTerm.replace(' ', ''));
-      const trimSearchTerm = searchTerm.replace(/(\r\n|\n|\r)/gm, '');
-      const url = `${this.githubApiUrl}/search/repositories?q=${trimSearchTerm} in:name+org:${org}`;
-      console.log(url);
-      const r = await this.httpService.get(encodeURI(url), {
+      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+org:${org}&per_page=100`;
+      // successive searchTerms have zero white space char added to front
+      const encodedURI = encodeURI(url).replace('%E2%80%8B', '');
+      const r = await this.httpService.get(encodedURI, {
         headers: this._getAuthorizationHeader(gitHubToken),
       });
+
       return r.data.items;
     } catch (err) {
       this.loggingService.error(`Failed retrieve org repositories with given search term.`);
 
+      // TODO: err.response doesnt exist, err.message
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
       } else {
@@ -147,8 +147,10 @@ export class GithubController {
     const username = userResponse.data.login;
 
     try {
-      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+user:${username}`;
-      const r = await this.httpService.get(encodeURI(url), {
+      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+user:${username}&per_page=100`;
+      // successive searchTerms have zero white space char added to front
+      const encodedURI = encodeURI(url).replace('%E2%80%8B', '');
+      const r = await this.httpService.get(encodedURI, {
         headers: this._getAuthorizationHeader(gitHubToken),
       });
       return r.data.items;

@@ -9,17 +9,15 @@ import { IDropdownOption } from 'office-ui-fabric-react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
-import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+// import { Subject } from 'rxjs';
+// import { debounceTime } from 'rxjs/operators';
 
 const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
   const { formProps, isGitHubActions } = props;
-
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
-
   const [gitHubUser, setGitHubUser] = useState<GitHubUser | undefined>(undefined);
   const [gitHubAccountStatusMessage, setGitHubAccountStatusMessage] = useState<string | undefined>(
     t('deploymentCenterOAuthFetchingUserInformation')
@@ -33,10 +31,9 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [loadingBranches, setLoadingBranches] = useState(false);
   const [hasDeprecatedToken, setHasDeprecatedToken] = useState(false);
   const [updateTokenSuccess, setUpdateTokenSuccess] = useState(false);
-  const searchTerm$ = useRef(new Subject<string>());
 
+  //const searchTerm$ = useRef(new Subject<string>());
   const gitHubOrgToUrlMapping = useRef<{ [key: string]: string }>({});
-
   const fetchOrganizationOptions = async () => {
     setLoadingOrganizations(true);
     gitHubOrgToUrlMapping.current = {};
@@ -44,7 +41,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setRepositoryOptions([]);
     setBranchOptions([]);
     const newOrganizationOptions: IDropdownOption[] = [];
-
     if (gitHubUser) {
       portalContext.log(getTelemetryInfo('info', 'getGitHubOrganizations', 'submit'));
       const gitHubOrganizations = await deploymentCenterData.getGitHubOrganizations(
@@ -58,23 +54,19 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
           );
         }
       );
-
       gitHubOrganizations.forEach(org => {
         newOrganizationOptions.push({ key: org.login, text: org.login });
         if (!gitHubOrgToUrlMapping.current[org.login]) {
           gitHubOrgToUrlMapping.current[org.login] = org.url;
         }
       });
-
       newOrganizationOptions.push({ key: gitHubUser.login, text: gitHubUser.login });
       if (!gitHubOrgToUrlMapping.current[gitHubUser.login]) {
         gitHubOrgToUrlMapping.current[gitHubUser.login] = gitHubUser.repos_url;
       }
     }
-
     setOrganizationOptions(newOrganizationOptions);
     setLoadingOrganizations(false);
-
     // If the form props already contains selected data, set the default to that value.
     if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
       fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org]);
@@ -85,9 +77,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setLoadingRepositories(true);
     setRepositoryOptions([]);
     setBranchOptions([]);
-
-    console.log(`search term:${searchTerm}`);
-
     portalContext.log(getTelemetryInfo('info', 'gitHubRepositories', 'submit'));
     const gitHubRepositories = await (repositories_url.toLocaleLowerCase().indexOf('github.com/users/') > -1
       ? deploymentCenterData.getGitHubUserRepositories(
@@ -115,7 +104,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
           },
           searchTerm
         ));
-
     let newRepositoryOptions: IDropdownOption[] = [];
     if (isGitHubActions) {
       newRepositoryOptions = gitHubRepositories.map(repo => ({ key: repo.name, text: repo.name }));
@@ -124,12 +112,9 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
         .filter(repo => !repo.permissions || repo.permissions.admin)
         .map(repo => ({ key: repo.name, text: repo.name }));
     }
-
     newRepositoryOptions.sort((a, b) => a.text.localeCompare(b.text));
-
     setRepositoryOptions(newRepositoryOptions);
     setLoadingRepositories(false);
-
     // If the form props already contains selected data, set the default to that value.
     if (formProps.values.org && formProps.values.repo) {
       fetchBranchOptions(formProps.values.org, formProps.values.repo);
@@ -139,7 +124,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const fetchBranchOptions = async (org: string, repo: string) => {
     setLoadingBranches(true);
     setBranchOptions([]);
-
     const gitHubBranches = await deploymentCenterData.getGitHubBranches(
       org,
       repo,
@@ -153,9 +137,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
         );
       }
     );
-
     const newBranchOptions: IDropdownOption[] = gitHubBranches.map(branch => ({ key: branch.name, text: branch.name }));
-
     setBranchOptions(newBranchOptions);
     setLoadingBranches(false);
   };
@@ -209,19 +191,15 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   // TODO(michinoy): We will need to add methods here to manage github specific network calls such as:
   // repos, orgs, branches, workflow file, etc.
-
   const fetchData = async () => {
     portalContext.log(getTelemetryInfo('info', 'getGitHubUser', 'submit'));
     const gitHubUserResponse = await deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken);
-
     setGitHubAccountStatusMessage(undefined);
-
     if (gitHubUserResponse.metadata.success && gitHubUserResponse.data.login) {
       // NOTE(michinoy): if unsuccessful, assume the user needs to authorize.
       setGitHubUser(gitHubUserResponse.data);
       formProps.setFieldValue('gitHubUser', gitHubUserResponse.data);
     }
-
     if (!!deploymentCenterContext.gitHubToken && !deploymentCenterContext.gitHubToken.startsWith('gho')) {
       portalContext.log(
         getTelemetryInfo('info', 'checkDeprecatedToken', 'submit', {
@@ -232,18 +210,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     }
   };
 
-  const onSearchTermChange = async (value: string) => {
-    searchTerm$.current.next(value);
-  };
-
-  const watchForSearchTermUpdates = async (searchTerm$: Subject<string>) => {
-    searchTerm$.pipe(debounceTime(300)).subscribe(text => {
-      if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
-        fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org], text);
-      }
-    });
-  };
-
   useEffect(() => {
     if (!formProps.values.gitHubUser) {
       fetchData();
@@ -251,30 +217,31 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       setGitHubUser(formProps.values.gitHubUser);
       setGitHubAccountStatusMessage(undefined);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterContext.gitHubToken]);
 
   useEffect(() => {
     fetchOrganizationOptions();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gitHubUser]);
 
   useEffect(() => {
     if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
-      watchForSearchTermUpdates(searchTerm$.current);
       fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org]);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.org]);
+
+  useEffect(() => {
+    if (formProps.values.searchTerm && formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
+      fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org], formProps.values.searchTerm);
+    }
+  }, [formProps.values.searchTerm]);
 
   useEffect(() => {
     if (formProps.values.org && formProps.values.repo) {
       fetchBranchOptions(formProps.values.org, formProps.values.repo);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.repo]);
 
@@ -293,7 +260,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       hasDeprecatedToken={hasDeprecatedToken}
       updateTokenSuccess={updateTokenSuccess}
       resetToken={resetToken}
-      onSearchTermChange={onSearchTermChange}
+      // onSearchTermChange={onSearchTermChange}
     />
   );
 };
