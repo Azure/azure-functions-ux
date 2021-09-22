@@ -166,7 +166,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
   };
 
   const getBranchLink = () => {
-    if (!isBranchInfoMissing) {
+    if (!isBranchInfoMissing && !!branch) {
       return (
         <Link
           key="deployment-center-branch-link"
