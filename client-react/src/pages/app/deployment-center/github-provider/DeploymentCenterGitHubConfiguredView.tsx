@@ -168,10 +168,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
   const getBranchLink = () => {
     if (!isBranchInfoMissing && !!branch) {
       return (
-        <Link
-          key="deployment-center-branch-link"
-          onClick={() => window.open(repoUrl + `/tree/${branch}`, '_blank')}
-          aria-label={`${branch}`}>
+        <Link key="deployment-center-branch-link" href={repoUrl + `/tree/${branch}`} target="_blank" aria-label={`${branch}`}>
           {`${branch} `}
           <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
         </Link>
