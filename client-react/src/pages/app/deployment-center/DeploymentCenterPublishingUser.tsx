@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Field } from 'formik';
 import {
   DeploymentCenterFtpsProps,
@@ -6,15 +6,18 @@ import {
   DeploymentCenterContainerFormData,
   DeploymentCenterCodeFormData,
 } from './DeploymentCenter.types';
-import { Link, MessageBarType, ProgressIndicator } from 'office-ui-fabric-react';
+import { ActionButton, Link, MessageBarType, ProgressIndicator } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterContent } from './DeploymentCenter.styles';
+import { additionalTextFieldControl, deploymentCenterContent } from './DeploymentCenter.styles';
 import TextField from '../../../components/form-controls/TextField';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import { DeploymentCenterLinks } from '../../../utils/FwLinks';
+import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
+
+type PasswordFieldType = 'password' | undefined;
 
 const DeploymentCenterPublishingUser: React.FC<
   DeploymentCenterFtpsProps & DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -22,6 +25,7 @@ const DeploymentCenterPublishingUser: React.FC<
   const { t } = useTranslation();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+  const [applicationPasswordType, setApplicationPasswordType] = useState<PasswordFieldType>('password');
 
   const { publishingUser, publishingUserFetchFailedMessage } = deploymentCenterPublishingContext;
 
@@ -42,6 +46,10 @@ const DeploymentCenterPublishingUser: React.FC<
     : `${sampleAppNameDomain}\\${t('deploymentCenterFtpsUserScopeSampleUsername')}`;
 
   const sampleWebProviderUsername = webProviderUsername ? webProviderUsername : t('deploymentCenterFtpsUserScopeSampleUsername');
+
+  const toggleShowApplicationPassword = () => {
+    setApplicationPasswordType(!applicationPasswordType ? 'password' : undefined);
+  };
 
   return (
     <div className={deploymentCenterContent}>
@@ -79,8 +87,31 @@ const DeploymentCenterPublishingUser: React.FC<
             component={TextField}
             label={t('deploymentCenterFtpsUsernameLabel')}
           />
-
-          <Field
+          <div>
+            <TextFieldNoFormik
+              id="deployment-center-ftps-provider-password"
+              name="publishingPassword"
+              label={t('deploymentCenterFtpsPasswordLabel')}
+              widthOverride="100%"
+              // value={publishingProfile && publishingProfile.userPWD}
+              // disabled={true}
+              type={applicationPasswordType}
+              additionalControls={[
+                <ActionButton
+                  id="deployment-center-ftps-application-password-visibility-toggle"
+                  key="deployment-center-ftps-application-password-visibility-toggle"
+                  className={additionalTextFieldControl}
+                  ariaLabel={
+                    applicationPasswordType === 'password' ? t('showApplicationPasswordAriaLabel') : t('hideApplicationPasswordAriaLabel')
+                  }
+                  onClick={toggleShowApplicationPassword}
+                  iconProps={{ iconName: applicationPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
+                  {applicationPasswordType === 'password' ? t('show') : t('hide')}
+                </ActionButton>,
+              ]}
+            />
+          </div>
+          {/* <Field
             id="deployment-center-ftps-provider-password"
             name="publishingPassword"
             component={TextField}
@@ -94,7 +125,7 @@ const DeploymentCenterPublishingUser: React.FC<
             component={TextField}
             label={t('deploymentCenterFtpsConfirmPasswordLabel')}
             type="password"
-          />
+          /> */}
         </>
       )}
     </div>
