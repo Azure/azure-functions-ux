@@ -9,11 +9,17 @@ export interface ArmObj<T> {
   properties: T;
   identity?: Identity;
   sku?: Sku;
+  extendedLocation?: ExtendedLocation;
 }
 
 export interface ArmArrayResult<T> {
   value: ArmObj<T>[];
   nextLink: string;
+}
+
+export interface ExtendedLocation {
+  name: string;
+  type: string;
 }
 
 export interface Identity {
