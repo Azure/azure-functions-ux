@@ -7,6 +7,12 @@ import ComboBoxNoFormik from './ComboBoxnoFormik';
 import { IComboBoxProps, IComboBoxOption, IComboBox, IDropdownOption } from 'office-ui-fabric-react';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+
+export interface ClearComboBox {
+  repo?: boolean;
+  branch?: boolean;
+}
+
 interface CustomComboBoxProps {
   id: string;
   upsellMessage?: string;
@@ -20,10 +26,11 @@ interface CustomComboBoxProps {
   learnMoreLink?: string;
   isLoading?: boolean;
   searchable?: boolean;
+  clearComboBox?: boolean;
 }
 
 const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
-  const { field, form, options, styles, setOptions, allowFreeform, isLoading, searchable, text, ...rest } = props;
+  const { field, form, options, styles, setOptions, allowFreeform, isLoading, searchable, text, clearComboBox, ...rest } = props;
   const theme = useContext(ThemeContext);
   const inputDebouncer = useRef(new Subject<string>());
   const [searchTerm, setSearchTerm] = useState('');
@@ -33,19 +40,26 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
       // If allowFreeform is true, the newly selected option might be something the user typed that
       // doesn't exist in the options list yet. So there's extra work to manually add it.
       option = { key: value, text: value };
+      console.log(option);
       !!setOptions && setOptions(prevOptions => [...prevOptions, option!]);
     }
 
     if (option) {
       form.setFieldValue(field.name, option.key);
+      if (!!searchable) {
+        setSearchTerm(option.text);
+      }
     } else {
-      form.setFieldValue(field.name, '');
+      if (!!value) {
+        inputDebouncer.current.next(value);
+      } else {
+        inputDebouncer.current.next('');
+      }
     }
   };
 
   const onInputValueChange = (newValue?: string) => {
-    const { searchable } = props;
-    if (searchable) {
+    if (!!searchable) {
       if (!!newValue) {
         inputDebouncer.current.next(newValue);
       } else {
@@ -55,30 +69,38 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
   };
 
   const watchForSearchTermUpdates = async () => {
-    inputDebouncer.current.pipe(debounceTime(500)).subscribe(value => {
-      form.setFieldValue('searchTerm', value);
-      setSearchTerm(value);
-      if (!value) {
-        form.setFieldValue(field.name, '');
-      }
-    });
+    if (!!searchable) {
+      inputDebouncer.current.pipe(debounceTime(500)).subscribe(value => {
+        setSearchTerm(value);
+        form.setFieldValue('searchTerm', value);
+        if (!value) {
+          form.setFieldValue(field.name, undefined);
+        }
+      });
+    }
   };
 
   useEffect(() => {
-    watchForSearchTermUpdates();
-
-    const newInputDebouncerCurrent = inputDebouncer.current;
-
-    return () => {
-      newInputDebouncerCurrent.unsubscribe();
-    };
+    if (!!searchable) {
+      watchForSearchTermUpdates();
+    }
   }, []);
+
+  useEffect(() => {
+    if (!!clearComboBox) {
+      if (!!searchable) {
+        setSearchTerm('');
+      }
+      // form.setFieldValue('searchTerm', '');
+      form.setFieldValue(field.name, undefined);
+    }
+  }, [options]);
 
   const errorMessage = get(form.errors, field.name, '') as string;
   return (
     <ComboBoxNoFormik
       selectedKey={field.value === undefined ? 'null' : field.value}
-      text={field.value ? field.value : searchTerm}
+      text={searchTerm}
       ariaLabel={props.label}
       options={options}
       onChange={onChange}

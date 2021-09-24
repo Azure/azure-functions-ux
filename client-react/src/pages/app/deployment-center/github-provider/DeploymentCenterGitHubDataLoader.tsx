@@ -9,13 +9,16 @@ import { IDropdownOption } from 'office-ui-fabric-react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
+import { ClearComboBox } from '../../../../components/form-controls/ComboBox';
 
 const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
   const { formProps, isGitHubActions } = props;
+
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
+
   const [gitHubUser, setGitHubUser] = useState<GitHubUser | undefined>(undefined);
   const [gitHubAccountStatusMessage, setGitHubAccountStatusMessage] = useState<string | undefined>(
     t('deploymentCenterOAuthFetchingUserInformation')
@@ -29,6 +32,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [loadingBranches, setLoadingBranches] = useState(false);
   const [hasDeprecatedToken, setHasDeprecatedToken] = useState(false);
   const [updateTokenSuccess, setUpdateTokenSuccess] = useState(false);
+  const [clearComboBox, setClearComboBox] = useState<ClearComboBox>({ repo: false, branch: false });
 
   const gitHubOrgToUrlMapping = useRef<{ [key: string]: string }>({});
 
@@ -53,19 +57,23 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
           );
         }
       );
+
       gitHubOrganizations.forEach(org => {
         newOrganizationOptions.push({ key: org.login, text: org.login });
         if (!gitHubOrgToUrlMapping.current[org.login]) {
           gitHubOrgToUrlMapping.current[org.login] = org.url;
         }
       });
+
       newOrganizationOptions.push({ key: gitHubUser.login, text: gitHubUser.login });
       if (!gitHubOrgToUrlMapping.current[gitHubUser.login]) {
         gitHubOrgToUrlMapping.current[gitHubUser.login] = gitHubUser.repos_url;
       }
     }
+
     setOrganizationOptions(newOrganizationOptions);
     setLoadingOrganizations(false);
+
     // If the form props already contains selected data, set the default to that value.
     if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
       fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org]);
@@ -76,6 +84,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setLoadingRepositories(true);
     setRepositoryOptions([]);
     setBranchOptions([]);
+
     portalContext.log(getTelemetryInfo('info', 'gitHubRepositories', 'submit'));
     const gitHubRepositories = await (repositories_url.toLocaleLowerCase().indexOf('github.com/users/') > -1
       ? deploymentCenterData.getGitHubUserRepositories(
@@ -127,6 +136,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const fetchBranchOptions = async (org: string, repo: string) => {
     setLoadingBranches(true);
     setBranchOptions([]);
+
     const gitHubBranches = await deploymentCenterData.getGitHubBranches(
       org,
       repo,
@@ -141,6 +151,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       }
     );
     const newBranchOptions: IDropdownOption[] = gitHubBranches.map(branch => ({ key: branch.name, text: branch.name }));
+
     setBranchOptions(newBranchOptions);
     setLoadingBranches(false);
   };
@@ -197,12 +208,15 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const fetchData = async () => {
     portalContext.log(getTelemetryInfo('info', 'getGitHubUser', 'submit'));
     const gitHubUserResponse = await deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken);
+
     setGitHubAccountStatusMessage(undefined);
+
     if (gitHubUserResponse.metadata.success && gitHubUserResponse.data.login) {
       // NOTE(michinoy): if unsuccessful, assume the user needs to authorize.
       setGitHubUser(gitHubUserResponse.data);
       formProps.setFieldValue('gitHubUser', gitHubUserResponse.data);
     }
+
     if (!!deploymentCenterContext.gitHubToken && !deploymentCenterContext.gitHubToken.startsWith('gho')) {
       portalContext.log(
         getTelemetryInfo('info', 'checkDeprecatedToken', 'submit', {
@@ -228,22 +242,30 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gitHubUser]);
 
+  // IF ORG CHANGES
   useEffect(() => {
+    setBranchOptions([]);
+    setClearComboBox({ branch: true, repo: true });
+
     if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
       fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org]);
-    } else if (!formProps.values.org) {
-      setBranchOptions([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.org]);
 
+  // IF SEARCH TERM CHANGES
   useEffect(() => {
+    setBranchOptions([]);
+    setClearComboBox({ branch: true, repo: false });
     if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
       fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org], formProps.values.searchTerm);
     }
   }, [formProps.values.searchTerm]);
 
+  // IF REPO CHANGES
   useEffect(() => {
+    setBranchOptions([]);
+    setClearComboBox({ branch: true, repo: false });
     if (formProps.values.org && formProps.values.repo) {
       fetchBranchOptions(formProps.values.org, formProps.values.repo);
     }
@@ -265,6 +287,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       hasDeprecatedToken={hasDeprecatedToken}
       updateTokenSuccess={updateTokenSuccess}
       resetToken={resetToken}
+      clearComboBox={clearComboBox}
     />
   );
 };

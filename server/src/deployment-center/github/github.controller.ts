@@ -114,7 +114,7 @@ export class GithubController {
   ) {
     try {
       const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+org:${org}&per_page=100`;
-      // successive searchTerms have zero white space char added to front
+      // Successive searchTerms have zero white space char added to front
       const encodedURI = encodeURI(url).replace('%E2%80%8B', '');
       const r = await this.httpService.get(encodedURI, {
         headers: this._getAuthorizationHeader(gitHubToken),
@@ -124,7 +124,6 @@ export class GithubController {
     } catch (err) {
       this.loggingService.error(`Failed retrieve org repositories with given search term.`);
 
-      // TODO: err.response doesnt exist, err.message
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
       } else {
@@ -148,7 +147,7 @@ export class GithubController {
 
     try {
       const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+user:${username}&per_page=100`;
-      // successive searchTerms have zero white space char added to front
+      // Successive searchTerms have zero white space char added to front
       const encodedURI = encodeURI(url).replace('%E2%80%8B', '');
       const r = await this.httpService.get(encodedURI, {
         headers: this._getAuthorizationHeader(gitHubToken),

@@ -56,7 +56,7 @@ export default class GitHubService {
     };
 
     if (!searchTerm) {
-      return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getOrgRepositories', 'POST', logger, 1);
+      return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getOrgRepositories', 'POST', logger, 2);
     } else {
       return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(
         { ...data, searchTerm },
@@ -73,7 +73,7 @@ export default class GitHubService {
     };
 
     if (!searchTerm) {
-      return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getUserRepositories', 'POST', logger, 1);
+      return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getUserRepositories', 'POST', logger, 2);
     } else {
       return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(
         { ...data, searchTerm },
