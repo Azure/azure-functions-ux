@@ -86,9 +86,11 @@ export class FlightingUtil {
     switch (remainder) {
       case 3: {
         k1 ^= (key.charCodeAt(i + 2) & 0xff) << 16;
+        break;
       }
       case 2: {
         k1 ^= (key.charCodeAt(i + 1) & 0xff) << 8;
+        break;
       }
       case 1: {
         k1 ^= key.charCodeAt(i) & 0xff;
@@ -97,6 +99,7 @@ export class FlightingUtil {
         k1 = (k1 << 15) | (k1 >>> 17);
         k1 = ((k1 & 0xffff) * c2 + ((((k1 >>> 16) * c2) & 0xffff) << 16)) & 0xffffffff;
         h1 ^= k1;
+        break;
       }
     }
 
