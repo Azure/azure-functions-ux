@@ -5,6 +5,7 @@ import {
   DeploymentCenterFieldProps,
   DeploymentCenterContainerFormData,
   DeploymentCenterCodeFormData,
+  PasswordFieldType,
 } from './DeploymentCenter.types';
 import { ActionButton, Link, MessageBarType, ProgressIndicator } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
@@ -16,8 +17,6 @@ import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import { DeploymentCenterLinks } from '../../../utils/FwLinks';
 
-type PasswordFieldType = 'password' | undefined;
-
 const DeploymentCenterPublishingUser: React.FC<
   DeploymentCenterFtpsProps & DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
 > = props => {
@@ -25,6 +24,7 @@ const DeploymentCenterPublishingUser: React.FC<
   const { formProps } = props;
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+
   const [providerPasswordType, setProviderPasswordType] = useState<PasswordFieldType>('password');
   const [providerConfirmPasswordType, setProviderConfirmPasswordType] = useState<PasswordFieldType>('password');
   const [textFieldPassword, setTextFieldPassword] = useState<string>('');
@@ -66,6 +66,14 @@ const DeploymentCenterPublishingUser: React.FC<
   const changeTextFieldConfirmPassword = (e: any, newConfirmPassword: string) => {
     setTextFieldConfirmPassword(newConfirmPassword);
     formProps.setFieldValue('publishingConfirmPassword', newConfirmPassword);
+  };
+
+  const toggleLabel = (showLabel: string, hideLabel: string, passwordType?: string): string => {
+    return passwordType === 'password' ? t(showLabel) : t(hideLabel);
+  };
+
+  const toggleIcon = (passwordType?: string) => {
+    return passwordType === 'password' ? 'RedEye' : 'Hide';
   };
 
   return (
@@ -118,10 +126,10 @@ const DeploymentCenterPublishingUser: React.FC<
                 id="deployment-center-ftps-provider-password-visibility-toggle"
                 key="deployment-center-ftps-provider-password-visibility-toggle"
                 className={additionalTextFieldControl}
-                ariaLabel={providerPasswordType === 'password' ? t('showProviderPasswordAriaLabel') : t('hideProviderPasswordAriaLabel')}
+                ariaLabel={toggleLabel('showProviderPasswordAriaLabel', 'hideProviderPasswordAriaLabel', providerPasswordType)}
                 onClick={toggleShowProviderPassword}
-                iconProps={{ iconName: providerPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
-                {providerPasswordType === 'password' ? t('show') : t('hide')}
+                iconProps={{ iconName: toggleIcon(providerPasswordType) }}>
+                {toggleLabel('show', 'hide', providerPasswordType)}
               </ActionButton>,
             ]}
           />
@@ -139,14 +147,14 @@ const DeploymentCenterPublishingUser: React.FC<
                 id="deployment-center-ftps-provider-confirm-password-visibility-toggle"
                 key="deployment-center-ftps-provider-confirm-password-visibility-toggle"
                 className={additionalTextFieldControl}
-                ariaLabel={
-                  providerConfirmPasswordType === 'password'
-                    ? t('showProviderConfirmPasswordAriaLabel')
-                    : t('hideProviderConfirmPasswordAriaLabel')
-                }
+                ariaLabel={toggleLabel(
+                  'showProviderConfirmPasswordAriaLabel',
+                  'hideProviderConfirmPasswordAriaLabel',
+                  providerConfirmPasswordType
+                )}
                 onClick={toggleShowConfirmProviderPassword}
-                iconProps={{ iconName: providerConfirmPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
-                {providerConfirmPasswordType === 'password' ? t('show') : t('hide')}
+                iconProps={{ iconName: toggleIcon(providerConfirmPasswordType) }}>
+                {toggleLabel('show', 'hide', providerConfirmPasswordType)}
               </ActionButton>,
             ]}
           />
