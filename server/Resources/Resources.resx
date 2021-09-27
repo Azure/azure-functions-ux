@@ -3245,7 +3245,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
     </data>
     <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
-        <value>Inline creation of App Service Environments is currently not supported.</value>
+        <value>To create an app on a new App Service Environment, click a link below to create the environment first.</value>
     </data>
     <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
         <value>Create new App Service Environment</value>

@@ -663,6 +663,7 @@ export class FeatureFlags {
   public static DisablePv2Experiment = 'DisablePv2Experiment';
   public static showHiddenStacks = 'showHiddenStacks';
   public static treatAsKubeApp = 'treatAsKubeApp';
+  public static showIsolatedV2ForXenon = 'showIsolatedV2ForXenon'; // websitesextension_ext=appsvc.showIsolatedV2ForXenon%3Dtrue
 }
 
 export class SupportedFeatures {
