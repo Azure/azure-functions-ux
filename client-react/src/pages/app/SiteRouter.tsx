@@ -102,11 +102,13 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     return (
       !!appSettings &&
       !!resourceId &&
+      // Node/Python stack + Flighting
       (((FunctionAppService.usingPythonWorkerRuntime(appSettings) || FunctionAppService.usingNodeWorkerRuntime(appSettings)) &&
         FlightingUtil.checkSubscriptionInFlight(
           getSubscriptionFromResourceId(resourceId),
           FlightingUtil.features.EnableEditingForLinuxNodePython
         )) ||
+        // Or Powershell + Feature-flag
         (FunctionAppService.usingPowershellWorkerRuntime(appSettings) &&
           !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxPremium)))
     );
