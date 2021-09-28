@@ -1,14 +1,14 @@
 import Url from './url';
 
 export class FlightingUtil {
-  public static Features = {};
+  public static features = {};
 
-  private static config = {};
+  private static _config = {};
 
   /*
    * Subscription = hash key
-   * Seed is a wild card to make sure that the same subscriptions aren't used to flight every feature, this can very on each feature
-   * percent of users should be a number between 1 and 100 to represent the percentage of users that should hit the feature.
+   * Seed is a wild card to make sure that the same subscriptions aren't used to flight every feature, this can vary on each feature
+   * percent of users should be a number between 1 and 99 to represent the percentage of users that should hit the feature.
    *
    */
   static checkSubscriptionInFlight(subscription: string, feature: string): boolean {
@@ -16,7 +16,7 @@ export class FlightingUtil {
       throw new Error(`Flighted feature must be specified`);
     }
 
-    const config = this.config[feature];
+    const config = this._config[feature];
     if (!config) {
       throw new Error(`'${feature}' is not a valid flighted feature`);
     }
@@ -50,7 +50,6 @@ export class FlightingUtil {
    * @see http://github.com/garycourt/murmurhash-js
    * @see http://sites.google.com/site/murmurhash/
    *
-   * tested with 100,000 subscriptions to make sure there is a good distrubution. %100 has every number reprecented within .1% of 1%, 50% was consistantly within 500 of 50,0000 which should be close enough for our needs
    */
 
   private static murmurhash3_32_gc(key: string, seed: number) {
