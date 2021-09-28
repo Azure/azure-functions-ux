@@ -3,7 +3,8 @@ import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { KeyValue } from '../models/portal-models';
 import Url from './url';
 import { Site } from '../models/site/site';
-import { isLinuxDynamic } from './arm-utils';
+import { getSubscriptionFromResourceId, isLinuxDynamic } from './arm-utils';
+import { FlightingUtil } from './flighting-util';
 
 export default class FunctionAppService {
   public static getRFPSetting(appSettings: ArmObj<KeyValue<string>>): string {
@@ -63,7 +64,10 @@ export default class FunctionAppService {
 
   public static usingPythonLinuxConsumption(site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean {
     return (
-      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxConsumption) &&
+      FlightingUtil.checkSubscriptionInFlight(
+        getSubscriptionFromResourceId(site.id),
+        FlightingUtil.features.EnableEditingForLinuxNodePython
+      ) &&
       isLinuxDynamic(site) &&
       !!appSettings &&
       FunctionAppService.usingPythonWorkerRuntime(appSettings)
@@ -72,7 +76,10 @@ export default class FunctionAppService {
 
   public static usingNodeLinuxConsumption(site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean {
     return (
-      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxConsumption) &&
+      FlightingUtil.checkSubscriptionInFlight(
+        getSubscriptionFromResourceId(site.id),
+        FlightingUtil.features.EnableEditingForLinuxNodePython
+      ) &&
       isLinuxDynamic(site) &&
       !!appSettings &&
       FunctionAppService.usingNodeWorkerRuntime(appSettings)

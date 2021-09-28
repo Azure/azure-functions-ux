@@ -3,6 +3,7 @@ import { ArmObj, ResourceGraphColumn, Identity, ArmSku } from '../models/arm-obj
 import { Site } from '../models/site/site';
 import { CommonConstants } from './CommonConstants';
 import Url from './url';
+import { ArmSubcriptionDescriptor } from './resourceDescriptors';
 
 export function isFunctionApp(obj: ArmObj<any>): boolean {
   return AppKind.hasKinds(obj, [CommonConstants.Kinds.functionApp]) && !AppKind.hasKinds(obj, [CommonConstants.Kinds.botapp]);
@@ -89,4 +90,9 @@ export function mapResourcesTopologyToArmObjects<T>(columns: ResourceGraphColumn
   }));
 
   return armObjects;
+}
+
+export function getSubscriptionFromResourceId(resourceId: string) {
+  const armResourceDescriptor = new ArmSubcriptionDescriptor(resourceId);
+  return armResourceDescriptor.getSubsriptionId();
 }

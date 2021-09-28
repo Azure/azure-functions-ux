@@ -11,6 +11,7 @@ import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
 import {
+  getSubscriptionFromResourceId,
   isContainerApp,
   isDynamic,
   isElastic,
@@ -31,6 +32,7 @@ import { SiteRouterData } from './SiteRouter.data';
 import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
 import Url from '../../utils/url';
+import { FlightingUtil } from '../../utils/flighting-util';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -99,10 +101,14 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const enableLinuxElasticPremiumFlagSet = (appSettings?: ArmObj<KeyValue<string>>): boolean => {
     return (
       !!appSettings &&
-      (FunctionAppService.usingPythonWorkerRuntime(appSettings) ||
-        FunctionAppService.usingNodeWorkerRuntime(appSettings) ||
-        FunctionAppService.usingPowershellWorkerRuntime(appSettings)) &&
-      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxPremium)
+      !!resourceId &&
+      (((FunctionAppService.usingPythonWorkerRuntime(appSettings) || FunctionAppService.usingNodeWorkerRuntime(appSettings)) &&
+        FlightingUtil.checkSubscriptionInFlight(
+          getSubscriptionFromResourceId(resourceId),
+          FlightingUtil.features.EnableEditingForLinuxNodePython
+        )) ||
+        (FunctionAppService.usingPowershellWorkerRuntime(appSettings) &&
+          !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxPremium)))
     );
   };
 
