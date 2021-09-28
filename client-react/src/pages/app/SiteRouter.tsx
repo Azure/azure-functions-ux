@@ -11,7 +11,6 @@ import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
 import {
-  getSubscriptionFromResourceId,
   isContainerApp,
   isDynamic,
   isElastic,
@@ -31,8 +30,6 @@ import SiteHelper from '../../utils/SiteHelper';
 import { SiteRouterData } from './SiteRouter.data';
 import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
-import Url from '../../utils/url';
-import { FlightingUtil } from '../../utils/flighting-util';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -90,32 +87,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [isFunctionApplication, setIsFunctionApplication] = useState<boolean>(false);
   const [isKubeApplication, setIsKubeApplication] = useState<boolean>(false);
 
-  const enableLinuxDynamicFlagSet = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean => {
-    return (
-      FunctionAppService.usingPythonLinuxConsumption(site, appSettings) ||
-      FunctionAppService.usingNodeLinuxConsumption(site, appSettings) ||
-      FunctionAppService.usingPowershellLinuxConsumption(site, appSettings)
-    );
-  };
-
-  const enableLinuxElasticPremiumFlagSet = (appSettings?: ArmObj<KeyValue<string>>): boolean => {
-    return (
-      !!appSettings &&
-      !!resourceId &&
-      // Node/Python stack + Flighting
-      (((FunctionAppService.usingPythonWorkerRuntime(appSettings) || FunctionAppService.usingNodeWorkerRuntime(appSettings)) &&
-        FlightingUtil.checkSubscriptionInFlight(
-          getSubscriptionFromResourceId(resourceId),
-          FlightingUtil.features.EnableEditingForLinuxNodePython
-        )) ||
-        // Or Powershell + Feature-flag
-        (FunctionAppService.usingPowershellWorkerRuntime(appSettings) &&
-          !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxPremium)))
-    );
-  };
-
   const getSiteStateFromSiteData = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
-    if (isLinuxDynamic(site) && !enableLinuxDynamicFlagSet(site, appSettings)) {
+    const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
+
+    if (isLinuxDynamic(site) && !FunctionAppService.enableEditingForLinux(site, workerRuntime)) {
       return FunctionAppEditMode.ReadOnlyLinuxDynamic;
     }
 
@@ -123,7 +98,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyBYOC;
     }
 
-    if (isLinuxApp(site) && isElastic(site) && !enableLinuxElasticPremiumFlagSet(appSettings)) {
+    if (isLinuxApp(site) && isElastic(site) && !FunctionAppService.enableEditingForLinux(site, workerRuntime)) {
       return FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
     }
 
@@ -131,6 +106,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   };
 
   const getSiteStateFromAppSettings = (appSettings: ArmObj<KeyValue<string>>, site: ArmObj<Site>): FunctionAppEditMode | undefined => {
+    const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
+
     if (isKubeApp(site)) {
       return FunctionAppEditMode.ReadOnlyArc;
     }
@@ -151,11 +128,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyLocalCache;
     }
 
-    if (
-      FunctionAppService.usingPythonWorkerRuntime(appSettings) &&
-      !FunctionAppService.usingPythonLinuxConsumption(site, appSettings) &&
-      !enableLinuxElasticPremiumFlagSet(appSettings)
-    ) {
+    if (FunctionAppService.usingPythonWorkerRuntime(appSettings) && !FunctionAppService.enableEditingForLinux(site, workerRuntime)) {
       return FunctionAppEditMode.ReadOnlyPython;
     }
 

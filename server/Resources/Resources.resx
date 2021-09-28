@@ -7185,4 +7185,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterWorkflowError" xml:space="preserve">
         <value>There was an error fetching the workflow file.</value>
     </data>
+    <data name="enablePortalEditingForLinuxConsumptionWarning" xml:space="preserve">
+        <value>Adding third party dependencies in the Azure portal is currently not supported for Linux Consumption Function Apps. Click here to setup local environment.</value>
+    </data>
 </root>

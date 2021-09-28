@@ -55,10 +55,8 @@ export class CommonConstants {
     enableAzureMountPathValidation: 'enableAzureMountPathValidation',
     showServiceLinkerConnector: 'showServiceLinkerConnector',
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
-    enableEditingForLinuxConsumption: 'enableEditingForLinuxConsumption',
     treatAsKubeApp: 'treatAsKubeApp', // websitesextension_ext=appsvc.treatAsKubeApp%3Dtrue
     enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
-    enableEditingForLinuxPremium: 'enableEditingForLinuxPremium',
     enablePortalEditingForLinuxNodePython: 'enablePortalEditingForLinuxNodePython',
     disablePortalEditingForLinuxNodePython: 'disablePortalEditingForLinuxNodePython',
   };
