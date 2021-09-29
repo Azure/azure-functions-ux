@@ -3,8 +3,7 @@ import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { KeyValue } from '../models/portal-models';
 import Url from './url';
 import { Site } from '../models/site/site';
-import { getSubscriptionFromResourceId, isLinuxDynamic, isLinuxElastic } from './arm-utils';
-import { FlightingUtil } from './flighting-util';
+import { isLinuxDynamic, isLinuxElastic } from './arm-utils';
 
 export default class FunctionAppService {
   public static getRFPSetting(appSettings: ArmObj<KeyValue<string>>): string {
@@ -72,15 +71,11 @@ export default class FunctionAppService {
     return (
       !!site &&
       !!workerRuntime &&
-      FlightingUtil.checkSubscriptionInFlight(
-        getSubscriptionFromResourceId(site.id),
-        FlightingUtil.features.EnableEditingForLinuxNodePython
-      ) &&
+      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enablePortalEditingForLinuxNodePython) &&
       (isLinuxDynamic(site) || isLinuxElastic(site)) &&
       (workerRuntime === WorkerRuntimeLanguages.nodejs ||
         workerRuntime === WorkerRuntimeLanguages.python ||
-        (workerRuntime === WorkerRuntimeLanguages.powershell &&
-          !!Url.getFeatureValue(CommonConstants.FeatureFlags.enablePortalEditingForLinuxNodePython)))
+        workerRuntime === WorkerRuntimeLanguages.powershell)
     );
   }
 }
