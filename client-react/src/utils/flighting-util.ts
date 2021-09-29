@@ -1,9 +1,19 @@
+import { CommonConstants } from './CommonConstants';
 import Url from './url';
 
 export class FlightingUtil {
-  public static features = {};
+  public static features = {
+    EnableEditingForLinuxNodePython: 'EnableEditingForLinuxNodePython',
+  };
 
-  private static _config = {};
+  private static _config = {
+    EnableEditingForLinuxNodePython: {
+      seed: 3828949938,
+      percentofUsers: 50,
+      forceOnFlag: CommonConstants.FeatureFlags.enablePortalEditingForLinuxNodePython,
+      forceOffFlag: CommonConstants.FeatureFlags.disablePortalEditingForLinuxNodePython,
+    },
+  };
 
   /*
    * Subscription = hash key
