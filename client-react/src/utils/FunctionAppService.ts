@@ -71,7 +71,7 @@ export default class FunctionAppService {
     return (
       !!site &&
       !!workerRuntime &&
-      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enablePortalEditingForLinuxNodePython) &&
+      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enablePortalEditing) &&
       (isLinuxDynamic(site) || isLinuxElastic(site)) &&
       (workerRuntime === WorkerRuntimeLanguages.nodejs ||
         workerRuntime === WorkerRuntimeLanguages.python ||

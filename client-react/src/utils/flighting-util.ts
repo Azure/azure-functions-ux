@@ -10,8 +10,8 @@ export class FlightingUtil {
     EnableEditingForLinuxNodePython: {
       seed: 3828949938,
       percentofUsers: 50,
-      forceOnFlag: CommonConstants.FeatureFlags.enablePortalEditingForLinuxNodePython,
-      forceOffFlag: CommonConstants.FeatureFlags.disablePortalEditingForLinuxNodePython,
+      forceOnFlag: CommonConstants.FeatureFlags.enablePortalEditing,
+      forceOffFlag: CommonConstants.FeatureFlags.disablePortalEditing,
     },
   };
 
