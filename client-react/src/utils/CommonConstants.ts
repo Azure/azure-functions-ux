@@ -55,10 +55,10 @@ export class CommonConstants {
     enableAzureMountPathValidation: 'enableAzureMountPathValidation',
     showServiceLinkerConnector: 'showServiceLinkerConnector',
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
-    enableEditingForLinuxConsumption: 'enableEditingForLinuxConsumption',
     treatAsKubeApp: 'treatAsKubeApp', // websitesextension_ext=appsvc.treatAsKubeApp%3Dtrue
     enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
-    enableEditingForLinuxPremium: 'enableEditingForLinuxPremium',
+    enablePortalEditing: 'enablePortalEditing',
+    disablePortalEditing: 'disablePortalEditing',
   };
 
   public static readonly AppDensityLimit = 8;

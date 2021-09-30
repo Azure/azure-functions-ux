@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Field } from 'formik';
 import {
   DeploymentCenterFtpsProps,
   DeploymentCenterFieldProps,
   DeploymentCenterContainerFormData,
   DeploymentCenterCodeFormData,
+  PasswordFieldType,
 } from './DeploymentCenter.types';
-import { Link, MessageBarType, ProgressIndicator } from 'office-ui-fabric-react';
+import { ActionButton, Link, MessageBarType, ProgressIndicator } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterContent } from './DeploymentCenter.styles';
+import { additionalTextFieldControl, deploymentCenterContent } from './DeploymentCenter.styles';
 import TextField from '../../../components/form-controls/TextField';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
@@ -20,8 +21,14 @@ const DeploymentCenterPublishingUser: React.FC<
   DeploymentCenterFtpsProps & DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
 > = props => {
   const { t } = useTranslation();
+  const { formProps } = props;
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+
+  const [providerPasswordType, setProviderPasswordType] = useState<PasswordFieldType>('password');
+  const [providerConfirmPasswordType, setProviderConfirmPasswordType] = useState<PasswordFieldType>('password');
+  const [textFieldPassword, setTextFieldPassword] = useState<string>('');
+  const [textFieldConfirmPassword, setTextFieldConfirmPassword] = useState<string>('');
 
   const { publishingUser, publishingUserFetchFailedMessage } = deploymentCenterPublishingContext;
 
@@ -42,6 +49,32 @@ const DeploymentCenterPublishingUser: React.FC<
     : `${sampleAppNameDomain}\\${t('deploymentCenterFtpsUserScopeSampleUsername')}`;
 
   const sampleWebProviderUsername = webProviderUsername ? webProviderUsername : t('deploymentCenterFtpsUserScopeSampleUsername');
+
+  const toggleShowProviderPassword = () => {
+    setProviderPasswordType(!providerPasswordType ? 'password' : undefined);
+  };
+
+  const toggleShowConfirmProviderPassword = () => {
+    setProviderConfirmPasswordType(!providerConfirmPasswordType ? 'password' : undefined);
+  };
+
+  const changeTextFieldPassword = (e: any, newPassword: string) => {
+    setTextFieldPassword(newPassword);
+    formProps.setFieldValue('publishingPassword', newPassword);
+  };
+
+  const changeTextFieldConfirmPassword = (e: any, newConfirmPassword: string) => {
+    setTextFieldConfirmPassword(newConfirmPassword);
+    formProps.setFieldValue('publishingConfirmPassword', newConfirmPassword);
+  };
+
+  const toggleLabel = (showLabel: string, hideLabel: string, passwordType?: string): string => {
+    return passwordType === 'password' ? t(showLabel) : t(hideLabel);
+  };
+
+  const toggleIcon = (passwordType?: string) => {
+    return passwordType === 'password' ? 'RedEye' : 'Hide';
+  };
 
   return (
     <div className={deploymentCenterContent}>
@@ -85,7 +118,20 @@ const DeploymentCenterPublishingUser: React.FC<
             name="publishingPassword"
             component={TextField}
             label={t('deploymentCenterFtpsPasswordLabel')}
-            type="password"
+            value={textFieldPassword}
+            onChange={changeTextFieldPassword}
+            type={providerPasswordType}
+            additionalControls={[
+              <ActionButton
+                id="deployment-center-ftps-provider-password-visibility-toggle"
+                key="deployment-center-ftps-provider-password-visibility-toggle"
+                className={additionalTextFieldControl}
+                ariaLabel={toggleLabel('showProviderPasswordAriaLabel', 'hideProviderPasswordAriaLabel', providerPasswordType)}
+                onClick={toggleShowProviderPassword}
+                iconProps={{ iconName: toggleIcon(providerPasswordType) }}>
+                {toggleLabel('show', 'hide', providerPasswordType)}
+              </ActionButton>,
+            ]}
           />
 
           <Field
@@ -93,7 +139,24 @@ const DeploymentCenterPublishingUser: React.FC<
             name="publishingConfirmPassword"
             component={TextField}
             label={t('deploymentCenterFtpsConfirmPasswordLabel')}
-            type="password"
+            value={textFieldConfirmPassword}
+            onChange={changeTextFieldConfirmPassword}
+            type={providerConfirmPasswordType}
+            additionalControls={[
+              <ActionButton
+                id="deployment-center-ftps-provider-confirm-password-visibility-toggle"
+                key="deployment-center-ftps-provider-confirm-password-visibility-toggle"
+                className={additionalTextFieldControl}
+                ariaLabel={toggleLabel(
+                  'showProviderConfirmPasswordAriaLabel',
+                  'hideProviderConfirmPasswordAriaLabel',
+                  providerConfirmPasswordType
+                )}
+                onClick={toggleShowConfirmProviderPassword}
+                iconProps={{ iconName: toggleIcon(providerConfirmPasswordType) }}>
+                {toggleLabel('show', 'hide', providerConfirmPasswordType)}
+              </ActionButton>,
+            ]}
           />
         </>
       )}

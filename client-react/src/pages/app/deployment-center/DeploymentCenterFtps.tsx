@@ -4,6 +4,7 @@ import {
   DeploymentCenterFieldProps,
   DeploymentCenterContainerFormData,
   DeploymentCenterCodeFormData,
+  PasswordFieldType,
 } from './DeploymentCenter.types';
 import { MessageBarType, ActionButton, ProgressIndicator, Link } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
@@ -25,8 +26,6 @@ import { getGitCloneUri, getTelemetryInfo } from './utility/DeploymentCenterUtil
 import DeploymentCenterPublishingUser from './DeploymentCenterPublishingUser';
 import { PortalContext } from '../../../PortalContext';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
-
-type PasswordFieldType = 'password' | undefined;
 
 const DeploymentCenterFtps: React.FC<
   DeploymentCenterFtpsProps & DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>

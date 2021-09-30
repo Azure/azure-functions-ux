@@ -2348,4 +2348,5 @@ export class PortalResources {
   public static deploymentCenterUpdateTokenSuccessMessage = 'deploymentCenterUpdateTokenSuccessMessage';
   public static missingWorkflowDispatchTrigger = 'missingWorkflowDispatchTrigger';
   public static deploymentCenterWorkflowError = 'deploymentCenterWorkflowError';
+  public static enablePortalEditingForLinuxConsumptionWarning = 'enablePortalEditingForLinuxConsumptionWarning';
 }

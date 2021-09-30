@@ -46,6 +46,8 @@ import Url from '../../../../../utils/url';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { PortalContext } from '../../../../../PortalContext';
 import { BindingManager } from '../../../../../utils/BindingManager';
+import FunctionAppService from '../../../../../utils/FunctionAppService';
+import { Links } from '../../../../../utils/FwLinks';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -441,6 +443,31 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return SiteHelper.isFunctionAppReadOnly(appEditState);
   };
 
+  const getBanner = (): JSX.Element => {
+    /* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */
+    if (isAppReadOnly(siteStateContext.siteAppEditState)) {
+      return <EditModeBanner setBanner={setReadOnlyBanner} />;
+    } else if (!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) {
+      return (
+        <CustomBanner
+          message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
+          type={MessageBarType.error}
+        />
+      );
+    } else if (FunctionAppService.enableEditingForLinux(site, workerRuntime) && isLinuxDynamic(site)) {
+      // NOTE(krmitta): Banner is only visible in case of Linux Consumption
+      return (
+        <CustomBanner
+          message={t('enablePortalEditingForLinuxConsumptionWarning')}
+          type={MessageBarType.warning}
+          learnMoreLink={Links.setupLocalFunctionEnvironment}
+        />
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   useEffect(() => {
     setLogPanelHeight(logPanelExpanded ? minimumLogPanelHeight : 0);
 
@@ -519,17 +546,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={onCancelButtonClick}
         />
-        {/* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */}
-        {isAppReadOnly(siteStateContext.siteAppEditState) ? (
-          <EditModeBanner setBanner={setReadOnlyBanner} />
-        ) : (
-          (!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
-            <CustomBanner
-              message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
-              type={MessageBarType.error}
-            />
-          )
-        )}
+        {getBanner()}
         <FunctionEditorFileSelectorBar
           disabled={isDisabled()}
           functionAppNameLabel={site.name}
