@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 What things you need to install the software and how to install them
 
-- [Node 10.15.2](https://nodejs.org/en/download/)
+- [Node 14.16.0](https://nodejs.org/en/download/)
 - Angular CLI
 
 ```
