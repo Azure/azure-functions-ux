@@ -256,11 +256,14 @@ export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stac
   );
 };
 
+export const isJBossStack = (stackVersion: string) => !!stackVersion && stackVersion.toLowerCase().includes(JavaVersions.JBoss);
+
 export const JavaVersions = {
   WindowsVersion8: '1.8',
   WindowsVersion11: '11',
   LinuxVersion8: 'jre8',
   LinuxVersion11: 'java11',
+  JBoss: 'jboss',
 };
 
 export const JavaContainers = {

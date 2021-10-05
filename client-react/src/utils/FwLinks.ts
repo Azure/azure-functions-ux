@@ -42,6 +42,7 @@ export const Links = {
   earlyAccessStackLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2151539',
   staticWebAppsPricingCalculator: 'https://go.microsoft.com/fwlink/?linkid=2162300',
   setupLocalFunctionEnvironment: 'https://go.microsoft.com/fwlink/?linkid=2173647',
+  jbossAdditionalCostLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2169219',
 };
 
 export const DeploymentCenterLinks = {
