@@ -14,7 +14,7 @@ import {
   getMinorVersionText,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
-  isJBossStack,
+  isJBossWarningBannerShown,
 } from '../../../../../utils/stacks-utils';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../../utils/FwLinks';
@@ -304,8 +304,7 @@ const JavaStack: React.SFC<StackProps> = props => {
           {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.linuxFxVersion, eolStackDate)}
         </>
       )}
-      {/* NOTE(krmitta): This baner is shown when the new selected stack version is JBoss, and the current stack is different */}
-      {isJBossStack(values.config.properties.linuxFxVersion) && !isJBossStack(initialValues.config.properties.linuxFxVersion) && (
+      {isJBossWarningBannerShown(values.config.properties.linuxFxVersion, initialValues.config.properties.linuxFxVersion) && (
         <CustomBanner
           type={MessageBarType.warning}
           message={t('switchToJbossWarningBaner')}

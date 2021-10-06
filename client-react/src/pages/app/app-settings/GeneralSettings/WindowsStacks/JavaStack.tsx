@@ -22,7 +22,7 @@ import {
   checkAndGetStackEOLOrDeprecatedBanner,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
-  isJBossStack,
+  isJBossWarningBannerShown,
 } from '../../../../../utils/stacks-utils';
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
@@ -194,8 +194,7 @@ const JavaStack: React.SFC<StackProps> = props => {
           options={javaFrameworkVersionOptions}
         />
       )}
-      {/* NOTE(krmitta): This baner is shown when the new selected stack version is JBoss, and the current stack is different */}
-      {isJBossStack(values.config.properties.javaVersion) && !isJBossStack(initialValues.config.properties.javaVersion) && (
+      {isJBossWarningBannerShown(values.config.properties.javaVersion, initialValues.config.properties.javaVersion) && (
         <CustomBanner
           type={MessageBarType.warning}
           message={t('switchToJbossWarningBaner')}

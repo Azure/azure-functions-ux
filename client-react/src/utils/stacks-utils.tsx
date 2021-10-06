@@ -258,6 +258,9 @@ export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stac
 
 export const isJBossStack = (stackVersion: string) => !!stackVersion && stackVersion.toLowerCase().includes(JavaVersions.JBoss);
 
+// NOTE(krmitta): The banner should only be shown when the new selected stack version is JBoss, and the current stack is different
+export const isJBossWarningBannerShown = (newVersion: string, oldVersion: string) => isJBossStack(newVersion) && !isJBossStack(oldVersion);
+
 export const JavaVersions = {
   WindowsVersion8: '1.8',
   WindowsVersion11: '11',
