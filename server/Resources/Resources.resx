@@ -7188,4 +7188,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="enablePortalEditingForLinuxConsumptionWarning" xml:space="preserve">
         <value>Adding third party dependencies in the Azure portal is currently not supported for Linux Consumption Function Apps. Click here to setup local environment.</value>
     </data>
+    <data name="switchToJbossWarningBaner" xml:space="preserve">
+        <value>JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. </value>
+    </data>
 </root>
