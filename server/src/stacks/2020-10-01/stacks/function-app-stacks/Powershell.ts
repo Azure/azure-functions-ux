@@ -31,13 +31,12 @@ export const powershellStack: FunctionAppStack = {
                 use32BitWorkerProcess: true,
                 powerShellVersion: '~7',
               },
-              supportedFunctionsExtensionVersions: ['~3'],
+              supportedFunctionsExtensionVersions: ['~4', '~3'],
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'PowerShell|7',
               isAutoUpdate: true,
               isPreview: true,
-              isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -52,7 +51,7 @@ export const powershellStack: FunctionAppStack = {
                 use32BitWorkerProcess: false,
                 linuxFxVersion: 'PowerShell|7',
               },
-              supportedFunctionsExtensionVersions: ['~3'],
+              supportedFunctionsExtensionVersions: ['~4'],
             },
           },
         },

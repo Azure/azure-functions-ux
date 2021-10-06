@@ -30,7 +30,7 @@ export const nodeStack: FunctionAppStack = {
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
               },
-              supportedFunctionsExtensionVersions: ['~3'],
+              supportedFunctionsExtensionVersions: ['~4', '~3'],
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'Node|14',
@@ -49,7 +49,7 @@ export const nodeStack: FunctionAppStack = {
                 use32BitWorkerProcess: false,
                 linuxFxVersion: 'Node|14',
               },
-              supportedFunctionsExtensionVersions: ['~3'],
+              supportedFunctionsExtensionVersions: ['~4', '~3'],
             },
           },
         },
