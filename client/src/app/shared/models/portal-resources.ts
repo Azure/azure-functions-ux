@@ -2349,4 +2349,5 @@ export class PortalResources {
   public static missingWorkflowDispatchTrigger = 'missingWorkflowDispatchTrigger';
   public static deploymentCenterWorkflowError = 'deploymentCenterWorkflowError';
   public static enablePortalEditingForLinuxConsumptionWarning = 'enablePortalEditingForLinuxConsumptionWarning';
+  public static switchToJbossWarningBaner = 'switchToJbossWarningBaner';
 }
