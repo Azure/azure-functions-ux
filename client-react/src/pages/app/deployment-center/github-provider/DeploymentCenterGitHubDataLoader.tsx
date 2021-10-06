@@ -27,9 +27,9 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [organizationOptions, setOrganizationOptions] = useState<IDropdownOption[]>([]);
   const [repositoryOptions, setRepositoryOptions] = useState<IDropdownOption[]>([]);
   const [branchOptions, setBranchOptions] = useState<IDropdownOption[]>([]);
-  const [loadingOrganizations, setLoadingOrganizations] = useState(false);
-  const [loadingRepositories, setLoadingRepositories] = useState(false);
-  const [loadingBranches, setLoadingBranches] = useState(false);
+  const [loadingOrganizations, setLoadingOrganizations] = useState(true);
+  const [loadingRepositories, setLoadingRepositories] = useState(true);
+  const [loadingBranches, setLoadingBranches] = useState(true);
   const [hasDeprecatedToken, setHasDeprecatedToken] = useState(false);
   const [updateTokenSuccess, setUpdateTokenSuccess] = useState(false);
   const [clearComboBox, setClearComboBox] = useState<ClearComboBox>({ repo: false, branch: false });
@@ -77,11 +77,15 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     // If the form props already contains selected data, set the default to that value.
     if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
       fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org]);
+    } else {
+      // Make sure repos and branches are disabled
+      setLoadingRepositories(true);
+      setLoadingBranches(true);
     }
   };
 
   const fetchRepositoryOptions = async (repositories_url: string, searchTerm?: string) => {
-    setLoadingRepositories(true);
+    // setLoadingRepositories(true);
     setRepositoryOptions([]);
     setBranchOptions([]);
 
@@ -128,8 +132,12 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setLoadingRepositories(false);
 
     // If the form props already contains selected data, set the default to that value.
-    if (formProps.values.org && formProps.values.repo) {
+    if (formProps.values.org && formProps.values.repo && formProps.values.repo == formProps.values.searchTerm) {
       fetchBranchOptions(formProps.values.org, formProps.values.repo);
+    } else {
+      // Make sure branches is cleared and disabled
+      setClearComboBox({ branch: true, repo: false });
+      setLoadingBranches(true);
     }
   };
 
@@ -246,6 +254,8 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   useEffect(() => {
     setBranchOptions([]);
     setClearComboBox({ branch: true, repo: true });
+    setLoadingRepositories(true);
+    setLoadingBranches(true);
 
     if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
       fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org]);
@@ -257,7 +267,13 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   useEffect(() => {
     setBranchOptions([]);
     setClearComboBox({ branch: true, repo: false });
-    if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
+    setLoadingBranches(true);
+
+    if (
+      formProps.values.org &&
+      gitHubOrgToUrlMapping.current[formProps.values.org] &&
+      formProps.values.org != formProps.values.searchTerm
+    ) {
       fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org], formProps.values.searchTerm);
     }
   }, [formProps.values.searchTerm]);
@@ -266,6 +282,8 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   useEffect(() => {
     setBranchOptions([]);
     setClearComboBox({ branch: true, repo: false });
+    setLoadingBranches(true);
+
     if (formProps.values.org && formProps.values.repo) {
       fetchBranchOptions(formProps.values.org, formProps.values.repo);
     }
