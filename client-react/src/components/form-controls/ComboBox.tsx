@@ -8,11 +8,6 @@ import { IComboBoxProps, IComboBoxOption, IComboBox, IDropdownOption } from 'off
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
-export interface ClearComboBox {
-  repo?: boolean;
-  branch?: boolean;
-}
-
 interface CustomComboBoxProps {
   id: string;
   upsellMessage?: string;
@@ -49,21 +44,17 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
         setSearchTerm(option.text);
       }
     } else {
-      form.setFieldValue(field.name, undefined);
-      if (!!searchable) {
-        setSearchTerm(value);
-      }
+      form.setFieldValue(field.name, '');
     }
   };
 
   const onInputValueChange = (newValue?: string) => {
+    setSearchTerm(newValue);
     inputDebouncer.current.next(newValue);
   };
 
   const watchForSearchTermUpdates = async () => {
-    // after debounce, pipe into switchMap/mergeLatest
     inputDebouncer.current.pipe(debounceTime(300)).subscribe(value => {
-      setSearchTerm(value);
       form.setFieldValue('searchTerm', value);
       form.setFieldValue(field.name, undefined);
     });
@@ -78,15 +69,11 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
   useEffect(() => {
     if (!!clearComboBox) {
       form.setFieldValue(field.name, undefined);
-      if (!!searchable) {
-        setSearchTerm(undefined);
-      }
+      setSearchTerm(undefined);
     }
   }, [options]);
 
   const errorMessage = get(form.errors, field.name, '') as string;
-
-  // const loadingSpinner = isLoading && searchable ? (<Spinner size={SpinnerSize.small}/>) : (<></>);
 
   return (
     <>
@@ -104,7 +91,6 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
         autofill={!!searchable ? { onInputValueChange: onInputValueChange } : {}}
         {...rest}
       />
-      {/* {loadingSpinner} */}
     </>
   );
 };

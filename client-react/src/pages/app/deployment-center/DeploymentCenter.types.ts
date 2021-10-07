@@ -11,7 +11,6 @@ import { RepoTypeOptions } from '../../../models/external';
 import { OneDriveUser } from '../../../models/onedrive';
 import { DropboxUser } from '../../../models/dropbox';
 import { KeyValue } from '../../../models/portal-models';
-import { ClearComboBox } from '../../../components/form-controls/ComboBox';
 
 export enum SourceControlOptions {
   GitHub = 'github',
@@ -446,7 +445,7 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   hasDeprecatedToken?: boolean;
   updateTokenSuccess?: boolean;
   resetToken?: () => void;
-  clearComboBox?: ClearComboBox;
+  clearComboBox?: KeyValue<boolean>;
 }
 
 export interface DeploymentCenterGitHubDisconnectProps {

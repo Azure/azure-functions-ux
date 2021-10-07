@@ -9,7 +9,7 @@ import { IDropdownOption } from 'office-ui-fabric-react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
-import { ClearComboBox } from '../../../../components/form-controls/ComboBox';
+import { KeyValue } from '../../../../models/portal-models';
 
 const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -32,7 +32,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [loadingBranches, setLoadingBranches] = useState(true);
   const [hasDeprecatedToken, setHasDeprecatedToken] = useState(false);
   const [updateTokenSuccess, setUpdateTokenSuccess] = useState(false);
-  const [clearComboBox, setClearComboBox] = useState<ClearComboBox>({ repo: false, branch: false });
+  const [clearComboBox, setClearComboBox] = useState<KeyValue<boolean>>({ repo: true, branch: true });
 
   const gitHubOrgToUrlMapping = useRef<{ [key: string]: string }>({});
 
@@ -77,15 +77,10 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     // If the form props already contains selected data, set the default to that value.
     if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
       fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org]);
-    } else {
-      // Make sure repos and branches are disabled
-      setLoadingRepositories(true);
-      setLoadingBranches(true);
     }
   };
 
   const fetchRepositoryOptions = async (repositories_url: string, searchTerm?: string) => {
-    // setLoadingRepositories(true);
     setRepositoryOptions([]);
     setBranchOptions([]);
 
@@ -134,10 +129,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     // If the form props already contains selected data, set the default to that value.
     if (formProps.values.org && formProps.values.repo && formProps.values.repo == formProps.values.searchTerm) {
       fetchBranchOptions(formProps.values.org, formProps.values.repo);
-    } else {
-      // Make sure branches is cleared and disabled
-      setClearComboBox({ branch: true, repo: false });
-      setLoadingBranches(true);
     }
   };
 
@@ -250,7 +241,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gitHubUser]);
 
-  // IF ORG CHANGES
   useEffect(() => {
     setBranchOptions([]);
     setClearComboBox({ branch: true, repo: true });
@@ -263,7 +253,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.org]);
 
-  // IF SEARCH TERM CHANGES
   useEffect(() => {
     setBranchOptions([]);
     setClearComboBox({ branch: true, repo: false });
@@ -278,7 +267,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     }
   }, [formProps.values.searchTerm]);
 
-  // IF REPO CHANGES
   useEffect(() => {
     setBranchOptions([]);
     setClearComboBox({ branch: true, repo: false });
