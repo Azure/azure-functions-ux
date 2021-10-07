@@ -207,7 +207,8 @@ export default class FunctionsService {
     switch (runtimeVersion) {
       case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
-      case RuntimeExtensionMajorVersions.v3: {
+      case RuntimeExtensionMajorVersions.v3:
+      case RuntimeExtensionMajorVersions.v4: {
         uri = `/hostruntime/admin/vfs/${fileEndpoint}?relativePath=1`;
         break;
       }
@@ -256,6 +257,7 @@ export default class FunctionsService {
       case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3:
+      case RuntimeExtensionMajorVersions.v4:
         return `/hostruntime/admin/vfs/${endpoint}?relativePath=1`;
       case RuntimeExtensionMajorVersions.v1:
       default:

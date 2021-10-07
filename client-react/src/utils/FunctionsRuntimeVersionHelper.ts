@@ -13,6 +13,10 @@ const parseRuntimeVersion = (runtimeVersion: string | null) => {
     if (runtimeVersion === '3' || runtimeVersion.startsWith('3.')) {
       return RuntimeExtensionMajorVersions.v3;
     }
+
+    if (runtimeVersion === '4' || runtimeVersion.startsWith('4.')) {
+      return RuntimeExtensionMajorVersions.v4;
+    }
   }
   return null;
 };
@@ -23,6 +27,7 @@ export class FunctionsRuntimeVersionHelper {
       case RuntimeExtensionMajorVersions.v1:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3:
+      case RuntimeExtensionMajorVersions.v4:
         return runtimeVersion;
       default:
         return RuntimeExtensionMajorVersions.custom;

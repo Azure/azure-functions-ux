@@ -28,6 +28,9 @@ const isVersionChangeSafe = (newVersion: RuntimeExtensionMajorVersions, oldVersi
     case RuntimeExtensionMajorVersions.v3:
       // For V2 and V3, switching between V2 and V3 is supported.
       return newVersion === RuntimeExtensionMajorVersions.v2 || newVersion === RuntimeExtensionMajorVersions.v3;
+    case RuntimeExtensionMajorVersions.v4:
+      // TODO (krmitta): Is change supported?
+      return false;
     case null:
       return true;
     default:
@@ -105,6 +108,8 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     return initialRuntimeMajorVersion !== RuntimeExtensionMajorVersions.v2;
   };
 
+  const isV4Hidden = () => false;
+
   const getOptions = (): IDropdownOption[] => {
     if (hasCustomRuntimeVersion) {
       return [
@@ -130,6 +135,11 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
         key: RuntimeExtensionMajorVersions.v3,
         text: RuntimeExtensionMajorVersions.v3,
       },
+      {
+        key: RuntimeExtensionMajorVersions.v4,
+        text: RuntimeExtensionMajorVersions.v4,
+        hidden: isV4Hidden(),
+      },
     ];
   };
 
@@ -141,6 +151,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
         return CommonConstants.NodeVersions.v2;
       case RuntimeExtensionMajorVersions.v3:
         return CommonConstants.NodeVersions.v3;
+      case RuntimeExtensionMajorVersions.v4:
       default:
         return CommonConstants.NodeVersions.default;
     }
@@ -154,7 +165,11 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     if (isExistingFunctionsWarningNeeded(newVersion)) {
       setPendingVersion(newVersion);
     } else {
-      if (newVersion === RuntimeExtensionMajorVersions.v3 && initialRuntimeMajorVersion === RuntimeExtensionMajorVersions.v2) {
+      // TODO (krmitta): Should there be a warning banner when moving from v2 to v4
+      if (
+        (newVersion === RuntimeExtensionMajorVersions.v3 || newVersion === RuntimeExtensionMajorVersions.v4) &&
+        initialRuntimeMajorVersion === RuntimeExtensionMajorVersions.v2
+      ) {
         setMovingFromV2Warning(t('movingFromV2Warning'));
       }
       updateDropDownValue(newVersion);

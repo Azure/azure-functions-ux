@@ -225,7 +225,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     switch (runtimeVersion) {
       case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
-      case RuntimeExtensionMajorVersions.v3: {
+      case RuntimeExtensionMajorVersions.v3:
+      case RuntimeExtensionMajorVersions.v4: {
         result =
           hostJsonContent &&
           hostJsonContent.extensions &&
