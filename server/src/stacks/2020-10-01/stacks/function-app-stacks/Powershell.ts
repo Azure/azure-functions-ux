@@ -30,6 +30,7 @@ export const powershellStack: FunctionAppStack = {
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
                 powerShellVersion: '~7',
+                netFrameworkVersion: 'v6.0',
               },
               supportedFunctionsExtensionVersions: ['~4', '~3'],
             },

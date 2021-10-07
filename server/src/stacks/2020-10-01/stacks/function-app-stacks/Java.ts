@@ -30,6 +30,7 @@ export const javaStack: FunctionAppStack = {
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
                 javaVersion: '11',
+                netFrameworkVersion: 'v6.0',
               },
               supportedFunctionsExtensionVersions: ['~4', '~3'],
             },
@@ -83,6 +84,7 @@ export const javaStack: FunctionAppStack = {
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
                 javaVersion: '1.8',
+                netFrameworkVersion: 'v6.0',
               },
               supportedFunctionsExtensionVersions: ['~4', '~3', '~2'],
             },
