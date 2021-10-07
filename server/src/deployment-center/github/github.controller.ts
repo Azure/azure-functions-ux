@@ -119,7 +119,6 @@ export class GithubController {
       const r = await this.httpService.get(encodedURI, {
         headers: this._getAuthorizationHeader(gitHubToken),
       });
-
       return r.data.items;
     } catch (err) {
       this.loggingService.error(`Failed retrieve org repositories with given search term.`);
