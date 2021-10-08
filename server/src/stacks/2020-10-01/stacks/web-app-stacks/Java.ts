@@ -92,7 +92,6 @@ export const javaStack: WebAppStack = {
           value: '11.0.7',
           stackSettings: {
             windowsRuntimeSettings: {
-              // Note (allisonm): ZULU suffix was removed after Java 11.0.5
               runtimeVersion: '11.0.7',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
