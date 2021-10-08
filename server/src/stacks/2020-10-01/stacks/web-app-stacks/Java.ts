@@ -18,20 +18,6 @@ export const javaStack: WebAppStack = {
           displayText: 'Java 11',
           value: '11.0',
           stackSettings: {
-            linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
-              runtimeVersion: '',
-              isAutoUpdate: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '11',
-              },
-              endOfLifeDate: java11EOL,
-            },
             windowsRuntimeSettings: {
               runtimeVersion: '11',
               isAutoUpdate: true,
@@ -48,12 +34,11 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 11.0.7',
-          value: '11.0.7',
+          displayText: 'Java 11.0.11',
+          value: '11.0.11',
           stackSettings: {
-            linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
-              runtimeVersion: '',
+            windowsRuntimeSettings: {
+              runtimeVersion: '11.0.11',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -64,6 +49,48 @@ export const javaStack: WebAppStack = {
               },
               endOfLifeDate: java11EOL,
             },
+          },
+        },
+        {
+          displayText: 'Java 11.0.9',
+          value: '11.0.9',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '11.0.9',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 11.0.8',
+          value: '11.0.8',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '11.0.8',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 11.0.7',
+          value: '11.0.7',
+          stackSettings: {
             windowsRuntimeSettings: {
               // Note (allisonm): ZULU suffix was removed after Java 11.0.5
               runtimeVersion: '11.0.7',
@@ -83,19 +110,6 @@ export const javaStack: WebAppStack = {
           displayText: 'Java 11.0.6',
           value: '11.0.6',
           stackSettings: {
-            linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
-              runtimeVersion: '',
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '11',
-              },
-              endOfLifeDate: java11EOL,
-            },
             windowsRuntimeSettings: {
               // Note (allisonm): ZULU suffix was removed after Java 11.0.5
               runtimeVersion: '11.0.6',
@@ -115,19 +129,6 @@ export const javaStack: WebAppStack = {
           displayText: 'Java 11.0.5',
           value: '11.0.5',
           stackSettings: {
-            linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
-              runtimeVersion: '',
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '11',
-              },
-              endOfLifeDate: java11EOL,
-            },
             windowsRuntimeSettings: {
               runtimeVersion: '11.0.5_ZULU',
               remoteDebuggingSupported: false,
@@ -188,20 +189,6 @@ export const javaStack: WebAppStack = {
           displayText: 'Java 8',
           value: '8.0',
           stackSettings: {
-            linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
-              runtimeVersion: '',
-              isAutoUpdate: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '8',
-              },
-              endOfLifeDate: java8EOL,
-            },
             windowsRuntimeSettings: {
               runtimeVersion: '1.8',
               isAutoUpdate: true,
@@ -218,12 +205,11 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 1.8.0_252',
-          value: '8.0.252',
+          displayText: 'Java 1.8.0_292',
+          value: '8.0.292',
           stackSettings: {
-            linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
-              runtimeVersion: '',
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8.0_292',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -234,6 +220,48 @@ export const javaStack: WebAppStack = {
               },
               endOfLifeDate: java8EOL,
             },
+          }
+        },
+        {
+          displayText: 'Java 1.8.0_282',
+          value: '8.0.282',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8.0_282',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.8.0_265',
+          value: '8.0.265',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8.0_265',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.8.0_252',
+          value: '8.0.252',
+          stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '1.8.0_252',
               remoteDebuggingSupported: false,
@@ -252,19 +280,6 @@ export const javaStack: WebAppStack = {
           displayText: 'Java 1.8.0_242',
           value: '8.0.242',
           stackSettings: {
-            linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
-              runtimeVersion: '',
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '8',
-              },
-              endOfLifeDate: java8EOL,
-            },
             windowsRuntimeSettings: {
               runtimeVersion: '1.8.0_242',
               remoteDebuggingSupported: false,
@@ -283,19 +298,6 @@ export const javaStack: WebAppStack = {
           displayText: 'Java 1.8.0_232',
           value: '8.0.232',
           stackSettings: {
-            linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
-              runtimeVersion: '',
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '8',
-              },
-              endOfLifeDate: java8EOL,
-            },
             windowsRuntimeSettings: {
               runtimeVersion: '1.8.0_232_ZULU',
               remoteDebuggingSupported: false,
@@ -347,24 +349,6 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 1.8.0_202 (Oracle)',
-          value: '8.0.202 (Oracle)',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.8.0_202',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '8',
-              },
-            },
-          },
-        },
-        {
           displayText: 'Java 1.8.0_181',
           value: '8.0.181',
           stackSettings: {
@@ -379,24 +363,6 @@ export const javaStack: WebAppStack = {
                 supportedVersion: '8',
               },
               endOfLifeDate: java8EOL,
-            },
-          },
-        },
-        {
-          displayText: 'Java 1.8.0_181 (Oracle)',
-          value: '8.0.181 (Oracle)',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.8.0_181',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '8',
-              },
             },
           },
         },
@@ -419,24 +385,6 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 1.8.0_172 (Oracle)',
-          value: '8.0.172 (Oracle)',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.8.0_172',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '8',
-              },
-            },
-          },
-        },
-        {
           displayText: 'Java 1.8.0_144',
           value: '8.0.144',
           stackSettings: {
@@ -451,24 +399,6 @@ export const javaStack: WebAppStack = {
                 supportedVersion: '8',
               },
               endOfLifeDate: java8EOL,
-            },
-          },
-        },
-        {
-          displayText: 'Java 1.8.0_111 (Oracle)',
-          value: '8.0.111 (Oracle)',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.8.0_111',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '8',
-              },
             },
           },
         },
@@ -505,208 +435,6 @@ export const javaStack: WebAppStack = {
                 supportedVersion: '8',
               },
               endOfLifeDate: java8EOL,
-            },
-          },
-        },
-        {
-          displayText: 'Java 1.8.0_73 (Oracle)',
-          value: '8.0.73 (Oracle)',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.8.0_73',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '8',
-              },
-            },
-          },
-        },
-        {
-          displayText: 'Java 1.8.0_60 (Oracle)',
-          value: '8.0.60 (Oracle)',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.8.0_60',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '8',
-              },
-            },
-          },
-        },
-        {
-          displayText: 'Java 1.8.0_25 (Oracle)',
-          value: '8.0.25 (Oracle)',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.8.0_25',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '8',
-              },
-            },
-          },
-        },
-      ],
-    },
-    {
-      displayText: 'Java 7',
-      value: '7',
-      minorVersions: [
-        {
-          displayText: 'Java 7',
-          value: '7.0',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.7',
-              isAutoUpdate: true,
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: false,
-              },
-              endOfLifeDate: java7EOL,
-            },
-          },
-        },
-        {
-          displayText: 'Java 1.7.0_262',
-          value: '7.0.262',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.7.0_262_ZULU',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: false,
-              },
-              endOfLifeDate: java7EOL,
-            },
-          },
-        },
-        {
-          displayText: 'Java 1.7.0_242',
-          value: '7.0.242',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.7.0_242_ZULU',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: false,
-              },
-              endOfLifeDate: java7EOL,
-            },
-          },
-        },
-        {
-          displayText: 'Java 1.7.0_222',
-          value: '7.0.222',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.7.0_222_ZULU',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: false,
-              },
-              endOfLifeDate: java7EOL,
-            },
-          },
-        },
-        {
-          displayText: 'Java 1.7.0_191',
-          value: '7.0.191',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.7.0_191_ZULU',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: false,
-              },
-              endOfLifeDate: java7EOL,
-            },
-          },
-        },
-        {
-          displayText: 'Java 1.7.0_80 (Oracle)',
-          value: '7.0.80 (Oracle)',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.7.0_80',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: false,
-              },
-            },
-          },
-        },
-        {
-          displayText: 'Java 1.7.0_71 (Oracle)',
-          value: '7.0.71 (Oracle)',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.7.0_71',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: false,
-              },
-            },
-          },
-        },
-        {
-          displayText: 'Java 1.7.0_51 (Oracle)',
-          value: '7.0.51 (Oracle)',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: '1.7.0_51',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: false,
-              },
             },
           },
         },
