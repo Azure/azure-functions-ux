@@ -41,7 +41,9 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
 
-  const runtimeStack = findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime) || '';
+  const initialRuntimeStack =
+    findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime) || '';
+  const runtimeStack = findFormAppSettingValue(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime) || '';
 
   const initialRuntimeVersion =
     findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) || '';
@@ -51,10 +53,12 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   const runtimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(runtimeVersion);
 
   const hasCustomRuntimeVersion = initialRuntimeMajorVersion === RuntimeExtensionMajorVersions.custom;
-  const shouldEnableDropdownForV4 =
+  const shouldEnableForV4 =
     initialRuntimeVersion === RuntimeExtensionMajorVersions.v4 &&
     !!runtimeStack &&
-    runtimeStack.toLowerCase() !== WorkerRuntimeLanguages.dotnet;
+    !!initialRuntimeStack &&
+    runtimeStack === initialRuntimeStack &&
+    initialRuntimeStack.toLowerCase() !== WorkerRuntimeLanguages.dotnet;
   let [waitingOnFunctionsApi, hasFunctions, failedToGetFunctions] = [false, false, false];
 
   const [movingFromV2Warning, setMovingFromV2Warning] = useState<string | undefined>(undefined);
@@ -114,7 +118,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   const getOptions = (): IDropdownOption[] => {
     if (hasCustomRuntimeVersion) {
       // NOTE(shimedh): When we move to using stacks API, this should be driven by the versions supported by a particular stack.
-      if (shouldEnableDropdownForV4) {
+      if (shouldEnableForV4) {
         return [
           {
             key: RuntimeExtensionMajorVersions.v3,
@@ -153,8 +157,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     ];
   };
 
-  const dropDownDisabled = (): boolean =>
-    waitingOnFunctionsApi || failedToGetFunctions || (hasCustomRuntimeVersion && !shouldEnableDropdownForV4);
+  const dropDownDisabled = (): boolean => waitingOnFunctionsApi || failedToGetFunctions || (hasCustomRuntimeVersion && !shouldEnableForV4);
 
   const getNodeVersionForRuntime = version => {
     switch (version) {
@@ -220,6 +223,9 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.websiteNodeDefaultVersion, nodeVersion);
 
     // Add or update FUNCTIONS_EXTENSION_VERSION app setting
+    if (shouldEnableForV4 && newVersion === RuntimeExtensionMajorVersions.custom) {
+      newVersion = RuntimeExtensionMajorVersions.v4;
+    }
     appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion, newVersion);
 
     setFieldValue('appSettings', appSettings);
