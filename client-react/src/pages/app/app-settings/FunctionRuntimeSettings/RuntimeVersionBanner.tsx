@@ -39,6 +39,7 @@ const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = p
       case RuntimeExtensionMajorVersions.v1:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3:
+      case RuntimeExtensionMajorVersions.v4:
         // FUNCTIONS_EXTENSION_VERSION is set to a valid major version, so we don't need to show any warning/error
         return { messageText: '' };
       case '':

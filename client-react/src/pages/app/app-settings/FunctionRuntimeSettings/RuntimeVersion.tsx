@@ -226,7 +226,9 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   };
 
   const customVersionMessage =
-    runtimeMajorVersion === RuntimeExtensionMajorVersions.custom ? t('functionsRuntimeVersionCustomInfo') : undefined;
+    runtimeMajorVersion === RuntimeExtensionMajorVersions.custom && runtimeVersion !== RuntimeExtensionMajorVersions.v4
+      ? t('functionsRuntimeVersionCustomInfo')
+      : undefined;
 
   const existingFunctionsMessage = isExistingFunctionsWarningNeeded(runtimeMajorVersion)
     ? t('functionsRuntimeVersionExistingFunctionsWarning').format(getRuntimeVersionInUse(), runtimeMajorVersion)
