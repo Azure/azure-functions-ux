@@ -11,7 +11,7 @@ const php5Point6EOL = new Date(2021, 2, 1).toString();
 export const phpStack: WebAppStack = {
   displayText: 'PHP',
   value: 'php',
-  preferredOs: 'linux',
+  preferredOs: 'windows',
   majorVersions: [
     {
       displayText: 'PHP 8',
@@ -60,40 +60,15 @@ export const phpStack: WebAppStack = {
               },
               endOfLifeDate: php7Point4EOL,
             },
-            linuxRuntimeSettings: {
-              runtimeVersion: 'PHP|7.4',
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '7.4',
-                notSupportedInCreates: true,
-              },
-              endOfLifeDate: php7Point4EOL,
-            },
           },
         },
         {
           displayText: 'PHP 7.3',
           value: '7.3',
           stackSettings: {
-            linuxRuntimeSettings: {
-              runtimeVersion: 'PHP|7.3',
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '7.3',
-                notSupportedInCreates: true,
-              },
-              endOfLifeDate: php7Point3EOL,
-            },
             windowsRuntimeSettings: {
               runtimeVersion: '7.3',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -111,18 +86,6 @@ export const phpStack: WebAppStack = {
           displayText: 'PHP 7.2',
           value: '7.2',
           stackSettings: {
-            linuxRuntimeSettings: {
-              runtimeVersion: 'PHP|7.2',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: false,
-              },
-              endOfLifeDate: php7Point2EOL,
-            },
             windowsRuntimeSettings: {
               runtimeVersion: '7.2',
               isDeprecated: true,
@@ -159,18 +122,6 @@ export const phpStack: WebAppStack = {
           displayText: '7.0',
           value: '7.0',
           stackSettings: {
-            linuxRuntimeSettings: {
-              runtimeVersion: 'PHP|7.0',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: false,
-              },
-              endOfLifeDate: php7Point0EOL,
-            },
             windowsRuntimeSettings: {
               runtimeVersion: '7.0',
               isDeprecated: true,
@@ -195,18 +146,6 @@ export const phpStack: WebAppStack = {
           displayText: 'PHP 5.6',
           value: '5.6',
           stackSettings: {
-            linuxRuntimeSettings: {
-              runtimeVersion: 'PHP|5.6',
-              isDeprecated: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: false,
-              },
-              gitHubActionSettings: {
-                isSupported: false,
-              },
-              endOfLifeDate: php5Point6EOL,
-            },
             windowsRuntimeSettings: {
               runtimeVersion: '5.6',
               isDeprecated: true,
