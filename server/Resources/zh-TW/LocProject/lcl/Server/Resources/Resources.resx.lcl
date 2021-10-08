@@ -7281,6 +7281,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";enablePortalEditingForLinuxConsumptionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Adding third party dependencies in the Azure portal is currently not supported for Linux Consumption Function Apps. Click here to setup local environment.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Linux 使用量函數應用程式目前不支援在 Azure 入口網站中新增協力廠商相依性。按一下這裡以設定本地環境。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";enabled" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Enabled]]></Val>
@@ -20286,6 +20295,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[Swapped slot {0} with {1}]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";switchToJbossWarningBaner" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[JBoss EAP 由 Red Hat 共同支援，將您的 Web 應用程式切換至 JBoss 每月會產生額外的費用。]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
