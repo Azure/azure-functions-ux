@@ -339,6 +339,11 @@ export class GithubController {
     return { client_id: this._getGitHubForCreatesClientId() };
   }
 
+  @Get('auth/github/reactViewClientId')
+  reactViewClientId() {
+    return { client_id: this._getGitHubForReactViewClientId() };
+  }
+
   @Post('auth/github/generateReactViewAccessToken')
   @HttpCode(200)
   async generateReactViewAccessToken(@Body('code') code: string, @Body('state') state: string) {
