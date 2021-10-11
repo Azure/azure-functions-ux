@@ -3,6 +3,7 @@ import { ArmObj, ResourceGraphColumn, Identity, ArmSku } from '../models/arm-obj
 import { Site } from '../models/site/site';
 import { CommonConstants } from './CommonConstants';
 import Url from './url';
+import { ArmSubcriptionDescriptor } from './resourceDescriptors';
 
 export function isFunctionApp(obj: ArmObj<any>): boolean {
   return AppKind.hasKinds(obj, [CommonConstants.Kinds.functionApp]) && !AppKind.hasKinds(obj, [CommonConstants.Kinds.botapp]);
@@ -36,6 +37,10 @@ export function isElastic(obj: ArmObj<Site>): boolean {
 export function isElasticPremium(obj: ArmObj<Site>): boolean {
   const sku = obj.properties.sku && obj.properties.sku.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.elasticPremium;
+}
+
+export function isLinuxElastic(obj: ArmObj<Site>) {
+  return isLinuxApp(obj) && isElastic(obj);
 }
 
 export function isPremiumV2(obj: ArmObj<Site>): boolean {
@@ -89,4 +94,9 @@ export function mapResourcesTopologyToArmObjects<T>(columns: ResourceGraphColumn
   }));
 
   return armObjects;
+}
+
+export function getSubscriptionFromResourceId(resourceId: string) {
+  const armResourceDescriptor = new ArmSubcriptionDescriptor(resourceId);
+  return armResourceDescriptor.getSubsriptionId();
 }

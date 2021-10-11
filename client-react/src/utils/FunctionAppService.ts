@@ -3,7 +3,7 @@ import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { KeyValue } from '../models/portal-models';
 import Url from './url';
 import { Site } from '../models/site/site';
-import { isLinuxDynamic } from './arm-utils';
+import { isLinuxDynamic, isLinuxElastic } from './arm-utils';
 
 export default class FunctionAppService {
   public static getRFPSetting(appSettings: ArmObj<KeyValue<string>>): string {
@@ -16,8 +16,8 @@ export default class FunctionAppService {
     );
   }
 
-  public static getWorkerRuntimeSetting(appSettings: ArmObj<KeyValue<string>>): string {
-    return appSettings.properties[CommonConstants.AppSettingNames.functionsWorkerRuntime] || '';
+  public static getWorkerRuntimeSetting(appSettings?: ArmObj<KeyValue<string>>): string {
+    return (!!appSettings && appSettings.properties[CommonConstants.AppSettingNames.functionsWorkerRuntime]) || '';
   }
 
   public static usingRunFromPackage(appSettings: ArmObj<KeyValue<string>>): boolean {
@@ -61,34 +61,21 @@ export default class FunctionAppService {
     return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.powershell;
   }
 
-  public static usingPythonLinuxConsumption(site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean {
-    return (
-      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxConsumption) &&
-      isLinuxDynamic(site) &&
-      !!appSettings &&
-      FunctionAppService.usingPythonWorkerRuntime(appSettings)
-    );
-  }
-
-  public static usingNodeLinuxConsumption(site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean {
-    return (
-      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxConsumption) &&
-      isLinuxDynamic(site) &&
-      !!appSettings &&
-      FunctionAppService.usingNodeWorkerRuntime(appSettings)
-    );
-  }
-
-  public static usingPowershellLinuxConsumption(site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean {
-    return (
-      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxConsumption) &&
-      isLinuxDynamic(site) &&
-      !!appSettings &&
-      FunctionAppService.usingPowershellWorkerRuntime(appSettings)
-    );
-  }
-
   public static getAzureFilesSetting(appSettings: ArmObj<KeyValue<string>>): string {
     return appSettings.properties[CommonConstants.AppSettingNames.azureFilesSettingName] || '';
+  }
+
+  public static enableEditingForLinux(site: ArmObj<Site>, workerRuntime?: string) {
+    // NOTE (krmitta): Editing is only enabled for Linux Consumption or Linux Elastic Premium and Node/Python stack only.
+    // For Powershell, we still need to use the feature-flag.
+    return (
+      !!site &&
+      !!workerRuntime &&
+      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enablePortalEditing) &&
+      (isLinuxDynamic(site) || isLinuxElastic(site)) &&
+      (workerRuntime === WorkerRuntimeLanguages.nodejs ||
+        workerRuntime === WorkerRuntimeLanguages.python ||
+        workerRuntime === WorkerRuntimeLanguages.powershell)
+    );
   }
 }

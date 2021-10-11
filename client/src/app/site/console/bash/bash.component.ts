@@ -5,6 +5,7 @@ import { ConsoleConstants, HttpMethods } from '../../../shared/models/constants'
 import { HostType } from '../../../shared/models/arm/site';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
+import { PortalService } from '../../../shared/services/portal.service';
 
 @Component({
   selector: 'app-bash',
@@ -16,9 +17,10 @@ export class BashComponent extends AbstractConsoleComponent {
   constructor(
     componentFactoryResolver: ComponentFactoryResolver,
     public consoleService: ConsoleService,
-    private _translateService: TranslateService
+    private _translateService: TranslateService,
+    portalService: PortalService
   ) {
-    super(componentFactoryResolver, consoleService);
+    super(componentFactoryResolver, consoleService, portalService);
     this.dir = this._defaultDirectory;
     this.consoleType = ConsoleTypes.BASH;
   }
@@ -27,9 +29,6 @@ export class BashComponent extends AbstractConsoleComponent {
     this.siteSubscription = this.consoleService.getSite().subscribe(site => {
       this.site = site;
       this.removeMsgComponents();
-    });
-    this.publishingCredSubscription = this.consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
-      this.publishingCredentials = publishingCredentials;
     });
   }
 

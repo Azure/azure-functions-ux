@@ -5,6 +5,7 @@ import { ConsoleConstants, HttpMethods } from '../../../../shared/models/constan
 import { HostType } from '../../../../shared/models/arm/site';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
+import { PortalService } from '../../../../shared/services/portal.service';
 
 export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
   private _defaultDirectory = 'D:\\home\\site\\wwwroot';
@@ -12,9 +13,10 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
   constructor(
     componentFactoryResolver: ComponentFactoryResolver,
     public consoleService: ConsoleService,
-    private _translateService: TranslateService
+    private _translateService: TranslateService,
+    portalService: PortalService
   ) {
-    super(componentFactoryResolver, consoleService);
+    super(componentFactoryResolver, consoleService, portalService);
     this.dir = this._defaultDirectory;
   }
 
@@ -24,14 +26,12 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
       this.removeMsgComponents();
       this.updateDefaultDirectory();
     });
-    this.publishingCredSubscription = this.consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
-      this.publishingCredentials = publishingCredentials;
-      this.updateDefaultDirectory();
-    });
+
+    this.updateDefaultDirectory();
   }
 
   protected updateDefaultDirectory() {
-    if (this.site && this.publishingCredentials) {
+    if (this.site) {
       const uri = this.getKuduUri();
       const header = this.getHeader();
       const body = {
