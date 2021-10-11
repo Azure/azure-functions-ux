@@ -6315,6 +6315,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterWorkflowError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[There was an error fetching the workflow file.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Произошла ошибка при получении файла рабочего процесса.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCredentialsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.]]></Val>
@@ -7269,6 +7278,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[Enable Load Testing]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";enablePortalEditingForLinuxConsumptionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Adding third party dependencies in the Azure portal is currently not supported for Linux Consumption Function Apps. Click here to setup local environment.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Добавление сторонних зависимостей на портале Azure сейчас не поддерживается для приложений-функций Потребления Linux. Щелкните здесь, чтобы настроить локальную среду.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -13875,6 +13893,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";missingWorkflowDispatchTrigger" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Redeployment failed because your workflow file in your repository does not have a 'workflow_dispatch' trigger. To fix, add the 'workflow_dispatch' trigger to the workflow file under {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Не удалось выполнить повторное развертывание, так как у файла рабочего процесса в вашем репозитории нет триггера "workflow_dispatch". Для исправления добавьте триггер "workflow_dispatch" в файл рабочего процесса в разделе {0}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";modifiedTag" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[(modified)]]></Val>
@@ -15335,10 +15362,13 @@
       </Item>
       <Item ItemId=";pricing_emptyIsolatedGroupNewPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Inline creation of App Service Environments is currently not supported.]]></Val>
+          <Val><![CDATA[To create an app on a new App Service Environment, click a link below to create the environment first.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Внутреннее создание среды службы приложений сейчас не поддерживается.]]></Val>
+            <Val><![CDATA[Для создания приложения в новой Среде службы приложений щелкните ссылку ниже, чтобы сначала создать среду.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Inline creation of App Service Environments is currently not supported.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -15488,6 +15518,24 @@
           <Val><![CDATA[Isolated V2 is not supported for this scale unit. Please consider redeploying or cloning your app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Категория "Изолированный версии 2" не поддерживается для этой единицы масштабирования. Попробуйте развернуть приложение повторно или клонировать его.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";pricing_jboss" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[JBoss EAP Integrated Support]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Интегрированная поддержка JBoss EAP]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";pricing_jbossDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatically receive integrated technical support from Red Hat and Azure for your JBoss EAP sites]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Автоматически получайте интегрированную техническую поддержку от Red Hat и Azure для ваших сайтов JBoss EAP]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

@@ -3,7 +3,7 @@ import { StackProps } from '../WindowsStacks/WindowsStacks';
 import { WebAppStacksContext, PermissionsContext } from '../../Contexts';
 import { LINUXJAVASTACKKEY, LINUXJAVACONTAINERKEY } from './LinuxStacks.data';
 import { AppStackMinorVersion } from '../../../../../models/stacks/app-stacks';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 import { Field } from 'formik';
 import Dropdown from '../../../../../components/form-controls/DropDown';
@@ -14,7 +14,10 @@ import {
   getMinorVersionText,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
+  isJBossWarningBannerShown,
 } from '../../../../../utils/stacks-utils';
+import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
+import { Links } from '../../../../../utils/FwLinks';
 
 // NOTE(krmitta): These keys should be similar to what is being returned from the backend
 const JAVA8KEY = '8';
@@ -300,6 +303,13 @@ const JavaStack: React.SFC<StackProps> = props => {
           />
           {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.linuxFxVersion, eolStackDate)}
         </>
+      )}
+      {isJBossWarningBannerShown(values.config.properties.linuxFxVersion, initialValues.config.properties.linuxFxVersion) && (
+        <CustomBanner
+          type={MessageBarType.warning}
+          message={t('switchToJbossWarningBaner')}
+          learnMoreLink={Links.jbossAdditionalCostLearnMore}
+        />
       )}
     </>
   );

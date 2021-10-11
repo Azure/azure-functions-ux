@@ -6309,6 +6309,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterWorkflowError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[There was an error fetching the workflow file.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Une erreur s'est produite pendant la récupération du fichier workflow.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCredentialsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.]]></Val>
@@ -7260,6 +7269,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[Enable Load Testing]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";enablePortalEditingForLinuxConsumptionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Adding third party dependencies in the Azure portal is currently not supported for Linux Consumption Function Apps. Click here to setup local environment.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[L’ajout de dépendances tierces dans le Portail Azure n’est actuellement pas pris en charge pour les applications de la fonction consommation Linux. Cliquez ici pour configurer l’environnement local.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -13869,6 +13887,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";missingWorkflowDispatchTrigger" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Redeployment failed because your workflow file in your repository does not have a 'workflow_dispatch' trigger. To fix, add the 'workflow_dispatch' trigger to the workflow file under {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Échec du redéploiement, car votre fichier de flux de travail dans votre référentiel n’a pas de déclencheur « workflow_dispatch ». Pour résoudre ce problème, ajoutez le déclencheur « workflow_dispatch » au fichier de workflow sous {0}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";modifiedTag" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[(modified)]]></Val>
@@ -15329,10 +15356,13 @@
       </Item>
       <Item ItemId=";pricing_emptyIsolatedGroupNewPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Inline creation of App Service Environments is currently not supported.]]></Val>
+          <Val><![CDATA[To create an app on a new App Service Environment, click a link below to create the environment first.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[La création inline d’environnements App Service Environment n’est pas prise en charge actuellement.]]></Val>
+            <Val><![CDATA[Pour créer une application sur une nouvelle App Service Environment, cliquez d’abord sur un lien ci-dessous pour créer l’environnement.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Inline creation of App Service Environments is currently not supported.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -15482,6 +15512,24 @@
           <Val><![CDATA[Isolated V2 is not supported for this scale unit. Please consider redeploying or cloning your app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Isolé V2 n'est pas pris en charge pour cette unité d'échelle. Redéployez ou clonez votre application.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";pricing_jboss" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[JBoss EAP Integrated Support]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Prise en charge intégrée de JBoss EAP]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";pricing_jbossDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatically receive integrated technical support from Red Hat and Azure for your JBoss EAP sites]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Recevez automatiquement un support technique intégré de Red Hat et Azure pour vos sites JBoss EAP]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -20232,6 +20280,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[Swapped slot {0} with {1}]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";switchToJbossWarningBaner" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[JBoss EAP est conjointement pris en charge par Red Hat. Le basculement de votre application web vers JBoss entraîne un coût supplémentaire par mois. ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>

@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links, Pricing } from '../../../shared/models/constants';
+import { Kinds, Links, Pricing, FeatureFlags } from '../../../shared/models/constants';
 import { Tier, SkuCode } from '../../../shared/models/serverFarmSku';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { AseService } from '../../../shared/services/ase.service';
@@ -9,6 +9,7 @@ import { PriceSpec, PriceSpecInput } from './price-spec';
 import { PlanService } from './../../../shared/services/plan.service';
 import { ResourceId, Sku } from '../../../shared/models/arm/arm-obj';
 import { Observable } from 'rxjs/Rx';
+import { Url } from '../../../../app/shared/Utilities/url';
 
 export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
   tier = Tier.isolatedV2;
@@ -91,13 +92,18 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
     return Observable.of(null);
   }
 
+  //TODO (miabebax): Once ANT 96 is deployed, we will remove this conditional check to allow Xenon ASPs to be created in ASEv3. (WI#: 10941757)
+  private _hideIsolatedV2SpecsForXenon(isXenon: boolean = false, isHyperV: boolean = false): boolean {
+    return !(Url.getFeatureValue(FeatureFlags.showIsolatedV2ForXenon) === 'true') && (isXenon || isHyperV);
+  }
+
   runInitialization(input: PriceSpecInput) {
     if (!ArmUtil.isASEV3GenerallyAccessible()) {
       this.state = 'hidden';
     } else if (input.planDetails) {
       if (
         !input.planDetails.plan.properties.hostingEnvironmentProfile ||
-        input.planDetails.plan.properties.hyperV ||
+        this._hideIsolatedV2SpecsForXenon(input.planDetails.plan.properties.isXenon, input.planDetails.plan.properties.hyperV) ||
         AppKind.hasAnyKind(input.planDetails.plan, [Kinds.elastic])
       ) {
         this.state = 'hidden';
@@ -119,8 +125,7 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
     } else if (
       input.specPickerInput.data &&
       (!input.specPickerInput.data.allowAseV3Creation ||
-        input.specPickerInput.data.isXenon ||
-        input.specPickerInput.data.hyperV ||
+        this._hideIsolatedV2SpecsForXenon(input.specPickerInput.data.isXenon, input.specPickerInput.data.hyperV) ||
         (input.specPickerInput.data.isNewFunctionAppCreate &&
           (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard)))
     ) {

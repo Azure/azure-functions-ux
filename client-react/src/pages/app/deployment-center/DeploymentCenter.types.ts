@@ -693,3 +693,5 @@ export interface WorkflowFileUrlInfo {
   branch: string;
   workflowFileName: string;
 }
+
+export type PasswordFieldType = 'password' | undefined;
