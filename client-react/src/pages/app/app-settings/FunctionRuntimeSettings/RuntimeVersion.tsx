@@ -57,7 +57,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     initialRuntimeVersion === RuntimeExtensionMajorVersions.v4 &&
     !!runtimeStack &&
     !!initialRuntimeStack &&
-    runtimeStack === initialRuntimeStack &&
+    runtimeStack.toLowerCase() === initialRuntimeStack.toLowerCase() &&
     initialRuntimeStack.toLowerCase() !== WorkerRuntimeLanguages.dotnet;
   let [waitingOnFunctionsApi, hasFunctions, failedToGetFunctions] = [false, false, false];
 
@@ -223,6 +223,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.websiteNodeDefaultVersion, nodeVersion);
 
     // Add or update FUNCTIONS_EXTENSION_VERSION app setting
+    // NOTE(shimedh): We need to make sure the version is set to ~4 instead of custom for all enabled cases so that the dropdown is not disabled after change.
     if (shouldEnableForV4 && newVersion === RuntimeExtensionMajorVersions.custom) {
       newVersion = RuntimeExtensionMajorVersions.v4;
     }
