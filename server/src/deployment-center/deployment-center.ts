@@ -15,6 +15,7 @@ export enum SandboxEnvironment {
   Prod = 'PROD',
   Mpac = 'MPAC',
   Rc = 'RC',
+  Preview = 'PREVIEW',
 }
 
 export class EnvironmentUrlMappings {
@@ -44,6 +45,7 @@ export class SandboxEnvironmentUrlMappings {
     PROD: '.reactblade.portal.azure.net',
     MPAC: '.reactblade-ms.portal.azure.net',
     RC: '.reactblade-rc.portal.azure.net',
+    PREVIEW: '.reactblade-ms.portal.azure.net',
   };
 
   static readonly urlToEnvironmentMap: { [id: string]: SandboxEnvironment } = {
