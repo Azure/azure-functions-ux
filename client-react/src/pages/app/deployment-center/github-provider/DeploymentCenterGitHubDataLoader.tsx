@@ -4,72 +4,84 @@ import { GitHubUser } from '../../../../models/github';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
-import { DeploymentCenterFieldProps, AuthorizationResult } from '../DeploymentCenter.types';
+import { DeploymentCenterFieldProps, AuthorizationResult, SearchTermObserverInfo } from '../DeploymentCenter.types';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import { KeyValue } from '../../../../models/portal-models';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, map, switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
-interface SearchTermObj {
-  searchTerm: string | undefined;
-  setRepositoryOptions: React.Dispatch<React.SetStateAction<IDropdownOption[]>>;
-}
+const searchTermObserver = new Subject<SearchTermObserverInfo>();
+searchTermObserver
+  .pipe(debounceTime(500))
+  .pipe(
+    switchMap(async info => {
+      const searchTerm = info.searchTerm;
+      const setRepositoryOptions = info.setRepositoryOptions;
+      const setLoadingRepositories = info.setLoadingRepositories;
+      const fetchBranchOptions = info.fetchBranchOptions;
+      const deploymentCenterContext = info.deploymentCenterContext;
+      const deploymentCenterData = info.deploymentCenterData;
+      const portalContext = info.portalContext;
+      const repositoriesUrl = info.repositoryUrl;
+      const isGitHubActions = info.isGitHubActions;
+      const org = info.org;
+      const repo = info.repo;
 
-const searchTermObs = new Subject<SearchTermObj>();
-searchTermObs.pipe(debounceTime(500)).pipe(
-  switchMap(s => {
-    return await(
-      repositories_url.toLocaleLowerCase().indexOf('github.com/users/') > -1
-        ? deploymentCenterData.getGitHubUserRepositories(
-            deploymentCenterContext.gitHubToken,
-            (page, response) => {
-              portalContext.log(
-                getTelemetryInfo('error', 'getGitHubUserRepositoriesResponse', 'failed', {
-                  page,
-                  errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
-                })
-              );
-            },
-            searchTerm
-          )
-        : deploymentCenterData.getGitHubOrgRepositories(
-            formProps.values.org,
-            deploymentCenterContext.gitHubToken,
-            (page, response) => {
-              portalContext.log(
-                getTelemetryInfo('error', 'getGitHubOrgRepositoriesResponse', 'failed', {
-                  page,
-                  errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
-                })
-              );
-            },
-            searchTerm
-          )
-    );
+      let gitHubRepositories;
 
-    let newRepositoryOptions: IDropdownOption[] = [];
-    if (isGitHubActions) {
-      newRepositoryOptions = gitHubRepositories.map(repo => ({ key: repo.name, text: repo.name }));
-    } else {
-      newRepositoryOptions = gitHubRepositories
-        .filter(repo => !repo.permissions || repo.permissions.admin)
-        .map(repo => ({ key: repo.name, text: repo.name }));
-    }
+      if (repositoriesUrl.toLocaleLowerCase().indexOf('github.com/users/') > -1) {
+        gitHubRepositories = await deploymentCenterData.getGitHubUserRepositories(
+          deploymentCenterContext.gitHubToken,
+          (page, response) => {
+            portalContext.log(
+              getTelemetryInfo('error', 'getGitHubUserRepositoriesResponse', 'failed', {
+                page,
+                errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
+              })
+            );
+          },
+          searchTerm
+        );
+      } else {
+        gitHubRepositories = await deploymentCenterData.getGitHubOrgRepositories(
+          org,
+          deploymentCenterContext.gitHubToken,
+          (page, response) => {
+            portalContext.log(
+              getTelemetryInfo('error', 'getGitHubOrgRepositoriesResponse', 'failed', {
+                page,
+                errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
+              })
+            );
+          },
+          searchTerm
+        );
+      }
 
-    newRepositoryOptions.sort((a, b) => a.text.localeCompare(b.text));
+      let newRepositoryOptions: IDropdownOption[] = [];
+      if (isGitHubActions) {
+        newRepositoryOptions = gitHubRepositories.map(repo => ({ key: repo.name, text: repo.name }));
+      } else {
+        newRepositoryOptions = gitHubRepositories
+          .filter(repo => !repo.permissions || repo.permissions.admin)
+          .map(repo => ({ key: repo.name, text: repo.name }));
+      }
 
-    setRepositoryOptions(newRepositoryOptions);
-    setLoadingRepositories(false);
+      newRepositoryOptions.sort((a, b) => a.text.localeCompare(b.text));
 
-    // If the form props already contains selected data, set the default to that value.
-    if (formProps.values.org && formProps.values.repo && formProps.values.repo == formProps.values.searchTerm) {
-      fetchBranchOptions(formProps.values.org, formProps.values.repo);
-    }
-  }).pipe(map(organizations => {}))
-);
+      setRepositoryOptions(newRepositoryOptions);
+      setLoadingRepositories(false);
+
+      // If the form props already contains selected data, set the default to that value.
+      if (org && repo && repo == searchTerm) {
+        fetchBranchOptions(org, repo);
+      }
+    })
+  )
+  .subscribe();
 
 const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -140,58 +152,27 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     }
   };
 
-  const fetchRepositoryOptions = async (repositories_url: string, searchTerm?: string) => {
+  const fetchRepositoryOptions = async (repositoriesUrl: string, searchTerm?: string) => {
     setRepositoryOptions([]);
     setBranchOptions([]);
 
     portalContext.log(getTelemetryInfo('info', 'gitHubRepositories', 'submit'));
 
-    searchTermObs.next({ searchTerm: searchTerm, setRepositoryOptions });
-    // const gitHubRepositories = await (repositories_url.toLocaleLowerCase().indexOf('github.com/users/') > -1
-    //   ? deploymentCenterData.getGitHubUserRepositories(
-    //       deploymentCenterContext.gitHubToken,
-    //       (page, response) => {
-    //         portalContext.log(
-    //           getTelemetryInfo('error', 'getGitHubUserRepositoriesResponse', 'failed', {
-    //             page,
-    //             errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
-    //           })
-    //         );
-    //       },
-    //       searchTerm
-    //     )
-    //   : deploymentCenterData.getGitHubOrgRepositories(
-    //       formProps.values.org,
-    //       deploymentCenterContext.gitHubToken,
-    //       (page, response) => {
-    //         portalContext.log(
-    //           getTelemetryInfo('error', 'getGitHubOrgRepositoriesResponse', 'failed', {
-    //             page,
-    //             errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
-    //           })
-    //         );
-    //       },
-    //       searchTerm
-    //     ));
+    const info: SearchTermObserverInfo = {
+      searchTerm: searchTerm,
+      setRepositoryOptions: setRepositoryOptions,
+      setLoadingRepositories: setLoadingRepositories,
+      fetchBranchOptions: fetchBranchOptions,
+      repositoryUrl: repositoriesUrl,
+      deploymentCenterData: deploymentCenterData,
+      deploymentCenterContext: deploymentCenterContext,
+      portalContext: portalContext,
+      isGitHubActions: isGitHubActions,
+      org: formProps.values.org,
+      repo: formProps.values.repo,
+    };
 
-    // let newRepositoryOptions: IDropdownOption[] = [];
-    // if (isGitHubActions) {
-    //   newRepositoryOptions = gitHubRepositories.map(repo => ({ key: repo.name, text: repo.name }));
-    // } else {
-    //   newRepositoryOptions = gitHubRepositories
-    //     .filter(repo => !repo.permissions || repo.permissions.admin)
-    //     .map(repo => ({ key: repo.name, text: repo.name }));
-    // }
-
-    // newRepositoryOptions.sort((a, b) => a.text.localeCompare(b.text));
-
-    // setRepositoryOptions(newRepositoryOptions);
-    // setLoadingRepositories(false);
-
-    // // If the form props already contains selected data, set the default to that value.
-    // if (formProps.values.org && formProps.values.repo && formProps.values.repo == formProps.values.searchTerm) {
-    //   fetchBranchOptions(formProps.values.org, formProps.values.repo);
-    // }
+    searchTermObserver.next(info);
   };
 
   const fetchBranchOptions = async (org: string, repo: string) => {
@@ -316,6 +297,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   }, [formProps.values.org]);
 
   useEffect(() => {
+    setRepositoryOptions([]);
     setBranchOptions([]);
     setClearComboBox({ branch: true, repo: false });
     setLoadingBranches(true);

@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
 import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
 import { ThemeContext } from '../../ThemeContext';
 import ComboBoxNoFormik from './ComboBoxnoFormik';
 import { IComboBoxProps, IComboBoxOption, IComboBox, IDropdownOption } from 'office-ui-fabric-react';
-import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 
 interface CustomComboBoxProps {
   id: string;
@@ -27,7 +25,6 @@ interface CustomComboBoxProps {
 const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
   const { field, form, options, styles, setOptions, allowFreeform, isLoading, searchable, text, clearComboBox, ...rest } = props;
   const theme = useContext(ThemeContext);
-  const inputDebouncer = useRef(new Subject<string>());
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
 
   const onChange = (event: React.FormEvent<IComboBox>, option?: IComboBoxOption, index?: number, value?: string): void => {
@@ -44,27 +41,16 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
         setSearchTerm(option.text);
       }
     } else {
+      setSearchTerm(value);
       form.setFieldValue(field.name, '');
     }
   };
 
   const onInputValueChange = (newValue?: string) => {
     setSearchTerm(newValue);
-    inputDebouncer.current.next(newValue);
+    form.setFieldValue('searchTerm', newValue);
+    form.setFieldValue(field.name, undefined);
   };
-
-  const watchForSearchTermUpdates = async () => {
-    inputDebouncer.current.pipe(debounceTime(300)).subscribe(value => {
-      form.setFieldValue('searchTerm', value);
-      form.setFieldValue(field.name, undefined);
-    });
-  };
-
-  useEffect(() => {
-    if (!!searchable) {
-      watchForSearchTermUpdates();
-    }
-  }, []);
 
   useEffect(() => {
     if (!!clearComboBox) {
