@@ -21,7 +21,7 @@ import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
-import { EnvironmentUrlMappings, Environments } from '../deployment-center';
+import { EnvironmentUrlMappings, Environments, SandboxEnvironment, SandboxEnvironmentUrlMappings } from '../deployment-center';
 import { AxiosRequestConfig } from 'axios';
 import { CloudType, StaticReactConfig } from '../../types/config';
 
@@ -291,6 +291,15 @@ export class GithubController {
     return 'Successfully Authenticated. Redirecting...';
   }
 
+  @Get('auth/github/reactview/callback/sandbox/:sandbox/env/:env')
+  async callbackReactRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('sandbox') sandbox, @Param('env') env) {
+    const envToUpper = (env && (env as string).toUpperCase()) || '';
+    const envUri =
+      SandboxEnvironmentUrlMappings.environmentToUrlMap[envToUpper] ||
+      SandboxEnvironmentUrlMappings.environmentToUrlMap[SandboxEnvironment.Prod];
+    res.redirect(`https://sandbox-${sandbox}${envUri}?code=${code}&state=${state}`);
+  }
+
   @Post('auth/github/getToken')
   @HttpCode(200)
   async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
@@ -328,6 +337,39 @@ export class GithubController {
   @Get('auth/github/createClientId')
   clientId() {
     return { client_id: this._getGitHubForCreatesClientId() };
+  }
+
+  @Get('auth/github/reactViewClientId')
+  reactViewClientId() {
+    return { client_id: this._getGitHubForReactViewClientId() };
+  }
+
+  @Post('auth/github/generateReactViewAccessToken')
+  @HttpCode(200)
+  async generateReactViewAccessToken(@Body('code') code: string, @Body('state') state: string) {
+    if (!code || !state) {
+      throw new HttpException('Code and State are required', 400);
+    }
+
+    try {
+      const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
+        code,
+        state,
+        client_id: this._getGitHubForReactViewClientId(),
+        client_secret: this._getGitHubForReactViewClientSecret(),
+      });
+      const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
+      return {
+        accessToken: token,
+        refreshToken: null,
+        environment: null,
+      };
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException('Internal Server Error', 500);
+    }
   }
 
   @Post('auth/github/generateCreateAccessToken')
@@ -599,6 +641,14 @@ export class GithubController {
     } else {
       return this.configService.get('GITHUB_FOR_CREATES_NATIONALCLOUDS_CLIENT_SECRET');
     }
+  }
+
+  private _getGitHubForReactViewClientId() {
+    return this.configService.get('GITHUB_FOR_REACTVIEW_CLIENT_ID');
+  }
+
+  private _getGitHubForReactViewClientSecret() {
+    return this.configService.get('GITHUB_FOR_REACTVIEW_CLIENT_SECRET');
   }
 
   private async _makeGetCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res: any) {
