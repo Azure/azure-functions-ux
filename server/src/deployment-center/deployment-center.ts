@@ -14,6 +14,7 @@ export enum Environments {
 export enum SandboxEnvironment {
   Prod = 'PROD',
   Mpac = 'MPAC',
+  Rc = 'RC',
 }
 
 export class EnvironmentUrlMappings {
@@ -42,10 +43,12 @@ export class SandboxEnvironmentUrlMappings {
   static readonly environmentToUrlMap: { [id in SandboxEnvironment]: string } = {
     PROD: '.reactblade.portal.azure.net',
     MPAC: '.reactblade-ms.portal.azure.net',
+    RC: '.reactblade-rc.portal.azure.net',
   };
 
   static readonly urlToEnvironmentMap: { [id: string]: SandboxEnvironment } = {
     '.reactblade.portal.azure.net': SandboxEnvironment.Prod,
     '.reactblade-ms.portal.azure.net': SandboxEnvironment.Mpac,
+    '.reactblade-rc.portal.azure.net': SandboxEnvironment.Rc,
   };
 }
