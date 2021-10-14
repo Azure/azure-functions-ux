@@ -77,7 +77,7 @@ searchTermObserver
 
       // If the form props already contains selected data, set the default to that value.
       if (org && repo && repo == searchTerm) {
-        fetchBranchOptions(org, repo);
+        await fetchBranchOptions(org, repo);
       }
     })
   )
@@ -152,7 +152,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     }
   };
 
-  const fetchRepositoryOptions = async (repositoriesUrl: string, searchTerm?: string) => {
+  const fetchRepositoryOptions = (repositoriesUrl: string, searchTerm?: string) => {
     setRepositoryOptions([]);
     setBranchOptions([]);
 

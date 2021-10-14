@@ -121,7 +121,7 @@ export class GithubController {
       });
       return r.data.items;
     } catch (err) {
-      this.loggingService.error(`Failed retrieve org repositories with given search term.`);
+      this.loggingService.error(`Failed to retrieve org repositories with given search term. ${err}`);
 
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
@@ -153,7 +153,7 @@ export class GithubController {
       });
       return r.data.items;
     } catch (err) {
-      this.loggingService.error(`Failed retrieve user repositories with given search term. Get search user repositories called? `);
+      this.loggingService.error(`Failed to retrieve user repositories with given search term. ${err}`);
 
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
