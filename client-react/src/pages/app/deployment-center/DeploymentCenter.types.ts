@@ -11,6 +11,9 @@ import { RepoTypeOptions } from '../../../models/external';
 import { OneDriveUser } from '../../../models/onedrive';
 import { DropboxUser } from '../../../models/dropbox';
 import { KeyValue } from '../../../models/portal-models';
+import DeploymentCenterData from './DeploymentCenter.data';
+import { IDeploymentCenterContext } from './DeploymentCenterContext';
+import PortalCommunicator from '../../../portal-communicator';
 
 export enum SourceControlOptions {
   GitHub = 'github',
@@ -292,6 +295,7 @@ export interface DeploymentCenterCommonFormData {
   dropboxUser?: DropboxUser;
   folder?: string;
   devOpsProjectName?: string;
+  searchTerm?: string;
 }
 
 export interface AcrFormData {
@@ -444,6 +448,7 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   hasDeprecatedToken?: boolean;
   updateTokenSuccess?: boolean;
   resetToken?: () => void;
+  clearComboBox?: KeyValue<boolean>;
 }
 
 export interface DeploymentCenterGitHubDisconnectProps {
@@ -695,3 +700,17 @@ export interface WorkflowFileUrlInfo {
 }
 
 export type PasswordFieldType = 'password' | undefined;
+
+export interface SearchTermObserverInfo {
+  searchTerm: string | undefined;
+  org: string;
+  repo: string;
+  setLoadingRepositories: React.Dispatch<React.SetStateAction<boolean>>;
+  setRepositoryOptions: React.Dispatch<React.SetStateAction<IDropdownOption[]>>;
+  fetchBranchOptions: (org: string, repo: string) => Promise<void>;
+  repositoryUrl: string;
+  deploymentCenterData: DeploymentCenterData;
+  deploymentCenterContext: IDeploymentCenterContext;
+  portalContext: PortalCommunicator;
+  isGitHubActions: boolean | undefined;
+}

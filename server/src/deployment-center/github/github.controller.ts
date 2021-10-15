@@ -104,11 +104,63 @@ export class GithubController {
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
+  @Post('api/github/getSearchOrgRepositories')
+  @HttpCode(200)
+  async getSearchOrgRepositories(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('searchTerm') searchTerm: string,
+    @Body('page') page: number
+  ) {
+    try {
+      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+org:${org}&per_page=100`;
+      // Successive searchTerms have zero white space char added to front
+      const encodedURI = encodeURI(url).replace('%E2%80%8B/g', '');
+      const r = await this.httpService.get(encodedURI, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+      return r.data.items;
+    } catch (err) {
+      this.loggingService.error(`Failed to retrieve org repositories with given search term. ${err}`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      } else {
+        throw new HttpException(err, 500);
+      }
+    }
+  }
+
   @Post('api/github/getUserRepositories')
   @HttpCode(200)
   async getUserRepositories(@Body('gitHubToken') gitHubToken: string, @Body('page') page: number, @Res() res) {
     const url = `${this.githubApiUrl}/user/repos?type=owner&page=${page}`;
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getSearchUserRepositories')
+  @HttpCode(200)
+  async getSearchUserRepositories(@Body('gitHubToken') gitHubToken: string, @Body('searchTerm') searchTerm: string) {
+    const userResponse = await this.httpService.get(`${this.githubApiUrl}/user`, { headers: this._getAuthorizationHeader(gitHubToken) });
+    const username = userResponse.data.login;
+
+    try {
+      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+user:${username}&per_page=100`;
+      // Successive searchTerms have zero white space char added to front
+      const encodedURI = encodeURI(url).replace('%E2%80%8B/g', '');
+      const r = await this.httpService.get(encodedURI, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+      return r.data.items;
+    } catch (err) {
+      this.loggingService.error(`Failed to retrieve user repositories with given search term. ${err}`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      } else {
+        throw new HttpException(err, 500);
+      }
+    }
   }
 
   @Post('api/github/getBranches')
