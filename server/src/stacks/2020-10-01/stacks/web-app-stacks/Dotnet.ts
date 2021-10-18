@@ -21,7 +21,6 @@ export const dotnetStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v5.0',
-              isEarlyAccess: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
