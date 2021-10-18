@@ -155,16 +155,6 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.6',
-          value: '8.5.6',
-          stackSettings: {
-            windowsContainerSettings: {
-              javaContainer: 'TOMCAT',
-              javaContainerVersion: '8.5.6',
-            },
-          },
-        },
-        {
           displayText: 'Tomcat 8.5.66',
           value: '8.5.66',
           stackSettings: {
@@ -261,6 +251,16 @@ export const javaContainersStack: WebAppStack = {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '8.5.20',
+            },
+          },
+        },
+        {
+          displayText: 'Tomcat 8.5.6',
+          value: '8.5.6',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '8.5.6',
             },
           },
         },
