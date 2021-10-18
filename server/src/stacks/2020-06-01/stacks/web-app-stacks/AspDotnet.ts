@@ -17,7 +17,7 @@ export const aspDotnetStack: WebAppStack = {
               runtimeVersion: 'v6.0',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
