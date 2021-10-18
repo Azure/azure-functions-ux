@@ -52,9 +52,9 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   const runtimeVersion = findFormAppSettingValue(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
   const runtimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(runtimeVersion);
 
-  const hasCustomRuntimeVersion = initialRuntimeMajorVersion === RuntimeExtensionMajorVersions.custom;
+  const hasCustomRuntimeVersion = runtimeMajorVersion === RuntimeExtensionMajorVersions.custom;
   const shouldEnableForV4 =
-    initialRuntimeVersion === RuntimeExtensionMajorVersions.v4 &&
+    runtimeVersion === RuntimeExtensionMajorVersions.v4 &&
     !!runtimeStack &&
     !!initialRuntimeStack &&
     runtimeStack.toLowerCase() === initialRuntimeStack.toLowerCase() &&
