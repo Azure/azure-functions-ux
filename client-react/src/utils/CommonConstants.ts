@@ -59,6 +59,7 @@ export class CommonConstants {
     enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
     enablePortalEditing: 'enablePortalEditing',
     disablePortalEditing: 'disablePortalEditing',
+    enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -170,6 +171,8 @@ export class CommonConstants {
   public static readonly Hyphen = '-';
 
   public static readonly serviceBmxUrl = 'https://service.bmx.azure.com';
+
+  public static readonly monthlyHoursForPricing = 730;
 
   public static readonly MountPathValidationExamples = {
     linux: {
