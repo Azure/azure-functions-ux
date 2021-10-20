@@ -168,6 +168,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         setAcrStatusMessage(statusMessage);
         setAcrStatusMessageType(MessageBarType.error);
 
+        if (!!deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.acrUseManagedIdentityCreds) {
+          setAcrStatusMessage(undefined);
+        }
+
         portalContext.log(
           getTelemetryInfo('error', 'credentialsResponse', 'failed', {
             message: getErrorMessage(credentialsResponse.metadata.error),
