@@ -52,7 +52,7 @@ export const powershellStack: FunctionAppStack = {
                 use32BitWorkerProcess: false,
                 linuxFxVersion: 'PowerShell|7',
               },
-              supportedFunctionsExtensionVersions: ['~4', '~3'],
+              supportedFunctionsExtensionVersions: ['~4'],
             },
           },
         },
