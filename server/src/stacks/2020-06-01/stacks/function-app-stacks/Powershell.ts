@@ -37,7 +37,7 @@ export const powershellStack: FunctionAppStack = {
               runtimeVersion: 'PowerShell|7',
               remoteDebuggingSupported: false,
               isPreview: true,
-              isHidden: true,
+              isHidden: false,
               appInsightsSettings: {
                 isSupported: true,
               },
