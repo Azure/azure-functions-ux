@@ -148,7 +148,8 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     if (!!billingInformation && billingInformation.length > 0) {
       const meter = billingInformation.find(val => val.id === StaticSiteBillingType.SWAAzureFrontDoor);
       if (!!meter && !!meter.amount) {
-        const cost = meter.amount.toFixed(2);
+        // NOTE (krmitta): Hourly cost is returned but we want to show monthly
+        const cost = (CommonConstants.monthlyHoursForPricing * meter.amount).toFixed(2);
         const currency = meter.currencyCode;
         return <>{t('staticSiteEnterpriseGradeEdgePrice').format(`${cost} ${currency}`)}</>;
       }

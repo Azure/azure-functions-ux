@@ -172,6 +172,8 @@ export class CommonConstants {
 
   public static readonly serviceBmxUrl = 'https://service.bmx.azure.com';
 
+  public static readonly monthlyHoursForPricing = 730;
+
   public static readonly MountPathValidationExamples = {
     linux: {
       valid: '/Foo, /Foo/bar',
