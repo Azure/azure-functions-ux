@@ -34,7 +34,7 @@ export function validateNodeStack(stacks) {
   expect(nodeStack.displayText).to.equal('Node.js');
   expect(nodeStack.value).to.equal('node');
   expect(nodeStack.sortOrder).to.equal(1);
-  expect(nodeStack.versions.length).to.equal(3);
+  expect(nodeStack.versions.length).to.equal(4);
   expect(nodeStack).to.deep.equal(hardCodedNodeStack);
 }
 
