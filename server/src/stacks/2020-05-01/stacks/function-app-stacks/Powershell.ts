@@ -25,23 +25,7 @@ export const powershellStack: FunctionAppStack = {
           siteConfigPropertiesDictionary: {
             powerShellVersion: '~7',
           },
-        },
-        {
-          sortOrder: 1,
-          os: 'linux',
-          isPreview: true,
-          isDeprecated: false,
-          isHidden: true,
-          applicationInsightsEnabled: true,
-          runtimeVersion: 'PowerShell|7',
-          appSettingsDictionary: {
-            FUNCTIONS_WORKER_RUNTIME: 'powershell',
-          },
-          siteConfigPropertiesDictionary: {
-            use32BitWorkerProcess: false,
-            linuxFxVersion: 'PowerShell|7',
-          },
-        },
+        }
       ],
     },
     {
