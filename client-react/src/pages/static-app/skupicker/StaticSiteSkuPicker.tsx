@@ -139,9 +139,9 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
 
   const getEnterpriseGradeEdgeCostRow = (): JSX.Element => {
     if (Url.getFeatureValue(CommonConstants.FeatureFlags.enterpriseGradeEdgeItemVisible) === 'true') {
-      return <></>;
+      return getGridMiddleRow(t('staticSiteEnterpriseGradeEdge'), CommonConstants.Dash, enterpriseGradeEdgeCost);
     }
-    return getGridMiddleRow(t('staticSiteEnterpriseGradeEdge'), CommonConstants.Dash, enterpriseGradeEdgeCost);
+    return <></>;
   };
 
   const getEnterpriseGradeEdgeCost = (): JSX.Element => {
