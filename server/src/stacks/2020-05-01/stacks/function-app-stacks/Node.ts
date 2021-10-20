@@ -137,7 +137,10 @@ export const nodeStack: FunctionAppStack = {
             FUNCTIONS_WORKER_RUNTIME: 'node',
             WEBSITE_NODE_DEFAULT_VERSION: '~16',
           },
-          siteConfigPropertiesDictionary: {},
+          siteConfigPropertiesDictionary: {
+            use32BitWorkerProcess: true,
+            netFrameworkVersion: 'v6.0',
+          }
         },
         {
           sortOrder: 1,
