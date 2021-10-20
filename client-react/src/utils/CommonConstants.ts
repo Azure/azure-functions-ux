@@ -59,6 +59,7 @@ export class CommonConstants {
     enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
     enablePortalEditing: 'enablePortalEditing',
     disablePortalEditing: 'disablePortalEditing',
+    enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
   };
 
   public static readonly AppDensityLimit = 8;

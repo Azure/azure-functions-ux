@@ -15,6 +15,7 @@ export interface StaticSiteSkuPickerProps {
 export enum StaticSiteBillingType {
   SWAMonthly = 'SWAMonthly',
   SWAIncremental = 'SWAIncremental',
+  SWAAzureFrontDoor = 'SWAAzureFrontDoor',
 }
 
 export interface StaticSiteBillingInformation {
