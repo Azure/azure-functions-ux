@@ -63,6 +63,16 @@ export default class StaticSiteService {
             },
           ],
         },
+        {
+          id: StaticSiteBillingType.SWAAzureFrontDoor,
+          firstParty: [
+            {
+              id: StaticSiteBillingType.SWAAzureFrontDoor,
+              quantity: 1,
+              resourceId: '03c39429-94d2-5951-bf91-78bf51574b11',
+            },
+          ],
+        },
       ],
       specsToAllowZeroCost: ['F1'],
       specType: 'WebsitesExtension',
