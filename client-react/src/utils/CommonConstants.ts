@@ -58,6 +58,7 @@ export class CommonConstants {
     enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
     enablePortalEditing: 'enablePortalEditing',
     disablePortalEditing: 'disablePortalEditing',
+    enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
   };
 
