@@ -95,7 +95,7 @@ export interface BillingMeter {
 /**
  * Data contract for a third party resource and the quantity of that resource
  */
-interface CostEstimate {
+export interface CostEstimate {
   /**
    * The round-tripped Id
    */

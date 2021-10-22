@@ -2,9 +2,7 @@ import MakeArmCall from '../ArmHelper';
 import { ArmObj } from '../../models/arm-obj';
 import { StaticSite } from '../../models/static-site/static-site';
 import { CommonConstants } from '../../utils/CommonConstants';
-import { sendHttpRequest } from '../HttpClient';
-import { getArmToken } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
-import { StaticSiteBillingMeter, StaticSiteBillingType } from '../../pages/static-app/skupicker/StaticSiteSkuPicker.types';
+
 export default class StaticSiteService {
   public static getStaticSite = (resourceId: string) => {
     return MakeArmCall<ArmObj<StaticSite>>({
@@ -32,57 +30,5 @@ export default class StaticSiteService {
       body: body,
       apiVersion: CommonConstants.ApiVersions.staticSiteApiVersion20201201,
     });
-  };
-
-  public static getStaticSiteBillingMeters = (
-    subscriptionId: string,
-    apiVersion = CommonConstants.ApiVersions.billingApiVersion20190114
-  ) => {
-    const url = `${CommonConstants.serviceBmxUrl}/api/Billing/Subscription/GetSpecsCosts?api-version=${apiVersion}`;
-
-    const data = {
-      subscriptionId: subscriptionId,
-      specResourceSets: [
-        {
-          id: StaticSiteBillingType.SWAMonthly,
-          firstParty: [
-            {
-              id: StaticSiteBillingType.SWAMonthly,
-              quantity: 1,
-              resourceId: '56c80fab-f20c-5e41-951d-667dc9503604',
-            },
-          ],
-        },
-        {
-          id: StaticSiteBillingType.SWAIncremental,
-          firstParty: [
-            {
-              id: StaticSiteBillingType.SWAIncremental,
-              quantity: 1,
-              resourceId: '0ecf6c02-a907-5918-8591-4f912eb59a31',
-            },
-          ],
-        },
-        {
-          id: StaticSiteBillingType.SWAAzureFrontDoor,
-          firstParty: [
-            {
-              id: StaticSiteBillingType.SWAAzureFrontDoor,
-              quantity: 1,
-              resourceId: '03c39429-94d2-5951-bf91-78bf51574b11',
-            },
-          ],
-        },
-      ],
-      specsToAllowZeroCost: ['F1'],
-      specType: 'WebsitesExtension',
-      IsRpcCall: true,
-    };
-
-    const headers = {
-      Authorization: getArmToken(),
-    };
-
-    return sendHttpRequest<StaticSiteBillingMeter>({ url, method: 'POST', data, headers }, true /* excludeWellKnownHeaders */);
   };
 }
