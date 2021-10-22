@@ -40,6 +40,8 @@ export interface SiteConfig {
   remoteDebuggingEnabled: boolean;
   remoteDebuggingVersion: string | null;
   httpLoggingEnabled: boolean;
+  acrUseManagedIdentityCreds: boolean;
+  acrUserManagedIdentityID: string;
   logsDirectorySizeLimit: number;
   detailedErrorLoggingEnabled: boolean;
   publishingUsername: string;
