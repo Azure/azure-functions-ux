@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
+import { CostEstimate } from '../../../models/BillingModels';
 import { PortalContext } from '../../../PortalContext';
 import RbacConstants from '../../../utils/rbac-constants';
 import { getTelemetryInfo } from '../../app/deployment-center/utility/DeploymentCenterUtility';
@@ -20,7 +21,7 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
 
   const [hasWritePermissions, setHasWritePermissions] = useState(true);
   const [currentSiteSku, setCurrentSiteSku] = useState<StaticSiteSku>(currentSku);
-  const [billingInformation, setBillingInformation] = useState<any>(null);
+  const [billingInformation, setBillingInformation] = useState<CostEstimate[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isBillingInformationLoading, setIsBillingInformationLoading] = useState(true);
 
@@ -105,7 +106,7 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
     const specCostObservable = await portalContext.getSpecCosts(getSpeCostQueryInput());
     specCostObservable.subscribe(specCostResult => {
       if (!!specCostResult) {
-        setBillingInformation(specCostResult.costs);
+        setBillingInformation([...specCostResult.costs]);
       } else {
         portalContext.log(getTelemetryInfo('error', 'getStaticSiteBillingInformation', 'failed'));
       }
