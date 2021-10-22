@@ -17868,6 +17868,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";staticSiteEnterpriseGradeEdge" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enterprise-grade edge]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Edge tingkat perusahaan]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSiteEnterpriseGradeEdgePrice" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0}/per app/month]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0}/per aplikasi/bulan]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";staticSiteFree" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Free]]></Val>
@@ -20923,7 +20941,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Azure DevOps Continuous Delivery requires you to have permissions to create a service principal in Azure Active Directory and assign role to it.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Pengiriman Berkelanjutan Azure DevOps mengharuskan Anda memiliki izin untuk membuat perwakilan layanan di Azure Active Directory dan menetapkan peran ke dalamnya.]]></Val>
+            <Val><![CDATA[Pengiriman Berkelanjutan Azure DevOps mewajibkan Anda memiliki izin untuk membuat perwakilan layanan di Azure Active Directory dan menetapkan peran untuknya.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

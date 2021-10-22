@@ -35,7 +35,6 @@ export class CommonConstants {
     stacksApiVersion20201001: '2020-10-01',
     acrApiVersion20190501: '2019-05-01',
     staticSiteApiVersion20201201: '2020-12-01',
-    billingApiVersion20190114: '2019-01-14',
     argApiVersion20210301: '2021-03-01',
     argApiVersion20180901Preview: '2018-09-01-preview',
     workflowApiVersion20201201: '2020-12-01',
@@ -60,6 +59,7 @@ export class CommonConstants {
     enablePortalEditing: 'enablePortalEditing',
     disablePortalEditing: 'disablePortalEditing',
     enableAzureReposForLinux: 'enableAzureReposForLinux',
+    enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -171,6 +171,8 @@ export class CommonConstants {
   public static readonly Hyphen = '-';
 
   public static readonly serviceBmxUrl = 'https://service.bmx.azure.com';
+
+  public static readonly monthlyHoursForPricing = 730;
 
   public static readonly MountPathValidationExamples = {
     linux: {

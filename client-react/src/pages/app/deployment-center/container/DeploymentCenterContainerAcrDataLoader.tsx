@@ -165,8 +165,14 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
           ? t('deploymentCenterContainerAcrFailedToLoadCredentialsWithError').format(errorMessage)
           : t('deploymentCenterContainerAcrFailedToLoadCredentials');
 
-        setAcrStatusMessage(statusMessage);
-        setAcrStatusMessageType(MessageBarType.error);
+        if (
+          !!deploymentCenterContext.siteConfig &&
+          !!deploymentCenterContext.siteConfig.properties &&
+          !deploymentCenterContext.siteConfig.properties.acrUseManagedIdentityCreds
+        ) {
+          setAcrStatusMessage(statusMessage);
+          setAcrStatusMessageType(MessageBarType.error);
+        }
 
         portalContext.log(
           getTelemetryInfo('error', 'credentialsResponse', 'failed', {
