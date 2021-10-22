@@ -60,6 +60,62 @@ export const dotnetStack: FunctionAppStack = {
       ],
     },
     {
+      displayText: '.NET 6 Isolated',
+      value: 'dotnet5',
+      minorVersions: [
+        {
+          displayText: '.NET 6 Isolated',
+          value: '6 Isolated',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: 'v6.0',
+              isEarlyAccess: true,
+              isPreview: true,
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '6.0.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+                netFrameworkVersion: 'v6.0',
+              },
+              supportedFunctionsExtensionVersions: ['~4'],
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'DOTNET-ISOLATED|6.0',
+              isEarlyAccess: true,
+              isPreview: true,
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '6.0.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+                linuxFxVersion: 'DOTNET-ISOLATED|6.0',
+              },
+              supportedFunctionsExtensionVersions: ['~4'],
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: '.NET 5 (non-LTS)',
       value: 'dotnet5',
       minorVersions: [
