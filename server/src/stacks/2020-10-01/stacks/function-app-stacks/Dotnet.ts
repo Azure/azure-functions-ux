@@ -64,7 +64,7 @@ export const dotnetStack: FunctionAppStack = {
       value: 'dotnet5',
       minorVersions: [
         {
-          displayText: '.NET 5 Isolated',
+          displayText: '.NET 6 Isolated',
           value: '6 Isolated',
           stackSettings: {
             windowsRuntimeSettings: {
