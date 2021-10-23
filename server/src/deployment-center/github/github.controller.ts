@@ -93,14 +93,14 @@ export class GithubController {
   @Post('api/github/getOrganizations')
   @HttpCode(200)
   async getOrganizations(@Body('gitHubToken') gitHubToken: string, @Body('page') page: number, @Res() res) {
-    const url = `${this.githubApiUrl}/user/orgs?page=${page}`;
+    const url = `${this.githubApiUrl}/user/orgs?per_page=100&page=${page}`;
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
   @Post('api/github/getOrgRepositories')
   @HttpCode(200)
   async getOrgRepositories(@Body('gitHubToken') gitHubToken: string, @Body('org') org: string, @Body('page') page: number, @Res() res) {
-    const url = `${this.githubApiUrl}/orgs/${org}/repos?page=${page}`;
+    const url = `${this.githubApiUrl}/orgs/${org}/repos?per_page=100&page=${page}`;
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
