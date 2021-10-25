@@ -212,6 +212,7 @@ export default class FunctionsService {
       case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3:
+      case RuntimeExtensionMajorVersions.v4:
       default: {
         uri = `/hostruntime/admin/vfs/${fileEndpoint}?relativePath=1`;
         break;
