@@ -205,15 +205,17 @@ export default class FunctionsService {
     let uri;
 
     switch (runtimeVersion) {
+      case RuntimeExtensionMajorVersions.v1: {
+        uri = `/extensions/api/vfs/${fileEndpoint}`;
+        break;
+      }
       case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
-      case RuntimeExtensionMajorVersions.v3: {
+      case RuntimeExtensionMajorVersions.v3:
+      default: {
         uri = `/hostruntime/admin/vfs/${fileEndpoint}?relativePath=1`;
         break;
       }
-      case RuntimeExtensionMajorVersions.v1:
-      default:
-        uri = `/extensions/api/vfs/${fileEndpoint}`;
     }
 
     return MakeArmCall<VfsObject[] | string>({
