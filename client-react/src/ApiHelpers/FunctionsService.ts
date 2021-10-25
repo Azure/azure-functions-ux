@@ -253,13 +253,14 @@ export default class FunctionsService {
 
   private static _getVfsApiForRuntimeVersion(endpoint: string, runtimeVersion?: string) {
     switch (runtimeVersion) {
+      case RuntimeExtensionMajorVersions.v1:
+        return `/extensions/api/vfs/site/wwwroot/${endpoint}`;
       case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3:
-        return `/hostruntime/admin/vfs/${endpoint}?relativePath=1`;
-      case RuntimeExtensionMajorVersions.v1:
+      case RuntimeExtensionMajorVersions.v4:
       default:
-        return `/extensions/api/vfs/site/wwwroot/${endpoint}`;
+        return `/hostruntime/admin/vfs/${endpoint}?relativePath=1`;
     }
   }
 
