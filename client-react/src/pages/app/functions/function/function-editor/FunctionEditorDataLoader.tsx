@@ -223,9 +223,21 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const getResultFromHostJson = (): string => {
     let result = '';
     switch (runtimeVersion) {
+      case RuntimeExtensionMajorVersions.v1: {
+        result =
+          hostJsonContent &&
+          hostJsonContent.http &&
+          hostJsonContent.http.routePrefix !== undefined &&
+          hostJsonContent.http.routePrefix !== null
+            ? hostJsonContent.http.routePrefix
+            : 'api';
+        break;
+      }
       case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
-      case RuntimeExtensionMajorVersions.v3: {
+      case RuntimeExtensionMajorVersions.v3:
+      case RuntimeExtensionMajorVersions.v4:
+      default: {
         result =
           hostJsonContent &&
           hostJsonContent.extensions &&
@@ -235,16 +247,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             ? hostJsonContent.extensions.http.routePrefix
             : 'api';
         break;
-      }
-      case RuntimeExtensionMajorVersions.v1:
-      default: {
-        result =
-          hostJsonContent &&
-          hostJsonContent.http &&
-          hostJsonContent.http.routePrefix !== undefined &&
-          hostJsonContent.http.routePrefix !== null
-            ? hostJsonContent.http.routePrefix
-            : 'api';
       }
     }
     return result;
