@@ -2041,6 +2041,7 @@ export class PortalResources {
   public static resetPublishProfileConfirmationDescription = 'resetPublishProfileConfirmationDescription';
   public static usernameLengthRequirements = 'usernameLengthRequirements';
   public static deploymentCenterFieldRequiredMessage = 'deploymentCenterFieldRequiredMessage';
+  public static deploymentCenterFieldPrivateSSHMessage = 'deploymentCenterFieldPrivateSSHMessage';
   public static deploymentCenterExternalRepoMessage = 'deploymentCenterExternalRepoMessage';
   public static deploymentCenterContainerSettingsDescription = 'deploymentCenterContainerSettingsDescription';
   public static deploymentCenterCodeSettingsDescription = 'deploymentCenterCodeSettingsDescription';

@@ -6291,6 +6291,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
         <value>This field is required</value>
     </data>
+    <data name="deploymentCenterFieldPrivateSSHMessage" xml:space="preserve">
+        <value>Deploying with SSH and a private repository is not supported.</value>
+    </data>
     <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
         <value>The repository must begin with https://</value>
     </data>
