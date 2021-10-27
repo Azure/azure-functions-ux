@@ -209,6 +209,9 @@ export class CommonConstants {
   public static readonly DeploymentCenterConstants = {
     acrTag: 'acrResourceId',
     https: 'https://',
+    http: 'http://',
+    httpsWithoutSlash: 'https',
+    httpWithoutSlash: 'http',
   };
 
   public static readonly workflowDispatchTriggerErrorMessage = "workflow does not have 'workflow_dispatch' trigger";
