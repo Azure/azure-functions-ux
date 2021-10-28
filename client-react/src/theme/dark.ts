@@ -141,7 +141,7 @@ const semanticColors = {
   inputPlaceholderBackgroundChecked: AzurePortalColors.buttonPressed,
   inputIconDisabled: AzurePortalColors.buttonDisabled,
   inputIconHovered: AzurePortalColors.buttonHovered,
-  inputIcon: AzurePortalColors.background,
+  inputIcon: AzurePortalColors.hyperlinkText,
 
   buttonBackground: AzurePortalColors.background,
   buttonBackgroundChecked: AzurePortalColors.buttonPressed,

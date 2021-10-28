@@ -5,17 +5,16 @@ import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
 import { Site } from '../../../../../models/site/site';
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
-import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from '@fluentui/react';
+import { PanelType, IDropdownOption, MessageBarType } from '@fluentui/react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../../../components/monaco-editor/monaco-editor';
-import { InputFormValues, ResponseContent, PivotType, FileContent, UrlObj, LoggingOptions } from './FunctionEditor.types';
+import { InputFormValues, ResponseContent, FileContent, UrlObj, LoggingOptions } from './FunctionEditor.types';
 import { VfsObject } from '../../../../../models/functions/vfs';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
 import {
-  pivotStyle,
   testLoadingStyle,
   commandBarSticky,
   logPanelStyle,
@@ -100,7 +99,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [selectedDropdownOption, setSelectedDropdownOption] = useState<IDropdownOption | undefined>(undefined);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [savingFile, setSavingFile] = useState<boolean>(false);
-  const [selectedPivotTab, setSelectedPivotTab] = useState(PivotType.input);
   const [monacoHeight, setMonacoHeight] = useState(defaultMonacoEditorHeight);
   const [logPanelExpanded, setLogPanelExpanded] = useState(false);
   const [logPanelFullscreen, setLogPanelFullscreen] = useState(false);
@@ -309,27 +307,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setShowDiscardConfirmDialog(false);
   };
 
-  const getPivotTabId = (itemKey: string, index: number): string => {
-    return `function-test-${itemKey}`;
-  };
-
-  const onPivotItemClick = (item?: PivotItem, ev?: React.MouseEvent<HTMLElement>) => {
-    if (!!item) {
-      setSelectedPivotTab(item.props.itemKey as PivotType);
-    }
-  };
-
   const getHeaderContent = (): JSX.Element => {
-    return (
-      <Pivot getTabId={getPivotTabId} className={pivotStyle} onLinkClick={onPivotItemClick} selectedKey={selectedPivotTab}>
-        <PivotItem itemKey={PivotType.input} linkText={t('functionTestInput')} />
-        <PivotItem itemKey={PivotType.output} linkText={t('functionTestOutput')} />
-      </Pivot>
-    );
-  };
-
-  const changePivotTab = (pivotItem: PivotType) => {
-    setSelectedPivotTab(pivotItem);
+    return <></>;
   };
 
   const toggleLogPanelExpansion = () => {
@@ -481,12 +460,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   }, [logPanelExpanded, readOnlyBanner, logPanelHeight]);
 
   useEffect(() => {
-    if (!!responseContent) {
-      changePivotTab(PivotType.output);
-    }
-  }, [responseContent]);
-
-  useEffect(() => {
     if (!isRefreshing && !initialLoading) {
       fetchData();
     }
@@ -572,7 +545,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           reqBody={reqBody}
           setReqBody={setReqBody}
           responseContent={responseContent}
-          selectedPivotTab={selectedPivotTab}
           functionRunning={functionRunning}
           testData={testData}
           urlObjs={urlObjs}
