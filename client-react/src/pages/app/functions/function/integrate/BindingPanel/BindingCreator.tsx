@@ -1,6 +1,6 @@
 import { Field, Formik, FormikProps } from 'formik';
 import i18next from 'i18next';
-import { IDropdownOption, Link, MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { IDropdownOption, Link, MessageBar, MessageBarType } from '@fluentui/react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../../../components/ActionBar';

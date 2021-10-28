@@ -5,7 +5,7 @@ import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
 import { Field } from 'formik';
 import { SiteStateContext } from '../../../../SiteState';
 import ComboBox from '../../../../components/form-controls/ComboBox';
-import { Dialog, DialogFooter, DialogType, MessageBar, MessageBarType, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
+import { Dialog, DialogFooter, DialogType, MessageBar, MessageBarType, PrimaryButton, DefaultButton } from '@fluentui/react';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 
 const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderProps> = props => {

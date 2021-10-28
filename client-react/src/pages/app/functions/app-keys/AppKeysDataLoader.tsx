@@ -7,7 +7,7 @@ import { SiteRouterContext } from '../../SiteRouter';
 import { SiteStateContext } from '../../../../SiteState';
 import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 
 const appKeysData = new AppKeysData();
 export const AppKeysContext = React.createContext(appKeysData);

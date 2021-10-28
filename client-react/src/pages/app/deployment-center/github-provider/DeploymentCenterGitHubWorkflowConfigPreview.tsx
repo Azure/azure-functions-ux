@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubWorkflowConfigPreviewProps } from '../DeploymentCenter.types';
-import { PanelType, DefaultButton, MessageBarType, PrimaryButton } from 'office-ui-fabric-react';
+import { PanelType, DefaultButton, MessageBarType, PrimaryButton } from '@fluentui/react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import {
   panelBanner,

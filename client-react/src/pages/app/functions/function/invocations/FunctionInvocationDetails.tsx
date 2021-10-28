@@ -3,7 +3,7 @@ import { PortalContext } from '../../../../../PortalContext';
 import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
 import { AppInsightsInvocationTraceDetail, AppInsightsInvocationTrace } from '../../../../../models/app-insights';
 import { invocationsTabStyle } from './FunctionInvocations.style';
-import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from 'office-ui-fabric-react';
+import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 

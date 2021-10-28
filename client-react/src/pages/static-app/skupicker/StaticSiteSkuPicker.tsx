@@ -1,4 +1,4 @@
-import { DefaultButton, IChoiceGroupOption, Icon, Link, PrimaryButton } from 'office-ui-fabric-react';
+import { DefaultButton, IChoiceGroupOption, Icon, Link, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';

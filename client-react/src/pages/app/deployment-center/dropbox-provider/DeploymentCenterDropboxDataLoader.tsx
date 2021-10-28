@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DropboxFolder, DropboxUser } from '../../../../models/dropbox';
 import { AuthorizationResult, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption } from '@fluentui/react';
 import DeploymentCenterDropboxProvider from './DeploymentCenterDropboxProvider';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';

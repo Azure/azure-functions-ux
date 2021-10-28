@@ -6,7 +6,7 @@ import {
   DeploymentCenterCodeFormData,
   PasswordFieldType,
 } from './DeploymentCenter.types';
-import { MessageBarType, ActionButton, ProgressIndicator, Link } from 'office-ui-fabric-react';
+import { MessageBarType, ActionButton, ProgressIndicator, Link } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
   deploymentCenterContent,

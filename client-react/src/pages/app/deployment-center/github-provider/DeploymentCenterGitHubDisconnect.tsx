@@ -3,7 +3,7 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { useTranslation } from 'react-i18next';
 import { choiceGroupSubLabel, disconnectLink, disconnectWorkflowInfoStyle } from '../DeploymentCenter.styles';
-import { Link, Icon, PanelType, ChoiceGroup, ProgressIndicator } from 'office-ui-fabric-react';
+import { Link, Icon, PanelType, ChoiceGroup, ProgressIndicator } from '@fluentui/react';
 import {
   DeploymentCenterGitHubDisconnectProps,
   DeploymentDisconnectStatus,

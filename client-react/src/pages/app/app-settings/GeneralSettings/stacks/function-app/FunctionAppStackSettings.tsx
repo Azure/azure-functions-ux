@@ -19,7 +19,7 @@ import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
 import { settingsWrapper } from '../../../AppSettingsForm';
 import { Links } from '../../../../../../utils/FwLinks';
 import TextField from '../../../../../../components/form-controls/TextField';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption } from '@fluentui/react';
 import { AppSettingsFormValues, FormAppSetting } from '../../../AppSettings.types';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 

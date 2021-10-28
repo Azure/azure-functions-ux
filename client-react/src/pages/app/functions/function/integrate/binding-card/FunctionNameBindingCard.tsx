@@ -1,4 +1,4 @@
-import { Link } from 'office-ui-fabric-react';
+import { Link } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as FunctionSvg } from '../../../../../../images/AppService/functions_f.svg';

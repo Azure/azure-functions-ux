@@ -1,4 +1,4 @@
-import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react/lib/Pivot';
+import { Pivot, PivotItem, IPivotItemProps } from '@fluentui/react';
 import React, { useRef, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';

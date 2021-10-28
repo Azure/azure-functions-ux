@@ -3,7 +3,7 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 import { AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
 import { findFormAppSettingValue } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../../../../models/functions/runtime-extension';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { PermissionsContext } from '../Contexts';

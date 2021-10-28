@@ -6,24 +6,9 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import FunctionCreateData from '../FunctionCreate.data';
-import {
-  Link,
-  DetailsListLayoutMode,
-  SelectionMode,
-  CheckboxVisibility,
-  IColumn,
-  Selection,
-  SearchBox,
-  MessageBarType,
-} from 'office-ui-fabric-react';
+import { Link, DetailsListLayoutMode, SelectionMode, CheckboxVisibility, IColumn, Selection, MessageBarType } from '@fluentui/react';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import {
-  templateListStyle,
-  templateListNameColumnStyle,
-  filterTextFieldStyle,
-  containerStyle,
-  tableRowStyle,
-} from '../FunctionCreate.styles';
+import { templateListStyle, templateListNameColumnStyle, containerStyle, tableRowStyle } from '../FunctionCreate.styles';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
 import { FormikProps } from 'formik';
 import { ArmObj } from '../../../../../models/arm-obj';
@@ -35,6 +20,7 @@ import { FunctionCreateContext } from '../FunctionCreateContext';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { Links } from '../../../../../utils/FwLinks';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
+import { getSearchFilter } from '../../../../../components/form-controls/SearchBox';
 
 export interface TemplateListProps {
   resourceId: string;
@@ -205,16 +191,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
         {t('selectTemplateDescription')}
         <Link href={Links.functionCreateTemplateLearnMore}>{t('learnMore')}</Link>
       </p>
-      <SearchBox
-        id="filter-template-text-field"
-        className="ms-slideDownIn20"
-        iconProps={{ iconName: 'Filter' }}
-        styles={filterTextFieldStyle}
-        placeholder={t('filter')}
-        value={filter}
-        onChange={newValue => setFilter(newValue)}
-        disabled={isDisabled()}
-      />
+      {getSearchFilter('filter-template-text-field', setFilter, t('filter'), isDisabled())}
       {templates !== null ? (
         <DisplayTableWithCommandBar
           commandBarItems={[]}
