@@ -1,4 +1,5 @@
 import { SearchBox } from '@fluentui/react';
+import { IconConstants } from '../../utils/constants/IconConstants';
 import { filterTextFieldStyle } from './formControl.override.styles';
 
 export const getSearchFilter = (
@@ -13,7 +14,7 @@ export const getSearchFilter = (
       onChange={(_e, newValue) => setFilerValue(newValue || '')}
       placeholder={placeHolder}
       autoFocus
-      iconProps={{ iconName: 'Filter' }}
+      iconProps={{ iconName: IconConstants.IconNames.Filter }}
       className="ms-slideDownIn20"
       styles={filterTextFieldStyle}
       disabled={disabled}
