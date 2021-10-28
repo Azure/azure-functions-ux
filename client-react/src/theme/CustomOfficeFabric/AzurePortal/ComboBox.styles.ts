@@ -40,19 +40,15 @@ export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
       },
     },
     rootDisabled: {
-      selectors: {
-        '.ms-Button': {
-          backgroundColor: semanticColors.disabledBackground,
-          color: semanticColors.inputText,
-        },
-        '.ms-Button:hover': {
-          backgroundColor: semanticColors.disabledBackground,
-          color: semanticColors.inputText,
-        },
-      },
+      color: semanticColors.inputText,
+      backgroundColor: semanticColors.disabledBackground,
+      cursor: 'default',
     },
     rootFocused: {
       borderColor: semanticColors.focusBorder,
+    },
+    inputDisabled: {
+      background: 'transparent',
     },
     rootError: {
       borderColor: semanticColors.errorText,
