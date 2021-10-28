@@ -18,13 +18,17 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
     updateSelectedBuild,
     formProps,
     runtimeStack,
+    runtimeVersion,
   } = props;
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
-  const isGitHubActionEnabled = runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby && !deploymentCenterContext.isIlbASE;
+  const isGitHubActionEnabled =
+    runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby &&
+    !(runtimeStack.toLocaleLowerCase() == RuntimeStackOptions.PHP && !siteStateContext.isLinuxApp && !runtimeVersion) &&
+    !deploymentCenterContext.isIlbASE;
 
   const isKuduDisabled = () => {
     return scenarioService.checkScenario(ScenarioIds.kuduBuildProvider, { site: siteStateContext.site }).status === 'disabled';
