@@ -113,7 +113,10 @@ export abstract class DeploymentCenterFormBuilder {
             this.parent.sourceProvider === ScmType.ExternalGit &&
             this.parent.externalRepoType === RepoTypeOptions.Private &&
             !!this.parent.repo &&
-            !this.parent.repo.startsWith(CommonConstants.DeploymentCenterConstants.https);
+            !(
+              this.parent.repo.startsWith(CommonConstants.DeploymentCenterConstants.https) ||
+              this.parent.repo.startsWith(CommonConstants.DeploymentCenterConstants.http)
+            );
           return isRepoSSH ? !value : true;
         })
         .test('externalUsernameRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
@@ -125,7 +128,10 @@ export abstract class DeploymentCenterFormBuilder {
             this.parent.sourceProvider === ScmType.ExternalGit &&
             this.parent.externalRepoType === RepoTypeOptions.Private &&
             !!this.parent.repo &&
-            !this.parent.repo.startsWith(CommonConstants.DeploymentCenterConstants.https);
+            !(
+              this.parent.repo.startsWith(CommonConstants.DeploymentCenterConstants.https) ||
+              this.parent.repo.startsWith(CommonConstants.DeploymentCenterConstants.http)
+            );
           return isRepoSSH ? !value : true;
         })
         .test('externalPasswordRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
