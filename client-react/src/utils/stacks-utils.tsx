@@ -6,7 +6,7 @@ import {
   WebAppRuntimes,
   JavaContainers as JavaContainersInterface,
 } from '../models/stacks/web-app-stacks';
-import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
+import { IDropdownOption, MessageBarType } from '@fluentui/react';
 import { AppStackMajorVersion, AppStackMinorVersion, AppStackOs } from '../models/stacks/app-stacks';
 import { FunctionAppStack } from '../models/stacks/function-app-stacks';
 import i18next from 'i18next';

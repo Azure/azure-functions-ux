@@ -2,7 +2,7 @@ import React, { useContext, useRef } from 'react';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { ContainerRegistrySources, DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
-import { DefaultButton } from 'office-ui-fabric-react';
+import { DefaultButton } from '@fluentui/react';
 import { extractConfigFromFile, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { PortalContext } from '../../../../PortalContext';

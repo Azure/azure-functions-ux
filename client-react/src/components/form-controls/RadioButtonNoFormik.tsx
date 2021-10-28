@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChoiceGroup, IChoiceGroupProps, IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
+import { ChoiceGroup, IChoiceGroupProps, IChoiceGroupOption } from '@fluentui/react';
 import { style } from 'typestyle';
 import { ChoiceGroupStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
 import ReactiveFormControl from './ReactiveFormControl';

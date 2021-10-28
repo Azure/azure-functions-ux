@@ -1,5 +1,3 @@
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
-import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import React, { Suspense, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
@@ -11,15 +9,15 @@ import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
-import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
+import { TooltipHost, ICommandBarItemProps, ActionButton, DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/react';
 import { dirtyElementStyle } from '../AppSettings.styles';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { ThemeContext } from '../../../../ThemeContext';
-import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 import SettingSourceColumn from '../SettingSourceColumn';
 import { isSettingServiceLinker, isServiceLinkerVisible } from '../AppSettings.utils';
+import { getSearchFilter } from '../../../../components/form-controls/SearchBox';
 
 const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const { production_write, editable, saving } = useContext(PermissionsContext);
@@ -384,15 +382,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyConnectionStrings')}>
-        <SearchBox
-          id="app-settings-connection-strings-search"
-          className="ms-slideDownIn20"
-          autoFocus
-          iconProps={{ iconName: 'Filter' }}
-          styles={filterTextFieldStyle}
-          placeholder={t('filterConnectionStrings')}
-          onChange={newValue => setFilter(newValue)}
-        />
+        {getSearchFilter('app-settings-connection-strings-search', setFilter, t('filterConnectionStrings'))}
       </DisplayTableWithCommandBar>
       <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditConnectionStringHeader')}>
         <ConnectionStringsAddEdit

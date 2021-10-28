@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { ScmType } from '../../../../models/site/config';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
-import { Link, Icon } from 'office-ui-fabric-react';
+import { Link, Icon } from '@fluentui/react';
 import { disconnectLink } from '../DeploymentCenter.styles';
 import { PortalContext } from '../../../../PortalContext';
 import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';

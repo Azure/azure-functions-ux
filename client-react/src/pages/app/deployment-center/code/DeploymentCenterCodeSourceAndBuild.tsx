@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IDropdownOption, DropdownMenuItemType, Link, MessageBarType } from 'office-ui-fabric-react';
+import { IDropdownOption, DropdownMenuItemType, Link, MessageBarType } from '@fluentui/react';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';

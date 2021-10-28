@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, IDropdownOption, ResponsiveMode, registerIcons, Icon, Spinner } from 'office-ui-fabric-react';
+import { Link, IDropdownOption, ResponsiveMode, registerIcons, Icon, Spinner } from '@fluentui/react';
 import {
   containerStyle,
   developmentEnvironmentStyle,

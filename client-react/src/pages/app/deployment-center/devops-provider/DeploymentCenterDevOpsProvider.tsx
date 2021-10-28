@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { DeploymentCenterDevOpsProviderProps } from '../DeploymentCenter.types';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 
 const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderProps> = props => {
   const {

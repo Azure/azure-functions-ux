@@ -1,4 +1,4 @@
-import { ICommandBarStyleProps, ICommandBarStyles } from 'office-ui-fabric-react';
+import { ICommandBarStyleProps, ICommandBarStyles } from '@fluentui/react';
 
 export const CommandBarStyles = (props: ICommandBarStyleProps): ICommandBarStyles => {
   const { theme } = props;

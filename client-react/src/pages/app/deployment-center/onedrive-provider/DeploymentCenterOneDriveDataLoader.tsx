@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { OneDriveUser, OneDriveFolder } from '../../../../models/onedrive';
 import { DeploymentCenterFieldProps, AuthorizationResult } from '../DeploymentCenter.types';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption } from '@fluentui/react';
 import DeploymentCenterOneDriveProvider from './DeploymentCenterOneDriveProvider';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';

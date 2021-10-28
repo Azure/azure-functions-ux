@@ -1,7 +1,7 @@
 import React from 'react';
 import SpecPickerGroupTab, { SpecPickerGroupTabProps } from './SpecPickerGroupTab';
 import { groupTabsNavStyle } from './SpecPicker.styles';
-import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
+import { FocusZone, FocusZoneDirection } from '@fluentui/react';
 
 interface SpecPickerGroupTabsProps {
   tabs: SpecPickerGroupTabProps[];

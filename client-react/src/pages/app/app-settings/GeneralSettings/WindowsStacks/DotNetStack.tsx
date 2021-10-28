@@ -15,7 +15,7 @@ import {
 import { AppStackMinorVersion, AppStackOs } from '../../../../../models/stacks/app-stacks';
 import { StackProps } from './WindowsStacks';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption } from '@fluentui/react';
 import { WebAppRuntimes, WebAppStack, JavaContainers as JavaContainersInterface } from '../../../../../models/stacks/web-app-stacks';
 import { AppSettingsFormValues } from '../../AppSettings.types';
 import { toInteger } from 'lodash-es';

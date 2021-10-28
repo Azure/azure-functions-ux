@@ -1,4 +1,4 @@
-import { Label, Link, Stack, TooltipHost, TooltipOverflowMode } from 'office-ui-fabric-react';
+import { Label, Link, Stack, TooltipHost, TooltipOverflowMode } from '@fluentui/react';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';

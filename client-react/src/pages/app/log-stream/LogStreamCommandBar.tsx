@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { IButtonProps, CommandBarButton } from 'office-ui-fabric-react/lib/Button';
-import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
+import { IButtonProps, CommandBarButton, CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { LogEntry, LogType, LogsEnabled } from './LogStream.types';
 import { ThemeContext } from '../../../ThemeContext';

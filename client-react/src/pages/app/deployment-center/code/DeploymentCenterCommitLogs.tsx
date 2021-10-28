@@ -4,7 +4,7 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { ArmArray, ArmObj } from '../../../../models/arm-obj';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { useTranslation } from 'react-i18next';
-import { ProgressIndicator, IColumn, Link, PrimaryButton, CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react';
+import { ProgressIndicator, IColumn, Link, PrimaryButton, CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { deploymentCenterLogsError, deploymentCenterConsole, closePublishProfileButtonStyle } from '../DeploymentCenter.styles';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';

@@ -1,4 +1,4 @@
-import { mergeStyles } from 'office-ui-fabric-react';
+import { mergeStyles } from '@fluentui/react';
 import { style } from 'typestyle';
 
 export const wrapperClass = mergeStyles({

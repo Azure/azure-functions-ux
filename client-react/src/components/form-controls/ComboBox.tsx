@@ -4,7 +4,7 @@ import get from 'lodash-es/get';
 import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
 import { ThemeContext } from '../../ThemeContext';
 import ComboBoxNoFormik from './ComboBoxnoFormik';
-import { IComboBoxProps, IComboBoxOption, IComboBox, IDropdownOption } from 'office-ui-fabric-react';
+import { IComboBoxProps, IComboBoxOption, IComboBox, IDropdownOption } from '@fluentui/react';
 
 interface CustomComboBoxProps {
   id: string;
