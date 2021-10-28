@@ -24,7 +24,10 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
-  const isGitHubActionEnabled = runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby && !deploymentCenterContext.isIlbASE;
+  const isGitHubActionEnabled =
+    runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby &&
+    runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.PHP &&
+    !deploymentCenterContext.isIlbASE;
 
   const isKuduDisabled = () => {
     return scenarioService.checkScenario(ScenarioIds.kuduBuildProvider, { site: siteStateContext.site }).status === 'disabled';
