@@ -1,14 +1,5 @@
 import i18next from 'i18next';
-import {
-  Callout,
-  DefaultButton,
-  DirectionalHint,
-  IDropdownOption,
-  IDropdownProps,
-  ILink,
-  Link,
-  PrimaryButton,
-} from 'office-ui-fabric-react';
+import { Callout, DefaultButton, DirectionalHint, IDropdownOption, IDropdownProps, ILink, Link, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';

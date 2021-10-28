@@ -1,5 +1,5 @@
 import { FieldProps } from 'formik';
-import { IToggleProps } from 'office-ui-fabric-react';
+import { IToggleProps } from '@fluentui/react';
 import React from 'react';
 import ToggleNoFormik from './ToggleNoFormik';
 import get from 'lodash-es/get';

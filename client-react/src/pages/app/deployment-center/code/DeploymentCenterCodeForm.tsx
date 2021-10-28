@@ -11,7 +11,7 @@ import {
   PublishType,
   RuntimeStackOptions,
 } from '../DeploymentCenter.types';
-import { KeyCodes } from 'office-ui-fabric-react';
+import { KeyCodes } from '@fluentui/react';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
 import { useTranslation } from 'react-i18next';

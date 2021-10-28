@@ -1,4 +1,4 @@
-import { mergeStyleSets, FontWeights } from 'office-ui-fabric-react';
+import { FontWeights, mergeStyleSets } from '@fluentui/style-utilities';
 
 export const focusTrapCalloutStyle = mergeStyleSets({
   dialog: {

@@ -1,6 +1,6 @@
+import { MessageBarType } from '@fluentui/react';
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
-import { MessageBarType } from 'office-ui-fabric-react';
 
 export const messageBannerStyles = (isCustomIcon: boolean, undocked?: boolean) => {
   const styles = {

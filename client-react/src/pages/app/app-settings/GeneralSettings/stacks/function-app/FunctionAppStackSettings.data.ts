@@ -1,5 +1,5 @@
 import { FunctionAppRuntimes, FunctionAppRuntimeSettings, FunctionAppStack } from '../../../../../../models/stacks/function-app-stacks';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption } from '@fluentui/react';
 import { RuntimeExtensionMajorVersions } from '../../../../../../models/functions/runtime-extension';
 import { AppStackMajorVersion, AppStackMinorVersion, AppStackOs } from '../../../../../../models/stacks/app-stacks';
 import { WorkerRuntimeLanguages } from '../../../../../../utils/CommonConstants';

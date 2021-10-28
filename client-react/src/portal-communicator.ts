@@ -1,8 +1,6 @@
 import { BatchUpdateSettings, BatchResponseItemEx } from './models/batch-models';
-import { loadTheme } from 'office-ui-fabric-react/lib/Styling';
 import { Observable, Subject } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
-
 import { SpecCostQueryInput, SpecCostQueryResult } from './models/BillingModels';
 import {
   BroadcastMessage,
@@ -39,6 +37,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { ThemeExtended } from './theme/SemanticColorsExtended';
 import { sendHttpRequest, getJsonHeaders } from './ApiHelpers/HttpClient';
 import { TelemetryInfo } from './models/telemetry';
+import { loadTheme } from '@fluentui/style-utilities';
 export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';

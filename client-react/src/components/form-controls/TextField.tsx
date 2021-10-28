@@ -1,11 +1,11 @@
 import React from 'react';
-import { ITextFieldProps } from 'office-ui-fabric-react/lib/TextField';
+import { ITextFieldProps } from '@fluentui/react';
 import { debounceTime } from 'rxjs/operators';
 import { FieldProps } from 'formik';
 import { Subject } from 'rxjs';
 import get from 'lodash-es/get';
 import TextFieldNoFormik from './TextFieldNoFormik';
-import { Link } from 'office-ui-fabric-react';
+import { Link } from '@fluentui/react';
 import { Links } from '../../utils/FwLinks';
 
 interface EventMsg {

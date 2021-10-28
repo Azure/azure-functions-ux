@@ -1,5 +1,5 @@
 import React from 'react';
-import { IChoiceGroupProps, IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
+import { IChoiceGroupProps, IChoiceGroupOption } from '@fluentui/react';
 import { FieldProps } from 'formik';
 import { ChoiceGroupStyles, ChoiceGroupVerticalStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
 import RadioButtonNoFormik from './RadioButtonNoFormik';

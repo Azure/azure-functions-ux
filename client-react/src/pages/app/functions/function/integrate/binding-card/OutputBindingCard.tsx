@@ -1,5 +1,5 @@
 import i18next from 'i18next';
-import { Link } from 'office-ui-fabric-react';
+import { Link } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as OutputSvg } from '../../../../../../images/Common/output.svg';

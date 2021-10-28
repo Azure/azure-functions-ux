@@ -1,5 +1,5 @@
 import i18next from 'i18next';
-import { DefaultButton, IDropdownOption, Link, MessageBar, MessageBarType, Panel, PanelType, PrimaryButton } from 'office-ui-fabric-react';
+import { DefaultButton, IDropdownOption, Link, MessageBar, MessageBarType, Panel, PanelType, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Subject } from 'rxjs';

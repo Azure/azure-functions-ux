@@ -6,7 +6,7 @@ import TextField from '../../../../components/form-controls/TextField';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { useTranslation } from 'react-i18next';
 import { StorageType } from '../../../../models/site/config';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../utils/FwLinks';
 import { SiteContext } from '../Contexts';

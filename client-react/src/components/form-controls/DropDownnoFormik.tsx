@@ -1,4 +1,4 @@
-import { Dropdown as OfficeDropdown, IDropdownOption, IDropdownProps } from 'office-ui-fabric-react/lib/Dropdown';
+import { Dropdown as OfficeDropdown, IDropdownOption, IDropdownProps } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useWindowSize } from 'react-use';
 import { ThemeContext } from '../../ThemeContext';

@@ -7,7 +7,7 @@ import { paddingSidesStyle } from './Callout.styles';
 import DocumentDBPivotDataLoader from './documentDBPivot/DocumentDBDataLoader';
 import { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
 import { FieldProps } from 'formik';
-import { IDropdownProps } from 'office-ui-fabric-react';
+import { IDropdownProps } from '@fluentui/react';
 
 enum RadioState {
   documentAccount = 'documentAccount',

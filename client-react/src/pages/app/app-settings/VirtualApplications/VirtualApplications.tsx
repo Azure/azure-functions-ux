@@ -1,15 +1,13 @@
 import { FormikProps } from 'formik';
-import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import React, { useState, useContext } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { VirtualApplication } from '../../../../models/site/config';
-import { TooltipHost, ICommandBarItemProps, PanelType } from 'office-ui-fabric-react';
+import { TooltipHost, ICommandBarItemProps, PanelType, DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { ThemeContext } from '../../../../ThemeContext';

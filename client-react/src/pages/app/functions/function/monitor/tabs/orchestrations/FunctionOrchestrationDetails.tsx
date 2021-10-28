@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from 'office-ui-fabric-react';
+import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { AppInsightsOrchestrationTraceDetail, AppInsightsOrchestrationTrace } from '../../../../../../../models/app-insights';
 import { PortalContext } from '../../../../../../../PortalContext';

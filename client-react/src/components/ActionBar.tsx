@@ -1,14 +1,9 @@
-import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
-import { Link } from 'office-ui-fabric-react/lib/Link';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import { DefaultButton, Link, MessageBar, MessageBarType, Overlay, PrimaryButton, Spinner, SpinnerSize } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
-
 import { ThemeExtended } from '../theme/SemanticColorsExtended';
-import { SpinnerSize, Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { ThemeContext } from '../ThemeContext';
-import { Overlay } from 'office-ui-fabric-react';
 
 export interface StatusMessage {
   message: string;

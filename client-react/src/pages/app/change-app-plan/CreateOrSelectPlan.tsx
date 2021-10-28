@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption, Stack } from 'office-ui-fabric-react';
+import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption, Stack } from '@fluentui/react';
 import { dropdownStyleOverrides } from '../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../ThemeContext';
 import { useWindowSize } from 'react-use';

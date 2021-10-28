@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ICommandBarItemProps, CommandBar, IButtonProps } from 'office-ui-fabric-react';
+import { ICommandBarItemProps, CommandBar, IButtonProps } from '@fluentui/react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { SiteStateContext } from '../../../SiteState';

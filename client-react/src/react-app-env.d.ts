@@ -1,12 +1,12 @@
 /// <reference types="react-scripts" />
 
-import { ITeachingBubbleProps } from 'office-ui-fabric-react';
+import { ITeachingBubbleProps } from '@fluentui/react';
 
-declare module 'office-ui-fabric-react/lib/Coachmark' {
+declare module '@fluentui/react/Coachmark' {
   const Coachmark: React.StatelessComponent<ICoachmarkProps>;
 }
 
-declare module 'office-ui-fabric-react/lib/TeachingBubble' {
+declare module '@fluentui/react/TeachingBubble' {
   const TeachingBubbleContent: React.StatelessComponent<ITeachingBubbleProps>;
 }
 

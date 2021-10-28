@@ -1,4 +1,4 @@
-import { Icon } from 'office-ui-fabric-react';
+import { Icon } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';

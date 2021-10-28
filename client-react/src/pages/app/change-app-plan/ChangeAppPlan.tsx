@@ -1,6 +1,6 @@
 import { Formik, FormikProps } from 'formik';
 import i18next from 'i18next';
-import { IDropdownOption, ILink, Link, MessageBar, MessageBarType, PrimaryButton, Stack } from 'office-ui-fabric-react';
+import { IDropdownOption, ILink, Link, MessageBar, MessageBarType, PrimaryButton, Stack } from '@fluentui/react';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';

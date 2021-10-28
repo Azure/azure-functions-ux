@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { DeploymentCenterFieldProps, DeploymentCenterContainerFormData } from '../DeploymentCenter.types';
 import DeploymentCenterContainerAcrSettings from './DeploymentCenterContainerAcrSettings';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
+import { IDropdownOption, MessageBarType } from '@fluentui/react';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ACRCredential, ACRRepositories, ACRTags } from '../../../../models/acr';
