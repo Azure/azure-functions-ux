@@ -113,7 +113,7 @@ export class GithubController {
     @Body('page') page: number
   ) {
     try {
-      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+org:${org}&per_page=100`;
+      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+org:${org}+fork:true&per_page=100`;
       // Successive searchTerms have zero white space char added to front
       const encodedURI = encodeURI(url).replace('%E2%80%8B/g', '');
       const r = await this.httpService.get(encodedURI, {
@@ -145,7 +145,7 @@ export class GithubController {
     const username = userResponse.data.login;
 
     try {
-      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+user:${username}&per_page=100`;
+      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+user:${username}+fork:true&per_page=100`;
       // Successive searchTerms have zero white space char added to front
       const encodedURI = encodeURI(url).replace('%E2%80%8B/g', '');
       const r = await this.httpService.get(encodedURI, {
