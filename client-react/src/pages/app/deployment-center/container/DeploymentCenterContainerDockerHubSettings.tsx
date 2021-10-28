@@ -50,10 +50,12 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
 
   const accessTypes: IChoiceGroupOptionProps[] = [
     {
+      itemKey: ContainerDockerAccessTypes.public,
       key: ContainerDockerAccessTypes.public,
       text: t('containerRepositoryPublic'),
     },
     {
+      itemKey: ContainerDockerAccessTypes.private,
       key: ContainerDockerAccessTypes.private,
       text: t('containerRepositoryPrivate'),
     },

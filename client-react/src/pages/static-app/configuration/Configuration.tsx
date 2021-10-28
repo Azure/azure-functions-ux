@@ -9,7 +9,6 @@ import {
   Link,
   TooltipHost,
   ActionButton,
-  SearchBox,
   MessageBarType,
   Checkbox,
   DetailsRow,
@@ -27,7 +26,7 @@ import {
   formDescriptionStyle,
   tableValueTextFieldStyle,
 } from './Configuration.styles';
-import { learnMoreLinkStyle, filterTextFieldStyle } from '../../../components/form-controls/formControl.override.styles';
+import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
 import { ArmObj } from '../../../models/arm-obj';
 import { Environment } from '../../../models/static-site/environment';
@@ -46,6 +45,7 @@ import { Links } from '../../../utils/FwLinks';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import { PortalContext } from '../../../PortalContext';
 import { commandBarSeparator } from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
+import { getSearchFilter } from '../../../components/form-controls/SearchBox';
 
 interface ConfigurationProps {
   environments: ArmObj<Environment>[];
@@ -606,17 +606,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         shimmer={{ lines: 2, show: isLoading }}
         onRenderRow={onRenderRow}
         onRenderDetailsHeader={onRenderDetailsHeader}>
-        <SearchBox
-          id="environment-variable-search"
-          className="ms-slideDownIn20"
-          autoFocus
-          iconProps={{ iconName: 'Filter' }}
-          styles={filterTextFieldStyle}
-          placeholder={t('staticSite_filterApplicationSetting')}
-          onChange={newValue => setFilter(newValue)}
-          value={filter}
-          disabled={isTableCommandBarDisabled()}
-        />
+        {getSearchFilter('environment-variable-search', setFilter, t('staticSite_filterApplicationSetting'), isTableCommandBarDisabled())}
       </DisplayTableWithCommandBar>
     );
   };

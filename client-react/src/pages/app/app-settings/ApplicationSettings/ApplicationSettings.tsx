@@ -6,7 +6,6 @@ import { AppSettingsFormikPropsCombined, FormAppSetting } from '../AppSettings.t
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
 import {
-  SearchBox,
   TooltipHost,
   ICommandBarItemProps,
   ActionButton,
@@ -22,10 +21,10 @@ import { isLinuxApp } from '../../../../utils/arm-utils';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { ThemeContext } from '../../../../ThemeContext';
-import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 import SettingSourceColumn from '../SettingSourceColumn';
 import { isServiceLinkerVisible, isSettingServiceLinker } from '../AppSettings.utils';
+import { getSearchFilter } from '../../../../components/form-controls/SearchBox';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 
@@ -386,15 +385,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyAppSettings')}>
-        <SearchBox
-          id="app-settings-application-settings-search"
-          className="ms-slideDownIn20"
-          autoFocus
-          iconProps={{ iconName: 'Filter' }}
-          styles={filterTextFieldStyle}
-          placeholder={t('filterAppSettings')}
-          onChange={newValue => setFilter(newValue)}
-        />
+        {getSearchFilter('app-settings-application-settings-search', setFilter, t('filterAppSettings'))}
       </DisplayTableWithCommandBar>
       <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditApplicationSetting')}>
         <AppSettingAddEdit

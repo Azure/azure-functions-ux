@@ -8,7 +8,6 @@ import {
   DetailsListLayoutMode,
   SelectionMode,
   IColumn,
-  SearchBox,
   ICommandBarItemProps,
   PanelType,
   MessageBarType,
@@ -26,7 +25,7 @@ import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
 import FunctionInvocationDetails from './FunctionInvocationDetails';
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
-import { filterTextFieldStyle } from '../../../../../components/form-controls/formControl.override.styles';
+import { getSearchFilter } from '../../../../../components/form-controls/SearchBox';
 
 interface FunctionInvocationsProps {
   functionResourceId: string;
@@ -220,15 +219,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
             selectionPreservedOnEmptyClick={true}
             emptyMessage={t('noResults')}
             shimmer={{ lines: 2, show: !invocationTraces }}>
-            <SearchBox
-              id="invocations-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterTextFieldStyle}
-              placeholder={t('filterInvocations')}
-              onChange={(_e, newValue) => setFilterValue(newValue || '')}
-            />
+            {getSearchFilter('invocations-search', setFilterValue, t('filterInvocations'))}
           </DisplayTableWithCommandBar>
         </div>
       </div>

@@ -101,6 +101,10 @@ const themePalette: IPalette = {
 const semanticColors = {
   bodyBackground: AzurePortalColors.background,
   bodyStandoutBackground: AzurePortalColors.sectionBackground,
+  bodyBackgroundHovered: AzurePortalColors.background,
+  bodyBackgroundChecked: AzurePortalColors.background,
+  cardStandoutBackground: AzurePortalColors.cardBackgroundColor,
+  severeWarningBackground: AzurePortalColors.warningBackground,
   bodyFrameBackground: AzurePortalColors.background,
   bodyFrameDivider: AzurePortalColors.sectionDividerScrollbar,
   bodyText: AzurePortalColors.textColor,
@@ -116,10 +120,13 @@ const semanticColors = {
   variantBorder: AzurePortalColors.standardControlOutlineAccent,
   variantBorderHovered: AzurePortalColors.standardControlOutlineHover,
   defaultStateBackground: AzurePortalColors.standardControlOutlineDisabled,
+  disabledBorder: 'transparent',
 
   warningText: AzurePortalColors.textColor,
   blockingBackground: AzurePortalColors.errorBackground,
   warningHighlight: AzurePortalColors.warningIcon,
+  cardShadow: AzurePortalColors.cardBackgroundColor,
+  cardShadowHovered: AzurePortalColors.cardBackgroundColor,
 
   inputBorder: AzurePortalColors.textControlOutlineRest,
   inputBorderHovered: AzurePortalColors.textControlOutlineHovered,
@@ -130,6 +137,10 @@ const semanticColors = {
   inputFocusBorderAlt: AzurePortalColors.standardControlOutlineAccent,
   smallInputBorder: AzurePortalColors.standardControlOutlineRest,
   inputPlaceholderText: AzurePortalColors.placeholderText,
+  inputPlaceholderBackgroundChecked: AzurePortalColors.buttonPressed,
+  inputIconDisabled: AzurePortalColors.buttonDisabled,
+  inputIconHovered: AzurePortalColors.buttonHovered,
+  inputIcon: AzurePortalColors.background,
 
   buttonBackground: AzurePortalColors.background,
   buttonBackgroundChecked: AzurePortalColors.buttonPressed,
@@ -182,6 +193,9 @@ const semanticColors = {
   actionLinkHovered: AzurePortalColors.hyperlinkText,
   link: AzurePortalColors.hyperlinkText,
   linkHovered: AzurePortalColors.hyperlinkHoverText,
+  messageLink: AzurePortalColors.hyperlinkText,
+  messageLinkHovered: AzurePortalColors.hyperlinkHoverText,
+  messageText: AzurePortalColors.textColor,
 
   // Deprecated slots, second pass by _fixDeprecatedSlots() later for self-referential slots
   listTextColor: '',
@@ -191,6 +205,8 @@ const semanticColors = {
   inputTextHovered: AzurePortalColors.textControlOutlineHovered,
   accentButtonText: AzurePortalColors.textColor,
   menuItemBackgroundChecked: AzurePortalColors.background,
+  blockingIcon: AzurePortalColors.warningIcon,
+  severeWarningIcon: AzurePortalColors.warningIcon,
   ...AzurePortalColors,
 };
 
