@@ -467,6 +467,7 @@ export interface DeploymentCenterCodeBuildCalloutProps {
   updateSelectedBuild: () => void;
   formProps: FormikProps<DeploymentCenterFormData<any>>;
   runtimeStack: string;
+  runtimeVersion: string;
 }
 
 export interface AuthorizationResult {
