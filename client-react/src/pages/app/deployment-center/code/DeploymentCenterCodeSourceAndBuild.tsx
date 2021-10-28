@@ -221,6 +221,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
           updateSelectedBuild={updateSelectedBuild}
           formProps={formProps}
           runtimeStack={defaultStackAndVersion.runtimeStack}
+          runtimeVersion={defaultStackAndVersion.runtimeVersion}
         />
       )
     );

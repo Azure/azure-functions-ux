@@ -18,6 +18,7 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
     updateSelectedBuild,
     formProps,
     runtimeStack,
+    runtimeVersion,
   } = props;
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
@@ -26,7 +27,7 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
 
   const isGitHubActionEnabled =
     runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby &&
-    runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.PHP &&
+    !(runtimeStack.toLocaleLowerCase() == RuntimeStackOptions.PHP && !siteStateContext.isLinuxApp && !runtimeVersion) &&
     !deploymentCenterContext.isIlbASE;
 
   const isKuduDisabled = () => {
