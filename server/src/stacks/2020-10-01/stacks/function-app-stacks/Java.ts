@@ -30,8 +30,9 @@ export const javaStack: FunctionAppStack = {
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
                 javaVersion: '11',
+                netFrameworkVersion: 'v6.0',
               },
-              supportedFunctionsExtensionVersions: ['~3'],
+              supportedFunctionsExtensionVersions: ['~4', '~3'],
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'Java|11',
@@ -51,7 +52,7 @@ export const javaStack: FunctionAppStack = {
                 use32BitWorkerProcess: false,
                 linuxFxVersion: 'Java|11',
               },
-              supportedFunctionsExtensionVersions: ['~3'],
+              supportedFunctionsExtensionVersions: ['~4', '~3'],
             },
           },
         },
@@ -83,8 +84,9 @@ export const javaStack: FunctionAppStack = {
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
                 javaVersion: '1.8',
+                netFrameworkVersion: 'v6.0',
               },
-              supportedFunctionsExtensionVersions: ['~2', '~3'],
+              supportedFunctionsExtensionVersions: ['~4', '~3', '~2'],
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'Java|8',
@@ -105,7 +107,7 @@ export const javaStack: FunctionAppStack = {
                 use32BitWorkerProcess: false,
                 linuxFxVersion: 'Java|8',
               },
-              supportedFunctionsExtensionVersions: ['~3'],
+              supportedFunctionsExtensionVersions: ['~4', '~3'],
             },
           },
         },
