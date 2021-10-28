@@ -1,5 +1,3 @@
-import { ActionButton } from '@fluentui/reactButton';
-import { DetailsListLayoutMode, IColumn, SelectionMode, IDetailsList } from '@fluentui/reactDetailsList';
 import React, { lazy, Suspense, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
@@ -7,7 +5,16 @@ import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormikPropsCombined, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { SearchBox, TooltipHost, ICommandBarItemProps } from '@fluentui/react';
+import {
+  SearchBox,
+  TooltipHost,
+  ICommandBarItemProps,
+  ActionButton,
+  DetailsListLayoutMode,
+  IColumn,
+  SelectionMode,
+  IDetailsList,
+} from '@fluentui/react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { dirtyElementStyle } from '../AppSettings.styles';

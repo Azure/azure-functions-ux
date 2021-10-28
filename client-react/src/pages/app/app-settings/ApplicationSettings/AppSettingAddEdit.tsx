@@ -1,10 +1,9 @@
-import { Checkbox } from '@fluentui/reactCheckbox';
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormAppSetting } from '../AppSettings.types';
-import { MessageBarType } from '@fluentui/react';
+import { MessageBarType, Checkbox } from '@fluentui/react';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';

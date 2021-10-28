@@ -1,7 +1,6 @@
 import { Field, FormikProps } from 'formik';
 import React, { useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import Dropdown from '../../../../components/form-controls/DropDown';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { AppSettingsFormValues } from '../AppSettings.types';

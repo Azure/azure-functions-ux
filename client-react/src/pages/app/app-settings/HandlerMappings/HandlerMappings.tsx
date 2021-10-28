@@ -1,8 +1,7 @@
 import { FormikProps } from 'formik';
-import { DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/reactDetailsList';
+import { DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/react';
 import React, { useContext, useState } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues } from '../AppSettings.types';

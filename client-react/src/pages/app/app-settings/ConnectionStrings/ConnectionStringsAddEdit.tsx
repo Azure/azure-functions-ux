@@ -1,5 +1,4 @@
-import { Checkbox } from '@fluentui/reactCheckbox';
-import { IDropdownOption } from '@fluentui/reactDropdown';
+import { Checkbox, IDropdownOption } from '@fluentui/react';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';

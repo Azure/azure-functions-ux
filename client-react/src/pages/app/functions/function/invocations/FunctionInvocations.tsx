@@ -54,7 +54,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
 
-  const [filterValue, setFilterValue] = useState('');
+  const [filterValue, setFilterValue] = useState<string>('');
   const [showDelayMessage, setShowDelayMessage] = useState(false);
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
@@ -227,7 +227,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
               iconProps={{ iconName: 'Filter' }}
               styles={filterTextFieldStyle}
               placeholder={t('filterInvocations')}
-              onChange={newValue => setFilterValue(newValue)}
+              onChange={(_e, newValue) => setFilterValue(newValue || '')}
             />
           </DisplayTableWithCommandBar>
         </div>

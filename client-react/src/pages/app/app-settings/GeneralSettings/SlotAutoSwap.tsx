@@ -1,7 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import { IChoiceGroupOption } from '@fluentui/reactChoiceGroup';
-import { IDropdownOption } from '@fluentui/reactDropdown';
-import { MessageBarType } from '@fluentui/reactMessageBar';
+import { IChoiceGroupOption, IDropdownOption, MessageBarType } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';

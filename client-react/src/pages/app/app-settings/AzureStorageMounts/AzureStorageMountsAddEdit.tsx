@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import ActionBar from '../../../../components/ActionBar';
 import { FormAzureStorageMounts } from '../AppSettings.types';
-import { IChoiceGroupOption } from '@fluentui/reactChoiceGroup';
+import { IChoiceGroupOption } from '@fluentui/react';
 import AzureStorageMountsAddEditBasic from './AzureStorageMountsAddEditBasic';
 import AzureStorageMountsAddEditAdvanced from './AzureStorageMountsAddEditAdvanced';
 import { Formik, FormikProps, Field, Form } from 'formik';

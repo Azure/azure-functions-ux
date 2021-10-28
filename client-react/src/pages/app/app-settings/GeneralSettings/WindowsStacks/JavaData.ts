@@ -1,4 +1,4 @@
-import { IDropdownOption } from '@fluentui/reactDropdown';
+import { IDropdownOption } from '@fluentui/react';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { SiteConfig } from '../../../../../models/site/config';
 import i18next from 'i18next';
