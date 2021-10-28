@@ -15,8 +15,6 @@ export const dotnetStack: FunctionAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v6.0',
-              isEarlyAccess: true,
-              isPreview: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -36,8 +34,6 @@ export const dotnetStack: FunctionAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNET|6.0',
-              isEarlyAccess: true,
-              isPreview: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -61,7 +57,7 @@ export const dotnetStack: FunctionAppStack = {
     },
     {
       displayText: '.NET 6 Isolated',
-      value: 'dotnet5',
+      value: 'dotnet6isolated',
       minorVersions: [
         {
           displayText: '.NET 6 Isolated',
@@ -69,8 +65,6 @@ export const dotnetStack: FunctionAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v6.0',
-              isEarlyAccess: true,
-              isPreview: true,
               isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -91,8 +85,6 @@ export const dotnetStack: FunctionAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNET-ISOLATED|6.0',
-              isEarlyAccess: true,
-              isPreview: true,
               isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {

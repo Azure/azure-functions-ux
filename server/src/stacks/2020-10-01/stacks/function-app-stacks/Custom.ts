@@ -27,8 +27,9 @@ export const customStack: FunctionAppStack = {
               },
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
+                netFrameworkVersion: 'v6.0',
               },
-              supportedFunctionsExtensionVersions: ['~3', '~2'],
+              supportedFunctionsExtensionVersions: ['~4', '~3', '~2'],
             },
             linuxRuntimeSettings: {
               runtimeVersion: '',
@@ -47,7 +48,7 @@ export const customStack: FunctionAppStack = {
                 use32BitWorkerProcess: false,
                 linuxFxVersion: '',
               },
-              supportedFunctionsExtensionVersions: ['~3', '~2'],
+              supportedFunctionsExtensionVersions: ['~4', '~3', '~2'],
             },
           },
         },
