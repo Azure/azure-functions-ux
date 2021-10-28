@@ -73,7 +73,7 @@ export default class FunctionAppService {
       !!workerRuntime &&
       FlightingUtil.checkSubscriptionInFlight(
         getSubscriptionFromResourceId(site.id),
-        FlightingUtil.features.EnableEditingForLinuxNodePython
+        FlightingUtil.features.EnableEditingForLinuxNodePythonPowershell
       ) &&
       (isLinuxDynamic(site) || isLinuxElastic(site)) &&
       (workerRuntime === WorkerRuntimeLanguages.nodejs ||
