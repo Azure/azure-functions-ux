@@ -26,7 +26,7 @@ import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentC
 import DeploymentCenterContainerSettingsReadOnlyView from './DeploymentCenterContainerSettingsReadOnlyView';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterVstsBuildProvider from '../devops-provider/DeploymentCenterVstsBuildProvider';
-import { ProgressIndicator } from 'office-ui-fabric-react';
+import { ProgressIndicator } from '@fluentui/react';
 import { AppOs } from '../../../../models/site/site';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';

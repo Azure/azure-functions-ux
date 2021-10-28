@@ -12,7 +12,7 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { PermissionsContext } from '../Contexts';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 import { SiteStateContext } from '../../../../SiteState';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 

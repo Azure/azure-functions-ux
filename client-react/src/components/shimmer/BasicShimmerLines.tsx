@@ -1,6 +1,6 @@
 import React from 'react';
 import { wrapperClass, shimmerStyle } from './Shimmer.styles';
-import { Shimmer, Fabric } from 'office-ui-fabric-react';
+import { Shimmer, Fabric } from '@fluentui/react';
 interface BasicShimmerLines {
   repeatShimmer?: number;
 }

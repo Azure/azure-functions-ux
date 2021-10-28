@@ -11,7 +11,7 @@ import { FunctionInfo } from '../../../../../../models/functions/function-info';
 import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import { functionTestBodyStyle } from './FunctionTest.styles';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType, Pivot, PivotItem } from '@fluentui/react';
 import { ValidationRegex } from '../../../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../../../utils/FwLinks';
@@ -23,7 +23,6 @@ export interface FunctionTestProps {
   functionInfo: ArmObj<FunctionInfo>;
   reqBody: string;
   setReqBody: (reqBody: string) => void;
-  selectedPivotTab: PivotType;
   functionRunning: boolean;
   urlObjs: UrlObj[];
   getFunctionUrl: (key?: string) => string;
@@ -41,6 +40,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     queries: [],
     headers: [],
   });
+  const [selectedPivotTab, setSelectedPivotTab] = useState(PivotType.input);
 
   const {
     run,
@@ -49,7 +49,6 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     reqBody,
     setReqBody,
     responseContent,
-    selectedPivotTab,
     functionRunning,
     testData,
     urlObjs,
@@ -169,6 +168,11 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   };
 
   useEffect(() => {
+    !!responseContent && setSelectedPivotTab(PivotType.output);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [responseContent]);
+  useEffect(() => {
     setUpdatedInputFormValues();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -206,16 +210,24 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
               />
             )}
             <div className={functionTestBodyStyle}>
-              {selectedPivotTab === PivotType.input && (
-                <FunctionTestInput
-                  {...formProps}
-                  functionInfo={functionInfo}
-                  body={reqBody}
-                  onRequestBodyChange={onRequestBodyChange}
-                  urlObjs={urlObjs}
-                />
-              )}
-              {selectedPivotTab === PivotType.output && <FunctionTestOutput responseContent={responseContent} />}
+              <Pivot
+                selectedKey={selectedPivotTab}
+                onLinkClick={(item?: PivotItem, ev?) =>
+                  !!item && !!item.props.itemKey && setSelectedPivotTab(item.props.itemKey as PivotType)
+                }>
+                <PivotItem itemKey={PivotType.input} linkText={t('functionTestInput')}>
+                  <FunctionTestInput
+                    {...formProps}
+                    functionInfo={functionInfo}
+                    body={reqBody}
+                    onRequestBodyChange={onRequestBodyChange}
+                    urlObjs={urlObjs}
+                  />
+                </PivotItem>
+                <PivotItem itemKey={PivotType.output} linkText={t('functionTestOutput')}>
+                  <FunctionTestOutput responseContent={responseContent} />
+                </PivotItem>
+              </Pivot>
             </div>
             <ActionBar
               id="function-test-footer"

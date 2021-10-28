@@ -1,4 +1,3 @@
-import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
@@ -12,7 +11,7 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import Url from '../../../../../utils/url';
 import { SiteStateContext } from '../../../../../SiteState';
-import { IContextualMenuItem, ActionButton, IButtonProps } from 'office-ui-fabric-react';
+import { IContextualMenuItem, ActionButton, IButtonProps, CommandBar, ICommandBarItemProps } from '@fluentui/react';
 
 interface FunctionLogCommandBarProps {
   isPanelVisible: boolean;

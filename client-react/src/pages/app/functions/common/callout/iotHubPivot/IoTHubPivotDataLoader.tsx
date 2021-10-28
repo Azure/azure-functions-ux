@@ -4,7 +4,7 @@ import IotHubPivot from './IoTHubPivot';
 import IotHubPivotData from './IoTHubPivot.data';
 import { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 import { FieldProps } from 'formik';
-import { IDropdownProps } from 'office-ui-fabric-react';
+import { IDropdownProps } from '@fluentui/react';
 
 const iotHubPivotData = new IotHubPivotData();
 export const IoTHubPivotContext = React.createContext(iotHubPivotData);

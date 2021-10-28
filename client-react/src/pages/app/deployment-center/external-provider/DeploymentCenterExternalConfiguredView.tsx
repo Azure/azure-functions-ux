@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { Link, Icon } from 'office-ui-fabric-react';
+import { Link, Icon } from '@fluentui/react';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
 import { PortalContext } from '../../../../PortalContext';

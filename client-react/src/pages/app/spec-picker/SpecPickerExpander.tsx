@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
+import { ActionButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { expanderDivStyle } from './SpecPicker.styles';
 

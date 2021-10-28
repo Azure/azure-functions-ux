@@ -1,4 +1,4 @@
-import { Icon, Link, MessageBarType } from 'office-ui-fabric-react';
+import { Icon, Link, MessageBarType } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';

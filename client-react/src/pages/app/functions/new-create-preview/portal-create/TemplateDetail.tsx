@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'office-ui-fabric-react';
+import { Link } from '@fluentui/react';
 import { FunctionTemplate } from '../../../../../models/functions/function-template';
 import { getBindingDirection } from '../../function/integrate/FunctionIntegrate.utils';
 import { FunctionInfo } from '../../../../../models/functions/function-info';

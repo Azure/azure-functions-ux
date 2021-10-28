@@ -1,4 +1,4 @@
-import { Link } from 'office-ui-fabric-react';
+import { Link } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';

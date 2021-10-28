@@ -1,7 +1,7 @@
 import React from 'react';
 import { environmentSelectorStackStyle, environmentSelectorLabelStyle } from './Configuration.styles';
 import { useTranslation } from 'react-i18next';
-import { Dropdown as OfficeDropdown, Stack, Label, IDropdownOption } from 'office-ui-fabric-react';
+import { Dropdown as OfficeDropdown, Stack, Label, IDropdownOption } from '@fluentui/react';
 import { fileSelectorDropdownStyle } from '../../app/functions/function/function-editor/FunctionEditor.styles';
 import { ArmObj } from '../../../models/arm-obj';
 import { Environment } from '../../../models/static-site/environment';
