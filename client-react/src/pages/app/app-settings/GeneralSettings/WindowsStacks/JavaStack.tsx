@@ -1,5 +1,5 @@
 import { Field } from 'formik';
-import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import { IDropdownOption } from '@fluentui/reactDropdown';
 import React, { useState, useEffect, useContext } from 'react';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import {
@@ -26,7 +26,7 @@ import {
 } from '../../../../../utils/stacks-utils';
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 import { Links } from '../../../../../utils/FwLinks';
 
 const JavaStack: React.SFC<StackProps> = props => {

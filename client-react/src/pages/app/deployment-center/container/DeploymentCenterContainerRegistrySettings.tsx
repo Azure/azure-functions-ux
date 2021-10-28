@@ -6,7 +6,7 @@ import {
   ContainerOptions,
 } from '../DeploymentCenter.types';
 import { useTranslation } from 'react-i18next';
-import { IChoiceGroupOptionProps, IDropdownOption } from 'office-ui-fabric-react';
+import { IChoiceGroupOptionProps, IDropdownOption } from '@fluentui/react';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';

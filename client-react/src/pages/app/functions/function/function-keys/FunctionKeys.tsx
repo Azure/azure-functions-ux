@@ -22,7 +22,7 @@ import {
   SelectionMode,
   SearchBox,
   PanelType,
-} from 'office-ui-fabric-react';
+} from '@fluentui/react';
 import { defaultCellStyle } from '../../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { FunctionKeysContext } from './FunctionKeysDataLoader';
 import IconButton from '../../../../../components/IconButton/IconButton';

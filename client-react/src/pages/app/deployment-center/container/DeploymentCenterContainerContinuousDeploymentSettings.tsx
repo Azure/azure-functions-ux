@@ -6,7 +6,7 @@ import RadioButton from '../../../../components/form-controls/RadioButton';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { additionalTextFieldControl } from '../DeploymentCenter.styles';
-import { ActionButton } from 'office-ui-fabric-react';
+import { ActionButton } from '@fluentui/react';
 import { getAppDockerWebhookUrl } from '../utility/DeploymentCenterUtility';
 
 type WebhookFieldType = 'password' | undefined;

@@ -5,7 +5,7 @@ import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
 import { Site } from '../../../../../models/site/site';
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
-import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
+import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from '@fluentui/react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../../../components/monaco-editor/monaco-editor';
 import { InputFormValues, ResponseContent, PivotType, FileContent, UrlObj, LoggingOptions } from './FunctionEditor.types';

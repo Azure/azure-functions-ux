@@ -28,7 +28,7 @@ import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper'
 import { HttpResponseObject } from '../../../../../ArmHelper.types';
 import StringUtils from '../../../../../utils/string';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 

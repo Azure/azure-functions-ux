@@ -1,4 +1,4 @@
-import { Link, PrimaryButton } from 'office-ui-fabric-react';
+import { Link, PrimaryButton } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';

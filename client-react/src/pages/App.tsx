@@ -1,5 +1,5 @@
 import { Router } from '@reach/router';
-import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
+import { Fabric } from '@fluentui/react';
 import React, { useState, useEffect, Suspense } from 'react';
 import SiteRouter from './app/SiteRouter';
 import LandingPage from './LandingPage/LandingPage';

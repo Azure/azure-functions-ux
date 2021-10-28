@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Field } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
-import { IChoiceGroupOptionProps } from 'office-ui-fabric-react';
+import { IChoiceGroupOptionProps } from '@fluentui/react';
 import {
   ContainerDockerAccessTypes,
   DeploymentCenterFieldProps,

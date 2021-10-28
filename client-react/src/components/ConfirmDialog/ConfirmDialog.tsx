@@ -1,5 +1,5 @@
+import { DefaultButton, Dialog, DialogFooter, DialogType, IDialogProps, PrimaryButton } from '@fluentui/react';
 import React from 'react';
-import { IDialogProps, Dialog, DialogFooter, PrimaryButton, DefaultButton, DialogType } from 'office-ui-fabric-react';
 import { modalFooterStyles, modalContentStyles, modalStyles } from './ConfirmDialog.styles';
 
 interface ConfirmDialogProps {

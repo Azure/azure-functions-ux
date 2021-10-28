@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import { BitbucketUser } from '../../../../models/bitbucket';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterFieldProps, AuthorizationResult } from '../DeploymentCenter.types';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption } from '@fluentui/react';
 import DeploymentCenterBitbucketProvider from './DeploymentCenterBitbucketProvider';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';

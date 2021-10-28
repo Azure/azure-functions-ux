@@ -1,9 +1,9 @@
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
+import { ActionButton } from '@fluentui/reactButton';
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import IconButton from '../../../../../components/IconButton/IconButton';
-import { TextField } from 'office-ui-fabric-react';
+import { TextField } from '@fluentui/react';
 import ActionBar from '../../../../../components/ActionBar';
 import { newButtonOfficeFabricStyle, textBoxListStyle, textBoxInListStyle, textBoxInListDeleteButtonStyle } from '../../AppSettings.styles';
 

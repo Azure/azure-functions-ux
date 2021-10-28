@@ -1,5 +1,5 @@
 import { DropDownStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Dropdown.styles';
-import { IDropdownStyles, ITextFieldStyles, ITooltipHostStyles } from 'office-ui-fabric-react';
+import { IDropdownStyles, ITextFieldStyles, ITooltipHostStyles } from '@fluentui/react';
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';

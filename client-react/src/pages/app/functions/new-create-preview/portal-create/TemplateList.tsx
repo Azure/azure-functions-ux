@@ -15,7 +15,7 @@ import {
   Selection,
   SearchBox,
   MessageBarType,
-} from 'office-ui-fabric-react';
+} from '@fluentui/react';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import {
   templateListStyle,

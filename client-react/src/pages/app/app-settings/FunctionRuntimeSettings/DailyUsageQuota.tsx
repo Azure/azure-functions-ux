@@ -4,7 +4,7 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import TextField from '../../../../components/form-controls/TextField';
-import { KeyCodes, MessageBarType } from 'office-ui-fabric-react';
+import { KeyCodes, MessageBarType } from '@fluentui/react';
 import { SiteDisabledReason } from '../../../../models/site/site';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 

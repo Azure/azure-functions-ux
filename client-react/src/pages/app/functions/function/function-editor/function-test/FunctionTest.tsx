@@ -11,7 +11,7 @@ import { FunctionInfo } from '../../../../../../models/functions/function-info';
 import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import { functionTestBodyStyle } from './FunctionTest.styles';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 import { ValidationRegex } from '../../../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../../../utils/FwLinks';

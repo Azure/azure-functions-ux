@@ -1,5 +1,5 @@
 import React from 'react';
-import { Fabric, Shimmer } from 'office-ui-fabric-react';
+import { Fabric, Shimmer } from '@fluentui/react';
 import { wrapperClass } from './Shimmer.styles';
 import { getLineGapShimmerGroup, getLineCircleShimmerGroup, getLineGapCircleShimmerGroup } from './Shimmer.types';
 

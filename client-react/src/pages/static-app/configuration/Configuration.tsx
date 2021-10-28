@@ -14,7 +14,7 @@ import {
   Checkbox,
   DetailsRow,
   DetailsHeader,
-} from 'office-ui-fabric-react';
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable, PanelType } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';

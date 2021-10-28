@@ -9,7 +9,7 @@ import {
   TooltipHost,
   ICommandBarItemProps,
   PanelType,
-} from 'office-ui-fabric-react';
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
   renewTextStyle,

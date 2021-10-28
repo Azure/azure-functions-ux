@@ -12,7 +12,7 @@ import {
   IColumn,
   Link,
   PanelType,
-} from 'office-ui-fabric-react';
+} from '@fluentui/react';
 import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { filterTextFieldStyle } from '../../../../../../../components/form-controls/formControl.override.styles';
 import { openAppInsightsQueryEditor } from '../FunctionMonitorTab.data';

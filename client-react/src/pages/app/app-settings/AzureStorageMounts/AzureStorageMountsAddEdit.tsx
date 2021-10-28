@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import ActionBar from '../../../../components/ActionBar';
 import { FormAzureStorageMounts } from '../AppSettings.types';
-import { IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
+import { IChoiceGroupOption } from '@fluentui/reactChoiceGroup';
 import AzureStorageMountsAddEditBasic from './AzureStorageMountsAddEditBasic';
 import AzureStorageMountsAddEditAdvanced from './AzureStorageMountsAddEditAdvanced';
 import { Formik, FormikProps, Field, Form } from 'formik';

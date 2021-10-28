@@ -14,7 +14,7 @@ import {
   MessageBarType,
   Label,
   Link,
-} from 'office-ui-fabric-react';
+} from '@fluentui/react';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { invocationsTabStyle, invocationsSummary, summaryItem, successElement, invocationsTable } from './FunctionInvocations.style';
 import { useTranslation } from 'react-i18next';

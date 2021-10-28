@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/reactDetailsList';
 import React, { useContext, useState } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
@@ -9,7 +9,7 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { HandlerMapping } from '../../../../models/site/config';
-import { TooltipHost, ICommandBarItemProps, PanelType } from 'office-ui-fabric-react';
+import { TooltipHost, ICommandBarItemProps, PanelType } from '@fluentui/react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { ThemeContext } from '../../../../ThemeContext';

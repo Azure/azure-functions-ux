@@ -5,7 +5,7 @@ import { PermissionsContext } from '../Contexts';
 import { addOrUpdateFormAppSetting, findFormAppSettingValue, removeFormAppSetting } from '../AppSettingsFormData';
 import { CommonConstants, WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
-import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
+import { IDropdownOption, MessageBarType } from '@fluentui/react';
 import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
 import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntimeVersionHelper';
 import { isLinuxApp } from '../../../../utils/arm-utils';

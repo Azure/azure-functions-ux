@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 import { useTranslation } from 'react-i18next';
-import { Link, IDropdownOption, registerIcons, Icon } from 'office-ui-fabric-react';
+import { Link, IDropdownOption, registerIcons, Icon } from '@fluentui/react';
 import {
   formStyle,
   dropdownIconStyle,
@@ -12,7 +12,7 @@ import {
   markdownIconStyle,
 } from './FunctionQuickstart.styles';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
-import { ResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
+import { ResponsiveMode } from '@fluentui/reactutilities/decorators/withResponsiveMode';
 import { ReactComponent as VSCodeIconSvg } from '../../../../images/Functions/vs_code.svg';
 import { ReactComponent as TerminalIconSvg } from '../../../../images/Functions/terminal.svg';
 import { ReactComponent as VisualStudioIconSvg } from '../../../../images/Functions/visual_studio.svg';

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react';
+import { Pivot, PivotItem, IPivotItemProps } from '@fluentui/react';
 import DeploymentCenterFtps from '../DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterCodePivotProps } from '../DeploymentCenter.types';

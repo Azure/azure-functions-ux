@@ -1,11 +1,11 @@
-import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
+import { CommandBar, ICommandBarItemProps } from '@fluentui/reactCommandBar';
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { PortalContext } from '../../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
 import FunctionEditorGetFunctionUrlCallout from './FunctionEditorGetFunctionUrlCallout';
-import { IButtonProps, IContextualMenuRenderItem, TooltipHost } from 'office-ui-fabric-react';
+import { IButtonProps, IContextualMenuRenderItem, TooltipHost } from '@fluentui/react';
 import { UrlObj, UrlType } from './FunctionEditor.types';
 import { toolTipStyle } from './FunctionEditor.styles';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';

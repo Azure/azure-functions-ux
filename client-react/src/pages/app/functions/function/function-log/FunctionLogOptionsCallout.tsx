@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
-import { Callout, DirectionalHint, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
+import { Callout, DirectionalHint, PrimaryButton, DefaultButton } from '@fluentui/react';
 import { calloutStyle } from './FunctionLog.styles';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../../../../../ThemeContext';

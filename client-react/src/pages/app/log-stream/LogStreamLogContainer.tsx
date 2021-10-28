@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 import { LogEntry, LogType, LogsEnabled } from './LogStream.types';
-import { ChoiceGroup, IChoiceGroupOption } from 'office-ui-fabric-react';
+import { ChoiceGroup, IChoiceGroupOption } from '@fluentui/react';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { getLogTextColor } from './LogStreamData';

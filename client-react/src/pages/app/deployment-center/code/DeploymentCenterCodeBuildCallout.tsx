@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DefaultButton, Callout, ChoiceGroup, PrimaryButton } from 'office-ui-fabric-react';
+import { DefaultButton, Callout, ChoiceGroup, PrimaryButton } from '@fluentui/react';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { calloutStyle, calloutContent, calloutContentButton, additionalTextFieldControl } from '../DeploymentCenter.styles';
 import { BuildChoiceGroupOption, DeploymentCenterCodeBuildCalloutProps, RuntimeStackOptions } from '../DeploymentCenter.types';

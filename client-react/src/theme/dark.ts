@@ -1,4 +1,4 @@
-import { IPalette } from 'office-ui-fabric-react/lib/Styling';
+import { IPalette } from '@fluentui/react';
 import { ThemeExtended } from './SemanticColorsExtended';
 import { AzurePortalColors as LightThemePortalColors } from './light';
 

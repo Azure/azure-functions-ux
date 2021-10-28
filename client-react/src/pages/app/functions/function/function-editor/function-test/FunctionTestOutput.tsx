@@ -7,7 +7,7 @@ import {
   responseContentStyle,
   testFormLabelStyle,
 } from './FunctionTest.styles';
-import { Label } from 'office-ui-fabric-react';
+import { Label } from '@fluentui/react';
 import { ResponseContent } from '../FunctionEditor.types';
 import { HttpConstants } from '../../../../../../utils/constants/HttpConstants';
 import StringUtils from '../../../../../../utils/string';

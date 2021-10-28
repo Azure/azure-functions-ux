@@ -1,12 +1,12 @@
-import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import { Checkbox } from '@fluentui/reactCheckbox';
+import { IDropdownOption } from '@fluentui/reactDropdown';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormConnectionString } from '../AppSettings.types';
 import { DatabaseType, typeValueToString } from './connectionStringTypes';
-import { MessageBarType } from 'office-ui-fabric-react/lib';
+import { MessageBarType } from '@fluentui/react';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Toggle as OfficeToggle, IToggleProps } from 'office-ui-fabric-react/lib/Toggle';
+import { Toggle as OfficeToggle, IToggleProps } from '@fluentui/react';
 import { ThemeContext } from '../../ThemeContext';
 import ReactiveFormControl from './ReactiveFormControl';
 

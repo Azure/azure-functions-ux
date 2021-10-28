@@ -1,6 +1,5 @@
-import { ITheme } from 'office-ui-fabric-react/lib/Styling';
+import { ITheme, IComboBoxStyles } from '@fluentui/react';
 import { Depths } from './AzureDepths';
-import { IComboBoxStyles } from 'office-ui-fabric-react/lib/ComboBox';
 import * as StyleConstants from './Constants';
 
 export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {

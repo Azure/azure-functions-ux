@@ -1,4 +1,4 @@
-import { Link, MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { Link, MessageBar, MessageBarType } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../images/Common/Error.svg';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dropdown as OfficeDropdown, IDropdownOption, Callout, DirectionalHint, DropdownMenuItemType } from 'office-ui-fabric-react';
+import { Dropdown as OfficeDropdown, IDropdownOption, Callout, DirectionalHint, DropdownMenuItemType } from '@fluentui/react';
 import TextFieldNoFormik from '../../../../../components/form-controls/TextFieldNoFormik';
 import { style } from 'typestyle';
 import { fileSelectorDropdownStyle, keyDivStyle, urlDivStyle, urlFieldStyle, urlFormStyle } from './FunctionEditor.styles';

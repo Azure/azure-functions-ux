@@ -7,7 +7,7 @@ import JavaStack from './JavaStack';
 import PhpStack from './PhpStack';
 import PythonStack from './PythonStack';
 import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption } from '@fluentui/react';
 import { RuntimeStacks } from '../../../../../utils/stacks-utils';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 

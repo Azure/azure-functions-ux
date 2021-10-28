@@ -5,7 +5,7 @@ import { ScmType, BuildProvider } from '../../../models/site/config';
 import moment from 'moment';
 import { Uri } from 'monaco-editor';
 import { GitHubUser } from '../../../models/github';
-import { IDropdownOption, IChoiceGroupOption, MessageBarType } from 'office-ui-fabric-react';
+import { IDropdownOption, IChoiceGroupOption, MessageBarType } from '@fluentui/react';
 import { BitbucketUser } from '../../../models/bitbucket';
 import { RepoTypeOptions } from '../../../models/external';
 import { OneDriveUser } from '../../../models/onedrive';

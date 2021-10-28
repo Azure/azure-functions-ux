@@ -6,7 +6,7 @@ import { Site } from '../../../../models/site/site';
 import FunctionQuickstartData from './FunctionQuickstart.data';
 import FunctionQuickstart from './FunctionQuickstart';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType } from '@fluentui/react';
 import { messageBannerStyle } from '../../app-settings/AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
 import { useTranslation } from 'react-i18next';

@@ -1,4 +1,4 @@
-import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import { IDropdownOption } from '@fluentui/reactDropdown';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { SiteConfig } from '../../../../../models/site/config';
 import i18next from 'i18next';

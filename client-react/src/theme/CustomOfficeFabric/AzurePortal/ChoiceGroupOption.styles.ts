@@ -1,6 +1,5 @@
 import { FontSizes, FontWeights, HighContrastSelector, IStyle, IPalette, getGlobalClassNames } from '@uifabric/styling';
-import { IsFocusVisibleClassName } from 'office-ui-fabric-react/lib/Utilities';
-import { IChoiceGroupOptionStyleProps, IChoiceGroupOptionStyles } from 'office-ui-fabric-react';
+import { IChoiceGroupOptionStyleProps, IChoiceGroupOptionStyles, IsFocusVisibleClassName } from '@fluentui/react';
 import { ThemeExtended } from '../../SemanticColorsExtended';
 
 const GlobalClassNames = {
