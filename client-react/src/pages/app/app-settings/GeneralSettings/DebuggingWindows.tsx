@@ -27,6 +27,10 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
       key: 'VS2019',
       text: '2019',
     },
+    {
+      key: 'VS2022',
+      text: '2022',
+    },
   ];
 
   if (initialValues.config.properties.remoteDebuggingVersion === 'VS2015') {
