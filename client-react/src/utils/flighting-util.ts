@@ -3,11 +3,11 @@ import Url from './url';
 
 export class FlightingUtil {
   public static features = {
-    EnableEditingForLinuxNodePython: 'EnableEditingForLinuxNodePython',
+    EnableEditingForLinuxNodePythonPowershell: 'EnableEditingForLinuxNodePythonPowershell',
   };
 
   private static _config = {
-    EnableEditingForLinuxNodePython: {
+    EnableEditingForLinuxNodePythonPowershell: {
       seed: 3828949938,
       percentofUsers: 50,
       forceOnFlag: CommonConstants.FeatureFlags.enablePortalEditing,
