@@ -18766,7 +18766,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Enterprise-grade edge]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Perímetro de grado empresarial]]></Val>
+            <Val><![CDATA[Borde de grado empresarial]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
