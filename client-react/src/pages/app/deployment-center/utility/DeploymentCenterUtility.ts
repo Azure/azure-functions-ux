@@ -334,10 +334,9 @@ const isPrivateRegistrySettingsDirty = (formProps: FormikProps<DeploymentCenterF
 };
 
 const isDockerSettingsDirty = (formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>): boolean => {
-  //(note) stpelleg: backend will return 200 with siteconfig unchanged if the image and tag are the same, regardless of casing
   return (
     formProps.values.dockerHubAccessType !== formProps.initialValues.dockerHubAccessType ||
-    formProps.values.dockerHubImageAndTag.toLocaleLowerCase() !== formProps.initialValues.dockerHubImageAndTag.toLocaleLowerCase() ||
+    formProps.values.dockerHubImageAndTag !== formProps.initialValues.dockerHubImageAndTag ||
     formProps.values.dockerHubComposeYml !== formProps.initialValues.dockerHubComposeYml
   );
 };
