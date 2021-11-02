@@ -97,7 +97,7 @@ const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> 
     if (bitbucketUser && organizationOptions && repositoryOptions) {
       const logger = (page, response) => {
         portalContext.log(
-          getTelemetryInfo('error', 'getBitbucketBranchesResponse', 'failed', {
+          getTelemetryInfo('verbose', 'getBitbucketBranchesResponse', 'failed', {
             page: page,
             error: response.metadata.error,
           })
