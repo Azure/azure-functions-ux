@@ -155,7 +155,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
           </div>
         )}
       </Stack>
-      <Stack gap={0} horizontalAlign="start">
+      <Stack tokens={{ childrenGap: 0 }} horizontalAlign="start">
         {copyValue && (
           <TooltipHost
             content={getCopiedLabel()}
