@@ -9,7 +9,7 @@ import { addOrUpdateFormAppSetting, findFormAppSettingValue, findFormAppSettingI
 import { FunctionsRuntimeVersionHelper } from '../../../../../../utils/FunctionsRuntimeVersionHelper';
 import { SiteStateContext } from '../../../../../../SiteState';
 import { Field } from 'formik';
-import { isLinuxApp, isContainerApp } from '../../../../../../utils/arm-utils';
+import { isContainerApp } from '../../../../../../utils/arm-utils';
 import {
   filterDeprecatedFunctionAppStack,
   getStackVersionConfigPropertyName,
@@ -26,14 +26,14 @@ import Dropdown from '../../../../../../components/form-controls/DropDown';
 const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();
   const { initialValues, values } = props;
-
   const siteStateContext = useContext(SiteStateContext);
   const { app_write, editable, saving } = useContext(PermissionsContext);
+
   const disableAllControls = !app_write || !editable || saving;
   const runtimeVersion =
     findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) || '';
   const runtimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(runtimeVersion);
-  const isLinux = () => !!siteStateContext.site && isLinuxApp(siteStateContext.site);
+  const isLinux = () => siteStateContext.isLinuxApp;
 
   const [runtimeStack, setRuntimeStack] = useState<string | undefined>(undefined);
   const [currentStackData, setCurrentStackData] = useState<FunctionAppStack | undefined>(undefined);
@@ -203,7 +203,8 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const getStartupCommandComponent = () => {
     return (
-      isLinux() && (
+      isLinux() &&
+      !siteStateContext.isFunctionApp && (
         <Field
           id="linux-function-app-appCommandLine"
           name="config.properties.appCommandLine"
