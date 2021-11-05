@@ -10,6 +10,7 @@ import { ScmType } from '../../../../models/site/config';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { IDropdownOption } from '@fluentui/react';
 import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
+import RadioButton from '../../../../components/form-controls/RadioButton';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -24,6 +25,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     loadingImageOptions,
     loadingTagOptions,
     acrSubscription,
+    // acrUseManagedIdentityCreds,
     fetchRegistriesInSub,
   } = props;
   const { t } = useTranslation();
@@ -102,6 +104,16 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         required={true}
         onChange={(val, newSub) => fetchRegistriesInSub(newSub.key)}
         value={acrSubscription}
+      />
+
+      <Field
+        id="container-acr-credentials"
+        label={t('authentication')}
+        name="acrCredentials"
+        // defaultSelectedKey={acrUseManagedIdentityCreds ? 'managedIdentity' : 'adminCredentials'}
+        component={RadioButton}
+        options={[{ key: 'adminCredentials', text: t('adminCredentials') }, { key: 'managedIdentity', text: t('managedIdentity') }]}
+        displayInVerticalLayout={false}
       />
 
       <Field

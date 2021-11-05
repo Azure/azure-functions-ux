@@ -307,6 +307,7 @@ export interface AcrFormData {
   acrComposeYml: string;
   acrResourceId: string;
   acrLocation: string;
+  acrCredentials: string;
 }
 
 export interface DockerHubFormData {
@@ -618,6 +619,7 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   loadingImageOptions: boolean;
   loadingTagOptions: boolean;
   acrSubscription: string;
+  // acrUseManagedIdentityCreds: boolean;
   acrStatusMessage?: string;
   acrStatusMessageType?: MessageBarType;
 }

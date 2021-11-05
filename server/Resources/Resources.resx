@@ -7200,4 +7200,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSiteEnterpriseGradeEdgePrice" xml:space="preserve">
         <value>{0}/per app/month</value>
     </data>
+    <data name="adminCredentials" xml:space="preserve">
+        <value>Admin Credentials</value>
+    </data>
+    <data name="managedIdentity" xml:space="preserve">
+        <value>Managed Identity</value>
+    </data>
 </root>
