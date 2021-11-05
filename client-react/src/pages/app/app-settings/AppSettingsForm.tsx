@@ -15,6 +15,7 @@ import { ThemeContext } from '../../../ThemeContext';
 import { SiteContext } from './Contexts';
 import { isWorkflowApp } from '../../../utils/arm-utils';
 import { pivotWrapper } from './AppSettings.styles';
+import { OverflowBehavior } from '../../../utils/CommonConstants';
 
 export const settingsWrapper = style({
   padding: '5px 20px 5px 0px',
@@ -66,7 +67,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
 
   return (
-    <Pivot getTabId={getPivotTabId}>
+    <Pivot getTabId={getPivotTabId} overflowBehavior={OverflowBehavior.menu}>
       <PivotItem
         className={pivotWrapper}
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>

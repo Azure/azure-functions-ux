@@ -16,6 +16,7 @@ import { ValidationRegex } from '../../../../../../utils/constants/ValidationReg
 import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../../../utils/FwLinks';
 import { FunctionEditorContext } from '../FunctionEditorDataLoader';
+import { OverflowBehavior } from '../../../../../../utils/CommonConstants';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -214,7 +215,8 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
                 selectedKey={selectedPivotTab}
                 onLinkClick={(item?: PivotItem, ev?) =>
                   !!item && !!item.props.itemKey && setSelectedPivotTab(item.props.itemKey as PivotType)
-                }>
+                }
+                overflowBehavior={OverflowBehavior.menu}>
                 <PivotItem itemKey={PivotType.input} linkText={t('functionTestInput')}>
                   <FunctionTestInput
                     {...formProps}
