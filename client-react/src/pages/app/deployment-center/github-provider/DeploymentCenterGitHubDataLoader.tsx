@@ -29,8 +29,9 @@ searchTermObserver
       const isGitHubActions = info.isGitHubActions;
       const org = info.org;
       const repo = info.repo;
-
       let gitHubRepositories;
+
+      portalContext.log(getTelemetryInfo('info', 'gitHubRepositories', 'submit'));
 
       if (repositoriesUrl.toLocaleLowerCase().indexOf('github.com/users/') > -1) {
         gitHubRepositories = await deploymentCenterData.getGitHubUserRepositories(
@@ -155,8 +156,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const fetchRepositoryOptions = (repositoriesUrl: string, searchTerm?: string) => {
     setRepositoryOptions([]);
     setBranchOptions([]);
-
-    portalContext.log(getTelemetryInfo('info', 'gitHubRepositories', 'submit'));
 
     const info: SearchTermObserverInfo = {
       searchTerm: searchTerm,
