@@ -232,3 +232,8 @@ export enum WorkerRuntimeLanguages {
   custom = 'custom',
   dotnet5 = 'dotnet-isolated',
 }
+
+export enum OverflowBehavior {
+  none = 'none',
+  menu = 'menu',
+}
