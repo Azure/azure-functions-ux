@@ -28,6 +28,7 @@ const FunctionInvocationDetails: React.FC<FunctionInvocationDetailsProps> = prop
         onClick: openAppInsightsQueryEditor,
         iconProps: { iconName: 'LineChart' },
         name: t('runQueryInApplicationInsights'),
+        ariaLabel: t('runQueryInApplicationInsights'),
       },
     ];
   };
