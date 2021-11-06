@@ -70,7 +70,7 @@ export const TextFieldStyles = (props: ITextFieldStyleProps): Partial<ITextField
       color: semanticColors.errorText,
     },
     revealButton: {
-      height: 'inherit',
+      height: 'auto',
     },
   };
 };
