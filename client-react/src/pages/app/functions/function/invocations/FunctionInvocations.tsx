@@ -63,12 +63,14 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         onClick: openAppInsightsQueryEditor,
         iconProps: { iconName: 'LineChart' },
         name: t('runQueryInApplicationInsights'),
+        ariaLabel: t('runQueryInApplicationInsights'),
       },
       {
         key: 'invocations-refresh',
         onClick: refreshInvocations,
         iconProps: { iconName: 'Refresh' },
         name: t('refresh'),
+        ariaLabel: t('refresh'),
       },
     ];
   };

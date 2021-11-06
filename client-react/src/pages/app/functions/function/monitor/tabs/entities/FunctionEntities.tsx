@@ -39,12 +39,14 @@ const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
           openAppInsightsQueryEditor(portalContext, appInsightsResourceId, entitiesContext.formEntityTracesQuery(functionResourceId)),
         iconProps: { iconName: 'LineChart' },
         name: t('runQueryInApplicationInsights'),
+        ariaLabel: t('runQueryInApplicationInsights'),
       },
       {
         key: 'entities-refresh',
         onClick: refreshEntities,
         iconProps: { iconName: 'Refresh' },
         name: t('refresh'),
+        ariaLabel: t('refresh'),
       },
     ];
   };
