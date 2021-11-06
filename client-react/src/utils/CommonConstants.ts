@@ -237,3 +237,7 @@ export enum OverflowBehavior {
   none = 'none',
   menu = 'menu',
 }
+
+export enum TextFieldType {
+  password = 'password',
+}
