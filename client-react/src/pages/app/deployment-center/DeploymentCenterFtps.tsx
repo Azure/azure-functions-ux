@@ -4,7 +4,6 @@ import {
   DeploymentCenterFieldProps,
   DeploymentCenterContainerFormData,
   DeploymentCenterCodeFormData,
-  PasswordFieldType,
 } from './DeploymentCenter.types';
 import { MessageBarType, ActionButton, ProgressIndicator, Link } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
@@ -26,6 +25,7 @@ import { getGitCloneUri, getTelemetryInfo } from './utility/DeploymentCenterUtil
 import DeploymentCenterPublishingUser from './DeploymentCenterPublishingUser';
 import { PortalContext } from '../../../PortalContext';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
+import { TextFieldType } from '../../../utils/CommonConstants';
 
 const DeploymentCenterFtps: React.FC<
   DeploymentCenterFtpsProps & DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -38,7 +38,6 @@ const DeploymentCenterFtps: React.FC<
   const { isDataRefreshing, formProps } = props;
   const { publishingProfile, resetApplicationPassword } = deploymentCenterPublishingContext;
 
-  const [applicationPasswordType, setApplicationPasswordType] = useState<PasswordFieldType>('password');
   const [isResetCalloutHidden, setIsResetCalloutHidden] = useState<boolean>(true);
   const [showBlockedBanner, setShowBlockedBanner] = useState(true);
 
@@ -59,10 +58,6 @@ const DeploymentCenterFtps: React.FC<
 
     resetApplicationPassword();
     setIsResetCalloutHidden(true);
-  };
-
-  const toggleShowApplicationPassword = () => {
-    setApplicationPasswordType(!applicationPasswordType ? 'password' : undefined);
   };
 
   const getProgressIndicator = () => {
@@ -154,19 +149,8 @@ const DeploymentCenterFtps: React.FC<
             value={publishingProfile && publishingProfile.userPWD}
             copyButton={true}
             disabled={true}
-            type={applicationPasswordType}
+            type={TextFieldType.password}
             additionalControls={[
-              <ActionButton
-                id="deployment-center-ftps-application-password-visibility-toggle"
-                key="deployment-center-ftps-application-password-visibility-toggle"
-                className={additionalTextFieldControl}
-                ariaLabel={
-                  applicationPasswordType === 'password' ? t('showApplicationPasswordAriaLabel') : t('hideApplicationPasswordAriaLabel')
-                }
-                onClick={toggleShowApplicationPassword}
-                iconProps={{ iconName: applicationPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
-                {applicationPasswordType === 'password' ? t('show') : t('hide')}
-              </ActionButton>,
               <ActionButton
                 id="deployment-center-ftps-application-password-reset"
                 key="deployment-center-ftps-application-password-reset"
