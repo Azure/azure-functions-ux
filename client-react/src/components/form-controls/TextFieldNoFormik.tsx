@@ -8,7 +8,6 @@ import { TooltipHost, Stack, IButton } from '@fluentui/react';
 import IconButton from '../IconButton/IconButton';
 import { useTranslation } from 'react-i18next';
 import { TextUtilitiesService } from '../../utils/textUtilities';
-import { CommonConstants } from '../../utils/CommonConstants';
 
 interface CustomTextFieldProps {
   id: string;
@@ -22,9 +21,6 @@ interface CustomTextFieldProps {
   formControlClassName?: string;
   additionalControls?: JSX.Element[];
   layout?: Layout;
-  hideShowButton?: {
-    onButtonClick?: (hidden: boolean) => void;
-  };
 }
 const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   const {
@@ -39,7 +35,6 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     id,
     copyButton,
     additionalControls,
-    hideShowButton,
     required,
     ...rest
   } = props;
@@ -49,7 +44,6 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   const fullpage = width > 1000;
 
   const [copied, setCopied] = useState(false);
-  const [hidden, setHidden] = useState(!!hideShowButton);
   const [copyButtonRef, setCopyButtonRef] = useState<IButton | undefined>(undefined);
 
   const copyToClipboard = (e: React.MouseEvent<any>) => {
@@ -70,20 +64,6 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     }
   };
 
-  const getHideShowButtonLabel = () => {
-    return hidden ? t('clickToShowValue') : t('clickToHideValue');
-  };
-
-  const onHideShowButtonClick = (e: React.MouseEvent<any>) => {
-    if (!!e) {
-      e.stopPropagation();
-    }
-    if (hideShowButton && hideShowButton.onButtonClick) {
-      hideShowButton.onButtonClick(!hidden);
-    }
-    setHidden(!hidden);
-  };
-
   const onRenderSuffix = () => {
     return (
       <>
@@ -98,16 +78,6 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
               onClick={copyToClipboard}
               ariaLabel={getCopiedLabel()}
               componentRef={ref => ref && setCopyButtonRef(ref)}
-            />
-          </TooltipHost>
-        )}
-        {hideShowButton && (
-          <TooltipHost content={getHideShowButtonLabel()} calloutProps={{ gapSpace: 0 }}>
-            <IconButton
-              id={`${id}-hide-show-button`}
-              iconProps={{ iconName: hidden ? 'RedEye' : 'Hide', styles: copyButtonStyle }}
-              onClick={onHideShowButtonClick}
-              ariaLabel={getHideShowButtonLabel()}
             />
           </TooltipHost>
         )}
@@ -129,14 +99,12 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
       // // the field level, for a11y we need to have the aria-required tag set.
       'aria-labelledby': `${id}-label`,
       'aria-required': !!required,
+      // NOTE(krmitta): This is only used when the type is set as 'password'
+      canRevealPassword: true,
     };
 
-    const getValueProps = (val: string | undefined): string => {
-      return hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : val || '';
-    };
-
-    const textFieldPropsWithValueProp = { ...textFieldProps, value: getValueProps(value) };
-    const testFieldPropsWithDefaultValueProp = { ...textFieldProps, defaultValue: getValueProps(defaultValue) };
+    const textFieldPropsWithValueProp = { ...textFieldProps, value: value };
+    const testFieldPropsWithDefaultValueProp = { ...textFieldProps, defaultValue: defaultValue };
 
     if (!!value) {
       return textFieldPropsWithValueProp;
