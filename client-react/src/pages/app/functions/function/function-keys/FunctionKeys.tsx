@@ -311,6 +311,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         onClick: flipHideSwitch,
         iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
         name: !showValues ? t('showValues') : t('hideValues'),
+        ariaLabel: !showValues ? t('showValues') : t('hideValues'),
       },
     ];
   };

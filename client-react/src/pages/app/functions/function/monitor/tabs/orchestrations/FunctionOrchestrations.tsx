@@ -52,12 +52,14 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
           ),
         iconProps: { iconName: 'LineChart' },
         name: t('runQueryInApplicationInsights'),
+        ariaLabel: t('runQueryInApplicationInsights'),
       },
       {
         key: 'orchestrations-refresh',
         onClick: refreshOrchestrations,
         iconProps: { iconName: 'Refresh' },
         name: t('refresh'),
+        ariaLabel: t('refresh'),
       },
     ];
   };

@@ -34,6 +34,7 @@ const FunctionOrchestrationDetails: React.FC<FunctionOrchestrationDetailsProps> 
           ),
         iconProps: { iconName: 'LineChart' },
         name: t('runQueryInApplicationInsights'),
+        ariaLabel: t('runQueryInApplicationInsights'),
       },
     ];
   };
