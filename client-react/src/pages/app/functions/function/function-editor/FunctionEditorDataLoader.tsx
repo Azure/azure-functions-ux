@@ -20,7 +20,6 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { VfsObject } from '../../../../../models/functions/vfs';
 import { Method } from 'axios';
-import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { KeyValue } from '../../../../../models/portal-models';
@@ -31,6 +30,7 @@ import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
+import { Guid } from '../../../../../utils/Guid';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -272,7 +272,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const getHeaders = (testHeaders: NameValuePair[], xFunctionKey?: string): KeyValue<string> => {
-    const headers = getJsonHeaders();
+    const headers = { 'x-ms-client-request-id': Guid.newGuid() };
     testHeaders.forEach(h => {
       headers[h.name] = h.value;
     });
@@ -327,7 +327,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
       const headers = getHeaders(testDataObject.headers, xFunctionKey);
 
-      return FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body);
+      return FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body, LogCategories.FunctionEdit);
     }
     return undefined;
   };
@@ -337,7 +337,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     if (!!site) {
       const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
       const headers = getHeaders([], xFunctionKey);
-      return FunctionsService.runFunction(url, 'POST', headers, { input: newFunctionInfo.properties.test_data || '' });
+      return FunctionsService.runFunction(
+        url,
+        'POST',
+        headers,
+        { input: newFunctionInfo.properties.test_data || '' },
+        LogCategories.FunctionEdit
+      );
     }
     return undefined;
   };
@@ -411,49 +417,20 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
-  const getAuthorizationHeaders = (): KeyValue<string> => {
-    return {
-      Authorization: `Bearer ${startupInfoContext.token}`,
-      FunctionsPortal: '1',
-    };
-  };
-
   const getAndSetTestData = async () => {
     if (!!functionInfo && !!site && !!functionInfo.properties.test_data_href) {
       const testDataHrefObjects = functionInfo.properties.test_data_href.split('/vfs/');
-      let testDataResponseSuccess = false;
       let testData;
 
       if (testDataHrefObjects.length === 2) {
         const vfsArmTestDataResponse = await FunctionsService.getTestDataOverVfsArm(site.id, testDataHrefObjects[1], runtimeVersion);
         if (vfsArmTestDataResponse.metadata.success) {
-          testDataResponseSuccess = true;
           testData = vfsArmTestDataResponse.data;
         } else {
           LogService.error(
             LogCategories.FunctionEdit,
             'GetTestDataUsingVfsApi',
             `Failed to get test data from VFS API: ${getErrorMessageOrStringify(vfsArmTestDataResponse.metadata.error)}`
-          );
-        }
-      }
-
-      // Note (krmitta): Almost always we should be able to get the test_data through VFS Arm.
-      // Adding the below fallback logic just on the off-chance that it doesn't.
-      if (!testDataResponseSuccess) {
-        const headers = getAuthorizationHeaders();
-        const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(
-          functionInfo.properties.test_data_href,
-          'GET',
-          headers
-        );
-        if (functionHrefTestDataResponse.metadata.success) {
-          testData = functionHrefTestDataResponse.data;
-        } else {
-          LogService.error(
-            LogCategories.FunctionEdit,
-            'GetTestDataUsingFunctionHref',
-            `Failed to get test data: ${getErrorMessageOrStringify(functionHrefTestDataResponse.metadata.error)}`
           );
         }
       }
