@@ -238,6 +238,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         disabled: loading,
         iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
         name: !showValues ? t('showValues') : t('hideValues'),
+        ariaLabel: !showValues ? t('showValues') : t('hideValues'),
       },
     ];
   };
