@@ -3,9 +3,15 @@ import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { NameValuePair, HttpMethods } from './FunctionEditor.types';
 import { BindingManager } from '../../../../../utils/BindingManager';
+import { SiteConfig } from '../../../../../models/site/config';
+
+interface IFunctionData {
+  siteConfig: ArmObj<SiteConfig>;
+}
 
 export default class FunctionEditorData {
   public FUNCTION_JSON_FILE = 'function.json';
+  public functionData: IFunctionData;
   private blacklistedFileTypes = ['java', 'jar', 'zip', 'csproj'];
 
   public getFunctionInfo(resourceId: string) {

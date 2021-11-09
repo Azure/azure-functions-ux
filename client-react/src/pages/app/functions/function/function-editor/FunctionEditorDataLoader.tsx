@@ -67,9 +67,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   const isHttpOrWebHookFunction = !!functionInfo && functionEditorData.isHttpOrWebHookFunction(functionInfo);
 
-  const fetchData = async () => {
+  const getSiteResourceId = () => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
-    const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
+    return armSiteDescriptor.getTrimmedResourceId();
+  };
+
+  const fetchData = async () => {
+    const siteResourceId = getSiteResourceId();
     const [siteResponse, functionInfoResponse, appKeysResponse, functionKeysResponse, hostStatusResponse] = await Promise.all([
       siteContext.fetchSite(siteResourceId),
       functionEditorData.getFunctionInfo(resourceId),
@@ -150,6 +154,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         `Failed to fetch function keys: ${getErrorMessageOrStringify(functionKeysResponse.metadata.error)}`
       );
     }
+
+    await getAndUpdateSiteConfig();
 
     setInitialLoading(false);
     setIsRefreshing(false);
@@ -499,6 +505,49 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
+  const getAndUpdateSiteConfig = async () => {
+    const siteConfigResponse = await SiteService.fetchWebConfig(getSiteResourceId());
+    if (siteConfigResponse.metadata.success) {
+      functionEditorData.functionData = {
+        siteConfig: siteConfigResponse.data,
+      };
+    } else {
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'fetchSiteConfig',
+        `Failed to fetch site-config: ${getErrorMessageOrStringify(siteConfigResponse.metadata.error)}`
+      );
+    }
+  };
+
+  const addCorsRule = async (corsRule: string) => {
+    setIsRefreshing(true);
+    const siteConfig = functionEditorData.functionData.siteConfig;
+    const allowedOrigins = !!siteConfig && siteConfig.properties.cors.allowedOrigins ? siteConfig.properties.cors.allowedOrigins : [];
+    allowedOrigins.push(corsRule);
+    const body = {
+      properties: {
+        cors: {
+          allowedOrigins: allowedOrigins,
+        },
+      },
+    };
+
+    const updateSiteConfigResponse = await SiteService.patchSiteConfig(getSiteResourceId(), body);
+
+    if (updateSiteConfigResponse.metadata.success) {
+      await getAndUpdateSiteConfig();
+    } else {
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'patchSiteConfig',
+        `Failed to get update site-config: ${getErrorMessageOrStringify(updateSiteConfigResponse.metadata.error)}`
+      );
+    }
+
+    setIsRefreshing(false);
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -552,6 +601,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             setIsUploadingFile={setIsUploadingFile}
             refreshFileList={refreshFileList}
             workerRuntime={workerRuntime}
+            addCorsRule={addCorsRule}
           />
         </div>
       ) : (

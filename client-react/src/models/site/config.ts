@@ -223,7 +223,7 @@ export interface SiteAuthSettings {
 }
 
 export interface Cors {
-  allowedOrigins: string;
+  allowedOrigins: string[];
 }
 
 export interface KeyVaultReference {

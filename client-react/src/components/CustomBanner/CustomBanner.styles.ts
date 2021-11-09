@@ -14,6 +14,7 @@ export const messageBannerStyles = (isCustomIcon: boolean, undocked?: boolean) =
     },
     innerText: {
       marginLeft: isCustomIcon ? '24px' : undefined,
+      marginRight: isCustomIcon ? '5px' : undefined,
     },
     iconContainer: {
       display: isCustomIcon ? ('none' as 'none') : ('contents' as 'contents'),
@@ -44,10 +45,11 @@ export const messageBannerStyles = (isCustomIcon: boolean, undocked?: boolean) =
 };
 
 export const messageBannerIconStyle = style({
-  position: 'absolute',
   height: '16px',
   width: '16px',
+  position: 'absolute',
   marginLeft: '-24px',
+  marginRight: '10px',
 });
 
 export const messageBannerClass = (theme: ThemeExtended, type: MessageBarType) => {

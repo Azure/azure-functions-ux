@@ -16,7 +16,7 @@ import { ValidationRegex } from '../../../../../../utils/constants/ValidationReg
 import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../../../utils/FwLinks';
 import { FunctionEditorContext } from '../FunctionEditorDataLoader';
-import { OverflowBehavior } from '../../../../../../utils/CommonConstants';
+import { CommonConstants, OverflowBehavior } from '../../../../../../utils/CommonConstants';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -27,6 +27,7 @@ export interface FunctionTestProps {
   functionRunning: boolean;
   urlObjs: UrlObj[];
   getFunctionUrl: (key?: string) => string;
+  addCorsRule: (corsRule: string) => void;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   testData?: string;
@@ -55,6 +56,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     urlObjs,
     xFunctionKey,
     getFunctionUrl,
+    addCorsRule,
   } = props;
 
   const errorMessage = {
@@ -168,6 +170,52 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     setDefaultInputFormValues(updatedFormValues);
   };
 
+  const isCorsRuleAdded = () => {
+    const siteConfig = functionEditorContext.functionData.siteConfig;
+    if (!!window.location.origin && !!siteConfig && !!siteConfig.properties.cors && siteConfig.properties.cors.allowedOrigins) {
+      const ancestorOrigins = window.location.ancestorOrigins;
+      if (ancestorOrigins.length > 0) {
+        const origin = ancestorOrigins[0].toLocaleLowerCase();
+        return siteConfig.properties.cors.allowedOrigins.filter(allowedOrigin => allowedOrigin.toLocaleLowerCase() === origin).length > 0;
+      }
+    }
+    return false;
+  };
+
+  const getCorsRuleToRunFromBrowser = () => {
+    const ancestorOrigins = window.location.ancestorOrigins;
+    return !!ancestorOrigins && ancestorOrigins.length > 0 ? ancestorOrigins[0].toLocaleLowerCase() : CommonConstants.prodUrl;
+  };
+
+  const onMissingCorsMessageClick = () => {
+    addCorsRule(getCorsRuleToRunFromBrowser());
+  };
+
+  const getBanner = () => {
+    if (!isCorsRuleAdded()) {
+      return (
+        <CustomBanner
+          message={t('missingCorsMessage').format(getCorsRuleToRunFromBrowser())}
+          type={MessageBarType.warning}
+          undocked={true}
+          onClick={() => {
+            onMissingCorsMessageClick();
+          }}
+        />
+      );
+    }
+    if (!!responseContent && responseContent.code === 403) {
+      return (
+        <CustomBanner
+          message={t('functionEditor_privateLinkRunMessage')}
+          type={MessageBarType.warning}
+          undocked={true}
+          learnMoreLink={Links.functionsPrivateLinkLearnMore}
+        />
+      );
+    }
+  };
+
   useEffect(() => {
     !!responseContent && setSelectedPivotTab(PivotType.output);
 
@@ -189,7 +237,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           id: 'run',
           title: t('run'),
           onClick: formProps.submitForm,
-          disable: !!statusMessage,
+          disable: !!statusMessage || !isCorsRuleAdded(),
           autoFocus: true,
         };
 
@@ -202,14 +250,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
 
         return (
           <Form className={addEditFormStyle}>
-            {!!responseContent && responseContent.code === 403 && (
-              <CustomBanner
-                message={t('functionEditor_privateLinkRunMessage')}
-                type={MessageBarType.warning}
-                undocked={true}
-                learnMoreLink={Links.functionsPrivateLinkLearnMore}
-              />
-            )}
+            {getBanner()}
             <div className={functionTestBodyStyle}>
               <Pivot
                 selectedKey={selectedPivotTab}
