@@ -52,13 +52,14 @@ export const messageBannerIconStyle = style({
   marginRight: '10px',
 });
 
-export const messageBannerClass = (theme: ThemeExtended, type: MessageBarType) => {
+export const messageBannerClass = (theme: ThemeExtended, type: MessageBarType, onClickEnabled?: boolean) => {
   return style({
     /**
      * Other banner colors are consistent with the Ibiza pattern.
      * Office Fabric's info banner has a grey background color for some reason, so just need to handle that for now.
      */
     backgroundColor: type === MessageBarType.info ? theme.semanticColors.infoBackground : undefined,
+    cursor: !!onClickEnabled ? 'pointer' : undefined,
   });
 };
 

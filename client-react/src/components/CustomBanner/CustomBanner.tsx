@@ -37,7 +37,7 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
 
   const theme = useContext(ThemeContext);
 
-  let className = messageBannerClass(theme, type);
+  let className = messageBannerClass(theme, type, !!onClick);
 
   if (!!customClassName) {
     className = Object.assign(className, customClassName);
