@@ -145,6 +145,11 @@ export enum DotnetRuntimeVersion {
   aspNetv2 = 'v2.0',
 }
 
+export enum ACRCredentialType {
+  adminCredentials = 'adminCredentials',
+  managedIdentity = 'managedIdentity',
+}
+
 export interface AzureDevOpsUrl {
   Tfs: string;
   Sps: string;
@@ -307,7 +312,7 @@ export interface AcrFormData {
   acrComposeYml: string;
   acrResourceId: string;
   acrLocation: string;
-  acrCredentials: string;
+  acrCredentialType: string;
 }
 
 export interface DockerHubFormData {

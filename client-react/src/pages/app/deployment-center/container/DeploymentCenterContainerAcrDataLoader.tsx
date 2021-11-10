@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { DeploymentCenterFieldProps, DeploymentCenterContainerFormData } from '../DeploymentCenter.types';
+import { DeploymentCenterFieldProps, DeploymentCenterContainerFormData, ACRCredentialType } from '../DeploymentCenter.types';
 import DeploymentCenterContainerAcrSettings from './DeploymentCenterContainerAcrSettings';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { IDropdownOption, MessageBarType } from '@fluentui/react';
@@ -29,8 +29,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const [subscription, setSubscription] = useState<string>(
     !!deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.subscription : ''
   );
-  // const [acrUseManagedIdentityCreds, setAcrUseManagedIdentityCreds] = useState<boolean>((!!subscription && !!deploymentCenterContext.siteConfig && !!deploymentCenterContext.siteConfig.properties) ?
-  // deploymentCenterContext.siteConfig.properties.acrUseManagedIdentityCreds : false);
   const [acrRegistryOptions, setAcrRegistryOptions] = useState<IDropdownOption[]>([]);
   const [acrImageOptions, setAcrImageOptions] = useState<IDropdownOption[]>([]);
   const [acrTagOptions, setAcrTagOptions] = useState<IDropdownOption[]>([]);
@@ -312,9 +310,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       );
       setSubscriptionOptions(subscriptionDropdownOptions);
       setSubscription(subscription);
-      // if (!!subscription && !!deploymentCenterContext.siteConfig && !!deploymentCenterContext.siteConfig.properties) {
-      //   setAcrUseManagedIdentityCreds(deploymentCenterContext.siteConfig.properties.acrUseManagedIdentityCreds);
-      // }
     });
   };
 
@@ -369,9 +364,12 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setSubscription(subscription);
   };
 
-  // const setCredentialsType = (credentialType: string) => {
-
-  // }
+  const setCredentialsType = async (credentialType: string) => {
+    if (!!deploymentCenterContext.siteConfig && !!deploymentCenterContext.siteConfig.properties) {
+      deploymentCenterContext.siteConfig.properties.acrUseManagedIdentityCreds = credentialType === ACRCredentialType.managedIdentity;
+      await deploymentCenterData.updateSiteConfig(deploymentCenterContext.resourceId, deploymentCenterContext.siteConfig);
+    }
+  };
 
   useEffect(() => {
     if (deploymentCenterContext.siteDescriptor && deploymentCenterContext.applicationSettings) {
@@ -404,8 +402,8 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   }, [subscription]);
 
   useEffect(() => {
-    // setCredentialsType();
-  }, [formProps.values.acrCredentials]);
+    setCredentialsType(formProps.values.acrCredentialType);
+  }, [formProps.values.acrCredentialType]);
 
   return (
     <DeploymentCenterContainerAcrSettings
@@ -414,7 +412,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       fetchTags={fetchTags}
       fetchRegistriesInSub={setRegistriesInSub}
       acrSubscriptionOptions={subscriptionOptions}
-      // acrUseManagedIdentityCreds={acrUseManagedIdentityCreds}
       acrRegistryOptions={acrRegistryOptions}
       acrImageOptions={acrImageOptions}
       acrTagOptions={acrTagOptions}

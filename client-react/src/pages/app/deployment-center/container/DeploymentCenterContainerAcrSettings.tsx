@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ContainerOptions, DeploymentCenterContainerAcrSettingsProps } from '../DeploymentCenter.types';
+import { ACRCredentialType, ContainerOptions, DeploymentCenterContainerAcrSettingsProps } from '../DeploymentCenter.types';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
@@ -11,6 +11,8 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { IDropdownOption } from '@fluentui/react';
 import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
 import RadioButton from '../../../../components/form-controls/RadioButton';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import Url from '../../../../utils/url';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -25,7 +27,6 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     loadingImageOptions,
     loadingTagOptions,
     acrSubscription,
-    // acrUseManagedIdentityCreds,
     fetchRegistriesInSub,
   } = props;
   const { t } = useTranslation();
@@ -89,6 +90,24 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
   // Now in case if the user chooses to use an existing workflow file in their repo, we would still need to get the
   // target registry url, username, and password to update the app settings, but no workflow update is needed.
 
+  const acrManagedIdentitiesComponent = Url.getFeatureValue(CommonConstants.FeatureFlags.enableACRManagedIdentities) ? (
+    <>
+      <Field
+        id="container-acr-credentials"
+        label={t('authentication')}
+        name="acrCredentialType"
+        component={RadioButton}
+        options={[
+          { key: ACRCredentialType.adminCredentials, text: t('adminCredentials') },
+          { key: ACRCredentialType.managedIdentity, text: t('managedIdentity') },
+        ]}
+        displayInVerticalLayout={false}
+      />
+    </>
+  ) : (
+    <></>
+  );
+
   return (
     <>
       {acrStatusMessage && acrStatusMessageType && (
@@ -106,15 +125,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         value={acrSubscription}
       />
 
-      <Field
-        id="container-acr-credentials"
-        label={t('authentication')}
-        name="acrCredentials"
-        // defaultSelectedKey={acrUseManagedIdentityCreds ? 'managedIdentity' : 'adminCredentials'}
-        component={RadioButton}
-        options={[{ key: 'adminCredentials', text: t('adminCredentials') }, { key: 'managedIdentity', text: t('managedIdentity') }]}
-        displayInVerticalLayout={false}
-      />
+      {acrManagedIdentitiesComponent}
 
       <Field
         id="container-acr-repository"
