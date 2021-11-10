@@ -130,8 +130,7 @@ export const dotnetStack: FunctionAppStack = {
                 FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
               },
               siteConfigPropertiesDictionary: {
-                use32BitWorkerProcess: true,
-                netFrameworkVersion: 'v5.0',
+                use32BitWorkerProcess: true
               },
               supportedFunctionsExtensionVersions: ['~3'],
             },
