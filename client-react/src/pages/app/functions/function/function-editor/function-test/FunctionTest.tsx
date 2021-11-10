@@ -16,7 +16,7 @@ import { ValidationRegex } from '../../../../../../utils/constants/ValidationReg
 import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../../../utils/FwLinks';
 import { FunctionEditorContext } from '../FunctionEditorDataLoader';
-import { CommonConstants, OverflowBehavior } from '../../../../../../utils/CommonConstants';
+import { OverflowBehavior } from '../../../../../../utils/CommonConstants';
 import Url from '../../../../../../utils/url';
 
 export interface FunctionTestProps {
