@@ -172,7 +172,14 @@ export class CommonConstants {
 
   public static readonly serviceBmxUrl = 'https://service.bmx.azure.com';
 
-  public static readonly prodUrl = 'https://portal.azure.com';
+  public static readonly PortalUris = {
+    public: 'https://portal.azure.com',
+    fairfax: 'https://portal.azure.us',
+    blackforest: 'https://portal.microsoftazure.de',
+    mooncake: 'https://portal.azure.cn',
+    usNat: 'https://portal.azure.eaglex.ic.gov',
+    usSec: 'https://portal.azure.microsoft.scloud',
+  };
 
   public static readonly monthlyHoursForPricing = 730;
 

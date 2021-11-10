@@ -1,6 +1,8 @@
 import { ArmObj } from '../models/arm-obj';
 import { Site, HostType } from '../models/site/site';
 import { KeyValue } from '../models/portal-models';
+import { NationalCloudEnvironment } from './scenario-checker/national-cloud.environment';
+import { CommonConstants } from './CommonConstants';
 
 export default class Url {
   public static serviceHost =
@@ -108,6 +110,25 @@ export default class Url {
 
   public static getSyncTriggerUrl(site: ArmObj<Site>) {
     return `${this.getScmUrl(site)}/api/functions/synctriggers`;
+  }
+
+  public static get getPortalUriByEnv() {
+    if (NationalCloudEnvironment.isFairFax()) {
+      return CommonConstants.PortalUris.fairfax;
+    }
+    if (NationalCloudEnvironment.isMooncake()) {
+      return CommonConstants.PortalUris.mooncake;
+    }
+    if (NationalCloudEnvironment.isBlackforest()) {
+      return CommonConstants.PortalUris.blackforest;
+    }
+    if (NationalCloudEnvironment.isUSNat()) {
+      return CommonConstants.PortalUris.usNat;
+    }
+    if (NationalCloudEnvironment.isUSSec()) {
+      return CommonConstants.PortalUris.usSec;
+    }
+    return CommonConstants.PortalUris.public;
   }
 
   private static queryStrings: KeyValue<string>;

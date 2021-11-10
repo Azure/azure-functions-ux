@@ -17,6 +17,7 @@ import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner
 import { Links } from '../../../../../../utils/FwLinks';
 import { FunctionEditorContext } from '../FunctionEditorDataLoader';
 import { CommonConstants, OverflowBehavior } from '../../../../../../utils/CommonConstants';
+import Url from '../../../../../../utils/url';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -184,7 +185,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
 
   const getCorsRuleToRunFromBrowser = () => {
     const ancestorOrigins = window.location.ancestorOrigins;
-    return !!ancestorOrigins && ancestorOrigins.length > 0 ? ancestorOrigins[0].toLocaleLowerCase() : CommonConstants.prodUrl;
+    return !!ancestorOrigins && ancestorOrigins.length > 0 ? ancestorOrigins[0].toLocaleLowerCase() : Url.getPortalUriByEnv;
   };
 
   const onMissingCorsMessageClick = () => {
