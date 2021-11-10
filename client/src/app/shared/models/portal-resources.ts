@@ -2354,4 +2354,5 @@ export class PortalResources {
   public static staticSiteEnterpriseGradeEdge = 'staticSiteEnterpriseGradeEdge';
   public static staticSiteEnterpriseGradeEdgePrice = 'staticSiteEnterpriseGradeEdgePrice';
   public static functionTestInputDescription = 'functionTestInputDescription';
+  public static missingCorsMessage = 'missingCorsMessage';
 }

@@ -131,7 +131,6 @@ export const dotnetStack: FunctionAppStack = {
               },
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
-                netFrameworkVersion: 'v5.0',
               },
               supportedFunctionsExtensionVersions: ['~3'],
             },

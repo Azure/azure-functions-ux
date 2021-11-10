@@ -7203,4 +7203,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionTestInputDescription" xml:space="preserve">
         <value>Provide parameters to test your function in the portal. Results can be found in the Output tab.</value>
     </data>
+    <data name="missingCorsMessage" xml:space="preserve">
+        <value>Your app is missing the CORS rule, '{0}'. Click here to add the rule to test the function from the browser.</value>
+    </data>
 </root>
