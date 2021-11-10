@@ -2353,4 +2353,5 @@ export class PortalResources {
   public static switchToJbossWarningBaner = 'switchToJbossWarningBaner';
   public static staticSiteEnterpriseGradeEdge = 'staticSiteEnterpriseGradeEdge';
   public static staticSiteEnterpriseGradeEdgePrice = 'staticSiteEnterpriseGradeEdgePrice';
+  public static missingCorsMessage = 'missingCorsMessage';
 }

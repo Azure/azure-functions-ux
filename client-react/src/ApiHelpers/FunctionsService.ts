@@ -1,6 +1,6 @@
 import { HostStatus } from './../models/functions/host-status';
 import { ArmArray, ArmObj, UntrackedArmObj } from './../models/arm-obj';
-import MakeArmCall from './ArmHelper';
+import MakeArmCall, { getErrorMessageOrStringify } from './ArmHelper';
 import { FunctionInfo } from '../models/functions/function-info';
 import { sendHttpRequest, getTextHeaders } from './HttpClient';
 import { FunctionTemplate } from '../models/functions/function-template';
@@ -13,6 +13,7 @@ import { VfsObject } from '../models/functions/vfs';
 import { Method } from 'axios';
 import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
+import LogService from '../utils/LogService';
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -188,15 +189,10 @@ export default class FunctionsService {
     });
   }
 
-  public static runFunction(url: string, method: Method, headers: KeyValue<string>, body: any) {
+  public static runFunction(url: string, method: Method, headers: KeyValue<string>, body: any, logCategory: string) {
     return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
-      return this.tryPassThroughController(err, url, method, headers, body);
-    });
-  }
-
-  public static getDataFromFunctionHref(url: string, method: Method, headers: KeyValue<string>, body?: any) {
-    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
-      return this.tryPassThroughController(err, url, method, headers, body);
+      LogService.error(logCategory, 'runFunction', `Failed to runFunction : ${getErrorMessageOrStringify(err)}`);
+      return undefined;
     });
   }
 
@@ -242,16 +238,6 @@ export default class FunctionsService {
       url: `${Url.serviceHost}/api/getStorageFileShares?accountName=${accountName}`,
       method: 'POST',
     });
-  }
-
-  private static tryPassThroughController(err: any, url: string, method: Method, headers: KeyValue<string>, body: any) {
-    const passthroughBody = {
-      url,
-      headers,
-      method,
-      body,
-    };
-    return sendHttpRequest({ url: `${Url.serviceHost}api/passthrough`, method: 'POST', data: passthroughBody });
   }
 
   private static _getVfsApiForRuntimeVersion(endpoint: string, runtimeVersion?: string) {
