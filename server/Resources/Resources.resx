@@ -7201,6 +7201,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>{0}/per app/month</value>
     </data>
     <data name="functionTestInputDescription" xml:space="preserve">
-        <value>Provide parameters to test. Results can be found in the Output tab.</value>
+        <value>Provide parameters to test your function in the portal. Results can be found in the Output tab.</value>
     </data>
 </root>
