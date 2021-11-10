@@ -624,7 +624,6 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   loadingImageOptions: boolean;
   loadingTagOptions: boolean;
   acrSubscription: string;
-  // acrUseManagedIdentityCreds: boolean;
   acrStatusMessage?: string;
   acrStatusMessageType?: MessageBarType;
 }
