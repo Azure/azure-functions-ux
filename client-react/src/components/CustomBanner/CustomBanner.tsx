@@ -41,7 +41,8 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
         messageBarType={type}
         styles={messageBannerStyles(!!icon, !!undocked)}
         className={className}
-        onDismiss={onDismiss}>
+        onDismiss={onDismiss}
+        dismissButtonAriaLabel={t('close')}>
         {!!icon ? <span className={messageBannerIconStyle}>{icon}</span> : undefined}
         <span>
           <span tabIndex={0}>{message}</span>

@@ -706,8 +706,6 @@ export interface WorkflowFileUrlInfo {
   workflowFileName: string;
 }
 
-export type PasswordFieldType = 'password' | undefined;
-
 export interface SearchTermObserverInfo {
   searchTerm: string | undefined;
   org: string;

@@ -30,6 +30,7 @@ const FunctionEntityDetails: React.FC<FunctionEntityDetailsProps> = props => {
           openAppInsightsQueryEditor(portalContext, appInsightsResourceId, entityContext.formEntityTraceDetailsQuery(instanceId)),
         iconProps: { iconName: 'LineChart' },
         name: t('runQueryInApplicationInsights'),
+        ariaLabel: t('runQueryInApplicationInsights'),
       },
     ];
   };
