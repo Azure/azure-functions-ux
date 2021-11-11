@@ -1,65 +1,41 @@
 import React from 'react';
 import { ITextFieldProps } from '@fluentui/react';
-import { debounceTime } from 'rxjs/operators';
 import { FieldProps } from 'formik';
-import { Subject } from 'rxjs';
 import get from 'lodash-es/get';
 import TextFieldNoFormik from './TextFieldNoFormik';
 import { Link } from '@fluentui/react';
 import { Links } from '../../utils/FwLinks';
+import { Layout } from './ReactiveFormControl';
 
-interface EventMsg {
-  e: any;
-  value: string;
-}
-
-interface CustomTextFieldProps {
+export interface CustomTextFieldProps {
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
-  label: string;
+  label?: string;
   learnMoreLink?: string;
   dirty?: boolean;
   widthOverride?: string;
+  copyButton?: boolean;
+  formControlClassName?: string;
   additionalControls?: JSX.Element[];
+  layout?: Layout;
 }
 
-class TextField extends React.Component<FieldProps & ITextFieldProps & CustomTextFieldProps, any> {
-  private inputDebouncer = new Subject<EventMsg>();
-  private readonly DEBOUNCE_TIME = 300;
+const TextField: React.FC<FieldProps & ITextFieldProps & CustomTextFieldProps> = props => {
+  const { field, form, ...rest } = props;
 
-  public componentWillMount() {
-    const { field, form } = this.props;
-    this.inputDebouncer.pipe(debounceTime(this.DEBOUNCE_TIME)).subscribe(({ e, value }) => {
-      form.setFieldValue(field.name, value);
-      field.onChange(e);
-    });
-  }
+  const onChange = (e: any, value: string) => {
+    form.setFieldValue(field.name, value);
+    field.onChange(e);
+  };
 
-  public componentWillUnmount() {
-    this.inputDebouncer.unsubscribe();
-  }
-
-  public render() {
-    const { field, form, ...rest } = this.props;
-    const errorMessage = get(form.errors, field.name, '') as string;
-    const finalErrorMessage = this.cronErrorMessage(errorMessage);
-
-    return (
-      <TextFieldNoFormik value={field.value} onBlur={field.onBlur} errorMessage={finalErrorMessage} onChange={this.onChange} {...rest} />
-    );
-  }
-
-  private onChange = (e: any, value: string) => {
-    this.inputDebouncer.next({
-      e,
-      value,
-    });
+  const getErrorMessage = () => {
+    return cronErrorMessage(get(form.errors, field.name, '') as string);
   };
 
   // TODO (refortie): Temporary hard-coding of the documentation link.
   // Remove this once we get the API update so that errors have learn more
-  private cronErrorMessage(errorMessage: string): string | JSX.Element {
+  const cronErrorMessage = (errorMessage: string): string | JSX.Element => {
     if (errorMessage.includes('Invalid Cron Expression')) {
       return (
         <>
@@ -74,7 +50,9 @@ class TextField extends React.Component<FieldProps & ITextFieldProps & CustomTex
       );
     }
     return errorMessage;
-  }
-}
+  };
+
+  return <TextFieldNoFormik value={field.value} onBlur={field.onBlur} errorMessage={getErrorMessage()} onChange={onChange} {...rest} />;
+};
 
 export default TextField;
