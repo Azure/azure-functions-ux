@@ -5682,7 +5682,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionTestOutput" xml:space="preserve">
         <value>Output</value>
     </data>
-    <data name="functionTestInputDescription" xml:space="preserve">
+    <data name="functionTestInputDescriptionForHttp" xml:space="preserve">
         <value>Provide parameters to test the HTTP request. Results can be found in the Output tab.</value>
     </data>
     <data name="httpRun_responseContent" xml:space="preserve">
@@ -7199,6 +7199,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSiteEnterpriseGradeEdgePrice" xml:space="preserve">
         <value>{0}/per app/month</value>
+    </data>
+    <data name="functionTestInputDescription" xml:space="preserve">
+        <value>Provide parameters to test your function in the portal. Results can be found in the Output tab.</value>
     </data>
     <data name="missingCorsMessage" xml:space="preserve">
         <value>Your app is missing the CORS rule, '{0}'. Click here to add the rule to test the function from the browser.</value>

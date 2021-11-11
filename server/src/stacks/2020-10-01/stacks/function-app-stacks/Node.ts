@@ -30,7 +30,7 @@ export const nodeStack: FunctionAppStack = {
               },
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
-                netFrameworkVersion: 'v6.0'
+                netFrameworkVersion: 'v6.0',
               },
               supportedFunctionsExtensionVersions: ['~4'],
             },

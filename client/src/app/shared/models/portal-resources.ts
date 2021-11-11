@@ -1837,7 +1837,7 @@ export class PortalResources {
   public static functionCreate_selectTemplate = 'functionCreate_selectTemplate';
   public static functionTestInput = 'functionTestInput';
   public static functionTestOutput = 'functionTestOutput';
-  public static functionTestInputDescription = 'functionTestInputDescription';
+  public static functionTestInputDescriptionForHttp = 'functionTestInputDescriptionForHttp';
   public static httpRun_responseContent = 'httpRun_responseContent';
   public static httpRun_responseCode = 'httpRun_responseCode';
   public static editor_changeFileConfirmMessage = 'editor_changeFileConfirmMessage';
@@ -2353,5 +2353,6 @@ export class PortalResources {
   public static switchToJbossWarningBaner = 'switchToJbossWarningBaner';
   public static staticSiteEnterpriseGradeEdge = 'staticSiteEnterpriseGradeEdge';
   public static staticSiteEnterpriseGradeEdgePrice = 'staticSiteEnterpriseGradeEdgePrice';
+  public static functionTestInputDescription = 'functionTestInputDescription';
   public static missingCorsMessage = 'missingCorsMessage';
 }
