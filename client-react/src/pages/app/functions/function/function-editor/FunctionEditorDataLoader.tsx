@@ -21,7 +21,7 @@ import { LogCategories } from '../../../../../utils/LogCategories';
 import { VfsObject } from '../../../../../models/functions/vfs';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
-import { KeyValue } from '../../../../../models/portal-models';
+import { IDataMessageResult, KeyValue } from '../../../../../models/portal-models';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../../../ArmHelper.types';
 import StringUtils from '../../../../../utils/string';
@@ -372,7 +372,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       setFunctionInfo(updatedFunctionInfo.data);
     }
 
-    let runFunctionObservable: Observable<any> | undefined;
+    let runFunctionObservable: Observable<IDataMessageResult<any>> | undefined;
     if (isHttpOrWebHookFunction) {
       runFunctionObservable = await runHttpFunction(newFunctionInfo, xFunctionKey);
     } else {
