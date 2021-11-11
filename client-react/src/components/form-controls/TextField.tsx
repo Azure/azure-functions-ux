@@ -3,9 +3,9 @@ import { ITextFieldProps } from '@fluentui/react';
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
 import TextFieldNoFormik from './TextFieldNoFormik';
-import { Link } from '@fluentui/react';
 import { Links } from '../../utils/FwLinks';
 import { Layout } from './ReactiveFormControl';
+import { useTranslation } from 'react-i18next';
 
 export interface CustomTextFieldProps {
   id: string;
@@ -24,6 +24,8 @@ export interface CustomTextFieldProps {
 const TextField: React.FC<FieldProps & ITextFieldProps & CustomTextFieldProps> = props => {
   const { field, form, ...rest } = props;
 
+  const { t } = useTranslation();
+
   const onChange = (e: any, value: string) => {
     form.setFieldValue(field.name, value);
     field.onChange(e);
@@ -35,19 +37,9 @@ const TextField: React.FC<FieldProps & ITextFieldProps & CustomTextFieldProps> =
 
   // TODO (refortie): Temporary hard-coding of the documentation link.
   // Remove this once we get the API update so that errors have learn more
-  const cronErrorMessage = (errorMessage: string): string | JSX.Element => {
+  const cronErrorMessage = (errorMessage: string): string => {
     if (errorMessage.includes('Invalid Cron Expression')) {
-      return (
-        <>
-          Invalid Cron Expression. Please consult the{' '}
-          <Link // eslint-disable-next-line react/jsx-no-target-blank
-            target="_blank"
-            href={Links.cronLearnMore}>
-            documentation
-          </Link>{' '}
-          to learn more.
-        </>
-      );
+      return t('invalidCronExpressionMessage').format(Links.cronLearnMore);
     }
     return errorMessage;
   };
