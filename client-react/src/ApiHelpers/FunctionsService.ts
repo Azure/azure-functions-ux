@@ -12,8 +12,6 @@ import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
 import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
-import { NetAjaxSettings } from '../models/ajax-request-model';
-import PortalCommunicator from '../portal-communicator';
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -187,10 +185,6 @@ export default class FunctionsService {
       body: newFileContent,
       skipBatching: !!fileName,
     });
-  }
-
-  public static runFunction(portalContext: PortalCommunicator, settings: NetAjaxSettings) {
-    return portalContext.makeHttpRequestsViaPortal(settings);
   }
 
   public static getTestDataOverVfsArm(resourceId: string, fileEndpoint: string, runtimeVersion?: string) {

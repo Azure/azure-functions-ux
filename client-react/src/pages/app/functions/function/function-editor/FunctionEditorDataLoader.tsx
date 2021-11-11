@@ -21,7 +21,7 @@ import { LogCategories } from '../../../../../utils/LogCategories';
 import { VfsObject } from '../../../../../models/functions/vfs';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
-import { IDataMessageResult, KeyValue } from '../../../../../models/portal-models';
+import { KeyValue } from '../../../../../models/portal-models';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import StringUtils from '../../../../../utils/string';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
@@ -31,7 +31,6 @@ import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { Guid } from '../../../../../utils/Guid';
 import { NetAjaxSettings } from '../../../../../models/ajax-request-model';
 import { PortalContext } from '../../../../../PortalContext';
-import { Observable } from 'rxjs';
 import { isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
 
 interface FunctionEditorDataLoaderProps {
@@ -293,8 +292,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return headers;
   };
 
-  // Used to run both http and webHook functions
-  const runHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+  // Used to get settings for both http and webHook functions
+  const getSettingsToInvokeHttpFunction = (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string): NetAjaxSettings | undefined => {
     if (!!site) {
       let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
       let parsedTestData = {};
@@ -336,74 +335,72 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
       const headers = getHeaders(testDataObject.headers, xFunctionKey);
 
-      const settings: NetAjaxSettings = {
+      return {
         uri: url,
-        type: testDataObject.method,
+        type: testDataObject.method as string,
         headers,
       };
-
-      return FunctionsService.runFunction(portalContext, settings);
     }
     return undefined;
   };
 
-  // Used to run non-http and non-webHook functions
-  const runNonHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+  // Used to get settings for non-http and non-webHook functions
+  const getSettingsToInvokeNonHttpFunction = (
+    newFunctionInfo: ArmObj<FunctionInfo>,
+    xFunctionKey?: string
+  ): NetAjaxSettings | undefined => {
     if (!!site) {
       const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
       const headers = getHeaders([], xFunctionKey);
 
-      const settings: NetAjaxSettings = {
+      return {
         uri: url,
         type: 'POST',
         headers,
       };
-
-      return FunctionsService.runFunction(portalContext, settings);
     }
     return undefined;
   };
 
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
     setFunctionRunning(true);
+
     const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
     if (updatedFunctionInfo.metadata.success) {
       setFunctionInfo(updatedFunctionInfo.data);
     }
 
-    let runFunctionObservable: Observable<IDataMessageResult<any>> | undefined;
+    let settings: NetAjaxSettings | undefined;
+
     if (isHttpOrWebHookFunction) {
-      runFunctionObservable = await runHttpFunction(newFunctionInfo, xFunctionKey);
+      settings = getSettingsToInvokeHttpFunction(newFunctionInfo, xFunctionKey);
     } else {
-      runFunctionObservable = await runNonHttpFunction(newFunctionInfo, xFunctionKey);
+      settings = getSettingsToInvokeNonHttpFunction(newFunctionInfo, xFunctionKey);
     }
 
-    if (!!runFunctionObservable) {
+    if (!!settings) {
+      const runFunctionObservable = await portalContext.makeHttpRequestsViaPortal(settings);
       runFunctionObservable.subscribe(runFunctionResponse => {
         let resData = '';
-        if (!!runFunctionResponse) {
-          if (isPortalCommunicationStatusSuccess(runFunctionResponse.status)) {
-            resData = runFunctionResponse.result.content;
-          } else {
-            // NOTE(rkmitta): In case of failure, the error is returned in result.
-            resData = runFunctionResponse.result;
-            LogService.error(
-              LogCategories.FunctionEdit,
-              'runFunction',
-              `Failed to run function: ${getErrorMessageOrStringify(runFunctionResponse.result)}`
-            );
-          }
-
-          setResponseContent({
-            code: runFunctionResponse.result.jqXHR.status,
-            text: resData,
-          });
+        if (isPortalCommunicationStatusSuccess(runFunctionResponse.status)) {
+          resData = runFunctionResponse.result.content;
+        } else {
+          // NOTE(rkmitta): In case of failure, the error is returned in result.
+          resData = runFunctionResponse.result;
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'runFunction',
+            `Failed to run function: ${getErrorMessageOrStringify(runFunctionResponse.result)}`
+          );
         }
+
+        setResponseContent({
+          code: runFunctionResponse.result.jqXHR.status,
+          text: resData,
+        });
 
         setFunctionRunning(false);
       });
-    } else {
-      setFunctionRunning(false);
     }
   };
 
