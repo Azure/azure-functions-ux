@@ -23,7 +23,6 @@ import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { IDataMessageResult, KeyValue } from '../../../../../models/portal-models';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
-import { HttpResponseObject } from '../../../../../ArmHelper.types';
 import StringUtils from '../../../../../utils/string';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
