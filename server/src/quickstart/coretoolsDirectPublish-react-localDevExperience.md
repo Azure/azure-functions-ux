@@ -4,7 +4,7 @@ Before you can get started, you should <a href="https://go.microsoft.com/fwlink/
 
 Run the following command to install the Core Tools package:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### Create an Azure Functions project

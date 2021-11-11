@@ -4,7 +4,7 @@ Voordat u aan de slag kunt gaan, moet u <a href="https://go.microsoft.com/fwlink
 
 Voer de volgende opdracht uit om het Core Tools-pakket te installeren:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### <a name="create-an-azure-functions-project"></a>Een Azure Functions-project maken
