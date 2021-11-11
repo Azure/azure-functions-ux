@@ -21,11 +21,11 @@ export const messageBannerStyles = (isCustomIcon: boolean, undocked?: boolean) =
     },
     icon: {},
     dismissal: {
-      height: '15px',
-      width: '15px',
+      height: '16px',
+      width: '16px',
       position: 'relative' as 'relative',
-      top: '2px',
-      right: '13px',
+      top: '8px',
+      right: '15px',
     },
   };
   if (undocked) {
