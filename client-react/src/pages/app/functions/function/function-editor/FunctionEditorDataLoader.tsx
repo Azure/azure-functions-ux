@@ -383,7 +383,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         let resData = '';
         if (!!runFunctionResponse) {
           if (isPortalCommunicationStatusSuccess(runFunctionResponse.status)) {
-            resData = runFunctionResponse.result;
+            resData = runFunctionResponse.result.content;
           } else {
             // NOTE(rkmitta): In case of failure, the error is returned in result.
             resData = runFunctionResponse.result;
@@ -393,12 +393,12 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
               `Failed to run function: ${getErrorMessageOrStringify(runFunctionResponse.result)}`
             );
           }
-        }
 
-        setResponseContent({
-          code: 200,
-          text: resData,
-        });
+          setResponseContent({
+            code: runFunctionResponse.result.jqXHR.status,
+            text: resData,
+          });
+        }
 
         setFunctionRunning(false);
       });
