@@ -1,6 +1,6 @@
 import { HostStatus } from './../models/functions/host-status';
 import { ArmArray, ArmObj, UntrackedArmObj } from './../models/arm-obj';
-import MakeArmCall, { getErrorMessageOrStringify } from './ArmHelper';
+import MakeArmCall from './ArmHelper';
 import { FunctionInfo } from '../models/functions/function-info';
 import { sendHttpRequest, getTextHeaders } from './HttpClient';
 import { FunctionTemplate } from '../models/functions/function-template';
@@ -10,10 +10,10 @@ import { Binding } from '../models/functions/binding';
 import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../models/functions/runtime-extension';
 import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
-import { Method } from 'axios';
 import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
-import LogService from '../utils/LogService';
+import { NetAjaxSettings } from '../models/ajax-request-model';
+import PortalCommunicator from '../portal-communicator';
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -189,11 +189,8 @@ export default class FunctionsService {
     });
   }
 
-  public static runFunction(url: string, method: Method, headers: KeyValue<string>, body: any, logCategory: string) {
-    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
-      LogService.error(logCategory, 'runFunction', `Failed to runFunction : ${getErrorMessageOrStringify(err)}`);
-      return undefined;
-    });
+  public static runFunction(portalContext: PortalCommunicator, settings: NetAjaxSettings) {
+    return portalContext.makeHttpRequestsViaPortal(settings);
   }
 
   public static getTestDataOverVfsArm(resourceId: string, fileEndpoint: string, runtimeVersion?: string) {

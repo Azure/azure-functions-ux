@@ -38,6 +38,7 @@ import { ThemeExtended } from './theme/SemanticColorsExtended';
 import { sendHttpRequest, getJsonHeaders } from './ApiHelpers/HttpClient';
 import { TelemetryInfo } from './models/telemetry';
 import { loadTheme } from '@fluentui/style-utilities';
+import { NetAjaxSettings } from './models/ajax-request-model';
 export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
@@ -174,6 +175,22 @@ export default class PortalCommunicator {
       first(),
       map((r: IDataMessage<IDataMessageResult<SpecCostQueryResult>>) => {
         return r.data.result;
+      })
+    );
+  }
+
+  public makeHttpRequestsViaPortal(query: NetAjaxSettings): Observable<IDataMessageResult<any>> {
+    const payload: IDataMessage<NetAjaxSettings> = {
+      operationId: Guid.newGuid(),
+      data: query,
+    };
+
+    PortalCommunicator.postMessage(Verbs.httpRequest, this.packageData(payload));
+    return this.operationStream.pipe(
+      filter(o => o.operationId === payload.operationId),
+      first(),
+      map((r: IDataMessage<IDataMessageResult<any>>) => {
+        return r.data;
       })
     );
   }

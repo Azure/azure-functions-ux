@@ -48,8 +48,10 @@ export interface IDataMessage<T> {
   data: T;
 }
 
+export type DataMessageStatus = 'success' | 'failed' | 'cancelled';
+
 export interface IDataMessageResult<T> {
-  status: 'success' | 'failed' | 'cancelled';
+  status: DataMessageStatus;
   result: T;
 }
 
@@ -97,6 +99,7 @@ export class Verbs {
   public static getAllSubscriptions = 'get-all-subscriptions';
   public static getSpecCosts = 'get-spec-costs';
   public static broadcastMessage = 'broadcast-message';
+  public static httpRequest = 'http-request-from-portal';
 
   public static hasPermission = 'has-permission';
   public static hasLock = 'has-lock';

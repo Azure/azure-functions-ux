@@ -19,7 +19,6 @@ import { Host } from '../../../../../models/functions/host';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { VfsObject } from '../../../../../models/functions/vfs';
-import { Method } from 'axios';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { KeyValue } from '../../../../../models/portal-models';
@@ -31,6 +30,10 @@ import { MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { Guid } from '../../../../../utils/Guid';
+import { NetAjaxSettings } from '../../../../../models/ajax-request-model';
+import { PortalContext } from '../../../../../PortalContext';
+import { Observable } from 'rxjs';
+import { isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -62,6 +65,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
+  const portalContext = useContext(PortalContext);
 
   const { t } = useTranslation();
 
@@ -333,7 +337,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
       const headers = getHeaders(testDataObject.headers, xFunctionKey);
 
-      return FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body, LogCategories.FunctionEdit);
+      const settings: NetAjaxSettings = {
+        uri: url,
+        type: testDataObject.method,
+        headers,
+      };
+
+      return FunctionsService.runFunction(portalContext, settings);
     }
     return undefined;
   };
@@ -343,13 +353,14 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     if (!!site) {
       const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
       const headers = getHeaders([], xFunctionKey);
-      return FunctionsService.runFunction(
-        url,
-        'POST',
+
+      const settings: NetAjaxSettings = {
+        uri: url,
+        type: 'POST',
         headers,
-        { input: newFunctionInfo.properties.test_data || '' },
-        LogCategories.FunctionEdit
-      );
+      };
+
+      return FunctionsService.runFunction(portalContext, settings);
     }
     return undefined;
   };
@@ -361,27 +372,40 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       setFunctionInfo(updatedFunctionInfo.data);
     }
 
-    let runResponse: HttpResponseObject<any> | undefined;
+    let runFunctionObservable: Observable<any> | undefined;
     if (isHttpOrWebHookFunction) {
-      runResponse = await runHttpFunction(newFunctionInfo, xFunctionKey);
+      runFunctionObservable = await runHttpFunction(newFunctionInfo, xFunctionKey);
     } else {
-      runResponse = await runNonHttpFunction(newFunctionInfo, xFunctionKey);
+      runFunctionObservable = await runNonHttpFunction(newFunctionInfo, xFunctionKey);
     }
 
-    if (!!runResponse) {
-      let resData = '';
-      if (runResponse.metadata.success) {
-        resData = runResponse.data;
-      } else {
-        resData = runResponse.metadata.error;
-      }
+    if (!!runFunctionObservable) {
+      runFunctionObservable.subscribe(runFunctionResponse => {
+        let resData = '';
+        if (!!runFunctionResponse) {
+          if (isPortalCommunicationStatusSuccess(runFunctionResponse.status)) {
+            resData = runFunctionResponse.result;
+          } else {
+            // NOTE(rkmitta): In case of failure, the error is returned in result.
+            resData = runFunctionResponse.result;
+            LogService.error(
+              LogCategories.FunctionEdit,
+              'runFunction',
+              `Failed to run function: ${getErrorMessageOrStringify(runFunctionResponse.result)}`
+            );
+          }
+        }
 
-      setResponseContent({
-        code: runResponse.metadata.status,
-        text: resData,
+        setResponseContent({
+          code: 200,
+          text: resData,
+        });
+
+        setFunctionRunning(false);
       });
+    } else {
+      setFunctionRunning(false);
     }
-    setFunctionRunning(false);
   };
 
   const getQueryString = (queries: NameValuePair[]): string => {
