@@ -379,29 +379,39 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
 
     if (!!settings) {
-      const runFunctionObservable = await portalContext.makeHttpRequestsViaPortal(settings);
-      runFunctionObservable.subscribe(runFunctionResponse => {
-        let resData = '';
-        if (isPortalCommunicationStatusSuccess(runFunctionResponse.status)) {
-          resData = runFunctionResponse.result.content;
-        } else {
-          // NOTE(rkmitta): In case of failure, the error is returned in result.
-          resData = runFunctionResponse.result;
+      const runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
+      const runFunctionResponseResult = runFunctionResponse.result;
+      const runFunctionResponseStatusCode = runFunctionResponseResult.jqXHR.status;
+
+      let resData = '';
+
+      if (isPortalCommunicationStatusSuccess(runFunctionResponse.status)) {
+        resData = runFunctionResponseResult.content;
+        // This is the result of the API call
+        if (runFunctionResponseStatusCode !== 200) {
           LogService.error(
             LogCategories.FunctionEdit,
             'runFunction',
-            `Failed to run function: ${getErrorMessageOrStringify(runFunctionResponse.result)}`
+            `Failed to run function: ${getErrorMessageOrStringify(runFunctionResponseResult)}`
           );
         }
+      } else {
+        // NOTE(krmitta): This happens when the http request on the portal fails for some reason,
+        // not the api returning the error
+        resData = runFunctionResponseResult;
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'makeHttpRequestForRunFunction',
+          `Http request from portal failed: ${getErrorMessageOrStringify(runFunctionResponseResult)}`
+        );
+      }
 
-        setResponseContent({
-          code: runFunctionResponse.result.jqXHR.status,
-          text: resData,
-        });
-
-        setFunctionRunning(false);
+      setResponseContent({
+        code: runFunctionResponseStatusCode,
+        text: resData,
       });
     }
+    setFunctionRunning(false);
   };
 
   const getQueryString = (queries: NameValuePair[]): string => {

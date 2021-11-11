@@ -180,20 +180,23 @@ export default class PortalCommunicator {
     );
   }
 
-  public makeHttpRequestsViaPortal(query: NetAjaxSettings): Observable<IDataMessageResult<any>> {
+  public makeHttpRequestsViaPortal(query: NetAjaxSettings): Promise<IDataMessageResult<any>> {
     const payload: IDataMessage<NetAjaxSettings> = {
       operationId: Guid.newGuid(),
       data: query,
     };
 
     PortalCommunicator.postMessage(Verbs.httpRequest, this.packageData(payload));
-    return this.operationStream.pipe(
-      filter(o => o.operationId === payload.operationId),
-      first(),
-      map((r: IDataMessage<IDataMessageResult<any>>) => {
-        return r.data;
-      })
-    );
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === payload.operationId),
+          first()
+        )
+        .subscribe((r: IDataMessage<IDataMessageResult<any>>) => {
+          resolve(r.data);
+        });
+    });
   }
 
   public getSubscription(subscriptionId: string): Observable<ISubscription> {
