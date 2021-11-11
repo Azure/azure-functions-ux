@@ -39,6 +39,7 @@ import { sendHttpRequest, getJsonHeaders } from './ApiHelpers/HttpClient';
 import { TelemetryInfo } from './models/telemetry';
 import { loadTheme } from '@fluentui/style-utilities';
 import { NetAjaxSettings } from './models/ajax-request-model';
+import { isPortalCommunicationStatusSuccess } from './utils/portal-utils';
 export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
@@ -337,7 +338,7 @@ export default class PortalCommunicator {
           first()
         )
         .subscribe((o: IDataMessage<IDataMessageResult<any>>) => {
-          if (o.data.status === 'success') {
+          if (isPortalCommunicationStatusSuccess(o.data.status)) {
             resolve(o.data.result.token);
           } else {
             return reject();
@@ -396,7 +397,7 @@ export default class PortalCommunicator {
           first()
         )
         .subscribe((o: IDataMessage<IDataMessageResult<CheckPermissionResponse>>) => {
-          if (o.data.status !== 'success') {
+          if (!isPortalCommunicationStatusSuccess(o.data.status)) {
             this.log({
               action: 'hasPermission',
               actionModifier: 'failed',
@@ -433,7 +434,7 @@ export default class PortalCommunicator {
           first()
         )
         .subscribe((o: IDataMessage<IDataMessageResult<CheckLockResponse>>) => {
-          if (o.data.status !== 'success') {
+          if (!isPortalCommunicationStatusSuccess(o.data.status)) {
             this.log({
               action: 'hasLock',
               actionModifier: 'failed',
