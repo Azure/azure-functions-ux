@@ -19,18 +19,19 @@ import { Host } from '../../../../../models/functions/host';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { VfsObject } from '../../../../../models/functions/vfs';
-import { Method } from 'axios';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { KeyValue } from '../../../../../models/portal-models';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
-import { HttpResponseObject } from '../../../../../ArmHelper.types';
 import StringUtils from '../../../../../utils/string';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { Guid } from '../../../../../utils/Guid';
+import { NetAjaxSettings } from '../../../../../models/ajax-request-model';
+import { PortalContext } from '../../../../../PortalContext';
+import { isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -62,6 +63,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
+  const portalContext = useContext(PortalContext);
 
   const { t } = useTranslation();
 
@@ -290,8 +292,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return headers;
   };
 
-  // Used to run both http and webHook functions
-  const runHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+  // Used to get settings for both http and webHook functions
+  const getSettingsToInvokeHttpFunction = (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string): NetAjaxSettings | undefined => {
     if (!!site) {
       let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
       let parsedTestData = {};
@@ -333,51 +335,79 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
       const headers = getHeaders(testDataObject.headers, xFunctionKey);
 
-      return FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body, LogCategories.FunctionEdit);
+      return {
+        uri: url,
+        type: testDataObject.method as string,
+        headers,
+      };
     }
     return undefined;
   };
 
-  // Used to run non-http and non-webHook functions
-  const runNonHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+  // Used to get settings for non-http and non-webHook functions
+  const getSettingsToInvokeNonHttpFunction = (
+    newFunctionInfo: ArmObj<FunctionInfo>,
+    xFunctionKey?: string
+  ): NetAjaxSettings | undefined => {
     if (!!site) {
       const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
       const headers = getHeaders([], xFunctionKey);
-      return FunctionsService.runFunction(
-        url,
-        'POST',
+
+      return {
+        uri: url,
+        type: 'POST',
         headers,
-        { input: newFunctionInfo.properties.test_data || '' },
-        LogCategories.FunctionEdit
-      );
+      };
     }
     return undefined;
   };
 
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
     setFunctionRunning(true);
+
     const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
     if (updatedFunctionInfo.metadata.success) {
       setFunctionInfo(updatedFunctionInfo.data);
     }
 
-    let runResponse: HttpResponseObject<any> | undefined;
+    let settings: NetAjaxSettings | undefined;
+
     if (isHttpOrWebHookFunction) {
-      runResponse = await runHttpFunction(newFunctionInfo, xFunctionKey);
+      settings = getSettingsToInvokeHttpFunction(newFunctionInfo, xFunctionKey);
     } else {
-      runResponse = await runNonHttpFunction(newFunctionInfo, xFunctionKey);
+      settings = getSettingsToInvokeNonHttpFunction(newFunctionInfo, xFunctionKey);
     }
 
-    if (!!runResponse) {
+    if (!!settings) {
+      const runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
+      const runFunctionResponseResult = runFunctionResponse.result;
+      const runFunctionResponseStatusCode = runFunctionResponseResult.jqXHR.status;
+
       let resData = '';
-      if (runResponse.metadata.success) {
-        resData = runResponse.data;
+
+      if (isPortalCommunicationStatusSuccess(runFunctionResponse.status)) {
+        resData = runFunctionResponseResult.content;
+        // This is the result of the API call
+        if (runFunctionResponseStatusCode !== 200) {
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'runFunction',
+            `Failed to run function: ${getErrorMessageOrStringify(runFunctionResponseResult)}`
+          );
+        }
       } else {
-        resData = runResponse.metadata.error;
+        // NOTE(krmitta): This happens when the http request on the portal fails for some reason,
+        // not the api returning the error
+        resData = runFunctionResponseResult;
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'makeHttpRequestForRunFunction',
+          `Http request from portal failed: ${getErrorMessageOrStringify(runFunctionResponseResult)}`
+        );
       }
 
       setResponseContent({
-        code: runResponse.metadata.status,
+        code: runFunctionResponseStatusCode,
         text: resData,
       });
     }
