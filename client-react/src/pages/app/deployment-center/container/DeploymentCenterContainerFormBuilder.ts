@@ -354,7 +354,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getAcrFormData(serverUrl: string, username: string, password: string, fxVersionParts: FxVersionParts): AcrFormData {
-    let acrCredentialType;
+    let acrCredentialType = ACRCredentialType.adminCredentials;
     if (!!this._siteConfig && !!this._siteConfig.properties) {
       acrCredentialType = this._siteConfig.properties.acrUseManagedIdentityCreds
         ? ACRCredentialType.managedIdentity
