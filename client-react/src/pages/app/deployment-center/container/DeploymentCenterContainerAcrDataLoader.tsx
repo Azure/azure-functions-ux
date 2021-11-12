@@ -29,8 +29,8 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const [subscription, setSubscription] = useState<string>(
     !!deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.subscription : ''
   );
-  const [acrUseManagedIdentities, setacrUseManagedIdentities] = useState<boolean>(
-    !!deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties
+  const [acrUseManagedIdentities, setAcrUseManagedIdentities] = useState<boolean>(
+    !!deploymentCenterContext.siteConfig && !!deploymentCenterContext.siteConfig.properties
       ? deploymentCenterContext.siteConfig.properties.acrUseManagedIdentityCreds
       : false
   );
@@ -404,7 +404,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   }, [subscription]);
 
   useEffect(() => {
-    setacrUseManagedIdentities(formProps.values.acrCredentialType === ACRCredentialType.managedIdentity);
+    setAcrUseManagedIdentities(formProps.values.acrCredentialType === ACRCredentialType.managedIdentity);
   }, [formProps.values.acrCredentialType]);
 
   return (
