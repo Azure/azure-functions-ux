@@ -32,7 +32,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const disableAllControls = !app_write || !editable || saving;
   const runtimeVersion =
     findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) || '';
-  const runtimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(runtimeVersion);
+  const runtimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersionWithV4(runtimeVersion);
   const isLinux = () => siteStateContext.isLinuxApp;
 
   const [runtimeStack, setRuntimeStack] = useState<string | undefined>(undefined);
