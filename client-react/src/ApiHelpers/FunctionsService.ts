@@ -10,7 +10,6 @@ import { Binding } from '../models/functions/binding';
 import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../models/functions/runtime-extension';
 import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
-import { Method } from 'axios';
 import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
 
@@ -188,18 +187,6 @@ export default class FunctionsService {
     });
   }
 
-  public static runFunction(url: string, method: Method, headers: KeyValue<string>, body: any) {
-    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
-      return this.tryPassThroughController(err, url, method, headers, body);
-    });
-  }
-
-  public static getDataFromFunctionHref(url: string, method: Method, headers: KeyValue<string>, body?: any) {
-    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
-      return this.tryPassThroughController(err, url, method, headers, body);
-    });
-  }
-
   public static getTestDataOverVfsArm(resourceId: string, fileEndpoint: string, runtimeVersion?: string) {
     const headers = FunctionsService._addOrGetVfsHeaders();
     let uri;
@@ -242,16 +229,6 @@ export default class FunctionsService {
       url: `${Url.serviceHost}/api/getStorageFileShares?accountName=${accountName}`,
       method: 'POST',
     });
-  }
-
-  private static tryPassThroughController(err: any, url: string, method: Method, headers: KeyValue<string>, body: any) {
-    const passthroughBody = {
-      url,
-      headers,
-      method,
-      body,
-    };
-    return sendHttpRequest({ url: `${Url.serviceHost}api/passthrough`, method: 'POST', data: passthroughBody });
   }
 
   private static _getVfsApiForRuntimeVersion(endpoint: string, runtimeVersion?: string) {

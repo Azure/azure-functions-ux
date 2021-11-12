@@ -62,6 +62,7 @@ export interface FunctionEditorProps {
   isUploadingFile: boolean;
   setIsUploadingFile: (isUploadingFile: boolean) => void;
   refreshFileList: () => void;
+  addCorsRule: (corsRule: string) => void;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
@@ -90,6 +91,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setIsUploadingFile,
     refreshFileList,
     workerRuntime,
+    addCorsRule,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -550,6 +552,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           urlObjs={urlObjs}
           xFunctionKey={xFunctionKey}
           getFunctionUrl={getFunctionUrl}
+          addCorsRule={addCorsRule}
         />
       </CustomPanel>
       {isLoading() && <LoadingComponent />}

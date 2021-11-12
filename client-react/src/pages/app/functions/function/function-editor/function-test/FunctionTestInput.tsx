@@ -149,7 +149,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
 
   return (
     <div className={pivotItemWrapper}>
-      {t('functionTestInputDescription')}
+      {isHttpOrWebHookFunction ? t('functionTestInputDescriptionForHttp') : t('functionTestInputDescription')}
       {isHttpOrWebHookFunction && (
         <div className={functionTestGroupStyle}>
           <Field
