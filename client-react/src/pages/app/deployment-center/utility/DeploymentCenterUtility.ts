@@ -346,7 +346,8 @@ const isAcrSettingsDirty = (formProps: FormikProps<DeploymentCenterFormData<Depl
     formProps.values.acrLoginServer !== formProps.initialValues.acrLoginServer ||
     formProps.values.acrImage !== formProps.initialValues.acrImage ||
     formProps.values.acrTag !== formProps.initialValues.acrTag ||
-    formProps.values.acrComposeYml !== formProps.initialValues.acrComposeYml
+    formProps.values.acrComposeYml !== formProps.initialValues.acrComposeYml ||
+    formProps.values.acrCredentialType !== formProps.initialValues.acrCredentialType
   );
 };
 

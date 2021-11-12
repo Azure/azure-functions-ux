@@ -10,6 +10,7 @@ import {
   AcrFormData,
   DockerHubFormData,
   PrivateRegistryFormData,
+  ACRCredentialType,
 } from '../DeploymentCenter.types';
 import * as Yup from 'yup';
 import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
@@ -108,6 +109,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       acrPassword: Yup.mixed().notRequired(),
       acrResourceId: Yup.mixed().notRequired(),
       acrLocation: Yup.mixed().notRequired(),
+      acrCredentialType: Yup.mixed().notRequired(),
     };
   }
 
@@ -352,6 +354,13 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getAcrFormData(serverUrl: string, username: string, password: string, fxVersionParts: FxVersionParts): AcrFormData {
+    let acrCredentialType = ACRCredentialType.adminCredentials;
+    if (!!this._siteConfig && !!this._siteConfig.properties) {
+      acrCredentialType = this._siteConfig.properties.acrUseManagedIdentityCreds
+        ? ACRCredentialType.managedIdentity
+        : ACRCredentialType.adminCredentials;
+    }
+
     if (this._isAcrConfigured(serverUrl)) {
       return {
         acrLoginServer: fxVersionParts.server,
@@ -362,6 +371,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         acrPassword: password,
         acrResourceId: '',
         acrLocation: '',
+        acrCredentialType,
       };
     } else {
       return {
@@ -373,6 +383,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         acrPassword: '',
         acrResourceId: '',
         acrLocation: '',
+        acrCredentialType,
       };
     }
   }
