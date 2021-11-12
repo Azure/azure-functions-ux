@@ -4,7 +4,7 @@ Başlayabilmek için önce npm'yi içeren <a href="https://go.microsoft.com/fwli
 
 Core Tools paketini yüklemek için şu komutu çalıştırın:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### <a name="create-an-azure-functions-project"></a>Azure İşlevleri projesi oluşturma
