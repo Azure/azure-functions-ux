@@ -2357,4 +2357,5 @@ export class PortalResources {
   public static managedIdentity = 'managedIdentity';
   public static functionTestInputDescription = 'functionTestInputDescription';
   public static missingCorsMessage = 'missingCorsMessage';
+  public static invalidCronExpressionMessage = 'invalidCronExpressionMessage';
 }

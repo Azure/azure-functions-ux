@@ -7211,4 +7211,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="missingCorsMessage" xml:space="preserve">
         <value>Your app is missing the CORS rule, '{0}'. Click here to add the rule to test the function from the browser.</value>
     </data>
+    <data name="invalidCronExpressionMessage" xml:space="preserve">
+        <value>Invalid Cron Expression. Please consult the &lt;a href="{0}" target="_blank"&gt;documentation&lt;/a&gt; to learn more.</value>
+    </data>
 </root>
