@@ -6109,7 +6109,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Deployment Details]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Detail Penyebaran]]></Val>
+            <Val><![CDATA[Deployment Details]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13208,6 +13208,15 @@
           <Val><![CDATA[Minor version]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Versi minor]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";missingCorsMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your app is missing the CORS rule, '{0}'. Click here to add the rule to test the function from the browser.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Aplikasi Anda tidak memiliki aturan CORS, '{0}'. Klik di sini untuk menambahkan aturan guna menguji fungsi dari browser.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
