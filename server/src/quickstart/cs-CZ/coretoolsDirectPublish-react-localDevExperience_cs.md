@@ -4,7 +4,7 @@ Než začnete, měli byste si <a href="https://go.microsoft.com/fwlink/?linkid=2
 
 Spuštěním následujícího příkazu nainstalujte balíček Core Tools:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### <a name="create-an-azure-functions-project"></a>Vytvoření projektu služby Azure Functions
