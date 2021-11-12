@@ -1,6 +1,6 @@
 import React, { FC, useContext, useState } from 'react';
 import { TextField as OfficeTextField, ITextFieldProps } from '@fluentui/react';
-import ReactiveFormControl, { Layout } from './ReactiveFormControl';
+import ReactiveFormControl from './ReactiveFormControl';
 import { useWindowSize } from 'react-use';
 import { ThemeContext } from '../../ThemeContext';
 import { textFieldStyleOverrides, copyButtonStyle } from './formControl.override.styles';
@@ -8,20 +8,8 @@ import { TooltipHost, Stack, IButton } from '@fluentui/react';
 import IconButton from '../IconButton/IconButton';
 import { useTranslation } from 'react-i18next';
 import { TextUtilitiesService } from '../../utils/textUtilities';
+import { CustomTextFieldProps } from './TextField';
 
-interface CustomTextFieldProps {
-  id: string;
-  upsellMessage?: string;
-  infoBubbleMessage?: string;
-  label?: string;
-  learnMoreLink?: string;
-  dirty?: boolean;
-  widthOverride?: string;
-  copyButton?: boolean;
-  formControlClassName?: string;
-  additionalControls?: JSX.Element[];
-  layout?: Layout;
-}
 const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   const {
     value,

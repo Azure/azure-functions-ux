@@ -24,7 +24,8 @@ export const messageBannerStyles = (isCustomIcon: boolean, undocked?: boolean) =
       height: '16px',
       width: '16px',
       position: 'relative' as 'relative',
-      right: '0px',
+      top: '8px',
+      right: '15px',
     },
   };
   if (undocked) {
