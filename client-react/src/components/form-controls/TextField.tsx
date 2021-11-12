@@ -37,9 +37,9 @@ const TextField: React.FC<FieldProps & ITextFieldProps & CustomTextFieldProps> =
 
   // TODO (refortie): Temporary hard-coding of the documentation link.
   // Remove this once we get the API update so that errors have learn more
-  const cronErrorMessage = (errorMessage: string): string => {
+  const cronErrorMessage = (errorMessage: string): string | JSX.Element => {
     if (errorMessage.includes('Invalid Cron Expression')) {
-      return t('invalidCronExpressionMessage').format(Links.cronLearnMore);
+      return <span dangerouslySetInnerHTML={{ __html: t('invalidCronExpressionMessage').format(Links.cronLearnMore) }} />;
     }
     return errorMessage;
   };
