@@ -60,6 +60,7 @@ export class CommonConstants {
     disablePortalEditing: 'disablePortalEditing',
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
+    makeCallThroughPortal: 'makeCallThroughPortal',
   };
 
   public static readonly AppDensityLimit = 8;
