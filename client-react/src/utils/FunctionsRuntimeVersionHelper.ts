@@ -29,6 +29,19 @@ export class FunctionsRuntimeVersionHelper {
     }
   };
 
+  // TODO (krmitta): Remove this when we start using the stack API for runtime-version
+  public static getFunctionsRuntimeMajorVersionWithV4 = (runtimeVersion: string | null) => {
+    switch (runtimeVersion) {
+      case RuntimeExtensionMajorVersions.v1:
+      case RuntimeExtensionMajorVersions.v2:
+      case RuntimeExtensionMajorVersions.v3:
+      case RuntimeExtensionMajorVersions.v4:
+        return runtimeVersion;
+      default:
+        return RuntimeExtensionMajorVersions.custom;
+    }
+  };
+
   public static parseExactRuntimeVersion = (exactRuntimeVersion: string | null) => {
     return parseRuntimeVersion(exactRuntimeVersion);
   };
