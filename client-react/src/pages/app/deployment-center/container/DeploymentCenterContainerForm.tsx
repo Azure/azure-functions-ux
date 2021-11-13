@@ -11,6 +11,7 @@ import {
   WorkflowOption,
   ContainerDockerAccessTypes,
   ACRCredentialType,
+  ACRManagedIdentityType,
 } from '../DeploymentCenter.types';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
@@ -611,6 +612,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       acrLoginServer,
       privateRegistryServerUrl,
       acrCredentialType,
+      acrManagedIdentityType,
     } = values;
     const requestId = Guid.newGuid();
     const deploymentProperties: KeyValue<any> = {
@@ -624,6 +626,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       option,
       acrLoginServer,
       acrUseManagedIdentities: acrCredentialType === ACRCredentialType.managedIdentity,
+      acrUserManagedIdentityID: acrManagedIdentityType === ACRManagedIdentityType.systemAssigned ? null : acrManagedIdentityType,
       privateRegistryServerUrl,
       publishType: 'container',
       appType: siteContext.isFunctionApp ? 'functionApp' : 'webApp',

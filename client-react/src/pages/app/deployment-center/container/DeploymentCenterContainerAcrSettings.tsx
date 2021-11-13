@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { ACRCredentialType, ContainerOptions, DeploymentCenterContainerAcrSettingsProps } from '../DeploymentCenter.types';
+import {
+  ACRCredentialType,
+  ACRManagedIdentityType,
+  ContainerOptions,
+  DeploymentCenterContainerAcrSettingsProps,
+} from '../DeploymentCenter.types';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
@@ -27,6 +32,8 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     loadingImageOptions,
     loadingTagOptions,
     acrSubscription,
+    acrUseManagedIdentities,
+    managedIdentityOptions,
     fetchRegistriesInSub,
   } = props;
   const { t } = useTranslation();
@@ -102,6 +109,15 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
           { key: ACRCredentialType.managedIdentity, text: t('managedIdentity') },
         ]}
         displayInVerticalLayout={false}
+      />
+      <Field
+        id="container-acr-managed-identities-type"
+        label={t('identity')}
+        name="acrManagedIdentityType"
+        component={ComboBox}
+        selectedKey={ACRManagedIdentityType.systemAssigned}
+        options={managedIdentityOptions}
+        disabled={!acrUseManagedIdentities}
       />
     </>
   ) : (

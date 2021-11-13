@@ -1,8 +1,13 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { DeploymentCenterFieldProps, DeploymentCenterContainerFormData, ACRCredentialType } from '../DeploymentCenter.types';
+import {
+  DeploymentCenterFieldProps,
+  DeploymentCenterContainerFormData,
+  ACRCredentialType,
+  ACRManagedIdentityType,
+} from '../DeploymentCenter.types';
 import DeploymentCenterContainerAcrSettings from './DeploymentCenterContainerAcrSettings';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { IDropdownOption, MessageBarType } from '@fluentui/react';
+import { IComboBoxOption, IDropdownOption, MessageBarType, SelectableOptionMenuItemType } from '@fluentui/react';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ACRCredential, ACRRepositories, ACRTags } from '../../../../models/acr';
@@ -44,6 +49,11 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const [loadingTagOptions, setLoadingTagOptions] = useState(false);
   const registryIdentifiers = useRef<{ [key: string]: RegistryIdentifiers }>({});
   const [subscriptionOptions, setSubscriptionOptions] = useState<IDropdownOption[]>([]);
+  const [managedIdentityOptions, setManagedIdentityOptions] = useState<IComboBoxOption[]>([
+    { key: ACRManagedIdentityType.systemAssigned, text: t('systemAssigned') },
+    // { key: 'divider', text: '-', itemType: SelectableOptionMenuItemType.Divider },
+    { key: ACRManagedIdentityType.userAssigned, text: t('userAssigned'), itemType: SelectableOptionMenuItemType.Header },
+  ]);
 
   const fetchData = () => {
     fetchAllSubscriptions();
@@ -405,7 +415,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
   useEffect(() => {
     setAcrUseManagedIdentities(formProps.values.acrCredentialType === ACRCredentialType.managedIdentity);
+    setManagedIdentityOptions(managedIdentityOptions);
   }, [formProps.values.acrCredentialType]);
+
+  useEffect(() => {}, [formProps.values.acrManagedIdentityType]);
 
   return (
     <DeploymentCenterContainerAcrSettings
@@ -423,6 +436,8 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       acrStatusMessage={acrStatusMessage}
       acrStatusMessageType={acrStatusMessageType}
       acrSubscription={subscription}
+      acrUseManagedIdentities={acrUseManagedIdentities}
+      managedIdentityOptions={managedIdentityOptions}
     />
   );
 };

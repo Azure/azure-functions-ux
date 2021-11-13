@@ -2358,4 +2358,6 @@ export class PortalResources {
   public static functionTestInputDescription = 'functionTestInputDescription';
   public static missingCorsMessage = 'missingCorsMessage';
   public static invalidCronExpressionMessage = 'invalidCronExpressionMessage';
+  public static systemAssigned = 'systemAssigned';
+  public static userAssigned = 'userAssigned';
 }
