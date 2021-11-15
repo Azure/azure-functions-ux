@@ -131,5 +131,9 @@ export default class Url {
     return CommonConstants.PortalUris.public;
   }
 
+  public static isFeatureFlagEnabled = (flag: string): boolean => {
+    return Url.getFeatureValue(flag) === 'true';
+  };
+
   private static queryStrings: KeyValue<string>;
 }

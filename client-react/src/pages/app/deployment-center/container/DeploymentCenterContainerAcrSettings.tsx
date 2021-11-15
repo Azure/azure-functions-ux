@@ -97,7 +97,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
   // Now in case if the user chooses to use an existing workflow file in their repo, we would still need to get the
   // target registry url, username, and password to update the app settings, but no workflow update is needed.
 
-  const acrManagedIdentitiesComponent = Url.getFeatureValue(CommonConstants.FeatureFlags.enableACRManagedIdentities) ? (
+  const acrManagedIdentitiesComponent = Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.enableACRManagedIdentities) ? (
     <>
       <Field
         id="container-acr-credentials"

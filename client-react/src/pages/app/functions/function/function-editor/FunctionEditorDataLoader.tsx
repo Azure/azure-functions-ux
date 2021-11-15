@@ -379,39 +379,70 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
 
     if (!!settings) {
-      const runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
-      const runFunctionResponseResult = runFunctionResponse.result;
-      const runFunctionResponseStatusCode = runFunctionResponseResult.jqXHR.status;
+      let response: ResponseContent = { code: 0, text: '' };
 
-      let resData = '';
-
-      if (isPortalCommunicationStatusSuccess(runFunctionResponse.status)) {
-        resData = runFunctionResponseResult.content;
-        // This is the result of the API call
-        if (runFunctionResponseStatusCode !== 200) {
-          LogService.error(
-            LogCategories.FunctionEdit,
-            'runFunction',
-            `Failed to run function: ${getErrorMessageOrStringify(runFunctionResponseResult)}`
-          );
-        }
+      if (Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.makeCallThroughPortal)) {
+        response = await runUsingPortal(settings);
       } else {
-        // NOTE(krmitta): This happens when the http request on the portal fails for some reason,
-        // not the api returning the error
-        resData = runFunctionResponseResult;
-        LogService.error(
-          LogCategories.FunctionEdit,
-          'makeHttpRequestForRunFunction',
-          `Http request from portal failed: ${getErrorMessageOrStringify(runFunctionResponseResult)}`
-        );
+        response = await runUsingPassthrough(settings);
       }
 
       setResponseContent({
-        code: runFunctionResponseStatusCode,
-        text: resData,
+        code: response.code,
+        text: response.text,
       });
     }
     setFunctionRunning(false);
+  };
+
+  const runUsingPassthrough = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
+    let response: ResponseContent = { code: 0, text: '' };
+
+    const runFunctionResponse = await FunctionsService.runFunction(settings);
+    response.code = runFunctionResponse.metadata.status;
+    if (runFunctionResponse.metadata.success) {
+      response.text = runFunctionResponse.data as string;
+    } else {
+      response.text = runFunctionResponse.metadata.error;
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'runFunction',
+        `Failed to runFunction: ${getErrorMessageOrStringify(runFunctionResponse.metadata.error)}`
+      );
+    }
+
+    return response;
+  };
+
+  const runUsingPortal = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
+    let response: ResponseContent = { code: 0, text: '' };
+
+    const runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
+    const runFunctionResponseResult = runFunctionResponse.result;
+    response.code = runFunctionResponseResult.jqXHR.status;
+
+    if (isPortalCommunicationStatusSuccess(runFunctionResponse.status)) {
+      response.text = runFunctionResponseResult.content;
+      // This is the result of the API call
+      if (response.code !== 200) {
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'runFunction',
+          `Failed to run function: ${getErrorMessageOrStringify(runFunctionResponseResult)}`
+        );
+      }
+    } else {
+      // NOTE(krmitta): This happens when the http request on the portal fails for some reason,
+      // not the api returning the error
+      response.text = runFunctionResponseResult;
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'makeHttpRequestForRunFunction',
+        `Http request from portal failed: ${getErrorMessageOrStringify(runFunctionResponseResult)}`
+      );
+    }
+
+    return response;
   };
 
   const getQueryString = (queries: NameValuePair[]): string => {
