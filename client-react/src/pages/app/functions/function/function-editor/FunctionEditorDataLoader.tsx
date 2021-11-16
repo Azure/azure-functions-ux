@@ -513,7 +513,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
       // Note (krmitta): Almost always we should be able to get the test_data through VFS Arm.
       // Adding the below fallback logic just on the off-chance that it doesn't.
-      if (!testDataResponseSuccess) {
+      if (!testDataResponseSuccess && !Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.makeCallThroughPortal)) {
         const headers = getAuthorizationHeaders();
         const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(
           functionInfo.properties.test_data_href,
