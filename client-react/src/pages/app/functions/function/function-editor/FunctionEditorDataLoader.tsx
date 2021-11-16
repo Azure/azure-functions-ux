@@ -28,10 +28,10 @@ import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
-import { Guid } from '../../../../../utils/Guid';
 import { NetAjaxSettings } from '../../../../../models/ajax-request-model';
 import { PortalContext } from '../../../../../PortalContext';
 import { isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
+import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -280,7 +280,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const getHeaders = (testHeaders: NameValuePair[], xFunctionKey?: string): KeyValue<string> => {
-    const headers = { 'x-ms-client-request-id': Guid.newGuid() };
+    const headers = getJsonHeaders();
     testHeaders.forEach(h => {
       headers[h.name] = h.value;
     });
