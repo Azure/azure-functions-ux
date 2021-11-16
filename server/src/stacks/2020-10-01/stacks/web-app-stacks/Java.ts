@@ -961,6 +961,6 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
   };
 };
 
-export const javaStackNonIsoDates: WebAppStack = getJavaStack(true);
+export const javaStackNonIsoDates: WebAppStack = getJavaStack(false);
 
 export const javaStack: WebAppStack = getJavaStack(true);
