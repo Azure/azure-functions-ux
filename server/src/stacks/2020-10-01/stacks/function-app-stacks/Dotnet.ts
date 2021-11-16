@@ -15,6 +15,7 @@ export const dotnetStack: FunctionAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v6.0',
+              isDefault: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -34,6 +35,7 @@ export const dotnetStack: FunctionAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNET|6.0',
+              isDefault: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -168,7 +170,6 @@ export const dotnetStack: FunctionAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '3.1',
-              isDefault: true,
               appInsightsSettings: {
                 isSupported: true,
               },
@@ -187,7 +188,6 @@ export const dotnetStack: FunctionAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'dotnet|3.1',
-              isDefault: true,
               appInsightsSettings: {
                 isSupported: true,
               },
