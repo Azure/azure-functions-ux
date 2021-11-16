@@ -484,20 +484,49 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
+  const getAuthorizationHeaders = (): KeyValue<string> => {
+    return {
+      Authorization: `Bearer ${startupInfoContext.token}`,
+      FunctionsPortal: '1',
+    };
+  };
+
   const getAndSetTestData = async () => {
     if (!!functionInfo && !!site && !!functionInfo.properties.test_data_href) {
       const testDataHrefObjects = functionInfo.properties.test_data_href.split('/vfs/');
+      let testDataResponseSuccess = false;
       let testData;
 
       if (testDataHrefObjects.length === 2) {
         const vfsArmTestDataResponse = await FunctionsService.getTestDataOverVfsArm(site.id, testDataHrefObjects[1], runtimeVersion);
         if (vfsArmTestDataResponse.metadata.success) {
           testData = vfsArmTestDataResponse.data;
+          testDataResponseSuccess = true;
         } else {
           LogService.error(
             LogCategories.FunctionEdit,
             'GetTestDataUsingVfsApi',
             `Failed to get test data from VFS API: ${getErrorMessageOrStringify(vfsArmTestDataResponse.metadata.error)}`
+          );
+        }
+      }
+
+      // Note (krmitta): Almost always we should be able to get the test_data through VFS Arm.
+      // Adding the below fallback logic just on the off-chance that it doesn't.
+      if (!testDataResponseSuccess) {
+        const headers = getAuthorizationHeaders();
+        const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(
+          functionInfo.properties.test_data_href,
+          'GET',
+          headers
+        );
+        if (functionHrefTestDataResponse.metadata.success) {
+          testData = functionHrefTestDataResponse.data;
+        } else {
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'GetTestDataUsingFunctionHref',
+            `Failed to get test data: ${getErrorMessageOrStringify(functionHrefTestDataResponse.metadata.error)}`
           );
         }
       }
