@@ -338,7 +338,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       return {
         uri: url,
         type: testDataObject.method as string,
-        headers,
+        headers: headers,
+        data: testDataObject.body,
       };
     }
     return undefined;
@@ -356,7 +357,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       return {
         uri: url,
         type: 'POST',
-        headers,
+        headers: headers,
+        data: { input: newFunctionInfo.properties.test_data || '' },
       };
     }
     return undefined;
