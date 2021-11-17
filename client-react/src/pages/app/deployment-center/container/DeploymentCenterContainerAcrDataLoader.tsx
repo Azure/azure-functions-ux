@@ -51,7 +51,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const [subscriptionOptions, setSubscriptionOptions] = useState<IDropdownOption[]>([]);
   const [managedIdentityOptions, setManagedIdentityOptions] = useState<IComboBoxOption[]>([
     { key: ACRManagedIdentityType.systemAssigned, text: t('systemAssigned') },
-    // { key: 'divider', text: '-', itemType: SelectableOptionMenuItemType.Divider },
     { key: ACRManagedIdentityType.userAssigned, text: t('userAssigned'), itemType: SelectableOptionMenuItemType.Header },
   ]);
 
@@ -346,6 +345,23 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     }
   };
 
+  const fetchUserAssignedIdentities = async () => {
+    const response = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
+
+    if (response.metadata.success) {
+      if (!!response.data.identity && !!response.data.identity.userAssignedIdentities) {
+        const userAssignedIdentities = response.data.identity.userAssignedIdentities;
+
+        for (const id in userAssignedIdentities) {
+          const idSplit = id.split('/');
+          const identityName = idSplit[idSplit.length - 1];
+          const clientId = userAssignedIdentities[id]['clientId'];
+          managedIdentityOptions.push({ key: clientId, text: identityName });
+        }
+      }
+    }
+  };
+
   const getAcrNameFromLoginServer = (loginServer: string): string => {
     if (!!loginServer) {
       const loginServerParts = loginServer.split('.');
@@ -416,9 +432,11 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   useEffect(() => {
     setAcrUseManagedIdentities(formProps.values.acrCredentialType === ACRCredentialType.managedIdentity);
     setManagedIdentityOptions(managedIdentityOptions);
+    if (acrUseManagedIdentities) {
+      fetchUserAssignedIdentities();
+    } else {
+    }
   }, [formProps.values.acrCredentialType]);
-
-  useEffect(() => {}, [formProps.values.acrManagedIdentityType]);
 
   return (
     <DeploymentCenterContainerAcrSettings

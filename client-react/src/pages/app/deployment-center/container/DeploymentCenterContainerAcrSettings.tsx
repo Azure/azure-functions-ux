@@ -115,7 +115,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         label={t('identity')}
         name="acrManagedIdentityType"
         component={ComboBox}
-        selectedKey={ACRManagedIdentityType.systemAssigned}
+        defaultSelectedKey={ACRManagedIdentityType.systemAssigned}
         options={managedIdentityOptions}
         disabled={!acrUseManagedIdentities}
       />

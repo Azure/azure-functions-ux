@@ -45,6 +45,10 @@ export default class DeploymentCenterData {
     return SiteService.resetPublishProfile(resourceId);
   };
 
+  public fetchSite = (resourceId: string) => {
+    return SiteService.fetchSite(resourceId);
+  };
+
   public getSiteConfig = (resourceId: string) => {
     return SiteService.fetchWebConfig(resourceId);
   };

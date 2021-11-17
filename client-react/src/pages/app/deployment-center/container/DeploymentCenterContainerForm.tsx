@@ -291,6 +291,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     if (siteConfigResponse.metadata.success) {
       siteConfigResponse.data.properties.appCommandLine = values.command;
       siteConfigResponse.data.properties.acrUseManagedIdentityCreds = values.acrCredentialType === ACRCredentialType.managedIdentity;
+      siteConfigResponse.data.properties.acrUserManagedIdentityID =
+        values.acrManagedIdentityType === ACRManagedIdentityType.systemAssigned ? null : values.acrManagedIdentityType;
 
       if (values.scmType !== ScmType.GitHubAction) {
         if (siteContext.isLinuxApp) {
@@ -601,19 +603,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   };
 
   const updateDeploymentConfigurations = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
-    const {
-      scmType,
-      org,
-      repo,
-      branch,
-      workflowOption,
-      registrySource,
-      option,
-      acrLoginServer,
-      privateRegistryServerUrl,
-      acrCredentialType,
-      acrManagedIdentityType,
-    } = values;
+    const { scmType, org, repo, branch, workflowOption, registrySource, option, acrLoginServer, privateRegistryServerUrl } = values;
     const requestId = Guid.newGuid();
     const deploymentProperties: KeyValue<any> = {
       sourceProvider: scmType,
@@ -625,8 +615,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       registrySource,
       option,
       acrLoginServer,
-      acrUseManagedIdentities: acrCredentialType === ACRCredentialType.managedIdentity,
-      acrUserManagedIdentityID: acrManagedIdentityType === ACRManagedIdentityType.systemAssigned ? null : acrManagedIdentityType,
       privateRegistryServerUrl,
       publishType: 'container',
       appType: siteContext.isFunctionApp ? 'functionApp' : 'webApp',
