@@ -1,5 +1,6 @@
 import { map } from 'rxjs/operators';
 import PortalCommunicator from '../portal-communicator';
+import { isQuotaIdPresent } from './billing-utils';
 
 export class BillingService {
   private _portalCommunicator: PortalCommunicator;
@@ -13,7 +14,7 @@ export class BillingService {
       .getSubscription(subscriptionId)
       .pipe(
         map(s => {
-          return !!s && !!s.subscriptionPolicies && s.subscriptionPolicies.quotaId.toLowerCase() === quotaId.toLowerCase();
+          return isQuotaIdPresent(s, quotaId);
         })
       )
       .toPromise();
