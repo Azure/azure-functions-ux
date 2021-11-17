@@ -86,6 +86,7 @@ export class CommonConstants {
     serviceLinkerPrefix: 'resourceconnector_',
     enableOryxBuild: 'ENABLE_ORYX_BUILD',
     azureFilesSettingName: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING',
+    azureWebJobsSecretStorageType: 'AzureWebJobsSecretStorageType',
   };
 
   public static readonly SkuNames = {
@@ -251,4 +252,18 @@ export enum OverflowBehavior {
 
 export enum TextFieldType {
   password = 'password',
+}
+
+export class SubscriptionQuotaIds {
+  public static azurePassQuotaId: string = 'AzurePass_2014-09-01';
+  public static azureStudentQuotaId: string = 'AzureForStudents_2018-01-01';
+  public static dreamSparkQuotaId: string = 'DreamSpark_2015-02-01';
+  public static freeTrialQuotaId: string = 'FreeTrial_2014-09-01';
+  public static artemisQuotaId: string = 'CSP_2015-05-01';
+  public static bizSparkQuotaId: string = 'BizSpark_2014-09-01';
+  public static sponsoredQuotaId: string = 'Sponsored_2016-01-01';
+  public static lrsQuotaId: string = 'LightweightTrial_2016-09-01';
+  public static enterpriseAgreementQuotaId: string = 'EnterpriseAgreement_2014-09-01';
+  public static payAsYouGoQuotaId: string = 'PayAsYouGo_2014-09-01';
+  public static cspQuotaId: string = 'CSP_2015-05-01';
 }

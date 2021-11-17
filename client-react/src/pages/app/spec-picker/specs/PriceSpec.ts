@@ -6,6 +6,7 @@ import LogService from '../../../../utils/LogService';
 import i18next from 'i18next';
 import { ArmObj } from '../../../../models/arm-obj';
 import { ServerFarm } from '../../../../models/serverFarm/serverfarm';
+import { SubscriptionQuotaIds } from '../../../../utils/CommonConstants';
 
 export interface PriceSpecInput {
   specPickerInput: SpecPickerInput<PlanSpecPickerData>;
@@ -56,10 +57,6 @@ export enum SpecColorCodes {
   STANDARD = '#4D68C8',
   PREMIUM = '#852EA7',
   ISOLATED = '#C44200',
-}
-
-enum SubscriptionQuotaIds {
-  DreamSparkQuotaId = 'DreamSpark_2015-02-01',
 }
 
 export abstract class PriceSpec {
@@ -116,7 +113,7 @@ export abstract class PriceSpec {
 
   protected async checkIfDreamspark(subscriptionId: string): Promise<void> {
     if (this.state !== 'hidden') {
-      const isDreamspark = await this._billingService.checkIfSubscriptionHasQuotaId(subscriptionId, SubscriptionQuotaIds.DreamSparkQuotaId);
+      const isDreamspark = await this._billingService.checkIfSubscriptionHasQuotaId(subscriptionId, SubscriptionQuotaIds.dreamSparkQuotaId);
       if (isDreamspark) {
         this.state = 'disabled';
         this.disabledMessage = this._t('pricing_subscriptionNotAllowed');
