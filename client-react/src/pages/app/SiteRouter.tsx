@@ -10,16 +10,7 @@ import { SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-import {
-  isContainerApp,
-  isDynamic,
-  isElastic,
-  isElasticPremium,
-  isFunctionApp,
-  isKubeApp,
-  isLinuxApp,
-  isLinuxDynamic,
-} from '../../utils/arm-utils';
+import { isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
 import FunctionAppService from '../../utils/FunctionAppService';
 import { LogCategories } from '../../utils/LogCategories';
@@ -30,6 +21,8 @@ import SiteHelper from '../../utils/SiteHelper';
 import { SiteRouterData } from './SiteRouter.data';
 import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
+import { ISubscription } from '../../models/subscription';
+import { isDreamsparkSubscription, isFreeTrialSubscription } from '../../utils/billing-utils';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -86,6 +79,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [isContainerApplication, setIsContainerApplication] = useState<boolean>(false);
   const [isFunctionApplication, setIsFunctionApplication] = useState<boolean>(false);
   const [isKubeApplication, setIsKubeApplication] = useState<boolean>(false);
+  const [subscription, setSubscription] = useState<ISubscription | undefined>(undefined);
 
   const getSiteStateFromSiteData = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
     const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
@@ -136,7 +130,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyJava;
     }
 
-    if ((isDynamic(site) || isElasticPremium(site)) && !FunctionAppService.getAzureFilesSetting(appSettings)) {
+    if (isLinuxAppEditingDisabledForAzureFiles(site, appSettings)) {
       return FunctionAppEditMode.ReadOnlyAzureFiles;
     }
 
@@ -186,10 +180,15 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       const readOnlyLock = await portalContext.hasLock(trimmedResourceId, 'ReadOnly');
       let functionAppEditMode: FunctionAppEditMode | undefined;
 
-      const [siteResponse, appSettingsResponse] = await Promise.all([
+      const [siteResponse, appSettingsResponse, subscriptionResponse] = await Promise.all([
         SiteService.fetchSite(trimmedResourceId),
         SiteService.fetchApplicationSettings(trimmedResourceId),
+        portalContext.getSubscription(armSiteDescriptor.subscription),
       ]);
+
+      subscriptionResponse.subscribe(subscription => {
+        setSubscription(subscription);
+      });
 
       if (readOnlyLock) {
         functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
@@ -247,6 +246,23 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       }
       setSiteAppEditState(functionAppEditMode);
     }
+  };
+
+  const isLinuxAppEditingDisabledForAzureFiles = (site: ArmObj<Site>, appSettings: ArmObj<KeyValue<string>>): boolean => {
+    // NOTE(krmitta): Defaulting to true since we are explicitly checking the two cases of the app-setting below
+    let azureFilesAppSettingAbsent = true;
+    if (!!FunctionAppService.getAzureFilesSetting(appSettings)) {
+      azureFilesAppSettingAbsent = false;
+    } else {
+      if (
+        !!subscription &&
+        (isDreamsparkSubscription(subscription) || isFreeTrialSubscription(subscription)) &&
+        !!FunctionAppService.getAzureWebJobsStorageSetting(appSettings)
+      ) {
+        azureFilesAppSettingAbsent = false;
+      }
+    }
+    return FunctionAppService.isEditingCheckNeededForLinuxSku(site) && azureFilesAppSettingAbsent;
   };
 
   useEffect(() => {
