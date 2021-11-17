@@ -249,7 +249,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   };
 
   const isLinuxAppEditingDisabledForAzureFiles = (site: ArmObj<Site>, appSettings: ArmObj<KeyValue<string>>): boolean => {
-    // NOTE(krmitta): Defaulting to false since we are explicitly checking the two cases of the app-setting below
+    // NOTE(krmitta): Defaulting to true since we are explicitly checking the two cases of the app-setting below
     let azureFilesAppSettingAbsent = true;
     if (!!FunctionAppService.getAzureFilesSetting(appSettings)) {
       azureFilesAppSettingAbsent = false;
