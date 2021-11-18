@@ -8,15 +8,84 @@ import { FunctionAppEditMode, SiteReadWriteState } from '../models/portal-models
 import { SiteConfig } from '../models/site/config';
 import { Site } from '../models/site/site';
 import { ISubscription } from '../models/subscription';
+import PortalCommunicator from '../portal-communicator';
 import { isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from './arm-utils';
 import { isDreamsparkSubscription, isFreeTrialSubscription } from './billing-utils';
 import { CommonConstants } from './CommonConstants';
 import FunctionAppService from './FunctionAppService';
 import LogService from './LogService';
+import RbacConstants from './rbac-constants';
 import { ArmSiteDescriptor } from './resourceDescriptors';
 import SiteHelper from './SiteHelper';
 
-export function resolveStateFromSite(site: ArmObj<Site>, appSettings?: ArmObj<AppSettings>) {
+export async function resolveState(
+  portalContext: PortalCommunicator,
+  resourceId: string,
+  logCategory: string,
+  site: ArmObj<Site>,
+  subscription: ISubscription,
+  appSettings?: ArmObj<AppSettings>
+) {
+  const readOnlyLock = await portalContext.hasLock(resourceId, 'ReadOnly');
+  if (readOnlyLock) {
+    FunctionAppEditMode.ReadOnlyLock;
+  }
+
+  const writePermission = await portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
+  if (!writePermission) {
+    return FunctionAppEditMode.ReadOnlyRbac;
+  }
+
+  // NOTE (krmitta): We only want to get the edit state from other scenarios for function-apps
+  if (isFunctionApp(site)) {
+    return await resolveStateForFunctionApp(resourceId, logCategory, site, subscription, appSettings);
+  }
+
+  return FunctionAppEditMode.ReadWrite;
+}
+
+async function resolveStateForFunctionApp(
+  resourceId: string,
+  logCategory: string,
+  site: ArmObj<Site>,
+  subscription: ISubscription,
+  appSettings?: ArmObj<AppSettings>
+) {
+  let state = resolveStateFromSite(site, appSettings);
+  // NOTE(krmitta): State is only returned if it is defined otherwise we move to the next check
+  if (!!state) {
+    return state;
+  }
+
+  if (!!appSettings) {
+    state = resolveStateFromAppSetting(appSettings, site, subscription);
+    if (!!state) {
+      return state;
+    }
+  }
+
+  state = await fetchAndResolveStateFromConfig(resourceId, logCategory);
+  if (!!state) {
+    return state;
+  }
+
+  state = await fetchAndResolveStateFromSlots(resourceId, logCategory);
+  if (!!state) {
+    return state;
+  }
+
+  // NOTE(krmitta): Host status API check is currently behind feature-flag and only for Linux apps
+  if (FunctionAppService.isEditingCheckNeededForLinuxSku(site)) {
+    state = await fetchAndResolveStateFromHostStatus(resourceId, logCategory);
+    if (!!state) {
+      return state;
+    }
+  }
+
+  return FunctionAppEditMode.ReadWrite;
+}
+
+function resolveStateFromSite(site: ArmObj<Site>, appSettings?: ArmObj<AppSettings>) {
   const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
 
   if (isLinuxDynamic(site) && !FunctionAppService.enableEditingForLinux(site, workerRuntime)) {
@@ -34,7 +103,7 @@ export function resolveStateFromSite(site: ArmObj<Site>, appSettings?: ArmObj<Ap
   return undefined;
 }
 
-export function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmObj<Site>, subscription: ISubscription) {
+function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmObj<Site>, subscription: ISubscription) {
   const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
 
   if (isKubeApp(site)) {
@@ -81,10 +150,7 @@ export function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, sit
   return undefined;
 }
 
-export async function fetchAndResolveStateFromHostStatus(
-  resourceId: string,
-  logCategory: string
-): Promise<FunctionAppEditMode | undefined> {
+async function fetchAndResolveStateFromHostStatus(resourceId: string, logCategory: string): Promise<FunctionAppEditMode | undefined> {
   const hostStatusResponse = await FunctionsService.getHostStatus(resourceId);
 
   if (hostStatusResponse.metadata.success) {
@@ -99,7 +165,7 @@ export async function fetchAndResolveStateFromHostStatus(
   }
 }
 
-export async function fetchAndResolveStateFromConfig(resourceId: string, logCategory: string): Promise<FunctionAppEditMode | undefined> {
+async function fetchAndResolveStateFromConfig(resourceId: string, logCategory: string): Promise<FunctionAppEditMode | undefined> {
   const configResponse = await SiteService.fetchWebConfig(resourceId);
 
   if (configResponse.metadata.success) {
@@ -114,7 +180,7 @@ export async function fetchAndResolveStateFromConfig(resourceId: string, logCate
   }
 }
 
-export async function fetchAndResolveStateFromSlots(resourceId: string, logCategory: string): Promise<FunctionAppEditMode | undefined> {
+async function fetchAndResolveStateFromSlots(resourceId: string, logCategory: string): Promise<FunctionAppEditMode | undefined> {
   const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
 
   if (armSiteDescriptor.slot) {
@@ -173,5 +239,7 @@ const isLinuxAppEditingDisabledForAzureFiles = (
       azureFilesAppSettingAbsent = false;
     }
   }
+
+  // NOTE(krmitta):AzureFiles check is currently behind feature-flag and only for Linux apps
   return FunctionAppService.isEditingCheckNeededForLinuxSku(site) && azureFilesAppSettingAbsent;
 };
