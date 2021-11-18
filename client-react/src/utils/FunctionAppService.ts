@@ -65,14 +65,22 @@ export default class FunctionAppService {
     return appSettings.properties[CommonConstants.AppSettingNames.azureFilesSettingName] || '';
   }
 
+  public static getAzureWebJobsStorageSetting(appSettings: ArmObj<KeyValue<string>>): string {
+    return appSettings.properties[CommonConstants.AppSettingNames.azureWebJobsSecretStorageType] || '';
+  }
+
+  public static isEditingCheckNeededForLinuxSku = (site: ArmObj<Site>) => {
+    return (
+      !!site && !!Url.getFeatureValue(CommonConstants.FeatureFlags.enablePortalEditing) && (isLinuxDynamic(site) || isLinuxElastic(site))
+    );
+  };
+
   public static enableEditingForLinux(site: ArmObj<Site>, workerRuntime?: string) {
     // NOTE (krmitta): Editing is only enabled for Linux Consumption or Linux Elastic Premium and Node/Python stack only.
     // For Powershell, we still need to use the feature-flag.
     return (
-      !!site &&
       !!workerRuntime &&
-      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enablePortalEditing) &&
-      (isLinuxDynamic(site) || isLinuxElastic(site)) &&
+      FunctionAppService.isEditingCheckNeededForLinuxSku(site) &&
       (workerRuntime === WorkerRuntimeLanguages.nodejs ||
         workerRuntime === WorkerRuntimeLanguages.python ||
         workerRuntime === WorkerRuntimeLanguages.powershell)
