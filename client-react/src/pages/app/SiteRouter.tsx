@@ -23,6 +23,7 @@ import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
 import { ISubscription } from '../../models/subscription';
 import { isDreamsparkSubscription, isFreeTrialSubscription } from '../../utils/billing-utils';
+import { fetchAndResolveStateFromHostStatus } from '../../utils/app-state-utils';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -234,6 +235,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             );
           }
         }
+
+        if (!functionAppEditMode) {
+          functionAppEditMode = await fetchAndResolveStateFromHostStatus(trimmedResourceId, LogCategories.siteRouter);
+        }
       }
 
       if (siteResponse.metadata.success) {
@@ -244,7 +249,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         setIsFunctionApplication(isFunctionApp(siteResponse.data));
         setIsKubeApplication(isKubeApp(siteResponse.data));
       }
-      setSiteAppEditState(functionAppEditMode);
+
+      setSiteAppEditState(functionAppEditMode || FunctionAppEditMode.ReadWrite);
     }
   };
 
