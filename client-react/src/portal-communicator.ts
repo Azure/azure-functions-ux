@@ -40,7 +40,7 @@ import { TelemetryInfo } from './models/telemetry';
 import { loadTheme } from '@fluentui/style-utilities';
 import { NetAjaxSettings } from './models/ajax-request-model';
 import { isPortalCommunicationStatusSuccess } from './utils/portal-utils';
-import { resolve } from 'dns';
+
 export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
