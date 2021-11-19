@@ -80,48 +80,53 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     if (!!resourceId) {
       const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
       const trimmedResourceId = armSiteDescriptor.getTrimmedResourceId();
-      const subscriptionResponse = portalContext.getSubscription(armSiteDescriptor.subscription);
 
-      subscriptionResponse.subscribe(subscription => async () => {
-        const [siteResponse, appSettingsResponse] = await Promise.all([
-          SiteService.fetchSite(trimmedResourceId),
-          SiteService.fetchApplicationSettings(trimmedResourceId),
-        ]);
+      const [siteResponse, appSettingsResponse, subscriptionResponse] = await Promise.all([
+        SiteService.fetchSite(trimmedResourceId),
+        SiteService.fetchApplicationSettings(trimmedResourceId),
+        portalContext.getSubscription(armSiteDescriptor.subscription),
+      ]);
 
-        let site: ArmObj<Site> | undefined;
-        let appSettings: ArmObj<AppSettings> | undefined;
+      let site: ArmObj<Site> | undefined;
+      let appSettings: ArmObj<AppSettings> | undefined;
 
-        if (siteResponse.metadata.success) {
-          site = siteResponse.data;
-        } else {
-          LogService.error(
-            LogCategories.siteRouter,
-            'fetchAppSetting',
-            `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
-          );
-        }
+      if (siteResponse.metadata.success) {
+        site = siteResponse.data;
+      } else {
+        LogService.error(
+          LogCategories.siteRouter,
+          'fetchAppSetting',
+          `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
+        );
+      }
 
-        if (appSettingsResponse.metadata.success) {
-          appSettings = appSettingsResponse.data;
-        } else {
-          LogService.error(
-            LogCategories.siteRouter,
-            'fetchAppSetting',
-            `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
-          );
-        }
+      if (appSettingsResponse.metadata.success) {
+        appSettings = appSettingsResponse.data;
+      } else {
+        LogService.error(
+          LogCategories.siteRouter,
+          'fetchAppSetting',
+          `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
+        );
+      }
 
-        if (!!site) {
-          let editMode = await resolveState(portalContext, trimmedResourceId, LogCategories.siteRouter, site, subscription, appSettings);
-          setSite(site);
-          setStopped(site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
-          setIsLinuxApplication(isLinuxApp(site));
-          setIsContainerApplication(isContainerApp(site));
-          setIsFunctionApplication(isFunctionApp(site));
-          setIsKubeApplication(isKubeApp(site));
-          setSiteAppEditState(editMode);
-        }
-      });
+      if (!!site) {
+        let editMode = await resolveState(
+          portalContext,
+          trimmedResourceId,
+          LogCategories.siteRouter,
+          site,
+          subscriptionResponse,
+          appSettings
+        );
+        setSite(site);
+        setStopped(site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
+        setIsLinuxApplication(isLinuxApp(site));
+        setIsContainerApplication(isContainerApp(site));
+        setIsFunctionApplication(isFunctionApp(site));
+        setIsKubeApplication(isKubeApp(site));
+        setSiteAppEditState(editMode);
+      }
     }
   };
 
