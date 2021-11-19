@@ -32,6 +32,8 @@ import { NetAjaxSettings } from '../../../../../models/ajax-request-model';
 import { PortalContext } from '../../../../../PortalContext';
 import { isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
 import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
+import { SiteStateContext } from '../../../../../SiteState';
+import SiteHelper from '../../../../../utils/SiteHelper';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -62,6 +64,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
 
   const siteContext = useContext(SiteRouterContext);
+  const siteStateContext = useContext(SiteStateContext);
   const startupInfoContext = useContext(StartupInfoContext);
   const portalContext = useContext(PortalContext);
 
@@ -367,9 +370,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
     setFunctionRunning(true);
 
-    const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
-    if (updatedFunctionInfo.metadata.success) {
-      setFunctionInfo(updatedFunctionInfo.data);
+    if (!SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
+      const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
+      if (updatedFunctionInfo.metadata.success) {
+        setFunctionInfo(updatedFunctionInfo.data);
+      }
     }
 
     let settings: NetAjaxSettings | undefined;
