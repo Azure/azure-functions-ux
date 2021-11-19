@@ -18,7 +18,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
         value: 'dotnet6',
         minorVersions: [
           {
-            displayText: '.NET 6',
+            displayText: '.NET 6 (LTS)',
             value: '6',
             stackSettings: {
               windowsRuntimeSettings: {
@@ -31,7 +31,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '6.0.x',
                 },
-                isEarlyAccess: true,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNETCORE|6.0',
@@ -43,7 +42,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '6.0.x',
                 },
-                isEarlyAccess: true,
               },
             },
           },
