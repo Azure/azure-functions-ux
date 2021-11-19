@@ -522,6 +522,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";adminCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Admin Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kredensial Admin]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";adminKeys_title" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Host Keys (All functions)]]></Val>
@@ -5893,7 +5902,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Runtime stack]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Tumpukan runtime]]></Val>
+            <Val><![CDATA[Runtime stack]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -9502,7 +9511,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Function Apps v2 are now single language. Please set the runtime stack before adding functions to your app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Aplikasi Fungsi v2 sekarang merupakan bahasa tunggal. Atur tumpukan runtime sebelum menambahkan fungsi ke aplikasi Anda.]]></Val>
+            <Val><![CDATA[Aplikasi Fungsi v2 sekarang merupakan bahasa tunggal. Atur runtime stack sebelum menambahkan fungsi ke aplikasi Anda.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -9511,7 +9520,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Function App runtime stack]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Tumpukan runtime Aplikasi Fungsi]]></Val>
+            <Val><![CDATA[Runtime stack Aplikasi Fungsi]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -10564,7 +10573,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Function Runtime stack]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Tumpukan Runtime Fungsi]]></Val>
+            <Val><![CDATA[Runtime stack Fungsi]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -10616,9 +10625,21 @@
       </Item>
       <Item ItemId=";functionTestInputDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
+          <Val><![CDATA[Provide parameters to test your function in the portal. Results can be found in the Output tab.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Berikan parameter untuk menguji fungsi Anda di portal. Hasil dapat ditemukan di tab Output.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Provide parameters to test the HTTP request. Results can be found in the Output tab.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";functionTestInputDescriptionForHttp" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
           <Val><![CDATA[Provide parameters to test the HTTP request. Results can be found in the Output tab.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Berikan parameter untuk menguji permintaan HTTP. Hasilnya dapat ditemukan di tab Output.]]></Val>
+            <Val><![CDATA[Berikan parameter untuk menguji permintaan HTTP. Hasil dapat ditemukan di tab Output.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -12207,6 +12228,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";invalidCronExpressionMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Invalid Cron Expression. Please consult the <a href="{0}" target="_blank">documentation</a> to learn more.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ekspresi Cron yang tidak valid. Silakan lihat <a href="{0}" target="_blank">dokumentasi</a> untuk mempelajari selengkapnya.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";invalidLinuxPath" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[The path format is not valid for Linux.]]></Val>
@@ -13109,6 +13139,15 @@
           <Val><![CDATA[Manage publish profile commands]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Kelola perintah profil penerbitan]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Managed Identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Identitas Terkelola]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -15775,7 +15814,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Your selected runtime stack does not currently support remote debugging.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Tumpukan runtime yang Anda pilih saat ini tidak mendukung penelusuran kesalahan jarak jauh.]]></Val>
+            <Val><![CDATA[Runtime stack yang Anda pilih saat ini tidak mendukung penelusuran kesalahan jarak jauh.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16189,7 +16228,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Runtime stack]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Tumpukan runtime]]></Val>
+            <Val><![CDATA[Runtime stack]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19444,7 +19483,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Monitor]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Pantau]]></Val>
+            <Val><![CDATA[Monitor]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
