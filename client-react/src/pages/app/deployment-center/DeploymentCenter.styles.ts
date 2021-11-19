@@ -69,6 +69,12 @@ export const deploymentCenterInfoBannerDiv = style({
   marginBottom: '1em',
 });
 
+export const deploymentCenterAcrBannerDiv = style({
+  maxWidth: '1000px',
+  marginTop: '1em',
+  marginBottom: '1em',
+});
+
 export const deploymentCenterCodeLogsNotConfigured = style({
   width: '100%',
   textAlign: 'center',

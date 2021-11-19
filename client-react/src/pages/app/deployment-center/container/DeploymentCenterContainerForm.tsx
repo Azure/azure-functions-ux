@@ -291,8 +291,14 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     if (siteConfigResponse.metadata.success) {
       siteConfigResponse.data.properties.appCommandLine = values.command;
       siteConfigResponse.data.properties.acrUseManagedIdentityCreds = values.acrCredentialType === ACRCredentialType.managedIdentity;
-      siteConfigResponse.data.properties.acrUserManagedIdentityID =
-        values.acrManagedIdentityType === ACRManagedIdentityType.systemAssigned ? null : values.acrManagedIdentityType;
+      if (
+        !siteConfigResponse.data.properties.acrUseManagedIdentityCreds ||
+        values.acrManagedIdentityType === ACRManagedIdentityType.systemAssigned
+      ) {
+        siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
+      } else {
+        siteConfigResponse.data.properties.acrUserManagedIdentityID = values.acrManagedIdentityType;
+      }
 
       if (values.scmType !== ScmType.GitHubAction) {
         if (siteContext.isLinuxApp) {

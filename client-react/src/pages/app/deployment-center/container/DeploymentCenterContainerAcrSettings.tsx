@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ACRCredentialType,
-  ACRManagedIdentityType,
-  ContainerOptions,
-  DeploymentCenterContainerAcrSettingsProps,
-} from '../DeploymentCenter.types';
+import { ACRCredentialType, ContainerOptions, DeploymentCenterContainerAcrSettingsProps } from '../DeploymentCenter.types';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
@@ -18,6 +13,7 @@ import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFor
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import Url from '../../../../utils/url';
+import { deploymentCenterAcrBannerDiv } from '../DeploymentCenter.styles';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -34,6 +30,8 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     acrSubscription,
     acrUseManagedIdentities,
     managedIdentityOptions,
+    loadingManagedIdentities,
+    defaultManagedIdentity,
     fetchRegistriesInSub,
   } = props;
   const { t } = useTranslation();
@@ -115,9 +113,9 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         label={t('identity')}
         name="acrManagedIdentityType"
         component={ComboBox}
-        defaultSelectedKey={ACRManagedIdentityType.systemAssigned}
+        defaultSelectedKey={defaultManagedIdentity}
         options={managedIdentityOptions}
-        disabled={!acrUseManagedIdentities}
+        disabled={!acrUseManagedIdentities || loadingManagedIdentities}
       />
     </>
   ) : (
@@ -127,7 +125,9 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
   return (
     <>
       {acrStatusMessage && acrStatusMessageType && (
-        <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} />
+        <div id="acr-status-message-type-div" className={deploymentCenterAcrBannerDiv}>
+          <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} />
+        </div>
       )}
 
       <ComboBoxNoFormik

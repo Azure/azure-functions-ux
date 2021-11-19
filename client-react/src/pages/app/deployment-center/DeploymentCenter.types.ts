@@ -634,6 +634,8 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   acrStatusMessageType?: MessageBarType;
   acrUseManagedIdentities?: boolean;
   managedIdentityOptions?: IDropdownOption[];
+  loadingManagedIdentities?: boolean;
+  defaultManagedIdentity: string;
 }
 
 export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
