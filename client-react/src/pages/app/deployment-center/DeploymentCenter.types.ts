@@ -635,7 +635,6 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   acrUseManagedIdentities?: boolean;
   managedIdentityOptions?: IDropdownOption[];
   loadingManagedIdentities?: boolean;
-  defaultManagedIdentity: string;
 }
 
 export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>

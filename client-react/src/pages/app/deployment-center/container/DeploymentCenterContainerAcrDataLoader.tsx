@@ -49,12 +49,8 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const [loadingTagOptions, setLoadingTagOptions] = useState(false);
   const registryIdentifiers = useRef<{ [key: string]: RegistryIdentifiers }>({});
   const [subscriptionOptions, setSubscriptionOptions] = useState<IDropdownOption[]>([]);
-  const [managedIdentityOptions, setManagedIdentityOptions] = useState<IComboBoxOption[]>([
-    { key: ACRManagedIdentityType.systemAssigned, text: t('systemAssigned') },
-    { key: ACRManagedIdentityType.userAssigned, text: t('userAssigned'), itemType: SelectableOptionMenuItemType.Header },
-  ]);
-  const [loadingManagedIdentities, setLoadingManagedIdentities] = useState(false);
-  const [defaultManagedIdentity, setDefaultManagedIdentity] = useState<string>(ACRManagedIdentityType.systemAssigned);
+  const [managedIdentityOptions, setManagedIdentityOptions] = useState<IComboBoxOption[]>([]);
+  const [loadingManagedIdentities, setLoadingManagedIdentities] = useState(true);
 
   const fetchData = () => {
     fetchAllSubscriptions();
@@ -347,30 +343,40 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     }
   };
 
-  const fetchUserAssignedIdentities = async () => {
-    setLoadingManagedIdentities(true);
-    const response = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
+  const fetchManagedIdentityOptions = async () => {
+    if (managedIdentityOptions.length <= 2) {
+      setLoadingManagedIdentities(true);
+      const identities: IComboBoxOption[] = [
+        { key: ACRManagedIdentityType.systemAssigned, text: t('systemAssigned') },
+        { key: ACRManagedIdentityType.userAssigned, text: t('userAssigned'), itemType: SelectableOptionMenuItemType.Header },
+      ];
 
-    if (response.metadata.success) {
-      if (!!response.data.identity && !!response.data.identity.userAssignedIdentities && managedIdentityOptions.length <= 2) {
-        const userAssignedIdentities = response.data.identity.userAssignedIdentities;
+      const response = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
 
-        for (const id in userAssignedIdentities) {
-          const idSplit = id.split('/');
-          const identityName = idSplit[idSplit.length - 1];
-          const clientId = userAssignedIdentities[id]['clientId'];
-          managedIdentityOptions.push({ key: clientId, text: identityName });
+      if (response.metadata.success) {
+        if (!!response.data.identity && !!response.data.identity.userAssignedIdentities) {
+          const userAssignedIdentities = response.data.identity.userAssignedIdentities;
+
+          for (const id in userAssignedIdentities) {
+            const idSplit = id.split('/');
+            const identityName = idSplit[idSplit.length - 1];
+            const clientId = userAssignedIdentities[id]['clientId'];
+            identities.push({ key: clientId, text: identityName });
+          }
         }
       }
-    }
 
+      setManagedIdentityOptions(identities);
+      setManagedIdentityType();
+      setLoadingManagedIdentities(false);
+    }
+  };
+
+  const setManagedIdentityType = () => {
     if (!!deploymentCenterContext.siteConfig && !!deploymentCenterContext.siteConfig.properties) {
-      setDefaultManagedIdentity(
-        deploymentCenterContext.siteConfig.properties.acrUserManagedIdentityID || ACRManagedIdentityType.systemAssigned
-      );
+      formProps.values.acrManagedIdentityType =
+        deploymentCenterContext.siteConfig.properties.acrUserManagedIdentityID || ACRManagedIdentityType.systemAssigned;
     }
-
-    setLoadingManagedIdentities(false);
   };
 
   const getAcrNameFromLoginServer = (loginServer: string): string => {
@@ -441,9 +447,9 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   }, [subscription]);
 
   useEffect(() => {
-    setAcrUseManagedIdentities(formProps.values.acrCredentialType === ACRCredentialType.managedIdentity);
-    setManagedIdentityOptions(managedIdentityOptions);
-    fetchUserAssignedIdentities();
+    const useManagedIdentities = formProps.values.acrCredentialType === ACRCredentialType.managedIdentity;
+    setAcrUseManagedIdentities(useManagedIdentities);
+    fetchManagedIdentityOptions();
   }, [formProps.values.acrCredentialType]);
 
   useEffect(() => {
@@ -469,7 +475,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       acrUseManagedIdentities={acrUseManagedIdentities}
       managedIdentityOptions={managedIdentityOptions}
       loadingManagedIdentities={loadingManagedIdentities}
-      defaultManagedIdentity={defaultManagedIdentity}
     />
   );
 };

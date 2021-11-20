@@ -7221,4 +7221,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="userAssigned" xml:space="preserve">
         <value>User Assigned</value>
     </data>
+    <data name="managedIdentityTypePlaceholder" xml:space="preserve">
+        <value>Select managed identity</value>
+    </data>
 </root>

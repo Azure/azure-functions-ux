@@ -4,7 +4,7 @@ import { Certificate, Csr } from './certificate';
 import { SiteConfig } from './config';
 import { CloningInfo } from './cloning-info';
 import { KeyValue } from '../portal-models';
-import { Identity } from '../arm-obj';
+import { MsiIdentity } from '../arm-obj';
 
 export enum ContentAvailabilityState {
   Normal = 'Normal',
@@ -115,7 +115,7 @@ export interface Site {
   siteDisabledReason: SiteDisabledReason;
   possibleInboundIpAddresses?: string;
   virtualNetworkSubnetId?: string;
-  identity: Identity;
+  identity: MsiIdentity;
 }
 
 export interface HostNameSslState {

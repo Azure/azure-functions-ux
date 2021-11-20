@@ -31,7 +31,6 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     acrUseManagedIdentities,
     managedIdentityOptions,
     loadingManagedIdentities,
-    defaultManagedIdentity,
     fetchRegistriesInSub,
   } = props;
   const { t } = useTranslation();
@@ -113,7 +112,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         label={t('identity')}
         name="acrManagedIdentityType"
         component={ComboBox}
-        defaultSelectedKey={defaultManagedIdentity}
+        placeholder={t('managedIdentityTypePlaceholder')}
         options={managedIdentityOptions}
         disabled={!acrUseManagedIdentities || loadingManagedIdentities}
       />

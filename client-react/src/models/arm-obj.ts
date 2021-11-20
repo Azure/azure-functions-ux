@@ -15,7 +15,7 @@ export interface ArmObj<T> {
   tags?: KeyValue<string>;
   location: string;
   name: string;
-  identity?: Identity;
+  identity?: MsiIdentity;
   sku?: ArmSku;
 }
 
@@ -43,7 +43,7 @@ export interface Identity {
   principalId: string;
   tenantId: string;
   type: string;
-  userAssignedIdentities: KeyValue<string>;
+  userAssignedIdentities: KeyValue<KeyValue<string>>;
 }
 
 export interface ResourceGraph {

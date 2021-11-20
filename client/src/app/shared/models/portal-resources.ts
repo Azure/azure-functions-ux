@@ -2360,4 +2360,5 @@ export class PortalResources {
   public static invalidCronExpressionMessage = 'invalidCronExpressionMessage';
   public static systemAssigned = 'systemAssigned';
   public static userAssigned = 'userAssigned';
+  public static managedIdentityTypePlaceholder = 'managedIdentityTypePlaceholder';
 }
