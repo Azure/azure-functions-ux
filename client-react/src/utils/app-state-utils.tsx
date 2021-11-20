@@ -241,5 +241,5 @@ const isLinuxAppEditingDisabledForAzureFiles = (
   }
 
   // NOTE(krmitta):AzureFiles check is currently behind feature-flag and only for Linux apps
-  return FunctionAppService.isEditingCheckNeededForLinuxSku(site) && azureFilesAppSettingAbsent;
+  return FunctionAppService.isEditingCheckNeededForLinuxSku(site, false) && azureFilesAppSettingAbsent;
 };
