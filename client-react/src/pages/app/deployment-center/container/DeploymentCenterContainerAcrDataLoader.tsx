@@ -447,8 +447,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   }, [subscription]);
 
   useEffect(() => {
-    const useManagedIdentities = formProps.values.acrCredentialType === ACRCredentialType.managedIdentity;
-    setAcrUseManagedIdentities(useManagedIdentities);
+    setAcrUseManagedIdentities(formProps.values.acrCredentialType === ACRCredentialType.managedIdentity);
     fetchManagedIdentityOptions();
   }, [formProps.values.acrCredentialType]);
 
