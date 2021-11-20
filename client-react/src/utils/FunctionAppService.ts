@@ -3,7 +3,7 @@ import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { KeyValue } from '../models/portal-models';
 import Url from './url';
 import { Site } from '../models/site/site';
-import { isLinuxDynamic, isLinuxElastic } from './arm-utils';
+import { isLinuxDynamic, isLinuxElastic, isPremiumV2 } from './arm-utils';
 
 export default class FunctionAppService {
   public static getRFPSetting(appSettings: ArmObj<KeyValue<string>>): string {
@@ -69,9 +69,11 @@ export default class FunctionAppService {
     return appSettings.properties[CommonConstants.AppSettingNames.azureWebJobsSecretStorageType] || '';
   }
 
-  public static isEditingCheckNeededForLinuxSku = (site: ArmObj<Site>) => {
+  public static isEditingCheckNeededForLinuxSku = (site: ArmObj<Site>, addPremiumV2Check: boolean = true) => {
     return (
-      !!site && !!Url.getFeatureValue(CommonConstants.FeatureFlags.enablePortalEditing) && (isLinuxDynamic(site) || isLinuxElastic(site))
+      !!site &&
+      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enablePortalEditing) &&
+      (isLinuxDynamic(site) || isLinuxElastic(site) || (addPremiumV2Check && isPremiumV2(site)))
     );
   };
 

@@ -6,18 +6,19 @@ export const getSearchFilter = (
   id: string,
   setFilerValue: (value: string) => void,
   placeHolder?: string,
-  disabled?: boolean
+  disabled?: boolean,
+  autoFocus?: boolean
 ): JSX.Element => {
   return (
     <SearchBox
       id={id}
       onChange={(_e, newValue) => setFilerValue(newValue || '')}
       placeholder={placeHolder}
-      autoFocus
       iconProps={{ iconName: IconConstants.IconNames.Filter }}
       className="ms-slideDownIn20"
       styles={filterTextFieldStyle}
       disabled={disabled}
+      autoFocus={autoFocus}
     />
   );
 };
