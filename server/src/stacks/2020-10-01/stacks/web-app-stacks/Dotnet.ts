@@ -16,7 +16,7 @@ export const dotnetStack: WebAppStack = {
       value: 'dotnet6',
       minorVersions: [
         {
-          displayText: '.NET 6',
+          displayText: '.NET 6 (LTS)',
           value: '6',
           stackSettings: {
             windowsRuntimeSettings: {
