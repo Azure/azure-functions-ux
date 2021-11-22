@@ -155,6 +155,10 @@ export enum ACRManagedIdentityType {
   userAssigned = 'userAssigned',
 }
 
+export enum ManagedIdentityInfo {
+  clientId = 'clientId',
+}
+
 export interface AzureDevOpsUrl {
   Tfs: string;
   Sps: string;
@@ -318,7 +322,7 @@ export interface AcrFormData {
   acrResourceId: string;
   acrLocation: string;
   acrCredentialType: string;
-  acrManagedIdentityType: string;
+  acrManagedIdentityType: string | null;
 }
 
 export interface DockerHubFormData {

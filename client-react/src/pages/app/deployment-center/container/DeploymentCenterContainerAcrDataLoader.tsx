@@ -4,6 +4,7 @@ import {
   DeploymentCenterContainerFormData,
   ACRCredentialType,
   ACRManagedIdentityType,
+  ManagedIdentityInfo,
 } from '../DeploymentCenter.types';
 import DeploymentCenterContainerAcrSettings from './DeploymentCenterContainerAcrSettings';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
@@ -344,38 +345,43 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   };
 
   const fetchManagedIdentityOptions = async () => {
-    if (managedIdentityOptions.length <= 2) {
-      setLoadingManagedIdentities(true);
-      const identities: IComboBoxOption[] = [
-        { key: ACRManagedIdentityType.systemAssigned, text: t('systemAssigned') },
-        { key: ACRManagedIdentityType.userAssigned, text: t('userAssigned'), itemType: SelectableOptionMenuItemType.Header },
-      ];
+    setLoadingManagedIdentities(true);
+    const identities: IComboBoxOption[] = [
+      { key: ACRManagedIdentityType.systemAssigned, text: t('systemAssigned') },
+      { key: ACRManagedIdentityType.userAssigned, text: t('userAssigned'), itemType: SelectableOptionMenuItemType.Header },
+    ];
 
-      const response = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
+    const response = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
+    if (response.metadata.success) {
+      if (!!response.data.identity && !!response.data.identity.userAssignedIdentities) {
+        const userAssignedIdentities = response.data.identity.userAssignedIdentities;
 
-      if (response.metadata.success) {
-        if (!!response.data.identity && !!response.data.identity.userAssignedIdentities) {
-          const userAssignedIdentities = response.data.identity.userAssignedIdentities;
-
-          for (const id in userAssignedIdentities) {
-            const idSplit = id.split('/');
+        for (const id in userAssignedIdentities) {
+          const idSplit = id.split('/');
+          if (!!idSplit) {
             const identityName = idSplit[idSplit.length - 1];
-            const clientId = userAssignedIdentities[id]['clientId'];
-            identities.push({ key: clientId, text: identityName });
+            if (!!userAssignedIdentities[id]) {
+              const clientId = userAssignedIdentities[id][ManagedIdentityInfo.clientId];
+              identities.push({ key: clientId, text: identityName });
+            }
           }
         }
       }
-
-      setManagedIdentityOptions(identities);
-      setManagedIdentityType();
-      setLoadingManagedIdentities(false);
     }
+
+    setManagedIdentityOptions(identities);
+    setManagedIdentityType();
+    setLoadingManagedIdentities(false);
   };
 
   const setManagedIdentityType = () => {
     if (!!deploymentCenterContext.siteConfig && !!deploymentCenterContext.siteConfig.properties) {
-      formProps.values.acrManagedIdentityType =
-        deploymentCenterContext.siteConfig.properties.acrUserManagedIdentityID || ACRManagedIdentityType.systemAssigned;
+      if (acrUseManagedIdentities) {
+        formProps.values.acrManagedIdentityType =
+          deploymentCenterContext.siteConfig.properties.acrUserManagedIdentityID || ACRManagedIdentityType.systemAssigned;
+      } else {
+        formProps.values.acrManagedIdentityType = '';
+      }
     }
   };
 
@@ -448,7 +454,9 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
   useEffect(() => {
     setAcrUseManagedIdentities(formProps.values.acrCredentialType === ACRCredentialType.managedIdentity);
-    fetchManagedIdentityOptions();
+    if (managedIdentityOptions.length < 1) {
+      fetchManagedIdentityOptions();
+    }
   }, [formProps.values.acrCredentialType]);
 
   useEffect(() => {
