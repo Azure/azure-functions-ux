@@ -267,3 +267,14 @@ export class SubscriptionQuotaIds {
   public static payAsYouGoQuotaId: string = 'PayAsYouGo_2014-09-01';
   public static cspQuotaId: string = 'CSP_2015-05-01';
 }
+
+// NOTE(krmitta): This class should be in sync with the similar ibiza class
+export class ExperimentationConstants {
+  public static TreatmentFlight = {
+    linuxPortalEditing: 'linux-portal-editing-variant',
+  };
+
+  public static ControlFlight = {
+    linuxPortalEditing: 'linux-portal-editing-default',
+  };
+}

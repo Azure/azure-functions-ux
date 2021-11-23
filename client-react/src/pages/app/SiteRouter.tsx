@@ -10,7 +10,7 @@ import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
 import { isContainerApp, isFunctionApp, isKubeApp, isLinuxApp } from '../../utils/arm-utils';
-import { CommonConstants } from '../../utils/CommonConstants';
+import { CommonConstants, ExperimentationConstants } from '../../utils/CommonConstants';
 import { LogCategories } from '../../utils/LogCategories';
 import LogService from '../../utils/LogService';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
@@ -81,10 +81,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
       const trimmedResourceId = armSiteDescriptor.getTrimmedResourceId();
 
-      const [siteResponse, appSettingsResponse, subscriptionResponse] = await Promise.all([
+      const [siteResponse, appSettingsResponse, subscriptionResponse, portalEditingFlightResponse] = await Promise.all([
         SiteService.fetchSite(trimmedResourceId),
         SiteService.fetchApplicationSettings(trimmedResourceId),
         portalContext.getSubscription(armSiteDescriptor.subscription),
+        portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.linuxPortalEditing),
       ]);
 
       let site: ArmObj<Site> | undefined;
@@ -117,6 +118,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
           LogCategories.siteRouter,
           site,
           subscriptionResponse,
+          portalEditingFlightResponse,
           appSettings
         );
         setSite(site);
