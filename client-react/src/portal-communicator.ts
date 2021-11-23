@@ -200,25 +200,6 @@ export default class PortalCommunicator {
     });
   }
 
-  public hasFlightEnabled(flightName: string): Promise<boolean> {
-    const payload: IDataMessage<string> = {
-      operationId: Guid.newGuid(),
-      data: flightName,
-    };
-
-    PortalCommunicator.postMessage(Verbs.ibizaExperimentationFlighting, this.packageData(payload));
-    return new Promise((resolve, reject) => {
-      this.operationStream
-        .pipe(
-          filter(o => o.operationId === payload.operationId),
-          first()
-        )
-        .subscribe((r: IDataMessage<IDataMessageResult<boolean>>) => {
-          resolve(r.data.result);
-        });
-    });
-  }
-
   public getSubscription(subscriptionId: string): Promise<ISubscription> {
     const payload: IDataMessage<ISubscriptionRequest> = {
       operationId: Guid.newGuid(),
