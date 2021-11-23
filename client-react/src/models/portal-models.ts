@@ -100,6 +100,7 @@ export class Verbs {
   public static getSpecCosts = 'get-spec-costs';
   public static broadcastMessage = 'broadcast-message';
   public static httpRequest = 'http-request-from-portal';
+  public static ibizaExperimentationFlighting = 'ibiza-experimentation-flighting';
 
   public static hasPermission = 'has-permission';
   public static hasLock = 'has-lock';
