@@ -41,7 +41,7 @@ export interface SiteConfig {
   remoteDebuggingVersion: string | null;
   httpLoggingEnabled: boolean;
   acrUseManagedIdentityCreds: boolean;
-  acrUserManagedIdentityID: string;
+  acrUserManagedIdentityID: string | null;
   logsDirectorySizeLimit: number;
   detailedErrorLoggingEnabled: boolean;
   publishingUsername: string;

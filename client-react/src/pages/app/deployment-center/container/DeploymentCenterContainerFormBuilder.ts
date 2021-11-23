@@ -110,6 +110,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       acrResourceId: Yup.mixed().notRequired(),
       acrLocation: Yup.mixed().notRequired(),
       acrCredentialType: Yup.mixed().notRequired(),
+      acrManagedIdentityType: Yup.mixed().notRequired(),
     };
   }
 
@@ -355,10 +356,12 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
 
   private _getAcrFormData(serverUrl: string, username: string, password: string, fxVersionParts: FxVersionParts): AcrFormData {
     let acrCredentialType = ACRCredentialType.adminCredentials;
+    let acrManagedIdentityType = '';
     if (!!this._siteConfig && !!this._siteConfig.properties) {
       acrCredentialType = this._siteConfig.properties.acrUseManagedIdentityCreds
         ? ACRCredentialType.managedIdentity
         : ACRCredentialType.adminCredentials;
+      acrManagedIdentityType = this._siteConfig.properties.acrUserManagedIdentityID || '';
     }
 
     if (this._isAcrConfigured(serverUrl)) {
@@ -372,6 +375,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         acrResourceId: '',
         acrLocation: '',
         acrCredentialType,
+        acrManagedIdentityType,
       };
     } else {
       return {
@@ -384,6 +388,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         acrResourceId: '',
         acrLocation: '',
         acrCredentialType,
+        acrManagedIdentityType,
       };
     }
   }

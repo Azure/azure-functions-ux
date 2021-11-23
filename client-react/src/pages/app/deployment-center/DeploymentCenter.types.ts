@@ -150,6 +150,15 @@ export enum ACRCredentialType {
   managedIdentity = 'managedIdentity',
 }
 
+export enum ACRManagedIdentityType {
+  systemAssigned = 'systemAssigned',
+  userAssigned = 'userAssigned',
+}
+
+export enum ManagedIdentityInfo {
+  clientId = 'clientId',
+}
+
 export interface AzureDevOpsUrl {
   Tfs: string;
   Sps: string;
@@ -313,6 +322,7 @@ export interface AcrFormData {
   acrResourceId: string;
   acrLocation: string;
   acrCredentialType: string;
+  acrManagedIdentityType: string | null;
 }
 
 export interface DockerHubFormData {
@@ -626,6 +636,9 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   acrSubscription: string;
   acrStatusMessage?: string;
   acrStatusMessageType?: MessageBarType;
+  acrUseManagedIdentities: boolean;
+  managedIdentityOptions: IDropdownOption[];
+  loadingManagedIdentities: boolean;
 }
 
 export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>

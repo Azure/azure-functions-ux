@@ -13,6 +13,7 @@ import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFor
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import Url from '../../../../utils/url';
+import { deploymentCenterAcrBannerDiv } from '../DeploymentCenter.styles';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -27,6 +28,9 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     loadingImageOptions,
     loadingTagOptions,
     acrSubscription,
+    acrUseManagedIdentities,
+    managedIdentityOptions,
+    loadingManagedIdentities,
     fetchRegistriesInSub,
   } = props;
   const { t } = useTranslation();
@@ -90,7 +94,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
   // Now in case if the user chooses to use an existing workflow file in their repo, we would still need to get the
   // target registry url, username, and password to update the app settings, but no workflow update is needed.
 
-  const acrManagedIdentitiesComponent = Url.getFeatureValue(CommonConstants.FeatureFlags.enableACRManagedIdentities) ? (
+  const acrManagedIdentitiesComponent = Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.enableACRManagedIdentities) ? (
     <>
       <Field
         id="container-acr-credentials"
@@ -103,6 +107,15 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         ]}
         displayInVerticalLayout={false}
       />
+      <Field
+        id="container-acr-managed-identities-type"
+        label={t('identity')}
+        name="acrManagedIdentityType"
+        component={ComboBox}
+        placeholder={t('managedIdentityTypePlaceholder')}
+        options={managedIdentityOptions}
+        disabled={!acrUseManagedIdentities || loadingManagedIdentities}
+      />
     </>
   ) : (
     <></>
@@ -111,7 +124,9 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
   return (
     <>
       {acrStatusMessage && acrStatusMessageType && (
-        <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} />
+        <div id="acr-status-message-type-div" className={deploymentCenterAcrBannerDiv}>
+          <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} />
+        </div>
       )}
 
       <ComboBoxNoFormik

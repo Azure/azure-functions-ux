@@ -83,6 +83,7 @@ export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
       selectors: {
         '.ms-ComboBox-header': {
           ...fonts.medium,
+          fontWeight: StyleConstants.fontWeightBold,
           color: semanticColors.focusBorder,
         },
         '.ms-ComboBox-option': {

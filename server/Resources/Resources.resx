@@ -7215,4 +7215,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="invalidCronExpressionMessage" xml:space="preserve">
         <value>Invalid Cron Expression. Please consult the &lt;a href="{0}" target="_blank"&gt;documentation&lt;/a&gt; to learn more.</value>
     </data>
+    <data name="systemAssigned" xml:space="preserve">
+        <value>System assigned</value>
+    </data>
+    <data name="userAssigned" xml:space="preserve">
+        <value>User assigned</value>
+    </data>
+    <data name="managedIdentityTypePlaceholder" xml:space="preserve">
+        <value>Select managed identity</value>
+    </data>
 </root>

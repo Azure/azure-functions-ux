@@ -1,8 +1,14 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { DeploymentCenterFieldProps, DeploymentCenterContainerFormData, ACRCredentialType } from '../DeploymentCenter.types';
+import {
+  DeploymentCenterFieldProps,
+  DeploymentCenterContainerFormData,
+  ACRCredentialType,
+  ACRManagedIdentityType,
+  ManagedIdentityInfo,
+} from '../DeploymentCenter.types';
 import DeploymentCenterContainerAcrSettings from './DeploymentCenterContainerAcrSettings';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { IDropdownOption, MessageBarType } from '@fluentui/react';
+import { IComboBoxOption, IDropdownOption, MessageBarType, SelectableOptionMenuItemType } from '@fluentui/react';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ACRCredential, ACRRepositories, ACRTags } from '../../../../models/acr';
@@ -44,6 +50,8 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const [loadingTagOptions, setLoadingTagOptions] = useState(false);
   const registryIdentifiers = useRef<{ [key: string]: RegistryIdentifiers }>({});
   const [subscriptionOptions, setSubscriptionOptions] = useState<IDropdownOption[]>([]);
+  const [managedIdentityOptions, setManagedIdentityOptions] = useState<IComboBoxOption[]>([]);
+  const [loadingManagedIdentities, setLoadingManagedIdentities] = useState(true);
 
   const fetchData = () => {
     fetchAllSubscriptions();
@@ -336,6 +344,47 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     }
   };
 
+  const fetchManagedIdentityOptions = async () => {
+    setLoadingManagedIdentities(true);
+    const identities: IComboBoxOption[] = [
+      { key: ACRManagedIdentityType.systemAssigned, text: t('systemAssigned') },
+      { key: ACRManagedIdentityType.userAssigned, text: t('userAssigned'), itemType: SelectableOptionMenuItemType.Header },
+    ];
+
+    const response = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
+    if (response.metadata.success) {
+      if (!!response.data.identity && !!response.data.identity.userAssignedIdentities) {
+        const userAssignedIdentities = response.data.identity.userAssignedIdentities;
+
+        for (const id in userAssignedIdentities) {
+          const idSplit = id.split('/');
+          if (!!idSplit) {
+            const identityName = idSplit[idSplit.length - 1];
+            if (!!userAssignedIdentities[id]) {
+              const clientId = userAssignedIdentities[id][ManagedIdentityInfo.clientId];
+              identities.push({ key: clientId, text: identityName });
+            }
+          }
+        }
+      }
+    }
+
+    setManagedIdentityOptions(identities);
+    setManagedIdentityType();
+    setLoadingManagedIdentities(false);
+  };
+
+  const setManagedIdentityType = () => {
+    if (!!deploymentCenterContext.siteConfig && !!deploymentCenterContext.siteConfig.properties) {
+      if (acrUseManagedIdentities) {
+        formProps.values.acrManagedIdentityType =
+          deploymentCenterContext.siteConfig.properties.acrUserManagedIdentityID || ACRManagedIdentityType.systemAssigned;
+      } else {
+        formProps.values.acrManagedIdentityType = '';
+      }
+    }
+  };
+
   const getAcrNameFromLoginServer = (loginServer: string): string => {
     if (!!loginServer) {
       const loginServerParts = loginServer.split('.');
@@ -405,7 +454,14 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
   useEffect(() => {
     setAcrUseManagedIdentities(formProps.values.acrCredentialType === ACRCredentialType.managedIdentity);
+    if (managedIdentityOptions.length < 1) {
+      fetchManagedIdentityOptions();
+    }
   }, [formProps.values.acrCredentialType]);
+
+  useEffect(() => {
+    fetchRegistries();
+  }, [acrUseManagedIdentities]);
 
   return (
     <DeploymentCenterContainerAcrSettings
@@ -423,6 +479,9 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       acrStatusMessage={acrStatusMessage}
       acrStatusMessageType={acrStatusMessageType}
       acrSubscription={subscription}
+      acrUseManagedIdentities={acrUseManagedIdentities}
+      managedIdentityOptions={managedIdentityOptions}
+      loadingManagedIdentities={loadingManagedIdentities}
     />
   );
 };
