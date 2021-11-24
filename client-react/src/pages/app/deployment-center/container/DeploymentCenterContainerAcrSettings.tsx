@@ -131,7 +131,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
           { key: ACRCredentialType.adminCredentials, text: t('adminCredentials') },
           { key: ACRCredentialType.managedIdentity, text: t('managedIdentity') },
         ]}
-        displayInVerticalLayout={false}
+        displayInVerticalLayout={true}
       />
       <Field
         id="container-acr-managed-identities-type"
