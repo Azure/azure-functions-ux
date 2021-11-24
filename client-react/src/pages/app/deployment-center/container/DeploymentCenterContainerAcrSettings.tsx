@@ -8,11 +8,9 @@ import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterCont
 import ComboBox from '../../../../components/form-controls/ComboBox';
 import { ScmType } from '../../../../models/site/config';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { IDropdownOption } from '@fluentui/react';
+import { IDropdownOption, MessageBar, MessageBarType } from '@fluentui/react';
 import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
 import RadioButton from '../../../../components/form-controls/RadioButton';
-import { CommonConstants } from '../../../../utils/CommonConstants';
-import Url from '../../../../utils/url';
 import { deploymentCenterAcrBannerDiv } from '../DeploymentCenter.styles';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
@@ -31,6 +29,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     acrUseManagedIdentities,
     managedIdentityOptions,
     loadingManagedIdentities,
+    learnMoreLink,
     fetchRegistriesInSub,
   } = props;
   const { t } = useTranslation();
@@ -86,6 +85,16 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [acrTagOptions]);
 
+  const acrInfoMessageBanner = acrUseManagedIdentities ? (
+    <div id="acr-managed-identities-info-banner" className={deploymentCenterAcrBannerDiv}>
+      <MessageBar id="acr-info-message-bar" messageBarType={MessageBarType.info} isMultiline={true}>
+        {t('managedIdentityInfoMessage')}
+      </MessageBar>
+    </div>
+  ) : (
+    <></>
+  );
+
   // NOTE(michinoy): In case of GitHub Action, we will always need to get the user credentials for their ACR
   // registry. This is because the workflow would need to use those credentials to push the images and app service
   // would use the same credentials to pull the images.
@@ -94,38 +103,13 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
   // Now in case if the user chooses to use an existing workflow file in their repo, we would still need to get the
   // target registry url, username, and password to update the app settings, but no workflow update is needed.
 
-  const acrManagedIdentitiesComponent = Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.enableACRManagedIdentities) ? (
-    <>
-      <Field
-        id="container-acr-credentials"
-        label={t('authentication')}
-        name="acrCredentialType"
-        component={RadioButton}
-        options={[
-          { key: ACRCredentialType.adminCredentials, text: t('adminCredentials') },
-          { key: ACRCredentialType.managedIdentity, text: t('managedIdentity') },
-        ]}
-        displayInVerticalLayout={false}
-      />
-      <Field
-        id="container-acr-managed-identities-type"
-        label={t('identity')}
-        name="acrManagedIdentityType"
-        component={ComboBox}
-        placeholder={t('managedIdentityTypePlaceholder')}
-        options={managedIdentityOptions}
-        disabled={!acrUseManagedIdentities || loadingManagedIdentities}
-      />
-    </>
-  ) : (
-    <></>
-  );
-
   return (
     <>
+      {acrInfoMessageBanner}
+
       {acrStatusMessage && acrStatusMessageType && (
         <div id="acr-status-message-type-div" className={deploymentCenterAcrBannerDiv}>
-          <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} />
+          <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} learnMoreLink={learnMoreLink} />
         </div>
       )}
 
@@ -139,9 +123,26 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         onChange={(val, newSub) => fetchRegistriesInSub(newSub.key)}
         value={acrSubscription}
       />
-
-      {acrManagedIdentitiesComponent}
-
+      <Field
+        id="container-acr-credentials"
+        label={t('authentication')}
+        name="acrCredentialType"
+        component={RadioButton}
+        options={[
+          { key: ACRCredentialType.adminCredentials, text: t('adminCredentials') },
+          { key: ACRCredentialType.managedIdentity, text: t('managedIdentity') },
+        ]}
+        displayInVerticalLayout={true}
+      />
+      <Field
+        id="container-acr-managed-identities-type"
+        label={t('identity')}
+        name="acrManagedIdentityType"
+        component={ComboBox}
+        placeholder={t('managedIdentityTypePlaceholder')}
+        options={managedIdentityOptions}
+        disabled={!acrUseManagedIdentities || loadingManagedIdentities}
+      />
       <Field
         id="container-acr-repository"
         label={t('containerACRRegistry')}
