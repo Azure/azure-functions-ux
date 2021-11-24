@@ -54,6 +54,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const [subscriptionOptions, setSubscriptionOptions] = useState<IDropdownOption[]>([]);
   const [managedIdentityOptions, setManagedIdentityOptions] = useState<IComboBoxOption[]>([]);
   const [loadingManagedIdentities, setLoadingManagedIdentities] = useState(true);
+  const [learnMoreLink, setLearnMoreLink] = useState<string | undefined>(undefined);
 
   const fetchData = () => {
     fetchAllSubscriptions();
@@ -63,6 +64,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setAcrTagOptions([]);
     setAcrStatusMessage(undefined);
     setAcrStatusMessageType(undefined);
+    setLearnMoreLink(undefined);
     fetchRegistries();
   };
 
@@ -167,6 +169,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       setAcrTagOptions([]);
       setAcrStatusMessage(undefined);
       setAcrStatusMessageType(undefined);
+      setLearnMoreLink(undefined);
       const serverUrl = !!loginServer ? loginServer.toLocaleLowerCase() : '';
 
       const selectedRegistryIdentifier = registryIdentifiers.current[serverUrl];
@@ -261,6 +264,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         } else {
           setAcrStatusMessage(t('acrCredentialsWarningMessage').format(selectedRegistryIdentifier.name));
           setAcrStatusMessageType(MessageBarType.warning);
+          setLearnMoreLink(DeploymentCenterConstants.authOptionsLink);
         }
       }
       setLoadingImageOptions(false);
@@ -272,7 +276,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       setLoadingTagOptions(true);
       setAcrStatusMessage(undefined);
       setAcrStatusMessageType(undefined);
-
+      setLearnMoreLink(undefined);
       const loginServer = !!formProps.values.acrLoginServer ? formProps.values.acrLoginServer.toLocaleLowerCase() : '';
       const selectedRegistryIdentifier = registryIdentifiers.current[loginServer];
 
@@ -327,6 +331,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         } else {
           setAcrStatusMessage(t('acrCredentialsWarningMessage').format(selectedRegistryIdentifier.name));
           setAcrStatusMessageType(MessageBarType.warning);
+          setLearnMoreLink(DeploymentCenterConstants.authOptionsLink);
         }
       }
       setLoadingTagOptions(false);
@@ -504,6 +509,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       acrUseManagedIdentities={acrUseManagedIdentities}
       managedIdentityOptions={managedIdentityOptions}
       loadingManagedIdentities={loadingManagedIdentities}
+      learnMoreLink={learnMoreLink}
     />
   );
 };

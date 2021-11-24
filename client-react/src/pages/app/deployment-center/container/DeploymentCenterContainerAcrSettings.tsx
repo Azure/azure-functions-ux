@@ -29,6 +29,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     acrUseManagedIdentities,
     managedIdentityOptions,
     loadingManagedIdentities,
+    learnMoreLink,
     fetchRegistriesInSub,
   } = props;
   const { t } = useTranslation();
@@ -108,7 +109,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
       {acrStatusMessage && acrStatusMessageType && (
         <div id="acr-status-message-type-div" className={deploymentCenterAcrBannerDiv}>
-          <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} />
+          <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} learnMoreLink={learnMoreLink} />
         </div>
       )}
 
