@@ -2361,4 +2361,6 @@ export class PortalResources {
   public static systemAssigned = 'systemAssigned';
   public static userAssigned = 'userAssigned';
   public static managedIdentityTypePlaceholder = 'managedIdentityTypePlaceholder';
+  public static managedIdentityInfoMessage = 'managedIdentityInfoMessage';
+  public static acrCredentialsWarningMessage = 'acrCredentialsWarningMessage';
 }

@@ -7224,4 +7224,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="managedIdentityTypePlaceholder" xml:space="preserve">
         <value>Select managed identity</value>
     </data>
+    <data name="managedIdentityInfoMessage" xml:space="preserve">
+        <value>Image and tag fields will not auto populate. Please manually enter the image and tag below.</value>
+    </data>
+    <data name="acrCredentialsWarningMessage" xml:space="preserve">
+        <value>Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below. To learn more, visit https://docs.microsoft.com/en-us/azure/container-registry/container-registry-authentication?tabs=azure-cli</value>
+    </data>
 </root>
