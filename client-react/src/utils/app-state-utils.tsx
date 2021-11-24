@@ -24,6 +24,7 @@ export async function resolveState(
   logCategory: string,
   site: ArmObj<Site>,
   subscription: ISubscription,
+  portalEditingFlighted: boolean,
   appSettings?: ArmObj<AppSettings>
 ) {
   const readOnlyLock = await portalContext.hasLock(resourceId, 'ReadOnly');
@@ -38,7 +39,7 @@ export async function resolveState(
 
   // NOTE (krmitta): We only want to get the edit state from other scenarios for function-apps
   if (isFunctionApp(site)) {
-    return await resolveStateForFunctionApp(resourceId, logCategory, site, subscription, appSettings);
+    return await resolveStateForFunctionApp(resourceId, logCategory, site, subscription, portalEditingFlighted, appSettings);
   }
 
   return FunctionAppEditMode.ReadWrite;
@@ -49,16 +50,17 @@ async function resolveStateForFunctionApp(
   logCategory: string,
   site: ArmObj<Site>,
   subscription: ISubscription,
+  portalEditingFlighted: boolean,
   appSettings?: ArmObj<AppSettings>
 ) {
-  let state = resolveStateFromSite(site, appSettings);
+  let state = resolveStateFromSite(site, portalEditingFlighted, appSettings);
   // NOTE(krmitta): State is only returned if it is defined otherwise we move to the next check
   if (!!state) {
     return state;
   }
 
   if (!!appSettings) {
-    state = resolveStateFromAppSetting(appSettings, site, subscription);
+    state = resolveStateFromAppSetting(appSettings, site, subscription, portalEditingFlighted);
     if (!!state) {
       return state;
     }
@@ -75,7 +77,7 @@ async function resolveStateForFunctionApp(
   }
 
   // NOTE(krmitta): Host status API check is currently behind feature-flag and only for Linux apps
-  if (FunctionAppService.isEditingCheckNeededForLinuxSku(site)) {
+  if (FunctionAppService.isEditingCheckNeededForLinuxSku(site, portalEditingFlighted)) {
     state = await fetchAndResolveStateFromHostStatus(resourceId, logCategory);
     if (!!state) {
       return state;
@@ -85,10 +87,10 @@ async function resolveStateForFunctionApp(
   return FunctionAppEditMode.ReadWrite;
 }
 
-function resolveStateFromSite(site: ArmObj<Site>, appSettings?: ArmObj<AppSettings>) {
+function resolveStateFromSite(site: ArmObj<Site>, portalEditingFlighted: boolean, appSettings?: ArmObj<AppSettings>) {
   const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
 
-  if (isLinuxDynamic(site) && !FunctionAppService.enableEditingForLinux(site, workerRuntime)) {
+  if (isLinuxDynamic(site) && !FunctionAppService.enableEditingForLinux(site, portalEditingFlighted, workerRuntime)) {
     return FunctionAppEditMode.ReadOnlyLinuxDynamic;
   }
 
@@ -96,14 +98,19 @@ function resolveStateFromSite(site: ArmObj<Site>, appSettings?: ArmObj<AppSettin
     return FunctionAppEditMode.ReadOnlyBYOC;
   }
 
-  if (isLinuxApp(site) && isElastic(site) && !FunctionAppService.enableEditingForLinux(site, workerRuntime)) {
+  if (isLinuxApp(site) && isElastic(site) && !FunctionAppService.enableEditingForLinux(site, portalEditingFlighted, workerRuntime)) {
     return FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
   }
 
   return undefined;
 }
 
-function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmObj<Site>, subscription: ISubscription) {
+function resolveStateFromAppSetting(
+  appSettings: ArmObj<AppSettings>,
+  site: ArmObj<Site>,
+  subscription: ISubscription,
+  portalEditingFlighted: boolean
+) {
   const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
 
   if (isKubeApp(site)) {
@@ -134,7 +141,7 @@ function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmO
     return FunctionAppEditMode.ReadOnlyJava;
   }
 
-  if (isLinuxAppEditingDisabledForAzureFiles(site, appSettings, subscription)) {
+  if (isLinuxAppEditingDisabledForAzureFiles(site, appSettings, subscription, portalEditingFlighted)) {
     return FunctionAppEditMode.ReadOnlyAzureFiles;
   }
 
@@ -224,7 +231,8 @@ const resolveStateFromHostStatus = (hostStatus: ArmObj<HostStatus>): FunctionApp
 const isLinuxAppEditingDisabledForAzureFiles = (
   site: ArmObj<Site>,
   appSettings: ArmObj<AppSettings>,
-  subscription: ISubscription
+  subscription: ISubscription,
+  portalEditingFlighted: boolean
 ): boolean => {
   // NOTE(krmitta): Defaulting to true since we are explicitly checking the two cases of the app-setting below
   let azureFilesAppSettingAbsent = true;
@@ -241,5 +249,5 @@ const isLinuxAppEditingDisabledForAzureFiles = (
   }
 
   // NOTE(krmitta):AzureFiles check is currently behind feature-flag and only for Linux apps
-  return FunctionAppService.isEditingCheckNeededForLinuxSku(site, false) && azureFilesAppSettingAbsent;
+  return FunctionAppService.isEditingCheckNeededForLinuxSku(site, portalEditingFlighted, false) && azureFilesAppSettingAbsent;
 };

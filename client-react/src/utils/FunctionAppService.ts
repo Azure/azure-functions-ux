@@ -1,7 +1,6 @@
 import { ArmObj } from '../models/arm-obj';
 import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { KeyValue } from '../models/portal-models';
-import Url from './url';
 import { Site } from '../models/site/site';
 import { isLinuxDynamic, isLinuxElastic, isPremiumV2 } from './arm-utils';
 
@@ -69,20 +68,20 @@ export default class FunctionAppService {
     return appSettings.properties[CommonConstants.AppSettingNames.azureWebJobsSecretStorageType] || '';
   }
 
-  public static isEditingCheckNeededForLinuxSku = (site: ArmObj<Site>, addPremiumV2Check: boolean = true) => {
-    return (
-      !!site &&
-      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enablePortalEditing) &&
-      (isLinuxDynamic(site) || isLinuxElastic(site) || (addPremiumV2Check && isPremiumV2(site)))
-    );
+  public static isEditingCheckNeededForLinuxSku = (
+    site: ArmObj<Site>,
+    portalEditingFlighted: boolean,
+    addPremiumV2Check: boolean = true
+  ) => {
+    return !!site && portalEditingFlighted && (isLinuxDynamic(site) || isLinuxElastic(site) || (addPremiumV2Check && isPremiumV2(site)));
   };
 
-  public static enableEditingForLinux(site: ArmObj<Site>, workerRuntime?: string) {
+  public static enableEditingForLinux(site: ArmObj<Site>, portalEditingFlighted, workerRuntime?: string) {
     // NOTE (krmitta): Editing is only enabled for Linux Consumption or Linux Elastic Premium and Node/Python stack only.
     // For Powershell, we still need to use the feature-flag.
     return (
       !!workerRuntime &&
-      FunctionAppService.isEditingCheckNeededForLinuxSku(site) &&
+      FunctionAppService.isEditingCheckNeededForLinuxSku(site, portalEditingFlighted) &&
       (workerRuntime === WorkerRuntimeLanguages.nodejs ||
         workerRuntime === WorkerRuntimeLanguages.python ||
         workerRuntime === WorkerRuntimeLanguages.powershell)
