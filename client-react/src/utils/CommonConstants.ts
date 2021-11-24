@@ -60,7 +60,6 @@ export class CommonConstants {
     disablePortalEditing: 'disablePortalEditing',
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
-    enableACRManagedIdentities: 'enableACRManagedIdentities',
     makeCallThroughPortal: 'makeCallThroughPortal',
   };
 
