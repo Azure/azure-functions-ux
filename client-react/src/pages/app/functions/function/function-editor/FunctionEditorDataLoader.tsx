@@ -502,6 +502,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           uri: functionInfo.properties.test_data_href,
           type: 'GET',
           headers: headers,
+          setAuthorizationHeader: true,
         });
 
         if (isPortalCommunicationStatusSuccess(functionHrefTestDataResponse.status)) {
