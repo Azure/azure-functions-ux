@@ -2363,4 +2363,5 @@ export class PortalResources {
   public static managedIdentityTypePlaceholder = 'managedIdentityTypePlaceholder';
   public static managedIdentityInfoMessage = 'managedIdentityInfoMessage';
   public static acrCredentialsWarningMessage = 'acrCredentialsWarningMessage';
+  public static addIdentity = 'addIdentity';
 }

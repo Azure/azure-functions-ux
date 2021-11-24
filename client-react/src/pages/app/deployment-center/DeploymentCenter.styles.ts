@@ -181,6 +181,10 @@ export const changeAccountInfoButtonStyle = style({
   paddingBottom: '10px',
 });
 
+export const addIdentityLinkStyle = style({
+  padding: '10px 10px 10px 9px',
+});
+
 export const buttonFooterStyle = (theme: ThemeExtended): string =>
   style({
     backgroundColor: `${theme.semanticColors.background}`,
