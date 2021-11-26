@@ -13824,6 +13824,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";managedIdentityTypePlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select managed identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[관리 ID 선택]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";managedPipelineModeLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Managed Pipeline Version]]></Val>
@@ -20394,6 +20403,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";systemAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[System assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[할당된 시스템]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";tabNames_develop" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Develop]]></Val>
@@ -21392,6 +21410,15 @@
           <Val><![CDATA[Incoming client certificates requires a basic or higher App Service plan]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[들어오는 클라이언트 인증서에는 기본 이상의 App Service 요금제가 필요합니다.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";userAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[User assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[사용자 할당됨]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
