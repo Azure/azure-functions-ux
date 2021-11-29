@@ -6361,7 +6361,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Are you sure you want to discard the changes to the file {0}?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Anda yakin ingin membuang perubahan pada file {0}?]]></Val>
+            <Val><![CDATA[Anda yakin ingin membatalkan perubahan pada file {0}?]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6370,7 +6370,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Discard changes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Buang perubahan]]></Val>
+            <Val><![CDATA[Batalkan perubahan]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13152,6 +13152,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";managedIdentityTypePlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select managed identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Pilih identitas terkelola]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";managedPipelineModeLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Managed Pipeline Version]]></Val>
@@ -18358,7 +18367,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Are you sure you want to discard the changes to the application settings for the environment {0}?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Anda yakin ingin membuang perubahan pada pengaturan aplikasi untuk lingkungan {0}?]]></Val>
+            <Val><![CDATA[Anda yakin ingin membatalkan perubahan pada pengaturan aplikasi untuk lingkungan {0}?]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19452,6 +19461,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";systemAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[System assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ditetapkan sistem]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";tabNames_develop" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Develop]]></Val>
@@ -20411,6 +20429,15 @@
           <Val><![CDATA[Incoming client certificates requires a basic or higher App Service plan]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Sertifikat klien masuk memerlukan paket App Service dasar atau lebih tinggi]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";userAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[User assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ditetapkan pengguna]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
