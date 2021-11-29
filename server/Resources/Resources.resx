@@ -7216,10 +7216,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Invalid Cron Expression. Please consult the &lt;a href="{0}" target="_blank"&gt;documentation&lt;/a&gt; to learn more.</value>
     </data>
     <data name="systemAssigned" xml:space="preserve">
-        <value>System assigned</value>
+        <value>System-assigned</value>
     </data>
     <data name="userAssigned" xml:space="preserve">
-        <value>User assigned</value>
+        <value>User-assigned</value>
     </data>
     <data name="managedIdentityTypePlaceholder" xml:space="preserve">
         <value>Select managed identity</value>
@@ -7229,5 +7229,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="acrCredentialsWarningMessage" xml:space="preserve">
         <value>Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below.</value>
+    </data>
+    <data name="addIdentity" xml:space="preserve">
+        <value>Add identity</value>
     </data>
 </root>

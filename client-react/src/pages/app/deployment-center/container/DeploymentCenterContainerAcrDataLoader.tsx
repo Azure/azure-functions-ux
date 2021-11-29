@@ -443,6 +443,22 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setSubscription(subscription);
   };
 
+  const openIdentityBlade = () => {
+    portalContext.openBlade(
+      {
+        detailBlade: 'AzureResourceIdentitiesBladeV2',
+        extension: 'Microsoft_Azure_ManagedServiceIdentity',
+        detailBladeInputs: {
+          resourceId: deploymentCenterContext.resourceId,
+          apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+          systemAssignedStatus: 2, // IdentityStatus.Supported
+          userAssignedStatus: 2, // IdentityStatus.Supported
+        },
+      },
+      'deployment-center'
+    );
+  };
+
   useEffect(() => {
     if (deploymentCenterContext.siteDescriptor && deploymentCenterContext.applicationSettings) {
       fetchData();
@@ -481,9 +497,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
   useEffect(() => {
     setAcrUseManagedIdentities(formProps.values.acrCredentialType === ACRCredentialType.managedIdentity);
-    if (managedIdentityOptions.length < 1) {
-      fetchManagedIdentityOptions();
-    }
+    fetchManagedIdentityOptions();
   }, [formProps.values.acrCredentialType]);
 
   useEffect(() => {
@@ -496,6 +510,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       fetchImages={fetchRepositories}
       fetchTags={fetchTags}
       fetchRegistriesInSub={setRegistriesInSub}
+      fetchManagedIdentityOptions={fetchManagedIdentityOptions}
       acrSubscriptionOptions={subscriptionOptions}
       acrRegistryOptions={acrRegistryOptions}
       acrImageOptions={acrImageOptions}
@@ -510,6 +525,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       managedIdentityOptions={managedIdentityOptions}
       loadingManagedIdentities={loadingManagedIdentities}
       learnMoreLink={learnMoreLink}
+      openIdentityBlade={openIdentityBlade}
     />
   );
 };
