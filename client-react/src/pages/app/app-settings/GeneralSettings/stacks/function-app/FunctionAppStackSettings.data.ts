@@ -2,7 +2,6 @@ import { FunctionAppRuntimes, FunctionAppRuntimeSettings, FunctionAppStack } fro
 import { IDropdownOption } from '@fluentui/react';
 import { RuntimeExtensionMajorVersions } from '../../../../../../models/functions/runtime-extension';
 import { AppStackMajorVersion, AppStackMinorVersion, AppStackOs } from '../../../../../../models/stacks/app-stacks';
-import { WorkerRuntimeLanguages } from '../../../../../../utils/CommonConstants';
 
 export const getStackVersionDropdownOptions = (
   stack: FunctionAppStack,

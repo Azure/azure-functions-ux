@@ -19,6 +19,7 @@ import React from 'react';
 import { AppSettingsFormValues } from '../pages/app/app-settings/AppSettings.types';
 import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { findFormAppSettingIndex } from '../pages/app/app-settings/AppSettingsFormData';
+import { filterDeprecatedFunctionAppStack } from '../pages/app/app-settings/GeneralSettings/stacks/function-app/FunctionAppStackSettings.data';
 
 const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
 export const NETFRAMEWORKVERSION5 = 5;
@@ -300,6 +301,33 @@ export const getFunctionAppStackVersion = (values: AppSettingsFormValues, isLinu
     const stackVersionProperty = getStackVersionConfigPropertyName(isLinux, stack);
     const stackVersion = values.config && values.config && values.config.properties[stackVersionProperty];
     return !!stackVersion ? stackVersion : undefined;
+  }
+};
+
+export const filterFunctionAppStack = (
+  supportedStacks: FunctionAppStack[],
+  values: AppSettingsFormValues,
+  isLinux: boolean,
+  stack: string
+) => {
+  const version = getFunctionAppStackVersion(values, isLinux, stack);
+  return filterDeprecatedFunctionAppStack(supportedStacks, stack, version || '');
+};
+
+export const getFunctionAppStackObject = (supportedStacks: FunctionAppStack[], isLinux: boolean, stack?: string) => {
+  if (!!stack) {
+    for (const supportedStack of supportedStacks) {
+      for (const majorVersion of supportedStack.majorVersions) {
+        for (const minorVersion of majorVersion.minorVersions) {
+          const settings = isLinux ? minorVersion.stackSettings.linuxRuntimeSettings : minorVersion.stackSettings.windowsRuntimeSettings;
+          if (!!settings && settings.appSettingsDictionary.FUNCTIONS_WORKER_RUNTIME === stack) {
+            return supportedStack;
+          }
+        }
+      }
+    }
+  } else {
+    return undefined;
   }
 };
 

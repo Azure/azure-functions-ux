@@ -10,7 +10,7 @@ import { FunctionsRuntimeVersionHelper } from '../../../../../../utils/Functions
 import { SiteStateContext } from '../../../../../../SiteState';
 import { Field } from 'formik';
 import { isContainerApp } from '../../../../../../utils/arm-utils';
-import { filterDeprecatedFunctionAppStack, getStackVersionDropdownOptions } from './FunctionAppStackSettings.data';
+import { getStackVersionDropdownOptions } from './FunctionAppStackSettings.data';
 import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
 import { settingsWrapper } from '../../../AppSettingsForm';
 import { Links } from '../../../../../../utils/FwLinks';
@@ -18,7 +18,13 @@ import TextField from '../../../../../../components/form-controls/TextField';
 import { IDropdownOption } from '@fluentui/react';
 import { AppSettingsFormValues, FormAppSetting } from '../../../AppSettings.types';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
-import { getFunctionAppStackVersion, getStackVersionConfigPropertyName, isWindowsNodeApp } from '../../../../../../utils/stacks-utils';
+import {
+  filterFunctionAppStack,
+  getFunctionAppStackObject,
+  getFunctionAppStackVersion,
+  getStackVersionConfigPropertyName,
+  isWindowsNodeApp,
+} from '../../../../../../utils/stacks-utils';
 
 const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();
@@ -52,8 +58,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const filterStacks = (supportedStacks: FunctionAppStack[]) => {
     const initialStack = getInitialStack();
-    const initialStackVersion = getStackVersion(initialValues, initialStack);
-    return filterDeprecatedFunctionAppStack(supportedStacks, initialStack, initialStackVersion || '');
+    return filterFunctionAppStack(supportedStacks, initialValues, isLinux(), initialStack);
   };
 
   const functionAppStacksContext = filterStacks(useContext(FunctionAppStacksContext));
@@ -77,17 +82,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   };
 
   const setInitialStackData = (runtimeStack: string) => {
-    for (const stack of functionAppStacksContext) {
-      for (const majorVersion of stack.majorVersions) {
-        for (const minorVersion of majorVersion.minorVersions) {
-          const settings = isLinux() ? minorVersion.stackSettings.linuxRuntimeSettings : minorVersion.stackSettings.windowsRuntimeSettings;
-          if (!!settings && settings.appSettingsDictionary.FUNCTIONS_WORKER_RUNTIME === runtimeStack) {
-            setCurrentStackData(stack);
-            return;
-          }
-        }
-      }
-    }
+    setCurrentStackData(getFunctionAppStackObject(functionAppStacksContext, isLinux(), runtimeStack));
   };
 
   const isVersionDirty = () => {
