@@ -16,6 +16,9 @@ import { getDateAfterXSeconds } from './DateUtilities';
 import { Links } from './FwLinks';
 import CustomBanner from '../components/CustomBanner/CustomBanner';
 import React from 'react';
+import { AppSettingsFormValues } from '../pages/app/app-settings/AppSettings.types';
+import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
+import { findFormAppSettingIndex } from '../pages/app/app-settings/AppSettingsFormData';
 
 const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
 export const NETFRAMEWORKVERSION5 = 5;
@@ -260,6 +263,45 @@ export const isJBossStack = (stackVersion: string) => !!stackVersion && stackVer
 
 // NOTE(krmitta): The banner should only be shown when the new selected stack version is JBoss, and the current stack is different
 export const isJBossWarningBannerShown = (newVersion: string, oldVersion: string) => isJBossStack(newVersion) && !isJBossStack(oldVersion);
+
+export const getStackVersionConfigPropertyName = (isLinuxApp: boolean, runtimeStack?: string) => {
+  if (isLinuxApp) {
+    return 'linuxFxVersion';
+  }
+
+  switch (runtimeStack) {
+    case WorkerRuntimeLanguages.dotnet:
+      return 'netFrameworkVersion';
+    case WorkerRuntimeLanguages.java:
+      return 'javaVersion';
+    case WorkerRuntimeLanguages.php:
+      return 'phpVersion';
+    case WorkerRuntimeLanguages.powershell:
+      return 'powerShellVersion';
+    case WorkerRuntimeLanguages.nodejs:
+      return 'nodeVersion';
+    default:
+      return 'netFrameworkVersion';
+  }
+};
+
+export const isWindowsNodeApp = (isLinux: boolean, stack?: string) =>
+  !isLinux && !!stack && stack.toLocaleLowerCase() === WorkerRuntimeLanguages.nodejs;
+
+export const getFunctionAppStackVersion = (values: AppSettingsFormValues, isLinux: boolean, stack?: string) => {
+  if (isWindowsNodeApp(isLinux, stack)) {
+    const index = findFormAppSettingIndex([...values.appSettings], CommonConstants.AppSettingNames.websiteNodeDefaultVersion);
+    if (index !== -1) {
+      return values.appSettings[index].value;
+    } else {
+      return undefined;
+    }
+  } else {
+    const stackVersionProperty = getStackVersionConfigPropertyName(isLinux, stack);
+    const stackVersion = values.config && values.config && values.config.properties[stackVersionProperty];
+    return !!stackVersion ? stackVersion : undefined;
+  }
+};
 
 export const JavaVersions = {
   WindowsVersion8: '1.8',

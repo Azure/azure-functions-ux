@@ -34,27 +34,6 @@ export const getStackVersionDropdownOptions = (
   return stackMinorVersions;
 };
 
-export const getStackVersionConfigPropertyName = (isLinuxApp: boolean, runtimeStack?: string) => {
-  if (isLinuxApp) {
-    return 'linuxFxVersion';
-  }
-
-  switch (runtimeStack) {
-    case WorkerRuntimeLanguages.dotnet:
-      return 'netFrameworkVersion';
-    case WorkerRuntimeLanguages.java:
-      return 'javaVersion';
-    case WorkerRuntimeLanguages.php:
-      return 'phpVersion';
-    case WorkerRuntimeLanguages.powershell:
-      return 'powerShellVersion';
-    case WorkerRuntimeLanguages.nodejs:
-      return 'nodeVersion';
-    default:
-      return 'netFrameworkVersion';
-  }
-};
-
 // Filter all the deprecated stack except the specific version passed as the parameter
 export const filterDeprecatedFunctionAppStack = (
   stacks: FunctionAppStack[],
