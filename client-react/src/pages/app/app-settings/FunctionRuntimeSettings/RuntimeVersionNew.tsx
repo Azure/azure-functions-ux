@@ -11,7 +11,8 @@ import {
   getFunctionAppStackVersion,
   isWindowsNodeApp,
 } from '../../../../utils/stacks-utils';
-import { AppSettingsFormProps } from '../AppSettings.types';
+import { AppSettingsFormProps, FormAppSetting } from '../AppSettings.types';
+import { addOrUpdateFormAppSetting, removeFormAppSetting } from '../AppSettingsFormData';
 import { FunctionAppStacksContext, PermissionsContext } from '../Contexts';
 
 const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
@@ -37,12 +38,8 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
 
   const getAndSetData = () => {
     const supportedExtensionVersionsFromStacksData = getSupportedExtensionVersions();
-    const runtimeVersion = getCurrentRuntimeVersionFromAppSetting();
+    let runtimeVersion = getCurrentRuntimeVersionFromAppSetting();
     let isCustomVersion = true;
-
-    if (selectedRuntimeVersion !== runtimeVersion) {
-      setselectedRuntimeVersion(runtimeVersion);
-    }
 
     for (const extensionVersion of supportedExtensionVersionsFromStacksData) {
       if (runtimeVersion === extensionVersion) {
@@ -52,9 +49,14 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
     }
 
     if (isCustomVersion) {
+      runtimeVersion = RuntimeExtensionMajorVersions.custom;
       setStackSupportedRuntimeVersions([...supportedExtensionVersionsFromStacksData, RuntimeExtensionMajorVersions.custom]);
     } else {
       setStackSupportedRuntimeVersions([...supportedExtensionVersionsFromStacksData]);
+    }
+
+    if (selectedRuntimeVersion !== runtimeVersion) {
+      setselectedRuntimeVersion(runtimeVersion);
     }
   };
 
@@ -89,6 +91,17 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
     return [];
   };
 
+  const onDropdownChange = (newVersion?: string) => {
+    if (!!newVersion) {
+      let appSettings: FormAppSetting[] = [...values.appSettings];
+
+      // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
+      appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.azureJobsExtensionVersion);
+      appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime);
+      appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime, newVersion);
+    }
+  };
+
   useEffect(() => {
     getAndSetData();
 
@@ -99,7 +112,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
     <>
       {app_write && editable ? (
         <DropdownNoFormik
-          onChange={() => null}
+          onChange={(_e, option) => onDropdownChange(!!option && option.key)}
           options={stackSupportedRuntimeVersions.map(version => ({
             key: version.toLocaleLowerCase(),
             text: version.toLocaleLowerCase(),
