@@ -1,5 +1,6 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
+const ruby2Point7EOL = new Date(2023, 3, 31).toString();
 const ruby2Point6EOL = new Date(2022, 3, 31).toString();
 const ruby2Point5EOL = new Date(2021, 3, 31).toString();
 const ruby2Point4EOL = new Date(2020, 4, 1).toString();
@@ -14,6 +15,40 @@ export const rubyStack: WebAppStack = {
       displayText: 'Ruby 2',
       value: '2',
       minorVersions: [
+        {
+          displayText: 'Ruby 2.7',
+          value: '2.7',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              runtimeVersion: 'RUBY|2.7',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              endOfLifeDate: ruby2Point7EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Ruby 2.7.3',
+          value: '2.7.3',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              runtimeVersion: 'RUBY|2.7.3',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              endOfLifeDate: ruby2Point7EOL,
+            },
+          },
+        },
         {
           displayText: 'Ruby 2.6',
           value: '2.6',
