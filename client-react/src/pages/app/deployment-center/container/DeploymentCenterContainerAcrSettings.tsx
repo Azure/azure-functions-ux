@@ -8,10 +8,10 @@ import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterCont
 import ComboBox from '../../../../components/form-controls/ComboBox';
 import { ScmType } from '../../../../models/site/config';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { IDropdownOption, MessageBar, MessageBarType } from '@fluentui/react';
+import { IDropdownOption, Link, MessageBar, MessageBarType } from '@fluentui/react';
 import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
 import RadioButton from '../../../../components/form-controls/RadioButton';
-import { deploymentCenterAcrBannerDiv } from '../DeploymentCenter.styles';
+import { addIdentityLinkStyle, deploymentCenterAcrBannerDiv } from '../DeploymentCenter.styles';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -31,6 +31,8 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     loadingManagedIdentities,
     learnMoreLink,
     fetchRegistriesInSub,
+    fetchManagedIdentityOptions,
+    openIdentityBlade,
   } = props;
   const { t } = useTranslation();
 
@@ -85,16 +87,6 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [acrTagOptions]);
 
-  const acrInfoMessageBanner = acrUseManagedIdentities ? (
-    <div id="acr-managed-identities-info-banner" className={deploymentCenterAcrBannerDiv}>
-      <MessageBar id="acr-info-message-bar" messageBarType={MessageBarType.info} isMultiline={true}>
-        {t('managedIdentityInfoMessage')}
-      </MessageBar>
-    </div>
-  ) : (
-    <></>
-  );
-
   // NOTE(michinoy): In case of GitHub Action, we will always need to get the user credentials for their ACR
   // registry. This is because the workflow would need to use those credentials to push the images and app service
   // would use the same credentials to pull the images.
@@ -105,7 +97,13 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
   return (
     <>
-      {acrInfoMessageBanner}
+      {acrUseManagedIdentities && (
+        <div id="acr-managed-identities-info-banner" className={deploymentCenterAcrBannerDiv}>
+          <MessageBar id="acr-info-message-bar" messageBarType={MessageBarType.info} isMultiline={true}>
+            {t('managedIdentityInfoMessage')}
+          </MessageBar>
+        </div>
+      )}
 
       {acrStatusMessage && acrStatusMessageType && (
         <div id="acr-status-message-type-div" className={deploymentCenterAcrBannerDiv}>
@@ -141,6 +139,12 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         component={ComboBox}
         placeholder={t('managedIdentityTypePlaceholder')}
         options={managedIdentityOptions}
+        onMenuOpen={fetchManagedIdentityOptions}
+        onRenderLowerContent={() => (
+          <Link id="container-acr-add-identity-link" className={addIdentityLinkStyle} onClick={openIdentityBlade}>
+            {t('addIdentity')}
+          </Link>
+        )}
         disabled={!acrUseManagedIdentities || loadingManagedIdentities}
       />
       <Field
