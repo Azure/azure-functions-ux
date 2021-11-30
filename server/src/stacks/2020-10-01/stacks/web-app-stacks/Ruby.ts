@@ -2,6 +2,7 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getRubyStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
+  const ruby2Point7EOL = getDateString(new Date(2023, 3, 31), useIsoDateFormat);
   const ruby2Point6EOL = getDateString(new Date(2022, 3, 31), useIsoDateFormat);
   const ruby2Point5EOL = getDateString(new Date(2021, 3, 31), useIsoDateFormat);
   const ruby2Point4EOL = getDateString(new Date(2020, 4, 1), useIsoDateFormat);
@@ -16,6 +17,40 @@ const getRubyStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
         displayText: 'Ruby 2',
         value: '2',
         minorVersions: [
+          {
+            displayText: 'Ruby 2.7',
+            value: '2.7',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'RUBY|2.7',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: false,
+                },
+                endOfLifeDate: ruby2Point7EOL,
+              },
+            },
+          },
+          {
+            displayText: 'Ruby 2.7.3',
+            value: '2.7.3',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'RUBY|2.7.3',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: false,
+                },
+                endOfLifeDate: ruby2Point7EOL,
+              },
+            },
+          },
           {
             displayText: 'Ruby 2.6',
             value: '2.6',
