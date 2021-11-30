@@ -16,7 +16,7 @@ import { addOrUpdateFormAppSetting, removeFormAppSetting } from '../AppSettingsF
 import { FunctionAppStacksContext, PermissionsContext } from '../Contexts';
 
 const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
-  const { values } = props;
+  const { values, setFieldValue } = props;
   const { t } = useTranslation();
 
   const [stackSupportedRuntimeVersions, setStackSupportedRuntimeVersions] = useState<RuntimeExtensionMajorVersions[]>([]);
@@ -99,6 +99,8 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
       appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.azureJobsExtensionVersion);
       appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime);
       appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime, newVersion);
+
+      setFieldValue('appSettings', appSettings);
     }
   };
 
