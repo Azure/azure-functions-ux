@@ -26,28 +26,32 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
   const functionAppStacksContext = useContext(FunctionAppStacksContext);
 
   const getCurrentRuntimeVersionFromAppSetting = () => {
-    const supportedRuntimeVersions = getSupportedExtensionVersions();
-    const appSettings = values.appSettings;
-    const runtimeVersionFromAppSetting =
-      !!appSettings && appSettings[CommonConstants.AppSettingNames.functionsExtensionVersion]
-        ? appSettings[CommonConstants.AppSettingNames.functionsExtensionVersion]
-        : '';
-    for (const runtimeVersion of supportedRuntimeVersions) {
-      if (runtimeVersionFromAppSetting === runtimeVersion) {
-        return runtimeVersionFromAppSetting;
-      }
+    const appSettings = values.appSettings.filter(
+      appSetting => appSetting.name === CommonConstants.AppSettingNames.functionsExtensionVersion
+    );
+    if (appSettings.length > 0) {
+      return appSettings[0].value;
     }
-    return RuntimeExtensionMajorVersions.custom;
+    return '';
   };
 
   const getAndSetData = () => {
     const supportedExtensionVersionsFromStacksData = getSupportedExtensionVersions();
     const runtimeVersion = getCurrentRuntimeVersionFromAppSetting();
+    let isCustomVersion = true;
+
     if (selectedRuntimeVersion !== runtimeVersion) {
       setselectedRuntimeVersion(runtimeVersion);
     }
 
-    if (runtimeVersion === RuntimeExtensionMajorVersions.custom) {
+    for (const extensionVersion of supportedExtensionVersionsFromStacksData) {
+      if (runtimeVersion === extensionVersion) {
+        isCustomVersion = false;
+        break;
+      }
+    }
+
+    if (isCustomVersion) {
       setStackSupportedRuntimeVersions([...supportedExtensionVersionsFromStacksData, RuntimeExtensionMajorVersions.custom]);
     } else {
       setStackSupportedRuntimeVersions([...supportedExtensionVersionsFromStacksData]);
@@ -87,8 +91,6 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
 
   useEffect(() => {
     getAndSetData();
-    console.log(stackSupportedRuntimeVersions);
-    console.log(selectedRuntimeVersion);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.currentlySelectedStack, values.appSettings, values.config]);
