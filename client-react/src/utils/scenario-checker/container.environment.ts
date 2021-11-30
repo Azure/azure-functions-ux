@@ -30,6 +30,14 @@ export class ContainerApp extends Environment {
         };
       },
     };
+    this.scenarioChecks[ScenarioIds.azureStorageMountPreview] = {
+      id: ScenarioIds.azureStorageMountPreview,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
     this.scenarioChecks[ScenarioIds.azureBlobMount] = {
       id: ScenarioIds.azureBlobMount,
       runCheck: input => {
