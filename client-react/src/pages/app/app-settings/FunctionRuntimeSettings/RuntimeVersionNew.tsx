@@ -12,7 +12,7 @@ import {
   isWindowsNodeApp,
 } from '../../../../utils/stacks-utils';
 import { AppSettingsFormProps, FormAppSetting } from '../AppSettings.types';
-import { addOrUpdateFormAppSetting, removeFormAppSetting } from '../AppSettingsFormData';
+import { addOrUpdateFormAppSetting, removeFromAppSetting } from '../AppSettingsFormData';
 import { FunctionAppStacksContext, PermissionsContext } from '../Contexts';
 
 const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
@@ -96,8 +96,8 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
       let appSettings: FormAppSetting[] = [...values.appSettings];
 
       // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
-      appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.azureJobsExtensionVersion);
-      appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime);
+      appSettings = removeFromAppSetting(values.appSettings, CommonConstants.AppSettingNames.azureJobsExtensionVersion);
+      appSettings = removeFromAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime);
       appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime, newVersion);
 
       setFieldValue('appSettings', appSettings);
