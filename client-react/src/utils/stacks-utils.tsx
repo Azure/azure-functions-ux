@@ -299,7 +299,7 @@ export const getFunctionAppStackVersion = (values: AppSettingsFormValues, isLinu
     }
   } else {
     const stackVersionProperty = getStackVersionConfigPropertyName(isLinux, stack);
-    const stackVersion = values.config && values.config.properties[stackVersionProperty];
+    const stackVersion = values.config && values.config.properties && values.config.properties[stackVersionProperty];
     return !!stackVersion ? stackVersion : undefined;
   }
 };

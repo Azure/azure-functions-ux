@@ -86,6 +86,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   };
 
   const isVersionDirty = () => {
+    // NOTE(krmitta): For Windows node app only we get the version from app-setting instead of config, thus this special case.
     if (isWindowsNodeApp(isLinux(), runtimeStack)) {
       if (!!initialStackVersion && !!values.appSettings) {
         const index = findFormAppSettingIndex([...values.appSettings], CommonConstants.AppSettingNames.websiteNodeDefaultVersion);
@@ -121,6 +122,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const onMajorVersionChange = (_, option: IDropdownOption) => {
     setSelectedStackVersion(option.key as string);
+    // NOTE(krmitta): For Windows node app only we get the version from app-setting instead of config, thus this special case.
     if (isWindowsNodeApp(isLinux(), runtimeStack)) {
       const versionData = option.data;
       if (
