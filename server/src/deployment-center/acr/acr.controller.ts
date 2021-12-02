@@ -46,10 +46,11 @@ export class ACRController {
       const urlString = `${armEndpoint}${scope}/providers/Microsoft.Authorization/roleAssignments?api-version=${apiVersion}`;
       const queryString = `&$filter=atScope()+and+assignedTo('{${principalId}}')`;
       const url = urlString + queryString;
-      const header = { Authorization: `${armToken}` };
 
-      const r = await this.httpService.get(url, { headers: header });
-      return r.data.value;
+      const r = await this.httpService.get(url, { headers: this._getARMAuthHeader(armToken) });
+      if (!!r.data) {
+        return r.data.value;
+      }
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.statusText, err.response.status);
@@ -73,7 +74,6 @@ export class ACRController {
       const urlString = `${armEndpoint}${scope}/providers/Microsoft.Authorization/roleAssignments/${roleGuid}?api-version=${apiVersion}`;
       const queryString = `&$filter=atScope()+and+assignedTo('{${principalId}}')`;
       const url = urlString + queryString;
-      const header = { Authorization: `${armToken}` };
       const data = {
         properties: {
           roleDefinitionId: `${scope}/providers/Microsoft.Authorization/roleDefinitions/${roleId}`,
@@ -81,8 +81,10 @@ export class ACRController {
         },
       };
 
-      const r = await this.httpService.put(url, data, { headers: header });
-      return r.data.value;
+      const r = await this.httpService.put(url, data, { headers: this._getARMAuthHeader(armToken) });
+      if (!!r.data) {
+        return r.data.value;
+      }
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.statusText, err.response.status);
@@ -94,6 +96,12 @@ export class ACRController {
   private _getACRAuthHeader(encodedUserInfo: string) {
     return {
       Authorization: `Basic ${encodedUserInfo}`,
+    };
+  }
+
+  private _getARMAuthHeader(armToken: string) {
+    return {
+      Authorization: `${armToken}`,
     };
   }
 

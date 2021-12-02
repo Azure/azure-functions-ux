@@ -76,47 +76,55 @@ export default class ACRService {
   }
 
   public static async hasAcrPullPermission(acrResourceId: string, principalId: string) {
-    let hasAcrPullPermission = false;
-
     const roleAssignments = await this.getRoleAssignments(acrResourceId, principalId);
-
     if (!!roleAssignments && roleAssignments.length > 0) {
-      for (let i = 0; i < roleAssignments.length; i++) {
-        const roleDefinitionSplit = roleAssignments[i].properties.roleDefinitionId.split('/');
+      roleAssignments.forEach(roleAssignment => {
+        const roleDefinitionSplit = roleAssignment.properties.roleDefinitionId.split(CommonConstants.singleForwardSlash);
         const roleId = roleDefinitionSplit[roleDefinitionSplit.length - 1];
         if (roleId === RBACRoleId.acrPull) {
-          hasAcrPullPermission = true;
+          return true;
         }
-      }
+      });
     }
 
-    return hasAcrPullPermission;
+    return false;
   }
 
-  public static async getRoleAssignments(scope: string, principalId: string) {
+  public static async getRoleAssignments(
+    scope: string,
+    principalId: string,
+    apiVersion: string = CommonConstants.ApiVersions.roleAssignmentApiVersion20180701
+  ) {
     const armEndpoint = getArmEndpoint();
     const armToken = getArmToken();
-    const apiVersion = CommonConstants.ApiVersions.roleAssignmentApiVersion20180701;
 
     const response = await sendHttpRequest<RoleAssignment[]>({
       data: { armEndpoint, armToken, apiVersion, scope, principalId },
       url: `${Url.serviceHost}api/acr/getRoleAssignments`,
       method: 'POST',
     });
-    return response.data;
+
+    if (response.metadata.success && !!response.data) {
+      return response.data;
+    }
   }
 
-  public static async setAcrPullPermission(acrResourceId: string, principalId: string) {
+  public static async setAcrPullPermission(
+    acrResourceId: string,
+    principalId: string,
+    apiVersion: string = CommonConstants.ApiVersions.roleAssignmentApiVersion20180701
+  ) {
     const armEndpoint = getArmEndpoint();
     const armToken = getArmToken();
-    const apiVersion = CommonConstants.ApiVersions.roleAssignmentApiVersion20180701;
     const roleId = RBACRoleId.acrPull;
 
-    await sendHttpRequest<RoleAssignment[]>({
+    const response = await sendHttpRequest<RoleAssignment[]>({
       data: { armEndpoint, armToken, apiVersion, scope: acrResourceId, principalId, roleId },
       url: `${Url.serviceHost}api/acr/setRoleAssignment`,
       method: 'POST',
     });
+
+    return response.metadata.success;
   }
 
   private static async _dispatchSpecificPageableRequest<T>(

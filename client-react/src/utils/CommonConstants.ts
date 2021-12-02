@@ -231,6 +231,8 @@ export class CommonConstants {
   public static readonly production = 'production';
 
   public static readonly master = 'master';
+
+  public static readonly singleForwardSlash = '/';
 }
 
 export enum WorkerRuntimeLanguages {

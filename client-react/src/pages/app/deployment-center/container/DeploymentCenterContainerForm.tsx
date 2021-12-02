@@ -307,7 +307,14 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               resourceId: identityPrincipalId,
             })
           );
-          await deploymentCenterData.setAcrPullPermission(acrResourceId, identityPrincipalId);
+          const setPermissionResponse = await deploymentCenterData.setAcrPullPermission(acrResourceId, identityPrincipalId);
+          if (!setPermissionResponse) {
+            portalContext.log(
+              getTelemetryInfo('error', 'setAcrPullPermission', 'failed', {
+                resourceId: identityPrincipalId,
+              })
+            );
+          }
         }
 
         siteConfigResponse.data.properties.acrUserManagedIdentityID = values.acrManagedIdentityType;
