@@ -50,7 +50,6 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             stackSettings: {
               linuxRuntimeSettings: {
                 runtimeVersion: 'NODE|16-lts',
-                isHidden: false,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,
