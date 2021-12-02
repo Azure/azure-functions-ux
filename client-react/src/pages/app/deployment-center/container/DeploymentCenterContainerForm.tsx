@@ -297,6 +297,26 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       ) {
         siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
       } else {
+        const acrResourceId = values.acrResourceId;
+        const identityPrincipalId = values.acrManagedIdentityPrincipalId;
+
+        const hasAcrPullPermissions = await deploymentCenterData.hasAcrPullPermission(acrResourceId, identityPrincipalId);
+        if (!hasAcrPullPermissions) {
+          portalContext.log(
+            getTelemetryInfo('info', 'setAcrPullPermission', 'submit', {
+              resourceId: identityPrincipalId,
+            })
+          );
+          const setPermissionResponse = await deploymentCenterData.setAcrPullPermission(acrResourceId, identityPrincipalId);
+          if (!setPermissionResponse) {
+            portalContext.log(
+              getTelemetryInfo('error', 'setAcrPullPermission', 'failed', {
+                resourceId: identityPrincipalId,
+              })
+            );
+          }
+        }
+
         siteConfigResponse.data.properties.acrUserManagedIdentityID = values.acrManagedIdentityType;
       }
 

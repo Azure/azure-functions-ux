@@ -111,6 +111,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       acrLocation: Yup.mixed().notRequired(),
       acrCredentialType: Yup.mixed().notRequired(),
       acrManagedIdentityType: Yup.mixed().notRequired(),
+      acrManagedIdentityPrincipalId: Yup.mixed().notRequired(),
     };
   }
 
@@ -376,6 +377,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         acrLocation: '',
         acrCredentialType,
         acrManagedIdentityType,
+        acrManagedIdentityPrincipalId: '',
       };
     } else {
       return {
@@ -389,6 +391,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         acrLocation: '',
         acrCredentialType,
         acrManagedIdentityType,
+        acrManagedIdentityPrincipalId: '',
       };
     }
   }
