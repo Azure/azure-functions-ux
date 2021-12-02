@@ -270,6 +270,14 @@ export default class DeploymentCenterData {
     return ACRService.getTags(loginServer, repository, username, password, logger);
   };
 
+  public hasAcrPullPermission = (acrResourceId: string, principalId: string) => {
+    return ACRService.hasAcrPullPermission(acrResourceId, principalId);
+  };
+
+  public setAcrPullPermission = (acrResourceId: string, principalId: string) => {
+    return ACRService.setAcrPullPermission(acrResourceId, principalId);
+  };
+
   public updateSiteConfig = (resourceId: string, config: ArmObj<SiteConfig>) => {
     return SiteService.updateWebConfig(resourceId, config);
   };
