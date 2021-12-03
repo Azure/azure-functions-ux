@@ -88,6 +88,7 @@ export class CommonConstants {
     enableOryxBuild: 'ENABLE_ORYX_BUILD',
     azureFilesSettingName: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING',
     azureWebJobsSecretStorageType: 'AzureWebJobsSecretStorageType',
+    azureWebJobsStorage: 'AzureWebJobsStorage',
   };
 
   public static readonly SkuNames = {
