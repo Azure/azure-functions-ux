@@ -66,7 +66,11 @@ export default class FunctionAppService {
   }
 
   public static getAzureWebJobsStorageSetting(appSettings: ArmObj<KeyValue<string>>): string {
-    return appSettings.properties[CommonConstants.AppSettingNames.azureWebJobsSecretStorageType] || '';
+    return (
+      appSettings.properties[CommonConstants.AppSettingNames.azureWebJobsSecretStorageType] ||
+      appSettings.properties[CommonConstants.AppSettingNames.azureWebJobsStorage] ||
+      ''
+    );
   }
 
   public static isEditingCheckNeededForLinuxSku = (site: ArmObj<Site>, addPremiumV2Check: boolean = true) => {
