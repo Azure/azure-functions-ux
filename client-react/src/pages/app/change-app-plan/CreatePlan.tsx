@@ -1,15 +1,11 @@
-import i18next from 'i18next';
 import { DefaultButton, IDropdownOption, Link, MessageBar, MessageBarType, Panel, PanelType, PrimaryButton } from '@fluentui/react';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import { Layout } from '../../../components/form-controls/ReactiveFormControl';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import { ArmObj } from '../../../models/arm-obj';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
-import PortalCommunicator from '../../../portal-communicator';
 import { PortalContext } from '../../../PortalContext';
 import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 import { AppKind } from '../../../utils/AppKind';
@@ -39,61 +35,105 @@ export const CreatePlan = (props: CreatePlanProps) => {
     ...props.newPlanInfo,
   });
 
-  const newPlanInfo$ = useRef(new Subject<NewPlanInfo>());
   const { t } = useTranslation();
   const portalContext = useContext(PortalContext);
 
-  // Initialization
-  useEffect(() => {
-    watchForPlanUpdates(subscriptionId, newPlanInfo$.current, setNewPlanInfo, serverFarmsInWebspace, setNewPlanNameValidationError, t);
-    checkIfHasSubscriptionWriteAccess(portalContext, `/subscriptions/${subscriptionId}`, setHasSubscriptionWritePermission);
-
-    const newPlanInfoCurrent = newPlanInfo$.current;
-    return () => {
-      newPlanInfoCurrent.unsubscribe();
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const onChangePlanName = (e: any, value: string) => {
-    newPlanInfo$.current.next({
+    setNewPlanInfo({
       ...newPlanInfo,
       name: value,
     });
   };
 
   const onRgChange = (value: ResourceGroupInfo): void => {
-    const info = { ...newPlanInfo, ...value };
-    newPlanInfo$.current.next(info);
+    setNewPlanInfo({ ...newPlanInfo, ...value });
   };
 
-  const onRenderFooterContent = (_t: i18next.TFunction) => {
+  const onRgValidationError = (error: string) => {
+    setHasResourceGroupWritePermission(!error);
+  };
+
+  const checkIfHasSubscriptionWriteAccess = async () => {
+    const resourceId = `/subscriptions/${subscriptionId}`;
+    const hasPermission = await portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
+    setHasSubscriptionWritePermission(hasPermission);
+  };
+
+  const watchForPlanUpdates = (planInfo: NewPlanInfo) => {
+    const rgName = planInfo.isNewResourceGroup ? planInfo.newResourceGroupName : (planInfo.existingResourceGroup as ArmObj<any>).name;
+
+    const validate = getServerFarmValidator(subscriptionId, rgName, t);
+    validate(planInfo.name)
+      .then(_ => {
+        const duplicate = serverFarmsInWebspace.find(s => s.name.toLowerCase() === planInfo.name.toLowerCase());
+        if (duplicate) {
+          setNewPlanNameValidationError(t('validationWebspaceUniqueErrorFormat').format(planInfo.name));
+        } else {
+          setNewPlanNameValidationError('');
+        }
+      })
+      .catch(e => {
+        setNewPlanNameValidationError(Object.values<string>(e)[0]);
+      });
+  };
+
+  const toggleShowPanel = (showPanel: boolean) => {
+    setShowPanel(showPanel);
+  };
+
+  const onClosePanel = (newPlanInfo: NewPlanInfo) => {
+    toggleShowPanel(false);
+    onCreatePanelClose(newPlanInfo);
+  };
+
+  const getNewLink = (hostingEnvironment?: ArmObj<HostingEnvironment>) => {
+    if (hostingEnvironment && AppKind.hasAnyKind(hostingEnvironment, [CommonConstants.Kinds.aseV1])) {
+      return;
+    }
+
+    return <Link onClick={() => toggleShowPanel(true)}>{t('createNew')}</Link>;
+  };
+
+  const onRenderFooterContent = () => {
     return (
       <div>
         <PrimaryButton
-          onClick={() => onClosePanel(newPlanInfo, setShowPanel, onCreatePanelClose)}
+          onClick={() => onClosePanel(newPlanInfo)}
           style={{ marginRight: '8px' }}
           disabled={!newPlanInfo.name || !!newPlanNameValidationError || !hasResourceGroupWritePermission}>
           OK
         </PrimaryButton>
-        <DefaultButton onClick={() => onCancelPanel(setShowPanel)}>Cancel</DefaultButton>
+        <DefaultButton onClick={() => toggleShowPanel(false)}>Cancel</DefaultButton>
       </div>
     );
   };
 
+  useEffect(() => {
+    watchForPlanUpdates(newPlanInfo);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newPlanInfo]);
+
+  // Initialization
+  useEffect(() => {
+    checkIfHasSubscriptionWriteAccess();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
-      {getNewLink(setShowPanel, t, hostingEnvironment)}
+      {getNewLink(hostingEnvironment)}
 
       <Panel
         isOpen={showPanel}
         type={PanelType.smallFixedFar}
-        onDismiss={() => onCancelPanel(setShowPanel)}
+        onDismiss={() => toggleShowPanel(false)}
         headerText={t('createNewPlan')}
         closeButtonAriaLabel={t('close')}
-        onRenderFooterContent={() => onRenderFooterContent(t)}>
-        {getSubscriptionWritePermissionWarning(hasSubscriptionWritePermission, t)}
+        onRenderFooterContent={() => onRenderFooterContent()}>
+        {!hasSubscriptionWritePermission && (
+          <MessageBar messageBarType={MessageBarType.warning}>{t('changePlanNoWritePermissionOnSubscription')}</MessageBar>
+        )}
 
         <CreateOrSelectResourceGroup
           options={resourceGroupOptions}
@@ -102,7 +142,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
           existingResourceGroup={newPlanInfo.existingResourceGroup}
           onRgChange={onRgChange}
           hasSubscriptionWritePermission={hasSubscriptionWritePermission}
-          onRgValidationError={e => onRgValidationError(e, setHasResourceGroupWritePermission)}
+          onRgValidationError={e => onRgValidationError(e)}
         />
 
         <TextFieldNoFormik
@@ -119,81 +159,4 @@ export const CreatePlan = (props: CreatePlanProps) => {
       </Panel>
     </>
   );
-};
-
-const onRgValidationError = (error: string, setHasResourceGroupWritePermission: React.Dispatch<React.SetStateAction<boolean>>) => {
-  setHasResourceGroupWritePermission(!error);
-};
-
-const checkIfHasSubscriptionWriteAccess = async (
-  portalContext: PortalCommunicator,
-  resourceId: string,
-  hasSubscriptionWritePermission: React.Dispatch<React.SetStateAction<boolean>>
-) => {
-  const hasPermission = await portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
-  hasSubscriptionWritePermission(hasPermission);
-};
-
-const getSubscriptionWritePermissionWarning = (hasSubscriptionWritePermission: boolean, t: i18next.TFunction) => {
-  if (!hasSubscriptionWritePermission) {
-    return <MessageBar messageBarType={MessageBarType.warning}>{t('changePlanNoWritePermissionOnSubscription')}</MessageBar>;
-  }
-};
-
-const getNewLink = (
-  setShowPanel: React.Dispatch<React.SetStateAction<boolean>>,
-  t: i18next.TFunction,
-  hostingEnvironment?: ArmObj<HostingEnvironment>
-) => {
-  if (hostingEnvironment && AppKind.hasAnyKind(hostingEnvironment, [CommonConstants.Kinds.aseV1])) {
-    return;
-  }
-
-  return <Link onClick={() => onShowPanel(setShowPanel)}>{t('createNew')}</Link>;
-};
-
-const onShowPanel = (setShowPanel: React.Dispatch<React.SetStateAction<boolean>>) => {
-  setShowPanel(true);
-};
-
-const onCancelPanel = (setShowPanel: React.Dispatch<React.SetStateAction<boolean>>) => {
-  setShowPanel(false);
-};
-
-const onClosePanel = (
-  newPlanInfo: NewPlanInfo,
-  setShowPanel: React.Dispatch<React.SetStateAction<boolean>>,
-  onCreatePanelClosed: (newPlanInfo: NewPlanInfo) => void
-) => {
-  setShowPanel(false);
-  onCreatePanelClosed(newPlanInfo);
-};
-
-const watchForPlanUpdates = (
-  subscriptionId: string,
-  newPlanInfo$: Subject<NewPlanInfo>,
-  setNewPlanInfo: React.Dispatch<React.SetStateAction<NewPlanInfo>>,
-  serverFarmsInWebspace: ArmObj<ServerFarm>[],
-  setNewPlanNameValidationError: React.Dispatch<React.SetStateAction<string>>,
-  t: i18next.TFunction
-) => {
-  newPlanInfo$.pipe(debounceTime(300)).subscribe(info => {
-    setNewPlanInfo(info);
-
-    const rgName = info.isNewResourceGroup ? info.newResourceGroupName : (info.existingResourceGroup as ArmObj<any>).name;
-
-    const validate = getServerFarmValidator(subscriptionId, rgName, t);
-    validate(info.name)
-      .then(_ => {
-        const duplicate = serverFarmsInWebspace.find(s => s.name.toLowerCase() === info.name.toLowerCase());
-        if (duplicate) {
-          setNewPlanNameValidationError(t('validationWebspaceUniqueErrorFormat').format(info.name));
-        } else {
-          setNewPlanNameValidationError('');
-        }
-      })
-      .catch(e => {
-        setNewPlanNameValidationError(Object.values<string>(e)[0]);
-      });
-  });
 };

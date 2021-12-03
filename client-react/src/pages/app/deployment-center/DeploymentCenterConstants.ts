@@ -68,6 +68,8 @@ export class DeploymentCenterConstants {
   public static readonly singleContainerQSLink = 'https://go.microsoft.com/fwlink/?linkid=873144';
   public static readonly dockerComposeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873149';
   public static readonly kubeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873150';
+  public static readonly authOptionsLink =
+    'https://docs.microsoft.com/en-us/azure/container-registry/container-registry-authentication?tabs=azure-cli';
 
   public static readonly metadataIsGitHubAction = 'isGitHubAction';
   public static readonly metadataRepoUrl = 'RepoUrl';

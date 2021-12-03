@@ -1,11 +1,13 @@
 import MakeArmCall from './ArmHelper';
 import { ArmArray, ArmObj } from '../models/arm-obj';
 import { ACRRegistry, ACRWebhookPayload, ACRCredential, ACRRepositories, ACRTags } from '../models/acr';
-import { CommonConstants } from '../utils/CommonConstants';
+import { CommonConstants, RBACRoleId } from '../utils/CommonConstants';
 import { HttpResponseObject } from '../ArmHelper.types';
 import { getLastItemFromLinks, getLinksFromLinkHeader, sendHttpRequest } from './HttpClient';
 import Url from '../utils/url';
 import { Method } from 'axios';
+import { getArmEndpoint, getArmToken } from '../pages/app/deployment-center/utility/DeploymentCenterUtility';
+import { RoleAssignment } from '../pages/app/deployment-center/DeploymentCenter.types';
 
 export default class ACRService {
   public static getRegistries(subscriptionId: string) {
@@ -71,6 +73,58 @@ export default class ACRService {
     };
 
     return ACRService._dispatchSpecificPageableRequest<ACRTags>(data, 'getTags', 'POST', logger);
+  }
+
+  public static async hasAcrPullPermission(acrResourceId: string, principalId: string) {
+    const roleAssignments = await this.getRoleAssignments(acrResourceId, principalId);
+    if (!!roleAssignments && roleAssignments.length > 0) {
+      roleAssignments.forEach(roleAssignment => {
+        const roleDefinitionSplit = roleAssignment.properties.roleDefinitionId.split(CommonConstants.singleForwardSlash);
+        const roleId = roleDefinitionSplit[roleDefinitionSplit.length - 1];
+        if (roleId === RBACRoleId.acrPull) {
+          return true;
+        }
+      });
+    }
+
+    return false;
+  }
+
+  public static async getRoleAssignments(
+    scope: string,
+    principalId: string,
+    apiVersion: string = CommonConstants.ApiVersions.roleAssignmentApiVersion20180701
+  ) {
+    const armEndpoint = getArmEndpoint();
+    const armToken = getArmToken();
+
+    const response = await sendHttpRequest<RoleAssignment[]>({
+      data: { armEndpoint, armToken, apiVersion, scope, principalId },
+      url: `${Url.serviceHost}api/acr/getRoleAssignments`,
+      method: 'POST',
+    });
+
+    if (response.metadata.success && !!response.data) {
+      return response.data;
+    }
+  }
+
+  public static async setAcrPullPermission(
+    acrResourceId: string,
+    principalId: string,
+    apiVersion: string = CommonConstants.ApiVersions.roleAssignmentApiVersion20180701
+  ) {
+    const armEndpoint = getArmEndpoint();
+    const armToken = getArmToken();
+    const roleId = RBACRoleId.acrPull;
+
+    const response = await sendHttpRequest<RoleAssignment[]>({
+      data: { armEndpoint, armToken, apiVersion, scope: acrResourceId, principalId, roleId },
+      url: `${Url.serviceHost}api/acr/setRoleAssignment`,
+      method: 'POST',
+    });
+
+    return response.metadata.success;
   }
 
   private static async _dispatchSpecificPageableRequest<T>(

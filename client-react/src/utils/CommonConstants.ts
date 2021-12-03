@@ -38,6 +38,7 @@ export class CommonConstants {
     argApiVersion20210301: '2021-03-01',
     argApiVersion20180901Preview: '2018-09-01-preview',
     workflowApiVersion20201201: '2020-12-01',
+    roleAssignmentApiVersion20180701: '2018-07-01',
   };
 
   public static readonly NonThemeColors = {
@@ -60,8 +61,8 @@ export class CommonConstants {
     disablePortalEditing: 'disablePortalEditing',
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
-    enableACRManagedIdentities: 'enableACRManagedIdentities',
     makeCallThroughPortal: 'makeCallThroughPortal',
+    useStackApiForRuntimeVersion: 'useStackApiForRuntimeVersion',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -231,6 +232,8 @@ export class CommonConstants {
   public static readonly production = 'production';
 
   public static readonly master = 'master';
+
+  public static readonly singleForwardSlash = '/';
 }
 
 export enum WorkerRuntimeLanguages {
@@ -252,6 +255,10 @@ export enum OverflowBehavior {
 
 export enum TextFieldType {
   password = 'password',
+}
+
+export enum RBACRoleId {
+  acrPull = '7f951dda-4ed3-4680-a7ca-43fe172d538d',
 }
 
 export class SubscriptionQuotaIds {
