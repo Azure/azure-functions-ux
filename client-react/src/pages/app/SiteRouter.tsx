@@ -81,10 +81,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
       const trimmedResourceId = armSiteDescriptor.getTrimmedResourceId();
 
-      const [siteResponse, appSettingsResponse, subscriptionResponse] = await Promise.all([
+      const [siteResponse, appSettingsResponse] = await Promise.all([
         SiteService.fetchSite(trimmedResourceId),
         SiteService.fetchApplicationSettings(trimmedResourceId),
-        portalContext.getSubscription(armSiteDescriptor.subscription),
       ]);
 
       let site: ArmObj<Site> | undefined;
@@ -111,14 +110,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       }
 
       if (!!site) {
-        let editMode = await resolveState(
-          portalContext,
-          trimmedResourceId,
-          LogCategories.siteRouter,
-          site,
-          subscriptionResponse,
-          appSettings
-        );
+        let editMode = await resolveState(portalContext, trimmedResourceId, LogCategories.siteRouter, site, appSettings);
         setSite(site);
         setStopped(site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
         setIsLinuxApplication(isLinuxApp(site));
