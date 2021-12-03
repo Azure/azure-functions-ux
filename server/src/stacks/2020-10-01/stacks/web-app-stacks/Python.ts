@@ -28,7 +28,6 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   supportedVersion: '3.9',
                 },
                 isHidden: false,
-                isEarlyAccess: true,
               },
             },
           },

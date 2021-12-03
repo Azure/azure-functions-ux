@@ -26,7 +26,6 @@ export const pythonStack: WebAppStack = {
                 supportedVersion: '3.9',
               },
               isHidden: false,
-              isEarlyAccess: true,
             },
           },
         },
