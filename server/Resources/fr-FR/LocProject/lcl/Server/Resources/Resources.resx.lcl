@@ -369,6 +369,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";acrCredentialsWarningMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Impossible d’accéder à L’ACR « {0} », car les informations d’identification de l’administrateur sur ACR sont désactivées et aucune identité managée n’est affectée. Activez les informations d’identification de l’administrateur ou attribuez une identité managée ci-dessous.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";active" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Active]]></Val>
@@ -428,6 +437,15 @@
           <Val><![CDATA[Add host key]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Ajouter une clé d'hôte]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";addIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Add identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ajouter une identité]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13833,6 +13851,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";managedIdentityInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Les champs d’image et d’étiquette ne sont pas remplis automatiquement. Entrez manuellement l’image et la balise ci-dessous.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";managedIdentityTypePlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Select managed identity]]></Val>
@@ -20414,10 +20441,13 @@
       </Item>
       <Item ItemId=";systemAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[System assigned]]></Val>
+          <Val><![CDATA[System-assigned]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Système attribué]]></Val>
+            <Val><![CDATA[Affectée par le système]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[System assigned]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21425,10 +21455,13 @@
       </Item>
       <Item ItemId=";userAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[User assigned]]></Val>
+          <Val><![CDATA[User-assigned]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Utilisateur affecté]]></Val>
+            <Val><![CDATA[Affecté par l'utilisateur]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[User assigned]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
