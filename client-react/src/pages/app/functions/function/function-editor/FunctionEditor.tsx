@@ -435,7 +435,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           type={MessageBarType.error}
         />
       );
-    } else if (FunctionAppService.enableEditingForLinux(site, false, workerRuntime) && isLinuxDynamic(site)) {
+    } else if (FunctionAppService.enableEditingForLinux(site, workerRuntime) && isLinuxDynamic(site)) {
       // NOTE(krmitta): Banner is only visible in case of Linux Consumption
       return (
         <CustomBanner
