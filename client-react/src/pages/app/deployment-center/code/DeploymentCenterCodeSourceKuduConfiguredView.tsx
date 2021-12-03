@@ -37,7 +37,7 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
       })
     );
 
-    if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit) {
+    if (!!deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit) {
       setScmTypeThroughSiteConfig(notificationId);
     } else {
       deleteSourceControls(notificationId);
