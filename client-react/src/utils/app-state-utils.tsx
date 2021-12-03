@@ -7,10 +7,8 @@ import { HostStatus, FunctionAppContentEditingState } from '../models/functions/
 import { FunctionAppEditMode, SiteReadWriteState } from '../models/portal-models';
 import { SiteConfig } from '../models/site/config';
 import { Site } from '../models/site/site';
-import { ISubscription } from '../models/subscription';
 import PortalCommunicator from '../portal-communicator';
 import { isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from './arm-utils';
-import { isDreamsparkSubscription, isFreeTrialSubscription } from './billing-utils';
 import { CommonConstants } from './CommonConstants';
 import FunctionAppService from './FunctionAppService';
 import LogService from './LogService';
@@ -23,7 +21,6 @@ export async function resolveState(
   resourceId: string,
   logCategory: string,
   site: ArmObj<Site>,
-  subscription: ISubscription,
   appSettings?: ArmObj<AppSettings>
 ) {
   const readOnlyLock = await portalContext.hasLock(resourceId, 'ReadOnly');
@@ -38,19 +35,13 @@ export async function resolveState(
 
   // NOTE (krmitta): We only want to get the edit state from other scenarios for function-apps
   if (isFunctionApp(site)) {
-    return await resolveStateForFunctionApp(resourceId, logCategory, site, subscription, appSettings);
+    return await resolveStateForFunctionApp(resourceId, logCategory, site, appSettings);
   }
 
   return FunctionAppEditMode.ReadWrite;
 }
 
-async function resolveStateForFunctionApp(
-  resourceId: string,
-  logCategory: string,
-  site: ArmObj<Site>,
-  subscription: ISubscription,
-  appSettings?: ArmObj<AppSettings>
-) {
+async function resolveStateForFunctionApp(resourceId: string, logCategory: string, site: ArmObj<Site>, appSettings?: ArmObj<AppSettings>) {
   let state = resolveStateFromSite(site, appSettings);
   // NOTE(krmitta): State is only returned if it is defined otherwise we move to the next check
   if (!!state) {
@@ -58,7 +49,7 @@ async function resolveStateForFunctionApp(
   }
 
   if (!!appSettings) {
-    state = resolveStateFromAppSetting(appSettings, site, subscription);
+    state = resolveStateFromAppSetting(appSettings, site);
     if (!!state) {
       return state;
     }
@@ -103,7 +94,7 @@ function resolveStateFromSite(site: ArmObj<Site>, appSettings?: ArmObj<AppSettin
   return undefined;
 }
 
-function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmObj<Site>, subscription: ISubscription) {
+function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmObj<Site>) {
   const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
 
   if (isKubeApp(site)) {
@@ -134,7 +125,7 @@ function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmO
     return FunctionAppEditMode.ReadOnlyJava;
   }
 
-  if (isLinuxAppEditingDisabledForAzureFiles(site, appSettings, subscription)) {
+  if (isLinuxAppEditingDisabledForAzureFiles(site, appSettings)) {
     return FunctionAppEditMode.ReadOnlyAzureFiles;
   }
 
@@ -221,25 +212,10 @@ const resolveStateFromHostStatus = (hostStatus: ArmObj<HostStatus>): FunctionApp
   return undefined;
 };
 
-const isLinuxAppEditingDisabledForAzureFiles = (
-  site: ArmObj<Site>,
-  appSettings: ArmObj<AppSettings>,
-  subscription: ISubscription
-): boolean => {
-  // NOTE(krmitta): Defaulting to true since we are explicitly checking the two cases of the app-setting below
-  let azureFilesAppSettingAbsent = true;
-  if (!!FunctionAppService.getAzureFilesSetting(appSettings)) {
-    azureFilesAppSettingAbsent = false;
-  } else {
-    if (
-      !!subscription &&
-      (isDreamsparkSubscription(subscription) || isFreeTrialSubscription(subscription)) &&
-      !!FunctionAppService.getAzureWebJobsStorageSetting(appSettings)
-    ) {
-      azureFilesAppSettingAbsent = false;
-    }
-  }
-
+const isLinuxAppEditingDisabledForAzureFiles = (site: ArmObj<Site>, appSettings: ArmObj<AppSettings>): boolean => {
   // NOTE(krmitta):AzureFiles check is currently behind feature-flag and only for Linux apps
-  return FunctionAppService.isEditingCheckNeededForLinuxSku(site, false) && azureFilesAppSettingAbsent;
+  return (
+    FunctionAppService.isEditingCheckNeededForLinuxSku(site, false) &&
+    (!!FunctionAppService.getAzureFilesSetting(appSettings) || !!FunctionAppService.getAzureWebJobsStorageSetting(appSettings))
+  );
 };
