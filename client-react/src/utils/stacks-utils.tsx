@@ -290,6 +290,7 @@ export const isWindowsNodeApp = (isLinux: boolean, stack?: string) =>
   !isLinux && !!stack && stack.toLocaleLowerCase() === WorkerRuntimeLanguages.nodejs;
 
 export const getFunctionAppStackVersion = (values: AppSettingsFormValues, isLinux: boolean, stack?: string) => {
+  // NOTE(krmitta): For Windows node app only we get the version from app-setting instead of config, thus this special case.
   if (isWindowsNodeApp(isLinux, stack)) {
     const index = findFormAppSettingIndex([...values.appSettings], CommonConstants.AppSettingNames.websiteNodeDefaultVersion);
     if (index !== -1) {
