@@ -467,19 +467,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       },
       'deployment-center'
     );
+    console.log(response);
     if (!!response) {
       fetchManagedIdentityOptions();
     }
-  };
-
-  const setManagedIdentityPrincipalId = () => {
-    if (!!formProps.values.acrManagedIdentityType && managedIdentityInfo.current[formProps.values.acrManagedIdentityType]) {
-      formProps.values.acrManagedIdentityPrincipalId = managedIdentityInfo.current[formProps.values.acrManagedIdentityType].principalId;
-    }
-  };
-
-  const setAcrResourceId = () => {
-    formProps.values.acrResourceId = registryIdentifiers.current[formProps.values.acrLoginServer].resourceId;
   };
 
   const setManagedIdentityPrincipalId = () => {
