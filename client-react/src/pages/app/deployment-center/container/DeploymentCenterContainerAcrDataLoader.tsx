@@ -482,6 +482,16 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     formProps.values.acrResourceId = registryIdentifiers.current[formProps.values.acrLoginServer].resourceId;
   };
 
+  const setManagedIdentityPrincipalId = () => {
+    if (!!formProps.values.acrManagedIdentityType && managedIdentityInfo.current[formProps.values.acrManagedIdentityType]) {
+      formProps.values.acrManagedIdentityPrincipalId = managedIdentityInfo.current[formProps.values.acrManagedIdentityType].principalId;
+    }
+  };
+
+  const setAcrResourceId = () => {
+    formProps.values.acrResourceId = registryIdentifiers.current[formProps.values.acrLoginServer].resourceId;
+  };
+
   useEffect(() => {
     if (deploymentCenterContext.siteDescriptor && deploymentCenterContext.applicationSettings) {
       fetchData();
