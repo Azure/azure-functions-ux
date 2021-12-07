@@ -31,7 +31,6 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     loadingManagedIdentities,
     learnMoreLink,
     fetchRegistriesInSub,
-    fetchManagedIdentityOptions,
     openIdentityBlade,
   } = props;
   const { t } = useTranslation();
@@ -139,7 +138,6 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         component={ComboBox}
         placeholder={t('managedIdentityTypePlaceholder')}
         options={managedIdentityOptions}
-        onMenuOpen={fetchManagedIdentityOptions}
         onRenderLowerContent={() => (
           <Link id="container-acr-add-identity-link" className={addIdentityLinkStyle} onClick={openIdentityBlade}>
             {t('addIdentity')}
