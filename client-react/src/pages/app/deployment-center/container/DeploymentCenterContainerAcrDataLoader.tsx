@@ -467,7 +467,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       },
       'deployment-center'
     );
-    console.log(response);
     if (!!response) {
       fetchManagedIdentityOptions();
     }
