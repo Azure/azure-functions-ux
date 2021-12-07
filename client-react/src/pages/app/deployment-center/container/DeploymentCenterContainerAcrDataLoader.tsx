@@ -453,8 +453,8 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setSubscription(subscription);
   };
 
-  const openIdentityBlade = () => {
-    portalContext.openBlade(
+  const openIdentityBlade = async () => {
+    const response = await portalContext.openBlade(
       {
         detailBlade: 'AzureResourceIdentitiesBladeV2',
         extension: 'Microsoft_Azure_ManagedServiceIdentity',
@@ -467,6 +467,9 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       },
       'deployment-center'
     );
+    if (!!response) {
+      fetchManagedIdentityOptions();
+    }
   };
 
   const setManagedIdentityPrincipalId = () => {
@@ -535,7 +538,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       fetchImages={fetchRepositories}
       fetchTags={fetchTags}
       fetchRegistriesInSub={setRegistriesInSub}
-      fetchManagedIdentityOptions={fetchManagedIdentityOptions}
       acrSubscriptionOptions={subscriptionOptions}
       acrRegistryOptions={acrRegistryOptions}
       acrImageOptions={acrImageOptions}
