@@ -372,6 +372,9 @@
       <Item ItemId=";acrCredentialsWarningMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[无法访问 ACR“{0}”，因为已禁用 ACR 上的管理员凭据，并且未分配任何托管标识。请启用管理员凭据，或在下面分配托管标识。]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -435,12 +438,6 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[添加主机键]]></Val>
           </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";addIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Add identity]]></Val>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -13854,6 +13851,9 @@
       <Item ItemId=";managedIdentityInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[图像和标记字段不会自动填充。请在下面手动输入图像和标记。]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -20444,12 +20444,12 @@
       </Item>
       <Item ItemId=";systemAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[System-assigned]]></Val>
+          <Val><![CDATA[System assigned]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[系统分配的]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[System assigned]]></Val>
+            <Val><![CDATA[System-assigned]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -21458,12 +21458,12 @@
       </Item>
       <Item ItemId=";userAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[User-assigned]]></Val>
+          <Val><![CDATA[User assigned]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[用户分配]]></Val>
+            <Val><![CDATA[用户分配的]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[User assigned]]></Val>
+            <Val><![CDATA[User-assigned]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />

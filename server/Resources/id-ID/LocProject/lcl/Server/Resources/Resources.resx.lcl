@@ -432,15 +432,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";addIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Add identity]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Tambahkan identitas]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";addNewConnectionString" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Add new connection string]]></Val>
@@ -2596,7 +2587,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Failed to create App Service plan: '{0}']]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Gagal membuat paket App Service: '{0}']]></Val>
+            <Val><![CDATA[Gagal membuat App Service Plan: '{0}']]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4213,7 +4204,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Deployment]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Penyebaran]]></Val>
+            <Val><![CDATA[Deployment]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19490,12 +19481,12 @@
       </Item>
       <Item ItemId=";systemAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[System-assigned]]></Val>
+          <Val><![CDATA[System assigned]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Ditetapkan sistem]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[System assigned]]></Val>
+            <Val><![CDATA[System-assigned]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -20465,12 +20456,12 @@
       </Item>
       <Item ItemId=";userAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[User-assigned]]></Val>
+          <Val><![CDATA[User assigned]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Ditetapkan pengguna]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[User assigned]]></Val>
+            <Val><![CDATA[User-assigned]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />

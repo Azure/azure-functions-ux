@@ -441,15 +441,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";addIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Add identity]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Identitás hozzáadása]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";addNewConnectionString" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Add new connection string]]></Val>
@@ -20441,12 +20432,12 @@
       </Item>
       <Item ItemId=";systemAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[System-assigned]]></Val>
+          <Val><![CDATA[System assigned]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Rendszer által hozzárendelt]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[System assigned]]></Val>
+            <Val><![CDATA[System-assigned]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -21455,12 +21446,12 @@
       </Item>
       <Item ItemId=";userAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[User-assigned]]></Val>
+          <Val><![CDATA[User assigned]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Felhasználó által hozzárendelt]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[User assigned]]></Val>
+            <Val><![CDATA[User-assigned]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
