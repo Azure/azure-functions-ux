@@ -69,6 +69,7 @@ export const pythonStack: WebAppStack = {
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'PYTHON|3.6',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -80,6 +81,7 @@ export const pythonStack: WebAppStack = {
             },
             windowsRuntimeSettings: {
               runtimeVersion: '3.4.0',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
