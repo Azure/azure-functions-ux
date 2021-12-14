@@ -5025,7 +5025,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Certificate exclusion paths</value>
     </data>
     <data name="editCertificateExlusionPaths" xml:space="preserve">
-        <value>edit client eclusion paths</value>
+        <value>edit client exclusion paths</value>
         <comment>This is meant for aria-labeling, not visual</comment>
     </data>
     <data name="noExclusionRulesDefined" xml:space="preserve">
