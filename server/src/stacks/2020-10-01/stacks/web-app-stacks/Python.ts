@@ -71,6 +71,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
             stackSettings: {
               linuxRuntimeSettings: {
                 runtimeVersion: 'PYTHON|3.6',
+                isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,
@@ -82,6 +83,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
               },
               windowsRuntimeSettings: {
                 runtimeVersion: '3.4.0',
+                isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
