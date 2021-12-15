@@ -118,7 +118,10 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     if (values.registrySource === ContainerRegistrySources.acr) {
       return `${prefix}|${values.acrLoginServer}/${values.acrImage}:${values.acrTag}`;
     } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
-      const server = values.privateRegistryServerUrl.toLocaleLowerCase().replace('https://', '');
+      const server = values.privateRegistryServerUrl
+        .toLocaleLowerCase()
+        .replace('https://', '')
+        .replace(/\/+$/, '');
       return `${prefix}|${server}/${values.privateRegistryImageAndTag}`;
     } else {
       return `${prefix}|${values.dockerHubImageAndTag}`;
@@ -290,34 +293,37 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
     if (siteConfigResponse.metadata.success) {
       siteConfigResponse.data.properties.appCommandLine = values.command;
-      siteConfigResponse.data.properties.acrUseManagedIdentityCreds = values.acrCredentialType === ACRCredentialType.managedIdentity;
-      if (
-        !siteConfigResponse.data.properties.acrUseManagedIdentityCreds ||
-        values.acrManagedIdentityType === ACRManagedIdentityType.systemAssigned
-      ) {
-        siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
-      } else {
-        const acrResourceId = values.acrResourceId;
-        const identityPrincipalId = values.acrManagedIdentityPrincipalId;
 
-        const hasAcrPullPermissions = await deploymentCenterData.hasAcrPullPermission(acrResourceId, identityPrincipalId);
-        if (!hasAcrPullPermissions) {
-          portalContext.log(
-            getTelemetryInfo('info', 'setAcrPullPermission', 'submit', {
-              resourceId: identityPrincipalId,
-            })
-          );
-          const setPermissionResponse = await deploymentCenterData.setAcrPullPermission(acrResourceId, identityPrincipalId);
-          if (!setPermissionResponse) {
+      if (values.registrySource === ContainerRegistrySources.acr) {
+        siteConfigResponse.data.properties.acrUseManagedIdentityCreds = values.acrCredentialType === ACRCredentialType.managedIdentity;
+        if (
+          !siteConfigResponse.data.properties.acrUseManagedIdentityCreds ||
+          values.acrManagedIdentityType === ACRManagedIdentityType.systemAssigned
+        ) {
+          siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
+        } else {
+          const acrResourceId = values.acrResourceId;
+          const identityPrincipalId = values.acrManagedIdentityPrincipalId;
+
+          const hasAcrPullPermissions = await deploymentCenterData.hasAcrPullPermission(acrResourceId, identityPrincipalId);
+          if (!hasAcrPullPermissions) {
             portalContext.log(
-              getTelemetryInfo('error', 'setAcrPullPermission', 'failed', {
+              getTelemetryInfo('info', 'setAcrPullPermission', 'submit', {
                 resourceId: identityPrincipalId,
               })
             );
+            const setPermissionResponse = await deploymentCenterData.setAcrPullPermission(acrResourceId, identityPrincipalId);
+            if (!setPermissionResponse) {
+              portalContext.log(
+                getTelemetryInfo('error', 'setAcrPullPermission', 'failed', {
+                  resourceId: identityPrincipalId,
+                })
+              );
+            }
           }
-        }
 
-        siteConfigResponse.data.properties.acrUserManagedIdentityID = values.acrManagedIdentityType;
+          siteConfigResponse.data.properties.acrUserManagedIdentityID = values.acrManagedIdentityType;
+        }
       }
 
       if (values.scmType !== ScmType.GitHubAction) {
