@@ -83,6 +83,7 @@ const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForma
             stackSettings: {
               linuxRuntimeSettings: {
                 runtimeVersion: 'PHP|7.3',
+                isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,
@@ -96,6 +97,7 @@ const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForma
               },
               windowsRuntimeSettings: {
                 runtimeVersion: '7.3',
+                isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,
