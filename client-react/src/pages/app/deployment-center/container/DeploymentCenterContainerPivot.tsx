@@ -12,7 +12,9 @@ import { ThemeContext } from '../../../../ThemeContext';
 import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterGitHubActionsCodeLogs from '../code/DeploymentCenterGitHubActionsCodeLogs';
-import { isFtpsDirty, isSettingsDirty } from '../utility/DeploymentCenterUtility';
+import { getTelemetryInfo, isFtpsDirty, isSettingsDirty } from '../utility/DeploymentCenterUtility';
+import { getSubscriptionFromResourceId } from '../../../../utils/arm-utils';
+import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotProps> = props => {
   const { logs, formProps, isDataRefreshing, isLogsDataRefreshing, refresh } = props;
@@ -22,9 +24,17 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const theme = useContext(ThemeContext);
   const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
 
   const isScmGitHubActions =
     deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+
+  const onLinkClick = (item: PivotItem) => {
+    if (item.props.itemKey) {
+      const subscriptionId = !!siteStateContext.site ? getSubscriptionFromResourceId(siteStateContext.site.id) : '';
+      portalContext.log(getTelemetryInfo('info', 'tabClicked', 'clicked', { tabName: item.props.itemKey, subscriptionId: subscriptionId }));
+    }
+  };
 
   const isSettingsTabDirty = () => {
     return isSettingsDirty(formProps, deploymentCenterContext);
@@ -36,8 +46,9 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
 
   return (
     <>
-      <Pivot>
+      <Pivot onLinkClick={onLinkClick}>
         <PivotItem
+          itemKey="settings"
           headerText={t('deploymentCenterPivotItemSettingsHeaderText')}
           ariaLabel={t('deploymentCenterPivotItemSettingsAriaLabel')}
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
@@ -48,6 +59,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
 
         {!siteStateContext.isKubeApp && (
           <PivotItem
+            itemKey="logs"
             headerText={
               isScmGitHubActions ? t('deploymentCenterPivotItemContainerLogsHeaderText') : t('deploymentCenterPivotItemLogsHeaderText')
             }
@@ -60,6 +72,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
 
         {isScmGitHubActions && (
           <PivotItem
+            itemKey="githublogs"
             headerText={t('deploymentCenterPivotItemBuildLogsHeaderText')}
             ariaLabel={t('deploymentCenterPivotItemBuildLogsAriaLabel')}>
             <DeploymentCenterGitHubActionsCodeLogs isLogsDataRefreshing={isLogsDataRefreshing} refreshLogs={() => {}} />
@@ -67,6 +80,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
         )}
 
         <PivotItem
+          itemKey="ftps"
           headerText={t('deploymentCenterPivotItemFtpsHeaderText')}
           ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>

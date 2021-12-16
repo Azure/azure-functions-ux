@@ -16,6 +16,7 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterGitHubActionsCodeLogs from './DeploymentCenterGitHubActionsCodeLogs';
+import { getSubscriptionFromResourceId } from '../../../../utils/arm-utils';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const { formProps, deployments, deploymentsError, refreshLogs, isDataRefreshing, isLogsDataRefreshing } = props;
@@ -44,6 +45,8 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
   const onLinkClick = (item: PivotItem) => {
     if (item.props.itemKey) {
       setSelectedKey(item.props.itemKey);
+      const subscriptionId = !!siteStateContext.site ? getSubscriptionFromResourceId(siteStateContext.site.id) : '';
+      portalContext.log(getTelemetryInfo('info', 'tabClicked', 'clicked', { tabName: item.props.itemKey, subscriptionId: subscriptionId }));
     }
   };
 
