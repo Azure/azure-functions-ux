@@ -7,6 +7,7 @@ const maxElementWithLabelWidth = '550px';
 
 export const textboxStyle = style({
   maxWidth: maxElementWithLabelWidth,
+  marginBottom: '-5px',
 });
 
 export const descriptionStyle = style({
