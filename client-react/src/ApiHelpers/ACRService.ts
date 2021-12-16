@@ -7,7 +7,8 @@ import { getLastItemFromLinks, getLinksFromLinkHeader, sendHttpRequest } from '.
 import Url from '../utils/url';
 import { Method } from 'axios';
 import { getArmEndpoint, getArmToken } from '../pages/app/deployment-center/utility/DeploymentCenterUtility';
-import { RoleAssignment } from '../pages/app/deployment-center/DeploymentCenter.types';
+import { ACRManagedIdentityType, RoleAssignment } from '../pages/app/deployment-center/DeploymentCenter.types';
+import { KeyValue } from '../models/portal-models';
 
 export default class ACRService {
   public static getRegistries(subscriptionId: string) {
@@ -76,18 +77,19 @@ export default class ACRService {
   }
 
   public static async hasAcrPullPermission(acrResourceId: string, principalId: string) {
+    let hasAcrPullPermission = false;
     const roleAssignments = await this.getRoleAssignments(acrResourceId, principalId);
     if (!!roleAssignments && roleAssignments.length > 0) {
       roleAssignments.forEach(roleAssignment => {
         const roleDefinitionSplit = roleAssignment.properties.roleDefinitionId.split(CommonConstants.singleForwardSlash);
         const roleId = roleDefinitionSplit[roleDefinitionSplit.length - 1];
         if (roleId === RBACRoleId.acrPull) {
-          return true;
+          hasAcrPullPermission = true;
         }
       });
     }
 
-    return false;
+    return hasAcrPullPermission;
   }
 
   public static async getRoleAssignments(
@@ -125,6 +127,26 @@ export default class ACRService {
     });
 
     return response.metadata.success;
+  }
+
+  public static async enableSystemAssignedIdentity(resourceId: string, userAssignedIdentities: KeyValue<KeyValue<string>>) {
+    const userAssignedIdentitiesObj = {};
+    for (const identity in userAssignedIdentities) {
+      userAssignedIdentitiesObj[identity] = {};
+    }
+
+    return MakeArmCall({
+      resourceId: resourceId,
+      commandName: 'enableSystemAssignedIdentity',
+      method: 'PATCH',
+      apiVersion: CommonConstants.ApiVersions.enableSystemAssignedIdentityApiVersion20210201,
+      body: {
+        identity: {
+          type: ACRManagedIdentityType.systemAssigned + ', ' + ACRManagedIdentityType.userAssigned,
+          userAssignedIdentities: userAssignedIdentitiesObj,
+        },
+      },
+    });
   }
 
   private static async _dispatchSpecificPageableRequest<T>(

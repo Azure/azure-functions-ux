@@ -45,6 +45,7 @@ import { GitHubCommit, GitHubActionWorkflowRequestContent } from '../../../../mo
 import { AppOs } from '../../../../models/site/site';
 import { Guid } from '../../../../utils/Guid';
 import { KeyValue } from '../../../../models/portal-models';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 interface ResponseResult {
   success: boolean;
@@ -296,10 +297,31 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
       if (values.registrySource === ContainerRegistrySources.acr) {
         siteConfigResponse.data.properties.acrUseManagedIdentityCreds = values.acrCredentialType === ACRCredentialType.managedIdentity;
-        if (
-          !siteConfigResponse.data.properties.acrUseManagedIdentityCreds ||
-          values.acrManagedIdentityType === ACRManagedIdentityType.systemAssigned
-        ) {
+
+        if (!siteConfigResponse.data.properties.acrUseManagedIdentityCreds) {
+          siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
+        } else if (values.acrManagedIdentityType === ACRManagedIdentityType.systemAssigned) {
+          const site = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
+          if (site.metadata.success && !!site.data && !!site.data.identity && !!site.data.identity.type) {
+            const types = site.data.identity.type.replace(CommonConstants.space, '').split(CommonConstants.comma);
+
+            if (!types.includes(ACRManagedIdentityType.systemAssigned)) {
+              portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentity', 'submit'));
+
+              const response = await deploymentCenterData.enableSystemAssignedIdentity(
+                deploymentCenterContext.resourceId,
+                site.data.identity.userAssignedIdentities
+              );
+              if (!response.metadata.success) {
+                portalContext.log(
+                  getTelemetryInfo('error', 'enableSystemAssignedIdentity', 'failed', {
+                    resourceId: deploymentCenterContext.resourceId,
+                  })
+                );
+              }
+            }
+          }
+
           siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
         } else {
           const acrResourceId = values.acrResourceId;
@@ -307,18 +329,11 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
           const hasAcrPullPermissions = await deploymentCenterData.hasAcrPullPermission(acrResourceId, identityPrincipalId);
           if (!hasAcrPullPermissions) {
-            portalContext.log(
-              getTelemetryInfo('info', 'setAcrPullPermission', 'submit', {
-                resourceId: identityPrincipalId,
-              })
-            );
-            const setPermissionResponse = await deploymentCenterData.setAcrPullPermission(acrResourceId, identityPrincipalId);
-            if (!setPermissionResponse) {
-              portalContext.log(
-                getTelemetryInfo('error', 'setAcrPullPermission', 'failed', {
-                  resourceId: identityPrincipalId,
-                })
-              );
+            portalContext.log(getTelemetryInfo('info', 'setAcrPullPermission', 'submit', { resourceId: identityPrincipalId }));
+
+            const setPermissionSuccess = await deploymentCenterData.setAcrPullPermission(acrResourceId, identityPrincipalId);
+            if (!setPermissionSuccess) {
+              portalContext.log(getTelemetryInfo('error', 'setAcrPullPermission', 'failed', { resourceId: identityPrincipalId }));
             }
           }
 

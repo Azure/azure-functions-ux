@@ -278,6 +278,10 @@ export default class DeploymentCenterData {
     return ACRService.setAcrPullPermission(acrResourceId, principalId);
   };
 
+  public enableSystemAssignedIdentity = (resourceId: string, userAssignedIdentities: KeyValue<KeyValue<string>>) => {
+    return ACRService.enableSystemAssignedIdentity(resourceId, userAssignedIdentities);
+  };
+
   public updateSiteConfig = (resourceId: string, config: ArmObj<SiteConfig>) => {
     return SiteService.updateWebConfig(resourceId, config);
   };
