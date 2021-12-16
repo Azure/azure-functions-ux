@@ -5,6 +5,8 @@ export class CommonConstants {
     aseV2: 'ASEV2',
     aseV3: 'ASEV3',
     container: 'container',
+    code: 'code',
+    webApp: 'webapp',
     functionApp: 'functionapp',
     botapp: 'botapp',
     elastic: 'elastic', // only applies to server farm

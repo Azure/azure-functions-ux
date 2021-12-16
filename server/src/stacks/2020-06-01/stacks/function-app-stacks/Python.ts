@@ -92,6 +92,7 @@ export const pythonStack: FunctionAppStack = {
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'Python|3.6',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
