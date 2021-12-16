@@ -17,6 +17,7 @@ import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterGitHubActionsCodeLogs from './DeploymentCenterGitHubActionsCodeLogs';
 import { getSubscriptionFromResourceId } from '../../../../utils/arm-utils';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const { formProps, deployments, deploymentsError, refreshLogs, isDataRefreshing, isLogsDataRefreshing } = props;
@@ -46,7 +47,13 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
     if (item.props.itemKey) {
       setSelectedKey(item.props.itemKey);
       const subscriptionId = !!siteStateContext.site ? getSubscriptionFromResourceId(siteStateContext.site.id) : '';
-      portalContext.log(getTelemetryInfo('info', 'tabClicked', 'clicked', { tabName: item.props.itemKey, subscriptionId: subscriptionId }));
+      const data = {
+        tabName: item.props.itemKey,
+        subscriptionId: subscriptionId,
+        publishType: CommonConstants.Kinds.code,
+        appType: siteStateContext.isFunctionApp ? CommonConstants.Kinds.functionApp : CommonConstants.Kinds.webApp,
+      };
+      portalContext.log(getTelemetryInfo('info', 'tabClicked', 'clicked', data));
     }
   };
 

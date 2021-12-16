@@ -13,8 +13,9 @@ import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterGitHubActionsCodeLogs from '../code/DeploymentCenterGitHubActionsCodeLogs';
 import { getTelemetryInfo, isFtpsDirty, isSettingsDirty } from '../utility/DeploymentCenterUtility';
-import { getSubscriptionFromResourceId } from '../../../../utils/arm-utils';
 import { PortalContext } from '../../../../PortalContext';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import { getSubscriptionFromResourceId } from '../../../../utils/arm-utils';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotProps> = props => {
   const { logs, formProps, isDataRefreshing, isLogsDataRefreshing, refresh } = props;
@@ -32,7 +33,13 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
   const onLinkClick = (item: PivotItem) => {
     if (item.props.itemKey) {
       const subscriptionId = !!siteStateContext.site ? getSubscriptionFromResourceId(siteStateContext.site.id) : '';
-      portalContext.log(getTelemetryInfo('info', 'tabClicked', 'clicked', { tabName: item.props.itemKey, subscriptionId: subscriptionId }));
+      const data = {
+        tabName: item.props.itemKey,
+        subscriptionId: subscriptionId,
+        publishType: CommonConstants.Kinds.container,
+        appType: siteStateContext.isFunctionApp ? CommonConstants.Kinds.functionApp : CommonConstants.Kinds.webApp,
+      };
+      portalContext.log(getTelemetryInfo('info', 'tabClicked', 'clicked', data));
     }
   };
 
