@@ -1,6 +1,24 @@
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
+const spacingBetweenElements = '10px';
+const maxElementWidth = '750px';
+const maxElementWithLabelWidth = '550px';
+
+export const textboxStyle = style({
+  maxWidth: maxElementWithLabelWidth,
+});
+
+export const descriptionStyle = style({
+  marginBottom: spacingBetweenElements,
+  maxWidth: maxElementWidth,
+});
+
+export const userHeaderStyle = style({
+  marginTop: '0px',
+  paddingTop: '0px',
+});
+
 export const commandBarSticky = style({
   position: 'sticky',
   top: 0,
@@ -13,7 +31,7 @@ export const pivotContent = style({
 
 export const deploymentCenterContent = style({
   marginTop: '20px',
-  maxWidth: '800px',
+  maxWidth: maxElementWidth,
 });
 
 export const deploymentCenterConsole = (theme: ThemeExtended): string =>
@@ -64,13 +82,13 @@ export const additionalTextFieldControl = style({
 });
 
 export const deploymentCenterInfoBannerDiv = style({
-  maxWidth: '800px',
+  maxWidth: maxElementWidth,
   marginTop: '1em',
   marginBottom: '1em',
 });
 
 export const deploymentCenterAcrBannerDiv = style({
-  maxWidth: '1000px',
+  maxWidth: maxElementWidth,
   marginTop: '1em',
   marginBottom: '1em',
 });
@@ -136,6 +154,8 @@ export const panelOverflowStyle = {
 export const ftpsPasswordTextboxStyle = style({
   display: 'inline-table',
   width: '119%',
+  margin: '-5px 0px 0px 0px',
+  padding: '0px',
 });
 
 export const disconnectWorkflowInfoStyle = style({

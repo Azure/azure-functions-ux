@@ -12,7 +12,8 @@ import {
   additionalTextFieldControl,
   deploymentCenterInfoBannerDiv,
   ftpsPasswordTextboxStyle,
-  textboxPaddingStyle,
+  descriptionStyle,
+  textboxStyle,
 } from './DeploymentCenter.styles';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
@@ -98,8 +99,9 @@ const DeploymentCenterFtps: React.FC<
           </div>
         )}
 
-        <p>{t('deploymentCenterFtpsDescription')}</p>
+        <div className={descriptionStyle}>{t('deploymentCenterFtpsDescription')}</div>
         <TextFieldNoFormik
+          className={textboxStyle}
           id="deployment-center-ftps-endpoint"
           label={t('deploymentCenterFtpsEndpointLabel')}
           widthOverride="100%"
@@ -110,6 +112,7 @@ const DeploymentCenterFtps: React.FC<
 
         {isScmLocalGit && (
           <TextFieldNoFormik
+            className={textboxStyle}
             id="deployment-center-localgit-clone-uri"
             label={t('deploymentCenterCodeLocalGitCloneUri')}
             widthOverride="100%"
@@ -120,29 +123,31 @@ const DeploymentCenterFtps: React.FC<
         )}
 
         <h3>{t('deploymentCenterFtpsApplicationScopeTitle')}</h3>
-        <span id="deployment-publishing-user-message">{t('deploymentCenterFtpsApplicationScopeDescription')}</span>
-        <Link
-          id="deployment-center-settings-learnMore"
-          href={DeploymentCenterLinks.publishingUserDocumentation}
-          target="_blank"
-          className={learnMoreLinkStyle}
-          aria-labelledby="deployment-center-settings-message">
-          {` ${t('learnMore')}`}
-        </Link>
-
-        <div className={textboxPaddingStyle}>
-          <TextFieldNoFormik
-            id="deployment-center-ftps-application-username"
-            label={t('deploymentCenterFtpsUsernameLabel')}
-            widthOverride="100%"
-            value={publishingProfile && publishingProfile.userName}
-            copyButton={true}
-            disabled={true}
-          />
+        <div className={descriptionStyle} id="deployment-publishing-user-message">
+          {t('deploymentCenterFtpsApplicationScopeDescription')}
+          <Link
+            id="deployment-center-settings-learnMore"
+            href={DeploymentCenterLinks.publishingUserDocumentation}
+            target="_blank"
+            className={learnMoreLinkStyle}
+            aria-labelledby="deployment-center-settings-message">
+            {` ${t('learnMore')}`}
+          </Link>
         </div>
+
+        <TextFieldNoFormik
+          className={textboxStyle}
+          id="deployment-center-ftps-application-username"
+          label={t('deploymentCenterFtpsUsernameLabel')}
+          widthOverride="100%"
+          value={publishingProfile && publishingProfile.userName}
+          copyButton={true}
+          disabled={true}
+        />
 
         <div className={ftpsPasswordTextboxStyle}>
           <TextFieldNoFormik
+            className={textboxStyle}
             id="deployment-center-ftps-application-password"
             label={t('deploymentCenterFtpsPasswordLabel')}
             widthOverride="100%"
