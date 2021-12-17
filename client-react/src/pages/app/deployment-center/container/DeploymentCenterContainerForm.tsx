@@ -301,17 +301,30 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         if (!siteConfigResponse.data.properties.acrUseManagedIdentityCreds) {
           siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
         } else if (values.acrManagedIdentityType === ACRManagedIdentityType.systemAssigned) {
-          const site = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
-          if (site.metadata.success && !!site.data && !!site.data.identity && !!site.data.identity.type) {
-            const types = site.data.identity.type.replace(CommonConstants.space, '').split(CommonConstants.comma);
+          const siteResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
+          if (siteResponse.metadata.success && !!siteResponse.data) {
+            const site = siteResponse.data;
+            if (!!site.identity && !!site.identity.type) {
+              const types = site.identity.type.replace(CommonConstants.space, '').split(CommonConstants.comma);
 
-            if (!types.includes(ACRManagedIdentityType.systemAssigned)) {
+              if (!types.includes(ACRManagedIdentityType.systemAssigned)) {
+                portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentityWithUserAssignedIdentities', 'submit'));
+
+                const response = await deploymentCenterData.enableSystemAssignedIdentity(
+                  deploymentCenterContext.resourceId,
+                  site.identity.userAssignedIdentities
+                );
+                if (!response.metadata.success) {
+                  portalContext.log(
+                    getTelemetryInfo('error', 'enableSystemAssignedIdentityWithUserAssignedIdentities', 'failed', {
+                      resourceId: deploymentCenterContext.resourceId,
+                    })
+                  );
+                }
+              }
+            } else {
               portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentity', 'submit'));
-
-              const response = await deploymentCenterData.enableSystemAssignedIdentity(
-                deploymentCenterContext.resourceId,
-                site.data.identity.userAssignedIdentities
-              );
+              const response = await deploymentCenterData.enableSystemAssignedIdentity(deploymentCenterContext.resourceId);
               if (!response.metadata.success) {
                 portalContext.log(
                   getTelemetryInfo('error', 'enableSystemAssignedIdentity', 'failed', {

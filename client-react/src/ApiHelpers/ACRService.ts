@@ -129,24 +129,37 @@ export default class ACRService {
     return response.metadata.success;
   }
 
-  public static async enableSystemAssignedIdentity(resourceId: string, userAssignedIdentities: KeyValue<KeyValue<string>>) {
-    const userAssignedIdentitiesObj = {};
-    for (const identity in userAssignedIdentities) {
-      userAssignedIdentitiesObj[identity] = {};
-    }
-
+  public static async enableSystemAssignedIdentity(
+    resourceId: string,
+    userAssignedIdentities?: KeyValue<KeyValue<string>>,
+    apiVersion: string = CommonConstants.ApiVersions.enableSystemAssignedIdentityApiVersion20210201
+  ) {
     return MakeArmCall({
       resourceId: resourceId,
       commandName: 'enableSystemAssignedIdentity',
       method: 'PATCH',
-      apiVersion: CommonConstants.ApiVersions.enableSystemAssignedIdentityApiVersion20210201,
+      apiVersion: apiVersion,
       body: {
-        identity: {
-          type: ACRManagedIdentityType.systemAssigned + ', ' + ACRManagedIdentityType.userAssigned,
-          userAssignedIdentities: userAssignedIdentitiesObj,
-        },
+        identity: this._getIdentity(userAssignedIdentities),
       },
     });
+  }
+
+  private static _getIdentity(userAssignedIdentities?: KeyValue<KeyValue<string>>) {
+    if (!!userAssignedIdentities) {
+      const userAssignedIdentitiesObj = {};
+      for (const identity in userAssignedIdentities) {
+        userAssignedIdentitiesObj[identity] = {};
+      }
+      return {
+        type: ACRManagedIdentityType.systemAssigned + ', ' + ACRManagedIdentityType.userAssigned,
+        userAssignedIdentities: userAssignedIdentitiesObj,
+      };
+    } else {
+      return {
+        type: ACRManagedIdentityType.systemAssigned,
+      };
+    }
   }
 
   private static async _dispatchSpecificPageableRequest<T>(

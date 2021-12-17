@@ -278,7 +278,7 @@ export default class DeploymentCenterData {
     return ACRService.setAcrPullPermission(acrResourceId, principalId);
   };
 
-  public enableSystemAssignedIdentity = (resourceId: string, userAssignedIdentities: KeyValue<KeyValue<string>>) => {
+  public enableSystemAssignedIdentity = (resourceId: string, userAssignedIdentities?: KeyValue<KeyValue<string>>) => {
     return ACRService.enableSystemAssignedIdentity(resourceId, userAssignedIdentities);
   };
 
