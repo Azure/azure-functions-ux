@@ -41,6 +41,7 @@ export class CommonConstants {
     argApiVersion20180901Preview: '2018-09-01-preview',
     workflowApiVersion20201201: '2020-12-01',
     roleAssignmentApiVersion20180701: '2018-07-01',
+    enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',
   };
 
   public static readonly NonThemeColors = {
@@ -236,6 +237,10 @@ export class CommonConstants {
   public static readonly master = 'master';
 
   public static readonly singleForwardSlash = '/';
+
+  public static readonly comma = ',';
+
+  public static readonly space = ' ';
 }
 
 export enum WorkerRuntimeLanguages {
