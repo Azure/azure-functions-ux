@@ -5025,7 +5025,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Certificate exclusion paths</value>
     </data>
     <data name="editCertificateExlusionPaths" xml:space="preserve">
-        <value>edit client eclusion paths</value>
+        <value>edit client exclusion paths</value>
         <comment>This is meant for aria-labeling, not visual</comment>
     </data>
     <data name="noExclusionRulesDefined" xml:space="preserve">
@@ -7205,6 +7205,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="managedIdentity" xml:space="preserve">
         <value>Managed Identity</value>
+    </data>
     <data name="functionTestInputDescription" xml:space="preserve">
         <value>Provide parameters to test your function in the portal. Results can be found in the Output tab.</value>
     </data>
@@ -7213,5 +7214,23 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="invalidCronExpressionMessage" xml:space="preserve">
         <value>Invalid Cron Expression. Please consult the &lt;a href="{0}" target="_blank"&gt;documentation&lt;/a&gt; to learn more.</value>
+    </data>
+    <data name="systemAssigned" xml:space="preserve">
+        <value>System assigned</value>
+    </data>
+    <data name="userAssigned" xml:space="preserve">
+        <value>User assigned</value>
+    </data>
+    <data name="managedIdentityTypePlaceholder" xml:space="preserve">
+        <value>Select managed identity</value>
+    </data>
+    <data name="managedIdentityInfoMessage" xml:space="preserve">
+        <value>Image and tag fields will not auto populate. Please manually enter the image and tag below.</value>
+    </data>
+    <data name="acrCredentialsWarningMessage" xml:space="preserve">
+        <value>Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below.</value>
+    </data>
+    <data name="addIdentity" xml:space="preserve">
+        <value>Add identity</value>
     </data>
 </root>

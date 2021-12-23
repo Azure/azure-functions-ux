@@ -150,6 +150,16 @@ export enum ACRCredentialType {
   managedIdentity = 'managedIdentity',
 }
 
+export enum ACRManagedIdentityType {
+  systemAssigned = 'SystemAssigned',
+  userAssigned = 'UserAssigned',
+}
+
+export enum ManagedIdentityInfo {
+  clientId = 'clientId',
+  principalId = 'principalId',
+}
+
 export interface AzureDevOpsUrl {
   Tfs: string;
   Sps: string;
@@ -313,6 +323,8 @@ export interface AcrFormData {
   acrResourceId: string;
   acrLocation: string;
   acrCredentialType: string;
+  acrManagedIdentityType: string | null;
+  acrManagedIdentityPrincipalId: string;
 }
 
 export interface DockerHubFormData {
@@ -626,6 +638,11 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   acrSubscription: string;
   acrStatusMessage?: string;
   acrStatusMessageType?: MessageBarType;
+  acrUseManagedIdentities: boolean;
+  managedIdentityOptions: IDropdownOption[];
+  loadingManagedIdentities: boolean;
+  learnMoreLink?: string;
+  openIdentityBlade: () => void;
 }
 
 export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -718,4 +735,20 @@ export interface SearchTermObserverInfo {
   deploymentCenterContext: IDeploymentCenterContext;
   portalContext: PortalCommunicator;
   isGitHubActions: boolean | undefined;
+}
+
+export interface RoleAssignment {
+  properties: {
+    roleDefinitionId: string;
+    principalId: string;
+    scope: string;
+  };
+  id: string;
+  type: string;
+  name: string;
+}
+export interface UserAssignedIdentity {
+  clientId: string;
+  principalId: string;
+  name: string;
 }

@@ -5,6 +5,7 @@ export interface MsiIdentity {
   principalId: string;
   tenantId: string;
   type: string;
+  userAssignedIdentities: KeyValue<KeyValue<string>>;
 }
 export interface ArmObj<T> {
   id: string;
@@ -42,6 +43,7 @@ export interface Identity {
   principalId: string;
   tenantId: string;
   type: string;
+  userAssignedIdentities: KeyValue<KeyValue<string>>;
 }
 
 export interface ResourceGraph {

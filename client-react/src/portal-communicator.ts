@@ -40,6 +40,7 @@ import { TelemetryInfo } from './models/telemetry';
 import { loadTheme } from '@fluentui/style-utilities';
 import { NetAjaxSettings } from './models/ajax-request-model';
 import { isPortalCommunicationStatusSuccess } from './utils/portal-utils';
+
 export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
@@ -199,7 +200,26 @@ export default class PortalCommunicator {
     });
   }
 
-  public getSubscription(subscriptionId: string): Observable<ISubscription> {
+  public hasFlightEnabled(flightName: string): Promise<boolean> {
+    const payload: IDataMessage<string> = {
+      operationId: Guid.newGuid(),
+      data: flightName,
+    };
+
+    PortalCommunicator.postMessage(Verbs.ibizaExperimentationFlighting, this.packageData(payload));
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === payload.operationId),
+          first()
+        )
+        .subscribe((r: IDataMessage<IDataMessageResult<boolean>>) => {
+          resolve(r.data.result);
+        });
+    });
+  }
+
+  public getSubscription(subscriptionId: string): Promise<ISubscription> {
     const payload: IDataMessage<ISubscriptionRequest> = {
       operationId: Guid.newGuid(),
       data: {
@@ -208,13 +228,16 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.getSubscriptionInfo, this.packageData(payload));
-    return this.operationStream.pipe(
-      filter(o => o.operationId === payload.operationId),
-      first(),
-      map((r: IDataMessage<IDataMessageResult<ISubscription>>) => {
-        return r.data.result;
-      })
-    );
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === payload.operationId),
+          first()
+        )
+        .subscribe((r: IDataMessage<IDataMessageResult<ISubscription>>) => {
+          resolve(r.data.result);
+        });
+    });
   }
 
   public getAllSubscriptions(): Observable<ISubscription[]> {

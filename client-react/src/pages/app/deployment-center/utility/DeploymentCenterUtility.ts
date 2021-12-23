@@ -197,6 +197,10 @@ export const getArmToken = () => {
   return window.appsvc && window.appsvc.env.armToken ? `bearer ${window.appsvc.env.armToken}` : '';
 };
 
+export const getArmEndpoint = () => {
+  return window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint;
+};
+
 export const getWorkflowFileName = (branch: string, siteName: string, slotName?: string): string => {
   const normalizedBranchName = branch.split('/').join('-');
   return slotName ? `${normalizedBranchName}_${siteName}(${slotName}).yml` : `${normalizedBranchName}_${siteName}.yml`;
@@ -347,7 +351,8 @@ const isAcrSettingsDirty = (formProps: FormikProps<DeploymentCenterFormData<Depl
     formProps.values.acrImage !== formProps.initialValues.acrImage ||
     formProps.values.acrTag !== formProps.initialValues.acrTag ||
     formProps.values.acrComposeYml !== formProps.initialValues.acrComposeYml ||
-    formProps.values.acrCredentialType !== formProps.initialValues.acrCredentialType
+    formProps.values.acrCredentialType !== formProps.initialValues.acrCredentialType ||
+    formProps.values.acrManagedIdentityType !== formProps.initialValues.acrManagedIdentityType
   );
 };
 

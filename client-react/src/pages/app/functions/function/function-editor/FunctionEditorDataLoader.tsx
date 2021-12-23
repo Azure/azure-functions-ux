@@ -28,10 +28,12 @@ import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
-import { Guid } from '../../../../../utils/Guid';
 import { NetAjaxSettings } from '../../../../../models/ajax-request-model';
 import { PortalContext } from '../../../../../PortalContext';
 import { isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
+import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
+import { SiteStateContext } from '../../../../../SiteState';
+import SiteHelper from '../../../../../utils/SiteHelper';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -62,6 +64,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
 
   const siteContext = useContext(SiteRouterContext);
+  const siteStateContext = useContext(SiteStateContext);
   const startupInfoContext = useContext(StartupInfoContext);
   const portalContext = useContext(PortalContext);
 
@@ -280,7 +283,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const getHeaders = (testHeaders: NameValuePair[], xFunctionKey?: string): KeyValue<string> => {
-    const headers = { 'x-ms-client-request-id': Guid.newGuid() };
+    const headers = getJsonHeaders();
     testHeaders.forEach(h => {
       headers[h.name] = h.value;
     });
@@ -338,7 +341,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       return {
         uri: url,
         type: testDataObject.method as string,
-        headers,
+        headers: headers,
+        data: testDataObject.body,
       };
     }
     return undefined;
@@ -356,7 +360,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       return {
         uri: url,
         type: 'POST',
-        headers,
+        headers: headers,
+        data: { input: newFunctionInfo.properties.test_data || '' },
       };
     }
     return undefined;
@@ -365,9 +370,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
     setFunctionRunning(true);
 
-    const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
-    if (updatedFunctionInfo.metadata.success) {
-      setFunctionInfo(updatedFunctionInfo.data);
+    if (!SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
+      const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
+      if (updatedFunctionInfo.metadata.success) {
+        setFunctionInfo(updatedFunctionInfo.data);
+      }
     }
 
     let settings: NetAjaxSettings | undefined;
@@ -484,20 +491,49 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
+  const getAuthorizationHeaders = (): KeyValue<string> => {
+    return {
+      Authorization: `Bearer ${startupInfoContext.token}`,
+      FunctionsPortal: '1',
+    };
+  };
+
   const getAndSetTestData = async () => {
     if (!!functionInfo && !!site && !!functionInfo.properties.test_data_href) {
       const testDataHrefObjects = functionInfo.properties.test_data_href.split('/vfs/');
+      let testDataResponseSuccess = false;
       let testData;
 
       if (testDataHrefObjects.length === 2) {
         const vfsArmTestDataResponse = await FunctionsService.getTestDataOverVfsArm(site.id, testDataHrefObjects[1], runtimeVersion);
         if (vfsArmTestDataResponse.metadata.success) {
           testData = vfsArmTestDataResponse.data;
+          testDataResponseSuccess = true;
         } else {
           LogService.error(
             LogCategories.FunctionEdit,
             'GetTestDataUsingVfsApi',
             `Failed to get test data from VFS API: ${getErrorMessageOrStringify(vfsArmTestDataResponse.metadata.error)}`
+          );
+        }
+      }
+
+      // Note (krmitta): Almost always we should be able to get the test_data through VFS Arm.
+      // Adding the below fallback logic just on the off-chance that it doesn't.
+      if (!testDataResponseSuccess && !Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.makeCallThroughPortal)) {
+        const headers = getAuthorizationHeaders();
+        const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(
+          functionInfo.properties.test_data_href,
+          'GET',
+          headers
+        );
+        if (functionHrefTestDataResponse.metadata.success) {
+          testData = functionHrefTestDataResponse.data;
+        } else {
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'GetTestDataUsingFunctionHref',
+            `Failed to get test data: ${getErrorMessageOrStringify(functionHrefTestDataResponse.metadata.error)}`
           );
         }
       }

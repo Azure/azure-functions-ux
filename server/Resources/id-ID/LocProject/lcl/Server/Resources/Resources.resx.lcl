@@ -360,6 +360,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";acrCredentialsWarningMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Tidak dapat mengakses ACR '{0}' karena kredensial admin pada ACR dinonaktifkan dan tidak ada identitas terkelola yang ditetapkan. Aktifkan kredensial admin atau tetapkan identitas terkelola di bawah ini.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";active" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Active]]></Val>
@@ -518,6 +527,15 @@
           <Val><![CDATA[Add system key]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Tambahkan kunci sistem]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";adminCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Admin Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kredensial Admin]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -2569,7 +2587,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Failed to create App Service plan: '{0}']]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Gagal membuat paket App Service: '{0}']]></Val>
+            <Val><![CDATA[Gagal membuat App Service Plan: '{0}']]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4186,7 +4204,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Deployment]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Penyebaran]]></Val>
+            <Val><![CDATA[Deployment]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5893,7 +5911,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Runtime stack]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Tumpukan runtime]]></Val>
+            <Val><![CDATA[Runtime stack]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6352,7 +6370,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Are you sure you want to discard the changes to the file {0}?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Anda yakin ingin membuang perubahan pada file {0}?]]></Val>
+            <Val><![CDATA[Anda yakin ingin membatalkan perubahan pada file {0}?]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6361,7 +6379,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Discard changes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Buang perubahan]]></Val>
+            <Val><![CDATA[Batalkan perubahan]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -9502,7 +9520,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Function Apps v2 are now single language. Please set the runtime stack before adding functions to your app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Aplikasi Fungsi v2 sekarang merupakan bahasa tunggal. Atur tumpukan runtime sebelum menambahkan fungsi ke aplikasi Anda.]]></Val>
+            <Val><![CDATA[Aplikasi Fungsi v2 sekarang merupakan bahasa tunggal. Atur runtime stack sebelum menambahkan fungsi ke aplikasi Anda.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -9511,7 +9529,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Function App runtime stack]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Tumpukan runtime Aplikasi Fungsi]]></Val>
+            <Val><![CDATA[Runtime stack Aplikasi Fungsi]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -10564,7 +10582,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Function Runtime stack]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Tumpukan Runtime Fungsi]]></Val>
+            <Val><![CDATA[Runtime stack Fungsi]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -10616,9 +10634,21 @@
       </Item>
       <Item ItemId=";functionTestInputDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
+          <Val><![CDATA[Provide parameters to test your function in the portal. Results can be found in the Output tab.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Berikan parameter untuk menguji fungsi Anda di portal. Hasil dapat ditemukan di tab Output.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Provide parameters to test the HTTP request. Results can be found in the Output tab.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";functionTestInputDescriptionForHttp" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
           <Val><![CDATA[Provide parameters to test the HTTP request. Results can be found in the Output tab.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Berikan parameter untuk menguji permintaan HTTP. Hasilnya dapat ditemukan di tab Output.]]></Val>
+            <Val><![CDATA[Berikan parameter untuk menguji permintaan HTTP. Hasil dapat ditemukan di tab Output.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -12207,6 +12237,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";invalidCronExpressionMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Invalid Cron Expression. Please consult the <a href="{0}" target="_blank">documentation</a> to learn more.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ekspresi Cron yang tidak valid. Silakan lihat <a href="{0}" target="_blank">dokumentasi</a> untuk mempelajari selengkapnya.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";invalidLinuxPath" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[The path format is not valid for Linux.]]></Val>
@@ -13109,6 +13148,33 @@
           <Val><![CDATA[Manage publish profile commands]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Kelola perintah profil penerbitan]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Managed Identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Identitas Terkelola]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentityInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bidang gambar dan tag tidak akan terisi otomatis. Masukkan gambar dan tag di bawah ini secara manual.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentityTypePlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select managed identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Pilih identitas terkelola]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -15775,7 +15841,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Your selected runtime stack does not currently support remote debugging.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Tumpukan runtime yang Anda pilih saat ini tidak mendukung penelusuran kesalahan jarak jauh.]]></Val>
+            <Val><![CDATA[Runtime stack yang Anda pilih saat ini tidak mendukung penelusuran kesalahan jarak jauh.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16189,7 +16255,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Runtime stack]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Tumpukan runtime]]></Val>
+            <Val><![CDATA[Runtime stack]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18319,7 +18385,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Are you sure you want to discard the changes to the application settings for the environment {0}?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Anda yakin ingin membuang perubahan pada pengaturan aplikasi untuk lingkungan {0}?]]></Val>
+            <Val><![CDATA[Anda yakin ingin membatalkan perubahan pada pengaturan aplikasi untuk lingkungan {0}?]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19413,6 +19479,18 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";systemAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[System assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ditetapkan sistem]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[System-assigned]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";tabNames_develop" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Develop]]></Val>
@@ -19444,7 +19522,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Monitor]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Pantau]]></Val>
+            <Val><![CDATA[Monitor]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -20373,6 +20451,18 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Sertifikat klien masuk memerlukan paket App Service dasar atau lebih tinggi]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";userAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[User assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ditetapkan pengguna]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[User-assigned]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

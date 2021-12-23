@@ -5,6 +5,8 @@ export class CommonConstants {
     aseV2: 'ASEV2',
     aseV3: 'ASEV3',
     container: 'container',
+    code: 'code',
+    webApp: 'webapp',
     functionApp: 'functionapp',
     botapp: 'botapp',
     elastic: 'elastic', // only applies to server farm
@@ -38,6 +40,8 @@ export class CommonConstants {
     argApiVersion20210301: '2021-03-01',
     argApiVersion20180901Preview: '2018-09-01-preview',
     workflowApiVersion20201201: '2020-12-01',
+    roleAssignmentApiVersion20180701: '2018-07-01',
+    enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',
   };
 
   public static readonly NonThemeColors = {
@@ -58,10 +62,9 @@ export class CommonConstants {
     enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
     enablePortalEditing: 'enablePortalEditing',
     disablePortalEditing: 'disablePortalEditing',
-    enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
-    enableACRManagedIdentities: 'enableACRManagedIdentities',
     makeCallThroughPortal: 'makeCallThroughPortal',
+    useStackApiForRuntimeVersion: 'useStackApiForRuntimeVersion',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -86,6 +89,8 @@ export class CommonConstants {
     serviceLinkerPrefix: 'resourceconnector_',
     enableOryxBuild: 'ENABLE_ORYX_BUILD',
     azureFilesSettingName: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING',
+    azureWebJobsSecretStorageType: 'AzureWebJobsSecretStorageType',
+    azureWebJobsStorage: 'AzureWebJobsStorage',
   };
 
   public static readonly SkuNames = {
@@ -230,6 +235,12 @@ export class CommonConstants {
   public static readonly production = 'production';
 
   public static readonly master = 'master';
+
+  public static readonly singleForwardSlash = '/';
+
+  public static readonly comma = ',';
+
+  public static readonly space = ' ';
 }
 
 export enum WorkerRuntimeLanguages {
@@ -251,4 +262,34 @@ export enum OverflowBehavior {
 
 export enum TextFieldType {
   password = 'password',
+}
+
+export enum RBACRoleId {
+  acrPull = '7f951dda-4ed3-4680-a7ca-43fe172d538d',
+}
+
+export class SubscriptionQuotaIds {
+  public static azurePassQuotaId: string = 'AzurePass_2014-09-01';
+  public static azureStudentQuotaId: string = 'AzureForStudents_2018-01-01';
+  public static dreamSparkQuotaId: string = 'DreamSpark_2015-02-01';
+  public static freeTrialQuotaId: string = 'FreeTrial_2014-09-01';
+  public static artemisQuotaId: string = 'CSP_2015-05-01';
+  public static bizSparkQuotaId: string = 'BizSpark_2014-09-01';
+  public static sponsoredQuotaId: string = 'Sponsored_2016-01-01';
+  public static lrsQuotaId: string = 'LightweightTrial_2016-09-01';
+  public static enterpriseAgreementQuotaId: string = 'EnterpriseAgreement_2014-09-01';
+  public static payAsYouGoQuotaId: string = 'PayAsYouGo_2014-09-01';
+  public static cspQuotaId: string = 'CSP_2015-05-01';
+}
+
+// NOTE(krmitta): This class should be in sync with the similar ibiza class,
+// File - https://msazure.visualstudio.com/One/_git/AAPT-Antares-AntUX?path=/src/src/Ux/Extensions/Websites/TypeScript/ExtensionAssets/Constants.ts&version=GBdev&line=3444&lineEnd=3444&lineStartColumn=14&lineEndColumn=29&lineStyle=plain&_a=contents
+export class ExperimentationConstants {
+  public static TreatmentFlight = {
+    linuxPortalEditing: 'linux-portal-editing-variant',
+  };
+
+  public static ControlFlight = {
+    linuxPortalEditing: 'linux-portal-editing-default',
+  };
 }

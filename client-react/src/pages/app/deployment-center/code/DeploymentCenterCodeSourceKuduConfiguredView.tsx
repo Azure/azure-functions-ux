@@ -37,20 +37,24 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
       })
     );
 
+    if (!!deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit) {
+      setScmTypeThroughSiteConfig(notificationId);
+    } else {
+      deleteSourceControls(notificationId);
+    }
+  };
+
+  const setScmTypeThroughSiteConfig = async (notificationId: string) => {
     const updatePathSiteConfigResponse = await deploymentCenterData.patchSiteConfig(deploymentCenterContext.resourceId, {
       properties: {
-        scmType: 'None',
+        scmType: ScmType.None,
       },
     });
 
-    if (updatePathSiteConfigResponse.metadata.success && deploymentCenterContext.siteConfig) {
-      if (deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit) {
-        formProps.resetForm();
-        portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
-        await deploymentCenterContext.refresh();
-      } else {
-        deleteSourceControls(notificationId);
-      }
+    if (updatePathSiteConfigResponse.metadata.success) {
+      formProps.resetForm();
+      portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
+      await deploymentCenterContext.refresh();
     } else {
       const errorMessage = getErrorMessage(updatePathSiteConfigResponse.metadata.error);
       const message = errorMessage ? t('disconnectingDeploymentFailWithMessage').format(errorMessage) : t('disconnectingDeploymentFail');
