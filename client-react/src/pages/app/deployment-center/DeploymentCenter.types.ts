@@ -151,8 +151,8 @@ export enum ACRCredentialType {
 }
 
 export enum ACRManagedIdentityType {
-  systemAssigned = 'systemAssigned',
-  userAssigned = 'userAssigned',
+  systemAssigned = 'SystemAssigned',
+  userAssigned = 'UserAssigned',
 }
 
 export enum ManagedIdentityInfo {
