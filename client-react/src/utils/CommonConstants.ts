@@ -62,7 +62,6 @@ export class CommonConstants {
     enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
     enablePortalEditing: 'enablePortalEditing',
     disablePortalEditing: 'disablePortalEditing',
-    enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     makeCallThroughPortal: 'makeCallThroughPortal',
     useStackApiForRuntimeVersion: 'useStackApiForRuntimeVersion',
   };
