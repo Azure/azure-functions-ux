@@ -1,9 +1,9 @@
 import { ArmObj } from '../models/arm-obj';
 import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { KeyValue } from '../models/portal-models';
-import Url from './url';
 import { Site } from '../models/site/site';
 import { isLinuxDynamic, isLinuxElastic, isPremiumV2 } from './arm-utils';
+import Url from './url';
 
 export default class FunctionAppService {
   public static getRFPSetting(appSettings: ArmObj<KeyValue<string>>): string {
@@ -66,13 +66,17 @@ export default class FunctionAppService {
   }
 
   public static getAzureWebJobsStorageSetting(appSettings: ArmObj<KeyValue<string>>): string {
-    return appSettings.properties[CommonConstants.AppSettingNames.azureWebJobsSecretStorageType] || '';
+    return (
+      appSettings.properties[CommonConstants.AppSettingNames.azureWebJobsSecretStorageType] ||
+      appSettings.properties[CommonConstants.AppSettingNames.azureWebJobsStorage] ||
+      ''
+    );
   }
 
   public static isEditingCheckNeededForLinuxSku = (site: ArmObj<Site>, addPremiumV2Check: boolean = true) => {
     return (
       !!site &&
-      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enablePortalEditing) &&
+      !!Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.enablePortalEditing) &&
       (isLinuxDynamic(site) || isLinuxElastic(site) || (addPremiumV2Check && isPremiumV2(site)))
     );
   };

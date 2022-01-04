@@ -80,6 +80,7 @@ export const phpStack: WebAppStack = {
           value: '7.3',
           stackSettings: {
             linuxRuntimeSettings: {
+              isDeprecated: true,
               runtimeVersion: 'PHP|7.3',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -93,6 +94,7 @@ export const phpStack: WebAppStack = {
               endOfLifeDate: php7Point3EOL,
             },
             windowsRuntimeSettings: {
+              isDeprecated: true,
               runtimeVersion: '7.3',
               remoteDebuggingSupported: false,
               appInsightsSettings: {

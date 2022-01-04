@@ -30,7 +30,6 @@ import { CommonConstants } from '../../../utils/CommonConstants';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import { Links } from '../../../utils/FwLinks';
-import Url from '../../../utils/url';
 
 const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const {
@@ -138,10 +137,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   };
 
   const getEnterpriseGradeEdgeCostRow = (): JSX.Element => {
-    if (Url.getFeatureValue(CommonConstants.FeatureFlags.enterpriseGradeEdgeItemVisible) === 'true') {
-      return getGridMiddleRow(t('staticSiteEnterpriseGradeEdge'), CommonConstants.Dash, enterpriseGradeEdgeCost);
-    }
-    return <></>;
+    return getGridMiddleRow(t('staticSiteEnterpriseGradeEdge'), CommonConstants.Dash, enterpriseGradeEdgeCost);
   };
 
   const getEnterpriseGradeEdgeCost = (): JSX.Element => {

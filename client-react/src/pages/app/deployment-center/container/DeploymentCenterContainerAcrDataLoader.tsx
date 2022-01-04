@@ -5,6 +5,7 @@ import {
   ACRCredentialType,
   ACRManagedIdentityType,
   ManagedIdentityInfo,
+  UserAssignedIdentity,
 } from '../DeploymentCenter.types';
 import DeploymentCenterContainerAcrSettings from './DeploymentCenterContainerAcrSettings';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
@@ -55,6 +56,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const [managedIdentityOptions, setManagedIdentityOptions] = useState<IComboBoxOption[]>([]);
   const [loadingManagedIdentities, setLoadingManagedIdentities] = useState(true);
   const [learnMoreLink, setLearnMoreLink] = useState<string | undefined>(undefined);
+  const managedIdentityInfo = useRef<{ [key: string]: UserAssignedIdentity }>({});
 
   const fetchData = () => {
     fetchAllSubscriptions();
@@ -137,6 +139,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
           if (formProps.values.acrLoginServer) {
             fetchRepositories(formProps.values.acrLoginServer);
+            setAcrResourceId();
           }
         } else {
           setAcrStatusMessage(t('deploymentCenterContainerAcrRegistrieNotAvailable').format(subscription));
@@ -389,7 +392,13 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             const identityName = idSplit[idSplit.length - 1];
             if (!!userAssignedIdentities[id]) {
               const clientId = userAssignedIdentities[id][ManagedIdentityInfo.clientId];
+              const principalId = userAssignedIdentities[id][ManagedIdentityInfo.principalId];
               identities.push({ key: clientId, text: identityName });
+              managedIdentityInfo.current[clientId] = {
+                clientId,
+                principalId,
+                name: identityName,
+              };
             }
           }
         }
@@ -406,6 +415,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       if (acrUseManagedIdentities) {
         formProps.values.acrManagedIdentityType =
           deploymentCenterContext.siteConfig.properties.acrUserManagedIdentityID || ACRManagedIdentityType.systemAssigned;
+        setManagedIdentityPrincipalId();
       } else {
         formProps.values.acrManagedIdentityType = '';
       }
@@ -443,8 +453,8 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setSubscription(subscription);
   };
 
-  const openIdentityBlade = () => {
-    portalContext.openBlade(
+  const openIdentityBlade = async () => {
+    const response = await portalContext.openBlade(
       {
         detailBlade: 'AzureResourceIdentitiesBladeV2',
         extension: 'Microsoft_Azure_ManagedServiceIdentity',
@@ -457,6 +467,19 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       },
       'deployment-center'
     );
+    if (!!response) {
+      fetchManagedIdentityOptions();
+    }
+  };
+
+  const setManagedIdentityPrincipalId = () => {
+    if (!!formProps.values.acrManagedIdentityType && managedIdentityInfo.current[formProps.values.acrManagedIdentityType]) {
+      formProps.values.acrManagedIdentityPrincipalId = managedIdentityInfo.current[formProps.values.acrManagedIdentityType].principalId;
+    }
+  };
+
+  const setAcrResourceId = () => {
+    formProps.values.acrResourceId = registryIdentifiers.current[formProps.values.acrLoginServer].resourceId;
   };
 
   useEffect(() => {
@@ -470,6 +493,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   useEffect(() => {
     if (registryIdentifiers.current[formProps.values.acrLoginServer]) {
       fetchRepositories(formProps.values.acrLoginServer);
+      setAcrResourceId();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -501,6 +525,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   }, [formProps.values.acrCredentialType]);
 
   useEffect(() => {
+    setManagedIdentityPrincipalId();
+  }, [formProps.values.acrManagedIdentityType]);
+
+  useEffect(() => {
     fetchRegistries();
   }, [acrUseManagedIdentities]);
 
@@ -510,7 +538,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       fetchImages={fetchRepositories}
       fetchTags={fetchTags}
       fetchRegistriesInSub={setRegistriesInSub}
-      fetchManagedIdentityOptions={fetchManagedIdentityOptions}
       acrSubscriptionOptions={subscriptionOptions}
       acrRegistryOptions={acrRegistryOptions}
       acrImageOptions={acrImageOptions}

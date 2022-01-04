@@ -30,7 +30,7 @@ export const findFormAppSettingValue = (appSettings: FormAppSetting[], settingNa
   return index >= 0 ? appSettings[index].value : null;
 };
 
-export const removeFormAppSetting = (appSettings: FormAppSetting[], settingName: string) => {
+export const removeFromAppSetting = (appSettings: FormAppSetting[], settingName: string) => {
   const appSettingsUpdated = [...appSettings];
   const index = findFormAppSettingIndex(appSettingsUpdated, settingName);
   if (index !== -1) {
