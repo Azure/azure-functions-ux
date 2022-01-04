@@ -96,14 +96,6 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
   return (
     <>
-      {acrUseManagedIdentities && (
-        <div id="acr-managed-identities-info-banner" className={deploymentCenterAcrBannerDiv}>
-          <MessageBar id="acr-info-message-bar" messageBarType={MessageBarType.info} isMultiline={true}>
-            {t('managedIdentityInfoMessage')}
-          </MessageBar>
-        </div>
-      )}
-
       {acrStatusMessage && acrStatusMessageType && (
         <div id="acr-status-message-type-div" className={deploymentCenterAcrBannerDiv}>
           <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} learnMoreLink={learnMoreLink} />
@@ -164,6 +156,14 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         <>
           {!isGitHubActionSelected && (
             <>
+              {acrUseManagedIdentities && (
+                <div id="acr-managed-identities-info-banner" className={deploymentCenterAcrBannerDiv}>
+                  <MessageBar id="acr-info-message-bar" messageBarType={MessageBarType.info} isMultiline={true}>
+                    {t('managedIdentityInfoMessage')}
+                  </MessageBar>
+                </div>
+              )}
+
               <Field
                 id="container-acr-image"
                 label={t('containerACRImage')}
