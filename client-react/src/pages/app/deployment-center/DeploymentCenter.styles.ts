@@ -218,3 +218,12 @@ export const buttonFooterStyle = (theme: ThemeExtended): string =>
     width: '100%',
     height: '68px',
   });
+
+export const loadingComboBoxStyle = style({
+  display: 'flex',
+  alignItems: 'center',
+});
+
+export const comboBoxSpinnerStyle = style({
+  padding: '0px 0px 16px 10px',
+});

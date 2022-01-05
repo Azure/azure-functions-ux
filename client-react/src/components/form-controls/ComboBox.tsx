@@ -4,7 +4,8 @@ import get from 'lodash-es/get';
 import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
 import { ThemeContext } from '../../ThemeContext';
 import ComboBoxNoFormik from './ComboBoxnoFormik';
-import { IComboBoxProps, IComboBoxOption, IComboBox, IDropdownOption } from '@fluentui/react';
+import { IComboBoxProps, IComboBoxOption, IComboBox, IDropdownOption, Spinner, SpinnerSize } from '@fluentui/react';
+import { comboBoxSpinnerStyle, loadingComboBoxStyle } from '../../pages/app/deployment-center/DeploymentCenter.styles';
 
 interface CustomComboBoxProps {
   id: string;
@@ -60,9 +61,10 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
   }, [options]);
 
   const errorMessage = get(form.errors, field.name, '') as string;
+  const disableComboBox = !!searchable ? clearComboBox : isLoading || clearComboBox;
 
   return (
-    <>
+    <div className={loadingComboBoxStyle}>
       <ComboBoxNoFormik
         selectedKey={field.value === undefined ? 'null' : field.value}
         text={searchTerm}
@@ -73,11 +75,12 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
         errorMessage={errorMessage}
         styles={ComboBoxStyles(theme)}
         allowFreeform={allowFreeform}
-        disabled={isLoading || false}
+        disabled={disableComboBox || false}
         autofill={!!searchable ? { onInputValueChange: onInputValueChange } : {}}
         {...rest}
       />
-    </>
+      {!!isLoading && <Spinner className={comboBoxSpinnerStyle} size={SpinnerSize.small} />}
+    </div>
   );
 };
 
