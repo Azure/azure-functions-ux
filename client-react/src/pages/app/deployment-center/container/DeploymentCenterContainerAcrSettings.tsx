@@ -123,20 +123,22 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         ]}
         displayInVerticalLayout={true}
       />
-      <Field
-        id="container-acr-managed-identities-type"
-        label={t('identity')}
-        name="acrManagedIdentityType"
-        component={ComboBox}
-        placeholder={t('managedIdentityTypePlaceholder')}
-        options={managedIdentityOptions}
-        onRenderLowerContent={() => (
-          <Link id="container-acr-add-identity-link" className={addIdentityLinkStyle} onClick={openIdentityBlade}>
-            {t('addIdentity')}
-          </Link>
-        )}
-        disabled={!acrUseManagedIdentities || loadingManagedIdentities}
-      />
+      {acrUseManagedIdentities && (
+        <Field
+          id="container-acr-managed-identities-type"
+          label={t('identity')}
+          name="acrManagedIdentityType"
+          component={ComboBox}
+          placeholder={t('managedIdentityTypePlaceholder')}
+          options={managedIdentityOptions}
+          isLoading={loadingManagedIdentities}
+          onRenderLowerContent={() => (
+            <Link id="container-acr-add-identity-link" className={addIdentityLinkStyle} onClick={openIdentityBlade}>
+              {t('addIdentity')}
+            </Link>
+          )}
+        />
+      )}
       <Field
         id="container-acr-repository"
         label={t('containerACRRegistry')}
