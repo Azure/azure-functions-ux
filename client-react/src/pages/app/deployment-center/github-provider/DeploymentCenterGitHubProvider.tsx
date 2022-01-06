@@ -107,7 +107,7 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
             required={true}
             isLoading={loadingRepositories}
             searchable={true}
-            clearComboBox={!!clearComboBox ? clearComboBox.repo : false}
+            clearComboBox={!!clearComboBox && clearComboBox.repo}
           />
           <Field
             id="deployment-center-settings-branch-option"
@@ -122,7 +122,7 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
             defaultSelectedKey={formProps.values.branch}
             required={true}
             isLoading={loadingBranches}
-            clearComboBox={!!clearComboBox ? clearComboBox.branch : false}
+            clearComboBox={!!clearComboBox && clearComboBox.branch}
           />
         </>
       )}

@@ -61,7 +61,6 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
   }, [options]);
 
   const errorMessage = get(form.errors, field.name, '') as string;
-  const disableComboBox = !!searchable ? clearComboBox : isLoading || clearComboBox;
 
   return (
     <div className={loadingComboBoxStyle}>
@@ -75,7 +74,7 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
         errorMessage={errorMessage}
         styles={ComboBoxStyles(theme)}
         allowFreeform={allowFreeform}
-        disabled={disableComboBox || false}
+        disabled={clearComboBox || (!searchable && isLoading)}
         autofill={!!searchable ? { onInputValueChange: onInputValueChange } : {}}
         {...rest}
       />
