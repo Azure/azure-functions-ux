@@ -7,7 +7,7 @@ on:
       - 'server/Resources/**/Resources.resx.lcl'
 
 jobs:
-  if: ${{ github.event.pull_request.user.login == 'csigs' }}
+  if: ${{ github.event.pull_request.user.login == 'takyyon' }}
   automate-issues-labels:
     runs-on: ubuntu-latest
 
