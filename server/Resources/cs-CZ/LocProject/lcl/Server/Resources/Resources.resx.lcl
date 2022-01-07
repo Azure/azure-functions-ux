@@ -22247,7 +22247,7 @@
       </Item>
       <Item ItemId=";xFunctionsKey_validationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You cannot define x-functions-key as a custom header]]></Val>
+          <Val><![CDATA[You cannot defineeeeeee x-functions-key as a custom header]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[x-functions-key není možné definovat jako vlastní hlavičku.]]></Val>
           </Tgt>
