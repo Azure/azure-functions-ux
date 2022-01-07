@@ -13856,10 +13856,13 @@
       </Item>
       <Item ItemId=";managedIdentityInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          <Val><![CDATA[When using managed identity, image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Les champs d’image et d’étiquette ne sont pas remplis automatiquement. Entrez manuellement l’image et la balise ci-dessous.]]></Val>
+            <Val><![CDATA[Lors de l’utilisation de l’identité managée, les champs d’image et d’étiquette ne sont pas remplis automatiquement. Entrez manuellement l’image et la balise ci-dessous.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
