@@ -31,9 +31,9 @@ jobs:
         ignore-if-assigned: true
         
     - name: Auto-approve
-      uses: hmarr/auto-approve-action@v2
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+      run: gh pr review --approve
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         
     - name: Enable Auto-merge
       run: gh pr merge --auto --merge "$PR_URL"
