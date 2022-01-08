@@ -17,7 +17,7 @@
       <Disp Icon="Str" Disp="true" LocTbl="false" />
       <Item ItemId=";DurableFunctionsActivity_description" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[A function dddddthat will be run whenever an Activity is called by an orchestrator function.]]></Val>
+          <Val><![CDATA[A function dddddthat will be cffdfsrun whenever an Activity is called by an orchestrator function.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Funkce, která se spustí pokaždé, když funkce orchestrátoru zavolá aktivitu]]></Val>
           </Tgt>
