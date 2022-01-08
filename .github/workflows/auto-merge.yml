@@ -1,13 +1,12 @@
 name: "Auto-merge Validation"
 
 on:
-  push:
   pull_request:
     paths:
       - 'server/Resources/**/Resources.resx.lcl'
 
 jobs:
-  automate-issues-labels:
+  auto-merge-lcl-changes:
     if: ${{ github.actor == 'takyyon' }}
     runs-on: ubuntu-latest
 
@@ -23,32 +22,16 @@ jobs:
     - run: git checkout HEAD^2
       if: ${{ github.event_name == 'pull_request' }}
 
-    - name: labeling
+    - name: Auto-Label
       uses: andymckay/labeler@master
       with:
         add-labels: "auto-localization-update"
         ignore-if-assigned: true
         
+    - name: Auto-approve
+      uses: hmarr/auto-approve-action@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         
-  auto-approve:
-      if: ${{ github.actor == 'takyyon' }}
-      runs-on: ubuntu-latest
-      steps:
-      - name: Auto-approve
-        uses: hmarr/auto-approve-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-        
-        
-  automerge:
-    if: ${{ github.actor == 'takyyon' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: reitermarkus/automerge@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN  }}
-          merge-method: squash
-          do-not-merge-labels: never-merge
-          required-labels: automerge
-          pull-request: ${{ github.event.inputs.pull-request }}
-          dry-run: true
+    - name: Enable Auto-merge
+      run: gh pr merge --auto --merge "${{github.event.pull_request.html_url}}"
