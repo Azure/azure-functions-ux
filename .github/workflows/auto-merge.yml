@@ -1,4 +1,4 @@
-name: "Add Label"
+name: "Auto-merge Validation"
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   automate-issues-labels:
-    if: ${{ github.event.pull_request.user.login == 'takyyon' }}
+    if: ${{ github.actor == 'takyyon' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -28,3 +28,27 @@ jobs:
       with:
         add-labels: "auto-localization-update"
         ignore-if-assigned: true
+        
+        
+  auto-approve:
+      if: ${{ github.actor == 'takyyon' }}
+      runs-on: ubuntu-latest
+      steps:
+      - name: Auto-approve
+        uses: hmarr/auto-approve-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+        
+        
+  automerge:
+    if: ${{ github.actor == 'takyyon' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: reitermarkus/automerge@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN  }}
+          merge-method: squash
+          do-not-merge-labels: never-merge
+          required-labels: automerge
+          pull-request: ${{ github.event.inputs.pull-request }}
+          dry-run: true
