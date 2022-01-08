@@ -4,9 +4,7 @@ on:
   pull_request:
     paths:
       - 'server/Resources/**/Resources.resx.lcl'
-env:
-    AUTO_LOCALIZATION_LABEL: 'auto-localization-update'
-    
+      
 jobs:
   auto-merge-lcl-changes:
     if: ${{ github.actor == 'takyyon' }}
@@ -14,6 +12,7 @@ jobs:
     env:
       PR_URL: ${{github.event.pull_request.html_url}}
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      AUTO_LOCALIZATION_LABEL: 'auto-localization-update'
 
     steps:
     - name: Checkout repository
@@ -28,11 +27,8 @@ jobs:
       if: ${{ github.event_name == 'pull_request' }}
 
     - name: Auto-Label
-      uses: andymckay/labeler@master
-      with:
-        add-labels: "${{ env.AUTO_LOCALIZATION_LABEL }}"
-        ignore-if-assigned: true
-        
+      run: gh pr edit --add-label "$AUTO_LOCALIZATION_LABEL" "$PR_URL"
+      
     - name: Auto-approve
       run: gh pr review --approve "$PR_URL"
         
