@@ -15,13 +15,11 @@ export default class ServerFarmService {
   };
 
   public static fetchServerFarmsForWebspace = (subscriptionId: string, webspace: string, portalCommunicator: PortalCommunicator) => {
-
-    if (window.appsvc?.env?.runtimeType === 'Azure') {
-      const queryString =
-        `where type == 'microsoft.web/serverfarms'` +
-        `| extend webspace = extract('.*', 0, tostring(properties.webSpace))` +
-        `| where webspace == '${webspace}'` +
-        `| project id, name, type, kind, properties, sku`;
+    if (window.appsvc && window.appsvc.env.runtimeType === 'Azure') {
+      const queryString = `where type == 'microsoft.web/serverfarms'
+        | extend webspace = extract('.*', 0, tostring(properties.webSpace))
+        | where webspace == '${webspace}'
+        | project id, name, type, kind, properties, sku`;
 
       const request: ARGRequest = {
         subscriptions: [subscriptionId],
@@ -37,23 +35,22 @@ export default class ServerFarmService {
         resourceId: serverFarmsResourceId,
         commandName: 'GetServerFarmsForSubscription',
         apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
-        method: 'GET'
-      })
-        .then(r => {
-          if (r.metadata.success) {
-            return r.data.value.filter(s => {
-              return s.properties.webSpace === webspace;
-            });
-          } else {
-            portalCommunicator.log({
-              action: 'GetServerFarmsForSubscription',
-              actionModifier: 'Failed',
-              resourceId: serverFarmsResourceId,
-              logLevel: 'error',
-              data: r.metadata.error
-            });
-          }
-        });
+        method: 'GET',
+      }).then(r => {
+        if (r.metadata.success) {
+          return r.data.value.filter(s => {
+            return s.properties.webSpace === webspace;
+          });
+        } else {
+          portalCommunicator.log({
+            action: 'GetServerFarmsForSubscription',
+            actionModifier: 'Failed',
+            resourceId: serverFarmsResourceId,
+            logLevel: 'error',
+            data: r.metadata.error,
+          });
+        }
+      });
     }
   };
 
