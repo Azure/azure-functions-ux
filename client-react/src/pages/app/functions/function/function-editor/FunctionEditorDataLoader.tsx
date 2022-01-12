@@ -62,6 +62,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isUploadingFile, setIsUploadingFile] = useState(false);
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
+  const [liveLogsSessionId, setLiveLogsSessionId] = useState<string>('');
 
   const siteContext = useContext(SiteRouterContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -351,7 +352,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   // Used to get settings for non-http and non-webHook functions
   const getSettingsToInvokeNonHttpFunction = (
     newFunctionInfo: ArmObj<FunctionInfo>,
-    xFunctionKey?: string
+    xFunctionKey?: string,
+    runId?: string
   ): NetAjaxSettings | undefined => {
     if (!!site) {
       const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
@@ -367,8 +369,9 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return undefined;
   };
 
-  const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+  const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string, runId?: string) => {
     setFunctionRunning(true);
+    setLiveLogsSessionId(runId || '');
 
     if (!SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
       const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
@@ -382,7 +385,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     if (isHttpOrWebHookFunction) {
       settings = getSettingsToInvokeHttpFunction(newFunctionInfo, xFunctionKey);
     } else {
-      settings = getSettingsToInvokeNonHttpFunction(newFunctionInfo, xFunctionKey);
+      settings = getSettingsToInvokeNonHttpFunction(newFunctionInfo, xFunctionKey, runId);
     }
 
     if (!!settings) {

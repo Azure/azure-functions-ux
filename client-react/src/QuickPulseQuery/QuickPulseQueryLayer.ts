@@ -1,6 +1,8 @@
 ﻿import * as qpschema from './QuickPulseSchema';
 import { QPSchemaConfigurationMetric, QPSchemaDocumentStreamInfo, RequestFieldsEnum, DependencyFieldsEnum } from './QuickPulseSchema';
 import axios, { AxiosRequestConfig } from 'axios';
+import Url from '../utils/url';
+import { CommonConstants } from '../utils/CommonConstants';
 
 // tslint:disable: max-classes-per-file
 
@@ -21,6 +23,7 @@ class QuickPulseSessionInfo {
   public seqNumber: number;
   public aggregatorId: string;
   public instanceSeqNumber: number;
+  public liveLogsSessionId: string;
 
   constructor() {
     this.queryNumber = 0;
@@ -29,6 +32,7 @@ class QuickPulseSessionInfo {
     this.seqNumber = 0;
     this.aggregatorId = '';
     this.instanceSeqNumber = 0;
+    this.liveLogsSessionId = '';
   }
 }
 
@@ -36,7 +40,7 @@ type WebRequest = {
   type: 'GET' | 'POST';
   url: string;
   timeout: number; // timeout after 10 seconds - don't need this request anymore
-  headers: { [id: string]: string };
+  headers: { [id: string]: any };
   data: any;
 };
 
@@ -99,8 +103,11 @@ export class QuickPulseQueryLayer {
     this._configuration = JSON.stringify(configuration);
   }
 
-  public queryDetails(authorizationHeader: string, querySessionInfo: boolean, instanceId: string) {
+  public queryDetails(authorizationHeader: string, querySessionInfo: boolean, instanceId: string, liveLogsSessionId?: string) {
     this._queryServersInfo = querySessionInfo;
+    if (!!this._detailedSessionInfo) {
+      this._detailedSessionInfo.liveLogsSessionId = liveLogsSessionId || '';
+    }
 
     // If we changed instance view then we need to query all instance documents again.
     if (instanceId !== this._instanceId) {
@@ -108,7 +115,13 @@ export class QuickPulseQueryLayer {
       this._instanceId = instanceId;
     }
 
-    return this.excuteQueryWithSessionTracking(authorizationHeader, this.getDetailedRequest.bind(this), this._detailedSessionInfo);
+    return this.excuteQueryWithSessionTracking(
+      authorizationHeader,
+      !!Url.getFeatureValue(CommonConstants.FeatureFlags.useNewFunctionLogsApi)
+        ? this.getDetailedRequestV2.bind(this)
+        : this.getDetailedRequest.bind(this),
+      this._detailedSessionInfo
+    );
   }
 
   private async excuteQueryWithSessionTracking(
@@ -246,6 +259,25 @@ export class QuickPulseQueryLayer {
       headers: {
         Authorization: authorizationHeader,
         'x-ms-qps-query-session': sessionHeader,
+      },
+      data: this._configuration,
+    };
+  }
+
+  private getDetailedRequestV2(authorizationHeader: string, sessionHeader?: string): WebRequest {
+    let quickPulseEndpointUrl = `${this._endpoint}/queryLogs&seqNumber=${this._detailedSessionInfo.seqNumber}`;
+
+    return {
+      type: 'POST',
+      url: quickPulseEndpointUrl,
+      timeout: 10000, // timeout after 10 seconds - don't need this request anymore
+      headers: {
+        Authorization: authorizationHeader,
+        Id: this._detailedSessionInfo.liveLogsSessionId,
+        SessionFilter: {
+          FilterByFieldName: 'SessionId',
+          FilterByValue: this._detailedSessionInfo.liveLogsSessionId,
+        },
       },
       data: this._configuration,
     };

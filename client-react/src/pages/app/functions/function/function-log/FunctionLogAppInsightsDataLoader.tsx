@@ -37,10 +37,11 @@ interface FunctionLogAppInsightsDataLoaderProps {
   showLoggingOptionsDropdown?: boolean;
   selectedLoggingOption?: LoggingOptions;
   setSelectedLoggingOption?: (options: LoggingOptions) => void;
+  liveLogsSessionId?: string;
 }
 
 const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoaderProps> = props => {
-  const { resourceId, isScopeFunctionApp } = props;
+  const { resourceId, isScopeFunctionApp, liveLogsSessionId } = props;
 
   const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
   const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
@@ -105,9 +106,13 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     setQuickPulseToken(undefined);
   };
 
-  const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, tokenComponent: QuickPulseToken) => {
+  const queryAppInsightsAndUpdateLogs = (
+    quickPulseQueryLayer: QuickPulseQueryLayer,
+    tokenComponent: QuickPulseToken,
+    liveLogsSessionId?: string
+  ) => {
     quickPulseQueryLayer
-      .queryDetails(tokenComponent.token, false, '')
+      .queryDetails(tokenComponent.token, false, '', liveLogsSessionId || '')
       .then((dataV2: SchemaResponseV2) => {
         if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
           let newDocs = dataV2.DataRanges[0].Documents.filter(
@@ -239,7 +244,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   useEffect(() => {
     if (quickPulseToken && queryLayer) {
       if (tokenIsValid(quickPulseToken)) {
-        const timeout = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, quickPulseToken), 3000);
+        const timeout = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, quickPulseToken, liveLogsSessionId), 3000);
         return () => clearInterval(timeout);
       } else {
         resetAppInsightsToken();
