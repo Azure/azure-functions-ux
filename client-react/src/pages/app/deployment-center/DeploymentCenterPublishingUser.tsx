@@ -8,7 +8,7 @@ import {
 } from './DeploymentCenter.types';
 import { Link, MessageBarType, ProgressIndicator } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterContent } from './DeploymentCenter.styles';
+import { deploymentCenterInfoBannerDiv, descriptionStyle, textboxStyle, userHeaderStyle } from './DeploymentCenter.styles';
 import TextField from '../../../components/form-controls/TextField';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
@@ -59,12 +59,11 @@ const DeploymentCenterPublishingUser: React.FC<
   };
 
   return (
-    <div className={deploymentCenterContent}>
-      <h3>{t('deploymentCenterFtpsUserScopeTitle')}</h3>
-      <p>
-        <span id="deployment-publishing-user-message">
-          {t('deploymentCenterFtpsUserScopeDescription').format(sampleWebProviderDomainUsername, sampleWebProviderUsername)}
-        </span>
+    <>
+      <h3 className={userHeaderStyle}>{t('deploymentCenterFtpsUserScopeTitle')}</h3>
+
+      <div className={descriptionStyle} id="deployment-publishing-user-message">
+        {t('deploymentCenterFtpsUserScopeDescription').format(sampleWebProviderDomainUsername, sampleWebProviderUsername)}
         <Link
           id="deployment-center-settings-learnMore"
           href={DeploymentCenterLinks.publishingUserDocumentation}
@@ -73,7 +72,7 @@ const DeploymentCenterPublishingUser: React.FC<
           aria-labelledby="deployment-center-settings-message">
           {` ${t('learnMore')}`}
         </Link>
-      </p>
+      </div>
 
       {publishingUserLoading && (
         <ProgressIndicator
@@ -83,19 +82,25 @@ const DeploymentCenterPublishingUser: React.FC<
       )}
 
       {publishingUserError && (
-        <CustomBanner id="publishing-user-fetch-failed-message" message={publishingUserFetchFailedMessage} type={MessageBarType.error} />
+        <div className={deploymentCenterInfoBannerDiv}>
+          <CustomBanner id="publishing-user-fetch-failed-message" message={publishingUserFetchFailedMessage} type={MessageBarType.error} />
+        </div>
       )}
 
       {publishingUser && (
         <>
           <Field
+            className={textboxStyle}
             id="deployment-center-ftps-provider-username"
             name="publishingUsername"
             component={TextField}
             label={t('deploymentCenterFtpsUsernameLabel')}
+            widthOverride={'100%'}
+            resizable={true}
           />
 
           <Field
+            className={textboxStyle}
             id="deployment-center-ftps-provider-password"
             name="publishingPassword"
             component={TextField}
@@ -103,9 +108,12 @@ const DeploymentCenterPublishingUser: React.FC<
             value={textFieldPassword}
             onChange={changeTextFieldPassword}
             type={TextFieldType.password}
+            widthOverride={'100%'}
+            resizable={true}
           />
 
           <Field
+            className={textboxStyle}
             id="deployment-center-ftps-provider-confirm-password"
             name="publishingConfirmPassword"
             component={TextField}
@@ -113,10 +121,12 @@ const DeploymentCenterPublishingUser: React.FC<
             value={textFieldConfirmPassword}
             onChange={changeTextFieldConfirmPassword}
             type={TextFieldType.password}
+            widthOverride={'100%'}
+            resizable={true}
           />
         </>
       )}
-    </div>
+    </>
   );
 };
 

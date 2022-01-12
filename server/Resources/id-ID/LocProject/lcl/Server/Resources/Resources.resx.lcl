@@ -360,6 +360,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";acrCredentialsWarningMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Tidak dapat mengakses ACR '{0}' karena kredensial admin pada ACR dinonaktifkan dan tidak ada identitas terkelola yang ditetapkan. Aktifkan kredensial admin atau tetapkan identitas terkelola di bawah ini.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";active" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Active]]></Val>
@@ -419,6 +428,15 @@
           <Val><![CDATA[Add host key]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Tambahkan kunci host]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";addIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Add identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Tambahkan identitas]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -2578,7 +2596,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Failed to create App Service plan: '{0}']]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Gagal membuat paket App Service: '{0}']]></Val>
+            <Val><![CDATA[Gagal membuat App Service Plan: '{0}']]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4195,7 +4213,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Deployment]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Penyebaran]]></Val>
+            <Val><![CDATA[Deployment]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6361,7 +6379,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Are you sure you want to discard the changes to the file {0}?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Anda yakin ingin membuang perubahan pada file {0}?]]></Val>
+            <Val><![CDATA[Anda yakin ingin membatalkan perubahan pada file {0}?]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6370,7 +6388,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Discard changes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Buang perubahan]]></Val>
+            <Val><![CDATA[Batalkan perubahan]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6800,10 +6818,13 @@
       </Item>
       <Item ItemId=";editCertificateExlusionPaths" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[edit client eclusion paths]]></Val>
+          <Val><![CDATA[edit client exclusion paths]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Edit jalur pengecualian klien]]></Val>
+            <Val><![CDATA[edit jalur pengecualian klien]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[edit client eclusion paths]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -8962,7 +8983,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Send fast, scalable, and cross-platform mobile push notifications using Notification Hubs.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kirim pemberitahuan push seluler, terukur, dan lintas platform dengan cepat menggunakan Notification Hubs.]]></Val>
+            <Val><![CDATA[Kirim notifikasi seluler lintas platform yang scalable dengan cepat menggunakan Notification Hubs.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -12751,7 +12772,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Leave Feedback]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Berikan Umpan Balik]]></Val>
+            <Val><![CDATA[Berikan Saran]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13148,6 +13169,27 @@
           <Val><![CDATA[Managed Identity]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Identitas Terkelola]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentityInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[When using managed identity, image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Saat menggunakan identitas terkelola, bidang gambar dan tag tidak akan terisi secara otomatis. Masukkan gambar dan tag di bawah ini secara manual.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentityTypePlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select managed identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Pilih identitas terkelola]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18100,7 +18142,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Staging environments]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Lingkungan pentahapan]]></Val>
+            <Val><![CDATA[Staging environment]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18358,7 +18400,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Are you sure you want to discard the changes to the application settings for the environment {0}?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Anda yakin ingin membuang perubahan pada pengaturan aplikasi untuk lingkungan {0}?]]></Val>
+            <Val><![CDATA[Anda yakin ingin membatalkan perubahan pada pengaturan aplikasi untuk lingkungan {0}?]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19452,6 +19494,18 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";systemAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[System assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ditetapkan sistem]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[System-assigned]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";tabNames_develop" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Develop]]></Val>
@@ -20412,6 +20466,18 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Sertifikat klien masuk memerlukan paket App Service dasar atau lebih tinggi]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";userAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[User assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ditetapkan pengguna]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[User-assigned]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

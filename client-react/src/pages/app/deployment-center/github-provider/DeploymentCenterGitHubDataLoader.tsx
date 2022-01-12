@@ -21,6 +21,7 @@ searchTermObserver
       const searchTerm = info.searchTerm;
       const setRepositoryOptions = info.setRepositoryOptions;
       const setLoadingRepositories = info.setLoadingRepositories;
+      const setClearComboBox = info.setClearComboBox;
       const fetchBranchOptions = info.fetchBranchOptions;
       const deploymentCenterContext = info.deploymentCenterContext;
       const deploymentCenterData = info.deploymentCenterData;
@@ -32,6 +33,7 @@ searchTermObserver
       let gitHubRepositories;
 
       portalContext.log(getTelemetryInfo('info', 'gitHubRepositories', 'submit'));
+      setLoadingRepositories(true);
 
       if (repositoriesUrl.toLocaleLowerCase().indexOf('github.com/users/') > -1) {
         gitHubRepositories = await deploymentCenterData.getGitHubUserRepositories(
@@ -75,6 +77,7 @@ searchTermObserver
 
       setRepositoryOptions(newRepositoryOptions);
       setLoadingRepositories(false);
+      setClearComboBox({ repo: false, branch: true });
 
       // If the form props already contains selected data, set the default to that value.
       if (org && repo && repo == searchTerm) {
@@ -100,9 +103,9 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const [organizationOptions, setOrganizationOptions] = useState<IDropdownOption[]>([]);
   const [repositoryOptions, setRepositoryOptions] = useState<IDropdownOption[]>([]);
   const [branchOptions, setBranchOptions] = useState<IDropdownOption[]>([]);
-  const [loadingOrganizations, setLoadingOrganizations] = useState(true);
-  const [loadingRepositories, setLoadingRepositories] = useState(true);
-  const [loadingBranches, setLoadingBranches] = useState(true);
+  const [loadingOrganizations, setLoadingOrganizations] = useState(false);
+  const [loadingRepositories, setLoadingRepositories] = useState(false);
+  const [loadingBranches, setLoadingBranches] = useState(false);
   const [hasDeprecatedToken, setHasDeprecatedToken] = useState(false);
   const [updateTokenSuccess, setUpdateTokenSuccess] = useState(false);
   const [clearComboBox, setClearComboBox] = useState<KeyValue<boolean>>({ repo: true, branch: true });
@@ -160,8 +163,9 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     const info: SearchTermObserverInfo = {
       searchTerm: searchTerm,
       setRepositoryOptions: setRepositoryOptions,
-      setLoadingRepositories: setLoadingRepositories,
       fetchBranchOptions: fetchBranchOptions,
+      setLoadingRepositories: setLoadingRepositories,
+      setClearComboBox: setClearComboBox,
       repositoryUrl: repositoriesUrl,
       deploymentCenterData: deploymentCenterData,
       deploymentCenterContext: deploymentCenterContext,
@@ -195,6 +199,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
     setBranchOptions(newBranchOptions);
     setLoadingBranches(false);
+    setClearComboBox({ ...clearComboBox, branch: false });
   };
 
   const authorizeGitHubAccount = () => {
@@ -285,9 +290,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   useEffect(() => {
     setBranchOptions([]);
-    setClearComboBox({ branch: true, repo: true });
-    setLoadingRepositories(true);
-    setLoadingBranches(true);
+    setClearComboBox({ repo: true, branch: true });
 
     if (formProps.values.org && gitHubOrgToUrlMapping.current[formProps.values.org]) {
       fetchRepositoryOptions(gitHubOrgToUrlMapping.current[formProps.values.org]);
@@ -298,8 +301,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   useEffect(() => {
     setRepositoryOptions([]);
     setBranchOptions([]);
-    setClearComboBox({ branch: true, repo: false });
-    setLoadingBranches(true);
+    setClearComboBox({ ...clearComboBox, branch: true });
 
     if (
       formProps.values.org &&
@@ -312,8 +314,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   useEffect(() => {
     setBranchOptions([]);
-    setClearComboBox({ branch: true, repo: false });
-    setLoadingBranches(true);
+    setClearComboBox({ ...clearComboBox, branch: true });
 
     if (formProps.values.org && formProps.values.repo) {
       fetchBranchOptions(formProps.values.org, formProps.values.repo);

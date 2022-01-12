@@ -1,8 +1,6 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
 import { isLinuxApp } from '../arm-utils';
-import Url from '../url';
-import { CommonConstants } from '../CommonConstants';
 
 export class LinuxSiteEnvironment extends Environment {
   public name = 'LinuxSite';
@@ -86,9 +84,7 @@ export class LinuxSiteEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.vstsKuduSource] = {
       id: ScenarioIds.vstsKuduSource,
-      runCheck: () => ({
-        status: !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureReposForLinux) ? 'enabled' : 'disabled',
-      }),
+      runCheck: () => ({ status: 'enabled' }),
     };
 
     this.scenarioChecks[ScenarioIds.onedriveSource] = {

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { FormAppSetting, AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
-import { addOrUpdateFormAppSetting, findFormAppSettingValue, removeFormAppSetting } from '../AppSettingsFormData';
+import { addOrUpdateFormAppSetting, findFormAppSettingValue, removeFromAppSetting } from '../AppSettingsFormData';
 import { CommonConstants, WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { IDropdownOption, MessageBarType } from '@fluentui/react';
@@ -198,11 +198,11 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     let appSettings: FormAppSetting[] = [...values.appSettings];
 
     // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
-    appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.azureJobsExtensionVersion);
+    appSettings = removeFromAppSetting(values.appSettings, CommonConstants.AppSettingNames.azureJobsExtensionVersion);
 
     if (newVersion === RuntimeExtensionMajorVersions.v1) {
       // If functions extension version is V1, remove FUNCTIONS_WORKER_RUNTIME app setting (if present)
-      appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime);
+      appSettings = removeFromAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime);
     } else {
       // If functions extension version is not V1, restore the initial value for FUNCTIONS_WORKER_RUNTIME app setting (if present)
       const initialWorkerRuntime = findFormAppSettingValue(

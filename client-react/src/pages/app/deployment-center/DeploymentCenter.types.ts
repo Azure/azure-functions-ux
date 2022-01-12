@@ -151,12 +151,13 @@ export enum ACRCredentialType {
 }
 
 export enum ACRManagedIdentityType {
-  systemAssigned = 'systemAssigned',
-  userAssigned = 'userAssigned',
+  systemAssigned = 'SystemAssigned',
+  userAssigned = 'UserAssigned',
 }
 
 export enum ManagedIdentityInfo {
   clientId = 'clientId',
+  principalId = 'principalId',
 }
 
 export interface AzureDevOpsUrl {
@@ -323,6 +324,7 @@ export interface AcrFormData {
   acrLocation: string;
   acrCredentialType: string;
   acrManagedIdentityType: string | null;
+  acrManagedIdentityPrincipalId: string;
 }
 
 export interface DockerHubFormData {
@@ -639,6 +641,8 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   acrUseManagedIdentities: boolean;
   managedIdentityOptions: IDropdownOption[];
   loadingManagedIdentities: boolean;
+  learnMoreLink?: string;
+  openIdentityBlade: () => void;
 }
 
 export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -726,9 +730,26 @@ export interface SearchTermObserverInfo {
   setLoadingRepositories: React.Dispatch<React.SetStateAction<boolean>>;
   setRepositoryOptions: React.Dispatch<React.SetStateAction<IDropdownOption[]>>;
   fetchBranchOptions: (org: string, repo: string) => Promise<void>;
+  setClearComboBox: React.Dispatch<React.SetStateAction<KeyValue<boolean>>>;
   repositoryUrl: string;
   deploymentCenterData: DeploymentCenterData;
   deploymentCenterContext: IDeploymentCenterContext;
   portalContext: PortalCommunicator;
   isGitHubActions: boolean | undefined;
+}
+
+export interface RoleAssignment {
+  properties: {
+    roleDefinitionId: string;
+    principalId: string;
+    scope: string;
+  };
+  id: string;
+  type: string;
+  name: string;
+}
+export interface UserAssignedIdentity {
+  clientId: string;
+  principalId: string;
+  name: string;
 }

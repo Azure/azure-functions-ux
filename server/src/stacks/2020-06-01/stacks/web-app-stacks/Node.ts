@@ -1,5 +1,6 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
+const node16EOL = new Date(2024, 4, 30).toString();
 const node14EOL = new Date(2023, 4, 30).toString();
 const node12EOL = new Date(2022, 4, 1).toString();
 const node10EOL = new Date(2021, 4, 1).toString();
@@ -32,6 +33,44 @@ export const nodeStack: WebAppStack = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+            },
+          },
+        },
+      ],
+    },
+    {
+      displayText: 'Node 16',
+      value: '16',
+      minorVersions: [
+        {
+          displayText: 'Node 16 LTS',
+          value: '16-lts',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              runtimeVersion: 'NODE|16-lts',
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '16.x',
+              },
+              endOfLifeDate: node16EOL,
+            },
+            windowsRuntimeSettings: {
+              runtimeVersion: '~16',
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '16.x',
+              },
+              endOfLifeDate: node16EOL,
             },
           },
         },

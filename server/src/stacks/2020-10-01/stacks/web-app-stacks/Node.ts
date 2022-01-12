@@ -2,6 +2,7 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
+  const node16EOL = getDateString(new Date(2024, 4, 30), useIsoDateFormat);
   const node14EOL = getDateString(new Date(2023, 4, 30), useIsoDateFormat);
   const node12EOL = getDateString(new Date(2022, 4, 1), useIsoDateFormat);
   const node10EOL = getDateString(new Date(2021, 4, 1), useIsoDateFormat);
@@ -34,6 +35,44 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 gitHubActionSettings: {
                   isSupported: true,
                 },
+              },
+            },
+          },
+        ],
+      },
+      {
+        displayText: 'Node 16',
+        value: '16',
+        minorVersions: [
+          {
+            displayText: 'Node 16 LTS',
+            value: '16-lts',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'NODE|16-lts',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '16.x',
+                },
+                endOfLifeDate: node16EOL,
+                isEarlyAccess: true,
+              },
+              windowsRuntimeSettings: {
+                runtimeVersion: '~16',
+                isHidden: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '16.x',
+                },
+                endOfLifeDate: node16EOL,
               },
             },
           },
