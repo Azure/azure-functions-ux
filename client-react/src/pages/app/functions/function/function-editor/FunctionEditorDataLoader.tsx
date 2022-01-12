@@ -342,7 +342,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         uri: url,
         type: testDataObject.method as string,
         headers: headers,
-        data: JSON.stringify(testDataObject.body),
+        data: testDataObject.body,
       };
     }
     return undefined;
@@ -472,13 +472,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
-  const getAuthorizationHeaders = (): KeyValue<string> => {
-    return {
-      Authorization: `Bearer ${startupInfoContext.token}`,
-      FunctionsPortal: '1',
-    };
-  };
-
   const getAndSetTestData = async () => {
     if (!!functionInfo && !!site && !!functionInfo.properties.test_data_href) {
       const testDataHrefObjects = functionInfo.properties.test_data_href.split('/vfs/');
@@ -502,7 +495,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       // Note (krmitta): Almost always we should be able to get the test_data through VFS Arm.
       // Adding the below fallback logic just on the off-chance that it doesn't.
       if (!testDataResponseSuccess) {
-        const headers = getAuthorizationHeaders();
+        const headers = getHeaders([], getDefaultXFunctionKey());
         const functionHrefTestDataResponse = await portalContext.makeHttpRequestsViaPortal({
           uri: functionInfo.properties.test_data_href,
           type: 'GET',
