@@ -201,7 +201,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       data = JSON.stringify({
         method: values.method,
         queryStringParams: values.queries,
-        headers: { ...values.headers, MS_SessionId: currentRunId, sessionIdKey: 'ai_SessionId' },
+        headers: values.headers,
         body: reqBody,
       });
     } else {
