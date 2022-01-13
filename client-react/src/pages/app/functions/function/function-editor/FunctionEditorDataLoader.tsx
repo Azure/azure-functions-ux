@@ -361,7 +361,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         uri: url,
         type: 'POST',
         headers: headers,
-        data: { input: newFunctionInfo.properties.test_data || '' },
+        data: newFunctionInfo.properties.test_data || '',
       };
     }
     return undefined;
