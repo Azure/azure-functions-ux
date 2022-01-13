@@ -1,8 +1,6 @@
 import { BatchUpdateSettings, BatchResponseItemEx } from './models/batch-models';
-import { loadTheme } from 'office-ui-fabric-react/lib/Styling';
 import { Observable, Subject } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
-
 import { SpecCostQueryInput, SpecCostQueryResult } from './models/BillingModels';
 import {
   BroadcastMessage,
@@ -39,6 +37,10 @@ import { Dispatch, SetStateAction } from 'react';
 import { ThemeExtended } from './theme/SemanticColorsExtended';
 import { sendHttpRequest, getJsonHeaders } from './ApiHelpers/HttpClient';
 import { TelemetryInfo } from './models/telemetry';
+import { loadTheme } from '@fluentui/style-utilities';
+import { NetAjaxSettings } from './models/ajax-request-model';
+import { isPortalCommunicationStatusSuccess } from './utils/portal-utils';
+
 export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
@@ -179,7 +181,45 @@ export default class PortalCommunicator {
     );
   }
 
-  public getSubscription(subscriptionId: string): Observable<ISubscription> {
+  public makeHttpRequestsViaPortal(query: NetAjaxSettings): Promise<IDataMessageResult<any>> {
+    const payload: IDataMessage<NetAjaxSettings> = {
+      operationId: Guid.newGuid(),
+      data: query,
+    };
+
+    PortalCommunicator.postMessage(Verbs.httpRequest, this.packageData(payload));
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === payload.operationId),
+          first()
+        )
+        .subscribe((r: IDataMessage<IDataMessageResult<any>>) => {
+          resolve(r.data);
+        });
+    });
+  }
+
+  public hasFlightEnabled(flightName: string): Promise<boolean> {
+    const payload: IDataMessage<string> = {
+      operationId: Guid.newGuid(),
+      data: flightName,
+    };
+
+    PortalCommunicator.postMessage(Verbs.ibizaExperimentationFlighting, this.packageData(payload));
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === payload.operationId),
+          first()
+        )
+        .subscribe((r: IDataMessage<IDataMessageResult<boolean>>) => {
+          resolve(r.data.result);
+        });
+    });
+  }
+
+  public getSubscription(subscriptionId: string): Promise<ISubscription> {
     const payload: IDataMessage<ISubscriptionRequest> = {
       operationId: Guid.newGuid(),
       data: {
@@ -188,13 +228,16 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.getSubscriptionInfo, this.packageData(payload));
-    return this.operationStream.pipe(
-      filter(o => o.operationId === payload.operationId),
-      first(),
-      map((r: IDataMessage<IDataMessageResult<ISubscription>>) => {
-        return r.data.result;
-      })
-    );
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === payload.operationId),
+          first()
+        )
+        .subscribe((r: IDataMessage<IDataMessageResult<ISubscription>>) => {
+          resolve(r.data.result);
+        });
+    });
   }
 
   public getAllSubscriptions(): Observable<ISubscription[]> {
@@ -321,7 +364,7 @@ export default class PortalCommunicator {
           first()
         )
         .subscribe((o: IDataMessage<IDataMessageResult<any>>) => {
-          if (o.data.status === 'success') {
+          if (isPortalCommunicationStatusSuccess(o.data.status)) {
             resolve(o.data.result.token);
           } else {
             return reject();
@@ -380,7 +423,7 @@ export default class PortalCommunicator {
           first()
         )
         .subscribe((o: IDataMessage<IDataMessageResult<CheckPermissionResponse>>) => {
-          if (o.data.status !== 'success') {
+          if (!isPortalCommunicationStatusSuccess(o.data.status)) {
             this.log({
               action: 'hasPermission',
               actionModifier: 'failed',
@@ -417,7 +460,7 @@ export default class PortalCommunicator {
           first()
         )
         .subscribe((o: IDataMessage<IDataMessageResult<CheckLockResponse>>) => {
-          if (o.data.status !== 'success') {
+          if (!isPortalCommunicationStatusSuccess(o.data.status)) {
             this.log({
               action: 'hasLock',
               actionModifier: 'failed',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IPivotItemProps, Icon } from 'office-ui-fabric-react';
+import { IPivotItemProps, Icon } from '@fluentui/react';
 import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 const CustomTabRenderer = (
   link: IPivotItemProps,

@@ -1,15 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { AppKeysModel, AppKeysTypes } from './AppKeys.types';
-import {
-  ActionButton,
-  DetailsListLayoutMode,
-  SelectionMode,
-  IColumn,
-  SearchBox,
-  TooltipHost,
-  ICommandBarItemProps,
-  PanelType,
-} from 'office-ui-fabric-react';
+import { ActionButton, DetailsListLayoutMode, SelectionMode, IColumn, TooltipHost, ICommandBarItemProps, PanelType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
   renewTextStyle,
@@ -27,10 +18,10 @@ import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { ThemeContext } from '../../../../ThemeContext';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
-import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { PortalContext } from '../../../../PortalContext';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { getSearchFilter } from '../../../../components/form-controls/SearchBox';
 
 interface SystemKeysProps {
   resourceId: string;
@@ -46,7 +37,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
   const [showPanel, setShowPanel] = useState(false);
   const [showRenewDialog, setShowRenewDialog] = useState(false);
   const [renewKey, setRenewKey] = useState(emptyKey);
-  const [filterValue, setFilterValue] = useState('');
+  const [filterValue, setFilterValue] = useState<string>('');
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
   const [shownValues, setShownValues] = useState<string[]>([]);
@@ -277,6 +268,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         disabled: loading,
         iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
         name: !showValues ? t('showValues') : t('hideValues'),
+        ariaLabel: !showValues ? t('showValues') : t('hideValues'),
       },
     ];
   };
@@ -307,15 +299,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         selectionPreservedOnEmptyClick={true}
         shimmer={{ lines: 2, show: loading }}
         emptyMessage={t('emptySystemKeys')}>
-        <SearchBox
-          id="app-keys-system-keys-search"
-          className="ms-slideDownIn20"
-          autoFocus
-          iconProps={{ iconName: 'Filter' }}
-          styles={filterTextFieldStyle}
-          placeholder={t('filterSystemKeys')}
-          onChange={newValue => setFilterValue(newValue)}
-        />
+        {getSearchFilter('app-keys-system-keys-search', setFilterValue, t('filterSystemKeys'))}
       </DisplayTableWithCommandBar>
       <CustomPanel
         isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}

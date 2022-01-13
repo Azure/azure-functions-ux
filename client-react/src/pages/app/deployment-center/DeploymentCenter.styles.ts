@@ -1,6 +1,25 @@
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
+const spacingBetweenElements = '10px';
+const maxElementWidth = '750px';
+const maxElementWithLabelWidth = '550px';
+
+export const textboxStyle = style({
+  maxWidth: maxElementWithLabelWidth,
+  marginBottom: '-5px',
+});
+
+export const descriptionStyle = style({
+  marginBottom: spacingBetweenElements,
+  maxWidth: maxElementWidth,
+});
+
+export const userHeaderStyle = style({
+  marginTop: '0px',
+  paddingTop: '0px',
+});
+
 export const commandBarSticky = style({
   position: 'sticky',
   top: 0,
@@ -13,7 +32,7 @@ export const pivotContent = style({
 
 export const deploymentCenterContent = style({
   marginTop: '20px',
-  maxWidth: '800px',
+  maxWidth: maxElementWidth,
 });
 
 export const deploymentCenterConsole = (theme: ThemeExtended): string =>
@@ -64,7 +83,13 @@ export const additionalTextFieldControl = style({
 });
 
 export const deploymentCenterInfoBannerDiv = style({
-  maxWidth: '800px',
+  maxWidth: maxElementWidth,
+  marginTop: '1em',
+  marginBottom: '1em',
+});
+
+export const deploymentCenterAcrBannerDiv = style({
+  maxWidth: maxElementWidth,
   marginTop: '1em',
   marginBottom: '1em',
 });
@@ -130,6 +155,8 @@ export const panelOverflowStyle = {
 export const ftpsPasswordTextboxStyle = style({
   display: 'inline-table',
   width: '119%',
+  margin: '-5px 0px 0px 0px',
+  padding: '0px',
 });
 
 export const disconnectWorkflowInfoStyle = style({
@@ -175,6 +202,10 @@ export const changeAccountInfoButtonStyle = style({
   paddingBottom: '10px',
 });
 
+export const addIdentityLinkStyle = style({
+  padding: '10px 10px 10px 9px',
+});
+
 export const buttonFooterStyle = (theme: ThemeExtended): string =>
   style({
     backgroundColor: `${theme.semanticColors.background}`,
@@ -187,3 +218,12 @@ export const buttonFooterStyle = (theme: ThemeExtended): string =>
     width: '100%',
     height: '68px',
   });
+
+export const loadingComboBoxStyle = style({
+  display: 'flex',
+  alignItems: 'center',
+});
+
+export const comboBoxSpinnerStyle = style({
+  padding: '0px 0px 16px 10px',
+});

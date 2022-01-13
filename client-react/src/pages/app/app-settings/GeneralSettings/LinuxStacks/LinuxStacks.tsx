@@ -28,6 +28,7 @@ import {
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
 } from '../../../../../utils/stacks-utils';
+import { SiteStateContext } from '../../../../../SiteState';
 
 type PropsType = FormikProps<AppSettingsFormValues>;
 
@@ -37,6 +38,8 @@ const LinuxStacks: React.FC<PropsType> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
   let supportedStacks = useContext(WebAppStacksContext);
+  const siteStateContext = useContext(SiteStateContext);
+
   const runtimeOptions = getRuntimeStacks(supportedStacks);
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
@@ -178,17 +181,19 @@ const LinuxStacks: React.FC<PropsType> = props => {
             ))}
         </>
       )}
-      <Field
-        name="config.properties.appCommandLine"
-        component={TextField}
-        dirty={values.config.properties.appCommandLine !== initialValues.config.properties.appCommandLine}
-        disabled={disableAllControls}
-        label={t('appCommandLineLabel')}
-        id="linux-fx-version-appCommandLine"
-        infoBubbleMessage={t('appCommandLineLabelHelpNoLink')}
-        learnMoreLink={Links.linuxContainersLearnMore}
-        style={{ marginLeft: '1px', marginTop: '1px' }} // Not sure why but left border disappears without margin and for small windows the top also disappears
-      />
+      {!siteStateContext.isFunctionApp && (
+        <Field
+          name="config.properties.appCommandLine"
+          component={TextField}
+          dirty={values.config.properties.appCommandLine !== initialValues.config.properties.appCommandLine}
+          disabled={disableAllControls}
+          label={t('appCommandLineLabel')}
+          id="linux-fx-version-appCommandLine"
+          infoBubbleMessage={t('appCommandLineLabelHelpNoLink')}
+          learnMoreLink={Links.linuxContainersLearnMore}
+          style={{ marginLeft: '1px', marginTop: '1px' }} // Not sure why but left border disappears without margin and for small windows the top also disappears
+        />
+      )}
     </>
   );
 };

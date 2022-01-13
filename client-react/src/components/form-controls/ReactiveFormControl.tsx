@@ -1,4 +1,4 @@
-import { Label, Link, Stack, TooltipHost, TooltipOverflowMode } from 'office-ui-fabric-react';
+import { Label, Link, Stack, TooltipHost, TooltipOverflowMode } from '@fluentui/react';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';
@@ -155,7 +155,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
           </div>
         )}
       </Stack>
-      <Stack gap={0} horizontalAlign="start">
+      <Stack tokens={{ childrenGap: 0 }} horizontalAlign="start">
         {copyValue && (
           <TooltipHost
             content={getCopiedLabel()}

@@ -1,5 +1,4 @@
 import { Field } from 'formik';
-import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import React, { useState, useEffect, useContext } from 'react';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import {
@@ -22,8 +21,12 @@ import {
   checkAndGetStackEOLOrDeprecatedBanner,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
+  isJBossWarningBannerShown,
 } from '../../../../../utils/stacks-utils';
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
+import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
+import { MessageBarType, IDropdownOption } from '@fluentui/react';
+import { Links } from '../../../../../utils/FwLinks';
 
 const JavaStack: React.SFC<StackProps> = props => {
   const [currentJavaMajorVersion, setCurrentJavaMajorVersion] = useState('');
@@ -188,6 +191,13 @@ const JavaStack: React.SFC<StackProps> = props => {
           label={t('javaWebServerVersion')}
           id="app-settings-java-container-version"
           options={javaFrameworkVersionOptions}
+        />
+      )}
+      {isJBossWarningBannerShown(values.config.properties.javaVersion, initialValues.config.properties.javaVersion) && (
+        <CustomBanner
+          type={MessageBarType.warning}
+          message={t('switchToJbossWarningBaner')}
+          learnMoreLink={Links.jbossAdditionalCostLearnMore}
         />
       )}
     </div>

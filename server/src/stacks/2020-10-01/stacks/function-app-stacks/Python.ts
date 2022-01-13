@@ -32,7 +32,7 @@ export const pythonStack: FunctionAppStack = {
                 use32BitWorkerProcess: false,
                 linuxFxVersion: 'Python|3.9',
               },
-              supportedFunctionsExtensionVersions: ['~3'],
+              supportedFunctionsExtensionVersions: ['~4', '~3'],
             },
           },
         },
@@ -57,7 +57,7 @@ export const pythonStack: FunctionAppStack = {
                 use32BitWorkerProcess: false,
                 linuxFxVersion: 'Python|3.8',
               },
-              supportedFunctionsExtensionVersions: ['~3'],
+              supportedFunctionsExtensionVersions: ['~4', '~3'],
             },
           },
         },
@@ -82,7 +82,7 @@ export const pythonStack: FunctionAppStack = {
                 use32BitWorkerProcess: false,
                 linuxFxVersion: 'Python|3.7',
               },
-              supportedFunctionsExtensionVersions: ['~2', '~3'],
+              supportedFunctionsExtensionVersions: ['~4', '~3', '~2'],
             },
           },
         },
@@ -92,6 +92,7 @@ export const pythonStack: FunctionAppStack = {
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'Python|3.6',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,

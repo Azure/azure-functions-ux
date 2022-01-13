@@ -84,9 +84,7 @@ export class LinuxSiteEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.vstsKuduSource] = {
       id: ScenarioIds.vstsKuduSource,
-      runCheck: () => ({
-        status: 'disabled',
-      }),
+      runCheck: () => ({ status: 'enabled' }),
     };
 
     this.scenarioChecks[ScenarioIds.onedriveSource] = {

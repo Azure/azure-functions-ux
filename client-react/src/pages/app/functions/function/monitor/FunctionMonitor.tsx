@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
+import { Pivot, PivotItem, MessageBarType } from '@fluentui/react';
 import { paddingStyle } from './FunctionMonitor.styles';
 import { PivotState } from './FunctionMonitor.types';
 import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';

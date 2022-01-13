@@ -1,4 +1,4 @@
-import { DefaultButton, IChoiceGroupOption, Icon, Link, PrimaryButton } from 'office-ui-fabric-react';
+import { DefaultButton, IChoiceGroupOption, Icon, Link, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
@@ -50,6 +50,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [skuCost, setSkuCost] = useState<JSX.Element>(<>{t('loading')}</>);
   const [bandwidthOverageCost, setBandwidthOverageCost] = useState<JSX.Element>(<>{t('loading')}</>);
+  const [enterpriseGradeEdgeCost, setEnterpriseGradeEdgeCost] = useState<JSX.Element>(<>{t('loading')}</>);
 
   const selectButtonOnClick = () => {
     portalContext.log(getTelemetryInfo('verbose', 'applyButton', 'clicked', { selectedSku: selectedSku }));
@@ -135,17 +136,18 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     return getPricingCalculatorLink();
   };
 
-  const getBandwidthOverageRow = (): JSX.Element => {
-    return getGridMiddleRow(t('staticSiteBandwidthOverage'), t('staticSiteFree'), bandwidthOverageCost);
+  const getEnterpriseGradeEdgeCostRow = (): JSX.Element => {
+    return getGridMiddleRow(t('staticSiteEnterpriseGradeEdge'), CommonConstants.Dash, enterpriseGradeEdgeCost);
   };
 
-  const getBandwidthOverageCost = (): JSX.Element => {
+  const getEnterpriseGradeEdgeCost = (): JSX.Element => {
     if (!!billingInformation && billingInformation.length > 0) {
-      const meter = billingInformation.find(val => val.id === StaticSiteBillingType.SWAIncremental);
+      const meter = billingInformation.find(val => val.id === StaticSiteBillingType.SWAAzureFrontDoor);
       if (!!meter && !!meter.amount) {
-        const cost = meter.amount.toFixed(2);
+        // NOTE (krmitta): Hourly cost is returned but we want to show monthly
+        const cost = (CommonConstants.monthlyHoursForPricing * meter.amount).toFixed(2);
         const currency = meter.currencyCode;
-        return <>{t('staticSiteStandardBandwidthOverage').format(`${cost} ${currency}`)}</>;
+        return <>{t('staticSiteEnterpriseGradeEdgePrice').format(`${cost} ${currency}`)}</>;
       }
     }
 
@@ -210,6 +212,23 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
       CommonConstants.Dash,
       <Icon iconName={'Accept'} className={iconStyle(theme)} />
     );
+  };
+
+  const getBandwidthOverageRow = (): JSX.Element => {
+    return getGridMiddleRow(t('staticSiteBandwidthOverage'), t('staticSiteFree'), bandwidthOverageCost);
+  };
+
+  const getBandwidthOverageCost = (): JSX.Element => {
+    if (!!billingInformation && billingInformation.length > 0) {
+      const meter = billingInformation.find(val => val.id === StaticSiteBillingType.SWAIncremental);
+      if (!!meter && !!meter.amount) {
+        const cost = meter.amount.toFixed(2);
+        const currency = meter.currencyCode;
+        return <>{t('staticSiteStandardBandwidthOverage').format(`${cost} ${currency}`)}</>;
+      }
+    }
+
+    return getPricingCalculatorLink();
   };
 
   const getSkuTitleSection = (sku: string, radioButtonAriaLabel: string, skuTitle: string, skuDescription: string): JSX.Element => {
@@ -295,6 +314,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
         {getAppSizeRow()}
         {getStagingEnvironmentsRow()}
         {getAzureFunctionsRow()}
+        {getEnterpriseGradeEdgeCostRow()}
       </div>
     );
   };
@@ -338,6 +358,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     if (!isBillingInformationLoading) {
       setSkuCost(getSkuCost());
       setBandwidthOverageCost(getBandwidthOverageCost());
+      setEnterpriseGradeEdgeCost(getEnterpriseGradeEdgeCost());
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

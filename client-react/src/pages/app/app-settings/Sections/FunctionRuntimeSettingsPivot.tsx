@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { isEqual } from 'lodash-es';
 import { style } from 'typestyle';
 import { AppSettingsFormValues, AppSettingsFormProps } from '../AppSettings.types';
 import { findFormAppSettingValue } from '../AppSettingsFormData';
@@ -12,9 +11,12 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { PermissionsContext } from '../Contexts';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 import { SiteStateContext } from '../../../../SiteState';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import Url from '../../../../utils/url';
+import * as RuntimeVersionNew from '../FunctionRuntimeSettings/RuntimeVersionNew';
+import { isEqual } from 'lodash';
 
 const tabContainerStyle = style({
   marginTop: '15px',
@@ -26,6 +28,17 @@ const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
   const { t } = useTranslation();
   const scenarioChecker = new ScenarioService(t);
   const site = props.initialValues.site;
+
+  const getRuntimeVersionComponent = () => {
+    return Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useStackApiForRuntimeVersion) ? (
+      <RuntimeVersionNew.default {...props} />
+    ) : (
+      <>
+        <RuntimeVersionBanner {...props} />
+        <RuntimeVersion {...props} />
+      </>
+    );
+  };
 
   return (
     <div id="function-runtime-settings" className={tabContainerStyle}>
@@ -41,10 +54,7 @@ const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
         (siteStateContext.stopped ? (
           <CustomBanner message={t('noRuntimeVersionWhileFunctionAppStopped')} type={MessageBarType.warning} undocked={true} />
         ) : (
-          <>
-            <RuntimeVersionBanner {...props} />
-            <RuntimeVersion {...props} />
-          </>
+          getRuntimeVersionComponent()
         ))}
 
       {scenarioChecker.checkScenario(ScenarioIds.runtimeScaleMonitoringSupported, { site }).status === 'enabled' && (

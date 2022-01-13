@@ -3,7 +3,7 @@ import { Kinds, Links, Pricing } from '../../../shared/models/constants';
 import { Tier, SkuCode } from '../../../shared/models/serverFarmSku';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { AseService } from '../../../shared/services/ase.service';
-import { NationalCloudEnvironment } from '../../../shared/services/scenario/national-cloud.environment';
+import { ArmUtil } from '../../../shared/Utilities/arm-utils';
 import { AppKind } from '../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { PlanService } from './../../../shared/services/plan.service';
@@ -92,14 +92,10 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
   }
 
   runInitialization(input: PriceSpecInput) {
-    if (NationalCloudEnvironment.isBlackforest()) {
+    if (!ArmUtil.isASEV3GenerallyAccessible()) {
       this.state = 'hidden';
     } else if (input.planDetails) {
-      if (
-        !input.planDetails.plan.properties.hostingEnvironmentProfile ||
-        input.planDetails.plan.properties.hyperV ||
-        AppKind.hasAnyKind(input.planDetails.plan, [Kinds.elastic])
-      ) {
+      if (!input.planDetails.plan.properties.hostingEnvironmentProfile || AppKind.hasAnyKind(input.planDetails.plan, [Kinds.elastic])) {
         this.state = 'hidden';
       } else {
         return this._aseService.getAse(input.planDetails.plan.properties.hostingEnvironmentProfile.id).do(r => {
@@ -119,8 +115,6 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
     } else if (
       input.specPickerInput.data &&
       (!input.specPickerInput.data.allowAseV3Creation ||
-        input.specPickerInput.data.isXenon ||
-        input.specPickerInput.data.hyperV ||
         (input.specPickerInput.data.isNewFunctionAppCreate &&
           (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard)))
     ) {

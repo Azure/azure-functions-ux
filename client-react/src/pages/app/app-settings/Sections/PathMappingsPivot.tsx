@@ -7,7 +7,7 @@ import VirtualApplications from '../VirtualApplications/VirtualApplications';
 import { isEqual } from 'lodash-es';
 import AzureStorageMounts from '../AzureStorageMounts/AzureStorageMounts';
 import { PermissionsContext } from '../Contexts';
-import { MessageBarType, Link } from 'office-ui-fabric-react';
+import { MessageBarType, Link } from '@fluentui/react';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { Links } from '../../../../utils/FwLinks';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';

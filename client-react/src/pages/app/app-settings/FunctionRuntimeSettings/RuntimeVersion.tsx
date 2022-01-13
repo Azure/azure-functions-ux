@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { FormAppSetting, AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
-import { addOrUpdateFormAppSetting, findFormAppSettingValue, removeFormAppSetting } from '../AppSettingsFormData';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { addOrUpdateFormAppSetting, findFormAppSettingValue, removeFromAppSetting } from '../AppSettingsFormData';
+import { CommonConstants, WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
-import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
+import { IDropdownOption, MessageBarType } from '@fluentui/react';
 import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
 import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntimeVersionHelper';
 import { isLinuxApp } from '../../../../utils/arm-utils';
@@ -41,6 +41,10 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
 
+  const initialRuntimeStack =
+    findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime) || '';
+  const runtimeStack = findFormAppSettingValue(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime) || '';
+
   const initialRuntimeVersion =
     findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) || '';
   const initialRuntimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(initialRuntimeVersion);
@@ -49,6 +53,12 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   const runtimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(runtimeVersion);
 
   const hasCustomRuntimeVersion = runtimeMajorVersion === RuntimeExtensionMajorVersions.custom;
+  const shouldEnableForV4 =
+    runtimeVersion === RuntimeExtensionMajorVersions.v4 &&
+    !!runtimeStack &&
+    !!initialRuntimeStack &&
+    runtimeStack.toLowerCase() === initialRuntimeStack.toLowerCase() &&
+    initialRuntimeStack.toLowerCase() !== WorkerRuntimeLanguages.dotnet;
   let [waitingOnFunctionsApi, hasFunctions, failedToGetFunctions] = [false, false, false];
 
   const [movingFromV2Warning, setMovingFromV2Warning] = useState<string | undefined>(undefined);
@@ -107,12 +117,26 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
 
   const getOptions = (): IDropdownOption[] => {
     if (hasCustomRuntimeVersion) {
-      return [
-        {
-          key: RuntimeExtensionMajorVersions.custom,
-          text: t('custom'),
-        },
-      ];
+      // NOTE(shimedh): When we move to using stacks API, this should be driven by the versions supported by a particular stack.
+      if (shouldEnableForV4) {
+        return [
+          {
+            key: RuntimeExtensionMajorVersions.v3,
+            text: RuntimeExtensionMajorVersions.v3,
+          },
+          {
+            key: RuntimeExtensionMajorVersions.custom,
+            text: RuntimeExtensionMajorVersions.v4,
+          },
+        ];
+      } else {
+        return [
+          {
+            key: RuntimeExtensionMajorVersions.custom,
+            text: runtimeVersion === RuntimeExtensionMajorVersions.v4 ? RuntimeExtensionMajorVersions.v4 : t('custom'),
+          },
+        ];
+      }
     }
 
     return [
@@ -133,7 +157,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     ];
   };
 
-  const dropDownDisabled = (): boolean => waitingOnFunctionsApi || failedToGetFunctions || hasCustomRuntimeVersion;
+  const dropDownDisabled = (): boolean => waitingOnFunctionsApi || failedToGetFunctions || (hasCustomRuntimeVersion && !shouldEnableForV4);
 
   const getNodeVersionForRuntime = version => {
     switch (version) {
@@ -174,11 +198,11 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     let appSettings: FormAppSetting[] = [...values.appSettings];
 
     // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
-    appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.azureJobsExtensionVersion);
+    appSettings = removeFromAppSetting(values.appSettings, CommonConstants.AppSettingNames.azureJobsExtensionVersion);
 
     if (newVersion === RuntimeExtensionMajorVersions.v1) {
       // If functions extension version is V1, remove FUNCTIONS_WORKER_RUNTIME app setting (if present)
-      appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime);
+      appSettings = removeFromAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime);
     } else {
       // If functions extension version is not V1, restore the initial value for FUNCTIONS_WORKER_RUNTIME app setting (if present)
       const initialWorkerRuntime = findFormAppSettingValue(
@@ -199,13 +223,19 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.websiteNodeDefaultVersion, nodeVersion);
 
     // Add or update FUNCTIONS_EXTENSION_VERSION app setting
+    // NOTE(shimedh): We need to make sure the version is set to ~4 instead of custom for all enabled cases so that the dropdown is not disabled after change.
+    if (shouldEnableForV4 && newVersion === RuntimeExtensionMajorVersions.custom) {
+      newVersion = RuntimeExtensionMajorVersions.v4;
+    }
     appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion, newVersion);
 
     setFieldValue('appSettings', appSettings);
   };
 
   const customVersionMessage =
-    runtimeMajorVersion === RuntimeExtensionMajorVersions.custom ? t('functionsRuntimeVersionCustomInfo') : undefined;
+    runtimeMajorVersion === RuntimeExtensionMajorVersions.custom && runtimeVersion !== RuntimeExtensionMajorVersions.v4
+      ? t('functionsRuntimeVersionCustomInfo')
+      : undefined;
 
   const existingFunctionsMessage = isExistingFunctionsWarningNeeded(runtimeMajorVersion)
     ? t('functionsRuntimeVersionExistingFunctionsWarning').format(getRuntimeVersionInUse(), runtimeMajorVersion)

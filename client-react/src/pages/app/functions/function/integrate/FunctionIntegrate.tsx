@@ -1,4 +1,4 @@
-import { IStackTokens, MessageBarType, Stack } from 'office-ui-fabric-react';
+import { IStackTokens, MessageBarType, Stack } from '@fluentui/react';
 import React, { useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';

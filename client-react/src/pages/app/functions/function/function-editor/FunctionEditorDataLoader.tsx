@@ -19,18 +19,21 @@ import { Host } from '../../../../../models/functions/host';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { VfsObject } from '../../../../../models/functions/vfs';
-import { Method } from 'axios';
-import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { KeyValue } from '../../../../../models/portal-models';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
-import { HttpResponseObject } from '../../../../../ArmHelper.types';
 import StringUtils from '../../../../../utils/string';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
+import { NetAjaxSettings } from '../../../../../models/ajax-request-model';
+import { PortalContext } from '../../../../../PortalContext';
+import { getJQXHR, isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
+import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
+import { SiteStateContext } from '../../../../../SiteState';
+import SiteHelper from '../../../../../utils/SiteHelper';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -61,15 +64,21 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
 
   const siteContext = useContext(SiteRouterContext);
+  const siteStateContext = useContext(SiteStateContext);
   const startupInfoContext = useContext(StartupInfoContext);
+  const portalContext = useContext(PortalContext);
 
   const { t } = useTranslation();
 
   const isHttpOrWebHookFunction = !!functionInfo && functionEditorData.isHttpOrWebHookFunction(functionInfo);
 
-  const fetchData = async () => {
+  const getSiteResourceId = () => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
-    const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
+    return armSiteDescriptor.getTrimmedResourceId();
+  };
+
+  const fetchData = async () => {
+    const siteResourceId = getSiteResourceId();
     const [siteResponse, functionInfoResponse, appKeysResponse, functionKeysResponse, hostStatusResponse] = await Promise.all([
       siteContext.fetchSite(siteResourceId),
       functionEditorData.getFunctionInfo(resourceId),
@@ -151,6 +160,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       );
     }
 
+    await getAndUpdateSiteConfig();
+
     setInitialLoading(false);
     setIsRefreshing(false);
   };
@@ -223,9 +234,21 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const getResultFromHostJson = (): string => {
     let result = '';
     switch (runtimeVersion) {
+      case RuntimeExtensionMajorVersions.v1: {
+        result =
+          hostJsonContent &&
+          hostJsonContent.http &&
+          hostJsonContent.http.routePrefix !== undefined &&
+          hostJsonContent.http.routePrefix !== null
+            ? hostJsonContent.http.routePrefix
+            : 'api';
+        break;
+      }
       case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
-      case RuntimeExtensionMajorVersions.v3: {
+      case RuntimeExtensionMajorVersions.v3:
+      case RuntimeExtensionMajorVersions.v4:
+      default: {
         result =
           hostJsonContent &&
           hostJsonContent.extensions &&
@@ -235,16 +258,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             ? hostJsonContent.extensions.http.routePrefix
             : 'api';
         break;
-      }
-      case RuntimeExtensionMajorVersions.v1:
-      default: {
-        result =
-          hostJsonContent &&
-          hostJsonContent.http &&
-          hostJsonContent.http.routePrefix !== undefined &&
-          hostJsonContent.http.routePrefix !== null
-            ? hostJsonContent.http.routePrefix
-            : 'api';
       }
     }
     return result;
@@ -282,8 +295,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return headers;
   };
 
-  // Used to run both http and webHook functions
-  const runHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+  // Used to get settings for both http and webHook functions
+  const getSettingsToInvokeHttpFunction = (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string): NetAjaxSettings | undefined => {
     if (!!site) {
       let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
       let parsedTestData = {};
@@ -325,49 +338,99 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
       const headers = getHeaders(testDataObject.headers, xFunctionKey);
 
-      return FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body);
+      return {
+        uri: url,
+        type: testDataObject.method as string,
+        headers: headers,
+        data: testDataObject.body,
+      };
     }
     return undefined;
   };
 
-  // Used to run non-http and non-webHook functions
-  const runNonHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+  // Used to get settings for non-http and non-webHook functions
+  const getSettingsToInvokeNonHttpFunction = (
+    newFunctionInfo: ArmObj<FunctionInfo>,
+    xFunctionKey?: string
+  ): NetAjaxSettings | undefined => {
     if (!!site) {
       const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
       const headers = getHeaders([], xFunctionKey);
-      return FunctionsService.runFunction(url, 'POST', headers, { input: newFunctionInfo.properties.test_data || '' });
+
+      return {
+        uri: url,
+        type: 'POST',
+        headers: headers,
+        data: newFunctionInfo.properties.test_data || '',
+      };
     }
     return undefined;
   };
 
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
     setFunctionRunning(true);
-    const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
-    if (updatedFunctionInfo.metadata.success) {
-      setFunctionInfo(updatedFunctionInfo.data);
-    }
 
-    let runResponse: HttpResponseObject<any> | undefined;
-    if (isHttpOrWebHookFunction) {
-      runResponse = await runHttpFunction(newFunctionInfo, xFunctionKey);
-    } else {
-      runResponse = await runNonHttpFunction(newFunctionInfo, xFunctionKey);
-    }
-
-    if (!!runResponse) {
-      let resData = '';
-      if (runResponse.metadata.success) {
-        resData = runResponse.data;
-      } else {
-        resData = runResponse.metadata.error;
+    if (!SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
+      const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
+      if (updatedFunctionInfo.metadata.success) {
+        setFunctionInfo(updatedFunctionInfo.data);
       }
+    }
+
+    let settings: NetAjaxSettings | undefined;
+
+    if (isHttpOrWebHookFunction) {
+      settings = getSettingsToInvokeHttpFunction(newFunctionInfo, xFunctionKey);
+    } else {
+      settings = getSettingsToInvokeNonHttpFunction(newFunctionInfo, xFunctionKey);
+    }
+
+    if (!!settings) {
+      let response: ResponseContent = { code: 0, text: '' };
+      response = await runUsingPortal(settings);
 
       setResponseContent({
-        code: runResponse.metadata.status,
-        text: resData,
+        code: response.code,
+        text: response.text,
       });
     }
     setFunctionRunning(false);
+  };
+
+  const runUsingPortal = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
+    let response: ResponseContent = { code: 0, text: '' };
+
+    const runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
+    const runFunctionResponseResult = runFunctionResponse.result;
+    const jqXHR = getJQXHR(runFunctionResponse, LogCategories.FunctionEdit, 'makeHttpRequestForRunFunction');
+    if (!!jqXHR) {
+      response.code = jqXHR.status;
+    }
+
+    if (isPortalCommunicationStatusSuccess(runFunctionResponse.status)) {
+      response.text = runFunctionResponseResult.content;
+      // This is the result of the API call
+      if (response.code !== 200) {
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'makeHttpRequestForRunFunction',
+          `Failed to run function: ${getErrorMessageOrStringify(runFunctionResponseResult)}`
+        );
+      }
+    } else {
+      // NOTE(krmitta): This happens when the http request on the portal fails for some reason,
+      // not the api returning the error
+      if (!!jqXHR) {
+        response.text = jqXHR.statusText;
+      }
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'makeHttpRequestForRunFunction',
+        `Http request from portal failed: ${getErrorMessageOrStringify(runFunctionResponseResult)}`
+      );
+    }
+
+    return response;
   };
 
   const getQueryString = (queries: NameValuePair[]): string => {
@@ -409,13 +472,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
-  const getAuthorizationHeaders = (): KeyValue<string> => {
-    return {
-      Authorization: `Bearer ${startupInfoContext.token}`,
-      FunctionsPortal: '1',
-    };
-  };
-
   const getAndSetTestData = async () => {
     if (!!functionInfo && !!site && !!functionInfo.properties.test_data_href) {
       const testDataHrefObjects = functionInfo.properties.test_data_href.split('/vfs/');
@@ -425,8 +481,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       if (testDataHrefObjects.length === 2) {
         const vfsArmTestDataResponse = await FunctionsService.getTestDataOverVfsArm(site.id, testDataHrefObjects[1], runtimeVersion);
         if (vfsArmTestDataResponse.metadata.success) {
-          testDataResponseSuccess = true;
           testData = vfsArmTestDataResponse.data;
+          testDataResponseSuccess = true;
         } else {
           LogService.error(
             LogCategories.FunctionEdit,
@@ -439,19 +495,20 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       // Note (krmitta): Almost always we should be able to get the test_data through VFS Arm.
       // Adding the below fallback logic just on the off-chance that it doesn't.
       if (!testDataResponseSuccess) {
-        const headers = getAuthorizationHeaders();
-        const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(
-          functionInfo.properties.test_data_href,
-          'GET',
-          headers
-        );
-        if (functionHrefTestDataResponse.metadata.success) {
-          testData = functionHrefTestDataResponse.data;
+        const headers = getHeaders([], getDefaultXFunctionKey());
+        const functionHrefTestDataResponse = await portalContext.makeHttpRequestsViaPortal({
+          uri: functionInfo.properties.test_data_href,
+          type: 'GET',
+          headers: headers,
+        });
+
+        if (isPortalCommunicationStatusSuccess(functionHrefTestDataResponse.status)) {
+          testData = functionHrefTestDataResponse.result;
         } else {
           LogService.error(
             LogCategories.FunctionEdit,
             'GetTestDataUsingFunctionHref',
-            `Failed to get test data: ${getErrorMessageOrStringify(functionHrefTestDataResponse.metadata.error)}`
+            `Failed to get test data: ${getErrorMessageOrStringify(functionHrefTestDataResponse)}`
           );
         }
       }
@@ -520,6 +577,49 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
+  const getAndUpdateSiteConfig = async () => {
+    const siteConfigResponse = await SiteService.fetchWebConfig(getSiteResourceId());
+    if (siteConfigResponse.metadata.success) {
+      functionEditorData.functionData = {
+        siteConfig: siteConfigResponse.data,
+      };
+    } else {
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'fetchSiteConfig',
+        `Failed to fetch site-config: ${getErrorMessageOrStringify(siteConfigResponse.metadata.error)}`
+      );
+    }
+  };
+
+  const addCorsRule = async (corsRule: string) => {
+    setIsRefreshing(true);
+    const siteConfig = functionEditorData.functionData.siteConfig;
+    const allowedOrigins = !!siteConfig && siteConfig.properties.cors.allowedOrigins ? siteConfig.properties.cors.allowedOrigins : [];
+    allowedOrigins.push(corsRule);
+    const body = {
+      properties: {
+        cors: {
+          allowedOrigins: allowedOrigins,
+        },
+      },
+    };
+
+    const updateSiteConfigResponse = await SiteService.patchSiteConfig(getSiteResourceId(), body);
+
+    if (updateSiteConfigResponse.metadata.success) {
+      await getAndUpdateSiteConfig();
+    } else {
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'patchSiteConfig',
+        `Failed to get update site-config: ${getErrorMessageOrStringify(updateSiteConfigResponse.metadata.error)}`
+      );
+    }
+
+    setIsRefreshing(false);
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -573,6 +673,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             setIsUploadingFile={setIsUploadingFile}
             refreshFileList={refreshFileList}
             workerRuntime={workerRuntime}
+            addCorsRule={addCorsRule}
           />
         </div>
       ) : (

@@ -3,24 +3,15 @@ import { AppInsightsEntityTrace, AppInsightsEntityTraceDetail } from '../../../.
 import { tableStyle, tabStyle } from '../FunctionMonitorTab.styles';
 import CustomBanner from '../../../../../../../components/CustomBanner/CustomBanner';
 import { useTranslation } from 'react-i18next';
-import {
-  MessageBarType,
-  DetailsListLayoutMode,
-  SelectionMode,
-  SearchBox,
-  ICommandBarItemProps,
-  IColumn,
-  Link,
-  PanelType,
-} from 'office-ui-fabric-react';
+import { MessageBarType, DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn, Link, PanelType } from '@fluentui/react';
 import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { filterTextFieldStyle } from '../../../../../../../components/form-controls/formControl.override.styles';
 import { openAppInsightsQueryEditor } from '../FunctionMonitorTab.data';
 import { PortalContext } from '../../../../../../../PortalContext';
 import { FunctionEntitiesContext } from './FunctionEntitiesDataLoader';
 import CustomPanel from '../../../../../../../components/CustomPanel/CustomPanel';
 import FunctionEntityDetails from './FunctionEntityDetails';
 import { Links } from '../../../../../../../utils/FwLinks';
+import { getSearchFilter } from '../../../../../../../components/form-controls/SearchBox';
 
 interface FunctionEntitiesProps {
   functionResourceId: string;
@@ -35,8 +26,7 @@ interface FunctionEntitiesProps {
 const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
   const { entityTraces, functionResourceId, appInsightsResourceId, refreshEntities, setCurrentTrace, currentTrace, entityDetails } = props;
 
-  const [filterValue, setFilterValue] = useState('');
-
+  const [filterValue, setFilterValue] = useState<string>('');
   const entitiesContext = useContext(FunctionEntitiesContext);
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
@@ -49,12 +39,14 @@ const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
           openAppInsightsQueryEditor(portalContext, appInsightsResourceId, entitiesContext.formEntityTracesQuery(functionResourceId)),
         iconProps: { iconName: 'LineChart' },
         name: t('runQueryInApplicationInsights'),
+        ariaLabel: t('runQueryInApplicationInsights'),
       },
       {
         key: 'entities-refresh',
         onClick: refreshEntities,
         iconProps: { iconName: 'Refresh' },
         name: t('refresh'),
+        ariaLabel: t('refresh'),
       },
     ];
   };
@@ -137,15 +129,7 @@ const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
             selectionPreservedOnEmptyClick={true}
             emptyMessage={t('noResults')}
             shimmer={{ lines: 2, show: !entityTraces }}>
-            <SearchBox
-              id="entities-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterTextFieldStyle}
-              placeholder={t('filterEntities')}
-              onChange={newValue => setFilterValue(newValue)}
-            />
+            {getSearchFilter('entities-search', setFilterValue, t('filterEntities'))}
           </DisplayTableWithCommandBar>
         </div>
       </div>

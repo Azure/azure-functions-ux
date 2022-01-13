@@ -1837,7 +1837,7 @@ export class PortalResources {
   public static functionCreate_selectTemplate = 'functionCreate_selectTemplate';
   public static functionTestInput = 'functionTestInput';
   public static functionTestOutput = 'functionTestOutput';
-  public static functionTestInputDescription = 'functionTestInputDescription';
+  public static functionTestInputDescriptionForHttp = 'functionTestInputDescriptionForHttp';
   public static httpRun_responseContent = 'httpRun_responseContent';
   public static httpRun_responseCode = 'httpRun_responseCode';
   public static editor_changeFileConfirmMessage = 'editor_changeFileConfirmMessage';
@@ -2041,6 +2041,7 @@ export class PortalResources {
   public static resetPublishProfileConfirmationDescription = 'resetPublishProfileConfirmationDescription';
   public static usernameLengthRequirements = 'usernameLengthRequirements';
   public static deploymentCenterFieldRequiredMessage = 'deploymentCenterFieldRequiredMessage';
+  public static deploymentCenterFieldPrivateSSHMessage = 'deploymentCenterFieldPrivateSSHMessage';
   public static deploymentCenterExternalRepoMessage = 'deploymentCenterExternalRepoMessage';
   public static deploymentCenterContainerSettingsDescription = 'deploymentCenterContainerSettingsDescription';
   public static deploymentCenterCodeSettingsDescription = 'deploymentCenterCodeSettingsDescription';
@@ -2347,4 +2348,20 @@ export class PortalResources {
   public static deploymentCenterDeprecatedTokenDialogBody = 'deploymentCenterDeprecatedTokenDialogBody';
   public static deploymentCenterUpdateTokenSuccessMessage = 'deploymentCenterUpdateTokenSuccessMessage';
   public static missingWorkflowDispatchTrigger = 'missingWorkflowDispatchTrigger';
+  public static deploymentCenterWorkflowError = 'deploymentCenterWorkflowError';
+  public static enablePortalEditingForLinuxConsumptionWarning = 'enablePortalEditingForLinuxConsumptionWarning';
+  public static switchToJbossWarningBaner = 'switchToJbossWarningBaner';
+  public static staticSiteEnterpriseGradeEdge = 'staticSiteEnterpriseGradeEdge';
+  public static staticSiteEnterpriseGradeEdgePrice = 'staticSiteEnterpriseGradeEdgePrice';
+  public static adminCredentials = 'adminCredentials';
+  public static managedIdentity = 'managedIdentity';
+  public static functionTestInputDescription = 'functionTestInputDescription';
+  public static missingCorsMessage = 'missingCorsMessage';
+  public static invalidCronExpressionMessage = 'invalidCronExpressionMessage';
+  public static systemAssigned = 'systemAssigned';
+  public static userAssigned = 'userAssigned';
+  public static managedIdentityTypePlaceholder = 'managedIdentityTypePlaceholder';
+  public static managedIdentityInfoMessage = 'managedIdentityInfoMessage';
+  public static acrCredentialsWarningMessage = 'acrCredentialsWarningMessage';
+  public static addIdentity = 'addIdentity';
 }

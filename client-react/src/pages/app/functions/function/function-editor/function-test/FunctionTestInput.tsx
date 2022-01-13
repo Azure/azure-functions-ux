@@ -1,6 +1,6 @@
 import { Field, FieldArray, FieldProps, FormikProps } from 'formik';
 import get from 'lodash-es/get';
-import { IDropdownOption, ITextFieldProps, Label, TextField } from 'office-ui-fabric-react';
+import { IDropdownOption, ITextFieldProps, Label, TextField } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Subject } from 'rxjs';
@@ -149,7 +149,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
 
   return (
     <div className={pivotItemWrapper}>
-      {t('functionTestInputDescription')}
+      {isHttpOrWebHookFunction ? t('functionTestInputDescriptionForHttp') : t('functionTestInputDescription')}
       {isHttpOrWebHookFunction && (
         <div className={functionTestGroupStyle}>
           <Field

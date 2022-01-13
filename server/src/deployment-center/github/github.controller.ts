@@ -21,7 +21,7 @@ import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
-import { EnvironmentUrlMappings, Environments } from '../deployment-center';
+import { EnvironmentUrlMappings, Environments, SandboxEnvironment, SandboxEnvironmentUrlMappings } from '../deployment-center';
 import { AxiosRequestConfig } from 'axios';
 import { CloudType, StaticReactConfig } from '../../types/config';
 
@@ -104,11 +104,63 @@ export class GithubController {
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
+  @Post('api/github/getSearchOrgRepositories')
+  @HttpCode(200)
+  async getSearchOrgRepositories(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('searchTerm') searchTerm: string,
+    @Body('page') page: number
+  ) {
+    try {
+      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+org:${org}+fork:true&per_page=100`;
+      // Successive searchTerms have zero white space char added to front
+      const encodedURI = encodeURI(url).replace('%E2%80%8B/g', '');
+      const r = await this.httpService.get(encodedURI, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+      return r.data.items;
+    } catch (err) {
+      this.loggingService.error(`Failed to retrieve org repositories with given search term. ${err}`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      } else {
+        throw new HttpException(err, 500);
+      }
+    }
+  }
+
   @Post('api/github/getUserRepositories')
   @HttpCode(200)
   async getUserRepositories(@Body('gitHubToken') gitHubToken: string, @Body('page') page: number, @Res() res) {
     const url = `${this.githubApiUrl}/user/repos?type=owner&page=${page}`;
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getSearchUserRepositories')
+  @HttpCode(200)
+  async getSearchUserRepositories(@Body('gitHubToken') gitHubToken: string, @Body('searchTerm') searchTerm: string) {
+    const userResponse = await this.httpService.get(`${this.githubApiUrl}/user`, { headers: this._getAuthorizationHeader(gitHubToken) });
+    const username = userResponse.data.login;
+
+    try {
+      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+user:${username}+fork:true&per_page=100`;
+      // Successive searchTerms have zero white space char added to front
+      const encodedURI = encodeURI(url).replace('%E2%80%8B/g', '');
+      const r = await this.httpService.get(encodedURI, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+      return r.data.items;
+    } catch (err) {
+      this.loggingService.error(`Failed to retrieve user repositories with given search term. ${err}`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      } else {
+        throw new HttpException(err, 500);
+      }
+    }
   }
 
   @Post('api/github/getBranches')
@@ -291,6 +343,15 @@ export class GithubController {
     return 'Successfully Authenticated. Redirecting...';
   }
 
+  @Get('auth/github/reactview/callback/sandbox/:sandbox/env/:env')
+  async callbackReactRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('sandbox') sandbox, @Param('env') env) {
+    const envToUpper = (env && (env as string).toUpperCase()) || '';
+    const envUri =
+      SandboxEnvironmentUrlMappings.environmentToUrlMap[envToUpper] ||
+      SandboxEnvironmentUrlMappings.environmentToUrlMap[SandboxEnvironment.Prod];
+    res.redirect(`https://sandbox-${sandbox}${envUri}?code=${code}&state=${state}`);
+  }
+
   @Post('auth/github/getToken')
   @HttpCode(200)
   async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
@@ -328,6 +389,39 @@ export class GithubController {
   @Get('auth/github/createClientId')
   clientId() {
     return { client_id: this._getGitHubForCreatesClientId() };
+  }
+
+  @Get('auth/github/reactViewClientId')
+  reactViewClientId() {
+    return { client_id: this._getGitHubForReactViewClientId() };
+  }
+
+  @Post('auth/github/generateReactViewAccessToken')
+  @HttpCode(200)
+  async generateReactViewAccessToken(@Body('code') code: string, @Body('state') state: string) {
+    if (!code || !state) {
+      throw new HttpException('Code and State are required', 400);
+    }
+
+    try {
+      const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
+        code,
+        state,
+        client_id: this._getGitHubForReactViewClientId(),
+        client_secret: this._getGitHubForReactViewClientSecret(),
+      });
+      const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
+      return {
+        accessToken: token,
+        refreshToken: null,
+        environment: null,
+      };
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException('Internal Server Error', 500);
+    }
   }
 
   @Post('auth/github/generateCreateAccessToken')
@@ -601,6 +695,14 @@ export class GithubController {
     }
   }
 
+  private _getGitHubForReactViewClientId() {
+    return this.configService.get('GITHUB_FOR_REACTVIEW_CLIENT_ID');
+  }
+
+  private _getGitHubForReactViewClientSecret() {
+    return this.configService.get('GITHUB_FOR_REACTVIEW_CLIENT_SECRET');
+  }
+
   private async _makeGetCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res: any) {
     try {
       const response = await this.httpService.get(url, {
@@ -621,6 +723,7 @@ export class GithubController {
         );
       }
 
+      res.setHeader('access-control-expose-headers', 'link, x-oauth-scopes');
       res.json(response.data);
     } catch (err) {
       if (err.response) {
@@ -653,6 +756,7 @@ export class GithubController {
         );
       }
 
+      res.setHeader('access-control-expose-headers', 'link, x-oauth-scopes');
       res.json(response.data);
     } catch (err) {
       if (err.response) {

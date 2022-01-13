@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DefaultButton, Callout, ChoiceGroup, PrimaryButton } from 'office-ui-fabric-react';
+import { DefaultButton, Callout, ChoiceGroup, PrimaryButton } from '@fluentui/react';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { calloutStyle, calloutContent, calloutContentButton, additionalTextFieldControl } from '../DeploymentCenter.styles';
 import { BuildChoiceGroupOption, DeploymentCenterCodeBuildCalloutProps, RuntimeStackOptions } from '../DeploymentCenter.types';
@@ -18,13 +18,17 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
     updateSelectedBuild,
     formProps,
     runtimeStack,
+    runtimeVersion,
   } = props;
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
-  const isGitHubActionEnabled = runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby && !deploymentCenterContext.isIlbASE;
+  const isGitHubActionEnabled =
+    runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby &&
+    !(runtimeStack.toLocaleLowerCase() == RuntimeStackOptions.PHP && !siteStateContext.isLinuxApp && !runtimeVersion) &&
+    !deploymentCenterContext.isIlbASE;
 
   const isKuduDisabled = () => {
     return scenarioService.checkScenario(ScenarioIds.kuduBuildProvider, { site: siteStateContext.site }).status === 'disabled';

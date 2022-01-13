@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable } from './Configuration.types';
 import ActionBar from '../../../components/ActionBar';
 import { ConfigurationUtils } from './Configuration.utils';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../components/monaco-editor/monaco-editor';
 import { EditorLanguage } from '../../../utils/EditorManager';
 import { StartupInfoContext } from '../../../StartupInfoContext';

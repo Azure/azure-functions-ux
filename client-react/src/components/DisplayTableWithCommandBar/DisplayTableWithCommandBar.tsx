@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ICommandBarItemProps, CommandBar, IDetailsListProps, IButtonProps } from 'office-ui-fabric-react';
+import { ICommandBarItemProps, CommandBar, IDetailsListProps, IButtonProps } from '@fluentui/react';
 import { ThemeContext } from '../../ThemeContext';
 import { commandBarStyles, DetailListStyles } from './DisplayTableWithCommandBar.style';
 import DisplayTableCommandBarButton from './DisplayTableCommandBarButton';

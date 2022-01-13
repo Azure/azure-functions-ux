@@ -119,5 +119,46 @@ export const nodeStack: FunctionAppStack = {
         },
       ],
     },
+    {
+      sortOrder: 3,
+      displayText: '16',
+      value: '16',
+      isDefault: false,
+      supportedPlatforms: [
+        {
+          sortOrder: 0,
+          os: 'windows',
+          isPreview: true,
+          isDeprecated: false,
+          isHidden: true,
+          applicationInsightsEnabled: true,
+          runtimeVersion: '~16',
+          appSettingsDictionary: {
+            FUNCTIONS_WORKER_RUNTIME: 'node',
+            WEBSITE_NODE_DEFAULT_VERSION: '~16',
+          },
+          siteConfigPropertiesDictionary: {
+            use32BitWorkerProcess: true,
+            netFrameworkVersion: 'v6.0',
+          }
+        },
+        {
+          sortOrder: 1,
+          os: 'linux',
+          isPreview: true,
+          isDeprecated: false,
+          isHidden: true,
+          applicationInsightsEnabled: true,
+          runtimeVersion: 'Node|16',
+          appSettingsDictionary: {
+            FUNCTIONS_WORKER_RUNTIME: 'node',
+          },
+          siteConfigPropertiesDictionary: {
+            use32BitWorkerProcess: false,
+            linuxFxVersion: 'Node|16',
+          },
+        },
+      ],
+    }
   ],
 };

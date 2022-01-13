@@ -45,6 +45,10 @@ export default class DeploymentCenterData {
     return SiteService.resetPublishProfile(resourceId);
   };
 
+  public fetchSite = (resourceId: string) => {
+    return SiteService.fetchSite(resourceId);
+  };
+
   public getSiteConfig = (resourceId: string) => {
     return SiteService.fetchWebConfig(resourceId);
   };
@@ -105,12 +109,12 @@ export default class DeploymentCenterData {
     return GitHubService.getOrganizations(gitHubToken, logger);
   };
 
-  public getGitHubOrgRepositories = (org: string, gitHubToken: string, logger?: (page, response) => void) => {
-    return GitHubService.getOrgRepositories(org, gitHubToken, logger);
+  public getGitHubOrgRepositories = (org: string, gitHubToken: string, logger?: (page, response) => void, searchTerm?: string) => {
+    return GitHubService.getOrgRepositories(org, gitHubToken, logger, searchTerm);
   };
 
-  public getGitHubUserRepositories = (gitHubToken: string, logger?: (page, response) => void) => {
-    return GitHubService.getUserRepositories(gitHubToken, logger);
+  public getGitHubUserRepositories = (gitHubToken: string, logger?: (page, response) => void, searchTerm?: string) => {
+    return GitHubService.getUserRepositories(gitHubToken, logger, searchTerm);
   };
 
   public getGitHubBranches = (org: string, repo: string, gitHubToken: string, logger?: (page, response) => void) => {
@@ -264,6 +268,18 @@ export default class DeploymentCenterData {
 
   public getAcrTags = (loginServer: string, repository: string, username: string, password: string, logger?: (page, error) => void) => {
     return ACRService.getTags(loginServer, repository, username, password, logger);
+  };
+
+  public hasAcrPullPermission = (acrResourceId: string, principalId: string) => {
+    return ACRService.hasAcrPullPermission(acrResourceId, principalId);
+  };
+
+  public setAcrPullPermission = (acrResourceId: string, principalId: string) => {
+    return ACRService.setAcrPullPermission(acrResourceId, principalId);
+  };
+
+  public enableSystemAssignedIdentity = (resourceId: string, userAssignedIdentities?: KeyValue<KeyValue<string>>) => {
+    return ACRService.enableSystemAssignedIdentity(resourceId, userAssignedIdentities);
   };
 
   public updateSiteConfig = (resourceId: string, config: ArmObj<SiteConfig>) => {

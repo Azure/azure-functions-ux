@@ -11,6 +11,13 @@ export enum Environments {
   Dev = 'DEV',
 }
 
+export enum SandboxEnvironment {
+  Prod = 'PROD',
+  Mpac = 'MPAC',
+  Rc = 'RC',
+  Preview = 'PREVIEW',
+}
+
 export class EnvironmentUrlMappings {
   static readonly environmentToUrlMap: { [id in Environments]: string } = {
     PROD: 'https://functions.azure.com',
@@ -30,5 +37,20 @@ export class EnvironmentUrlMappings {
     'https://functions-next.azure.com': Environments.Next,
     'https://azure-functions-ux-next.azurewebsites.net': Environments.Next,
     'https://localhost:44300': Environments.Dev,
+  };
+}
+
+export class SandboxEnvironmentUrlMappings {
+  static readonly environmentToUrlMap: { [id in SandboxEnvironment]: string } = {
+    PROD: '.reactblade.portal.azure.net',
+    MPAC: '.reactblade-ms.portal.azure.net',
+    RC: '.reactblade-rc.portal.azure.net',
+    PREVIEW: '.reactblade-ms.portal.azure.net',
+  };
+
+  static readonly urlToEnvironmentMap: { [id: string]: SandboxEnvironment } = {
+    '.reactblade.portal.azure.net': SandboxEnvironment.Prod,
+    '.reactblade-ms.portal.azure.net': SandboxEnvironment.Mpac,
+    '.reactblade-rc.portal.azure.net': SandboxEnvironment.Rc,
   };
 }

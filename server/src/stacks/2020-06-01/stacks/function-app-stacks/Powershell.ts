@@ -36,13 +36,13 @@ export const powershellStack: FunctionAppStack = {
             linuxRuntimeSettings: {
               runtimeVersion: 'PowerShell|7',
               remoteDebuggingSupported: false,
-              isPreview: true,
-              isHidden: true,
+              isPreview: false,
+              isHidden: false,
               appInsightsSettings: {
                 isSupported: true,
               },
               gitHubActionSettings: {
-                isSupported: true
+                isSupported: true,
               },
               appSettingsDictionary: {
                 FUNCTIONS_WORKER_RUNTIME: 'powershell',
@@ -51,7 +51,7 @@ export const powershellStack: FunctionAppStack = {
                 use32BitWorkerProcess: false,
                 linuxFxVersion: 'PowerShell|7',
               },
-              supportedFunctionsExtensionVersions: ['~3'],
+              supportedFunctionsExtensionVersions: ['~4'],
             },
           },
         },

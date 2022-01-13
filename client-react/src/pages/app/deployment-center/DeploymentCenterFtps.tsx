@@ -5,14 +5,15 @@ import {
   DeploymentCenterContainerFormData,
   DeploymentCenterCodeFormData,
 } from './DeploymentCenter.types';
-import { MessageBarType, ActionButton, ProgressIndicator, Link } from 'office-ui-fabric-react';
+import { MessageBarType, ActionButton, ProgressIndicator, Link } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
   deploymentCenterContent,
   additionalTextFieldControl,
   deploymentCenterInfoBannerDiv,
   ftpsPasswordTextboxStyle,
-  textboxPaddingStyle,
+  descriptionStyle,
+  textboxStyle,
 } from './DeploymentCenter.styles';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
@@ -25,8 +26,7 @@ import { getGitCloneUri, getTelemetryInfo } from './utility/DeploymentCenterUtil
 import DeploymentCenterPublishingUser from './DeploymentCenterPublishingUser';
 import { PortalContext } from '../../../PortalContext';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
-
-type PasswordFieldType = 'password' | undefined;
+import { TextFieldType } from '../../../utils/CommonConstants';
 
 const DeploymentCenterFtps: React.FC<
   DeploymentCenterFtpsProps & DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -39,7 +39,6 @@ const DeploymentCenterFtps: React.FC<
   const { isDataRefreshing, formProps } = props;
   const { publishingProfile, resetApplicationPassword } = deploymentCenterPublishingContext;
 
-  const [applicationPasswordType, setApplicationPasswordType] = useState<PasswordFieldType>('password');
   const [isResetCalloutHidden, setIsResetCalloutHidden] = useState<boolean>(true);
   const [showBlockedBanner, setShowBlockedBanner] = useState(true);
 
@@ -60,10 +59,6 @@ const DeploymentCenterFtps: React.FC<
 
     resetApplicationPassword();
     setIsResetCalloutHidden(true);
-  };
-
-  const toggleShowApplicationPassword = () => {
-    setApplicationPasswordType(!applicationPasswordType ? 'password' : undefined);
   };
 
   const getProgressIndicator = () => {
@@ -104,8 +99,9 @@ const DeploymentCenterFtps: React.FC<
           </div>
         )}
 
-        <p>{t('deploymentCenterFtpsDescription')}</p>
+        <div className={descriptionStyle}>{t('deploymentCenterFtpsDescription')}</div>
         <TextFieldNoFormik
+          className={textboxStyle}
           id="deployment-center-ftps-endpoint"
           label={t('deploymentCenterFtpsEndpointLabel')}
           widthOverride="100%"
@@ -116,6 +112,7 @@ const DeploymentCenterFtps: React.FC<
 
         {isScmLocalGit && (
           <TextFieldNoFormik
+            className={textboxStyle}
             id="deployment-center-localgit-clone-uri"
             label={t('deploymentCenterCodeLocalGitCloneUri')}
             widthOverride="100%"
@@ -126,48 +123,39 @@ const DeploymentCenterFtps: React.FC<
         )}
 
         <h3>{t('deploymentCenterFtpsApplicationScopeTitle')}</h3>
-        <span id="deployment-publishing-user-message">{t('deploymentCenterFtpsApplicationScopeDescription')}</span>
-        <Link
-          id="deployment-center-settings-learnMore"
-          href={DeploymentCenterLinks.publishingUserDocumentation}
-          target="_blank"
-          className={learnMoreLinkStyle}
-          aria-labelledby="deployment-center-settings-message">
-          {` ${t('learnMore')}`}
-        </Link>
-
-        <div className={textboxPaddingStyle}>
-          <TextFieldNoFormik
-            id="deployment-center-ftps-application-username"
-            label={t('deploymentCenterFtpsUsernameLabel')}
-            widthOverride="100%"
-            value={publishingProfile && publishingProfile.userName}
-            copyButton={true}
-            disabled={true}
-          />
+        <div className={descriptionStyle} id="deployment-publishing-user-message">
+          {t('deploymentCenterFtpsApplicationScopeDescription')}
+          <Link
+            id="deployment-center-settings-learnMore"
+            href={DeploymentCenterLinks.publishingUserDocumentation}
+            target="_blank"
+            className={learnMoreLinkStyle}
+            aria-labelledby="deployment-center-settings-message">
+            {` ${t('learnMore')}`}
+          </Link>
         </div>
+
+        <TextFieldNoFormik
+          className={textboxStyle}
+          id="deployment-center-ftps-application-username"
+          label={t('deploymentCenterFtpsUsernameLabel')}
+          widthOverride="100%"
+          value={publishingProfile && publishingProfile.userName}
+          copyButton={true}
+          disabled={true}
+        />
 
         <div className={ftpsPasswordTextboxStyle}>
           <TextFieldNoFormik
+            className={textboxStyle}
             id="deployment-center-ftps-application-password"
             label={t('deploymentCenterFtpsPasswordLabel')}
             widthOverride="100%"
             value={publishingProfile && publishingProfile.userPWD}
             copyButton={true}
             disabled={true}
-            type={applicationPasswordType}
+            type={TextFieldType.password}
             additionalControls={[
-              <ActionButton
-                id="deployment-center-ftps-application-password-visibility-toggle"
-                key="deployment-center-ftps-application-password-visibility-toggle"
-                className={additionalTextFieldControl}
-                ariaLabel={
-                  applicationPasswordType === 'password' ? t('showApplicationPasswordAriaLabel') : t('hideApplicationPasswordAriaLabel')
-                }
-                onClick={toggleShowApplicationPassword}
-                iconProps={{ iconName: applicationPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
-                {applicationPasswordType === 'password' ? t('show') : t('hide')}
-              </ActionButton>,
               <ActionButton
                 id="deployment-center-ftps-application-password-reset"
                 key="deployment-center-ftps-application-password-reset"

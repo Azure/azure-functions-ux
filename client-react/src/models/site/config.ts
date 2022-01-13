@@ -40,6 +40,8 @@ export interface SiteConfig {
   remoteDebuggingEnabled: boolean;
   remoteDebuggingVersion: string | null;
   httpLoggingEnabled: boolean;
+  acrUseManagedIdentityCreds: boolean;
+  acrUserManagedIdentityID: string | null;
   logsDirectorySizeLimit: number;
   detailedErrorLoggingEnabled: boolean;
   publishingUsername: string;
@@ -221,7 +223,7 @@ export interface SiteAuthSettings {
 }
 
 export interface Cors {
-  allowedOrigins: string;
+  allowedOrigins: string[];
 }
 
 export interface KeyVaultReference {

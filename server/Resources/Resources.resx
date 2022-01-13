@@ -3245,7 +3245,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
     </data>
     <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
-        <value>Inline creation of App Service Environments is currently not supported.</value>
+        <value>To create an app on a new App Service Environment, click a link below to create the environment first.</value>
     </data>
     <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
         <value>Create new App Service Environment</value>
@@ -5025,7 +5025,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Certificate exclusion paths</value>
     </data>
     <data name="editCertificateExlusionPaths" xml:space="preserve">
-        <value>edit client eclusion paths</value>
+        <value>edit client exclusion paths</value>
         <comment>This is meant for aria-labeling, not visual</comment>
     </data>
     <data name="noExclusionRulesDefined" xml:space="preserve">
@@ -5682,7 +5682,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionTestOutput" xml:space="preserve">
         <value>Output</value>
     </data>
-    <data name="functionTestInputDescription" xml:space="preserve">
+    <data name="functionTestInputDescriptionForHttp" xml:space="preserve">
         <value>Provide parameters to test the HTTP request. Results can be found in the Output tab.</value>
     </data>
     <data name="httpRun_responseContent" xml:space="preserve">
@@ -6290,6 +6290,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
         <value>This field is required</value>
+    </data>
+    <data name="deploymentCenterFieldPrivateSSHMessage" xml:space="preserve">
+        <value>Deploying with SSH and a private repository is not supported.</value>
     </data>
     <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
         <value>The repository must begin with https://</value>
@@ -7184,5 +7187,50 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterWorkflowError" xml:space="preserve">
         <value>There was an error fetching the workflow file.</value>
+    </data>
+    <data name="enablePortalEditingForLinuxConsumptionWarning" xml:space="preserve">
+        <value>Adding third party dependencies in the Azure portal is currently not supported for Linux Consumption Function Apps. Click here to setup local environment.</value>
+    </data>
+    <data name="switchToJbossWarningBaner" xml:space="preserve">
+        <value>JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. </value>
+    </data>
+    <data name="staticSiteEnterpriseGradeEdge" xml:space="preserve">
+        <value>Enterprise-grade edge</value>
+    </data>
+    <data name="staticSiteEnterpriseGradeEdgePrice" xml:space="preserve">
+        <value>{0}/per app/month</value>
+    </data>
+    <data name="adminCredentials" xml:space="preserve">
+        <value>Admin Credentials</value>
+    </data>
+    <data name="managedIdentity" xml:space="preserve">
+        <value>Managed Identity</value>
+    </data>
+    <data name="functionTestInputDescription" xml:space="preserve">
+        <value>Provide parameters to test your function in the portal. Results can be found in the Output tab.</value>
+    </data>
+    <data name="missingCorsMessage" xml:space="preserve">
+        <value>Running your function in portal requires the app to explicitly accept requests from {0}. This is known as cross-origin resource sharing (CORS). Click here to add {0} to the allowed origin configuration.</value>
+    </data>
+    <data name="invalidCronExpressionMessage" xml:space="preserve">
+        <value>Invalid Cron Expression. Please consult the &lt;a href="{0}" target="_blank"&gt;documentation&lt;/a&gt; to learn more.</value>
+    </data>
+    <data name="systemAssigned" xml:space="preserve">
+        <value>System assigned</value>
+    </data>
+    <data name="userAssigned" xml:space="preserve">
+        <value>User assigned</value>
+    </data>
+    <data name="managedIdentityTypePlaceholder" xml:space="preserve">
+        <value>Select managed identity</value>
+    </data>
+    <data name="managedIdentityInfoMessage" xml:space="preserve">
+        <value>When using managed identity, image and tag fields will not auto populate. Please manually enter the image and tag below.</value>
+    </data>
+    <data name="acrCredentialsWarningMessage" xml:space="preserve">
+        <value>Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below.</value>
+    </data>
+    <data name="addIdentity" xml:space="preserve">
+        <value>Add identity</value>
     </data>
 </root>

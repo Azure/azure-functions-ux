@@ -1,5 +1,4 @@
-import { Overlay } from 'office-ui-fabric-react';
-import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
+import { Spinner, SpinnerSize, Overlay } from '@fluentui/react';
 import React from 'react';
 import { style } from 'typestyle/lib';
 

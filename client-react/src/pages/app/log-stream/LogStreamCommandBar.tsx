@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { IButtonProps, CommandBarButton } from 'office-ui-fabric-react/lib/Button';
-import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
+import { IButtonProps, CommandBarButton, CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { LogEntry, LogType, LogsEnabled } from './LogStream.types';
 import { ThemeContext } from '../../../ThemeContext';
@@ -25,6 +24,7 @@ const getItems = (
     {
       key: 'reconnect',
       name: t('logStreaming_reconnect'),
+      ariaLabel: t('logStreaming_reconnect'),
       iconProps: {
         iconName: 'PlugConnected',
       },
@@ -34,6 +34,7 @@ const getItems = (
     {
       key: 'copy',
       name: t('functionKeys_copy'),
+      ariaLabel: t('functionKeys_copy'),
       iconProps: {
         iconName: 'Copy',
       },
@@ -43,6 +44,7 @@ const getItems = (
     {
       key: 'toggle',
       name: isStreaming ? t('logStreaming_pause') : t('logStreaming_start'),
+      ariaLabel: isStreaming ? t('logStreaming_pause') : t('logStreaming_start'),
       iconProps: {
         iconName: isStreaming ? 'Pause' : 'Play',
       },
@@ -52,6 +54,7 @@ const getItems = (
     {
       key: 'clear',
       name: t('logStreaming_clear'),
+      ariaLabel: t('logStreaming_clear'),
       iconProps: {
         iconName: 'StatusCircleErrorX',
       },

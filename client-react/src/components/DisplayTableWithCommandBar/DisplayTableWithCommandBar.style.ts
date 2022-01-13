@@ -1,5 +1,5 @@
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
-import { IDetailsListStyles } from 'office-ui-fabric-react';
+import { IDetailsListStyles } from '@fluentui/react';
 import { style } from 'typestyle';
 
 export const DEFAULTLISTHEIGHT = '31px';

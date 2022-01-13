@@ -1,15 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { AppKeysModel, AppKeysTypes } from './AppKeys.types';
-import {
-  ActionButton,
-  DetailsListLayoutMode,
-  SelectionMode,
-  IColumn,
-  SearchBox,
-  TooltipHost,
-  ICommandBarItemProps,
-  PanelType,
-} from 'office-ui-fabric-react';
+import { ActionButton, DetailsListLayoutMode, SelectionMode, IColumn, TooltipHost, ICommandBarItemProps, PanelType } from '@fluentui/react';
 import {
   renewTextStyle,
   tableValueComponentStyle,
@@ -27,10 +18,10 @@ import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { ThemeContext } from '../../../../ThemeContext';
-import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { PortalContext } from '../../../../PortalContext';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { getSearchFilter } from '../../../../components/form-controls/SearchBox';
 
 interface HostKeysProps {
   resourceId: string;
@@ -46,7 +37,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
   const [showPanel, setShowPanel] = useState(false);
   const [showRenewDialog, setShowRenewDialog] = useState(false);
   const [renewKey, setRenewKey] = useState(emptyKey);
-  const [filterValue, setFilterValue] = useState('');
+  const [filterValue, setFilterValue] = useState<string>('');
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
   const [shownValues, setShownValues] = useState<string[]>([]);
@@ -247,6 +238,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         disabled: loading,
         iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
         name: !showValues ? t('showValues') : t('hideValues'),
+        ariaLabel: !showValues ? t('showValues') : t('hideValues'),
       },
     ];
   };
@@ -318,15 +310,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         selectionPreservedOnEmptyClick={true}
         shimmer={{ lines: 2, show: loading }}
         emptyMessage={t('emptyHostKeys')}>
-        <SearchBox
-          id="app-keys-host-keys-search"
-          className="ms-slideDownIn20"
-          autoFocus
-          iconProps={{ iconName: 'Filter' }}
-          styles={filterTextFieldStyle}
-          placeholder={t('filterHostKeys')}
-          onChange={newValue => setFilterValue(newValue)}
-        />
+        {getSearchFilter('app-keys-host-keys-search', setFilterValue, t('filterHostKeys'))}
       </DisplayTableWithCommandBar>
       <CustomPanel
         isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}

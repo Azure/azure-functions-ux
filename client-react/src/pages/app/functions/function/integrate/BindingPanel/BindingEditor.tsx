@@ -1,5 +1,5 @@
 import { Field, Formik, FormikProps } from 'formik';
-import { Link } from 'office-ui-fabric-react';
+import { Link } from '@fluentui/react';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';

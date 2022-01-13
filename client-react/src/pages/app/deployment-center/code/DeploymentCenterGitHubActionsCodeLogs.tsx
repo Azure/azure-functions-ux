@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
-import { IGroup } from 'office-ui-fabric-react/lib/components/GroupedList/GroupedList.types';
 import {
   DeploymentCenterCodeLogsProps,
   DeploymentStatus,
@@ -10,7 +9,7 @@ import {
   GitHubActionRunConclusion,
   GitHubActionsRun,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, Icon } from 'office-ui-fabric-react';
+import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, Icon, IGroup } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured, deploymentCenterCodeLogsBox } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';

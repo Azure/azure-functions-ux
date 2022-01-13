@@ -4,7 +4,7 @@ import { Site } from '../../../../models/site/site';
 import AppFilesCommandBar from './AppFilesCommandBar';
 import { commandBarSticky, editorStyle } from './AppFiles.styles';
 import FunctionEditorFileSelectorBar from '../function/function-editor/FunctionEditorFileSelectorBar';
-import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
+import { IDropdownOption, MessageBarType } from '@fluentui/react';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../../components/monaco-editor/monaco-editor';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';

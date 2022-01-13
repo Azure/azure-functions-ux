@@ -5,17 +5,16 @@ import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
 import { Site } from '../../../../../models/site/site';
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
-import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
+import { PanelType, IDropdownOption, MessageBarType } from '@fluentui/react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../../../components/monaco-editor/monaco-editor';
-import { InputFormValues, ResponseContent, PivotType, FileContent, UrlObj, LoggingOptions } from './FunctionEditor.types';
+import { InputFormValues, ResponseContent, FileContent, UrlObj, LoggingOptions } from './FunctionEditor.types';
 import { VfsObject } from '../../../../../models/functions/vfs';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
 import {
-  pivotStyle,
   testLoadingStyle,
   commandBarSticky,
   logPanelStyle,
@@ -46,6 +45,8 @@ import Url from '../../../../../utils/url';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { PortalContext } from '../../../../../PortalContext';
 import { BindingManager } from '../../../../../utils/BindingManager';
+import FunctionAppService from '../../../../../utils/FunctionAppService';
+import { Links } from '../../../../../utils/FwLinks';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -61,6 +62,7 @@ export interface FunctionEditorProps {
   isUploadingFile: boolean;
   setIsUploadingFile: (isUploadingFile: boolean) => void;
   refreshFileList: () => void;
+  addCorsRule: (corsRule: string) => void;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
@@ -89,6 +91,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setIsUploadingFile,
     refreshFileList,
     workerRuntime,
+    addCorsRule,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -98,7 +101,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [selectedDropdownOption, setSelectedDropdownOption] = useState<IDropdownOption | undefined>(undefined);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [savingFile, setSavingFile] = useState<boolean>(false);
-  const [selectedPivotTab, setSelectedPivotTab] = useState(PivotType.input);
   const [monacoHeight, setMonacoHeight] = useState(defaultMonacoEditorHeight);
   const [logPanelExpanded, setLogPanelExpanded] = useState(false);
   const [logPanelFullscreen, setLogPanelFullscreen] = useState(false);
@@ -307,27 +309,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setShowDiscardConfirmDialog(false);
   };
 
-  const getPivotTabId = (itemKey: string, index: number): string => {
-    return `function-test-${itemKey}`;
-  };
-
-  const onPivotItemClick = (item?: PivotItem, ev?: React.MouseEvent<HTMLElement>) => {
-    if (!!item) {
-      setSelectedPivotTab(item.props.itemKey as PivotType);
-    }
-  };
-
   const getHeaderContent = (): JSX.Element => {
-    return (
-      <Pivot getTabId={getPivotTabId} className={pivotStyle} onLinkClick={onPivotItemClick} selectedKey={selectedPivotTab}>
-        <PivotItem itemKey={PivotType.input} linkText={t('functionTestInput')} />
-        <PivotItem itemKey={PivotType.output} linkText={t('functionTestOutput')} />
-      </Pivot>
-    );
-  };
-
-  const changePivotTab = (pivotItem: PivotType) => {
-    setSelectedPivotTab(pivotItem);
+    return <></>;
   };
 
   const toggleLogPanelExpansion = () => {
@@ -441,6 +424,31 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return SiteHelper.isFunctionAppReadOnly(appEditState);
   };
 
+  const getBanner = (): JSX.Element => {
+    /* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */
+    if (isAppReadOnly(siteStateContext.siteAppEditState)) {
+      return <EditModeBanner setBanner={setReadOnlyBanner} />;
+    } else if (!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) {
+      return (
+        <CustomBanner
+          message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
+          type={MessageBarType.error}
+        />
+      );
+    } else if (FunctionAppService.enableEditingForLinux(site, workerRuntime) && isLinuxDynamic(site)) {
+      // NOTE(krmitta): Banner is only visible in case of Linux Consumption
+      return (
+        <CustomBanner
+          message={t('enablePortalEditingForLinuxConsumptionWarning')}
+          type={MessageBarType.warning}
+          learnMoreLink={Links.setupLocalFunctionEnvironment}
+        />
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   useEffect(() => {
     setLogPanelHeight(logPanelExpanded ? minimumLogPanelHeight : 0);
 
@@ -452,12 +460,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logPanelExpanded, readOnlyBanner, logPanelHeight]);
-
-  useEffect(() => {
-    if (!!responseContent) {
-      changePivotTab(PivotType.output);
-    }
-  }, [responseContent]);
 
   useEffect(() => {
     if (!isRefreshing && !initialLoading) {
@@ -519,17 +521,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={onCancelButtonClick}
         />
-        {/* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */}
-        {isAppReadOnly(siteStateContext.siteAppEditState) ? (
-          <EditModeBanner setBanner={setReadOnlyBanner} />
-        ) : (
-          (!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
-            <CustomBanner
-              message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
-              type={MessageBarType.error}
-            />
-          )
-        )}
+        {getBanner()}
         <FunctionEditorFileSelectorBar
           disabled={isDisabled()}
           functionAppNameLabel={site.name}
@@ -543,7 +535,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         type={PanelType.medium}
         isOpen={showTestPanel}
         onDismiss={onCloseTest}
-        overlay={functionRunning}
+        overlay={functionRunning || isRefreshing}
         headerContent={getHeaderContent()}
         isBlocking={false}
         customStyle={testPanelStyle}>
@@ -555,12 +547,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           reqBody={reqBody}
           setReqBody={setReqBody}
           responseContent={responseContent}
-          selectedPivotTab={selectedPivotTab}
           functionRunning={functionRunning}
           testData={testData}
           urlObjs={urlObjs}
           xFunctionKey={xFunctionKey}
           getFunctionUrl={getFunctionUrl}
+          addCorsRule={addCorsRule}
         />
       </CustomPanel>
       {isLoading() && <LoadingComponent />}

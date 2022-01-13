@@ -3,7 +3,7 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 import { AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
 import { findFormAppSettingValue } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../../../../models/functions/runtime-extension';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { PermissionsContext } from '../Contexts';
@@ -39,6 +39,7 @@ const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = p
       case RuntimeExtensionMajorVersions.v1:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3:
+      case RuntimeExtensionMajorVersions.v4:
         // FUNCTIONS_EXTENSION_VERSION is set to a valid major version, so we don't need to show any warning/error
         return { messageText: '' };
       case '':

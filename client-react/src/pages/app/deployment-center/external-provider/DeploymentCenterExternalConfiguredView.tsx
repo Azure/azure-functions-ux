@@ -3,11 +3,12 @@ import { useTranslation } from 'react-i18next';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { Link, Icon } from 'office-ui-fabric-react';
+import { Link, Icon } from '@fluentui/react';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -48,19 +49,21 @@ const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProp
     // NOTE(michinoy): There can be multiple variations of the URL:
     // The protocol can be either https or http or ssh
     // The host part can be - username@domain.net/path/name.git
-    //                        username:password@domain.net/path/name.git
+    //                        username:password@domain.net/path/name.git or username:password@hostContents
     //                        domain.net/path/name.git
 
     const repoUrlParts = repoUrl.split('://');
     const protocol = repoUrlParts[0];
     const hostContents = repoUrlParts[1];
     const hostContentParts = hostContents ? hostContents.split('@') : [];
-    const domainContent = hostContentParts[1] ? hostContentParts[1] : hostContentParts[0];
+    const domainContent = !!hostContentParts && hostContentParts.length > 0 ? hostContentParts[hostContentParts.length - 1] : '';
     const usernameAndPassword = hostContentParts[1] ? hostContentParts[0] : '';
     const username = usernameAndPassword ? usernameAndPassword.split(':')[0] : '';
-
     setExternalUsername(username);
-    setRepo(protocol === 'http' || protocol === 'https' ? `${protocol}://${domainContent}` : protocol);
+    const isHttpOrHttps =
+      protocol === CommonConstants.DeploymentCenterConstants.httpWithoutSlash ||
+      protocol === CommonConstants.DeploymentCenterConstants.httpsWithoutSlash;
+    setRepo(isHttpOrHttps ? `${protocol}://${domainContent}` : protocol);
   };
 
   const getBranchLink = () => {

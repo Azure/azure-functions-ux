@@ -10,6 +10,7 @@ import {
   AcrFormData,
   DockerHubFormData,
   PrivateRegistryFormData,
+  ACRCredentialType,
 } from '../DeploymentCenter.types';
 import * as Yup from 'yup';
 import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
@@ -108,6 +109,9 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       acrPassword: Yup.mixed().notRequired(),
       acrResourceId: Yup.mixed().notRequired(),
       acrLocation: Yup.mixed().notRequired(),
+      acrCredentialType: Yup.mixed().notRequired(),
+      acrManagedIdentityType: Yup.mixed().notRequired(),
+      acrManagedIdentityPrincipalId: Yup.mixed().notRequired(),
     };
   }
 
@@ -217,11 +221,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
 
   private _getServerUrl(): string {
     const value = this._applicationSettings && this._applicationSettings.properties[DeploymentCenterConstants.serverUrlSetting];
-    if (!!value && this._isAcrConfigured(value)) {
-      return value;
-    }
-
-    return value ? value.toLocaleLowerCase() : '';
+    return !!value ? value : '';
   }
 
   private _getUsername(): string {
@@ -279,9 +279,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     // NOTE(michinoy): For ACR the username is not in the FxVersion. The image and/or tags could definitely have /'s.
     // In this case, remove the serverInfo from the FxVersion and compute the image and tag by splitting on :.
 
-    const acrHost = appSettingServerUrl
-      ? this._getHostFromServerUrl(appSettingServerUrl, true)
-      : this._getHostFromServerUrl(registryInfo, true);
+    const acrHost = appSettingServerUrl ? this._getHostFromServerUrl(appSettingServerUrl) : this._getHostFromServerUrl(registryInfo);
 
     if (isDockerCompose) {
       return {
@@ -315,7 +313,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         composeYml: atob(registryInfo),
       };
     } else {
-      const imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(`${DeploymentCenterConstants.dockerHubServerUrlHost}/`, '');
+      const imageAndTagInfo = registryInfo.replace(`${DeploymentCenterConstants.dockerHubServerUrlHost}/`, '');
       const imageAndTagParts = imageAndTagInfo.split(':');
 
       return {
@@ -333,7 +331,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     // Each registry would have its own convention forked from how dockerHub does things. In this case, we have
     // the serverUrl, we should remove that, but return the rest as image and tag.
 
-    const privateRegistryHost = this._getHostFromServerUrl(appSettingServerUrl, false);
+    const privateRegistryHost = this._getHostFromServerUrl(appSettingServerUrl);
 
     if (isDockerCompose) {
       return {
@@ -344,7 +342,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         composeYml: atob(registryInfo),
       };
     } else {
-      const imageAndTagInfo = registryInfo.toLocaleLowerCase().replace(`${privateRegistryHost}/`, '');
+      const imageAndTagInfo = registryInfo.replace(`${privateRegistryHost}/`, '');
       const imageAndTagParts = imageAndTagInfo.split(':');
 
       return {
@@ -358,6 +356,15 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getAcrFormData(serverUrl: string, username: string, password: string, fxVersionParts: FxVersionParts): AcrFormData {
+    let acrCredentialType = ACRCredentialType.adminCredentials;
+    let acrManagedIdentityType = '';
+    if (!!this._siteConfig && !!this._siteConfig.properties) {
+      acrCredentialType = this._siteConfig.properties.acrUseManagedIdentityCreds
+        ? ACRCredentialType.managedIdentity
+        : ACRCredentialType.adminCredentials;
+      acrManagedIdentityType = this._siteConfig.properties.acrUserManagedIdentityID || '';
+    }
+
     if (this._isAcrConfigured(serverUrl)) {
       return {
         acrLoginServer: fxVersionParts.server,
@@ -368,6 +375,9 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         acrPassword: password,
         acrResourceId: '',
         acrLocation: '',
+        acrCredentialType,
+        acrManagedIdentityType,
+        acrManagedIdentityPrincipalId: '',
       };
     } else {
       return {
@@ -379,6 +389,9 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         acrPassword: '',
         acrResourceId: '',
         acrLocation: '',
+        acrCredentialType,
+        acrManagedIdentityType,
+        acrManagedIdentityPrincipalId: '',
       };
     }
   }
@@ -458,12 +471,11 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     return fxVersionParts[0].toLocaleLowerCase() === DeploymentCenterConstants.composePrefix.toLocaleLowerCase();
   }
 
-  private _getHostFromServerUrl(serverUrl: string, caseSensitiveCheck: boolean): string {
+  private _getHostFromServerUrl(serverUrl: string): string {
     // In case of either https://xyz.com or https://xyz.com/ or https://xyz.com/a return xyz.com
     //(note) stpelleg: ACR requires a case sensitive check but private registry does not
-    const host = caseSensitiveCheck
-      ? serverUrl.replace(CommonConstants.DeploymentCenterConstants.https, '')
-      : serverUrl.toLocaleLowerCase().replace(CommonConstants.DeploymentCenterConstants.https, '');
+    const host = serverUrl.replace(CommonConstants.DeploymentCenterConstants.https, '');
+
     const hostParts = host.split('/');
     return hostParts.length > 0 ? hostParts[0] : serverUrl;
   }

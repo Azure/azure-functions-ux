@@ -1,5 +1,5 @@
 import React from 'react';
-import { ICommandBarItemProps, CommandBar, IButtonProps } from 'office-ui-fabric-react';
+import { ICommandBarItemProps, CommandBar, IButtonProps } from '@fluentui/react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { useTranslation } from 'react-i18next';
@@ -18,10 +18,11 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
   const { t } = useTranslation();
   const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
 
-  const getSaveCommandBarItem = (saveDiscardDisabled: boolean) => {
+  const getSaveCommandBarItem = (saveDiscardDisabled: boolean): ICommandBarItemProps => {
     return {
       key: 'save',
       text: t('save'),
+      ariaLabel: t('save'),
       iconProps: {
         iconName: 'Save',
       },
@@ -30,10 +31,11 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
     };
   };
 
-  const getDiscardCommandBarItem = (saveDiscardDisabled: boolean) => {
+  const getDiscardCommandBarItem = (saveDiscardDisabled: boolean): ICommandBarItemProps => {
     return {
       key: 'discard',
       text: t('discard'),
+      ariaLabel: t('discard'),
       iconProps: {
         iconName: 'ChromeClose',
       },
@@ -42,10 +44,11 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
     };
   };
 
-  const getRefreshCommandBarItem = () => {
+  const getRefreshCommandBarItem = (): ICommandBarItemProps => {
     return {
       key: 'refresh',
       text: t('refresh'),
+      ariaLabel: t('refresh'),
       iconProps: {
         iconName: 'Refresh',
       },

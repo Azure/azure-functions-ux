@@ -11,7 +11,7 @@ import {
   PublishType,
   RuntimeStackOptions,
 } from '../DeploymentCenter.types';
-import { KeyCodes } from 'office-ui-fabric-react';
+import { KeyCodes } from '@fluentui/react';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
 import { useTranslation } from 'react-i18next';
@@ -49,6 +49,7 @@ import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { Guid } from '../../../../utils/Guid';
 import { KeyValue } from '../../../../models/portal-models';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { RepoTypeOptions } from '../../../../models/external';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -192,7 +193,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       case ScmType.OneDrive:
         return `${DeploymentCenterConstants.onedriveApiUri}:/${values.folder}`;
       case ScmType.Dropbox:
-        // TODO: (stpelleg): Pending Implementation of these ScmTypes
         return `${DeploymentCenterConstants.dropboxUri}/${values.folder}`;
       case ScmType.LocalGit:
         //(note: stpelleg): Local Git does not require a Repo Url
@@ -202,7 +202,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         const protocol = repoUrlParts[0];
         const hostContents = repoUrlParts[1];
 
-        if (values.externalUsername && values.externalPassword) {
+        if (values.externalRepoType === RepoTypeOptions.Private && !!values.externalUsername && !!values.externalPassword) {
           return `${protocol}://${values.externalUsername}:${values.externalPassword}@${hostContents}`;
         }
         return values.repo;
