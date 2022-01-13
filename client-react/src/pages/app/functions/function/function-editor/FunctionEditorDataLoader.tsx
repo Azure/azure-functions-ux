@@ -365,7 +365,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       return {
         uri: url,
         type: 'POST',
-        headers: headers,
+        headers: { ...headers, LiveLogsSessionId: liveLogsSessionId || '', sessionIdKey: 'ai_SessionId' },
         data: newFunctionInfo.properties.test_data || '',
       };
     }
