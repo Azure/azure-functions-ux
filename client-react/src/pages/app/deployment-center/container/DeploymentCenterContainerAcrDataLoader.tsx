@@ -479,7 +479,9 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   };
 
   const setAcrResourceId = () => {
-    formProps.values.acrResourceId = registryIdentifiers.current[formProps.values.acrLoginServer].resourceId;
+    if (!!formProps.values.acrLoginServer && !!registryIdentifiers.current[formProps.values.acrLoginServer]) {
+      formProps.values.acrResourceId = registryIdentifiers.current[formProps.values.acrLoginServer].resourceId;
+    }
   };
 
   useEffect(() => {

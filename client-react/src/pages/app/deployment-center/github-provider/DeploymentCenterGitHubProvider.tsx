@@ -29,61 +29,53 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
     clearComboBox,
   } = props;
 
-  const deprecatedTokensBanner = hasDeprecatedToken ? (
-    <div id="deployment-center-deprecated-token-banner" className={deploymentCenterInfoBannerDiv} onClick={() => toggleHideDialog(false)}>
-      <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
-        {`${t('deploymentCenterDeprecatedTokenWarningMessage')}`}
-      </MessageBar>
-    </div>
-  ) : (
-    <></>
-  );
-
-  const deprecatedTokensDialog = hasDeprecatedToken ? (
-    <div>
-      <Dialog
-        hidden={hideDialog}
-        onDismiss={() => toggleHideDialog(true)}
-        dialogContentProps={{
-          type: DialogType.normal,
-          title: `${t('deploymentCenterDeprecatedTokenDialogTitle')}`,
-          subText: `${t('deploymentCenterDeprecatedTokenDialogBody')}`,
-        }}>
-        <DialogFooter>
-          <PrimaryButton
-            onClick={() => {
-              toggleHideDialog(true);
-              resetToken ? resetToken() : () => {};
-            }}
-            text={`${t('update')}`}
-          />
-          <DefaultButton onClick={() => toggleHideDialog(true)} text={`${t('cancel')}`} />
-        </DialogFooter>
-      </Dialog>
-    </div>
-  ) : (
-    <></>
-  );
-
-  const updateTokenSuccessBanner = updateTokenSuccess ? (
-    <div id="deployment-center-update-token-success-banner" className={deploymentCenterInfoBannerDiv} hidden={hideMessage}>
-      <MessageBar messageBarType={MessageBarType.success} isMultiline={false} onDismiss={() => toggleHideMessage(true)}>
-        {`${t('deploymentCenterUpdateTokenSuccessMessage')}`}
-      </MessageBar>
-    </div>
-  ) : (
-    <></>
-  );
-
   return (
     <>
       <h3>{siteStateContext.isContainerApp ? t('deploymentCenterContainerGitHubActionsTitle') : t('deploymentCenterCodeGitHubTitle')}</h3>
 
       <DeploymentCenterGitHubAccount {...props} />
 
-      {deprecatedTokensBanner}
-      {deprecatedTokensDialog}
-      {updateTokenSuccessBanner}
+      {!!hasDeprecatedToken && (
+        <>
+          <div
+            id="deployment-center-deprecated-token-banner"
+            className={deploymentCenterInfoBannerDiv}
+            onClick={() => toggleHideDialog(false)}>
+            <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
+              {`${t('deploymentCenterDeprecatedTokenWarningMessage')}`}
+            </MessageBar>
+          </div>
+          <div>
+            <Dialog
+              hidden={hideDialog}
+              onDismiss={() => toggleHideDialog(true)}
+              dialogContentProps={{
+                type: DialogType.normal,
+                title: `${t('deploymentCenterDeprecatedTokenDialogTitle')}`,
+                subText: `${t('deploymentCenterDeprecatedTokenDialogBody')}`,
+              }}>
+              <DialogFooter>
+                <PrimaryButton
+                  onClick={() => {
+                    toggleHideDialog(true);
+                    resetToken ? resetToken() : () => {};
+                  }}
+                  text={`${t('update')}`}
+                />
+                <DefaultButton onClick={() => toggleHideDialog(true)} text={`${t('cancel')}`} />
+              </DialogFooter>
+            </Dialog>
+          </div>
+        </>
+      )}
+
+      {!!updateTokenSuccess && (
+        <div id="deployment-center-update-token-success-banner" className={deploymentCenterInfoBannerDiv} hidden={hideMessage}>
+          <MessageBar messageBarType={MessageBarType.success} isMultiline={false} onDismiss={() => toggleHideMessage(true)}>
+            {`${t('deploymentCenterUpdateTokenSuccessMessage')}`}
+          </MessageBar>
+        </div>
+      )}
 
       {accountUser && accountUser.login && (
         <>
@@ -115,7 +107,7 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
             required={true}
             isLoading={loadingRepositories}
             searchable={true}
-            clearComboBox={clearComboBox ? clearComboBox.repo : false}
+            clearComboBox={!!clearComboBox && clearComboBox.repo}
           />
           <Field
             id="deployment-center-settings-branch-option"
@@ -130,7 +122,7 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
             defaultSelectedKey={formProps.values.branch}
             required={true}
             isLoading={loadingBranches}
-            clearComboBox={clearComboBox ? clearComboBox.branch : false}
+            clearComboBox={!!clearComboBox && clearComboBox.branch}
           />
         </>
       )}

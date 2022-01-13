@@ -7210,7 +7210,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Provide parameters to test your function in the portal. Results can be found in the Output tab.</value>
     </data>
     <data name="missingCorsMessage" xml:space="preserve">
-        <value>Your app is missing the CORS rule, '{0}'. Click here to add the rule to test the function from the browser.</value>
+        <value>Running your function in portal requires the app to explicitly accept requests from {0}. This is known as cross-origin resource sharing (CORS). Click here to add {0} to the allowed origin configuration.</value>
     </data>
     <data name="invalidCronExpressionMessage" xml:space="preserve">
         <value>Invalid Cron Expression. Please consult the &lt;a href="{0}" target="_blank"&gt;documentation&lt;/a&gt; to learn more.</value>
@@ -7225,7 +7225,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Select managed identity</value>
     </data>
     <data name="managedIdentityInfoMessage" xml:space="preserve">
-        <value>Image and tag fields will not auto populate. Please manually enter the image and tag below.</value>
+        <value>When using managed identity, image and tag fields will not auto populate. Please manually enter the image and tag below.</value>
     </data>
     <data name="acrCredentialsWarningMessage" xml:space="preserve">
         <value>Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below.</value>

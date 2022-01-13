@@ -45,6 +45,11 @@ export class WorkflowAppEnvironment extends FunctionAppEnvironment {
       id: ScenarioIds.clientAffinitySupported,
       runCheck: () => ({ status: 'disabled' }),
     };
+
+    this.scenarioChecks[ScenarioIds.incomingClientCertSupported] = {
+      id: ScenarioIds.incomingClientCertSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

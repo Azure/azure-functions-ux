@@ -96,14 +96,6 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
   return (
     <>
-      {acrUseManagedIdentities && (
-        <div id="acr-managed-identities-info-banner" className={deploymentCenterAcrBannerDiv}>
-          <MessageBar id="acr-info-message-bar" messageBarType={MessageBarType.info} isMultiline={true}>
-            {t('managedIdentityInfoMessage')}
-          </MessageBar>
-        </div>
-      )}
-
       {acrStatusMessage && acrStatusMessageType && (
         <div id="acr-status-message-type-div" className={deploymentCenterAcrBannerDiv}>
           <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} learnMoreLink={learnMoreLink} />
@@ -131,20 +123,22 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         ]}
         displayInVerticalLayout={true}
       />
-      <Field
-        id="container-acr-managed-identities-type"
-        label={t('identity')}
-        name="acrManagedIdentityType"
-        component={ComboBox}
-        placeholder={t('managedIdentityTypePlaceholder')}
-        options={managedIdentityOptions}
-        onRenderLowerContent={() => (
-          <Link id="container-acr-add-identity-link" className={addIdentityLinkStyle} onClick={openIdentityBlade}>
-            {t('addIdentity')}
-          </Link>
-        )}
-        disabled={!acrUseManagedIdentities || loadingManagedIdentities}
-      />
+      {acrUseManagedIdentities && (
+        <Field
+          id="container-acr-managed-identities-type"
+          label={t('identity')}
+          name="acrManagedIdentityType"
+          component={ComboBox}
+          placeholder={t('managedIdentityTypePlaceholder')}
+          options={managedIdentityOptions}
+          isLoading={loadingManagedIdentities}
+          onRenderLowerContent={() => (
+            <Link id="container-acr-add-identity-link" className={addIdentityLinkStyle} onClick={openIdentityBlade}>
+              {t('addIdentity')}
+            </Link>
+          )}
+        />
+      )}
       <Field
         id="container-acr-repository"
         label={t('containerACRRegistry')}
@@ -164,6 +158,14 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         <>
           {!isGitHubActionSelected && (
             <>
+              {acrUseManagedIdentities && (
+                <div id="acr-managed-identities-info-banner" className={deploymentCenterAcrBannerDiv}>
+                  <MessageBar id="acr-info-message-bar" messageBarType={MessageBarType.info} isMultiline={true}>
+                    {t('managedIdentityInfoMessage')}
+                  </MessageBar>
+                </div>
+              )}
+
               <Field
                 id="container-acr-image"
                 label={t('containerACRImage')}

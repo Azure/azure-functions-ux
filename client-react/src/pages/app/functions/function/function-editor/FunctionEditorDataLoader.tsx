@@ -30,7 +30,7 @@ import { useTranslation } from 'react-i18next';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { NetAjaxSettings } from '../../../../../models/ajax-request-model';
 import { PortalContext } from '../../../../../PortalContext';
-import { isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
+import { getJQXHR, isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
 import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
@@ -361,7 +361,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         uri: url,
         type: 'POST',
         headers: headers,
-        data: { input: newFunctionInfo.properties.test_data || '' },
+        data: newFunctionInfo.properties.test_data || '',
       };
     }
     return undefined;
@@ -387,12 +387,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
     if (!!settings) {
       let response: ResponseContent = { code: 0, text: '' };
-
-      if (Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.makeCallThroughPortal)) {
-        response = await runUsingPortal(settings);
-      } else {
-        response = await runUsingPassthrough(settings);
-      }
+      response = await runUsingPortal(settings);
 
       setResponseContent({
         code: response.code,
@@ -402,31 +397,15 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     setFunctionRunning(false);
   };
 
-  const runUsingPassthrough = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
-    let response: ResponseContent = { code: 0, text: '' };
-
-    const runFunctionResponse = await FunctionsService.runFunction(settings);
-    response.code = runFunctionResponse.metadata.status;
-    if (runFunctionResponse.metadata.success) {
-      response.text = runFunctionResponse.data as string;
-    } else {
-      response.text = runFunctionResponse.metadata.error;
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'runFunction',
-        `Failed to runFunction: ${getErrorMessageOrStringify(runFunctionResponse.metadata.error)}`
-      );
-    }
-
-    return response;
-  };
-
   const runUsingPortal = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
     let response: ResponseContent = { code: 0, text: '' };
 
     const runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
     const runFunctionResponseResult = runFunctionResponse.result;
-    response.code = runFunctionResponseResult.jqXHR.status;
+    const jqXHR = getJQXHR(runFunctionResponse, LogCategories.FunctionEdit, 'makeHttpRequestForRunFunction');
+    if (!!jqXHR) {
+      response.code = jqXHR.status;
+    }
 
     if (isPortalCommunicationStatusSuccess(runFunctionResponse.status)) {
       response.text = runFunctionResponseResult.content;
@@ -434,14 +413,16 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       if (response.code !== 200) {
         LogService.error(
           LogCategories.FunctionEdit,
-          'runFunction',
+          'makeHttpRequestForRunFunction',
           `Failed to run function: ${getErrorMessageOrStringify(runFunctionResponseResult)}`
         );
       }
     } else {
       // NOTE(krmitta): This happens when the http request on the portal fails for some reason,
       // not the api returning the error
-      response.text = runFunctionResponseResult;
+      if (!!jqXHR) {
+        response.text = jqXHR.statusText;
+      }
       LogService.error(
         LogCategories.FunctionEdit,
         'makeHttpRequestForRunFunction',
@@ -491,13 +472,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
-  const getAuthorizationHeaders = (): KeyValue<string> => {
-    return {
-      Authorization: `Bearer ${startupInfoContext.token}`,
-      FunctionsPortal: '1',
-    };
-  };
-
   const getAndSetTestData = async () => {
     if (!!functionInfo && !!site && !!functionInfo.properties.test_data_href) {
       const testDataHrefObjects = functionInfo.properties.test_data_href.split('/vfs/');
@@ -520,20 +494,21 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
       // Note (krmitta): Almost always we should be able to get the test_data through VFS Arm.
       // Adding the below fallback logic just on the off-chance that it doesn't.
-      if (!testDataResponseSuccess && !Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.makeCallThroughPortal)) {
-        const headers = getAuthorizationHeaders();
-        const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(
-          functionInfo.properties.test_data_href,
-          'GET',
-          headers
-        );
-        if (functionHrefTestDataResponse.metadata.success) {
-          testData = functionHrefTestDataResponse.data;
+      if (!testDataResponseSuccess) {
+        const headers = getHeaders([], getDefaultXFunctionKey());
+        const functionHrefTestDataResponse = await portalContext.makeHttpRequestsViaPortal({
+          uri: functionInfo.properties.test_data_href,
+          type: 'GET',
+          headers: headers,
+        });
+
+        if (isPortalCommunicationStatusSuccess(functionHrefTestDataResponse.status)) {
+          testData = functionHrefTestDataResponse.result;
         } else {
           LogService.error(
             LogCategories.FunctionEdit,
             'GetTestDataUsingFunctionHref',
-            `Failed to get test data: ${getErrorMessageOrStringify(functionHrefTestDataResponse.metadata.error)}`
+            `Failed to get test data: ${getErrorMessageOrStringify(functionHrefTestDataResponse)}`
           );
         }
       }

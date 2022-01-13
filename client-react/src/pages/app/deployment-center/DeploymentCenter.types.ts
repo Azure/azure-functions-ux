@@ -730,6 +730,7 @@ export interface SearchTermObserverInfo {
   setLoadingRepositories: React.Dispatch<React.SetStateAction<boolean>>;
   setRepositoryOptions: React.Dispatch<React.SetStateAction<IDropdownOption[]>>;
   fetchBranchOptions: (org: string, repo: string) => Promise<void>;
+  setClearComboBox: React.Dispatch<React.SetStateAction<KeyValue<boolean>>>;
   repositoryUrl: string;
   deploymentCenterData: DeploymentCenterData;
   deploymentCenterContext: IDeploymentCenterContext;

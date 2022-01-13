@@ -16,7 +16,7 @@ import { ValidationRegex } from '../../../../../../utils/constants/ValidationReg
 import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../../../utils/FwLinks';
 import { FunctionEditorContext } from '../FunctionEditorDataLoader';
-import { CommonConstants, OverflowBehavior } from '../../../../../../utils/CommonConstants';
+import { OverflowBehavior } from '../../../../../../utils/CommonConstants';
 import Url from '../../../../../../utils/url';
 
 export interface FunctionTestProps {
@@ -192,15 +192,14 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     addCorsRule(getCorsRuleToRunFromBrowser());
   };
 
-  const checkCorsAndDisableTest = () => !isCorsRuleAdded() && Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.makeCallThroughPortal);
-
   const getBanner = () => {
-    if (checkCorsAndDisableTest()) {
+    if (!isCorsRuleAdded()) {
       return (
         <CustomBanner
           message={t('missingCorsMessage').format(getCorsRuleToRunFromBrowser())}
           type={MessageBarType.warning}
           undocked={true}
+          learnMoreLink={Links.corsLearnMore}
           onClick={() => {
             onMissingCorsMessageClick();
           }}
@@ -241,7 +240,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           id: 'run',
           title: t('run'),
           onClick: formProps.submitForm,
-          disable: !!statusMessage || checkCorsAndDisableTest(),
+          disable: !!statusMessage || !isCorsRuleAdded(),
           autoFocus: true,
         };
 
