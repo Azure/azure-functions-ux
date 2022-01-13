@@ -62,7 +62,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isUploadingFile, setIsUploadingFile] = useState(false);
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
-  const [liveLogsSessionId, setLiveLogsSessionId] = useState<string>('');
 
   const siteContext = useContext(SiteRouterContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -375,7 +374,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string, liveLogsSessionId?: string) => {
     setFunctionRunning(true);
-    setLiveLogsSessionId(liveLogsSessionId || '');
 
     if (!SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
       const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);

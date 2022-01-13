@@ -67,7 +67,7 @@ export class CommonConstants {
     enableACRManagedIdentities: 'enableACRManagedIdentities',
     makeCallThroughPortal: 'makeCallThroughPortal',
     useStackApiForRuntimeVersion: 'useStackApiForRuntimeVersion',
-    useNewFunctionLogsApi: 'useNewFunctionLogsApi',
+    useNewFunctionLogsApi: 'useNewFunctionLogsApi', //websitesextension_ext=appsvc.useNewFunctionLogsApi%3Dtrue
   };
 
   public static readonly AppDensityLimit = 8;

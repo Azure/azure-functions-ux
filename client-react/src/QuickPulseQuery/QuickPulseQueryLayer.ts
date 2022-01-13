@@ -84,17 +84,30 @@ export class QuickPulseQueryLayer {
   public setConfiguration(
     metrics: qpschema.QPSchemaConfigurationMetric[],
     documentStreams: QPSchemaDocumentStreamInfo[],
-    trustedAuthorizedAgents: string[]
+    trustedAuthorizedAgents: string[],
+    liveLogsSessionId?: string
   ) {
     this._configurationVersion++;
-
-    let configuration: qpschema.QPSchemaConfigurationSession = {
-      Id: this._id,
-      Version: this._configurationVersion,
-      Metrics: metrics,
-      DocumentStreams: documentStreams,
-      TrustedUnauthorizedAgents: trustedAuthorizedAgents,
-    };
+    let configuration;
+    if (!!liveLogsSessionId) {
+      configuration = {
+        Id: this._id,
+        Version: this._configurationVersion,
+        SessionFilter: {
+          FilterByFieldName: 'SessionId',
+          FilterByValue: liveLogsSessionId,
+        },
+        TelemetryTypes: ['Request', 'Dependency', 'Exception'],
+      };
+    } else {
+      configuration = {
+        Id: this._id,
+        Version: this._configurationVersion,
+        Metrics: metrics,
+        DocumentStreams: documentStreams,
+        TrustedUnauthorizedAgents: trustedAuthorizedAgents,
+      };
+    }
 
     // copy the object for post-processing
     configuration = JSON.parse(JSON.stringify(configuration));
@@ -264,8 +277,8 @@ export class QuickPulseQueryLayer {
     };
   }
 
-  private getDetailedRequestV2(authorizationHeader: string, sessionHeader?: string): WebRequest {
-    let quickPulseEndpointUrl = `${this._endpoint}/queryLogs&seqNumber=${this._detailedSessionInfo.seqNumber}`;
+  private getDetailedRequestV2(authorizationHeader: string, sessionHeader?: string): any {
+    let quickPulseEndpointUrl = `${this._endpoint}/queryLogs&SeqNumber=${this._detailedSessionInfo.seqNumber}`;
 
     return {
       type: 'POST',
@@ -273,11 +286,7 @@ export class QuickPulseQueryLayer {
       timeout: 10000, // timeout after 10 seconds - don't need this request anymore
       headers: {
         Authorization: authorizationHeader,
-        Id: this._detailedSessionInfo.liveLogsSessionId,
-        SessionFilter: {
-          FilterByFieldName: 'SessionId',
-          FilterByValue: this._detailedSessionInfo.liveLogsSessionId,
-        },
+        'x-ms-qps-query-session': sessionHeader,
       },
       data: this._configuration,
     };
@@ -286,18 +295,20 @@ export class QuickPulseQueryLayer {
   private postProcessConfiguration(configuration: qpschema.QPSchemaConfigurationSession): void {
     if (configuration) {
       // process metrics
-      for (let metricIndex = 0; metricIndex < configuration.Metrics.length; ++metricIndex) {
-        let metric: QPSchemaConfigurationMetric = configuration.Metrics[metricIndex];
-        if (metric.FilterGroups) {
-          for (let i = 0; i < metric.FilterGroups.length; ++i) {
-            let filterGroup = metric.FilterGroups[i];
-            if (filterGroup.Filters) {
-              for (let j = 0; j < filterGroup.Filters.length; ++j) {
-                let filter = filterGroup.Filters[j];
+      if (!!configuration.Metrics) {
+        for (let metricIndex = 0; metricIndex < configuration.Metrics.length; ++metricIndex) {
+          let metric: QPSchemaConfigurationMetric = configuration.Metrics[metricIndex];
+          if (metric.FilterGroups) {
+            for (let i = 0; i < metric.FilterGroups.length; ++i) {
+              let filterGroup = metric.FilterGroups[i];
+              if (filterGroup.Filters) {
+                for (let j = 0; j < filterGroup.Filters.length; ++j) {
+                  let filter = filterGroup.Filters[j];
 
-                // convert ms -> timespan for durations
-                if (filter.FieldName === RequestFieldsEnum.Duration || filter.FieldName === DependencyFieldsEnum.Duration) {
-                  filter.Comparand = QuickPulseQueryLayer.ConvertMillisecondsToTimestamp(filter.Comparand);
+                  // convert ms -> timespan for durations
+                  if (filter.FieldName === RequestFieldsEnum.Duration || filter.FieldName === DependencyFieldsEnum.Duration) {
+                    filter.Comparand = QuickPulseQueryLayer.ConvertMillisecondsToTimestamp(filter.Comparand);
+                  }
                 }
               }
             }
@@ -306,18 +317,20 @@ export class QuickPulseQueryLayer {
       }
 
       // process document streams
-      for (let documentStreamIndex = 0; documentStreamIndex < configuration.DocumentStreams.length; ++documentStreamIndex) {
-        let documentStream: QPSchemaDocumentStreamInfo = configuration.DocumentStreams[documentStreamIndex];
-        if (documentStream.DocumentFilterGroups) {
-          for (let i = 0; i < documentStream.DocumentFilterGroups.length; ++i) {
-            let filterGroup = documentStream.DocumentFilterGroups[i];
-            if (filterGroup.Filters && filterGroup.Filters.Filters) {
-              for (let j = 0; j < filterGroup.Filters.Filters.length; ++j) {
-                let filter = filterGroup.Filters.Filters[j];
+      if (configuration.DocumentStreams) {
+        for (let documentStreamIndex = 0; documentStreamIndex < configuration.DocumentStreams.length; ++documentStreamIndex) {
+          let documentStream: QPSchemaDocumentStreamInfo = configuration.DocumentStreams[documentStreamIndex];
+          if (documentStream.DocumentFilterGroups) {
+            for (let i = 0; i < documentStream.DocumentFilterGroups.length; ++i) {
+              let filterGroup = documentStream.DocumentFilterGroups[i];
+              if (filterGroup.Filters && filterGroup.Filters.Filters) {
+                for (let j = 0; j < filterGroup.Filters.Filters.length; ++j) {
+                  let filter = filterGroup.Filters.Filters[j];
 
-                // convert ms -> timespan for durations
-                if (filter.FieldName === RequestFieldsEnum.Duration || filter.FieldName === DependencyFieldsEnum.Duration) {
-                  filter.Comparand = QuickPulseQueryLayer.ConvertMillisecondsToTimestamp(filter.Comparand);
+                  // convert ms -> timespan for durations
+                  if (filter.FieldName === RequestFieldsEnum.Duration || filter.FieldName === DependencyFieldsEnum.Duration) {
+                    filter.Comparand = QuickPulseQueryLayer.ConvertMillisecondsToTimestamp(filter.Comparand);
+                  }
                 }
               }
             }
