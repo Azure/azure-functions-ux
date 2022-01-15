@@ -35,7 +35,7 @@
     "font-awesome": "^4.7.0",
     "jsonschema": "^1.1.1",
     "lodash-es": "^4.17.8",
-    "marked": "^0.8.0",
+    "marked": "^4.0.10",
     "moment-mini-ts": "^2.20.1",
     "monaco-editor": "^0.10.0",
     "ng-sidebar": "^7.1.0",
