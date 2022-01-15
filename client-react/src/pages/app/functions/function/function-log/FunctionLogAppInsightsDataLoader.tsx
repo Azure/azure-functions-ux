@@ -111,9 +111,6 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     tokenComponent: QuickPulseToken,
     liveLogsSessionId?: string
   ) => {
-    if (!!liveLogsSessionId) {
-      quickPulseQueryLayer.setConfiguration([], getDefaultDocumentStreams(), [], liveLogsSessionId);
-    }
     quickPulseQueryLayer
       .queryDetails(tokenComponent.token, false, '', liveLogsSessionId || '')
       .then((dataV2: SchemaResponseV2) => {

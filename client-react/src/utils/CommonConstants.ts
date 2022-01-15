@@ -131,6 +131,14 @@ export class CommonConstants {
     usNat: 'https://live.applicationinsights.azure.eaglex.ic.gov/QuickPulseService.svc',
   };
 
+  public static readonly QuickPulseEndpointsWithoutService = {
+    public: 'https://rt.services.visualstudio.com',
+    fairfax: 'https://quickpulse.applicationinsights.us',
+    mooncake: 'https://live.applicationinsights.azure.cn',
+    usSec: 'https://live.applicationinsights.azure.microsoft.scloud',
+    usNat: 'https://live.applicationinsights.azure.eaglex.ic.gov',
+  };
+
   public static readonly AppInsightsEndpoints = {
     public: 'https://api.applicationinsights.io/v1/apps',
     fairfax: 'https://api.applicationinsights.us/v1/apps',

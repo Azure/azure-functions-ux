@@ -3,6 +3,7 @@ import { QPSchemaConfigurationMetric, QPSchemaDocumentStreamInfo, RequestFieldsE
 import axios, { AxiosRequestConfig } from 'axios';
 import Url from '../utils/url';
 import { CommonConstants } from '../utils/CommonConstants';
+import { TelemetryTypesEnum } from '.';
 
 // tslint:disable: max-classes-per-file
 
@@ -84,30 +85,16 @@ export class QuickPulseQueryLayer {
   public setConfiguration(
     metrics: qpschema.QPSchemaConfigurationMetric[],
     documentStreams: QPSchemaDocumentStreamInfo[],
-    trustedAuthorizedAgents: string[],
-    liveLogsSessionId?: string
+    trustedAuthorizedAgents: string[]
   ) {
     this._configurationVersion++;
-    let configuration;
-    if (!!liveLogsSessionId) {
-      configuration = {
-        Id: this._id,
-        Version: this._configurationVersion,
-        SessionFilter: {
-          FilterByFieldName: 'SessionId',
-          FilterByValue: liveLogsSessionId,
-        },
-        TelemetryTypes: ['Request', 'Dependency', 'Exception'],
-      };
-    } else {
-      configuration = {
-        Id: this._id,
-        Version: this._configurationVersion,
-        Metrics: metrics,
-        DocumentStreams: documentStreams,
-        TrustedUnauthorizedAgents: trustedAuthorizedAgents,
-      };
-    }
+    let configuration = {
+      Id: this._id,
+      Version: this._configurationVersion,
+      Metrics: metrics,
+      DocumentStreams: documentStreams,
+      TrustedUnauthorizedAgents: trustedAuthorizedAgents,
+    };
 
     // copy the object for post-processing
     configuration = JSON.parse(JSON.stringify(configuration));
@@ -277,8 +264,28 @@ export class QuickPulseQueryLayer {
     };
   }
 
-  private getDetailedRequestV2(authorizationHeader: string, sessionHeader?: string): any {
-    let quickPulseEndpointUrl = `${this._endpoint}/queryLogs&SeqNumber=${this._detailedSessionInfo.seqNumber}`;
+  private getDetailedRequestV2(authorizationHeader: string, sessionHeader: string): WebRequest {
+    console.log(this._endpoint.replace('/QuickPulseService.svc', ''));
+    const endpointWithoutQuickPulse =
+      this._endpoint.replace('/QuickPulseService.svc', '') || CommonConstants.QuickPulseEndpointsWithoutService.public;
+    let quickPulseEndpointUrl = `${endpointWithoutQuickPulse}/queryLogs?seqNumber=${this._detailedSessionInfo.seqNumber}`;
+    const configuration = {
+      Id: this._id,
+      Version: this._configurationVersion,
+      SessionFilter: {
+        FilterByFieldName: 'LiveLogsSessionId',
+        FilterByValue: this._detailedSessionInfo.liveLogsSessionId,
+      },
+      TelemetryTypes: [
+        TelemetryTypesEnum.Request,
+        TelemetryTypesEnum.Trace,
+        TelemetryTypesEnum.Dependency,
+        TelemetryTypesEnum.Exception,
+        TelemetryTypesEnum.Event,
+        TelemetryTypesEnum.Metric,
+        TelemetryTypesEnum.PerformanceCounter,
+      ],
+    };
 
     return {
       type: 'POST',
@@ -288,7 +295,7 @@ export class QuickPulseQueryLayer {
         Authorization: authorizationHeader,
         'x-ms-qps-query-session': sessionHeader,
       },
-      data: this._configuration,
+      data: JSON.stringify(configuration),
     };
   }
 
