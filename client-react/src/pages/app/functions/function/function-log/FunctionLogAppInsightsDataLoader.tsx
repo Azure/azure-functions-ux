@@ -114,7 +114,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     quickPulseQueryLayer
       .queryDetails(tokenComponent.token, false, '', liveLogsSessionId || '')
       .then((dataV2: SchemaResponseV2) => {
-        if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
+        if (!!dataV2 && dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
           let newDocs = dataV2.DataRanges[0].Documents.filter(
             doc => !!doc.Content.Message && (!functionName || doc.Content.OperationName === functionName)
           );

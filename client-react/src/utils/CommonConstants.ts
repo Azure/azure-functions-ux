@@ -132,12 +132,15 @@ export class CommonConstants {
   };
 
   public static readonly QuickPulseEndpointsWithoutService = {
+    quickPulseEndpoint: '/QuickPulseService.svc',
     public: 'https://rt.services.visualstudio.com',
     fairfax: 'https://quickpulse.applicationinsights.us',
     mooncake: 'https://live.applicationinsights.azure.cn',
     usSec: 'https://live.applicationinsights.azure.microsoft.scloud',
     usNat: 'https://live.applicationinsights.azure.eaglex.ic.gov',
   };
+
+  public static readonly LiveLogsSessionId = 'LiveLogsSessionId';
 
   public static readonly AppInsightsEndpoints = {
     public: 'https://api.applicationinsights.io/v1/apps',

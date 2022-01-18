@@ -265,15 +265,15 @@ export class QuickPulseQueryLayer {
   }
 
   private getDetailedRequestV2(authorizationHeader: string, sessionHeader: string): WebRequest {
-    console.log(this._endpoint.replace('/QuickPulseService.svc', ''));
     const endpointWithoutQuickPulse =
-      this._endpoint.replace('/QuickPulseService.svc', '') || CommonConstants.QuickPulseEndpointsWithoutService.public;
+      this._endpoint.replace(CommonConstants.QuickPulseEndpointsWithoutService.quickPulseEndpoint, '') ||
+      CommonConstants.QuickPulseEndpointsWithoutService.public;
     let quickPulseEndpointUrl = `${endpointWithoutQuickPulse}/queryLogs?seqNumber=${this._detailedSessionInfo.seqNumber}`;
     const configuration = {
       Id: this._id,
       Version: this._configurationVersion,
       SessionFilter: {
-        FilterByFieldName: 'LiveLogsSessionId',
+        FilterByFieldName: CommonConstants.LiveLogsSessionId,
         FilterByValue: this._detailedSessionInfo.liveLogsSessionId,
       },
       TelemetryTypes: [
