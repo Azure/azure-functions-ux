@@ -663,6 +663,7 @@ export class FeatureFlags {
   public static DisablePv2Experiment = 'DisablePv2Experiment';
   public static showHiddenStacks = 'showHiddenStacks';
   public static treatAsKubeApp = 'treatAsKubeApp';
+  public static showSlotsDiffForKubeApp = 'showSlotsDiffForKubeApp';
 }
 
 export class SupportedFeatures {
