@@ -48,7 +48,6 @@ export const nodeStack: WebAppStack = {
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'NODE|16-lts',
-              isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -61,7 +60,6 @@ export const nodeStack: WebAppStack = {
             },
             windowsRuntimeSettings: {
               runtimeVersion: '~16',
-              isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
