@@ -77,7 +77,7 @@ export class KubeApp extends Environment {
 
     this.scenarioChecks[ScenarioIds.windowsRemoteDebuggingSupported] = {
       id: ScenarioIds.windowsRemoteDebuggingSupported,
-      runCheck: () => ({ status: 'disabled' }),
+      runCheck: () => ({ status: 'enabled' }),
     };
 
     this.scenarioChecks[ScenarioIds.incomingClientCertEnabled] = {
@@ -118,7 +118,7 @@ export class KubeApp extends Environment {
       id: ScenarioIds.clientAffinitySupported,
       runCheck: () => ({ status: 'disabled' }),
     };
-    
+
     this.scenarioChecks[ScenarioIds.deploymentCenterLogs] = {
       id: ScenarioIds.deploymentCenterLogs,
       runCheck: () => {

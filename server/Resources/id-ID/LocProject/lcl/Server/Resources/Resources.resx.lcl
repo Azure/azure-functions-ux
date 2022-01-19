@@ -13175,10 +13175,13 @@
       </Item>
       <Item ItemId=";managedIdentityInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          <Val><![CDATA[When using managed identity, image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Bidang gambar dan tag tidak akan terisi otomatis. Masukkan gambar dan tag di bawah ini secara manual.]]></Val>
+            <Val><![CDATA[Saat menggunakan identitas terkelola, bidang gambar dan tag tidak akan terisi secara otomatis. Masukkan gambar dan tag di bawah ini secara manual.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

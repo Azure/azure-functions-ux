@@ -535,7 +535,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         type={PanelType.medium}
         isOpen={showTestPanel}
         onDismiss={onCloseTest}
-        overlay={functionRunning}
+        overlay={functionRunning || isRefreshing}
         headerContent={getHeaderContent()}
         isBlocking={false}
         customStyle={testPanelStyle}>

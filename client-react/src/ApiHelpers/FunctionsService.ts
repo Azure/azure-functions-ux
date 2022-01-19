@@ -12,8 +12,6 @@ import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
 import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
-import { Method } from 'axios';
-import { NetAjaxSettings } from '../models/ajax-request-model';
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -231,33 +229,6 @@ export default class FunctionsService {
       url: `${Url.serviceHost}/api/getStorageFileShares?accountName=${accountName}`,
       method: 'POST',
     });
-  }
-
-  public static runFunction(settings: NetAjaxSettings) {
-    const url = settings.uri;
-    const method = settings.type as Method;
-    const headers = settings.headers || {};
-    const data = settings.data;
-
-    return sendHttpRequest({ url, method, headers, data }).catch(err => {
-      return this.tryPassThroughController(err, url, method, headers, data);
-    });
-  }
-
-  public static getDataFromFunctionHref(url: string, method: Method, headers: KeyValue<string>, body?: any) {
-    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
-      return this.tryPassThroughController(err, url, method, headers, body);
-    });
-  }
-
-  private static tryPassThroughController(err: any, url: string, method: Method, headers: KeyValue<string>, body: any) {
-    const passthroughBody = {
-      url,
-      headers,
-      method,
-      body,
-    };
-    return sendHttpRequest({ url: `${Url.serviceHost}api/passthrough`, method: 'POST', data: passthroughBody });
   }
 
   private static _getVfsApiForRuntimeVersion(endpoint: string, runtimeVersion?: string) {
