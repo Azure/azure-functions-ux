@@ -30,6 +30,7 @@ import { CommonConstants } from '../../../utils/CommonConstants';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import { Links } from '../../../utils/FwLinks';
+import { BroadcastMessageId } from '../../../models/portal-models';
 
 const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   const {
@@ -75,6 +76,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
 
     if (updateStaticSiteSkuResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('staticSiteUpdatingHostingPlanSuccess'));
+      portalContext.broadcastMessage(BroadcastMessageId.swaSkuUpdated, resourceId);
       refresh();
     } else {
       portalContext.log(getTelemetryInfo('error', 'updateStaticSiteSku', 'failed', { error: updateStaticSiteSkuResponse.metadata.error }));

@@ -258,6 +258,7 @@ export enum BroadcastMessageId {
   slotSwap = 'SLOT_SWAP',
   slotNew = 'SLOT_NEW',
   menuItemSelected = 'SELECTED_MENU_ITEM',
+  swaSkuUpdated = 'SWA_SKU_UPDATED',
 }
 
 export interface BroadcastMessage<T> {
