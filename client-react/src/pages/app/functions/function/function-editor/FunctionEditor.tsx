@@ -110,7 +110,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [showDiscardConfirmDialog, setShowDiscardConfirmDialog] = useState(false);
   const [logPanelHeight, setLogPanelHeight] = useState(0);
   const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(undefined);
-  const [liveLogsSessionId, setLiveLogsSessionId] = useState<string>('');
+  const [liveLogsSessionId, setLiveLogsSessionId] = useState<undefined | string>(undefined);
 
   const { t } = useTranslation();
 

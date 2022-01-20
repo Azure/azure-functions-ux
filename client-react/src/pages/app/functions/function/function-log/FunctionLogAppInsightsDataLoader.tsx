@@ -7,7 +7,7 @@ import { CommonConstants } from '../../../../../utils/CommonConstants';
 import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
-import { SchemaDocument, SchemaResponseV2, QuickPulseQueryLayer } from '../../../../../QuickPulseQuery';
+import { SchemaDocument, QuickPulseQueryLayer } from '../../../../../QuickPulseQuery';
 import { LogLevel, LogEntry } from './FunctionLog.types';
 import { getQuickPulseQueryEndpoint, defaultClient, getDefaultDocumentStreams } from './FunctionLog.constants';
 import { useTranslation } from 'react-i18next';
@@ -112,21 +112,22 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     liveLogsSessionId?: string
   ) => {
     quickPulseQueryLayer
-      .queryDetails(tokenComponent.token, false, '', liveLogsSessionId || '')
-      .then((dataV2: SchemaResponseV2) => {
-        if (!!dataV2 && dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
-          let newDocs = dataV2.DataRanges[0].Documents.filter(
+      .queryDetails(tokenComponent.token, false, '', liveLogsSessionId)
+      .then((dataV2: any) => {
+        let newDocs;
+        if (!!dataV2 && dataV2.Documents) {
+          newDocs = dataV2.Documents.filter(
+            doc => !!doc.Content.Message && (!doc.Content.OperationName || (!functionName || doc.Content.OperationName === functionName))
+          );
+        } else if (!!dataV2 && dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
+          newDocs = dataV2.DataRanges[0].Documents.filter(
             doc => !!doc.Content.Message && (!functionName || doc.Content.OperationName === functionName)
           );
-          if (callCount === 0) {
-            newDocs = trimPreviousDocs(newDocs);
-          }
-          newDocs.sort((a, b) => (a.SequenceNumber < b.SequenceNumber ? -1 : 1));
-
-          const newLogEntires = mapDocsToLogEntry(newDocs);
-          const updatedLogEntries = allLogEntries.concat(newLogEntires);
-          setAllLogEntries(updatedLogEntries);
         }
+        if (!!newDocs && callCount === 0) {
+          newDocs = trimPreviousDocs(newDocs);
+        }
+        sortMapAndUpdateLogs(newDocs);
       })
       .catch(error => {
         const tokenExpirationTime = new Date(tokenComponent.expiry);
@@ -145,6 +146,15 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       .finally(() => {
         setCallCount(callCount + 1);
       });
+  };
+
+  const sortMapAndUpdateLogs = (newDocs: any) => {
+    if (!!newDocs) {
+      newDocs.sort((a, b) => (a.SequenceNumber < b.SequenceNumber ? -1 : 1));
+      const newLogEntires = mapDocsToLogEntry(newDocs);
+      const updatedLogEntries = allLogEntries.concat(newLogEntires);
+      setAllLogEntries(updatedLogEntries);
+    }
   };
 
   const trimPreviousDocs = (documents: SchemaDocument[]): SchemaDocument[] => {

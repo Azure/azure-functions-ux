@@ -41,7 +41,7 @@ type WebRequest = {
   type: 'GET' | 'POST';
   url: string;
   timeout: number; // timeout after 10 seconds - don't need this request anymore
-  headers: { [id: string]: any };
+  headers: { [id: string]: string };
   data: any;
 };
 
@@ -88,7 +88,7 @@ export class QuickPulseQueryLayer {
     trustedAuthorizedAgents: string[]
   ) {
     this._configurationVersion++;
-    let configuration = {
+    let configuration: qpschema.QPSchemaConfigurationSession = {
       Id: this._id,
       Version: this._configurationVersion,
       Metrics: metrics,
@@ -142,40 +142,57 @@ export class QuickPulseQueryLayer {
     sessionInfo.lastResponse = queryNumber;
     sessionInfo.sessionHeader = ajaxResult.request.getResponseHeader('x-ms-qps-query-session');
 
-    let dataV2: qpschema.SchemaResponseV2 = ajaxResult.data;
+    let dataV2: any = ajaxResult.data;
 
     // Ignore responses when front end wasn't able to contact backend.
     // We should switch to different backend soon.
-    if (!dataV2 || !dataV2.DataRanges || dataV2.DataRanges.length === 0 || !dataV2.DataRanges[0].AggregatorId) {
-      return null;
-    }
+    if (!Url.getFeatureValue(CommonConstants.FeatureFlags.useNewFunctionLogsApi)) {
+      if (!dataV2 || !dataV2.DataRanges || dataV2.DataRanges.length === 0 || !dataV2.DataRanges[0].AggregatorId) {
+        return null;
+      }
 
-    let aggregatorId = dataV2.DataRanges[0].AggregatorId;
+      let aggregatorId = (dataV2.DataRanges && dataV2.DataRanges.length > 0 && dataV2.DataRanges[0].AggregatorId) || '';
 
-    // Check whether we're still communicating with the same Aggregator instance
-    if (sessionInfo.aggregatorId !== aggregatorId) {
-      // Reset seq number, so we would count all documents
-      sessionInfo.seqNumber = 0;
-      sessionInfo.instanceSeqNumber = 0;
-
-      // Remember the new aggregator
-      sessionInfo.aggregatorId = aggregatorId;
-    }
-
-    // Remove extra data ranges
-    if (dataV2.DataRanges.length > 2) {
-      dataV2.DataRanges.splice(2, dataV2.DataRanges.length - 2);
-    }
-
-    // Remove all documents which we've already seen
-    sessionInfo.seqNumber = self.processDocuments(dataV2.DataRanges[0].Documents, sessionInfo.seqNumber, aggregatorId);
-    if (dataV2.DataRanges.length > 1) {
-      // Check whether we're already looking at different instance
-      if (self._instanceId !== dataV2.DataRanges[1].Instance) {
-        dataV2.DataRanges.splice(1, 1);
+      // Check whether we're still communicating with the same Aggregator instance
+      if (sessionInfo.aggregatorId !== aggregatorId) {
+        // Reset seq number, so we would count all documents
+        sessionInfo.seqNumber = 0;
         sessionInfo.instanceSeqNumber = 0;
-      } else {
-        sessionInfo.instanceSeqNumber = self.processDocuments(dataV2.DataRanges[1].Documents, sessionInfo.instanceSeqNumber, aggregatorId);
+
+        // Remember the new aggregator
+        sessionInfo.aggregatorId = aggregatorId;
+      }
+
+      // Remove extra data ranges
+      if (dataV2.DataRanges && dataV2.DataRanges.length > 2) {
+        dataV2.DataRanges.splice(2, dataV2.DataRanges.length - 2);
+      }
+
+      // Remove all documents which we've already seen
+      sessionInfo.seqNumber = self.processDocuments(dataV2.DataRanges[0].Documents, sessionInfo.seqNumber, aggregatorId);
+      if (dataV2.DataRanges.length > 1) {
+        // Check whether we're already looking at different instance
+        if (self._instanceId !== dataV2.DataRanges[1].Instance) {
+          dataV2.DataRanges.splice(1, 1);
+          sessionInfo.instanceSeqNumber = 0;
+        } else {
+          sessionInfo.instanceSeqNumber = self.processDocuments(
+            dataV2.DataRanges[1].Documents,
+            sessionInfo.instanceSeqNumber,
+            aggregatorId
+          );
+        }
+      }
+    } else {
+      //note: No longer an aggregator Id, have to manually find the largest seqNumber and update it
+      if (!!dataV2 && dataV2.Documents) {
+        let curSeqNumber = sessionInfo.seqNumber;
+        dataV2.Documents.forEach(doc => {
+          if (!!doc.SequenceNumber && doc.SequenceNumber > curSeqNumber) {
+            curSeqNumber = doc.SequenceNumber;
+          }
+        });
+        this._detailedSessionInfo.seqNumber = curSeqNumber;
       }
     }
 
@@ -265,46 +282,62 @@ export class QuickPulseQueryLayer {
   }
 
   private getDetailedRequestV2(authorizationHeader: string, sessionHeader: string): WebRequest {
-    const endpointWithoutQuickPulse =
-      this._endpoint.replace(CommonConstants.QuickPulseEndpointsWithoutService.quickPulseEndpoint, '') ||
-      CommonConstants.QuickPulseEndpointsWithoutService.public;
-    let quickPulseEndpointUrl = `${endpointWithoutQuickPulse}/queryLogs?seqNumber=${this._detailedSessionInfo.seqNumber}`;
-    const configuration = {
+    let quickPulseEndpointUrl = `${this._getQuickPulseEndpoint()}/queryLogs?seqNumber=${this._detailedSessionInfo.seqNumber}`;
+    let requestData = {
       Id: this._id,
       Version: this._configurationVersion,
-      SessionFilter: {
-        FilterByFieldName: CommonConstants.LiveLogsSessionId,
-        FilterByValue: this._detailedSessionInfo.liveLogsSessionId,
-      },
       TelemetryTypes: [
         TelemetryTypesEnum.Request,
         TelemetryTypesEnum.Trace,
         TelemetryTypesEnum.Dependency,
         TelemetryTypesEnum.Exception,
         TelemetryTypesEnum.Event,
-        TelemetryTypesEnum.Metric,
-        TelemetryTypesEnum.PerformanceCounter,
       ],
     };
+
+    if (this._detailedSessionInfo.liveLogsSessionId) {
+      requestData = { ...requestData, ...this._getSessionFilter() };
+    }
 
     return {
       type: 'POST',
       url: quickPulseEndpointUrl,
       timeout: 10000, // timeout after 10 seconds - don't need this request anymore
-      headers: {
-        Authorization: authorizationHeader,
-        'x-ms-qps-query-session': sessionHeader,
+      headers: this._getHeadersForDetailedRequestV2(authorizationHeader, sessionHeader),
+      data: JSON.stringify(requestData),
+    };
+  }
+
+  private _getSessionFilter() {
+    return {
+      SessionFilter: {
+        FilterByFieldName: CommonConstants.LiveLogsSessionId,
+        FilterByValue: this._detailedSessionInfo.liveLogsSessionId,
       },
-      data: JSON.stringify(configuration),
+    };
+  }
+
+  private _getQuickPulseEndpoint() {
+    return (
+      this._endpoint.replace(CommonConstants.QuickPulseEndpointsWithoutService.quickPulseEndpoint, '') ||
+      CommonConstants.QuickPulseEndpointsWithoutService.public
+    );
+  }
+
+  private _getHeadersForDetailedRequestV2(authorizationHeader: string, sessionHeader: string) {
+    return {
+      Authorization: authorizationHeader,
+      'x-ms-qps-query-session': sessionHeader,
     };
   }
 
   private postProcessConfiguration(configuration: qpschema.QPSchemaConfigurationSession): void {
     if (configuration) {
       // process metrics
-      if (!!configuration.Metrics) {
-        for (let metricIndex = 0; metricIndex < configuration.Metrics.length; ++metricIndex) {
-          let metric: QPSchemaConfigurationMetric = configuration.Metrics[metricIndex];
+      const metrics = configuration.Metrics;
+      if (!!metrics) {
+        for (let metricIndex = 0; metricIndex < metrics.length; ++metricIndex) {
+          let metric: QPSchemaConfigurationMetric = metrics[metricIndex];
           if (metric.FilterGroups) {
             for (let i = 0; i < metric.FilterGroups.length; ++i) {
               let filterGroup = metric.FilterGroups[i];

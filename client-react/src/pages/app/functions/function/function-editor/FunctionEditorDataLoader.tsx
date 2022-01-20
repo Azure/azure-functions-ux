@@ -345,7 +345,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       return {
         uri: url,
         type: testDataObject.method as string,
-        headers: { ...headers, LiveLogsSessionId: liveLogsSessionId || '', sessionIdKey: 'ai_SessionId' },
+        headers: { ...headers, ...getHeadersForLiveLogsSessionId(liveLogsSessionId) },
         data: JSON.stringify(testDataObject.body),
       };
     }
@@ -365,11 +365,15 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       return {
         uri: url,
         type: 'POST',
-        headers: { ...headers, LiveLogsSessionId: liveLogsSessionId || '', sessionIdKey: 'ai_SessionId' },
+        headers: { ...headers, ...getHeadersForLiveLogsSessionId(liveLogsSessionId) },
         data: newFunctionInfo.properties.test_data || '',
       };
     }
     return undefined;
+  };
+
+  const getHeadersForLiveLogsSessionId = (liveLogsSessionId?: string) => {
+    return { LiveLogsSessionId: liveLogsSessionId || '', sessionIdKey: 'ai_SessionId' };
   };
 
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string, liveLogsSessionId?: string) => {
