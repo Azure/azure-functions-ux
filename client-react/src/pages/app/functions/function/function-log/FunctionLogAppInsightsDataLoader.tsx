@@ -116,9 +116,15 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       .then((dataV2: any) => {
         let newDocs;
         if (!!dataV2 && dataV2.Documents) {
-          newDocs = dataV2.Documents.filter(
-            doc => !!doc.Content.Message && (!doc.Content.OperationName || (!functionName || doc.Content.OperationName === functionName))
-          );
+          if (!!liveLogsSessionId) {
+            newDocs = dataV2.Documents.filter(
+              doc => !!doc.Content.Message && (!doc.Content.OperationName || (!functionName || doc.Content.OperationName === functionName))
+            );
+          } else {
+            newDocs = dataV2.Documents.filter(
+              doc => !!doc.Content.Message && (!functionName || doc.Content.OperationName === functionName)
+            );
+          }
         } else if (!!dataV2 && dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
           newDocs = dataV2.DataRanges[0].Documents.filter(
             doc => !!doc.Content.Message && (!functionName || doc.Content.OperationName === functionName)
