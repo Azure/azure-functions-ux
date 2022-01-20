@@ -14,6 +14,25 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
         value: '3',
         minorVersions: [
           {
+            displayText: 'Python 3.10',
+            value: '3.10',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'PYTHON|3.10',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '3.10',
+                },
+                isHidden: true,
+                isEarlyAccess: true,
+              },
+            },
+          },
+          {
             displayText: 'Python 3.9',
             value: '3.9',
             stackSettings: {

@@ -152,7 +152,7 @@
         </info-box>
       </div>
 
-      <div *ngIf="!isKubeApp && showPreviewChanges && (swapForm?.controls)['multiPhase']?.value">
+      <div *ngIf="(!isKubeApp || showSlotsDiffForKubeApp) && showPreviewChanges && (swapForm?.controls)['multiPhase']?.value">
         <h1 class="preview-changes-header">{{ 'phaseOneChangesHeading' | translate }}</h1>
         <div class="help-text-container">
           {{ 'phaseOneChangesInfoText' | translate }}
@@ -170,7 +170,7 @@
         </swap-diff-table>
       </div>
 
-      <div *ngIf="!isKubeApp">
+      <div *ngIf="!isKubeApp || showSlotsDiffForKubeApp">
         <h1 *ngIf="!(swapForm?.controls)['multiPhase']?.value" class="preview-changes-header">
           {{ 'swapDiffHeading' | translate }}
         </h1>
