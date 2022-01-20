@@ -24,7 +24,6 @@ import {
   editorDivStyle,
 } from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../../utils/EditorManager';
-import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
@@ -47,11 +46,12 @@ import { PortalContext } from '../../../../../PortalContext';
 import { BindingManager } from '../../../../../utils/BindingManager';
 import FunctionAppService from '../../../../../utils/FunctionAppService';
 import { Links } from '../../../../../utils/FwLinks';
+import { Guid } from '../../../../../utils/Guid';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
-  run: (functionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => void;
+  run: (functionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string, liveLogsSessionId?: string) => void;
   functionRunning: boolean;
   urlObjs: UrlObj[];
   showTestPanel: boolean;
@@ -110,6 +110,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [showDiscardConfirmDialog, setShowDiscardConfirmDialog] = useState(false);
   const [logPanelHeight, setLogPanelHeight] = useState(0);
   const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(undefined);
+  const [liveLogsSessionId, setLiveLogsSessionId] = useState<undefined | string>(undefined);
 
   const { t } = useTranslation();
 
@@ -192,8 +193,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setFetchingFileContent(false);
   };
 
-  const run = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
+  const run = (values: InputFormValues) => {
     let data;
+    const currentRunId = Guid.newGuid();
+    setLiveLogsSessionId(currentRunId);
     if (isHttpOrWebHookFunction) {
       data = JSON.stringify({
         method: values.method,
@@ -207,7 +210,23 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     const tempFunctionInfo = functionInfo;
     tempFunctionInfo.properties.test_data = data;
     expandLogPanel();
-    props.run(tempFunctionInfo, values.xFunctionKey);
+    props.run(tempFunctionInfo, values.xFunctionKey, currentRunId);
+
+    portalCommunicator.log({
+      action: 'functionEditor',
+      actionModifier: 'runClicked',
+      resourceId: siteStateContext.resourceId || '',
+      logLevel: 'verbose',
+      data: {
+        sessionId: Url.getParameterByName(null, 'sessionId'),
+        siteKind: site.kind,
+        isLinux: site.properties.isLinux,
+        runtime: runtimeVersion,
+        stack: workerRuntime,
+        sku: site.properties.sku,
+        liveLogsSessionId: currentRunId,
+      },
+    });
   };
 
   const isGetFunctionUrlVisible = () => {
@@ -593,6 +612,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             showLoggingOptionsDropdown={showLoggingOptionsDropdown}
             selectedLoggingOption={selectedLoggingOption}
             setSelectedLoggingOption={setSelectedLoggingOption}
+            liveLogsSessionId={liveLogsSessionId}
           />
         )}
         {(!showAppInsightsLogs || selectedLoggingOption === LoggingOptions.fileBased) && (

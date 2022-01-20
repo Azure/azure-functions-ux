@@ -296,7 +296,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   // Used to get settings for both http and webHook functions
-  const getSettingsToInvokeHttpFunction = (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string): NetAjaxSettings | undefined => {
+  const getSettingsToInvokeHttpFunction = (
+    newFunctionInfo: ArmObj<FunctionInfo>,
+    xFunctionKey?: string,
+    liveLogsSessionId?: string
+  ): NetAjaxSettings | undefined => {
     if (!!site) {
       let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
       let parsedTestData = {};
@@ -341,8 +345,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       return {
         uri: url,
         type: testDataObject.method as string,
-        headers: headers,
-        data: testDataObject.body,
+        headers: { ...headers, ...getHeadersForLiveLogsSessionId(liveLogsSessionId) },
+        data: JSON.stringify(testDataObject.body),
       };
     }
     return undefined;
@@ -351,7 +355,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   // Used to get settings for non-http and non-webHook functions
   const getSettingsToInvokeNonHttpFunction = (
     newFunctionInfo: ArmObj<FunctionInfo>,
-    xFunctionKey?: string
+    xFunctionKey?: string,
+    liveLogsSessionId?: string
   ): NetAjaxSettings | undefined => {
     if (!!site) {
       const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
@@ -360,14 +365,18 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       return {
         uri: url,
         type: 'POST',
-        headers: headers,
+        headers: { ...headers, ...getHeadersForLiveLogsSessionId(liveLogsSessionId) },
         data: newFunctionInfo.properties.test_data || '',
       };
     }
     return undefined;
   };
 
-  const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+  const getHeadersForLiveLogsSessionId = (liveLogsSessionId?: string) => {
+    return { LiveLogsSessionId: liveLogsSessionId || '', sessionIdKey: 'ai_SessionId' };
+  };
+
+  const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string, liveLogsSessionId?: string) => {
     setFunctionRunning(true);
 
     if (!SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
@@ -380,9 +389,9 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     let settings: NetAjaxSettings | undefined;
 
     if (isHttpOrWebHookFunction) {
-      settings = getSettingsToInvokeHttpFunction(newFunctionInfo, xFunctionKey);
+      settings = getSettingsToInvokeHttpFunction(newFunctionInfo, xFunctionKey, liveLogsSessionId);
     } else {
-      settings = getSettingsToInvokeNonHttpFunction(newFunctionInfo, xFunctionKey);
+      settings = getSettingsToInvokeNonHttpFunction(newFunctionInfo, xFunctionKey, liveLogsSessionId);
     }
 
     if (!!settings) {
