@@ -117,7 +117,7 @@ export class QuickPulseQueryLayer {
 
     return this.excuteQueryWithSessionTracking(
       authorizationHeader,
-      !!Url.getFeatureValue(CommonConstants.FeatureFlags.useNewFunctionLogsApi)
+      !!Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi)
         ? this.getDetailedRequestV2.bind(this)
         : this.getDetailedRequest.bind(this),
       this._detailedSessionInfo
@@ -146,7 +146,7 @@ export class QuickPulseQueryLayer {
 
     // Ignore responses when front end wasn't able to contact backend.
     // We should switch to different backend soon.
-    if (!Url.getFeatureValue(CommonConstants.FeatureFlags.useNewFunctionLogsApi)) {
+    if (!Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi)) {
       if (!dataV2 || !dataV2.DataRanges || dataV2.DataRanges.length === 0 || !dataV2.DataRanges[0].AggregatorId) {
         return null;
       }
