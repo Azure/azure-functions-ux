@@ -26,6 +26,16 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Java SE 11.0.12',
+          value: '11.0.12',
+          stackSettings: {
+            linuxContainerSettings: {
+              // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.8 prevents auto-updates
+              java11Runtime: 'JAVA|11.0.12',
+            },
+          },
+        },
+        {
           displayText: 'Java SE 11.0.11',
           value: '11.0.11',
           stackSettings: {
@@ -76,8 +86,18 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Java SE 8u302',
+          // note (jafreebe): Java SE 8u302 is pinned version that maps to the below value
+          value: '1.8.302',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JAVA|8u302',
+            },
+          },
+        },
+        {
           displayText: 'Java SE 8u292',
-          // note (jafreebe): Java SE 8u242 is pinned version that maps to the below value
+          // note (jafreebe): Java SE 8u292 is pinned version that maps to the below value
           value: '1.8.292',
           stackSettings: {
             linuxContainerSettings: {
@@ -128,7 +148,7 @@ export const javaContainersStack: WebAppStack = {
       ],
     },
     {
-      displayText: 'JBoss EAP',
+      displayText: 'Red Hat JBoss EAP',
       value: 'jbosseap',
       minorVersions: [
         {
@@ -165,7 +185,7 @@ export const javaContainersStack: WebAppStack = {
       ],
     },
     {
-      displayText: 'Tomcat 9.0',
+      displayText: 'Apache Tomcat 9.0',
       value: 'tomcat9.0',
       minorVersions: [
         {
@@ -181,6 +201,20 @@ export const javaContainersStack: WebAppStack = {
               java11Runtime: 'TOMCAT|9.0-java11',
               java8Runtime: 'TOMCAT|9.0-jre8',
               isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Tomcat 9.0.52',
+          value: '9.0.52',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '9.0.52',
+            },
+            linuxContainerSettings: {
+              java8Runtime: 'TOMCAT|9.0.52-java8',
+              java11Runtime: 'TOMCAT|9.0.52-java11',
             },
           },
         },
@@ -325,7 +359,7 @@ export const javaContainersStack: WebAppStack = {
       ],
     },
     {
-      displayText: 'Tomcat 8.5',
+      displayText: 'Apache Tomcat 8.5',
       value: 'tomcat8.5',
       minorVersions: [
         {
@@ -341,6 +375,20 @@ export const javaContainersStack: WebAppStack = {
               java11Runtime: 'TOMCAT|8.5-java11',
               java8Runtime: 'TOMCAT|8.5-jre8',
               isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Tomcat 8.5.69',
+          value: '8.5.69',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'TOMCAT|8.5.69-java8',
+              java11Runtime: 'TOMCAT|8.5.69-java11',
+            },
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '8.5.69',
             },
           },
         },
@@ -495,7 +543,7 @@ export const javaContainersStack: WebAppStack = {
       ],
     },
     {
-      displayText: 'Tomcat 8.0',
+      displayText: 'Apache Tomcat 8.0',
       value: 'tomcat8.0',
       minorVersions: [
         {
@@ -557,6 +605,7 @@ export const javaContainersStack: WebAppStack = {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '7.0',
               isAutoUpdate: true,
+              isDeprecated: true,
             },
           },
         },
@@ -567,6 +616,7 @@ export const javaContainersStack: WebAppStack = {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '7.0.94',
+              isDeprecated: true,
             },
           },
         },
@@ -577,6 +627,7 @@ export const javaContainersStack: WebAppStack = {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '7.0.81',
+              isDeprecated: true,
             },
           },
         },
@@ -587,6 +638,7 @@ export const javaContainersStack: WebAppStack = {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '7.0.62',
+              isDeprecated: true,
             },
           },
         },
@@ -597,6 +649,7 @@ export const javaContainersStack: WebAppStack = {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '7.0.50',
+              isDeprecated: true,
             },
           },
         },
