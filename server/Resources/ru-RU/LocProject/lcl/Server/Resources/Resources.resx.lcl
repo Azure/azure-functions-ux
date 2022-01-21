@@ -13985,10 +13985,13 @@
       </Item>
       <Item ItemId=";missingCorsMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Your app is missing the CORS rule, '{0}'. Click here to add the rule to test the function from the browser.]]></Val>
+          <Val><![CDATA[Running your function in portal requires the app to explicitly accept requests from {0}. This is known as cross-origin resource sharing (CORS). Click here to add {0} to the allowed origin configuration.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[В вашем приложении отсутствует правило CORS "{0}". Щелкните здесь, чтобы добавить правило для тестирования функции из браузера.]]></Val>
+            <Val><![CDATA[Для запуска функции на портале приложению необходимо явно принимать запросы от {0}. Это называется общим доступом к ресурсам независимо от источника (CORS). Щелкните здесь, чтобы добавить {0} в разрешенную конфигурацию источника.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your app is missing the CORS rule, '{0}'. Click here to add the rule to test the function from the browser.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
