@@ -346,7 +346,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         uri: url,
         type: testDataObject.method as string,
         headers: { ...headers, ...getHeadersForLiveLogsSessionId(liveLogsSessionId) },
-        data: JSON.stringify(testDataObject.body),
+        data: testDataObject.body,
       };
     }
     return undefined;
@@ -366,7 +366,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         uri: url,
         type: 'POST',
         headers: { ...headers, ...getHeadersForLiveLogsSessionId(liveLogsSessionId) },
-        data: newFunctionInfo.properties.test_data || '',
+        data: JSON.stringify({ input: newFunctionInfo.properties.test_data || '' }),
       };
     }
     return undefined;
@@ -511,8 +511,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           headers: headers,
         });
 
+        const result = functionHrefTestDataResponse.result;
+
         if (isPortalCommunicationStatusSuccess(functionHrefTestDataResponse.status)) {
-          testData = functionHrefTestDataResponse.result;
+          testData = !!result && !!result.content ? result.content : result;
         } else {
           LogService.error(
             LogCategories.FunctionEdit,
