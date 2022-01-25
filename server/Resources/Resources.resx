@@ -5073,6 +5073,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="filterAppSettings" xml:space="preserve">
         <value>Filter application settings</value>
     </data>
+    <data name="gridItemsCountAriaLabelSingular" xml:space="preserve">
+        <value>{0} result found</value>
+    </data>
+    <data name="gridItemsCountAriaLabelPlural" xml:space="preserve">
+        <value>{0} results found</value>
+    </data>
     <data name="filterConnectionStrings" xml:space="preserve">
         <value>Filter connection strings</value>
     </data>
