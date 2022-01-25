@@ -2367,4 +2367,12 @@ export class PortalResources {
   public static managedIdentityInfoMessage = 'managedIdentityInfoMessage';
   public static acrCredentialsWarningMessage = 'acrCredentialsWarningMessage';
   public static addIdentity = 'addIdentity';
+  public static staticSite_generalSettings = 'staticSite_generalSettings';
+  public static staticSite_passwordProtection = 'staticSite_passwordProtection';
+  public static staticSite_passwordProtectionDescription = 'staticSite_passwordProtectionDescription';
+  public static staticSite_passwordProtectionDisabled = 'staticSite_passwordProtectionDisabled';
+  public static staticSite_passwordProtectionEnabledStaging = 'staticSite_passwordProtectionEnabledStaging';
+  public static staticSite_passwordProtectionEnabledProductionAndStaging = 'staticSite_passwordProtectionEnabledProductionAndStaging';
+  public static staticSite_visitorPassword = 'staticSite_visitorPassword';
+  public static staticSite_enterVisitorPassword = 'staticSite_enterVisitorPassword';
 }

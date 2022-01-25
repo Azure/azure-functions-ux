@@ -7242,4 +7242,28 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="addIdentity" xml:space="preserve">
         <value>Add identity</value>
     </data>
+    <data name="staticSite_generalSettings" xml:space="preserve">
+        <value>General settings</value>
+    </data>
+    <data name="staticSite_passwordProtection" xml:space="preserve">
+        <value>Password protection</value>
+    </data>
+    <data name="staticSite_passwordProtectionDescription" xml:space="preserve">
+        <value>Select a password protection option. </value>
+    </data>
+    <data name="staticSite_passwordProtectionDisabled" xml:space="preserve">
+        <value>Disabled</value>
+    </data>
+    <data name="staticSite_passwordProtectionEnabledStaging" xml:space="preserve">
+        <value>Protect staging environments only</value>
+    </data>
+    <data name="staticSite_passwordProtectionEnabledProductionAndStaging" xml:space="preserve">
+        <value>Protect both staging and production environments</value>
+    </data>
+    <data name="staticSite_visitorPassword" xml:space="preserve">
+        <value>Visitor password</value>
+    </data>
+    <data name="staticSite_enterVisitorPassword" xml:space="preserve">
+        <value>Enter visitor password</value>
+    </data>
 </root>
