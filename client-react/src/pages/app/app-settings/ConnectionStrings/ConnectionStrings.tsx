@@ -375,7 +375,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         if (!filter) {
           return true;
         }
-        return x.name.toLowerCase().includes(filter.toLowerCase());
+        return !!x.name && x.name.toLowerCase().includes(filter.toLowerCase());
       });
       setGridItems(filteredItems);
     } else {
@@ -409,7 +409,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyConnectionStrings')}
-        ariaLabelForGrid={t(gridSearchResultAriaLabel)}>
+        ariaLabelForGrid={gridSearchResultAriaLabel}>
         {getSearchFilter('app-settings-connection-strings-search', setFilter, t('filterConnectionStrings'))}
       </DisplayTableWithCommandBar>
       <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditConnectionStringHeader')}>
