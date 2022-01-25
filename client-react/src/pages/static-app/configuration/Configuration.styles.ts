@@ -1,6 +1,10 @@
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
+const spacingBetweenElements = '10px';
+const maxElementWidth = '750px';
+const maxElementWithLabelWidth = '550px';
+
 export const formStyle = style({
   padding: '5px 20px',
 });
@@ -46,4 +50,14 @@ export const tableValueFormFieldStyle = style({
 
 export const tableValueTextFieldStyle = style({
   width: '100%',
+});
+
+export const textboxStyle = style({
+  maxWidth: maxElementWithLabelWidth,
+  marginBottom: '-5px',
+});
+
+export const descriptionStyle = style({
+  marginBottom: spacingBetweenElements,
+  maxWidth: maxElementWidth,
 });

@@ -13,9 +13,12 @@ import {
   Checkbox,
   DetailsRow,
   DetailsHeader,
+  Pivot,
+  PivotItem,
+  IPivotItemProps,
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { EnvironmentVariable, PanelType } from './Configuration.types';
+import { ConfigurationProps, EnvironmentVariable, PanelType } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import {
   formStyle,
@@ -36,7 +39,6 @@ import { ThemeContext } from '../../../ThemeContext';
 import CustomPanel from '../../../components/CustomPanel/CustomPanel';
 import ConfigurationAddEdit from './ConfigurationAddEdit';
 import { sortBy } from 'lodash-es';
-import { KeyValue } from '../../../models/portal-models';
 import ConfigurationData from './Configuration.data';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
@@ -46,17 +48,9 @@ import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoForm
 import { PortalContext } from '../../../PortalContext';
 import { commandBarSeparator } from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 import { getSearchFilter } from '../../../components/form-controls/SearchBox';
-
-interface ConfigurationProps {
-  environments: ArmObj<Environment>[];
-  isLoading: boolean;
-  hasWritePermissions: boolean;
-  apiFailure: boolean;
-  fetchDataOnEnvironmentChange: (resourceId: string) => {};
-  saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
-  refresh: () => void;
-  selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
-}
+import { getTelemetryInfo } from '../StaticSiteUtility';
+import CustomTabRenderer from '../../app/app-settings/Sections/CustomTabRenderer';
+import ConfigurationGeneralSettings from './ConfigurationGeneralSettings';
 
 const Configuration: React.FC<ConfigurationProps> = props => {
   const {
@@ -83,11 +77,22 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [onChangeEnvironment, setOnChangeEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
   const [columns, setColumns] = useState<IColumn[]>([]);
+  const [selectedKey, setSelectedKey] = useState<string>('settings');
 
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
+
+  const onLinkClick = (item: PivotItem) => {
+    if (item.props.itemKey) {
+      setSelectedKey(item.props.itemKey);
+      const data = {
+        tabName: item.props.itemKey,
+      };
+      portalContext.log(getTelemetryInfo('info', 'tabClicked', 'clicked', data));
+    }
+  };
 
   const openAddNewEnvironmentVariablePanel = () => {
     setShowPanel(true);
@@ -656,29 +661,63 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       </div>
       {getBanner()}
       {getConfirmDialogs()}
-      <div className={formStyle}>
-        <h3>{t('staticSite_applicationSettings')}</h3>
-        <p className={formDescriptionStyle}>
-          <span id="environment-variable-info-message">{t('staticSite_applicationSettingsInfoMessage')}</span>
-          <Link
-            id="environment-variable-info-learnMore"
-            href={Links.staticSiteEnvironmentVariablesLearnMore}
-            target="_blank"
-            className={learnMoreLinkStyle}
-            aria-labelledby="environment-variable-info-message">
-            {` ${t('learnMore')}`}
-          </Link>
-        </p>
-        <ConfigurationEnvironmentSelector
-          environments={environments}
-          onDropdownChange={onDropdownChange}
-          disabled={isLoading || !hasWritePermissions}
-          selectedEnvironment={selectedEnvironment}
-        />
-        {getTable()}
-        {getAddEditPanel()}
-        {getBulkAddEditPanel()}
-      </div>
+      <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
+        <PivotItem
+          itemKey="appSettings"
+          headerText={t('staticSite_applicationSettings')}
+          ariaLabel={t('staticSite_applicationSettings')}
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            CustomTabRenderer(
+              link,
+              defaultRenderer,
+              theme,
+              () => {
+                return isDirty;
+              },
+              t('modifiedTag')
+            )
+          }>
+          <div className={formStyle}>
+            <p className={formDescriptionStyle}>
+              <span id="environment-variable-info-message">{t('staticSite_applicationSettingsInfoMessage')}</span>
+              <Link
+                id="environment-variable-info-learnMore"
+                href={Links.staticSiteEnvironmentVariablesLearnMore}
+                target="_blank"
+                className={learnMoreLinkStyle}
+                aria-labelledby="environment-variable-info-message">
+                {` ${t('learnMore')}`}
+              </Link>
+            </p>
+            <ConfigurationEnvironmentSelector
+              environments={environments}
+              onDropdownChange={onDropdownChange}
+              disabled={isLoading || !hasWritePermissions}
+              selectedEnvironment={selectedEnvironment}
+            />
+            {getTable()}
+            {getAddEditPanel()}
+            {getBulkAddEditPanel()}
+          </div>
+        </PivotItem>
+        <PivotItem
+          itemKey="ftps"
+          headerText={t('staticSite_generalSettings')}
+          ariaLabel={t('staticSite_generalSettings')}
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            CustomTabRenderer(
+              link,
+              defaultRenderer,
+              theme,
+              () => {
+                return isDirty;
+              },
+              t('modifiedTag')
+            )
+          }>
+          <ConfigurationGeneralSettings />
+        </PivotItem>
+      </Pivot>
     </>
   );
 };
