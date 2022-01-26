@@ -48,11 +48,6 @@ export class XenonSiteEnvironment extends Environment {
       runCheck: () => disabledResult,
     };
 
-    this.scenarioChecks[ScenarioIds.windowsRemoteDebuggingSupported] = {
-      id: ScenarioIds.windowsRemoteDebuggingSupported,
-      runCheck: () => disabledResult,
-    };
-
     this.scenarioChecks[ScenarioIds.phpSupported] = {
       id: ScenarioIds.phpSupported,
       runCheck: () => disabledResult,

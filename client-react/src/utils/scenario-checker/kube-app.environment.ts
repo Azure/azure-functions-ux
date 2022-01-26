@@ -77,7 +77,7 @@ export class KubeApp extends Environment {
 
     this.scenarioChecks[ScenarioIds.windowsRemoteDebuggingSupported] = {
       id: ScenarioIds.windowsRemoteDebuggingSupported,
-      runCheck: () => ({ status: 'enabled' }),
+      runCheck: () => ({ status: 'disabled' }),
     };
 
     this.scenarioChecks[ScenarioIds.incomingClientCertEnabled] = {
