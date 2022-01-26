@@ -73,6 +73,9 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
   } = props;
   const formAppSetting = getFormAppSetting(appSettings, slotConfigNames);
 
+  console.log('fetch');
+  console.log(config.properties.virtualApplications);
+
   return {
     site,
     basicPublishingCredentialsPolicies,
@@ -145,7 +148,11 @@ export const convertFormToState = (
   const slotConfigNamesModified = isSlotConfigNamesModified(oldSlotConfigNames, slotConfigNames);
 
   let config = { ...values.config.properties };
+  console.log('submit');
+  console.log(values.virtualApplications);
   config.virtualApplications = unFlattenVirtualApplicationsList(values.virtualApplications);
+  console.log('unflatten');
+  console.log(config.virtualApplications);
   config.azureStorageAccounts = getAzureStorageMountFromForm(values.azureStorageMounts);
   config.appSettings = getAppSettingsFromForm(values.appSettings);
   config.connectionStrings = getConnectionStringsFromForm(values.connectionStrings);
@@ -314,12 +321,12 @@ export function unFlattenVirtualApplicationsList(virtualApps: VirtualApplication
 
   virtualApplications.sort((a, b) => b.virtualPath.length - a.virtualPath.length);
   virtualDirectories.forEach(vd => {
-    const virtualPath = vd.virtualPath.startsWith('/') ? vd.virtualPath : `/${vd.virtualPath}`;
+    let virtualPath = vd.virtualPath.startsWith('/') ? vd.virtualPath : `/${vd.virtualPath}`;
 
     const va = virtualApplications.find(v => {
-      return virtualPath.startsWith(v.virtualPath);
+      const vaVirtualPath = v.virtualPath.endsWith('/') ? v.virtualPath : `${v.virtualPath}/`;
+      return virtualPath.startsWith(vaVirtualPath);
     });
-
     if (va) {
       const regex = new RegExp(`${va.virtualPath}(.*)`);
       const match = regex.exec(virtualPath);
