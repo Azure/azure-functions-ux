@@ -5617,7 +5617,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Successfully created {0}</value>
     </data>
     <data name="readonlyBlobStorageWarning" xml:space="preserve">
-        <value>Mounted Blob containers will become read only in Feb 2020.</value>
+        <value>Mounted Blob containers are read only.</value>
     </data>
     <data name="quickstartHeader" xml:space="preserve">
         <value>Learn how to develop Azure Functions locally</value>
