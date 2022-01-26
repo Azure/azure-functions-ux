@@ -67,7 +67,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
           id="azure-storage-mount-blob-warning"
           message={t('readonlyBlobStorageWarning')}
           learnMoreLink={Links.byosBlobReadonlyLearnMore}
-          type={MessageBarType.warning}
+          type={MessageBarType.info}
           undocked={true}
         />
       )}
