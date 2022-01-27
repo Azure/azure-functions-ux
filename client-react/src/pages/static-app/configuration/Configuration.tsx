@@ -50,7 +50,6 @@ import { commandBarSeparator } from '../../../components/DisplayTableWithCommand
 import { getSearchFilter } from '../../../components/form-controls/SearchBox';
 import { getTelemetryInfo } from '../StaticSiteUtility';
 import CustomTabRenderer from '../../app/app-settings/Sections/CustomTabRenderer';
-import ConfigurationGeneralSettings from './ConfigurationGeneralSettings';
 
 const Configuration: React.FC<ConfigurationProps> = props => {
   const {
@@ -714,9 +713,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
               },
               t('modifiedTag')
             )
-          }>
-          <ConfigurationGeneralSettings />
-        </PivotItem>
+          }
+        />
       </Pivot>
     </>
   );
