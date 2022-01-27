@@ -117,16 +117,30 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
   const getDockerFxVersion = (prefix: string, values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
     if (values.registrySource === ContainerRegistrySources.acr) {
-      return `${prefix}|${values.acrLoginServer}/${values.acrImage}:${values.acrTag}`;
+      const serverImageTag = formatServerImageTag(values.acrLoginServer, `${values.acrImage}:${values.acrTag}`);
+      return `${prefix}|${serverImageTag}`;
     } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
       const server = values.privateRegistryServerUrl
         .toLocaleLowerCase()
-        .replace('https://', '')
+        .replace(CommonConstants.DeploymentCenterConstants.https, '')
         .replace(/\/+$/, '');
-      return `${prefix}|${server}/${values.privateRegistryImageAndTag}`;
+      const serverImageTag = formatServerImageTag(server, values.privateRegistryImageAndTag);
+      return `${prefix}|${serverImageTag}`;
     } else {
       return `${prefix}|${values.dockerHubImageAndTag}`;
     }
+  };
+
+  const formatServerImageTag = (server: string, imageAndTag: string) => {
+    const imageAndTagWithoutScheme = imageAndTag
+      .replace(CommonConstants.DeploymentCenterConstants.https, '')
+      .replace(CommonConstants.DeploymentCenterConstants.http, '');
+    const imageAndTagParts = imageAndTagWithoutScheme.split(CommonConstants.singleForwardSlash);
+    let formattedImageAndTag = imageAndTagWithoutScheme;
+    if (imageAndTagParts[0] === server) {
+      formattedImageAndTag = imageAndTagParts.slice(1).join(CommonConstants.singleForwardSlash);
+    }
+    return `${server}/${formattedImageAndTag}`;
   };
 
   const getFxVersionPrefix = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>): string => {
