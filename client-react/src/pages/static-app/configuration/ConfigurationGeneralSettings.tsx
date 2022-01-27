@@ -14,8 +14,8 @@ import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNo
 import { Stack } from '@fluentui/react/lib/Stack';
 
 const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> = props => {
+  const { disabled, visitorPassword, setVisitorPassword } = props;
   const [passwordProtection, setPasswordProtection] = useState<PasswordProtectionTypes>(PasswordProtectionTypes.Disabled);
-  const [visitorPassword, setVisitorPassword] = useState<string>('');
 
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
@@ -58,6 +58,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
           required={true}
           onChange={PasswordProtectionRadioButtonOnChange}
           displayInVerticalLayout={true}
+          disabled={disabled}
         />
       </Stack>
     );
@@ -87,18 +88,20 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
     );
   };
 
-  const getPasswordProtectionTextBox = () => {
+  const getVisitorPasswordTextBox = () => {
     return (
       <div className={textboxStyle}>
         <TextFieldNoFormik
+          required={true}
           className={textboxStyle}
-          id="deployment-center-ftps-application-password"
+          id="general-settings-visitor-password"
           label={t('staticSite_visitorPassword')}
           placeholder={t('staticSite_enterVisitorPassword')}
           widthOverride="100%"
           type={TextFieldType.password}
           value={visitorPassword}
           onChange={onPasswordChange}
+          disabled={disabled}
         />
       </div>
     );
@@ -113,7 +116,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
       <h3>{t('staticSite_passwordProtection')}</h3>
       {getPasswordProtectionDescription()}
       {getPasswordProtectionRadioButtons()}
-      {getPasswordProtectionTextBox()}
+      {getVisitorPasswordTextBox()}
     </>
   );
 };

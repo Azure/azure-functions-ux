@@ -24,10 +24,30 @@ export interface ConfigurationProps {
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
 }
 
-export interface ConfigurationGeneralSettingsProps {}
+export interface ConfigurationGeneralSettingsProps {
+  disabled: boolean;
+  visitorPassword: string;
+  setVisitorPassword: React.Dispatch<React.SetStateAction<string>>;
+}
 
 export enum PasswordProtectionTypes {
   Disabled = 'disabled',
   StagingOnly = 'stagingonly',
   StagingAndProduction = 'stagingandproduction',
+}
+
+export enum SecretState {
+  None = 'None',
+  Password = 'Password',
+  SecretUrl = 'SecretUrl',
+}
+
+// All Environments: all environments are locked down via password auth
+// StagingEnvironments: all stage environments are locked down
+// SpecifiedEnvironments: specify the environment names as a comma separated list via the "environments" property.
+// Prod environment is referred to as 'default'
+export enum applicableEnvironmentsMode {
+  SpecifiedEnvironments = 'SpecifiedEnvironments',
+  AllEnvironments = 'AllEnvironments',
+  StagingEnvironments = 'StagingEnvironments',
 }
