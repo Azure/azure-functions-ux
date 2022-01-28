@@ -346,7 +346,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         uri: url,
         type: testDataObject.method as string,
         headers: { ...headers, ...getHeadersForLiveLogsSessionId(liveLogsSessionId) },
-        data: testDataObject.body,
+        data: JSON.stringify(testDataObject.body),
       };
     }
     return undefined;
