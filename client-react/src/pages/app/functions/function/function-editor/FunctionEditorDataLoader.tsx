@@ -531,7 +531,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       // Note (krmitta): Almost always we should be able to get the test_data through VFS Arm.
       // Adding the below fallback logic just on the off-chance that it doesn't.
       if (!testDataResponseSuccess) {
-        testData = getTestDataUsingFunctionHref(functionInfo.properties.test_data_href);
+        testData = await getTestDataUsingFunctionHref(functionInfo.properties.test_data_href);
       }
 
       if (!!testData) {
