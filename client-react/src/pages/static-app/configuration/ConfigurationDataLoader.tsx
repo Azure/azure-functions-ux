@@ -1,24 +1,27 @@
 import React, { useEffect, useState, useContext } from 'react';
 import ConfigurationData from './Configuration.data';
-import Configuration from './Configuration';
 import LogService from '../../../utils/LogService';
 import { LogCategories } from '../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
 import EnvironmentService from '../../../ApiHelpers/static-site/EnvironmentService';
 import { ArmObj } from '../../../models/arm-obj';
 import { Environment } from '../../../models/static-site/environment';
-import { EnvironmentVariable } from './Configuration.types';
+import {
+  ConfigurationDataLoaderProps,
+  ConfigurationFormData,
+  ConfigurationYupValidationSchemaType,
+  EnvironmentVariable,
+} from './Configuration.types';
 import { KeyValue } from '../../../models/portal-models';
 import { PortalContext } from '../../../PortalContext';
 import RbacConstants from '../../../utils/rbac-constants';
 import { useTranslation } from 'react-i18next';
+import { getTelemetryInfo } from '../StaticSiteUtility';
+import ConfigurationForm from './ConfigurationForm';
+import { ConfigurationFormBuilder } from './ConfigurationFormBuilder';
 
 const configurationData = new ConfigurationData();
 export const ConfigurationContext = React.createContext(configurationData);
-
-interface ConfigurationDataLoaderProps {
-  resourceId: string;
-}
 
 const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props => {
   const { resourceId } = props;
@@ -31,9 +34,13 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [hasWritePermissions, setHasWritePermissions] = useState(true);
   const [apiFailure, setApiFailure] = useState(false);
+  const [configurationFormData, setConfigurationFormData] = useState<ConfigurationFormData | undefined>(undefined);
+  const [codeFormValidationSchema, setCodeFormValidationSchema] = useState<ConfigurationYupValidationSchemaType | undefined>(undefined);
 
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
+
+  const configurationFormBuilder = new ConfigurationFormBuilder(t);
 
   const fetchData = async () => {
     setInitialLoading(true);
@@ -55,6 +62,8 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         `Failed to get environments: ${getErrorMessageOrStringify(environmentResponse.metadata.error)}`
       );
     }
+
+    await generateForm();
 
     setInitialLoading(false);
   };
@@ -102,6 +111,17 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     }
   };
 
+  const generateForm = () => {
+    setConfigurationFormData(configurationFormBuilder.generateFormData());
+    setCodeFormValidationSchema(configurationFormBuilder.generateYupValidationSchema());
+
+    portalContext.log(
+      getTelemetryInfo('info', 'generateForm', 'generated', {
+        publishType: 'code',
+      })
+    );
+  };
+
   const fetchDataOnEnvironmentChange = async (environmentResourceId: string) => {
     setApiFailure(false);
     fetchEnvironmentVariables(environmentResourceId);
@@ -119,7 +139,10 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
 
   return (
     <ConfigurationContext.Provider value={configurationData}>
-      <Configuration
+      <ConfigurationForm
+        resourceId={resourceId}
+        formData={configurationFormData}
+        validationSchema={codeFormValidationSchema}
         environments={environments}
         fetchDataOnEnvironmentChange={fetchDataOnEnvironmentChange}
         selectedEnvironmentVariableResponse={selectedEnvironmentVariableResponse}

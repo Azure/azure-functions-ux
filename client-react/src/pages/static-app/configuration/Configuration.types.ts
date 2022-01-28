@@ -1,6 +1,8 @@
 import { ArmObj } from '../../../models/arm-obj';
 import { KeyValue } from '../../../models/portal-models';
 import { Environment } from '../../../models/static-site/environment';
+import * as Yup from 'yup';
+import { FormikProps } from 'formik';
 
 export interface EnvironmentVariable {
   name: string;
@@ -13,7 +15,12 @@ export enum PanelType {
   bulk,
 }
 
+export interface ConfigurationDataLoaderProps {
+  resourceId: string;
+}
+
 export interface ConfigurationProps {
+  formProps: FormikProps<ConfigurationFormData>;
   environments: ArmObj<Environment>[];
   isLoading: boolean;
   hasWritePermissions: boolean;
@@ -26,14 +33,13 @@ export interface ConfigurationProps {
 
 export interface ConfigurationGeneralSettingsProps {
   disabled: boolean;
-  visitorPassword: string;
-  setVisitorPassword: React.Dispatch<React.SetStateAction<string>>;
+  formProps: FormikProps<ConfigurationFormData>;
 }
 
 export enum PasswordProtectionTypes {
   Disabled = 'disabled',
-  StagingOnly = 'stagingonly',
-  StagingAndProduction = 'stagingandproduction',
+  StagingEnvironments = 'stagingenvironments',
+  AllEnvironments = 'allenvironments',
 }
 
 export enum SecretState {
@@ -50,4 +56,40 @@ export enum applicableEnvironmentsMode {
   SpecifiedEnvironments = 'SpecifiedEnvironments',
   AllEnvironments = 'AllEnvironments',
   StagingEnvironments = 'StagingEnvironments',
+}
+
+export interface ConfigurationFormData {
+  environments: ArmObj<Environment>[];
+  passwordProtectionEnvironments: string;
+  passwordProtection: PasswordProtectionTypes;
+  visiorPassword: string;
+  visitorPasswordConfirm: string;
+}
+
+export type ConfigurationYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, ConfigurationFormData>>;
+
+export interface ConfigurationFormProps {
+  formData?: ConfigurationFormData;
+  validationSchema?: ConfigurationYupValidationSchemaType;
+  resourceId: string;
+  environments: ArmObj<Environment>[];
+  isLoading: boolean;
+  hasWritePermissions: boolean;
+  apiFailure: boolean;
+  fetchDataOnEnvironmentChange: (resourceId: string) => {};
+  saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
+  refresh: () => void;
+  selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
+}
+
+export interface ConfigurationPivotProps {
+  formProps: FormikProps<ConfigurationFormData>;
+  environments: ArmObj<Environment>[];
+  isLoading: boolean;
+  hasWritePermissions: boolean;
+  apiFailure: boolean;
+  fetchDataOnEnvironmentChange: (resourceId: string) => {};
+  saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
+  refresh: () => void;
+  selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
 }
