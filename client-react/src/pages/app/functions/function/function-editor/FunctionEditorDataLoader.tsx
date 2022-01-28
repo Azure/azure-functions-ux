@@ -586,11 +586,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const getTestDataUsingPassthrough = async (settings: NetAjaxSettings) => {
-    const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(
-      settings.uri,
-      settings.type as Method,
-      settings.headers as KeyValue<string>
-    );
+    const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(settings.uri, settings.type as Method, {
+      ...(settings.headers as KeyValue<string>),
+      ...getAuthorizationHeaders(),
+    });
     if (functionHrefTestDataResponse.metadata.success) {
       return functionHrefTestDataResponse.data;
     } else {
@@ -601,6 +600,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       );
     }
     return undefined;
+  };
+
+  const getAuthorizationHeaders = (): KeyValue<string> => {
+    return {
+      Authorization: `Bearer ${startupInfoContext.token}`,
+      FunctionsPortal: '1',
+    };
   };
 
   const refresh = async () => {

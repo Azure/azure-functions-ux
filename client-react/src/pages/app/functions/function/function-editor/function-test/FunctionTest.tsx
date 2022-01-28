@@ -194,7 +194,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     addCorsRule(getCorsRuleToRunFromBrowser());
   };
 
-  const checkCorsAndDisableTest = () => !isCorsRuleAdded() && enablePortalCall;
+  const checkCorsAndDisableTest = () => !isCorsRuleAdded() && !!enablePortalCall;
 
   const getBanner = () => {
     if (checkCorsAndDisableTest()) {
