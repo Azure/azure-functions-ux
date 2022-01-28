@@ -30,3 +30,7 @@ export const getTelemetryInfo = (
     },
   };
 };
+
+export const isKeyVaultReference = (value: string) => {
+  return value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
+};
