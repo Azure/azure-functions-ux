@@ -69,6 +69,7 @@ export interface FunctionEditorProps {
   fileList?: VfsObject[];
   testData?: string;
   workerRuntime?: string;
+  enablePortalCall?: boolean;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
@@ -92,6 +93,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     refreshFileList,
     workerRuntime,
     addCorsRule,
+    enablePortalCall,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -572,6 +574,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           xFunctionKey={xFunctionKey}
           getFunctionUrl={getFunctionUrl}
           addCorsRule={addCorsRule}
+          enablePortalCall={enablePortalCall}
         />
       </CustomPanel>
       {isLoading() && <LoadingComponent />}
