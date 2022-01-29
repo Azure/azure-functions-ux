@@ -65,7 +65,6 @@ export class CommonConstants {
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
-    makeCallThroughPortal: 'makeCallThroughPortal',
     useStackApiForRuntimeVersion: 'useStackApiForRuntimeVersion',
   };
 
@@ -289,9 +288,11 @@ export class SubscriptionQuotaIds {
 export class ExperimentationConstants {
   public static TreatmentFlight = {
     linuxPortalEditing: 'linux-portal-editing-variant',
+    portalCallOnEditor: 'enable-portal-call-editor',
   };
 
   public static ControlFlight = {
     linuxPortalEditing: 'linux-portal-editing-default',
+    portalCallOnEditor: 'disable-portal-call-editor',
   };
 }

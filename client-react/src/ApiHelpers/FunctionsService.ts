@@ -12,6 +12,8 @@ import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
 import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
+import { NetAjaxSettings } from '../models/ajax-request-model';
+import { Method } from 'axios';
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -53,6 +55,33 @@ export default class FunctionsService {
       body: functionInfo,
     });
   };
+
+  public static runFunction(settings: NetAjaxSettings) {
+    const url = settings.uri;
+    const method = settings.type as Method;
+    const headers = settings.headers || {};
+    const data = settings.data;
+
+    return sendHttpRequest({ url, method, headers, data }).catch(err => {
+      return this.tryPassThroughController(err, url, method, headers, data);
+    });
+  }
+
+  public static getDataFromFunctionHref(url: string, method: Method, headers: KeyValue<string>, body?: any) {
+    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
+      return this.tryPassThroughController(err, url, method, headers, body);
+    });
+  }
+
+  private static tryPassThroughController(err: any, url: string, method: Method, headers: KeyValue<string>, body: any) {
+    const passthroughBody = {
+      url,
+      headers,
+      method,
+      body,
+    };
+    return sendHttpRequest({ url: `${Url.serviceHost}api/passthrough`, method: 'POST', data: passthroughBody });
+  }
 
   public static getBindings = (functionAppId: string) => {
     const resourceId = `${functionAppId}/host/default/bindings`;

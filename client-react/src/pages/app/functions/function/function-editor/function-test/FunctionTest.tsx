@@ -32,6 +32,7 @@ export interface FunctionTestProps {
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   testData?: string;
+  enablePortalCall?: boolean;
 }
 
 // TODO (krmitta): Add Content for Function test panel [WI: 5536379]
@@ -58,6 +59,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     xFunctionKey,
     getFunctionUrl,
     addCorsRule,
+    enablePortalCall,
   } = props;
 
   const errorMessage = {
@@ -192,8 +194,10 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     addCorsRule(getCorsRuleToRunFromBrowser());
   };
 
+  const checkCorsAndDisableTest = () => !isCorsRuleAdded() && !!enablePortalCall;
+
   const getBanner = () => {
-    if (!isCorsRuleAdded()) {
+    if (checkCorsAndDisableTest()) {
       return (
         <CustomBanner
           message={t('missingCorsMessage').format(getCorsRuleToRunFromBrowser())}
@@ -240,7 +244,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           id: 'run',
           title: t('run'),
           onClick: formProps.submitForm,
-          disable: !!statusMessage || !isCorsRuleAdded(),
+          disable: !!statusMessage || checkCorsAndDisableTest(),
           autoFocus: true,
         };
 
