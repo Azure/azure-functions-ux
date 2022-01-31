@@ -190,7 +190,7 @@ export default class PortalCommunicator {
 
     const payload: IDataMessage<NetAjaxSettings> = {
       operationId: Guid.newGuid(),
-      data: query,
+      data: updatedQuery,
     };
 
     PortalCommunicator.postMessage(Verbs.httpRequest, this.packageData(payload));
