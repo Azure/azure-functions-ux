@@ -20,6 +20,7 @@ export interface ConfigurationDataLoaderProps {
 }
 
 export interface ConfigurationProps {
+  isRefreshing: boolean;
   formProps: FormikProps<ConfigurationFormData>;
   environments: ArmObj<Environment>[];
   isLoading: boolean;
@@ -37,9 +38,9 @@ export interface ConfigurationGeneralSettingsProps {
 }
 
 export enum PasswordProtectionTypes {
-  Disabled = 'disabled',
-  StagingEnvironments = 'stagingenvironments',
-  AllEnvironments = 'allenvironments',
+  Disabled = 'Disabled',
+  StagingEnvironments = 'StagingEnvironments',
+  AllEnvironments = 'AllEnvironments',
 }
 
 export enum SecretState {
@@ -60,10 +61,14 @@ export enum applicableEnvironmentsMode {
 
 export interface ConfigurationFormData {
   environments: ArmObj<Environment>[];
+  environmentVariables: EnvironmentVariable[];
   passwordProtectionEnvironments: string;
   passwordProtection: PasswordProtectionTypes;
-  visiorPassword: string;
+  visitorPassword: string;
   visitorPasswordConfirm: string;
+  isAppSettingsDirty: boolean;
+  isGeneralSettingsDirty: boolean;
+  selectedEnvironment?: ArmObj<Environment>;
 }
 
 export type ConfigurationYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, ConfigurationFormData>>;
@@ -74,6 +79,7 @@ export interface ConfigurationFormProps {
   resourceId: string;
   environments: ArmObj<Environment>[];
   isLoading: boolean;
+  isRefreshing: boolean;
   hasWritePermissions: boolean;
   apiFailure: boolean;
   fetchDataOnEnvironmentChange: (resourceId: string) => {};
@@ -85,6 +91,7 @@ export interface ConfigurationFormProps {
 export interface ConfigurationPivotProps {
   formProps: FormikProps<ConfigurationFormData>;
   environments: ArmObj<Environment>[];
+  isRefreshing: boolean;
   isLoading: boolean;
   hasWritePermissions: boolean;
   apiFailure: boolean;

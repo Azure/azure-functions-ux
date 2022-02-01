@@ -57,6 +57,10 @@ export const textboxStyle = style({
   marginBottom: '-5px',
 });
 
+export const formElementStyle = style({
+  maxWidth: maxElementWidth,
+});
+
 export const descriptionStyle = style({
   marginBottom: spacingBetweenElements,
   maxWidth: maxElementWidth,

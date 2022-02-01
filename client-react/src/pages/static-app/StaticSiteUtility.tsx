@@ -1,5 +1,6 @@
 import { KeyValue } from '../../models/portal-models';
 import { LogLevel, TelemetryInfo } from '../../models/telemetry';
+import { PasswordProtectionTypes } from './configuration/Configuration.types';
 
 export const getTelemetryInfo = (
   logLevel: LogLevel,
@@ -33,4 +34,15 @@ export const getTelemetryInfo = (
 
 export const isKeyVaultReference = (value: string) => {
   return value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
+};
+
+export const stringToPasswordProtectionType = (passwordProtection: string) => {
+  switch (passwordProtection) {
+    case PasswordProtectionTypes.StagingEnvironments:
+      return PasswordProtectionTypes.StagingEnvironments;
+    case PasswordProtectionTypes.AllEnvironments:
+      return PasswordProtectionTypes.AllEnvironments;
+    default:
+      return PasswordProtectionTypes.Disabled;
+  }
 };
