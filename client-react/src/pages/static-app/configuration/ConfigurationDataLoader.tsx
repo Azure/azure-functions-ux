@@ -16,9 +16,11 @@ import { KeyValue } from '../../../models/portal-models';
 import { PortalContext } from '../../../PortalContext';
 import RbacConstants from '../../../utils/rbac-constants';
 import { useTranslation } from 'react-i18next';
-import { getTelemetryInfo } from '../StaticSiteUtility';
+import { getTelemetryInfo, stringToPasswordProtectionType } from '../StaticSiteUtility';
 import ConfigurationForm from './ConfigurationForm';
 import { ConfigurationFormBuilder } from './ConfigurationFormBuilder';
+import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
+import { PasswordProtectionTypes } from './Configuration.types';
 
 const configurationData = new ConfigurationData();
 export const ConfigurationContext = React.createContext(configurationData);
@@ -44,16 +46,21 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
 
   const fetchData = async () => {
     setInitialLoading(true);
-    setIsRefreshing(true);
+    let envResponse: ArmObj<Environment>[] = [];
+    let passwordProtection: PasswordProtectionTypes | undefined = undefined;
 
     const appPermission = await portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     setHasWritePermissions(appPermission);
 
-    const environmentResponse = await EnvironmentService.getEnvironments(resourceId);
+    const [environmentResponse, staticSiteAuthResponse] = await Promise.all([
+      EnvironmentService.getEnvironments(resourceId),
+      StaticSiteService.getStaticSiteBasicAuth(resourceId),
+    ]);
 
     if (environmentResponse.metadata.success) {
       // TODO(krmitta): Handle nextlinks
       setEnvironments(environmentResponse.data.value);
+      envResponse = environmentResponse.data.value;
     } else {
       setApiFailure(true);
       LogService.error(
@@ -63,13 +70,29 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
       );
     }
 
-    await generateForm();
+    if (staticSiteAuthResponse.metadata.success) {
+      const passwordProtectionType = stringToPasswordProtectionType(
+        staticSiteAuthResponse.data.properties.applicableEnvironmentsMode || ''
+      );
+      passwordProtection = passwordProtectionType;
+    } else {
+      setApiFailure(true);
+      LogService.error(
+        LogCategories.staticSiteConfiguration,
+        'getStaticSiteBasicAuth',
+        `Failed to get environments: ${getErrorMessageOrStringify(staticSiteAuthResponse.metadata.error)}`
+      );
+    }
+
+    if (!apiFailure) {
+      generateForm(envResponse, passwordProtection);
+    }
 
     setInitialLoading(false);
   };
 
   const fetchEnvironmentVariables = async (environmentResourceId: string) => {
-    setIsRefreshing(true);
+    setInitialLoading(true);
     const environmentSettingsResponse = await EnvironmentService.fetchEnvironmentSettings(environmentResourceId);
     if (environmentSettingsResponse.metadata.success) {
       setSelectedEnvironmentVariableResponse(environmentSettingsResponse.data);
@@ -81,12 +104,12 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         `Failed to fetch environment settings: ${getErrorMessageOrStringify(environmentSettingsResponse.metadata.error)}`
       );
     }
-    setIsRefreshing(false);
+    setInitialLoading(false);
   };
 
   const saveEnvironmentVariables = async (environmentResourceId: string, environmentVariables: EnvironmentVariable[]) => {
     if (!!selectedEnvironmentVariableResponse) {
-      setIsRefreshing(true);
+      setInitialLoading(true);
       const updatedEnvironmentVariablesObject = ConfigurationData.convertEnvironmentVariablesArrayToObject(environmentVariables);
       const updatedEnvironmentVariableRequest = selectedEnvironmentVariableResponse;
       updatedEnvironmentVariableRequest.properties = updatedEnvironmentVariablesObject;
@@ -107,12 +130,12 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         );
         portalContext.stopNotification(notificationId, false, t('staticSite_configUpdateFailure').format(errorMessage));
       }
-      setIsRefreshing(false);
+      setInitialLoading(false);
     }
   };
 
-  const generateForm = () => {
-    setConfigurationFormData(configurationFormBuilder.generateFormData());
+  const generateForm = (environments?: ArmObj<Environment>[], basicAuth?: PasswordProtectionTypes) => {
+    setConfigurationFormData(configurationFormBuilder.generateFormData(environments, basicAuth));
     setCodeFormValidationSchema(configurationFormBuilder.generateYupValidationSchema());
 
     portalContext.log(
@@ -127,8 +150,10 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     fetchEnvironmentVariables(environmentResourceId);
   };
 
-  const refresh = () => {
-    fetchData();
+  const refresh = async () => {
+    setIsRefreshing(true);
+    await fetchData();
+    setIsRefreshing(false);
   };
 
   useEffect(() => {
@@ -141,6 +166,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     <ConfigurationContext.Provider value={configurationData}>
       <ConfigurationForm
         resourceId={resourceId}
+        isRefreshing={isRefreshing}
         formData={configurationFormData}
         validationSchema={codeFormValidationSchema}
         environments={environments}
@@ -148,7 +174,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         selectedEnvironmentVariableResponse={selectedEnvironmentVariableResponse}
         saveEnvironmentVariables={saveEnvironmentVariables}
         refresh={refresh}
-        isLoading={initialLoading || isRefreshing}
+        isLoading={initialLoading}
         hasWritePermissions={hasWritePermissions}
         apiFailure={apiFailure}
       />

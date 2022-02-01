@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { Formik, FormikProps, FormikActions } from 'formik';
 import {
   ConfigurationFormData,
@@ -6,6 +6,7 @@ import {
   PasswordProtectionTypes,
   SecretState,
   applicableEnvironmentsMode,
+  EnvironmentVariable,
 } from './Configuration.types';
 import { KeyCodes } from '@fluentui/react';
 import { getTelemetryInfo, isKeyVaultReference } from '../StaticSiteUtility';
@@ -18,10 +19,11 @@ import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { useTranslation } from 'react-i18next';
 import ConfigurationPivot from './ConfigurationPivot';
-//import ConfigurationData from './Configuration.data';
+import ConfigurationData from './Configuration.data';
+import { sortBy } from 'lodash-es';
 
 const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
-  const { resourceId, hasWritePermissions, isLoading, selectedEnvironmentVariableResponse } = props;
+  const { resourceId, hasWritePermissions, isLoading, selectedEnvironmentVariableResponse, saveEnvironmentVariables } = props;
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
 
@@ -36,14 +38,14 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
   };
 
   const updatePasswordProtection = async (values: ConfigurationFormData) => {
-    const isPasswordKVReference = !!values.visiorPassword && isKeyVaultReference(values.visiorPassword);
+    const isPasswordKVReference = !!values.visitorPassword && isKeyVaultReference(values.visitorPassword);
     const basicAuthRequestBody = {
       name: 'basicAuth',
       type: 'Microsoft.Web/staticSites/basicAuth',
       properties: {
         environments: values.passwordProtectionEnvironments,
-        password: !isPasswordKVReference ? values.visiorPassword : '',
-        secretUrl: isPasswordKVReference ? values.visiorPassword : '',
+        password: !isPasswordKVReference ? values.visitorPassword : '',
+        secretUrl: isPasswordKVReference ? values.visitorPassword : '',
         applicableEnvironmentsMode: getApplicableEnvironments(values.passwordProtection),
         secretState: getSecretState(values.passwordProtection, isPasswordKVReference),
       },
@@ -74,16 +76,16 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
     return isPasswordKVReference ? SecretState.SecretUrl : SecretState.Password;
   };
 
-  const submitEnvironmentVariables = async () => {
-    // if (!!selectedEnvironment) {
-    //   saveEnvironmentVariables(selectedEnvironment.id, environmentVariables);
-    // }
+  const submitEnvironmentVariables = async (values: ConfigurationFormData) => {
+    if (!!values.selectedEnvironment) {
+      saveEnvironmentVariables(values.selectedEnvironment.id, values.environmentVariables);
+    }
   };
 
   const onSubmit = async (values: ConfigurationFormData, formikActions: FormikActions<ConfigurationFormData>) => {
     portalContext.log(getTelemetryInfo('info', 'onSubmitCodeForm', 'submit'));
 
-    await Promise.all([updatePasswordProtection(values), submitEnvironmentVariables()]);
+    await Promise.all([updatePasswordProtection(values), submitEnvironmentVariables(values)]);
 
     formikActions.setSubmitting(false);
     portalContext.updateDirtyState(false);
@@ -100,57 +102,57 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
     return !!bannerInfo.message ? <CustomBanner message={bannerInfo.message} type={bannerInfo.type} /> : <></>;
   };
 
-  const discard = () => {
-    initEnvironmentVariables();
+  const discard = (formProps: FormikProps<ConfigurationFormData>) => {
+    formProps.resetForm();
+    formProps.setFieldValue('environmentVariables', [...getInitialEnvironmentVariables()]);
     hideDiscardConfirmDialog();
+    portalContext.updateDirtyState(false);
   };
 
-  const initEnvironmentVariables = () => {
-    //setEnvironmentVariables([...getInitialEnvironmentVariables()]);
-  };
-
-  const refresh = () => {
+  const refresh = (formProps: FormikProps<ConfigurationFormData>) => {
     setIsRefreshConfirmDialogVisible(false);
-    //setSelectedEnvironment(undefined);
-    //setFilter('');
     props.refresh();
+    formProps.setFieldValue('isAppSettingsDirty', false);
+    formProps.setFieldValue('isGeneralSettingsDirty', false);
+    portalContext.updateDirtyState(false);
   };
 
   const hideRefreshConfirmDialog = () => {
     setIsRefreshConfirmDialogVisible(false);
   };
 
-  // const getInitialEnvironmentVariables = () => {
-  //   if (!!selectedEnvironmentVariableResponse) {
-  //     return sort(ConfigurationData.convertEnvironmentVariablesObjectToArray(selectedEnvironmentVariableResponse.properties));
-  //   } else {
-  //     return [];
-  //   }
-  // };
+  const sort = (environmentVariables: EnvironmentVariable[]) => {
+    return sortBy(environmentVariables, e => e.name.toLocaleLowerCase());
+  };
 
-  useEffect(() => {
-    initEnvironmentVariables();
+  const getInitialEnvironmentVariables = () => {
+    if (!!selectedEnvironmentVariableResponse) {
+      return sort(ConfigurationData.convertEnvironmentVariablesObjectToArray(selectedEnvironmentVariableResponse.properties));
+    } else {
+      return [];
+    }
+  };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedEnvironmentVariableResponse]);
-
-  const getConfirmDialogs = () => {
+  const getConfirmDialogs = (formProps: FormikProps<ConfigurationFormData>) => {
     return (
       <>
         <ConfirmDialog
           primaryActionButton={{
             title: t('ok'),
-            onClick: discard,
+            onClick: () => {
+              discard(formProps);
+            },
           }}
           defaultActionButton={{
             title: t('cancel'),
             onClick: hideDiscardConfirmDialog,
           }}
           title={t('discardChangesTitle')}
-          content={t('staticSite_discardChangesMesssage')}
-          //   .format(
-          //     !!selectedEnvironment ? ConfigurationData.getEnvironmentName(selectedEnvironment) : ''
-          //   )}
+          content={t('staticSite_discardChangesMesssage').format(
+            !!formProps.values && !!formProps.values.selectedEnvironment
+              ? ConfigurationData.getEnvironmentName(formProps.values.selectedEnvironment)
+              : ''
+          )}
           hidden={!isDiscardConfirmDialogVisible}
           onDismiss={hideDiscardConfirmDialog}
         />
@@ -158,7 +160,9 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
         <ConfirmDialog
           primaryActionButton={{
             title: t('ok'),
-            onClick: refresh,
+            onClick: () => {
+              refresh(formProps);
+            },
           }}
           defaultActionButton={{
             title: t('cancel'),
@@ -186,19 +190,19 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
           <div className={commandBarSticky}>
             <ConfigurationCommandBar
               save={formProps.submitForm}
-              dirty={false}
+              dirty={formProps.values.isAppSettingsDirty || formProps.values.isGeneralSettingsDirty}
               isLoading={isLoading}
               showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)}
               refresh={() => {
-                if (true) {
+                if (formProps.values.isAppSettingsDirty || formProps.values.isGeneralSettingsDirty) {
                   setIsRefreshConfirmDialogVisible(true);
                 } else {
-                  refresh();
+                  refresh(formProps);
                 }
               }}
             />
             {getBanner()}
-            {getConfirmDialogs()}
+            {getConfirmDialogs(formProps)}
           </div>
           <div>
             <ConfigurationPivot {...props} formProps={formProps} />

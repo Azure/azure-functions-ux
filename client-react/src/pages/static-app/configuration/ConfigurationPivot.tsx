@@ -28,11 +28,11 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = props => {
   };
 
   const isAppSettingsDirty = (): boolean => {
-    return false;
+    return !!formProps.values && formProps.values.isAppSettingsDirty;
   };
 
   const isGeneralSettingsDirty = (): boolean => {
-    return false;
+    return !!formProps.values && formProps.values.isGeneralSettingsDirty;
   };
 
   return (
