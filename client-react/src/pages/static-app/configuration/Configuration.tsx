@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import ConfigurationCommandBar from './ConfigurationCommandBar';
 import DisplayTableWithCommandBar from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import {
   ICommandBarItemProps,
@@ -9,20 +8,15 @@ import {
   Link,
   TooltipHost,
   ActionButton,
-  MessageBarType,
   Checkbox,
   DetailsRow,
   DetailsHeader,
-  Pivot,
-  PivotItem,
-  IPivotItemProps,
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { ConfigurationProps, EnvironmentVariable, PanelType } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import {
   formStyle,
-  commandBarSticky,
   tableValueComponentStyle,
   tableValueFormFieldStyle,
   tableValueIconStyle,
@@ -40,26 +34,24 @@ import CustomPanel from '../../../components/CustomPanel/CustomPanel';
 import ConfigurationAddEdit from './ConfigurationAddEdit';
 import { sortBy } from 'lodash-es';
 import ConfigurationData from './Configuration.data';
-import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
-import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../utils/FwLinks';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import { PortalContext } from '../../../PortalContext';
 import { commandBarSeparator } from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 import { getSearchFilter } from '../../../components/form-controls/SearchBox';
-import { getTelemetryInfo } from '../StaticSiteUtility';
-import CustomTabRenderer from '../../app/app-settings/Sections/CustomTabRenderer';
+import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 
 const Configuration: React.FC<ConfigurationProps> = props => {
   const {
     environments,
     selectedEnvironmentVariableResponse,
-    saveEnvironmentVariables,
     isLoading,
     hasWritePermissions,
     apiFailure,
     fetchDataOnEnvironmentChange,
+    formProps,
+    isRefreshing,
   } = props;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
@@ -69,29 +61,15 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [showPanel, setShowPanel] = useState(false);
   const [panelType, setPanelType] = useState<PanelType | undefined>(undefined);
   const [currentEnvironmentVariableIndex, setCurrentEnvironmentVariableIndex] = useState<number | undefined>(undefined);
-  const [selectedEnvironment, setSelectedEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
   const [isDirty, setIsDirty] = useState(false);
-  const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
-  const [isOnChangeConfirmDialogVisible, setIsOnChangeConfirmDialogVisible] = useState(false);
   const [onChangeEnvironment, setOnChangeEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
-  const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
   const [columns, setColumns] = useState<IColumn[]>([]);
-  const [selectedKey, setSelectedKey] = useState<string>('settings');
+  const [isOnChangeConfirmDialogVisible, setIsOnChangeConfirmDialogVisible] = useState(false);
 
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
-
-  const onLinkClick = (item: PivotItem) => {
-    if (item.props.itemKey) {
-      setSelectedKey(item.props.itemKey);
-      const data = {
-        tabName: item.props.itemKey,
-      };
-      portalContext.log(getTelemetryInfo('info', 'tabClicked', 'clicked', data));
-    }
-  };
 
   const openAddNewEnvironmentVariablePanel = () => {
     setShowPanel(true);
@@ -304,6 +282,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       (currColumn.isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1
     );
     setEnvironmentVariables(newEnvironmentVariables);
+    formProps.setFieldValue('environmentVariables', newEnvironmentVariables);
   };
 
   const onDropdownChange = (environment: ArmObj<Environment>) => {
@@ -349,12 +328,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     return sortBy(environmentVariables, e => e.name.toLocaleLowerCase());
   };
 
-  const save = () => {
-    if (!!selectedEnvironment) {
-      saveEnvironmentVariables(selectedEnvironment.id, environmentVariables);
-    }
-  };
-
   const getInitialEnvironmentVariables = () => {
     if (!!selectedEnvironmentVariableResponse) {
       return sort(ConfigurationData.convertEnvironmentVariablesObjectToArray(selectedEnvironmentVariableResponse.properties));
@@ -380,20 +353,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     );
   };
 
-  const initEnvironmentVariables = () => {
-    setEnvironmentVariables([...getInitialEnvironmentVariables()]);
-  };
-
-  const discard = () => {
-    setIsDirty(false);
-    initEnvironmentVariables();
-    hideDiscardConfirmDialog();
-  };
-
-  const hideDiscardConfirmDialog = () => {
-    setIsDiscardConfirmDialogVisible(false);
-  };
-
   const hideOnChangeConfirmDialog = () => {
     setIsOnChangeConfirmDialogVisible(false);
     setOnChangeEnvironment(undefined);
@@ -403,34 +362,15 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     const env: ArmObj<Environment> | undefined = onChangeEnvironment || environment;
     if (!!env) {
       fetchDataOnEnvironmentChange(env.id);
-      setSelectedEnvironment(env);
+      formProps.setFieldValue('selectedEnvironment', env);
     }
     hideOnChangeConfirmDialog();
   };
 
   const setDefaultSelectedEnvironment = () => {
-    if (environments.length > 0 && !selectedEnvironment) {
+    if (environments.length > 0 && !formProps.values.selectedEnvironment) {
       onEnvironmentChange(environments[0]);
     }
-  };
-
-  const refresh = () => {
-    setIsRefreshConfirmDialogVisible(false);
-    setSelectedEnvironment(undefined);
-    setFilter('');
-    props.refresh();
-  };
-
-  const hideRefreshConfirmDialog = () => {
-    setIsRefreshConfirmDialogVisible(false);
-  };
-
-  const getBanner = () => {
-    const bannerInfo = { message: '', type: MessageBarType.info };
-    if (!hasWritePermissions) {
-      bannerInfo.message = t('staticSite_readOnlyRbac');
-    }
-    return !!bannerInfo.message ? <CustomBanner message={bannerInfo.message} type={bannerInfo.type} /> : <></>;
   };
 
   const onRowItemCheckboxChange = (item: EnvironmentVariable) => {
@@ -511,57 +451,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     const updatedEnvironmentVariables = [...environmentVariables];
     setEnvironmentVariables(updatedEnvironmentVariables.filter(environmentVariable => !environmentVariable.checked));
     setIsDirty(true);
-  };
-
-  const getConfirmDialogs = () => {
-    return (
-      <>
-        <ConfirmDialog
-          primaryActionButton={{
-            title: t('ok'),
-            onClick: discard,
-          }}
-          defaultActionButton={{
-            title: t('cancel'),
-            onClick: hideDiscardConfirmDialog,
-          }}
-          title={t('discardChangesTitle')}
-          content={t('staticSite_discardChangesMesssage').format(
-            !!selectedEnvironment ? ConfigurationData.getEnvironmentName(selectedEnvironment) : ''
-          )}
-          hidden={!isDiscardConfirmDialogVisible}
-          onDismiss={hideDiscardConfirmDialog}
-        />
-        <ConfirmDialog
-          primaryActionButton={{
-            title: t('ok'),
-            onClick: onEnvironmentChange,
-          }}
-          defaultActionButton={{
-            title: t('cancel'),
-            onClick: hideOnChangeConfirmDialog,
-          }}
-          title={t('staticSite_changeEnvironmentTitle')}
-          content={t('staticSite_changeEnvironmentMessage')}
-          hidden={!isOnChangeConfirmDialogVisible}
-          onDismiss={hideOnChangeConfirmDialog}
-        />
-        <ConfirmDialog
-          primaryActionButton={{
-            title: t('ok'),
-            onClick: refresh,
-          }}
-          defaultActionButton={{
-            title: t('cancel'),
-            onClick: hideRefreshConfirmDialog,
-          }}
-          title={t('staticSite_refreshConfirmTitle')}
-          content={t('staticSite_refreshConfirmMessage')}
-          hidden={!isRefreshConfirmDialogVisible}
-          onDismiss={hideRefreshConfirmDialog}
-        />
-      </>
-    );
+    formProps.setFieldValue('isAppSettingsDirty', true);
   };
 
   const getAddEditPanel = () => {
@@ -615,19 +505,52 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     );
   };
 
+  const getConfirmDialogs = () => {
+    return (
+      <ConfirmDialog
+        primaryActionButton={{
+          title: t('ok'),
+          onClick: onEnvironmentChange,
+        }}
+        defaultActionButton={{
+          title: t('cancel'),
+          onClick: hideOnChangeConfirmDialog,
+        }}
+        title={t('staticSite_changeEnvironmentTitle')}
+        content={t('staticSite_changeEnvironmentMessage')}
+        hidden={!isOnChangeConfirmDialogVisible}
+        onDismiss={hideOnChangeConfirmDialog}
+      />
+    );
+  };
+
+  const initEnvironmentVariables = () => {
+    const envVar = [...getInitialEnvironmentVariables()];
+    setEnvironmentVariables(envVar);
+    formProps.setFieldValue('environmentVariables', envVar);
+  };
+
   useEffect(() => {
     setDefaultSelectedEnvironment();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [environments]);
+  }, [formProps.values.environments]);
 
   useEffect(() => {
     const dirtyState = getDirtyState(environmentVariables);
     setIsDirty(dirtyState);
+    formProps.setFieldValue('isAppSettingsDirty', dirtyState);
     portalContext.updateDirtyState(dirtyState);
+    formProps.setFieldValue('environmentVariables', environmentVariables);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [environmentVariables]);
+
+  useEffect(() => {
+    setColumns(getDefaultColumns());
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shownValues, environmentVariables]);
 
   useEffect(() => {
     initEnvironmentVariables();
@@ -636,86 +559,39 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   }, [selectedEnvironmentVariableResponse]);
 
   useEffect(() => {
-    setColumns(getDefaultColumns());
+    if (isRefreshing) {
+      formProps.setFieldValue('selectedEnvironment', undefined);
+      setFilter('');
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shownValues, environmentVariables]);
+  }, [isRefreshing]);
 
   return (
     <>
-      <div className={commandBarSticky}>
-        <ConfigurationCommandBar
-          save={save}
-          dirty={isDirty}
-          isLoading={isLoading}
-          showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)}
-          refresh={() => {
-            if (isDirty) {
-              setIsRefreshConfirmDialogVisible(true);
-            } else {
-              refresh();
-            }
-          }}
-        />
-      </div>
-      {getBanner()}
       {getConfirmDialogs()}
-      <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
-        <PivotItem
-          itemKey="appSettings"
-          headerText={t('staticSite_applicationSettings')}
-          ariaLabel={t('staticSite_applicationSettings')}
-          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(
-              link,
-              defaultRenderer,
-              theme,
-              () => {
-                return isDirty;
-              },
-              t('modifiedTag')
-            )
-          }>
-          <div className={formStyle}>
-            <p className={formDescriptionStyle}>
-              <span id="environment-variable-info-message">{t('staticSite_applicationSettingsInfoMessage')}</span>
-              <Link
-                id="environment-variable-info-learnMore"
-                href={Links.staticSiteEnvironmentVariablesLearnMore}
-                target="_blank"
-                className={learnMoreLinkStyle}
-                aria-labelledby="environment-variable-info-message">
-                {` ${t('learnMore')}`}
-              </Link>
-            </p>
-            <ConfigurationEnvironmentSelector
-              environments={environments}
-              onDropdownChange={onDropdownChange}
-              disabled={isLoading || !hasWritePermissions}
-              selectedEnvironment={selectedEnvironment}
-            />
-            {getTable()}
-            {getAddEditPanel()}
-            {getBulkAddEditPanel()}
-          </div>
-        </PivotItem>
-        <PivotItem
-          itemKey="ftps"
-          headerText={t('staticSite_generalSettings')}
-          ariaLabel={t('staticSite_generalSettings')}
-          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(
-              link,
-              defaultRenderer,
-              theme,
-              () => {
-                return isDirty;
-              },
-              t('modifiedTag')
-            )
-          }
+      <div className={formStyle}>
+        <p className={formDescriptionStyle}>
+          <span id="environment-variable-info-message">{t('staticSite_applicationSettingsInfoMessage')}</span>
+          <Link
+            id="environment-variable-info-learnMore"
+            href={Links.staticSiteEnvironmentVariablesLearnMore}
+            target="_blank"
+            className={learnMoreLinkStyle}
+            aria-labelledby="environment-variable-info-message">
+            {` ${t('learnMore')}`}
+          </Link>
+        </p>
+        <ConfigurationEnvironmentSelector
+          environments={environments}
+          onDropdownChange={onDropdownChange}
+          disabled={isLoading || !hasWritePermissions}
+          selectedEnvironment={formProps.values.selectedEnvironment}
         />
-      </Pivot>
+        {getTable()}
+        {getAddEditPanel()}
+        {getBulkAddEditPanel()}
+      </div>
     </>
   );
 };
