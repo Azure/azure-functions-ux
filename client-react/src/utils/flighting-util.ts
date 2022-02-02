@@ -1,4 +1,3 @@
-import { CommonConstants } from './CommonConstants';
 import Url from './url';
 
 export class FlightingUtil {
@@ -6,14 +5,7 @@ export class FlightingUtil {
     EnableEditingForLinuxNodePython: 'EnableEditingForLinuxNodePython',
   };
 
-  private static _config = {
-    EnableEditingForLinuxNodePython: {
-      seed: 3828949938,
-      percentofUsers: 50,
-      forceOnFlag: CommonConstants.FeatureFlags.enablePortalEditing,
-      forceOffFlag: CommonConstants.FeatureFlags.disablePortalEditing,
-    },
-  };
+  private static _config = {};
 
   /*
    * Subscription = hash key

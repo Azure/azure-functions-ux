@@ -60,7 +60,6 @@ export class CommonConstants {
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
     treatAsKubeApp: 'treatAsKubeApp', // websitesextension_ext=appsvc.treatAsKubeApp%3Dtrue
     enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
-    enablePortalEditing: 'enablePortalEditing',
     disablePortalEditing: 'disablePortalEditing',
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
