@@ -3,7 +3,6 @@ import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { KeyValue } from '../models/portal-models';
 import { Site } from '../models/site/site';
 import { isLinuxDynamic, isLinuxElastic, isPremiumV2 } from './arm-utils';
-import Url from './url';
 
 export default class FunctionAppService {
   public static getRFPSetting(appSettings: ArmObj<KeyValue<string>>): string {
@@ -73,20 +72,22 @@ export default class FunctionAppService {
     );
   }
 
-  public static isEditingCheckNeededForLinuxSku = (site: ArmObj<Site>, addPremiumV2Check: boolean = true) => {
+  public static isEditingCheckNeededForLinuxSku = (
+    site: ArmObj<Site>,
+    isLinuxSkuFlightingEnabled: boolean,
+    addPremiumV2Check: boolean = true
+  ) => {
     return (
-      !!site &&
-      !!Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.enablePortalEditing) &&
-      (isLinuxDynamic(site) || isLinuxElastic(site) || (addPremiumV2Check && isPremiumV2(site)))
+      !!site && isLinuxSkuFlightingEnabled && (isLinuxDynamic(site) || isLinuxElastic(site) || (addPremiumV2Check && isPremiumV2(site)))
     );
   };
 
-  public static enableEditingForLinux(site: ArmObj<Site>, workerRuntime?: string) {
+  public static enableEditingForLinux(site: ArmObj<Site>, isLinuxSkuFlightingEnabled: boolean, workerRuntime?: string) {
     // NOTE (krmitta): Editing is only enabled for Linux Consumption or Linux Elastic Premium and Node/Python stack only.
     // For Powershell, we still need to use the feature-flag.
     return (
       !!workerRuntime &&
-      FunctionAppService.isEditingCheckNeededForLinuxSku(site) &&
+      FunctionAppService.isEditingCheckNeededForLinuxSku(site, isLinuxSkuFlightingEnabled) &&
       (workerRuntime === WorkerRuntimeLanguages.nodejs ||
         workerRuntime === WorkerRuntimeLanguages.python ||
         workerRuntime === WorkerRuntimeLanguages.powershell)
