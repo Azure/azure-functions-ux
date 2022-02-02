@@ -64,6 +64,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [isUploadingFile, setIsUploadingFile] = useState(false);
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
   const [enablePortalCall, setEnablePortalCall] = useState(false);
+  const [isLinuxSkuFlightingEnabled, setIsLinuxSkuFlightingEnabled] = useState(false);
 
   const siteContext = useContext(SiteRouterContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -88,6 +89,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       functionKeysResponse,
       hostStatusResponse,
       enablePortalCall,
+      isLinuxSkuFlightingEnabled,
     ] = await Promise.all([
       siteContext.fetchSite(siteResourceId),
       functionEditorData.getFunctionInfo(resourceId),
@@ -95,9 +97,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       FunctionsService.fetchKeys(resourceId),
       SiteService.fetchFunctionsHostStatus(siteResourceId),
       portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.portalCallOnEditor),
+      portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.linuxPortalEditing),
     ]);
 
     setEnablePortalCall(enablePortalCall);
+    setIsLinuxSkuFlightingEnabled(isLinuxSkuFlightingEnabled);
 
     // NOTE (krmitta): App-Settings are going to be used to fetch the workerRuntime,
     // for logging purposes only. Thus we are not going to block on this.
@@ -760,6 +764,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             workerRuntime={workerRuntime}
             addCorsRule={addCorsRule}
             enablePortalCall={enablePortalCall}
+            isLinuxSkuFlightingEnabled={isLinuxSkuFlightingEnabled}
           />
         </div>
       ) : (

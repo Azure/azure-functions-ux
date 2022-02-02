@@ -70,6 +70,7 @@ export interface FunctionEditorProps {
   testData?: string;
   workerRuntime?: string;
   enablePortalCall?: boolean;
+  isLinuxSkuFlightingEnabled?: boolean;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
@@ -94,6 +95,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     workerRuntime,
     addCorsRule,
     enablePortalCall,
+    isLinuxSkuFlightingEnabled,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -456,7 +458,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           type={MessageBarType.error}
         />
       );
-    } else if (FunctionAppService.enableEditingForLinux(site, workerRuntime) && isLinuxDynamic(site)) {
+    } else if (FunctionAppService.enableEditingForLinux(site, !!isLinuxSkuFlightingEnabled, workerRuntime) && isLinuxDynamic(site)) {
       // NOTE(krmitta): Banner is only visible in case of Linux Consumption
       return (
         <CustomBanner
