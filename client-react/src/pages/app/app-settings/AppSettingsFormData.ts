@@ -317,9 +317,9 @@ export function unFlattenVirtualApplicationsList(virtualApps: VirtualApplication
     const virtualPath = vd.virtualPath.startsWith('/') ? vd.virtualPath : `/${vd.virtualPath}`;
 
     const va = virtualApplications.find(v => {
-      return virtualPath.startsWith(v.virtualPath);
+      const vaVirtualPath = v.virtualPath.endsWith('/') ? v.virtualPath : `${v.virtualPath}/`;
+      return virtualPath.startsWith(vaVirtualPath);
     });
-
     if (va) {
       const regex = new RegExp(`${va.virtualPath}(.*)`);
       const match = regex.exec(virtualPath);
