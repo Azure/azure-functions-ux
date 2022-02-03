@@ -115,6 +115,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [logPanelHeight, setLogPanelHeight] = useState(0);
   const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(undefined);
   const [liveLogsSessionId, setLiveLogsSessionId] = useState<undefined | string>(undefined);
+  const [isValidFileSelected, setIsValidFileSelected] = useState<boolean | undefined>(undefined);
 
   const { t } = useTranslation();
 
@@ -135,6 +136,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (!selectedFile) {
       return;
     }
+
+    resetIsValidFileSelectedValue();
 
     portalCommunicator.log({
       action: 'functionEditor',
@@ -170,6 +173,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const test = () => {
+    resetIsValidFileSelectedValue();
     setShowTestPanel(true);
   };
 
@@ -330,6 +334,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const onCancelButtonClick = () => {
     setSelectedDropdownOption(undefined);
     setShowDiscardConfirmDialog(false);
+    resetIsValidFileSelectedValue();
   };
 
   const getHeaderContent = (): JSX.Element => {
@@ -447,6 +452,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return SiteHelper.isFunctionAppReadOnly(appEditState);
   };
 
+  const resetIsValidFileSelectedValue = () => {
+    if (isValidFileSelected !== undefined) {
+      setIsValidFileSelected(undefined);
+    }
+  };
+
   const getBanner = (): JSX.Element => {
     /* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */
     if (isAppReadOnly(siteStateContext.siteAppEditState)) {
@@ -467,6 +478,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           learnMoreLink={Links.setupLocalFunctionEnvironment}
         />
       );
+    } else if (isValidFileSelected !== undefined && !isValidFileSelected) {
+      return <CustomBanner message={t('invalidFileSelectedWarning')} type={MessageBarType.warning} />;
     } else {
       return <></>;
     }
@@ -488,6 +501,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (!isRefreshing && !initialLoading) {
       fetchData();
     }
+
+    resetIsValidFileSelectedValue();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRefreshing]);
@@ -515,6 +530,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           functionInfo={functionInfo}
           runtimeVersion={runtimeVersion}
           upload={uploadFile}
+          setIsValidFileSelected={setIsValidFileSelected}
+          resetIsValidFileSelectedValue={resetIsValidFileSelectedValue}
         />
         <ConfirmDialog
           primaryActionButton={{
