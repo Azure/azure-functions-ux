@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Query, HttpCode } from '@nestjs/common';
+import { IpAddress } from '../decorators/ipaddress.decorator';
 import { ConfigService } from '../shared/config/config.service';
 import { ResourcesService } from './resources/resources.service';
 
@@ -39,5 +40,10 @@ export class ApiController {
   @Get('token')
   token() {
     return 'deprecated';
+  }
+
+  @Get('clientsIPAddress')
+  clientsIpAddress(@IpAddress() ipAddress) {
+    return ipAddress;
   }
 }
