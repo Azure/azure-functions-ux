@@ -38,23 +38,25 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
   };
 
   const updatePasswordProtection = async (values: ConfigurationFormData) => {
-    const isPasswordKVReference = !!values.visitorPassword && isKeyVaultReference(values.visitorPassword);
-    const basicAuthRequestBody = {
-      name: 'basicAuth',
-      type: 'Microsoft.Web/staticSites/basicAuth',
-      properties: {
-        environments: values.passwordProtectionEnvironments,
-        password: !isPasswordKVReference ? values.visitorPassword : '',
-        secretUrl: isPasswordKVReference ? values.visitorPassword : '',
-        applicableEnvironmentsMode: getApplicableEnvironments(values.passwordProtection),
-        secretState: getSecretState(values.passwordProtection, isPasswordKVReference),
-      },
-    };
-    const passwordProtectionResponse = await StaticSiteService.putStaticSiteBasicAuth(resourceId, basicAuthRequestBody);
+    if (values.isGeneralSettingsDirty) {
+      const isPasswordKVReference = !!values.visitorPassword && isKeyVaultReference(values.visitorPassword);
+      const basicAuthRequestBody = {
+        name: 'basicAuth',
+        type: 'Microsoft.Web/staticSites/basicAuth',
+        properties: {
+          environments: values.passwordProtectionEnvironments,
+          password: !isPasswordKVReference ? values.visitorPassword : '',
+          secretUrl: isPasswordKVReference ? values.visitorPassword : '',
+          applicableEnvironmentsMode: getApplicableEnvironments(values.passwordProtection),
+          secretState: getSecretState(values.passwordProtection, isPasswordKVReference),
+        },
+      };
+      const passwordProtectionResponse = await StaticSiteService.putStaticSiteBasicAuth(resourceId, basicAuthRequestBody);
 
-    if (passwordProtectionResponse.metadata.success) {
-    } else {
-      portalContext.log(getTelemetryInfo('error', 'getStaticSite', 'failed', { error: passwordProtectionResponse.metadata.error }));
+      if (passwordProtectionResponse.metadata.success) {
+      } else {
+        portalContext.log(getTelemetryInfo('error', 'getStaticSite', 'failed', { error: passwordProtectionResponse.metadata.error }));
+      }
     }
   };
 
@@ -112,8 +114,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
   const refresh = (formProps: FormikProps<ConfigurationFormData>) => {
     setIsRefreshConfirmDialogVisible(false);
     props.refresh();
-    formProps.setFieldValue('isAppSettingsDirty', false);
-    formProps.setFieldValue('isGeneralSettingsDirty', false);
+    formProps.resetForm();
     portalContext.updateDirtyState(false);
   };
 
