@@ -21,6 +21,7 @@ import ConfigurationForm from './ConfigurationForm';
 import { ConfigurationFormBuilder } from './ConfigurationFormBuilder';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
 import { PasswordProtectionTypes } from './Configuration.types';
+import { sortBy } from 'lodash-es';
 
 const configurationData = new ConfigurationData();
 export const ConfigurationContext = React.createContext(configurationData);
@@ -85,10 +86,28 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     }
 
     if (!apiFailure) {
-      generateForm(envResponse, passwordProtection);
+      const defaultEnvironment = getDefaultEnvironment(envResponse);
+      const envVarResponse = await fetchEnvironmentVariables((!!defaultEnvironment && defaultEnvironment.id) || '');
+      generateForm(envResponse, passwordProtection, defaultEnvironment, getInitialEnvironmentVariables(envVarResponse));
     }
 
     setInitialLoading(false);
+  };
+
+  const getDefaultEnvironment = (environments: ArmObj<Environment>[]) => {
+    return !!environments ? environments[0] : undefined;
+  };
+
+  const getInitialEnvironmentVariables = (selectedEnvironmentVariablesResponse?: ArmObj<KeyValue<string>>) => {
+    if (!!selectedEnvironmentVariablesResponse) {
+      return sort(ConfigurationData.convertEnvironmentVariablesObjectToArray(selectedEnvironmentVariablesResponse.properties));
+    } else {
+      return [];
+    }
+  };
+
+  const sort = (environmentVariables: EnvironmentVariable[]) => {
+    return sortBy(environmentVariables, e => e.name.toLocaleLowerCase());
   };
 
   const fetchEnvironmentVariables = async (environmentResourceId: string) => {
@@ -105,6 +124,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
       );
     }
     setInitialLoading(false);
+    return !!environmentSettingsResponse ? environmentSettingsResponse.data : undefined;
   };
 
   const saveEnvironmentVariables = async (environmentResourceId: string, environmentVariables: EnvironmentVariable[]) => {
@@ -134,20 +154,23 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     }
   };
 
-  const generateForm = (environments?: ArmObj<Environment>[], basicAuth?: PasswordProtectionTypes) => {
-    setConfigurationFormData(configurationFormBuilder.generateFormData(environments, basicAuth));
+  const generateForm = (
+    environments?: ArmObj<Environment>[],
+    basicAuth?: PasswordProtectionTypes,
+    defaultEnvironment?: ArmObj<Environment>,
+    defaultEnvironmentVariables?: EnvironmentVariable[]
+  ) => {
+    setConfigurationFormData(
+      configurationFormBuilder.generateFormData(environments, basicAuth, defaultEnvironment, defaultEnvironmentVariables)
+    );
     setCodeFormValidationSchema(configurationFormBuilder.generateYupValidationSchema());
 
-    portalContext.log(
-      getTelemetryInfo('info', 'generateForm', 'generated', {
-        publishType: 'code',
-      })
-    );
+    portalContext.log(getTelemetryInfo('info', 'generateForm', 'generated', {}));
   };
 
   const fetchDataOnEnvironmentChange = async (environmentResourceId: string) => {
     setApiFailure(false);
-    fetchEnvironmentVariables(environmentResourceId);
+    await fetchEnvironmentVariables(environmentResourceId);
   };
 
   const refresh = async () => {

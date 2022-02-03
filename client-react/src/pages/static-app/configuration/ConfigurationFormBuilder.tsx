@@ -1,4 +1,9 @@
-import { ConfigurationFormData, ConfigurationYupValidationSchemaType, PasswordProtectionTypes } from './Configuration.types';
+import {
+  ConfigurationFormData,
+  ConfigurationYupValidationSchemaType,
+  EnvironmentVariable,
+  PasswordProtectionTypes,
+} from './Configuration.types';
 import * as Yup from 'yup';
 import i18next from 'i18next';
 import { ArmObj } from '../../../models/arm-obj';
@@ -11,15 +16,20 @@ export class ConfigurationFormBuilder {
     this._t = t;
   }
 
-  public generateFormData(environments?: ArmObj<Environment>[], passwordProtection?: PasswordProtectionTypes): ConfigurationFormData {
+  public generateFormData(
+    environments?: ArmObj<Environment>[],
+    passwordProtection?: PasswordProtectionTypes,
+    defaultEnvironment?: ArmObj<Environment>,
+    defaultEnvironmentVariables?: EnvironmentVariable[]
+  ): ConfigurationFormData {
     return {
       environments: environments || [],
-      environmentVariables: [],
+      environmentVariables: defaultEnvironmentVariables || [],
       passwordProtectionEnvironments: '',
       passwordProtection: passwordProtection || PasswordProtectionTypes.Disabled,
       visitorPassword: '',
       visitorPasswordConfirm: '',
-      selectedEnvironment: undefined,
+      selectedEnvironment: defaultEnvironment || undefined,
       isAppSettingsDirty: false,
       isGeneralSettingsDirty: false,
     };
