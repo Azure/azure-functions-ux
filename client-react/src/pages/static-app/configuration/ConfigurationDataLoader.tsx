@@ -127,33 +127,6 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     return !!environmentSettingsResponse ? environmentSettingsResponse.data : undefined;
   };
 
-  const saveEnvironmentVariables = async (environmentResourceId: string, environmentVariables: EnvironmentVariable[]) => {
-    if (!!selectedEnvironmentVariableResponse) {
-      setInitialLoading(true);
-      const updatedEnvironmentVariablesObject = ConfigurationData.convertEnvironmentVariablesArrayToObject(environmentVariables);
-      const updatedEnvironmentVariableRequest = selectedEnvironmentVariableResponse;
-      updatedEnvironmentVariableRequest.properties = updatedEnvironmentVariablesObject;
-      const environmentSettingsResponse = await EnvironmentService.saveEnvironmentVariables(
-        environmentResourceId,
-        updatedEnvironmentVariableRequest
-      );
-      const notificationId = portalContext.startNotification(t('staticSite_configUpdating'), t('staticSite_configUpdating'));
-      if (environmentSettingsResponse.metadata.success) {
-        fetchEnvironmentVariables(environmentResourceId);
-        portalContext.stopNotification(notificationId, true, t('staticSite_configUpdateSuccess'));
-      } else {
-        const errorMessage = getErrorMessageOrStringify(environmentSettingsResponse.metadata.error);
-        LogService.error(
-          LogCategories.staticSiteConfiguration,
-          'saveEnvironmentSettings',
-          `Failed to save environment settings: ${errorMessage}`
-        );
-        portalContext.stopNotification(notificationId, false, t('staticSite_configUpdateFailure').format(errorMessage));
-      }
-      setInitialLoading(false);
-    }
-  };
-
   const generateForm = (
     environments?: ArmObj<Environment>[],
     basicAuth?: PasswordProtectionTypes,
@@ -195,7 +168,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         environments={environments}
         fetchDataOnEnvironmentChange={fetchDataOnEnvironmentChange}
         selectedEnvironmentVariableResponse={selectedEnvironmentVariableResponse}
-        saveEnvironmentVariables={saveEnvironmentVariables}
+        fetchEnvironmentVariables={fetchEnvironmentVariables}
         refresh={refresh}
         isLoading={initialLoading}
         hasWritePermissions={hasWritePermissions}

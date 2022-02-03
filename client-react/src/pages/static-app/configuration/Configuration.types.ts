@@ -27,7 +27,6 @@ export interface ConfigurationProps {
   hasWritePermissions: boolean;
   apiFailure: boolean;
   fetchDataOnEnvironmentChange: (resourceId: string) => Promise<void>;
-  saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
   refresh: () => void;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
 }
@@ -83,7 +82,7 @@ export interface ConfigurationFormProps {
   hasWritePermissions: boolean;
   apiFailure: boolean;
   fetchDataOnEnvironmentChange: (resourceId: string) => Promise<void>;
-  saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
+  fetchEnvironmentVariables: (resourceId: string) => void;
   refresh: () => void;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
 }
@@ -96,7 +95,6 @@ export interface ConfigurationPivotProps {
   hasWritePermissions: boolean;
   apiFailure: boolean;
   fetchDataOnEnvironmentChange: (resourceId: string) => Promise<void>;
-  saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
   refresh: () => void;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
 }

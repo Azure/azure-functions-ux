@@ -7266,4 +7266,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_enterVisitorPassword" xml:space="preserve">
         <value>Enter visitor password</value>
     </data>
+    <data name="staticSite_confirmVisitorPassword" xml:space="preserve">
+        <value>Confirm visitor password</value>
+    </data>
+    <data name="staticSite_visitorPasswordRequired" xml:space="preserve">
+        <value>Visitor password is required.</value>
+    </data>
+    <data name="staticSite_confirmVisitorPasswordRequired" xml:space="preserve">
+        <value>Please confirm the visitor password. This value must match the password entered above.</value>
+    </data>
+    <data name="staticSite_generalSettingsUpdate" xml:space="preserve">
+        <value>Updating general settings</value>
+    </data>
+    <data name="staticSite_generalSettingsUpdateWithSuccess" xml:space="preserve">
+        <value>Successfully updated general settings.</value>
+    </data>
+     <data name="staticSite_generalSettingsUpdateWithFailure" xml:space="preserve">
+        <value>Failed to update general settings with message: {0}</value>
+    </data>
 </root>
