@@ -2372,4 +2372,10 @@ export class PortalResources {
   public static staticSite_passwordProtectionEnabledProductionAndStaging = 'staticSite_passwordProtectionEnabledProductionAndStaging';
   public static staticSite_visitorPassword = 'staticSite_visitorPassword';
   public static staticSite_enterVisitorPassword = 'staticSite_enterVisitorPassword';
+  public static staticSite_confirmVisitorPassword = 'staticSite_confirmVisitorPassword';
+  public static staticSite_visitorPasswordRequired = 'staticSite_visitorPasswordRequired';
+  public static staticSite_confirmVisitorPasswordRequired = 'staticSite_confirmVisitorPasswordRequired';
+  public static staticSite_generalSettingsUpdate = 'staticSite_generalSettingsUpdate';
+  public static staticSite_generalSettingsUpdateWithSuccess = 'staticSite_generalSettingsUpdateWithSuccess';
+  public static staticSite_generalSettingsUpdateWithFailure = 'staticSite_generalSettingsUpdateWithFailure';
 }

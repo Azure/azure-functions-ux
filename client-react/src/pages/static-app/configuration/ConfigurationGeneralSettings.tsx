@@ -112,13 +112,13 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
 
   const getVisitorPasswordConfirmTextBox = () => {
     return (
-      <div className={textboxStyle}>
+      <div className={formElementStyle}>
         <Field
           className={textboxStyle}
           onChange={changeTextFieldConfirmPassword}
           name="visitorPasswordConfirm"
           component={TextField}
-          label={t('staticSite_visitorPassword')}
+          label={t('staticSite_confirmVisitorPassword')}
           placeholder={t('staticSite_enterVisitorPassword')}
           type={TextFieldType.password}
           widthOverride={'100%'}

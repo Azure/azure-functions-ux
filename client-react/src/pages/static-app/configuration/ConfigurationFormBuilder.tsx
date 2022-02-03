@@ -46,12 +46,22 @@ export class ConfigurationFormBuilder {
       environments: Yup.mixed().notRequired(),
       passwordProtection: Yup.mixed().notRequired(),
       passwordProtectionEnvironments: Yup.mixed().notRequired(),
-      visitorPassword: Yup.string().test('publishingPasswordRequirements', this._t('userCredsError'), value => {
-        return !value || passwordMinimumRequirementsRegex.test(value);
+      visitorPassword: Yup.string().test('publishingPasswordRequirements', this._t('staticSite_visitorPasswordRequired'), function(value) {
+        if (this.parent.passwordProtection !== PasswordProtectionTypes.Disabled) {
+          return !!value && passwordMinimumRequirementsRegex.test(value);
+        }
+        return true;
       }),
-      visitorPasswordConfirm: Yup.string().test('validatePublishingConfirmPassword', this._t('nomatchpassword'), function(value) {
-        return !this.parent.visiorPassword || this.parent.visiorPassword === value;
-      }),
+      visitorPasswordConfirm: Yup.string().test(
+        'validatePublishingConfirmPassword',
+        this._t('staticSite_confirmVisitorPasswordRequired'),
+        function(value) {
+          if (this.parent.passwordProtection !== PasswordProtectionTypes.Disabled) {
+            return !!value && this.parent.visitorPassword === value;
+          }
+          return true;
+        }
+      ),
     });
   }
 }

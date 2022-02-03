@@ -21,9 +21,11 @@ import { useTranslation } from 'react-i18next';
 import ConfigurationPivot from './ConfigurationPivot';
 import ConfigurationData from './Configuration.data';
 import { sortBy } from 'lodash-es';
+import EnvironmentService from '../../../ApiHelpers/static-site/EnvironmentService';
+import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
 
 const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
-  const { resourceId, hasWritePermissions, isLoading, selectedEnvironmentVariableResponse, saveEnvironmentVariables } = props;
+  const { resourceId, hasWritePermissions, isLoading, selectedEnvironmentVariableResponse, fetchEnvironmentVariables } = props;
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
 
@@ -37,8 +39,9 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
     }
   };
 
-  const updatePasswordProtection = async (values: ConfigurationFormData) => {
+  const updatePasswordProtection = async (values: ConfigurationFormData, formikActions: FormikActions<ConfigurationFormData>) => {
     if (values.isGeneralSettingsDirty) {
+      const notificationId = portalContext.startNotification(t('staticSite_generalSettingsUpdate'), t('staticSite_generalSettingsUpdate'));
       const isPasswordKVReference = !!values.visitorPassword && isKeyVaultReference(values.visitorPassword);
       const basicAuthRequestBody = {
         name: 'basicAuth',
@@ -54,8 +57,13 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
       const passwordProtectionResponse = await StaticSiteService.putStaticSiteBasicAuth(resourceId, basicAuthRequestBody);
 
       if (passwordProtectionResponse.metadata.success) {
+        portalContext.stopNotification(notificationId, true, t('staticSite_generalSettingsUpdateWithSuccess'));
+        formikActions.setFieldValue('visitorPassword', '');
+        formikActions.setFieldValue('visitorPasswordConfirm', '');
       } else {
-        portalContext.log(getTelemetryInfo('error', 'getStaticSite', 'failed', { error: passwordProtectionResponse.metadata.error }));
+        const errorMessage = getErrorMessageOrStringify(passwordProtectionResponse.metadata.error);
+        portalContext.log(getTelemetryInfo('error', 'getStaticSite', 'failed', { error: errorMessage }));
+        portalContext.stopNotification(notificationId, false, t('staticSite_generalSettingsUpdateWithFailure').format(errorMessage));
       }
     }
   };
@@ -78,16 +86,45 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
     return isPasswordKVReference ? SecretState.SecretUrl : SecretState.Password;
   };
 
-  const submitEnvironmentVariables = async (values: ConfigurationFormData) => {
+  const saveEnvironmentVariables = async (
+    environmentResourceId: string,
+    environmentVariables: EnvironmentVariable[],
+    formikActions: FormikActions<ConfigurationFormData>
+  ) => {
+    if (!!selectedEnvironmentVariableResponse) {
+      const updatedEnvironmentVariablesObject = ConfigurationData.convertEnvironmentVariablesArrayToObject(environmentVariables);
+      const updatedEnvironmentVariableRequest = selectedEnvironmentVariableResponse;
+      updatedEnvironmentVariableRequest.properties = updatedEnvironmentVariablesObject;
+      const environmentSettingsResponse = await EnvironmentService.saveEnvironmentVariables(
+        environmentResourceId,
+        updatedEnvironmentVariableRequest
+      );
+      const notificationId = portalContext.startNotification(t('staticSite_configUpdating'), t('staticSite_configUpdating'));
+      if (environmentSettingsResponse.metadata.success) {
+        fetchEnvironmentVariables(environmentResourceId);
+        portalContext.stopNotification(notificationId, true, t('staticSite_configUpdateSuccess'));
+        formikActions.setFieldValue('isAppSettingsDirty', false);
+      } else {
+        const errorMessage = getErrorMessageOrStringify(environmentSettingsResponse.metadata.error);
+        portalContext.log(
+          getTelemetryInfo('error', 'saveEnvironmentSettings', 'failed', { error: `Failed to save environment settings: ${errorMessage}` })
+        );
+        portalContext.stopNotification(notificationId, false, t('staticSite_configUpdateFailure').format(errorMessage));
+      }
+    }
+  };
+
+  const submitEnvironmentVariables = async (values: ConfigurationFormData, formikActions: FormikActions<ConfigurationFormData>) => {
     if (!!values.selectedEnvironment) {
-      saveEnvironmentVariables(values.selectedEnvironment.id, values.environmentVariables);
+      await saveEnvironmentVariables(values.selectedEnvironment.id, values.environmentVariables, formikActions);
     }
   };
 
   const onSubmit = async (values: ConfigurationFormData, formikActions: FormikActions<ConfigurationFormData>) => {
     portalContext.log(getTelemetryInfo('info', 'onSubmitCodeForm', 'submit'));
+    formikActions.setSubmitting(true);
 
-    await Promise.all([updatePasswordProtection(values), submitEnvironmentVariables(values)]);
+    await Promise.all([updatePasswordProtection(values, formikActions), submitEnvironmentVariables(values, formikActions)]);
 
     formikActions.setSubmitting(false);
     portalContext.updateDirtyState(false);
@@ -206,7 +243,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
             {getConfirmDialogs(formProps)}
           </div>
           <div>
-            <ConfigurationPivot {...props} formProps={formProps} />
+            <ConfigurationPivot {...props} isLoading={isLoading || formProps.isSubmitting} formProps={formProps} />
           </div>
         </form>
       )}
