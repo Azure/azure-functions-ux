@@ -59,7 +59,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
   };
 
   const getBasicAuthRequestBody = (values: ConfigurationFormData) => {
-    const isPasswordKVReference = !!values.visitorPassword && CommonConstants.isKeyVaultReference(values.visitorPassword);
+    const isPasswordKVReference = !!values.visitorPassword && CommonConstants.isKeyVaultSecretUrl(values.visitorPassword);
     return {
       name: 'basicAuth',
       type: 'Microsoft.Web/staticSites/basicAuth',
@@ -145,6 +145,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
 
     if (passwordSuccess && appSettingsSuccess) {
       props.refresh(values.selectedEnvironment);
+      formikActions.resetForm();
     } else if (appSettingsSuccess && !!values.selectedEnvironment) {
       fetchEnvironmentVariables(values.selectedEnvironment.id);
     } else if (passwordSuccess) {
