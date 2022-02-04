@@ -2381,4 +2381,5 @@ export class PortalResources {
   public static staticSite_generalSettingsUpdate = 'staticSite_generalSettingsUpdate';
   public static staticSite_generalSettingsUpdateWithSuccess = 'staticSite_generalSettingsUpdateWithSuccess';
   public static staticSite_generalSettingsUpdateWithFailure = 'staticSite_generalSettingsUpdateWithFailure';
+  public static staticSite_generalSettingsUpdateWithFailureNoMessage = 'staticSite_generalSettingsUpdateWithFailureNoMessage';
 }

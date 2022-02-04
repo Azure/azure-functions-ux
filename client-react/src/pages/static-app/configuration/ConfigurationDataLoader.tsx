@@ -45,10 +45,10 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
 
   const configurationFormBuilder = new ConfigurationFormBuilder(t);
 
-  const fetchData = async () => {
+  const fetchData = async (currentEnvironment?: ArmObj<Environment>) => {
     setInitialLoading(true);
     let envResponse: ArmObj<Environment>[] = [];
-    let passwordProtection: PasswordProtectionTypes | undefined = undefined;
+    let passwordProtection: PasswordProtectionTypes | undefined;
 
     const appPermission = await portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     setHasWritePermissions(appPermission);
@@ -72,21 +72,18 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     }
 
     if (staticSiteAuthResponse.metadata.success) {
-      const passwordProtectionType = stringToPasswordProtectionType(
-        staticSiteAuthResponse.data.properties.applicableEnvironmentsMode || ''
-      );
-      passwordProtection = passwordProtectionType;
+      passwordProtection = stringToPasswordProtectionType(staticSiteAuthResponse.data.properties.applicableEnvironmentsMode || '');
     } else {
       setApiFailure(true);
       LogService.error(
         LogCategories.staticSiteConfiguration,
         'getStaticSiteBasicAuth',
-        `Failed to get environments: ${getErrorMessageOrStringify(staticSiteAuthResponse.metadata.error)}`
+        `Failed to get basic auth: ${getErrorMessageOrStringify(staticSiteAuthResponse.metadata.error)}`
       );
     }
 
     if (!apiFailure) {
-      const defaultEnvironment = getDefaultEnvironment(envResponse);
+      const defaultEnvironment = !!currentEnvironment ? currentEnvironment : getDefaultEnvironment(envResponse);
       const envVarResponse = await fetchEnvironmentVariables((!!defaultEnvironment && defaultEnvironment.id) || '');
       generateForm(envResponse, passwordProtection, defaultEnvironment, getInitialEnvironmentVariables(envVarResponse));
     }
@@ -95,7 +92,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   };
 
   const getDefaultEnvironment = (environments: ArmObj<Environment>[]) => {
-    return !!environments ? environments[0] : undefined;
+    return !!environments && environments.length > 0 ? environments[0] : undefined;
   };
 
   const getInitialEnvironmentVariables = (selectedEnvironmentVariablesResponse?: ArmObj<KeyValue<string>>) => {
@@ -146,9 +143,9 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     await fetchEnvironmentVariables(environmentResourceId);
   };
 
-  const refresh = async () => {
+  const refresh = async (currentEnvironment?: ArmObj<Environment>) => {
     setIsRefreshing(true);
-    await fetchData();
+    await fetchData(currentEnvironment);
     setIsRefreshing(false);
   };
 

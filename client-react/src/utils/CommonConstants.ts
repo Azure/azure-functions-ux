@@ -253,6 +253,9 @@ export class CommonConstants {
   public static readonly comma = ',';
 
   public static readonly space = ' ';
+
+  //min length is 8, must contain uppercase, lowercase, number, and symbol
+  public static readonly passwordMinimumRequirementsRegex = new RegExp(/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})$/);
 }
 
 export enum WorkerRuntimeLanguages {
