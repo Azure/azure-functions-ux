@@ -258,7 +258,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
 
   const isAppSettingDirty = (index: number): boolean => {
     const initialAppSettings = props.initialValues.appSettings;
-    const currentRow = values.appSettings[index];
+    const currentRow = gridItems[index];
     const currentAppSettingIndex = initialAppSettings.findIndex(x => {
       return (
         x.name.toLowerCase() === currentRow.name.toLowerCase() &&
