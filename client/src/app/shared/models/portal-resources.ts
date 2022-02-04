@@ -1635,6 +1635,8 @@ export class PortalResources {
   public static powershellPreview = 'powershellPreview';
   public static filter = 'filter';
   public static filterAppSettings = 'filterAppSettings';
+  public static gridItemsCountAriaLabelSingular = 'gridItemsCountAriaLabelSingular';
+  public static gridItemsCountAriaLabelPlural = 'gridItemsCountAriaLabelPlural';
   public static filterConnectionStrings = 'filterConnectionStrings';
   public static readOnlyJava = 'readOnlyJava';
   public static validate_workingDirectory = 'validate_workingDirectory';

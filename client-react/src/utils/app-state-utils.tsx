@@ -9,7 +9,7 @@ import { SiteConfig } from '../models/site/config';
 import { Site } from '../models/site/site';
 import PortalCommunicator from '../portal-communicator';
 import { isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from './arm-utils';
-import { CommonConstants } from './CommonConstants';
+import { CommonConstants, ExperimentationConstants } from './CommonConstants';
 import FunctionAppService from './FunctionAppService';
 import LogService from './LogService';
 import RbacConstants from './rbac-constants';
@@ -33,23 +33,31 @@ export async function resolveState(
     return FunctionAppEditMode.ReadOnlyRbac;
   }
 
+  const isLinuxSkuFlightingEnabled = await portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.linuxPortalEditing);
+
   // NOTE (krmitta): We only want to get the edit state from other scenarios for function-apps
   if (isFunctionApp(site)) {
-    return await resolveStateForFunctionApp(resourceId, logCategory, site, appSettings);
+    return await resolveStateForFunctionApp(resourceId, isLinuxSkuFlightingEnabled, logCategory, site, appSettings);
   }
 
   return FunctionAppEditMode.ReadWrite;
 }
 
-async function resolveStateForFunctionApp(resourceId: string, logCategory: string, site: ArmObj<Site>, appSettings?: ArmObj<AppSettings>) {
-  let state = resolveStateFromSite(site, appSettings);
+async function resolveStateForFunctionApp(
+  resourceId: string,
+  isLinuxSkuFlightingEnabled: boolean,
+  logCategory: string,
+  site: ArmObj<Site>,
+  appSettings?: ArmObj<AppSettings>
+) {
+  let state = resolveStateFromSite(site, isLinuxSkuFlightingEnabled, appSettings);
   // NOTE(krmitta): State is only returned if it is defined otherwise we move to the next check
   if (!!state) {
     return state;
   }
 
   if (!!appSettings) {
-    state = resolveStateFromAppSetting(appSettings, site);
+    state = resolveStateFromAppSetting(appSettings, site, isLinuxSkuFlightingEnabled);
     if (!!state) {
       return state;
     }
@@ -66,7 +74,7 @@ async function resolveStateForFunctionApp(resourceId: string, logCategory: strin
   }
 
   // NOTE(krmitta): Host status API check is currently behind feature-flag and only for Linux apps
-  if (FunctionAppService.isEditingCheckNeededForLinuxSku(site)) {
+  if (FunctionAppService.isEditingCheckNeededForLinuxSku(site, isLinuxSkuFlightingEnabled)) {
     state = await fetchAndResolveStateFromHostStatus(resourceId, logCategory);
     if (!!state) {
       return state;
@@ -76,10 +84,10 @@ async function resolveStateForFunctionApp(resourceId: string, logCategory: strin
   return FunctionAppEditMode.ReadWrite;
 }
 
-function resolveStateFromSite(site: ArmObj<Site>, appSettings?: ArmObj<AppSettings>) {
+function resolveStateFromSite(site: ArmObj<Site>, isLinuxSkuFlightingEnabled: boolean, appSettings?: ArmObj<AppSettings>) {
   const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
 
-  if (isLinuxDynamic(site) && !FunctionAppService.enableEditingForLinux(site, workerRuntime)) {
+  if (isLinuxDynamic(site) && !FunctionAppService.enableEditingForLinux(site, isLinuxSkuFlightingEnabled, workerRuntime)) {
     return FunctionAppEditMode.ReadOnlyLinuxDynamic;
   }
 
@@ -87,14 +95,14 @@ function resolveStateFromSite(site: ArmObj<Site>, appSettings?: ArmObj<AppSettin
     return FunctionAppEditMode.ReadOnlyBYOC;
   }
 
-  if (isLinuxApp(site) && isElastic(site) && !FunctionAppService.enableEditingForLinux(site, workerRuntime)) {
+  if (isLinuxApp(site) && isElastic(site) && !FunctionAppService.enableEditingForLinux(site, isLinuxSkuFlightingEnabled, workerRuntime)) {
     return FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
   }
 
   return undefined;
 }
 
-function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmObj<Site>) {
+function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmObj<Site>, isLinuxSkuFlightingEnabled: boolean) {
   const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
 
   if (isKubeApp(site)) {
@@ -117,7 +125,10 @@ function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmO
     return FunctionAppEditMode.ReadOnlyLocalCache;
   }
 
-  if (FunctionAppService.usingPythonWorkerRuntime(appSettings) && !FunctionAppService.enableEditingForLinux(site, workerRuntime)) {
+  if (
+    FunctionAppService.usingPythonWorkerRuntime(appSettings) &&
+    !FunctionAppService.enableEditingForLinux(site, isLinuxSkuFlightingEnabled, workerRuntime)
+  ) {
     return FunctionAppEditMode.ReadOnlyPython;
   }
 
@@ -125,7 +136,7 @@ function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmO
     return FunctionAppEditMode.ReadOnlyJava;
   }
 
-  if (isLinuxAppEditingDisabledForAzureFiles(site, appSettings)) {
+  if (isLinuxAppEditingDisabledForAzureFiles(site, appSettings, isLinuxSkuFlightingEnabled)) {
     return FunctionAppEditMode.ReadOnlyAzureFiles;
   }
 
@@ -212,11 +223,14 @@ const resolveStateFromHostStatus = (hostStatus: ArmObj<HostStatus>): FunctionApp
   return undefined;
 };
 
-const isLinuxAppEditingDisabledForAzureFiles = (site: ArmObj<Site>, appSettings: ArmObj<AppSettings>): boolean => {
+const isLinuxAppEditingDisabledForAzureFiles = (
+  site: ArmObj<Site>,
+  appSettings: ArmObj<AppSettings>,
+  isLinuxSkuFlightingEnabled: boolean
+): boolean => {
   // NOTE(krmitta):AzureFiles check is currently behind feature-flag and only for Linux apps
   return (
-    FunctionAppService.isEditingCheckNeededForLinuxSku(site, false) &&
-    !FunctionAppService.getAzureFilesSetting(appSettings) &&
-    !FunctionAppService.getAzureWebJobsStorageSetting(appSettings)
+    FunctionAppService.isEditingCheckNeededForLinuxSku(site, isLinuxSkuFlightingEnabled, false) &&
+    !FunctionAppService.getAzureFilesSetting(appSettings)
   );
 };
