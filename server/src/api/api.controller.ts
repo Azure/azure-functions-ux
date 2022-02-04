@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Query, HttpCode } from '@nestjs/common';
 import { IpAddress } from '../decorators/ipaddress.decorator';
 import { ConfigService } from '../shared/config/config.service';
+import { nodeWindowsConfigStack } from '../stacks/2020-05-01/stacks/web-app-stacks/config/windows/Node';
 import { ResourcesService } from './resources/resources.service';
 
 @Controller('api')
@@ -42,8 +43,12 @@ export class ApiController {
     return 'deprecated';
   }
 
-  @Get('clientsIPAddress')
-  clientsIpAddress(@IpAddress() ipAddress) {
-    return ipAddress;
+  @Post('GetDomainAgreementInfo')
+  getDomainAgreementInfo(@IpAddress() ipAddress) {
+    return {
+      AgreedBy: ipAddress,
+      AgreedAt: new Date().toISOString(),
+      AgreementKeys: null,
+    };
   }
 }
