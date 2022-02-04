@@ -144,7 +144,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
 
   const isConnectionStringDirty = (index: number): boolean => {
     const initialAppSettings = props.initialValues.connectionStrings;
-    const currentRow = values.connectionStrings[index];
+    const currentRow = gridItems[index];
     const currentAppSettingIndex = initialAppSettings.findIndex(x => {
       return (
         x.name.toLowerCase() === currentRow.name.toLowerCase() &&
