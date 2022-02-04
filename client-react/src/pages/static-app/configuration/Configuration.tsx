@@ -52,6 +52,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     formProps,
     isRefreshing,
   } = props;
+  const { values } = formProps;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [showAllValues, setShowAllValues] = useState(false);
@@ -84,7 +85,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const toggleHideButton = () => {
     let newShownValues: string[] = [];
     if (!showAllValues) {
-      newShownValues = formProps.values.environmentVariables ? formProps.values.environmentVariables.map(x => x.name) : [];
+      newShownValues = values.environmentVariables ? values.environmentVariables.map(x => x.name) : [];
     }
     setShownValues(newShownValues);
     setShowAllValues(!showAllValues);
@@ -102,9 +103,9 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     const allShown =
       showAllValues ||
-      (!!formProps.values.environmentVariables &&
-        formProps.values.environmentVariables.length > 0 &&
-        shownValues.length === formProps.values.environmentVariables.length);
+      (!!values.environmentVariables &&
+        values.environmentVariables.length > 0 &&
+        shownValues.length === values.environmentVariables.length);
 
     return [
       {
@@ -281,8 +282,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const sortEnvironmentVariablesByColumn = (currColumn: IColumn) => {
     const key = currColumn.fieldName! as keyof string;
-    const newEnvironmentVariables = formProps.values.environmentVariables
-      ? [...formProps.values.environmentVariables].sort((a: EnvironmentVariable, b: EnvironmentVariable) =>
+    const newEnvironmentVariables = values.environmentVariables
+      ? [...values.environmentVariables].sort((a: EnvironmentVariable, b: EnvironmentVariable) =>
           (currColumn.isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1
         )
       : [];
@@ -314,7 +315,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     } else {
       newShownValues.delete(itemKey);
     }
-    setShowAllValues(!!formProps.values.environmentVariables && newShownValues.size === formProps.values.environmentVariables.length);
+    setShowAllValues(!!values.environmentVariables && newShownValues.size === values.environmentVariables.length);
     setShownValues([...newShownValues]);
   };
 
@@ -374,7 +375,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const onRowItemCheckboxChange = (item: EnvironmentVariable) => {
-    const updatedEnvironmentVariables = formProps.values.environmentVariables ? [...formProps.values.environmentVariables] : [];
+    const updatedEnvironmentVariables = values.environmentVariables ? [...values.environmentVariables] : [];
     formProps.setFieldValue(
       'environmentVariables',
       updatedEnvironmentVariables.map(environmentVariable => {
@@ -387,7 +388,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const onHeaderItemCheckboxChange = (updatedChecked: boolean) => {
-    const updatedEnvironmentVariables = formProps.values.environmentVariables ? [...formProps.values.environmentVariables] : [];
+    const updatedEnvironmentVariables = values.environmentVariables ? [...values.environmentVariables] : [];
     formProps.setFieldValue(
       'environmentVariables',
       updatedEnvironmentVariables.map(environmentVariable => {
@@ -409,12 +410,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const onRenderHeaderItemCheckbox = () => {
-    const selectedEnvironmentVariables = !!formProps.values.environmentVariables
-      ? formProps.values.environmentVariables.filter(environmentVariable => environmentVariable.checked).length
-      : [];
-    const disabled = formProps.values.environmentVariables && formProps.values.environmentVariables.length === 0;
-    const checked =
-      !disabled && !!formProps.values.environmentVariables && selectedEnvironmentVariables === formProps.values.environmentVariables.length;
+    const disabled = values.environmentVariables && values.environmentVariables.length === 0;
+    const checked = getCheckedValueForCheckBox(disabled);
     return (
       <Checkbox
         disabled={disabled}
@@ -426,13 +423,17 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     );
   };
 
+  const getCheckedValueForCheckBox = (disabled: boolean) => {
+    const selectedEnvironmentVariables = !!values.environmentVariables
+      ? values.environmentVariables.filter(environmentVariable => environmentVariable.checked).length
+      : [];
+    return !disabled && !!values.environmentVariables && selectedEnvironmentVariables === values.environmentVariables.length;
+  };
+
   const getFilteredItems = () => {
-    return !!formProps.values.environmentVariables
-      ? formProps.values.environmentVariables.filter(environmentVariable => {
-          if (!filter) {
-            return true;
-          }
-          return environmentVariable.name.toLowerCase().includes(filter.toLowerCase());
+    return !!values.environmentVariables
+      ? values.environmentVariables.filter(environmentVariable => {
+          return !filter || environmentVariable.name.toLowerCase().includes(filter.toLowerCase());
         })
       : [];
   };
@@ -451,14 +452,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const isDeleteButtonEnabled = () => {
-    return (
-      formProps.values.environmentVariables &&
-      formProps.values.environmentVariables.filter(environmentVariable => environmentVariable.checked).length > 0
-    );
+    return values.environmentVariables && values.environmentVariables.filter(environmentVariable => environmentVariable.checked).length > 0;
   };
 
   const deleteBulkEnvironmentVariables = () => {
-    const updatedEnvironmentVariables = formProps.values.environmentVariables ? [...formProps.values.environmentVariables] : [];
+    const updatedEnvironmentVariables = values.environmentVariables ? [...values.environmentVariables] : [];
     formProps.setFieldValue(
       'environmentVariables',
       updatedEnvironmentVariables.filter(environmentVariable => !environmentVariable.checked)
@@ -479,7 +477,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         }>
         <ConfigurationAddEdit
           currentEnvironmentVariableIndex={currentEnvironmentVariableIndex!}
-          environmentVariables={formProps.values.environmentVariables}
+          environmentVariables={values.environmentVariables}
           cancel={onCancel}
           updateEnvironmentVariable={updateEnvironmentVariable}
         />
@@ -491,7 +489,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     return (
       <CustomPanel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
         <ConfigurationAdvancedAddEdit
-          environmentVariables={formProps.values.environmentVariables}
+          environmentVariables={values.environmentVariables}
           cancel={onCancel}
           updateEnvironmentVariable={updateEnvironmentVariable}
         />
@@ -537,15 +535,19 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     );
   };
 
-  useEffect(() => {
-    const dirtyState = getDirtyState(formProps.values.environmentVariables);
+  const updateDirtyState = () => {
+    const dirtyState = getDirtyState(values.environmentVariables);
     setIsDirty(dirtyState);
     formProps.setFieldValue('isAppSettingsDirty', dirtyState);
     portalContext.updateDirtyState(dirtyState);
+  };
+
+  useEffect(() => {
+    updateDirtyState();
     setColumns(getDefaultColumns());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shownValues, formProps.values.environmentVariables]);
+  }, [shownValues, values.environmentVariables]);
 
   useEffect(() => {
     if (isEnvironmentChange || isRefreshing) {
@@ -579,10 +581,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           </Link>
         </p>
         <ConfigurationEnvironmentSelector
-          environments={formProps.values.environments || []}
+          environments={values.environments || []}
           onDropdownChange={onDropdownChange}
           disabled={isLoading || !hasWritePermissions}
-          selectedEnvironment={formProps.values.selectedEnvironment}
+          selectedEnvironment={values.selectedEnvironment}
+          isLoading={isLoading}
         />
         {getTable()}
         {getAddEditPanel()}

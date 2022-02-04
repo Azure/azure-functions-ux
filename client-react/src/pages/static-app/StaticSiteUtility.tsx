@@ -23,17 +23,13 @@ export const getTelemetryInfo = (
     action,
     actionModifier,
     logLevel,
-    resourceId: identifiers.resourceId ? identifiers.resourceId : '',
+    resourceId: !!identifiers.resourceId ? identifiers.resourceId : '',
     data: {
       category: 'StaticSite',
       ...dataContent,
       ...identifiers,
     },
   };
-};
-
-export const isKeyVaultReference = (value: string) => {
-  return value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
 };
 
 export const stringToPasswordProtectionType = (passwordProtection: string) => {

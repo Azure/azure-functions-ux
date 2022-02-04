@@ -9,7 +9,7 @@ import {
   EnvironmentVariable,
 } from './Configuration.types';
 import { KeyCodes } from '@fluentui/react';
-import { getTelemetryInfo, isKeyVaultReference } from '../StaticSiteUtility';
+import { getTelemetryInfo } from '../StaticSiteUtility';
 import { PortalContext } from '../../../PortalContext';
 import { commandBarSticky } from './Configuration.styles';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
@@ -23,6 +23,7 @@ import ConfigurationData from './Configuration.data';
 import { sortBy } from 'lodash-es';
 import EnvironmentService from '../../../ApiHelpers/static-site/EnvironmentService';
 import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
+import { CommonConstants } from '../../../utils/CommonConstants';
 
 const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
   const { resourceId, hasWritePermissions, isLoading, selectedEnvironmentVariableResponse, fetchEnvironmentVariables } = props;
@@ -39,33 +40,37 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
     }
   };
 
-  const updatePasswordProtection = async (values: ConfigurationFormData, formikActions: FormikActions<ConfigurationFormData>) => {
+  const updatePasswordProtection = async (values: ConfigurationFormData) => {
     if (values.isGeneralSettingsDirty) {
       const notificationId = portalContext.startNotification(t('staticSite_generalSettingsUpdate'), t('staticSite_generalSettingsUpdate'));
-      const isPasswordKVReference = !!values.visitorPassword && isKeyVaultReference(values.visitorPassword);
-      const basicAuthRequestBody = {
-        name: 'basicAuth',
-        type: 'Microsoft.Web/staticSites/basicAuth',
-        properties: {
-          environments: values.passwordProtectionEnvironments,
-          password: !isPasswordKVReference ? values.visitorPassword : '',
-          secretUrl: isPasswordKVReference ? values.visitorPassword : '',
-          applicableEnvironmentsMode: getApplicableEnvironments(values.passwordProtection),
-          secretState: getSecretState(values.passwordProtection, isPasswordKVReference),
-        },
-      };
+      const basicAuthRequestBody = getBasicAuthRequestBody(values);
       const passwordProtectionResponse = await StaticSiteService.putStaticSiteBasicAuth(resourceId, basicAuthRequestBody);
 
       if (passwordProtectionResponse.metadata.success) {
         portalContext.stopNotification(notificationId, true, t('staticSite_generalSettingsUpdateWithSuccess'));
-        formikActions.setFieldValue('visitorPassword', '');
-        formikActions.setFieldValue('visitorPasswordConfirm', '');
       } else {
         const errorMessage = getErrorMessageOrStringify(passwordProtectionResponse.metadata.error);
         portalContext.log(getTelemetryInfo('error', 'getStaticSite', 'failed', { error: errorMessage }));
         portalContext.stopNotification(notificationId, false, t('staticSite_generalSettingsUpdateWithFailure').format(errorMessage));
       }
+      return passwordProtectionResponse.metadata.success;
     }
+    return true;
+  };
+
+  const getBasicAuthRequestBody = (values: ConfigurationFormData) => {
+    const isPasswordKVReference = !!values.visitorPassword && CommonConstants.isKeyVaultReference(values.visitorPassword);
+    return {
+      name: 'basicAuth',
+      type: 'Microsoft.Web/staticSites/basicAuth',
+      properties: {
+        environments: values.passwordProtectionEnvironments,
+        password: !isPasswordKVReference ? values.visitorPassword : '',
+        secretUrl: isPasswordKVReference ? values.visitorPassword : '',
+        applicableEnvironmentsMode: getApplicableEnvironments(values.passwordProtection),
+        secretState: getSecretState(values.passwordProtection, isPasswordKVReference),
+      },
+    };
   };
 
   const getApplicableEnvironments = (passwordProtection: PasswordProtectionTypes) => {
@@ -101,7 +106,6 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
       );
       const notificationId = portalContext.startNotification(t('staticSite_configUpdating'), t('staticSite_configUpdating'));
       if (environmentSettingsResponse.metadata.success) {
-        fetchEnvironmentVariables(environmentResourceId);
         portalContext.stopNotification(notificationId, true, t('staticSite_configUpdateSuccess'));
         formikActions.setFieldValue('isAppSettingsDirty', false);
       } else {
@@ -109,30 +113,51 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
         portalContext.log(
           getTelemetryInfo('error', 'saveEnvironmentSettings', 'failed', { error: `Failed to save environment settings: ${errorMessage}` })
         );
-        portalContext.stopNotification(notificationId, false, t('staticSite_configUpdateFailure').format(errorMessage));
+        portalContext.stopNotification(
+          notificationId,
+          false,
+          !!errorMessage
+            ? t('staticSite_configUpdateFailure').format(errorMessage)
+            : t('staticSite_generalSettingsUpdateWithFailureNoMessage')
+        );
       }
+      return environmentSettingsResponse.metadata.success;
     }
+    return true;
   };
 
   const submitEnvironmentVariables = async (values: ConfigurationFormData, formikActions: FormikActions<ConfigurationFormData>) => {
-    if (!!values.selectedEnvironment) {
-      await saveEnvironmentVariables(values.selectedEnvironment.id, values.environmentVariables, formikActions);
+    if (!!values.selectedEnvironment && values.isAppSettingsDirty) {
+      return await saveEnvironmentVariables(values.selectedEnvironment.id, values.environmentVariables, formikActions);
     }
+    return true;
   };
 
   const onSubmit = async (values: ConfigurationFormData, formikActions: FormikActions<ConfigurationFormData>) => {
     portalContext.log(getTelemetryInfo('info', 'onSubmitCodeForm', 'submit'));
     formikActions.setSubmitting(true);
-
-    await Promise.all([updatePasswordProtection(values, formikActions), submitEnvironmentVariables(values, formikActions)]);
-
+    const [passwordSuccess, appSettingsSuccess] = await Promise.all([
+      updatePasswordProtection(values),
+      submitEnvironmentVariables(values, formikActions),
+    ]);
     formikActions.setSubmitting(false);
     portalContext.updateDirtyState(false);
+
+    if (passwordSuccess && appSettingsSuccess) {
+      props.refresh(values.selectedEnvironment);
+    } else if (appSettingsSuccess && !!values.selectedEnvironment) {
+      fetchEnvironmentVariables(values.selectedEnvironment.id);
+    } else if (passwordSuccess) {
+      formikActions.setFieldValue('visitorPassword', '');
+      formikActions.setFieldValue('visitorPasswordConfirm', '');
+      formikActions.setFieldValue('isGeneralSettingsDirty', false);
+    }
   };
 
   const hideDiscardConfirmDialog = () => {
     setIsDiscardConfirmDialogVisible(false);
   };
+
   const getBanner = () => {
     const bannerInfo = { message: '', type: MessageBarType.info };
     if (!hasWritePermissions) {

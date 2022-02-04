@@ -1,6 +1,7 @@
+import React, { useContext, useEffect } from 'react';
+import { Field } from 'formik';
 import { IChoiceGroupOption } from '@fluentui/react/lib/ChoiceGroup';
 import { Link } from '@fluentui/react/lib/Link';
-import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import { PortalContext } from '../../../PortalContext';
@@ -9,8 +10,7 @@ import { ConfigurationGeneralSettingsProps, PasswordProtectionTypes } from './Co
 import { Links } from '../../../utils/FwLinks';
 import { textboxStyle, formElementStyle, descriptionStyle } from './Configuration.styles';
 import { TextFieldType } from '../../../utils/CommonConstants';
-import { TextField } from '@fluentui/react/lib/TextField';
-import { Field } from 'formik';
+import TextField from '../../../components/form-controls/TextField';
 import RadioButton from '../../../components/form-controls/RadioButton';
 
 const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> = props => {
@@ -36,27 +36,25 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
 
   const getPasswordProtectionRadioButtons = () => {
     return (
-      <div className={formElementStyle}>
-        <Field
-          className={textboxStyle}
-          label={t('staticSite_passwordProtection')}
-          id="staticSite_passwordProtection"
-          name="passwordProtection"
-          component={RadioButton}
-          displayInVerticalLayout={true}
-          options={passwordProtectionOptions}
-          required={true}
-          type={TextFieldType.password}
-          widthOverride={'100%'}
-          resizable={true}
-          onChange={PasswordProtectionRadioButtonOnChange}
-          disabled={disabled}
-        />
-      </div>
+      <Field
+        className={textboxStyle}
+        label={t('staticSite_passwordProtection')}
+        id="staticSite_passwordProtection"
+        name="passwordProtection"
+        component={RadioButton}
+        displayInVerticalLayout={true}
+        options={passwordProtectionOptions}
+        required={true}
+        type={TextFieldType.password}
+        widthOverride={'100%'}
+        resizable={true}
+        onChange={passwordProtectionRadioButtonOnChange}
+        disabled={disabled}
+      />
     );
   };
 
-  const PasswordProtectionRadioButtonOnChange = (_e: any, configOptions: IChoiceGroupOption) => {
+  const passwordProtectionRadioButtonOnChange = (_e: any, configOptions: IChoiceGroupOption) => {
     const newPasswordProtectionType = stringToPasswordProtectionType(configOptions.key);
     formProps.setFieldValue('passwordProtection', newPasswordProtectionType);
 
@@ -91,64 +89,66 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
 
   const getVisitorPasswordTextBox = () => {
     return (
-      <div className={formElementStyle}>
-        <Field
-          className={textboxStyle}
-          name="visitorPassword"
-          component={TextField}
-          label={t('staticSite_visitorPassword')}
-          placeholder={t('staticSite_enterVisitorPassword')}
-          type={TextFieldType.password}
-          widthOverride={'100%'}
-          resizable={true}
-          required={true}
-          disabled={disabled}
-          onChange={changeTextFieldPassword}
-          value={formProps.values.visitorPassword}
-        />
-      </div>
+      <Field
+        className={textboxStyle}
+        id="password-protection-password"
+        name="visitorPassword"
+        component={TextField}
+        label={t('staticSite_visitorPassword')}
+        placeholder={t('staticSite_enterVisitorPassword')}
+        type={TextFieldType.password}
+        widthOverride={'100%'}
+        resizable={true}
+        required={true}
+        disabled={disabled}
+        onChange={changeTextFieldPassword}
+        value={formProps.values.visitorPassword}
+      />
     );
   };
 
   const getVisitorPasswordConfirmTextBox = () => {
     return (
-      <div className={formElementStyle}>
-        <Field
-          className={textboxStyle}
-          onChange={changeTextFieldConfirmPassword}
-          name="visitorPasswordConfirm"
-          component={TextField}
-          label={t('staticSite_confirmVisitorPassword')}
-          placeholder={t('staticSite_enterVisitorPassword')}
-          type={TextFieldType.password}
-          widthOverride={'100%'}
-          resizable={true}
-          required={true}
-          disabled={disabled}
-          value={formProps.values.visitorPasswordConfirm}
-        />
-      </div>
+      <Field
+        className={textboxStyle}
+        id="password-protection-confirm-password"
+        onChange={changeTextFieldConfirmPassword}
+        name="visitorPasswordConfirm"
+        component={TextField}
+        label={t('staticSite_confirmVisitorPassword')}
+        placeholder={t('staticSite_enterVisitorPassword')}
+        type={TextFieldType.password}
+        widthOverride={'100%'}
+        resizable={true}
+        required={true}
+        disabled={disabled}
+        value={formProps.values.visitorPasswordConfirm}
+      />
     );
   };
 
-  useEffect(() => {
+  const updateDirtyState = () => {
     const isDirty =
       !!formProps.values.visitorPassword ||
       !!formProps.values.visitorPasswordConfirm ||
       formProps.values.passwordProtection !== formProps.initialValues.passwordProtection;
     formProps.setFieldValue('isGeneralSettingsDirty', isDirty);
+  };
+
+  useEffect(() => {
+    updateDirtyState();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.visitorPassword, formProps.values.visitorPasswordConfirm, formProps.values.passwordProtection]);
 
   return (
-    <>
+    <div className={formElementStyle}>
       <h3>{t('staticSite_passwordProtection')}</h3>
       {getPasswordProtectionDescription()}
       {getPasswordProtectionRadioButtons()}
       {getVisitorPasswordTextBox()}
       {getVisitorPasswordConfirmTextBox()}
-    </>
+    </div>
   );
 };
 
