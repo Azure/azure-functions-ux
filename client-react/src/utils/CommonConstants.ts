@@ -227,6 +227,10 @@ export class CommonConstants {
 
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
 
+  public static isKeyVaultSecretUrl = (value: string) => {
+    return !!value && value.toLocaleLowerCase().startsWith('https://') && value.toLocaleLowerCase().search('vault.azure.net/secrets') > 0;
+  };
+
   public static readonly BindingSettingNames = {
     connection: 'connection',
     connectionStringSetting: 'connectionStringSetting',

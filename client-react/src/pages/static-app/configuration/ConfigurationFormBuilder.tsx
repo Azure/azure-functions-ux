@@ -47,6 +47,9 @@ export class ConfigurationFormBuilder {
       passwordProtectionEnvironments: Yup.mixed().notRequired(),
       visitorPassword: Yup.string().test('publishingPasswordRequirements', this._t('staticSite_visitorPasswordRequired'), function(value) {
         if (this.parent.isGeneralSettingsDirty && this.parent.passwordProtection !== PasswordProtectionTypes.Disabled) {
+          if (!!value && CommonConstants.isKeyVaultSecretUrl(value)) {
+            return true;
+          }
           return !!value && CommonConstants.passwordMinimumRequirementsRegex.test(value);
         }
         return true;
