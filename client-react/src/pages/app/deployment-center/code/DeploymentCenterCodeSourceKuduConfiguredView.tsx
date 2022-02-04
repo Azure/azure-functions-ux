@@ -30,6 +30,7 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
   };
 
   const disconnect = async () => {
+    hideRefreshConfirmDialog();
     const notificationId = portalContext.startNotification(t('disconnectingDeployment'), t('disconnectingDeployment'));
     portalContext.log(
       getTelemetryInfo('info', 'disconnectSourceControl', 'submit', {
