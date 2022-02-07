@@ -59,9 +59,14 @@ export const textboxStyle = style({
 
 export const formElementStyle = style({
   maxWidth: maxElementWidth,
+  padding: '5px 20px',
 });
 
 export const descriptionStyle = style({
   marginBottom: spacingBetweenElements,
   maxWidth: maxElementWidth,
+});
+
+export const bannerWithPadding = style({
+  paddingBottom: spacingBetweenElements,
 });

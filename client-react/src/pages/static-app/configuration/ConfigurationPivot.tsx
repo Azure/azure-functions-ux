@@ -8,14 +8,17 @@ import { ThemeContext } from '../../../ThemeContext';
 import { ConfigurationPivotProps } from './Configuration.types';
 import { getTelemetryInfo } from '../StaticSiteUtility';
 import ConfigurationGeneralSettings from './ConfigurationGeneralSettings';
+import { StaticSiteSku } from '../skupicker/StaticSiteSkuPicker.types';
 
 const ConfigurationPivot: React.FC<ConfigurationPivotProps> = props => {
-  const { isLoading, hasWritePermissions, formProps } = props;
+  const { isLoading, hasWritePermissions, formProps, staticSiteSku } = props;
   const { t } = useTranslation();
   const [selectedKey, setSelectedKey] = useState<string>('appSettings');
 
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
+
+  const isGeneralSettingsDisabled = isLoading || !hasWritePermissions || staticSiteSku === StaticSiteSku.Free;
 
   const onLinkClick = (item: PivotItem) => {
     if (item.props.itemKey) {
@@ -53,7 +56,7 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = props => {
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
           CustomTabRenderer(link, defaultRenderer, theme, isGeneralSettingsDirty, t('modifiedTag'))
         }>
-        <ConfigurationGeneralSettings disabled={isLoading || !hasWritePermissions} formProps={formProps} />
+        <ConfigurationGeneralSettings disabled={isGeneralSettingsDisabled} {...props} />
       </PivotItem>
     </Pivot>
   );

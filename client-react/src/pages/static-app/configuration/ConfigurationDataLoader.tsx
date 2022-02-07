@@ -22,6 +22,7 @@ import { ConfigurationFormBuilder } from './ConfigurationFormBuilder';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
 import { PasswordProtectionTypes } from './Configuration.types';
 import { sortBy } from 'lodash-es';
+import { StaticSiteSku } from '../skupicker/StaticSiteSkuPicker.types';
 
 const configurationData = new ConfigurationData();
 export const ConfigurationContext = React.createContext(configurationData);
@@ -39,6 +40,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   const [apiFailure, setApiFailure] = useState(false);
   const [configurationFormData, setConfigurationFormData] = useState<ConfigurationFormData | undefined>(undefined);
   const [codeFormValidationSchema, setCodeFormValidationSchema] = useState<ConfigurationYupValidationSchemaType | undefined>(undefined);
+  const [staticSiteSku, setStaticSiteSku] = useState<StaticSiteSku>(StaticSiteSku.Standard);
 
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
@@ -53,9 +55,10 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     const appPermission = await portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     setHasWritePermissions(appPermission);
 
-    const [environmentResponse, staticSiteAuthResponse] = await Promise.all([
+    const [environmentResponse, staticSiteAuthResponse, staticSiteResponse] = await Promise.all([
       EnvironmentService.getEnvironments(resourceId),
       StaticSiteService.getStaticSiteBasicAuth(resourceId),
+      StaticSiteService.getStaticSite(resourceId),
     ]);
 
     if (environmentResponse.metadata.success) {
@@ -80,6 +83,17 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         'getStaticSiteBasicAuth',
         `Failed to get basic auth: ${getErrorMessageOrStringify(staticSiteAuthResponse.metadata.error)}`
       );
+    }
+
+    if (staticSiteResponse.metadata.success && staticSiteResponse.data.sku && staticSiteResponse.data.sku.name) {
+      const skuName =
+        staticSiteResponse.data.sku.name &&
+        staticSiteResponse.data.sku.name.toLocaleLowerCase() === StaticSiteSku.Standard.toLocaleLowerCase()
+          ? StaticSiteSku.Standard
+          : StaticSiteSku.Free;
+      setStaticSiteSku(skuName);
+    } else if (!staticSiteResponse.metadata.success) {
+      portalContext.log(getTelemetryInfo('error', 'getStaticSite', 'failed', { error: staticSiteResponse.metadata.error }));
     }
 
     if (!apiFailure) {
@@ -170,6 +184,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         isLoading={initialLoading}
         hasWritePermissions={hasWritePermissions}
         apiFailure={apiFailure}
+        staticSiteSku={staticSiteSku}
       />
     </ConfigurationContext.Provider>
   );
