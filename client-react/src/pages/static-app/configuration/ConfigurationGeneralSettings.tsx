@@ -8,13 +8,16 @@ import { PortalContext } from '../../../PortalContext';
 import { getTelemetryInfo, stringToPasswordProtectionType } from '../StaticSiteUtility';
 import { ConfigurationGeneralSettingsProps, PasswordProtectionTypes } from './Configuration.types';
 import { Links } from '../../../utils/FwLinks';
-import { textboxStyle, formElementStyle, descriptionStyle } from './Configuration.styles';
+import { textboxStyle, formElementStyle, descriptionStyle, bannerWithPadding } from './Configuration.styles';
 import { TextFieldType } from '../../../utils/CommonConstants';
 import TextField from '../../../components/form-controls/TextField';
 import RadioButton from '../../../components/form-controls/RadioButton';
+import { MessageBarType } from '@fluentui/react/lib/MessageBar';
+import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import { StaticSiteSku } from '../skupicker/StaticSiteSkuPicker.types';
 
 const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> = props => {
-  const { disabled, formProps } = props;
+  const { disabled, formProps, staticSiteSku } = props;
 
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
@@ -127,6 +130,21 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
     );
   };
 
+  const getFreeSkuBanner = () => {
+    const bannerInfo = { message: '', type: MessageBarType.info };
+    if (staticSiteSku === StaticSiteSku.Free) {
+      bannerInfo.message = t('staticSite_passwordProtectionSkuWarning');
+    }
+    return !!bannerInfo.message ? (
+      <div className={bannerWithPadding}>
+        {' '}
+        <CustomBanner message={bannerInfo.message} type={bannerInfo.type} />
+      </div>
+    ) : (
+      <></>
+    );
+  };
+
   const updateDirtyState = () => {
     const isDirty =
       !!formProps.values.visitorPassword ||
@@ -144,6 +162,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
   return (
     <div className={formElementStyle}>
       <h3>{t('staticSite_passwordProtection')}</h3>
+      {getFreeSkuBanner()}
       {getPasswordProtectionDescription()}
       {getPasswordProtectionRadioButtons()}
       {getVisitorPasswordTextBox()}

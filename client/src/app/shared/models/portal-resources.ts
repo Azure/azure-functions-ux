@@ -2382,4 +2382,5 @@ export class PortalResources {
   public static staticSite_generalSettingsUpdateWithSuccess = 'staticSite_generalSettingsUpdateWithSuccess';
   public static staticSite_generalSettingsUpdateWithFailure = 'staticSite_generalSettingsUpdateWithFailure';
   public static staticSite_generalSettingsUpdateWithFailureNoMessage = 'staticSite_generalSettingsUpdateWithFailureNoMessage';
+  public static staticSite_passwordProtectionSkuWarning = 'staticSite_passwordProtectionSkuWarning';
 }

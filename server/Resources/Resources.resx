@@ -7270,7 +7270,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Confirm visitor password</value>
     </data>
     <data name="staticSite_visitorPasswordRequired" xml:space="preserve">
-        <value>Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols.</value>
+        <value>Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols or a Key vault secret url.</value>
     </data>
     <data name="staticSite_confirmVisitorPasswordRequired" xml:space="preserve">
         <value>Please confirm the visitor password. This value must match the password entered above.</value>
@@ -7286,5 +7286,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSite_generalSettingsUpdateWithFailureNoMessage" xml:space="preserve">
         <value>Failed to update general settings.</value>
+    </data>
+    <data name="staticSite_passwordProtectionSkuWarning" xml:space="preserve">
+        <value>Password protection is only available on the Standard hosting plan. Please update your hosting plan to configure password protection.</value>
     </data>
 </root>

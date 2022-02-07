@@ -3,6 +3,7 @@ import { KeyValue } from '../../../models/portal-models';
 import { Environment } from '../../../models/static-site/environment';
 import * as Yup from 'yup';
 import { FormikProps } from 'formik';
+import { StaticSiteSku } from '../skupicker/StaticSiteSkuPicker.types';
 
 export interface EnvironmentVariable {
   name: string;
@@ -33,6 +34,7 @@ export interface ConfigurationProps {
 export interface ConfigurationGeneralSettingsProps {
   disabled: boolean;
   formProps: FormikProps<ConfigurationFormData>;
+  staticSiteSku: StaticSiteSku;
 }
 
 export enum PasswordProtectionTypes {
@@ -84,6 +86,7 @@ export interface ConfigurationFormProps {
   fetchEnvironmentVariables: (resourceId: string) => void;
   refresh: (currentEnvironment?: ArmObj<Environment>) => void;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
+  staticSiteSku: StaticSiteSku;
 }
 
 export interface ConfigurationPivotProps {
@@ -95,4 +98,5 @@ export interface ConfigurationPivotProps {
   apiFailure: boolean;
   fetchDataOnEnvironmentChange: (resourceId: string) => Promise<void>;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
+  staticSiteSku: StaticSiteSku;
 }
