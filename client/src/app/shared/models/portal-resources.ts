@@ -16,6 +16,7 @@ export class PortalResources {
   public static function = 'function';
   public static functionCreateErrorDetails = 'functionCreateErrorDetails';
   public static functionCreateErrorMessage = 'functionCreateErrorMessage';
+  public static creatingFunction = 'creatingFunction';
   public static functionDev_functionErrorDetails = 'functionDev_functionErrorDetails';
   public static functionDev_functionErrorMessage = 'functionDev_functionErrorMessage';
   public static functionDev_functionUrl = 'functionDev_functionUrl';
