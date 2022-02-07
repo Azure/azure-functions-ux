@@ -55,7 +55,10 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
 
   // eslint-disable-next-line no-useless-escape
   const shareNameMaxLength = 64;
-  const mountPathMaxLength = isLinuxOrContainer(siteState) ? 256 : 256 - CommonConstants.windowsCodeMountPathPrefix.length;
+  const mountPathDefaultMaxLength = 256;
+  const mountPathMaxLength = isLinuxOrContainer(siteState)
+    ? mountPathDefaultMaxLength
+    : mountPathDefaultMaxLength - CommonConstants.windowsCodeMountPathPrefix.length;
 
   // eslint-disable-next-line no-useless-escape
   const shareNameRegex = /^[a-zA-Z0-9\[\]\(\)\-_]+$/;
