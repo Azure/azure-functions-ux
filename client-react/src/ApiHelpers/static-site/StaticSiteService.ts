@@ -51,7 +51,7 @@ export default class StaticSiteService {
     const url = `${resourceId}/config/basicAuth`;
     return MakeArmCall<ArmObj<StaticSiteBasicAuth>>({
       resourceId: url,
-      method: 'PATCH',
+      method: 'PUT',
       commandName: 'putStaticSiteBasicAuth',
       body,
       apiVersion,
