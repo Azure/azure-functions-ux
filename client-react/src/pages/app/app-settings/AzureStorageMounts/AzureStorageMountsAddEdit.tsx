@@ -12,11 +12,9 @@ import { addEditFormStyle } from '../../../../components/form-controls/formContr
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import * as Yup from 'yup';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
-import Url from '../../../../utils/url';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { style } from 'typestyle';
 import { ISiteState, SiteStateContext } from '../../../../SiteState';
-import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
@@ -56,7 +54,6 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   azureStorageMount.mountPath = getMountPathDisplayValue(siteState, azureStorageMount.mountPath);
 
   // eslint-disable-next-line no-useless-escape
-  const mountPathRegex = /^\/[a-zA-Z0-9.\[\]\(\)\-_\/]*$/;
   const shareNameMaxLength = 64;
   const mountPathMaxLength = isLinuxOrContainer(siteState) ? 256 : 256 - CommonConstants.windowsCodeMountPathPrefix.length;
 
