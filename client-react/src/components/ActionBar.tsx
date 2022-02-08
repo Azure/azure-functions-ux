@@ -135,28 +135,27 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({
             )}
           </MessageBar>
         )}
-        {validating ||
-          (creating && (
-            <Spinner
-              size={SpinnerSize.medium}
-              label={creating ? t('creatingFunction') : t('validating')}
-              ariaLive="assertive"
-              styles={{
-                root: {
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingTop: '10px',
-                  paddingLeft: '5px',
-                },
-                label: {
-                  alignSelf: 'center',
-                  paddingLeft: '5px',
-                  marginTop: '0px',
-                },
-              }}
-            />
-          ))}
+        {(validating || creating) && (
+          <Spinner
+            size={SpinnerSize.medium}
+            label={creating ? t('creatingFunction') : t('validating')}
+            ariaLive="assertive"
+            styles={{
+              root: {
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingTop: '10px',
+                paddingLeft: '5px',
+              },
+              label: {
+                alignSelf: 'center',
+                paddingLeft: '5px',
+                marginTop: '0px',
+              },
+            }}
+          />
+        )}
       </div>
       {overlay && <Overlay />}
     </div>
