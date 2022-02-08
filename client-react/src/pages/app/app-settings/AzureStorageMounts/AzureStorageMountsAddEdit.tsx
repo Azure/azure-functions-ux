@@ -28,18 +28,6 @@ export interface AzureStorageMountsAddEditProps {
   enableValidation: boolean;
 }
 
-const isLinuxOrContainer = (siteState: ISiteState) => {
-  return !!siteState && (!!siteState.isLinuxApp || !!siteState.isContainerApp);
-};
-
-const getMountPathDisplayValue = (siteState: ISiteState, mountPath: string): string => {
-  if (isLinuxOrContainer(siteState)) {
-    return mountPath;
-  }
-  const startIndex = CommonConstants.windowsCodeMountPathPrefix.length;
-  return startIndex < mountPath.length ? mountPath.substring(startIndex) : mountPath;
-};
-
 export type AzureStorageMountsAddEditPropsCombined = AzureStorageMountsAddEditProps;
 const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombined> = props => {
   const { closeBlade, otherAzureStorageMounts, azureStorageMount, updateAzureStorageMount, enableValidation } = props;
@@ -51,12 +39,24 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   const [initialName] = useState(azureStorageMount.name);
   const [initialMountPath] = useState(azureStorageMount.mountPath);
 
-  azureStorageMount.mountPath = getMountPathDisplayValue(siteState, azureStorageMount.mountPath);
+  const isLinuxOrContainer = () => {
+    return !!siteState && (!!siteState.isLinuxApp || !!siteState.isContainerApp);
+  };
+
+  const getMountPathDisplayValue = (mountPath: string): string => {
+    if (isLinuxOrContainer()) {
+      return mountPath;
+    }
+    const startIndex = CommonConstants.windowsCodeMountPathPrefix.length;
+    return startIndex < mountPath.length ? mountPath.substring(startIndex) : mountPath;
+  };
+
+  azureStorageMount.mountPath = getMountPathDisplayValue(azureStorageMount.mountPath);
 
   // eslint-disable-next-line no-useless-escape
   const shareNameMaxLength = 64;
   const mountPathDefaultMaxLength = 256;
-  const mountPathMaxLength = isLinuxOrContainer(siteState)
+  const mountPathMaxLength = isLinuxOrContainer()
     ? mountPathDefaultMaxLength
     : mountPathDefaultMaxLength - CommonConstants.windowsCodeMountPathPrefix.length;
 
@@ -125,11 +125,11 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   };
 
   const setMountPathPrefix = (): string | undefined => {
-    return isLinuxOrContainer(siteState) ? undefined : CommonConstants.windowsCodeMountPathPrefix;
+    return isLinuxOrContainer() ? undefined : CommonConstants.windowsCodeMountPathPrefix;
   };
 
   const getMountPathInputValue = (input: string): string => {
-    return isLinuxOrContainer(siteState) ? input : `${CommonConstants.windowsCodeMountPathPrefix}${input}`;
+    return isLinuxOrContainer() ? input : `${CommonConstants.windowsCodeMountPathPrefix}${input}`;
   };
 
   const mountPathValidation = Yup.string()
