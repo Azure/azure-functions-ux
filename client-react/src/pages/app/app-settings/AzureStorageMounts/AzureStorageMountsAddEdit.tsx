@@ -14,7 +14,7 @@ import * as Yup from 'yup';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { style } from 'typestyle';
-import { ISiteState, SiteStateContext } from '../../../../SiteState';
+import { SiteStateContext } from '../../../../SiteState';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
