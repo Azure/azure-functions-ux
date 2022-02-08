@@ -55,7 +55,6 @@ export class CommonConstants {
     targetAzDevDeployment: 'targetAzDevDeployment',
     authTokenOverride: 'authTokenOverride',
     enableAzureMount: 'enableAzureMount',
-    enableAzureMountPathValidation: 'enableAzureMountPathValidation',
     showServiceLinkerConnector: 'showServiceLinkerConnector',
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
     treatAsKubeApp: 'treatAsKubeApp', // websitesextension_ext=appsvc.treatAsKubeApp%3Dtrue
