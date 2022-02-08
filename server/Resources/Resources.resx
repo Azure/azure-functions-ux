@@ -2176,9 +2176,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
         <value>Share name can only include alphanumeric characters, underscores, hyphens, square brackets, and parenthesis</value>
     </data>
-    <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
-        <value>Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis</value>
-    </data>
     <data name="mountPath_info" xml:space="preserve">
         <value>Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}</value>
     </data>
@@ -6902,9 +6899,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="stackVersionPreview" xml:space="preserve">
         <value>{0} (preview)</value>
-    </data>
-    <data name="validation_mountPathNotRoot" xml:space="preserve">
-        <value>Mount path cannot be '/'</value>
     </data>
     <data name="workflowRuntimeSettings" xml:space="preserve">
         <value>Workflow runtime settings</value>
