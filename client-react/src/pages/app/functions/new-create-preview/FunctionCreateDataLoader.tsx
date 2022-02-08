@@ -357,7 +357,8 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
                 id="add-function-footer"
                 primaryButton={actionBarPrimaryButtonProps}
                 secondaryButton={actionBarSecondaryButtonProps}
-                creating={creatingFunction}
+                validating={creatingFunction}
+                validationMessage={t('creatingFunction')}
               />
             </form>
           );
