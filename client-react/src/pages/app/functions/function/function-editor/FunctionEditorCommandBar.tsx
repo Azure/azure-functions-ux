@@ -22,6 +22,9 @@ interface FunctionEditorCommandBarProps {
   testFunction: () => void;
   refreshFunction: () => void;
   upload: (file: any) => void;
+  setShowInvalidFileSelectedWarning: (isValid: boolean | undefined) => void;
+  setSelectedFileName: (fileName: string) => void;
+  resetInvalidFileSelectedWarningAndFileName: () => void;
   isGetFunctionUrlVisible: boolean;
   dirty: boolean;
   disabled: boolean;
@@ -45,6 +48,9 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
     functionInfo,
     runtimeVersion,
     upload,
+    setShowInvalidFileSelectedWarning,
+    resetInvalidFileSelectedWarningAndFileName,
+    setSelectedFileName,
   } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
@@ -54,6 +60,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
 
   const onClickGetFunctionUrlCommand = () => {
+    resetInvalidFileSelectedWarningAndFileName();
     setIsDialogVisible(true);
   };
 
@@ -68,9 +75,13 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
 
   const uploadFile = e => {
     const file = e.target && e.target.files && e.target.files.length > 0 && e.target.files[0];
-    if (file) {
+    const isValidFile = !!file && !!file.size;
+    if (isValidFile) {
       upload(file);
     }
+
+    setSelectedFileName((!!file && file.name) || '');
+    setShowInvalidFileSelectedWarning(!isValidFile);
   };
 
   const onTestItemRender = (item: any, dismissMenu: () => void) => {

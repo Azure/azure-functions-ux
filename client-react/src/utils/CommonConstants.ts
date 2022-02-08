@@ -59,12 +59,10 @@ export class CommonConstants {
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
     treatAsKubeApp: 'treatAsKubeApp', // websitesextension_ext=appsvc.treatAsKubeApp%3Dtrue
     enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
-    enablePortalEditing: 'enablePortalEditing',
     disablePortalEditing: 'disablePortalEditing',
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
-    makeCallThroughPortal: 'makeCallThroughPortal',
     useStackApiForRuntimeVersion: 'useStackApiForRuntimeVersion',
     useNewFunctionLogsApi: 'useNewFunctionLogsApi', //websitesextension_ext=appsvc.useNewFunctionLogsApi%3Dtrue
   };
@@ -300,9 +298,11 @@ export class SubscriptionQuotaIds {
 export class ExperimentationConstants {
   public static TreatmentFlight = {
     linuxPortalEditing: 'linux-portal-editing-variant',
+    portalCallOnEditor: 'enable-portal-call-editor',
   };
 
   public static ControlFlight = {
     linuxPortalEditing: 'linux-portal-editing-default',
+    portalCallOnEditor: 'disable-portal-call-editor',
   };
 }

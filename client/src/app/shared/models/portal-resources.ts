@@ -2350,6 +2350,8 @@ export class PortalResources {
   public static missingWorkflowDispatchTrigger = 'missingWorkflowDispatchTrigger';
   public static deploymentCenterWorkflowError = 'deploymentCenterWorkflowError';
   public static enablePortalEditingForLinuxConsumptionWarning = 'enablePortalEditingForLinuxConsumptionWarning';
+  public static validFileShouldBeSelectedWarning = 'validFileShouldBeSelectedWarning';
+  public static invalidFileSelectedWarning = 'invalidFileSelectedWarning';
   public static switchToJbossWarningBaner = 'switchToJbossWarningBaner';
   public static staticSiteEnterpriseGradeEdge = 'staticSiteEnterpriseGradeEdge';
   public static staticSiteEnterpriseGradeEdgePrice = 'staticSiteEnterpriseGradeEdgePrice';
