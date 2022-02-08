@@ -153,6 +153,9 @@
     <data name="functionCreateErrorMessage" xml:space="preserve">
         <value>Function creation error! Please try again.</value>
     </data>
+    <data name="creatingFunction" xml:space="preserve">
+        <value>Creating function...</value>
+    </data>
     <data name="functionDev_functionErrorDetails" xml:space="preserve">
         <value>Function Error: {{error}}</value>
     </data>
