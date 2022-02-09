@@ -114,7 +114,11 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
               if (!!nodeVersion && nodeVersion === currentStackVersion) {
                 return supportedFunctionsExtensionVersions;
               }
-            } else if (settings.runtimeVersion === currentStackVersion) {
+            } else if (
+              !!settings.runtimeVersion &&
+              !!currentStackVersion &&
+              settings.runtimeVersion.toLowerCase() === currentStackVersion.toLowerCase()
+            ) {
               return supportedFunctionsExtensionVersions;
             }
           }
