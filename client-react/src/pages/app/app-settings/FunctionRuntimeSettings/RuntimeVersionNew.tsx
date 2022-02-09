@@ -23,7 +23,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
 
   const [stackSupportedRuntimeVersions, setStackSupportedRuntimeVersions] = useState<RuntimeExtensionMajorVersions[]>([]);
   const [selectedRuntimeVersion, setselectedRuntimeVersion] = useState<string>(RuntimeExtensionMajorVersions.custom);
-  const [showPerformanceWarningBanner, setShowPerformanceWarningBanner] = useState(false);
+  const [showWarningBannerForNonSupportedVersion, setShowWarningBannerForNonSupportedVersion] = useState(false);
 
   const { app_write, editable } = useContext(PermissionsContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -52,11 +52,11 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
     }
 
     if (isCustomVersion) {
-      setShowPerformanceWarningBanner(true);
+      setShowWarningBannerForNonSupportedVersion(true);
       runtimeVersion = RuntimeExtensionMajorVersions.custom;
       setStackSupportedRuntimeVersions([...supportedExtensionVersionsFromStacksData, RuntimeExtensionMajorVersions.custom]);
     } else {
-      setShowPerformanceWarningBanner(false);
+      setShowWarningBannerForNonSupportedVersion(false);
       setStackSupportedRuntimeVersions([...supportedExtensionVersionsFromStacksData]);
     }
 
@@ -67,7 +67,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
 
   const getBannerComponents = (): JSX.Element => {
     const supportedStackVersions = getSupportedExtensionVersions().join(',');
-    if (showPerformanceWarningBanner && !!supportedStackVersions) {
+    if (showWarningBannerForNonSupportedVersion && !!supportedStackVersions) {
       return (
         <CustomBanner
           message={t('functionSupportedRuntimeVersionNotConfiguredMessage').format(supportedStackVersions)}
