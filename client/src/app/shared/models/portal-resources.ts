@@ -1460,6 +1460,7 @@ export class PortalResources {
   public static argumentsRes = 'argumentsRes';
   public static newHandlerMapping = 'newHandlerMapping';
   public static stack = 'stack';
+  public static stackInfoMessage = 'stackInfoMessage';
   public static slots = 'slots';
   public static autoSwapEnabled = 'autoSwapEnabled';
   public static autoSwapSlot = 'autoSwapSlot';
