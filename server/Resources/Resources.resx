@@ -7243,12 +7243,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Add identity</value>
     </data>
     <data name="functionSupportedRuntimeVersionNotConfiguredMessage" xml:space="preserve">
-        <value>Your app's performance maybe be affected since it is not pinned to a supported runtime version. Please use one of the supported runtime versions - {{0}}.</value>
+        <value>Your app is not pinned to a supported runtime version. It might affect your app's performance. Please use one of the supported runtime version - ({0}).</value>
     </data>
     <data name="functionsSupportedRuntimeVersionMissingWarningWithVersionList" xml:space="preserve">
-        <value>The runtime version is not configured for your app. As a result the runtime cannot be started. Please update the runtime version to one of the supported runtime versions - {{0}}.</value>
+        <value>The runtime version is not configured for your app. As a result the runtime cannot be started. Please use one of the supported runtime version - ({0}).</value>
     </data>
     <data name="functionsSupportedRuntimeVersionMissingWarning" xml:space="preserve">
-        <value>The runtime version is not configured for your app. As a result the runtime cannot be started. Please update the runtime version to a valid version (e.g. ~3).</value>
+        <value>The runtime version is not configured for your app. As a result the runtime cannot be started. Please use a valid runtime version (e.g. ~3).</value>
     </data>
 </root>

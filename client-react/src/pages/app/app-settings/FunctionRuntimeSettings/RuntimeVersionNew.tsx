@@ -66,11 +66,13 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
   };
 
   const getBannerComponents = (): JSX.Element => {
-    if (showPerformanceWarningBanner && stackSupportedRuntimeVersions.length > 0) {
+    const supportedStackVersions = getSupportedExtensionVersions().join(',');
+    if (showPerformanceWarningBanner && !!supportedStackVersions) {
       return (
         <CustomBanner
-          message={t('functionSupportedRuntimeVersionNotConfiguredMessage').format(stackSupportedRuntimeVersions.join(','))}
+          message={t('functionSupportedRuntimeVersionNotConfiguredMessage').format(supportedStackVersions)}
           type={MessageBarType.warning}
+          undocked={true}
         />
       );
     }
@@ -78,11 +80,12 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
       return (
         <CustomBanner
           message={
-            stackSupportedRuntimeVersions.length > 0
-              ? t('functionsSupportedRuntimeVersionMissingWarningWithVersionList').format(stackSupportedRuntimeVersions.join(','))
+            !!supportedStackVersions
+              ? t('functionsSupportedRuntimeVersionMissingWarningWithVersionList').format(supportedStackVersions)
               : t('functionsSupportedRuntimeVersionMissingWarning')
           }
           type={MessageBarType.warning}
+          undocked={true}
         />
       );
     }
@@ -126,9 +129,8 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
       let appSettings: FormAppSetting[] = [...values.appSettings];
 
       // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
-      appSettings = removeFromAppSetting(values.appSettings, CommonConstants.AppSettingNames.azureJobsExtensionVersion);
-      appSettings = removeFromAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime);
-      appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime, newVersion);
+      appSettings = removeFromAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
+      appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion, newVersion);
 
       setFieldValue('appSettings', appSettings);
     }
