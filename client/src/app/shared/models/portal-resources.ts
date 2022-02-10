@@ -2368,4 +2368,8 @@ export class PortalResources {
   public static managedIdentityInfoMessage = 'managedIdentityInfoMessage';
   public static acrCredentialsWarningMessage = 'acrCredentialsWarningMessage';
   public static addIdentity = 'addIdentity';
+  public static functionSupportedRuntimeVersionNotConfiguredMessage = 'functionSupportedRuntimeVersionNotConfiguredMessage';
+  public static functionsSupportedRuntimeVersionMissingWarningWithVersionList =
+    'functionsSupportedRuntimeVersionMissingWarningWithVersionList';
+  public static functionsSupportedRuntimeVersionMissingWarning = 'functionsSupportedRuntimeVersionMissingWarning';
 }
