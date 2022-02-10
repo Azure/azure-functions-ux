@@ -153,6 +153,9 @@
     <data name="functionCreateErrorMessage" xml:space="preserve">
         <value>Function creation error! Please try again.</value>
     </data>
+    <data name="creatingFunction" xml:space="preserve">
+        <value>Creating function...</value>
+    </data>
     <data name="functionDev_functionErrorDetails" xml:space="preserve">
         <value>Function Error: {{error}}</value>
     </data>
@@ -2172,9 +2175,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
         <value>Share name can only include alphanumeric characters, underscores, hyphens, square brackets, and parenthesis</value>
-    </data>
-    <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
-        <value>Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis</value>
     </data>
     <data name="mountPath_info" xml:space="preserve">
         <value>Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}</value>
@@ -4522,6 +4522,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="stack" xml:space="preserve">
         <value>Stack</value>
+    </data>
+    <data name="stackInfoMessage" xml:space="preserve">
+        <value>Select a stack to see how it is currently configured for your app.</value>
     </data>
     <data name="slots" xml:space="preserve">
         <value>Deployment Slot</value>
@@ -6900,9 +6903,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="stackVersionPreview" xml:space="preserve">
         <value>{0} (preview)</value>
     </data>
-    <data name="validation_mountPathNotRoot" xml:space="preserve">
-        <value>Mount path cannot be '/'</value>
-    </data>
     <data name="workflowRuntimeSettings" xml:space="preserve">
         <value>Workflow runtime settings</value>
     </data>
@@ -7197,6 +7197,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="enablePortalEditingForLinuxConsumptionWarning" xml:space="preserve">
         <value>Adding third party dependencies in the Azure portal is currently not supported for Linux Consumption Function Apps. Click here to setup local environment.</value>
     </data>
+    <data name="validFileShouldBeSelectedWarning" xml:space="preserve">
+        <value>Please select a valid file to upload.</value>
+    </data>
+    <data name="invalidFileSelectedWarning" xml:space="preserve">
+        <value>Invalid {0} file was selected. Please upload a valid file.</value>
+    </data>
     <data name="switchToJbossWarningBaner" xml:space="preserve">
         <value>JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. </value>
     </data>
@@ -7238,5 +7244,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="addIdentity" xml:space="preserve">
         <value>Add identity</value>
+    </data>
+    <data name="functionSupportedRuntimeVersionNotConfiguredMessage" xml:space="preserve">
+        <value>Your app is not pinned to a supported runtime version. It might affect your app's performance. Please use one of the supported runtime version - {0}.</value>
+    </data>
+    <data name="functionsSupportedRuntimeVersionMissingWarningWithVersionList" xml:space="preserve">
+        <value>The runtime version is not configured for your app. As a result the runtime cannot be started. Please use one of the supported runtime version - {0}.</value>
+    </data>
+    <data name="functionsSupportedRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>The runtime version is not configured for your app. As a result the runtime cannot be started. Please use a valid runtime version (e.g. ~3).</value>
     </data>
 </root>

@@ -20,6 +20,7 @@ export const selectDevelopmentEnvironmentDescriptionStyle = style({
 
 export const templateListStyle = style({
   maxHeight: '300px',
+  display: 'inline-flex',
 });
 
 export const templateListNameColumnStyle = style({

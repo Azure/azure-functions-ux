@@ -70,6 +70,7 @@ export interface FunctionEditorProps {
   testData?: string;
   workerRuntime?: string;
   enablePortalCall?: boolean;
+  isLinuxSkuFlightingEnabled?: boolean;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
@@ -94,6 +95,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     workerRuntime,
     addCorsRule,
     enablePortalCall,
+    isLinuxSkuFlightingEnabled,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -113,6 +115,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [logPanelHeight, setLogPanelHeight] = useState(0);
   const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(undefined);
   const [liveLogsSessionId, setLiveLogsSessionId] = useState<undefined | string>(undefined);
+  const [showInvalidFileSelectedWarning, setShowInvalidFileSelectedWarning] = useState<boolean | undefined>(undefined);
+  const [selectedFileName, setSelectedFileName] = useState<string>('');
 
   const { t } = useTranslation();
 
@@ -133,6 +137,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (!selectedFile) {
       return;
     }
+
+    resetInvalidFileSelectedWarningAndFileName();
 
     portalCommunicator.log({
       action: 'functionEditor',
@@ -168,6 +174,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const test = () => {
+    resetInvalidFileSelectedWarningAndFileName();
     setShowTestPanel(true);
   };
 
@@ -328,6 +335,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const onCancelButtonClick = () => {
     setSelectedDropdownOption(undefined);
     setShowDiscardConfirmDialog(false);
+    resetInvalidFileSelectedWarningAndFileName();
   };
 
   const getHeaderContent = (): JSX.Element => {
@@ -445,6 +453,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return SiteHelper.isFunctionAppReadOnly(appEditState);
   };
 
+  const resetInvalidFileSelectedWarningAndFileName = () => {
+    if (showInvalidFileSelectedWarning !== undefined) {
+      setShowInvalidFileSelectedWarning(undefined);
+      setSelectedFileName('');
+    }
+  };
+
   const getBanner = (): JSX.Element => {
     /* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */
     if (isAppReadOnly(siteStateContext.siteAppEditState)) {
@@ -456,13 +471,20 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           type={MessageBarType.error}
         />
       );
-    } else if (FunctionAppService.enableEditingForLinux(site, workerRuntime) && isLinuxDynamic(site)) {
+    } else if (FunctionAppService.enableEditingForLinux(site, !!isLinuxSkuFlightingEnabled, workerRuntime) && isLinuxDynamic(site)) {
       // NOTE(krmitta): Banner is only visible in case of Linux Consumption
       return (
         <CustomBanner
           message={t('enablePortalEditingForLinuxConsumptionWarning')}
           type={MessageBarType.warning}
           learnMoreLink={Links.setupLocalFunctionEnvironment}
+        />
+      );
+    } else if (showInvalidFileSelectedWarning !== undefined && showInvalidFileSelectedWarning) {
+      return (
+        <CustomBanner
+          message={!!selectedFileName ? t('invalidFileSelectedWarning').format(selectedFileName) : t('validFileShouldBeSelectedWarning')}
+          type={MessageBarType.warning}
         />
       );
     } else {
@@ -486,6 +508,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (!isRefreshing && !initialLoading) {
       fetchData();
     }
+
+    resetInvalidFileSelectedWarningAndFileName();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRefreshing]);
@@ -513,6 +537,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           functionInfo={functionInfo}
           runtimeVersion={runtimeVersion}
           upload={uploadFile}
+          setShowInvalidFileSelectedWarning={setShowInvalidFileSelectedWarning}
+          setSelectedFileName={setSelectedFileName}
+          resetInvalidFileSelectedWarningAndFileName={resetInvalidFileSelectedWarningAndFileName}
         />
         <ConfirmDialog
           primaryActionButton={{

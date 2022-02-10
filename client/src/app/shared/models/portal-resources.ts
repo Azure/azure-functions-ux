@@ -16,6 +16,7 @@ export class PortalResources {
   public static function = 'function';
   public static functionCreateErrorDetails = 'functionCreateErrorDetails';
   public static functionCreateErrorMessage = 'functionCreateErrorMessage';
+  public static creatingFunction = 'creatingFunction';
   public static functionDev_functionErrorDetails = 'functionDev_functionErrorDetails';
   public static functionDev_functionErrorMessage = 'functionDev_functionErrorMessage';
   public static functionDev_functionUrl = 'functionDev_functionUrl';
@@ -687,7 +688,6 @@ export class PortalResources {
   public static validation_slotNameReserved = 'validation_slotNameReserved';
   public static validation_fieldMaxCharacters = 'validation_fieldMaxCharacters';
   public static validation_shareNameAllowedCharacters = 'validation_shareNameAllowedCharacters';
-  public static validation_mountNameAllowedCharacters = 'validation_mountNameAllowedCharacters';
   public static mountPath_info = 'mountPath_info';
   public static validation_invalidMountPath = 'validation_invalidMountPath';
   public static validation_mountPathNotHome = 'validation_mountPathNotHome';
@@ -1460,6 +1460,7 @@ export class PortalResources {
   public static argumentsRes = 'argumentsRes';
   public static newHandlerMapping = 'newHandlerMapping';
   public static stack = 'stack';
+  public static stackInfoMessage = 'stackInfoMessage';
   public static slots = 'slots';
   public static autoSwapEnabled = 'autoSwapEnabled';
   public static autoSwapSlot = 'autoSwapSlot';
@@ -2252,7 +2253,6 @@ export class PortalResources {
   public static createKeyNotificationFailedDetails = 'createKeyNotificationFailedDetails';
   public static stackVersionDeprecated = 'stackVersionDeprecated';
   public static stackVersionPreview = 'stackVersionPreview';
-  public static validation_mountPathNotRoot = 'validation_mountPathNotRoot';
   public static workflowRuntimeSettings = 'workflowRuntimeSettings';
   public static uploadingFile = 'uploadingFile';
   public static uploadingFileWithName = 'uploadingFileWithName';
@@ -2352,6 +2352,8 @@ export class PortalResources {
   public static missingWorkflowDispatchTrigger = 'missingWorkflowDispatchTrigger';
   public static deploymentCenterWorkflowError = 'deploymentCenterWorkflowError';
   public static enablePortalEditingForLinuxConsumptionWarning = 'enablePortalEditingForLinuxConsumptionWarning';
+  public static validFileShouldBeSelectedWarning = 'validFileShouldBeSelectedWarning';
+  public static invalidFileSelectedWarning = 'invalidFileSelectedWarning';
   public static switchToJbossWarningBaner = 'switchToJbossWarningBaner';
   public static staticSiteEnterpriseGradeEdge = 'staticSiteEnterpriseGradeEdge';
   public static staticSiteEnterpriseGradeEdgePrice = 'staticSiteEnterpriseGradeEdgePrice';
@@ -2366,4 +2368,8 @@ export class PortalResources {
   public static managedIdentityInfoMessage = 'managedIdentityInfoMessage';
   public static acrCredentialsWarningMessage = 'acrCredentialsWarningMessage';
   public static addIdentity = 'addIdentity';
+  public static functionSupportedRuntimeVersionNotConfiguredMessage = 'functionSupportedRuntimeVersionNotConfiguredMessage';
+  public static functionsSupportedRuntimeVersionMissingWarningWithVersionList =
+    'functionsSupportedRuntimeVersionMissingWarningWithVersionList';
+  public static functionsSupportedRuntimeVersionMissingWarning = 'functionsSupportedRuntimeVersionMissingWarning';
 }

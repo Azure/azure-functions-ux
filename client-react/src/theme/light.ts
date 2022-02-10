@@ -156,7 +156,7 @@ const semanticColors = {
   buttonTextChecked: AzurePortalColors.background,
   buttonTextCheckedHovered: AzurePortalColors.background,
   buttonTextPressed: AzurePortalColors.background,
-  buttonTextDisabled: AzurePortalColors.background,
+  buttonTextDisabled: AzurePortalColors.disabledText,
   buttonBorderDisabled: 'transparent',
 
   primaryButtonBackground: AzurePortalColors.buttonRest,
@@ -169,7 +169,7 @@ const semanticColors = {
   primaryButtonText: AzurePortalColors.background,
   primaryButtonTextHovered: AzurePortalColors.background,
   primaryButtonTextPressed: AzurePortalColors.background,
-  primaryButtonTextDisabled: AzurePortalColors.background,
+  primaryButtonTextDisabled: AzurePortalColors.disabledText,
 
   menuBackground: AzurePortalColors.background,
   menuDivider: AzurePortalColors.sectionDividerScrollbar,
