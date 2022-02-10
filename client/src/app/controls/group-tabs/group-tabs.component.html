@@ -12,7 +12,7 @@
         [id]="'group-tab-item-' + tabItem.id"
         [attr.aria-controls]="'group-tab-item-' + tabItem.id"
         [attr.aria-selected]="tabItem.id === currentTabId"
-        [attr.aria-label]="tabItem.title">
+        [attr.aria-label]="tabItem.title + (!!tabItem.description ? ' ' + tabItem.description : '')">
 
         <div [load-image]="tabItem.iconUrl" class="icon-medium"></div>
         <h3>{{tabItem.title}}</h3>
