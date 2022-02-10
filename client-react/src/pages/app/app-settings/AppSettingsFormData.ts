@@ -59,7 +59,7 @@ interface StateToFormParams {
   slotConfigNames: ArmObj<SlotConfigNames> | null;
   metadata: ArmObj<KeyValue<string>> | null;
   basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
-  appPermissions: boolean;
+  appPermissions?: boolean;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
   const {
@@ -82,7 +82,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     appSettings: formAppSetting,
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
-    currentlySelectedStack: getCurrentStackString(config, appPermissions, metadata, appSettings, isFunctionApp(site), isWindowsCode(site)),
+    currentlySelectedStack: getCurrentStackString(config, metadata, appSettings, isFunctionApp(site), isWindowsCode(site), appPermissions),
     azureStorageMounts: getFormAzureStorageMount(azureStorageMounts),
   };
 };
@@ -361,11 +361,11 @@ export function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]
 
 export function getCurrentStackString(
   config: ArmObj<SiteConfig>,
-  appPermissions: boolean,
   metadata?: ArmObj<KeyValue<string>> | null,
   appSettings?: ArmObj<KeyValue<string>> | null,
   isFunctionApp?: boolean,
-  isWindowsCodeApp?: boolean
+  isWindowsCodeApp?: boolean,
+  appPermissions?: boolean
 ): string {
   if (
     !!isFunctionApp &&
