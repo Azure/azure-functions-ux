@@ -27,13 +27,14 @@ import StringUtils from '../../../../../utils/string';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { CommonConstants } from '../../../../../utils/CommonConstants';
+import { CommonConstants, ExperimentationConstants } from '../../../../../utils/CommonConstants';
 import { NetAjaxSettings } from '../../../../../models/ajax-request-model';
 import { PortalContext } from '../../../../../PortalContext';
 import { getJQXHR, isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
 import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
+import { Method } from 'axios';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -62,6 +63,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isUploadingFile, setIsUploadingFile] = useState(false);
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
+  const [enablePortalCall, setEnablePortalCall] = useState(false);
+  const [isLinuxSkuFlightingEnabled, setIsLinuxSkuFlightingEnabled] = useState(false);
 
   const siteContext = useContext(SiteRouterContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -79,13 +82,26 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   const fetchData = async () => {
     const siteResourceId = getSiteResourceId();
-    const [siteResponse, functionInfoResponse, appKeysResponse, functionKeysResponse, hostStatusResponse] = await Promise.all([
+    const [
+      siteResponse,
+      functionInfoResponse,
+      appKeysResponse,
+      functionKeysResponse,
+      hostStatusResponse,
+      enablePortalCall,
+      isLinuxSkuFlightingEnabled,
+    ] = await Promise.all([
       siteContext.fetchSite(siteResourceId),
       functionEditorData.getFunctionInfo(resourceId),
       AppKeyService.fetchKeys(siteResourceId),
       FunctionsService.fetchKeys(resourceId),
       SiteService.fetchFunctionsHostStatus(siteResourceId),
+      portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.portalCallOnEditor),
+      portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.linuxPortalEditing),
     ]);
+
+    setEnablePortalCall(enablePortalCall);
+    setIsLinuxSkuFlightingEnabled(isLinuxSkuFlightingEnabled);
 
     // NOTE (krmitta): App-Settings are going to be used to fetch the workerRuntime,
     // for logging purposes only. Thus we are not going to block on this.
@@ -296,7 +312,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   // Used to get settings for both http and webHook functions
-  const getSettingsToInvokeHttpFunction = (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string): NetAjaxSettings | undefined => {
+  const getSettingsToInvokeHttpFunction = (
+    newFunctionInfo: ArmObj<FunctionInfo>,
+    xFunctionKey?: string,
+    liveLogsSessionId?: string
+  ): NetAjaxSettings | undefined => {
     if (!!site) {
       let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
       let parsedTestData = {};
@@ -341,7 +361,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       return {
         uri: url,
         type: testDataObject.method as string,
-        headers: headers,
+        headers: { ...headers, ...getHeadersForLiveLogsSessionId(liveLogsSessionId) },
         data: testDataObject.body,
       };
     }
@@ -351,7 +371,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   // Used to get settings for non-http and non-webHook functions
   const getSettingsToInvokeNonHttpFunction = (
     newFunctionInfo: ArmObj<FunctionInfo>,
-    xFunctionKey?: string
+    xFunctionKey?: string,
+    liveLogsSessionId?: string
   ): NetAjaxSettings | undefined => {
     if (!!site) {
       const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
@@ -360,14 +381,18 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       return {
         uri: url,
         type: 'POST',
-        headers: headers,
-        data: newFunctionInfo.properties.test_data || '',
+        headers: { ...headers, ...getHeadersForLiveLogsSessionId(liveLogsSessionId) },
+        data: { input: newFunctionInfo.properties.test_data || '' },
       };
     }
     return undefined;
   };
 
-  const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+  const getHeadersForLiveLogsSessionId = (liveLogsSessionId?: string) => {
+    return { LiveLogsSessionId: liveLogsSessionId || '', sessionIdKey: 'ai_SessionId' };
+  };
+
+  const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string, liveLogsSessionId?: string) => {
     setFunctionRunning(true);
 
     if (!SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
@@ -380,14 +405,19 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     let settings: NetAjaxSettings | undefined;
 
     if (isHttpOrWebHookFunction) {
-      settings = getSettingsToInvokeHttpFunction(newFunctionInfo, xFunctionKey);
+      settings = getSettingsToInvokeHttpFunction(newFunctionInfo, xFunctionKey, liveLogsSessionId);
     } else {
-      settings = getSettingsToInvokeNonHttpFunction(newFunctionInfo, xFunctionKey);
+      settings = getSettingsToInvokeNonHttpFunction(newFunctionInfo, xFunctionKey, liveLogsSessionId);
     }
 
     if (!!settings) {
       let response: ResponseContent = { code: 0, text: '' };
-      response = await runUsingPortal(settings);
+
+      if (enablePortalCall) {
+        response = await runUsingPortal(settings);
+      } else {
+        response = await runUsingPassthrough(settings);
+      }
 
       setResponseContent({
         code: response.code,
@@ -395,6 +425,25 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       });
     }
     setFunctionRunning(false);
+  };
+
+  const runUsingPassthrough = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
+    let response: ResponseContent = { code: 0, text: '' };
+
+    const runFunctionResponse = await FunctionsService.runFunction(settings);
+    response.code = runFunctionResponse.metadata.status;
+    if (runFunctionResponse.metadata.success) {
+      response.text = runFunctionResponse.data as string;
+    } else {
+      response.text = runFunctionResponse.metadata.error;
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'runFunction',
+        `Failed to runFunction: ${getErrorMessageOrStringify(runFunctionResponse.metadata.error)}`
+      );
+    }
+
+    return response;
   };
 
   const runUsingPortal = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
@@ -495,22 +544,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       // Note (krmitta): Almost always we should be able to get the test_data through VFS Arm.
       // Adding the below fallback logic just on the off-chance that it doesn't.
       if (!testDataResponseSuccess) {
-        const headers = getHeaders([], getDefaultXFunctionKey());
-        const functionHrefTestDataResponse = await portalContext.makeHttpRequestsViaPortal({
-          uri: functionInfo.properties.test_data_href,
-          type: 'GET',
-          headers: headers,
-        });
-
-        if (isPortalCommunicationStatusSuccess(functionHrefTestDataResponse.status)) {
-          testData = functionHrefTestDataResponse.result;
-        } else {
-          LogService.error(
-            LogCategories.FunctionEdit,
-            'GetTestDataUsingFunctionHref',
-            `Failed to get test data: ${getErrorMessageOrStringify(functionHrefTestDataResponse)}`
-          );
-        }
+        testData = await getTestDataUsingFunctionHref(functionInfo.properties.test_data_href);
       }
 
       if (!!testData) {
@@ -522,6 +556,61 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         setTestData(testData as string);
       }
     }
+  };
+
+  const getTestDataUsingFunctionHref = async (testDataHref: string) => {
+    const headers = getHeaders([], getDefaultXFunctionKey());
+    const settings = {
+      uri: testDataHref,
+      type: 'GET',
+      headers: headers,
+    };
+
+    if (enablePortalCall) {
+      return await getTestDataUsingPortal(settings);
+    } else {
+      return await getTestDataUsingPassthrough(settings);
+    }
+  };
+
+  const getTestDataUsingPortal = async (settings: NetAjaxSettings) => {
+    const functionHrefTestDataResponse = await portalContext.makeHttpRequestsViaPortal(settings);
+    const result = functionHrefTestDataResponse.result;
+
+    if (isPortalCommunicationStatusSuccess(functionHrefTestDataResponse.status)) {
+      return !!result && !!result.content ? result.content : result;
+    } else {
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'GetTestDataUsingFunctionHref',
+        `Failed to get test data: ${getErrorMessageOrStringify(result)}`
+      );
+    }
+    return undefined;
+  };
+
+  const getTestDataUsingPassthrough = async (settings: NetAjaxSettings) => {
+    const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(settings.uri, settings.type as Method, {
+      ...settings.headers,
+      ...getAuthorizationHeaders(),
+    });
+    if (functionHrefTestDataResponse.metadata.success) {
+      return functionHrefTestDataResponse.data;
+    } else {
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'GetTestDataUsingFunctionHref',
+        `Failed to get test data: ${getErrorMessageOrStringify(functionHrefTestDataResponse.metadata.error)}`
+      );
+    }
+    return undefined;
+  };
+
+  const getAuthorizationHeaders = (): KeyValue<string> => {
+    return {
+      Authorization: `Bearer ${startupInfoContext.token}`,
+      FunctionsPortal: '1',
+    };
   };
 
   const refresh = async () => {
@@ -674,6 +763,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             refreshFileList={refreshFileList}
             workerRuntime={workerRuntime}
             addCorsRule={addCorsRule}
+            enablePortalCall={enablePortalCall}
+            isLinuxSkuFlightingEnabled={isLinuxSkuFlightingEnabled}
           />
         </div>
       ) : (

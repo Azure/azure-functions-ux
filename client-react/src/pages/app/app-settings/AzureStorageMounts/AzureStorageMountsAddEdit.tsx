@@ -12,16 +12,12 @@ import { addEditFormStyle } from '../../../../components/form-controls/formContr
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import * as Yup from 'yup';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
-import Url from '../../../../utils/url';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { style } from 'typestyle';
 import { SiteStateContext } from '../../../../SiteState';
-import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
-
-const isValidationEnabled = !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMountPathValidation);
 
 export interface AzureStorageMountsAddEditProps {
   updateAzureStorageMount: (item: FormAzureStorageMounts) => any;
@@ -43,22 +39,31 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   const [initialName] = useState(azureStorageMount.name);
   const [initialMountPath] = useState(azureStorageMount.mountPath);
 
+  const isLinuxOrContainer = () => {
+    return !!siteState && (!!siteState.isLinuxApp || !!siteState.isContainerApp);
+  };
+
+  const getMountPathDisplayValue = (mountPath: string): string => {
+    if (isLinuxOrContainer()) {
+      return mountPath;
+    }
+    const startIndex = CommonConstants.windowsCodeMountPathPrefix.length;
+    return startIndex < mountPath.length ? mountPath.substring(startIndex) : mountPath;
+  };
+
+  azureStorageMount.mountPath = getMountPathDisplayValue(azureStorageMount.mountPath);
+
   // eslint-disable-next-line no-useless-escape
-  const mountPathRegex = /^\/[a-zA-Z0-9.\[\]\(\)\-_\/]*$/;
   const shareNameMaxLength = 64;
-  const mountPathMaxLength = 256;
+  const mountPathDefaultMaxLength = 256;
+  const mountPathMaxLength = isLinuxOrContainer()
+    ? mountPathDefaultMaxLength
+    : mountPathDefaultMaxLength - CommonConstants.windowsCodeMountPathPrefix.length;
 
   // eslint-disable-next-line no-useless-escape
   const shareNameRegex = /^[a-zA-Z0-9\[\]\(\)\-_]+$/;
   const cancel = () => {
     closeBlade();
-  };
-
-  const isContainerAtPublicCloud = () => {
-    const isPublicCloud = !NationalCloudEnvironment.isNationalCloud();
-    const isContainer = !!siteState ? siteState.isContainerApp : false;
-
-    return isPublicCloud && isContainer;
   };
 
   const getLinuxMountPathValidation = (value: string): boolean => {
@@ -86,6 +91,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   };
 
   const validateMountPath = (value: string): string | undefined => {
+    value = getMountPathInputValue(value);
     if (!siteState) {
       return undefined;
     }
@@ -96,7 +102,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     let valid = true;
     if (siteState.isLinuxApp) {
       valid = getLinuxMountPathValidation(value);
-    } else if (isContainerAtPublicCloud() || isValidationEnabled) {
+    } else {
       valid = getWindowsMountPathValidation(value);
     }
     return valid ? undefined : t('validation_invalidMountPath');
@@ -109,44 +115,39 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     let mountPathInfoBubble;
     if (siteState.isLinuxApp) {
       mountPathInfoBubble = MountPathExamples.linux;
-    } else if (isContainerAtPublicCloud()) {
+    } else if (siteState.isContainerApp) {
       mountPathInfoBubble = MountPathExamples.windowsContainer;
-    } else if (isValidationEnabled) {
-      mountPathInfoBubble = siteState.isContainerApp ? MountPathExamples.windowsContainer : MountPathExamples.windowsCode;
     } else {
-      return '';
+      mountPathInfoBubble = MountPathExamples.windowsCode;
     }
     const { valid, invalid } = mountPathInfoBubble;
     return t('mountPath_info').format(valid, invalid);
   };
 
-  const setMountPathPrefix = (): string => {
-    if (!!siteState) {
-      return siteState.isLinuxApp || siteState.isContainerApp ? '' : CommonConstants.windowsCodeMountPathPrefix;
-    }
-    return '';
+  const setMountPathPrefix = (): string | undefined => {
+    return isLinuxOrContainer() ? undefined : CommonConstants.windowsCodeMountPathPrefix;
   };
 
-  let mountPathValidation = Yup.string()
+  const getMountPathInputValue = (input: string): string => {
+    return isLinuxOrContainer() ? input : `${CommonConstants.windowsCodeMountPathPrefix}${input}`;
+  };
+
+  const mountPathValidation = Yup.string()
     .required(t('validation_requiredError'))
     .max(mountPathMaxLength, t('validation_fieldMaxCharacters').format(mountPathMaxLength))
     .test('cannotMountHomeDirectory', t('validation_mountPathNotHome'), (value: string) => {
+      value = getMountPathInputValue(value);
       const homeDir = ValidationRegex.StorageMountPath.homeDir;
       return !homeDir.test(value);
     })
     .test('uniqueMountPath', t('validation_mouthPathMustBeUnique'), value => {
+      value = getMountPathInputValue(value);
       return (
         !value ||
         value === initialMountPath ||
         !otherAzureStorageMounts.some(storageMount => storageMount.mountPath.toLowerCase() === value.toLowerCase())
       );
     });
-
-  if (!isValidationEnabled && !!siteState && !siteState.isLinuxApp && !isContainerAtPublicCloud()) {
-    mountPathValidation = mountPathValidation
-      .matches(mountPathRegex, t('validation_mountNameAllowedCharacters'))
-      .test('cannotMountRootDirectory', t('validation_mountPathNotRoot'), (value: string) => value !== '/');
-  }
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -181,6 +182,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     <Formik
       initialValues={{ ...azureStorageMount }}
       onSubmit={values => {
+        values.mountPath = getMountPathInputValue(values.mountPath);
         updateAzureStorageMount(values);
       }}
       validationSchema={enableValidation && validationSchema}
@@ -238,7 +240,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               label={t('mountPath')}
               component={TextField}
               id={`azure-storage-mounts-path`}
-              defaultValue={setMountPathPrefix()}
+              prefix={setMountPathPrefix()}
               mouseOverToolTip={displayMountPathInfoBubble()}
               errorMessage={formProps.errors && formProps.errors.mountPath}
               required={true}

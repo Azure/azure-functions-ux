@@ -1,6 +1,8 @@
 // TODO (krmitta):  Rename the file after this version is tested
+import { MessageBarType } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
 import { SiteStateContext } from '../../../../SiteState';
@@ -21,6 +23,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
 
   const [stackSupportedRuntimeVersions, setStackSupportedRuntimeVersions] = useState<RuntimeExtensionMajorVersions[]>([]);
   const [selectedRuntimeVersion, setselectedRuntimeVersion] = useState<string>(RuntimeExtensionMajorVersions.custom);
+  const [showWarningBannerForNonSupportedVersion, setShowWarningBannerForNonSupportedVersion] = useState(false);
 
   const { app_write, editable } = useContext(PermissionsContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -49,15 +52,45 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
     }
 
     if (isCustomVersion) {
+      setShowWarningBannerForNonSupportedVersion(true);
       runtimeVersion = RuntimeExtensionMajorVersions.custom;
       setStackSupportedRuntimeVersions([...supportedExtensionVersionsFromStacksData, RuntimeExtensionMajorVersions.custom]);
     } else {
+      setShowWarningBannerForNonSupportedVersion(false);
       setStackSupportedRuntimeVersions([...supportedExtensionVersionsFromStacksData]);
     }
 
     if (selectedRuntimeVersion !== runtimeVersion) {
       setselectedRuntimeVersion(runtimeVersion);
     }
+  };
+
+  const getBannerComponents = (): JSX.Element => {
+    const supportedStackVersions = getSupportedExtensionVersions().join(',');
+    if (showWarningBannerForNonSupportedVersion && !!supportedStackVersions) {
+      return (
+        <CustomBanner
+          message={t('functionSupportedRuntimeVersionNotConfiguredMessage').format(supportedStackVersions)}
+          type={MessageBarType.warning}
+          undocked={true}
+        />
+      );
+    }
+    if (!selectedRuntimeVersion) {
+      return (
+        <CustomBanner
+          message={
+            !!supportedStackVersions
+              ? t('functionsSupportedRuntimeVersionMissingWarningWithVersionList').format(supportedStackVersions)
+              : t('functionsSupportedRuntimeVersionMissingWarning')
+          }
+          type={MessageBarType.warning}
+          undocked={true}
+        />
+      );
+    }
+
+    return <></>;
   };
 
   const getSupportedExtensionVersions = (): RuntimeExtensionMajorVersions[] => {
@@ -81,7 +114,11 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
               if (!!nodeVersion && nodeVersion === currentStackVersion) {
                 return supportedFunctionsExtensionVersions;
               }
-            } else if (settings.runtimeVersion === currentStackVersion) {
+            } else if (
+              !!settings.runtimeVersion &&
+              !!currentStackVersion &&
+              settings.runtimeVersion.toLowerCase() === currentStackVersion.toLowerCase()
+            ) {
               return supportedFunctionsExtensionVersions;
             }
           }
@@ -96,9 +133,8 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
       let appSettings: FormAppSetting[] = [...values.appSettings];
 
       // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
-      appSettings = removeFromAppSetting(values.appSettings, CommonConstants.AppSettingNames.azureJobsExtensionVersion);
-      appSettings = removeFromAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime);
-      appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime, newVersion);
+      appSettings = removeFromAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
+      appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion, newVersion);
 
       setFieldValue('appSettings', appSettings);
     }
@@ -113,17 +149,20 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
   return (
     <>
       {app_write && editable ? (
-        <DropdownNoFormik
-          onChange={(_e, option) => onDropdownChange(!!option && option.key)}
-          options={stackSupportedRuntimeVersions.map(version => ({
-            key: version.toLocaleLowerCase(),
-            text: version.toLocaleLowerCase(),
-          }))}
-          selectedKey={selectedRuntimeVersion}
-          disabled={false}
-          label={t('runtimeVersion')}
-          id="function-app-settings-runtime-version"
-        />
+        <>
+          {getBannerComponents()}
+          <DropdownNoFormik
+            onChange={(_e, option) => onDropdownChange(!!option && option.key)}
+            options={stackSupportedRuntimeVersions.map(version => ({
+              key: version.toLocaleLowerCase(),
+              text: version.toLocaleLowerCase(),
+            }))}
+            selectedKey={selectedRuntimeVersion}
+            disabled={false}
+            label={t('runtimeVersion')}
+            id="function-app-settings-runtime-version"
+          />
+        </>
       ) : (
         <DropdownNoFormik
           onChange={() => null}

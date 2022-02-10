@@ -31,7 +31,7 @@ export class CommonConstants {
     serviceBusApiVersion20150801: '2015-08-01',
     documentDBApiVersion20150408: '2015-04-08',
     appInsightsTokenApiVersion20150501: '2015-05-01',
-    quickpulseTokenApiVersion20200602preview: '2020-06-02-preview',
+    quickpulseTokenApiVersion20211014: '2021-10-14',
     appInsightsQueryApiVersion20180420: '2018-04-20',
     staticSitePreviewApiVersion20191201: '2019-12-01-preview',
     stacksApiVersion20201001: '2020-10-01',
@@ -55,18 +55,16 @@ export class CommonConstants {
     targetAzDevDeployment: 'targetAzDevDeployment',
     authTokenOverride: 'authTokenOverride',
     enableAzureMount: 'enableAzureMount',
-    enableAzureMountPathValidation: 'enableAzureMountPathValidation',
     showServiceLinkerConnector: 'showServiceLinkerConnector',
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
     treatAsKubeApp: 'treatAsKubeApp', // websitesextension_ext=appsvc.treatAsKubeApp%3Dtrue
     enableKubeScenarioForTesting: 'enableKubeScenarioForTesting',
-    enablePortalEditing: 'enablePortalEditing',
     disablePortalEditing: 'disablePortalEditing',
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
-    makeCallThroughPortal: 'makeCallThroughPortal',
     useStackApiForRuntimeVersion: 'useStackApiForRuntimeVersion',
+    useNewFunctionLogsApi: 'useNewFunctionLogsApi', //websitesextension_ext=appsvc.useNewFunctionLogsApi%3Dtrue
   };
 
   public static readonly AppDensityLimit = 8;
@@ -129,6 +127,17 @@ export class CommonConstants {
     usSec: 'https://live.applicationinsights.azure.microsoft.scloud/QuickPulseService.svc',
     usNat: 'https://live.applicationinsights.azure.eaglex.ic.gov/QuickPulseService.svc',
   };
+
+  public static readonly QuickPulseEndpointsWithoutService = {
+    quickPulseEndpoint: '/QuickPulseService.svc',
+    public: 'https://rt.services.visualstudio.com',
+    fairfax: 'https://quickpulse.applicationinsights.us',
+    mooncake: 'https://live.applicationinsights.azure.cn',
+    usSec: 'https://live.applicationinsights.azure.microsoft.scloud',
+    usNat: 'https://live.applicationinsights.azure.eaglex.ic.gov',
+  };
+
+  public static readonly LiveLogsSessionId = 'LiveLogsSessionId';
 
   public static readonly AppInsightsEndpoints = {
     public: 'https://api.applicationinsights.io/v1/apps',
@@ -289,9 +298,11 @@ export class SubscriptionQuotaIds {
 export class ExperimentationConstants {
   public static TreatmentFlight = {
     linuxPortalEditing: 'linux-portal-editing-variant',
+    portalCallOnEditor: 'enable-portal-call-editor',
   };
 
   public static ControlFlight = {
     linuxPortalEditing: 'linux-portal-editing-default',
+    portalCallOnEditor: 'disable-portal-call-editor',
   };
 }

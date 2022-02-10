@@ -1,4 +1,5 @@
-import React, { Suspense, useState, useContext } from 'react';
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { Suspense, useState, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
@@ -28,6 +29,8 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [filter, setFilter] = useState('');
   const [showAllValues, setShowAllValues] = useState(false);
+  const [gridItems, setGridItems] = useState<FormConnectionString[]>([]);
+  const [gridSearchResultAriaLabel, setGridSearchResultAriaLabel] = useState('');
 
   const { values } = props;
   const { t } = useTranslation();
@@ -141,7 +144,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
 
   const isConnectionStringDirty = (index: number): boolean => {
     const initialAppSettings = props.initialValues.connectionStrings;
-    const currentRow = values.connectionStrings[index];
+    const currentRow = gridItems[index];
     const currentAppSettingIndex = initialAppSettings.findIndex(x => {
       return (
         x.name.toLowerCase() === currentRow.name.toLowerCase() &&
@@ -366,22 +369,47 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
     return null;
   }
 
+  const setFilteredGridItems = (appSettings: FormConnectionString[], filter: string) => {
+    if (!!appSettings) {
+      const filteredItems = appSettings.filter(x => {
+        if (!filter) {
+          return true;
+        }
+        return !!x.name && x.name.toLowerCase().includes(filter.toLowerCase());
+      });
+      setGridItems(filteredItems);
+    } else {
+      setGridItems([]);
+    }
+  };
+
+  const setGridItemsSearchResultAriaLabel = (itemsCount: number) => {
+    const stringPlaceHolder = itemsCount === 1 ? t('gridItemsCountAriaLabelSingular') : t('gridItemsCountAriaLabelPlural');
+    setGridSearchResultAriaLabel(stringPlaceHolder.format(itemsCount));
+  };
+
+  useEffect(() => {
+    setFilteredGridItems(values.connectionStrings, filter);
+  }, [values.connectionStrings, filter]);
+
+  useEffect(() => {
+    setGridItemsSearchResultAriaLabel(gridItems.length);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gridItems.length]);
+
   return (
     <>
       <DisplayTableWithCommandBar
         commandBarItems={getCommandBarItems()}
-        items={values.connectionStrings.filter(x => {
-          if (!filter) {
-            return true;
-          }
-          return x.name.toLowerCase().includes(filter.toLowerCase()) || x.type.toLowerCase() === filter.toLowerCase();
-        })}
+        items={gridItems}
         columns={getColumns()}
         isHeaderVisible={true}
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
-        emptyMessage={t('emptyConnectionStrings')}>
+        emptyMessage={t('emptyConnectionStrings')}
+        ariaLabelForGrid={gridSearchResultAriaLabel}>
         {getSearchFilter('app-settings-connection-strings-search', setFilter, t('filterConnectionStrings'))}
       </DisplayTableWithCommandBar>
       <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditConnectionStringHeader')}>

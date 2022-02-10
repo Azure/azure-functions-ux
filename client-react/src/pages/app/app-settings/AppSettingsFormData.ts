@@ -17,7 +17,7 @@ import { NameValuePair } from '../../../models/name-value-pair';
 import StringUtils from '../../../utils/string';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import { KeyValue } from '../../../models/portal-models';
-import { isFunctionApp } from '../../../utils/arm-utils';
+import { isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
 import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
@@ -59,6 +59,7 @@ interface StateToFormParams {
   slotConfigNames: ArmObj<SlotConfigNames> | null;
   metadata: ArmObj<KeyValue<string>> | null;
   basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
+  appPermissions?: boolean;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
   const {
@@ -70,6 +71,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     slotConfigNames,
     metadata,
     basicPublishingCredentialsPolicies,
+    appPermissions,
   } = props;
   const formAppSetting = getFormAppSetting(appSettings, slotConfigNames);
 
@@ -80,7 +82,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     appSettings: formAppSetting,
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
-    currentlySelectedStack: getCurrentStackString(config, metadata, appSettings, isFunctionApp(site)),
+    currentlySelectedStack: getCurrentStackString(config, metadata, appSettings, isFunctionApp(site), isWindowsCode(site), appPermissions),
     azureStorageMounts: getFormAzureStorageMount(azureStorageMounts),
   };
 };
@@ -317,9 +319,9 @@ export function unFlattenVirtualApplicationsList(virtualApps: VirtualApplication
     const virtualPath = vd.virtualPath.startsWith('/') ? vd.virtualPath : `/${vd.virtualPath}`;
 
     const va = virtualApplications.find(v => {
-      return virtualPath.startsWith(v.virtualPath);
+      const vaVirtualPath = v.virtualPath.endsWith('/') ? v.virtualPath : `${v.virtualPath}/`;
+      return virtualPath.startsWith(vaVirtualPath);
     });
-
     if (va) {
       const regex = new RegExp(`${va.virtualPath}(.*)`);
       const match = regex.exec(virtualPath);
@@ -361,7 +363,9 @@ export function getCurrentStackString(
   config: ArmObj<SiteConfig>,
   metadata?: ArmObj<KeyValue<string>> | null,
   appSettings?: ArmObj<KeyValue<string>> | null,
-  isFunctionApp?: boolean
+  isFunctionApp?: boolean,
+  isWindowsCodeApp?: boolean,
+  appPermissions?: boolean
 ): string {
   if (
     !!isFunctionApp &&
@@ -376,6 +380,9 @@ export function getCurrentStackString(
   }
   if (metadata && metadata.properties && metadata.properties.CURRENT_STACK) {
     return metadata.properties.CURRENT_STACK;
+  } else if (isWindowsCodeApp || !appPermissions) {
+    // Return empty value if the windows code app does not have meta data or has no access to metadata api
+    return '';
   }
   return 'dotnet';
 }

@@ -26,6 +26,7 @@ interface ActionBarProps {
   validating?: boolean;
   overlay?: boolean;
   fullPageHeight?: boolean;
+  validationMessage?: string;
 }
 
 const elementWrapperStyle = (theme: ThemeExtended, fullPageHeight?: boolean) =>
@@ -88,6 +89,7 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({
   statusMessage,
   overlay,
   fullPageHeight,
+  validationMessage,
 }) => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
@@ -136,7 +138,7 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({
         {validating && (
           <Spinner
             size={SpinnerSize.medium}
-            label={t('validating')}
+            label={!!validationMessage ? validationMessage : t('validating')}
             ariaLive="assertive"
             styles={{
               root: {

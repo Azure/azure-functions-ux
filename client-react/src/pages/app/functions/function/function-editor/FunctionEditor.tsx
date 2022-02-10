@@ -24,7 +24,6 @@ import {
   editorDivStyle,
 } from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../../utils/EditorManager';
-import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
@@ -47,11 +46,12 @@ import { PortalContext } from '../../../../../PortalContext';
 import { BindingManager } from '../../../../../utils/BindingManager';
 import FunctionAppService from '../../../../../utils/FunctionAppService';
 import { Links } from '../../../../../utils/FwLinks';
+import { Guid } from '../../../../../utils/Guid';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
-  run: (functionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => void;
+  run: (functionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string, liveLogsSessionId?: string) => void;
   functionRunning: boolean;
   urlObjs: UrlObj[];
   showTestPanel: boolean;
@@ -69,6 +69,8 @@ export interface FunctionEditorProps {
   fileList?: VfsObject[];
   testData?: string;
   workerRuntime?: string;
+  enablePortalCall?: boolean;
+  isLinuxSkuFlightingEnabled?: boolean;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
@@ -92,6 +94,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     refreshFileList,
     workerRuntime,
     addCorsRule,
+    enablePortalCall,
+    isLinuxSkuFlightingEnabled,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -110,6 +114,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [showDiscardConfirmDialog, setShowDiscardConfirmDialog] = useState(false);
   const [logPanelHeight, setLogPanelHeight] = useState(0);
   const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(undefined);
+  const [liveLogsSessionId, setLiveLogsSessionId] = useState<undefined | string>(undefined);
+  const [showInvalidFileSelectedWarning, setShowInvalidFileSelectedWarning] = useState<boolean | undefined>(undefined);
+  const [selectedFileName, setSelectedFileName] = useState<string>('');
 
   const { t } = useTranslation();
 
@@ -130,6 +137,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (!selectedFile) {
       return;
     }
+
+    resetInvalidFileSelectedWarningAndFileName();
 
     portalCommunicator.log({
       action: 'functionEditor',
@@ -165,6 +174,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const test = () => {
+    resetInvalidFileSelectedWarningAndFileName();
     setShowTestPanel(true);
   };
 
@@ -192,8 +202,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setFetchingFileContent(false);
   };
 
-  const run = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
+  const run = (values: InputFormValues) => {
     let data;
+    const currentRunId = Guid.newGuid();
+    setLiveLogsSessionId(currentRunId);
     if (isHttpOrWebHookFunction) {
       data = JSON.stringify({
         method: values.method,
@@ -207,7 +219,23 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     const tempFunctionInfo = functionInfo;
     tempFunctionInfo.properties.test_data = data;
     expandLogPanel();
-    props.run(tempFunctionInfo, values.xFunctionKey);
+    props.run(tempFunctionInfo, values.xFunctionKey, currentRunId);
+
+    portalCommunicator.log({
+      action: 'functionEditor',
+      actionModifier: 'runClicked',
+      resourceId: siteStateContext.resourceId || '',
+      logLevel: 'verbose',
+      data: {
+        sessionId: Url.getParameterByName(null, 'sessionId'),
+        siteKind: site.kind,
+        isLinux: site.properties.isLinux,
+        runtime: runtimeVersion,
+        stack: workerRuntime,
+        sku: site.properties.sku,
+        liveLogsSessionId: currentRunId,
+      },
+    });
   };
 
   const isGetFunctionUrlVisible = () => {
@@ -307,6 +335,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const onCancelButtonClick = () => {
     setSelectedDropdownOption(undefined);
     setShowDiscardConfirmDialog(false);
+    resetInvalidFileSelectedWarningAndFileName();
   };
 
   const getHeaderContent = (): JSX.Element => {
@@ -424,6 +453,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return SiteHelper.isFunctionAppReadOnly(appEditState);
   };
 
+  const resetInvalidFileSelectedWarningAndFileName = () => {
+    if (showInvalidFileSelectedWarning !== undefined) {
+      setShowInvalidFileSelectedWarning(undefined);
+      setSelectedFileName('');
+    }
+  };
+
   const getBanner = (): JSX.Element => {
     /* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */
     if (isAppReadOnly(siteStateContext.siteAppEditState)) {
@@ -435,13 +471,20 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           type={MessageBarType.error}
         />
       );
-    } else if (FunctionAppService.enableEditingForLinux(site, workerRuntime) && isLinuxDynamic(site)) {
+    } else if (FunctionAppService.enableEditingForLinux(site, !!isLinuxSkuFlightingEnabled, workerRuntime) && isLinuxDynamic(site)) {
       // NOTE(krmitta): Banner is only visible in case of Linux Consumption
       return (
         <CustomBanner
           message={t('enablePortalEditingForLinuxConsumptionWarning')}
           type={MessageBarType.warning}
           learnMoreLink={Links.setupLocalFunctionEnvironment}
+        />
+      );
+    } else if (showInvalidFileSelectedWarning !== undefined && showInvalidFileSelectedWarning) {
+      return (
+        <CustomBanner
+          message={!!selectedFileName ? t('invalidFileSelectedWarning').format(selectedFileName) : t('validFileShouldBeSelectedWarning')}
+          type={MessageBarType.warning}
         />
       );
     } else {
@@ -465,6 +508,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (!isRefreshing && !initialLoading) {
       fetchData();
     }
+
+    resetInvalidFileSelectedWarningAndFileName();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRefreshing]);
@@ -492,6 +537,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           functionInfo={functionInfo}
           runtimeVersion={runtimeVersion}
           upload={uploadFile}
+          setShowInvalidFileSelectedWarning={setShowInvalidFileSelectedWarning}
+          setSelectedFileName={setSelectedFileName}
+          resetInvalidFileSelectedWarningAndFileName={resetInvalidFileSelectedWarningAndFileName}
         />
         <ConfirmDialog
           primaryActionButton={{
@@ -553,6 +601,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           xFunctionKey={xFunctionKey}
           getFunctionUrl={getFunctionUrl}
           addCorsRule={addCorsRule}
+          enablePortalCall={enablePortalCall}
         />
       </CustomPanel>
       {isLoading() && <LoadingComponent />}
@@ -593,6 +642,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             showLoggingOptionsDropdown={showLoggingOptionsDropdown}
             selectedLoggingOption={selectedLoggingOption}
             setSelectedLoggingOption={setSelectedLoggingOption}
+            liveLogsSessionId={liveLogsSessionId}
           />
         )}
         {(!showAppInsightsLogs || selectedLoggingOption === LoggingOptions.fileBased) && (
