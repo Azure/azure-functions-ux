@@ -52,7 +52,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 runtimeVersion: 'NODE|16-lts',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
-                  isSupported: false,
+                  isSupported: true,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
@@ -66,7 +66,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 isHidden: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
-                  isSupported: false,
+                  isSupported: true,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
