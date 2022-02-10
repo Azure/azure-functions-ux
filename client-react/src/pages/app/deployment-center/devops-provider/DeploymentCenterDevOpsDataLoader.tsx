@@ -47,6 +47,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
         text: account.AccountName,
       }));
 
+      orgOptions.sort((a, b) => a.text.localeCompare(b.text));
       setOrganizationOptions(orgOptions);
     } else {
       setErrorMessage(t('deploymentCenterDevOpsNoAccounts'));
@@ -102,6 +103,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
           }
         }
 
+        orgToProjectMapping.current[formProps.values.org].sort((a, b) => a.text.localeCompare(b.text));
         setProjectOptions(orgToProjectMapping.current[formProps.values.org]);
       }
 
@@ -114,6 +116,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
       setLoadingRepositories(true);
       setBranchOptions([]);
 
+      projectToRepoMapping.current[formProps.values.devOpsProjectName].sort((a, b) => a.text.localeCompare(b.text));
       setRepositoryOptions(projectToRepoMapping.current[formProps.values.devOpsProjectName]);
       setLoadingRepositories(false);
     }
@@ -137,6 +140,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
           };
         });
 
+        dropdownItems.sort((a, b) => a.text.localeCompare(b.text));
         setBranchOptions(dropdownItems);
       } else {
         if (!response.metadata.success) {
