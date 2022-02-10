@@ -142,7 +142,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             setAcrResourceId();
           }
         } else {
-          setAcrStatusMessage(t('deploymentCenterContainerAcrRegistrieNotAvailable').format(subscription));
+          setAcrStatusMessage(t('deploymentCenterContainerAcrRegistriesNotAvailable').format(subscription));
           setAcrStatusMessageType(MessageBarType.warning);
         }
       } else {
@@ -366,7 +366,15 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       //has ACR in another subscription
       parseHiddenTag(hiddenTag);
     } else {
-      const acrName = getAcrNameFromLoginServer(formProps.values.acrLoginServer);
+      // TODO: acrName needs to be case-sensitive, pull acrName from other source than loginServer
+      let acrName = getAcrNameFromLoginServer(formProps.values.acrLoginServer);
+      if (
+        !!deploymentCenterContext.applicationSettings &&
+        !!deploymentCenterContext.applicationSettings.properties &&
+        !!deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.usernameSetting]
+      ) {
+        acrName = deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.usernameSetting];
+      }
       const newsubscriptionId = await acrTagInstance.updateTags(portalContext, deploymentCenterContext.resourceId, acrName);
       if (!!newsubscriptionId) {
         setSubscription(newsubscriptionId);
