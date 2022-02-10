@@ -3,18 +3,20 @@ import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
 import { PrimaryButton, Label, Link, TooltipHost, IconButton } from '@fluentui/react';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl, changeAccountInfoButtonStyle } from '../DeploymentCenter.styles';
+import { additionalTextFieldControl, changeAccountInfoButtonStyle, deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 
 const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProps> = props => {
-  const { accountUser, accountStatusMessage, authorizeAccount } = props;
+  const { accountUser, accountStatusMessage, authorizeAccount, isGitHubActions } = props;
   const { t } = useTranslation();
 
   const gitHubAccountControls = accountUser ? (
     <>
-      <p>
-        <span id="deployment-center-github-permissions-message">{t('deploymentCenterConfigureGitHubPermissions')}</span>
+      <p className={deploymentCenterDescriptionTextStyle}>
+        <span id="deployment-center-github-permissions-message">
+          {!!isGitHubActions ? t('deploymentCenterConfigureGitHubPermissionsGHA') : t('deploymentCenterConfigureGitHubPermissionsKudu')}
+        </span>
         <Link
           id="deployment-center-github-permissions-learnMore"
           href={DeploymentCenterLinks.configureDeployment}

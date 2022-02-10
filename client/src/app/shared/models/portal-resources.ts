@@ -2164,7 +2164,8 @@ export class PortalResources {
   public static functionLogsFeedbackCVAQuestion = 'functionLogsFeedbackCVAQuestion';
   public static deploymentCenterFeedbackCESQuestion = 'deploymentCenterFeedbackCESQuestion';
   public static deploymentCenterFeedbackCVAQuestion = 'deploymentCenterFeedbackCVAQuestion';
-  public static deploymentCenterConfigureGitHubPermissions = 'deploymentCenterConfigureGitHubPermissions';
+  public static deploymentCenterConfigureGitHubPermissionsKudu = 'deploymentCenterConfigureGitHubPermissionsKudu';
+  public static deploymentCenterConfigureGitHubPermissionsGHA = 'deploymentCenterConfigureGitHubPermissionsGHA';
   public static deploymentCenterProdSlotWarning = 'deploymentCenterProdSlotWarning';
   public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
   public static deploymentCenterSettingsWorkflowConfigTitle = 'deploymentCenterSettingsWorkflowConfigTitle';
@@ -2371,4 +2372,9 @@ export class PortalResources {
   public static functionsSupportedRuntimeVersionMissingWarningWithVersionList =
     'functionsSupportedRuntimeVersionMissingWarningWithVersionList';
   public static functionsSupportedRuntimeVersionMissingWarning = 'functionsSupportedRuntimeVersionMissingWarning';
+  public static deploymentCenterBitbucketDescriptionText = 'deploymentCenterBitbucketDescriptionText';
+  public static deploymentCenterExternalGitDescriptionText = 'deploymentCenterExternalGitDescriptionText';
+  public static deploymentCenterAzureReposDescriptionText = 'deploymentCenterAzureReposDescriptionText';
+  public static deploymentCenterDropboxDescriptionText = 'deploymentCenterDropboxDescriptionText';
+  public static deploymentCenterOneDriveDescriptionText = 'deploymentCenterOneDriveDescriptionText';
 }
