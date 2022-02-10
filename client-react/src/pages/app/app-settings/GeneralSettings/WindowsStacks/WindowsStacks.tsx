@@ -74,6 +74,7 @@ const WindowsStacks: React.FC<StackProps> = props => {
         id="app-settings-stack-dropdown"
         onChange={onStackDropdownChange}
         selectedKey={stackDropdownValue}
+        infoBubbleMessage={!!stackDropdownValue ? undefined : t('stackInfoMessage')}
       />
       {values.currentlySelectedStack === RuntimeStacks.dotnet ||
       values.currentlySelectedStack === RuntimeStacks.dotnetcore ||
