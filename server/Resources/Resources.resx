@@ -4523,6 +4523,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="stack" xml:space="preserve">
         <value>Stack</value>
     </data>
+    <data name="stackInfoMessage" xml:space="preserve">
+        <value>Select a stack to see how it is currently configured for your app.</value>
+    </data>
     <data name="slots" xml:space="preserve">
         <value>Deployment Slot</value>
     </data>
