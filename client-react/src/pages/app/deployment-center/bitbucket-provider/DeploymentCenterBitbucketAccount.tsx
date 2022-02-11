@@ -23,7 +23,7 @@ const DeploymentCenterBitbucketAccount: React.FC<DeploymentCenterBitbucketProvid
       )}
       <ReactiveFormControl id="deployment-center-bitbucket-user" label={t('deploymentCenterOAuthSingedInAs')}>
         <div>
-          {`${accountUser.username}`}
+          {accountUser.username}
           <Link
             key="deployment-center-bitbucket-change-account-link"
             onClick={authorizeAccount}

@@ -23,7 +23,7 @@ const DeploymentCenterOneDriveAccount: React.FC<DeploymentCenterOneDriveProvider
       )}
       <ReactiveFormControl id="deployment-center-oneDrive-user" label={t('deploymentCenterOAuthSingedInAs')}>
         <div>
-          {`${accountUser.createdBy.user.displayName}`}
+          {accountUser.createdBy.user.displayName}
           <Link
             key="deployment-center-oneDrive-change-account-link"
             onClick={authorizeAccount}
