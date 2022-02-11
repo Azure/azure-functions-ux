@@ -24,7 +24,7 @@ const DeploymentCenterDropboxAccount: React.FC<DeploymentCenterDropboxProviderPr
         )}
         <ReactiveFormControl id="deployment-center-dropbox-user" label={t('deploymentCenterOAuthSingedInAs')}>
           <div>
-            {`${accountUser.name.display_name}`}
+            {accountUser.name.display_name}
             <Link
               key="deployment-center-dropbox-change-account-link"
               onClick={authorizeAccount}

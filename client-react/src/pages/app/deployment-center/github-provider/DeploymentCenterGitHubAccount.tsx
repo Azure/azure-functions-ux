@@ -22,7 +22,7 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
       )}
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
         <div>
-          {`${accountUser.login}`}
+          {accountUser.login}
           <Link
             key="deployment-center-github-change-account-link"
             onClick={authorizeAccount}
