@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
 import { PrimaryButton, Label, Link, TooltipHost, IconButton } from '@fluentui/react';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl, changeAccountInfoButtonStyle, deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles';
+import { additionalTextFieldControl, changeAccountInfoButtonStyle } from '../DeploymentCenter.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
-import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
+import { ScmType } from '../../../../models/site/config';
 
 const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProps> = props => {
   const { accountUser, accountStatusMessage, authorizeAccount, isGitHubActions } = props;
@@ -13,20 +14,12 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
 
   const gitHubAccountControls = accountUser ? (
     <>
-      <p className={deploymentCenterDescriptionTextStyle}>
-        <span id="deployment-center-github-permissions-message">
-          {!!isGitHubActions ? t('deploymentCenterConfigureGitHubPermissionsGHA') : t('deploymentCenterConfigureGitHubPermissionsKudu')}
-        </span>
-        <Link
-          id="deployment-center-github-permissions-learnMore"
-          href={DeploymentCenterLinks.configureDeployment}
-          target="_blank"
-          className={learnMoreLinkStyle}
-          aria-labelledby="deployment-center-github-permissions-message">
-          {` ${t('learnMore')}`}
-        </Link>
-      </p>
-
+      {getDescriptionSection(
+        ScmType.GitHub,
+        !!isGitHubActions ? t('deploymentCenterConfigureGitHubPermissionsGHA') : t('deploymentCenterConfigureGitHubPermissionsKudu'),
+        DeploymentCenterLinks.configureDeployment,
+        t('learnMore')
+      )}
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
         <div>
           {`${accountUser.login}`}

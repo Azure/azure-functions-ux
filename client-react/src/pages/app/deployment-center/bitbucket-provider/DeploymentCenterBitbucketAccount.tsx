@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { DeploymentCenterBitbucketProviderProps } from '../DeploymentCenter.types';
 import { PrimaryButton, Label, Link } from '@fluentui/react';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl, deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles';
-import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { additionalTextFieldControl } from '../DeploymentCenter.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
+import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
+import { ScmType } from '../../../../models/site/config';
 
 const DeploymentCenterBitbucketAccount: React.FC<DeploymentCenterBitbucketProviderProps> = props => {
   const { accountUser, accountStatusMessage, authorizeAccount } = props;
@@ -14,17 +15,12 @@ const DeploymentCenterBitbucketAccount: React.FC<DeploymentCenterBitbucketProvid
 
   const bitbucketAccountControls = accountUser ? (
     <>
-      <p className={deploymentCenterDescriptionTextStyle}>
-        <span id="deployment-center-bitbucket-description-text">{t('deploymentCenterBitbucketDescriptionText')}</span>
-        <Link
-          id="deployment-center-bitbucket-description-text-learnMore"
-          href={DeploymentCenterLinks.bitbucketDeployment}
-          target="_blank"
-          className={learnMoreLinkStyle}
-          aria-labelledby="deployment-center-bitbucket-learnMore-link">
-          {` ${t('learnMore')}`}
-        </Link>
-      </p>
+      {getDescriptionSection(
+        ScmType.BitbucketHg,
+        t('deploymentCenterBitbucketDescriptionText'),
+        DeploymentCenterLinks.bitbucketDeployment,
+        t('learnMore')
+      )}
       <ReactiveFormControl id="deployment-center-bitbucket-user" label={t('deploymentCenterOAuthSingedInAs')}>
         <div>
           {`${accountUser.username}`}

@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { RepoTypeOptions } from '../../../../models/external';
 import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
-import { deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles';
+import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
+import { ScmType } from '../../../../models/site/config';
 
 const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -24,9 +25,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
     <>
       <h3>{t('deploymentCenterCodeExternalGitTitle')}</h3>
 
-      <p id="deployment-center-externalgit-description-text" className={deploymentCenterDescriptionTextStyle}>
-        {t('deploymentCenterExternalGitDescriptionText')}
-      </p>
+      {getDescriptionSection(ScmType.ExternalGit, t('deploymentCenterExternalGitDescriptionText'))}
 
       <Field
         id="deployment-center-settings-repository-option"

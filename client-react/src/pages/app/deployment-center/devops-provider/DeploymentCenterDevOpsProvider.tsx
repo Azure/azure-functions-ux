@@ -3,9 +3,11 @@ import Dropdown from '../../../../components/form-controls/DropDown';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterDevOpsProviderProps } from '../DeploymentCenter.types';
-import { deploymentCenterDescriptionTextStyle, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
+import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
+import { ScmType } from '../../../../models/site/config';
 
 const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderProps> = props => {
   const {
@@ -32,9 +34,7 @@ const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderPro
     <>
       <h3>{t('deploymentCenterCodeDevOpsTitle')}</h3>
 
-      <p id="deployment-center-azure-repos-description-text" className={deploymentCenterDescriptionTextStyle}>
-        {t('deploymentCenterAzureReposDescriptionText')}
-      </p>
+      {getDescriptionSection(ScmType.Vso, t('deploymentCenterAzureReposDescriptionText'))}
 
       {showInfoBanner && errorMessage && (
         <div className={deploymentCenterInfoBannerDiv}>

@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { DeploymentCenterDropboxProviderProps } from '../DeploymentCenter.types';
 import { PrimaryButton, Label, Link } from '@fluentui/react';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl, deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles';
+import { additionalTextFieldControl } from '../DeploymentCenter.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
-import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
+import { ScmType } from '../../../../models/site/config';
 
 const DeploymentCenterDropboxAccount: React.FC<DeploymentCenterDropboxProviderProps> = props => {
   const { accountUser, accountStatusMessage, authorizeAccount } = props;
@@ -15,17 +16,12 @@ const DeploymentCenterDropboxAccount: React.FC<DeploymentCenterDropboxProviderPr
   const DropboxAccountControls =
     accountUser && accountUser.name && accountUser.name.display_name ? (
       <>
-        <p className={deploymentCenterDescriptionTextStyle}>
-          <span id="deployment-center-dropbox-description-text">{t('deploymentCenterDropboxDescriptionText')}</span>
-          <Link
-            id="deployment-center-dropbox-description-text-learnMore"
-            href={DeploymentCenterLinks.cloudFolderDeployment}
-            target="_blank"
-            className={learnMoreLinkStyle}
-            aria-labelledby="deployment-center-dropbox-learnMore-link">
-            {` ${t('learnMore')}`}
-          </Link>
-        </p>
+        {getDescriptionSection(
+          ScmType.Dropbox,
+          t('deploymentCenterDropboxDescriptionText'),
+          DeploymentCenterLinks.cloudFolderDeployment,
+          t('learnMore')
+        )}
         <ReactiveFormControl id="deployment-center-dropbox-user" label={t('deploymentCenterOAuthSingedInAs')}>
           <div>
             {`${accountUser.name.display_name}`}

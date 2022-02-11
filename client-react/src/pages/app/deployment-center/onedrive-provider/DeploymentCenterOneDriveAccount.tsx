@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { DeploymentCenterOneDriveProviderProps } from '../DeploymentCenter.types';
 import { PrimaryButton, Label, Link } from '@fluentui/react';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl, deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles';
+import { additionalTextFieldControl } from '../DeploymentCenter.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
-import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
+import { ScmType } from '../../../../models/site/config';
 
 const DeploymentCenterOneDriveAccount: React.FC<DeploymentCenterOneDriveProviderProps> = props => {
   const { accountUser, accountStatusMessage, authorizeAccount } = props;
@@ -14,17 +15,12 @@ const DeploymentCenterOneDriveAccount: React.FC<DeploymentCenterOneDriveProvider
 
   const OneDriveAccountControls = accountUser ? (
     <>
-      <p className={deploymentCenterDescriptionTextStyle}>
-        <span id="deployment-center-oneDrive-description-text">{t('deploymentCenterOneDriveDescriptionText')}</span>
-        <Link
-          id="deployment-center-oneDrive-description-text-learnMore"
-          href={DeploymentCenterLinks.cloudFolderDeployment}
-          target="_blank"
-          className={learnMoreLinkStyle}
-          aria-labelledby="deployment-center-oneDrive-learnMore-link">
-          {` ${t('learnMore')}`}
-        </Link>
-      </p>
+      {getDescriptionSection(
+        ScmType.OneDrive,
+        t('deploymentCenterOneDriveDescriptionText'),
+        DeploymentCenterLinks.cloudFolderDeployment,
+        t('learnMore')
+      )}
       <ReactiveFormControl id="deployment-center-oneDrive-user" label={t('deploymentCenterOAuthSingedInAs')}>
         <div>
           {`${accountUser.createdBy.user.displayName}`}
