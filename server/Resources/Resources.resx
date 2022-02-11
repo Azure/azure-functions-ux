@@ -6972,7 +6972,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="netVersionLabel" xml:space="preserve">
         <value>.NET version</value>
     </data>
-    <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+    <data name="deploymentCenterContainerAcrRegistriesNotAvailable" xml:space="preserve">
         <value>No ACR Registries are available in Subscription '{0}'.</value>
     </data>
     <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">

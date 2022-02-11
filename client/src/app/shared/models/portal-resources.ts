@@ -2276,7 +2276,7 @@ export class PortalResources {
   public static classicContainerSettingDeprecationMessage = 'classicContainerSettingDeprecationMessage';
   public static classicDeploymentCenterDeprecationMessage = 'classicDeploymentCenterDeprecationMessage';
   public static netVersionLabel = 'netVersionLabel';
-  public static deploymentCenterContainerAcrRegistrieNotAvailable = 'deploymentCenterContainerAcrRegistrieNotAvailable';
+  public static deploymentCenterContainerAcrRegistriesNotAvailable = 'deploymentCenterContainerAcrRegistriesNotAvailable';
   public static deploymentCenterContainerAcrFailedToLoadRegistriesWithError = 'deploymentCenterContainerAcrFailedToLoadRegistriesWithError';
   public static deploymentCenterContainerAcrFailedToLoadRegistries = 'deploymentCenterContainerAcrFailedToLoadRegistries';
   public static deploymentCenterContainerAcrFailedToLoadCredentialsWithError =
