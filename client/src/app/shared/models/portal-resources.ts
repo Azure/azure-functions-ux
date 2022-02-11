@@ -2372,4 +2372,5 @@ export class PortalResources {
   public static functionsSupportedRuntimeVersionMissingWarningWithVersionList =
     'functionsSupportedRuntimeVersionMissingWarningWithVersionList';
   public static functionsSupportedRuntimeVersionMissingWarning = 'functionsSupportedRuntimeVersionMissingWarning';
+  public static disconnecting = 'disconnecting';
 }
