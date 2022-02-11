@@ -163,7 +163,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
     text-align: center;
 
     span:focus {
-      outline: #1f97f2 dashed 1px;
+      outline: #000000 solid 1px;
     }
 
     a {
@@ -282,6 +282,10 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
       height: 27px;
     }
 
+    button:focus {
+      outline: #000000 solid 1px;
+    }
+
     .icon-medium {
       height: 18px;
       width: 18px;
@@ -341,9 +345,15 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
     background-color: $body-bg-color-dark;
   }
 
+  #spec-picker-footer {
+    button:focus {
+      outline: #ffffff solid 1px;
+    }
+  }
+
   .spec-expander {
     span:focus {
-      outline: #155f99 dashed 1px;
+      outline: #ffffff solid 1px;
     }
   }
 }
