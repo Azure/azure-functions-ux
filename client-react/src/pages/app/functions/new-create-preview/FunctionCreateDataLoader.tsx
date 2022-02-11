@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, IDropdownOption, ResponsiveMode, registerIcons, Icon, Spinner } from '@fluentui/react';
+import { Link, IDropdownOption, ResponsiveMode, registerIcons, Icon } from '@fluentui/react';
 import {
   containerStyle,
   developmentEnvironmentStyle,
@@ -324,7 +324,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         {(formProps: FormikProps<CreateFunctionFormValues>) => {
           const actionBarPrimaryButtonProps = {
             id: 'add',
-            title: creatingFunction ? <Spinner /> : t('create'),
+            title: t('create'),
             onClick: formProps.submitForm,
             disable: !initialFormValues || creatingFunction,
           };
@@ -357,6 +357,8 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
                 id="add-function-footer"
                 primaryButton={actionBarPrimaryButtonProps}
                 secondaryButton={actionBarSecondaryButtonProps}
+                validating={creatingFunction}
+                validationMessage={t('creatingFunction')}
               />
             </form>
           );
