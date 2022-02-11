@@ -6975,7 +6975,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="netVersionLabel" xml:space="preserve">
         <value>.NET version</value>
     </data>
-    <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+    <data name="deploymentCenterContainerAcrRegistriesNotAvailable" xml:space="preserve">
         <value>No ACR Registries are available in Subscription '{0}'.</value>
     </data>
     <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
@@ -7271,5 +7271,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterOneDriveDescriptionText" xml:space="preserve">
         <value>Authorize App Service with OneDrive to manually sync your content from the selected folder with the Sync button above.</value>
+    </data>
+    <data name="disconnecting" xml:space="preserve">
+        <value>Disconnecting...</value>
     </data>
 </root>
