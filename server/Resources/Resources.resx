@@ -7254,4 +7254,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionsSupportedRuntimeVersionMissingWarning" xml:space="preserve">
         <value>The runtime version is not configured for your app. As a result the runtime cannot be started. Please use a valid runtime version (e.g. ~3).</value>
     </data>
+    <data name="disconnecting" xml:space="preserve">
+        <value>Disconnecting...</value>
+    </data>
 </root>
