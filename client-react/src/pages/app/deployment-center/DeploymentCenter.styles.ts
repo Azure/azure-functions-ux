@@ -227,3 +227,9 @@ export const loadingComboBoxStyle = style({
 export const comboBoxSpinnerStyle = style({
   padding: '0px 0px 16px 10px',
 });
+
+export const deploymentCenterDescriptionTextStyle = style({
+  maxWidth: maxElementWidth,
+  marginTop: '1em',
+  marginBottom: '1em',
+});

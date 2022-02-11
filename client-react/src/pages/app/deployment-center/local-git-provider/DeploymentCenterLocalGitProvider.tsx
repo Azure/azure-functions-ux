@@ -1,9 +1,9 @@
-import { Link } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
+import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterLocalGitProvider: React.FC<{}> = props => {
   const { t } = useTranslation();
@@ -12,17 +12,12 @@ const DeploymentCenterLocalGitProvider: React.FC<{}> = props => {
     <>
       <h3>{t('deploymentCenterCodeLocalGitTitle')}</h3>
 
-      <p>
-        <span id="deployment-center-local-git-desc">{t('deploymentCenterCodeLocalGitDesc')}</span>
-        <Link
-          id="deployment-center-local-git-desc-link"
-          href={DeploymentCenterLinks.configureLocalGitDeployment}
-          target="_blank"
-          className={learnMoreLinkStyle}
-          aria-labelledby="deployment-center-local-git-desc-link">
-          {` ${t('learnMore')}`}
-        </Link>
-      </p>
+      {getDescriptionSection(
+        ScmType.LocalGit,
+        t('deploymentCenterCodeLocalGitDesc'),
+        DeploymentCenterLinks.configureLocalGitDeployment,
+        t('learnMore')
+      )}
 
       <ReactiveFormControl id="deployment-center-localgit-repository" label={t('deploymentCenterOAuthRepository')}>
         <div>{t('deploymentCenterCodeLocalGitRepositorySetupMessage')}</div>
