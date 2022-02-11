@@ -16,6 +16,7 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
   const { formProps } = props;
   const { t } = useTranslation();
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
+  const [isDisconnecting, setIsDisconnecting] = useState(false);
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -30,6 +31,7 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
   };
 
   const disconnect = async () => {
+    setIsDisconnecting(true);
     const notificationId = portalContext.startNotification(t('disconnectingDeployment'), t('disconnectingDeployment'));
     portalContext.log(
       getTelemetryInfo('info', 'disconnectSourceControl', 'submit', {
@@ -132,13 +134,15 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
         </Link>
         <ConfirmDialog
           primaryActionButton={{
-            title: t('ok'),
+            title: isDisconnecting ? t('disconnecting') : t('ok'),
             onClick: disconnect,
+            disabled: isDisconnecting,
           }}
           defaultActionButton={{
             title: t('cancel'),
             onClick: hideRefreshConfirmDialog,
           }}
+          hideDefaultActionButton={isDisconnecting}
           title={t('kuduDisconnectConfirmationTitle')}
           content={t('disconnectConfirm')}
           hidden={!isRefreshConfirmDialogVisible}

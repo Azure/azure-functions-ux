@@ -2277,7 +2277,7 @@ export class PortalResources {
   public static classicContainerSettingDeprecationMessage = 'classicContainerSettingDeprecationMessage';
   public static classicDeploymentCenterDeprecationMessage = 'classicDeploymentCenterDeprecationMessage';
   public static netVersionLabel = 'netVersionLabel';
-  public static deploymentCenterContainerAcrRegistrieNotAvailable = 'deploymentCenterContainerAcrRegistrieNotAvailable';
+  public static deploymentCenterContainerAcrRegistriesNotAvailable = 'deploymentCenterContainerAcrRegistriesNotAvailable';
   public static deploymentCenterContainerAcrFailedToLoadRegistriesWithError = 'deploymentCenterContainerAcrFailedToLoadRegistriesWithError';
   public static deploymentCenterContainerAcrFailedToLoadRegistries = 'deploymentCenterContainerAcrFailedToLoadRegistries';
   public static deploymentCenterContainerAcrFailedToLoadCredentialsWithError =
@@ -2378,4 +2378,5 @@ export class PortalResources {
   public static deploymentCenterAzureReposDescriptionText = 'deploymentCenterAzureReposDescriptionText';
   public static deploymentCenterDropboxDescriptionText = 'deploymentCenterDropboxDescriptionText';
   public static deploymentCenterOneDriveDescriptionText = 'deploymentCenterOneDriveDescriptionText';
+  public static disconnecting = 'disconnecting';
 }
