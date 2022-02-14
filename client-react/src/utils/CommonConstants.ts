@@ -66,6 +66,7 @@ export class CommonConstants {
     enableACRManagedIdentities: 'enableACRManagedIdentities',
     useStackApiForRuntimeVersion: 'useStackApiForRuntimeVersion',
     useNewFunctionLogsApi: 'useNewFunctionLogsApi', //websitesextension_ext=appsvc.useNewFunctionLogsApi%3Dtrue
+    enablePasswordProtection: 'enablePasswordProtection', //websitesextension_ext=appsvc.enablePasswordProtection%3Dtrue
   };
 
   public static readonly AppDensityLimit = 8;
