@@ -3,8 +3,9 @@ import React from 'react';
 import { modalFooterStyles, modalContentStyles, modalStyles } from './ConfirmDialog.styles';
 
 interface ConfirmDialogProps {
-  primaryActionButton: { title: string; onClick: () => void };
-  defaultActionButton: { title: string; onClick: () => void };
+  primaryActionButton: { title: string; onClick: () => void; disabled?: boolean };
+  defaultActionButton: { title: string; onClick: () => void; disabled?: boolean };
+  hideDefaultActionButton?: boolean;
   title: string;
   content: string;
   modalStyles?: any;
@@ -15,6 +16,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps & IDialogProps> = props => {
   const {
     primaryActionButton,
     defaultActionButton,
+    hideDefaultActionButton,
     hidden,
     title,
     content,
@@ -40,8 +42,12 @@ const ConfirmDialog: React.FC<ConfirmDialogProps & IDialogProps> = props => {
         <p>{content}</p>
       </div>
       <DialogFooter styles={modalFooterStyles}>
-        <PrimaryButton onClick={primaryActionButton.onClick} text={primaryActionButton.title} />
-        <DefaultButton onClick={defaultActionButton.onClick} text={defaultActionButton.title} />
+        <PrimaryButton onClick={primaryActionButton.onClick} text={primaryActionButton.title} disabled={primaryActionButton.disabled} />
+        {!hideDefaultActionButton ? (
+          <DefaultButton onClick={defaultActionButton.onClick} text={defaultActionButton.title} disabled={defaultActionButton.disabled} />
+        ) : (
+          <></>
+        )}
       </DialogFooter>
     </Dialog>
   );

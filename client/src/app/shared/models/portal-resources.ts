@@ -1460,6 +1460,7 @@ export class PortalResources {
   public static argumentsRes = 'argumentsRes';
   public static newHandlerMapping = 'newHandlerMapping';
   public static stack = 'stack';
+  public static stackInfoMessage = 'stackInfoMessage';
   public static slots = 'slots';
   public static autoSwapEnabled = 'autoSwapEnabled';
   public static autoSwapSlot = 'autoSwapSlot';
@@ -2164,7 +2165,8 @@ export class PortalResources {
   public static functionLogsFeedbackCVAQuestion = 'functionLogsFeedbackCVAQuestion';
   public static deploymentCenterFeedbackCESQuestion = 'deploymentCenterFeedbackCESQuestion';
   public static deploymentCenterFeedbackCVAQuestion = 'deploymentCenterFeedbackCVAQuestion';
-  public static deploymentCenterConfigureGitHubPermissions = 'deploymentCenterConfigureGitHubPermissions';
+  public static deploymentCenterConfigureGitHubPermissionsKudu = 'deploymentCenterConfigureGitHubPermissionsKudu';
+  public static deploymentCenterConfigureGitHubPermissionsGHA = 'deploymentCenterConfigureGitHubPermissionsGHA';
   public static deploymentCenterProdSlotWarning = 'deploymentCenterProdSlotWarning';
   public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
   public static deploymentCenterSettingsWorkflowConfigTitle = 'deploymentCenterSettingsWorkflowConfigTitle';
@@ -2275,7 +2277,7 @@ export class PortalResources {
   public static classicContainerSettingDeprecationMessage = 'classicContainerSettingDeprecationMessage';
   public static classicDeploymentCenterDeprecationMessage = 'classicDeploymentCenterDeprecationMessage';
   public static netVersionLabel = 'netVersionLabel';
-  public static deploymentCenterContainerAcrRegistrieNotAvailable = 'deploymentCenterContainerAcrRegistrieNotAvailable';
+  public static deploymentCenterContainerAcrRegistriesNotAvailable = 'deploymentCenterContainerAcrRegistriesNotAvailable';
   public static deploymentCenterContainerAcrFailedToLoadRegistriesWithError = 'deploymentCenterContainerAcrFailedToLoadRegistriesWithError';
   public static deploymentCenterContainerAcrFailedToLoadRegistries = 'deploymentCenterContainerAcrFailedToLoadRegistries';
   public static deploymentCenterContainerAcrFailedToLoadCredentialsWithError =
@@ -2383,4 +2385,14 @@ export class PortalResources {
   public static staticSite_generalSettingsUpdateWithFailure = 'staticSite_generalSettingsUpdateWithFailure';
   public static staticSite_generalSettingsUpdateWithFailureNoMessage = 'staticSite_generalSettingsUpdateWithFailureNoMessage';
   public static staticSite_passwordProtectionSkuWarning = 'staticSite_passwordProtectionSkuWarning';
+  public static functionSupportedRuntimeVersionNotConfiguredMessage = 'functionSupportedRuntimeVersionNotConfiguredMessage';
+  public static functionsSupportedRuntimeVersionMissingWarningWithVersionList =
+    'functionsSupportedRuntimeVersionMissingWarningWithVersionList';
+  public static functionsSupportedRuntimeVersionMissingWarning = 'functionsSupportedRuntimeVersionMissingWarning';
+  public static deploymentCenterBitbucketDescriptionText = 'deploymentCenterBitbucketDescriptionText';
+  public static deploymentCenterExternalGitDescriptionText = 'deploymentCenterExternalGitDescriptionText';
+  public static deploymentCenterAzureReposDescriptionText = 'deploymentCenterAzureReposDescriptionText';
+  public static deploymentCenterDropboxDescriptionText = 'deploymentCenterDropboxDescriptionText';
+  public static deploymentCenterOneDriveDescriptionText = 'deploymentCenterOneDriveDescriptionText';
+  public static disconnecting = 'disconnecting';
 }

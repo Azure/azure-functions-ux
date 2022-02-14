@@ -236,6 +236,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           basicPublishingCredentialsPolicies: basicPublishingCredentialsPolicies.metadata.success
             ? basicPublishingCredentialsPolicies.data
             : null,
+          appPermissions: appPermissions,
         }),
       });
     }

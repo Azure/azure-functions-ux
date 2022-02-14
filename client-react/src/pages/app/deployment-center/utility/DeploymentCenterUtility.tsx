@@ -22,6 +22,9 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import { FormikProps } from 'formik';
 import { IDeploymentCenterContext } from '../DeploymentCenterContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles';
+import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { Link } from '@fluentui/react';
 
 export const getLogId = (component: string, event: string): string => {
   return `${component}/${event}`;
@@ -442,4 +445,22 @@ export const getJavaContainerDisplayName = (stack: string) => {
     default:
       return '';
   }
+};
+
+export const getDescriptionSection = (source: string, description: string, learnMoreLink?: string, learnMoreText?: string) => {
+  return (
+    <p className={deploymentCenterDescriptionTextStyle}>
+      <span id={`deployment-center-${source}-description-text`}>{description}</span>
+      {!!learnMoreLink && !!learnMoreText && (
+        <Link
+          id={`deployment-center-${source}-description-text-learnMore`}
+          href={learnMoreLink}
+          target="_blank"
+          className={learnMoreLinkStyle}
+          aria-labelledby={`deployment-center-${source}-learnMore-link`}>
+          {` ${learnMoreText}`}
+        </Link>
+      )}
+    </p>
+  );
 };
