@@ -37,6 +37,7 @@ export class CommonConstants {
     stacksApiVersion20201001: '2020-10-01',
     acrApiVersion20190501: '2019-05-01',
     staticSiteApiVersion20201201: '2020-12-01',
+    staticSiteApiVersion20210301: '2021-03-01',
     argApiVersion20210301: '2021-03-01',
     argApiVersion20180901Preview: '2018-09-01-preview',
     workflowApiVersion20201201: '2020-12-01',
@@ -65,6 +66,7 @@ export class CommonConstants {
     enableACRManagedIdentities: 'enableACRManagedIdentities',
     useStackApiForRuntimeVersion: 'useStackApiForRuntimeVersion',
     useNewFunctionLogsApi: 'useNewFunctionLogsApi', //websitesextension_ext=appsvc.useNewFunctionLogsApi%3Dtrue
+    enablePasswordProtection: 'enablePasswordProtection', //websitesextension_ext=appsvc.enablePasswordProtection%3Dtrue
   };
 
   public static readonly AppDensityLimit = 8;
@@ -226,6 +228,10 @@ export class CommonConstants {
 
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
 
+  public static isKeyVaultSecretUrl = (value: string) => {
+    return !!value && value.toLocaleLowerCase().startsWith('https://') && value.toLocaleLowerCase().search('.vault.azure.net/secrets') > 0;
+  };
+
   public static readonly BindingSettingNames = {
     connection: 'connection',
     connectionStringSetting: 'connectionStringSetting',
@@ -252,6 +258,9 @@ export class CommonConstants {
   public static readonly comma = ',';
 
   public static readonly space = ' ';
+
+  //min length is 8, must contain uppercase, lowercase, number, and symbol
+  public static readonly passwordMinimumRequirementsRegex = new RegExp(/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})$/);
 }
 
 export enum WorkerRuntimeLanguages {
