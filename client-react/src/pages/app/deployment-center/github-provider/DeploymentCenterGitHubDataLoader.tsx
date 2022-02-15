@@ -338,6 +338,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       updateTokenSuccess={updateTokenSuccess}
       resetToken={resetToken}
       clearComboBox={clearComboBox}
+      isGitHubActions={isGitHubActions}
     />
   );
 };
