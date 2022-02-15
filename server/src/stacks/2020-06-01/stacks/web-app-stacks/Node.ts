@@ -50,7 +50,7 @@ export const nodeStack: WebAppStack = {
               runtimeVersion: 'NODE|16-lts',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -62,7 +62,7 @@ export const nodeStack: WebAppStack = {
               runtimeVersion: '~16',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
