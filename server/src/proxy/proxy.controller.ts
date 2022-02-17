@@ -4,9 +4,7 @@ import { LoggingService } from '../shared/logging/logging.service';
 import { Response } from 'express';
 import { Method } from 'axios';
 
-export interface KeyValue<T> {
-  [key: string]: T;
-}
+export type KeyValue<T> = Record<string, T>;
 
 @Controller('api')
 export class ProxyController {
