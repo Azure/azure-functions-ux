@@ -40,6 +40,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         iconProps: { iconName: 'Add' },
         ariaLabel: t('addNewVirtualDirectory'),
         name: t('addNewVirtualDirectoryV3'),
+        role: 'button',
       },
     ];
   };

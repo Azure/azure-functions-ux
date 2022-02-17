@@ -59,12 +59,14 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         iconProps: { iconName: 'Add' },
         name: t('newApplicationSetting'),
         ariaLabel: t('addNewSetting'),
+        role: 'button',
       },
       {
         key: 'app-settings-application-settings-show-hide',
         onClick: flipHideSwitch,
         iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
         name: !allShown ? t('showValues') : t('hideValues'),
+        role: 'button',
       },
       {
         key: 'app-settings-application-settings-bulk-edit',
@@ -72,6 +74,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         disabled: disableAllControls,
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
+        role: 'button',
       },
     ];
   };
