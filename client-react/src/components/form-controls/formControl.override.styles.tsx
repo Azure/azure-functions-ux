@@ -65,7 +65,7 @@ export const textFieldStyleOverrides = (
   stylesOverride?: DeepPartial<ITextFieldStyles>
 ) => styleProps => {
   const baseStyle = TextFieldStyles(styleProps);
-  const a = {
+  return {
     ...baseStyle,
     root: {
       width: widthOverride || FORM_DEFAULT_WIDTH,
@@ -81,8 +81,6 @@ export const textFieldStyleOverrides = (
     },
     ...stylesOverride,
   } as ITextFieldStyles;
-  console.log(a);
-  return a;
 };
 
 export const controlContainerStyle = (upsellIcon: boolean, fullpage: boolean) =>
