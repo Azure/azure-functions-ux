@@ -2177,7 +2177,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Share name can only include alphanumeric characters, underscores, hyphens, square brackets, and parenthesis</value>
     </data>
     <data name="mountPath_info" xml:space="preserve">
-        <value>Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}</value>
+        <value>Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}.</value>
     </data>
     <data name="validation_invalidMountPath" xml:space="preserve">
         <value>Invalid mount path</value>
