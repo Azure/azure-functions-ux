@@ -10,15 +10,17 @@ export const getSearchFilter = (
   autoFocus?: boolean
 ): JSX.Element => {
   return (
-    <SearchBox
-      id={id}
-      onChange={(_e, newValue) => setFilerValue(newValue || '')}
-      placeholder={placeHolder}
-      iconProps={{ iconName: IconConstants.IconNames.Filter }}
-      className="ms-slideDownIn20"
-      styles={filterTextFieldStyle}
-      disabled={disabled}
-      autoFocus={autoFocus}
-    />
+    <>
+      <SearchBox
+        id={id}
+        onChange={(_e, newValue) => setFilerValue(newValue || '')}
+        placeholder={placeHolder}
+        iconProps={{ iconName: IconConstants.IconNames.Filter }}
+        className="ms-slideDownIn20"
+        styles={filterTextFieldStyle}
+        disabled={disabled}
+        autoFocus={autoFocus}
+      />
+    </>
   );
 };
