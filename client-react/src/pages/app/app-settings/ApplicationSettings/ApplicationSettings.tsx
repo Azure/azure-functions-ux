@@ -40,7 +40,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const [filter, setFilter] = useState('');
   const [showAllValues, setShowAllValues] = useState(false);
   const [gridItems, setGridItems] = useState<FormAppSetting[]>([]);
-  const [searchResultAnnouncementString, setSearchResultAnnouncementString] = useState<string>('');
+  const [searchResultAnnouncementString, setSearchResultAnnouncementString] = useState('');
 
   const { values } = props;
   const { t } = useTranslation();
