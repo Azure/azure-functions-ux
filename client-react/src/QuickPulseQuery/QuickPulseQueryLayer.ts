@@ -310,10 +310,7 @@ export class QuickPulseQueryLayer {
 
   private _getSessionFilter() {
     return {
-      SessionFilter: {
-        FilterByFieldName: CommonConstants.LiveLogsSessionId,
-        FilterByValue: this._detailedSessionInfo.liveLogsSessionId,
-      },
+      SessionFilterValue: this._detailedSessionInfo.liveLogsSessionId,
     };
   }
 
