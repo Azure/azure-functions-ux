@@ -47,12 +47,14 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         iconProps: { iconName: 'Add' },
         name: t('newConnectionString'),
         ariaLabel: t('addNewConnectionString'),
+        role: 'button',
       },
       {
         key: 'app-settings-connection-strings-show-hide',
         onClick: flipHideSwitch,
         iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
         name: !allShown ? t('showValues') : t('hideValues'),
+        role: 'button',
       },
       {
         key: 'app-settings-connection-strings-bulk-edit',
@@ -60,6 +62,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         disabled: disableAllControls,
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
+        role: 'button',
       },
     ];
   };

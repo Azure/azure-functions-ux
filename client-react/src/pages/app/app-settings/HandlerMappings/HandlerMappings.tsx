@@ -35,6 +35,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         iconProps: { iconName: 'Add' },
         ariaLabel: t('addNewHandlerMapping'),
         name: t('addNewHandler'),
+        role: 'button',
       },
     ];
   };
