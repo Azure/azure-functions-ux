@@ -5,24 +5,26 @@ import {
   DeploymentCenterContainerFormData,
   DeploymentCenterCodeFormData,
 } from './DeploymentCenter.types';
-import { MessageBarType, ActionButton, ProgressIndicator } from 'office-ui-fabric-react';
+import { MessageBarType, ActionButton, ProgressIndicator, Link } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import {
   deploymentCenterContent,
   additionalTextFieldControl,
   deploymentCenterInfoBannerDiv,
   ftpsPasswordTextboxStyle,
+  textboxPaddingStyle,
 } from './DeploymentCenter.styles';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocusTrapCallout';
-import { Links } from '../../../utils/FwLinks';
+import { DeploymentCenterLinks, Links } from '../../../utils/FwLinks';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
 import { ScmType } from '../../../models/site/config';
 import { getGitCloneUri, getTelemetryInfo } from './utility/DeploymentCenterUtility';
 import DeploymentCenterPublishingUser from './DeploymentCenterPublishingUser';
 import { PortalContext } from '../../../PortalContext';
+import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 
 type PasswordFieldType = 'password' | undefined;
 
@@ -34,7 +36,7 @@ const DeploymentCenterFtps: React.FC<
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const portalContext = useContext(PortalContext);
 
-  const { isLoading, formProps } = props;
+  const { isDataRefreshing, formProps } = props;
   const { publishingProfile, resetApplicationPassword } = deploymentCenterPublishingContext;
 
   const [applicationPasswordType, setApplicationPasswordType] = useState<PasswordFieldType>('password');
@@ -79,7 +81,12 @@ const DeploymentCenterFtps: React.FC<
 
   const getDisabledByFTPPolicyMessage = () => (
     <div className={deploymentCenterContent}>
-      <CustomBanner message={t('ftpDisabledByPolicy')} type={MessageBarType.info} learnMoreLink={Links.ftpDisabledByPolicyLink} />
+      <CustomBanner
+        id="ftp-disabled-by-policy"
+        message={t('ftpDisabledByPolicy')}
+        type={MessageBarType.info}
+        learnMoreLink={Links.ftpDisabledByPolicyLink}
+      />
     </div>
   );
 
@@ -89,6 +96,7 @@ const DeploymentCenterFtps: React.FC<
         {deploymentCenterContext && !deploymentCenterContext.hasWritePermission && showBlockedBanner && (
           <div className={deploymentCenterInfoBannerDiv}>
             <CustomBanner
+              id="deployment-center-ftps-write-permission-required"
               message={t('deploymentCenterFtpsWritePermissionRequired')}
               type={MessageBarType.blocked}
               onDismiss={closeBlockedBanner}
@@ -118,16 +126,27 @@ const DeploymentCenterFtps: React.FC<
         )}
 
         <h3>{t('deploymentCenterFtpsApplicationScopeTitle')}</h3>
-        <p>{t('deploymentCenterFtpsApplicationScopeDescription')}</p>
+        <span id="deployment-publishing-user-message">{t('deploymentCenterFtpsApplicationScopeDescription')}</span>
+        <Link
+          id="deployment-center-settings-learnMore"
+          href={DeploymentCenterLinks.publishingUserDocumentation}
+          target="_blank"
+          className={learnMoreLinkStyle}
+          aria-labelledby="deployment-center-settings-message">
+          {` ${t('learnMore')}`}
+        </Link>
 
-        <TextFieldNoFormik
-          id="deployment-center-ftps-application-username"
-          label={t('deploymentCenterFtpsUsernameLabel')}
-          widthOverride="100%"
-          value={publishingProfile && publishingProfile.userName}
-          copyButton={true}
-          disabled={true}
-        />
+        <div className={textboxPaddingStyle}>
+          <TextFieldNoFormik
+            id="deployment-center-ftps-application-username"
+            label={t('deploymentCenterFtpsUsernameLabel')}
+            widthOverride="100%"
+            value={publishingProfile && publishingProfile.userName}
+            copyButton={true}
+            disabled={true}
+          />
+        </div>
+
         <div className={ftpsPasswordTextboxStyle}>
           <TextFieldNoFormik
             id="deployment-center-ftps-application-password"
@@ -175,12 +194,12 @@ const DeploymentCenterFtps: React.FC<
           defaultButtonFunction={toggleResetCalloutVisibility}
         />
 
-        <DeploymentCenterPublishingUser formProps={formProps} isLoading={isLoading} />
+        <DeploymentCenterPublishingUser formProps={formProps} />
       </div>
     );
   };
 
-  if (isLoading) {
+  if (isDataRefreshing) {
     return getProgressIndicator();
   } else if (disableFtp()) {
     return getDisabledByFTPPolicyMessage();

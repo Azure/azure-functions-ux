@@ -98,25 +98,24 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
 
   const completingAuthCallback = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      deploymentCenterData
-        .getBitbucketToken(authorizationResult.redirectUrl)
-        .then(response => {
-          if (response.metadata.success) {
-            return deploymentCenterData.storeBitbucketToken(response.data);
-          } else {
-            // NOTE(michinoy): This is all related to the handshake between us and the provider.
-            // If this fails, there isn't much the user can do except retry.
-            portalContext.log(
-              getTelemetryInfo('error', 'authorizeBitbucketAccount', 'failed', {
-                message: getErrorMessage(response.metadata.error),
-                error: response.metadata.error,
-              })
-            );
+      deploymentCenterData.getBitbucketToken(authorizationResult.redirectUrl).then(response => {
+        if (response.metadata.success) {
+          deploymentCenterData.storeBitbucketToken(response.data).then(() => {
+            deploymentCenterContext.refresh();
+          });
+        } else {
+          // NOTE(michinoy): This is all related to the handshake between us and the provider.
+          // If this fails, there isn't much the user can do except retry.
+          portalContext.log(
+            getTelemetryInfo('error', 'authorizeBitbucketAccount', 'failed', {
+              message: getErrorMessage(response.metadata.error),
+              error: response.metadata.error,
+            })
+          );
 
-            return Promise.resolve(null);
-          }
-        })
-        .then(() => fetchData());
+          return Promise.resolve(null);
+        }
+      });
     } else {
       return fetchData();
     }
@@ -135,6 +134,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
     return (
       <div className={deploymentCenterInfoBannerDiv}>
         <CustomBanner
+          id="deployment-center-settings-configured-view-user-not-authorized"
           message={
             <>
               {`${t('deploymentCenterSettingsConfiguredViewUserNotAuthorized')} `}

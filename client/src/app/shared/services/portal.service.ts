@@ -379,6 +379,10 @@ export class PortalService implements IPortalService {
     this.postMessage(Verbs.closeSelf, data || '');
   }
 
+  switchMenuItem(data?: any) {
+    this.postMessage(Verbs.switchMenuItem, data || '');
+  }
+
   updateBladeInfo(title: string, subtitle: string) {
     const payload: UpdateBladeInfo = {
       title: title,

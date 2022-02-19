@@ -26,10 +26,29 @@ export const deploymentCenterConsole = (theme: ThemeExtended): string =>
     overflowWrap: 'break-word',
   });
 
-export const deploymentCenterContainerLogs = style({
+export const deploymentCenterContainerLogsBox = style({
+  fontFamily: '"Lucida Console", "Courier New", "Consolas", "monospace"',
+  color: 'white',
+  backgroundColor: 'black',
+  position: 'fixed',
+  height: 'calc(100% - 250px)',
+  width: 'calc(100% - 50px)',
+  overflowY: 'auto',
+  marginTop: '10px',
+  marginLeft: 'auto',
+  marginRight: 'auto',
   whiteSpace: 'pre-line',
-  padding: '15px',
   overflowWrap: 'break-word',
+});
+
+export const deploymentCenterCodeLogsBox = style({
+  position: 'fixed',
+  height: 'calc(100% - 250px)',
+  width: 'calc(100% - 50px)',
+  overflowY: 'auto',
+  marginTop: '10px',
+  marginLeft: 'auto',
+  marginRight: 'auto',
 });
 
 export const deploymentCenterLogsError = style({
@@ -96,8 +115,8 @@ export const panelBanner = style({
 });
 
 export const disconnectLink = style({
+  display: 'block',
   marginTop: '5px',
-  width: '100%',
 });
 
 export const panelOverflowStyle = {
@@ -120,7 +139,6 @@ export const disconnectWorkflowInfoStyle = style({
 
 export const logsTimerStyle = style({
   marginTop: '10px',
-  fontSize: '10px',
 });
 
 export const closePublishProfileButtonStyle = style({
@@ -136,4 +154,21 @@ export const closePreviewButtonStyle = style({
 
 export const titleWithPaddingStyle = style({
   paddingTop: '10px',
+});
+
+export const vstsDescriptionStyle = style({
+  paddingTop: '15px',
+});
+
+export const refreshButtonStyle = style({
+  marginTop: '10px',
+  height: '36px',
+});
+
+export const textboxPaddingStyle = style({
+  paddingTop: '10px',
+});
+
+export const changeAccountInfoButtonStyle = style({
+  paddingBottom: '10px',
 });

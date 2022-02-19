@@ -39,6 +39,7 @@ interface ReactiveFormControlProps {
   dirty?: boolean;
   formControlClassName?: string;
   customLabelClassName?: string;
+  customLabelStackClassName?: string;
   layout?: Layout;
   mouseOverToolTip?: string;
   required?: boolean;
@@ -56,6 +57,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
     dirty,
     formControlClassName,
     customLabelClassName,
+    customLabelStackClassName,
     layout,
     children,
     id,
@@ -96,18 +98,26 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
       horizontal={horizontal}
       className={`${!!formControlClassName ? formControlClassName : ''} ${controlContainerStyle(!!upsellMessage, fullPage)}`}>
       {(label || (pushContentRight && fullPage)) && (
-        <Stack horizontal className={formStackStyle(!!upsellMessage, fullPage)}>
+        <Stack
+          horizontal
+          className={`${formStackStyle(!!upsellMessage, fullPage, horizontal)} ${
+            !!customLabelStackClassName ? customLabelStackClassName : ''
+          }`}>
           {upsellMessage && (
             <div className={upsellIconStyle}>
               <UpsellIcon upsellMessage={upsellMessage} />
             </div>
           )}
           <Label
-            className={`${!!customLabelClassName ? customLabelClassName : ''} ${formLabelStyle(!!upsellMessage, fullPage)} ${
+            className={`${!!customLabelClassName ? customLabelClassName : ''} ${formLabelStyle(!!upsellMessage, fullPage, horizontal)} ${
               dirty ? dirtyElementStyle(theme, true) : ''
             }`}
             id={`${id}-label`}>
-            <TooltipHost overflowMode={TooltipOverflowMode.Self} content={label} hostClassName={hostStyle(multiline)} styles={tooltipStyle}>
+            <TooltipHost
+              overflowMode={TooltipOverflowMode.Self}
+              content={label}
+              hostClassName={hostStyle(multiline, horizontal)}
+              styles={tooltipStyle}>
               {label}
             </TooltipHost>
             {getRequiredIcon(theme, required)}

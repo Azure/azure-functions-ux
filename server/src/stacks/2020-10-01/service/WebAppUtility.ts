@@ -7,7 +7,8 @@ export function filterWebAppStacks(
   os?: AppStackOs,
   removeHiddenStacks?: boolean,
   removeDeprecatedStacks?: boolean,
-  removePreviewStacks?: boolean
+  removePreviewStacks?: boolean,
+  removeNonGitHubActionStacks?: boolean
 ): WebAppStack[] {
   stacks.forEach((stack, i) => {
     stack.majorVersions.forEach((majorVersion, j) => {
@@ -24,6 +25,9 @@ export function filterWebAppStacks(
         }
         if (removePreviewStacks) {
           _removePreviewRuntimeAndContainerSettings(stacks, i, j, k);
+        }
+        if (removeNonGitHubActionStacks) {
+          _removeNonGitHubActionRuntimeSettings(stacks, i, j, k);
         }
       });
 
@@ -126,4 +130,21 @@ function _removePreviewRuntimeAndContainerSettings(stacks: WebAppStack[], i: num
   if (linuxContainerSettings && linuxContainerSettings.isPreview) {
     delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxContainerSettings;
   }
+}
+
+function _removeNonGitHubActionRuntimeSettings(stacks: WebAppStack[], i: number, j: number, k: number): void {
+  const windowsRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+  const linuxRuntimeSettings = stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+
+  if (windowsRuntimeSettings && !windowsRuntimeSettings.gitHubActionSettings.isSupported) {
+    delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsRuntimeSettings;
+  }
+
+  if (linuxRuntimeSettings && !linuxRuntimeSettings.gitHubActionSettings.isSupported) {
+    delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxRuntimeSettings;
+  }
+
+  // NOTE(michinoy): As of now the container settings do not need to be returned as they do not contain any github action support
+  delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.windowsContainerSettings;
+  delete stacks[i].majorVersions[j].minorVersions[k].stackSettings.linuxContainerSettings;
 }

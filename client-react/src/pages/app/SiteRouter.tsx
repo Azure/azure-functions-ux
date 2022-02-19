@@ -10,7 +10,16 @@ import { SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-import { isContainerApp, isElastic, isFunctionApp, isLinuxApp, isLinuxDynamic } from '../../utils/arm-utils';
+import {
+  isContainerApp,
+  isDynamic,
+  isElastic,
+  isFunctionApp,
+  isKubeApp,
+  isLinuxApp,
+  isLinuxDynamic,
+  isPremiumV2,
+} from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
 import FunctionAppService from '../../utils/FunctionAppService';
 import { LogCategories } from '../../utils/LogCategories';
@@ -21,7 +30,7 @@ import SiteHelper from '../../utils/SiteHelper';
 import { SiteRouterData } from './SiteRouter.data';
 import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
-import FunctionsService from '../../ApiHelpers/FunctionsService';
+import Url from '../../utils/url';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -44,9 +53,6 @@ const FunctionIntegrateLoadable: any = lazy(() =>
 );
 const FunctionBindingLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functionbinding" */ './functions/function/integrate/BindingPanel/BindingPanel')
-);
-const FunctionCreateLoadable: any = lazy(() =>
-  import(/* webpackChunkName:"functioncreate" */ './functions/create/FunctionCreateDataLoader')
 );
 const FunctionNewCreatePreviewLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioncreate" */ './functions/new-create-preview/FunctionCreateDataLoader')
@@ -80,9 +86,24 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [isLinuxApplication, setIsLinuxApplication] = useState<boolean>(false);
   const [isContainerApplication, setIsContainerApplication] = useState<boolean>(false);
   const [isFunctionApplication, setIsFunctionApplication] = useState<boolean>(false);
+  const [isKubeApplication, setIsKubeApplication] = useState<boolean>(false);
 
-  const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
-    if (isLinuxDynamic(site)) {
+  const ignoreLinuxDynamicReadOnly = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean => {
+    return (
+      FunctionAppService.usingPythonLinuxConsumption(site, appSettings) || FunctionAppService.usingNodeLinuxConsumption(site, appSettings)
+    );
+  };
+
+  const enableLinuxElasticPremiumFlagSetForPythonOrNode = (appSettings?: ArmObj<KeyValue<string>>): boolean => {
+    return (
+      !!appSettings &&
+      (FunctionAppService.usingPythonWorkerRuntime(appSettings) || FunctionAppService.usingNodeWorkerRuntime(appSettings)) &&
+      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxPremium)
+    );
+  };
+
+  const getSiteStateFromSiteData = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
+    if (isLinuxDynamic(site) && !ignoreLinuxDynamicReadOnly(site, appSettings)) {
       return FunctionAppEditMode.ReadOnlyLinuxDynamic;
     }
 
@@ -90,16 +111,24 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyBYOC;
     }
 
-    if (isLinuxApp(site) && isElastic(site)) {
+    if (isLinuxApp(site) && isElastic(site) && !enableLinuxElasticPremiumFlagSetForPythonOrNode(appSettings)) {
       return FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
     }
 
     return undefined;
   };
 
-  const getSiteStateFromAppSettings = (appSettings: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
+  const getSiteStateFromAppSettings = (appSettings: ArmObj<KeyValue<string>>, site: ArmObj<Site>): FunctionAppEditMode | undefined => {
+    if (isKubeApp(site)) {
+      return FunctionAppEditMode.ReadOnlyArc;
+    }
+
     if (FunctionAppService.usingCustomWorkerRuntime(appSettings)) {
       return FunctionAppEditMode.ReadOnlyCustom;
+    }
+
+    if (isFunctionApp(site) && FunctionAppService.usingDotnet5WorkerRuntime(appSettings)) {
+      return FunctionAppEditMode.ReadOnlyDotnet5;
     }
 
     if (FunctionAppService.usingRunFromPackage(appSettings)) {
@@ -110,12 +139,20 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyLocalCache;
     }
 
-    if (FunctionAppService.usingPythonWorkerRuntime(appSettings)) {
+    if (
+      FunctionAppService.usingPythonWorkerRuntime(appSettings) &&
+      !FunctionAppService.usingPythonLinuxConsumption(site, appSettings) &&
+      !enableLinuxElasticPremiumFlagSetForPythonOrNode(appSettings)
+    ) {
       return FunctionAppEditMode.ReadOnlyPython;
     }
 
     if (FunctionAppService.usingJavaWorkerRuntime(appSettings)) {
       return FunctionAppEditMode.ReadOnlyJava;
+    }
+
+    if ((isDynamic(site) || isPremiumV2(site)) && !FunctionAppService.getAzureFilesSetting(appSettings)) {
+      return FunctionAppEditMode.ReadOnlyAzureFiles;
     }
 
     const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName] || '';
@@ -154,19 +191,6 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       );
     }
 
-    const functionsResponse = await FunctionsService.getFunctions(siteOnlyResourceId);
-    if (functionsResponse.metadata.success) {
-      if (functionsResponse.data.value.filter(fc => !!fc.properties.config.generatedBy).length > 0) {
-        return FunctionAppEditMode.ReadOnlyVSGenerated;
-      }
-    } else {
-      LogService.error(
-        LogCategories.siteRouter,
-        'getFunctions',
-        `Failed to get functions: ${getErrorMessageOrStringify(functionsResponse.metadata.error)}`
-      );
-    }
-
     return FunctionAppEditMode.ReadWrite;
   };
 
@@ -177,7 +201,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       const readOnlyLock = await portalContext.hasLock(trimmedResourceId, 'ReadOnly');
       let functionAppEditMode: FunctionAppEditMode | undefined;
 
-      const siteResponse = await SiteService.fetchSite(trimmedResourceId);
+      const [siteResponse, appSettingsResponse] = await Promise.all([
+        SiteService.fetchSite(trimmedResourceId),
+        SiteService.fetchApplicationSettings(trimmedResourceId),
+      ]);
 
       if (readOnlyLock) {
         functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
@@ -187,13 +214,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         if (!writePermission) {
           functionAppEditMode = FunctionAppEditMode.ReadOnlyRbac;
         } else if (siteResponse.metadata.success && isFunctionApp(siteResponse.data)) {
-          functionAppEditMode = getSiteStateFromSiteData(siteResponse.data);
+          functionAppEditMode = getSiteStateFromSiteData(siteResponse.data, appSettingsResponse.data);
 
           if (!functionAppEditMode) {
-            const appSettingsResponse = await SiteService.fetchApplicationSettings(trimmedResourceId);
-
             if (appSettingsResponse.metadata.success) {
-              functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data);
+              functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data, siteResponse.data);
             } else {
               LogService.error(
                 LogCategories.siteRouter,
@@ -233,6 +258,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         setIsLinuxApplication(isLinuxApp(siteResponse.data));
         setIsContainerApplication(isContainerApp(siteResponse.data));
         setIsFunctionApplication(isFunctionApp(siteResponse.data));
+        setIsKubeApplication(isKubeApp(siteResponse.data));
       }
       setSiteAppEditState(functionAppEditMode);
     }
@@ -261,6 +287,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     isLinuxApp: isLinuxApplication,
                     isContainerApp: isContainerApplication,
                     isFunctionApp: isFunctionApplication,
+                    isKubeApp: isKubeApplication,
                   }}>
                   <Router>
                     {/* NOTE(michinoy): The paths should be always all lowercase. */}
@@ -270,7 +297,6 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
                     <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
                     <FunctionBindingLoadable resourceId={value.resourceId} path="/bindingeditor" />
-                    <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
                     <FunctionNewCreatePreviewLoadable resourceId={value.resourceId} path="/newcreatepreview" />
                     <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
                     <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />

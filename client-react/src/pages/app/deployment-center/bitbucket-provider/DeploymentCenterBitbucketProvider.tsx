@@ -2,7 +2,7 @@ import React from 'react';
 import { DeploymentCenterBitbucketProviderProps } from '../DeploymentCenter.types';
 import DeploymentCenterBitbucketAccount from './DeploymentCenterBitbucketAccount';
 import { Field } from 'formik';
-import Dropdown from '../../../../components/form-controls/DropDown';
+import ComboBox from '../../../../components/form-controls/ComboBox';
 import { useTranslation } from 'react-i18next';
 
 const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProviderProps> = props => {
@@ -32,7 +32,9 @@ const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProvi
             label={t('deploymentCenterOAuthOrganization')}
             placeholder={t('deploymentCenterOAuthOrganizationPlaceholder')}
             name="org"
-            component={Dropdown}
+            component={ComboBox}
+            allowFreeform
+            autoComplete="on"
             displayInVerticalLayout={true}
             options={organizationOptions}
             defaultSelectedKey={formProps.values.org}
@@ -44,7 +46,9 @@ const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProvi
             label={t('deploymentCenterOAuthRepository')}
             placeholder={t('deploymentCenterOAuthRepositoryPlaceholder')}
             name="repo"
-            component={Dropdown}
+            component={ComboBox}
+            allowFreeform
+            autoComplete="on"
             displayInVerticalLayout={true}
             options={repositoryOptions}
             defaultSelectedKey={formProps.values.repo}
@@ -56,7 +60,9 @@ const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProvi
             label={t('deploymentCenterOAuthBranch')}
             placeholder={t('deploymentCenterOAuthBranchPlaceholder')}
             name="branch"
-            component={Dropdown}
+            component={ComboBox}
+            allowFreeform
+            autoComplete="on"
             displayInVerticalLayout={true}
             options={branchOptions}
             defaultSelectedKey={formProps.values.branch}

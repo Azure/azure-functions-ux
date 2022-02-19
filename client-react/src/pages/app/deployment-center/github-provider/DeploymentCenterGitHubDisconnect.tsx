@@ -23,6 +23,8 @@ import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import ActionBar from '../../../../components/ActionBar';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { SiteStateContext } from '../../../../SiteState';
+import { clearGitHubActionSourceControlPropertiesManually } from '../utility/GitHubActionUtility';
 
 const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnectProps> = props => {
   const { branch, org, repo, repoUrl, formProps } = props;
@@ -30,6 +32,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
+  const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterData = new DeploymentCenterData();
 
   const workflowFile = getWorkflowFileName(
@@ -93,6 +96,60 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
   // As we are transitioning from having all the logic in the UX to the API, we are passing in the 'deleteWorkflowDuringDisconnect' flag.
   // This will make sure we are deleting the workflow from the UX only for now.
   const deleteSourceControl = async (deleteWorkflowDuringDisconnect: boolean, deleteWorkflowFileStatus: DeploymentDisconnectStatus) => {
+    return siteStateContext.isKubeApp
+      ? clearMetadataAndConfig(deleteWorkflowDuringDisconnect, deleteWorkflowFileStatus)
+      : deleteSourceControlDetails(deleteWorkflowDuringDisconnect, deleteWorkflowFileStatus);
+  };
+
+  const clearMetadataAndConfig = async (deleteWorkflowDuringDisconnect: boolean, deleteWorkflowFileStatus: DeploymentDisconnectStatus) => {
+    if (deleteWorkflowFileStatus.isSuccessful) {
+      portalContext.log(getTelemetryInfo('info', 'clearMetadataAndConfig', 'submit'));
+
+      const response = await clearGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId);
+
+      if (!response.metadata.success) {
+        portalContext.log(
+          getTelemetryInfo('error', 'clearMetadataAndConfig', 'failed', {
+            message: getErrorMessage(response.metadata.error),
+            errorAsString: JSON.stringify(response.metadata.error),
+          })
+        );
+
+        const failedStatus: DeploymentDisconnectStatus = {
+          step: DeployDisconnectStep.ClearSCMSettings,
+          isSuccessful: false,
+          error: response.metadata.error,
+        };
+
+        const errorMessage = getErrorMessage(response.metadata.error);
+
+        if (errorMessage) {
+          failedStatus.errorMessage = deleteWorkflowDuringDisconnect
+            ? t('disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage').format(errorMessage)
+            : t('disconnectingDeploymentFailWithMessage').format(errorMessage);
+        } else {
+          failedStatus.errorMessage = deleteWorkflowDuringDisconnect
+            ? t('disconnectingDeploymentFailWorkflowFileDeleteSucceeded')
+            : t('disconnectingDeploymentFail');
+        }
+
+        return failedStatus;
+      } else {
+        const successStatus: DeploymentDisconnectStatus = {
+          step: DeployDisconnectStep.ClearSCMSettings,
+          isSuccessful: true,
+        };
+        return successStatus;
+      }
+    } else {
+      return deleteWorkflowFileStatus;
+    }
+  };
+
+  const deleteSourceControlDetails = async (
+    deleteWorkflowDuringDisconnect: boolean,
+    deleteWorkflowFileStatus: DeploymentDisconnectStatus
+  ) => {
     if (deleteWorkflowFileStatus.isSuccessful) {
       portalContext.log(getTelemetryInfo('info', 'deleteSourceControlDetails', 'submit'));
 

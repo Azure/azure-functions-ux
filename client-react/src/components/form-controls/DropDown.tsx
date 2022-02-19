@@ -13,13 +13,14 @@ export interface CustomDropdownProps {
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
-  label: string;
+  label?: string;
   learnMoreLink?: string;
   dirty?: boolean;
   onPanel?: boolean;
   layout?: Layout;
   mouseOverToolTip?: string;
   isLoading?: boolean;
+  multiline?: boolean;
 }
 
 export const LoadingDropdownSpinnerStyle = style({

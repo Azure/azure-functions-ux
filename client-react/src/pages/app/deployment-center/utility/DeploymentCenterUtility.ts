@@ -1,6 +1,17 @@
-import { RuntimeStackSetting, AuthorizationResult } from '../DeploymentCenter.types';
+import {
+  RuntimeStackSetting,
+  AuthorizationResult,
+  DeploymentCenterFormData,
+  DeploymentCenterContainerFormData,
+  ContainerRegistrySources,
+  RuntimeVersionOptions,
+  RuntimeVersionDisplayNames,
+  RuntimeStackOptions,
+  RuntimeStackDisplayNames,
+  JavaContainerDisplayNames,
+} from '../DeploymentCenter.types';
 import { ArmObj } from '../../../../models/arm-obj';
-import { SiteConfig } from '../../../../models/site/config';
+import { ScmType, SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
 import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
 import { IDeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
@@ -8,6 +19,9 @@ import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 import { PublishingCredentials } from '../../../../models/site/publish';
 import { LogLevel, TelemetryInfo } from '../../../../models/telemetry';
 import { LogCategories } from '../../../../utils/LogCategories';
+import { FormikProps } from 'formik';
+import { IDeploymentCenterContext } from '../DeploymentCenterContext';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 export const getLogId = (component: string, event: string): string => {
   return `${component}/${event}`;
@@ -16,13 +30,18 @@ export const getLogId = (component: string, event: string): string => {
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,
   isFunctionApp: boolean,
-  siteConfig: ArmObj<SiteConfig>,
-  configMetadata: ArmObj<KeyValue<string>>,
-  applicationSettings: ArmObj<KeyValue<string>>
+  isKubeApp: boolean,
+  siteConfig?: ArmObj<SiteConfig>,
+  configMetadata?: ArmObj<KeyValue<string>>,
+  applicationSettings?: ArmObj<KeyValue<string>>
 ): RuntimeStackSetting => {
-  return isLinuxApp
-    ? getRuntimeStackSettingForLinux(isFunctionApp, siteConfig)
-    : getRuntimeStackSettingForWindows(isFunctionApp, siteConfig, configMetadata, applicationSettings);
+  if ((isLinuxApp || isKubeApp) && !!siteConfig) {
+    return getRuntimeStackSettingForLinux(isFunctionApp, siteConfig);
+  } else if (!isLinuxApp && !isKubeApp && !!siteConfig && !!configMetadata && !!applicationSettings) {
+    return getRuntimeStackSettingForWindows(isFunctionApp, siteConfig, configMetadata, applicationSettings);
+  } else {
+    return { runtimeStack: '', runtimeVersion: '' };
+  }
 };
 
 export const getTelemetryInfo = (
@@ -80,6 +99,8 @@ const getRuntimeStackVersionForWindows = (
     // combined with the fact there is no storage of .NET CORE version, we now return an assumed value of the latest
     // .NET Core
     return '3.1';
+  } else if (stack === RuntimeStacks.php) {
+    return siteConfig.properties.phpVersion || '';
   } else {
     return '';
   }
@@ -122,7 +143,7 @@ const getRuntimeStackSettingForWindows = (
   return stackData;
 };
 
-const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>) => {
+const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>, isFunctionApp: boolean) => {
   // NOTE(stpelleg): Java is special, so need to handle it carefully.
   if (!siteConfig.properties.linuxFxVersion) {
     return '';
@@ -131,7 +152,12 @@ const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
 
   if (runtimeStack === JavaContainers.JavaSE || runtimeStack === JavaContainers.Tomcat || runtimeStack === JavaContainers.JBoss) {
-    const fxVersionParts = !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('-') : [];
+    let fxVersionParts: string[];
+    if (isFunctionApp) {
+      fxVersionParts = linuxFxVersionParts;
+    } else {
+      fxVersionParts = !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('-') : [];
+    }
     return fxVersionParts.length === 2 ? fxVersionParts[1].toLocaleLowerCase() : '';
   }
 
@@ -162,7 +188,7 @@ const getRuntimeStackSettingForLinux = (isFunctionApp: boolean, siteConfig: ArmO
 
   stackData.runtimeStack = isFunctionApp ? getFunctionAppRuntimeStackForLinux(siteConfig) : getWebAppRuntimeStackForLinux(siteConfig);
 
-  stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig);
+  stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig, isFunctionApp);
 
   return stackData;
 };
@@ -201,15 +227,19 @@ export const authorizeWithProvider = (
 
     // Check for authorization status every 100 ms.
     const timerId = setInterval(() => {
-      if (oauthWindow && oauthWindow.document && oauthWindow.document.URL && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
-        resolve({
-          timerId,
-          redirectUrl: oauthWindow.document.URL,
-        });
-      } else if (oauthWindow && oauthWindow.closed) {
-        resolve({
-          timerId,
-        });
+      try {
+        if (oauthWindow && oauthWindow.document && oauthWindow.document.URL && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
+          resolve({
+            timerId,
+            redirectUrl: oauthWindow.document.URL,
+          });
+        } else if (oauthWindow && oauthWindow.closed) {
+          resolve({
+            timerId,
+          });
+        }
+      } catch {
+        // Do nothing
       }
     }, 100);
 
@@ -277,4 +307,133 @@ export const extractConfigFromFile = (input): Promise<string> => {
     };
     reader.readAsText(input.files[0]);
   });
+};
+
+export const isSettingsDirty = (
+  formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>,
+  deploymentCenterContext: IDeploymentCenterContext
+): boolean => {
+  return (
+    (isContainerGeneralSettingsDirty(formProps) ||
+      (formProps.values.registrySource === ContainerRegistrySources.privateRegistry && isPrivateRegistrySettingsDirty(formProps)) ||
+      (formProps.values.registrySource === ContainerRegistrySources.docker && isDockerSettingsDirty(formProps)) ||
+      (formProps.values.registrySource === ContainerRegistrySources.acr && isAcrSettingsDirty(formProps))) &&
+    !!deploymentCenterContext.siteConfig &&
+    deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
+  );
+};
+
+const isPrivateRegistrySettingsDirty = (formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>): boolean => {
+  return (
+    formProps.values.privateRegistryServerUrl !== formProps.initialValues.privateRegistryServerUrl ||
+    formProps.values.privateRegistryUsername !== formProps.initialValues.privateRegistryUsername ||
+    formProps.values.privateRegistryPassword !== formProps.initialValues.privateRegistryPassword ||
+    formProps.values.privateRegistryImageAndTag !== formProps.initialValues.privateRegistryImageAndTag ||
+    formProps.values.privateRegistryComposeYml !== formProps.initialValues.privateRegistryComposeYml
+  );
+};
+
+const isDockerSettingsDirty = (formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>): boolean => {
+  return (
+    formProps.values.dockerHubAccessType !== formProps.initialValues.dockerHubAccessType ||
+    formProps.values.dockerHubImageAndTag !== formProps.initialValues.dockerHubImageAndTag ||
+    formProps.values.dockerHubComposeYml !== formProps.initialValues.dockerHubComposeYml
+  );
+};
+
+const isAcrSettingsDirty = (formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>): boolean => {
+  return (
+    formProps.values.acrLoginServer !== formProps.initialValues.acrLoginServer ||
+    formProps.values.acrImage !== formProps.initialValues.acrImage ||
+    formProps.values.acrTag !== formProps.initialValues.acrTag ||
+    formProps.values.acrComposeYml !== formProps.initialValues.acrComposeYml
+  );
+};
+
+const isContainerGeneralSettingsDirty = (formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>): boolean => {
+  return (
+    formProps.values.scmType !== formProps.initialValues.scmType ||
+    formProps.values.option !== formProps.initialValues.option ||
+    formProps.values.registrySource !== formProps.initialValues.registrySource ||
+    formProps.values.continuousDeploymentOption !== formProps.initialValues.continuousDeploymentOption ||
+    formProps.values.command !== formProps.initialValues.command
+  );
+};
+
+export const isFtpsDirty = (
+  formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>,
+  deploymentCenterPublishingContext: IDeploymentCenterPublishingContext
+): boolean => {
+  const currentUser = deploymentCenterPublishingContext.publishingUser;
+  const formPropsExist =
+    (!!formProps.values.publishingUsername || formProps.values.publishingUsername === '') &&
+    (!!formProps.values.publishingPassword || formProps.values.publishingPassword === '') &&
+    (!!formProps.values.publishingConfirmPassword || formProps.values.publishingConfirmPassword === '');
+
+  return (
+    !!currentUser &&
+    formPropsExist &&
+    (currentUser.properties.publishingUserName !== formProps.values.publishingUsername ||
+      (!!formProps.values.publishingPassword && currentUser.properties.publishingPassword !== formProps.values.publishingPassword))
+  );
+};
+
+export const getDefaultVersionDisplayName = (version: string, isLinuxApp: boolean) => {
+  return isLinuxApp ? getLinuxDefaultVersionDisplayName(version) : getWindowsDefaultVersionDisplayName(version);
+};
+
+export const getLinuxDefaultVersionDisplayName = (version: string) => {
+  //NOTE(stpelleg): Java is different
+  if (version === RuntimeVersionOptions.Java11) {
+    return RuntimeVersionDisplayNames.Java11;
+  } else if (version === RuntimeVersionOptions.Java8) {
+    return RuntimeVersionDisplayNames.Java8;
+  }
+  const versionNameParts: string[] = version.toLocaleLowerCase().split('|');
+
+  return versionNameParts.length === 2
+    ? `${getRuntimeStackDisplayName(versionNameParts[0])} ${versionNameParts[1].replace(CommonConstants.Hyphen, ' ').toUpperCase()}`
+    : version;
+};
+
+export const getWindowsDefaultVersionDisplayName = (version: string) => {
+  return version.replace(CommonConstants.Hyphen, ' ');
+};
+
+export const getRuntimeStackDisplayName = (stack: string) => {
+  const stackName = stack.toLocaleLowerCase();
+  switch (stackName) {
+    case RuntimeStackOptions.Python:
+      return RuntimeStackDisplayNames.Python;
+    case RuntimeStackOptions.DotNetCore:
+      return RuntimeStackDisplayNames.DotNetCore;
+    case RuntimeStackOptions.Ruby:
+      return RuntimeStackDisplayNames.Ruby;
+    case RuntimeStackOptions.Java:
+      return RuntimeStackDisplayNames.Java;
+    case RuntimeStackOptions.Node:
+      return RuntimeStackDisplayNames.Node;
+    case RuntimeStackOptions.PHP:
+      return RuntimeStackDisplayNames.PHP;
+    case RuntimeStackOptions.AspDotNet:
+      return RuntimeStackDisplayNames.AspDotNet;
+    case RuntimeStackOptions.Dotnet:
+      return RuntimeStackDisplayNames.Dotnet;
+    default:
+      return '';
+  }
+};
+
+export const getJavaContainerDisplayName = (stack: string) => {
+  const stackName = stack.toLocaleLowerCase();
+  switch (stackName) {
+    case JavaContainers.JavaSE:
+      return JavaContainerDisplayNames.JavaSE;
+    case JavaContainers.Tomcat:
+      return JavaContainerDisplayNames.Tomcat;
+    case JavaContainers.JBoss:
+      return JavaContainerDisplayNames.JBoss;
+    default:
+      return '';
+  }
 };

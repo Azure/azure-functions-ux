@@ -20,6 +20,12 @@ const DeploymentCenterContainerSettingsReadOnlyView: React.FC<{}> = props => {
       setUsername(appSettings[DeploymentCenterConstants.usernameSetting]);
     }
 
+    getImageAndTag();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext.applicationSettings, deploymentCenterContext.siteConfig, siteStateContext]);
+
+  const getImageAndTag = () => {
     if (siteStateContext && deploymentCenterContext && deploymentCenterContext.siteConfig) {
       const fxVersion = siteStateContext.isLinuxApp
         ? deploymentCenterContext.siteConfig.properties.linuxFxVersion
@@ -28,11 +34,9 @@ const DeploymentCenterContainerSettingsReadOnlyView: React.FC<{}> = props => {
       const fxVersionParts = fxVersion.split('|');
       const imageAndTagParts = fxVersionParts[1] ? fxVersionParts[1].split('/') : [];
 
-      setImageAndTag(imageAndTagParts.length > 1 ? imageAndTagParts[1] : imageAndTagParts[0]);
+      setImageAndTag(imageAndTagParts.length > 0 ? imageAndTagParts[imageAndTagParts.length - 1] : t('deploymentCenterImageAndTagError'));
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext.applicationSettings, deploymentCenterContext.siteConfig, siteStateContext]);
+  };
 
   return (
     <>

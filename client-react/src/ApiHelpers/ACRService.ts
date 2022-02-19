@@ -3,8 +3,9 @@ import { ArmArray, ArmObj } from '../models/arm-obj';
 import { ACRRegistry, ACRWebhookPayload, ACRCredential, ACRRepositories, ACRTags } from '../models/acr';
 import { CommonConstants } from '../utils/CommonConstants';
 import { HttpResponseObject } from '../ArmHelper.types';
-import { sendHttpRequest } from './HttpClient';
+import { getLastItemFromLinks, getLinksFromLinkHeader, sendHttpRequest } from './HttpClient';
 import Url from '../utils/url';
+import { Method } from 'axios';
 
 export default class ACRService {
   public static getRegistries(subscriptionId: string) {
@@ -52,74 +53,62 @@ export default class ACRService {
   }
 
   public static getRepositories(loginServer: string, username: string, password: string, logger?: (page, error) => void) {
-    const encoded = btoa(`${username}:${password}`);
-
-    const headers = {
-      Authorization: `Basic ${encoded}`,
-      'Content-Type': 'application/json',
+    const encodedUserInfo = btoa(`${username}:${password}`);
+    const data = {
+      loginServer,
+      encodedUserInfo,
     };
 
-    const url = `https://${loginServer}/v2/_catalog`;
-
-    return ACRService._dispatchPageableRequest<ACRRepositories>(loginServer, url, headers, logger);
+    return ACRService._dispatchSpecificPageableRequest<ACRRepositories>(data, 'getRepositories', 'POST', logger);
   }
 
   public static getTags(loginServer: string, repository: string, username: string, password: string, logger?: (page, error) => void) {
-    const encoded = btoa(`${username}:${password}`);
-
-    const headers = {
-      Authorization: `Basic ${encoded}`,
-      'Content-Type': 'application/json',
+    const encodedUserInfo = btoa(`${username}:${password}`);
+    const data = {
+      loginServer,
+      repository,
+      encodedUserInfo,
     };
 
-    const url = `https://${loginServer}/v2/${repository}/tags/list`;
-
-    return this._dispatchPageableRequest<ACRTags>(loginServer, url, headers, logger);
+    return ACRService._dispatchSpecificPageableRequest<ACRTags>(data, 'getTags', 'POST', logger);
   }
 
-  private static async _dispatchPageableRequest<T>(
-    loginServer: string,
-    originalUrl: string,
-    headers: { [key: string]: string },
+  private static async _dispatchSpecificPageableRequest<T>(
+    data: any,
+    apiName: string,
+    method: Method,
     logger?: (page, error) => void
   ): Promise<T[]> {
-    const items: T[] = [];
-    let nextLink = originalUrl;
-    let page = 1;
+    const acrObjectList: T[] = [];
+    let nextLink = '';
     do {
-      const passThroughUrl = `/api/passthrough?q=${nextLink}`;
-      const data = ACRService._generatePassthroughObject(nextLink, headers);
+      nextLink = '';
+      const pageResponse = await this._sendSpecificACRRequest<T>(data, apiName, method);
+      if (pageResponse.metadata.success) {
+        acrObjectList.push(pageResponse.data);
 
-      const response = await sendHttpRequest<T>({
-        data,
-        url: `${Url.serviceHost}${passThroughUrl}`,
-        method: 'POST',
-      });
-
-      if (response.metadata.success) {
-        nextLink = ACRService._getNextLink(loginServer, response);
-        items.push(response.data);
-      } else {
-        nextLink = '';
-        if (logger) {
-          logger(page, response.metadata.error);
+        const linkHeader = pageResponse.metadata.headers.link;
+        if (!!linkHeader) {
+          const links = getLinksFromLinkHeader(linkHeader);
+          const lastItem = getLastItemFromLinks(links);
+          data.last = !!lastItem ? lastItem : '';
+          nextLink = !!links && !!links.next ? links.next : '';
         }
+      } else if (logger) {
+        logger(nextLink, pageResponse);
       }
-
-      page = page + 1;
     } while (nextLink);
 
-    return items;
+    return acrObjectList;
   }
 
-  private static _generatePassthroughObject(url: string, headers: { [key: string]: string }) {
-    return {
-      method: 'GET',
-      url: url,
-      body: null,
-      headers: headers,
-    };
-  }
+  private static _sendSpecificACRRequest = <T>(data: any, apiName: string, method: Method) => {
+    return sendHttpRequest<T>({
+      data,
+      url: `${Url.serviceHost}api/acr/${apiName}`,
+      method,
+    });
+  };
 
   public static _getNextLink(loginServer: string, response: HttpResponseObject<unknown>): string {
     if (response && response.metadata.success) {

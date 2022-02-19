@@ -57,9 +57,9 @@ export const dirtyElementStyle = (theme: ThemeExtended, addPadding?: boolean) =>
     boxSizing: 'border-box',
   });
 
-export const keyVaultIconStyle = (theme: ThemeExtended, resolved: boolean) =>
+export const keyVaultIconStyle = (theme: ThemeExtended, color: string) =>
   style({
-    color: resolved ? theme.semanticColors.inlineSuccessText : theme.semanticColors.inlineErrorText,
+    color: color,
     position: 'absolute',
     marginTop: '2px',
   });
@@ -91,3 +91,7 @@ export const messageBannerStyle = (theme: ThemeExtended, type: MessageBarType) =
     marginBottom: '5px',
   });
 };
+
+export const pivotWrapper = style({
+  paddingLeft: '8px',
+});

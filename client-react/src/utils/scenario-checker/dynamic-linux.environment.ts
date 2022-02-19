@@ -28,6 +28,11 @@ export class DynamicLinuxEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.externalSource] = {
+      id: ScenarioIds.externalSource,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
     this.scenarioChecks[ScenarioIds.addMsi] = {
       id: ScenarioIds.addMsi,
       runCheck: () => {

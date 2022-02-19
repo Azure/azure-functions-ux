@@ -9,6 +9,7 @@ import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
 import { FunctionAppEnvironment } from './function-app.environment';
 import { WindowsCode } from './windows-code.environment';
 import { ContainerApp } from './container.environment';
+import { KubeApp } from './kube-app.environment';
 import { ElasticPremiumAppEnvironment } from './elastic-premium.environment';
 import { OnPremEnvironment } from './onprem.environment';
 import { WorkflowAppEnvironment } from './workflow-app.environment';
@@ -32,6 +33,7 @@ export class ScenarioService {
       new FunctionAppEnvironment(t),
       new WindowsCode(t),
       new ContainerApp(t),
+      new KubeApp(t),
       new ElasticPremiumAppEnvironment(t),
       new OnPremEnvironment(t),
       new WorkflowAppEnvironment(t),

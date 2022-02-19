@@ -24,9 +24,11 @@ import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentCenterGitHubConfiguredView';
 import DeploymentCenterContainerSettingsReadOnlyView from './DeploymentCenterContainerSettingsReadOnlyView';
 import { SiteStateContext } from '../../../../SiteState';
+import DeploymentCenterVstsBuildProvider from '../devops-provider/DeploymentCenterVstsBuildProvider';
+import { ProgressIndicator } from 'office-ui-fabric-react';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
-  const { formProps } = props;
+  const { formProps, isDataRefreshing } = props;
   const { t } = useTranslation();
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
   const [workflowFilePath, setWorkflowFilePath] = useState<string>('');
@@ -48,7 +50,8 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const siteStateContext = useContext(SiteStateContext);
 
   const isGitHubActionSelected = formProps.values.scmType === ScmType.GitHubAction;
-  const isAcrConfigured = formProps.values.registrySource === ContainerRegistrySources.acr;
+  const isVstsSelected = formProps.values.scmType === ScmType.Vsts;
+  const isAcrConfigured = formProps.values.registrySource === ContainerRegistrySources.acr && !formProps.values.privateRegistryUsername;
   const isDockerHubConfigured = formProps.values.registrySource === ContainerRegistrySources.docker;
   const isPrivateRegistryConfigured = formProps.values.registrySource === ContainerRegistrySources.privateRegistry;
 
@@ -238,7 +241,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const renderSetupView = () => {
     return (
       <>
-        {showSourceSelectionOption && <DeploymentCenterContainerSource />}
+        {showSourceSelectionOption && <DeploymentCenterContainerSource formProps={formProps} />}
 
         {isGitHubActionSelected && (
           <>
@@ -250,13 +253,21 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
           </>
         )}
 
-        <DeploymentCenterContainerRegistrySettings {...props} />
+        {isVstsSelected && <DeploymentCenterVstsBuildProvider />}
 
-        {isAcrConfigured && <DeploymentCenterContainerAcrDataLoader {...props} />}
+        {!isVstsSelected && (
+          <>
+            <DeploymentCenterContainerRegistrySettings {...props} />
 
-        {isDockerHubConfigured && <DeploymentCenterContainerDockerHubSettings {...props} />}
+            {isAcrConfigured && <DeploymentCenterContainerAcrDataLoader {...props} />}
 
-        {isPrivateRegistryConfigured && <DeploymentCenterContainerPrivateRegistrySettings {...props} />}
+            {isDockerHubConfigured && <DeploymentCenterContainerDockerHubSettings {...props} />}
+
+            {isPrivateRegistryConfigured && <DeploymentCenterContainerPrivateRegistrySettings {...props} />}
+
+            {!isGitHubActionSelected && <DeploymentCenterContainerContinuousDeploymentSettings {...props} />}
+          </>
+        )}
 
         {isGitHubActionSelected && (
           <DeploymentCenterGitHubWorkflowConfigPreview
@@ -266,8 +277,6 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
             panelMessage={panelMessage}
           />
         )}
-
-        {!isGitHubActionSelected && <DeploymentCenterContainerContinuousDeploymentSettings {...props} />}
       </>
     );
   };
@@ -281,7 +290,13 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
     );
   };
 
-  return showGitHubActionReadOnlyView ? renderGitHubActionReadOnlyView() : renderSetupView();
+  const getSettingsControls = () => (showGitHubActionReadOnlyView ? renderGitHubActionReadOnlyView() : renderSetupView());
+
+  const getProgressIndicator = () => (
+    <ProgressIndicator description={t('deploymentCenterSettingsLoading')} ariaValueText={t('deploymentCenterSettingsLoadingAriaValue')} />
+  );
+
+  return isDataRefreshing ? getProgressIndicator() : getSettingsControls();
 };
 
 export default DeploymentCenterContainerSettings;

@@ -56,7 +56,6 @@ interface ConfigurationProps {
   saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
   refresh: () => void;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
-  environmentHasFunctions?: boolean;
 }
 
 const Configuration: React.FC<ConfigurationProps> = props => {
@@ -68,7 +67,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     hasWritePermissions,
     apiFailure,
     fetchDataOnEnvironmentChange,
-    environmentHasFunctions,
   } = props;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
@@ -427,8 +425,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     const bannerInfo = { message: '', type: MessageBarType.info };
     if (!hasWritePermissions) {
       bannerInfo.message = t('staticSite_readOnlyRbac');
-    } else if (environmentHasFunctions !== undefined && !environmentHasFunctions) {
-      bannerInfo.message = t('staticSite_noFunctionMessage');
     }
     return !!bannerInfo.message ? <CustomBanner message={bannerInfo.message} type={bannerInfo.type} /> : <></>;
   };
@@ -510,6 +506,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const deleteBulkEnvironmentVariables = () => {
     const updatedEnvironmentVariables = [...environmentVariables];
     setEnvironmentVariables(updatedEnvironmentVariables.filter(environmentVariable => !environmentVariable.checked));
+    setIsDirty(true);
   };
 
   const getConfirmDialogs = () => {

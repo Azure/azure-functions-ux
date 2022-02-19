@@ -46,17 +46,17 @@ export function validateConfigLinuxStackLength(stacks) {
 
 export function validateGithubActionStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(6);
+  expect(stacks.length).to.equal(7);
 }
 
 export function validateGithubActionWindowsStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(6);
+  expect(stacks.length).to.equal(7);
 }
 
 export function validateGithubActionLinuxStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(6);
+  expect(stacks.length).to.equal(7);
 }
 
 export function validateASPCreateStack(stacks) {
@@ -85,7 +85,7 @@ export function validatePythonCreateStack(stacks) {
   expect(pythonStack.displayText).to.equal('Python');
   expect(pythonStack.value).to.equal('Python');
   expect(pythonStack.sortOrder).to.equal(2);
-  expect(pythonStack.versions.length).to.equal(3);
+  expect(pythonStack.versions.length).to.equal(4);
   expect(pythonStack).to.deep.equal(pythonCreateStack);
 }
 
@@ -95,7 +95,7 @@ export function validatePHPCreateStack(stacks) {
   expect(phpStack.displayText).to.equal('PHP');
   expect(phpStack.value).to.equal('PHP');
   expect(phpStack.sortOrder).to.equal(3);
-  expect(phpStack.versions.length).to.equal(3);
+  expect(phpStack.versions.length).to.equal(4);
   expect(phpStack).to.deep.equal(phpCreateStack);
 }
 
@@ -236,7 +236,7 @@ export function validatePythonLinuxConfigStack(stacks) {
   expect(pythonStack.type).to.equal('Microsoft.Web/availableStacks?osTypeSelected=Linux');
   expect(pythonStack.properties.name).to.equal('python');
   expect(pythonStack.properties.display).to.equal('Python');
-  expect(pythonStack.properties.majorVersions.length).to.equal(4);
+  expect(pythonStack.properties.majorVersions.length).to.equal(5);
   expect(pythonStack).to.deep.equal(pythonLinuxConfigStack);
 }
 
@@ -247,7 +247,7 @@ export function validatePHPLinuxConfigStack(stacks) {
   expect(phpStack.type).to.equal('Microsoft.Web/availableStacks?osTypeSelected=Linux');
   expect(phpStack.properties.name).to.equal('php');
   expect(phpStack.properties.display).to.equal('PHP');
-  expect(phpStack.properties.majorVersions.length).to.equal(4);
+  expect(phpStack.properties.majorVersions.length).to.equal(5);
   expect(phpStack).to.deep.equal(phpLinuxConfigStack);
 }
 

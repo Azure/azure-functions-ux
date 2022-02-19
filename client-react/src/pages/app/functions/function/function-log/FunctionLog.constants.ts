@@ -43,5 +43,13 @@ export function getQuickPulseQueryEndpoint(): string {
     return CommonConstants.QuickPulseEndpoints.mooncake;
   }
 
+  if (NationalCloudEnvironment.isUSSec()) {
+    return CommonConstants.QuickPulseEndpoints.usSec;
+  }
+
+  if (NationalCloudEnvironment.isUSNat()) {
+    return CommonConstants.QuickPulseEndpoints.usNat;
+  }
+
   return CommonConstants.QuickPulseEndpoints.public;
 }

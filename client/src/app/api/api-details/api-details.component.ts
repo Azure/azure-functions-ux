@@ -276,7 +276,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
   }
 
   openAdvancedEditor() {
-    window.open(`${this.context.scmUrl}/dev/wwwroot/proxies.json`);
+    this._portalService.switchMenuItem({ menuItemId: 'functionAppFiles' });
   }
 
   rrOverriedValueChanges(value: any) {

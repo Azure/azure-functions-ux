@@ -16,19 +16,21 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DeploymentCenterCodeForm from './DeploymentCenterCodeForm';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
-  const { resourceId } = props;
+  const { resourceId, isDataRefreshing } = props;
   const { t } = useTranslation();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const portalContext = useContext(PortalContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterCodeFormBuilder = new DeploymentCenterCodeFormBuilder(t);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLogsDataRefreshing, setIsLogsDataRefreshing] = useState(false);
   const [deployments, setDeployments] = useState<ArmArray<DeploymentProperties> | undefined>(undefined);
   const [deploymentsError, setDeploymentsError] = useState<string | undefined>(undefined);
   const [codeFormData, setCodeFormData] = useState<DeploymentCenterFormData<DeploymentCenterCodeFormData> | undefined>(undefined);
@@ -36,16 +38,15 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
     DeploymentCenterYupValidationSchemaType<DeploymentCenterCodeFormData> | undefined
   >(undefined);
 
-  const fetchData = async () => {
+  const fetchInitialLogsData = async () => {
     portalContext.log(
       getTelemetryInfo('info', 'initialDataRequest', 'submit', {
         publishType: 'code',
       })
     );
-
+    setIsLogsDataRefreshing(true);
     await fetchDeploymentLogs();
-
-    setIsLoading(false);
+    setIsLogsDataRefreshing(false);
   };
 
   const fetchDeploymentLogs = async () => {
@@ -55,7 +56,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
 
     if (deploymentsResponse.metadata.success) {
       setDeployments(deploymentsResponse.data);
-    } else {
+    } else if (!siteStateContext.isKubeApp) {
       const errorMessage = getErrorMessage(deploymentsResponse.metadata.error);
       setDeploymentsError(
         errorMessage ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage) : t('deploymentCenterCodeDeploymentsFailed')
@@ -103,14 +104,13 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
       })
     );
 
-    setIsLoading(true);
-    fetchData();
+    fetchInitialLogsData();
     deploymentCenterContext.refresh();
   };
 
   useEffect(() => {
     if (deploymentCenterContext.resourceId) {
-      fetchData();
+      fetchInitialLogsData();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -130,9 +130,10 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
       deploymentsError={deploymentsError}
       formData={codeFormData}
       formValidationSchema={codeFormValidationSchema}
-      isLoading={isLoading}
       refresh={refresh}
       refreshLogs={refreshLogs}
+      isDataRefreshing={isDataRefreshing}
+      isLogsDataRefreshing={isLogsDataRefreshing}
     />
   );
 };

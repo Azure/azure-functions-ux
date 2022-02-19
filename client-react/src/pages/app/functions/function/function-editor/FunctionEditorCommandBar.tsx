@@ -5,7 +5,7 @@ import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzureP
 import { PortalContext } from '../../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
 import FunctionEditorGetFunctionUrlCallout from './FunctionEditorGetFunctionUrlCallout';
-import { IContextualMenuRenderItem, TooltipHost } from 'office-ui-fabric-react';
+import { IButtonProps, IContextualMenuRenderItem, TooltipHost } from 'office-ui-fabric-react';
 import { UrlObj, UrlType } from './FunctionEditor.types';
 import { toolTipStyle } from './FunctionEditor.styles';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
@@ -212,6 +212,8 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
     }
   };
 
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
+
   useEffect(() => {
     portalCommunicator.updateDirtyState(dirty);
   }, [dirty, portalCommunicator]);
@@ -224,6 +226,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         styles={CommandBarStyles}
         ariaLabel={t('functionEditorCommandBarAriaLabel')}
         buttonAs={CustomCommandBarButton}
+        overflowButtonProps={overflowButtonProps}
       />
       {isDialogVisible && (
         <FunctionEditorGetFunctionUrlCallout

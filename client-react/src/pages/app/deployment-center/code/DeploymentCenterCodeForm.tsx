@@ -27,6 +27,7 @@ import {
   getCodeFunctionAppCodeWorkflowInformation,
   isApiSyncError,
   updateGitHubActionSourceControlPropertiesManually,
+  updateGitHubActionAppSettingsForPython,
 } from '../utility/GitHubActionUtility';
 import {
   getWorkflowFilePath,
@@ -38,10 +39,12 @@ import {
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { AppOs } from '../../../../models/site/site';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
+import { RuntimeStacks } from '../../../../utils/stacks-utils';
+import { Guid } from '../../../../utils/Guid';
+import { KeyValue } from '../../../../models/portal-models';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
-  const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
   const [isRedeployConfirmDialogVisible, setIsRedeployConfirmDialogVisible] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
 
@@ -52,6 +55,10 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const deploymentCenterData = new DeploymentCenterData();
 
   const deployKudu = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+    return siteStateContext.isKubeApp ? setSourceControlsInMetadata(values) : deployKuduUsingSourceControls(values);
+  };
+
+  const deployKuduUsingSourceControls = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
     //(NOTE: stpelleg) Only external git is expected to be manual integration
     // If manual integration is true the site config scm type is set to be external
 
@@ -86,7 +93,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         // workaround.
         portalContext.log(getTelemetryInfo('warning', 'updateSourceControlsWorkaround', 'submit'));
 
-        return updateGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId, payload);
+        return updateGitHubActionSourceControlPropertiesManually(
+          deploymentCenterData,
+          deploymentCenterContext.resourceId,
+          payload,
+          deploymentCenterContext.gitHubToken,
+          siteStateContext.isKubeApp
+        );
       } else {
         if (!updateSourceControlResponse.metadata.success) {
           portalContext.log(
@@ -100,6 +113,26 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         return updateSourceControlResponse;
       }
     }
+  };
+
+  const setSourceControlsInMetadata = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+    portalContext.log(getTelemetryInfo('warning', 'setSourceControlsInMetadata', 'submit'));
+
+    const payload: SiteSourceControlRequestBody = {
+      repoUrl: getRepoUrl(values),
+      branch: values.branch || 'master',
+      isManualIntegration: values.sourceProvider === ScmType.ExternalGit,
+      isGitHubAction: values.buildProvider === BuildProvider.GitHubAction,
+      isMercurial: false,
+    };
+
+    return updateGitHubActionSourceControlPropertiesManually(
+      deploymentCenterData,
+      deploymentCenterContext.resourceId,
+      payload,
+      deploymentCenterContext.gitHubToken,
+      siteStateContext.isKubeApp
+    );
   };
 
   const getRepoUrl = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>): string => {
@@ -228,37 +261,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     return undefined;
   };
 
-  const deploy = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
-    const {
-      sourceProvider,
-      buildProvider,
-      org,
-      repo,
-      branch,
-      workflowOption,
-      runtimeStack,
-      runtimeVersion,
-      runtimeRecommendedVersion,
-      folder,
-    } = values;
-
-    portalContext.log(
-      getTelemetryInfo('info', 'saveDeploymentSettings', 'start', {
-        sourceProvider,
-        buildProvider,
-        org,
-        repo,
-        branch,
-        folder,
-        workflowOption,
-        runtimeStack,
-        runtimeVersion,
-        runtimeRecommendedVersion,
-        publishType: 'code',
-        appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
-        os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
-      })
-    );
+  const deploy = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>, deploymentProperties: KeyValue<any>) => {
+    portalContext.log(getTelemetryInfo('info', 'saveDeploymentSettings', 'start', deploymentProperties));
 
     // NOTE(michinoy): Only initiate writing a workflow configuration file if the branch does not already have it OR
     // the user opted to overwrite it.
@@ -266,6 +270,18 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       values.buildProvider === BuildProvider.GitHubAction &&
       (values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add)
     ) {
+      if (values.runtimeStack === RuntimeStacks.python) {
+        const updateAppSettingsResponse = await updateGitHubActionAppSettingsForPython(
+          deploymentCenterData,
+          deploymentCenterContext.resourceId,
+          siteStateContext.isFunctionApp
+        );
+
+        if (!updateAppSettingsResponse.metadata.success) {
+          return updateAppSettingsResponse;
+        }
+      }
+
       const gitHubActionDeployResponse = await deployGithubActions(values);
       if (!gitHubActionDeployResponse.metadata.success) {
         portalContext.log(
@@ -281,29 +297,48 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     return deployKudu(values);
   };
 
-  const saveGithubActionsDeploymentSettings = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+  const logSaveConclusion = (success: boolean, deploymentProperties: KeyValue<any>) => {
+    const endTime = new Date().getTime();
+    const duration = endTime - deploymentProperties.startTime;
+    deploymentProperties.success = success ? 'true' : 'false';
+    deploymentProperties.duration = `${duration.toLocaleString()}`;
+
+    portalContext.log(getTelemetryInfo('info', 'saveDeploymentSettings', 'end', deploymentProperties));
+  };
+
+  const saveGithubActionsDeploymentSettings = async (
+    values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
+    deploymentProperties: KeyValue<any>
+  ) => {
     const notificationId = portalContext.startNotification(t('settingupDeployment'), t('githubActionSavingSettings'));
-    const deployResponse = await deploy(values);
+    const deployResponse = await deploy(values, deploymentProperties);
     if (deployResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('githubActionSettingsSavedSuccessfully'));
+      logSaveConclusion(true, deploymentProperties);
     } else {
       const errorMessage = getErrorMessage(deployResponse.metadata.error);
       errorMessage
         ? portalContext.stopNotification(notificationId, false, t('settingupDeploymentFailWithStatusMessage').format(errorMessage))
         : portalContext.stopNotification(notificationId, false, t('settingupDeploymentFail'));
+      logSaveConclusion(false, deploymentProperties);
     }
   };
 
-  const saveAppServiceDeploymentSettings = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+  const saveAppServiceDeploymentSettings = async (
+    values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
+    deploymentProperties: KeyValue<any>
+  ) => {
     const notificationId = portalContext.startNotification(t('settingupDeployment'), t('settingupDeployment'));
-    const deployResponse = await deploy(values);
+    const deployResponse = await deploy(values, deploymentProperties);
     if (deployResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('settingupDeploymentSuccess'));
+      logSaveConclusion(true, deploymentProperties);
     } else {
       const errorMessage = getErrorMessage(deployResponse.metadata.error);
       errorMessage
         ? portalContext.stopNotification(notificationId, false, t('settingupDeploymentFailWithStatusMessage').format(errorMessage))
         : portalContext.stopNotification(notificationId, false, t('settingupDeploymentFail'));
+      logSaveConclusion(false, deploymentProperties);
     }
   };
 
@@ -323,21 +358,54 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
     formikActions: FormikActions<DeploymentCenterFormData<DeploymentCenterCodeFormData>>
   ) => {
+    const {
+      sourceProvider,
+      buildProvider,
+      org,
+      repo,
+      branch,
+      workflowOption,
+      runtimeStack,
+      runtimeVersion,
+      runtimeRecommendedVersion,
+      folder,
+    } = values;
     // Only do the save if build provider is set by the user and the scmtype in the config is set to none.
     // If the scmtype in the config is not none, the user should be doing a disconnect operation first.
-    // This check is in place, because the use could set the form props ina dirty state by just modifying the
+    // This check is in place, because the use could set the form props in a dirty state by just modifying the
     // publishing user information.
-    if (
-      values.buildProvider !== BuildProvider.None &&
+    const isMissingOriginalConfigScmType =
       deploymentCenterContext.siteConfig &&
-      deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
-    ) {
+      (!deploymentCenterContext.siteConfig.properties.scmType || deploymentCenterContext.siteConfig.properties.scmType === ScmType.None);
+
+    if (values.buildProvider !== BuildProvider.None && isMissingOriginalConfigScmType) {
       // NOTE(stpelleg):Reset the form values only if deployment settings need to be updated.
       formikActions.resetForm(values);
+      const requestId = Guid.newGuid();
+      const startTime = new Date().getTime();
+      const deploymentProperties: KeyValue<any> = {
+        sourceProvider,
+        buildProvider,
+        org,
+        repo,
+        branch,
+        folder,
+        workflowOption,
+        runtimeStack,
+        runtimeVersion,
+        runtimeRecommendedVersion,
+        publishType: 'code',
+        appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
+        isKubeApp: siteStateContext.isKubeApp ? 'true' : 'false',
+        os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+        requestId,
+        startTime,
+      };
+
       if (values.buildProvider === BuildProvider.GitHubAction) {
-        await saveGithubActionsDeploymentSettings(values);
+        await saveGithubActionsDeploymentSettings(values, deploymentProperties);
       } else {
-        await saveAppServiceDeploymentSettings(values);
+        await saveAppServiceDeploymentSettings(values, deploymentProperties);
       }
     }
   };
@@ -345,8 +413,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const updatePublishingUser = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
     const currentUser = deploymentCenterPublishingContext.publishingUser;
     if (
-      (currentUser && currentUser.properties.publishingUserName !== values.publishingUsername) ||
-      (currentUser && values.publishingPassword && currentUser.properties.publishingPassword !== values.publishingPassword)
+      (currentUser && values.publishingUsername && currentUser.properties.publishingUserName !== values.publishingUsername) ||
+      (currentUser && values.publishingPassword && values.publishingConfirmPassword)
     ) {
       portalContext.log(getTelemetryInfo('info', 'updatePublishingUser', 'submit'));
 
@@ -377,15 +445,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     if ((keyEvent.charCode || keyEvent.keyCode) === KeyCodes.enter) {
       keyEvent.preventDefault();
     }
-  };
-
-  const refreshFunction = () => {
-    hideRefreshConfirmDialog();
-    props.refresh();
-  };
-
-  const hideRefreshConfirmDialog = () => {
-    setIsRefreshConfirmDialogVisible(false);
   };
 
   const redeployFunction = async () => {
@@ -420,22 +479,44 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     let branch = '';
     let repo = '';
     let org = '';
+    if (!siteStateContext.isKubeApp) {
+      const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
+      if (sourceControlDetailsResponse.metadata.success) {
+        branch = sourceControlDetailsResponse.data.properties.branch;
 
-    const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
-    if (sourceControlDetailsResponse.metadata.success) {
-      branch = sourceControlDetailsResponse.data.properties.branch;
-
-      const repoUrlSplit = sourceControlDetailsResponse.data.properties.repoUrl.split('/');
-      if (repoUrlSplit.length >= 2) {
-        org = repoUrlSplit[repoUrlSplit.length - 2];
-        repo = repoUrlSplit[repoUrlSplit.length - 1];
+        const repoUrlSplit = sourceControlDetailsResponse.data.properties.repoUrl
+          ? sourceControlDetailsResponse.data.properties.repoUrl.split('/')
+          : [];
+        if (repoUrlSplit.length >= 2) {
+          org = repoUrlSplit[repoUrlSplit.length - 2];
+          repo = repoUrlSplit[repoUrlSplit.length - 1];
+        }
+      } else {
+        portalContext.log(
+          getTelemetryInfo('error', 'getSourceControls', 'failed', {
+            message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
+          })
+        );
       }
     } else {
-      portalContext.log(
-        getTelemetryInfo('error', 'getSourceControls', 'failed', {
-          message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
-        })
-      );
+      const repoUrl =
+        deploymentCenterContext.configMetadata &&
+        deploymentCenterContext.configMetadata.properties[DeploymentCenterConstants.metadataRepoUrl]
+          ? deploymentCenterContext.configMetadata.properties[DeploymentCenterConstants.metadataRepoUrl]
+          : '';
+      branch =
+        deploymentCenterContext.configMetadata &&
+        deploymentCenterContext.configMetadata.properties[DeploymentCenterConstants.metadataBranch]
+          ? deploymentCenterContext.configMetadata.properties[DeploymentCenterConstants.metadataBranch]
+          : '';
+
+      if (repoUrl && branch) {
+        const repoUrlSplit = repoUrl.split('/');
+        if (repoUrlSplit.length >= 2) {
+          org = repoUrlSplit[repoUrlSplit.length - 2];
+          repo = repoUrlSplit[repoUrlSplit.length - 1];
+        }
+      }
     }
 
     const isProductionSlot =
@@ -529,11 +610,11 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           <div id="deployment-center-command-bar" className={commandBarSticky}>
             <DeploymentCenterCommandBar
               isDirty={formProps.dirty}
-              isLoading={props.isLoading}
+              isDataRefreshing={props.isDataRefreshing}
+              isVstsBuildProvider={formProps.values.buildProvider === BuildProvider.Vsts}
               saveFunction={formProps.submitForm}
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               discardFunction={() => setIsDiscardConfirmDialogVisible(true)}
-              refresh={() => setIsRefreshConfirmDialogVisible(true)}
               redeploy={() => setIsRedeployConfirmDialogVisible(true)}
             />
           </div>
@@ -541,25 +622,11 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             <ConfirmDialog
               primaryActionButton={{
                 title: t('ok'),
-                onClick: refreshFunction,
+                onClick: redeployFunction,
               }}
               defaultActionButton={{
-                title: t('cancel'),
-                onClick: hideRefreshConfirmDialog,
-              }}
-              title={t('deploymentCenterRefreshConfirmTitle')}
-              content={t('deploymentCenterDataLossMessage')}
-              hidden={!isRefreshConfirmDialogVisible}
-              onDismiss={hideRefreshConfirmDialog}
-            />
-            <ConfirmDialog
-              primaryActionButton={{
                 title: t('cancel'),
                 onClick: hideRedeployConfirmDialog,
-              }}
-              defaultActionButton={{
-                title: t('ok'),
-                onClick: redeployFunction,
               }}
               title={t('deploymentCenterRedeployConfirmTitle')}
               content={t('deploymentCenterRedeployConfirmMessage')}

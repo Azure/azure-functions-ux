@@ -75,7 +75,7 @@ export const phpLinuxConfigStack: WebAppConfigStack = {
         ],
         applicationInsights: false,
         isPreview: false,
-        isDeprecated: false,
+        isDeprecated: true,
         isHidden: false,
       },
       {
@@ -99,6 +99,23 @@ export const phpLinuxConfigStack: WebAppConfigStack = {
             displayVersion: '7.3-apache',
             runtimeVersion: 'PHP|7.3',
             isDefault: false,
+            isRemoteDebuggingEnabled: false,
+          },
+        ],
+        applicationInsights: false,
+        isPreview: false,
+        isDeprecated: false,
+        isHidden: false,
+      },
+      {
+        displayVersion: '8.0',
+        runtimeVersion: 'PHP|8.0',
+        isDefault: false,
+        minorVersions: [
+          {
+            displayVersion: '8.0',
+            runtimeVersion: 'PHP|8.0',
+            isDefault: true,
             isRemoteDebuggingEnabled: false,
           },
         ],

@@ -1,9 +1,5 @@
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContext } from './../shared/function-app-context';
-import { BroadcastService } from 'app/shared/services/broadcast.service';
-import { SiteTabIds } from './../shared/models/constants';
-import { BroadcastEvent } from 'app/shared/models/broadcast-event';
-import { TreeUpdateEvent } from './../shared/models/broadcast-event';
 import { Component, OnInit, Input } from '@angular/core';
 import { FunctionAppEditMode } from '../shared/models/function-app-edit-mode';
 
@@ -31,7 +27,7 @@ export class EditModeWarningComponent implements OnInit {
   public readOnlyLinuxCodeElastic = false;
   public isEmpty = true;
 
-  constructor(private _functionAppService: FunctionAppService, private _broadcastService: BroadcastService) {}
+  constructor(private _functionAppService: FunctionAppService) {}
 
   ngOnInit() {
     if (this.context) {
@@ -72,13 +68,5 @@ export class EditModeWarningComponent implements OnInit {
         }
       });
     }
-  }
-
-  onFunctionAppSettingsClicked() {
-    this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
-      operation: 'navigate',
-      resourceId: this.context.site.id,
-      data: SiteTabIds.functionRuntime,
-    });
   }
 }

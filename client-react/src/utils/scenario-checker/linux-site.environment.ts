@@ -1,5 +1,7 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
+import { isLinuxApp } from '../arm-utils';
+
 export class LinuxSiteEnvironment extends Environment {
   public name = 'LinuxSite';
 
@@ -99,7 +101,7 @@ export class LinuxSiteEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.externalSource] = {
       id: ScenarioIds.externalSource,
-      runCheck: () => ({ status: 'disabled' }),
+      runCheck: () => ({ status: 'enabled' }),
     };
 
     this.scenarioChecks[ScenarioIds.addWebServerLogging] = {
@@ -176,13 +178,18 @@ export class LinuxSiteEnvironment extends Environment {
         };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.azureStorageMountPreview] = {
+      id: ScenarioIds.azureStorageMountPreview,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
-    if (input && input.site && input.site.kind) {
-      return input.site.kind.toLowerCase().indexOf('linux') > -1;
-    }
-
-    return false;
+    return !!input && !!input.site && isLinuxApp(input.site);
   }
 }

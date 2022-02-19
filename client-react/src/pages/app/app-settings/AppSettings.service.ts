@@ -9,15 +9,15 @@ import MakeArmCall from '../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import PortalCommunicator from '../../../portal-communicator';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
+import { ConfigKeyVaultReferenceList } from './AppSettings.types';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
-  const [webConfig, metadata, slotConfigNames, connectionStrings, applicationSettings, azureStorageMounts] = await Promise.all([
+  const [webConfig, metadata, slotConfigNames, connectionStrings, applicationSettings] = await Promise.all([
     SiteService.fetchWebConfig(resourceId),
     SiteService.fetchMetadata(resourceId),
     SiteService.fetchSlotConfigNames(resourceId),
     SiteService.fetchConnectionStrings(resourceId),
     SiteService.fetchApplicationSettings(resourceId),
-    SiteService.fetchAzureStorageMounts(resourceId),
   ]);
 
   return {
@@ -26,7 +26,6 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     slotConfigNames,
     connectionStrings,
     applicationSettings,
-    azureStorageMounts,
   };
 };
 
@@ -46,8 +45,8 @@ export const fetchSlots = (resourceId: string) => {
   return SiteService.fetchSlots(resourceId);
 };
 
-export const updateSite = (resourceId: string, site: ArmObj<Site>) => {
-  return SiteService.updateSite(resourceId, site);
+export const updateSite = (resourceId: string, site: ArmObj<Site>, configSettingsToIgnore?: string[]) => {
+  return SiteService.updateSite(resourceId, site, configSettingsToIgnore);
 };
 
 export const updateWebConfig = (resourceId: string, siteConfig: ArmObj<SiteConfig>) => {
@@ -94,7 +93,7 @@ export const getConnectionStringReference = async (
 
 export const getAllAppSettingReferences = async (resourceId: string) => {
   const id = `${resourceId}/config/configreferences/appsettings`;
-  return MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
+  return MakeArmCall<ArmObj<ConfigKeyVaultReferenceList>>({
     resourceId: id,
     commandName: 'getAllAppSettingReferences',
     method: 'GET',
@@ -103,7 +102,7 @@ export const getAllAppSettingReferences = async (resourceId: string) => {
 
 export const getAllConnectionStringsReferences = async (resourceId: string) => {
   const id = `${resourceId}/config/configreferences/connectionstrings`;
-  return MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
+  return MakeArmCall<ArmObj<ConfigKeyVaultReferenceList>>({
     resourceId: id,
     commandName: 'getAllConnectionStringsReferences',
     method: 'GET',

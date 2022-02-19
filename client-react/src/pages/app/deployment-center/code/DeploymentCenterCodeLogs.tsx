@@ -11,7 +11,7 @@ import {
 } from '../DeploymentCenter.types';
 import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured } from '../DeploymentCenter.styles';
+import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured, deploymentCenterCodeLogsBox } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
@@ -34,7 +34,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
-  const { deployments, deploymentsError, isLoading, goToSettings, refreshLogs } = props;
+  const { deployments, deploymentsError, isLogsDataRefreshing, goToSettings, refreshLogs } = props;
   const { t } = useTranslation();
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
@@ -74,7 +74,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
         </Link>
       ),
       author: deployment.properties.author,
-      checkinMessage: deployment.properties.message,
+      message: deployment.properties.message,
       status: deployment.properties.active
         ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
         : `${getStatusString(deployment.properties.status, deployment.properties.progress)}`,
@@ -123,7 +123,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 75, maxWidth: 100 },
     { key: 'author', name: t('commitAuthor'), fieldName: 'author', minWidth: 75, maxWidth: 200 },
     { key: 'status', name: t('status'), fieldName: 'status', minWidth: 100, maxWidth: 150 },
-    { key: 'checkinMessage', name: t('checkinMessage'), fieldName: 'checkinMessage', minWidth: 210 },
+    { key: 'message', name: t('message'), fieldName: 'message', minWidth: 210 },
   ];
 
   const groups: IGroup[] = getItemGroups(items);
@@ -153,21 +153,22 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
 
   return (
     <>
-      {isLoading ? (
+      <DeploymentCenterCodeLogsTimer refreshLogs={refreshLogs} />
+
+      {isLogsDataRefreshing ? (
         getProgressIndicator()
       ) : deploymentsError ? (
         <div className={deploymentCenterLogsError}>{deploymentsError}</div>
       ) : deployments ? (
-        <>
-          <DeploymentCenterCodeLogsTimer refreshLogs={refreshLogs} />
+        <div className={deploymentCenterCodeLogsBox}>
           <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
           {items.length === 0 && getZeroDayContent()}
-        </>
+        </div>
       ) : (
         getProgressIndicator()
       )}
       <CustomPanel isOpen={isLogPanelOpen} onDismiss={dismissLogPanel} type={PanelType.medium}>
-        <DeploymentCenterCommitLogs commitId={currentCommitId} />
+        <DeploymentCenterCommitLogs commitId={currentCommitId} dismissLogPanel={dismissLogPanel} />
       </CustomPanel>
     </>
   );

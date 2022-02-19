@@ -8,17 +8,15 @@ import { MessageBarType } from 'office-ui-fabric-react/lib';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
-import { getApplicationSettingReference } from '../AppSettings.service';
+import { getAllAppSettingReferences } from '../AppSettings.service';
 import { KeyVaultReference } from '../../../../models/site/config';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import KeyVaultReferenceComponent from '../KeyVaultReferenceComponent';
+import { getKeyVaultReferenceFromList } from '../AppSettings.utils';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;
@@ -32,32 +30,23 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
   const { updateAppSetting, otherAppSettings, closeBlade, appSetting, disableSlotSetting, site } = props;
   const [nameError, setNameError] = useState('');
   const [currentAppSetting, setCurrentAppSetting] = useState(appSetting);
-  const [currentAppSettingReference, setCurrentAppSettingReference] = useState<
-    ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>
-  >({
-    id: '',
-    name: '',
-    type: '',
-    location: '',
-    properties: {
-      keyToReferenceStatuses: {},
-    },
-  });
+  const [currentAppSettingReference, setCurrentAppSettingReference] = useState<KeyVaultReference | undefined>(undefined);
 
   const isLinux = isLinuxApp(site);
 
   const { t } = useTranslation();
 
   const getKeyVaultReference = async () => {
-    const keyVaultReference = await getApplicationSettingReference(site.id, currentAppSetting.name);
-    if (keyVaultReference.metadata.success) {
-      setCurrentAppSettingReference(keyVaultReference.data);
-    } else {
-      LogService.error(
-        LogCategories.appSettings,
-        'getApplicationSettingKeyVaultReference',
-        `Failed to get keyVault reference: ${getErrorMessageOrStringify(keyVaultReference.metadata.error)}`
-      );
+    // NOTE (krmitta): The backend API to get a single reference fails if the app-setting name contains special characters.
+    // There will be a fix for that in ANT96 but in the meantime we need to use all the references and then get the one needed.
+    const allKeyVaultReferences = await getAllAppSettingReferences(site.id);
+    const keyVaultReference = getKeyVaultReferenceFromList(
+      allKeyVaultReferences,
+      currentAppSetting.name,
+      'getApplicationSettingKeyVaultReference'
+    );
+    if (keyVaultReference) {
+      setCurrentAppSettingReference(keyVaultReference);
     }
   };
 
@@ -89,8 +78,9 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     return (
       appSetting.name === currentAppSetting.name &&
       appSetting.value === currentAppSetting.value &&
-      currentAppSettingReference &&
-      currentAppSetting.name in currentAppSettingReference.properties.keyToReferenceStatuses
+      !!currentAppSettingReference &&
+      !!currentAppSettingReference.secretName &&
+      currentAppSetting.name.toLowerCase() === currentAppSettingReference.secretName.toLowerCase()
     );
   };
 
@@ -157,7 +147,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
           label={t('sticky')}
           id="app-settings-edit-sticky"
           disabled={disableSlotSetting}
-          defaultChecked={currentAppSetting.sticky}
+          defaultChecked={!!currentAppSetting.sticky}
           onChange={updateAppSettingSticky}
           styles={{
             root: formElementStyle,
@@ -179,11 +169,8 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
           secondaryButton={actionBarSecondaryButtonProps}
         />
       </form>
-      {isAppSettingReferenceVisible() && isValidKeyVaultReference() && (
-        <KeyVaultReferenceComponent
-          resourceId={site.id}
-          appSettingReference={currentAppSettingReference.properties.keyToReferenceStatuses[currentAppSetting.name]}
-        />
+      {isAppSettingReferenceVisible() && isValidKeyVaultReference() && !!currentAppSettingReference && (
+        <KeyVaultReferenceComponent resourceId={site.id} appSettingReference={currentAppSettingReference} />
       )}
     </>
   );

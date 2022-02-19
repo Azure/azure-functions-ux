@@ -1,5 +1,6 @@
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { LogCategories } from './../../../shared/models/constants';
 import { ServerFarm } from '../../../shared/models/server-farm';
 import { ArmObj, ResourceId, Sku } from '../../../shared/models/arm/arm-obj';
 import { PlanService } from '../../../shared/services/plan.service';
@@ -23,7 +24,7 @@ export abstract class DV3SeriesPriceSpec extends PriceSpec {
 
   protected abstract _matchSku(sku: Sku): boolean;
   protected abstract _shouldHideForNewPlan(data: PlanSpecPickerData): boolean;
-  protected abstract _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean;
+  protected abstract _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>, containsJbossSite: boolean): boolean;
 
   private _checkIfSkuEnabledOnStamp(resourceId: ResourceId) {
     if (this.state !== 'hidden') {
@@ -42,13 +43,24 @@ export abstract class DV3SeriesPriceSpec extends PriceSpec {
 
   private _checkIfSkuEnabledInRegion(subscriptionId: ResourceId, location: string, isLinux: boolean, isXenonWorkersEnabled: boolean) {
     if (this.state !== 'hidden' && this.state !== 'disabled') {
-      return this._planService.getAvailableGeoRegionsForSku(subscriptionId, this._sku, isLinux, isXenonWorkersEnabled).do(geoRegions => {
-        if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
-          this.state = 'disabled';
-          this.disabledMessage = this._skuNotAvailableMessage;
-          this.disabledInfoLink = this._skuNotAvailableLink;
-        }
-      });
+      return this._planService
+        .getAvailableGeoRegionsForSku(subscriptionId, this._sku, isLinux, isXenonWorkersEnabled)
+        .do(geoRegions => {
+          if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
+            this.state = 'disabled';
+            this.disabledMessage = this._skuNotAvailableMessage;
+            this.disabledInfoLink = this._skuNotAvailableLink;
+          }
+        })
+        .catch(e => {
+          this.skuAvailabilityCheckFailed = true;
+          this._logService.error(
+            LogCategories.specPicker,
+            '/get-available-georegions-for-sku',
+            `Failed to get available georegions for sku: ${e}`
+          );
+          return Observable.of(null);
+        });
     }
 
     return Observable.of(null);
@@ -65,11 +77,11 @@ export abstract class DV3SeriesPriceSpec extends PriceSpec {
   }
 
   runInitialization(input: PriceSpecInput) {
-    if (input.plan) {
-      this._updateHardwareItemsList(input.plan.properties.hyperV);
-      this.state = this._shouldHideForExistingPlan(input.plan) ? 'hidden' : this.state;
+    if (input.planDetails) {
+      this._updateHardwareItemsList(input.planDetails.plan.properties.hyperV);
+      this.state = this._shouldHideForExistingPlan(input.planDetails.plan, input.planDetails.containsJbossSite) ? 'hidden' : this.state;
 
-      return this._checkIfSkuEnabledOnStamp(input.plan.id).switchMap(_ => {
+      return this._checkIfSkuEnabledOnStamp(input.planDetails.plan.id).switchMap(_ => {
         return this.checkIfDreamspark(input.subscriptionId);
       });
     } else if (input.specPickerInput.data) {

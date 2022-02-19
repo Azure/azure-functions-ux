@@ -31,7 +31,6 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [hasWritePermissions, setHasWritePermissions] = useState(true);
   const [apiFailure, setApiFailure] = useState(false);
-  const [environmentHasFunctions, setEnvironmentHasFunctions] = useState<boolean | undefined>(undefined);
 
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
@@ -88,7 +87,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
       );
       const notificationId = portalContext.startNotification(t('staticSite_configUpdating'), t('staticSite_configUpdating'));
       if (environmentSettingsResponse.metadata.success) {
-        setSelectedEnvironmentVariableResponse(environmentSettingsResponse.data);
+        fetchEnvironmentVariables(environmentResourceId);
         portalContext.stopNotification(notificationId, true, t('staticSite_configUpdateSuccess'));
       } else {
         const errorMessage = getErrorMessageOrStringify(environmentSettingsResponse.metadata.error);
@@ -103,25 +102,9 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     }
   };
 
-  const fetchFunctionsForEnvironment = async (environmentResourceId: string) => {
-    setEnvironmentHasFunctions(undefined);
-    const functionsResponse = await EnvironmentService.fetchFunctions(environmentResourceId);
-    if (functionsResponse.metadata.success) {
-      setEnvironmentHasFunctions(functionsResponse.data.value.length > 0);
-    } else {
-      setApiFailure(true);
-      LogService.error(
-        LogCategories.staticSiteConfiguration,
-        'fetchFunctions',
-        `Failed to fetch functions: ${getErrorMessageOrStringify(functionsResponse.metadata.error)}`
-      );
-    }
-  };
-
   const fetchDataOnEnvironmentChange = async (environmentResourceId: string) => {
     setApiFailure(false);
     fetchEnvironmentVariables(environmentResourceId);
-    fetchFunctionsForEnvironment(environmentResourceId);
   };
 
   const refresh = () => {
@@ -145,7 +128,6 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         isLoading={initialLoading || isRefreshing}
         hasWritePermissions={hasWritePermissions}
         apiFailure={apiFailure}
-        environmentHasFunctions={environmentHasFunctions}
       />
     </ConfigurationContext.Provider>
   );

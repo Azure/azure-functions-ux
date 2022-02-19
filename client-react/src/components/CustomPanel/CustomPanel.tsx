@@ -1,9 +1,9 @@
+import { IPanelProps, Overlay, Panel as OfficePanel, PanelType } from 'office-ui-fabric-react';
 import React, { useContext } from 'react';
-import { Panel as OfficePanel, IPanelProps, PanelType, Overlay } from 'office-ui-fabric-react';
-import { ReactComponent as CloseSvg } from '../../images/Common/close.svg';
 import { useTranslation } from 'react-i18next';
-import { panelStyle, panelHeaderStyle, panelBodyStyle, closeButtonStyle } from './CustomPanel.styles';
+import { ReactComponent as CloseSvg } from '../../images/Common/close.svg';
 import { ThemeContext } from '../../ThemeContext';
+import { closeButtonStyle, closeButtonSvgStyle, panelBodyStyle, panelHeaderStyle, panelStyle } from './CustomPanel.styles';
 
 type IPanelPropsReduced = Pick<IPanelProps, Exclude<keyof IPanelProps, 'styles' | 'closeButtonAriaLabel' | 'onRenderNavigationContent'>>;
 
@@ -25,11 +25,14 @@ const CustomPanel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
   }
 
   const onRenderNavigationContent = panelProps => {
-    const onClick = panelProps.onDismiss && (() => panelProps.onDismiss!());
+    const onClick = panelProps.onDismiss && (() => panelProps.onDismiss());
+
     return (
       <div className={panelHeaderStyle}>
         {headerText && <h3>{headerText}</h3>}
-        <CloseSvg onClick={onClick} role="button" aria-label={t('close')} className={closeButtonStyle(theme)} />
+        <button onClick={onClick} className={closeButtonStyle(theme)}>
+          <CloseSvg role="button" aria-label={t('close')} className={closeButtonSvgStyle(theme)} focusable="true" />
+        </button>
         {!!headerContent && headerContent}
       </div>
     );

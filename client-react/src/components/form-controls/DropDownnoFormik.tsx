@@ -22,7 +22,7 @@ interface CustomDropdownProps {
 }
 
 const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
-  const { onChange, errorMessage, id, options, label, widthOverride, onPanel, ...rest } = props;
+  const { onChange, errorMessage, id, options, label, widthOverride, onPanel, required, ...rest } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
 
@@ -39,6 +39,9 @@ const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
         {...rest}
         styles={dropdownStyleOverrides(theme, fullpage, widthOverride)}
         required={false} // ReactiveFormControl will handle displaying required
+        //NOTE(michinoy): even though we are handling the required display marker at
+        //the field level, for a11y we need to have the aria-required tag set.
+        aria-required={!!required}
       />
     </ReactiveFormControl>
   );

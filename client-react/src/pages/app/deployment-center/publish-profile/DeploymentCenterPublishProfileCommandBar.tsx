@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ICommandBarItemProps, CommandBar } from 'office-ui-fabric-react';
+import { ICommandBarItemProps, CommandBar, IButtonProps } from 'office-ui-fabric-react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { DeploymentCenterPublishProfileCommandBarProps } from '../DeploymentCenter.types';
 import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
@@ -14,8 +14,10 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublishProfileCommandBarProps> = props => {
   const { resetApplicationPassword } = props;
   const { t } = useTranslation();
+
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
   const [isResetCalloutHidden, setIsResetCalloutHidden] = useState<boolean>(true);
 
   const downloadProfile = async () => {
@@ -42,7 +44,7 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'profile.xml';
+    a.download = 'profile.publishsettings';
     a.click();
   };
 
@@ -110,6 +112,7 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
         styles={CommandBarStyles}
         ariaLabel={t('managePublishProfileCommandBarAriaLabel')}
         buttonAs={CustomCommandBarButton}
+        overflowButtonProps={overflowButtonProps}
       />
       <CustomFocusTrapCallout
         target="#manage-publish-profile-reset"

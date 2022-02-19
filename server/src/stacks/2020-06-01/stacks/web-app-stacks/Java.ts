@@ -24,7 +24,8 @@ export const javaStack: WebAppStack = {
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -37,7 +38,60 @@ export const javaStack: WebAppStack = {
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 11.0.9',
+          value: '11.0.9',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              runtimeVersion: '',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+            windowsRuntimeSettings: {
+              runtimeVersion: '11.0.9',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 11.0.8',
+          value: '11.0.8',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '11.0.8',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -56,7 +110,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -69,7 +124,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '11.0.7',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -88,7 +144,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -101,7 +158,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '11.0.6',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -120,7 +178,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -132,7 +191,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '11.0.5_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -150,7 +210,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '11.0.3_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -168,7 +229,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '11.0.2_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -194,7 +256,8 @@ export const javaStack: WebAppStack = {
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -207,7 +270,46 @@ export const javaStack: WebAppStack = {
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.8.0_282',
+          value: '8.0.282',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8.0_282',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.8.0_265',
+          value: '8.0.265',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8.0_265',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -226,7 +328,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -238,7 +341,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_252',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -257,7 +361,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -269,7 +374,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_242',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -288,7 +394,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -300,7 +407,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_232_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -318,7 +426,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_212_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -336,7 +445,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_202_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -355,7 +465,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -372,7 +483,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_181_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -391,7 +503,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -408,7 +521,8 @@ export const javaStack: WebAppStack = {
               runtimeVersion: '1.8.0_172_ZULU',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -427,7 +541,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -442,9 +557,11 @@ export const javaStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '1.8.0_144', // NOTE (allisonm): Azul 8 runtimes versions here and lower omit the suffix: _ZULU
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -463,7 +580,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -478,9 +596,11 @@ export const javaStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '1.8.0_102',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -496,9 +616,11 @@ export const javaStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '1.8.0_92',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -517,7 +639,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -535,7 +658,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -553,7 +677,8 @@ export const javaStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -575,10 +700,49 @@ export const javaStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '1.7',
               isAutoUpdate: true,
-              isDeprecated: true,
+              isDeprecated: false,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              endOfLifeDate: java7EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.7.0_292',
+          value: '7.0.292',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.7.0_292',
+              isDeprecated: false,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              endOfLifeDate: java7EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.7.0_272',
+          value: '7.0.272',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.7.0_272',
+              isDeprecated: false,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -592,11 +756,12 @@ export const javaStack: WebAppStack = {
           value: '7.0.262',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '1.7.0_262_ZULU',
-              isDeprecated: true,
+              runtimeVersion: '1.7.0_262',
+              isDeprecated: false,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -615,6 +780,7 @@ export const javaStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -633,6 +799,7 @@ export const javaStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -651,6 +818,7 @@ export const javaStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -669,6 +837,7 @@ export const javaStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -686,6 +855,7 @@ export const javaStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -703,6 +873,7 @@ export const javaStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: false,

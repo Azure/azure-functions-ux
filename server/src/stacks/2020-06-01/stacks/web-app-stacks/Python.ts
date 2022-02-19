@@ -12,6 +12,25 @@ export const pythonStack: WebAppStack = {
       value: '3',
       minorVersions: [
         {
+          displayText: 'Python 3.9',
+          value: '3.9',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              runtimeVersion: 'PYTHON|3.9',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '3.9',
+              },
+              isHidden: false,
+              isEarlyAccess: true,
+            },
+          },
+        },
+        {
           displayText: 'Python 3.8',
           value: '3.8',
           stackSettings: {

@@ -12,6 +12,7 @@ import { BindingInfo } from '../../../../../../models/functions/function-binding
 import { FunctionInfo } from '../../../../../../models/functions/function-info';
 import PortalCommunicator from '../../../../../../portal-communicator';
 import { PortalContext } from '../../../../../../PortalContext';
+import { BindingManager } from '../../../../../../utils/BindingManager';
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import LogService from '../../../../../../utils/LogService';
 import { ArmFunctionDescriptor } from '../../../../../../utils/resourceDescriptors';
@@ -55,7 +56,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
   const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
 
   const currentBinding = allBindings.find(
-    b => b.type === currentBindingInfo.type && b.direction === getBindingDirection(currentBindingInfo)
+    b => BindingManager.isBindingTypeEqual(b.type, currentBindingInfo.type) && b.direction === getBindingDirection(currentBindingInfo)
   ) as Binding;
 
   if (!currentBinding) {
@@ -63,7 +64,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
     return <div />;
   }
 
-  const builder = new BindingFormBuilder([currentBindingInfo], [currentBinding], functionAppId, t);
+  const builder = new BindingFormBuilder([currentBindingInfo], [currentBinding], functionAppId, t, false);
   const initialFormValues: BindingEditorFormValues = builder.getInitialFormValues();
 
   const submit = (newBindingInfo: BindingInfo) => {

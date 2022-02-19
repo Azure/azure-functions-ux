@@ -2,7 +2,7 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 
 const dotnetCore3Point0EOL = new Date(2020, 3, 3).toString();
 const dotnetCore2Point2EOL = new Date(2019, 12, 23).toString();
-const dotnetCore2Point1EOL = new Date(20201, 8, 21).toString();
+const dotnetCore2Point1EOL = new Date(2021, 7, 21).toString();
 const dotnetCore2Point0EOL = new Date(2018, 10, 1).toString();
 const dotnetCore1EOL = new Date(2019, 6, 27).toString();
 
@@ -12,8 +12,46 @@ export const dotnetStack: WebAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
+      displayText: '.NET 6',
+      value: 'dotnet6',
+      minorVersions: [
+        {
+          displayText: '.NET 6',
+          value: '6',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: 'v6.0',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '6.0.x',
+                notSupportedInCreates: true,
+              },
+              isEarlyAccess: true,
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'DOTNETCORE|6.0',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '6.0.x',
+                notSupportedInCreates: true,
+              },
+              isEarlyAccess: true,
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: '.NET 5',
-      value: '5',
+      value: 'dotnet5',
       minorVersions: [
         {
           displayText: '.NET 5',
@@ -21,7 +59,6 @@ export const dotnetStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v5.0',
-              isEarlyAccess: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -33,7 +70,6 @@ export const dotnetStack: WebAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|5.0',
-              isEarlyAccess: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -49,7 +85,7 @@ export const dotnetStack: WebAppStack = {
     },
     {
       displayText: '.NET Core 3',
-      value: '3',
+      value: 'dotnetcore3',
       minorVersions: [
         {
           displayText: '.NET Core 3.1 (LTS)',
@@ -156,6 +192,7 @@ export const dotnetStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '2.1',
               remoteDebuggingSupported: false,
+              isDeprecated: true,
               appInsightsSettings: {
                 isSupported: true,
               },
@@ -168,6 +205,7 @@ export const dotnetStack: WebAppStack = {
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|2.1',
               remoteDebuggingSupported: false,
+              isDeprecated: true,
               appInsightsSettings: {
                 isSupported: false,
               },
@@ -215,7 +253,7 @@ export const dotnetStack: WebAppStack = {
     },
     {
       displayText: '.NET Core 1',
-      value: '1',
+      value: 'dotnetcore1',
       minorVersions: [
         {
           displayText: '.NET Core 1.1',
@@ -285,7 +323,7 @@ export const dotnetStack: WebAppStack = {
     },
     {
       displayText: 'ASP.NET V4',
-      value: 'v4',
+      value: 'aspdotnetv4',
       minorVersions: [
         {
           displayText: 'ASP.NET V4.8',
@@ -308,7 +346,7 @@ export const dotnetStack: WebAppStack = {
     },
     {
       displayText: 'ASP.NET V3',
-      value: 'v3',
+      value: 'aspdotnetv3',
       minorVersions: [
         {
           displayText: 'ASP.NET V3.5',

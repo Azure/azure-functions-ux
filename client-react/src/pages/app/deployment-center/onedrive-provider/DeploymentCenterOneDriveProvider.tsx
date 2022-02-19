@@ -30,7 +30,6 @@ const DeploymentCenterOneDriveProvider: React.FC<DeploymentCenterOneDriveProvide
       {accountUser && accountUser.createdBy.user.displayName && (
         <>
           <Field
-            id="deployment-center-settings-folder-option"
             label={t('deploymentCenterCodeFolder')}
             name="folder"
             component={Dropdown}
@@ -40,6 +39,7 @@ const DeploymentCenterOneDriveProvider: React.FC<DeploymentCenterOneDriveProvide
             placeholder={t('deploymentCenterCodeFolderPlaceholder')}
             required={true}
             isLoading={loadingFolders}
+            aria-required={true}
           />
         </>
       )}

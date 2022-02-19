@@ -6,9 +6,29 @@ export const pythonCreateStack: WebAppCreateStack = {
   sortOrder: 2,
   versions: [
     {
+      displayText: 'Python 3.9',
+      value: '3.9',
+      sortOrder: 0,
+      supportedPlatforms: [
+        {
+          os: 'linux',
+          isPreview: false,
+          isDeprecated: false,
+          isHidden: false,
+          applicationInsightsEnabled: false,
+          remoteDebuggingEnabled: false,
+          runtimeVersion: 'PYTHON|3.9',
+          sortOrder: 0,
+          githubActionSettings: {
+            supported: true,
+          },
+        },
+      ],
+    },
+    {
       displayText: 'Python 3.8',
       value: '3.8',
-      sortOrder: 0,
+      sortOrder: 1,
       supportedPlatforms: [
         {
           os: 'linux',
@@ -28,7 +48,7 @@ export const pythonCreateStack: WebAppCreateStack = {
     {
       displayText: 'Python 3.7',
       value: '3.7',
-      sortOrder: 1,
+      sortOrder: 2,
       supportedPlatforms: [
         {
           os: 'linux',
@@ -48,7 +68,7 @@ export const pythonCreateStack: WebAppCreateStack = {
     {
       displayText: 'Python 3.6',
       value: '3.6',
-      sortOrder: 2,
+      sortOrder: 3,
       supportedPlatforms: [
         {
           os: 'linux',

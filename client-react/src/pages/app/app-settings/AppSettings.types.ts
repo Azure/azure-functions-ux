@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { AvailableStack } from '../../../models/available-stacks';
-import { AzureStorageMount, SiteConfig, VirtualApplication } from '../../../models/site/config';
+import { AzureStorageMount, KeyVaultReference, SiteConfig, VirtualApplication } from '../../../models/site/config';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site, PublishingCredentialPolicies } from '../../../models/site/site';
 import { HostStatus } from '../../../models/functions/host-status';
@@ -14,14 +14,14 @@ export interface Permissions {
 export interface FormAppSetting {
   name: string;
   value: string;
-  sticky: boolean;
+  sticky?: boolean;
 }
 
 export interface FormConnectionString {
   name: string;
   value: string;
   type: string;
-  sticky: boolean;
+  sticky?: boolean;
 }
 
 export interface FormAzureStorageMounts extends AzureStorageMount {
@@ -89,7 +89,14 @@ export interface AppSettingsAsyncData {
   functionsCount: AsyncObj<number>;
 }
 
-export interface AppSettingsFormProps extends FormikProps<AppSettingsFormValues> {
+export interface ServiceLinkerProps {
+  onResourceConnectionClick?: () => void;
+  onServiceLinkerUpdateClick?: (settingName: string) => void;
+  onServiceLinkerDeleteClick?: (settingName: string) => void;
+}
+
+export type AppSettingsFormikPropsCombined = FormikProps<AppSettingsFormValues> & ServiceLinkerProps;
+export interface AppSettingsFormProps extends AppSettingsFormikPropsCombined {
   asyncData: AppSettingsAsyncData;
 }
 
@@ -129,4 +136,13 @@ export interface ShareItem {
   metadata?: { [propertyName: string]: string };
   name: string;
   properties: ShareProperties;
+}
+
+export enum KeyVaultReferenceStatus {
+  resolved = 'resolved',
+  initialized = 'initialized',
+}
+
+export interface ConfigKeyVaultReferenceList {
+  keyToReferenceStatuses: { [name: string]: KeyVaultReference };
 }

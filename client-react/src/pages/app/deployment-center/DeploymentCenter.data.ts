@@ -73,6 +73,10 @@ export default class DeploymentCenterData {
     return SiteService.getLogDetails(deploymentId, logId);
   };
 
+  public redeployCommit = (resourceId: string, commitId: string) => {
+    return SiteService.redeployCommit(resourceId, commitId);
+  };
+
   public getSourceControlDetails = (resourceId: string) => {
     return SiteService.getSourceControlDetails(resourceId);
   };
@@ -97,8 +101,8 @@ export default class DeploymentCenterData {
     return GitHubService.getToken(redirectUrl);
   };
 
-  public getGitHubOrganizations = (gitHubToken: string) => {
-    return GitHubService.getOrganizations(gitHubToken);
+  public getGitHubOrganizations = (gitHubToken: string, logger?: (page, response) => void) => {
+    return GitHubService.getOrganizations(gitHubToken, logger);
   };
 
   public getGitHubOrgRepositories = (repositories_url: string, gitHubToken: string, logger?: (page, response) => void) => {
@@ -157,6 +161,10 @@ export default class DeploymentCenterData {
       providerToken.refreshToken,
       providerToken.environment
     );
+  };
+
+  public resetToken = (gitHubToken: string) => {
+    return GitHubService.resetToken(gitHubToken);
   };
 
   public getUserSourceControls = () => {
@@ -284,5 +292,13 @@ export default class DeploymentCenterData {
 
   public getAzureDevOpsBranches = (accountName: string, repositoryId: string) => {
     return this._azureDevOpsService.getBranchesForRepo(accountName, repositoryId);
+  };
+
+  public listWorkflowRuns = (gitHubToken: string, org: string, repo: string, workflowFileName: string) => {
+    return GitHubService.listWorkflowRuns(gitHubToken, org, repo, workflowFileName);
+  };
+
+  public cancelWorkflowRun = (gitHubToken: string, url: string) => {
+    return GitHubService.cancelWorkflowRun(gitHubToken, url);
   };
 }

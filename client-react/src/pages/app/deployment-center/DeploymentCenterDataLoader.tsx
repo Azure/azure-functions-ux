@@ -27,6 +27,8 @@ import { PublishingCredentialPolicies } from '../../../models/site/site';
 import DeploymentCenterContainerDataLoader from './container/DeploymentCenterContainerDataLoader';
 import DeploymentCenterCodeDataLoader from './code/DeploymentCenterCodeDataLoader';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
+import HostingEnvironmentService from '../../../ApiHelpers/HostingEnvironmentService';
+import { InternalLoadBalancingMode } from '../../../models/hostingEnvironment/hosting-environment';
 
 enum SourceControlTypes {
   oneDrive = 'onedrive',
@@ -58,6 +60,8 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [basicPublishingCredentialsPolicies, setBasicPublishingCredentialsPolicies] = useState<PublishingCredentialPolicies | undefined>(
     undefined
   );
+  const [isIlbASE, setIsIlbASE] = useState<boolean>(false);
+  const [isDataRefreshing, setIsDataRefreshing] = useState(true);
 
   const processPublishProfileResponse = (publishProfileResponse: HttpResponseObject<string>) => {
     if (publishProfileResponse.metadata.success) {
@@ -98,6 +102,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
 
   const fetchData = async () => {
     portalContext.log(getTelemetryInfo('info', 'initialDataRequest', 'submit'));
+    setIsDataRefreshing(true);
 
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
@@ -106,6 +111,22 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getConfigMetadataRequest = deploymentCenterData.getConfigMetadata(resourceId);
     const getBasicPublishingCredentialsPoliciesRequest = deploymentCenterData.getBasicPublishingCredentialsPolicies(resourceId);
 
+    const requests: Promise<any>[] = [
+      writePermissionRequest,
+      getPublishingUserRequest,
+      getSiteConfigRequest,
+      getConfigMetadataRequest,
+      getUserSourceControlsRequest,
+    ];
+
+    if (!siteStateContext.isKubeApp) {
+      requests.push(getBasicPublishingCredentialsPoliciesRequest);
+    }
+
+    if (!!siteStateContext.site && !!siteStateContext.site.properties.hostingEnvironmentId) {
+      requests.push(HostingEnvironmentService.fetchHostingEnvironment(siteStateContext.site.properties.hostingEnvironmentId));
+    }
+
     const [
       writePermissionResponse,
       publishingUserResponse,
@@ -113,14 +134,8 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       configMetadataResponse,
       userSourceControlsResponse,
       basicPublishingCredentialsPoliciesResponse,
-    ] = await Promise.all([
-      writePermissionRequest,
-      getPublishingUserRequest,
-      getSiteConfigRequest,
-      getConfigMetadataRequest,
-      getUserSourceControlsRequest,
-      getBasicPublishingCredentialsPoliciesRequest,
-    ]);
+      hostingEnvironmentResponse,
+    ] = await Promise.all(requests);
 
     if (userSourceControlsResponse.metadata.success) {
       setUserSourceControlTokens(userSourceControlsResponse.data);
@@ -133,9 +148,32 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       );
     }
 
-    if (basicPublishingCredentialsPoliciesResponse.metadata.success) {
+    if (
+      !!siteStateContext.site &&
+      !!siteStateContext.site.properties.hostingEnvironmentId &&
+      !!hostingEnvironmentResponse &&
+      hostingEnvironmentResponse.metadata.success
+    ) {
+      setIsIlbASE(
+        !!hostingEnvironmentResponse.data.properties.internalLoadBalancingMode &&
+          hostingEnvironmentResponse.data.properties.internalLoadBalancingMode === InternalLoadBalancingMode.PublishingAndWeb
+      );
+    } else if (!!hostingEnvironmentResponse && !hostingEnvironmentResponse.metadata.success) {
+      portalContext.log(
+        getTelemetryInfo('error', 'getHostingEnvironment', 'failed', {
+          message: getErrorMessage(hostingEnvironmentResponse.metadata.error),
+          errorAsString: hostingEnvironmentResponse.metadata.error ? JSON.stringify(hostingEnvironmentResponse.metadata.error) : '',
+        })
+      );
+    }
+
+    if (
+      !siteStateContext.isKubeApp &&
+      !!basicPublishingCredentialsPoliciesResponse &&
+      basicPublishingCredentialsPoliciesResponse.metadata.success
+    ) {
       setBasicPublishingCredentialsPolicies(basicPublishingCredentialsPoliciesResponse.data.properties);
-    } else {
+    } else if (!siteStateContext.isKubeApp && !!basicPublishingCredentialsPoliciesResponse) {
       portalContext.log(
         getTelemetryInfo('error', 'basicPublishingCredentialsPoliciesResponse', 'failed', {
           message: getErrorMessage(basicPublishingCredentialsPoliciesResponse.metadata.error),
@@ -223,6 +261,8 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
 
       processPublishProfileResponse(publishProfileResponse);
     }
+
+    setIsDataRefreshing(false);
   };
 
   const setUserSourceControlTokens = (sourceControls: ArmArray<SourceControl>) => {
@@ -285,6 +325,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         dropboxToken,
         bitbucketToken,
         gitHubToken,
+        isIlbASE,
         refresh,
         refreshUserSourceControlTokens,
       }}>
@@ -301,9 +342,9 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         }}>
         {/* NOTE(michinoy): Load the specific experience based on the app settings */}
         {siteStateContext.isContainerApp ? (
-          <DeploymentCenterContainerDataLoader resourceId={resourceId} />
+          <DeploymentCenterContainerDataLoader resourceId={resourceId} isDataRefreshing={isDataRefreshing} />
         ) : (
-          <DeploymentCenterCodeDataLoader resourceId={resourceId} />
+          <DeploymentCenterCodeDataLoader resourceId={resourceId} isDataRefreshing={isDataRefreshing} />
         )}
         {/* NOTE(michinoy): Load the publishing profile panel which is common between both code and container experiences  */}
         <DeploymentCenterPublishProfilePanel

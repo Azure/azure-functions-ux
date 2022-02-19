@@ -2,7 +2,7 @@ import { style } from 'typestyle';
 import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 
 export const containerStyle = style({
-  padding: '5px 25px',
+  padding: '5px 20px',
 });
 
 export const developmentEnvironmentStyle = style({
@@ -60,11 +60,12 @@ export const tableRowStyle = (theme: ThemeExtended, isSelected: boolean, isDisab
     root: {
       background: isSelected ? theme.semanticColors.itemBackgroundOnSelect : theme.semanticColors.background,
       cursor: isDisabled ? 'not-allowed' : 'pointer',
+      overflow: 'hidden',
     },
   };
 };
 
 export const localCreateContainerStyle = style({
-  padding: '5px 25px',
+  padding: '5px 20px',
   paddingBottom: '57px',
 });

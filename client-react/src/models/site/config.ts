@@ -22,6 +22,7 @@ export enum BuildProvider {
   None = 'None',
   GitHubAction = 'GitHubAction',
   AppServiceBuildService = 'AppServiceBuildService',
+  Vsts = 'Vsts',
 }
 
 export interface SiteConfig {
@@ -82,8 +83,8 @@ export interface SiteConfig {
   cors: Cors;
   localMySqlEnabled: boolean;
   appCommandLine: string;
-  ipSecurityRestrictions: IpRestriction[];
-  scmIpSecurityRestrictions: IpRestriction[];
+  ipSecurityRestrictions?: IpRestriction[];
+  scmIpSecurityRestrictions?: IpRestriction[];
   reservedInstanceCount?: number;
   functionsRuntimeScaleMonitoringEnabled?: boolean;
   powerShellVersion?: string;

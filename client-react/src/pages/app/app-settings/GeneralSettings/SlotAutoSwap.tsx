@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
+import { isLinuxApp } from '../../../../utils/arm-utils';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
 import { PermissionsContext, SlotsListContext } from '../Contexts';
@@ -41,10 +42,6 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
     return slotList.filter(x => x.toLowerCase() !== currentSiteName.toLowerCase());
   };
 
-  const isSiteLinux = (): boolean => {
-    return values.site.kind!.includes('linux');
-  };
-
   if (!slots || slots.value.length < 1) {
     return null;
   }
@@ -56,7 +53,7 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
 
   return (
     <>
-      {getCurrentSlotName() !== 'production' && !isSiteLinux() && (
+      {getCurrentSlotName() !== 'production' && !isLinuxApp(values.site) && (
         <>
           <h3>{t('slots')}</h3>
           {!production_write ? (

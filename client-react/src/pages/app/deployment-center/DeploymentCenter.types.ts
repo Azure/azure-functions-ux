@@ -84,12 +84,13 @@ export enum RuntimeStackDisplayNames {
   Node = 'Node',
   PHP = 'PHP',
   AspDotNet = 'ASP.NET',
-  Dotnet = 'Dotnet',
+  Dotnet = '.NET',
 }
 
 export enum RuntimeVersionOptions {
   Java11 = 'java11',
   Java8 = 'java8',
+  Java8Linux = 'jre8',
 }
 
 export enum RuntimeVersionDisplayNames {
@@ -101,6 +102,22 @@ export enum TargetAzDevDeployment {
   Devfabric = 'devfabric',
   Preflight = 'pf',
   SU2 = 'su2',
+}
+
+export enum GitHubActionRunConclusion {
+  Success = 'success',
+  Failure = 'failure',
+  Cancelled = 'cancelled',
+  Neutral = 'neutral',
+  Skipped = 'skipped',
+  TimedOut = 'timed_out',
+  ActionRequired = 'action_required',
+}
+
+export enum JavaContainerDisplayNames {
+  JavaSE = 'Java SE',
+  Tomcat = 'Tomcat',
+  JBoss = 'JBoss EAP',
 }
 
 export interface AzureDevOpsUrl {
@@ -209,15 +226,18 @@ export interface LocationServiceData {
 }
 
 export interface Properties {
-  Account: Account;
+  Account: unknown;
 }
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
+  isDataRefreshing: boolean;
 }
 
 export interface RefreshableComponent {
   refresh: () => void;
+  isDataRefreshing: boolean;
+  isLogsDataRefreshing: boolean;
 }
 
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps & RefreshableComponent;
@@ -300,6 +320,7 @@ export interface DeploymentCenterCodeFormData {
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
   formProps: FormikProps<DeploymentCenterFormData<T>>;
+  isDataRefreshing?: boolean;
 }
 
 export interface DeploymentCenterGitHubWorkflowConfigSelectorProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -308,12 +329,13 @@ export interface DeploymentCenterGitHubWorkflowConfigSelectorProps<T = Deploymen
 }
 
 export interface DeploymentCenterContainerLogsProps {
-  isLoading: boolean;
+  isLogsDataRefreshing: boolean;
+  refresh: () => void;
   logs?: string;
 }
 
 export interface DeploymentCenterCodeLogsProps {
-  isLoading: boolean;
+  isLogsDataRefreshing: boolean;
   refreshLogs: () => void;
   deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
@@ -325,6 +347,7 @@ export interface DeploymentCenterCodeLogsTimerProps {
 }
 
 export interface DeploymentCenterCommitLogsProps {
+  dismissLogPanel: () => void;
   commitId?: string;
 }
 
@@ -337,11 +360,10 @@ export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
 }
 
 export interface DeploymentCenterFtpsProps {
-  isLoading: boolean;
+  isDataRefreshing?: boolean;
 }
 
 export interface DeploymentCenterFormProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
-  isLoading: boolean;
   formData?: DeploymentCenterFormData<T>;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType<T>;
 }
@@ -357,24 +379,22 @@ export type DeploymentCenterCodeFormProps = DeploymentCenterCodeProps & Deployme
 export type DeploymentCenterCodePivotProps = DeploymentCenterCodeFormProps & DeploymentCenterFieldProps<DeploymentCenterCodeFormData>;
 
 export interface DeploymentCenterCommandBarProps {
-  isLoading: boolean;
+  isDataRefreshing: boolean;
   isDirty: boolean;
+  isVstsBuildProvider: boolean;
   saveFunction: () => void;
   discardFunction: () => void;
   showPublishProfilePanel: () => void;
-  refresh: () => void;
   redeploy?: () => void;
 }
 
 export interface DeploymentCenterCodeCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterCodeFormData> {
   isLoading: boolean;
-  refresh: () => void;
   redeploy: () => void;
 }
 
 export interface DeploymentCenterContainerCommandBarProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {
   isLoading: boolean;
-  refresh: () => void;
 }
 
 export interface DeploymentCenterPublishProfilePanelProps {
@@ -398,6 +418,9 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   loadingBranches: boolean;
   accountStatusMessage?: string;
   accountUser?: GitHubUser;
+  hasDeprecatedToken?: boolean;
+  updateTokenSuccess?: boolean;
+  resetToken?: () => void;
 }
 
 export interface DeploymentCenterGitHubDisconnectProps {
@@ -414,6 +437,8 @@ export interface DeploymentCenterCodeBuildCalloutProps {
   calloutOkButtonDisabled: boolean;
   toggleIsCalloutVisible: () => void;
   updateSelectedBuild: () => void;
+  formProps: FormikProps<DeploymentCenterFormData<any>>;
+  runtimeStack: string;
 }
 
 export interface AuthorizationResult {
@@ -467,7 +492,7 @@ export interface CodeDeploymentsRow {
   rawTime: moment.Moment;
   displayTime: string;
   commit: JSX.Element;
-  checkinMessage: string;
+  message: string;
   status: string;
   author: string;
 }
@@ -535,12 +560,15 @@ export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterCont
 export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {
   fetchImages: (loginServer: string) => void;
   fetchTags: (image: string) => void;
+  fetchRegistriesInSub(subscription: string);
+  acrSubscriptionOptions: IDropdownOption[];
   acrRegistryOptions: IDropdownOption[];
   acrImageOptions: IDropdownOption[];
   acrTagOptions: IDropdownOption[];
   loadingRegistryOptions: boolean;
   loadingImageOptions: boolean;
   loadingTagOptions: boolean;
+  acrSubscription: string;
   acrStatusMessage?: string;
   acrStatusMessageType?: MessageBarType;
 }
@@ -574,4 +602,45 @@ export interface DeploymentCenterDevOpsProviderProps<T = DeploymentCenterContain
   loadingRepositories: boolean;
   loadingBranches: boolean;
   errorMessage?: string;
+}
+export interface GitHubActionsCodeDeploymentsRow {
+  index: number;
+  rawTime: moment.Moment;
+  displayTime: string;
+  commit: string;
+  logSource: JSX.Element;
+  message: string;
+  status: JSX.Element;
+  commitId: string;
+  author: string;
+  group: number;
+}
+
+export interface GitHubActionsRun {
+  cancel_url: string;
+  html_url: string;
+  logs_url: string;
+  workflow_id: number;
+  status: string;
+  conclusion: string;
+  created_at: string;
+  updated_at: string;
+  run_number: number;
+  head_commit: {
+    id: string;
+    author: {
+      name: string;
+      email: string;
+    };
+    message: string;
+  };
+}
+
+export interface acrARGInfo {
+  id: string;
+  location: string;
+  name: string;
+  resourceGroup: string;
+  subscriptionId: string;
+  type: string;
 }

@@ -1,5 +1,6 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
+const php8Point0EOL = new Date(2023, 11, 26).toString();
 const php7Point4EOL = new Date(2022, 11, 28).toString();
 const php7Point3EOL = new Date(2021, 12, 6).toString();
 const php7Point2EOL = new Date(2020, 11, 30).toString();
@@ -12,6 +13,32 @@ export const phpStack: WebAppStack = {
   value: 'php',
   preferredOs: 'linux',
   majorVersions: [
+    {
+      displayText: 'PHP 8',
+      value: '8',
+      minorVersions: [
+        {
+          displayText: 'PHP 8.0',
+          value: '8.0',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              runtimeVersion: 'PHP|8.0',
+              isHidden: false,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8.0',
+                notSupportedInCreates: true,
+              },
+              endOfLifeDate: php8Point0EOL,
+            },
+          },
+        },
+      ],
+    },
     {
       displayText: 'PHP 7',
       value: '7',
@@ -27,7 +54,9 @@ export const phpStack: WebAppStack = {
                 isSupported: false,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '7.4',
+                notSupportedInCreates: true,
               },
               endOfLifeDate: php7Point4EOL,
             },
@@ -38,7 +67,9 @@ export const phpStack: WebAppStack = {
                 isSupported: false,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '7.4',
+                notSupportedInCreates: true,
               },
               endOfLifeDate: php7Point4EOL,
             },
@@ -55,7 +86,9 @@ export const phpStack: WebAppStack = {
                 isSupported: false,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '7.3',
+                notSupportedInCreates: true,
               },
               endOfLifeDate: php7Point3EOL,
             },
@@ -66,7 +99,9 @@ export const phpStack: WebAppStack = {
                 isSupported: false,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
+                supportedVersion: '7.3',
+                notSupportedInCreates: true,
               },
               endOfLifeDate: php7Point3EOL,
             },
@@ -78,6 +113,7 @@ export const phpStack: WebAppStack = {
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'PHP|7.2',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -89,12 +125,13 @@ export const phpStack: WebAppStack = {
             },
             windowsRuntimeSettings: {
               runtimeVersion: '7.2',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
               },
               gitHubActionSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               endOfLifeDate: php7Point2EOL,
             },

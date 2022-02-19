@@ -1,13 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import {
-  RuntimeStackSetting,
-  RuntimeStackOptions,
-  RuntimeStackDisplayNames,
-  RuntimeVersionDisplayNames,
-  RuntimeVersionOptions,
-} from '../DeploymentCenter.types';
-import { getRuntimeStackSetting } from '../utility/DeploymentCenterUtility';
+import { RuntimeStackSetting } from '../DeploymentCenter.types';
+import { getDefaultVersionDisplayName, getRuntimeStackDisplayName, getRuntimeStackSetting } from '../utility/DeploymentCenterUtility';
 import { useTranslation } from 'react-i18next';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { ScmType } from '../../../../models/site/config';
@@ -23,65 +17,17 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
   const siteStateContext = useContext(SiteStateContext);
 
   const setDefaultValues = () => {
-    const defaultStackAndVersionKeys: RuntimeStackSetting =
-      deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata && deploymentCenterContext.applicationSettings
-        ? getRuntimeStackSetting(
-            siteStateContext.isLinuxApp,
-            siteStateContext.isFunctionApp,
-            deploymentCenterContext.siteConfig,
-            deploymentCenterContext.configMetadata,
-            deploymentCenterContext.applicationSettings
-          )
-        : { runtimeStack: '', runtimeVersion: '' };
+    const defaultStackAndVersionKeys: RuntimeStackSetting = getRuntimeStackSetting(
+      siteStateContext.isLinuxApp,
+      siteStateContext.isFunctionApp,
+      siteStateContext.isKubeApp,
+      deploymentCenterContext.siteConfig,
+      deploymentCenterContext.configMetadata,
+      deploymentCenterContext.applicationSettings
+    );
 
     setDefaultStack(getRuntimeStackDisplayName(defaultStackAndVersionKeys.runtimeStack));
-    setDefaultVersion(getDefaultVersionDisplayName(defaultStackAndVersionKeys.runtimeVersion));
-  };
-
-  const getDefaultVersionDisplayName = (version: string) => {
-    return siteStateContext.isLinuxApp ? getLinuxDefaultVersionDisplayName(version) : getWindowsDefaultVersionDisplayName(version);
-  };
-
-  const getLinuxDefaultVersionDisplayName = (version: string) => {
-    //NOTE(stpelleg): Java is different
-    if (version === RuntimeVersionOptions.Java11) {
-      return RuntimeVersionDisplayNames.Java11;
-    } else if (version === RuntimeVersionOptions.Java8) {
-      return RuntimeVersionDisplayNames.Java8;
-    }
-    const versionNameParts: string[] = version.toLocaleLowerCase().split('|');
-
-    return versionNameParts.length === 2
-      ? `${getRuntimeStackDisplayName(versionNameParts[0])} ${versionNameParts[1].replace('-', ' ').toUpperCase()}`
-      : version;
-  };
-
-  const getWindowsDefaultVersionDisplayName = (version: string) => {
-    return version.replace('-', ' ');
-  };
-
-  const getRuntimeStackDisplayName = (stack: string) => {
-    const stackName = stack.toLocaleLowerCase();
-    switch (stackName) {
-      case RuntimeStackOptions.Python:
-        return RuntimeStackDisplayNames.Python;
-      case RuntimeStackOptions.DotNetCore:
-        return RuntimeStackDisplayNames.DotNetCore;
-      case RuntimeStackOptions.Ruby:
-        return RuntimeStackDisplayNames.Ruby;
-      case RuntimeStackOptions.Java:
-        return RuntimeStackDisplayNames.Java;
-      case RuntimeStackOptions.Node:
-        return RuntimeStackDisplayNames.Node;
-      case RuntimeStackOptions.PHP:
-        return RuntimeStackDisplayNames.PHP;
-      case RuntimeStackOptions.AspDotNet:
-        return RuntimeStackDisplayNames.AspDotNet;
-      case RuntimeStackOptions.Dotnet:
-        return RuntimeStackDisplayNames.Dotnet;
-      default:
-        return '';
-    }
+    setDefaultVersion(getDefaultVersionDisplayName(defaultStackAndVersionKeys.runtimeVersion, siteStateContext.isLinuxApp));
   };
 
   useEffect(() => {
