@@ -11,7 +11,7 @@ import { NationalCloudEnvironment } from '../utils/scenario-checker/national-clo
 
 export default class RuntimeStackService {
   public static getWebAppConfigurationStacks = (stacksOs: AppStackOs) => {
-    if (RuntimeStackService._useFusionApi()) {
+    if (RuntimeStackService._useFusionApi() || (window.appsvc && window.appsvc.env.runtimeType === 'OnPrem')) {
       return RuntimeStackService._getWebAppConfigurationStacksNonArm(stacksOs);
     }
 
