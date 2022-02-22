@@ -271,12 +271,10 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
         this._broadcastService.setDirtyState('api-proxy');
       }
     });
-
-    // this.isEnabled = this._globalStateService.IsRoutingEnabled;
   }
 
   openAdvancedEditor() {
-    this._portalService.switchMenuItem({ menuItemId: 'functionAppFiles' });
+    this._portalService.closeSelf({ data: { isAdvanceEditorClicked: true } });
   }
 
   rrOverriedValueChanges(value: any) {

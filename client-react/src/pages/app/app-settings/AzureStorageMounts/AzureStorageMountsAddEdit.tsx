@@ -8,7 +8,7 @@ import AzureStorageMountsAddEditAdvanced from './AzureStorageMountsAddEditAdvanc
 import { Formik, FormikProps, Field, Form } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
 import { StorageAccountsContext } from '../Contexts';
-import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { addEditFormStyle, textFieldPrefixStylesOverride } from '../../../../components/form-controls/formControl.override.styles';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import * as Yup from 'yup';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
@@ -245,6 +245,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               errorMessage={formProps.errors && formProps.errors.mountPath}
               required={true}
               validate={validateMountPath}
+              styles={textFieldPrefixStylesOverride()}
             />
             <ActionBar
               id="handler-mappings-edit-footer"
