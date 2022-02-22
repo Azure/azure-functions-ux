@@ -5084,7 +5084,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>result</value>
     </data>
     <data name="results" xml:space="preserve">
-        <value>result</value>
+        <value>results</value>
     </data>
     <data name="filterConnectionStrings" xml:space="preserve">
         <value>Filter connection strings</value>
