@@ -388,8 +388,9 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
   };
 
   const setGridItemsSearchResultAnnouncementString = (itemsCount: number) => {
-    const stringPlaceHolder = itemsCount === 1 ? t('gridItemsCountAriaLabelSingular') : t('gridItemsCountAriaLabelPlural');
-    setSearchResultAnnouncementString(stringPlaceHolder.format(itemsCount, filter));
+    setSearchResultAnnouncementString(
+      t('gridItemsCountAriaLabel').format(itemsCount, itemsCount === 1 ? t('result') : t('results'), filter)
+    );
   };
 
   useEffect(() => {
