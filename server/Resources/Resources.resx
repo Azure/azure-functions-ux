@@ -5076,11 +5076,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="filterAppSettings" xml:space="preserve">
         <value>Filter application settings</value>
     </data>
-    <data name="gridItemsCountAriaLabelSingular" xml:space="preserve">
-        <value>{0} result found</value>
+    <data name="gridItemsCountAriaLabel" xml:space="preserve">
+        <value>{0} {1} for {2}</value>
+        <comment>0: number of results; 1: "result" or "results" depending on the number; 2: search string value</comment>
     </data>
-    <data name="gridItemsCountAriaLabelPlural" xml:space="preserve">
-        <value>{0} results found</value>
+    <data name="result" xml:space="preserve">
+        <value>result</value>
+    </data>
+    <data name="results" xml:space="preserve">
+        <value>results</value>
     </data>
     <data name="filterConnectionStrings" xml:space="preserve">
         <value>Filter connection strings</value>
