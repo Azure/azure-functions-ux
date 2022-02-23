@@ -221,7 +221,7 @@ function validatePowershellStack(powershellStack) {
   expect(powershellStack.displayText).to.equal('PowerShell Core');
   expect(powershellStack.value).to.equal('powershell');
   expect(powershellStack.preferredOs).to.equal('windows');
-  expect(powershellStack.majorVersions.length).to.equal(3);
+  expect(powershellStack.majorVersions.length).to.equal(2);
   expect(powershellStack).to.deep.equal(hardCodedPowershellStack);
 }
 
