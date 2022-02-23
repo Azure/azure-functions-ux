@@ -76,6 +76,10 @@ export class CommonConstants {
     secondsInAzureMonth: 2628000,
   };
 
+  public static readonly FunctionsRuntimeVersions = {
+    four: '~4',
+  };
+
   public static readonly AppSettingNames = {
     appInsightsConnectionString: 'APPLICATIONINSIGHTS_CONNECTION_STRING',
     appInsightsInstrumentationKey: 'APPINSIGHTS_INSTRUMENTATIONKEY',
@@ -138,8 +142,6 @@ export class CommonConstants {
     usSec: 'https://live.applicationinsights.azure.microsoft.scloud',
     usNat: 'https://live.applicationinsights.azure.eaglex.ic.gov',
   };
-
-  public static readonly LiveLogsSessionId = 'LiveLogsSessionId';
 
   public static readonly AppInsightsEndpoints = {
     public: 'https://api.applicationinsights.io/v1/apps',
