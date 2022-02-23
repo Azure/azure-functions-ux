@@ -73,6 +73,14 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     );
   };
 
+  const getTextFieldStyles = () => {
+    if (!!styles && typeof styles === 'function') {
+      return styles;
+    } else {
+      return textFieldStyleOverrides(theme, fullpage, widthOverride, styles);
+    }
+  };
+
   const getTextFieldProps = (): ITextFieldProps => {
     const textFieldProps: ITextFieldProps = {
       id,
@@ -81,7 +89,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
       errorMessage,
       onRenderSuffix,
       tabIndex: 0,
-      styles: textFieldStyleOverrides(theme, fullpage, widthOverride),
+      styles: getTextFieldStyles(),
       required: false, // ReactiveFormControl will handle displaying required
       // // NOTE(michinoy): even though we are handling the required display marker at
       // // the field level, for a11y we need to have the aria-required tag set.

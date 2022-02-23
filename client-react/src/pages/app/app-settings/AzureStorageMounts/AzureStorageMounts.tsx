@@ -47,6 +47,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         disabled: disableAllControls || values.azureStorageMounts.length >= MAXALLOWEDAZUREMOUNTS,
         iconProps: { iconName: 'Add' },
         text: t('newAzureStorageMount'),
+        role: 'button',
       },
     ];
   };

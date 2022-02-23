@@ -212,10 +212,10 @@ export class CommonConstants {
     },
     windowsCode: {
       // eslint-disable-next-line no-useless-escape
-      valid: '\\foo',
+      valid: '/mounts/foo',
 
       // eslint-disable-next-line no-useless-escape
-      invalid: '\\, \\foo\\bar, [Cc-Zz]:\\, [Cc-Zz]:\\foo\\, [Cc-Zz]:\\foo\\, [Cc-Zz]:\\foo\\bar',
+      invalid: '/mounts, /mounts/foo/bar, /mounts/foo.bar',
     },
     windowsContainer: {
       // eslint-disable-next-line no-useless-escape

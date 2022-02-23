@@ -10,7 +10,7 @@ import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
-import { TooltipHost, ICommandBarItemProps, ActionButton, DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/react';
+import { TooltipHost, ICommandBarItemProps, ActionButton, DetailsListLayoutMode, IColumn, SelectionMode, Announced } from '@fluentui/react';
 import { dirtyElementStyle } from '../AppSettings.styles';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
@@ -30,7 +30,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const [filter, setFilter] = useState('');
   const [showAllValues, setShowAllValues] = useState(false);
   const [gridItems, setGridItems] = useState<FormConnectionString[]>([]);
-  const [gridSearchResultAriaLabel, setGridSearchResultAriaLabel] = useState('');
+  const [searchResultAnnouncementString, setSearchResultAnnouncementString] = useState('');
 
   const { values } = props;
   const { t } = useTranslation();
@@ -47,12 +47,14 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         iconProps: { iconName: 'Add' },
         name: t('newConnectionString'),
         ariaLabel: t('addNewConnectionString'),
+        role: 'button',
       },
       {
         key: 'app-settings-connection-strings-show-hide',
         onClick: flipHideSwitch,
         iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
         name: !allShown ? t('showValues') : t('hideValues'),
+        role: 'button',
       },
       {
         key: 'app-settings-connection-strings-bulk-edit',
@@ -60,6 +62,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         disabled: disableAllControls,
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
+        role: 'button',
       },
     ];
   };
@@ -378,25 +381,24 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         return !!x.name && x.name.toLowerCase().includes(filter.toLowerCase());
       });
       setGridItems(filteredItems);
+      setGridItemsSearchResultAnnouncementString(filteredItems.length);
     } else {
       setGridItems([]);
+      setGridItemsSearchResultAnnouncementString(0);
     }
   };
 
-  const setGridItemsSearchResultAriaLabel = (itemsCount: number) => {
-    const stringPlaceHolder = itemsCount === 1 ? t('gridItemsCountAriaLabelSingular') : t('gridItemsCountAriaLabelPlural');
-    setGridSearchResultAriaLabel(stringPlaceHolder.format(itemsCount));
+  const setGridItemsSearchResultAnnouncementString = (itemsCount: number) => {
+    setSearchResultAnnouncementString(
+      t('gridItemsCountAriaLabel').format(itemsCount, itemsCount === 1 ? t('result') : t('results'), filter)
+    );
   };
 
   useEffect(() => {
     setFilteredGridItems(values.connectionStrings, filter);
-  }, [values.connectionStrings, filter]);
-
-  useEffect(() => {
-    setGridItemsSearchResultAriaLabel(gridItems.length);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gridItems.length]);
+  }, [values.connectionStrings, filter]);
 
   return (
     <>
@@ -408,9 +410,9 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
-        emptyMessage={t('emptyConnectionStrings')}
-        ariaLabelForGrid={gridSearchResultAriaLabel}>
+        emptyMessage={t('emptyConnectionStrings')}>
         {getSearchFilter('app-settings-connection-strings-search', setFilter, t('filterConnectionStrings'))}
+        <Announced message={searchResultAnnouncementString} />
       </DisplayTableWithCommandBar>
       <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditConnectionStringHeader')}>
         <ConnectionStringsAddEdit

@@ -14,6 +14,7 @@ import {
   IColumn,
   SelectionMode,
   IDetailsList,
+  Announced,
 } from '@fluentui/react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
@@ -39,7 +40,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const [filter, setFilter] = useState('');
   const [showAllValues, setShowAllValues] = useState(false);
   const [gridItems, setGridItems] = useState<FormAppSetting[]>([]);
-  const [gridSearchResultAriaLabel, setGridSearchResultAriaLabel] = useState('');
+  const [searchResultAnnouncementString, setSearchResultAnnouncementString] = useState('');
 
   const { values } = props;
   const { t } = useTranslation();
@@ -59,12 +60,14 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         iconProps: { iconName: 'Add' },
         name: t('newApplicationSetting'),
         ariaLabel: t('addNewSetting'),
+        role: 'button',
       },
       {
         key: 'app-settings-application-settings-show-hide',
         onClick: flipHideSwitch,
         iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
         name: !allShown ? t('showValues') : t('hideValues'),
+        role: 'button',
       },
       {
         key: 'app-settings-application-settings-bulk-edit',
@@ -72,6 +75,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         disabled: disableAllControls,
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
+        role: 'button',
       },
     ];
   };
@@ -376,25 +380,24 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         return !!x.name && x.name.toLowerCase().includes(filter.toLowerCase());
       });
       setGridItems(filteredItems);
+      setGridItemsSearchResultAnnouncementString(filteredItems.length);
     } else {
       setGridItems([]);
+      setGridItemsSearchResultAnnouncementString(0);
     }
   };
 
-  const setGridItemsSearchResultAriaLabel = (itemsCount: number) => {
-    const stringPlaceHolder = itemsCount === 1 ? t('gridItemsCountAriaLabelSingular') : t('gridItemsCountAriaLabelPlural');
-    setGridSearchResultAriaLabel(stringPlaceHolder.format(itemsCount));
+  const setGridItemsSearchResultAnnouncementString = (itemsCount: number) => {
+    setSearchResultAnnouncementString(
+      t('gridItemsCountAriaLabel').format(itemsCount, itemsCount === 1 ? t('result') : t('results'), filter)
+    );
   };
 
   useEffect(() => {
     setFilteredGridItems(values.appSettings, filter);
-  }, [values.appSettings, filter]);
-
-  useEffect(() => {
-    setGridItemsSearchResultAriaLabel(gridItems.length);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gridItems.length]);
+  }, [values.appSettings, filter]);
 
   return (
     <>
@@ -411,9 +414,9 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
-        emptyMessage={t('emptyAppSettings')}
-        ariaLabelForGrid={gridSearchResultAriaLabel}>
+        emptyMessage={t('emptyAppSettings')}>
         {getSearchFilter('app-settings-application-settings-search', setFilter, t('filterAppSettings'))}
+        <Announced message={searchResultAnnouncementString} />
       </DisplayTableWithCommandBar>
       <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditApplicationSetting')}>
         <AppSettingAddEdit
