@@ -10,8 +10,8 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
     preferredOs: 'windows',
     majorVersions: [
       {
-        displayText: 'PowerShell 7.2',
-        value: '7.2',
+        displayText: 'PowerShell 7',
+        value: '7',
         minorVersions: [
           {
             displayText: 'PowerShell 7.2',
@@ -36,7 +36,7 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   powerShellVersion: '7.2',
                   netFrameworkVersion: 'v6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: ['~4']
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'PowerShell|7.2',
@@ -60,12 +60,6 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
               },
             },
           },
-        ],
-      },
-      {
-        displayText: 'PowerShell 7',
-        value: '7',
-        minorVersions: [
           {
             displayText: 'PowerShell 7.0',
             value: '7.0',
