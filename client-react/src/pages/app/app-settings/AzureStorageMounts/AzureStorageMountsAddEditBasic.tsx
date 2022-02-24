@@ -116,8 +116,10 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             setValues({ ...values, accessKey });
           };
 
-          // Keep the original key if there is one, otherwise assign data.keys[0] to access key
-          const key = getAccessKey(data.keys[0].value);
+          // Keep the original key if there is one, otherwise assign data.keys[0] to access key.
+          // Add check on keys in case keys property is undefined or empty
+          const retrievedKey = (!!data && !!data.keys && data.keys.length > 0 && !!data.keys[0] && data.keys[0].value) || '';
+          const key = getAccessKey(retrievedKey);
           setAccessKey(key);
           const payload = {
             accountName: values.accountName,
