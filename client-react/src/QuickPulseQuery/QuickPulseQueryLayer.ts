@@ -122,7 +122,6 @@ export class QuickPulseQueryLayer {
     }
     const useNewFunctionLogsApi =
       !!Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi) &&
-      !!functionsRuntimeVersion &&
       functionsRuntimeVersion === CommonConstants.FunctionsRuntimeVersions.four;
 
     return this.excuteQueryWithSessionTracking(
