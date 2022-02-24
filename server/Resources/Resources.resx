@@ -5034,7 +5034,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Clients will prompt for a certificate, if no certificate is provided fallback to SSO or other means of authentication. Unauthenticated requests will be blocked.</value>
     </data>
     <data name="clientCertificateModeOptionalInfoBubbleMessage" xml:space="preserve">
-        <value>Clients will not be prompted for a certificate by default. Unless the request can be authenticated through other means (like SSO) be blocked.</value>
+        <value>Clients will not be prompted for a certificate by default. Unless the request can be authenticated through other means (like SSO), it will be blocked.</value>
     </data>
     <data name="clientCertificateModeIgnoreInfoBubbleMessage" xml:space="preserve">
         <value>No client authentication is required. Unauthenticated requests will not be blocked.</value>

@@ -29,29 +29,23 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
   const [showPanel, setShowPanel] = useState(false);
-  const [clientCertificateModeInfoBubbleMessage, setClientCertificateModeInfoBubbleMessage] = useState('');
 
   const onClientCertModeChange = (e: any, newValue: IChoiceGroupOption) => {
     switch (newValue.key) {
       case CompositeClientCertMode.Require:
         setFieldValue('site.properties.clientCertEnabled', true);
         setFieldValue('site.properties.clientCertMode', ClientCertMode.Required);
-        setClientCertificateModeInfoBubbleMessage(t('clientCertificateModeRequiredInfoBubbleMessage'));
         break;
       case CompositeClientCertMode.Allow:
         setFieldValue('site.properties.clientCertEnabled', true);
         setFieldValue('site.properties.clientCertMode', ClientCertMode.Optional);
-        setClientCertificateModeInfoBubbleMessage(t('clientCertificateModeAllowInfoBubbleMessage'));
         break;
       case CompositeClientCertMode.Optional:
-        setFieldValue('site.properties.clientCertEnabled', false);
+        setFieldValue('site.properties.clientCertEnabled', true);
         setFieldValue('site.properties.clientCertMode', ClientCertMode.OptionalInteractiveUser);
-        setClientCertificateModeInfoBubbleMessage(t('clientCertificateModeOptionalInfoBubbleMessage'));
         break;
       case CompositeClientCertMode.Ignore:
         setFieldValue('site.properties.clientCertEnabled', false);
-        setFieldValue('site.properties.clientCertMode', undefined);
-        setClientCertificateModeInfoBubbleMessage(t('clientCertificateModeIgnoreInfoBubbleMessage'));
         break;
       default:
         setFieldValue('site.properties.clientCertEnabled', false);
@@ -60,16 +54,36 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   };
 
   const getCompositeClientCertMode = (siteArm: ArmObj<Site>): CompositeClientCertMode => {
-    console.log(siteArm);
     if (siteArm.properties.clientCertEnabled) {
       return siteArm.properties.clientCertMode === ClientCertMode.Required
         ? CompositeClientCertMode.Require
-        : CompositeClientCertMode.Allow;
-    } else {
-      return siteArm.properties.clientCertMode === ClientCertMode.OptionalInteractiveUser
-        ? CompositeClientCertMode.Optional
-        : CompositeClientCertMode.Ignore;
+        : siteArm.properties.clientCertMode === ClientCertMode.Optional
+        ? CompositeClientCertMode.Allow
+        : CompositeClientCertMode.Optional;
     }
+
+    return CompositeClientCertMode.Ignore;
+  };
+
+  const getClientCertInfoBubbleMessage = (siteArm: ArmObj<Site> | undefined): string => {
+    if (!!siteArm) {
+      const mode = getCompositeClientCertMode(siteArm);
+
+      switch (mode) {
+        case CompositeClientCertMode.Require:
+          return t('clientCertificateModeRequiredInfoBubbleMessage');
+        case CompositeClientCertMode.Allow:
+          return t('clientCertificateModeAllowInfoBubbleMessage');
+        case CompositeClientCertMode.Optional:
+          return t('clientCertificateModeOptionalInfoBubbleMessage');
+        case CompositeClientCertMode.Ignore:
+          return t('clientCertificateModeIgnoreInfoBubbleMessage');
+        default:
+          return '';
+      }
+    }
+
+    return '';
   };
 
   const scenarioChecker = new ScenarioService(t);
@@ -84,6 +98,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     setFieldValue('site.properties.clientCertExclusionPaths', clientExclusionsPath);
     setShowPanel(false);
   };
+
   return scenarioChecker.checkScenario(ScenarioIds.incomingClientCertSupported, { site }).status !== 'disabled' ? (
     <>
       <h3>{t('incomingClientCertificates')}</h3>
@@ -96,7 +111,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           disabled={disableAllControls || clientCertEnabled.status === 'disabled'}
           upsellMessage={clientCertEnabled.status === 'disabled' ? clientCertEnabled.data : ''}
           selectedKey={getCompositeClientCertMode(values.site)}
-          infoBubbleMessage={clientCertificateModeInfoBubbleMessage}
+          infoBubbleMessage={getClientCertInfoBubbleMessage(values.site)}
           options={[
             {
               key: CompositeClientCertMode.Require,
