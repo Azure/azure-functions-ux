@@ -14,6 +14,53 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
         value: '7',
         minorVersions: [
           {
+            displayText: 'PowerShell 7.2',
+            value: '7.2',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: '7.2',
+                isPreview: true,
+                isHidden: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'powershell',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  powerShellVersion: '7.2',
+                  netFrameworkVersion: 'v6.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4']
+              },
+              linuxRuntimeSettings: {
+                runtimeVersion: 'PowerShell|7.2',
+                isPreview: true,
+                isHidden: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'powershell',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: false,
+                  linuxFxVersion: 'PowerShell|7.2',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+              },
+            },
+          },
+          {
             displayText: 'PowerShell 7.0',
             value: '7.0',
             stackSettings: {
