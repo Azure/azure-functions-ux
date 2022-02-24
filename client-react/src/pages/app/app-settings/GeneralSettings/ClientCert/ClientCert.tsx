@@ -65,25 +65,21 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     return CompositeClientCertMode.Ignore;
   };
 
-  const getClientCertInfoBubbleMessage = (siteArm: ArmObj<Site> | undefined): string => {
-    if (!!siteArm) {
-      const mode = getCompositeClientCertMode(siteArm);
+  const getClientCertInfoBubbleMessage = (siteArm: ArmObj<Site>): string => {
+    const mode = getCompositeClientCertMode(siteArm);
 
-      switch (mode) {
-        case CompositeClientCertMode.Require:
-          return t('clientCertificateModeRequiredInfoBubbleMessage');
-        case CompositeClientCertMode.Allow:
-          return t('clientCertificateModeAllowInfoBubbleMessage');
-        case CompositeClientCertMode.Optional:
-          return t('clientCertificateModeOptionalInfoBubbleMessage');
-        case CompositeClientCertMode.Ignore:
-          return t('clientCertificateModeIgnoreInfoBubbleMessage');
-        default:
-          return '';
-      }
+    switch (mode) {
+      case CompositeClientCertMode.Require:
+        return t('clientCertificateModeRequiredInfoBubbleMessage');
+      case CompositeClientCertMode.Allow:
+        return t('clientCertificateModeAllowInfoBubbleMessage');
+      case CompositeClientCertMode.Optional:
+        return t('clientCertificateModeOptionalInfoBubbleMessage');
+      case CompositeClientCertMode.Ignore:
+        return t('clientCertificateModeIgnoreInfoBubbleMessage');
+      default:
+        return '';
     }
-
-    return '';
   };
 
   const scenarioChecker = new ScenarioService(t);
