@@ -50,6 +50,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         break;
       case CompositeClientCertMode.Ignore:
         setFieldValue('site.properties.clientCertEnabled', false);
+        setFieldValue('site.properties.clientCertMode', undefined);
         setClientCertificateModeInfoBubbleMessage(t('clientCertificateModeIgnoreInfoBubbleMessage'));
         break;
       default:
@@ -59,12 +60,16 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   };
 
   const getCompositeClientCertMode = (siteArm: ArmObj<Site>): CompositeClientCertMode => {
+    console.log(siteArm);
     if (siteArm.properties.clientCertEnabled) {
       return siteArm.properties.clientCertMode === ClientCertMode.Required
         ? CompositeClientCertMode.Require
         : CompositeClientCertMode.Allow;
+    } else {
+      return siteArm.properties.clientCertMode === ClientCertMode.OptionalInteractiveUser
+        ? CompositeClientCertMode.Optional
+        : CompositeClientCertMode.Ignore;
     }
-    return CompositeClientCertMode.Ignore;
   };
 
   const scenarioChecker = new ScenarioService(t);
@@ -103,7 +108,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             },
             {
               key: CompositeClientCertMode.Optional,
-              text: t('clientCertificateModeAllow'),
+              text: t('clientCertificateModeOptional'),
             },
             {
               key: CompositeClientCertMode.Ignore,
