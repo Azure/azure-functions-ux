@@ -225,9 +225,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       )}
-      {showHttpsOnlyInfo() && (
-        <CustomBanner id={'httpsOnly-customBanner'} message={t('httpsOnlyInfoBoxText')} type={MessageBarType.info} undocked={true} />
-      )}
       {
         <Field
           name={'site.properties.httpsOnly'}
@@ -248,6 +245,9 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       }
+      {showHttpsOnlyInfo() && (
+        <CustomBanner id={'httpsOnly-customBanner'} message={t('httpsOnlyInfoBoxText')} type={MessageBarType.info} undocked={true} />
+      )}
       {
         <Field
           name={'config.properties.minTlsVersion'}
