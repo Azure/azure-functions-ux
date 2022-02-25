@@ -26,7 +26,9 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
   const showHttpsOnlyInfo = (): boolean => {
     const siteProperties = values.site.properties;
+    const initialHttpsOnlyValue = !!initialValues.site.properties.httpsOnly;
     return (
+      !initialHttpsOnlyValue &&
       !!siteProperties.httpsOnly &&
       !!siteProperties.hostNameSslStates.some(hostNameSslState => {
         // catch only the custom domains that dont have an SSL binding.
