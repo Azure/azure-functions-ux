@@ -11,7 +11,7 @@ import { Links } from '../../../../utils/FwLinks';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { MinTlsVersion, SslState } from '../../../../models/site/site';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { IDropdownOption, MessageBarType } from '@fluentui/react';
+import { MessageBarType } from '@fluentui/react';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -23,9 +23,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
   const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
   const alwaysOnEnable = scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site });
-  // const showAllMinTlsVersions = scenarioChecker.checkScenario(ScenarioIds.showAllMinTlsVersions, { site });
-
-  !values.site.properties.siteConfig.minTlsVersion && (values.site.properties.siteConfig.minTlsVersion = MinTlsVersion.tLS12);
 
   const showHttpsOnlyInfo = (): boolean => {
     const siteProperties = values.site.properties;
@@ -47,32 +44,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         );
       })
     );
-  };
-
-  const getMinTlsVersionDropdownOptions = (): IDropdownOption[] => {
-    const options: IDropdownOption[] = [
-      {
-        key: MinTlsVersion.tLS12,
-        text: t('tlsVersion12'),
-      },
-    ];
-
-    if (true) {
-      options.unshift(
-        ...[
-          {
-            key: MinTlsVersion.tLS10,
-            text: t('tlsVersion10'),
-          },
-          {
-            key: MinTlsVersion.tLS11,
-            text: t('tlsVersion11'),
-          },
-        ]
-      );
-    }
-
-    return options;
   };
 
   const disableFtp = () =>
@@ -277,13 +248,26 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       }
       {
         <Field
-          name={'site.properties.siteConfig.minTlsVersion'}
+          name={'config.properties.minTlsVersion'}
           id={'app-settings-minTlsVersion'}
           component={Dropdown}
           label={t('minTlsVersionLabel')}
           infoBubbleMessage={t('minTlsVersionInfoBubbleMessage')}
           dirty={values.site.properties.siteConfig.minTlsVersion !== initialValues.site.properties.siteConfig.minTlsVersion}
-          options={getMinTlsVersionDropdownOptions()}
+          options={[
+            {
+              key: MinTlsVersion.tLS10,
+              text: t('tlsVersion10'),
+            },
+            {
+              key: MinTlsVersion.tLS11,
+              text: t('tlsVersion11'),
+            },
+            {
+              key: MinTlsVersion.tLS12,
+              text: t('tlsVersion12'),
+            },
+          ]}
         />
       }
     </div>
