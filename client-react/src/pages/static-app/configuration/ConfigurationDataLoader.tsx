@@ -99,7 +99,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     if (!apiFailure) {
       const defaultEnvironment = !!currentEnvironment ? currentEnvironment : getDefaultEnvironment(envResponse);
       const envVarResponse = await fetchEnvironmentVariables((!!defaultEnvironment && defaultEnvironment.id) || '');
-      await generateForm(envResponse, passwordProtection, defaultEnvironment, getInitialEnvironmentVariables(envVarResponse));
+      generateForm(envResponse, passwordProtection, defaultEnvironment, getInitialEnvironmentVariables(envVarResponse));
     }
 
     setInitialLoading(false);

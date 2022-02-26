@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Field } from 'formik';
 import { IChoiceGroupOption } from '@fluentui/react/lib/ChoiceGroup';
 import { Link } from '@fluentui/react/lib/Link';
@@ -22,6 +22,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
 
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
+  const [passwordProtection, setPasswordProtection] = useState<PasswordProtectionTypes>(PasswordProtectionTypes.Disabled);
 
   const passwordProtectionOptions = [
     {
@@ -51,6 +52,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
         required={true}
         widthOverride={'100%'}
         resizable={true}
+        selectedKey={passwordProtection}
         onChange={passwordProtectionRadioButtonOnChange}
         disabled={disabled}
       />
@@ -160,7 +162,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
   }, [formProps.values.visitorPassword, formProps.values.visitorPasswordConfirm, formProps.values.passwordProtection]);
 
   useEffect(() => {
-    console.log(formProps.values.passwordProtection);
+    if (!!formProps.values.passwordProtection) setPasswordProtection(formProps.values.passwordProtection);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.passwordProtection]);
