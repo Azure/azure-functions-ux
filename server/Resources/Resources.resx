@@ -7280,13 +7280,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Confirm visitor password</value>
     </data>
     <data name="staticSite_visitorPasswordRequired" xml:space="preserve">
-        <value>Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols or a Key vault secret url.</value>
+        <value>Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols. Key Vault references are not currently supported.</value>
     </data>
     <data name="staticSite_confirmVisitorPasswordRequired" xml:space="preserve">
         <value>Please confirm the visitor password. This value must match the password entered above.</value>
     </data>
     <data name="staticSite_generalSettingsUpdate" xml:space="preserve">
         <value>Updating general settings</value>
+    </data>
+    <data name="staticSite_loadingGeneralSettings" xml:space="preserve">
+        <value>Loading general settings...</value>
     </data>
     <data name="staticSite_generalSettingsUpdateWithSuccess" xml:space="preserve">
         <value>Successfully updated general settings.</value>

@@ -9,8 +9,6 @@ import { ConfigurationPivotProps } from './Configuration.types';
 import { getTelemetryInfo } from '../StaticSiteUtility';
 import ConfigurationGeneralSettings from './ConfigurationGeneralSettings';
 import { StaticSiteSku } from '../skupicker/StaticSiteSkuPicker.types';
-import { CommonConstants } from '../../../utils/CommonConstants';
-import Url from '../../../utils/url';
 
 const ConfigurationPivot: React.FC<ConfigurationPivotProps> = props => {
   const { isLoading, hasWritePermissions, formProps, staticSiteSku } = props;
@@ -21,7 +19,6 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = props => {
   const portalContext = useContext(PortalContext);
 
   const isGeneralSettingsDisabled = isLoading || !hasWritePermissions || staticSiteSku === StaticSiteSku.Free;
-  const isPasswordProtectionEnabled = Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.enablePasswordProtection);
 
   const onLinkClick = (item: PivotItem) => {
     if (item.props.itemKey) {
@@ -41,29 +38,34 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = props => {
     return !!formProps.values && formProps.values.isGeneralSettingsDirty;
   };
 
-  return isPasswordProtectionEnabled ? (
-    <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
-      <PivotItem
-        itemKey="appSettings"
-        headerText={t('staticSite_applicationSettings')}
-        ariaLabel={t('staticSite_applicationSettings')}
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, isAppSettingsDirty, t('modifiedTag'))
-        }>
-        <Configuration {...props} />
-      </PivotItem>
-      <PivotItem
-        itemKey="generalSettings"
-        headerText={t('staticSite_generalSettings')}
-        ariaLabel={t('staticSite_generalSettings')}
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, isGeneralSettingsDirty, t('modifiedTag'))
-        }>
-        <ConfigurationGeneralSettings disabled={isGeneralSettingsDisabled} {...props} />
-      </PivotItem>
-    </Pivot>
-  ) : (
-    <Configuration {...props} />
+  return (
+    <>
+      <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
+        <PivotItem
+          itemKey="appSettings"
+          headerText={t('staticSite_applicationSettings')}
+          ariaLabel={t('staticSite_applicationSettings')}
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            CustomTabRenderer(link, defaultRenderer, theme, isAppSettingsDirty, t('modifiedTag'))
+          }>
+          <Configuration {...props} />
+        </PivotItem>
+        <PivotItem
+          itemKey="generalSettings"
+          headerText={t('staticSite_generalSettings')}
+          ariaLabel={t('staticSite_generalSettings')}
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            CustomTabRenderer(link, defaultRenderer, theme, isGeneralSettingsDirty, t('modifiedTag'))
+          }>
+          <ConfigurationGeneralSettings
+            disabled={isGeneralSettingsDisabled}
+            formProps={formProps}
+            isLoading={isLoading}
+            staticSiteSku={staticSiteSku}
+          />
+        </PivotItem>
+      </Pivot>
+    </>
   );
 };
 

@@ -15,14 +15,15 @@ import RadioButton from '../../../components/form-controls/RadioButton';
 import { MessageBarType } from '@fluentui/react/lib/MessageBar';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { StaticSiteSku } from '../skupicker/StaticSiteSkuPicker.types';
+import { ProgressIndicator } from '@fluentui/react/lib/ProgressIndicator';
 
 const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> = props => {
-  const { disabled, formProps, staticSiteSku } = props;
+  const { disabled, formProps, staticSiteSku, isLoading } = props;
 
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
 
-  const passwordProtectionOptions: IChoiceGroupOption[] = [
+  const passwordProtectionOptions = [
     {
       key: PasswordProtectionTypes.Disabled,
       text: t('staticSite_passwordProtectionDisabled'),
@@ -48,7 +49,6 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
         displayInVerticalLayout={true}
         options={passwordProtectionOptions}
         required={true}
-        type={TextFieldType.password}
         widthOverride={'100%'}
         resizable={true}
         onChange={passwordProtectionRadioButtonOnChange}
@@ -80,7 +80,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
         {t('staticSite_passwordProtectionDescription')}
         <Link
           id="environment-variable-info-learnMore"
-          href={Links.staticSiteEnvironmentVariablesLearnMore}
+          href={Links.staticSitePasswordProtectionLearnMore}
           target="_blank"
           className={learnMoreLinkStyle}
           aria-labelledby="environment-variable-info-message">
@@ -159,14 +159,26 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.visitorPassword, formProps.values.visitorPasswordConfirm, formProps.values.passwordProtection]);
 
+  useEffect(() => {
+    console.log(formProps.values.passwordProtection);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.passwordProtection]);
+
   return (
     <div className={formElementStyle}>
-      <h3>{t('staticSite_passwordProtection')}</h3>
-      {getFreeSkuBanner()}
-      {getPasswordProtectionDescription()}
-      {getPasswordProtectionRadioButtons()}
-      {getVisitorPasswordTextBox()}
-      {getVisitorPasswordConfirmTextBox()}
+      {isLoading ? (
+        <ProgressIndicator description={t('loadingGeneralSettings')} ariaValueText={t('loadingGeneralSettings')} />
+      ) : (
+        <>
+          <h3>{t('staticSite_passwordProtection')}</h3>
+          {getFreeSkuBanner()}
+          {getPasswordProtectionDescription()}
+          {getPasswordProtectionRadioButtons()}
+          {getVisitorPasswordTextBox()}
+          {getVisitorPasswordConfirmTextBox()}
+        </>
+      )}
     </div>
   );
 };

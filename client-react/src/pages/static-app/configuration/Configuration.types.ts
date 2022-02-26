@@ -35,6 +35,7 @@ export interface ConfigurationGeneralSettingsProps {
   disabled: boolean;
   formProps: FormikProps<ConfigurationFormData>;
   staticSiteSku: StaticSiteSku;
+  isLoading: boolean;
 }
 
 export enum PasswordProtectionTypes {
