@@ -389,7 +389,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const getHeadersForLiveLogsSessionId = (liveLogsSessionId?: string) => {
-    return { LiveLogsSessionId: liveLogsSessionId || '', sessionIdKey: 'ai_SessionId' };
+    return { '#AzFuncLiveLogsSessionId': liveLogsSessionId || '' };
   };
 
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string, liveLogsSessionId?: string) => {
