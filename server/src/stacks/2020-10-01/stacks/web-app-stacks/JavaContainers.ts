@@ -19,9 +19,20 @@ export const javaContainersStack: WebAppStack = {
               isAutoUpdate: true,
             },
             linuxContainerSettings: {
+              java17Runtime: 'JAVA|17-java17',
               java11Runtime: 'JAVA|11-java11',
               java8Runtime: 'JAVA|8-jre8',
               isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Java SE 17.0.1',
+          value: '17.0.1',
+          stackSettings: {
+            linuxContainerSettings: {
+              // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.8 prevents auto-updates
+              java17Runtime: 'JAVA|17.0.1',
             },
           },
         },
@@ -183,6 +194,44 @@ export const javaContainersStack: WebAppStack = {
           },
         },
       ],
+    },
+    {
+      displayText: 'Apache Tomcat 10.0',
+      value: 'tomcat10.0',
+      minorVersions: [
+        {
+          displayText: 'Tomcat 10.0',
+          value: '10.0',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '10.0',
+              isAutoUpdate: true,
+            },
+            linuxContainerSettings: {
+              java17Runtime: 'TOMCAT|10.0-java17',
+              java11Runtime: 'TOMCAT|10.0-java11',
+              java8Runtime: 'TOMCAT|10.0-jre8',
+              isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Tomcat 10.0.17',
+          value: '10.0.17',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '10.0.17',
+            },
+            linuxContainerSettings: {
+              java8Runtime: 'TOMCAT|10.0.17-java8',
+              java11Runtime: 'TOMCAT|10.0.17-java11',
+              java17Runtime: 'TOMCAT|10.0.17-java17'
+            },
+          },
+        },
+      ]
     },
     {
       displayText: 'Apache Tomcat 9.0',

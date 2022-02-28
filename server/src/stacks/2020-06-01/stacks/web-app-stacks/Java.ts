@@ -1,6 +1,7 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
 // EOL source: https://docs.microsoft.com/en-us/java/azure/jdk/?view=azure-java-stable#supported-java-versions-and-update-schedule
+const java17EOL = new Date(2031, 9).toString();
 const java11EOL = new Date(2026, 9).toString();
 const java8EOL = new Date(2025, 3).toString();
 const java7EOL = new Date(2023, 7).toString();
@@ -10,6 +11,82 @@ export const javaStack: WebAppStack = {
   value: 'java',
   preferredOs: 'linux',
   majorVersions: [
+    {
+      displayText: 'Java 17',
+      value: '17',
+      minorVersions: [
+        {
+          displayText: 'Java 17',
+          value: '17.0',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+              runtimeVersion: '',
+              isAutoUpdate: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '17',
+              },
+              endOfLifeDate: java17EOL,
+            },
+            windowsRuntimeSettings: {
+              runtimeVersion: '17',
+              isAutoUpdate: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '17',
+              },
+              endOfLifeDate: java17EOL,
+            }
+          },
+        },
+        {
+          displayText: 'Java 17.0.1',
+          value: '17.0.1',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+              runtimeVersion: '',
+              isAutoUpdate: false,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '17',
+              },
+              endOfLifeDate: java17EOL,
+            },
+            windowsRuntimeSettings: {
+              runtimeVersion: '17.0.1',
+              isAutoUpdate: false,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '17',
+              },
+              endOfLifeDate: java17EOL,
+            }
+          }
+        }
+      ]
+    },
     {
       displayText: 'Java 11',
       value: '11',
