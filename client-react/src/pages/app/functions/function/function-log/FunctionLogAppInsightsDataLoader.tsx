@@ -17,6 +17,8 @@ import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
+import SiteService from '../../../../../ApiHelpers/SiteService';
+import { KeyValue } from '../../../../../models/portal-models';
 
 interface FunctionLogAppInsightsDataLoaderProps {
   resourceId: string;
@@ -56,6 +58,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   const [quickPulseToken, setQuickPulseToken] = useState<QuickPulseToken | undefined>(undefined);
   const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined | null>(undefined);
+  const [functionsRuntimeVersion, setFunctionsRuntimeVersion] = useState<string | undefined>(undefined);
   const [started, setStarted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
   const [loadingMessage, setLoadingMessage] = useState<string | undefined>(t('functionEditor_connectingToAppInsights'));
@@ -64,10 +67,11 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const [callCount, setCallCount] = useState(0);
 
   const fetchComponent = async (force?: boolean) => {
-    const appInsightsResourceIdResponse = await AppInsightsService.getAppInsightsResourceId(
-      siteResourceId,
-      startupInfoContext.subscriptions
-    );
+    const [appInsightsResourceIdResponse, fetchAppSettingsResponse] = await Promise.all([
+      AppInsightsService.getAppInsightsResourceId(siteResourceId, startupInfoContext.subscriptions),
+      SiteService.fetchApplicationSettings(siteResourceId),
+    ]);
+
     if (appInsightsResourceIdResponse.metadata.success) {
       const aiResourceId = appInsightsResourceIdResponse.data;
       if (!!aiResourceId) {
@@ -90,6 +94,20 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
         `Failed to get app insights resource Id: ${getErrorMessageOrStringify(appInsightsResourceIdResponse.metadata.error)}`
       );
     }
+
+    if (fetchAppSettingsResponse.metadata.success && !!fetchAppSettingsResponse.data) {
+      setFunctionsRuntimeVersion(getCurrentRuntimeVersionFromAppSetting(fetchAppSettingsResponse.data.properties));
+    } else {
+      LogService.error(
+        LogCategories.functionLog,
+        'getAppSettings',
+        `Failed to get app settings: ${getErrorMessageOrStringify(fetchAppSettingsResponse.metadata.error)}`
+      );
+    }
+  };
+
+  const getCurrentRuntimeVersionFromAppSetting = (appSettings: KeyValue<string>) => {
+    return appSettings[CommonConstants.AppSettingNames.functionsExtensionVersion];
   };
 
   const fetchToken = async (component: ArmObj<AppInsightsComponent>) => {
@@ -112,7 +130,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     liveLogsSessionId?: string
   ) => {
     quickPulseQueryLayer
-      .queryDetails(tokenComponent.token, false, '', liveLogsSessionId)
+      .queryDetails(tokenComponent.token, false, '', liveLogsSessionId, functionsRuntimeVersion)
       .then((dataV2: any) => {
         let newDocs;
         if (!!dataV2 && dataV2.Documents) {
