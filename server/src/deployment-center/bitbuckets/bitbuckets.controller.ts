@@ -14,24 +14,6 @@ export class BitbucketsController {
     private httpService: HttpService
   ) {}
 
-  @Post('api/bitbucket/passthrough')
-  @HttpCode(200)
-  async passthrough(@Body('bitBucketToken') bitBucketToken: string, @Body('url') url: string) {
-    try {
-      const response = await this.httpService.get(url, {
-        headers: {
-          Authorization: `Bearer ${bitBucketToken}`,
-        },
-      });
-      return response.data;
-    } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
-    }
-  }
-
   @Get('auth/bitbucket/authorize')
   async authorize(@Session() session, @Response() res) {
     let stateKey = '';

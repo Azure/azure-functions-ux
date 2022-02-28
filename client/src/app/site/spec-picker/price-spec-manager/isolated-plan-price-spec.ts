@@ -70,15 +70,16 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
   runInitialization(input: PriceSpecInput) {
     if (NationalCloudEnvironment.isBlackforest()) {
       this.state = 'hidden';
-    } else if (input.plan) {
+    } else if (input.planDetails) {
       if (
-        !input.plan.properties.hostingEnvironmentProfile ||
-        input.plan.properties.hyperV ||
-        AppKind.hasAnyKind(input.plan, [Kinds.elastic])
+        !input.planDetails.plan.properties.hostingEnvironmentProfile ||
+        input.planDetails.plan.properties.hyperV ||
+        AppKind.hasAnyKind(input.planDetails.plan, [Kinds.elastic]) ||
+        input.planDetails.containsJbossSite
       ) {
         this.state = 'hidden';
       } else {
-        return this._aseService.getAse(input.plan.properties.hostingEnvironmentProfile.id).do(r => {
+        return this._aseService.getAse(input.planDetails.plan.properties.hostingEnvironmentProfile.id).do(r => {
           // If the call to get the ASE fails (maybe due to RBAC), then we can't confirm ASE v1 or v2 or v3
           // but we'll let them see the isolated card anyway.  The plan update will probably fail in
           // the back-end if it's ASE v1, but at least we allow real ASE v2 customers who don't have
@@ -94,7 +95,9 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
       (!input.specPickerInput.data.allowAseV2Creation ||
         input.specPickerInput.data.isXenon ||
         input.specPickerInput.data.hyperV ||
-        (input.specPickerInput.data.isNewFunctionAppCreate && input.specPickerInput.data.isElastic))
+        input.specPickerInput.data.isJBoss ||
+        (input.specPickerInput.data.isNewFunctionAppCreate &&
+          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard)))
     ) {
       this.state = 'hidden';
     }

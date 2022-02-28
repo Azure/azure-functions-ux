@@ -16,6 +16,7 @@ import {
   validateRemoveDeprecatedStacks,
   validateRemovePreviewStacks,
   validateWebAppStack,
+  validateRemoveNonGitHubActionStacks,
 } from './validations';
 
 @Controller('stacks')
@@ -33,18 +34,21 @@ export class StacksController {
     @Query('stack') stack?: string,
     @Query('removeHiddenStacks') removeHiddenStacks?: string,
     @Query('removeDeprecatedStacks') removeDeprecatedStacks?: string,
-    @Query('removePreviewStacks') removePreviewStacks?: string
+    @Query('removePreviewStacks') removePreviewStacks?: string,
+    @Query('removeNonGitHubActionStacks') removeNonGitHubActionStacks?: string
   ) {
-    validateApiVersion(apiVersion, [Versions.version20200601, Versions.version20201001]);
+    validateApiVersion(apiVersion, [Versions.version20200601, Versions.version20201001, Versions.version20201201]);
     validateOs(os);
     validateFunctionAppStack(apiVersion, stack);
     validateRemoveHiddenStacks(removeHiddenStacks);
     validateRemoveDeprecatedStacks(removeDeprecatedStacks);
     validateRemovePreviewStacks(removePreviewStacks);
+    validateRemoveNonGitHubActionStacks(removeNonGitHubActionStacks);
 
     const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
     const removeDeprecated = removeDeprecatedStacks && removeDeprecatedStacks.toLowerCase() === 'true';
     const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
+    const removeNonGitHubAction = removeNonGitHubActionStacks && removeNonGitHubActionStacks.toLowerCase() === 'true';
 
     switch (apiVersion) {
       case Versions.version20200601: {
@@ -56,13 +60,15 @@ export class StacksController {
           removePreview
         );
       }
-      case Versions.version20201001: {
+      case Versions.version20201001:
+      case Versions.version20201201: {
         return this._stackService20201001.getFunctionAppStacks(
           os,
           stack as FunctionAppStack20201001Value,
           removeHidden,
           removeDeprecated,
-          removePreview
+          removePreview,
+          removeNonGitHubAction
         );
       }
     }
@@ -75,18 +81,21 @@ export class StacksController {
     @Query('stack') stack?: string,
     @Query('removeHiddenStacks') removeHiddenStacks?: string,
     @Query('removeDeprecatedStacks') removeDeprecatedStacks?: string,
-    @Query('removePreviewStacks') removePreviewStacks?: string
+    @Query('removePreviewStacks') removePreviewStacks?: string,
+    @Query('removeNonGitHubActionStacks') removeNonGitHubActionStacks?: string
   ) {
-    validateApiVersion(apiVersion, [Versions.version20200601, Versions.version20201001]);
+    validateApiVersion(apiVersion, [Versions.version20200601, Versions.version20201001, Versions.version20201201]);
     validateOs(os);
     validateWebAppStack(apiVersion, stack);
     validateRemoveHiddenStacks(removeHiddenStacks);
     validateRemoveDeprecatedStacks(removeDeprecatedStacks);
     validateRemovePreviewStacks(removePreviewStacks);
+    validateRemoveNonGitHubActionStacks(removeNonGitHubActionStacks);
 
     const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
     const removeDeprecated = removeDeprecatedStacks && removeDeprecatedStacks.toLowerCase() === 'true';
     const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
+    const removeNonGitHubAction = removeNonGitHubActionStacks && removeNonGitHubActionStacks.toLowerCase() === 'true';
 
     switch (apiVersion) {
       case Versions.version20200601: {
@@ -98,13 +107,15 @@ export class StacksController {
           removePreview
         );
       }
-      case Versions.version20201001: {
+      case Versions.version20201001:
+      case Versions.version20201201: {
         return this._stackService20201001.getWebAppStacks(
           os,
           stack as WebAppStack20201001Value,
           removeHidden,
           removeDeprecated,
-          removePreview
+          removePreview,
+          removeNonGitHubAction
         );
       }
     }

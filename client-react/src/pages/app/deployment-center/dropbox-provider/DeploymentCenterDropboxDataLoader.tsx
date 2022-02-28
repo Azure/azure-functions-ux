@@ -79,22 +79,19 @@ const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = 
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      deploymentCenterData
-        .getDropboxToken(authorizationResult.redirectUrl)
-        .then(response => {
-          if (response.metadata.success) {
-            return deploymentCenterData.storeDropboxToken(response.data);
-          } else {
-            portalContext.log(
-              getTelemetryInfo('error', 'authorizeDropboxAccount', 'failed', {
-                message: getErrorMessage(response.metadata.error),
-                error: response.metadata.error,
-              })
-            );
-            return Promise.resolve(null);
-          }
-        })
-        .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+      deploymentCenterData.getDropboxToken(authorizationResult.redirectUrl).then(response => {
+        if (response.metadata.success) {
+          deploymentCenterData.storeDropboxToken(response.data).then(() => deploymentCenterContext.refreshUserSourceControlTokens());
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'authorizeDropboxAccount', 'failed', {
+              message: getErrorMessage(response.metadata.error),
+              error: response.metadata.error,
+            })
+          );
+          return Promise.resolve(null);
+        }
+      });
     } else {
       return fetchData();
     }

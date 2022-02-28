@@ -1,5 +1,5 @@
 import React from 'react';
-import { ICommandBarItemProps, CommandBar } from 'office-ui-fabric-react';
+import { ICommandBarItemProps, CommandBar, IButtonProps } from 'office-ui-fabric-react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { useTranslation } from 'react-i18next';
@@ -16,44 +16,58 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
   const { save, dirty, showDiscardConfirmDialog, refresh, isLoading } = props;
 
   const { t } = useTranslation();
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
 
-  const isDisabled = () => {
-    return !dirty || isLoading;
+  const getSaveCommandBarItem = (saveDiscardDisabled: boolean) => {
+    return {
+      key: 'save',
+      text: t('save'),
+      iconProps: {
+        iconName: 'Save',
+      },
+      disabled: saveDiscardDisabled,
+      onClick: save,
+    };
   };
 
-  const getItems = (): ICommandBarItemProps[] => {
-    return [
-      {
-        key: 'save',
-        text: t('save'),
-        iconProps: {
-          iconName: 'Save',
-        },
-        disabled: isDisabled(),
-        onClick: save,
+  const getDiscardCommandBarItem = (saveDiscardDisabled: boolean) => {
+    return {
+      key: 'discard',
+      text: t('discard'),
+      iconProps: {
+        iconName: 'ChromeClose',
       },
-      {
-        key: 'discard',
-        text: t('discard'),
-        iconProps: {
-          iconName: 'ChromeClose',
-        },
-        disabled: isDisabled(),
-        onClick: showDiscardConfirmDialog,
-      },
-      {
-        key: 'refresh',
-        text: t('refresh'),
-        iconProps: {
-          iconName: 'Refresh',
-        },
-        disabled: isLoading,
-        onClick: refresh,
-      },
-    ];
+      disabled: saveDiscardDisabled,
+      onClick: showDiscardConfirmDialog,
+    };
   };
 
-  return <CommandBar items={[...getItems()]} role="nav" styles={CommandBarStyles} buttonAs={CustomCommandBarButton} />;
+  const getRefreshCommandBarItem = () => {
+    return {
+      key: 'refresh',
+      text: t('refresh'),
+      iconProps: {
+        iconName: 'Refresh',
+      },
+      disabled: isLoading,
+      onClick: refresh,
+    };
+  };
+
+  const getItems = (dirty: boolean, isLoading: boolean): ICommandBarItemProps[] => {
+    const saveDiscardDisabled = !dirty || isLoading;
+    return [getSaveCommandBarItem(saveDiscardDisabled), getDiscardCommandBarItem(saveDiscardDisabled), getRefreshCommandBarItem()];
+  };
+
+  return (
+    <CommandBar
+      items={getItems(dirty, isLoading)}
+      role="nav"
+      styles={CommandBarStyles}
+      buttonAs={CustomCommandBarButton}
+      overflowButtonProps={overflowButtonProps}
+    />
+  );
 };
 
 export default ConfigurationCommandBar;

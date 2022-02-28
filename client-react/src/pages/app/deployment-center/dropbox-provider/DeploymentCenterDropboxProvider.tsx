@@ -29,7 +29,6 @@ const DeploymentCenterDropboxProvider: React.FC<DeploymentCenterDropboxProviderP
       {accountUser && accountUser.name && accountUser.name.display_name && (
         <>
           <Field
-            id="deployment-center-settings-folder-option"
             label={t('deploymentCenterCodeFolder')}
             name="folder"
             component={Dropdown}
@@ -39,6 +38,7 @@ const DeploymentCenterDropboxProvider: React.FC<DeploymentCenterDropboxProviderP
             placeholder={t('deploymentCenterCodeFolderPlaceholder')}
             required={true}
             isLoading={loadingFolders}
+            aria-required={true}
           />
         </>
       )}

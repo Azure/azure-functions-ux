@@ -12,7 +12,7 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import Url from '../../../../../utils/url';
 import { SiteStateContext } from '../../../../../SiteState';
-import { IContextualMenuItem, ActionButton } from 'office-ui-fabric-react';
+import { IContextualMenuItem, ActionButton, IButtonProps } from 'office-ui-fabric-react';
 
 interface FunctionLogCommandBarProps {
   isPanelVisible: boolean;
@@ -307,6 +307,8 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     );
   };
 
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
+
   return (
     <>
       <CommandBar
@@ -316,6 +318,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
         ariaLabel={t('logStreaming_logs')}
         buttonAs={CustomCommandBarButton}
         className={logCommandBarStyle}
+        overflowButtonProps={overflowButtonProps}
       />
       {isLoggingOptionConfirmCallOutVisible && (
         <FunctionLogOptionsCallout

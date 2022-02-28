@@ -1,6 +1,12 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
-import { AppSettingsFormValues, KeyVaultReferences, AppSettingsAsyncData, LoadingStates } from './AppSettings.types';
+import {
+  AppSettingsFormValues,
+  KeyVaultReferences,
+  AppSettingsAsyncData,
+  LoadingStates,
+  FormAzureStorageMounts,
+} from './AppSettings.types';
 import { convertStateToForm, convertFormToState, getCleanedReferences } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import {
@@ -33,7 +39,7 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
-import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
+import { isFunctionApp, isKubeApp, isLinuxApp } from '../../../utils/arm-utils';
 import { StartupInfoContext } from '../../../StartupInfoContext';
 import { LogCategories } from '../../../utils/LogCategories';
 import { KeyValue } from '../../../models/portal-models';
@@ -50,6 +56,7 @@ export interface AppSettingsDataLoaderProps {
     scaleUpPlan: () => void;
     refreshAppSettings: () => void;
     onSubmit: (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => void;
+    setInitialValues: (initialValues: AppSettingsFormValues | null) => void;
   }) => JSX.Element;
   resourceId: string;
 }
@@ -128,37 +135,46 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       fetchApplicationSettingValues(resourceId),
     ]);
 
-    const {
-      webConfig,
-      metadata,
-      connectionStrings,
-      applicationSettings,
-      slotConfigNames,
-      azureStorageMounts,
-    } = applicationSettingsResponse;
+    const { webConfig, metadata, connectionStrings, applicationSettings, slotConfigNames } = applicationSettingsResponse;
 
     let loadingFailed =
       armCallFailed(site) ||
       armCallFailed(webConfig) ||
       armCallFailed(metadata, true) ||
       armCallFailed(connectionStrings, true) ||
-      armCallFailed(applicationSettings, true) ||
-      armCallFailed(azureStorageMounts, true);
+      armCallFailed(applicationSettings, true);
+
+    let azureStorageMounts;
+    const isKube = site.metadata.success && isKubeApp(site.data);
+
+    // NOTE (krmitta): Don't block the entire blade incase siteResponse is returned and the app is not-kube
+    if (!isKube) {
+      azureStorageMounts = await SiteService.fetchAzureStorageMounts(resourceId);
+      loadingFailed = loadingFailed || armCallFailed(azureStorageMounts, true);
+    }
 
     // Get stacks response
     if (!loadingFailed) {
       const isLinux = isLinuxApp(site.data);
       if (isFunctionApp(site.data)) {
         const stacksResponse = await RuntimeStackService.getFunctionAppConfigurationStacks(isLinux ? AppStackOs.linux : AppStackOs.windows);
-        if (stacksResponse.metadata.status) {
-          setFunctionAppStacks(stacksResponse.data);
+        if (stacksResponse.metadata.status && !!stacksResponse.data.value) {
+          const allFunctionAppStacks: FunctionAppStack[] = [];
+          stacksResponse.data.value.forEach(stack => {
+            allFunctionAppStacks.push(stack.properties);
+          });
+          setFunctionAppStacks(allFunctionAppStacks);
         } else {
           loadingFailed = true;
         }
       } else {
         const stacksResponse = await RuntimeStackService.getWebAppConfigurationStacks(isLinux ? AppStackOs.linux : AppStackOs.windows);
-        if (stacksResponse.metadata.status) {
-          setWebAppStacks(stacksResponse.data);
+        if (stacksResponse.metadata.status && !!stacksResponse.data.value) {
+          const allWebAppStacks: WebAppStack[] = [];
+          stacksResponse.data.value.forEach(stack => {
+            allWebAppStacks.push(stack.properties);
+          });
+          setWebAppStacks(allWebAppStacks);
         } else {
           loadingFailed = true;
         }
@@ -166,15 +182,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
 
     setLoadingFailure(loadingFailed);
-
-    // The user may have VNET security restrictions enabled. If so, then including "ipSecurityRestrictions" or "scmIpSecurityRestrictions" in the payload for
-    // the config/web API means that the call will require joinViaServiceEndpoint/action permissions on the given subnet(s) referenced in the security restrictions.
-    // If the user doesn't have these permissions, the config/web API call will fail. (This is true even if these properties are just being round-tripped.)
-    // Since this UI doesn't allow modifying these properties, we can just remove them from the config object to avoid the unnecessary permissions requirement.
-    if (webConfig.data) {
-      delete webConfig.data.properties.ipSecurityRestrictions;
-      delete webConfig.data.properties.scmIpSecurityRestrictions;
-    }
 
     if (!loadingFailed) {
       setCurrentSiteNonForm(site.data);
@@ -225,7 +232,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           connectionStrings: connectionStrings.metadata.success ? connectionStrings.data : null,
           appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
           slotConfigNames: slotConfigNames.data,
-          azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
+          azureStorageMounts: !!azureStorageMounts && azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
           basicPublishingCredentialsPolicies: basicPublishingCredentialsPolicies.metadata.success
             ? basicPublishingCredentialsPolicies.data
             : null,
@@ -351,6 +358,27 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     loadData();
   };
 
+  const isAzureStorageMountUpdated = (current: FormAzureStorageMounts[], origin: FormAzureStorageMounts[] | null) => {
+    if (!!origin) {
+      if (current.length !== origin.length) {
+        return true;
+      }
+      return current.some(itemCurrent => {
+        return !origin.some(itemOrigin => {
+          return (
+            itemOrigin.accessKey === itemCurrent.accessKey &&
+            itemOrigin.accountName === itemCurrent.accountName &&
+            itemOrigin.mountPath === itemCurrent.mountPath &&
+            itemOrigin.name === itemCurrent.name &&
+            itemOrigin.shareName === itemCurrent.shareName &&
+            itemOrigin.type === itemCurrent.type
+          );
+        });
+      });
+    }
+    return true;
+  };
+
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
     setSaving(true);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
@@ -361,8 +389,17 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       slotConfigNamesFromApi
     );
 
+    const shouldUpdateAzureStorageMount = isAzureStorageMountUpdated(
+      values.azureStorageMounts,
+      initialValues && initialValues.azureStorageMounts
+    );
+    let configSettingToIgnore = SiteService.getSiteConfigSettingsToIgnore();
+    if (shouldUpdateAzureStorageMount) {
+      configSettingToIgnore = configSettingToIgnore.filter(config => config !== 'azureStorageAccounts');
+    }
+
     const [siteUpdate, slotConfigNamesUpdate] = [
-      updateSite(resourceId, site),
+      updateSite(resourceId, site, configSettingToIgnore),
       productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
     ];
 
@@ -428,6 +465,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
                   scaleUpPlan,
                   asyncData,
                   refreshAppSettings,
+                  setInitialValues,
                   initialFormValues: initialValues,
                 })}
               </SlotsListContext.Provider>

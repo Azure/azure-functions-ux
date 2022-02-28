@@ -72,7 +72,7 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
     setStackBannerAndInfoMessage();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values.config.properties.linuxFxVersion]);
+  }, [values.config.properties.pythonVersion]);
 
   if (!pythonStack) {
     return null;

@@ -24,6 +24,7 @@ import { DecimalRangeValidator } from '../../../shared/validators/decimalRangeVa
 import { RoutingSumValidator } from '../../../shared/validators/routingSumValidator';
 import { TreeViewInfo, SiteData } from '../../../tree-view/models/tree-view-info';
 import { ScenarioCheckResult } from 'app/shared/services/scenario/scenario.models';
+import { ArmUtil } from '../../../shared/Utilities/arm-utils';
 
 @Component({
   selector: 'deployment-slots',
@@ -230,7 +231,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         const scenarioInput = this._getScenarioCheckInput();
 
         const tipSupportedCheck = !!scenarioInput && this._scenarioService.checkScenario(ScenarioIds.tipSupported, scenarioInput);
-        this.tipSupported = !tipSupportedCheck || tipSupportedCheck.status !== 'disabled';
+        // TODO (refortie) #9869434 - Remove once the backend returns the ramp up rules for ARC
+        const isKubeApp = ArmUtil.isKubeApp(scenarioInput && scenarioInput.site);
+        this.tipSupported = (!tipSupportedCheck || tipSupportedCheck.status !== 'disabled') && !isKubeApp;
 
         const canScaleForSlotsCheck = !!scenarioInput && this._scenarioService.checkScenario(ScenarioIds.canScaleForSlots, scenarioInput);
         this.canScaleUp = !canScaleForSlotsCheck || canScaleForSlotsCheck.status !== 'disabled';
@@ -426,7 +429,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   }
 
   private _generateRuleControl(siteArm: ArmObj<Site>): FormControl {
-    const rampUpRules = this.prodSiteConfigArm.properties.experiments.rampUpRules;
+    const rampUpRules =
+      (this.prodSiteConfigArm.properties.experiments && this.prodSiteConfigArm.properties.experiments.rampUpRules) || ([] as RoutingRule[]);
     const ruleName = siteArm.type === 'Microsoft.Web/sites' ? 'production' : this.getSegment(siteArm.name, -1);
     const rule = !rampUpRules ? null : rampUpRules.filter(r => r.name.toLowerCase() === ruleName.toLowerCase())[0];
 
@@ -470,7 +474,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
           notificationId = s.id;
 
           const siteConfigArm: ArmObj<SiteConfig> = JSON.parse(JSON.stringify(this.prodSiteConfigArm));
-          const rampUpRules = siteConfigArm.properties.experiments.rampUpRules as RoutingRule[];
+          const rampUpRules =
+            (siteConfigArm.properties.experiments && siteConfigArm.properties.experiments.rampUpRules) || ([] as RoutingRule[]);
 
           const rulesGroup: FormGroup = this.mainForm.controls['rulesGroup'] as FormGroup;
           for (const name in rulesGroup.controls) {
@@ -518,6 +523,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
               }
             }
           }
+
+          siteConfigArm.properties.experiments = { ...siteConfigArm.properties.experiments, rampUpRules };
 
           if (siteConfigArm.properties && siteConfigArm.properties.azureStorageAccounts) {
             delete siteConfigArm.properties.azureStorageAccounts;

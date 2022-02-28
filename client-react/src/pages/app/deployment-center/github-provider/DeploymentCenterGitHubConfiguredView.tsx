@@ -19,6 +19,7 @@ import { SiteStateContext } from '../../../../SiteState';
 import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
 import { PortalContext } from '../../../../PortalContext';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
 const DeploymentCenterGitHubConfiguredView: React.FC<
   DeploymentCenterFieldProps<DeploymentCenterCodeFormData | DeploymentCenterContainerFormData>
@@ -47,35 +48,15 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
     setIsGitHubUsernameMissing(false);
     setIsBranchInfoMissing(false);
 
-    const getGitHubUserRequest = deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken);
-    const getSourceControlDetailsResponse = deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
-
     portalContext.log(getTelemetryInfo('info', 'initialDataGitHubConfigured', 'submit'));
 
-    const [gitHubUserResponse, sourceControlDetailsResponse] = await Promise.all([getGitHubUserRequest, getSourceControlDetailsResponse]);
+    await Promise.all([fetchGitHubUser(), fetchSourceControlDetails()]);
 
-    if (sourceControlDetailsResponse.metadata.success) {
-      setRepoUrl(sourceControlDetailsResponse.data.properties.repoUrl);
-      setBranch(sourceControlDetailsResponse.data.properties.branch);
+    setIsLoading(false);
+  };
 
-      const repoUrlSplit = sourceControlDetailsResponse.data.properties.repoUrl.split('/');
-      if (repoUrlSplit.length >= 2) {
-        setOrg(repoUrlSplit[repoUrlSplit.length - 2]);
-        setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
-      }
-    } else {
-      setIsBranchInfoMissing(true);
-      setRepoUrl(t('deploymentCenterErrorFetchingInfo'));
-      setOrg(t('deploymentCenterErrorFetchingInfo'));
-      setRepo(t('deploymentCenterErrorFetchingInfo'));
-
-      portalContext.log(
-        getTelemetryInfo('error', 'sourceControlDetailsResponse', 'failed', {
-          message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
-          errorAsString: JSON.stringify(sourceControlDetailsResponse.metadata.error),
-        })
-      );
-    }
+  const fetchGitHubUser = async () => {
+    const gitHubUserResponse = await deploymentCenterData.getGitHubUser(deploymentCenterContext.gitHubToken);
 
     if (gitHubUserResponse.metadata.success && gitHubUserResponse.data.login) {
       setGitHubUsername(gitHubUserResponse.data.login);
@@ -91,8 +72,50 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
         })
       );
     }
+  };
 
-    setIsLoading(false);
+  const fetchSourceControlDetails = async () => {
+    let repoUrl;
+    let branch;
+
+    if (!siteStateContext.isKubeApp) {
+      const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
+
+      if (sourceControlDetailsResponse.metadata.success) {
+        repoUrl = sourceControlDetailsResponse.data.properties.repoUrl;
+        branch = sourceControlDetailsResponse.data.properties.branch;
+      } else {
+        setIsBranchInfoMissing(true);
+        setRepoUrl(t('deploymentCenterErrorFetchingInfo'));
+        setOrg(t('deploymentCenterErrorFetchingInfo'));
+        setRepo(t('deploymentCenterErrorFetchingInfo'));
+
+        portalContext.log(
+          getTelemetryInfo('error', 'fetchSourceControlDetails', 'failed', {
+            message: getErrorMessage(sourceControlDetailsResponse.metadata.error),
+            errorAsString: JSON.stringify(sourceControlDetailsResponse.metadata.error),
+          })
+        );
+      }
+    } else {
+      repoUrl =
+        deploymentCenterContext.configMetadata &&
+        deploymentCenterContext.configMetadata.properties[DeploymentCenterConstants.metadataRepoUrl];
+      branch =
+        deploymentCenterContext.configMetadata &&
+        deploymentCenterContext.configMetadata.properties[DeploymentCenterConstants.metadataBranch];
+    }
+
+    if (repoUrl && branch) {
+      setRepoUrl(repoUrl);
+      setBranch(branch);
+
+      const repoUrlSplit = repoUrl.split('/');
+      if (repoUrlSplit.length >= 2) {
+        setOrg(repoUrlSplit[repoUrlSplit.length - 2]);
+        setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
+      }
+    }
   };
 
   const authorizeGitHubAccount = () => {
@@ -101,24 +124,23 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      deploymentCenterData
-        .getGitHubToken(authorizationResult.redirectUrl)
-        .then(response => {
-          if (response.metadata.success) {
-            return deploymentCenterData.storeGitHubToken(response.data);
-          } else {
-            // NOTE(michinoy): This is all related to the handshake between us and the provider.
-            // If this fails, there isn't much the user can do except retry.
-            portalContext.log(
-              getTelemetryInfo('error', 'getGitHubTokenResponse', 'failed', {
-                errorAsString: JSON.stringify(response.metadata.error),
-              })
-            );
+      deploymentCenterData.getGitHubToken(authorizationResult.redirectUrl).then(response => {
+        if (response.metadata.success) {
+          deploymentCenterData.storeGitHubToken(response.data).then(() => {
+            deploymentCenterContext.refresh();
+          });
+        } else {
+          // NOTE(michinoy): This is all related to the handshake between us and the provider.
+          // If this fails, there isn't much the user can do except retry.
+          portalContext.log(
+            getTelemetryInfo('error', 'getGitHubTokenResponse', 'failed', {
+              errorAsString: JSON.stringify(response.metadata.error),
+            })
+          );
 
-            return Promise.resolve(null);
-          }
-        })
-        .then(() => fetchData());
+          return Promise.resolve(null);
+        }
+      });
     } else {
       return fetchData();
     }
@@ -128,6 +150,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
     return (
       <div className={deploymentCenterInfoBannerDiv}>
         <CustomBanner
+          id="deployment-center-settings-configured-view-user-not-authorized"
           message={
             <>
               {`${t('deploymentCenterSettingsConfiguredViewUserNotAuthorized')} `}
@@ -192,24 +215,22 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
   };
 
   useEffect(() => {
-    fetchData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     setOrg(getOrgValue(isLoading));
     setRepo(getRepoValue(isLoading));
     setBranch(getBranchValue(isLoading));
     setGitHubUsername(getSignedInAsComponent(isLoading));
 
+    if (!!deploymentCenterContext.configMetadata) {
+      fetchData();
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading]);
+  }, [deploymentCenterContext.configMetadata]);
 
   return (
     <>
       {isGitHubActionsSetup && (
-        <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterSettingsSourceLabel')}>
+        <ReactiveFormControl id="deployment-center-github-source-label" label={t('deploymentCenterSettingsSourceLabel')}>
           <div>
             {`${t('deploymentCenterCodeSettingsSourceGitHub')}`}
             {!isLoading && branch && org && repo && repoUrl && (

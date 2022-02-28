@@ -9,7 +9,7 @@ export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
   return {
     root: [
       {
-        ...fonts.small,
+        ...fonts.medium,
         height: StyleConstants.inputControlHeight,
         selectors: {
           '.ms-Button': {
@@ -80,18 +80,18 @@ export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
       height: '1px',
     },
     errorMessage: {
-      ...fonts.small,
+      ...fonts.medium,
       color: semanticColors.errorText,
     },
     optionsContainer: {
       verticalAlign: 'middle',
       selectors: {
         '.ms-ComboBox-header': {
-          ...fonts.small,
+          ...fonts.medium,
           color: semanticColors.focusBorder,
         },
         '.ms-ComboBox-option': {
-          ...fonts.small,
+          ...fonts.medium,
           color: semanticColors.bodyText,
           selectors: {
             ':hover': {

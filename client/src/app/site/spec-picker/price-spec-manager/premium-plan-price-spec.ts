@@ -63,11 +63,12 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
   }
 
   runInitialization(input: PriceSpecInput) {
-    if (input.plan) {
+    if (input.planDetails) {
       if (
-        input.plan.properties.hostingEnvironmentProfile ||
-        input.plan.properties.hyperV ||
-        AppKind.hasAnyKind(input.plan, [Kinds.linux, Kinds.elastic])
+        input.planDetails.plan.properties.hostingEnvironmentProfile ||
+        input.planDetails.plan.properties.hyperV ||
+        AppKind.hasAnyKind(input.planDetails.plan, [Kinds.linux, Kinds.elastic]) ||
+        input.planDetails.containsJbossSite
       ) {
         this.state = 'hidden';
       }
@@ -77,7 +78,9 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
         input.specPickerInput.data.isLinux ||
         input.specPickerInput.data.isXenon ||
         input.specPickerInput.data.hyperV ||
-        (input.specPickerInput.data.isNewFunctionAppCreate && input.specPickerInput.data.isElastic)
+        input.specPickerInput.data.isJBoss ||
+        (input.specPickerInput.data.isNewFunctionAppCreate &&
+          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard))
       ) {
         this.state = 'hidden';
       }

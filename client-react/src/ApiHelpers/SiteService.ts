@@ -13,15 +13,41 @@ import { PublishingCredentials } from '../models/site/publish';
 import { DeploymentProperties, DeploymentLogsItem, SourceControlProperties } from '../pages/app/deployment-center/DeploymentCenter.types';
 
 export default class SiteService {
+  private static readonly _configSettingsToIgnore = ['ipSecurityRestrictions', 'scmIpSecurityRestrictions', 'azureStorageAccounts'];
+
+  private static _removePropertiesFromSiteConfig = (siteConfig: Partial<SiteConfig>, settingsToIgnore: string[]) => {
+    if (!!siteConfig && !!settingsToIgnore) {
+      settingsToIgnore.forEach(settingToIgnore => {
+        delete siteConfig[settingToIgnore];
+      });
+    }
+  };
+
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
 
   public static fetchSite = (resourceId: string) => {
     return MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'fetchSite' });
   };
 
-  public static updateSite = (resourceId: string, site: ArmObj<Site>) => {
+  public static updateSite = (
+    resourceId: string,
+    site: ArmObj<Site>,
+    configSettingsToIgnore: string[] = SiteService._configSettingsToIgnore
+  ) => {
     const { identity, ...rest } = site;
-    return MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'updateSite', method: 'PUT', body: rest });
+
+    const siteConfig = !!rest && !!rest.properties && rest.properties.siteConfig;
+    SiteService._removePropertiesFromSiteConfig(siteConfig, configSettingsToIgnore);
+
+    const payload = {
+      ...rest,
+      properties: {
+        ...rest.properties,
+        siteConfig,
+      },
+    };
+
+    return MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'updateSite', method: 'PUT', body: payload });
   };
 
   public static fetchWebConfig = (resourceId: string) => {
@@ -33,18 +59,25 @@ export default class SiteService {
     });
   };
 
-  public static updateWebConfig = (resourceId: string, siteConfig: ArmObj<SiteConfig>) => {
-    const id = `${resourceId}/config/web`;
+  public static getSiteConfigSettingsToIgnore() {
+    return SiteService._configSettingsToIgnore;
+  }
 
-    if (siteConfig.properties.azureStorageAccounts) {
-      delete siteConfig.properties.azureStorageAccounts;
-    }
+  public static updateWebConfig = (
+    resourceId: string,
+    siteConfig: ArmObj<SiteConfig>,
+    settingsToIgnore: string[] = SiteService._configSettingsToIgnore
+  ) => {
+    const payload = { ...siteConfig };
+    SiteService._removePropertiesFromSiteConfig(siteConfig.properties, settingsToIgnore);
+
+    const id = `${resourceId}/config/web`;
 
     return MakeArmCall<ArmObj<SiteConfig>>({
       resourceId: id,
       commandName: 'updateWebConfig',
       method: 'PUT',
-      body: siteConfig,
+      body: payload,
       apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
     });
   };
@@ -92,6 +125,14 @@ export default class SiteService {
       resourceId: `${deploymentId}/log`,
       commandName: 'fetchDeploymentLogs',
       method: 'GET',
+    });
+  };
+
+  public static redeployCommit = async (resourceId: string, commitId: string) => {
+    return MakeArmCall<ArmArray<DeploymentLogsItem>>({
+      resourceId: `${resourceId}/deployments/${commitId}`,
+      commandName: 'redeployCommit',
+      method: 'PUT',
     });
   };
 
@@ -166,9 +207,11 @@ export default class SiteService {
   public static fetchMetadata = async (resourceId: string) => {
     const id = `${resourceId}/config/metadata/list`;
     const result = await MakeArmCall<ArmObj<KeyValue<string>>>({ resourceId: id, commandName: 'fetchMetadata', method: 'POST' });
+    const properties = !!result.data && !!result.data.properties ? result.data.properties : {};
+
     LogService.trackEvent('site-service', 'metadataLoaded', {
       success: result.metadata.success,
-      resultCount: result.data && Object.keys(result.data.properties).length,
+      resultCount: Object.keys(properties).length,
     });
     return result;
   };

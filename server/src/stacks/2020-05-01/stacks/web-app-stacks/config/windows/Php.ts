@@ -46,7 +46,7 @@ export const phpWindowsConfigStack: WebAppConfigStack = {
         minorVersions: [],
         applicationInsights: false,
         isPreview: false,
-        isDeprecated: false,
+        isDeprecated: true,
         isHidden: false,
       },
       {

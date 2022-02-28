@@ -40,6 +40,7 @@ export const Links = {
   functionCreateBindingsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141857',
   functionV2MigrationLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2147591',
   earlyAccessStackLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2151539',
+  staticWebAppsPricingCalculator: 'https://go.microsoft.com/fwlink/?linkid=2162300',
 };
 
 export const DeploymentCenterLinks = {
@@ -48,4 +49,9 @@ export const DeploymentCenterLinks = {
   containerContinuousDeploy: 'https://go.microsoft.com/fwlink/?linkid=2133570',
   configureDeploymentSlots: 'https://go.microsoft.com/fwlink/?linkid=2142216',
   configureLocalGitDeployment: 'https://go.microsoft.com/fwlink/?linkid=2151801',
+  vstsBuildGetStarted: 'https://go.microsoft.com/fwlink/?LinkId=2014579',
+  vstsWebAppLinuxDeployment: 'https://go.microsoft.com/fwlink/?linkid=2153882',
+  vstsWebAppWindowsDeployment: 'https://go.microsoft.com/fwlink/?linkid=2153883',
+  vstsWebAppContainerDeployment: 'https://go.microsoft.com/fwlink/?linkid=2153784',
+  publishingUserDocumentation: 'https://go.microsoft.com/fwlink/?linkid=2082375',
 };

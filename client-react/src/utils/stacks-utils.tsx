@@ -18,6 +18,7 @@ import CustomBanner from '../components/CustomBanner/CustomBanner';
 import React from 'react';
 
 const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
+export const NETFRAMEWORKVERSION5 = 5;
 
 export const getStacksSummaryForDropdown = (
   stack: WebAppStack | FunctionAppStack,
@@ -276,7 +277,6 @@ export const RuntimeStacks = {
   java8: 'java-8',
   java11: 'java-11',
   php: 'php',
-  aspnet: 'aspnet',
   powershell: 'powershell',
   dotnet: 'dotnet',
 };

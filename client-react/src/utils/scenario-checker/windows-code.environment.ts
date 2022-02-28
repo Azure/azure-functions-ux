@@ -1,5 +1,6 @@
+import { isWindowsCode } from '../arm-utils';
+import { CommonConstants } from '../CommonConstants';
 import Url from '../url';
-import { CommonConstants } from './../CommonConstants';
 import { ScenarioIds } from './scenario-ids';
 import { Environment, ScenarioCheckInput } from './scenario.models';
 
@@ -24,14 +25,18 @@ export class WindowsCode extends Environment {
         };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.azureBlobMount] = {
+      id: ScenarioIds.azureBlobMount,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
-    return (
-      !!input &&
-      !!input.site &&
-      !!input.site.kind &&
-      (input.site.kind.toLowerCase() === CommonConstants.Kinds.app || input.site.kind.toLowerCase() === CommonConstants.Kinds.api)
-    );
+    return !!input && !!input.site && !!input.site.kind && isWindowsCode(input.site);
   }
 }

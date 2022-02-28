@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { join, normalize } from 'path';
-import { AppType, FunctionAppRuntimeStack, JavaContainers, Os, PublishType, WebAppRuntimeStack } from '../WorkflowModel';
+import { AppType, JavaContainers, Os, PublishType, RuntimeStacks } from '../WorkflowModel';
 const fs = require('fs');
 
 @Injectable()
@@ -35,13 +35,13 @@ export class WorkflowService20201201 {
     const runtimeStack = providedRuntimeStack.toLocaleLowerCase();
 
     switch (runtimeStack) {
-      case FunctionAppRuntimeStack.DotNetCore:
+      case RuntimeStacks.Dotnet:
         return this.readWorkflowFile('function-app-configs/dotnetcore-linux.config.yml');
-      case FunctionAppRuntimeStack.Java:
+      case RuntimeStacks.Java:
         return this.readWorkflowFile('function-app-configs/java-linux.config.yml');
-      case FunctionAppRuntimeStack.Node:
+      case RuntimeStacks.Node:
         return this.readWorkflowFile('function-app-configs/node-linux.config.yml');
-      case FunctionAppRuntimeStack.Python:
+      case RuntimeStacks.Python:
         return this.readWorkflowFile('function-app-configs/python-linux.config.yml');
       default:
         throw new HttpException(`The workflow file for the runtime stack '${runtimeStack}' and OS '${providedOs}' does not exist.`, 404);
@@ -52,13 +52,13 @@ export class WorkflowService20201201 {
     const runtimeStack = providedRuntimeStack.toLocaleLowerCase();
 
     switch (runtimeStack) {
-      case FunctionAppRuntimeStack.Powershell:
+      case RuntimeStacks.Powershell:
         return this.readWorkflowFile('function-app-configs/powershell-windows.config.yml');
-      case FunctionAppRuntimeStack.DotNetCore:
+      case RuntimeStacks.Dotnet:
         return this.readWorkflowFile('function-app-configs/dotnetcore-windows.config.yml');
-      case FunctionAppRuntimeStack.Java:
+      case RuntimeStacks.Java:
         return this.readWorkflowFile('function-app-configs/java-windows.config.yml');
-      case FunctionAppRuntimeStack.Node:
+      case RuntimeStacks.Node:
         return this.readWorkflowFile('function-app-configs/node-windows.config.yml');
       default:
         throw new HttpException(`The workflow file for the runtime stack '${runtimeStack}' and OS '${providedOs}' does not exist.`, 404);
@@ -75,9 +75,9 @@ export class WorkflowService20201201 {
     const runtimeStack = providedRuntimeStack.toLocaleLowerCase();
 
     switch (runtimeStack) {
-      case WebAppRuntimeStack.DotNetCore:
+      case RuntimeStacks.Dotnet:
         return this.readWorkflowFile('web-app-configs/dotnetcore-linux.config.yml');
-      case WebAppRuntimeStack.Java:
+      case RuntimeStacks.Java:
         if (this.javaWarWorkflowCheck(variables)) {
           return this.readWorkflowFile('web-app-configs/java-war-linux.config.yml');
         } else if (this.javaJarWorkflowCheck(variables)) {
@@ -85,10 +85,12 @@ export class WorkflowService20201201 {
         } else {
           throw new HttpException(`The java container must be specified`, 404);
         }
-      case WebAppRuntimeStack.Node:
+      case RuntimeStacks.Node:
         return this.readWorkflowFile('web-app-configs/node-linux.config.yml');
-      case WebAppRuntimeStack.Python:
+      case RuntimeStacks.Python:
         return this.readWorkflowFile('web-app-configs/python-linux.config.yml');
+      case RuntimeStacks.Php:
+        return this.readWorkflowFile('web-app-configs/php-linux.config.yml');
       default:
         throw new HttpException(`The workflow file for the runtime stack '${runtimeStack}' and OS '${providedOs}' does not exist.`, 404);
     }
@@ -98,11 +100,11 @@ export class WorkflowService20201201 {
     const runtimeStack = providedRuntimeStack.toLocaleLowerCase();
 
     switch (runtimeStack) {
-      case WebAppRuntimeStack.AspNet:
-        return this.readWorkflowFile('web-app-configs/aspnet-windows.config.yml');
-      case WebAppRuntimeStack.DotNetCore:
-        return this.readWorkflowFile('web-app-configs/dotnetcore-windows.config.yml');
-      case WebAppRuntimeStack.Java:
+      case RuntimeStacks.Dotnet:
+        return variables['runtimeVersion'].toLocaleLowerCase() === 'v4.0' || variables['runtimeVersion'].toLocaleLowerCase() === 'v2.0'
+          ? this.readWorkflowFile('web-app-configs/aspnet-windows.config.yml')
+          : this.readWorkflowFile('web-app-configs/dotnetcore-windows.config.yml');
+      case RuntimeStacks.Java:
         if (this.javaWarWorkflowCheck(variables)) {
           return this.readWorkflowFile('web-app-configs/java-war-windows.config.yml');
         } else if (this.javaJarWorkflowCheck(variables)) {
@@ -110,21 +112,28 @@ export class WorkflowService20201201 {
         } else {
           throw new HttpException(`The java container must be specified`, 404);
         }
-      case WebAppRuntimeStack.Node:
+      case RuntimeStacks.Node:
         return this.readWorkflowFile('web-app-configs/node-windows.config.yml');
-      case WebAppRuntimeStack.Python:
+      case RuntimeStacks.Python:
         return this.readWorkflowFile('web-app-configs/python-windows.config.yml');
+      case RuntimeStacks.Php:
+        return this.readWorkflowFile('web-app-configs/php-windows.config.yml');
       default:
         throw new HttpException(`The workflow file for the runtime stack '${runtimeStack}' and OS '${providedOs}' does not exist.`, 404);
     }
   }
 
   javaWarWorkflowCheck(variables: { [key: string]: string }) {
-    return variables && variables['javaContainer'] && variables['javaContainer'].toLocaleLowerCase() === JavaContainers.Tomcat;
+    return (
+      !!variables &&
+      !!variables['javaContainer'] &&
+      (variables['javaContainer'].toLocaleLowerCase() === JavaContainers.Tomcat ||
+        variables['javaContainer'].toLocaleLowerCase() === JavaContainers.JBoss)
+    );
   }
 
   javaJarWorkflowCheck(variables: { [key: string]: string }) {
-    return variables && variables['javaContainer'] && variables['javaContainer'].toLocaleLowerCase() !== JavaContainers.Tomcat;
+    return !!variables && !!variables['javaContainer'] && variables['javaContainer'].toLocaleLowerCase() === JavaContainers.JavaSE;
   }
 
   getContainerWorkflowFile(os: string) {

@@ -3,11 +3,17 @@ import { ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService } from '../services/console.service';
 import { ConsoleConstants, HttpMethods } from '../../../../shared/models/constants';
 import { HostType } from '../../../../shared/models/arm/site';
+import { PortalResources } from '../../../../shared/models/portal-resources';
+import { TranslateService } from '@ngx-translate/core';
 
 export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
   private _defaultDirectory = 'D:\\home\\site\\wwwroot';
 
-  constructor(componentFactoryResolver: ComponentFactoryResolver, public consoleService: ConsoleService) {
+  constructor(
+    componentFactoryResolver: ComponentFactoryResolver,
+    public consoleService: ConsoleService,
+    private _translateService: TranslateService
+  ) {
     super(componentFactoryResolver, consoleService);
     this.dir = this._defaultDirectory;
   }
@@ -82,7 +88,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
           }
         },
         err => {
-          console.log('Tab Key Error' + err.text);
+          console.log('Tab Key Error' + err.text());
         }
       );
     } else {
@@ -118,7 +124,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
         this.enterPressed = false;
       },
       err => {
-        this.addErrorComponent(err.text);
+        this.addErrorComponent(this._translateService.instant(PortalResources.error_consoleCommandFialure));
         this.enterPressed = false;
       }
     );

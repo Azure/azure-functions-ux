@@ -505,6 +505,14 @@ export default class AppInsightsService {
       return CommonConstants.AppInsightsEndpoints.mooncake;
     }
 
+    if (NationalCloudEnvironment.isUSSec()) {
+      return CommonConstants.AppInsightsEndpoints.usSec;
+    }
+
+    if (NationalCloudEnvironment.isUSNat()) {
+      return CommonConstants.AppInsightsEndpoints.usNat;
+    }
+
     return CommonConstants.AppInsightsEndpoints.public;
   };
 

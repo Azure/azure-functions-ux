@@ -90,7 +90,7 @@ export class EtwService {
   ) {
     if (this.isHealthy()) {
       try {
-        const customDimensions = typeof properties === 'string' ? { message: properties } : properties;
+        const customDimensions = this._getSanitizedProperties(properties);
         const data = {
           eventName: eventType,
           timeStamp: Date().toLocaleString(),
@@ -123,6 +123,36 @@ export class EtwService {
         this._writeToSecondaryLogger('/error/server/EtwLogger/StdinWriteError', this._getExtendedMessage(message));
       }
     }
+  }
+
+  private _getSanitizedProperties(properties: any) {
+    if (!properties) {
+      return { message: '' };
+    }
+
+    if (typeof properties === 'string') {
+      return { message: properties };
+    }
+
+    const sanitizedProperties: { [name: string]: string } = {};
+    for (const propertyName in properties) {
+      if (properties.hasOwnProperty(propertyName)) {
+        const propertyValue = properties[propertyName];
+        let sanitizedPropertyValue = '';
+        if (typeof propertyValue === 'string') {
+          sanitizedPropertyValue = propertyValue;
+        } else {
+          try {
+            sanitizedPropertyValue = JSON.stringify(propertyValue);
+          } catch {
+            sanitizedPropertyValue = propertyValue.toString();
+          }
+        }
+        sanitizedProperties[propertyName] = sanitizedPropertyValue;
+      }
+    }
+
+    return sanitizedProperties;
   }
 
   private _getString(data: any) {

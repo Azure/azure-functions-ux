@@ -8,10 +8,10 @@ export const KeyvaultUri = 'https://vault.azure.net';
 
 @Injectable()
 export class ConfigService implements OnModuleInit {
-  private readonly dotEnvConfig: { [key: string]: string };
+  private readonly dotEnvConfig: dotenv.DotenvParseOutput;
 
   constructor(private httpService: HttpService) {
-    this.dotEnvConfig = dotenv.config();
+    this.dotEnvConfig = dotenv.config().parsed || {};
   }
 
   async onModuleInit() {
@@ -120,16 +120,15 @@ export class ConfigService implements OnModuleInit {
       aadToken = aadAccessToken;
     }
 
-    const dotenvParsed = this.dotEnvConfig.parsed || {};
-    const envWithKeyvault = Object.assign({}, dotenvParsed);
+    const envWithKeyvault = Object.assign({}, this.dotEnvConfig);
     const token = aadToken;
 
     if (token) {
       // This will find all dotnetEnv defined values that match the pattern kv:<secret url> and fetches the true value from keyvault
-      const fetches = Object.keys(dotenvParsed)
-        .filter(key => dotenvParsed[key].match(/^kv:/))
+      const fetches = Object.keys(this.dotEnvConfig)
+        .filter(key => this.dotEnvConfig[key].match(/^kv:/))
         .map(async key => {
-          const uri = `${dotenvParsed[key].replace(/^kv:/, '')}?api-version=${KeyvaultApiVersion}`;
+          const uri = `${this.dotEnvConfig[key].replace(/^kv:/, '')}?api-version=${KeyvaultApiVersion}`;
           try {
             const secretResponse = await this.httpService.get(uri, {
               headers: {

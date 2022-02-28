@@ -22,7 +22,10 @@ export default class SiteHelper {
       editMode === FunctionAppEditMode.ReadOnlyLinuxCodeElastic ||
       editMode === FunctionAppEditMode.ReadOnlyLock ||
       editMode === FunctionAppEditMode.ReadOnlyRbac ||
-      editMode === FunctionAppEditMode.ReadOnlyCustom
+      editMode === FunctionAppEditMode.ReadOnlyCustom ||
+      editMode === FunctionAppEditMode.ReadOnlyDotnet5 ||
+      editMode === FunctionAppEditMode.ReadOnlyArc ||
+      editMode === FunctionAppEditMode.ReadOnlyAzureFiles
     );
   }
 
@@ -66,6 +69,15 @@ export default class SiteHelper {
       }
       case FunctionAppEditMode.ReadOnlyCustom: {
         return t('ibizafication_readOnlyCustom');
+      }
+      case FunctionAppEditMode.ReadOnlyDotnet5: {
+        return t('ibizafication_readOnlyDotnet5');
+      }
+      case FunctionAppEditMode.ReadOnlyArc: {
+        return t('ibizafication_readOnlyArc');
+      }
+      case FunctionAppEditMode.ReadOnlyAzureFiles: {
+        return t('readOnlyMissingAzureFilesSetting');
       }
     }
     return t('ibizafication_readOnly');

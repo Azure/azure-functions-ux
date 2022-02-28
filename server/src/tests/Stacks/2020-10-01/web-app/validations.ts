@@ -6,12 +6,13 @@ import { phpStack as hardCodedPhpStack } from './../../../../stacks/2020-10-01/s
 import { rubyStack as hardCodedRubyStack } from './../../../../stacks/2020-10-01/stacks/web-app-stacks/Ruby';
 import { javaStack as hardCodedJavaStack } from './../../../../stacks/2020-10-01/stacks/web-app-stacks/Java';
 import { javaContainersStack as hardCodedJavaContainersStack } from './../../../../stacks/2020-10-01/stacks/web-app-stacks/JavaContainers';
+import { staticSiteStack as hardCodedStaticSite } from './../../../../stacks/2020-10-01/stacks/web-app-stacks/StaticSite';
 
 const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(8);
 }
 
 export function validateWindowsStacks(stacks) {
@@ -31,7 +32,7 @@ function validateWindowsStackLength(stacks) {
 
 function validateLinuxStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(8);
 }
 
 function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
@@ -87,7 +88,7 @@ export function validateNotDeprecatedStacks(stacks) {
 
 function validateNotDeprecatedStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(8);
 }
 
 function validateStacksAreNotDeprecated(stacks) {
@@ -120,7 +121,7 @@ export function validateNotPreviewStacks(stacks) {
 
 function validateNotPreviewStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(8);
 }
 
 function validateStacksAreNotPreview(stacks) {
@@ -165,7 +166,7 @@ function validateDotnetStack(dotnetStack) {
   expect(dotnetStack.displayText).to.equal('.NET');
   expect(dotnetStack.value).to.equal('dotnet');
   expect(dotnetStack.preferredOs).to.equal('windows');
-  expect(dotnetStack.majorVersions.length).to.equal(6);
+  expect(dotnetStack.majorVersions.length).to.equal(7);
   expect(dotnetStack).to.deep.equal(hardCodedDotnetStack);
 }
 
@@ -219,7 +220,7 @@ function validatePHPStack(phpStack) {
   expect(phpStack.displayText).to.equal('PHP');
   expect(phpStack.value).to.equal('php');
   expect(phpStack.preferredOs).to.equal('linux');
-  expect(phpStack.majorVersions.length).to.equal(2);
+  expect(phpStack.majorVersions.length).to.equal(3);
   expect(phpStack).to.deep.equal(hardCodedPhpStack);
 }
 
@@ -275,4 +276,55 @@ function validateJavaContainersStack(javaContainersStack) {
   expect(javaContainersStack.preferredOs).to.equal(undefined);
   expect(javaContainersStack.majorVersions.length).to.equal(9);
   expect(javaContainersStack).to.deep.equal(hardCodedJavaContainersStack);
+}
+
+export function validateGitHubActionStacks(stacks) {
+  validateGitHubActionStacksLength(stacks);
+  validateGitHubActionStacksProperties(stacks);
+}
+
+function validateGitHubActionStacksLength(stacks) {
+  expect(stacks).to.be.an('array');
+  expect(stacks.length).to.equal(5);
+}
+
+function validateGitHubActionStacksProperties(stacks) {
+  stacks.forEach(stack => {
+    expect(stack.majorVersions).to.be.an('array');
+    stack.majorVersions.forEach(majorVersion => {
+      expect(majorVersion.minorVersions).to.be.an('array');
+      majorVersion.minorVersions.forEach(minorVersion => {
+        if (minorVersion.stackSettings.windowsRuntimeSettings) {
+          expect(minorVersion.stackSettings.windowsRuntimeSettings.gitHubActionSettings).to.have.property('isSupported', true);
+        }
+        if (minorVersion.stackSettings.linuxRuntimeSettings) {
+          expect(minorVersion.stackSettings.linuxRuntimeSettings.gitHubActionSettings).to.have.property('isSupported', true);
+        }
+        if (minorVersion.stackSettings.windowsContainerSettings) {
+          expect(minorVersion.stackSettings.windowsContainerSettings).to.not.have.property('gitHubActionSettings', true);
+        }
+        if (minorVersion.stackSettings.linuxContainerSettings) {
+          expect(minorVersion.stackSettings.linuxContainerSettings).to.not.have.property('gitHubActionSettings', true);
+        }
+      });
+    });
+  });
+}
+
+export function validateStaticSiteInStacks(stacks) {
+  validateAllStackLength(stacks);
+  validateStaticSiteStack(stacks[7]);
+}
+
+export function validateStaticSiteFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validateStaticSiteStack(stacks[0]);
+}
+
+function validateStaticSiteStack(staticSiteStack) {
+  expect(staticSiteStack.displayText).to.equal('HTML (Static Content)');
+  expect(staticSiteStack.value).to.equal('staticsite');
+  expect(staticSiteStack.preferredOs).to.equal('linux');
+  expect(staticSiteStack.majorVersions.length).to.equal(1);
+  expect(staticSiteStack).to.deep.equal(hardCodedStaticSite);
 }

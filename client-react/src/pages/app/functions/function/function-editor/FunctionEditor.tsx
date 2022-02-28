@@ -3,7 +3,6 @@ import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
-import { BindingType } from '../../../../../models/functions/function-binding';
 import { Site } from '../../../../../models/site/site';
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
@@ -31,7 +30,7 @@ import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBan
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { PortalTheme } from '../../../../../models/portal-models';
+import { FunctionAppEditMode, PortalTheme } from '../../../../../models/portal-models';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
@@ -42,10 +41,11 @@ import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
-import { isLinuxDynamic } from '../../../../../utils/arm-utils';
+import { isKubeApp, isLinuxDynamic } from '../../../../../utils/arm-utils';
 import Url from '../../../../../utils/url';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { PortalContext } from '../../../../../PortalContext';
+import { BindingManager } from '../../../../../utils/BindingManager';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -66,6 +66,7 @@ export interface FunctionEditorProps {
   runtimeVersion?: string;
   fileList?: VfsObject[];
   testData?: string;
+  workerRuntime?: string;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
@@ -87,6 +88,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     isUploadingFile,
     setIsUploadingFile,
     refreshFileList,
+    workerRuntime,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -117,7 +119,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const scenarioChecker = new ScenarioService(t);
 
   const showAppInsightsLogs = scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
-  const isFileSystemLoggingAvailable = site && !isLinuxDynamic(site);
+  const isFileSystemLoggingAvailable = site && !isLinuxDynamic(site) && !isKubeApp(site);
   const showLoggingOptionsDropdown = showAppInsightsLogs && isFileSystemLoggingAvailable;
   const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.siteAppEditState);
   const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
@@ -126,6 +128,22 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (!selectedFile) {
       return;
     }
+
+    portalCommunicator.log({
+      action: 'functionEditor',
+      actionModifier: 'saveClicked',
+      resourceId: siteStateContext.resourceId || '',
+      logLevel: 'info',
+      data: {
+        sessionId: Url.getParameterByName(null, 'sessionId'),
+        siteKind: site.kind,
+        isLinux: site.properties.isLinux,
+        runtime: runtimeVersion,
+        stack: workerRuntime,
+        sku: site.properties.sku,
+      },
+    });
+
     setSavingFile(true);
     const fileData = selectedFile.data;
     const fileResponse = await FunctionsService.saveFileContent(
@@ -192,9 +210,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const isGetFunctionUrlVisible = () => {
     return (
-      functionInfo.properties.config &&
-      functionInfo.properties.config.bindings &&
-      !!functionInfo.properties.config.bindings.find(e => e.type === BindingType.httpTrigger || e.type === BindingType.eventGridTrigger)
+      !!BindingManager.getHttpTriggerTypeInfo(functionInfo.properties) || !!BindingManager.getEventGridTriggerInfo(functionInfo.properties)
     );
   };
 
@@ -421,6 +437,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     xhr.send(file);
   };
 
+  const isAppReadOnly = (appEditState: FunctionAppEditMode) => {
+    return SiteHelper.isFunctionAppReadOnly(appEditState);
+  };
+
   useEffect(() => {
     setLogPanelHeight(logPanelExpanded ? minimumLogPanelHeight : 0);
 
@@ -499,13 +519,16 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={onCancelButtonClick}
         />
-        {!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable) ? (
-          <CustomBanner
-            message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
-            type={MessageBarType.error}
-          />
-        ) : (
+        {/* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */}
+        {isAppReadOnly(siteStateContext.siteAppEditState) ? (
           <EditModeBanner setBanner={setReadOnlyBanner} />
+        ) : (
+          (!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
+            <CustomBanner
+              message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
+              type={MessageBarType.error}
+            />
+          )
         )}
         <FunctionEditorFileSelectorBar
           disabled={isDisabled()}
@@ -554,7 +577,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               scrollBeyondLastLine: false,
               cursorBlinking: true,
               renderWhitespace: 'all',
-              readOnly: SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) || appReadOnlyPermission,
+              readOnly: isAppReadOnly(siteStateContext.siteAppEditState) || appReadOnlyPermission,
               extraEditorClassName: editorStyle,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}

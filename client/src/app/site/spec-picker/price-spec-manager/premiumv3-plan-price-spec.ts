@@ -70,10 +70,10 @@ export abstract class PremiumV3PlanPriceSpec extends DV3SeriesPriceSpec {
   }
 
   protected _shouldHideForNewPlan(data: PlanSpecPickerData): boolean {
-    return !!data.hostingEnvironmentName || (data.isNewFunctionAppCreate && data.isElastic);
+    return !!data.hostingEnvironmentName || (data.isNewFunctionAppCreate && (data.isElastic || data.isWorkflowStandard));
   }
 
-  protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean {
+  protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>, containsJbossSite: boolean): boolean {
     return (
       !!plan.properties.hostingEnvironmentProfile ||
       (plan.properties.hyperV && plan.sku.tier === Tier.premiumContainer) ||
@@ -103,6 +103,8 @@ export class PremiumV3SmallPlanPriceSpec extends PremiumV3PlanPriceSpec {
       },
     ],
   };
+
+  jbossMultiplier = 2;
 }
 
 export class PremiumV3MediumPlanPriceSpec extends PremiumV3PlanPriceSpec {
@@ -126,6 +128,8 @@ export class PremiumV3MediumPlanPriceSpec extends PremiumV3PlanPriceSpec {
       },
     ],
   };
+
+  jbossMultiplier = 4;
 }
 
 export class PremiumV3LargePlanPriceSpec extends PremiumV3PlanPriceSpec {
@@ -149,4 +153,6 @@ export class PremiumV3LargePlanPriceSpec extends PremiumV3PlanPriceSpec {
       },
     ],
   };
+
+  jbossMultiplier = 8;
 }

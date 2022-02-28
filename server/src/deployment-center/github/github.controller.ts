@@ -1,4 +1,19 @@
-import { Controller, Post, Body, HttpException, Response, Get, Session, HttpCode, Res, Put, Query, Headers, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpException,
+  Response,
+  Get,
+  Session,
+  HttpCode,
+  Res,
+  Put,
+  Query,
+  Headers,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
 import { LoggingService } from '../../shared/logging/logging.service';
@@ -7,6 +22,8 @@ import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
 import { EnvironmentUrlMappings, Environments } from '../deployment-center';
+import { AxiosRequestConfig } from 'axios';
+import { CloudType, StaticReactConfig } from '../../types/config';
 
 @Controller()
 export class GithubController {
@@ -21,13 +38,28 @@ export class GithubController {
 
   @Post('api/github/passthrough')
   @HttpCode(200)
-  async passthrough(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Res() res) {
+  async passthrough(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('url') url: string,
+    @Res() res,
+    @Body('method') method?: AxiosRequestConfig
+  ) {
     try {
-      const response = await this.httpService.get(url, {
-        headers: {
-          Authorization: `Bearer ${gitHubToken}`,
-        },
-      });
+      let response;
+      if (method && method === 'POST') {
+        response = await this.httpService.post(
+          url,
+          {},
+          {
+            headers: this._getAuthorizationHeader(gitHubToken),
+          }
+        );
+      } else {
+        response = await this.httpService.get(url, {
+          headers: this._getAuthorizationHeader(gitHubToken),
+        });
+      }
+
       if (response.headers.link) {
         res.setHeader('link', response.headers.link);
       }
@@ -49,6 +81,101 @@ export class GithubController {
       }
       throw new HttpException(err, 500);
     }
+  }
+
+  @Post('api/github/getUser')
+  @HttpCode(200)
+  async getUser(@Body('gitHubToken') gitHubToken: string, @Res() res) {
+    const url = `${this.githubApiUrl}/user`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getOrganizations')
+  @HttpCode(200)
+  async getOrganizations(@Body('gitHubToken') gitHubToken: string, @Body('page') page: number, @Res() res) {
+    const url = `${this.githubApiUrl}/user/orgs?page=${page}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getOrgRepositories')
+  @HttpCode(200)
+  async getOrgRepositories(@Body('gitHubToken') gitHubToken: string, @Body('org') org: string, @Body('page') page: number, @Res() res) {
+    const url = `${this.githubApiUrl}/orgs/${org}/repos?page=${page}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getUserRepositories')
+  @HttpCode(200)
+  async getUserRepositories(@Body('gitHubToken') gitHubToken: string, @Body('page') page: number, @Res() res) {
+    const url = `${this.githubApiUrl}/user/repos?type=owner&page=${page}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getBranches')
+  @HttpCode(200)
+  async getBranches(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('page') page: number,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/branches?per_page=100&page=${page}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getWorkflowConfiguration')
+  @HttpCode(200)
+  async getWorkflowConfiguration(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('workflowYmlPath') workflowYmlPath: string,
+    @Body('branchName') branchName: string,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents/${workflowYmlPath}?ref=${branchName}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getAllWorkflowConfigurations')
+  @HttpCode(200)
+  async getAllWorkflowConfigurations(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('branchName') branchName: string,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents/.github/workflows?ref=${branchName}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/listWorkflowRuns')
+  @HttpCode(200)
+  async listWorkflowRuns(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('workflowFileName') workflowFileName: string,
+    @Body('page') page: number,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/workflows/${workflowFileName}/runs?page=${page}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/cancelWorkflowRun')
+  @HttpCode(200)
+  async cancelWorkflowRun(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('workflowId') workflowId: string,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${workflowId}/cancel`;
+    await this._makePostCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
   @Put('api/github/actionWorkflow')
@@ -100,9 +227,7 @@ export class GithubController {
 
     try {
       await this.httpService.delete(url, {
-        headers: {
-          Authorization: `Bearer ${gitHubToken}`,
-        },
+        headers: this._getAuthorizationHeader(gitHubToken),
         data: deleteCommit,
       });
     } catch (err) {
@@ -124,9 +249,7 @@ export class GithubController {
   async dispatchWorkflow(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Body('data') data: string) {
     try {
       await this.httpService.post(url, data, {
-        headers: {
-          Authorization: `Bearer ${gitHubToken}`,
-        },
+        headers: this._getAuthorizationHeader(gitHubToken),
       });
     } catch (err) {
       this.loggingService.error(`Failed to dispatch workflow file.`);
@@ -150,9 +273,7 @@ export class GithubController {
     }
 
     res.redirect(
-      `${Constants.oauthApis.githubApiUri}/authorize?client_id=${this.configService.get(
-        'GITHUB_CLIENT_ID'
-      )}&redirect_uri=${this._getRedirectUri(
+      `${Constants.oauthApis.githubApiUri}/authorize?client_id=${this._getGitHubClientId()}&redirect_uri=${this._getRedirectUri(
         host
       )}&scope=admin:repo_hook+repo+workflow&response_type=code&state=${this.dcService.hashStateGuid(stateKey)}`
     );
@@ -187,8 +308,8 @@ export class GithubController {
     try {
       const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
         code,
-        client_id: this.configService.get('GITHUB_CLIENT_ID'),
-        client_secret: this.configService.get('GITHUB_CLIENT_SECRET'),
+        client_id: this._getGitHubClientId(),
+        client_secret: this._getGitHubClientSecret(),
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
       return {
@@ -206,7 +327,7 @@ export class GithubController {
 
   @Get('auth/github/createClientId')
   clientId() {
-    return { client_id: this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID') };
+    return { client_id: this._getGitHubForCreatesClientId() };
   }
 
   @Post('auth/github/generateCreateAccessToken')
@@ -220,8 +341,8 @@ export class GithubController {
       const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
         code,
         state,
-        client_id: this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID'),
-        client_secret: this.configService.get('GITHUB_FOR_CREATES_CLIENT_SECRET'),
+        client_id: this._getGitHubForCreatesClientId(),
+        client_secret: this._getGitHubForCreatesClientSecret(),
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
       return {
@@ -237,14 +358,55 @@ export class GithubController {
     }
   }
 
+  @Patch('api/github/resetToken')
+  @HttpCode(200)
+  async resetToken(@Body('gitHubToken') gitHubToken: string) {
+    try {
+      const r = await this.httpService.patch(
+        `${this.githubApiUrl}/applications/${this._getGitHubClientId()}/token`,
+        {
+          access_token: gitHubToken,
+        },
+        {
+          headers: this._getGitHubOAuthAppBasicAuthHeader(),
+        }
+      );
+
+      return {
+        accessToken: r.data.token,
+        refreshToken: null,
+        environment: null,
+      };
+    } catch (err) {
+      this.loggingService.error(`Failed to refresh token.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      } else {
+        throw new HttpException(err, 500);
+      }
+    }
+  }
+
+  private _getAuthorizationHeader(accessToken: string): { Authorization: string } {
+    return {
+      Authorization: `token ${accessToken}`,
+    };
+  }
+
+  private _getGitHubOAuthAppBasicAuthHeader(): { Authorization: string } {
+    const basicAuthValue = Buffer.from(`${this._getGitHubClientId()}:${this._getGitHubClientSecret()}`, 'utf8').toString('base64');
+    return {
+      Authorization: `Basic ${basicAuthValue}`,
+    };
+  }
+
   private async _getGitHubRepoPublicKey(gitHubToken: string, repoName: string): Promise<GitHubSecretPublicKey> {
     const url = `${this.githubApiUrl}/repos/${repoName}/actions/secrets/public-key`;
 
     try {
       const response = await this.httpService.get(url, {
-        headers: {
-          Authorization: `Bearer ${gitHubToken}`,
-        },
+        headers: this._getAuthorizationHeader(gitHubToken),
       });
 
       return response.data;
@@ -280,9 +442,7 @@ export class GithubController {
 
     try {
       const config = {
-        headers: {
-          Authorization: `Bearer ${gitHubToken}`,
-        },
+        headers: this._getAuthorizationHeader(gitHubToken),
       };
 
       const data = {
@@ -314,9 +474,7 @@ export class GithubController {
 
     try {
       await this.httpService.put(url, commitContent, {
-        headers: {
-          Authorization: `Bearer ${gitHubToken}`,
-        },
+        headers: this._getAuthorizationHeader(gitHubToken),
       });
     } catch (err) {
       this.loggingService.error(
@@ -349,7 +507,6 @@ export class GithubController {
     const redirectUri =
       this.configService.get('GITHUB_REDIRECT_URL') ||
       `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Prod]}/auth/github/callback`;
-
     const [redirectUriToLower, hostUrlToLower] = [redirectUri.toLocaleLowerCase(), `https://${host}`.toLocaleLowerCase()];
     const [redirectEnv, clientEnv] = [this._getEnvironment(redirectUriToLower), this._getEnvironment(hostUrlToLower)];
 
@@ -388,5 +545,120 @@ export class GithubController {
     const endOfProfile = profile.substring(endIndex, profile.length);
 
     return `${beginningOfProfile}${replacementPublishUrl}${endOfProfile}`;
+  }
+
+  get staticReactConfig(): StaticReactConfig {
+    const acceptedOriginsString = process.env.APPSVC_ACCEPTED_ORIGINS_SUFFIX;
+    let acceptedOrigins: string[] = [];
+    if (acceptedOriginsString) {
+      acceptedOrigins = acceptedOriginsString.split(',');
+    }
+
+    return {
+      env: {
+        appName: process.env.WEBSITE_SITE_NAME,
+        hostName: process.env.WEBSITE_HOSTNAME,
+        cloud: process.env.APPSVC_CLOUD as CloudType,
+        acceptedOriginsSuffix: acceptedOrigins,
+      },
+      version: process.env.VERSION,
+    };
+  }
+
+  private _getGitHubClientId(): string {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.public) {
+      return this.configService.get('GITHUB_CLIENT_ID');
+    } else {
+      return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_ID');
+    }
+  }
+
+  private _getGitHubClientSecret(): string {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.public) {
+      return this.configService.get('GITHUB_CLIENT_SECRET');
+    } else {
+      return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_SECRET');
+    }
+  }
+
+  private _getGitHubForCreatesClientId() {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.public) {
+      return this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID');
+    } else {
+      return this.configService.get('GITHUB_FOR_CREATES_NATIONALCLOUDS_CLIENT_ID');
+    }
+  }
+
+  private _getGitHubForCreatesClientSecret() {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.public) {
+      return this.configService.get('GITHUB_FOR_CREATES_CLIENT_SECRET');
+    } else {
+      return this.configService.get('GITHUB_FOR_CREATES_NATIONALCLOUDS_CLIENT_SECRET');
+    }
+  }
+
+  private async _makeGetCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res: any) {
+    try {
+      const response = await this.httpService.get(url, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+
+      if (response.headers.link) {
+        res.setHeader('link', response.headers.link);
+      }
+
+      if (response.headers['x-oauth-scopes']) {
+        res.setHeader(
+          'x-oauth-scopes',
+          response.headers['x-oauth-scopes']
+            .split(',')
+            .map((value: string) => value.trim())
+            .join(',')
+        );
+      }
+
+      res.json(response.data);
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
+  private async _makePostCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res: any) {
+    try {
+      const response = await this.httpService.post(
+        url,
+        {},
+        {
+          headers: this._getAuthorizationHeader(gitHubToken),
+        }
+      );
+      if (response.headers.link) {
+        res.setHeader('link', response.headers.link);
+      }
+
+      if (response.headers['x-oauth-scopes']) {
+        res.setHeader(
+          'x-oauth-scopes',
+          response.headers['x-oauth-scopes']
+            .split(',')
+            .map((value: string) => value.trim())
+            .join(',')
+        );
+      }
+
+      res.json(response.data);
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react';
+import { CommandBar, IButtonProps, ICommandBarItemProps } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
@@ -12,6 +12,7 @@ interface FunctionIntegrateCommandBarProps {
 const FunctionIntegrateCommandBar: React.FC<FunctionIntegrateCommandBarProps> = props => {
   const { isRefreshing, refreshIntegrate } = props;
   const { t } = useTranslation();
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
 
   const getItems = (): ICommandBarItemProps[] => {
     return [
@@ -35,6 +36,7 @@ const FunctionIntegrateCommandBar: React.FC<FunctionIntegrateCommandBarProps> = 
       styles={CommandBarStyles}
       ariaLabel={t('appSettingsCommandBarAriaLabel')}
       buttonAs={CustomCommandBarButton}
+      overflowButtonProps={overflowButtonProps}
     />
   );
 };

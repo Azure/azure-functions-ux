@@ -153,6 +153,10 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
       -webkit-line-clamp: 3;
       overflow: hidden;
     }
+
+    .disabledMessageInfoLink {
+      color: #08397D;
+    }
   }
 
   .spec-expander {
@@ -326,6 +330,10 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
     &.disabled {
       background-color: lighten($chrome-color-dark, 10%);
       color: $default-text-color-dark;
+    }
+
+    .disabledMessageInfoLink {
+      color: #6FABFA;
     }
   }
 

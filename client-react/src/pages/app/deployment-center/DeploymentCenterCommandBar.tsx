@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ICommandBarItemProps, CommandBar } from 'office-ui-fabric-react';
+import { ICommandBarItemProps, CommandBar, IButtonProps } from 'office-ui-fabric-react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { SiteStateContext } from '../../../SiteState';
@@ -11,11 +11,14 @@ import { PortalContext } from '../../../PortalContext';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, showPublishProfilePanel, refresh, redeploy, isLoading, isDirty } = props;
+  const { saveFunction, discardFunction, showPublishProfilePanel, redeploy, isDataRefreshing, isDirty, isVstsBuildProvider } = props;
   const { t } = useTranslation();
+
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
+  const hasNoWritePermission = deploymentCenterContext && !deploymentCenterContext.hasWritePermission;
 
   const isSiteLoaded = () => {
     return siteStateContext.site && siteStateContext.site.properties;
@@ -31,7 +34,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   };
 
   const isDisabledOnReload = () => {
-    return !isSiteLoaded() || isLoading;
+    return !isSiteLoaded() || isDataRefreshing;
   };
 
   const isRedeployDisabled = () => {
@@ -42,6 +45,14 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
           deploymentCenterContext.siteConfig.properties.scmType === ScmType.Vsts ||
           deploymentCenterContext.siteConfig.properties.scmType === ScmType.None))
     );
+  };
+
+  const isSaveDisabled = () => {
+    return isDisabledOnReload() || !isDirty || isVstsBuildProvider || hasNoWritePermission;
+  };
+
+  const isDiscardDisabled = () => {
+    return isDisabledOnReload() || !isDirty || hasNoWritePermission;
   };
 
   const openFeedbackBlade = () => {
@@ -70,7 +81,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       getDiscardButton(),
       getBrowseButton(),
       getManagePublishProfileButton(),
-      getRefreshButton(),
     ];
 
     if (!siteStateContext.isContainerApp) {
@@ -102,11 +112,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     showPublishProfilePanel();
   };
 
-  const onRefreshButtonClick = () => {
-    portalContext.log(getTelemetryInfo('info', 'refreshButton', 'clicked'));
-    refresh();
-  };
-
   const onRedeployClick = () => {
     portalContext.log(getTelemetryInfo('info', 'redeployButton', 'clicked'));
 
@@ -130,7 +135,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Save',
       },
       ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
-      disabled: isDisabledOnReload() || !isDirty,
+      disabled: isSaveDisabled(),
       onClick: onSaveButtonClick,
     };
   };
@@ -143,7 +148,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Cancel',
       },
       ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
-      disabled: isDisabledOnReload() || !isDirty,
+      disabled: isDiscardDisabled(),
       onClick: onDiscardButtonClick,
     };
   };
@@ -171,19 +176,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
       disabled: !isSiteLoaded(),
       onClick: onManagePublishProfileButtonClick,
-    };
-  };
-
-  const getRefreshButton = (): ICommandBarItemProps => {
-    return {
-      key: 'refresh',
-      name: t('refresh'),
-      iconProps: {
-        iconName: 'Refresh',
-      },
-      ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
-      disabled: isDisabledOnReload(),
-      onClick: onRefreshButtonClick,
     };
   };
 
@@ -220,6 +212,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       styles={CommandBarStyles}
       ariaLabel={t('deploymentCenterCommandBarAriaLabel')}
       buttonAs={CustomCommandBarButton}
+      overflowButtonProps={overflowButtonProps}
     />
   );
 };

@@ -128,6 +128,7 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
     return (
       <div className={deploymentCenterInfoBannerDiv}>
         <CustomBanner
+          id="deployment-center-settings-configured-view-user-not-authorized"
           message={
             <>
               {`${t('deploymentCenterSettingsConfiguredViewUserNotAuthorized')} `}

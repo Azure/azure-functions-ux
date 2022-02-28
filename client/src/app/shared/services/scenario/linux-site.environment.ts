@@ -1,6 +1,7 @@
 import { TranslateService } from '@ngx-translate/core';
 import { ScenarioIds } from './../../models/constants';
 import { PortalResources } from './../../models/portal-resources';
+import { ArmUtil } from './../../Utilities/arm-utils';
 import { Environment, ScenarioCheckInput, ScenarioResult } from './scenario.models';
 
 export class LinuxSiteEnvironment extends Environment {
@@ -84,7 +85,7 @@ export class LinuxSiteEnvironment extends Environment {
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     if (input && input.site) {
-      return input.site.kind && input.site.kind.toLowerCase().indexOf('linux') > -1;
+      return ArmUtil.isLinuxApp(input.site);
     }
 
     return false;

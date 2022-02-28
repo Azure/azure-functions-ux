@@ -94,6 +94,7 @@ export class Verbs {
   public static pinPart = 'pin-part';
   public static setNotification = 'set-notification';
   public static getSubscriptionInfo = 'get-subscription-info';
+  public static getAllSubscriptions = 'get-all-subscriptions';
   public static getSpecCosts = 'get-spec-costs';
   public static broadcastMessage = 'broadcast-message';
 
@@ -323,6 +324,9 @@ export enum FunctionAppEditMode {
   ReadOnlyLock,
   ReadOnlyRbac,
   ReadOnlyCustom,
+  ReadOnlyDotnet5,
+  ReadOnlyArc,
+  ReadOnlyAzureFiles,
 }
 
 export enum PortalTheme {
@@ -332,4 +336,13 @@ export enum PortalTheme {
 
 export interface KeyValue<T> {
   [key: string]: T;
+}
+
+export enum BladeCloseReason {
+  userNavigation = 'userNavigation',
+  childClosedSelf = 'childClosedSelf',
+}
+
+export enum OpenBladeSource {
+  appSettings = 'app-settings',
 }

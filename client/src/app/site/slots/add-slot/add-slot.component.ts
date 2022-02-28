@@ -2,7 +2,6 @@ import { Component, Injector, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { SiteConfig } from '../../../shared/models/arm/site-config';
 import { AiService } from '../../../shared/services/ai.service';
 import { PortalService } from '../../../shared/services/portal.service';
 import { InfoBoxType } from './../../../controls/info-box/info-box.component';
@@ -10,7 +9,7 @@ import { FeatureComponent } from './../../../shared/components/feature-component
 import { FunctionAppContext } from './../../../shared/function-app-context';
 import { ApplicationSettings } from './../../../shared/models/arm/application-settings';
 import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
-import { CreateSlotRequest, Site } from './../../../shared/models/arm/site';
+import { CreateSlotRequest, ExtendedLocation, Site } from './../../../shared/models/arm/site';
 import {
   Constants,
   FunctionAppVersion,
@@ -75,6 +74,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
   private _siteId: string;
   private _slotsArm: ArmObj<Site>[];
   private _functionAppContext: FunctionAppContext;
+  private _isKubeApp = false;
 
   constructor(
     private _fb: FormBuilder,
@@ -127,6 +127,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
         this.slotOptInNeeded = false;
         this.slotOptInEnabled = false;
         this.isFunctionApp = false;
+        this._isKubeApp = false;
 
         this.progressMessage = null;
         this.progressMessageClass = 'info';
@@ -157,7 +158,9 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
             errorMessage: (siteResult.error && siteResult.error.message) || '',
           });
         } else {
-          this.isFunctionApp = ArmUtil.isFunctionApp(siteResult.result);
+          const site = siteResult.result;
+          this.isFunctionApp = ArmUtil.isFunctionApp(site);
+          this._isKubeApp = ArmUtil.isKubeApp(site);
         }
 
         if (!slotsResult.isSuccessful) {
@@ -286,7 +289,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     const siteId = this._slotsArm[0].id;
     const location = this._slotsArm[0].location;
     const serverFarmId = this._slotsArm[0].properties.serverFarmId;
-    const cloneConfig: SiteConfig | undefined = !this.isFunctionApp ? newSlotConfig : undefined;
+    const kind = this._slotsArm[0].kind;
 
     const slotNewInfo: SlotNewInfo = {
       resourceId: `${siteId}/slots/${newSlotName}`,
@@ -309,24 +312,56 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
       return slot.id === this.addForm.controls['cloneSrcId'].value;
     });
 
-    const newSlot: CreateSlotRequest = !!sourceSlot
-      ? {
-          location: location,
-          properties: {
-            serverFarmId: serverFarmId,
-            siteConfig: cloneConfig,
-            httpsOnly: sourceSlot.properties.httpsOnly,
-            clientCertEnabled: sourceSlot.properties.clientCertEnabled,
-            clientCertMode: sourceSlot.properties.clientCertMode,
-            clientCertExclusionPaths: sourceSlot.properties.clientCertExclusionPaths,
-          },
-        }
-      : {
-          location: location,
-          properties: {
-            serverFarmId: serverFarmId,
-          },
-        };
+    let newSlot: CreateSlotRequest;
+    let extendedLocation: ExtendedLocation;
+
+    if (this._isKubeApp) {
+      const armSiteDescriptor = new ArmSiteDescriptor(siteId);
+      const websiteIdObject = armSiteDescriptor.getWebsiteId();
+      extendedLocation = {
+        name: `/subscriptions/${websiteIdObject.SubscriptionId}/resourcegroups/${
+          websiteIdObject.ResourceGroup
+        }/providers/microsoft.extendedlocation/customlocations/${newSlotName}-location`,
+        type: 'CustomLocation',
+      };
+    } else {
+      extendedLocation = undefined;
+    }
+
+    if (this.isFunctionApp) {
+      newSlot = {
+        location: location,
+        kind: kind,
+        properties: {
+          serverFarmId: serverFarmId,
+        },
+      };
+    } else {
+      newSlot = !!sourceSlot
+        ? {
+            location: location,
+            kind: kind,
+            extendedLocation: extendedLocation,
+            properties: {
+              serverFarmId: serverFarmId,
+              // If the source slot has a '/' we know it's a slot, not production
+              siteConfig: sourceSlot.name.includes('/') ? newSlotConfig : undefined,
+              httpsOnly: sourceSlot.properties.httpsOnly,
+              clientCertEnabled: sourceSlot.properties.clientCertEnabled,
+              clientCertMode: sourceSlot.properties.clientCertMode,
+              clientCertExclusionPaths: sourceSlot.properties.clientCertExclusionPaths,
+            },
+          }
+        : {
+            location: location,
+            kind: kind,
+            extendedLocation: extendedLocation,
+            properties: {
+              serverFarmId: serverFarmId,
+              siteConfig: {},
+            },
+          };
+    }
 
     this._enableSlotOptIn(siteId)
       .switchMap(s => {

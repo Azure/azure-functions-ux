@@ -1,6 +1,6 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
-import { isContainerApp } from '../arm-utils';
+import { isContainerApp, isLinuxApp } from '../arm-utils';
 
 export class ContainerApp extends Environment {
   public name = 'ContainerApp';
@@ -30,12 +30,30 @@ export class ContainerApp extends Environment {
         };
       },
     };
+    this.scenarioChecks[ScenarioIds.azureBlobMount] = {
+      id: ScenarioIds.azureBlobMount,
+      runCheck: input => {
+        return {
+          status: !!input && !!input.site && isLinuxApp(input.site) ? 'enabled' : 'disabled',
+        };
+      },
+    };
     this.scenarioChecks[ScenarioIds.linuxRemoteDebuggingSupported] = {
       id: ScenarioIds.linuxRemoteDebuggingSupported,
       runCheck: () => {
         return {
           status: 'disabled',
         };
+      },
+    };
+    this.scenarioChecks[ScenarioIds.dockerCompose] = {
+      id: ScenarioIds.dockerCompose,
+      runCheck: (input: ScenarioCheckInput) => {
+        if (input && input.site && isLinuxApp(input.site)) {
+          return { status: 'enabled' };
+        } else {
+          return { status: 'disabled' };
+        }
       },
     };
   }

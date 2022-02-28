@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { ICommandBarItemProps, CommandBar } from 'office-ui-fabric-react';
+import { ICommandBarItemProps, CommandBar, IButtonProps } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { PortalContext } from '../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
@@ -18,6 +18,7 @@ const AppFilesCommandBar: React.FC<AppFilesCommandBarProps> = props => {
 
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
+  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
 
   const getItems = (): ICommandBarItemProps[] => {
     return [
@@ -65,6 +66,7 @@ const AppFilesCommandBar: React.FC<AppFilesCommandBarProps> = props => {
         styles={CommandBarStyles}
         ariaLabel={t('functionEditorCommandBarAriaLabel')}
         buttonAs={CustomCommandBarButton}
+        overflowButtonProps={overflowButtonProps}
       />
     </>
   );

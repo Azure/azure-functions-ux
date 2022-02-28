@@ -188,6 +188,12 @@ export class Kinds {
   public static readonly elastic = 'elastic'; // only applies to server farm
   public static readonly api = 'api';
   public static readonly app = 'app';
+  public static readonly workflowApp = 'workflowapp';
+  public static readonly xenon = 'xenon';
+  // NOTE(andimarc): The kind for kube app will be switching from 'kubeapp'
+  // to 'kubernetes' se we need to account for both during the transition.
+  public static readonly kubeApp = 'kubeapp';
+  public static readonly kubernetes = 'kubernetes';
 }
 
 export class LocalStorageKeys {
@@ -659,6 +665,7 @@ export class FeatureFlags {
   public static EnablePv2Experiment = 'EnablePv2Experiment';
   public static DisablePv2Experiment = 'DisablePv2Experiment';
   public static showHiddenStacks = 'showHiddenStacks';
+  public static treatAsKubeApp = 'treatAsKubeApp';
 }
 
 export class SupportedFeatures {

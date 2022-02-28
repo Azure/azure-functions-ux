@@ -27,6 +27,8 @@ import {
   getWorkflowFilePath,
   getArmToken,
   getTelemetryInfo,
+  isSettingsDirty,
+  isFtpsDirty,
 } from '../utility/DeploymentCenterUtility';
 import { ACRWebhookPayload } from '../../../../models/acr';
 import { ScmType } from '../../../../models/site/config';
@@ -39,6 +41,8 @@ import {
 } from '../utility/GitHubActionUtility';
 import { GitHubCommit, GitHubActionWorkflowRequestContent } from '../../../../models/github';
 import { AppOs } from '../../../../models/site/site';
+import { Guid } from '../../../../utils/Guid';
+import { KeyValue } from '../../../../models/portal-models';
 
 interface ResponseResult {
   success: boolean;
@@ -48,7 +52,6 @@ interface ResponseResult {
 const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps> = props => {
   const { t } = useTranslation();
 
-  const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -73,7 +76,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
       return values.privateRegistryUsername;
     } else {
-      return values.dockerHubUsername;
+      return values.dockerHubAccessType === ContainerDockerAccessTypes.private ? values.dockerHubUsername : '';
     }
   };
 
@@ -83,7 +86,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
       return values.privateRegistryPassword;
     } else {
-      return values.dockerHubPassword;
+      return values.dockerHubAccessType === ContainerDockerAccessTypes.private ? values.dockerHubPassword : '';
     }
   };
 
@@ -116,9 +119,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       const server = values.privateRegistryServerUrl.toLocaleLowerCase().replace('https://', '');
       return `${prefix}|${server}/${values.privateRegistryImageAndTag}`;
     } else {
-      return values.dockerHubAccessType === ContainerDockerAccessTypes.public
-        ? `${prefix}|${values.dockerHubImageAndTag}`
-        : `${prefix}|${values.dockerHubUsername}/${values.dockerHubImageAndTag}`;
+      return `${prefix}|${values.dockerHubImageAndTag}`;
     }
   };
 
@@ -211,8 +212,16 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       appSettings[DeploymentCenterConstants.enableCISetting] = 'true';
     }
 
-    appSettings[DeploymentCenterConstants.usernameSetting] = getUsername(values);
-    appSettings[DeploymentCenterConstants.passwordSetting] = getPassword(values);
+    const userName = getUsername(values);
+    if (userName) {
+      appSettings[DeploymentCenterConstants.usernameSetting] = userName;
+    }
+
+    const password = getPassword(values);
+    if (password) {
+      appSettings[DeploymentCenterConstants.passwordSetting] = password;
+    }
+
     appSettings[DeploymentCenterConstants.serverUrlSetting] = getServerUrl(values);
 
     return appSettings;
@@ -280,10 +289,12 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     if (siteConfigResponse.metadata.success) {
       siteConfigResponse.data.properties.appCommandLine = values.command;
 
-      if (siteContext.isLinuxApp) {
-        siteConfigResponse.data.properties.linuxFxVersion = getFxVersion(values);
-      } else {
-        siteConfigResponse.data.properties.windowsFxVersion = getFxVersion(values);
+      if (values.scmType !== ScmType.GitHubAction) {
+        if (siteContext.isLinuxApp) {
+          siteConfigResponse.data.properties.linuxFxVersion = getFxVersion(values);
+        } else {
+          siteConfigResponse.data.properties.windowsFxVersion = getFxVersion(values);
+        }
       }
 
       portalContext.log(getTelemetryInfo('info', 'getSitupdateSiteConfigeConfig', 'submit'));
@@ -314,7 +325,10 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     return responseResult;
   };
 
-  const saveDirectRegistrySettings = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+  const saveDirectRegistrySettings = async (
+    values: DeploymentCenterFormData<DeploymentCenterContainerFormData>,
+    deploymentProperties: KeyValue<any>
+  ) => {
     const notificationId = portalContext.startNotification(t('savingContainerConfiguration'), t('savingContainerConfiguration'));
 
     const [updateAppSettingsResponse, updateSiteConfigResponse] = await Promise.all([updateAppSettings(values), updateSiteConfig(values)]);
@@ -327,6 +341,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       }
 
       portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
+      logSaveConclusion(true, deploymentProperties);
     } else {
       let errorMessage = !updateAppSettingsResponse.success ? getErrorMessage(updateAppSettingsResponse.error) : '';
 
@@ -341,6 +356,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       } else {
         portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
       }
+      logSaveConclusion(false, deploymentProperties);
     }
   };
 
@@ -469,7 +485,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     if (
       !updateSourceControlResponse.metadata.success &&
       payload.isGitHubAction &&
-      isApiSyncError(updateSourceControlResponse.metadata.error)
+      (isApiSyncError(updateSourceControlResponse.metadata.error) || siteContext.isKubeApp)
     ) {
       // NOTE(michinoy): If the save operation was being done for GitHub Action, and
       // we are experiencing the API sync error, populate the source controls properties
@@ -478,7 +494,13 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
       portalContext.log(getTelemetryInfo('warning', 'updateSourceControlDetailsWorkaround', 'submit'));
 
-      return updateGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId, payload);
+      return updateGitHubActionSourceControlPropertiesManually(
+        deploymentCenterData,
+        deploymentCenterContext.resourceId,
+        payload,
+        deploymentCenterContext.gitHubToken,
+        siteContext.isKubeApp
+      );
     } else {
       return updateSourceControlResponse;
     }
@@ -521,7 +543,18 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     return responseResult;
   };
 
-  const saveGithubActionContainerSettings = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+  const logSaveConclusion = (success: boolean, deploymentProperties: KeyValue<any>) => {
+    const endTime = new Date().getTime();
+    const duration = endTime - deploymentProperties.startTime;
+    deploymentProperties.success = success ? 'true' : 'false';
+    deploymentProperties.duration = `${duration.toLocaleString()}`;
+    portalContext.log(getTelemetryInfo('info', 'saveDeploymentSettings', 'end', deploymentProperties));
+  };
+
+  const saveGithubActionContainerSettings = async (
+    values: DeploymentCenterFormData<DeploymentCenterContainerFormData>,
+    deploymentProperties: KeyValue<any>
+  ) => {
     const notificationId = portalContext.startNotification(t('savingContainerConfiguration'), t('savingContainerConfiguration'));
 
     portalContext.log(getTelemetryInfo('info', 'saveGithubActionContainerSettings', 'submit'));
@@ -541,6 +574,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
     if (containerConfigurationSucceeded) {
       portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
+      logSaveConclusion(true, deploymentProperties);
     } else {
       if (errorMessage) {
         portalContext.stopNotification(
@@ -551,12 +585,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       } else {
         portalContext.stopNotification(notificationId, false, t('savingContainerConfigurationFailed'));
       }
+      logSaveConclusion(false, deploymentProperties);
     }
-  };
-
-  const refreshFunction = () => {
-    hideRefreshConfirmDialog();
-    props.refresh();
   };
 
   const onSubmit = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
@@ -569,22 +599,26 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
   const updateDeploymentConfigurations = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
     const { scmType, org, repo, branch, workflowOption, registrySource, option, acrLoginServer, privateRegistryServerUrl } = values;
-    portalContext.log(
-      getTelemetryInfo('info', 'saveDeploymentSettings', 'start', {
-        scmType,
-        org,
-        repo,
-        branch,
-        workflowOption,
-        registrySource,
-        option,
-        acrLoginServer,
-        privateRegistryServerUrl,
-        publishType: 'container',
-        appType: siteContext.isFunctionApp ? 'functionApp' : 'webApp',
-        os: siteContext.isLinuxApp ? AppOs.linux : AppOs.windows,
-      })
-    );
+    const requestId = Guid.newGuid();
+    const deploymentProperties: KeyValue<any> = {
+      sourceProvider: scmType,
+      buildProvider: scmType === ScmType.GitHubAction ? scmType : '',
+      org,
+      repo,
+      branch,
+      workflowOption,
+      registrySource,
+      option,
+      acrLoginServer,
+      privateRegistryServerUrl,
+      publishType: 'container',
+      appType: siteContext.isFunctionApp ? 'functionApp' : 'webApp',
+      isKubeApp: siteContext.isKubeApp ? 'true' : 'false',
+      os: siteContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+      requestId,
+      startTime: new Date().getTime(),
+    };
+    portalContext.log(getTelemetryInfo('info', 'saveDeploymentSettings', 'start', deploymentProperties));
 
     // Only do the save if scmtype in the config is set to none.
     // If the scmtype in the config is not none, the user should be doing a disconnect operation first.
@@ -592,9 +626,9 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     // publishing user information.
     if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None) {
       if (values.scmType === ScmType.GitHubAction) {
-        await saveGithubActionContainerSettings(values);
+        await saveGithubActionContainerSettings(values, deploymentProperties);
       } else {
-        await saveDirectRegistrySettings(values);
+        await saveDirectRegistrySettings(values, deploymentProperties);
       }
     }
   };
@@ -630,10 +664,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     }
   };
 
-  const hideRefreshConfirmDialog = () => {
-    setIsRefreshConfirmDialogVisible(false);
-  };
-
   const hideDiscardConfirmDialog = () => {
     setIsDiscardConfirmDialogVisible(false);
   };
@@ -653,27 +683,12 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               saveFunction={formProps.submitForm}
               discardFunction={() => setIsDiscardConfirmDialogVisible(true)}
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
-              refresh={() => setIsRefreshConfirmDialogVisible(true)}
-              isLoading={props.isLoading}
-              isDirty={formProps.dirty}
+              isDataRefreshing={props.isDataRefreshing}
+              isDirty={isSettingsDirty(formProps, deploymentCenterContext) || isFtpsDirty(formProps, deploymentCenterPublishingContext)}
+              isVstsBuildProvider={formProps.values.scmType === ScmType.Vsts}
             />
           </div>
           <>
-            <ConfirmDialog
-              primaryActionButton={{
-                title: t('ok'),
-                onClick: refreshFunction,
-              }}
-              defaultActionButton={{
-                title: t('cancel'),
-                onClick: hideRefreshConfirmDialog,
-              }}
-              title={t('deploymentCenterRefreshConfirmTitle')}
-              content={t('deploymentCenterDataLossMessage')}
-              hidden={!isRefreshConfirmDialogVisible}
-              onDismiss={hideRefreshConfirmDialog}
-            />
-
             <ConfirmDialog
               primaryActionButton={{
                 title: t('ok'),

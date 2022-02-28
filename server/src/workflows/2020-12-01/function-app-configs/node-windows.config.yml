@@ -18,17 +18,17 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: 'Checkout GitHub Action'
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
 
-      - name: Setup Node \${{ env.NODE_VERSION }} Environment
+      - name: Setup Node ${{ env.NODE_VERSION }} Environment
         uses: actions/setup-node@v1
         with:
-          node-version: \${{ env.NODE_VERSION }}
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: 'Resolve Project Dependencies Using Npm'
         shell: pwsh
         run: |
-          pushd './\${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           npm install
           npm run build --if-present
           npm run test --if-present
@@ -40,5 +40,5 @@ jobs:
         with:
           app-name: '__sitename__'
           slot-name: '__slotname__'
-          package: \${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          publish-profile: ${{ secrets.__publishingprofilesecretname__ }}
