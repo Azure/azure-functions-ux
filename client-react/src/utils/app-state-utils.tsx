@@ -25,7 +25,7 @@ export async function resolveState(
 ) {
   const readOnlyLock = await portalContext.hasLock(resourceId, 'ReadOnly');
   if (readOnlyLock) {
-    FunctionAppEditMode.ReadOnlyLock;
+    return FunctionAppEditMode.ReadOnlyLock;
   }
 
   const writePermission = await portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);

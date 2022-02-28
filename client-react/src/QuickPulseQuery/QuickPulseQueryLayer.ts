@@ -103,7 +103,13 @@ export class QuickPulseQueryLayer {
     this._configuration = JSON.stringify(configuration);
   }
 
-  public queryDetails(authorizationHeader: string, querySessionInfo: boolean, instanceId: string, liveLogsSessionId?: string) {
+  public queryDetails(
+    authorizationHeader: string,
+    querySessionInfo: boolean,
+    instanceId: string,
+    liveLogsSessionId?: string,
+    functionsRuntimeVersion?: string
+  ) {
     this._queryServersInfo = querySessionInfo;
     if (!!this._detailedSessionInfo) {
       this._detailedSessionInfo.liveLogsSessionId = liveLogsSessionId || '';
@@ -114,12 +120,13 @@ export class QuickPulseQueryLayer {
       this._detailedSessionInfo.instanceSeqNumber = 0;
       this._instanceId = instanceId;
     }
+    const useNewFunctionLogsApi =
+      !!Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi) &&
+      functionsRuntimeVersion === CommonConstants.FunctionsRuntimeVersions.four;
 
     return this.excuteQueryWithSessionTracking(
       authorizationHeader,
-      !!Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi)
-        ? this.getDetailedRequestV2.bind(this)
-        : this.getDetailedRequest.bind(this),
+      useNewFunctionLogsApi ? this.getDetailedRequestV2.bind(this) : this.getDetailedRequest.bind(this),
       this._detailedSessionInfo
     );
   }
@@ -310,10 +317,7 @@ export class QuickPulseQueryLayer {
 
   private _getSessionFilter() {
     return {
-      SessionFilter: {
-        FilterByFieldName: CommonConstants.LiveLogsSessionId,
-        FilterByValue: this._detailedSessionInfo.liveLogsSessionId,
-      },
+      SessionFilterValue: this._detailedSessionInfo.liveLogsSessionId,
     };
   }
 
