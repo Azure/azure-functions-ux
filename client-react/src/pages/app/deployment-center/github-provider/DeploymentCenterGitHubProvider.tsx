@@ -58,7 +58,7 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
                 <PrimaryButton
                   onClick={() => {
                     toggleHideDialog(true);
-                    resetToken ? resetToken() : () => {};
+                    resetToken?.();
                   }}
                   text={`${t('update')}`}
                 />
