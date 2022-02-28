@@ -24,7 +24,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
   const { t } = useTranslation();
   const [passwordProtection, setPasswordProtection] = useState<PasswordProtectionTypes>(PasswordProtectionTypes.Disabled);
 
-  const passwordProtectionOptions = [
+  const passwordProtectionOptions: IChoiceGroupOption[] = [
     {
       key: PasswordProtectionTypes.Disabled,
       text: t('staticSite_passwordProtectionDisabled'),
@@ -162,7 +162,9 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
   }, [formProps.values.visitorPassword, formProps.values.visitorPasswordConfirm, formProps.values.passwordProtection]);
 
   useEffect(() => {
-    if (!!formProps.values.passwordProtection) setPasswordProtection(formProps.values.passwordProtection);
+    if (!!formProps.values.passwordProtection) {
+      setPasswordProtection(formProps.values.passwordProtection);
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.passwordProtection]);
