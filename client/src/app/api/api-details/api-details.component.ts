@@ -194,7 +194,6 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
 
   submitForm() {
     if (this.complexForm.valid && this.rrOverrideValid && !this._disableSubmit) {
-      console.log('here');
       this._disableSubmit = true;
       this.setBusy();
 
