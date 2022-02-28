@@ -57,7 +57,6 @@ export function MakeAzureResourceGraphCall<T>(
         for (const row of response.rows) {
           const obj = {};
 
-          // tslint:disable-next-line: no-increment-decrement
           for (let colIndex = 0; colIndex < response.columns.length; colIndex++) {
             obj[response.columns[colIndex].name] = row[colIndex];
           }

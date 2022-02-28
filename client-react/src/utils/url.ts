@@ -71,7 +71,6 @@ export default class Url {
       const search = /([^&=]+)=?([^&]*)/g;
       const decode = (s: any) => decodeURIComponent(s.replace(pl, ' '));
       const query = window.location.search.substring(1);
-      // tslint:disable-next-line:no-conditional-assignment
       while ((match = search.exec(query))) {
         this.queryStrings[decode(match[1])] = decode(match[2]);
       }

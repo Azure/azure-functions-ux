@@ -273,7 +273,6 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
     return currentAppSettingIndex < 0;
   };
 
-  // tslint:disable-next-line:member-ordering
   const getColumns = () => {
     const columns = [
       {

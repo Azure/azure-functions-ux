@@ -43,7 +43,8 @@
     "test:debug": "react-app-rewired --inspect-brk test --no-cache --verbose=false --runInBand",
     "storybook": "start-storybook -p 9009 -s public",
     "analyze": "react-app-rewired build --stats && webpack-bundle-analyzer build/bundle-stats.json -m static -r build/bundle-stats.html -O",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "lint": "eslint --ext .tsx,.ts src --format visualstudio"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^4.1.11",
@@ -64,11 +65,16 @@
     "@types/react-i18next": "^8.1.0",
     "@types/webpack-env": "^1.13.7",
     "@types/yup": "^0.26.9",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.13.0",
     "axios-mock-adapter": "^1.16.0",
     "babel-core": "^7.0.0-bridge.0",
     "core-js": "^2.6.4",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.9.1",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-react": "^7.29.2",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "jest-date-mock": "^1.0.7",
     "jest-junit": "^6.2.1",
     "jest-mock-axios": "^2.1.11",

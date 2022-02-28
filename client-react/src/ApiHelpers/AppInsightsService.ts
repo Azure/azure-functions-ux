@@ -138,7 +138,6 @@ export default class AppInsightsService {
     const invocationIdFilter = invocationId ? `| where customDimensions['InvocationId'] == '${invocationId}'` : '';
 
     return (
-      // tslint:disable-next-line: prefer-template
       `union traces` +
       `| union exceptions` +
       `| where timestamp > ago(30d)` +
@@ -218,7 +217,6 @@ export default class AppInsightsService {
 
   public static formOrchestrationTraceDetailsQuery = (instanceId: string) => {
     return (
-      // tslint:disable-next-line: prefer-template
       `union traces` +
       `| where timestamp > ago(7d) ` +
       `| where customDimensions.Category == 'Host.Triggers.DurableTask' ` +
@@ -290,7 +288,6 @@ export default class AppInsightsService {
 
   public static formEntityTraceDetailsQuery = (instanceId: string) => {
     return (
-      // tslint:disable-next-line: prefer-template
       `union traces` +
       `| where timestamp > ago(7d) ` +
       `| where customDimensions.Category == 'Host.Triggers.DurableTask' ` +

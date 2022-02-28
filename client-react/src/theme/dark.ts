@@ -318,7 +318,6 @@ export const darkTheme: Partial<ThemeExtended> = {
       fontWeight: 100,
     },
   },
-  // tslint:disable-next-line:object-shorthand-properties-first
   semanticColors,
   isInverted: false,
   disableGlobalClassNames: false,
