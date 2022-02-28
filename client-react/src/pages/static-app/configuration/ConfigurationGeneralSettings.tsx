@@ -172,7 +172,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
   return (
     <div className={formElementStyle}>
       {isLoading ? (
-        <ProgressIndicator description={t('loadingGeneralSettings')} ariaValueText={t('loadingGeneralSettings')} />
+        <ProgressIndicator description={t('staticSite_loadingGeneralSettings')} ariaValueText={t('staticSite_loadingGeneralSettings')} />
       ) : (
         <>
           <h3>{t('staticSite_passwordProtection')}</h3>

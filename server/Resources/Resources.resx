@@ -7291,6 +7291,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_loadingGeneralSettings" xml:space="preserve">
         <value>Loading general settings...</value>
     </data>
+    <data name="staticSite_loadingApplicationSettings" xml:space="preserve">
+        <value>Loading application settings...</value>
+    </data>
     <data name="staticSite_generalSettingsUpdateWithSuccess" xml:space="preserve">
         <value>Successfully updated general settings.</value>
     </data>

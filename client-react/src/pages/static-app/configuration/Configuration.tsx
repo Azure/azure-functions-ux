@@ -11,6 +11,7 @@ import {
   Checkbox,
   DetailsRow,
   DetailsHeader,
+  ProgressIndicator,
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { ConfigurationProps, EnvironmentVariable, PanelType } from './Configuration.types';
@@ -567,30 +568,39 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   return (
     <>
-      {getConfirmDialogs()}
-      <div className={formStyle}>
-        <p className={formDescriptionStyle}>
-          <span id="environment-variable-info-message">{t('staticSite_applicationSettingsInfoMessage')}</span>
-          <Link
-            id="environment-variable-info-learnMore"
-            href={Links.staticSiteEnvironmentVariablesLearnMore}
-            target="_blank"
-            className={learnMoreLinkStyle}
-            aria-labelledby="environment-variable-info-message">
-            {` ${t('learnMore')}`}
-          </Link>
-        </p>
-        <ConfigurationEnvironmentSelector
-          environments={values.environments || []}
-          onDropdownChange={onDropdownChange}
-          disabled={isLoading || !hasWritePermissions}
-          selectedEnvironment={values.selectedEnvironment}
-          isLoading={isLoading}
+      {isLoading ? (
+        <ProgressIndicator
+          description={t('staticSite_loadingApplicationSettings')}
+          ariaValueText={t('staticSite_loadingApplicationSettings')}
         />
-        {getTable()}
-        {getAddEditPanel()}
-        {getBulkAddEditPanel()}
-      </div>
+      ) : (
+        <>
+          {getConfirmDialogs()}
+          <div className={formStyle}>
+            <p className={formDescriptionStyle}>
+              <span id="environment-variable-info-message">{t('staticSite_applicationSettingsInfoMessage')}</span>
+              <Link
+                id="environment-variable-info-learnMore"
+                href={Links.staticSiteEnvironmentVariablesLearnMore}
+                target="_blank"
+                className={learnMoreLinkStyle}
+                aria-labelledby="environment-variable-info-message">
+                {` ${t('learnMore')}`}
+              </Link>
+            </p>
+            <ConfigurationEnvironmentSelector
+              environments={values.environments || []}
+              onDropdownChange={onDropdownChange}
+              disabled={isLoading || !hasWritePermissions}
+              selectedEnvironment={values.selectedEnvironment}
+              isLoading={isLoading}
+            />
+            {getTable()}
+            {getAddEditPanel()}
+            {getBulkAddEditPanel()}
+          </div>
+        </>
+      )}
     </>
   );
 };
