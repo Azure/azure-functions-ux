@@ -25,7 +25,7 @@ export class ResourcesService implements OnModuleInit {
     const langLower = language.toLowerCase();
     let langCode = 'en';
     if (langLower !== 'en') {
-      if (!!languageMap[langLower]) {
+      if (languageMap[langLower]) {
         langCode = languageMap[langLower];
       } else {
         langCode = `${language.toLowerCase()}-${language.toUpperCase()}`;
