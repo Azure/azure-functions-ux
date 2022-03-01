@@ -4,7 +4,7 @@ A kezdés előtt <a href="https://go.microsoft.com/fwlink/?linkid=2016593" targe
 
 Futtassa az alábbi parancsot a Core Tools csomag telepítéséhez:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 Ezután <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">telepítse a Visual Studio Code Azure Functions-bővítményét</a>. Ha telepítette a bővítményt, kattintson a tevékenységsávon található Azure-emblémára. Az **Azure: Functions** alatt kattintson a **Bejelentkezés az Azure-ba...** elemre, és kövesse a képernyőn megjelenő utasításokat.
 

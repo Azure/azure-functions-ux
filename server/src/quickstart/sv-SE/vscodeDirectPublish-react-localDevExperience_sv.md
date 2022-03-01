@@ -4,7 +4,7 @@ Innan du börjar måste du <a href="https://go.microsoft.com/fwlink/?linkid=2016
 
 Kör följande kommando för att installera Core Tools-paketet:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 Installera sedan <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">Azure Functions-tillägget för Visual Studio Code</a>. När tillägget har installerats klickar du på Azure-logotypen i aktivitetsfältet. Under **Azure: Functions** klickar du på **Logga in på Azure...** och följer anvisningarna på skärmen.
 
