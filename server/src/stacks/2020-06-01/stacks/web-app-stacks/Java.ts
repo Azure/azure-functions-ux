@@ -127,6 +127,39 @@ export const javaStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Java 11.0.13',
+          value: '11.0.13',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              runtimeVersion: '',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+            windowsRuntimeSettings: {
+              runtimeVersion: '11.0.13',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
           displayText: 'Java 11.0.12',
           value: '11.0.12',
           stackSettings: {
@@ -411,6 +444,25 @@ export const javaStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '1.8',
               isAutoUpdate: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.8.0_312',
+          value: '8.0.312',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8.0_312',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
