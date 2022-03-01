@@ -486,6 +486,14 @@ export class PortalResources {
   public static autoSwapSlotNameLabel = 'autoSwapSlotNameLabel';
   public static productionSlotDisplayName = 'productionSlotDisplayName';
   public static clientAffinityEnabledLabel = 'clientAffinityEnabledLabel';
+  public static httpsOnlyInfoBoxText = 'httpsOnlyInfoBoxText';
+  public static httpsOnlyLabel = 'httpsOnlyLabel';
+  public static httpsOnlyInfoBubbleMessage = 'httpsOnlyInfoBubbleMessage';
+  public static minTlsVersionLabel = 'minTlsVersionLabel';
+  public static minTlsVersionInfoBubbleMessage = 'minTlsVersionInfoBubbleMessage';
+  public static tlsVersion10 = 'tlsVersion10';
+  public static tlsVersion11 = 'tlsVersion11';
+  public static tlsVersion12 = 'tlsVersion12';
   public static clientAffinityInfoText = 'clientAffinityInfoText';
   public static remoteDebuggingEnabledLabel = 'remoteDebuggingEnabledLabel';
   public static remoteDebuggingVersionLabel = 'remoteDebuggingVersionLabel';

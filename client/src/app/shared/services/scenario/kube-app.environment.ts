@@ -48,6 +48,11 @@ export class KubeAppEnvironment extends Environment {
       id: ScenarioIds.localGitSource,
       runCheck: () => ({ status: 'disabled' }),
     };
+
+    this.scenarioChecks[ScenarioIds.showAllMinTlsVersions] = {
+      id: ScenarioIds.showAllMinTlsVersions,
+      runCheck: () => ({ status: 'disabled' }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

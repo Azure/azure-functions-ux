@@ -1570,6 +1570,30 @@
     <data name="clientAffinityEnabledLabel" xml:space="preserve">
         <value>ARR affinity</value>
     </data>
+    <data name="httpsOnlyInfoBoxText" xml:space="preserve">
+        <value>Some custom hostnames for your app are missing SSL bindings. When HTTPS Only is enabled clients accessing your app on those custom hostnames will see security warnings. To fix this add the missing SSL bindings or remove the custom hostnames.</value>
+    </data>
+    <data name="httpsOnlyLabel" xml:space="preserve">
+        <value>HTTPS Only</value>
+    </data>
+    <data name="httpsOnlyInfoBubbleMessage" xml:space="preserve">
+        <value>Enable this feature to redirect all HTTP traffic to HTTPS.</value>
+    </data>
+    <data name="minTlsVersionLabel" xml:space="preserve">
+        <value>Minimum TLS Version</value>
+    </data>
+    <data name="minTlsVersionInfoBubbleMessage" xml:space="preserve">
+        <value>Select the minimum TLS encryption version required by your app.</value>
+    </data>
+    <data name="tlsVersion10" xml:space="preserve">
+        <value>1.0</value>
+    </data>
+    <data name="tlsVersion11" xml:space="preserve">
+        <value>1.1</value>
+    </data>
+    <data name="tlsVersion12" xml:space="preserve">
+        <value>1.2</value>
+    </data>
     <data name="clientAffinityInfoText" xml:space="preserve">
         <value>You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.</value>
     </data>

@@ -282,6 +282,7 @@ export class ScenarioIds {
   public static readonly virtualDirectoriesSupported = 'VirtualDirectoriesSupported';
   public static readonly enableDiagnoseAndSolve = 'EnableDiagnoseAndSolve';
   public static readonly showSitePin = 'ShowSitePin';
+  public static readonly showAllMinTlsVersions = 'showAllMinTlsVersions';
   public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
   public static readonly showSideNavMenu = 'ShowSideNavMenu';
   public static readonly enablePlatform64 = 'EnablePlatform64';
