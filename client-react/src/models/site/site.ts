@@ -55,6 +55,7 @@ export enum SiteDisabledReason {
 export enum ClientCertMode {
   Required = 'Required',
   Optional = 'Optional',
+  OptionalInteractiveUser = 'OptionalInteractiveUser',
 }
 
 export interface Site {
