@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { join, normalize } from 'path';
 import { exists, readdir, readFile } from 'async-file';
-// tslint:disable:object-literal-key-quotes
+
 const languageMap: { [key: string]: string } = {
   ja: 'ja-JP',
   ko: 'ko-KR',

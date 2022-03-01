@@ -36,7 +36,6 @@ export class LoggingService extends ConsoleLogger implements LoggerService {
 
     const logId = `/info/server/${context}`;
 
-    // tslint:disable-next-line:no-console
     this.trackEvent(logId, message, undefined, EventType.Info);
   }
 
