@@ -110,7 +110,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       }
 
       if (site) {
-        let editMode = await resolveState(portalContext, trimmedResourceId, LogCategories.siteRouter, site, appSettings);
+        const editMode = await resolveState(portalContext, trimmedResourceId, LogCategories.siteRouter, site, appSettings);
         setSite(site);
         setStopped(site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
         setIsLinuxApplication(isLinuxApp(site));

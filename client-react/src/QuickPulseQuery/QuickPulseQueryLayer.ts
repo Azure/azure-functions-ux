@@ -7,7 +7,7 @@ import { TelemetryTypesEnum } from '.';
 
 export function makeQuickPulseId() {
   let text = '';
-  let possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
   for (let i = 0; i < 32; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -122,22 +122,20 @@ export class QuickPulseQueryLayer {
       !!Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi) &&
       functionsRuntimeVersion === CommonConstants.FunctionsRuntimeVersions.four;
 
-    return this.excuteQueryWithSessionTracking(
+    return this.executeQueryWithSessionTracking(
       authorizationHeader,
       useNewFunctionLogsApi ? this.getDetailedRequestV2.bind(this) : this.getDetailedRequest.bind(this),
       this._detailedSessionInfo
     );
   }
 
-  private async excuteQueryWithSessionTracking(
+  private executeQueryWithSessionTracking = async (
     authorizationHeader: string,
     getRequestFunc: (header1: string, header2: string) => WebRequest,
     sessionInfo: QuickPulseSessionInfo
-  ): Promise<qpschema.SchemaResponseV2 | null> {
-    let self = this;
-
-    let queryNumber = ++sessionInfo.queryNumber;
-    let ajaxResult = await this.executeQuery(authorizationHeader, sessionInfo.sessionHeader, getRequestFunc);
+  ): Promise<qpschema.SchemaResponseV2 | null> => {
+    const queryNumber = ++sessionInfo.queryNumber;
+    const ajaxResult = await this.executeQuery(authorizationHeader, sessionInfo.sessionHeader, getRequestFunc);
 
     // Ignore out-of-order responses
     if (queryNumber <= sessionInfo.lastResponse) {
@@ -147,7 +145,7 @@ export class QuickPulseQueryLayer {
     sessionInfo.lastResponse = queryNumber;
     sessionInfo.sessionHeader = ajaxResult.request.getResponseHeader('x-ms-qps-query-session');
 
-    let dataV2: any = ajaxResult.data;
+    const dataV2: any = ajaxResult.data;
 
     // Ignore responses when front end wasn't able to contact backend.
     // We should switch to different backend soon.
@@ -156,7 +154,7 @@ export class QuickPulseQueryLayer {
         return null;
       }
 
-      let aggregatorId = (dataV2.DataRanges && dataV2.DataRanges.length > 0 && dataV2.DataRanges[0].AggregatorId) || '';
+      const aggregatorId = (dataV2.DataRanges && dataV2.DataRanges.length > 0 && dataV2.DataRanges[0].AggregatorId) || '';
 
       // Check whether we're still communicating with the same Aggregator instance
       if (sessionInfo.aggregatorId !== aggregatorId) {
@@ -174,14 +172,14 @@ export class QuickPulseQueryLayer {
       }
 
       // Remove all documents which we've already seen
-      sessionInfo.seqNumber = self.processDocuments(dataV2.DataRanges[0].Documents, sessionInfo.seqNumber, aggregatorId);
+      sessionInfo.seqNumber = this.processDocuments(dataV2.DataRanges[0].Documents, sessionInfo.seqNumber, aggregatorId);
       if (dataV2.DataRanges.length > 1) {
         // Check whether we're already looking at different instance
-        if (self._instanceId !== dataV2.DataRanges[1].Instance) {
+        if (this._instanceId !== dataV2.DataRanges[1].Instance) {
           dataV2.DataRanges.splice(1, 1);
           sessionInfo.instanceSeqNumber = 0;
         } else {
-          sessionInfo.instanceSeqNumber = self.processDocuments(
+          sessionInfo.instanceSeqNumber = this.processDocuments(
             dataV2.DataRanges[1].Documents,
             sessionInfo.instanceSeqNumber,
             aggregatorId
@@ -202,7 +200,7 @@ export class QuickPulseQueryLayer {
     }
 
     return dataV2;
-  }
+  };
 
   private processDocuments(documents: qpschema.SchemaDocument[], seqNumber: number, aggregatorId: string): number {
     if (documents && documents.length > 0) {
@@ -237,16 +235,16 @@ export class QuickPulseQueryLayer {
     sessionHeader: string,
     getRequestFunc: (header1: string, header2: string) => WebRequest
   ): Promise<QueryResponse> {
-    let request = getRequestFunc(authorizationHeader, sessionHeader);
+    const request = getRequestFunc(authorizationHeader, sessionHeader);
 
-    let options: AxiosRequestConfig = {
+    const options: AxiosRequestConfig = {
       timeout: request.timeout,
       headers: request.headers,
       data: request.data,
       url: request.url,
       method: request.type,
     };
-    let response = await axios.request(options);
+    const response = await axios.request(options);
 
     if (response.headers['x-ms-qps-environment-redirect'] === 'PPE') {
       throw new Error(QuickPulseQueryLayer.UNRECOVERABLE_ERROR);
@@ -287,7 +285,7 @@ export class QuickPulseQueryLayer {
   }
 
   private getDetailedRequestV2(authorizationHeader: string, sessionHeader: string): WebRequest {
-    let quickPulseEndpointUrl = `${this._getQuickPulseEndpoint()}/queryLogs?seqNumber=${this._detailedSessionInfo.seqNumber}`;
+    const quickPulseEndpointUrl = `${this._getQuickPulseEndpoint()}/queryLogs?seqNumber=${this._detailedSessionInfo.seqNumber}`;
     let requestData = {
       Id: this._id,
       Version: this._configurationVersion,
@@ -339,13 +337,13 @@ export class QuickPulseQueryLayer {
       const metrics = configuration.Metrics;
       if (metrics) {
         for (let metricIndex = 0; metricIndex < metrics.length; ++metricIndex) {
-          let metric: QPSchemaConfigurationMetric = metrics[metricIndex];
+          const metric: QPSchemaConfigurationMetric = metrics[metricIndex];
           if (metric.FilterGroups) {
             for (let i = 0; i < metric.FilterGroups.length; ++i) {
-              let filterGroup = metric.FilterGroups[i];
+              const filterGroup = metric.FilterGroups[i];
               if (filterGroup.Filters) {
                 for (let j = 0; j < filterGroup.Filters.length; ++j) {
-                  let filter = filterGroup.Filters[j];
+                  const filter = filterGroup.Filters[j];
 
                   // convert ms -> timespan for durations
                   if (filter.FieldName === RequestFieldsEnum.Duration || filter.FieldName === DependencyFieldsEnum.Duration) {
@@ -361,13 +359,13 @@ export class QuickPulseQueryLayer {
       // process document streams
       if (configuration.DocumentStreams) {
         for (let documentStreamIndex = 0; documentStreamIndex < configuration.DocumentStreams.length; ++documentStreamIndex) {
-          let documentStream: QPSchemaDocumentStreamInfo = configuration.DocumentStreams[documentStreamIndex];
+          const documentStream: QPSchemaDocumentStreamInfo = configuration.DocumentStreams[documentStreamIndex];
           if (documentStream.DocumentFilterGroups) {
             for (let i = 0; i < documentStream.DocumentFilterGroups.length; ++i) {
-              let filterGroup = documentStream.DocumentFilterGroups[i];
+              const filterGroup = documentStream.DocumentFilterGroups[i];
               if (filterGroup.Filters && filterGroup.Filters.Filters) {
                 for (let j = 0; j < filterGroup.Filters.Filters.length; ++j) {
-                  let filter = filterGroup.Filters.Filters[j];
+                  const filter = filterGroup.Filters.Filters[j];
 
                   // convert ms -> timespan for durations
                   if (filter.FieldName === RequestFieldsEnum.Duration || filter.FieldName === DependencyFieldsEnum.Duration) {
@@ -383,17 +381,17 @@ export class QuickPulseQueryLayer {
   }
 
   public static ConvertMillisecondsToTimestamp(milliseconds: string): string {
-    let ms: number = parseInt(milliseconds, 10) || 0;
+    const ms: number = parseInt(milliseconds, 10) || 0;
 
-    let msInADay: number = 86400000;
-    let msInAnHour: number = 3600000;
-    let msInAMinute: number = 60000;
-    let msInASecond: number = 1000;
+    const msInADay: number = 86400000;
+    const msInAnHour: number = 3600000;
+    const msInAMinute: number = 60000;
+    const msInASecond: number = 1000;
 
-    let days: number = Math.floor(ms / msInADay);
-    let hours = Math.floor((ms % msInADay) / msInAnHour);
-    let minutes = Math.floor(((ms % msInADay) % msInAnHour) / msInAMinute);
-    let totalSeconds = (((ms % msInADay) % msInAnHour) % msInAMinute) / msInASecond;
+    const days: number = Math.floor(ms / msInADay);
+    const hours = Math.floor((ms % msInADay) / msInAnHour);
+    const minutes = Math.floor(((ms % msInADay) % msInAnHour) / msInAMinute);
+    const totalSeconds = (((ms % msInADay) % msInAnHour) % msInAMinute) / msInASecond;
 
     return days + '.' + hours + ':' + minutes + ':' + totalSeconds;
   }

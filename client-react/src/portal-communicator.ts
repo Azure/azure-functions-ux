@@ -182,7 +182,7 @@ export default class PortalCommunicator {
   }
 
   public makeHttpRequestsViaPortal(query: NetAjaxSettings): Promise<IDataMessageResult<any>> {
-    let updatedQuery = { ...query };
+    const updatedQuery = { ...query };
     // NOTE(krmitta): Make sure stringified data is sent if present
     if (query.data) {
       updatedQuery.data = JSON.stringify(query.data);

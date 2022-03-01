@@ -40,7 +40,7 @@ export default class OneDriveService {
     let pageNumber = 1;
 
     do {
-      let pageResponse = await OneDriveService._sendOneDriveRequest(requestUrl, oneDriveToken, 'GET');
+      const pageResponse = await OneDriveService._sendOneDriveRequest(requestUrl, oneDriveToken, 'GET');
       if (pageResponse.metadata.success && pageResponse.data) {
         oneDriveObjectList.push(...pageResponse.data.value);
 

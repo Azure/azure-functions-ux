@@ -93,7 +93,7 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
   }
 
   private async _getAllGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean): Promise<ArmObj<GeoRegion>[]> {
-    let id = `/subscriptions/${subscriptionId}/providers/microsoft.web/georegions`;
+    const id = `/subscriptions/${subscriptionId}/providers/microsoft.web/georegions`;
 
     const geoRegionsFetch = await MakeArmCall<ArmArray<GeoRegion>>({
       resourceId: id,

@@ -57,13 +57,13 @@ export class FlightingUtil {
    */
 
   private static murmurhash3_32_gc(key: string, seed: number) {
-    let remainder, bytes, h1, h1b, c1, c2, k1, i;
+    let h1, h1b, i, k1;
 
-    remainder = key.length & 3;
-    bytes = key.length - remainder;
+    const remainder = key.length & 3;
+    const bytes = key.length - remainder;
     h1 = seed;
-    c1 = 0xcc9e2d51;
-    c2 = 0x1b873593;
+    const c1 = 0xcc9e2d51;
+    const c2 = 0x1b873593;
     i = 0;
 
     while (i < bytes) {
