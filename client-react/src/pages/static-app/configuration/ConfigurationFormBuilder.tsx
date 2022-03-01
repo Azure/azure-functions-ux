@@ -47,8 +47,9 @@ export class ConfigurationFormBuilder {
       passwordProtectionEnvironments: Yup.mixed().notRequired(),
       visitorPassword: Yup.string().test('publishingPasswordRequirements', this._t('staticSite_visitorPasswordRequired'), function(value) {
         if (this.parent.isGeneralSettingsDirty && this.parent.passwordProtection !== PasswordProtectionTypes.Disabled) {
-          if (!!value && CommonConstants.isKeyVaultSecretUrl(value)) {
-            return true;
+          //NOTE(stpelleg): Key Vault references and urls should be blocked, they do not currently work.
+          if (!!value && (CommonConstants.isKeyVaultSecretUrl(value) || CommonConstants.isKeyVaultReference(value))) {
+            return false;
           }
           return !!value && CommonConstants.passwordMinimumRequirementsRegex.test(value);
         }

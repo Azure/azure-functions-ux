@@ -2382,6 +2382,8 @@ export class PortalResources {
   public static staticSite_visitorPasswordRequired = 'staticSite_visitorPasswordRequired';
   public static staticSite_confirmVisitorPasswordRequired = 'staticSite_confirmVisitorPasswordRequired';
   public static staticSite_generalSettingsUpdate = 'staticSite_generalSettingsUpdate';
+  public static staticSite_loadingGeneralSettings = 'staticSite_loadingGeneralSettings';
+  public static staticSite_loadingApplicationSettings = 'staticSite_loadingApplicationSettings';
   public static staticSite_generalSettingsUpdateWithSuccess = 'staticSite_generalSettingsUpdateWithSuccess';
   public static staticSite_generalSettingsUpdateWithFailure = 'staticSite_generalSettingsUpdateWithFailure';
   public static staticSite_generalSettingsUpdateWithFailureNoMessage = 'staticSite_generalSettingsUpdateWithFailureNoMessage';
