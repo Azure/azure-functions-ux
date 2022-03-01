@@ -14,6 +14,7 @@ import {
   Param,
   Patch,
 } from '@nestjs/common';
+import * as sodium from 'tweetsodium';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
 import { LoggingService } from '../../shared/logging/logging.service';
@@ -528,7 +529,6 @@ export class GithubController {
     const messageBytes = Buffer.from(value);
     const keyBytes = Buffer.from(publicKey.key, 'base64');
 
-    const sodium = require('tweetsodium');
     const encryptedBytes = sodium.seal(messageBytes, keyBytes);
     const encrypted = Buffer.from(encryptedBytes).toString('base64');
 
