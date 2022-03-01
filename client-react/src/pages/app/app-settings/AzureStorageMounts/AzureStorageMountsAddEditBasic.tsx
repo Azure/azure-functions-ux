@@ -40,7 +40,7 @@ const initializeStorageContainerErrorSchemaValue = (): StorageContainerErrorSche
   };
 };
 
-const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
+const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = (props) => {
   const { errors, values, initialValues, setValues, setFieldValue, validateForm } = props;
   const [accountSharesFiles, setAccountSharesFiles] = useState([]);
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
@@ -56,8 +56,8 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
 
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
   const accountOptions = storageAccounts.value
-    .filter(val => supportsBlobStorage || val.kind !== storageKinds.BlobStorage)
-    .map(val => ({ key: val.name, text: val.name }));
+    .filter((val) => supportsBlobStorage || val.kind !== storageKinds.BlobStorage)
+    .map((val) => ({ key: val.name, text: val.name }));
 
   const validateStorageContainer = (value: string): string | undefined => {
     const emptyListError = validateNoStorageContainerAvailable();
@@ -69,8 +69,8 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     if (
       sharesLoading ||
       (value && values.type === StorageType.azureBlob
-        ? blobContainerOptions.find(x => x.key === value)
-        : filesContainerOptions.find(x => x.key === value))
+        ? blobContainerOptions.find((x) => x.key === value)
+        : filesContainerOptions.find((x) => x.key === value))
     ) {
       return undefined;
     }
@@ -101,7 +101,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     }
   };
 
-  const storageAccount = storageAccounts.value.find(x => x.name === values.accountName);
+  const storageAccount = storageAccounts.value.find((x) => x.name === values.accountName);
 
   useEffect(() => {
     setAccountError('');
@@ -116,8 +116,10 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             setValues({ ...values, accessKey });
           };
 
-          // Keep the original key if there is one, otherwise assign data.keys[0] to access key
-          const key = getAccessKey(data.keys[0].value);
+          // Keep the original key if there is one, otherwise assign data.keys[0] to access key.
+          // Add check on keys in case keys property is undefined or empty
+          const retrievedKey = data?.keys?.[0]?.value ?? '';
+          const key = getAccessKey(retrievedKey);
           setAccessKey(key);
           const payload = {
             accountName: values.accountName,
