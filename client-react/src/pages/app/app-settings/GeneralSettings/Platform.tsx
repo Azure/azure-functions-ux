@@ -27,6 +27,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const showHttpsOnlyInfo = (): boolean => {
     const siteProperties = values.site.properties;
     const initialHttpsOnlyValue = !!initialValues.site.properties.httpsOnly;
+    const hosts = ['.scm.azurewebsites.net', '.scm.azurewebsites.us', '.scm.chinacloudsites.cn', '.scm.azurewebsites.de'];
     return (
       !initialHttpsOnlyValue &&
       !!siteProperties.httpsOnly &&
@@ -37,12 +38,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         return (
           hostNameSslState.sslState === SslState.Disabled &&
           siteProperties.defaultHostName !== hostNameSslStateName &&
-          !(
-            hostNameSslStateName.includes('.scm.azurewebsites.net') ||
-            hostNameSslStateName.includes('.scm.azurewebsites.us') ||
-            hostNameSslStateName.includes('.scm.chinacloudsites.cn') ||
-            hostNameSslStateName.includes('.scm.azurewebsites.de')
-          )
+          !hosts.some(host => hostNameSslStateName.includes(host))
         );
       })
     );
