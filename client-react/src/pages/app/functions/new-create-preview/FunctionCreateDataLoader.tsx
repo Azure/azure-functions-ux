@@ -199,7 +199,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     const appSettingsResponse = await SiteService.fetchApplicationSettings(resourceId);
     if (appSettingsResponse.metadata.success) {
       const appSettings = appSettingsResponse.data.properties;
-      if (appSettings.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
+      if (Object.prototype.hasOwnProperty.call(appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
         setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
       }
     } else {
