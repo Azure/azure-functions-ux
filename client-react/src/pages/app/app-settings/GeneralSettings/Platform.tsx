@@ -257,7 +257,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           component={Dropdown}
           label={t('minTlsVersionLabel')}
           infoBubbleMessage={t('minTlsVersionInfoBubbleMessage')}
-          dirty={values.site.properties.siteConfig.minTlsVersion !== initialValues.site.properties.siteConfig.minTlsVersion}
+          dirty={values.config.properties.minTlsVersion !== initialValues.config.properties.minTlsVersion}
           options={[
             {
               key: MinTlsVersion.tLS10,
