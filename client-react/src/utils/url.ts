@@ -39,8 +39,7 @@ export default class Url {
       return null;
     }
 
-    // eslint-disable-next-line no-useless-escape
-    const sanatizedName = name.replace(/[\[\]]/g, '\\$&');
+    const sanatizedName = name.replace(/[[\]]/g, '\\$&');
     const regex = new RegExp(`[?&]${sanatizedName}(=([^&#]*)|&|#|$)`, 'i');
     const results = regex.exec(urlFull);
 
