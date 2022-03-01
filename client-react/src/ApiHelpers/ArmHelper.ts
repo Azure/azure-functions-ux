@@ -214,7 +214,7 @@ export const getErrorMessage = (error: any, recursionLimit: number = 1): string 
 
 export const getErrorMessageOrStringify = (error: any, recursionLimit: number = 1): string => {
   const extractedError = _extractErrorMessage(error, recursionLimit);
-  return !!extractedError ? extractedError : JSON.stringify(error || {});
+  return extractedError ?? JSON.stringify(error || {});
 };
 
 const _extractErrorMessage = (error: any, recursionLimit: number): string => {

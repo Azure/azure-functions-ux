@@ -140,24 +140,24 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   };
 
   const getDropdownOptions = (): IDropdownOption[] => {
-    return !!fileList
-      ? fileList
-          .map(file => ({
-            key: file.name,
-            text: file.name,
-            isSelected: false,
-            data: file,
-          }))
-          .filter(file => file.data.mime !== 'inode/directory')
-          .sort((a, b) => a.key.localeCompare(b.key))
-      : [];
+    return (
+      fileList
+        ?.map(file => ({
+          key: file.name,
+          text: file.name,
+          isSelected: false,
+          data: file,
+        }))
+        .filter(file => file.data.mime !== 'inode/directory')
+        .sort((a, b) => a.key.localeCompare(b.key)) ?? []
+    );
   };
 
   const getAndSetFile = async () => {
     const options = getDropdownOptions();
     const hostsJsonFile = options.find(f => (f.key as string).toLowerCase() === CommonConstants.hostJsonFileName);
     const file = hostsJsonFile || (options.length > 0 && options[0]);
-    if (!!file) {
+    if (file) {
       setSelectedFile(file);
       setSelectedFileContent(file.data);
       getAndSetEditorLanguage(file.data.name);
@@ -172,7 +172,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   const isRuntimeReachable = () => !!fileList;
 
   useEffect(() => {
-    setMonacoHeight(`calc(100vh - ${100 + (!!readOnlyBanner ? readOnlyBanner.offsetHeight : 0)}px)`);
+    setMonacoHeight(`calc(100vh - ${100 + (readOnlyBanner?.offsetHeight ?? 0)}px)`);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [readOnlyBanner]);
@@ -201,7 +201,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
       <FunctionEditorFileSelectorBar
         functionAppNameLabel={site.name}
         fileDropdownOptions={getDropdownOptions()}
-        fileDropdownSelectedKey={!!selectedFile ? (selectedFile.key as string) : ''}
+        fileDropdownSelectedKey={(selectedFile?.key as string) ?? ''}
         disabled={isRefreshing}
         onChangeDropdown={onFileSelectorChange}
       />

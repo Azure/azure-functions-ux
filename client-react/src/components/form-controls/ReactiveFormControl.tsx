@@ -76,9 +76,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
   const horizontal = layout ? layout !== Layout.Vertical : fullPage;
 
   const copyToClipboard = (event: React.MouseEvent<any>) => {
-    if (!!event) {
-      event.stopPropagation();
-    }
+    event?.stopPropagation();
     TextUtilitiesService.copyContentToClipboard(copyValue || '');
     setCopied(true);
   };
@@ -94,22 +92,16 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
   };
 
   return (
-    <Stack
-      horizontal={horizontal}
-      className={`${!!formControlClassName ? formControlClassName : ''} ${controlContainerStyle(!!upsellMessage, fullPage)}`}>
+    <Stack horizontal={horizontal} className={`${formControlClassName ?? ''} ${controlContainerStyle(!!upsellMessage, fullPage)}`}>
       {(label || (pushContentRight && fullPage)) && (
-        <Stack
-          horizontal
-          className={`${formStackStyle(!!upsellMessage, fullPage, horizontal)} ${
-            !!customLabelStackClassName ? customLabelStackClassName : ''
-          }`}>
+        <Stack horizontal className={`${formStackStyle(!!upsellMessage, fullPage, horizontal)} ${customLabelStackClassName ?? ''}`}>
           {upsellMessage && (
             <div className={upsellIconStyle}>
               <UpsellIcon upsellMessage={upsellMessage} />
             </div>
           )}
           <Label
-            className={`${!!customLabelClassName ? customLabelClassName : ''} ${formLabelStyle(!!upsellMessage, fullPage, horizontal)} ${
+            className={`${customLabelClassName ?? ''} ${formLabelStyle(!!upsellMessage, fullPage, horizontal)} ${
               dirty ? dirtyElementStyle(theme, true) : ''
             }`}
             id={`${id}-label`}>

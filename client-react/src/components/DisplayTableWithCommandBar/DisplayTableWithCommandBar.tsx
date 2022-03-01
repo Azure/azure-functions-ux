@@ -22,7 +22,7 @@ const DisplayTableWithCommandBar: React.SFC<Props> = props => {
 
   let customStyles = DetailListStyles();
 
-  if (!!styles) {
+  if (styles) {
     customStyles = Object.assign(customStyles, styles);
   }
 

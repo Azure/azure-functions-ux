@@ -145,21 +145,21 @@ const TemplateList: React.FC<TemplateListProps> = props => {
   };
 
   const getItems = () => {
-    return !!templates
-      ? templates
-          .filter(template => {
-            const lowerCasedFilterValue = !!filter ? filter.toLocaleLowerCase() : '';
-            return (
-              template.name.toLocaleLowerCase().includes(lowerCasedFilterValue) ||
-              (template.description && template.description.toLocaleLowerCase().includes(lowerCasedFilterValue))
-            );
-          })
-          .sort((templateA: FunctionTemplate, templateB: FunctionTemplate) => sortTemplate(templateA, templateB))
-      : [];
+    return (
+      templates
+        ?.filter(template => {
+          const lowerCasedFilterValue = filter?.toLocaleLowerCase() ?? '';
+          return (
+            template.name.toLocaleLowerCase().includes(lowerCasedFilterValue) ||
+            (template.description && template.description.toLocaleLowerCase().includes(lowerCasedFilterValue))
+          );
+        })
+        .sort((templateA: FunctionTemplate, templateB: FunctionTemplate) => sortTemplate(templateA, templateB)) ?? []
+    );
   };
 
   const onItemInvoked = (item?: FunctionTemplate, index?: number) => {
-    if (!!item) {
+    if (item) {
       setSelectedTemplate(item);
     }
   };

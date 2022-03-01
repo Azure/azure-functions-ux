@@ -36,7 +36,7 @@ const PhpStack: React.SFC<StackProps> = props => {
     setEarlyAccessInfoVisible(false);
     setEolStackDate(undefined);
 
-    if (!!phpStack) {
+    if (phpStack) {
       const stackVersions = getStacksSummaryForDropdown(phpStack, AppStackOs.windows, t);
       const selectionVersion = (values.config.properties.phpVersion || '').toLowerCase();
       for (const stackVersion of stackVersions) {

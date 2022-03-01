@@ -66,7 +66,7 @@ export const getKeyVaultReferenceFromList = (
 ) => {
   if (allKeyVaultReferences.metadata.success && !!allKeyVaultReferences.data.properties.keyToReferenceStatuses) {
     const keyToReferenceStatuses = allKeyVaultReferences.data.properties.keyToReferenceStatuses;
-    if (!!keyToReferenceStatuses[settingName]) {
+    if (keyToReferenceStatuses[settingName]) {
       return keyToReferenceStatuses[settingName];
     }
   } else {

@@ -25,12 +25,12 @@ export const getRuntimeStacks = (builtInStacks: WebAppStack[]) => {
 export const getMajorVersions = (builtInStacks: WebAppStack[], stack: string, t: i18next.TFunction) => {
   const stackToLower = (stack || '').toLowerCase();
   const currentStack = builtInStacks.find(s => s.value === stackToLower);
-  return !!currentStack
-    ? currentStack.majorVersions.map(x => ({
-        key: x.value,
-        text: x.displayText,
-      }))
-    : [];
+  return (
+    currentStack?.majorVersions.map(x => ({
+      key: x.value,
+      text: x.displayText,
+    })) ?? []
+  );
 };
 
 export const getMinorVersions = (builtInStacks: WebAppStack[], stack: string, majorVersion: string, t: i18next.TFunction) => {

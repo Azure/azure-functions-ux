@@ -33,7 +33,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps & IDialogProps> = props => {
         styles: modalContentStyles,
       }}
       modalProps={{
-        styles: !!customModalStyles ? customModalStyles : modalStyles,
+        styles: customModalStyles ?? modalStyles,
         isBlocking: true,
       }}
       onDismiss={onDismiss}>

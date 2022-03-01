@@ -182,10 +182,10 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
 
   const getEventGridSubscriptionUrl = (code: string) => {
     const eventGridSubscriptionUrlEndPoint =
-      !!runtimeVersion && runtimeVersion === RuntimeExtensionMajorVersions.v1
+      runtimeVersion === RuntimeExtensionMajorVersions.v1
         ? CommonConstants.EventGridSubscriptionEndpoints.v1
         : CommonConstants.EventGridSubscriptionEndpoints.v2;
-    return !!siteStateContext.site
+    return siteStateContext.site
       ? `${Url.getMainUrl(siteStateContext.site)}/${eventGridSubscriptionUrlEndPoint}?functionName=${
           functionInfo.properties.name
         }&code=${code}`
@@ -194,9 +194,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
 
   const getUrlObjsForEventGridTriggerFunction = () => {
     const eventGridKeyName =
-      !!runtimeVersion && runtimeVersion === RuntimeExtensionMajorVersions.v1
-        ? CommonConstants.AppKeys.eventGridV1
-        : CommonConstants.AppKeys.eventGridV2;
+      runtimeVersion === RuntimeExtensionMajorVersions.v1 ? CommonConstants.AppKeys.eventGridV1 : CommonConstants.AppKeys.eventGridV2;
 
     return urlObjs
       .filter(urlObj => {

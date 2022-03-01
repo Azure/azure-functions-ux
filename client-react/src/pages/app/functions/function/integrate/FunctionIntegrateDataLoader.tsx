@@ -81,7 +81,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
   }
 
   private _refresh() {
-    if (!!this.state.site) {
+    if (this.state.site) {
       this._setRefreshState(true);
 
       SiteService.fireSyncTrigger(this.state.site, this.context.token || '').then(r => {

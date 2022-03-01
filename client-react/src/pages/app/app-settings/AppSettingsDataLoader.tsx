@@ -360,7 +360,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const isAzureStorageMountUpdated = (current: FormAzureStorageMounts[], origin: FormAzureStorageMounts[] | null) => {
-    if (!!origin) {
+    if (origin) {
       if (current.length !== origin.length) {
         return true;
       }

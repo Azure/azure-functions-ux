@@ -16,7 +16,7 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
     <>
       {getDescriptionSection(
         ScmType.GitHub,
-        !!isGitHubActions ? t('deploymentCenterConfigureGitHubPermissionsGHA') : t('deploymentCenterConfigureGitHubPermissionsKudu'),
+        isGitHubActions ? t('deploymentCenterConfigureGitHubPermissionsGHA') : t('deploymentCenterConfigureGitHubPermissionsKudu'),
         DeploymentCenterLinks.configureDeployment,
         t('learnMore')
       )}

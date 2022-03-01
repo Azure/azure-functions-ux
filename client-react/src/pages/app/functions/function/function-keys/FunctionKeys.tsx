@@ -159,7 +159,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
 
   const deleteHostKey = async (deletingKey: string | undefined) => {
     closeDialog();
-    if (!!deletingKey) {
+    if (deletingKey) {
       setRefreshLoading(true);
       const notificationId = portalCommunicator.startNotification(
         t('deleteFunctionKeyNotification'),

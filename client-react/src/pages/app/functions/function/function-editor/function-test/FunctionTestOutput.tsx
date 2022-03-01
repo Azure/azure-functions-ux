@@ -33,7 +33,7 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
       <div className={functionTestGroupStyle}>
         <Label className={testFormLabelStyle}>{t('httpRun_responseCode')}</Label>
         <div className={responseCodeStyle}>
-          {!!responseContent ? `${responseContent.code} ${HttpConstants.statusCodeToText(responseContent.code)}` : ''}
+          {responseContent ? `${responseContent.code} ${HttpConstants.statusCodeToText(responseContent.code)}` : ''}
         </div>
       </div>
       <div className={functionTestGroupStyle}>

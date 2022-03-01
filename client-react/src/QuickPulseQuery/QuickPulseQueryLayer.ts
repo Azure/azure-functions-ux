@@ -111,7 +111,7 @@ export class QuickPulseQueryLayer {
     functionsRuntimeVersion?: string
   ) {
     this._queryServersInfo = querySessionInfo;
-    if (!!this._detailedSessionInfo) {
+    if (this._detailedSessionInfo) {
       this._detailedSessionInfo.liveLogsSessionId = liveLogsSessionId || '';
     }
 
@@ -339,7 +339,7 @@ export class QuickPulseQueryLayer {
     if (configuration) {
       // process metrics
       const metrics = configuration.Metrics;
-      if (!!metrics) {
+      if (metrics) {
         for (let metricIndex = 0; metricIndex < metrics.length; ++metricIndex) {
           let metric: QPSchemaConfigurationMetric = metrics[metricIndex];
           if (metric.FilterGroups) {

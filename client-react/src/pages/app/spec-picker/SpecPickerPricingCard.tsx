@@ -33,7 +33,7 @@ const SpecPickerPricingCard: React.FC<SpecPickerPricingCardProps> = props => {
   let divClassName = isSelected
     ? `${cssClassName} ${pricingCardDivStyle} ${PricingCardSelectedDivStyle(theme)}`
     : `${cssClassName} ${pricingCardDivStyle}`;
-  divClassName = !!disabledProps ? `${divClassName} ${PricingCardDisabledDivStyle(theme)}` : divClassName;
+  divClassName = disabledProps ? `${divClassName} ${PricingCardDisabledDivStyle(theme)}` : divClassName;
 
   const features: JSX.Element[] = [];
 

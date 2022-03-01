@@ -335,7 +335,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const getInitialEnvironmentVariables = () => {
-    if (!!selectedEnvironmentVariableResponse) {
+    if (selectedEnvironmentVariableResponse) {
       return sort(ConfigurationData.convertEnvironmentVariablesObjectToArray(selectedEnvironmentVariableResponse.properties));
     } else {
       return [];
@@ -344,7 +344,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const getDirtyState = (newEnvironmentVariables: EnvironmentVariable[]) => {
     const initialEnvironmentVariables = getInitialEnvironmentVariables() || [];
-    return !!newEnvironmentVariables
+    return newEnvironmentVariables
       ? newEnvironmentVariables.length !== initialEnvironmentVariables.length ||
           newEnvironmentVariables.filter(environmentVariable => {
             return (
@@ -366,7 +366,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const onEnvironmentChange = async (environment?: ArmObj<Environment>) => {
     const env: ArmObj<Environment> | undefined = onChangeEnvironment || environment;
-    if (!!env) {
+    if (env) {
       setIsEnvironmentChange(true);
       await fetchDataOnEnvironmentChange(env.id);
       formProps.setFieldValue('selectedEnvironment', env);
@@ -426,17 +426,17 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const getCheckedValueForCheckBox = (disabled: boolean) => {
     const selectedEnvironmentVariables = !!values.environmentVariables
-      ? values.environmentVariables.filter(environmentVariable => environmentVariable.checked).length
+      ? values.environmentVariables?.filter(environmentVariable => environmentVariable.checked).length
       : [];
     return !disabled && !!values.environmentVariables && selectedEnvironmentVariables === values.environmentVariables.length;
   };
 
   const getFilteredItems = () => {
-    return !!values.environmentVariables
-      ? values.environmentVariables.filter(environmentVariable => {
-          return !filter || environmentVariable.name.toLowerCase().includes(filter.toLowerCase());
-        })
-      : [];
+    return (
+      values.environmentVariables?.filter(environmentVariable => {
+        return !filter || environmentVariable.name.toLowerCase().includes(filter.toLowerCase());
+      }) ?? []
+    );
   };
 
   const onRenderRow = rowProps => {

@@ -373,19 +373,15 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
   }
 
   const setFilteredGridItems = (appSettings: FormConnectionString[], filter: string) => {
-    if (!!appSettings) {
-      const filteredItems = appSettings.filter(x => {
+    const filteredItems =
+      appSettings?.filter(x => {
         if (!filter) {
           return true;
         }
         return !!x.name && x.name.toLowerCase().includes(filter.toLowerCase());
-      });
-      setGridItems(filteredItems);
-      setGridItemsSearchResultAnnouncementString(filteredItems.length);
-    } else {
-      setGridItems([]);
-      setGridItemsSearchResultAnnouncementString(0);
-    }
+      }) ?? [];
+    setGridItems(filteredItems);
+    setGridItemsSearchResultAnnouncementString(filteredItems.length);
   };
 
   const setGridItemsSearchResultAnnouncementString = (itemsCount: number) => {
