@@ -275,7 +275,7 @@ function validateJavaStack(javaStack) {
   expect(javaStack.displayText).to.equal('Java');
   expect(javaStack.value).to.equal('java');
   expect(javaStack.preferredOs).to.equal('linux');
-  expect(javaStack.majorVersions.length).to.equal(3);
+  expect(javaStack.majorVersions.length).to.equal(4);
   expect(javaStack).to.deep.equal(hardCodedJavaStack);
 }
 
@@ -293,7 +293,7 @@ function validateJavaContainersStack(javaContainersStack) {
   expect(javaContainersStack.displayText).to.equal('Java Containers');
   expect(javaContainersStack.value).to.equal('javacontainers');
   expect(javaContainersStack.preferredOs).to.equal(undefined);
-  expect(javaContainersStack.majorVersions.length).to.equal(9);
+  expect(javaContainersStack.majorVersions.length).to.equal(10);
   expect(javaContainersStack).to.deep.equal(hardCodedJavaContainersStack);
 }
 
