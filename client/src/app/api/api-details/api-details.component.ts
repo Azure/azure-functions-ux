@@ -45,6 +45,8 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
   private _rrOverrideValue: any;
   private _runtimeVersion: string;
 
+  private _disableSubmit: boolean;
+
   constructor(
     private _fb: FormBuilder,
     private _translateService: TranslateService,
@@ -57,6 +59,8 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
     super('api-details', injector, DashboardType.ProxyDashboard);
 
     this.initComplexFrom();
+
+    this._disableSubmit = false;
   }
 
   setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
@@ -189,7 +193,8 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
   }
 
   submitForm() {
-    if (this.complexForm.valid && this.rrOverrideValid) {
+    if (this.complexForm.valid && this.rrOverrideValid && !this._disableSubmit) {
+      this._disableSubmit = true;
       this.setBusy();
 
       this.apiProxyEdit.backendUri = this.complexForm.controls['backendUri'].value;
@@ -235,6 +240,9 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
             ApiProxy.toJson(this.apiProxies, this._translateService),
             this._runtimeVersion
           );
+        })
+        .finally(() => {
+          this._disableSubmit = false;
         })
         .subscribe(() => {
           this.clearBusy();
