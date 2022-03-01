@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Field } from 'formik';
 import { IChoiceGroupOption } from '@fluentui/react/lib/ChoiceGroup';
 import { Link } from '@fluentui/react/lib/Link';
@@ -15,12 +15,14 @@ import RadioButton from '../../../components/form-controls/RadioButton';
 import { MessageBarType } from '@fluentui/react/lib/MessageBar';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { StaticSiteSku } from '../skupicker/StaticSiteSkuPicker.types';
+import { ProgressIndicator } from '@fluentui/react/lib/ProgressIndicator';
 
 const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> = props => {
-  const { disabled, formProps, staticSiteSku } = props;
+  const { disabled, formProps, staticSiteSku, isLoading } = props;
 
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
+  const [passwordProtection, setPasswordProtection] = useState<PasswordProtectionTypes>(PasswordProtectionTypes.Disabled);
 
   const passwordProtectionOptions: IChoiceGroupOption[] = [
     {
@@ -48,9 +50,9 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
         displayInVerticalLayout={true}
         options={passwordProtectionOptions}
         required={true}
-        type={TextFieldType.password}
         widthOverride={'100%'}
         resizable={true}
+        selectedKey={passwordProtection}
         onChange={passwordProtectionRadioButtonOnChange}
         disabled={disabled}
       />
@@ -80,7 +82,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
         {t('staticSite_passwordProtectionDescription')}
         <Link
           id="environment-variable-info-learnMore"
-          href={Links.staticSiteEnvironmentVariablesLearnMore}
+          href={Links.staticSitePasswordProtectionLearnMore}
           target="_blank"
           className={learnMoreLinkStyle}
           aria-labelledby="environment-variable-info-message">
@@ -159,14 +161,28 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.visitorPassword, formProps.values.visitorPasswordConfirm, formProps.values.passwordProtection]);
 
+  useEffect(() => {
+    if (!!formProps.values.passwordProtection) {
+      setPasswordProtection(formProps.values.passwordProtection);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formProps.values.passwordProtection]);
+
   return (
     <div className={formElementStyle}>
-      <h3>{t('staticSite_passwordProtection')}</h3>
-      {getFreeSkuBanner()}
-      {getPasswordProtectionDescription()}
-      {getPasswordProtectionRadioButtons()}
-      {getVisitorPasswordTextBox()}
-      {getVisitorPasswordConfirmTextBox()}
+      {isLoading ? (
+        <ProgressIndicator description={t('staticSite_loadingGeneralSettings')} ariaValueText={t('staticSite_loadingGeneralSettings')} />
+      ) : (
+        <>
+          <h3>{t('staticSite_passwordProtection')}</h3>
+          {getFreeSkuBanner()}
+          {getPasswordProtectionDescription()}
+          {getPasswordProtectionRadioButtons()}
+          {getVisitorPasswordTextBox()}
+          {getVisitorPasswordConfirmTextBox()}
+        </>
+      )}
     </div>
   );
 };

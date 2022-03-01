@@ -162,7 +162,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
   .spec-expander {
     text-align: center;
 
-    span:focus {
+    button:focus {
       outline: #000000 solid 1px;
     }
 
@@ -352,7 +352,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
   }
 
   .spec-expander {
-    span:focus {
+    button:focus {
       outline: #ffffff solid 1px;
     }
   }

@@ -66,7 +66,6 @@ export class CommonConstants {
     enableACRManagedIdentities: 'enableACRManagedIdentities',
     useStackApiForRuntimeVersion: 'useStackApiForRuntimeVersion',
     useNewFunctionLogsApi: 'useNewFunctionLogsApi', //websitesextension_ext=appsvc.useNewFunctionLogsApi%3Dtrue
-    enablePasswordProtection: 'enablePasswordProtection', //websitesextension_ext=appsvc.enablePasswordProtection%3Dtrue
   };
 
   public static readonly AppDensityLimit = 8;
@@ -74,6 +73,10 @@ export class CommonConstants {
   public static readonly Pricing = {
     hoursInAzureMonth: 730,
     secondsInAzureMonth: 2628000,
+  };
+
+  public static readonly FunctionsRuntimeVersions = {
+    four: '~4',
   };
 
   public static readonly AppSettingNames = {
@@ -138,8 +141,6 @@ export class CommonConstants {
     usSec: 'https://live.applicationinsights.azure.microsoft.scloud',
     usNat: 'https://live.applicationinsights.azure.eaglex.ic.gov',
   };
-
-  public static readonly LiveLogsSessionId = 'LiveLogsSessionId';
 
   public static readonly AppInsightsEndpoints = {
     public: 'https://api.applicationinsights.io/v1/apps',
