@@ -179,43 +179,16 @@ export const javaContainersStack: WebAppStack = {
       ],
     },
     {
-      displayText: 'Red Hat JBoss EAP 7.3',
+      displayText: 'Red Hat JBoss EAP 7',
       value: 'jbosseap',
       minorVersions: [
         {
-          displayText: 'Red Hat JBoss EAP 7.3',
-          value: '7.3',
+          displayText: 'Red Hat JBoss EAP 7',
+          value: '7',
           stackSettings: {
             linuxContainerSettings: {
-              java8Runtime: 'JBOSSEAP|7.3-java8',
-              java11Runtime: 'JBOSSEAP|7.3-java11',
-              isAutoUpdate: true,
-            },
-          },
-        },
-        {
-          displayText: 'Red Hat JBoss EAP 7.3.9',
-          value: '7.3.9',
-          stackSettings: {
-            linuxContainerSettings: {
-              java8Runtime: 'JBOSSEAP|7.3.9-java8',
-              java11Runtime: 'JBOSSEAP|7.3.9-java11'
-            }
-          }
-        }
-      ],
-    },
-    {
-      displayText: 'Red Hat JBoss EAP 7.4',
-      value: 'jbosseap',
-      minorVersions: [
-        {
-          displayText: 'Red Hat JBoss EAP 7.4',
-          value: '7.4',
-          stackSettings: {
-            linuxContainerSettings: {
-              java8Runtime: 'JBOSSEAP|7.4-java8',
-              java11Runtime: 'JBOSSEAP|7.4-java11',
+              java8Runtime: 'JBOSSEAP|7-java8',
+              java11Runtime: 'JBOSSEAP|7-java11',
               isAutoUpdate: true,
             },
           },
@@ -227,6 +200,50 @@ export const javaContainersStack: WebAppStack = {
             linuxContainerSettings: {
               java8Runtime: 'JBOSSEAP|7.4.1-java8',
               java11Runtime: 'JBOSSEAP|7.4.1-java11'
+            }
+          }
+        },
+        {
+          displayText: 'Red Hat JBoss EAP 7.4.0',
+          value: '7.4.0',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JBOSSEAP|7.4.0-java8',
+              java11Runtime: 'JBOSSEAP|7.4.0-java11'
+            }
+          }
+        },
+        {
+          displayText: 'Red Hat JBoss EAP 7.3.9',
+          value: '7.3.9',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JBOSSEAP|7.3.9-java8',
+              java11Runtime: 'JBOSSEAP|7.3.9-java11'
+            }
+          }
+        },
+        {
+          displayText: 'Red Hat JBoss EAP 7.3',
+          value: '7.3',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JBOSSEAP|7.3-java8',
+              java11Runtime: 'JBOSSEAP|7.3-java11',
+              isAutoUpdate: true,
+              isHidden: true  // note (jafreebe) March 2022: Only have 1 auto-update lane at the major version (7.x.x)
+            }
+          }
+        },
+        {
+          displayText: 'Red Hat JBoss EAP 7.4',
+          value: '7.4',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JBOSSEAP|7.4-java8',
+              java11Runtime: 'JBOSSEAP|7.4-java11',
+              isAutoUpdate: true,
+              isHidden: true  // note (jafreebe) March 2022: Only have 1 auto-update lane at the major version (7.x.x)
             }
           }
         }
