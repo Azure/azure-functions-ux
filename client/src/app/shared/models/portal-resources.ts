@@ -1618,7 +1618,12 @@ export class PortalResources {
   public static clientCertificateMode = 'clientCertificateMode';
   public static clientCertificateModeRequire = 'clientCertificateModeRequire';
   public static clientCertificateModeAllow = 'clientCertificateModeAllow';
+  public static clientCertificateModeOptional = 'clientCertificateModeOptional';
   public static clientCertificateModeIgnore = 'clientCertificateModeIgnore';
+  public static clientCertificateModeRequiredInfoBubbleMessage = 'clientCertificateModeRequiredInfoBubbleMessage';
+  public static clientCertificateModeAllowInfoBubbleMessage = 'clientCertificateModeAllowInfoBubbleMessage';
+  public static clientCertificateModeOptionalInfoBubbleMessage = 'clientCertificateModeOptionalInfoBubbleMessage';
+  public static clientCertificateModeIgnoreInfoBubbleMessage = 'clientCertificateModeIgnoreInfoBubbleMessage';
   public static certificateExlusionPaths = 'certificateExlusionPaths';
   public static editCertificateExlusionPaths = 'editCertificateExlusionPaths';
   public static noExclusionRulesDefined = 'noExclusionRulesDefined';
