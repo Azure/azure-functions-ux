@@ -246,7 +246,17 @@ export const javaContainersStack: WebAppStack = {
               isHidden: true  // note (jafreebe) March 2022: Only have 1 auto-update lane at the major version (7.x.x)
             }
           }
-        }
+        },
+        {
+          displayText: 'JBoss EAP 7.2',
+          value: '7.2.0',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JBOSSEAP|7.2-java8',
+              isDeprecated: true
+            },
+          },
+        },
       ],
     },
     {
