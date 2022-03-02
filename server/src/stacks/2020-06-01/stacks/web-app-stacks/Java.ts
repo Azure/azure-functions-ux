@@ -96,7 +96,7 @@ export const javaStack: WebAppStack = {
           value: '11.0',
           stackSettings: {
             linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
@@ -131,7 +131,7 @@ export const javaStack: WebAppStack = {
           value: '11.0.13',
           stackSettings: {
             linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -164,7 +164,7 @@ export const javaStack: WebAppStack = {
           value: '11.0.12',
           stackSettings: {
             linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -197,7 +197,7 @@ export const javaStack: WebAppStack = {
           value: '11.0.11',
           stackSettings: {
             linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -230,7 +230,7 @@ export const javaStack: WebAppStack = {
           value: '11.0.9',
           stackSettings: {
             linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -282,7 +282,7 @@ export const javaStack: WebAppStack = {
           value: '11.0.7',
           stackSettings: {
             linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -296,7 +296,7 @@ export const javaStack: WebAppStack = {
               endOfLifeDate: java11EOL,
             },
             windowsRuntimeSettings: {
-              // Note (allisonm): ZULU suffix was removed after Java 11.0.5
+              // Note (jafreebe): ZULU suffix was removed after Java 11.0.5
               runtimeVersion: '11.0.7',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -316,7 +316,7 @@ export const javaStack: WebAppStack = {
           value: '11.0.6',
           stackSettings: {
             linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -330,7 +330,7 @@ export const javaStack: WebAppStack = {
               endOfLifeDate: java11EOL,
             },
             windowsRuntimeSettings: {
-              // Note (allisonm): ZULU suffix was removed after Java 11.0.5
+              // Note (jafreebe): ZULU suffix was removed after Java 11.0.5
               runtimeVersion: '11.0.6',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -350,7 +350,7 @@ export const javaStack: WebAppStack = {
           value: '11.0.5',
           stackSettings: {
             linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -427,7 +427,7 @@ export const javaStack: WebAppStack = {
           value: '8.0',
           stackSettings: {
             linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
@@ -577,7 +577,7 @@ export const javaStack: WebAppStack = {
           value: '8.0.252',
           stackSettings: {
             linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -610,7 +610,7 @@ export const javaStack: WebAppStack = {
           value: '8.0.242',
           stackSettings: {
             linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -643,7 +643,7 @@ export const javaStack: WebAppStack = {
           value: '8.0.232',
           stackSettings: {
             linuxRuntimeSettings: {
-              // Note (allisonm): Runtime on Linux Java is determined by the Java container
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -809,7 +809,7 @@ export const javaStack: WebAppStack = {
           value: '8.0.144',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '1.8.0_144', // NOTE (allisonm): Azul 8 runtimes versions here and lower omit the suffix: _ZULU
+              runtimeVersion: '1.8.0_144', // NOTE (jafreebe): Azul 8 runtimes versions here and lower omit the suffix: _ZULU
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {

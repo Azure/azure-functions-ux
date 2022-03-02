@@ -14,7 +14,7 @@ export const javaContainersStack: WebAppStack = {
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'JAVA',
-              // note (allisonm): for Java SE the java container version doesn't matter
+              // note (jafreebe): for Java SE the java container version doesn't matter
               javaContainerVersion: 'SE',
               isAutoUpdate: true,
             },
@@ -81,7 +81,7 @@ export const javaContainersStack: WebAppStack = {
           value: '11.0.7',
           stackSettings: {
             linuxContainerSettings: {
-              // Note (allisonm): This doesn't have suffix of -java11 since setting to 11.0.7 prevents auto-updates
+              // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.7 prevents auto-updates
               java11Runtime: 'JAVA|11.0.7',
             },
           },
@@ -91,7 +91,7 @@ export const javaContainersStack: WebAppStack = {
           value: '11.0.6',
           stackSettings: {
             linuxContainerSettings: {
-              // Note (allisonm): This doesn't have suffix of -java11 since setting to 11.0.6 prevents auto-updates
+              // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.6 prevents auto-updates
               java11Runtime: 'JAVA|11.0.6',
             },
           },
@@ -101,7 +101,7 @@ export const javaContainersStack: WebAppStack = {
           value: '11.0.5',
           stackSettings: {
             linuxContainerSettings: {
-              // Note (allisonm): This doesn't have suffix of -java11 since setting to 11.0.5 prevents auto-updates
+              // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.5 prevents auto-updates
               java11Runtime: 'JAVA|11.0.5',
             },
           },
@@ -138,7 +138,7 @@ export const javaContainersStack: WebAppStack = {
         },
         {
           displayText: 'Java SE 8u275',
-          // note (allisonm): Java SE 8u275 is pinned version that maps to the below value
+          // note (jafreebe): Java SE 8u275 is pinned version that maps to the below value
           value: '1.8.275',
           stackSettings: {
             linuxContainerSettings: {
@@ -148,7 +148,7 @@ export const javaContainersStack: WebAppStack = {
         },
         {
           displayText: 'Java SE 8u252',
-          // note (allisonm): Java SE 8u252 is pinned version that maps to the below value
+          // note (jafreebe): Java SE 8u252 is pinned version that maps to the below value
           value: '1.8.252',
           stackSettings: {
             linuxContainerSettings: {
@@ -158,7 +158,7 @@ export const javaContainersStack: WebAppStack = {
         },
         {
           displayText: 'Java SE 8u242',
-          // note (allisonm): Java SE 8u242 is pinned version that maps to the below value
+          // note (jafreebe): Java SE 8u242 is pinned version that maps to the below value
           value: '1.8.242',
           stackSettings: {
             linuxContainerSettings: {
@@ -168,7 +168,7 @@ export const javaContainersStack: WebAppStack = {
         },
         {
           displayText: 'Java SE 8u232',
-          // note (allisonm): Java SE 8u232 is pinned version that maps to the below value
+          // note (jafreebe): Java SE 8u232 is pinned version that maps to the below value
           value: '1.8.232',
           stackSettings: {
             linuxContainerSettings: {
@@ -362,7 +362,7 @@ export const javaContainersStack: WebAppStack = {
             },
             linuxContainerSettings: {
               java11Runtime: 'TOMCAT|9.0.37-java11',
-              java8Runtime: 'TOMCAT|9.0.37-java8', // Note (allisonm): Newer Tomcat versions use java8, not jre8
+              java8Runtime: 'TOMCAT|9.0.37-java8', // Note (jafreebe): Newer Tomcat versions use java8, not jre8
             },
           },
         },
@@ -372,7 +372,7 @@ export const javaContainersStack: WebAppStack = {
           stackSettings: {
             linuxContainerSettings: {
               java11Runtime: 'TOMCAT|9.0.33-java11',
-              java8Runtime: 'TOMCAT|9.0.33-java8', // Note (allisonm): Newer Tomcat versions use java8, not jre8
+              java8Runtime: 'TOMCAT|9.0.33-java8', // Note (jafreebe): Newer Tomcat versions use java8, not jre8
             },
           },
         },
@@ -412,7 +412,7 @@ export const javaContainersStack: WebAppStack = {
           stackSettings: {
             linuxContainerSettings: {
               java11Runtime: 'TOMCAT|9.0.20-java11',
-              java8Runtime: 'TOMCAT|9.0.20-java8', // Note (allisonm): Newer Tomcat versions use java8, not jre8
+              java8Runtime: 'TOMCAT|9.0.20-java8', // Note (jafreebe): Newer Tomcat versions use java8, not jre8
             },
           },
         },
@@ -550,7 +550,7 @@ export const javaContainersStack: WebAppStack = {
             },
             linuxContainerSettings: {
               java11Runtime: 'TOMCAT|8.5.57-java11',
-              java8Runtime: 'TOMCAT|8.5.57-java8', // Note (allisonm): Newer Tomcat versions use java8, not jre8
+              java8Runtime: 'TOMCAT|8.5.57-java8', // Note (jafreebe): Newer Tomcat versions use java8, not jre8
             },
           },
         },
@@ -560,7 +560,7 @@ export const javaContainersStack: WebAppStack = {
           stackSettings: {
             linuxContainerSettings: {
               java11Runtime: 'TOMCAT|8.5.53-java11',
-              java8Runtime: 'TOMCAT|8.5.53-java8', // Note (allisonm): Newer Tomcat versions use java8, not jre8
+              java8Runtime: 'TOMCAT|8.5.53-java8', // Note (jafreebe): Newer Tomcat versions use java8, not jre8
             },
           },
         },
@@ -600,7 +600,7 @@ export const javaContainersStack: WebAppStack = {
           stackSettings: {
             linuxContainerSettings: {
               java11Runtime: 'TOMCAT|8.5.41-java11',
-              java8Runtime: 'TOMCAT|8.5.41-java8', // Note (allisonm): Newer Tomcat versions use java8, not jre8
+              java8Runtime: 'TOMCAT|8.5.41-java8', // Note (jafreebe): Newer Tomcat versions use java8, not jre8
             },
           },
         },
