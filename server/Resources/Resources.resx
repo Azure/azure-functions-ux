@@ -5021,8 +5021,23 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="clientCertificateModeAllow" xml:space="preserve">
         <value>Allow</value>
     </data>
+    <data name="clientCertificateModeOptional" xml:space="preserve">
+        <value>Optional</value>
+    </data>
     <data name="clientCertificateModeIgnore" xml:space="preserve">
         <value>Ignore</value>
+    </data>
+    <data name="clientCertificateModeRequiredInfoBubbleMessage" xml:space="preserve">
+        <value>All requests must be authenticated through a client certificate.</value>
+    </data>
+    <data name="clientCertificateModeAllowInfoBubbleMessage" xml:space="preserve">
+        <value>Clients will be prompted for a certificate, if no certificate is provided fallback to SSO or other means of authentication. Unauthenticated requests will be blocked.</value>
+    </data>
+    <data name="clientCertificateModeOptionalInfoBubbleMessage" xml:space="preserve">
+        <value>Clients will not be prompted for a certificate by default. Unless the request can be authenticated through other means (like SSO), it will be blocked.</value>
+    </data>
+    <data name="clientCertificateModeIgnoreInfoBubbleMessage" xml:space="preserve">
+        <value>No client authentication is required. Unauthenticated requests will not be blocked.</value>
     </data>
     <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Certificate exclusion paths</value>
@@ -7280,13 +7295,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Confirm visitor password</value>
     </data>
     <data name="staticSite_visitorPasswordRequired" xml:space="preserve">
-        <value>Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols or a Key vault secret url.</value>
+        <value>Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols. Key Vault references are not currently supported.</value>
     </data>
     <data name="staticSite_confirmVisitorPasswordRequired" xml:space="preserve">
         <value>Please confirm the visitor password. This value must match the password entered above.</value>
     </data>
     <data name="staticSite_generalSettingsUpdate" xml:space="preserve">
         <value>Updating general settings</value>
+    </data>
+    <data name="staticSite_loadingGeneralSettings" xml:space="preserve">
+        <value>Loading general settings...</value>
+    </data>
+    <data name="staticSite_loadingApplicationSettings" xml:space="preserve">
+        <value>Loading application settings...</value>
     </data>
     <data name="staticSite_generalSettingsUpdateWithSuccess" xml:space="preserve">
         <value>Successfully updated general settings.</value>
