@@ -179,40 +179,57 @@ export const javaContainersStack: WebAppStack = {
       ],
     },
     {
-      displayText: 'Red Hat JBoss EAP',
+      displayText: 'Red Hat JBoss EAP 7.3',
       value: 'jbosseap',
       minorVersions: [
         {
-          displayText: 'JBoss EAP 7',
-          value: '7',
+          displayText: 'Red Hat JBoss EAP 7.3',
+          value: '7.3',
           stackSettings: {
             linuxContainerSettings: {
-              java8Runtime: 'JBOSSEAP|7-java8',
-              java11Runtime: 'JBOSSEAP|7-java11',
+              java8Runtime: 'JBOSSEAP|7.3-java8',
+              java11Runtime: 'JBOSSEAP|7.3-java11',
               isAutoUpdate: true,
             },
           },
         },
         {
-          displayText: 'JBoss EAP 7.3',
-          value: '7.3.0',
+          displayText: 'Red Hat JBoss EAP 7.3.9',
+          value: '7.3.9',
           stackSettings: {
             linuxContainerSettings: {
-              java8Runtime: 'JBOSSEAP|7.3-java8',
-              java11Runtime: 'JBOSSEAP|7.3-java11',
+              java8Runtime: 'JBOSSEAP|7.3.9-java8',
+              java11Runtime: 'JBOSSEAP|7.3.9-java11'
+            }
+          }
+        }
+      ],
+    },
+    {
+      displayText: 'Red Hat JBoss EAP 7.4',
+      value: 'jbosseap',
+      minorVersions: [
+        {
+          displayText: 'Red Hat JBoss EAP 7.4',
+          value: '7.4',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JBOSSEAP|7.4-java8',
+              java11Runtime: 'JBOSSEAP|7.4-java11',
+              isAutoUpdate: true,
             },
           },
         },
         {
-          displayText: 'JBoss EAP 7.2',
-          value: '7.2.0',
+          displayText: 'Red Hat JBoss EAP 7.4.1',
+          value: '7.4.1',
           stackSettings: {
             linuxContainerSettings: {
-              java8Runtime: 'JBOSSEAP|7.2-java8',
-              isDeprecated: true
-            },
-          },
-        },
+              java8Runtime: 'JBOSSEAP|7.4.1-java8',
+              java11Runtime: 'JBOSSEAP|7.4.1-java11'
+            }
+          }
+        }
       ],
     },
     {
@@ -220,7 +237,7 @@ export const javaContainersStack: WebAppStack = {
       value: 'tomcat10.0',
       minorVersions: [
         {
-          displayText: 'Tomcat 10.0',
+          displayText: 'Apache Tomcat 10.0',
           value: '10.0',
           stackSettings: {
             windowsContainerSettings: {
@@ -237,7 +254,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 10.0.17',
+          displayText: 'Apache Tomcat 10.0.17',
           value: '10.0.17',
           stackSettings: {
             windowsContainerSettings: {
@@ -258,7 +275,7 @@ export const javaContainersStack: WebAppStack = {
       value: 'tomcat9.0',
       minorVersions: [
         {
-          displayText: 'Tomcat 9.0',
+          displayText: 'Apache Tomcat 9.0',
           value: '9.0',
           stackSettings: {
             windowsContainerSettings: {
@@ -274,7 +291,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.54',
+          displayText: 'Apache Tomcat 9.0.54',
           value: '9.0.54',
           stackSettings: {
             windowsContainerSettings: {
@@ -288,7 +305,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.52',
+          displayText: 'Apache Tomcat 9.0.52',
           value: '9.0.52',
           stackSettings: {
             windowsContainerSettings: {
@@ -302,7 +319,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.46',
+          displayText: 'Apache Tomcat 9.0.46',
           value: '9.0.46',
           stackSettings: {
             windowsContainerSettings: {
@@ -316,7 +333,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.41',
+          displayText: 'Apache Tomcat 9.0.41',
           value: '9.0.41',
           stackSettings: {
             linuxContainerSettings: {
@@ -326,7 +343,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.38',
+          displayText: 'Apache Tomcat 9.0.38',
           value: '9.0.38',
           stackSettings: {
             windowsContainerSettings: {
@@ -336,7 +353,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.37',
+          displayText: 'Apache Tomcat 9.0.37',
           value: '9.0.37',
           stackSettings: {
             windowsContainerSettings: {
@@ -350,7 +367,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.33',
+          displayText: 'Apache Tomcat 9.0.33',
           value: '9.0.33',
           stackSettings: {
             linuxContainerSettings: {
@@ -360,7 +377,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.31',
+          displayText: 'Apache Tomcat 9.0.31',
           value: '9.0.31',
           stackSettings: {
             windowsContainerSettings: {
@@ -370,7 +387,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.27',
+          displayText: 'Apache Tomcat 9.0.27',
           value: '9.0.27',
           stackSettings: {
             windowsContainerSettings: {
@@ -380,7 +397,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.21',
+          displayText: 'Apache Tomcat 9.0.21',
           value: '9.0.21',
           stackSettings: {
             windowsContainerSettings: {
@@ -390,7 +407,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.20',
+          displayText: 'Apache Tomcat 9.0.20',
           value: '9.0.20',
           stackSettings: {
             linuxContainerSettings: {
@@ -400,7 +417,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.14',
+          displayText: 'Apache Tomcat 9.0.14',
           value: '9.0.14',
           stackSettings: {
             windowsContainerSettings: {
@@ -410,7 +427,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.12',
+          displayText: 'Apache Tomcat 9.0.12',
           value: '9.0.12',
           stackSettings: {
             windowsContainerSettings: {
@@ -420,7 +437,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.8',
+          displayText: 'Apache Tomcat 9.0.8',
           value: '9.0.8',
           stackSettings: {
             windowsContainerSettings: {
@@ -430,7 +447,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 9.0.0',
+          displayText: 'Apache Tomcat 9.0.0',
           value: '9.0.0',
           stackSettings: {
             windowsContainerSettings: {
@@ -446,7 +463,7 @@ export const javaContainersStack: WebAppStack = {
       value: 'tomcat8.5',
       minorVersions: [
         {
-          displayText: 'Tomcat 8.5',
+          displayText: 'Apache Tomcat 8.5',
           value: '8.5',
           stackSettings: {
             windowsContainerSettings: {
@@ -462,7 +479,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.72',
+          displayText: 'Apache Tomcat 8.5.72',
           value: '8.5.72',
           stackSettings: {
             linuxContainerSettings: {
@@ -476,7 +493,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.69',
+          displayText: 'Apache Tomcat 8.5.69',
           value: '8.5.69',
           stackSettings: {
             linuxContainerSettings: {
@@ -490,7 +507,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.66',
+          displayText: 'Apache Tomcat 8.5.66',
           value: '8.5.66',
           stackSettings: {
             linuxContainerSettings: {
@@ -504,7 +521,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.57',
+          displayText: 'Apache Tomcat 8.5.57',
           value: '8.5.57',
           stackSettings: {
             windowsContainerSettings: {
@@ -518,7 +535,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.53',
+          displayText: 'Apache Tomcat 8.5.53',
           value: '8.5.53',
           stackSettings: {
             linuxContainerSettings: {
@@ -528,7 +545,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.51',
+          displayText: 'Apache Tomcat 8.5.51',
           value: '8.5.51',
           stackSettings: {
             windowsContainerSettings: {
@@ -538,7 +555,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.47',
+          displayText: 'Apache Tomcat 8.5.47',
           value: '8.5.47',
           stackSettings: {
             windowsContainerSettings: {
@@ -548,7 +565,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.42',
+          displayText: 'Apache Tomcat 8.5.42',
           value: '8.5.42',
           stackSettings: {
             windowsContainerSettings: {
@@ -558,7 +575,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.41',
+          displayText: 'Apache Tomcat 8.5.41',
           value: '8.5.41',
           stackSettings: {
             linuxContainerSettings: {
@@ -568,7 +585,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.37',
+          displayText: 'Apache Tomcat 8.5.37',
           value: '8.5.37',
           stackSettings: {
             windowsContainerSettings: {
@@ -578,7 +595,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.34',
+          displayText: 'Apache Tomcat 8.5.34',
           value: '8.5.34',
           stackSettings: {
             windowsContainerSettings: {
@@ -588,7 +605,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.31',
+          displayText: 'Apache Tomcat 8.5.31',
           value: '8.5.31',
           stackSettings: {
             windowsContainerSettings: {
@@ -598,7 +615,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.20',
+          displayText: 'Apache Tomcat 8.5.20',
           value: '8.5.20',
           stackSettings: {
             windowsContainerSettings: {
@@ -608,7 +625,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.5.6',
+          displayText: 'Apache Tomcat 8.5.6',
           value: '8.5.6',
           stackSettings: {
             windowsContainerSettings: {
@@ -624,7 +641,7 @@ export const javaContainersStack: WebAppStack = {
       value: 'tomcat8.0',
       minorVersions: [
         {
-          displayText: 'Tomcat 8.0',
+          displayText: 'Apache Tomcat 8.0',
           value: '8.0',
           stackSettings: {
             windowsContainerSettings: {
@@ -636,7 +653,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.0.53',
+          displayText: 'Apache Tomcat 8.0.53',
           value: '8.0.53',
           stackSettings: {
             windowsContainerSettings: {
@@ -647,7 +664,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.0.46',
+          displayText: 'Apache Tomcat 8.0.46',
           value: '8.0.46',
           stackSettings: {
             windowsContainerSettings: {
@@ -658,7 +675,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 8.0.23',
+          displayText: 'Apache Tomcat 8.0.23',
           value: '8.0.23',
           stackSettings: {
             windowsContainerSettings: {
@@ -675,7 +692,7 @@ export const javaContainersStack: WebAppStack = {
       value: 'tomcat7.0',
       minorVersions: [
         {
-          displayText: 'Tomcat 7.0',
+          displayText: 'Apache Tomcat 7.0',
           value: '7.0',
           stackSettings: {
             windowsContainerSettings: {
@@ -686,7 +703,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 7.0.94',
+          displayText: 'Apache Tomcat 7.0.94',
           value: '7.0.94',
           stackSettings: {
             windowsContainerSettings: {
@@ -696,7 +713,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 7.0.81',
+          displayText: 'Apache Tomcat 7.0.81',
           value: '7.0.81',
           stackSettings: {
             windowsContainerSettings: {
@@ -706,7 +723,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 7.0.62',
+          displayText: 'Apache Tomcat 7.0.62',
           value: '7.0.62',
           stackSettings: {
             windowsContainerSettings: {
@@ -716,7 +733,7 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Tomcat 7.0.50',
+          displayText: 'Apache Tomcat 7.0.50',
           value: '7.0.50',
           stackSettings: {
             windowsContainerSettings: {
