@@ -12,6 +12,7 @@ import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFor
 import { MinTlsVersion, SslState } from '../../../../models/site/site';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
+import { ScmHosts } from '../../../../utils/CommonConstants';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -27,7 +28,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const showHttpsOnlyInfo = (): boolean => {
     const siteProperties = values.site.properties;
     const initialHttpsOnlyValue = !!initialValues.site.properties.httpsOnly;
-    const hosts = ['.scm.azurewebsites.net', '.scm.azurewebsites.us', '.scm.chinacloudsites.cn', '.scm.azurewebsites.de'];
     return (
       !initialHttpsOnlyValue &&
       !!siteProperties.httpsOnly &&
@@ -38,7 +38,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         return (
           hostNameSslState.sslState === SslState.Disabled &&
           siteProperties.defaultHostName !== hostNameSslStateName &&
-          !hosts.some(host => hostNameSslStateName.includes(host))
+          !ScmHosts.some(host => hostNameSslStateName.includes(host))
         );
       })
     );

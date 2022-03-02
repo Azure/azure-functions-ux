@@ -315,3 +315,5 @@ export class Monitoring {
   public static AppInsightsResourceIdHiddenTagName = 'hidden-link: /app-insights-resource-id';
   public static AppInsightsInstrumentationKeyHiddenTagName = 'hidden-link: /app-insights-instrumentation-key';
 }
+
+export const ScmHosts = ['.scm.azurewebsites.net', '.scm.azurewebsites.us', '.scm.chinacloudsites.cn', '.scm.azurewebsites.de'];
