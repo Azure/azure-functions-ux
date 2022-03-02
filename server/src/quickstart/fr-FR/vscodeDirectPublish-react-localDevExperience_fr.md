@@ -4,7 +4,7 @@ Avant de pouvoir commencer, vous devez <a href="https://go.microsoft.com/fwlink/
 
 Exécutez la commande suivante pour installer le package Core Tools :
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 Ensuite, <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">installez l’extension Azure Functions pour Visual Studio Code</a>. Une fois l’extension installée, cliquez sur le logo Azure dans la barre d’activité. Sous **Azure : Fonctions**, cliquez sur **Se connecter à Azure...** et suivez les instructions à l’écran.
 
