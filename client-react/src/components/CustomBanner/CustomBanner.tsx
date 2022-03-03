@@ -1,4 +1,4 @@
-import { Link, MessageBar, MessageBarType } from '@fluentui/react';
+import { css, Link, MessageBar, MessageBarType } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../images/Common/Error.svg';
@@ -37,11 +37,7 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
 
   const theme = useContext(ThemeContext);
 
-  let className = messageBannerClass(theme, type, !!onClick);
-
-  if (!!customClassName) {
-    className = Object.assign(className, customClassName);
-  }
+  const className = css(messageBannerClass(theme, type, !!onClick), customClassName);
 
   const icon = customIcon ? customIcon : _getIconForType(type);
 
