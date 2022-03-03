@@ -137,7 +137,6 @@ export class ConfigService implements OnModuleInit {
             });
             envWithKeyvault[key] = secretResponse.data.value;
           } catch (err) {
-            // tslint:disable-next-line:no-console
             console.log(err);
           }
         });
