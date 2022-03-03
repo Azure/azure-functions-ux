@@ -3,6 +3,7 @@ import { getDateString } from '../date-utilities';
 
 const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
   // EOL source: https://docs.microsoft.com/en-us/java/azure/jdk/?view=azure-java-stable#supported-java-versions-and-update-schedule
+  const java17EOL = getDateString(new Date(2031, 9), useIsoDateFormat);
   const java11EOL = getDateString(new Date(2026, 9), useIsoDateFormat);
   const java8EOL = getDateString(new Date(2025, 3), useIsoDateFormat);
   const java7EOL = getDateString(new Date(2023, 7), useIsoDateFormat);
@@ -13,6 +14,82 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
     preferredOs: 'linux',
     majorVersions: [
       {
+        displayText: 'Java 17',
+        value: '17',
+        minorVersions: [
+          {
+            displayText: 'Java 17',
+            value: '17.0',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+                runtimeVersion: '',
+                isAutoUpdate: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '17',
+                },
+                endOfLifeDate: java17EOL,
+              },
+              windowsRuntimeSettings: {
+                runtimeVersion: '17',
+                isAutoUpdate: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '17',
+                },
+                endOfLifeDate: java17EOL,
+              }
+            },
+          },
+          {
+            displayText: 'Java 17.0.1',
+            value: '17.0.1',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+                runtimeVersion: '',
+                isAutoUpdate: false,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '17',
+                },
+                endOfLifeDate: java17EOL,
+              },
+              windowsRuntimeSettings: {
+                runtimeVersion: '17.0.1',
+                isAutoUpdate: false,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '17',
+                },
+                endOfLifeDate: java17EOL,
+              }
+            }
+          }
+        ]
+      },
+      {
         displayText: 'Java 11',
         value: '11',
         minorVersions: [
@@ -21,7 +98,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             value: '11.0',
             stackSettings: {
               linuxRuntimeSettings: {
-                // Note (allisonm): Runtime on Linux Java is determined by the Java container
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
                 runtimeVersion: '',
                 isAutoUpdate: true,
                 remoteDebuggingSupported: false,
@@ -52,11 +129,44 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             },
           },
           {
+            displayText: 'Java 11.0.13',
+            value: '11.0.13',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+                runtimeVersion: '',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '11',
+                },
+                endOfLifeDate: java11EOL,
+              },
+              windowsRuntimeSettings: {
+                runtimeVersion: '11.0.13',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '11',
+                },
+                endOfLifeDate: java11EOL,
+              },
+            },
+          },
+          {
             displayText: 'Java 11.0.12',
             value: '11.0.12',
             stackSettings: {
               linuxRuntimeSettings: {
-                // Note (allisonm): Runtime on Linux Java is determined by the Java container
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
                 runtimeVersion: '',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
@@ -89,7 +199,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             value: '11.0.11',
             stackSettings: {
               linuxRuntimeSettings: {
-                // Note (allisonm): Runtime on Linux Java is determined by the Java container
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
                 runtimeVersion: '',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
@@ -122,7 +232,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             value: '11.0.9',
             stackSettings: {
               linuxRuntimeSettings: {
-                // Note (allisonm): Runtime on Linux Java is determined by the Java container
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
                 runtimeVersion: '',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
@@ -174,7 +284,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             value: '11.0.7',
             stackSettings: {
               linuxRuntimeSettings: {
-                // Note (allisonm): Runtime on Linux Java is determined by the Java container
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
                 runtimeVersion: '',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
@@ -188,7 +298,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 endOfLifeDate: java11EOL,
               },
               windowsRuntimeSettings: {
-                // Note (allisonm): ZULU suffix was removed after Java 11.0.5
+                // Note (jafreebe): ZULU suffix was removed after Java 11.0.5
                 runtimeVersion: '11.0.7',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
@@ -208,7 +318,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             value: '11.0.6',
             stackSettings: {
               linuxRuntimeSettings: {
-                // Note (allisonm): Runtime on Linux Java is determined by the Java container
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
                 runtimeVersion: '',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
@@ -222,7 +332,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 endOfLifeDate: java11EOL,
               },
               windowsRuntimeSettings: {
-                // Note (allisonm): ZULU suffix was removed after Java 11.0.5
+                // Note (jafreebe): ZULU suffix was removed after Java 11.0.5
                 runtimeVersion: '11.0.6',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
@@ -242,7 +352,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             value: '11.0.5',
             stackSettings: {
               linuxRuntimeSettings: {
-                // Note (allisonm): Runtime on Linux Java is determined by the Java container
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
                 runtimeVersion: '',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
@@ -319,7 +429,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             value: '8.0',
             stackSettings: {
               linuxRuntimeSettings: {
-                // Note (allisonm): Runtime on Linux Java is determined by the Java container
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
                 runtimeVersion: '',
                 isAutoUpdate: true,
                 remoteDebuggingSupported: false,
@@ -336,6 +446,25 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
               windowsRuntimeSettings: {
                 runtimeVersion: '1.8',
                 isAutoUpdate: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8',
+                },
+                endOfLifeDate: java8EOL,
+              },
+            },
+          },
+          {
+            displayText: 'Java 1.8.0_312',
+            value: '8.0.312',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: '1.8.0_312',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -450,7 +579,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             value: '8.0.252',
             stackSettings: {
               linuxRuntimeSettings: {
-                // Note (allisonm): Runtime on Linux Java is determined by the Java container
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
                 runtimeVersion: '',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
@@ -483,7 +612,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             value: '8.0.242',
             stackSettings: {
               linuxRuntimeSettings: {
-                // Note (allisonm): Runtime on Linux Java is determined by the Java container
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
                 runtimeVersion: '',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
@@ -516,7 +645,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             value: '8.0.232',
             stackSettings: {
               linuxRuntimeSettings: {
-                // Note (allisonm): Runtime on Linux Java is determined by the Java container
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
                 runtimeVersion: '',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
@@ -682,7 +811,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             value: '8.0.144',
             stackSettings: {
               windowsRuntimeSettings: {
-                runtimeVersion: '1.8.0_144', // NOTE (allisonm): Azul 8 runtimes versions here and lower omit the suffix: _ZULU
+                runtimeVersion: '1.8.0_144', // NOTE (jafreebe): Azul 8 runtimes versions here and lower omit the suffix: _ZULU
                 isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
