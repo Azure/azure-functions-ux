@@ -55,6 +55,6 @@ export class QuickPulseTelemetryItem {
 }
 
 export class QuickPulseError {
-  public IsError: boolean = true;
+  public IsError = true;
   public CustomProperties: QuickPulseErrorCustomProperties;
 }

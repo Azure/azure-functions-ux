@@ -405,10 +405,10 @@ export class QuickPulseQueryLayer {
   public static ConvertMillisecondsToTimestamp(milliseconds: string): string {
     const ms: number = parseInt(milliseconds, 10) || 0;
 
-    const msInADay: number = 86400000;
-    const msInAnHour: number = 3600000;
-    const msInAMinute: number = 60000;
-    const msInASecond: number = 1000;
+    const msInADay = 86400000;
+    const msInAnHour = 3600000;
+    const msInAMinute = 60000;
+    const msInASecond = 1000;
 
     const days: number = Math.floor(ms / msInADay);
     const hours = Math.floor((ms % msInADay) / msInAnHour);
