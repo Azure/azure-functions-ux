@@ -106,7 +106,6 @@ export abstract class PriceSpec {
     return null;
   }
 
-  // tslint:disable:no-empty
   public updateUpsellBanner(): void {}
 
   protected async checkIfDreamspark(subscriptionId: string): Promise<void> {

@@ -1,0 +1,5 @@
+node_modules
+.eslintrc.js
+build-analyze.js
+config-overrides.js
+**/*.spec.ts

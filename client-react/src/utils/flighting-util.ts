@@ -1,3 +1,5 @@
+/* eslint no-bitwise: "off" */
+
 import Url from './url';
 
 export class FlightingUtil {

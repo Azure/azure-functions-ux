@@ -47,6 +47,7 @@ class MonacoEditor extends React.Component<any, any> {
     }
 
     if (this.props.onSave && this.editor.addCommand) {
+      /* eslint-disable-next-line no-bitwise */
       this.editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
         this.props.onSave();
       });

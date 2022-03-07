@@ -5,8 +5,6 @@ import Url from '../utils/url';
 import { CommonConstants } from '../utils/CommonConstants';
 import { TelemetryTypesEnum } from '.';
 
-// tslint:disable: max-classes-per-file
-
 export function makeQuickPulseId() {
   let text = '';
   let possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
