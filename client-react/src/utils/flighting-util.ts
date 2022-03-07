@@ -27,11 +27,11 @@ export class FlightingUtil {
       throw new Error(`Percent of users can't be higher than 100%`);
     }
 
-    if (!!Url.getFeatureValue(config.forceOffFlag)) {
+    if (Url.getFeatureValue(config.forceOffFlag)) {
       return false;
     }
 
-    if (!!Url.getFeatureValue(config.forceOnFlag)) {
+    if (Url.getFeatureValue(config.forceOnFlag)) {
       return true;
     }
 

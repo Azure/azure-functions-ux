@@ -105,7 +105,7 @@ const StaticSiteSkuPickerDataLoader: React.FC<StaticSiteSkuPickerDataLoaderProps
 
     const specCostObservable = await portalContext.getSpecCosts(getSpeCostQueryInput());
     specCostObservable.subscribe(specCostResult => {
-      if (!!specCostResult) {
+      if (specCostResult) {
         setBillingInformation([...specCostResult.costs]);
       } else {
         portalContext.log(getTelemetryInfo('error', 'getStaticSiteBillingInformation', 'failed'));

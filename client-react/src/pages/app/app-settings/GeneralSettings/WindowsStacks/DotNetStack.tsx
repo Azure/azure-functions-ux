@@ -45,7 +45,7 @@ const DotNetStack: React.SFC<StackProps> = props => {
     setEarlyAccessInfoVisible(false);
     setEolStackDate(undefined);
 
-    if (!!dotnetStack) {
+    if (dotnetStack) {
       const stackVersions = getStacksSummaryForDropdown(dotnetStack, AppStackOs.windows, t);
       const selectionVersion = (values.config.properties.netFrameworkVersion || '').toLowerCase();
       for (const stackVersion of stackVersions) {
@@ -91,11 +91,11 @@ const DotNetStack: React.SFC<StackProps> = props => {
     // If the value is "dotnetcore", then we show ".Net core (3.1, 2.1)".
     // But if it's "dotnet", then we show classic .Net.
     const netFrameworkVersion = values.config.properties.netFrameworkVersion;
-    if (!!netFrameworkVersion) {
+    if (netFrameworkVersion) {
       try {
         const netFrameworkVersionSubstring = netFrameworkVersion.substring(1);
         const netFrameworkVersionInt = !!netFrameworkVersionSubstring ? netFrameworkVersionSubstring.split('.')[0] : undefined;
-        if (!!netFrameworkVersionInt && toInteger(netFrameworkVersionInt) >= NETFRAMEWORKVERSION5) {
+        if (netFrameworkVersionInt && toInteger(netFrameworkVersionInt) >= NETFRAMEWORKVERSION5) {
           setVersionDropdownValue(netFrameworkVersion);
           return;
         }
@@ -165,7 +165,7 @@ const DotNetStack: React.SFC<StackProps> = props => {
 // But if we had a valid windowsRuntimeSettings for one or more .NET Core stacks,
 // we simply add a default .NET Core majorVersion stack which needs to be hard-coded for this specific scenario.
 const mergeDotnetcoreStacks = (stack?: WebAppStack): WebAppStack | undefined => {
-  if (!!stack) {
+  if (stack) {
     const majorVersions = [...stack.majorVersions];
     const updatedStack: WebAppStack = { ...stack };
     updatedStack.majorVersions = [];
@@ -198,7 +198,7 @@ const isMajorVersionValueDotnetcore = (majorVersionValue: string) => {
 
 const isValidWindowsRuntimeMinorVersion = (minorVersions: AppStackMinorVersion<WebAppRuntimes & JavaContainersInterface>[]) => {
   for (const minorVersion of minorVersions) {
-    if (!!minorVersion.stackSettings.windowsRuntimeSettings) {
+    if (minorVersion.stackSettings.windowsRuntimeSettings) {
       return true;
     }
   }

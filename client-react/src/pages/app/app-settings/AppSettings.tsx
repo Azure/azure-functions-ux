@@ -254,7 +254,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                                 />
                               )}
                           </div>
-                          {!!initialFormValues ? (
+                          {initialFormValues ? (
                             <div className={formStyle}>
                               <AppSettingsForm
                                 asyncData={asyncData}

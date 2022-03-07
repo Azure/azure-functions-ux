@@ -56,7 +56,7 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
         onDismiss={onDismiss}
         dismissButtonAriaLabel={t('close')}
         onClick={onClick}>
-        {!!icon ? <span className={messageBannerIconStyle}>{icon}</span> : undefined}
+        {icon ? <span className={messageBannerIconStyle}>{icon}</span> : undefined}
         <span>
           <span tabIndex={0}>{message}</span>
           {learnMoreLink ? (

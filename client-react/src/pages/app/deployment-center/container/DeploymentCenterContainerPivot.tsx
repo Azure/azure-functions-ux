@@ -32,7 +32,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
 
   const onLinkClick = (item: PivotItem) => {
     if (item.props.itemKey) {
-      const subscriptionId = !!siteStateContext.site ? getSubscriptionFromResourceId(siteStateContext.site.id) : '';
+      const subscriptionId = siteStateContext.site ? getSubscriptionFromResourceId(siteStateContext.site.id) : '';
       const data = {
         tabName: item.props.itemKey,
         subscriptionId: subscriptionId,

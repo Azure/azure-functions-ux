@@ -126,7 +126,7 @@ const getFunctionAppRuntimeStackForWindows = (applicationSettings: ArmObj<KeyVal
     applicationSettings.properties['FUNCTIONS_WORKER_RUNTIME'] &&
     applicationSettings.properties['FUNCTIONS_WORKER_RUNTIME'].toLocaleLowerCase();
 
-  return !!runtime ? runtime : '';
+  return runtime ?? '';
 };
 
 const getRuntimeStackSettingForWindows = (
@@ -159,7 +159,7 @@ const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>, isFuncti
     if (isFunctionApp) {
       fxVersionParts = linuxFxVersionParts;
     } else {
-      fxVersionParts = !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('-') : [];
+      fxVersionParts = siteConfig.properties.linuxFxVersion?.split('-') ?? [];
     }
     return fxVersionParts.length === 2 ? fxVersionParts[1].toLocaleLowerCase() : '';
   }

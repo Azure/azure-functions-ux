@@ -97,7 +97,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     }
 
     if (!apiFailure) {
-      const defaultEnvironment = !!currentEnvironment ? currentEnvironment : getDefaultEnvironment(envResponse);
+      const defaultEnvironment = currentEnvironment ?? getDefaultEnvironment(envResponse);
       const envVarResponse = await fetchEnvironmentVariables((!!defaultEnvironment && defaultEnvironment.id) || '');
       generateForm(envResponse, passwordProtection, defaultEnvironment, getInitialEnvironmentVariables(envVarResponse));
     }
@@ -110,7 +110,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   };
 
   const getInitialEnvironmentVariables = (selectedEnvironmentVariablesResponse?: ArmObj<KeyValue<string>>) => {
-    if (!!selectedEnvironmentVariablesResponse) {
+    if (selectedEnvironmentVariablesResponse) {
       return sort(ConfigurationData.convertEnvironmentVariablesObjectToArray(selectedEnvironmentVariablesResponse.properties));
     } else {
       return [];
@@ -135,7 +135,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
       );
     }
     setInitialLoading(false);
-    return !!environmentSettingsResponse ? environmentSettingsResponse.data : undefined;
+    return environmentSettingsResponse?.data;
   };
 
   const generateForm = (

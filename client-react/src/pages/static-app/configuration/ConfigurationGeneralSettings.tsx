@@ -137,7 +137,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
     if (staticSiteSku === StaticSiteSku.Free) {
       bannerInfo.message = t('staticSite_passwordProtectionSkuWarning');
     }
-    return !!bannerInfo.message ? (
+    return bannerInfo.message ? (
       <div className={bannerWithPadding}>
         {' '}
         <CustomBanner message={bannerInfo.message} type={bannerInfo.type} />

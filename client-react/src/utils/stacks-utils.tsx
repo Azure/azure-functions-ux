@@ -53,7 +53,7 @@ export const getMinorVersionText = (
   t: i18next.TFunction,
   settings?: WebAppRuntimeSettings | WindowsJavaContainerSettings | LinuxJavaContainerSettings
 ) => {
-  if (!!settings) {
+  if (settings) {
     if (settings.isAutoUpdate) {
       return t('stackVersionAutoUpdate').format(text);
     }
@@ -180,7 +180,7 @@ export const getFilteredWebStackSettings = (
   ignoreStackVersion: string,
   settings?: WebAppRuntimeSettings
 ) => {
-  if (!!settings) {
+  if (settings) {
     if (
       !!ignoreStackVersion &&
       stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
@@ -201,7 +201,7 @@ export const getFilteredLinuxJavaContainerSettings = (
   ignoreStackVersion: string,
   settings?: LinuxJavaContainerSettings
 ) => {
-  if (!!settings) {
+  if (settings) {
     if (
       !!ignoreStackVersion &&
       stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
@@ -225,7 +225,7 @@ export const getFilteredWindowsJavaContainerSettings = (
   ignoreStackVersion: string,
   settings?: WindowsJavaContainerSettings
 ) => {
-  if (!!settings) {
+  if (settings) {
     if (
       !!ignoreStackVersion &&
       stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
@@ -255,7 +255,7 @@ export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stac
     <CustomBanner
       type={MessageBarType.warning}
       id={'eol-stack-banner'}
-      message={!!eolDate ? t('endOfLifeStackMessage').format(stackVersion, eolDate) : t('deprecatedStackMessage').format(stackVersion)}
+      message={eolDate ? t('endOfLifeStackMessage').format(stackVersion, eolDate) : t('deprecatedStackMessage').format(stackVersion)}
     />
   );
 };
@@ -301,7 +301,7 @@ export const getFunctionAppStackVersion = (values: AppSettingsFormValues, isLinu
   } else {
     const stackVersionProperty = getStackVersionConfigPropertyName(isLinux, stack);
     const stackVersion = values.config && values.config.properties && values.config.properties[stackVersionProperty];
-    return !!stackVersion ? stackVersion : undefined;
+    return stackVersion ?? undefined;
   }
 };
 
@@ -316,7 +316,7 @@ export const filterFunctionAppStack = (
 };
 
 export const getFunctionAppStackObject = (supportedStacks: FunctionAppStack[], isLinux: boolean, stack?: string) => {
-  if (!!stack) {
+  if (stack) {
     for (const supportedStack of supportedStacks) {
       for (const majorVersion of supportedStack.majorVersions) {
         for (const minorVersion of majorVersion.minorVersions) {

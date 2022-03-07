@@ -135,7 +135,7 @@ export abstract class FreePlanPriceSpec extends PriceSpec {
       result.data.value.resourceTypes &&
       result.data.value.resourceTypes.find(t => t.resourceType.toLowerCase() === resourceType.toLowerCase());
 
-    return !!resource ? resource.locations : [];
+    return resource?.locations ?? [];
   }
 
   private async _getAllGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean): Promise<ArmObj<GeoRegion>[]> {

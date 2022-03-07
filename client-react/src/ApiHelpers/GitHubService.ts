@@ -193,7 +193,7 @@ export default class GitHubService {
   };
 
   public static cancelWorkflowRun = (gitHubToken: string, url: string) => {
-    const cancelUrlParts = !!url ? url.split('/') : [];
+    const cancelUrlParts = url?.split('/') ?? [];
     const org = !!cancelUrlParts && cancelUrlParts.length > 9 ? cancelUrlParts[4] : '';
     const repo = !!cancelUrlParts && cancelUrlParts.length > 9 ? cancelUrlParts[5] : '';
     const workflowId = !!cancelUrlParts && cancelUrlParts.length > 9 ? cancelUrlParts[8] : '';

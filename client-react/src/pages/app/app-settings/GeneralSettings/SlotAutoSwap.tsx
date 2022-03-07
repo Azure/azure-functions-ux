@@ -66,7 +66,7 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
                 ariaLabelledBy={`app-settings-auto-swap-enabled-label`}
                 id="app-settings-auto-swap-enabled"
                 disabled={disableAllControls}
-                selectedKey={!!values.config.properties.autoSwapSlotName ? 'on' : 'off'}
+                selectedKey={values.config.properties.autoSwapSlotName ? 'on' : 'off'}
                 options={[
                   {
                     key: 'on',

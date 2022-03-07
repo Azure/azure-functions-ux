@@ -43,7 +43,7 @@ export class AcrDependency extends Dependency {
   async discoverResourceId(portalContext: PortalCommunicator, resourceName: string) {
     // queries for ACR instance and returns resourceId
     const result = await TagsService.fetchAcrResourceId(resourceName);
-    if (!!result) {
+    if (result) {
       if (result.length > 0) {
         return result[0];
       }

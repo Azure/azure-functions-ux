@@ -21,9 +21,9 @@ import { ScmType } from '../../../../models/site/config';
 import { PortalContext } from '../../../../PortalContext';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
-const DeploymentCenterGitHubConfiguredView: React.FC<
-  DeploymentCenterFieldProps<DeploymentCenterCodeFormData | DeploymentCenterContainerFormData>
-> = props => {
+const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterFieldProps<
+  DeploymentCenterCodeFormData | DeploymentCenterContainerFormData
+>> = props => {
   const { t } = useTranslation();
   const { formProps } = props;
   const [org, setOrg] = useState<string | undefined>(undefined);
@@ -220,7 +220,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
     setBranch(getBranchValue(isLoading));
     setGitHubUsername(getSignedInAsComponent(isLoading));
 
-    if (!!deploymentCenterContext.configMetadata) {
+    if (deploymentCenterContext.configMetadata) {
       fetchData();
     }
 

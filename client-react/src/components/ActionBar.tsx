@@ -138,7 +138,7 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({
         {validating && (
           <Spinner
             size={SpinnerSize.medium}
-            label={!!validationMessage ? validationMessage : t('validating')}
+            label={validationMessage ?? t('validating')}
             ariaLive="assertive"
             styles={{
               root: {

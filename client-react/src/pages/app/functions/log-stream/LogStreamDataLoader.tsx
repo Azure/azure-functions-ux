@@ -41,7 +41,7 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
     );
     if (appInsightsResourceIdResponse.metadata.success) {
       const aiResourceId = appInsightsResourceIdResponse.data;
-      if (!!aiResourceId) {
+      if (aiResourceId) {
         const appInsightsResponse = await AppInsightsService.getAppInsights(aiResourceId);
         if (appInsightsResponse.metadata.success) {
           setAppInsightsComponent(appInsightsResponse.data);

@@ -117,32 +117,32 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     } else {
       localTestData = testData || functionInfo.properties.test_data || '';
     }
-    if (!!localTestData) {
+    if (localTestData) {
       if (isHttpOrWebHookFunction) {
         // Make sure to remove the keys: {body, headers, method, queryStringParams};
         // if there are still some keys (meaning the test-data file has been manually updated by the user),
         // we consider the entire remaining object as the body
-        if (!!localTestData.method) {
+        if (localTestData.method) {
           updatedFormValues.method = localTestData.method;
           delete localTestData.method;
         } else {
           updatedFormValues.method = HttpMethods.post;
         }
-        if (!!localTestData.queryStringParams) {
+        if (localTestData.queryStringParams) {
           const queryParameters = localTestData.queryStringParams;
           for (const parameters of queryParameters) {
             updatedFormValues.queries.push({ name: parameters.name, value: parameters.value });
           }
           delete localTestData.queryStringParams;
         }
-        if (!!localTestData.headers) {
+        if (localTestData.headers) {
           const headers = localTestData.headers;
           for (const header of headers) {
             updatedFormValues.headers.push({ name: header.name, value: header.value });
           }
           delete localTestData.headers;
         }
-        setReqBody(!!localTestData.body ? localTestData.body : localTestData);
+        setReqBody(localTestData.body ?? localTestData);
       } else {
         setReqBody(localTestData);
       }

@@ -29,7 +29,7 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
   const siteStateContext = useContext(SiteStateContext);
 
   const refreshData = async () => {
-    if (!!siteStateContext.site) {
+    if (siteStateContext.site) {
       setRefreshLoading(true);
       SiteService.fireSyncTrigger(siteStateContext.site, startupInfoContext.token).then(r => {
         fetchData();

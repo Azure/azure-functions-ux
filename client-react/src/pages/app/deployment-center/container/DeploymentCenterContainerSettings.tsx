@@ -63,8 +63,8 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const isPrivateRegistryConfigured = formProps.values.registrySource === ContainerRegistrySources.privateRegistry;
 
   const getWorkflowFileVariables = () => {
-    const slotName = !!deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '';
-    const siteName = !!deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '';
+    const slotName = deploymentCenterContext.siteDescriptor?.slot ?? '';
+    const siteName = deploymentCenterContext.siteDescriptor?.site ?? '';
     const loginServer = serverUrl.toLocaleLowerCase();
 
     // NOTE(stpelleg): For dockerHub the server URL contains /v1 at the end.

@@ -139,9 +139,7 @@ const LogStreamLogContainer: React.FC<LogStreamLogContainerPropsCombined> = prop
                 className={logEntryDivStyle}
                 style={{ color: getLogTextColor(logEntry.level) }}
                 ref={el => {
-                  if (!!el) {
-                    el.scrollIntoView({ behavior: 'smooth' });
-                  }
+                  el?.scrollIntoView({ behavior: 'smooth' });
                 }}>
                 {logEntry.message}
               </div>

@@ -135,7 +135,7 @@ export default class AppInsightsService {
   };
 
   public static formInvocationTraceDetailsQuery = (operationId: string, invocationId: string) => {
-    const invocationIdFilter = !!invocationId ? `| where customDimensions['InvocationId'] == '${invocationId}'` : '';
+    const invocationIdFilter = invocationId ? `| where customDimensions['InvocationId'] == '${invocationId}'` : '';
 
     return (
       // tslint:disable-next-line: prefer-template
@@ -354,7 +354,7 @@ export default class AppInsightsService {
         error = appInsightsResponse.metadata.error;
       }
 
-      if (!!aiResourceId) {
+      if (aiResourceId) {
         LocalStorageService.setItem(resourceId, StorageKeys.appInsights, aiResourceId);
       }
 

@@ -218,7 +218,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         LogService.trackEvent(LogCategories.localDevExperience, 'FunctionPortalCreateDefaulted', {
           resourceId,
           sessionId: Url.getParameterByName(null, 'sessionId'),
-          templateCount: !!templates ? templates.length : 0,
+          templateCount: templates?.length ?? 0,
           bundleWarning: !!hostStatus && !hostStatus.properties.version.startsWith('1') && !hostStatus.properties.extensionBundle,
         });
         setSelectedDropdownKey(DevelopmentExperience.developInPortal);
@@ -290,7 +290,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   };
 
   const onSubmit = (formValues?: CreateFunctionFormValues) => {
-    if (!!formValues) {
+    if (formValues) {
       if (formValues.newAppSettings) {
         updateAppSettings(formValues.newAppSettings);
       }

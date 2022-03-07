@@ -112,7 +112,7 @@ export const getFilteredFunctionStackSettings = (
   alwaysIncludedStackVersion: string,
   settings?: FunctionAppRuntimeSettings
 ) => {
-  if (!!settings) {
+  if (settings) {
     if (
       stackName.toLowerCase() === alwaysIncludedStackName.toLowerCase() &&
       alwaysIncludedStackVersion.toLowerCase() === settings.runtimeVersion.toLowerCase()

@@ -29,7 +29,7 @@ function getLogLevel(message: string): FBLogLevel {
 }
 
 function addLogEntry(message: string, logLevel: FBLogLevel, logEntries: LogEntry[]) {
-  const logMessage = !!message ? message.trim() : '';
+  const logMessage = message?.trim() ?? '';
   const convertedLogLevel = convertLogLevel(logLevel);
   const logColor = getLogTextColor(logLevel);
 

@@ -87,7 +87,7 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
           <div className={keyDivStyle}>
             {t('keysDialog_key')}
             <OfficeDropdown
-              defaultSelectedKey={!!selectedUrlObj ? selectedUrlObj.key : ''}
+              defaultSelectedKey={selectedUrlObj?.key ?? ''}
               options={dropdownOptions}
               onChange={onChangeHostKeyDropdown}
               ariaLabel={t('functionAppDirectoryDropdownAriaLabel')}
@@ -98,7 +98,7 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
             {t('keysDialog_url')}
             <TextFieldNoFormik
               id="function-editor-function-url"
-              value={!!selectedUrlObj ? selectedUrlObj.url : ''}
+              value={selectedUrlObj?.url ?? ''}
               disabled={true}
               copyButton={true}
               className={urlFieldStyle}

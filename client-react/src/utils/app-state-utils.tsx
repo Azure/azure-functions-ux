@@ -52,31 +52,31 @@ async function resolveStateForFunctionApp(
 ) {
   let state = resolveStateFromSite(site, isLinuxSkuFlightingEnabled, appSettings);
   // NOTE(krmitta): State is only returned if it is defined otherwise we move to the next check
-  if (!!state) {
+  if (state) {
     return state;
   }
 
-  if (!!appSettings) {
+  if (appSettings) {
     state = resolveStateFromAppSetting(appSettings, site, isLinuxSkuFlightingEnabled);
-    if (!!state) {
+    if (state) {
       return state;
     }
   }
 
   state = await fetchAndResolveStateFromConfig(resourceId, logCategory);
-  if (!!state) {
+  if (state) {
     return state;
   }
 
   state = await fetchAndResolveStateFromSlots(resourceId, logCategory);
-  if (!!state) {
+  if (state) {
     return state;
   }
 
   // NOTE(krmitta): Host status API check is currently behind feature-flag and only for Linux apps
   if (FunctionAppService.isEditingCheckNeededForLinuxSku(site, isLinuxSkuFlightingEnabled)) {
     state = await fetchAndResolveStateFromHostStatus(resourceId, logCategory);
-    if (!!state) {
+    if (state) {
       return state;
     }
   }

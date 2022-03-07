@@ -60,7 +60,7 @@ export const messageBannerClass = (theme: ThemeExtended, type: MessageBarType, o
      * Office Fabric's info banner has a grey background color for some reason, so just need to handle that for now.
      */
     backgroundColor: type === MessageBarType.info ? theme.semanticColors.infoBackground : undefined,
-    cursor: !!onClickEnabled ? 'pointer' : undefined,
+    cursor: onClickEnabled ? 'pointer' : undefined,
   });
 };
 

@@ -81,7 +81,7 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
     return fetchExistingMetadataResponse;
   }
 
-  const properties = !!fetchExistingMetadataResponse.data.properties ? fetchExistingMetadataResponse.data.properties : {};
+  const properties = fetchExistingMetadataResponse.data.properties ?? {};
 
   delete properties[DeploymentCenterConstants.metadataRepoUrl];
   delete properties[DeploymentCenterConstants.metadataScmUri];
@@ -135,7 +135,7 @@ export const clearGitHubActionSourceControlPropertiesManually = async (deploymen
     return fetchExistingMetadataResponse;
   }
 
-  const properties = !!fetchExistingMetadataResponse.data.properties ? fetchExistingMetadataResponse.data.properties : {};
+  const properties = fetchExistingMetadataResponse.data.properties ?? {};
 
   delete properties[DeploymentCenterConstants.metadataRepoUrl];
   delete properties[DeploymentCenterConstants.metadataScmUri];

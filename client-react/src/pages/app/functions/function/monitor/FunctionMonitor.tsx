@@ -50,7 +50,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
   const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
 
   const onPivotItemClicked = (item?: PivotItem) => {
-    if (!!item) {
+    if (item) {
       setPivotStateKey(item.props.itemKey as PivotState);
     }
   };

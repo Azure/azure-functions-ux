@@ -188,7 +188,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
 
       {/*Summary Items*/}
       <div id="summary-container" className={invocationsSummary}>
-        {!!monthlySummary ? (
+        {monthlySummary ? (
           <div>
             <div id="summary-success" className={summaryItem}>
               <h4>{t('successCount')}</h4>

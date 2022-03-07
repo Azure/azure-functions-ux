@@ -46,7 +46,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
   const onLinkClick = (item: PivotItem) => {
     if (item.props.itemKey) {
       setSelectedKey(item.props.itemKey);
-      const subscriptionId = !!siteStateContext.site ? getSubscriptionFromResourceId(siteStateContext.site.id) : '';
+      const subscriptionId = siteStateContext.site ? getSubscriptionFromResourceId(siteStateContext.site.id) : '';
       const data = {
         tabName: item.props.itemKey,
         subscriptionId: subscriptionId,
@@ -78,7 +78,8 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
       !!currentUser &&
       ((currentUser.properties.publishingUserName && !formProps.values.publishingUsername) ||
         (!!formProps.values.publishingUsername && currentUser.properties.publishingUserName !== formProps.values.publishingUsername) ||
-        (!!formProps.values.publishingPassword || !!formProps.values.publishingConfirmPassword))
+        !!formProps.values.publishingPassword ||
+        !!formProps.values.publishingConfirmPassword)
     );
   };
 

@@ -96,10 +96,8 @@ class MonacoEditor extends React.Component<any, any> {
       }
       if (options && options.hideReadOnlyTooltip) {
         this.editor.onKeyDown(e => {
-          if (!!e) {
-            e.preventDefault();
-            e.stopPropagation();
-          }
+          e?.preventDefault();
+          e?.stopPropagation();
         });
       }
       // After initializing monaco editor

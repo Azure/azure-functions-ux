@@ -38,7 +38,7 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
 
     if (option) {
       form.setFieldValue(field.name, option.key);
-      if (!!searchable) {
+      if (searchable) {
         setSearchTerm(option.text);
       }
     } else {
@@ -54,7 +54,7 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
   };
 
   useEffect(() => {
-    if (!!clearComboBox) {
+    if (clearComboBox) {
       form.setFieldValue(field.name, undefined);
       setSearchTerm(undefined);
     }
@@ -75,7 +75,7 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
         styles={ComboBoxStyles(theme)}
         allowFreeform={allowFreeform}
         disabled={clearComboBox || (!searchable && isLoading)}
-        autofill={!!searchable ? { onInputValueChange: onInputValueChange } : {}}
+        autofill={searchable ? { onInputValueChange: onInputValueChange } : {}}
         {...rest}
       />
       {!!isLoading && <Spinner className={comboBoxSpinnerStyle} size={SpinnerSize.small} />}

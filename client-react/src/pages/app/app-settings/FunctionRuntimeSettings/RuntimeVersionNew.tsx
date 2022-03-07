@@ -80,7 +80,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
       return (
         <CustomBanner
           message={
-            !!supportedStackVersions
+            supportedStackVersions
               ? t('functionsSupportedRuntimeVersionMissingWarningWithVersionList').format(supportedStackVersions)
               : t('functionsSupportedRuntimeVersionMissingWarning')
           }
@@ -101,13 +101,13 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
     const filteredStacks = filterFunctionAppStack(functionAppStacksContext, values, isLinux, currentStack);
     const stackObject = getFunctionAppStackObject(filteredStacks, isLinux, currentStack);
 
-    if (!!stackObject) {
+    if (stackObject) {
       for (const stackMajorVersion of stackObject.majorVersions) {
         for (const stackMinorVersion of stackMajorVersion.minorVersions) {
           const settings = isLinux
             ? stackMinorVersion.stackSettings.linuxRuntimeSettings
             : stackMinorVersion.stackSettings.windowsRuntimeSettings;
-          if (!!settings) {
+          if (settings) {
             const supportedFunctionsExtensionVersions = settings.supportedFunctionsExtensionVersions;
             if (isWindowsNodeApp(isLinux, currentStack)) {
               const nodeVersion = settings.appSettingsDictionary[CommonConstants.AppSettingNames.websiteNodeDefaultVersion];
@@ -129,7 +129,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
   };
 
   const onDropdownChange = (newVersion?: string) => {
-    if (!!newVersion) {
+    if (newVersion) {
       let appSettings: FormAppSetting[] = [...values.appSettings];
 
       // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)

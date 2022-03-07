@@ -35,9 +35,9 @@ const LocalCreateInstructions: React.FC<LocalCreateInstructionsProps> = props =>
   const getParameters = () => {
     const resourceDescriptor = new ArmResourceDescriptor(resourceId);
     return {
-      functionAppName: !!site ? site.name : '',
-      region: !!site ? site.location : '',
-      resourceGroup: !!site ? site.properties.resourceGroup : '',
+      functionAppName: site?.name ?? '',
+      region: site?.location ?? '',
+      resourceGroup: site?.properties.resourceGroup ?? '',
       subscriptionName: resourceDescriptor.subscription,
       workerRuntime: workerRuntime || '',
     };

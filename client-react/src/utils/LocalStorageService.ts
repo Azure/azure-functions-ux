@@ -21,10 +21,10 @@ export class LocalStorageService {
     return null;
   }
 
-  public static setItem(resourceId: string, key: StorageKeys, value: any, expireSeconds?: number) {
+  public static setItem(resourceId: string, key: StorageKeys, value: any, expireSeconds = 60) {
     if (LocalStorageService.supportsLocalStorage()) {
       try {
-        const newExpireDate = getDateAfterXSeconds(!!expireSeconds ? expireSeconds : 60);
+        const newExpireDate = getDateAfterXSeconds(expireSeconds);
         const item = LocalStorageService.getItem(resourceId, key);
         let newItem;
         let data = {};

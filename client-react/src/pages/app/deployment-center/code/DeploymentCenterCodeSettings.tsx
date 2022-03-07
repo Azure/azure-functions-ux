@@ -125,8 +125,8 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   }, [siteConfigScmType, deploymentCenterContext.configMetadata]);
 
   const getWorkflowFileVariables = () => {
-    const slotName = !!deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '';
-    const siteName = !!deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.site : '';
+    const slotName = deploymentCenterContext.siteDescriptor?.slot ?? '';
+    const siteName = deploymentCenterContext.siteDescriptor?.site ?? '';
 
     const variables = {
       siteName: slotName ? `${siteName}(${slotName})` : siteName,
