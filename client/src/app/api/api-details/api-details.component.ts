@@ -235,14 +235,11 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
             this.apiProxies[index] = this.apiProxyEdit;
           }
 
-          return this._functionAppService.saveApiProxy(
-            this.context,
-            ApiProxy.toJson(this.apiProxies, this._translateService),
-            this._runtimeVersion
-          );
-        })
-        .finally(() => {
-          this._disableSubmit = false;
+          return this._functionAppService
+            .saveApiProxy(this.context, ApiProxy.toJson(this.apiProxies, this._translateService), this._runtimeVersion)
+            .finally(() => {
+              this._disableSubmit = false;
+            });
         })
         .subscribe(() => {
           this.clearBusy();
