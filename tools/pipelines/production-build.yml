@@ -122,21 +122,22 @@ jobs:
         inputs:
           ArtifactName: angular-min
 
-  - job: Localization
-    pool:
-      vmImage: 'vs2017-win2016'
-    steps:
-      - task: OneLocBuild@2
-        inputs:
-          locProj: 'server/LocProject.json'
-          outDir: '$(Build.ArtifactStagingDirectory)'
-          packageSourceAuth: 'patAuth'
-          patVariable: $(OneLocBuildPAT)
+  # Disable Localization job for OnPrem to avoid build failure because of authorized issue.
+  # - job: Localization
+  #   pool:
+  #     vmImage: 'vs2017-win2016'
+  #   steps:
+  #     - task: OneLocBuild@2
+  #       inputs:
+  #         locProj: 'server/LocProject.json'
+  #         outDir: '$(Build.ArtifactStagingDirectory)'
+  #         packageSourceAuth: 'patAuth'
+  #         patVariable: $(OneLocBuildPAT)
 
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact: loc'
-        inputs:
-          ArtifactName: loc
+  #     - task: PublishBuildArtifacts@1
+  #       displayName: 'Publish Artifact: loc'
+  #       inputs:
+  #         ArtifactName: loc
 
   - job: Server
     pool:
@@ -145,24 +146,24 @@ jobs:
       - AngularFull
       - AngularMin
       - ReactBuild
-      - Localization
+      # - Localization
     steps:
       - task: NodeTool@0
         inputs:
           versionSpec: '14.x'
         displayName: 'Install Node.js'
 
-      - task: DownloadBuildArtifacts@0
-        displayName: 'Download Loc Artifacts'
-        inputs:
-          artifactName: loc
-          downloadPath: $(System.DefaultWorkingDirectory)
+      # - task: DownloadBuildArtifacts@0
+      #   displayName: 'Download Loc Artifacts'
+      #   inputs:
+      #     artifactName: loc
+      #     downloadPath: $(System.DefaultWorkingDirectory)
 
-      - task: CopyFiles@2
-        displayName: 'Copy Loc to: $(Build.ArtifactStagingDirectory)'
-        inputs:
-          SourceFolder: $(System.DefaultWorkingDirectory)/loc/loc
-          TargetFolder: server/resources-resx
+      # - task: CopyFiles@2
+      #   displayName: 'Copy Loc to: $(Build.ArtifactStagingDirectory)'
+      #   inputs:
+      #     SourceFolder: $(System.DefaultWorkingDirectory)/loc/loc
+      #     TargetFolder: server/resources-resx
 
       - script: |
           cd server
