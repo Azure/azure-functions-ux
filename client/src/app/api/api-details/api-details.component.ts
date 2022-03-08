@@ -241,16 +241,19 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
             this._runtimeVersion
           );
         })
-        .finally(() => {
-          this._disableSubmit = false;
-        })
-        .subscribe(() => {
-          this.clearBusy();
-          if (this.rrComponent) {
-            this.rrComponent.saveModel();
+        .subscribe(
+          () => {
+            this.clearBusy();
+            if (this.rrComponent) {
+              this.rrComponent.saveModel();
+            }
+            this.onReset();
+            this._disableSubmit = false;
+          },
+          () => {
+            this._disableSubmit = false;
           }
-          this.onReset();
-        });
+        );
     }
   }
 
