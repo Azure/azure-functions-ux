@@ -338,8 +338,12 @@ export class GithubController {
   }
 
   @Get('auth/github/callback')
-  callback() {
-    return 'Successfully Authenticated. Redirecting...';
+  async callback(@Headers('host') host: string, @Res() res, @Query('code') code, @Query('state') state) {
+    if (host.indexOf('localhost') !== -1) {
+      res.redirect(`https://localhost:44400/auth/github/callback?code=${code}&state=${state}`);
+    } else {
+      return 'Successfully Authenticated. Redirecting...';
+    }
   }
 
   @Get('auth/github/reactview/callback/sandbox/:sandbox/env/:env')
@@ -594,9 +598,8 @@ export class GithubController {
   }
 
   private _getRedirectUri(host: string): string {
-    const redirectUri =
-      this.configService.get('GITHUB_REDIRECT_URL') ||
-      `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Prod]}/auth/github/callback`;
+    const redirectUri = `https://localhost:44400/auth/github/callback`;
+
     const [redirectUriToLower, hostUrlToLower] = [redirectUri.toLocaleLowerCase(), `https://${host}`.toLocaleLowerCase()];
     const [redirectEnv, clientEnv] = [this._getEnvironment(redirectUriToLower), this._getEnvironment(hostUrlToLower)];
 
@@ -656,21 +659,11 @@ export class GithubController {
   }
 
   private _getGitHubClientId(): string {
-    const config = this.staticReactConfig;
-    if (config.env && config.env.cloud === CloudType.public) {
-      return this.configService.get('GITHUB_CLIENT_ID');
-    } else {
-      return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_ID');
-    }
+    return 'YOUR_CLIENT_ID';
   }
 
   private _getGitHubClientSecret(): string {
-    const config = this.staticReactConfig;
-    if (config.env && config.env.cloud === CloudType.public) {
-      return this.configService.get('GITHUB_CLIENT_SECRET');
-    } else {
-      return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_SECRET');
-    }
+    return 'YOUR_CLIENT_SECRET';
   }
 
   private _getGitHubForCreatesClientId() {

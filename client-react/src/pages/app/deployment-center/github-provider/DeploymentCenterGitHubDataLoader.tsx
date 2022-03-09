@@ -3,7 +3,7 @@ import DeploymentCenterGitHubProvider from './DeploymentCenterGitHubProvider';
 import { GitHubUser } from '../../../../models/github';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import GitHubService from '../../../../ApiHelpers/GitHubService';
+// import GitHubService from '../../../../ApiHelpers/GitHubService';
 import { DeploymentCenterFieldProps, AuthorizationResult, SearchTermObserverInfo } from '../DeploymentCenter.types';
 import { IDropdownOption } from '@fluentui/react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
@@ -204,23 +204,26 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   const authorizeGitHubAccount = () => {
     portalContext.log(getTelemetryInfo('info', 'gitHubAccount', 'authorize'));
-    authorizeWithProvider(GitHubService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
+    authorizeWithProvider('https://localhost:44300/auth/github/authorize', startingAuthCallback, completingAuthCallBack);
   };
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      deploymentCenterData.getGitHubToken(authorizationResult.redirectUrl).then(response => {
-        if (response.metadata.success) {
-          deploymentCenterData.storeGitHubToken(response.data).then(() => deploymentCenterContext.refreshUserSourceControlTokens());
-        } else {
-          portalContext.log(
-            getTelemetryInfo('error', 'getGitHubTokenResponse', 'failed', {
-              errorAsString: JSON.stringify(response.metadata.error),
-            })
-          );
-          return Promise.resolve(undefined);
-        }
-      });
+      deploymentCenterData
+        .getGitHubToken(authorizationResult.redirectUrl.replace('44400', '44300'))
+        .then(response => {
+          if (response.metadata.success) {
+            deploymentCenterData.storeGitHubToken(response.data);
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'getGitHubTokenResponse', 'failed', {
+                errorAsString: JSON.stringify(response.metadata.error),
+              })
+            );
+            return Promise.resolve(undefined);
+          }
+        })
+        .then(() => deploymentCenterContext.refreshUserSourceControlTokens());
     } else {
       return fetchData();
     }

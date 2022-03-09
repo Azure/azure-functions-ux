@@ -17,7 +17,8 @@ import { CommonConstants } from '../utils/CommonConstants';
 import { KeyValue } from '../models/portal-models';
 
 export default class GitHubService {
-  public static authorizeUrl = `${Url.serviceHost}auth/github/authorize`;
+  public static serviceHost = Url.serviceHost.replace('44400', '44300');
+  public static authorizeUrl = `${GitHubService.serviceHost}auth/github/authorize`;
 
   public static getUser = (gitHubToken: string) => {
     const data = {
@@ -32,7 +33,7 @@ export default class GitHubService {
       redirUrl: redirectUrl,
     };
 
-    return sendHttpRequest<ProviderToken>({ url: `${Url.serviceHost}auth/github/getToken`, method: 'POST', data });
+    return sendHttpRequest<ProviderToken>({ url: `${GitHubService.serviceHost}auth/github/getToken`, method: 'POST', data });
   };
 
   public static resetToken = (gitHubToken: string): Promise<HttpResponseObject<ProviderToken>> => {
@@ -149,7 +150,7 @@ export default class GitHubService {
       deleteCommit,
     };
 
-    return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/deleteActionWorkflow`, method: 'POST', data });
+    return sendHttpRequest<void>({ url: `${GitHubService.serviceHost}api/github/deleteActionWorkflow`, method: 'POST', data });
   };
 
   public static createOrUpdateActionWorkflow = (
@@ -165,7 +166,7 @@ export default class GitHubService {
       replacementPublishUrl,
     };
 
-    return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/actionWorkflow`, method: 'PUT', data });
+    return sendHttpRequest<void>({ url: `${GitHubService.serviceHost}api/github/actionWorkflow`, method: 'PUT', data });
   };
 
   public static dispatchWorkflow = (gitHubToken: string, branch: string, repo: string, workflowFileName: string) => {
@@ -177,7 +178,7 @@ export default class GitHubService {
       },
     };
 
-    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/dispatchWorkflow`, method: 'POST', data });
+    return sendHttpRequest<any>({ url: `${GitHubService.serviceHost}api/github/dispatchWorkflow`, method: 'POST', data });
   };
 
   public static listWorkflowRuns = (gitHubToken: string, org: string, repo: string, workflowFileName: string) => {
