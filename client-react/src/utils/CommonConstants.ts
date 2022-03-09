@@ -310,3 +310,8 @@ export class ExperimentationConstants {
     portalCallOnEditor: 'disable-portal-call-editor',
   };
 }
+
+export class Monitoring {
+  public static AppInsightsResourceIdHiddenTagName = 'hidden-link: /app-insights-resource-id';
+  public static AppInsightsInstrumentationKeyHiddenTagName = 'hidden-link: /app-insights-instrumentation-key';
+}

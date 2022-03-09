@@ -204,6 +204,16 @@ export default class SiteService {
     });
   };
 
+  public static patchSite = (resourceId: string, body: any) => {
+    return MakeArmCall<void>({
+      method: 'PATCH',
+      resourceId: resourceId,
+      body: body,
+      commandName: 'patchSite',
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+    });
+  };
+
   public static updateApplicationSettings = async (resourceId: string, appSettings: ArmObj<KeyValue<string>>) => {
     const id = `${resourceId}/config/appsettings`;
     const result = await MakeArmCall<ArmObj<KeyValue<string>>>({
