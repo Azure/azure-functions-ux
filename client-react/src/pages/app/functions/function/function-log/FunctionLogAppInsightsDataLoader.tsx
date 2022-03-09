@@ -217,7 +217,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   const reconnectQueryLayer = () => {
     const newQueryLayer = new QuickPulseQueryLayer(getQuickPulseQueryEndpoint(), defaultClient);
-    newQueryLayer.setConfiguration([], getDefaultDocumentStreams(), []);
+    newQueryLayer.setConfiguration([], getDefaultDocumentStreams(), [], functionsRuntimeVersion);
     setQueryLayer(newQueryLayer);
     setCallCount(0);
   };
