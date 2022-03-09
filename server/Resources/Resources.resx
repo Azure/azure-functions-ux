@@ -1585,15 +1585,6 @@
     <data name="minTlsVersionInfoBubbleMessage" xml:space="preserve">
         <value>Select the minimum TLS encryption version required by your app.</value>
     </data>
-    <data name="tlsVersion10" xml:space="preserve">
-        <value>1.0</value>
-    </data>
-    <data name="tlsVersion11" xml:space="preserve">
-        <value>1.1</value>
-    </data>
-    <data name="tlsVersion12" xml:space="preserve">
-        <value>1.2</value>
-    </data>
     <data name="clientAffinityInfoText" xml:space="preserve">
         <value>You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.</value>
     </data>

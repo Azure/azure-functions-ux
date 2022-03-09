@@ -257,15 +257,15 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           options={[
             {
               key: MinTlsVersion.tLS10,
-              text: t('tlsVersion10'),
+              text: MinTlsVersion.tLS10,
             },
             {
               key: MinTlsVersion.tLS11,
-              text: t('tlsVersion11'),
+              text: MinTlsVersion.tLS11,
             },
             {
               key: MinTlsVersion.tLS12,
-              text: t('tlsVersion12'),
+              text: MinTlsVersion.tLS12,
             },
           ]}
         />
