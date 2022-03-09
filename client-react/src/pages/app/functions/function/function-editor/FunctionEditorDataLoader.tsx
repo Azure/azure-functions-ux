@@ -187,7 +187,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
     if (appSettingsResponse.metadata.success) {
       const appSettingsProperties = appSettingsResponse.data.properties;
-      if (appSettingsProperties.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
+      if (Object.prototype.hasOwnProperty.call(appSettingsProperties, CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
         setWorkerRuntime(appSettingsProperties[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
       }
     } else {

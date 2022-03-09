@@ -21,8 +21,8 @@ export enum LogType {
   WebServer = 'webserver',
 }
 
-export const newLine: string = '\n';
-export const maxLogEntries: number = 1000;
+export const newLine = '\n';
+export const maxLogEntries = 1000;
 
 export class LogRegex {
   public static readonly infoLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+) (\[Info|INFO)/;

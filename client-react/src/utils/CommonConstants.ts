@@ -284,17 +284,17 @@ export enum RBACRoleId {
 }
 
 export class SubscriptionQuotaIds {
-  public static azurePassQuotaId: string = 'AzurePass_2014-09-01';
-  public static azureStudentQuotaId: string = 'AzureForStudents_2018-01-01';
-  public static dreamSparkQuotaId: string = 'DreamSpark_2015-02-01';
-  public static freeTrialQuotaId: string = 'FreeTrial_2014-09-01';
-  public static artemisQuotaId: string = 'CSP_2015-05-01';
-  public static bizSparkQuotaId: string = 'BizSpark_2014-09-01';
-  public static sponsoredQuotaId: string = 'Sponsored_2016-01-01';
-  public static lrsQuotaId: string = 'LightweightTrial_2016-09-01';
-  public static enterpriseAgreementQuotaId: string = 'EnterpriseAgreement_2014-09-01';
-  public static payAsYouGoQuotaId: string = 'PayAsYouGo_2014-09-01';
-  public static cspQuotaId: string = 'CSP_2015-05-01';
+  public static azurePassQuotaId = 'AzurePass_2014-09-01';
+  public static azureStudentQuotaId = 'AzureForStudents_2018-01-01';
+  public static dreamSparkQuotaId = 'DreamSpark_2015-02-01';
+  public static freeTrialQuotaId = 'FreeTrial_2014-09-01';
+  public static artemisQuotaId = 'CSP_2015-05-01';
+  public static bizSparkQuotaId = 'BizSpark_2014-09-01';
+  public static sponsoredQuotaId = 'Sponsored_2016-01-01';
+  public static lrsQuotaId = 'LightweightTrial_2016-09-01';
+  public static enterpriseAgreementQuotaId = 'EnterpriseAgreement_2014-09-01';
+  public static payAsYouGoQuotaId = 'PayAsYouGo_2014-09-01';
+  public static cspQuotaId = 'CSP_2015-05-01';
 }
 
 // NOTE(krmitta): This class should be in sync with the similar ibiza class,

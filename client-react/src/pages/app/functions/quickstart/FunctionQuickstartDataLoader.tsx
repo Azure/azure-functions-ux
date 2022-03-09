@@ -39,7 +39,7 @@ const FunctionQuickstartDataLoader: React.FC<FunctionQuickstartDataLoaderProps> 
     } else {
       setSite(siteData.data);
       const appSettings = appSettingsData.data.properties;
-      if (appSettings.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
+      if (Object.prototype.hasOwnProperty.call(appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
         setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
       }
     }
