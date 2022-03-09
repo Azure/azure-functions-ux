@@ -138,9 +138,8 @@ export class QuickPulseQueryLayer {
     //note(stpelleg): Need to update the configuration each time we recieve a new session id
     if (
       useNewFunctionLogsApi &&
-      this._detailedSessionInfo &&
       liveLogsSessionId &&
-      this._detailedSessionInfo.liveLogsSessionId !== liveLogsSessionId
+      this._detailedSessionInfo?.liveLogsSessionId !== liveLogsSessionId
     ) {
       this._detailedSessionInfo.liveLogsSessionId = liveLogsSessionId || '';
       this.setConfigurationV2();
