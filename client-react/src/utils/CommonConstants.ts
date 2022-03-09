@@ -210,17 +210,11 @@ export class CommonConstants {
       invalid: '/, /Home',
     },
     windowsCode: {
-      // eslint-disable-next-line no-useless-escape
       valid: '/mounts/foo',
-
-      // eslint-disable-next-line no-useless-escape
       invalid: '/mounts, /mounts/foo/bar, /mounts/foo.bar',
     },
     windowsContainer: {
-      // eslint-disable-next-line no-useless-escape
       valid: '/foo, /foo/bar, [Cc-Zz]:\\foo, [Cc-Zz]:\\foo\\bar',
-
-      // eslint-disable-next-line no-useless-escape
       invalid: '/, /., /home, [Cc-Zz]:\\, [Cc-Zz]:\\., [Cc-Zz]:\\mounts, [Cc-Zz]:\\home',
     },
   };
