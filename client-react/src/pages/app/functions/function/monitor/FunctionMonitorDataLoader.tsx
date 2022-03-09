@@ -49,7 +49,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
     const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
     const appSettingsPromise = SiteService.fetchApplicationSettings(siteResourceId);
-    const tagsProperty = !!site ? site.tags : undefined;
+    const tagsProperty = site?.tags;
     const hasWritePermission =
       siteAppEditState !== FunctionAppEditMode.ReadOnlyLock && siteAppEditState !== FunctionAppEditMode.ReadOnlyRbac;
 
@@ -62,7 +62,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
       hasWritePermission
     );
 
-    if (!!appInsightsData && !!appInsightsData.data && appInsightsData.data.metadata.success) {
+    if (appInsightsData?.data?.metadata.success) {
       setErrorFetchingAppInsightsComponent(false);
       setAppInsightsComponent(appInsightsData.data.data);
     } else {
