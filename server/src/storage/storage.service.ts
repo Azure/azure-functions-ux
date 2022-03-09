@@ -1,4 +1,4 @@
-import { Injectable, HttpException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { BlobServiceClient, StorageSharedKeyCredential } from '@azure/storage-blob';
 import {
   Aborter as FileAborter,
@@ -17,15 +17,12 @@ export class StorageService {
 
   async getStorageContainers(accountName: string, accessKey: string) {
     const credentials = new StorageSharedKeyCredential(accountName, accessKey);
-    const blobServiceClient = new BlobServiceClient(
-      `https://${accountName}.blob.${this.configService.endpointSuffix}`,
-      credentials
-    );
-    let containers =  blobServiceClient.listContainers();
-    let retContainers = [];
+    const blobServiceClient = new BlobServiceClient(`https://${accountName}.blob.${this.configService.endpointSuffix}`, credentials);
+    const containers = blobServiceClient.listContainers();
+    const retContainers = [];
     let nextContainers = await containers.next();
-    while(!nextContainers.done) {
-      retContainers.push(nextContainers.value)
+    while (!nextContainers.done) {
+      retContainers.push(nextContainers.value);
       nextContainers = await containers.next();
     }
 
