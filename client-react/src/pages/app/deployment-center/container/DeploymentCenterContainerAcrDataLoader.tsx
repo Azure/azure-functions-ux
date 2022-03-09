@@ -341,7 +341,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
   const fetchAllSubscriptions = async () => {
     const subscriptionsObservable = await portalContext.getAllSubscriptions();
-    let subscriptionDropdownOptions: IDropdownOption[] = [];
+    const subscriptionDropdownOptions: IDropdownOption[] = [];
 
     subscriptionsObservable.subscribe(subscriptionArray => {
       subscriptionArray.forEach(subscription =>

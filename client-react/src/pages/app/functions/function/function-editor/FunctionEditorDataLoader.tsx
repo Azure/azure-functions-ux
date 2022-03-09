@@ -428,7 +428,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const runUsingPassthrough = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
-    let response: ResponseContent = { code: 0, text: '' };
+    const response: ResponseContent = { code: 0, text: '' };
 
     const runFunctionResponse = await FunctionsService.runFunction(settings);
     response.code = runFunctionResponse.metadata.status;
@@ -447,7 +447,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const runUsingPortal = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
-    let response: ResponseContent = { code: 0, text: '' };
+    const response: ResponseContent = { code: 0, text: '' };
 
     const runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
     const runFunctionResponseResult = runFunctionResponse.result;
