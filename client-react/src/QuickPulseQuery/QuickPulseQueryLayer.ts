@@ -83,22 +83,46 @@ export class QuickPulseQueryLayer {
   public setConfiguration(
     metrics: qpschema.QPSchemaConfigurationMetric[],
     documentStreams: QPSchemaDocumentStreamInfo[],
-    trustedAuthorizedAgents: string[]
+    trustedAuthorizedAgents: string[],
+    functionsRuntimeVersion?: string
   ) {
-    this._configurationVersion++;
-    let configuration: qpschema.QPSchemaConfigurationSession = {
+    if (this.useNewFunctionLogsApi(functionsRuntimeVersion)) {
+      this.setConfigurationV2();
+    } else {
+      this._configurationVersion++;
+      let configuration: qpschema.QPSchemaConfigurationSession = {
+        Id: this._id,
+        Version: this._configurationVersion,
+        Metrics: metrics,
+        DocumentStreams: documentStreams,
+        TrustedUnauthorizedAgents: trustedAuthorizedAgents,
+      };
+
+      // copy the object for post-processing
+      configuration = JSON.parse(JSON.stringify(configuration));
+      this.postProcessConfiguration(configuration);
+
+      this._configuration = JSON.stringify(configuration);
+    }
+  }
+
+  public setConfigurationV2() {
+    let requestData = {
       Id: this._id,
-      Version: this._configurationVersion,
-      Metrics: metrics,
-      DocumentStreams: documentStreams,
-      TrustedUnauthorizedAgents: trustedAuthorizedAgents,
+      Version: ++this._configurationVersion,
+      TelemetryTypes: [
+        TelemetryTypesEnum.Request,
+        TelemetryTypesEnum.Trace,
+        TelemetryTypesEnum.Dependency,
+        TelemetryTypesEnum.Exception,
+        TelemetryTypesEnum.Event,
+      ],
     };
 
-    // copy the object for post-processing
-    configuration = JSON.parse(JSON.stringify(configuration));
-    this.postProcessConfiguration(configuration);
-
-    this._configuration = JSON.stringify(configuration);
+    if (this._detailedSessionInfo.liveLogsSessionId) {
+      requestData = { ...requestData, ...this._getSessionFilter() };
+    }
+    this._configuration = JSON.stringify(requestData);
   }
 
   public queryDetails(
@@ -108,9 +132,17 @@ export class QuickPulseQueryLayer {
     liveLogsSessionId?: string,
     functionsRuntimeVersion?: string
   ) {
+    const useNewFunctionLogsApi = this.useNewFunctionLogsApi(functionsRuntimeVersion);
     this._queryServersInfo = querySessionInfo;
-    if (this._detailedSessionInfo) {
+
+    //note(stpelleg): Need to update the configuration each time we recieve a new session id
+    if (
+      useNewFunctionLogsApi &&
+      liveLogsSessionId &&
+      this._detailedSessionInfo?.liveLogsSessionId !== liveLogsSessionId
+    ) {
       this._detailedSessionInfo.liveLogsSessionId = liveLogsSessionId || '';
+      this.setConfigurationV2();
     }
 
     // If we changed instance view then we need to query all instance documents again.
@@ -118,21 +150,27 @@ export class QuickPulseQueryLayer {
       this._detailedSessionInfo.instanceSeqNumber = 0;
       this._instanceId = instanceId;
     }
-    const useNewFunctionLogsApi =
-      !!Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi) &&
-      functionsRuntimeVersion === CommonConstants.FunctionsRuntimeVersions.four;
 
     return this.executeQueryWithSessionTracking(
       authorizationHeader,
       useNewFunctionLogsApi ? this.getDetailedRequestV2.bind(this) : this.getDetailedRequest.bind(this),
-      this._detailedSessionInfo
+      this._detailedSessionInfo,
+      useNewFunctionLogsApi
+    );
+  }
+
+  private useNewFunctionLogsApi(functionsRuntimeVersion?: string) {
+    return (
+      !!Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi) &&
+      functionsRuntimeVersion === CommonConstants.FunctionsRuntimeVersions.four
     );
   }
 
   private executeQueryWithSessionTracking = async (
     authorizationHeader: string,
     getRequestFunc: (header1: string, header2: string) => WebRequest,
-    sessionInfo: QuickPulseSessionInfo
+    sessionInfo: QuickPulseSessionInfo,
+    useNewFunctionLogsApi: boolean
   ): Promise<qpschema.SchemaResponseV2 | null> => {
     const queryNumber = ++sessionInfo.queryNumber;
     const ajaxResult = await this.executeQuery(authorizationHeader, sessionInfo.sessionHeader, getRequestFunc);
@@ -149,7 +187,7 @@ export class QuickPulseQueryLayer {
 
     // Ignore responses when front end wasn't able to contact backend.
     // We should switch to different backend soon.
-    if (!Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi)) {
+    if (!useNewFunctionLogsApi) {
       if (!dataV2 || !dataV2.DataRanges || dataV2.DataRanges.length === 0 || !dataV2.DataRanges[0].AggregatorId) {
         return null;
       }
@@ -286,28 +324,12 @@ export class QuickPulseQueryLayer {
 
   private getDetailedRequestV2(authorizationHeader: string, sessionHeader: string): WebRequest {
     const quickPulseEndpointUrl = `${this._getQuickPulseEndpoint()}/queryLogs?seqNumber=${this._detailedSessionInfo.seqNumber}`;
-    let requestData = {
-      Id: this._id,
-      Version: this._configurationVersion,
-      TelemetryTypes: [
-        TelemetryTypesEnum.Request,
-        TelemetryTypesEnum.Trace,
-        TelemetryTypesEnum.Dependency,
-        TelemetryTypesEnum.Exception,
-        TelemetryTypesEnum.Event,
-      ],
-    };
-
-    if (this._detailedSessionInfo.liveLogsSessionId) {
-      requestData = { ...requestData, ...this._getSessionFilter() };
-    }
-
     return {
       type: 'POST',
       url: quickPulseEndpointUrl,
       timeout: 10000, // timeout after 10 seconds - don't need this request anymore
       headers: this._getHeadersForDetailedRequestV2(authorizationHeader, sessionHeader),
-      data: JSON.stringify(requestData),
+      data: this._configuration,
     };
   }
 
