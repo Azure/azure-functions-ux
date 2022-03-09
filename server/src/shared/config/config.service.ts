@@ -76,8 +76,8 @@ export class ConfigService implements OnModuleInit {
           return Constants.endpointSuffix.usnat;
 
         // NOTE (krmitta): For all the other cases we are returning the public endpoint
-        // case CloudType.onprem:
-        // case CloudType.public:
+        case CloudType.onprem: // falls through
+        case CloudType.public: // falls through
         default:
           return Constants.endpointSuffix.public;
       }
