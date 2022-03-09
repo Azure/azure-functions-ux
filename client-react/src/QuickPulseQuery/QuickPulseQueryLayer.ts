@@ -172,7 +172,7 @@ export class QuickPulseQueryLayer {
     getRequestFunc: (header1: string, header2: string) => WebRequest,
     sessionInfo: QuickPulseSessionInfo,
     useNewFunctionLogsApi: boolean
-  ): Promise<qpschema.SchemaResponseV2 | null> {
+  ): Promise<qpschema.SchemaResponseV2 | null> => {
     const queryNumber = ++sessionInfo.queryNumber;
     const ajaxResult = await this.executeQuery(authorizationHeader, sessionInfo.sessionHeader, getRequestFunc);
 
