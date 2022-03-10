@@ -231,7 +231,6 @@ export const javaContainersStack: WebAppStack = {
               java8Runtime: 'JBOSSEAP|7.3-java8',
               java11Runtime: 'JBOSSEAP|7.3-java11',
               isAutoUpdate: true,
-              isDeprecated: true,  // note (jafreebe) March 2022: Only have 1 auto-update lane at the major version (7.x.x)
               isHidden: true // note (jafreebe) March 2022: Only have 1 auto-update lane at the major version (7.x.x) 
             }
           }
@@ -244,7 +243,6 @@ export const javaContainersStack: WebAppStack = {
               java8Runtime: 'JBOSSEAP|7.4-java8',
               java11Runtime: 'JBOSSEAP|7.4-java11',
               isAutoUpdate: true,
-              isDeprecated: true,  // note (jafreebe) March 2022: Only have 1 auto-update lane at the major version (7.x.x)
               isHidden: true  // note (jafreebe) March 2022: Only have 1 auto-update lane at the major version (7.x.x)
             }
           }
