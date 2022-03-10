@@ -3,6 +3,7 @@ import { CommonConstants } from '../CommonConstants';
 import Url from '../url';
 import { ScenarioIds } from './scenario-ids';
 import { Environment, ScenarioCheckInput } from './scenario.models';
+import { NationalCloudEnvironment } from './national-cloud.environment';
 
 export class WindowsCode extends Environment {
   public name = 'WindowCode';
@@ -21,7 +22,7 @@ export class WindowsCode extends Environment {
       id: ScenarioIds.azureStorageMount,
       runCheck: () => {
         return {
-          status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMount) ? 'enabled' : 'disabled',
+          status: this._getAzureStorageMountAvailability(),
         };
       },
     };
@@ -35,6 +36,12 @@ export class WindowsCode extends Environment {
       },
     };
   }
+
+  private _getAzureStorageMountAvailability = () => {
+    return Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMount) || !NationalCloudEnvironment.isNationalCloud()
+      ? 'enabled'
+      : 'disabled';
+  };
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     return !!input && !!input.site && !!input.site.kind && isWindowsCode(input.site);
