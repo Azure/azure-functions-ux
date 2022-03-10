@@ -254,6 +254,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
 
     .feature-learnMore {
       display: inline-block;
+      text-decoration: underline;
     }
   }
 
