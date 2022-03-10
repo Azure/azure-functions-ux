@@ -170,7 +170,7 @@ export default class FunctionsService {
     inputHeaders?: KeyValue<string>,
     fileName?: string
   ) {
-    const endpoint = `${!!functionName ? `/${functionName}` : ''}/${!!fileName ? `${fileName}` : ''}`;
+    const endpoint = `${functionName ? `/${functionName}` : ''}/${fileName ? `${fileName}` : ''}`;
     const headers = FunctionsService._addOrGetVfsHeaders(inputHeaders);
 
     return MakeArmCall<VfsObject[] | string>({
@@ -189,7 +189,7 @@ export default class FunctionsService {
     runtimeVersion?: string,
     apiVersion?: string
   ) => {
-    const endpoint = `${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`;
+    const endpoint = `${functionName ? `/${functionName}` : ''}${fileName ? `/${fileName}` : ''}`;
     const shortUrl = `${resourceId}${FunctionsService._getVfsApiForRuntimeVersion(endpoint, runtimeVersion)}`;
     if (apiVersion) {
       return `${shortUrl}${shortUrl.indexOf('?') > -1 ? '&' : '?'}api-version=${apiVersion}`;

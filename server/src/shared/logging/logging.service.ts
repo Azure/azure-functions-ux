@@ -97,7 +97,7 @@ export class LoggingService extends ConsoleLogger implements LoggerService {
     if (value && (client || etwService)) {
       const counters = JSON.parse(value) as AppServicePerformanceCounters;
       for (const counterName in counters) {
-        if (counters.hasOwnProperty(counterName)) {
+        if (Object.prototype.hasOwnProperty.call(counters, counterName)) {
           const data = { name: counterName, value: counters[counterName] };
           if (client) {
             client.trackMetric(data);

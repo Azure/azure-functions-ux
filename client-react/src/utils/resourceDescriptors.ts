@@ -23,7 +23,6 @@ export abstract class Descriptor {
   public abstract getTrimmedResourceId(): string;
 }
 
-// tslint:disable-next-line:max-classes-per-file
 export class ArmSubcriptionDescriptor extends Descriptor {
   public subscriptionId: string;
 
@@ -46,7 +45,6 @@ export class ArmSubcriptionDescriptor extends Descriptor {
   }
 }
 
-// tslint:disable-next-line:max-classes-per-file
 export class ArmResourceDescriptor extends Descriptor {
   public subscription: string;
   public resourceGroup: string;
@@ -77,7 +75,6 @@ export class ArmResourceDescriptor extends Descriptor {
   }
 }
 
-// tslint:disable-next-line:max-classes-per-file
 export class ArmSiteDescriptor extends ArmResourceDescriptor {
   public static getSiteDescriptor(resourceId: string): ArmSiteDescriptor {
     const parts = resourceId.split('/').filter(part => !!part);
@@ -97,9 +94,7 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
       throw Error(`Not enough segments in site or slot or scope id`);
     }
 
-    // tslint:disable-next-line:no-increment-decrement
     for (let i = 0; i <= maxIndex; i++) {
-      // tslint:disable-next-line:prefer-template
       siteId = siteId + '/' + parts[i];
     }
 
@@ -160,7 +155,6 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
   }
 }
 
-// tslint:disable-next-line:max-classes-per-file
 export class ArmPlanDescriptor extends ArmResourceDescriptor {
   public static getSiteDescriptor(resourceId: string): ArmPlanDescriptor {
     const parts = resourceId.split('/').filter(part => !!part);
@@ -173,9 +167,7 @@ export class ArmPlanDescriptor extends ArmResourceDescriptor {
       throw Error(`Not enough segments in server farm`);
     }
 
-    // tslint:disable-next-line:no-increment-decrement
     for (let i = 0; i <= maxIndex; i++) {
-      // tslint:disable-next-line:prefer-template
       planId = planId + '/' + parts[i];
     }
 
@@ -202,7 +194,6 @@ export class ArmPlanDescriptor extends ArmResourceDescriptor {
   }
 }
 
-// tslint:disable-next-line:max-classes-per-file
 export class ArmFunctionDescriptor extends ArmSiteDescriptor {
   public name: string;
   private _isProxy: boolean;
@@ -244,7 +235,6 @@ export class ArmFunctionDescriptor extends ArmSiteDescriptor {
   }
 }
 
-// tslint:disable-next-line:max-classes-per-file
 export class ARMApplicationInsightsDescriptior extends ArmResourceDescriptor {
   public instanceName: string;
 

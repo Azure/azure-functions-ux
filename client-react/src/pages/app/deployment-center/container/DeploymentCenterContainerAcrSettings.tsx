@@ -143,7 +143,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         id="container-acr-repository"
         label={t('containerACRRegistry')}
         name="acrLoginServer"
-        selectedKey={!!formProps.values.acrLoginServer ? formProps.values.acrLoginServer.toLocaleLowerCase() : ''}
+        selectedKey={formProps.values.acrLoginServer?.toLocaleLowerCase() ?? ''}
         component={ComboBox}
         allowFreeform
         autoComplete="on"

@@ -1,9 +1,9 @@
-import { MessageBarType } from '@fluentui/react';
+import { IMessageBarStyles, MessageBarType } from '@fluentui/react';
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
 export const messageBannerStyles = (isCustomIcon: boolean, undocked?: boolean) => {
-  const styles = {
+  const styles: IMessageBarStyles = {
     root: {},
     content: {
       paddingLeft: '15px',
@@ -17,13 +17,13 @@ export const messageBannerStyles = (isCustomIcon: boolean, undocked?: boolean) =
       marginRight: isCustomIcon ? '5px' : undefined,
     },
     iconContainer: {
-      display: isCustomIcon ? ('none' as 'none') : ('contents' as 'contents'),
+      display: isCustomIcon ? 'none' : 'contents',
     },
     icon: {},
     dismissal: {
       height: '16px',
       width: '16px',
-      position: 'relative' as 'relative',
+      position: 'relative',
       top: '8px',
       right: '15px',
     },
@@ -60,7 +60,7 @@ export const messageBannerClass = (theme: ThemeExtended, type: MessageBarType, o
      * Office Fabric's info banner has a grey background color for some reason, so just need to handle that for now.
      */
     backgroundColor: type === MessageBarType.info ? theme.semanticColors.infoBackground : undefined,
-    cursor: !!onClickEnabled ? 'pointer' : undefined,
+    cursor: onClickEnabled ? 'pointer' : undefined,
   });
 };
 

@@ -175,7 +175,6 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
-  // tslint:disable-next-line:member-ordering
   const getColumns = () => {
     return [
       {

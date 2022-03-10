@@ -21,7 +21,7 @@ const SpecPickerFeatureList: React.FC<SpecPickerFeatureListProps> = props => {
       icon: feature.iconUrl,
       title: feature.title,
       description: feature.description,
-      additionalInfoLink: !!feature.learnMoreUrl
+      additionalInfoLink: feature.learnMoreUrl
         ? {
             url: feature.learnMoreUrl,
             text: t('learnMore'),

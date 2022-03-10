@@ -89,7 +89,7 @@ export const getLastPageNumberFromLinks = (links: { [key: string]: string }) => 
 
 export const getLastItemFromLinks = (links: { [key: string]: string }) => {
   const nextPageLink = links && links.next;
-  if (!!nextPageLink) {
+  if (nextPageLink) {
     const lastItemString = Url.getParameterByName(nextPageLink, 'last');
     if (lastItemString) {
       return lastItemString;

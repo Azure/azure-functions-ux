@@ -44,7 +44,7 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
     setEarlyAccessInfoVisible(false);
     setEolStackDate(undefined);
 
-    if (!!pythonStack) {
+    if (pythonStack) {
       const stackVersions = getStacksSummaryForDropdown(pythonStack, AppStackOs.windows, t);
       const selectionVersion = (values.config.properties.pythonVersion || '').toLowerCase();
       for (const stackVersion of stackVersions) {

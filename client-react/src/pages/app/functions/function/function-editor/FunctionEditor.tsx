@@ -245,17 +245,17 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const getDropdownOptions = (): IDropdownOption[] => {
-    return !!fileList
-      ? fileList
-          .map(file => ({
-            key: file.name,
-            text: file.name,
-            isSelected: false,
-            data: file,
-          }))
-          .filter(file => file.data.mime !== 'inode/directory')
-          .sort((a, b) => a.key.localeCompare(b.key))
-      : [];
+    return (
+      fileList
+        ?.map(file => ({
+          key: file.name,
+          text: file.name,
+          isSelected: false,
+          data: file,
+        }))
+        .filter(file => file.data.mime !== 'inode/directory')
+        .sort((a, b) => a.key.localeCompare(b.key)) ?? []
+    );
   };
 
   const setSelectedFileContent = async (file: VfsObject) => {
@@ -308,7 +308,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const fetchData = async () => {
     const file = getScriptFileOption();
-    if (!!file) {
+    if (file) {
       setSelectedFileContent(file.data);
       setSelectedFile(file);
       getAndSetEditorLanguage(file.data.name);
@@ -351,7 +351,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const getReadOnlyBannerHeight = () => {
-    return !!readOnlyBanner ? readOnlyBanner.offsetHeight : 0;
+    return readOnlyBanner?.offsetHeight ?? 0;
   };
 
   const isRuntimeReachable = () => {
@@ -372,14 +372,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const fileChangeConfirmClicked = () => {
-    if (!!selectedDropdownOption) {
+    if (selectedDropdownOption) {
       changeDropdownOption(selectedDropdownOption);
     }
     onCancelButtonClick();
   };
 
   const isSelectedFileBlacklisted = () => {
-    return functionEditorContext.isBlacklistedFile(!!selectedFile ? (selectedFile.key as string) : '');
+    return functionEditorContext.isBlacklistedFile((selectedFile?.key as string) ?? '');
   };
 
   const expandLogPanel = () => {
@@ -483,7 +483,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     } else if (showInvalidFileSelectedWarning !== undefined && showInvalidFileSelectedWarning) {
       return (
         <CustomBanner
-          message={!!selectedFileName ? t('invalidFileSelectedWarning').format(selectedFileName) : t('validFileShouldBeSelectedWarning')}
+          message={selectedFileName ? t('invalidFileSelectedWarning').format(selectedFileName) : t('validFileShouldBeSelectedWarning')}
           type={MessageBarType.warning}
         />
       );
@@ -575,7 +575,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           functionAppNameLabel={site.name}
           functionInfo={functionInfo}
           fileDropdownOptions={getDropdownOptions()}
-          fileDropdownSelectedKey={!!selectedFile ? (selectedFile.key as string) : ''}
+          fileDropdownSelectedKey={(selectedFile?.key as string) ?? ''}
           onChangeDropdown={onFileSelectorChange}
         />
       </div>

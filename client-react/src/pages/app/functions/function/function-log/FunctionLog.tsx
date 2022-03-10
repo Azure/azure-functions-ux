@@ -200,7 +200,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         <div
           className={logStreamStyle(maximized, logPanelHeight || minimumLogPanelHeight, readOnlyBannerHeight || 0, customHeight)}
           ref={container => {
-            if (!!container) {
+            if (container) {
               setLogsContainer(container);
               setScrollHeight(container.scrollHeight);
             }

@@ -1,3 +1,4 @@
+import { IModalStyles } from '@fluentui/react';
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 import { SVGAttributes } from 'react';
@@ -39,9 +40,9 @@ export const smallPageStyle = style({
   padding: '20px',
 });
 
-export const dialogModelStyle = {
+export const dialogModelStyle: Pick<IModalStyles, 'main'> = {
   main: {
-    position: 'absolute' as 'absolute',
+    position: 'absolute',
     top: '125px',
     right: '0px',
     minWidth: '340px !important',

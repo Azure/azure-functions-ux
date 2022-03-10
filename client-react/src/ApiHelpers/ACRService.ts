@@ -146,7 +146,7 @@ export default class ACRService {
   }
 
   private static _getIdentity(userAssignedIdentities?: KeyValue<KeyValue<string>>) {
-    if (!!userAssignedIdentities) {
+    if (userAssignedIdentities) {
       const userAssignedIdentitiesObj = {};
       for (const identity in userAssignedIdentities) {
         userAssignedIdentitiesObj[identity] = {};
@@ -177,11 +177,11 @@ export default class ACRService {
         acrObjectList.push(pageResponse.data);
 
         const linkHeader = pageResponse.metadata.headers.link;
-        if (!!linkHeader) {
+        if (linkHeader) {
           const links = getLinksFromLinkHeader(linkHeader);
           const lastItem = getLastItemFromLinks(links);
-          data.last = !!lastItem ? lastItem : '';
-          nextLink = !!links && !!links.next ? links.next : '';
+          data.last = lastItem ?? '';
+          nextLink = links?.next ?? '';
         }
       } else if (logger) {
         logger(nextLink, pageResponse);

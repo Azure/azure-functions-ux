@@ -22,7 +22,7 @@ class LoadingComponent extends React.Component<LoadingComponentProps> {
     return (
       <>
         {overlay && <Overlay />}
-        <div className={!!className ? className : loadingCSS}>
+        <div className={className ?? loadingCSS}>
           <Spinner size={SpinnerSize.large} ariaLive="assertive" />
         </div>
       </>

@@ -23,7 +23,7 @@ export const getTelemetryInfo = (
     action,
     actionModifier,
     logLevel,
-    resourceId: !!identifiers.resourceId ? identifiers.resourceId : '',
+    resourceId: identifiers.resourceId ?? '',
     data: {
       category: 'StaticSite',
       ...dataContent,

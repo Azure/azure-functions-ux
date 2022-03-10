@@ -48,7 +48,7 @@ export class ACRController {
       const url = urlString + queryString;
 
       const r = await this.httpService.get(url, { headers: this._getARMAuthHeader(armToken) });
-      if (!!r.data) {
+      if (r.data) {
         return r.data.value;
       }
     } catch (err) {
@@ -82,7 +82,7 @@ export class ACRController {
       };
 
       const r = await this.httpService.put(url, data, { headers: this._getARMAuthHeader(armToken) });
-      if (!!r.data) {
+      if (r.data) {
         return r.data.value;
       }
     } catch (err) {

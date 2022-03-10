@@ -79,7 +79,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   };
 
   const validateNoStorageContainerAvailable = (): string | undefined => {
-    return !!accountError ? accountError : undefined;
+    return accountError ?? undefined;
   };
 
   const getAccessKey = (key: string): string => {

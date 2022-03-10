@@ -136,7 +136,7 @@ export class EtwService {
 
     const sanitizedProperties: { [name: string]: string } = {};
     for (const propertyName in properties) {
-      if (properties.hasOwnProperty(propertyName)) {
+      if (Object.prototype.hasOwnProperty.call(properties, propertyName)) {
         const propertyValue = properties[propertyName];
         let sanitizedPropertyValue = '';
         if (typeof propertyValue === 'string') {

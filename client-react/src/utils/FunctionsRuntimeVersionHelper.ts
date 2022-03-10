@@ -1,7 +1,7 @@
 import { RuntimeExtensionMajorVersions } from '../models/functions/runtime-extension';
 
 const parseRuntimeVersion = (runtimeVersion: string | null) => {
-  if (!!runtimeVersion) {
+  if (runtimeVersion) {
     if (runtimeVersion === '1' || runtimeVersion.startsWith('1.')) {
       return RuntimeExtensionMajorVersions.v1;
     }
@@ -48,9 +48,7 @@ export class FunctionsRuntimeVersionHelper {
 
   public static parseConfiguredRuntimeVersion = (configuredRuntimeVersion: string | null) => {
     // remove leading whitespace and single leading '~' if preset
-    const runtimeVersion = !!configuredRuntimeVersion
-      ? configuredRuntimeVersion.toLowerCase().replace(/^\s*~?/g, '')
-      : configuredRuntimeVersion;
+    const runtimeVersion = configuredRuntimeVersion?.toLowerCase().replace(/^\s*~?/g, '') ?? configuredRuntimeVersion;
     return parseRuntimeVersion(runtimeVersion);
   };
 }

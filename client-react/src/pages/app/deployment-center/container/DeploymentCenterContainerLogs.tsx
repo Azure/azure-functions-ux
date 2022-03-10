@@ -24,9 +24,7 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
   };
 
   useEffect(() => {
-    if (!!logsEndRef.current) {
-      logsEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    logsEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logsEndRef.current]);

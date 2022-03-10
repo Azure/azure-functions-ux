@@ -96,7 +96,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
     environmentVariables: EnvironmentVariable[],
     formikActions: FormikActions<ConfigurationFormData>
   ) => {
-    if (!!selectedEnvironmentVariableResponse) {
+    if (selectedEnvironmentVariableResponse) {
       const updatedEnvironmentVariablesObject = ConfigurationData.convertEnvironmentVariablesArrayToObject(environmentVariables);
       const updatedEnvironmentVariableRequest = selectedEnvironmentVariableResponse;
       updatedEnvironmentVariableRequest.properties = updatedEnvironmentVariablesObject;
@@ -116,7 +116,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
         portalContext.stopNotification(
           notificationId,
           false,
-          !!errorMessage
+          errorMessage
             ? t('staticSite_configUpdateFailure').format(errorMessage)
             : t('staticSite_generalSettingsUpdateWithFailureNoMessage')
         );
@@ -164,7 +164,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
     if (!hasWritePermissions) {
       bannerInfo.message = t('staticSite_readOnlyRbac');
     }
-    return !!bannerInfo.message ? <CustomBanner message={bannerInfo.message} type={bannerInfo.type} /> : <></>;
+    return bannerInfo.message ? <CustomBanner message={bannerInfo.message} type={bannerInfo.type} /> : <></>;
   };
 
   const discard = (formProps: FormikProps<ConfigurationFormData>) => {
@@ -190,7 +190,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = props => {
   };
 
   const getInitialEnvironmentVariables = () => {
-    if (!!selectedEnvironmentVariableResponse) {
+    if (selectedEnvironmentVariableResponse) {
       return sort(ConfigurationData.convertEnvironmentVariablesObjectToArray(selectedEnvironmentVariableResponse.properties));
     } else {
       return [];

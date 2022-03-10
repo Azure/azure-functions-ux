@@ -74,7 +74,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
     if (appInsightsResourceIdResponse.metadata.success) {
       const aiResourceId = appInsightsResourceIdResponse.data;
-      if (!!aiResourceId) {
+      if (aiResourceId) {
         const appInsightsResponse = await AppInsightsService.getAppInsights(aiResourceId);
         if (appInsightsResponse.metadata.success) {
           setAppInsightsComponent(appInsightsResponse.data);
@@ -134,9 +134,9 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       .then((dataV2: any) => {
         let newDocs;
         if (!!dataV2 && dataV2.Documents) {
-          if (!!liveLogsSessionId) {
+          if (liveLogsSessionId) {
             newDocs = dataV2.Documents.filter(
-              doc => !!doc.Content.Message && (!doc.Content.OperationName || (!functionName || doc.Content.OperationName === functionName))
+              doc => !!doc.Content.Message && (!doc.Content.OperationName || !functionName || doc.Content.OperationName === functionName)
             );
           } else {
             newDocs = dataV2.Documents.filter(
@@ -173,7 +173,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   };
 
   const sortMapAndUpdateLogs = (newDocs: any) => {
-    if (!!newDocs) {
+    if (newDocs) {
       newDocs.sort((a, b) => (a.SequenceNumber < b.SequenceNumber ? -1 : 1));
       const newLogEntires = mapDocsToLogEntry(newDocs);
       const updatedLogEntries = allLogEntries.concat(newLogEntires);
@@ -217,7 +217,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   const reconnectQueryLayer = () => {
     const newQueryLayer = new QuickPulseQueryLayer(getQuickPulseQueryEndpoint(), defaultClient);
-    newQueryLayer.setConfiguration([], getDefaultDocumentStreams(), []);
+    newQueryLayer.setConfiguration([], getDefaultDocumentStreams(), [], functionsRuntimeVersion);
     setQueryLayer(newQueryLayer);
     setCallCount(0);
   };

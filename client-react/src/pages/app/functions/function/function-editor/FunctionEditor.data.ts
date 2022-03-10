@@ -29,24 +29,24 @@ export default class FunctionEditorData {
       headers: [] as NameValuePair[],
       body: '',
     };
-    if (!!data.method) {
+    if (data.method) {
       response.method = data.method;
     }
-    if (!!data.queryStringParams) {
+    if (data.queryStringParams) {
       const queries: NameValuePair[] = [];
       for (const parameter of data.queryStringParams) {
         queries.push({ name: parameter.name, value: parameter.value });
       }
       response.queries = queries;
     }
-    if (!!data.headers) {
+    if (data.headers) {
       const headers: NameValuePair[] = [];
       for (const parameter of data.headers) {
         headers.push({ name: parameter.name, value: parameter.value });
       }
       response.headers = headers;
     }
-    if (!!data.body) {
+    if (data.body) {
       response.body = data.body;
     }
     return response;

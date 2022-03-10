@@ -29,13 +29,11 @@ import { ArmArray } from '../../../../models/arm-obj';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { KeyValue } from '../../../../models/portal-models';
 
-type StackSettings = WebAppRuntimes & JavaContainers | FunctionAppRuntimes;
+type StackSettings = (WebAppRuntimes & JavaContainers) | FunctionAppRuntimes;
 
 const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
-  // NOTE(michinoy): Disabling preferred array literal rule to allow '.find' operation on the runtimeStacksData.
-  // tslint:disable-next-line: prefer-array-literal
   const [runtimeStacksData, setRuntimeStacksData] = useState<Array<WebAppStack | FunctionAppStack>>([]);
   const [defaultStack, setDefaultStack] = useState<string>('');
   const [defaultVersion, setDefaultVersion] = useState<string>('');
@@ -61,8 +59,6 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       : await deploymentCenterData.getWebAppRuntimeStacks(appOs);
 
     if (runtimeStacksResponse.metadata.success) {
-      // NOTE(michinoy): Disabling preferred array literal rule to allow '.map' operation on the runtimeStacksData.
-      // tslint:disable-next-line: prefer-array-literal
       const runtimeStacks = (runtimeStacksResponse.data as ArmArray<WebAppStack | FunctionAppStack>).value.map(stack => stack.properties);
       setRuntimeStacksData(runtimeStacks);
     } else {

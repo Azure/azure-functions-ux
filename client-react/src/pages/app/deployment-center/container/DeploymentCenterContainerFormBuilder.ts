@@ -177,14 +177,14 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
         'privateRegistryUsernameRequired',
         this._t('deploymentCenterFieldRequiredMessage'),
         function(value) {
-          return !!this.parent.privateRegistryPassword ? !!value : true;
+          return this.parent.privateRegistryPassword ? !!value : true;
         }
       ),
       privateRegistryPassword: Yup.mixed().test(
         'privateRegistryPasswordRequired',
         this._t('deploymentCenterFieldRequiredMessage'),
         function(value) {
-          return !!this.parent.privateRegistryUsername ? !!value : true;
+          return this.parent.privateRegistryUsername ? !!value : true;
         }
       ),
       privateRegistryComposeYml: Yup.mixed()
@@ -220,22 +220,19 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   private _getServerUrl(): string {
-    const value = this._applicationSettings && this._applicationSettings.properties[DeploymentCenterConstants.serverUrlSetting];
-    return !!value ? value : '';
+    return this._applicationSettings?.properties[DeploymentCenterConstants.serverUrlSetting] ?? '';
   }
 
   private _getUsername(): string {
-    const value = this._applicationSettings && this._applicationSettings.properties[DeploymentCenterConstants.usernameSetting];
-    return value ? value : '';
+    return this._applicationSettings?.properties[DeploymentCenterConstants.usernameSetting] ?? '';
   }
 
   private _getPassword(): string {
-    const value = this._applicationSettings && this._applicationSettings.properties[DeploymentCenterConstants.passwordSetting];
-    return value ? value : '';
+    return this._applicationSettings?.properties[DeploymentCenterConstants.passwordSetting] ?? '';
   }
 
   private _getCommand(): string {
-    return this._siteConfig && this._siteConfig.properties.appCommandLine ? this._siteConfig.properties.appCommandLine : '';
+    return this._siteConfig?.properties.appCommandLine ?? '';
   }
 
   private _getFxVersionParts(appSettingServerUrl: string, appSettingUsername: string): FxVersionParts {

@@ -273,7 +273,6 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
     return currentAppSettingIndex < 0;
   };
 
-  // tslint:disable-next-line:member-ordering
   const getColumns = () => {
     const columns = [
       {
@@ -348,7 +347,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         onRender: onRenderItemColumn,
       },
     ];
-    return !!values.references ? columns : columns.filter(column => column.key !== 'source');
+    return values.references ? columns : columns.filter(column => column.key !== 'source');
   };
 
   const onEditButtonClick = async (item: FormAppSetting) => {
@@ -372,19 +371,15 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
   }
 
   const setFilteredGridItems = (appSettings: FormAppSetting[], filter: string) => {
-    if (!!appSettings) {
-      const filteredItems = appSettings.filter(x => {
+    const filteredItems =
+      appSettings?.filter(x => {
         if (!filter) {
           return true;
         }
         return !!x.name && x.name.toLowerCase().includes(filter.toLowerCase());
-      });
-      setGridItems(filteredItems);
-      setGridItemsSearchResultAnnouncementString(filteredItems.length);
-    } else {
-      setGridItems([]);
-      setGridItemsSearchResultAnnouncementString(0);
-    }
+      }) ?? [];
+    setGridItems(filteredItems);
+    setGridItemsSearchResultAnnouncementString(filteredItems.length);
   };
 
   const setGridItemsSearchResultAnnouncementString = (itemsCount: number) => {

@@ -172,7 +172,6 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
-  // tslint:disable-next-line:member-ordering
   const getColumns = () => {
     return [
       {

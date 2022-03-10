@@ -23,7 +23,7 @@ const RuntimeScaleMonitoring: React.FC<AppSettingsFormProps & WithTranslation> =
       CommonConstants.AppSettingNames.functionsExtensionVersion
     );
 
-    if (!!initialRuntimeVersion) {
+    if (initialRuntimeVersion) {
       const exactRuntimeVersion = asyncData.functionsHostStatus.value && asyncData.functionsHostStatus.value.properties.version;
       const exactRuntimeVersionParsed = FunctionsRuntimeVersionHelper.parseExactRuntimeVersion(exactRuntimeVersion || null);
       const initialRuntimeVersionParsed = FunctionsRuntimeVersionHelper.parseConfiguredRuntimeVersion(initialRuntimeVersion);

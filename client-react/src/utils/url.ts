@@ -39,8 +39,7 @@ export default class Url {
       return null;
     }
 
-    // eslint-disable-next-line no-useless-escape
-    const sanatizedName = name.replace(/[\[\]]/g, '\\$&');
+    const sanatizedName = name.replace(/[[\]]/g, '\\$&');
     const regex = new RegExp(`[?&]${sanatizedName}(=([^&#]*)|&|#|$)`, 'i');
     const results = regex.exec(urlFull);
 
@@ -71,7 +70,6 @@ export default class Url {
       const search = /([^&=]+)=?([^&]*)/g;
       const decode = (s: any) => decodeURIComponent(s.replace(pl, ' '));
       const query = window.location.search.substring(1);
-      // tslint:disable-next-line:no-conditional-assignment
       while ((match = search.exec(query))) {
         this.queryStrings[decode(match[1])] = decode(match[2]);
       }

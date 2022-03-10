@@ -21,17 +21,12 @@ export enum LogType {
   WebServer = 'webserver',
 }
 
-export const newLine: string = '\n';
-export const maxLogEntries: number = 1000;
+export const newLine = '\n';
+export const maxLogEntries = 1000;
 
 export class LogRegex {
-  // eslint-disable-next-line no-useless-escape
-  public static readonly infoLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Info|INFO)/;
-
-  // eslint-disable-next-line no-useless-escape
-  public static readonly errorLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Error|ERROR)/;
-
-  // eslint-disable-next-line no-useless-escape
-  public static readonly warningLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Warning|WARNING)/;
+  public static readonly infoLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+) (\[Info|INFO)/;
+  public static readonly errorLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+) (\[Error|ERROR)/;
+  public static readonly warningLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+) (\[Warning|WARNING)/;
   public static readonly log: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2})/;
 }

@@ -1,5 +1,3 @@
-// tslint:disable: max-classes-per-file
-
 export class QuickPulseCustomProperties {
   public QuickPulseId: string;
   public QuickPulseBuildVersion: string;
@@ -57,6 +55,6 @@ export class QuickPulseTelemetryItem {
 }
 
 export class QuickPulseError {
-  public IsError: boolean = true;
+  public IsError = true;
   public CustomProperties: QuickPulseErrorCustomProperties;
 }

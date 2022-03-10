@@ -22,7 +22,7 @@ import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
-  return !!settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
+  return settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
 };
 
 export const findFormAppSettingValue = (appSettings: FormAppSetting[], settingName: string) => {
@@ -225,7 +225,7 @@ export function getFormAppSetting(settingsData: ArmObj<KeyValue<string>> | null,
   if (!settingsData) {
     return [];
   }
-  const appSettingNames = !!slotConfigNames ? slotConfigNames.properties.appSettingNames : null;
+  const appSettingNames = slotConfigNames?.properties.appSettingNames ?? null;
   return sortBy(
     Object.keys(settingsData.properties).map((key, i) => ({
       name: key,
@@ -375,7 +375,7 @@ export function getCurrentStackString(
   ) {
     return appSettings.properties[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLocaleLowerCase();
   }
-  if (!!config.properties.javaVersion) {
+  if (config.properties.javaVersion) {
     return 'java';
   }
   if (metadata && metadata.properties && metadata.properties.CURRENT_STACK) {
@@ -422,7 +422,7 @@ export function getCleanedReferences(references: ArmObj<ConfigKeyVaultReferenceL
 }
 
 export function getKeyVaultReferenceStatus(reference: KeyVaultReferenceSummary | KeyVaultReference) {
-  return !!reference.status ? reference.status.toLowerCase() : '';
+  return reference.status?.toLowerCase() ?? '';
 }
 
 export function isKeyVaultReferenceResolved(reference: KeyVaultReferenceSummary | KeyVaultReference) {

@@ -39,7 +39,7 @@ const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelecto
       <Label className={environmentSelectorLabelStyle}>{t('staticSite_environment')}</Label>
       <DropdownNoFormik
         id="configuration-environment-selector"
-        selectedKey={!!selectedEnvironment ? selectedEnvironment.properties.buildId : ''}
+        selectedKey={selectedEnvironment?.properties.buildId ?? ''}
         options={dropdownOptions}
         onChange={onChange}
         ariaLabel={t('staticSite_environmentDropdownAriaLabel')}

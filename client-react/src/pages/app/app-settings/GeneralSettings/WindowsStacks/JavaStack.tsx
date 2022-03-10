@@ -143,7 +143,7 @@ const JavaStack: React.SFC<StackProps> = props => {
     setCurrentJavaMajorVersion(option.key as string);
   };
   const onJavaContainerChange = (e: unknown, option: IDropdownOption) => {
-    setFieldValue('config.properties.javaContainer', !!option.data ? option.data : '');
+    setFieldValue('config.properties.javaContainer', option.data ?? '');
     setCurrentJavaContainer(option.key as string);
   };
 

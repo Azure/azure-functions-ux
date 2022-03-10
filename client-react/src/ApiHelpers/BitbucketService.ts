@@ -49,7 +49,7 @@ export default class BitbucketService {
     let pageNumber = 1;
 
     do {
-      let pageResponse = await BitbucketService._sendBitbucketRequest<BitbucketArrayResponse<T>>(requestUrl, bitbucketToken, 'GET');
+      const pageResponse = await BitbucketService._sendBitbucketRequest<BitbucketArrayResponse<T>>(requestUrl, bitbucketToken, 'GET');
       if (pageResponse.metadata.success && pageResponse.data) {
         bitbucketObjectList.push(...pageResponse.data.values);
 

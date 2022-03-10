@@ -1,6 +1,16 @@
-import { DefaultButton, Dialog, DialogFooter, DialogType, IDialogProps, PrimaryButton } from '@fluentui/react';
+import {
+  DefaultButton,
+  Dialog,
+  DialogFooter,
+  DialogType,
+  IDialogProps,
+  IModalStyleProps,
+  IModalStyles,
+  IStyleFunctionOrObject,
+  PrimaryButton,
+} from '@fluentui/react';
 import React from 'react';
-import { modalFooterStyles, modalContentStyles, modalStyles } from './ConfirmDialog.styles';
+import { modalContentStyles, modalFooterStyles, modalStyles } from './ConfirmDialog.styles';
 
 interface ConfirmDialogProps {
   primaryActionButton: { title: string; onClick: () => void; disabled?: boolean };
@@ -8,7 +18,7 @@ interface ConfirmDialogProps {
   hideDefaultActionButton?: boolean;
   title: string;
   content: string;
-  modalStyles?: any;
+  modalStyles?: IStyleFunctionOrObject<IModalStyleProps, IModalStyles>;
   showCloseModal?: boolean;
 }
 
@@ -33,7 +43,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps & IDialogProps> = props => {
         styles: modalContentStyles,
       }}
       modalProps={{
-        styles: !!customModalStyles ? customModalStyles : modalStyles,
+        styles: customModalStyles ?? modalStyles,
         isBlocking: true,
       }}
       onDismiss={onDismiss}>

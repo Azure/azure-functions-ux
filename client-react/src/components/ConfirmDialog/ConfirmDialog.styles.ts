@@ -1,18 +1,19 @@
-/** @type {{main: React.CSSProperties}} */
-export const modalStyles = {
+import { IDialogContentStyles, IDialogFooterStyles, IModalStyles } from '@fluentui/react';
+
+export const modalStyles: Pick<IModalStyles, 'main'> = {
   main: {
-    position: 'absolute' as 'absolute',
+    position: 'absolute',
     top: '0px',
     minWidth: '100% !important',
   },
 };
 
-export const modalContentStyles = {
+export const modalContentStyles: Pick<IDialogContentStyles, 'header' | 'inner' | 'innerContent' | 'title'> = {
   inner: {
     paddingLeft: '0px',
     paddingBottom: '10px',
     paddingRight: '3px',
-    overflow: 'hidden' as 'hidden',
+    overflow: 'hidden',
   },
   header: {
     zIndex: 1,
@@ -28,7 +29,7 @@ export const modalContentStyles = {
   },
 };
 
-export const modalFooterStyles = {
+export const modalFooterStyles: Pick<IDialogFooterStyles, 'actionsRight'> = {
   actionsRight: {
     width: 'calc(100vw - 25px)',
     borderTop: '1px solid rgba(204,204,204,.8)',

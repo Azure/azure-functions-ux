@@ -187,7 +187,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
     if (appSettingsResponse.metadata.success) {
       const appSettingsProperties = appSettingsResponse.data.properties;
-      if (appSettingsProperties.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
+      if (Object.prototype.hasOwnProperty.call(appSettingsProperties, CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
         setWorkerRuntime(appSettingsProperties[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
       }
     } else {
@@ -211,13 +211,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         const result = getResultFromHostJson();
         const functionKey = key || functionKeys.default;
 
-        code = !!functionKey ? functionKey : '';
+        code = functionKey ?? '';
 
         if (!!webHookTypeInfoInfo && functionKey) {
           if (hostKeys) {
             const allKeys = { ...hostKeys.functionKeys, ...hostKeys.systemKeys };
             const keyWithValue = Object.keys(allKeys).find(k => allKeys[k] === functionKey);
-            clientId = !!keyWithValue ? keyWithValue : '';
+            clientId = keyWithValue ?? '';
           }
           if (webHookTypeInfoInfo.webHookType.toLowerCase() !== 'genericjson') {
             code = '';
@@ -306,7 +306,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
     if (hostKeys && hostKeys.masterKey) {
       headers['Cache-Control'] = 'no-cache';
-      headers['x-functions-key'] = !!xFunctionKey ? getXFunctionKeyValue(xFunctionKey) : hostKeys.masterKey;
+      headers['x-functions-key'] = xFunctionKey ? getXFunctionKeyValue(xFunctionKey) : hostKeys.masterKey;
     }
     return headers;
   };
@@ -317,7 +317,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     xFunctionKey?: string,
     liveLogsSessionId?: string
   ): NetAjaxSettings | undefined => {
-    if (!!site) {
+    if (site) {
       let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
       let parsedTestData = {};
       try {
@@ -352,7 +352,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         return !processedParams.find(p => p === query.name);
       });
       const queryString = getQueryString(filteredQueryParams);
-      if (!!queryString) {
+      if (queryString) {
         url = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
       }
 
@@ -374,7 +374,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     xFunctionKey?: string,
     liveLogsSessionId?: string
   ): NetAjaxSettings | undefined => {
-    if (!!site) {
+    if (site) {
       const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
       const headers = getHeaders([], xFunctionKey);
 
@@ -410,7 +410,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       settings = getSettingsToInvokeNonHttpFunction(newFunctionInfo, xFunctionKey, liveLogsSessionId);
     }
 
-    if (!!settings) {
+    if (settings) {
       let response: ResponseContent = { code: 0, text: '' };
 
       if (enablePortalCall) {
@@ -428,7 +428,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const runUsingPassthrough = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
-    let response: ResponseContent = { code: 0, text: '' };
+    const response: ResponseContent = { code: 0, text: '' };
 
     const runFunctionResponse = await FunctionsService.runFunction(settings);
     response.code = runFunctionResponse.metadata.status;
@@ -447,12 +447,12 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const runUsingPortal = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
-    let response: ResponseContent = { code: 0, text: '' };
+    const response: ResponseContent = { code: 0, text: '' };
 
     const runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
     const runFunctionResponseResult = runFunctionResponse.result;
     const jqXHR = getJQXHR(runFunctionResponse, LogCategories.FunctionEdit, 'makeHttpRequestForRunFunction');
-    if (!!jqXHR) {
+    if (jqXHR) {
       response.code = jqXHR.status;
     }
 
@@ -469,7 +469,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     } else {
       // NOTE(krmitta): This happens when the http request on the portal fails for some reason,
       // not the api returning the error
-      if (!!jqXHR) {
+      if (jqXHR) {
         response.text = jqXHR.statusText;
       }
       LogService.error(
@@ -488,7 +488,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const getFunctionUrl = (key?: string) => {
-    return !!site ? `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath(key)}` : '';
+    return site ? `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath(key)}` : '';
   };
 
   const setUrlsAndOptions = (keys: KeyValue<string>, keyType: UrlType) => {
@@ -547,7 +547,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         testData = await getTestDataUsingFunctionHref(functionInfo.properties.test_data_href);
       }
 
-      if (!!testData) {
+      if (testData) {
         try {
           testData = StringUtils.stringifyJsonForEditor(testData);
         } catch (err) {
@@ -614,7 +614,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const refresh = async () => {
-    if (!!site) {
+    if (site) {
       setIsRefreshing(true);
       SiteService.fireSyncTrigger(site, startupInfoContext.token).then(r => {
         fetchData();
@@ -717,11 +717,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   useEffect(() => {
     if (!!site && !!functionInfo) {
-      if (!!hostKeys) {
+      if (hostKeys) {
         setUrlsAndOptions({ master: hostKeys.masterKey, ...hostKeys.functionKeys }, UrlType.Host);
         setUrlsAndOptions({ ...hostKeys.systemKeys }, UrlType.System);
       }
-      if (!!functionKeys) {
+      if (functionKeys) {
         setUrlsAndOptions(functionKeys, UrlType.Function);
       }
     }
@@ -740,7 +740,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   }
   return (
     <FunctionEditorContext.Provider value={functionEditorData}>
-      {!!functionInfo ? (
+      {functionInfo ? (
         <div style={showTestPanel ? shrinkEditorStyle(window.innerWidth) : undefined}>
           <FunctionEditor
             functionInfo={functionInfo}

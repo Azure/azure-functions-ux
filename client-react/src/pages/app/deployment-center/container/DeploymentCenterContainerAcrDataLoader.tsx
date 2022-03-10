@@ -35,9 +35,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
-  const [subscription, setSubscription] = useState<string>(
-    !!deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.subscription : ''
-  );
+  const [subscription, setSubscription] = useState<string>(deploymentCenterContext.siteDescriptor?.subscription ?? '');
   const [acrUseManagedIdentities, setAcrUseManagedIdentities] = useState<boolean>(
     !!deploymentCenterContext.siteConfig && !!deploymentCenterContext.siteConfig.properties
       ? deploymentCenterContext.siteConfig.properties.acrUseManagedIdentityCreds
@@ -173,11 +171,11 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       setAcrStatusMessage(undefined);
       setAcrStatusMessageType(undefined);
       setLearnMoreLink(undefined);
-      const serverUrl = !!loginServer ? loginServer.toLocaleLowerCase() : '';
+      const serverUrl = loginServer?.toLocaleLowerCase() ?? '';
 
       const selectedRegistryIdentifier = registryIdentifiers.current[serverUrl];
 
-      if (!!selectedRegistryIdentifier) {
+      if (selectedRegistryIdentifier) {
         if (selectedRegistryIdentifier.adminUserEnabled) {
           if (!selectedRegistryIdentifier.credential) {
             portalContext.log(getTelemetryInfo('info', 'listAcrCredentials', 'submit'));
@@ -280,13 +278,13 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       setAcrStatusMessage(undefined);
       setAcrStatusMessageType(undefined);
       setLearnMoreLink(undefined);
-      const loginServer = !!formProps.values.acrLoginServer ? formProps.values.acrLoginServer.toLocaleLowerCase() : '';
+      const loginServer = formProps.values.acrLoginServer?.toLocaleLowerCase() ?? '';
       const selectedRegistryIdentifier = registryIdentifiers.current[loginServer];
 
-      if (!!selectedRegistryIdentifier) {
+      if (selectedRegistryIdentifier) {
         if (selectedRegistryIdentifier.adminUserEnabled) {
           const credentials = selectedRegistryIdentifier.credential;
-          if (!!credentials) {
+          if (credentials) {
             const username = credentials.username;
             const password = credentials.passwords[0].value;
             let failedNetworkCall = false;
@@ -343,7 +341,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
   const fetchAllSubscriptions = async () => {
     const subscriptionsObservable = await portalContext.getAllSubscriptions();
-    let subscriptionDropdownOptions: IDropdownOption[] = [];
+    const subscriptionDropdownOptions: IDropdownOption[] = [];
 
     subscriptionsObservable.subscribe(subscriptionArray => {
       subscriptionArray.forEach(subscription =>
@@ -362,7 +360,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       CommonConstants.DeploymentCenterConstants.acrTag,
       true
     );
-    if (!!hiddenTag) {
+    if (hiddenTag) {
       //has ACR in another subscription
       parseHiddenTag(hiddenTag);
     } else {
@@ -398,9 +396,9 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
         for (const id in userAssignedIdentities) {
           const idSplit = id.split('/');
-          if (!!idSplit) {
+          if (idSplit) {
             const identityName = idSplit[idSplit.length - 1];
-            if (!!userAssignedIdentities[id]) {
+            if (userAssignedIdentities[id]) {
               const clientId = userAssignedIdentities[id][ManagedIdentityInfo.clientId];
               const principalId = userAssignedIdentities[id][ManagedIdentityInfo.principalId];
               identities.push({ key: clientId, text: identityName });
@@ -433,16 +431,13 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   };
 
   const getAcrNameFromLoginServer = (loginServer: string): string => {
-    if (!!loginServer) {
-      const loginServerParts = loginServer.split('.');
-      return loginServerParts.length > 0 ? loginServerParts[0] : '';
-    }
-    return '';
+    const loginServerParts = loginServer?.split('.') ?? [];
+    return loginServerParts.length > 0 ? loginServerParts[0] : '';
   };
 
   const parseHiddenTag = (tagValue: string) => {
     try {
-      if (!!tagValue) {
+      if (tagValue) {
         const tagJson = JSON.parse(tagValue);
         const subId = tagJson['subscriptionId'] ? tagJson['subscriptionId'] : '';
         setSubscription(subId);
@@ -477,7 +472,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       },
       'deployment-center'
     );
-    if (!!response) {
+    if (response) {
       fetchManagedIdentityOptions();
     }
   };

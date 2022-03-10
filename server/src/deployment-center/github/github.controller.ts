@@ -14,6 +14,7 @@ import {
   Param,
   Patch,
 } from '@nestjs/common';
+import * as sodium from 'tweetsodium';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
 import { LoggingService } from '../../shared/logging/logging.service';
@@ -246,7 +247,7 @@ export class GithubController {
     const publicKeyRequest = this._getGitHubRepoPublicKey(gitHubToken, content.commit.repoName);
     const [publishProfile, publicKey] = await Promise.all([publishProfileRequest, publicKeyRequest]);
 
-    const profile = !!replacementPublishUrl ? this._replacePublishUrlInProfile(publishProfile, replacementPublishUrl) : publishProfile;
+    const profile = replacementPublishUrl ? this._replacePublishUrlInProfile(publishProfile, replacementPublishUrl) : publishProfile;
 
     const {
       commit,
@@ -284,9 +285,7 @@ export class GithubController {
       });
     } catch (err) {
       this.loggingService.error(
-        `Failed to delete action workflow '${deleteCommit.filePath}' on branch '${deleteCommit.branchName}' in repo '${
-          deleteCommit.repoName
-        }'.`
+        `Failed to delete action workflow '${deleteCommit.filePath}' on branch '${deleteCommit.branchName}' in repo '${deleteCommit.repoName}'.`
       );
 
       if (err.response) {
@@ -530,7 +529,6 @@ export class GithubController {
     const messageBytes = Buffer.from(value);
     const keyBytes = Buffer.from(publicKey.key, 'base64');
 
-    const sodium = require('tweetsodium');
     const encryptedBytes = sodium.seal(messageBytes, keyBytes);
     const encrypted = Buffer.from(encryptedBytes).toString('base64');
 
@@ -572,9 +570,7 @@ export class GithubController {
       });
     } catch (err) {
       this.loggingService.error(
-        `Failed to commit action workflow '${content.commit.filePath}' on branch '${content.commit.branchName}' in repo '${
-          content.commit.repoName
-        }'.`
+        `Failed to commit action workflow '${content.commit.filePath}' on branch '${content.commit.branchName}' in repo '${content.commit.repoName}'.`
       );
 
       if (err.response) {
@@ -587,7 +583,7 @@ export class GithubController {
   private _getEnvironment(hostUrl: string): Environments {
     const hostUrlToLower = (hostUrl || '').toLocaleLowerCase();
     for (const url in EnvironmentUrlMappings.urlToEnvironmentMap) {
-      if (!!EnvironmentUrlMappings.urlToEnvironmentMap[url]) {
+      if (EnvironmentUrlMappings.urlToEnvironmentMap[url]) {
         const envUrlToLower = url.toLocaleLowerCase();
         if (hostUrlToLower.startsWith(envUrlToLower)) {
           return EnvironmentUrlMappings.urlToEnvironmentMap[url];

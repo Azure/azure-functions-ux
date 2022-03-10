@@ -77,7 +77,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [isKubeApplication, setIsKubeApplication] = useState<boolean>(false);
 
   const fetchDataAndSetState = async () => {
-    if (!!resourceId) {
+    if (resourceId) {
       const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
       const trimmedResourceId = armSiteDescriptor.getTrimmedResourceId();
 
@@ -109,8 +109,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         );
       }
 
-      if (!!site) {
-        let editMode = await resolveState(portalContext, trimmedResourceId, LogCategories.siteRouter, site, appSettings);
+      if (site) {
+        const editMode = await resolveState(portalContext, trimmedResourceId, LogCategories.siteRouter, site, appSettings);
         setSite(site);
         setStopped(site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
         setIsLinuxApplication(isLinuxApp(site));
@@ -135,7 +135,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             setResourceId(value.token && value.resourceId);
             return (
               value.token &&
-              (!!site ? (
+              (site ? (
                 <SiteStateContext.Provider
                   value={{
                     site,

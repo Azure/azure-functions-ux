@@ -35,9 +35,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   const [copyButtonRef, setCopyButtonRef] = useState<IButton | undefined>(undefined);
 
   const copyToClipboard = (e: React.MouseEvent<any>) => {
-    if (!!e) {
-      e.stopPropagation();
-    }
+    e?.stopPropagation();
     TextUtilitiesService.copyContentToClipboard(value || '', copyButtonRef);
     setCopied(true);
   };
@@ -102,10 +100,10 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     const textFieldPropsWithValueProp = { ...textFieldProps, value: value };
     const testFieldPropsWithDefaultValueProp = { ...textFieldProps, defaultValue: defaultValue };
 
-    if (!!value) {
+    if (value) {
       return textFieldPropsWithValueProp;
     }
-    if (!!defaultValue) {
+    if (defaultValue) {
       return testFieldPropsWithDefaultValueProp;
     }
     return textFieldPropsWithValueProp;

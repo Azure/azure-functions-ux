@@ -1,5 +1,3 @@
-// tslint:disable: max-classes-per-file
-
 export enum QPSchemaMetricEnum {
   ContributorsCount = 'ContributorsCount',
   Requests = '\\ApplicationInsights\\Requests/Sec',

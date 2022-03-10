@@ -9,6 +9,10 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext, SiteContext } from '../Contexts';
 import { Links } from '../../../../utils/FwLinks';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
+import { MinTlsVersion, SslState } from '../../../../models/site/site';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { MessageBarType } from '@fluentui/react';
+import { ScmHosts } from '../../../../utils/CommonConstants';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -20,6 +24,25 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
   const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
   const alwaysOnEnable = scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site });
+
+  const showHttpsOnlyInfo = (): boolean => {
+    const siteProperties = values.site.properties;
+    const initialHttpsOnlyValue = !!initialValues.site.properties.httpsOnly;
+    return (
+      !initialHttpsOnlyValue &&
+      !!siteProperties.httpsOnly &&
+      !!siteProperties.hostNameSslStates.some(hostNameSslState => {
+        // catch only the custom domains that dont have an SSL binding.
+        // default hostname of the app and the scm site are ignored.
+        const hostNameSslStateName = hostNameSslState.name || '';
+        return (
+          hostNameSslState.sslState === SslState.Disabled &&
+          siteProperties.defaultHostName !== hostNameSslStateName &&
+          !ScmHosts.some(host => hostNameSslStateName.includes(host))
+        );
+      })
+    );
+  };
 
   const disableFtp = () =>
     props.values.basicPublishingCredentialsPolicies &&
@@ -200,6 +223,53 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       )}
+      {
+        <Field
+          name={'site.properties.httpsOnly'}
+          id={'app-settings-httpsOnly'}
+          component={RadioButton}
+          dirty={values.site.properties.httpsOnly !== initialValues.site.properties.httpsOnly}
+          label={t('httpsOnlyLabel')}
+          infoBubbleMessage={t('httpsOnlyInfoBubbleMessage')}
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
+        />
+      }
+      {showHttpsOnlyInfo() && (
+        <CustomBanner id={'httpsOnly-customBanner'} message={t('httpsOnlyInfoBoxText')} type={MessageBarType.info} undocked={true} />
+      )}
+      {
+        <Field
+          name={'config.properties.minTlsVersion'}
+          id={'app-settings-minTlsVersion'}
+          component={Dropdown}
+          label={t('minTlsVersionLabel')}
+          infoBubbleMessage={t('minTlsVersionInfoBubbleMessage')}
+          dirty={values.config.properties.minTlsVersion !== initialValues.config.properties.minTlsVersion}
+          options={[
+            {
+              key: MinTlsVersion.tLS10,
+              text: MinTlsVersion.tLS10,
+            },
+            {
+              key: MinTlsVersion.tLS11,
+              text: MinTlsVersion.tLS11,
+            },
+            {
+              key: MinTlsVersion.tLS12,
+              text: MinTlsVersion.tLS12,
+            },
+          ]}
+        />
+      }
     </div>
   );
 };

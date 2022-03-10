@@ -1,7 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
+import * as fs from 'fs';
 import { join, normalize } from 'path';
 import { AppType, JavaContainers, Os, PublishType, RuntimeStacks } from '../WorkflowModel';
-const fs = require('fs');
 
 @Injectable()
 export class WorkflowService20201201 {

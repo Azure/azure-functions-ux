@@ -89,11 +89,11 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
       result.data.value.resourceTypes &&
       result.data.value.resourceTypes.find(t => t.resourceType.toLowerCase() === resourceType.toLowerCase());
 
-    return !!resource ? resource.locations : [];
+    return resource?.locations ?? [];
   }
 
   private async _getAllGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean): Promise<ArmObj<GeoRegion>[]> {
-    let id = `/subscriptions/${subscriptionId}/providers/microsoft.web/georegions`;
+    const id = `/subscriptions/${subscriptionId}/providers/microsoft.web/georegions`;
 
     const geoRegionsFetch = await MakeArmCall<ArmArray<GeoRegion>>({
       resourceId: id,
