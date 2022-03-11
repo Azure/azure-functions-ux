@@ -4,8 +4,6 @@ import { style } from 'typestyle';
 import { AppSettingsFormValues, AppSettingsFormProps } from '../AppSettings.types';
 import { findFormAppSettingValue } from '../AppSettingsFormData';
 import DailyUsageQuota from '../FunctionRuntimeSettings/DailyUsageQuota';
-import RuntimeVersion from '../FunctionRuntimeSettings/RuntimeVersion';
-import RuntimeVersionBanner from '../FunctionRuntimeSettings/RuntimeVersionBanner';
 import RuntimeScaleMonitoring from '../FunctionRuntimeSettings/RuntimeScaleMonitoring';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
@@ -14,7 +12,6 @@ import { PermissionsContext } from '../Contexts';
 import { MessageBarType } from '@fluentui/react';
 import { SiteStateContext } from '../../../../SiteState';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import Url from '../../../../utils/url';
 import * as RuntimeVersionNew from '../FunctionRuntimeSettings/RuntimeVersionNew';
 import { isEqual } from 'lodash';
 
@@ -30,14 +27,7 @@ const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
   const site = props.initialValues.site;
 
   const getRuntimeVersionComponent = () => {
-    return Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useStackApiForRuntimeVersion) ? (
-      <RuntimeVersionNew.default {...props} />
-    ) : (
-      <>
-        <RuntimeVersionBanner {...props} />
-        <RuntimeVersion {...props} />
-      </>
-    );
+    return <RuntimeVersionNew.default {...props} />;
   };
 
   return (
