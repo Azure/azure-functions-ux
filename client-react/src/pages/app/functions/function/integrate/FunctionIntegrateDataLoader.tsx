@@ -47,7 +47,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     };
   }
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     this._loadSite();
     this._loadFunction();
     this._loadBindings();

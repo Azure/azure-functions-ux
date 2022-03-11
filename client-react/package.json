@@ -38,8 +38,8 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired --max_old_space_size=4096 build",
-    "test": "react-app-rewired test --env=jsdom --transformIgnorePatterns \"node_modules/(?!(@fluentui/react|lodash-es)/)\"",
-    "test:ci": "react-app-rewired test --env=jsdom --testResultsProcessor ./node_modules/jest-junit --coverage",
+    "test": "react-app-rewired test",
+    "test:ci": "react-app-rewired test --coverage --reporters default --reporters=jest-junit",
     "test:debug": "react-app-rewired --inspect-brk test --no-cache --verbose=false --runInBand",
     "storybook": "start-storybook -p 9009 -s public",
     "analyze": "react-app-rewired build --stats && webpack-bundle-analyzer build/bundle-stats.json -m static -r build/bundle-stats.html -O",
@@ -85,21 +85,6 @@
   },
   "proxy": "https://localhost:44300",
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{ts}",
-      "!src/**/*.stories.ts",
-      "!src/**/*.d.ts",
-      "!src/**/*.styles.ts",
-      "!src/**/*.types.ts",
-      "!src/theme/**",
-      "!<rootDir>/node_modules/",
-      "!src/mocks/**",
-      "!src/*",
-      "!src/models/**",
-      "!src/modules/services.ts",
-      "!src/utils/Guid.ts",
-      "!src/utils/scenario-checker/**"
-    ],
     "coverageReporters": [
       "text",
       "cobertura",
