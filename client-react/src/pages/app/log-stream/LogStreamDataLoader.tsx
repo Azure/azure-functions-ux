@@ -49,7 +49,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
     LogService.stopTrackPage('shell', { feature: 'LogStream' });
   }
 
-  public async componentWillMount() {
+  public async UNSAFE_componentWillMount() {
     const { resourceId } = this.props;
     const [siteCall, logsConfigCall] = await Promise.all([SiteService.fetchSite(resourceId), SiteService.fetchLogsConfig(resourceId)]);
 
