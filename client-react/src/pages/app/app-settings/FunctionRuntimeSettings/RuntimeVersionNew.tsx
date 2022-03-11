@@ -68,9 +68,10 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
   const getBannerComponents = (): JSX.Element => {
     const supportedStackVersions = getSupportedExtensionVersions().join(',');
     if (showWarningBannerForNonSupportedVersion && !!supportedStackVersions) {
+      const currentStack = values.currentlySelectedStack;
       return (
         <CustomBanner
-          message={t('functionSupportedRuntimeVersionNotConfiguredMessage').format(supportedStackVersions)}
+          message={t('functionSupportedRuntimeVersionNotConfiguredMessage').format(currentStack, supportedStackVersions)}
           type={MessageBarType.warning}
           undocked={true}
         />

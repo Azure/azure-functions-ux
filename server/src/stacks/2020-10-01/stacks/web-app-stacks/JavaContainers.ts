@@ -311,6 +311,7 @@ export const javaContainersStack: WebAppStack = {
               isAutoUpdate: true,
             },
             linuxContainerSettings: {
+              java17Runtime: 'TOMCAT|9.0-java17',
               java11Runtime: 'TOMCAT|9.0-java11',
               java8Runtime: 'TOMCAT|9.0-jre8',
               isAutoUpdate: true,
@@ -328,6 +329,7 @@ export const javaContainersStack: WebAppStack = {
             linuxContainerSettings: {
               java8Runtime: 'TOMCAT|9.0.54-java8',
               java11Runtime: 'TOMCAT|9.0.54-java11',
+              java17Runtime: 'TOMCAT|9.0.54-java17'
             },
           },
         },
