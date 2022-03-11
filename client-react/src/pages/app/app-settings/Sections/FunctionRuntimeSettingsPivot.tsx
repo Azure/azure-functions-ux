@@ -12,7 +12,7 @@ import { PermissionsContext } from '../Contexts';
 import { MessageBarType } from '@fluentui/react';
 import { SiteStateContext } from '../../../../SiteState';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import * as RuntimeVersionNew from '../FunctionRuntimeSettings/RuntimeVersionNew';
+import RuntimeVersionNew from '../FunctionRuntimeSettings/RuntimeVersionNew';
 import { isEqual } from 'lodash';
 
 const tabContainerStyle = style({
@@ -27,7 +27,7 @@ const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
   const site = props.initialValues.site;
 
   const getRuntimeVersionComponent = () => {
-    return <RuntimeVersionNew.default {...props} />;
+    return <RuntimeVersionNew {...props} />;
   };
 
   return (
