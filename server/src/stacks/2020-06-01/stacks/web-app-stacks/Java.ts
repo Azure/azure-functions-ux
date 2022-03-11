@@ -22,6 +22,7 @@ export const javaStack: WebAppStack = {
             linuxRuntimeSettings: {
               // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
+              isHidden: true,
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -36,6 +37,7 @@ export const javaStack: WebAppStack = {
             },
             windowsRuntimeSettings: {
               runtimeVersion: '17',
+              isHidden: true,
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -47,7 +49,7 @@ export const javaStack: WebAppStack = {
                 supportedVersion: '17',
               },
               endOfLifeDate: java17EOL,
-            }
+            },
           },
         },
         {
@@ -57,6 +59,7 @@ export const javaStack: WebAppStack = {
             linuxRuntimeSettings: {
               // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
+              isHidden: true,
               isAutoUpdate: false,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -71,6 +74,7 @@ export const javaStack: WebAppStack = {
             },
             windowsRuntimeSettings: {
               runtimeVersion: '17.0.1',
+              isHidden: true,
               isAutoUpdate: false,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -82,10 +86,10 @@ export const javaStack: WebAppStack = {
                 supportedVersion: '17',
               },
               endOfLifeDate: java17EOL,
-            }
-          }
-        }
-      ]
+            },
+          },
+        },
+      ],
     },
     {
       displayText: 'Java 11',
