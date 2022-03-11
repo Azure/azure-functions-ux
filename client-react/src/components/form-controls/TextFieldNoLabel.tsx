@@ -12,7 +12,7 @@ interface EventMsg {
 class TextField extends React.Component<FieldProps & ITextFieldProps, any> {
   private inputDebouncer = new Subject<EventMsg>();
   private readonly DEBOUNCE_TIME = 300;
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     const { field, form } = this.props;
     this.inputDebouncer.pipe(debounceTime(this.DEBOUNCE_TIME)).subscribe(({ e, value }) => {
       form.setFieldValue(field.name, value);
