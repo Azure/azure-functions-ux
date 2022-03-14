@@ -24,11 +24,11 @@ module.exports = {
       '!src/utils/Guid.ts',
       '!src/utils/scenario-checker/**',
     ];
-    (config.moduleNameMapper = {
+    config.moduleNameMapper = {
       ...config.moduleNameMapper,
       '^joi$': '<rootDir>/node_modules/joi-browser/dist/joi-browser.min',
-    }),
-      (config.testEnvironment = 'jest-environment-jsdom-sixteen');
+    };
+    config.testEnvironment = 'jest-environment-jsdom-sixteen';
     config.testPathIgnorePatterns = [
       ...(config.testPathIgnorePatterns ?? []),
       /** @todo Fix "define is not defined" error because of `applicationinsights-js`. */
