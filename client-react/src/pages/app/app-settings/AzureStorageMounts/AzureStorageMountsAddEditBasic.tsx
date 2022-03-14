@@ -17,6 +17,7 @@ import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { StorageType } from '../../../../models/site/config';
+import { PortalContext } from '../../../../PortalContext';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -40,7 +41,7 @@ const initializeStorageContainerErrorSchemaValue = (): StorageContainerErrorSche
   };
 };
 
-const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = (props) => {
+const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
   const { errors, values, initialValues, setValues, setFieldValue, validateForm } = props;
   const [accountSharesFiles, setAccountSharesFiles] = useState([]);
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
@@ -51,13 +52,14 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   );
   const storageAccounts = useContext(StorageAccountsContext);
   const site = useContext(SiteContext);
+  const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
 
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
   const accountOptions = storageAccounts.value
-    .filter((val) => supportsBlobStorage || val.kind !== storageKinds.BlobStorage)
-    .map((val) => ({ key: val.name, text: val.name }));
+    .filter(val => supportsBlobStorage || val.kind !== storageKinds.BlobStorage)
+    .map(val => ({ key: val.name, text: val.name }));
 
   const validateStorageContainer = (value: string): string | undefined => {
     const emptyListError = validateNoStorageContainerAvailable();
@@ -69,8 +71,8 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     if (
       sharesLoading ||
       (value && values.type === StorageType.azureBlob
-        ? blobContainerOptions.find((x) => x.key === value)
-        : filesContainerOptions.find((x) => x.key === value))
+        ? blobContainerOptions.find(x => x.key === value)
+        : filesContainerOptions.find(x => x.key === value))
     ) {
       return undefined;
     }
@@ -101,7 +103,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     }
   };
 
-  const storageAccount = storageAccounts.value.find((x) => x.name === values.accountName);
+  const storageAccount = storageAccounts.value.find(x => x.name === values.accountName);
 
   useEffect(() => {
     setAccountError('');
@@ -131,7 +133,10 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             };
 
             if (supportsBlobStorage) {
-              blobsCall = FunctionsService.getStorageContainers(values.accountName, payload);
+              blobsCall = portalContext.makeHttpRequestsViaPortal({
+                uri: `${storageAccount.id}/blobServices/default/containers`,
+                type: 'GET',
+              });
             }
 
             let filesCall: any = {
@@ -139,7 +144,10 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             };
 
             if (storageAccount.kind !== storageKinds.BlobStorage) {
-              filesCall = FunctionsService.getStorageFileShares(values.accountName, payload);
+              filesCall = portalContext.makeHttpRequestsViaPortal({
+                uri: `${storageAccount.id}/fileServices/default/shares`,
+                type: 'GET',
+              });
             }
 
             const [blobs, files] = await Promise.all([blobsCall, filesCall]);
