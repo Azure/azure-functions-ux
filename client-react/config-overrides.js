@@ -24,11 +24,13 @@ module.exports = {
       '!src/utils/Guid.ts',
       '!src/utils/scenario-checker/**',
     ];
-    config.testEnvironment = 'jest-environment-jsdom-sixteen';
+    (config.moduleNameMapper = {
+      ...config.moduleNameMapper,
+      '^joi$': '<rootDir>/node_modules/joi-browser/dist/joi-browser.min',
+    }),
+      (config.testEnvironment = 'jest-environment-jsdom-sixteen');
     config.testPathIgnorePatterns = [
-      ...(config?.testPathIgnorePatterns ?? []),
-      /** @todo Fix "Cannot find module 'joi'" error. */
-      '<rootDir>/src/pages/app/app-settings/ApplicationSettings/ApplicationSettings.utils.spec.ts',
+      ...(config.testPathIgnorePatterns ?? []),
       /** @todo Fix "define is not defined" error because of `applicationinsights-js`. */
       '<rootDir>/src/pages/app/app-settings/AppSettingsFormData.spec.ts',
       '<rootDir>/src/utils/arm-utils.spec.ts',
