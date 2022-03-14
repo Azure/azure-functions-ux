@@ -1,5 +1,25 @@
 import { isFunctionApp, isLinuxApp, isContainerApp, isLinuxDynamic } from './arm-utils';
 
+jest.mock('applicationinsights-js', () => {
+  return {
+    AppInsights: {
+      downloadAndSetup: () => {},
+      queue: {
+        push: jest.fn(),
+      },
+      context: {
+        application: {},
+        addTelemetryInitializer: jest.fn(),
+      },
+      trackEvent: jest.fn(),
+      startTrackPage: jest.fn(),
+      stopTrackPage: jest.fn(),
+      startTrackEvent: jest.fn(),
+      stopTrackEvent: jest.fn(),
+    },
+  };
+});
+
 describe('isFunctionApp', () => {
   it('works with proper true kind', () => {
     const testVal = isFunctionApp({

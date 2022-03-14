@@ -31,12 +31,9 @@ module.exports = {
     config.testEnvironment = 'jest-environment-jsdom-sixteen';
     config.testPathIgnorePatterns = [
       ...(config.testPathIgnorePatterns ?? []),
-      /** @todo Fix "define is not defined" error because of `applicationinsights-js`. */
-      '<rootDir>/src/pages/app/app-settings/AppSettingsFormData.spec.ts',
-      '<rootDir>/src/utils/arm-utils.spec.ts',
-      '<rootDir>/src/ArmHelper.spec.ts',
       /** @todo Fix "Cannot read property 'getParameterByName' of undefined" error. */
       '<rootDir>/src/pages/app/app-settings/GeneralSettings/WindowsStacks/JavaData.spec.ts',
+      '<rootDir>/src/utils/arm-utils.spec.ts',
     ];
     /** @note https://github.com/timarney/react-app-rewired/issues/241#issuecomment-387584632 */
     config.transformIgnorePatterns = [
