@@ -139,7 +139,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   };
 
   const getEnterpriseGradeEdgeCostRow = (): JSX.Element => {
-    return getGridMiddleRow(t('staticSiteEnterpriseGradeEdge'), CommonConstants.Dash, enterpriseGradeEdgeCost);
+    return getGridBottomRow(t('staticSiteEnterpriseGradeEdge'), CommonConstants.Dash, enterpriseGradeEdgeCost);
   };
 
   const getEnterpriseGradeEdgeCost = (): JSX.Element => {
@@ -201,7 +201,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
   };
 
   const getAzureFunctionsRow = (): JSX.Element => {
-    return getGridBottomRow(
+    return getGridMiddleRow(
       t('staticSiteAzureFunctions'),
       t('staticSiteFreeAzureFunctionsAmount'),
       t('staticSiteStandardAzureFunctionsAmount')
