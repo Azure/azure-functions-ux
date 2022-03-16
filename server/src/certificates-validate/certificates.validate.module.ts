@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { CertificatesValidate } from './certificates.validate.controller';
+import { SharedModule } from '../shared/shared.module';
+import { CertificatesValidateController } from './certificates.validate.controller';
 
 @Module({
-  imports: [],
+  imports: [SharedModule],
   controllers: [CertificatesValidateController],
   providers: [],
 })
