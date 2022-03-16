@@ -3,6 +3,7 @@ import { HomeModule } from './home/home.module';
 import { ApiModule } from './api/api.module';
 import { SharedModule } from './shared/shared.module';
 import { FunctionsModule } from './functions/functions.module';
+import { CertificatesValidateModule } from './certificates-validate/certificates.validate.module';
 import { DomainsModule } from './domains/domains.module';
 import { ProxyModule } from './proxy/proxy.module';
 import { StorageModule } from './storage/storage.module';
@@ -17,6 +18,7 @@ import { WorkflowModule } from './workflows/workflows.module';
     SharedModule,
     ApiModule,
     FunctionsModule,
+    CertificatesValidateModule,
     DomainsModule,
     ProxyModule,
     StorageModule,
