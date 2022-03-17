@@ -43,6 +43,7 @@ export class CommonConstants {
     workflowApiVersion20201201: '2020-12-01',
     roleAssignmentApiVersion20180701: '2018-07-01',
     enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',
+    containerAppApiVersion20220101preview: '2022-01-01-preview',
   };
 
   public static readonly NonThemeColors = {
