@@ -11267,10 +11267,13 @@
       </Item>
       <Item ItemId=";functionSupportedRuntimeVersionNotConfiguredMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Your app is not pinned to a supported runtime version. It might affect your app's performance. Please use one of the supported runtime version - {0}.]]></Val>
+          <Val><![CDATA[Your app is pinned to an unsupported runtime version for '{0}'. For better performance, we recommend using one of our supported versions instead: {1}.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Votre application n’est pas épinglée à une version de runtime prise en charge. Cela peut affecter les performances de votre application. Veuillez utiliser l’une des versions de runtime prises en charge : {0}.]]></Val>
+            <Val><![CDATA[Votre application est épinglée à une version d’exécution non prise en charge pour « {0} ». Pour de meilleures performances, nous vous recommandons d’utiliser une de nos versions prises en charge à la place : {1}.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your app is not pinned to a supported runtime version. It might affect your app's performance. Please use one of the supported runtime version - {0}.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
