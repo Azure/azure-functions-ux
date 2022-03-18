@@ -15,6 +15,7 @@ import { IStartupInfo } from '../models/portal-models';
 import { StartupInfoContext } from '../StartupInfoContext';
 import LoadingComponent from '../components/Loading/LoadingComponent';
 import StaticSiteRouter from './static-app/StaticSiteRouter';
+import ContainerAppRouter from './container-app/ContainerAppRouter';
 
 const portalCommunicator = new PortalCommunicator();
 
@@ -39,6 +40,7 @@ export const App: React.FC = () => {
                     <SiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/functions/:functionName/*" />
                     <StaticSiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/staticsites/:staticSiteName/*" />
                     <StaticSiteRouter path="feature/subscriptions/:subscriptionId/providers/microsoft.web/staticsites/*" />
+                    <ContainerAppRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.app/containerapps/:appName/revisions/:revision/replicas/:replica/containers/:container/*" />
                     <LandingPage path="/*" />
                   </Router>
                 </ErrorLogger>

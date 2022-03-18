@@ -45,7 +45,12 @@ export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
   private static portalSignatureFrameBlade = 'FxFrameBlade';
-  private static acceptedSignatures = [PortalCommunicator.portalSignature, PortalCommunicator.portalSignatureFrameBlade];
+  private static portalSignatureFrameControl = 'FxFrameControl';
+  private static acceptedSignatures = [
+    PortalCommunicator.portalSignature,
+    PortalCommunicator.portalSignatureFrameBlade,
+    PortalCommunicator.portalSignatureFrameControl,
+  ];
   private acceptedOriginsSuffix = [
     'portal.azure.com',
     'portal.microsoftazure.de',
@@ -62,6 +67,16 @@ export default class PortalCommunicator {
           data,
           kind: verb,
           signature: this.portalSignature,
+        },
+        this.shellSrc
+      );
+    } else if (Url.getParameterByName(null, 'appsvc.bladetype') === 'framecontrol') {
+      const innerDataJson = !!data ? JSON.parse(data) : null;
+      window.parent.postMessage(
+        {
+          data: { data: innerDataJson, kind: verb },
+          kind: verb,
+          signature: this.portalSignatureFrameControl,
         },
         this.shellSrc
       );
