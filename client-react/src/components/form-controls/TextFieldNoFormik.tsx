@@ -72,11 +72,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   };
 
   const getTextFieldStyles = () => {
-    if (!!styles && typeof styles === 'function') {
-      return styles;
-    } else {
-      return textFieldStyleOverrides(theme, fullpage, widthOverride, styles);
-    }
+    return styles ?? textFieldStyleOverrides(theme, fullpage, widthOverride);
   };
 
   const getTextFieldProps = (): ITextFieldProps => {
