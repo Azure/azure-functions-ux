@@ -128,9 +128,9 @@ export const nodeStack: FunctionAppStack = {
         {
           sortOrder: 0,
           os: 'windows',
-          isPreview: true,
+          isPreview: false,
           isDeprecated: false,
-          isHidden: true,
+          isHidden: false,
           applicationInsightsEnabled: true,
           runtimeVersion: '~16',
           appSettingsDictionary: {
@@ -145,9 +145,9 @@ export const nodeStack: FunctionAppStack = {
         {
           sortOrder: 1,
           os: 'linux',
-          isPreview: true,
+          isPreview: false,
           isDeprecated: false,
-          isHidden: true,
+          isHidden: false,
           applicationInsightsEnabled: true,
           runtimeVersion: 'Node|16',
           appSettingsDictionary: {
