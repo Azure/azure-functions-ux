@@ -130,6 +130,10 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     return isLinuxOrContainer() ? input : `${CommonConstants.windowsCodeMountPathPrefix}${input}`;
   };
 
+  const setMountPathStyles = () => {
+    return !isLinuxOrContainer() && textFieldPrefixStylesOverride();
+  };
+
   const mountPathValidation = Yup.string()
     .required(t('validation_requiredError'))
     .max(mountPathMaxLength, t('validation_fieldMaxCharacters').format(mountPathMaxLength))
@@ -243,7 +247,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               errorMessage={formProps.errors && formProps.errors.mountPath}
               required={true}
               validate={validateMountPath}
-              styles={textFieldPrefixStylesOverride()}
+              styles={setMountPathStyles()}
             />
             <ActionBar
               id="handler-mappings-edit-footer"

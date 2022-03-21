@@ -13,11 +13,10 @@ import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { MessageBarType } from '@fluentui/react';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../utils/FwLinks';
-import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { StorageType } from '../../../../models/site/config';
-import { PortalContext } from '../../../../PortalContext';
+import StorageService from '../../../../ApiHelpers/StorageService';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -52,7 +51,6 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   );
   const storageAccounts = useContext(StorageAccountsContext);
   const site = useContext(SiteContext);
-  const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
 
@@ -123,20 +121,14 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           const retrievedKey = data?.keys?.[0]?.value ?? '';
           const key = getAccessKey(retrievedKey);
           setAccessKey(key);
-          const payload = {
-            accountName: values.accountName,
-            accessKey: key,
-          };
+
           try {
             let blobsCall: any = {
               data: [],
             };
 
             if (supportsBlobStorage) {
-              blobsCall = portalContext.makeHttpRequestsViaPortal({
-                uri: `${storageAccount.id}/blobServices/default/containers`,
-                type: 'GET',
-              });
+              blobsCall = StorageService.fetchStorageBlobContainers(storageAccount.id);
             }
 
             let filesCall: any = {
@@ -144,10 +136,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             };
 
             if (storageAccount.kind !== storageKinds.BlobStorage) {
-              filesCall = portalContext.makeHttpRequestsViaPortal({
-                uri: `${storageAccount.id}/fileServices/default/shares`,
-                type: 'GET',
-              });
+              filesCall = StorageService.fetchStorageFileShareContainers(storageAccount.id);
             }
 
             const [blobs, files] = await Promise.all([blobsCall, filesCall]);
@@ -168,7 +157,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               errorSchema.blobsContainerIsEmpty = true;
               errorSchema.getBlobsFailure = true;
             } else {
-              blobData = blobs.data || [];
+              blobData = blobs.data.value || [];
               errorSchema.blobsContainerIsEmpty = blobData.length === 0;
             }
 
@@ -178,7 +167,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               errorSchema.filesContainerIsEmpty = true;
               errorSchema.getFilesFailure = true;
             } else {
-              filesData = files.data || [];
+              filesData = files.data.value || [];
               errorSchema.filesContainerIsEmpty = filesData.length === 0;
             }
 
