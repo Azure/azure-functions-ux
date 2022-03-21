@@ -2406,4 +2406,5 @@ export class PortalResources {
   public static deploymentCenterDropboxDescriptionText = 'deploymentCenterDropboxDescriptionText';
   public static deploymentCenterOneDriveDescriptionText = 'deploymentCenterOneDriveDescriptionText';
   public static disconnecting = 'disconnecting';
+  public static connectedAndFilteredMessage = 'connectedAndFilteredMessage';
 }
