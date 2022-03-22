@@ -13,10 +13,10 @@ import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { MessageBarType } from '@fluentui/react';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../utils/FwLinks';
-import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { StorageType } from '../../../../models/site/config';
+import StorageService from '../../../../ApiHelpers/StorageService';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -40,7 +40,7 @@ const initializeStorageContainerErrorSchemaValue = (): StorageContainerErrorSche
   };
 };
 
-const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = (props) => {
+const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
   const { errors, values, initialValues, setValues, setFieldValue, validateForm } = props;
   const [accountSharesFiles, setAccountSharesFiles] = useState([]);
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
@@ -56,8 +56,8 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
 
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
   const accountOptions = storageAccounts.value
-    .filter((val) => supportsBlobStorage || val.kind !== storageKinds.BlobStorage)
-    .map((val) => ({ key: val.name, text: val.name }));
+    .filter(val => supportsBlobStorage || val.kind !== storageKinds.BlobStorage)
+    .map(val => ({ key: val.name, text: val.name }));
 
   const validateStorageContainer = (value: string): string | undefined => {
     const emptyListError = validateNoStorageContainerAvailable();
@@ -69,8 +69,8 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     if (
       sharesLoading ||
       (value && values.type === StorageType.azureBlob
-        ? blobContainerOptions.find((x) => x.key === value)
-        : filesContainerOptions.find((x) => x.key === value))
+        ? blobContainerOptions.find(x => x.key === value)
+        : filesContainerOptions.find(x => x.key === value))
     ) {
       return undefined;
     }
@@ -101,7 +101,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     }
   };
 
-  const storageAccount = storageAccounts.value.find((x) => x.name === values.accountName);
+  const storageAccount = storageAccounts.value.find(x => x.name === values.accountName);
 
   useEffect(() => {
     setAccountError('');
@@ -121,17 +121,14 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           const retrievedKey = data?.keys?.[0]?.value ?? '';
           const key = getAccessKey(retrievedKey);
           setAccessKey(key);
-          const payload = {
-            accountName: values.accountName,
-            accessKey: key,
-          };
+
           try {
             let blobsCall: any = {
               data: [],
             };
 
             if (supportsBlobStorage) {
-              blobsCall = FunctionsService.getStorageContainers(values.accountName, payload);
+              blobsCall = StorageService.fetchStorageBlobContainers(storageAccount.id);
             }
 
             let filesCall: any = {
@@ -139,7 +136,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             };
 
             if (storageAccount.kind !== storageKinds.BlobStorage) {
-              filesCall = FunctionsService.getStorageFileShares(values.accountName, payload);
+              filesCall = StorageService.fetchStorageFileShareContainers(storageAccount.id);
             }
 
             const [blobs, files] = await Promise.all([blobsCall, filesCall]);
@@ -160,7 +157,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               errorSchema.blobsContainerIsEmpty = true;
               errorSchema.getBlobsFailure = true;
             } else {
-              blobData = blobs.data || [];
+              blobData = blobs.data.value || [];
               errorSchema.blobsContainerIsEmpty = blobData.length === 0;
             }
 
@@ -170,7 +167,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               errorSchema.filesContainerIsEmpty = true;
               errorSchema.getFilesFailure = true;
             } else {
-              filesData = files.data || [];
+              filesData = files.data.value || [];
               errorSchema.filesContainerIsEmpty = filesData.length === 0;
             }
 
