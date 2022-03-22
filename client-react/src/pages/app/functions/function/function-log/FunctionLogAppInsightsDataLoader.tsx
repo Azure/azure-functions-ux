@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { AppInsightsComponent, QuickPulseToken } from '../../../../../models/app-insights';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
@@ -258,13 +258,13 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     setAllLogEntries([]);
   };
 
-  const getShowFilteredLogsMessage = () => {
+  const getShowFilteredLogsMessage = useCallback(() => {
     return (
-      !!Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi) &&
+      Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi) &&
       functionsRuntimeVersion === CommonConstants.FunctionsRuntimeVersions.four &&
       !!liveLogsSessionId
     );
-  };
+  }, [functionsRuntimeVersion, liveLogsSessionId]);
 
   useEffect(() => {
     fetchComponent();
