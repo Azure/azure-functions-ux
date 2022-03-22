@@ -4,7 +4,6 @@ import { style } from 'typestyle';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
-import { DeepPartial } from '@uifabric/merge-styles/lib/DeepPartial';
 
 const FORM_DEFAULT_WIDTH = '275px';
 const FULL_PAGE_WIDTH = '220px';
@@ -50,20 +49,20 @@ export const comboboxStyleOverrides = (theme: ThemeExtended, fullpage: boolean, 
   } as IDropdownStyles;
 };
 
-export const textFieldPrefixStylesOverride = () => {
-  return {
-    field: {
-      paddingLeft: '0px',
-    },
-  };
+export const textFieldPrefixStylesOverride = (hasPrefix: boolean) => {
+  return hasPrefix
+    ? {
+        field: {
+          paddingLeft: '0px',
+        },
+        prefix: {
+          paddingRight: '0px',
+        },
+      }
+    : undefined;
 };
 
-export const textFieldStyleOverrides = (
-  theme: ThemeExtended,
-  fullpage: boolean,
-  widthOverride?: string,
-  stylesOverride?: DeepPartial<ITextFieldStyles>
-) => styleProps => {
+export const textFieldStyleOverrides = (theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => styleProps => {
   const baseStyle = TextFieldStyles(styleProps);
   return {
     ...baseStyle,
@@ -76,10 +75,6 @@ export const textFieldStyleOverrides = (
     suffix: {
       paddingRight: '0px',
     },
-    prefix: {
-      paddingRight: '0px',
-    },
-    ...stylesOverride,
   } as ITextFieldStyles;
 };
 
