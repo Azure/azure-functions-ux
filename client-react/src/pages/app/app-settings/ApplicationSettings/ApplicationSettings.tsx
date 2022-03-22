@@ -14,7 +14,6 @@ import {
   IColumn,
   SelectionMode,
   IDetailsList,
-  Announced,
 } from '@fluentui/react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
@@ -26,7 +25,7 @@ import { ThemeContext } from '../../../../ThemeContext';
 import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 import SettingSourceColumn from '../SettingSourceColumn';
 import { isServiceLinkerVisible, isSettingServiceLinker } from '../AppSettings.utils';
-import { getSearchFilter } from '../../../../components/form-controls/SearchBox';
+import { SearchFilterWithResultAnnouncement } from '../../../../components/form-controls/SearchBox';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 
@@ -40,7 +39,6 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const [filter, setFilter] = useState('');
   const [showAllValues, setShowAllValues] = useState(false);
   const [gridItems, setGridItems] = useState<FormAppSetting[]>([]);
-  const [searchResultAnnouncementString, setSearchResultAnnouncementString] = useState('');
 
   const { values } = props;
   const { t } = useTranslation();
@@ -379,13 +377,6 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         return !!x.name && x.name.toLowerCase().includes(filter.toLowerCase());
       }) ?? [];
     setGridItems(filteredItems);
-    setGridItemsSearchResultAnnouncementString(filteredItems.length);
-  };
-
-  const setGridItemsSearchResultAnnouncementString = (itemsCount: number) => {
-    setSearchResultAnnouncementString(
-      t('gridItemsCountAriaLabel').format(itemsCount, itemsCount === 1 ? t('result') : t('results'), filter)
-    );
   };
 
   useEffect(() => {
@@ -410,8 +401,13 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyAppSettings')}>
-        {getSearchFilter('app-settings-application-settings-search', setFilter, t('filterAppSettings'))}
-        <Announced message={searchResultAnnouncementString} />
+        <SearchFilterWithResultAnnouncement
+          id="app-settings-application-settings-search"
+          setFilterValue={setFilter}
+          filter={filter}
+          gridItemsCount={gridItems.length}
+          placeHolder={t('filterAppSettings')}
+        />
       </DisplayTableWithCommandBar>
       <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditApplicationSetting')}>
         <AppSettingAddEdit
