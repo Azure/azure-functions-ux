@@ -7368,4 +7368,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="disconnecting" xml:space="preserve">
         <value>Disconnecting...</value>
     </data>
+    <data name="connectedAndFilteredMessage" xml:space="preserve">
+        <value>Connected! You are now viewing logs of Function runs in the current Code + Test panel. To see all the logs for this Function, please go to 'Monitor' from the Function menu.</value>
+    </data>
 </root>

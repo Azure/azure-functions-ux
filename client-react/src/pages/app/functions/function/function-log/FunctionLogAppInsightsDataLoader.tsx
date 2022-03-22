@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { AppInsightsComponent, QuickPulseToken } from '../../../../../models/app-insights';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
@@ -19,6 +19,7 @@ import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper'
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 import SiteService from '../../../../../ApiHelpers/SiteService';
 import { KeyValue } from '../../../../../models/portal-models';
+import Url from '../../../../../utils/url';
 
 interface FunctionLogAppInsightsDataLoaderProps {
   resourceId: string;
@@ -65,6 +66,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
   const [allLogEntries, setAllLogEntries] = useState<LogEntry[]>([]);
   const [callCount, setCallCount] = useState(0);
+  const [showFilteredLogsMessage, setShowFilteredLogsMessage] = useState<boolean>(false);
 
   const fetchComponent = async (force?: boolean) => {
     const [appInsightsResourceIdResponse, fetchAppSettingsResponse] = await Promise.all([
@@ -256,11 +258,25 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     setAllLogEntries([]);
   };
 
+  const getShowFilteredLogsMessage = useCallback(() => {
+    return (
+      Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi) &&
+      functionsRuntimeVersion === CommonConstants.FunctionsRuntimeVersions.four &&
+      !!liveLogsSessionId
+    );
+  }, [functionsRuntimeVersion, liveLogsSessionId]);
+
   useEffect(() => {
     fetchComponent();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setShowFilteredLogsMessage(getShowFilteredLogsMessage());
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [functionsRuntimeVersion, liveLogsSessionId]);
 
   useEffect(() => {
     if (!appInsightsComponent) {
@@ -306,6 +322,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       errorMessage={errorMessage}
       loadingMessage={loadingMessage}
       appInsightsResourceId={appInsightsComponent ? appInsightsComponent.id : ''}
+      showFilteredLogsMessage={showFilteredLogsMessage}
       {...props}
     />
   );
