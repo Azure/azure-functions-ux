@@ -10,7 +10,7 @@ export const nodeStack: FunctionAppStack = {
       value: '16',
       minorVersions: [
         {
-          displayText: 'Node.js 16',
+          displayText: 'Node.js 16 LTS',
           value: '16 LTS',
           stackSettings: {
             windowsRuntimeSettings: {
