@@ -10,7 +10,7 @@ import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
-import { TooltipHost, ICommandBarItemProps, ActionButton, DetailsListLayoutMode, IColumn, SelectionMode, Announced } from '@fluentui/react';
+import { TooltipHost, ICommandBarItemProps, ActionButton, DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/react';
 import { dirtyElementStyle } from '../AppSettings.styles';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
@@ -18,7 +18,7 @@ import { ThemeContext } from '../../../../ThemeContext';
 import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 import SettingSourceColumn from '../SettingSourceColumn';
 import { isSettingServiceLinker, isServiceLinkerVisible } from '../AppSettings.utils';
-import { getSearchFilter } from '../../../../components/form-controls/SearchBox';
+import { SearchFilterWithResultAnnouncement } from '../../../../components/form-controls/SearchBox';
 
 const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const { production_write, editable, saving } = useContext(PermissionsContext);
@@ -30,7 +30,6 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const [filter, setFilter] = useState('');
   const [showAllValues, setShowAllValues] = useState(false);
   const [gridItems, setGridItems] = useState<FormConnectionString[]>([]);
-  const [searchResultAnnouncementString, setSearchResultAnnouncementString] = useState('');
 
   const { values } = props;
   const { t } = useTranslation();
@@ -381,13 +380,6 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         return !!x.name && x.name.toLowerCase().includes(filter.toLowerCase());
       }) ?? [];
     setGridItems(filteredItems);
-    setGridItemsSearchResultAnnouncementString(filteredItems.length);
-  };
-
-  const setGridItemsSearchResultAnnouncementString = (itemsCount: number) => {
-    setSearchResultAnnouncementString(
-      t('gridItemsCountAriaLabel').format(itemsCount, itemsCount === 1 ? t('result') : t('results'), filter)
-    );
   };
 
   useEffect(() => {
@@ -407,8 +399,13 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyConnectionStrings')}>
-        {getSearchFilter('app-settings-connection-strings-search', setFilter, t('filterConnectionStrings'))}
-        <Announced message={searchResultAnnouncementString} />
+        <SearchFilterWithResultAnnouncement
+          id="app-settings-connection-strings-search"
+          setFilterValue={setFilter}
+          gridItemsCount={gridItems.length}
+          filter={filter}
+          placeHolder={t('filterConnectionStrings')}
+        />
       </DisplayTableWithCommandBar>
       <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditConnectionStringHeader')}>
         <ConnectionStringsAddEdit
