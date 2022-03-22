@@ -40,6 +40,9 @@ const CustomPanel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
 
   return (
     <Panel
+      layerProps={{
+        eventBubblingEnabled: true,
+      }}
       isOpen={isOpen === undefined ? true : isOpen}
       type={type ? type : PanelType.large}
       styles={allPanelStyle}
