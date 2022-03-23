@@ -657,7 +657,7 @@ export class GithubController {
 
   private _getGitHubClientId(): string {
     const config = this.staticReactConfig;
-    if (config.env && config.env.cloud === CloudType.public) {
+    if (config.env && (config.env.cloud === CloudType.public || config.env.cloud === CloudType.onprem)) {
       return this.configService.get('GITHUB_CLIENT_ID');
     } else {
       return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_ID');
@@ -666,7 +666,7 @@ export class GithubController {
 
   private _getGitHubClientSecret(): string {
     const config = this.staticReactConfig;
-    if (config.env && config.env.cloud === CloudType.public) {
+    if (config.env && (config.env.cloud === CloudType.public || config.env.cloud === CloudType.onprem)) {
       return this.configService.get('GITHUB_CLIENT_SECRET');
     } else {
       return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_SECRET');

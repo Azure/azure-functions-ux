@@ -241,6 +241,42 @@ export class OnPremEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.githubSource] = {
+      id: ScenarioIds.githubSource,
+      runCheck: () => {
+        return {
+          status: !!process.env['GITHUB_CLIENT_ID'] && !!process.env['GITHUB_CLIENT_SECRET'] ? 'enabled' : 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.bitbucketSource] = {
+      id: ScenarioIds.githubSource,
+      runCheck: () => {
+        return {
+          status: !!process.env['BITBUCKET_CLIENT_ID'] && !!process.env['BITBUCKET_CLIENT_SECRET'] ? 'enabled' : 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.onedriveSource] = {
+      id: ScenarioIds.githubSource,
+      runCheck: () => {
+        return {
+          status: !!process.env['ONEDRIVE_CLIENT_ID'] && !!process.env['ONEDRIVE_CLIENT_SECRET'] ? 'enabled' : 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.dropboxSource] = {
+      id: ScenarioIds.githubSource,
+      runCheck: () => {
+        return {
+          status: !!process.env['DROPBOX_CLIENT_ID'] && !!process.env['DROPBOX_CLIENT_SECRET'] ? 'enabled' : 'disabled',
+        };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
