@@ -237,8 +237,11 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isGetFunctionUrlVisible = () => {
+    const { properties } = functionInfo;
     return (
-      !!BindingManager.getHttpTriggerTypeInfo(functionInfo.properties) || !!BindingManager.getEventGridTriggerInfo(functionInfo.properties)
+      !!BindingManager.getHttpTriggerTypeInfo(properties) ||
+      !!BindingManager.getEventGridTriggerInfo(properties) ||
+      !!BindingManager.getAuthenticationEventTriggerTypeInfo(properties)
     );
   };
 

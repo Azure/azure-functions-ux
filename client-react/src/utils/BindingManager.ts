@@ -22,6 +22,10 @@ export class BindingManager {
       : undefined;
   };
 
+  public static getAuthenticationEventTriggerTypeInfo = (functionInfo: FunctionInfo): BindingInfo | undefined => {
+    return functionInfo.config?.bindings.find(e => BindingManager.isBindingTypeEqual(e.type, BindingType.authenticationEventTrigger));
+  };
+
   public static isBindingTypeEqual = (bindingType1: BindingType | string, bindingType2: BindingType | string): boolean => {
     return bindingType1.toString().toLowerCase() === bindingType2.toString().toLowerCase();
   };
