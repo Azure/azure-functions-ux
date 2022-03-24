@@ -103,6 +103,12 @@ export class BitbucketsController {
     }
   }
 
+  @Get('api/bitbucket/hasCredentials')
+  @HttpCode(200)
+  async hasCredentials() {
+    return !!this.getBitbucketClientId() && !!this.getBitbucketClientSecret();
+  }
+
   private getBitbucketClientId() {
     const config = this.staticReactConfig;
     if (config.env && config.env.cloud === CloudType.onprem) {

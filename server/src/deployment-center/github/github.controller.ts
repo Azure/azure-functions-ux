@@ -386,6 +386,12 @@ export class GithubController {
     }
   }
 
+  @Get('api/github/hasCredentials')
+  @HttpCode(200)
+  async hasCredentials() {
+    return !!this._getGitHubClientId() && !!this._getGitHubClientSecret();
+  }
+
   private _getAuthorizationHeader(accessToken: string): { Authorization: string } {
     return {
       Authorization: `token ${accessToken}`,
@@ -501,8 +507,7 @@ export class GithubController {
 
   private _getRedirectUri(host: string): string {
     const redirectUri =
-      this.configService.get('GITHUB_REDIRECT_URL') ||
-      `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Prod]}/auth/github/callback`;
+      this._getGitHubRedirectUrl() || `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Prod]}/auth/github/callback`;
     const [redirectUriToLower, hostUrlToLower] = [redirectUri.toLocaleLowerCase(), `https://${host}`.toLocaleLowerCase()];
     const [redirectEnv, clientEnv] = [this._getEnvironment(redirectUriToLower), this._getEnvironment(hostUrlToLower)];
 
@@ -598,6 +603,15 @@ export class GithubController {
       return this.configService.get('GITHUB_FOR_CREATES_CLIENT_SECRET');
     } else {
       return this.configService.get('GITHUB_FOR_CREATES_NATIONALCLOUDS_CLIENT_SECRET');
+    }
+  }
+
+  private _getGitHubRedirectUrl() {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.onprem) {
+      return `https://${window.location.hostname}:${window.location.port}/TokenAuthorize`;
+    } else {
+      return this.configService.get('GITHUB_REDIRECT_URL');
     }
   }
 

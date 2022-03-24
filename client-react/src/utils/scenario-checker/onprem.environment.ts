@@ -4,6 +4,8 @@ import { ArmSiteDescriptor } from '../resourceDescriptors';
 import { QuotaService } from '../QuotaService';
 import { QuotaNames, QuotaScope } from '../../models/quotaSettings';
 import { ComputeMode } from '../../models/site/compute-mode';
+import { sendHttpRequest } from '../../ApiHelpers/HttpClient';
+import Url from '../url';
 
 export class OnPremEnvironment extends Environment {
   public name = 'OnPrem';
@@ -270,49 +272,28 @@ export class OnPremEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.githubSource] = {
       id: ScenarioIds.githubSource,
-      runCheck: () => {
-        return {
-          status:
-            !!process.env['DeploymentCenter_GithubClientId'] && !!process.env['DeploymentCenter_GithubClientSecret']
-              ? 'enabled'
-              : 'disabled',
-        };
+      runCheckAsync: async () => {
+        const hasGitHubCredentials = await sendHttpRequest<boolean>({ url: `${Url.serviceHost}/api/github/hasCredentials`, method: 'GET' });
+        if (hasGitHubCredentials.metadata.success) {
+          return { status: hasGitHubCredentials.data ? 'enabled' : 'disabled' };
+        }
+
+        return { status: 'enabled' };
       },
     };
 
     this.scenarioChecks[ScenarioIds.bitbucketSource] = {
       id: ScenarioIds.githubSource,
-      runCheck: () => {
-        return {
-          status:
-            !!process.env['DeploymentCenter_BitbuckClientId'] && !!process.env['DeploymentCenter_BitbuckClientSecret']
-              ? 'enabled'
-              : 'disabled',
-        };
-      },
-    };
+      runCheckAsync: async () => {
+        const hasBitbucketCredentials = await sendHttpRequest<boolean>({
+          url: `${Url.serviceHost}/api/bitbucket/hasCredentials`,
+          method: 'GET',
+        });
+        if (hasBitbucketCredentials.metadata.success) {
+          return { status: hasBitbucketCredentials.data ? 'enabled' : 'disabled' };
+        }
 
-    this.scenarioChecks[ScenarioIds.onedriveSource] = {
-      id: ScenarioIds.githubSource,
-      runCheck: () => {
-        return {
-          status:
-            !!process.env['DeploymentCenter_DropboxClientId'] && !!process.env['DeploymentCenter_DropboxClinetSecret']
-              ? 'enabled'
-              : 'disabled',
-        };
-      },
-    };
-
-    this.scenarioChecks[ScenarioIds.dropboxSource] = {
-      id: ScenarioIds.githubSource,
-      runCheck: () => {
-        return {
-          status:
-            !!process.env['DeploymentCenter_OnedriveClientId'] && !!process.env['DeploymentCenter_OnedriveClientSecret']
-              ? 'enabled'
-              : 'disabled',
-        };
+        return { status: 'enabled' };
       },
     };
   }
