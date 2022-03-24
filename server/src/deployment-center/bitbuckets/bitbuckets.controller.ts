@@ -5,6 +5,7 @@ import { LoggingService } from '../../shared/logging/logging.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { HttpService } from '../../shared/http/http.service';
+import { CloudType, StaticReactConfig } from '../../types/config';
 @Controller()
 export class BitbucketsController {
   constructor(
@@ -13,6 +14,24 @@ export class BitbucketsController {
     private loggingService: LoggingService,
     private httpService: HttpService
   ) {}
+
+  get staticReactConfig(): StaticReactConfig {
+    const acceptedOriginsString = process.env.APPSVC_ACCEPTED_ORIGINS_SUFFIX;
+    let acceptedOrigins: string[] = [];
+    if (acceptedOriginsString) {
+      acceptedOrigins = acceptedOriginsString.split(',');
+    }
+
+    return {
+      env: {
+        appName: process.env.WEBSITE_SITE_NAME,
+        hostName: process.env.WEBSITE_HOSTNAME,
+        cloud: process.env.APPSVC_CLOUD as CloudType,
+        acceptedOriginsSuffix: acceptedOrigins,
+      },
+      version: process.env.VERSION,
+    };
+  }
 
   @Get('auth/bitbucket/authorize')
   async authorize(@Session() session, @Response() res) {
@@ -26,11 +45,11 @@ export class BitbucketsController {
     }
 
     res.redirect(
-      `${Constants.oauthApis.bitbucketUri}/authorize?client_id=${this.configService.get(
-        'BITBUCKET_CLIENT_ID'
-      )}&redirect_uri=${this.configService.get(
-        'BITBUCKET_REDIRECT_URL'
-      )}&scope=account+repository+webhook&response_type=code&state=${this.dcService.hashStateGuid(stateKey).substr(0, 10)}`
+      `${
+        Constants.oauthApis.bitbucketUri
+      }/authorize?client_id=${this.getBitbucketClientId()}&redirect_uri=${this.getBitbucketRedirectURL()}&scope=account+repository+webhook&response_type=code&state=${this.dcService
+        .hashStateGuid(stateKey)
+        .substr(0, 10)}`
     );
   }
 
@@ -59,14 +78,14 @@ export class BitbucketsController {
     try {
       const r = await this.httpService.post<{ access_token: string; refresh_token: string }>(
         `${Constants.oauthApis.bitbucketUri}/access_token`,
-        `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.BITBUCKET_REDIRECT_URL}`,
+        `code=${code}&grant_type=authorization_code&redirect_uri=${this.getBitbucketRedirectURL()}`,
         {
           auth: {
-            username: process.env.BITBUCKET_CLIENT_ID as string,
-            password: process.env.BITBUCKET_CLIENT_SECRET as string,
+            username: this.getBitbucketClientId() as string,
+            password: this.getBitbucketClientSecret() as string,
           },
           headers: {
-            Referer: process.env.BITBUCKET_REDIRECT_URL,
+            Referer: this.getBitbucketRedirectURL(),
             'Content-type': 'application/x-www-form-urlencoded',
           },
         }
@@ -81,6 +100,33 @@ export class BitbucketsController {
         throw new HttpException(err.response.data, err.response.status);
       }
       throw new HttpException('Internal Server Error', 500);
+    }
+  }
+
+  private getBitbucketClientId() {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.onprem) {
+      return this.configService.get('DeploymentCenter_BitbuckClientId');
+    } else {
+      return this.configService.get('BITBUCKET_CLIENT_ID');
+    }
+  }
+
+  private getBitbucketClientSecret() {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.onprem) {
+      return this.configService.get('DeploymentCenter_BitbuckClientSecret');
+    } else {
+      return this.configService.get('BITBUCKET_CLIENT_SECRET');
+    }
+  }
+
+  private getBitbucketRedirectURL() {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.onprem) {
+      return `https://${window.location.hostname}:${window.location.port}/TokenAuthorize`;
+    } else {
+      return this.configService.get('BITBUCKET_REDIRECT_URL');
     }
   }
 }

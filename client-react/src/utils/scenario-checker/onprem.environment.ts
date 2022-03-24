@@ -267,6 +267,54 @@ export class OnPremEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.githubSource] = {
+      id: ScenarioIds.githubSource,
+      runCheck: () => {
+        return {
+          status:
+            !!process.env['DeploymentCenter_GithubClientId'] && !!process.env['DeploymentCenter_GithubClientSecret']
+              ? 'enabled'
+              : 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.bitbucketSource] = {
+      id: ScenarioIds.githubSource,
+      runCheck: () => {
+        return {
+          status:
+            !!process.env['DeploymentCenter_BitbuckClientId'] && !!process.env['DeploymentCenter_BitbuckClientSecret']
+              ? 'enabled'
+              : 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.onedriveSource] = {
+      id: ScenarioIds.githubSource,
+      runCheck: () => {
+        return {
+          status:
+            !!process.env['DeploymentCenter_DropboxClientId'] && !!process.env['DeploymentCenter_DropboxClinetSecret']
+              ? 'enabled'
+              : 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.dropboxSource] = {
+      id: ScenarioIds.githubSource,
+      runCheck: () => {
+        return {
+          status:
+            !!process.env['DeploymentCenter_OnedriveClientId'] && !!process.env['DeploymentCenter_OnedriveClientSecret']
+              ? 'enabled'
+              : 'disabled',
+        };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

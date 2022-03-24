@@ -232,9 +232,7 @@ export class GithubController {
       });
     } catch (err) {
       this.loggingService.error(
-        `Failed to delete action workflow '${deleteCommit.filePath}' on branch '${deleteCommit.branchName}' in repo '${
-          deleteCommit.repoName
-        }'.`
+        `Failed to delete action workflow '${deleteCommit.filePath}' on branch '${deleteCommit.branchName}' in repo '${deleteCommit.repoName}'.`
       );
 
       if (err.response) {
@@ -478,9 +476,7 @@ export class GithubController {
       });
     } catch (err) {
       this.loggingService.error(
-        `Failed to commit action workflow '${content.commit.filePath}' on branch '${content.commit.branchName}' in repo '${
-          content.commit.repoName
-        }'.`
+        `Failed to commit action workflow '${content.commit.filePath}' on branch '${content.commit.branchName}' in repo '${content.commit.repoName}'.`
       );
 
       if (err.response) {
@@ -569,6 +565,8 @@ export class GithubController {
     const config = this.staticReactConfig;
     if (config.env && config.env.cloud === CloudType.public) {
       return this.configService.get('GITHUB_CLIENT_ID');
+    } else if (config.env && config.env.cloud === CloudType.onprem) {
+      return this.configService.get('DeploymentCenter_GithubClientId');
     } else {
       return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_ID');
     }
@@ -578,6 +576,8 @@ export class GithubController {
     const config = this.staticReactConfig;
     if (config.env && config.env.cloud === CloudType.public) {
       return this.configService.get('GITHUB_CLIENT_SECRET');
+    } else if (config.env && config.env.cloud === CloudType.onprem) {
+      return this.configService.get('DeploymentCenter_GithubClientSecret');
     } else {
       return this.configService.get('GITHUB_NATIONALCLOUDS_CLIENT_SECRET');
     }
