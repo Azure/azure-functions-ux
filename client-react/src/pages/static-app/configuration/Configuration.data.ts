@@ -2,6 +2,7 @@ import { KeyValue } from '../../../models/portal-models';
 import { EnvironmentVariable } from './Configuration.types';
 import { ArmObj } from '../../../models/arm-obj';
 import { Environment } from '../../../models/static-site/environment';
+import { getPreviewsTitleValue } from '../StaticSiteUtility';
 
 export default class ConfigurationData {
   public static convertEnvironmentVariablesObjectToArray(environmentVariableObject: KeyValue<string>) {
@@ -20,8 +21,6 @@ export default class ConfigurationData {
   }
 
   public static getEnvironmentName(environment: ArmObj<Environment>) {
-    return environment.name.toLocaleLowerCase() === 'default'
-      ? 'Production'
-      : `#${environment.name} - ${environment.properties.pullRequestTitle}`;
+    return environment.name.toLocaleLowerCase() === 'default' ? 'Production' : getPreviewsTitleValue(environment);
   }
 }
