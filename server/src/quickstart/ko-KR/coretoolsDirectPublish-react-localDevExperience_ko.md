@@ -42,6 +42,6 @@
 
 Functions 프로젝트를 Azure에 게시하려면 다음 명령을 입력합니다.
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Azure에 로그인하라는 메시지가 표시될 수 있습니다. 화면의 지시를 따릅니다.

@@ -42,6 +42,6 @@ Hata ayıklamayı durdurmak için terminalde **Ctrl-C** tuşlarını kullanın.
 
 İşlevler projenizi Azure'da yayımlamak için aşağıdaki komutu girin:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Azure'da oturum açmanız istenebilir. Ekrandaki yönergeleri takip edin.

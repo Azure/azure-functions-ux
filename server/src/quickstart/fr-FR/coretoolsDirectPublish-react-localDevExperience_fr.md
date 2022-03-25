@@ -42,6 +42,6 @@ Pour arrêter le débogage, utilisez **Ctrl-C** dans le terminal.
 
 Pour publier votre projet Functions dans Azure, entrez la commande suivante :
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Vous serez peut-être invité à vous connecter à Azure. Suivez les instructions à l'écran.

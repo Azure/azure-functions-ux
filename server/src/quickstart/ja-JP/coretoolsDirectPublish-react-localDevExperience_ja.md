@@ -42,6 +42,6 @@ HTTP 関数の URL が出力されます。これをブラウザーのアドレ�
 
 Functions プロジェクトを Azure に発行するには、次のコマンドを入力します。
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Azure へのサインインを求めるメッセージが表示される場合があります。 画面の指示に従います。

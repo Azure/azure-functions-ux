@@ -42,6 +42,6 @@ Använd **Ctrl-C** i terminalen för att stoppa felsökningen.
 
 Om du vill publicera ditt Functions-projekt i Azure anger du följande kommando:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Du kan uppmanas att logga in i Azure. Följ anvisningarna på skärmen.

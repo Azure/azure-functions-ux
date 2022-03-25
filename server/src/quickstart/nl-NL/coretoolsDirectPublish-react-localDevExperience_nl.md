@@ -42,6 +42,6 @@ Gebruik **Ctrl-C** in de terminal om de foutopsporing te stoppen.
 
 Als u het Functions-project wilt publiceren in Azure, voert u de volgende opdracht in:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 U wordt mogelijk gevraagd u aan te melden bij Azure. Volg de instructies op het scherm.
