@@ -389,6 +389,7 @@ export class GithubController {
   @Get('api/github/hasCredentials')
   @HttpCode(200)
   async hasCredentials() {
+    console.log('hasCredentials called from server-side');
     return !!this._getGitHubClientId() && !!this._getGitHubClientSecret();
   }
 
