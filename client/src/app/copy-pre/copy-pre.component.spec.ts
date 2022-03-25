@@ -11,7 +11,9 @@ import { By } from '@angular/platform-browser';
 
 @Component({
   selector: `app-copy-pre-host-component`,
-  template: `<copy-pre [content]="content"></copy-pre>`,
+  template: `
+    <copy-pre [content]="content"></copy-pre>
+  `,
 })
 class TestCopyPreComponent {
   @ViewChild(CopyPreComponent)
@@ -55,7 +57,7 @@ describe('CopyPreComponent', () => {
     });
   });
 
-  describe('highlight text', () => {
+  xdescribe('highlight text', () => {
     it('should highlight text when clicked by default', () => {
       const elem = testFixture.debugElement.query(By.css('pre'));
       elem.nativeElement.click();
@@ -81,7 +83,7 @@ describe('CopyPreComponent', () => {
   });
 
   describe('Password Field', () => {
-    it('should show dots in field when contentView is false', () => {
+    xit('should show dots in field when contentView is false', () => {
       copyPreComponent.contentView = false;
       copyPreComponent.passwordField = true;
       testFixture.detectChanges();

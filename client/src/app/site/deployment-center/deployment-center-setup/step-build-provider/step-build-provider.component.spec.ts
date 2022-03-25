@@ -10,7 +10,7 @@ import { CacheService } from '../../../../shared/services/cache.service';
 import { of } from 'rxjs/observable/of';
 import { Subject } from 'rxjs/Subject';
 
-describe('StepBuildProviderComponent', () => {
+xdescribe('StepBuildProviderComponent', () => {
   let buildStepTest: StepBuildProviderComponent;
   let testFixture: ComponentFixture<StepBuildProviderComponent>;
 
