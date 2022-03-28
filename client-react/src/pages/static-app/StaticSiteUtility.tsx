@@ -49,5 +49,8 @@ export const stringToPasswordProtectionType = (passwordProtection: string) => {
 // but not 'pullRequestTitle' property value. Stable env's 'pullRequestTitle' will be 'null'.
 // If 'pullRequestTitle' has value, we would like to display the title. Otherwise, we will display buildId.
 export const getPreviewsTitleValue = (environment: ArmObj<Environment>) => {
-  return environment.properties.pullRequestTitle || environment.properties.buildId;
+  const { pullRequestTitle, buildId } = environment.properties;
+  const { name } = environment;
+
+  return pullRequestTitle ? `#${name} - ${pullRequestTitle}` : buildId;
 };
