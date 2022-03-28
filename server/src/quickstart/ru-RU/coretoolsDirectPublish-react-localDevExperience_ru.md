@@ -42,6 +42,6 @@
 
 Чтобы опубликовать проект Функций в Azure, введите следующую команду:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Возможно, вам будет предложено войти в Azure. Следуйте инструкциям на экране.

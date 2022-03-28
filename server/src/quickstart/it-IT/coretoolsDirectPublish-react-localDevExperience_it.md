@@ -42,6 +42,6 @@ Per arrestare il debug, usare **CTRL+C** nel terminale.
 
 Per pubblicare il progetto di Funzioni in Azure, immettere il comando seguente:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Verrà visualizzata la richiesta di accedere ad Azure. Seguire le istruzioni visualizzate.

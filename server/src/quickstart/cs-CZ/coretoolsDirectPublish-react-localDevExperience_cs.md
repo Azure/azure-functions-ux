@@ -42,6 +42,6 @@ Pokud chcete zastavit ladění, použijte na terminálu **Ctrl+C**.
 
 Pokud chcete projekt Functions publikovat do Azure, zadejte následující příkaz:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Může se zobrazit výzva k přihlášení do Azure. Postupujte podle pokynů na obrazovce.

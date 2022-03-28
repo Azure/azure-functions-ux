@@ -42,6 +42,6 @@ Aby zatrzymać debugowanie, użyj klawiszy **Ctrl-C** w terminalu.
 
 Aby opublikować projekt usługi Functions na platformie Azure, wprowadź następujące polecenie:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Może zostać wyświetlony monit o zalogowanie się do platformy Azure. Wykonaj instrukcje wyświetlane na ekranie.

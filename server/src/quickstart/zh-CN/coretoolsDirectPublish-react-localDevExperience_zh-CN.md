@@ -42,6 +42,6 @@
 
 要将“函数”项目发布到 Azure，请输入以下命令：
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 系统可能会提示你登录到 Azure。 按照屏幕上的说明操作。

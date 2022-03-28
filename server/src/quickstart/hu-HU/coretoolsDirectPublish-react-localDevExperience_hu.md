@@ -42,6 +42,6 @@ A hibakeresés leállításához használja a **Ctrl+C** billentyűparancsot a t
 
 A Functions-projekt Azure-beli közzétételéhez írja be az alábbi parancsot:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Lehet, hogy a rendszer arra kéri, hogy jelentkezzen be az Azure-ba. Kövesse a képernyőn megjelenő utasításokat.

@@ -42,6 +42,6 @@ Para detener la depuración, use **Ctrl-C** en el terminal.
 
 Para publicar el proyecto de Functions en Azure, escriba el siguiente comando:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Es posible que se le pida que inicie sesión en Azure. Siga las instrucciones en pantalla.
