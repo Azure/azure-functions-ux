@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useCallback, useContext, useState } from 'react';
 import { TextField as OfficeTextField, ITextFieldProps } from '@fluentui/react';
 import ReactiveFormControl from './ReactiveFormControl';
 import { useWindowSize } from 'react-use';
@@ -71,13 +71,9 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     );
   };
 
-  const getTextFieldStyles = () => {
-    if (!!styles && typeof styles === 'function') {
-      return styles;
-    } else {
-      return textFieldStyleOverrides(theme, fullpage, widthOverride, styles);
-    }
-  };
+  const getTextFieldStyles = useCallback(() => {
+    return styles ?? textFieldStyleOverrides(theme, fullpage, widthOverride);
+  }, [styles, theme, fullpage, widthOverride]);
 
   const getTextFieldProps = (): ITextFieldProps => {
     const textFieldProps: ITextFieldProps = {

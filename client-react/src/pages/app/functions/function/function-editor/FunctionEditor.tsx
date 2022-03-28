@@ -204,8 +204,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const run = (values: InputFormValues) => {
     let data;
-    const currentRunId = Guid.newGuid();
-    setLiveLogsSessionId(currentRunId);
     if (isHttpOrWebHookFunction) {
       data = JSON.stringify({
         method: values.method,
@@ -219,7 +217,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     const tempFunctionInfo = functionInfo;
     tempFunctionInfo.properties.test_data = data;
     expandLogPanel();
-    props.run(tempFunctionInfo, values.xFunctionKey, currentRunId);
+    props.run(tempFunctionInfo, values.xFunctionKey, liveLogsSessionId);
 
     portalCommunicator.log({
       action: 'functionEditor',
@@ -233,14 +231,17 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         runtime: runtimeVersion,
         stack: workerRuntime,
         sku: site.properties.sku,
-        liveLogsSessionId: currentRunId,
+        liveLogsSessionId: liveLogsSessionId,
       },
     });
   };
 
   const isGetFunctionUrlVisible = () => {
+    const { properties } = functionInfo;
     return (
-      !!BindingManager.getHttpTriggerTypeInfo(functionInfo.properties) || !!BindingManager.getEventGridTriggerInfo(functionInfo.properties)
+      !!BindingManager.getHttpTriggerTypeInfo(properties) ||
+      !!BindingManager.getEventGridTriggerInfo(properties) ||
+      !!BindingManager.getAuthenticationEventTriggerTypeInfo(properties)
     );
   };
 
@@ -516,8 +517,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   useEffect(() => {
     fetchData();
-    setSelectedLoggingOption(isFileSystemLoggingAvailable ? LoggingOptions.fileBased : LoggingOptions.appInsights);
-
+    setLiveLogsSessionId(Guid.newGuid());
+    setSelectedLoggingOption(showAppInsightsLogs ? LoggingOptions.appInsights : LoggingOptions.fileBased);
+    expandLogPanel();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

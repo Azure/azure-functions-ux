@@ -42,6 +42,6 @@ Drücken Sie im Terminal die Tastenkombination **STRG+C**, um das Debuggen zu be
 
 Geben Sie den folgenden Befehl ein, um Ihr Functions-Projekt in Azure zu veröffentlichen:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Unter Umständen werden Sie aufgefordert, sich bei Azure anzumelden. Folgen Sie den Anweisungen auf dem Bildschirm.

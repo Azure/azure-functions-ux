@@ -5110,6 +5110,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>{0} {1} for {2}</value>
         <comment>0: number of results; 1: "result" or "results" depending on the number; 2: search string value</comment>
     </data>
+    <data name="gridItemsCountAriaLabelNoFilter" xml:space="preserve">
+        <value>{0} {1}</value>
+        <comment>0: number of results; 1: "result" or "results" depending on the number</comment>
+    </data>
+    <data name="gridItemsCountAriaLabelNoResults" xml:space="preserve">
+        <value>No results found for {0}</value>
+        <comment>0: search string value</comment>
+    </data>
+    <data name="gridItemsCountAriaLabelNoFilterNoResults" xml:space="preserve">
+        <value>No results found</value>
+    </data>
     <data name="result" xml:space="preserve">
         <value>result</value>
     </data>
@@ -7356,5 +7367,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="disconnecting" xml:space="preserve">
         <value>Disconnecting...</value>
+    </data>
+    <data name="connectedAndFilteredMessage" xml:space="preserve">
+        <value>Connected! You are now viewing logs of Function runs in the current Code + Test panel. To see all the logs for this Function, please go to 'Monitor' from the Function menu.</value>
     </data>
 </root>

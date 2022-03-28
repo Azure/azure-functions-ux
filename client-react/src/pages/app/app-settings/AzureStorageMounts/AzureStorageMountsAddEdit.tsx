@@ -243,7 +243,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               errorMessage={formProps.errors && formProps.errors.mountPath}
               required={true}
               validate={validateMountPath}
-              styles={textFieldPrefixStylesOverride()}
+              styles={textFieldPrefixStylesOverride(!isLinuxOrContainer())}
             />
             <ActionBar
               id="handler-mappings-edit-footer"

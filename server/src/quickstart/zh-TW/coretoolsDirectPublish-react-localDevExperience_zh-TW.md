@@ -42,6 +42,6 @@
 
 若要將函式專案發佈至 Azure，請輸入下列命令：
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 系統會提示您登入 Azure。 遵循螢幕上的指示操作。

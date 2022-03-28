@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { findDOMNode } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Dropdown as OfficeDropdown, IDropdownOption, Callout, DirectionalHint, DropdownMenuItemType } from '@fluentui/react';
 import TextFieldNoFormik from '../../../../../components/form-controls/TextFieldNoFormik';
@@ -70,11 +71,17 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlObjs]);
+
+  const target = React.useMemo(() => {
+    // eslint-disable-next-line react/no-find-dom-node
+    return dialogTarget instanceof Element ? dialogTarget : (findDOMNode(dialogTarget) as Element | null);
+  }, [dialogTarget]);
+
   return (
     <Callout
       role="alertdialog"
-      gapSpace={380}
-      target={dialogTarget}
+      gapSpace={0}
+      target={target}
       onDismiss={onCloseDialog}
       setInitialFocus={true}
       directionalHint={DirectionalHint.rightBottomEdge}

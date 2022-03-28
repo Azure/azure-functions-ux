@@ -2,6 +2,26 @@ import MockCall from './ApiHelpers/ArmHelper';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
+jest.mock('applicationinsights-js', () => {
+  return {
+    AppInsights: {
+      downloadAndSetup: () => {},
+      queue: {
+        push: jest.fn(),
+      },
+      context: {
+        application: {},
+        addTelemetryInitializer: jest.fn(),
+      },
+      trackEvent: jest.fn(),
+      startTrackPage: jest.fn(),
+      stopTrackPage: jest.fn(),
+      startTrackEvent: jest.fn(),
+      stopTrackEvent: jest.fn(),
+    },
+  };
+});
+
 describe('Arm Helper', () => {
   let mock;
   beforeEach(() => {
@@ -23,7 +43,10 @@ describe('Arm Helper', () => {
 
   it('Batched call should only happen once for multiple burst calls', async () => {
     const mockData = {
-      responses: [{ httpStatusCode: 200, content: { val: 'test1' } }, { httpStatusCode: 200, content: { val: 'test2' } }],
+      responses: [
+        { httpStatusCode: 200, content: { val: 'test1' } },
+        { httpStatusCode: 200, content: { val: 'test2' } },
+      ],
     };
     mock.onPost().reply(200, mockData);
     const t = MockCall<any>({ resourceId: 'test', commandName: 'test' });

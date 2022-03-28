@@ -1647,6 +1647,9 @@ export class PortalResources {
   public static filter = 'filter';
   public static filterAppSettings = 'filterAppSettings';
   public static gridItemsCountAriaLabel = 'gridItemsCountAriaLabel';
+  public static gridItemsCountAriaLabelNoFilter = 'gridItemsCountAriaLabelNoFilter';
+  public static gridItemsCountAriaLabelNoResults = 'gridItemsCountAriaLabelNoResults';
+  public static gridItemsCountAriaLabelNoFilterNoResults = 'gridItemsCountAriaLabelNoFilterNoResults';
   public static result = 'result';
   public static results = 'results';
   public static filterConnectionStrings = 'filterConnectionStrings';
@@ -2406,4 +2409,5 @@ export class PortalResources {
   public static deploymentCenterDropboxDescriptionText = 'deploymentCenterDropboxDescriptionText';
   public static deploymentCenterOneDriveDescriptionText = 'deploymentCenterOneDriveDescriptionText';
   public static disconnecting = 'disconnecting';
+  public static connectedAndFilteredMessage = 'connectedAndFilteredMessage';
 }

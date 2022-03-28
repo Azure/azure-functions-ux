@@ -24,17 +24,16 @@ module.exports = {
       '!src/utils/Guid.ts',
       '!src/utils/scenario-checker/**',
     ];
+    config.moduleNameMapper = {
+      ...config.moduleNameMapper,
+      '^joi$': '<rootDir>/node_modules/joi-browser/dist/joi-browser.min',
+    };
     config.testEnvironment = 'jest-environment-jsdom-sixteen';
     config.testPathIgnorePatterns = [
-      ...(config?.testPathIgnorePatterns ?? []),
-      /** @todo Fix "Cannot find module 'joi'" error. */
-      '<rootDir>/src/pages/app/app-settings/ApplicationSettings/ApplicationSettings.utils.spec.ts',
-      /** @todo Fix "define is not defined" error because of `applicationinsights-js`. */
-      '<rootDir>/src/pages/app/app-settings/AppSettingsFormData.spec.ts',
-      '<rootDir>/src/utils/arm-utils.spec.ts',
-      '<rootDir>/src/ArmHelper.spec.ts',
+      ...(config.testPathIgnorePatterns ?? []),
       /** @todo Fix "Cannot read property 'getParameterByName' of undefined" error. */
       '<rootDir>/src/pages/app/app-settings/GeneralSettings/WindowsStacks/JavaData.spec.ts',
+      '<rootDir>/src/utils/arm-utils.spec.ts',
     ];
     /** @note https://github.com/timarney/react-app-rewired/issues/241#issuecomment-387584632 */
     config.transformIgnorePatterns = [

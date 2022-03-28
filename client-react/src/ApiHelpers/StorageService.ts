@@ -1,7 +1,7 @@
 import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
 import MakeArmCall from './ArmHelper';
 import { ArmArray } from '../models/arm-obj';
-import { StorageAccount, StorageAccountKeys } from '../models/storage-account';
+import { BlobContainer, FileShareContainer, StorageAccount, StorageAccountKeys } from '../models/storage-account';
 import { CommonConstants } from '../utils/CommonConstants';
 
 export default class StorageService {
@@ -22,6 +22,26 @@ export default class StorageService {
       method: 'POST',
       commandName: 'fetchStorageAccountKeys',
       apiVersion: CommonConstants.ApiVersions.storageApiVersion20180701,
+    });
+  };
+
+  public static fetchStorageBlobContainers = (resourceId: string) => {
+    const id = `${resourceId}/blobServices/default/containers`;
+    return MakeArmCall<ArmArray<BlobContainer>>({
+      resourceId: id,
+      method: 'GET',
+      commandName: 'fetchStorageAccountBlobContainers',
+      apiVersion: CommonConstants.ApiVersions.storageApiVersion20180701,
+    });
+  };
+
+  public static fetchStorageFileShareContainers = (resourceId: string) => {
+    const id = `${resourceId}/fileServices/default/shares`;
+    return MakeArmCall<ArmArray<FileShareContainer>>({
+      resourceId: id,
+      method: 'GET',
+      commandName: 'fetchStorageAccountFileShareContainers',
+      apiVersion: CommonConstants.ApiVersions.storageApiVersion20210401,
     });
   };
 }

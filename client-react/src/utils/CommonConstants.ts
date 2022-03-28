@@ -26,6 +26,7 @@ export class CommonConstants {
     armBatchApi20151101: '2015-11-01',
     resourceGraphApiVersion20180901preview: '2018-09-01-preview',
     storageApiVersion20180701: '2018-07-01',
+    storageApiVersion20210401: '2021-04-01',
     eventHubApiVersion20150801: '2015-08-01',
     iotHubApiVersion20170119: '2017-01-19',
     serviceBusApiVersion20150801: '2015-08-01',

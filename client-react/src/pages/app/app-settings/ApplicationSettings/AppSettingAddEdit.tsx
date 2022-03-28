@@ -78,8 +78,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
       appSetting.name === currentAppSetting.name &&
       appSetting.value === currentAppSetting.value &&
       !!currentAppSettingReference &&
-      !!currentAppSettingReference.secretName &&
-      currentAppSetting.name.toLowerCase() === currentAppSettingReference.secretName.toLowerCase()
+      !!currentAppSettingReference.secretName
     );
   };
 
