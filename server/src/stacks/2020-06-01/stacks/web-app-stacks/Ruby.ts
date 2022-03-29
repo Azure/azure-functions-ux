@@ -55,6 +55,7 @@ export const rubyStack: WebAppStack = {
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'RUBY|2.6',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -72,6 +73,7 @@ export const rubyStack: WebAppStack = {
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'RUBY|2.6.2',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
