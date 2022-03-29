@@ -57,6 +57,7 @@ const getRubyStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             stackSettings: {
               linuxRuntimeSettings: {
                 runtimeVersion: 'RUBY|2.6',
+                isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,
@@ -74,6 +75,7 @@ const getRubyStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             stackSettings: {
               linuxRuntimeSettings: {
                 runtimeVersion: 'RUBY|2.6.2',
+                isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,
