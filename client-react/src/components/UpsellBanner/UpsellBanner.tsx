@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Stack, Link } from '@fluentui/react';
 import { ReactComponent as UpsellIconSvg } from '../../upsell.svg';
 import { BannerStyle, IconStyle, LinkStyle } from './UpsellBanner.styles';

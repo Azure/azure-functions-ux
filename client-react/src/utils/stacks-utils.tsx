@@ -15,7 +15,6 @@ import { LogCategories } from './LogCategories';
 import { getDateAfterXSeconds } from './DateUtilities';
 import { Links } from './FwLinks';
 import CustomBanner from '../components/CustomBanner/CustomBanner';
-import React from 'react';
 import { AppSettingsFormValues } from '../pages/app/app-settings/AppSettings.types';
 import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { findFormAppSettingIndex } from '../pages/app/app-settings/AppSettingsFormData';

@@ -1,7 +1,6 @@
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
 import { IDropdownOption, IDropdownProps, ResponsiveMode } from '@fluentui/react';
-import React from 'react';
 import DropdownNoFormik from './DropDownnoFormik';
 import { Layout } from './ReactiveFormControl';
 import { Spinner, SpinnerSize } from '@fluentui/react';
