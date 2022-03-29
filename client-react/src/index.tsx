@@ -1,6 +1,5 @@
 import './polyfills';
 import { initializeIcons } from '@uifabric/icons';
-import React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './pages/App';
 import { lightTheme } from './theme/light';

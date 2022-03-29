@@ -1,7 +1,6 @@
 import { Field, FormikProps } from 'formik';
 import i18next from 'i18next';
 import { IDropdownOption } from '@fluentui/react';
-import React from 'react';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 import TextField from '../../../../components/form-controls/TextField';

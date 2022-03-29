@@ -32,6 +32,7 @@
     "react-use": "^5.4.1",
     "rxjs": "^6.4.0",
     "typestyle": "^2.0.1",
+    "xterm-for-react": "^1.0.4",
     "yaml-lint": "^1.2.4",
     "yup": "^0.26.10"
   },
@@ -60,8 +61,8 @@
     "@types/lodash-es": "^4.17.1",
     "@types/node": "^10.12.24",
     "@types/reach__router": "^1.2.3",
-    "@types/react": "^16.8.2",
-    "@types/react-dom": "^16.8.0",
+    "@types/react": "^16.14.24",
+    "@types/react-dom": "^16.9.14",
     "@types/react-i18next": "^8.1.0",
     "@types/webpack-env": "^1.13.7",
     "@types/yup": "^0.26.9",
@@ -80,7 +81,7 @@
     "jest-mock-axios": "^2.1.11",
     "monaco-editor-webpack-plugin": "^1.7.0",
     "react-test-renderer": "^16.8.1",
-    "typescript": "^4.3.5",
+    "typescript": "^4.6.3",
     "webpack-bundle-analyzer": "^3.3.2"
   },
   "proxy": "https://localhost:44300",

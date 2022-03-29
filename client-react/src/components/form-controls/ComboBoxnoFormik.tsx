@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { ComboBox, IComboBoxProps, IComboBoxOption } from '@fluentui/react';
 import { ThemeContext } from '../../ThemeContext';
 import { comboboxStyleOverrides } from './formControl.override.styles';
