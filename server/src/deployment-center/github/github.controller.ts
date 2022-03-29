@@ -386,10 +386,9 @@ export class GithubController {
     }
   }
 
-  @Get('api/github/hasCredentials')
+  @Get('api/github/hasOnPremCredentials')
   @HttpCode(200)
   async hasCredentials() {
-    console.log('hasCredentials called from server-side');
     return !!this._getGitHubClientId() && !!this._getGitHubClientSecret();
   }
 
@@ -549,26 +548,8 @@ export class GithubController {
     return `${beginningOfProfile}${replacementPublishUrl}${endOfProfile}`;
   }
 
-  get staticReactConfig(): StaticReactConfig {
-    const acceptedOriginsString = process.env.APPSVC_ACCEPTED_ORIGINS_SUFFIX;
-    let acceptedOrigins: string[] = [];
-    if (acceptedOriginsString) {
-      acceptedOrigins = acceptedOriginsString.split(',');
-    }
-
-    return {
-      env: {
-        appName: process.env.WEBSITE_SITE_NAME,
-        hostName: process.env.WEBSITE_HOSTNAME,
-        cloud: process.env.APPSVC_CLOUD as CloudType,
-        acceptedOriginsSuffix: acceptedOrigins,
-      },
-      version: process.env.VERSION,
-    };
-  }
-
   private _getGitHubClientId(): string {
-    const config = this.staticReactConfig;
+    const config = this.configService.staticReactConfig;
     if (config.env && config.env.cloud === CloudType.public) {
       return this.configService.get('GITHUB_CLIENT_ID');
     } else if (config.env && config.env.cloud === CloudType.onprem) {
@@ -579,7 +560,7 @@ export class GithubController {
   }
 
   private _getGitHubClientSecret(): string {
-    const config = this.staticReactConfig;
+    const config = this.configService.staticReactConfig;
     if (config.env && config.env.cloud === CloudType.public) {
       return this.configService.get('GITHUB_CLIENT_SECRET');
     } else if (config.env && config.env.cloud === CloudType.onprem) {
@@ -590,7 +571,7 @@ export class GithubController {
   }
 
   private _getGitHubForCreatesClientId() {
-    const config = this.staticReactConfig;
+    const config = this.configService.staticReactConfig;
     if (config.env && config.env.cloud === CloudType.public) {
       return this.configService.get('GITHUB_FOR_CREATES_CLIENT_ID');
     } else {
@@ -599,7 +580,7 @@ export class GithubController {
   }
 
   private _getGitHubForCreatesClientSecret() {
-    const config = this.staticReactConfig;
+    const config = this.configService.staticReactConfig;
     if (config.env && config.env.cloud === CloudType.public) {
       return this.configService.get('GITHUB_FOR_CREATES_CLIENT_SECRET');
     } else {
@@ -608,7 +589,7 @@ export class GithubController {
   }
 
   private _getGitHubRedirectUrl() {
-    const config = this.staticReactConfig;
+    const config = this.configService.staticReactConfig;
     if (config.env && config.env.cloud === CloudType.onprem) {
       return `https://${window.location.hostname}:${window.location.port}/TokenAuthorize`;
     } else {

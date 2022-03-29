@@ -15,24 +15,6 @@ export class BitbucketsController {
     private httpService: HttpService
   ) {}
 
-  get staticReactConfig(): StaticReactConfig {
-    const acceptedOriginsString = process.env.APPSVC_ACCEPTED_ORIGINS_SUFFIX;
-    let acceptedOrigins: string[] = [];
-    if (acceptedOriginsString) {
-      acceptedOrigins = acceptedOriginsString.split(',');
-    }
-
-    return {
-      env: {
-        appName: process.env.WEBSITE_SITE_NAME,
-        hostName: process.env.WEBSITE_HOSTNAME,
-        cloud: process.env.APPSVC_CLOUD as CloudType,
-        acceptedOriginsSuffix: acceptedOrigins,
-      },
-      version: process.env.VERSION,
-    };
-  }
-
   @Get('auth/bitbucket/authorize')
   async authorize(@Session() session, @Response() res) {
     let stateKey = '';
@@ -103,14 +85,14 @@ export class BitbucketsController {
     }
   }
 
-  @Get('api/bitbucket/hasCredentials')
+  @Get('api/bitbucket/hasOnPremCredentials')
   @HttpCode(200)
   async hasCredentials() {
     return !!this.getBitbucketClientId() && !!this.getBitbucketClientSecret();
   }
 
   private getBitbucketClientId() {
-    const config = this.staticReactConfig;
+    const config = this.configService.staticReactConfig;
     if (config.env && config.env.cloud === CloudType.onprem) {
       return this.configService.get('DeploymentCenter_BitbuckClientId');
     } else {
@@ -119,7 +101,7 @@ export class BitbucketsController {
   }
 
   private getBitbucketClientSecret() {
-    const config = this.staticReactConfig;
+    const config = this.configService.staticReactConfig;
     if (config.env && config.env.cloud === CloudType.onprem) {
       return this.configService.get('DeploymentCenter_BitbuckClientSecret');
     } else {
@@ -128,7 +110,7 @@ export class BitbucketsController {
   }
 
   private getBitbucketRedirectURL() {
-    const config = this.staticReactConfig;
+    const config = this.configService.staticReactConfig;
     if (config.env && config.env.cloud === CloudType.onprem) {
       return `https://${window.location.hostname}:${window.location.port}/TokenAuthorize`;
     } else {

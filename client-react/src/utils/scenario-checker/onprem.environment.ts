@@ -273,7 +273,10 @@ export class OnPremEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.githubSource] = {
       id: ScenarioIds.githubSource,
       runCheckAsync: async () => {
-        const hasGitHubCredentials = await sendHttpRequest<boolean>({ url: `${Url.serviceHost}/api/github/hasCredentials`, method: 'GET' });
+        const hasGitHubCredentials = await sendHttpRequest<boolean>({
+          url: `${Url.serviceHost}/api/github/hasOnPremCredentials`,
+          method: 'GET',
+        });
         if (hasGitHubCredentials.metadata.success) {
           return { status: hasGitHubCredentials.data ? 'enabled' : 'disabled' };
         }
@@ -285,7 +288,7 @@ export class OnPremEnvironment extends Environment {
       id: ScenarioIds.githubSource,
       runCheckAsync: async () => {
         const hasBitbucketCredentials = await sendHttpRequest<boolean>({
-          url: `${Url.serviceHost}/api/bitbucket/hasCredentials`,
+          url: `${Url.serviceHost}/api/bitbucket/hasOnPremCredentials`,
           method: 'GET',
         });
         if (hasBitbucketCredentials.metadata.success) {
