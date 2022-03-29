@@ -16,7 +16,7 @@ import { MockLogService } from '../../../../../test/mocks/log.service.mock';
 import { NgSelectTestHelpers, KeyCode } from '../../../../../test/mocks/ng-select-helpers.mock';
 import { Subject } from 'rxjs/Subject';
 
-describe('ConfigureDropboxComponent', () => {
+xdescribe('ConfigureDropboxComponent', () => {
   let component: ConfigureDropboxComponent;
   let testFixture: ComponentFixture<ConfigureDropboxComponent>;
   let wizard: MockDeploymentCenterStateManager;
