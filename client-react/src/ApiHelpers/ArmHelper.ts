@@ -1,15 +1,15 @@
 import axios, { AxiosResponse } from 'axios';
-import { CommonConstants } from '../utils/CommonConstants';
-import { Subject, from, of } from 'rxjs';
-import { bufferTime, filter, concatMap, share, take, catchError } from 'rxjs/operators';
-import { Guid } from '../utils/Guid';
+import { from, of, Subject } from 'rxjs';
 import { async } from 'rxjs/internal/scheduler/async';
-import Url from '../utils/url';
-import { MethodTypes, ArmRequestObject, HttpResponseObject } from '../ArmHelper.types';
-import LogService from '../utils/LogService';
-import { LogCategories } from '../utils/LogCategories';
+import { bufferTime, catchError, concatMap, filter, share, take } from 'rxjs/operators';
+import { ArmRequestObject, HttpResponseObject, MethodTypes } from '../ArmHelper.types';
 import { ArmArray, ArmObj } from '../models/arm-obj';
 import { KeyValue } from '../models/portal-models';
+import { CommonConstants } from '../utils/CommonConstants';
+import { Guid } from '../utils/Guid';
+import { LogCategories } from '../utils/LogCategories';
+import LogService from '../utils/LogService';
+import Url from '../utils/url';
 
 const alwaysSkipBatching = !!Url.getParameterByName(null, 'appsvc.skipbatching');
 const sessionId = Url.getParameterByName(null, 'sessionId');
@@ -181,13 +181,13 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
 
       return ret;
     } catch (err) {
-      const err2 = err as any;
+      const { status, headers, data } = (err as any) || {};
       return {
         metadata: {
           success: false,
-          status: err2.status ? err2.status : 500,
-          headers: err2.headers ? err2.headers : {},
-          error: err2.data ? err2.data : null,
+          status: status ? status : 500,
+          headers: headers ? headers : {},
+          error: data ? data : null,
         },
         data: null as any,
       };
