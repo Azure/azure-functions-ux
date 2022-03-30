@@ -19,7 +19,7 @@ import { MessageComponent } from '../shared/components/message.component';
 import { PromptComponent } from '../shared/components/prompt.component';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
-describe('PowershellConsoleComponent', () => {
+xdescribe('PowershellConsoleComponent', () => {
   let component: PowershellComponent;
   let fixture: ComponentFixture<PowershellComponent>;
   beforeEach(async(() => {

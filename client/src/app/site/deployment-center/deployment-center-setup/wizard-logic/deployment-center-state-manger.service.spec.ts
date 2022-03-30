@@ -15,7 +15,7 @@ import { of } from 'rxjs/observable/of';
 import { AuthzService } from '../../../../shared/services/authz.service';
 import { AzureDevOpsService } from './azure-devops.service';
 
-describe('Deployment State Manager', () => {
+xdescribe('Deployment State Manager', () => {
   let _fb: FormBuilder;
   const starterWizardForm = () => {
     return _fb.group({

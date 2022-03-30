@@ -9,7 +9,7 @@ import { MockComponent } from 'ng-mocks';
 import { RadioSelectorComponent } from '../../../../../radio-selector/radio-selector.component';
 import { TextboxComponent } from '../../../../../controls/textbox/textbox.component';
 
-describe('ConfigureExternalComponent', () => {
+xdescribe('ConfigureExternalComponent', () => {
   let component: ConfigureExternalComponent;
   let testFixture: ComponentFixture<ConfigureExternalComponent>;
   let wizard: MockDeploymentCenterStateManager;
