@@ -518,8 +518,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   useEffect(() => {
     fetchData();
     setLiveLogsSessionId(Guid.newGuid());
-    setSelectedLoggingOption(showAppInsightsLogs ? LoggingOptions.appInsights : LoggingOptions.fileBased);
-    expandLogPanel();
+    if (Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi)) {
+      setSelectedLoggingOption(showAppInsightsLogs ? LoggingOptions.appInsights : LoggingOptions.fileBased);
+      expandLogPanel();
+    } else {
+      setSelectedLoggingOption(isFileSystemLoggingAvailable ? LoggingOptions.fileBased : LoggingOptions.appInsights);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
