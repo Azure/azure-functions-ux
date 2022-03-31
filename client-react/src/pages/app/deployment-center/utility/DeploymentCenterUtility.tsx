@@ -393,7 +393,9 @@ export const getDefaultVersionDisplayName = (version: string, isLinuxApp: boolea
 
 export const getLinuxDefaultVersionDisplayName = (version: string) => {
   //NOTE(stpelleg): Java is different
-  if (version === RuntimeVersionOptions.Java11) {
+  if (version === RuntimeVersionOptions.Java17) {
+    return RuntimeVersionDisplayNames.Java17;
+  } else if (version === RuntimeVersionOptions.Java11) {
     return RuntimeVersionDisplayNames.Java11;
   } else if (version === RuntimeVersionOptions.Java8) {
     return RuntimeVersionDisplayNames.Java8;
