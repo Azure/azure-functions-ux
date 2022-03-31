@@ -6,7 +6,7 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
 import { SiteStateContext } from '../../../../SiteState';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { CommonConstants, FunctionsDotnetVersion, WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
 import {
   filterFunctionAppStack,
   getFunctionAppStackObject,
@@ -97,7 +97,12 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
   const getSupportedExtensionVersions = (): RuntimeExtensionMajorVersions[] => {
     const currentStack = values.currentlySelectedStack;
     const isLinux = siteStateContext.isLinuxApp;
-    const currentStackVersion = getFunctionAppStackVersion(values, isLinux, currentStack);
+    let currentStackVersion = getFunctionAppStackVersion(values, isLinux, currentStack);
+
+    //(note): stpelleg -- Need to handle this version of dotnet bc it will not appear in stacks API call as v4.0. it will be 3.1
+    if (currentStack === WorkerRuntimeLanguages.dotnet && currentStackVersion === FunctionsDotnetVersion.v4) {
+      currentStackVersion = FunctionsDotnetVersion.v3;
+    }
 
     const filteredStacks = filterFunctionAppStack(functionAppStacksContext, values, isLinux, currentStack);
     const stackObject = getFunctionAppStackObject(filteredStacks, isLinux, currentStack);

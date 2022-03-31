@@ -271,6 +271,11 @@ export enum WorkerRuntimeLanguages {
   dotnet5 = 'dotnet-isolated',
 }
 
+export enum FunctionsDotnetVersion {
+  v4 = 'v4.0',
+  v3 = '3.1',
+}
+
 export enum OverflowBehavior {
   none = 'none',
   menu = 'menu',
