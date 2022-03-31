@@ -176,9 +176,9 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const isCorsRuleAdded = () => {
     const siteConfig = functionEditorContext.functionData.siteConfig;
     if (!!window.location.origin && !!siteConfig && !!siteConfig.properties.cors && siteConfig.properties.cors.allowedOrigins) {
-      const ancestorOrigins = window.location.ancestorOrigins;
-      if (ancestorOrigins.length > 0) {
-        const origin = ancestorOrigins[0].toLocaleLowerCase();
+      const referrer = window.document.referrer;
+      if (!!referrer) {
+        const origin = referrer.toLocaleLowerCase();
         return siteConfig.properties.cors.allowedOrigins.filter(allowedOrigin => allowedOrigin.toLocaleLowerCase() === origin).length > 0;
       }
     }
@@ -186,8 +186,8 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   };
 
   const getCorsRuleToRunFromBrowser = () => {
-    const ancestorOrigins = window.location.ancestorOrigins;
-    return !!ancestorOrigins && ancestorOrigins.length > 0 ? ancestorOrigins[0].toLocaleLowerCase() : Url.getPortalUriByEnv;
+    const ancestorOrigins = window.document.referrer;
+    return !!ancestorOrigins ? ancestorOrigins.toLocaleLowerCase() : Url.getPortalUriByEnv;
   };
 
   const onMissingCorsMessageClick = () => {
