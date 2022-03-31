@@ -92,12 +92,14 @@ export enum RuntimeStackDisplayNames {
 }
 
 export enum RuntimeVersionOptions {
+  Java17 = 'java17',
   Java11 = 'java11',
   Java8 = 'java8',
   Java8Linux = 'jre8',
 }
 
 export enum RuntimeVersionDisplayNames {
+  Java17 = 'Java 17',
   Java11 = 'Java 11',
   Java8 = 'Java 8',
 }
