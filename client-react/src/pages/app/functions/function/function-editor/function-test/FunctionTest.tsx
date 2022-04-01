@@ -16,7 +16,7 @@ import { ValidationRegex } from '../../../../../../utils/constants/ValidationReg
 import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../../../utils/FwLinks';
 import { FunctionEditorContext } from '../FunctionEditorDataLoader';
-import { OverflowBehavior } from '../../../../../../utils/CommonConstants';
+import { CommonConstants, OverflowBehavior } from '../../../../../../utils/CommonConstants';
 import Url from '../../../../../../utils/url';
 
 export interface FunctionTestProps {
@@ -175,19 +175,17 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
 
   const isCorsRuleAdded = () => {
     const siteConfig = functionEditorContext.functionData.siteConfig;
-    if (!!window.location.origin && !!siteConfig && !!siteConfig.properties.cors && siteConfig.properties.cors.allowedOrigins) {
-      const ancestorOrigins = window.location.ancestorOrigins;
-      if (ancestorOrigins.length > 0) {
-        const origin = ancestorOrigins[0].toLocaleLowerCase();
-        return siteConfig.properties.cors.allowedOrigins.filter(allowedOrigin => allowedOrigin.toLocaleLowerCase() === origin).length > 0;
+    if (siteConfig?.properties.cors?.allowedOrigins) {
+      const referrer = CommonConstants.getReferrer();
+      if (!!referrer) {
+        return siteConfig.properties.cors.allowedOrigins.filter(allowedOrigin => allowedOrigin.toLocaleLowerCase() === referrer).length > 0;
       }
     }
     return false;
   };
 
   const getCorsRuleToRunFromBrowser = () => {
-    const ancestorOrigins = window.location.ancestorOrigins;
-    return !!ancestorOrigins && ancestorOrigins.length > 0 ? ancestorOrigins[0].toLocaleLowerCase() : Url.getPortalUriByEnv;
+    return CommonConstants.getReferrer() ?? Url.getPortalUriByEnv;
   };
 
   const onMissingCorsMessageClick = () => {
