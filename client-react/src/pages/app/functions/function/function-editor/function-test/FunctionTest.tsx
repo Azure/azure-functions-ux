@@ -16,7 +16,7 @@ import { ValidationRegex } from '../../../../../../utils/constants/ValidationReg
 import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../../../utils/FwLinks';
 import { FunctionEditorContext } from '../FunctionEditorDataLoader';
-import { OverflowBehavior } from '../../../../../../utils/CommonConstants';
+import { CommonConstants, OverflowBehavior } from '../../../../../../utils/CommonConstants';
 import Url from '../../../../../../utils/url';
 
 export interface FunctionTestProps {
@@ -176,18 +176,16 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const isCorsRuleAdded = () => {
     const siteConfig = functionEditorContext.functionData.siteConfig;
     if (siteConfig?.properties.cors?.allowedOrigins) {
-      const referrer = window.document?.referrer;
+      const referrer = CommonConstants.getReferrer();
       if (!!referrer) {
-        const origin = referrer.toLocaleLowerCase().replace(/\/+$/, '');
-        return siteConfig.properties.cors.allowedOrigins.filter(allowedOrigin => allowedOrigin.toLocaleLowerCase() === origin).length > 0;
+        return siteConfig.properties.cors.allowedOrigins.filter(allowedOrigin => allowedOrigin.toLocaleLowerCase() === referrer).length > 0;
       }
     }
     return false;
   };
 
   const getCorsRuleToRunFromBrowser = () => {
-    const referrer = window.document?.referrer;
-    return referrer?.toLocaleLowerCase().replace(/\/+$/, '') ?? Url.getPortalUriByEnv;
+    return CommonConstants.getReferrer() ?? Url.getPortalUriByEnv;
   };
 
   const onMissingCorsMessageClick = () => {
