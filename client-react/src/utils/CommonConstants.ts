@@ -228,6 +228,8 @@ export class CommonConstants {
     return !!value && value.toLocaleLowerCase().startsWith('https://') && value.toLocaleLowerCase().search('.vault.azure.net/secrets') > 0;
   };
 
+  public static getReferrer = () => window.document?.referrer?.toLocaleLowerCase().replace(/\/+$/, '');
+
   public static readonly BindingSettingNames = {
     connection: 'connection',
     connectionStringSetting: 'connectionStringSetting',
