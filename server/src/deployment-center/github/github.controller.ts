@@ -232,7 +232,9 @@ export class GithubController {
       });
     } catch (err) {
       this.loggingService.error(
-        `Failed to delete action workflow '${deleteCommit.filePath}' on branch '${deleteCommit.branchName}' in repo '${deleteCommit.repoName}'.`
+        `Failed to delete action workflow '${deleteCommit.filePath}' on branch '${deleteCommit.branchName}' in repo '${
+          deleteCommit.repoName
+        }'.`
       );
 
       if (err.response) {
@@ -271,9 +273,11 @@ export class GithubController {
     }
 
     res.redirect(
-      `${Constants.oauthApis.githubApiUri}/authorize?client_id=${this._getGitHubClientId()}&redirect_uri=${this._getRedirectUri(
-        host
-      )}&scope=admin:repo_hook+repo+workflow&response_type=code&state=${this.dcService.hashStateGuid(stateKey)}`
+      `${
+        Constants.oauthApis.githubApiUri
+      }/authorize?client_id=${this._getGitHubClientId()}&scope=admin:repo_hook+repo+workflow&response_type=code&state=${this.dcService.hashStateGuid(
+        stateKey
+      )}`
     );
   }
 
@@ -482,7 +486,9 @@ export class GithubController {
       });
     } catch (err) {
       this.loggingService.error(
-        `Failed to commit action workflow '${content.commit.filePath}' on branch '${content.commit.branchName}' in repo '${content.commit.repoName}'.`
+        `Failed to commit action workflow '${content.commit.filePath}' on branch '${content.commit.branchName}' in repo '${
+          content.commit.repoName
+        }'.`
       );
 
       if (err.response) {
