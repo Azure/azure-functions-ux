@@ -181,13 +181,13 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
 
       return ret;
     } catch (err) {
-      const { status, headers, data } = (err as any) || {};
+      const { status = 500, headers = {}, data = null } = (err as any) || {};
       return {
         metadata: {
           success: false,
-          status: status ? status : 500,
-          headers: headers ? headers : {},
-          error: data ? data : null,
+          status,
+          headers,
+          error: data,
         },
         data: null as any,
       };
