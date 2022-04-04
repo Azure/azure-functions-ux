@@ -89,13 +89,13 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
           values.config.properties.pythonVersion !== initialValues.config.properties.pythonVersion
         }
         component={Dropdown}
-        infoBubbleMessage={t('pythonInfoTextNoClick')}
-        learnMoreLink={Links.pythonStackInfo}
         disabled={disableAllControls}
         label={t('pythonVersion')}
         id="pythonVersion"
         options={pythonVersions}
         {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
+        infoBubbleMessage={t('pythonInfoTextNoClick')}
+        learnMoreLink={Links.pythonStackInfo}
       />
       {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.netFrameworkVersion, eolStackDate)}
     </>

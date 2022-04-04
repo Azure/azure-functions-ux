@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Toggle as OfficeToggle, IToggleProps } from '@fluentui/react';
 import { ThemeContext } from '../../ThemeContext';
 import ReactiveFormControl from './ReactiveFormControl';

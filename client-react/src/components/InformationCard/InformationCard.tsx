@@ -1,5 +1,5 @@
 import { Link } from '@fluentui/react';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import ReactSVG from 'react-svg';
 import { style } from 'typestyle';
 
