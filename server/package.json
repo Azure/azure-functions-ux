@@ -27,7 +27,7 @@
     "@nestjs/platform-express": "^8.0.5",
     "applicationinsights": "^2.1.4",
     "async-file": "^2.0.2",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "cache-manager": "^3.4.4",
     "chai-http": "^4.3.0",
     "cookie-parser": "^1.4.5",
