@@ -74,7 +74,13 @@ const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = 
   };
 
   const authorizeDropboxAccount = () => {
-    authorizeWithProvider(DropboxService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
+    authorizeWithProvider(
+      DropboxService.authorizeUrl,
+      startingAuthCallback,
+      completingAuthCallBack,
+      DropboxService.redirectUrl,
+      DropboxService.authCallbackUrl
+    );
   };
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {

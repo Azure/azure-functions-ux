@@ -22,6 +22,7 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import { FormikProps } from 'formik';
 import { IDeploymentCenterContext } from '../DeploymentCenterContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { sendHttpRequest } from '../../../../ApiHelpers/HttpClient';
 
 export const getLogId = (component: string, event: string): string => {
   return `${component}/${event}`;
@@ -218,8 +219,13 @@ export const getWorkflowFilePath = (branch: string, siteName: string, slotName?:
 export const authorizeWithProvider = (
   providerAuthUrl: string,
   startingAuth: () => void,
-  completingAuthCallback: (authResult: AuthorizationResult) => void
+  completingAuthCallback: (authResult: AuthorizationResult) => void,
+  getRedirectUrl?: string,
+  authCallbackUrl?: string
 ) => {
+  if (!!authCallbackUrl) {
+    sendHttpRequest<AuthorizationResult>({ url: getRedirectUrl, data: { authCallbackUrl }, method: 'GET' }, true);
+  }
   const oauthWindow = window.open(providerAuthUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
 
   const authWindowsPromise = new Promise<AuthorizationResult>(resolve => {

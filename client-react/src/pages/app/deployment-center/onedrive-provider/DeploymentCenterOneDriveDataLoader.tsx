@@ -12,7 +12,7 @@ import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCe
 import { PortalContext } from '../../../../PortalContext';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
-const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
+const DeploymentCenterOneDriveDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
   const { formProps } = props;
 
@@ -73,8 +73,14 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
     setLoadingFolders(false);
   };
 
-  const authorizeoneDriveAccount = () => {
-    authorizeWithProvider(OneDriveService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
+  const authorizeOneDriveAccount = () => {
+    authorizeWithProvider(
+      OneDriveService.authorizeUrl,
+      startingAuthCallback,
+      completingAuthCallBack,
+      OneDriveService.redirectUrl,
+      OneDriveService.authCallbackUrl
+    );
   };
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
@@ -127,11 +133,11 @@ const DeploymentCenteroneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
       formProps={formProps}
       accountUser={oneDriveUser}
       accountStatusMessage={oneDriveAccountStatusMessage}
-      authorizeAccount={authorizeoneDriveAccount}
+      authorizeAccount={authorizeOneDriveAccount}
       folderOptions={folderOptions}
       loadingFolders={loadingFolders}
     />
   );
 };
 
-export default DeploymentCenteroneDriveDataLoader;
+export default DeploymentCenterOneDriveDataLoader;

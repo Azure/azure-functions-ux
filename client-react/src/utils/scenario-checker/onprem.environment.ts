@@ -285,7 +285,7 @@ export class OnPremEnvironment extends Environment {
     };
 
     this.scenarioChecks[ScenarioIds.bitbucketSource] = {
-      id: ScenarioIds.githubSource,
+      id: ScenarioIds.bitbucketSource,
       runCheckAsync: async () => {
         const hasBitbucketCredentials = await sendHttpRequest<boolean>({
           url: `${Url.serviceHost}/api/bitbucket/hasOnPremCredentials`,
@@ -298,10 +298,38 @@ export class OnPremEnvironment extends Environment {
         return { status: 'enabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.dropboxSource] = {
+      id: ScenarioIds.dropboxSource,
+      runCheckAsync: async () => {
+        const hasDropboxCredentials = await sendHttpRequest<boolean>({
+          url: `${Url.serviceHost}/api/dropbox/hasOnPremCredentials`,
+          method: 'GET',
+        });
+        if (hasDropboxCredentials.metadata.success) {
+          return { status: hasDropboxCredentials.data ? 'enabled' : 'disabled' };
+        }
+        return { status: 'enabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.onedriveSource] = {
+      id: ScenarioIds.onedriveSource,
+      runCheckAsync: async () => {
+        const hasOneDriveCredentials = await sendHttpRequest<boolean>({
+          url: `${Url.serviceHost}/api/onedrive/hasOnPremCredentials`,
+          method: 'GET',
+        });
+        if (hasOneDriveCredentials.metadata.success) {
+          return { status: hasOneDriveCredentials.data ? 'enabled' : 'disabled' };
+        }
+
+        return { status: 'enabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
-    // return window.appsvc?.env.cloudType === 'onprem';
     return process.env.REACT_APP_RUNETIME_TYPE === 'OnPrem';
   }
 

@@ -4,9 +4,27 @@ import { LoggingService } from '../../shared/logging/logging.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { HttpService } from '../../shared/http/http.service';
+import { ConfigService } from '../../shared/config/config.service';
+import { CloudType } from '../../types/config';
+import { AxiosResponse } from 'axios';
 @Controller()
 export class OnedriveController {
-  constructor(private dcService: DeploymentCenterService, private loggingService: LoggingService, private httpService: HttpService) {}
+  constructor(
+    private dcService: DeploymentCenterService,
+    private configService: ConfigService,
+    private loggingService: LoggingService,
+    private httpService: HttpService
+  ) {}
+
+  private config = this.configService.staticReactConfig;
+  private envIsOnPrem = !!this.config.env && this.config.env.cloud === CloudType.onprem;
+  private redirectUrl: string;
+
+  @Get('auth/onedrive/redirectUrl')
+  @HttpCode(200)
+  async setRedirectUrl(@Body('redirUrl') redirUrl?: string) {
+    this.redirectUrl = redirUrl;
+  }
 
   @Get('auth/onedrive/authorize')
   async authorize(@Session() session, @Response() res) {
@@ -19,13 +37,19 @@ export class OnedriveController {
       throw new HttpException('Session Not Found', 500);
     }
 
-    res.redirect(
-      `https://login.live.com/oauth20_authorize.srf?client_id=${
-        process.env.ONEDRIVE_CLIENT_ID
-      }&scope=offline_access,onedrive.appfolder&response_type=code&redirect_uri=${
-        process.env.ONEDRIVE_REDIRECT_URL
-      }&state=${this.dcService.hashStateGuid(stateKey).substr(0, 10)}`
-    );
+    if (this.envIsOnPrem && !!this.redirectUrl) {
+      res.redirect(
+        `https://login.live.com/oauth20_authorize.srf?client_id=${this._getOnedriveClientId()}&scope=offline_access,onedrive.appfolder&response_type=code&redirect_uri=${
+          this.redirectUrl
+        }&state=${this.dcService.hashStateGuid(stateKey).substr(0, 10)}`
+      );
+    } else {
+      res.redirect(
+        `https://login.live.com/oauth20_authorize.srf?client_id=${this._getOnedriveClientId()}&scope=offline_access,onedrive.appfolder&response_type=code&redirect_uri=${this._getOnedriveRedirectUrl()}&state=${this.dcService
+          .hashStateGuid(stateKey)
+          .substr(0, 10)}`
+      );
+    }
   }
 
   @Get('auth/onedrive/callback')
@@ -49,9 +73,7 @@ export class OnedriveController {
     try {
       const r = await this.httpService.post<{ access_token: string; refresh_token: string }>(
         'https://login.live.com/oauth20_token.srf',
-        `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.ONEDRIVE_REDIRECT_URL}&client_id=${
-          process.env.ONEDRIVE_CLIENT_ID
-        }&client_secret=${process.env.ONEDRIVE_CLIENT_SECRET}`,
+        `code=${code}&grant_type=authorization_code&redirect_uri=${this._getOnedriveRedirectUrl()}&client_id=${this._getOnedriveClientId()}&client_secret=${this._getOnedriveClientSecret()}`,
         {
           headers: {
             'Content-type': 'application/x-www-form-urlencoded',
@@ -70,5 +92,29 @@ export class OnedriveController {
       }
       throw new HttpException('Internal Server Error', 500);
     }
+  }
+
+  @Get('auth/onedrive/hasOnPremCredentials')
+  @HttpCode(200)
+  async hasOnPremCredentials() {
+    return !!this._getOnedriveClientId() && !!this._getOnedriveClientSecret();
+  }
+
+  private _getOnedriveClientId() {
+    if (this.envIsOnPrem) {
+      return this.configService.get('DeploymentCenter_OnedriveClientId');
+    }
+    return this.configService.get('ONEDRIVE_CLIENT_ID');
+  }
+
+  private _getOnedriveClientSecret() {
+    if (this.envIsOnPrem) {
+      return this.configService.get('DeploymentCenter_OnedriveClientSecret');
+    }
+    return this.configService.get('ONEDRIVE_CLIENT_SECRET');
+  }
+
+  private _getOnedriveRedirectUrl() {
+    return this.configService.get('ONEDRIVE_REDIRECT_URL');
   }
 }

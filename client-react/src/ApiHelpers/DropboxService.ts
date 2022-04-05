@@ -8,6 +8,8 @@ import { Method } from 'axios';
 
 export default class DropboxService {
   public static authorizeUrl = `${Url.serviceHost}auth/dropbox/authorize`;
+  public static redirectUrl = `${Url.serviceHost}auth/dropbox/redirectUrl`;
+  public static authCallbackUrl = `${Url.serviceHost}auth/dropbox/callback`;
 
   public static getUser = (dropboxToken: string): Promise<HttpResponseObject<DropboxUser>> => {
     const url = `${DeploymentCenterConstants.dropboxApiUrl}/users/get_current_account`;

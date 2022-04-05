@@ -8,6 +8,8 @@ import { Method } from 'axios';
 
 export default class OneDriveService {
   public static authorizeUrl = `${Url.serviceHost}auth/onedrive/authorize`;
+  public static redirectUrl = `${Url.serviceHost}auth/onedrive/redirectUrl`;
+  public static authCallbackUrl = `${Url.serviceHost}auth/onedrive/callback`;
 
   public static getUser = (oneDriveToken: string): Promise<HttpResponseObject<OneDriveUser>> => {
     const url = `${DeploymentCenterConstants.onedriveApiUri}`;
