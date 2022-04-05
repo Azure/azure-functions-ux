@@ -5,6 +5,7 @@ import { LoggingService } from '../../shared/logging/logging.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { HttpService } from '../../shared/http/http.service';
+import { CloudType } from '../../types/config';
 
 @Controller()
 export class DropboxController {
@@ -15,6 +16,8 @@ export class DropboxController {
     private loggingService: LoggingService,
     private httpService: HttpService
   ) {}
+
+  private config = this.configService.staticReactConfig;
 
   @Get('auth/dropbox/authorize')
   async authorize(@Session() session, @Response() res) {
@@ -27,11 +30,21 @@ export class DropboxController {
       throw new HttpException('Session Not Found', 500);
     }
 
-    res.redirect(
-      `https://dropbox.com/oauth2/authorize?client_id=${this.configService.get('DROPBOX_CLIENT_ID')}&redirect_uri=${this.configService.get(
-        'DROPBOX_REDIRECT_URL'
-      )}&response_type=code&state=${this.dcService.hashStateGuid(stateKey).substr(0, 10)}`
-    );
+    if (this.config.env && this.config.env.cloud === CloudType.onprem) {
+      res.redirect(
+        `https://dropbox.com/oauth2/authorize?client_id=${this.configService.get(
+          'DROPBOX_CLIENT_ID'
+        )}&response_type=code&state=${this.dcService.hashStateGuid(stateKey).substr(0, 10)}`
+      );
+    } else {
+      res.redirect(
+        `https://dropbox.com/oauth2/authorize?client_id=${this.configService.get(
+          'DROPBOX_CLIENT_ID'
+        )}&redirect_uri=${this.configService.get('DROPBOX_REDIRECT_URL')}&response_type=code&state=${this.dcService
+          .hashStateGuid(stateKey)
+          .substr(0, 10)}`
+      );
+    }
   }
 
   @Get('auth/dropbox/callback')
@@ -53,17 +66,33 @@ export class DropboxController {
     }
     const code = this.dcService.getParameterByName('code', redirUrl);
     try {
-      const r = await this.httpService.post<{ access_token: string }>(
-        'https://api.dropbox.com/oauth2/token',
-        `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.DROPBOX_REDIRECT_URL}&client_id=${
-          process.env.DROPBOX_CLIENT_ID
-        }&client_secret=${process.env.DROPBOX_CLIENT_SECRET}`,
-        {
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded',
-          },
-        }
-      );
+      let r;
+      if (this.config.env && this.config.env.cloud === CloudType.onprem) {
+        r = await this.httpService.post<{ access_token: string }>(
+          'https://api.dropbox.com/oauth2/token',
+          `code=${code}&grant_type=authorization_code&client_id=${process.env.DROPBOX_CLIENT_ID}&client_secret=${
+            process.env.DROPBOX_CLIENT_SECRET
+          }`,
+          {
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded',
+            },
+          }
+        );
+      } else {
+        r = await this.httpService.post<{ access_token: string }>(
+          'https://api.dropbox.com/oauth2/token',
+          `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.DROPBOX_REDIRECT_URL}&client_id=${
+            process.env.DROPBOX_CLIENT_ID
+          }&client_secret=${process.env.DROPBOX_CLIENT_SECRET}`,
+          {
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded',
+            },
+          }
+        );
+      }
+
       return {
         accessToken: r.data.access_token,
         refreshToken: '',
