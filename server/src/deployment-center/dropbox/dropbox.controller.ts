@@ -24,7 +24,7 @@ export class DropboxController {
 
   @Get('auth/dropbox/redirectUrl')
   @HttpCode(200)
-  async setRedirectUrl(@Body('redirUrl') redirUrl?: string) {
+  async setRedirectUrl(@Body('authCallbackUrl') redirUrl?: string) {
     this.redirectUrl = redirUrl;
   }
 
