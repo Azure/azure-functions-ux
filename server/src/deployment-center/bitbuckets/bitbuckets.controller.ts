@@ -59,7 +59,7 @@ export class BitbucketsController {
   async getToken(@Session() session, @Body('redirUrl') redirUrl: string, @Headers('origin') origin: string) {
     const state = this.dcService.getParameterByName('state', redirUrl);
     const environment = this.dcService.getEnvironment(origin);
-    if (!environment) {
+    if (!environment && !this.envIsOnPrem) {
       throw new HttpException('Invalid Environment', 403);
     }
     if (
