@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, Get, Session, HttpCode, Response } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, Get, Session, HttpCode, Response, Headers } from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
 import { LoggingService } from '../../shared/logging/logging.service';
@@ -29,8 +29,9 @@ export class DropboxController {
   }
 
   @Get('auth/dropbox/authorize')
-  async authorize(@Session() session, @Response() res) {
+  async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
     let stateKey = '';
+    this.redirectUrl = host;
     if (session) {
       stateKey = session[Constants.oauthApis.dropbox_state_key] = GUID.newGuid();
     } else {
