@@ -9,7 +9,7 @@
     "@uifabric/styling": "^7.19.0",
     "@uifabric/variants": "^7.2.35",
     "applicationinsights-js": "^1.0.20",
-    "axios": "^0.19.0",
+    "axios": "^0.21.4",
     "csx": "^9.1.0",
     "formik": "^1.5.0",
     "i18next": "^15.0.0",
