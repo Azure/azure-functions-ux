@@ -115,6 +115,7 @@ export class Verbs {
   public static sendNotificationStarted = 'send-notification-started';
   public static sendData = 'send-data';
   public static loadComplete = 'load-complete';
+  public static sendUpdatedInputs = 'send-updated-inputs';
 }
 
 export enum LogEntryLevel {
