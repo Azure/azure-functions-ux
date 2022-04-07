@@ -66,21 +66,26 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     const checklocalGitSource = await scenarioService.checkScenarioAsync(ScenarioIds.localGitSource, { site: siteStateContext.site });
     const checkVstsKuduSource = await scenarioService.checkScenarioAsync(ScenarioIds.vstsKuduSource, { site: siteStateContext.site });
 
-    if (checkGitHubSource.status !== 'disabled') {
-      continuousDeploymentOptions.push({ key: ScmType.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') });
-    }
-
-    if (checkBitbucketSource.status !== 'disabled') {
-      continuousDeploymentOptions.push({ key: ScmType.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') });
-    }
-
-    if (checklocalGitSource.status !== 'disabled') {
-      continuousDeploymentOptions.push({ key: ScmType.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') });
-    }
-
-    if (checkVstsKuduSource.status !== 'disabled') {
-      continuousDeploymentOptions.push({ key: ScmType.Vso, text: t('deploymentCenterCodeSettingsSourceAzureRepos') });
-    }
+    continuousDeploymentOptions.push({
+      key: ScmType.GitHub,
+      text: t('deploymentCenterCodeSettingsSourceGitHub'),
+      disabled: checkGitHubSource.status === 'disabled',
+    });
+    continuousDeploymentOptions.push({
+      key: ScmType.BitbucketGit,
+      text: t('deploymentCenterCodeSettingsSourceBitbucket'),
+      disabled: checkBitbucketSource.status === 'disabled',
+    });
+    continuousDeploymentOptions.push({
+      key: ScmType.LocalGit,
+      text: t('deploymentCenterCodeSettingsSourceLocalGit'),
+      disabled: checklocalGitSource.status === 'disabled',
+    });
+    continuousDeploymentOptions.push({
+      key: ScmType.Vso,
+      text: t('deploymentCenterCodeSettingsSourceAzureRepos'),
+      disabled: checkVstsKuduSource.status === 'disabled',
+    });
 
     return continuousDeploymentOptions.length > 0
       ? [
@@ -101,17 +106,21 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     const checkOneDriveSource = await scenarioService.checkScenarioAsync(ScenarioIds.onedriveSource, { site: siteStateContext.site });
     const checkDropboxSource = await scenarioService.checkScenarioAsync(ScenarioIds.dropboxSource, { site: siteStateContext.site });
 
-    if (checkExternalSource.status !== 'disabled') {
-      manualDeploymentOptions.push({ key: ScmType.ExternalGit, text: t('deploymentCenterCodeSettingsSourceExternalGit') });
-    }
-
-    if (checkOneDriveSource.status !== 'disabled') {
-      manualDeploymentOptions.push({ key: ScmType.OneDrive, text: t('deploymentCenterCodeSettingsSourceOneDrive') });
-    }
-
-    if (checkDropboxSource.status !== 'disabled') {
-      manualDeploymentOptions.push({ key: ScmType.Dropbox, text: t('deploymentCenterCodeSettingsSourceDropbox') });
-    }
+    manualDeploymentOptions.push({
+      key: ScmType.ExternalGit,
+      text: t('deploymentCenterCodeSettingsSourceExternalGit'),
+      disabled: checkExternalSource.status === 'disabled',
+    });
+    manualDeploymentOptions.push({
+      key: ScmType.OneDrive,
+      text: t('deploymentCenterCodeSettingsSourceOneDrive'),
+      disabled: checkOneDriveSource.status === 'disabled',
+    });
+    manualDeploymentOptions.push({
+      key: ScmType.Dropbox,
+      text: t('deploymentCenterCodeSettingsSourceDropbox'),
+      disabled: checkDropboxSource.status === 'disabled',
+    });
 
     return manualDeploymentOptions.length > 0
       ? [

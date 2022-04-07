@@ -20,12 +20,6 @@ export class OnedriveController {
   private envIsOnPrem = !!this.config.env && this.config.env.cloud === CloudType.onprem;
   private redirectUrl: string;
 
-  @Get('auth/onedrive/redirectUrl')
-  @HttpCode(200)
-  async setRedirectUrl(@Body('authCallbackUrl') redirUrl?: string) {
-    this.redirectUrl = redirUrl;
-  }
-
   @Get('auth/onedrive/authorize')
   async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
     let stateKey = '';
@@ -38,19 +32,11 @@ export class OnedriveController {
       throw new HttpException('Session Not Found', 500);
     }
 
-    if (this.envIsOnPrem && !!this.redirectUrl) {
-      res.redirect(
-        `https://login.live.com/oauth20_authorize.srf?client_id=${this._getOnedriveClientId()}&scope=offline_access,onedrive.appfolder&response_type=code&redirect_uri=${
-          this.redirectUrl
-        }&state=${this.dcService.hashStateGuid(stateKey).substr(0, 10)}`
-      );
-    } else {
-      res.redirect(
-        `https://login.live.com/oauth20_authorize.srf?client_id=${this._getOnedriveClientId()}&scope=offline_access,onedrive.appfolder&response_type=code&redirect_uri=${this._getOnedriveRedirectUrl()}&state=${this.dcService
-          .hashStateGuid(stateKey)
-          .substr(0, 10)}`
-      );
-    }
+    res.redirect(
+      `https://login.live.com/oauth20_authorize.srf?client_id=${this._getOnedriveClientId()}&scope=offline_access,onedrive.appfolder&response_type=code&redirect_uri=${this._getOnedriveRedirectUrl()}&state=${this.dcService
+        .hashStateGuid(stateKey)
+        .substr(0, 10)}`
+    );
   }
 
   @Get('auth/onedrive/callback')
@@ -95,7 +81,7 @@ export class OnedriveController {
     }
   }
 
-  @Get('auth/onedrive/hasOnPremCredentials')
+  @Get('api/onedrive/hasOnPremCredentials')
   @HttpCode(200)
   async hasOnPremCredentials() {
     return !!this._getOnedriveClientId() && !!this._getOnedriveClientSecret();

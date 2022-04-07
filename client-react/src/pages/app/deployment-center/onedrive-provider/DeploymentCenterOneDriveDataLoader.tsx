@@ -74,13 +74,7 @@ const DeploymentCenterOneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
   };
 
   const authorizeOneDriveAccount = () => {
-    authorizeWithProvider(
-      OneDriveService.authorizeUrl,
-      startingAuthCallback,
-      completingAuthCallBack,
-      OneDriveService.redirectUrl,
-      OneDriveService.authCallbackUrl
-    );
+    authorizeWithProvider(OneDriveService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
   };
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {
