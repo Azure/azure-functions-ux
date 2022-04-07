@@ -31,7 +31,7 @@ export class DropboxController {
   @Get('auth/dropbox/authorize')
   async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
     let stateKey = '';
-    this.redirectUrl = host;
+    this.redirectUrl = `${host}/auth/dropbox/callback`;
     if (session) {
       stateKey = session[Constants.oauthApis.dropbox_state_key] = GUID.newGuid();
     } else {

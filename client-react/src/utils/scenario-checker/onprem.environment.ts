@@ -280,7 +280,7 @@ export class OnPremEnvironment extends Environment {
         if (hasGitHubCredentials.metadata.success) {
           return { status: hasGitHubCredentials.data ? 'enabled' : 'disabled' };
         }
-        return { status: 'enabled' };
+        return { status: 'enabled', data: this._upSellMessage } as ScenarioResult;
       },
     };
 

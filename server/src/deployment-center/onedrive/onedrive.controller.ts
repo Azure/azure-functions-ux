@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, Get, Session, HttpCode, Response } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, Get, Session, HttpCode, Response, Headers } from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { LoggingService } from '../../shared/logging/logging.service';
 import { Constants } from '../../constants';
@@ -27,8 +27,9 @@ export class OnedriveController {
   }
 
   @Get('auth/onedrive/authorize')
-  async authorize(@Session() session, @Response() res) {
+  async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
     let stateKey = '';
+    this.redirectUrl = `${host}/auth/onedrive/callback`;
     if (session) {
       stateKey = session[Constants.oauthApis.onedrive_state_key] = GUID.newGuid();
     } else {
