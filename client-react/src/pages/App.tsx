@@ -16,6 +16,7 @@ import { StartupInfoContext } from '../StartupInfoContext';
 import LoadingComponent from '../components/Loading/LoadingComponent';
 import StaticSiteRouter from './static-app/StaticSiteRouter';
 import ContainerAppRouter from './container-app/ContainerAppRouter';
+import LogicAppRouter from './logic-app/LogicAppRouter';
 
 const portalCommunicator = new PortalCommunicator();
 
@@ -41,6 +42,7 @@ export const App: React.FC = () => {
                     <StaticSiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/staticsites/:staticSiteName/*" />
                     <StaticSiteRouter path="feature/subscriptions/:subscriptionId/providers/microsoft.web/staticsites/*" />
                     <ContainerAppRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.app/containerapps/:appName/*" />
+                    <LogicAppRouter path="feature/subscriptions/:subscriptionId/providers/microsoft.logic/workflows/*" />
                     <LandingPage path="/*" />
                   </Router>
                 </ErrorLogger>

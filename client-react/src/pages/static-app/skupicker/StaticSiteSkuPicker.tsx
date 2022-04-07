@@ -1,9 +1,10 @@
-import { IChoiceGroupOption, Icon, Link } from '@fluentui/react';
+import { IChoiceGroupOption, Link } from '@fluentui/react';
 import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
 import PlanPicker, {
+  PlanPickerAcceptIcon,
   PlanPickerDescription,
   PlanPickerFooter,
   PlanPickerFooterMode,
@@ -22,20 +23,10 @@ import { CommonConstants } from '../../../utils/CommonConstants';
 import { Links } from '../../../utils/FwLinks';
 import { getTelemetryInfo } from '../../app/deployment-center/utility/DeploymentCenterUtility';
 import {
-  buttonFooterStyle,
-  buttonPadding,
-  descriptionStyle,
   gridBottomSelectedItemStyle,
   gridContainerStyle,
-  gridContextPaneContainerStyle,
-  iconStyle,
-  planFeatureItemStyle,
-  planFeaturesTitleStyle,
-  radioButtonStyle,
   selectedGridItemStyle,
-  skuDescriptionStyle,
   skuTitleSelectedStyle,
-  skuTitleStyle,
   skuTitleUnselectedStyle,
   smallerTitleWithPaddingStyle,
   titleWithPaddingStyle,
@@ -43,20 +34,18 @@ import {
 } from './StaticSiteSkuPicker.styles';
 import { StaticSiteBillingType, StaticSiteSku, StaticSiteSkuPickerProps } from './StaticSiteSkuPicker.types';
 
-const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
-  const {
-    isStaticSiteCreate,
-    currentSku,
-    hasWritePermissions,
-    resourceId,
-    billingInformation,
-    isBillingInformationLoading,
-    refresh,
-  } = props;
-  const { t } = useTranslation();
-
+const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = ({
+  billingInformation,
+  currentSku,
+  hasWritePermissions,
+  isBillingInformationLoading,
+  isStaticSiteCreate,
+  refresh,
+  resourceId,
+}) => {
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
+  const { t } = useTranslation();
 
   const [selectedSku, setSelectedSku] = useState<StaticSiteSku>(currentSku);
   const [isSaving, setIsSaving] = useState<boolean>(false);
@@ -107,28 +96,16 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
     return (currentSku && currentSku === selectedSku) || isSaving || !hasWritePermissions;
   };
 
-  const footerClassName = useMemo(() => buttonFooterStyle(theme), [theme]);
-
   const freeColumnClassName = useMemo(
     () => (selectedSku === StaticSiteSku.Free ? selectedGridItemStyle(theme) : unselectedGridItemStyle(theme)),
     [selectedSku, theme]
   );
-
-  const gridRowTitleClassName = useMemo(() => planFeatureItemStyle(theme), [theme]);
-
-  const headerRowClassName = useMemo(() => planFeaturesTitleStyle(theme), [theme]);
-
-  const iconClassName = useMemo(() => iconStyle(theme), [theme]);
-
   const selectedColumnBottomClassName = useMemo(() => gridBottomSelectedItemStyle(theme), [theme]);
-
   const selectedTitleStyleClassName = useMemo(() => skuTitleSelectedStyle(theme), [theme]);
-
   const standardColumnClassName = useMemo(
     () => (selectedSku === StaticSiteSku.Standard ? selectedGridItemStyle(theme) : unselectedGridItemStyle(theme)),
     [selectedSku, theme]
   );
-
   const unselectedTitleStyleClassName = useMemo(() => skuTitleUnselectedStyle(theme), [theme]);
 
   const valuesKeys = useMemo(() => ['free', 'standard'], []);
@@ -171,47 +148,36 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
           </PlanPickerHeader>
         )
       }
-      description={
-        <PlanPickerDescription className={descriptionStyle} id="hosting-plan-desc">
-          {t('staticSiteHostingPlanDescription')}
-        </PlanPickerDescription>
-      }
+      description={<PlanPickerDescription id="hosting-plan-desc">{t('staticSiteHostingPlanDescription')}</PlanPickerDescription>}
       grid={
         <PlanPickerGrid
-          className={isStaticSiteCreate ? gridContextPaneContainerStyle : gridContainerStyle}
+          {...(!isStaticSiteCreate ? { className: gridContainerStyle } : undefined)}
           header={
             <PlanPickerGridHeaderRow
               ariaLabel={t('staticSitePlanFeaturesAriaLabel')}
-              className={headerRowClassName}
               features={t('staticSitePlanFeatures')}
               sections={
                 <>
                   <PlanPickerTitleSection
                     buttonAriaLabel={t('staticSiteFreePlanAriaLabel')}
-                    buttonClassName={radioButtonStyle}
                     className={selectedSku === StaticSiteSku.Free ? selectedTitleStyleClassName : unselectedTitleStyleClassName}
                     description={t('staticSiteFreeDescription')}
-                    descriptionClassName={skuDescriptionStyle}
                     id="static-site-sku-free"
                     name="static-site-sku"
                     selectedSku={selectedSku}
                     sku={StaticSiteSku.Free}
                     title={t('staticSiteFree')}
-                    titleClassName={skuTitleStyle}
                     onChange={handleChange}
                   />
                   <PlanPickerTitleSection
                     buttonAriaLabel={t('staticSiteStandardPlanAriaLabel')}
-                    buttonClassName={radioButtonStyle}
                     className={selectedSku === StaticSiteSku.Standard ? selectedTitleStyleClassName : unselectedTitleStyleClassName}
                     description={t('staticSiteStandardDescription')}
-                    descriptionClassName={skuDescriptionStyle}
                     id="static-site-sku-standard"
                     name="static-site-sku"
                     selectedSku={selectedSku}
                     sku={StaticSiteSku.Standard}
                     title={t('staticSiteStandard')}
-                    titleClassName={skuTitleStyle}
                     onChange={handleChange}
                   />
                 </>
@@ -222,77 +188,66 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
             <>
               <PlanPickerGridRow
                 title={t('staticSitePrice')}
-                titleClassName={gridRowTitleClassName}
                 values={[t('staticSiteFree'), skuCost]}
                 valuesClassNames={[freeColumnClassName, standardColumnClassName]}
                 valuesKeys={valuesKeys}
               />
               <PlanPickerGridRow
                 title={t('staticSiteIncludedBandwidth')}
-                titleClassName={gridRowTitleClassName}
                 values={[t('staticSiteIncludedBandwidthAmount'), t('staticSiteIncludedBandwidthAmount')]}
                 valuesClassNames={[freeColumnClassName, standardColumnClassName]}
                 valuesKeys={valuesKeys}
               />
               <PlanPickerGridRow
                 title={t('staticSiteBandwidthOverage')}
-                titleClassName={gridRowTitleClassName}
                 values={[t('staticSiteFree'), bandwidthOverageCost]}
                 valuesClassNames={[freeColumnClassName, standardColumnClassName]}
                 valuesKeys={valuesKeys}
               />
               <PlanPickerGridRow
                 title={t('staticSiteCustomDomains')}
-                titleClassName={gridRowTitleClassName}
                 values={[t('staticSiteFreeCustomDomainAmount'), t('staticSiteStandardCustomDomainAmount')]}
                 valuesClassNames={[freeColumnClassName, standardColumnClassName]}
                 valuesKeys={valuesKeys}
               />
               <PlanPickerGridRow
                 title={t('staticSiteSslCertificates')}
-                titleClassName={gridRowTitleClassName}
                 values={[t('staticSiteFree'), t('staticSiteFree')]}
                 valuesClassNames={[freeColumnClassName, standardColumnClassName]}
                 valuesKeys={valuesKeys}
               />
               <PlanPickerGridRow
                 title={t('staticSiteCustomAuthentication')}
-                titleClassName={gridRowTitleClassName}
-                values={[CommonConstants.Dash, <Icon key="Accept" iconName="Accept" className={iconClassName} />]}
+                values={[CommonConstants.Dash, <PlanPickerAcceptIcon key="standard" />]}
                 valuesClassNames={[freeColumnClassName, standardColumnClassName]}
                 valuesKeys={valuesKeys}
               />
               <PlanPickerGridRow
                 title={t('staticSitePrivateEndpoints')}
-                titleClassName={gridRowTitleClassName}
-                values={[CommonConstants.Dash, <Icon key="Accept" iconName="Accept" className={iconClassName} />]}
+                values={[CommonConstants.Dash, <PlanPickerAcceptIcon key="standard" />]}
                 valuesClassNames={[freeColumnClassName, standardColumnClassName]}
                 valuesKeys={valuesKeys}
               />
               <PlanPickerGridRow
                 title={t('staticSiteMaxAppSize')}
-                titleClassName={gridRowTitleClassName}
                 values={[t('staticSiteFreeAppSizeAmount'), t('staticSiteStandardAppSizeAmount')]}
                 valuesClassNames={[freeColumnClassName, standardColumnClassName]}
                 valuesKeys={valuesKeys}
               />
               <PlanPickerGridRow
                 title={t('staticSiteStagingEnvironments')}
-                titleClassName={gridRowTitleClassName}
                 values={[t('staticSiteFreeStagingEnvironmentsAmount'), t('staticSiteStandardStagingEnvironmentsAmount')]}
                 valuesClassNames={[freeColumnClassName, standardColumnClassName]}
                 valuesKeys={valuesKeys}
               />
               <PlanPickerGridRow
                 title={t('staticSiteAzureFunctions')}
-                titleClassName={gridRowTitleClassName}
                 values={[t('staticSiteFreeAzureFunctionsAmount'), t('staticSiteStandardAzureFunctionsAmount')]}
                 valuesClassNames={[freeColumnClassName, standardColumnClassName]}
                 valuesKeys={valuesKeys}
               />
               <PlanPickerGridRow
                 title={t('staticSiteEnterpriseGradeEdge')}
-                titleClassName={gridRowTitleClassName}
                 values={[CommonConstants.Dash, enterpriseGradeEdgeCost]}
                 valuesClassNames={[
                   selectedSku === StaticSiteSku.Free ? selectedColumnBottomClassName : freeColumnClassName,
@@ -306,9 +261,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = props => {
       }
       footer={
         <PlanPickerFooter
-          buttonClassName={buttonPadding}
           disabled={!isStaticSiteCreate && isSaveButtonDisabled()}
-          footerClassName={footerClassName}
           mode={isStaticSiteCreate ? PlanPickerFooterMode.select : PlanPickerFooterMode.save}
           onCancelClick={cancelButtonOnClick}
           onOKClick={isStaticSiteCreate ? selectButtonOnClick : saveButtonOnClick}
