@@ -116,6 +116,9 @@ export class OnedriveController {
   }
 
   private _getOnedriveRedirectUrl() {
+    if (this.envIsOnPrem && !!this.redirectUrl) {
+      return this.redirectUrl;
+    }
     return this.configService.get('ONEDRIVE_REDIRECT_URL');
   }
 }

@@ -78,7 +78,9 @@ export class DropboxController {
       if (this.envIsOnPrem) {
         r = await this.httpService.post<{ access_token: string }>(
           'https://api.dropbox.com/oauth2/token',
-          `code=${code}&grant_type=authorization_code&redirect_uri=${redirUrl}&client_id=${this._getDropboxClientId()}&client_secret=${this._getDropboxClientSecret()}`,
+          `code=${code}&grant_type=authorization_code&redirect_uri=${
+            this.redirectUrl
+          }&client_id=${this._getDropboxClientId()}&client_secret=${this._getDropboxClientSecret()}`,
           {
             headers: {
               'Content-type': 'application/x-www-form-urlencoded',
