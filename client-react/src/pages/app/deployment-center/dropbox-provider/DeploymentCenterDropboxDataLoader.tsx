@@ -74,13 +74,17 @@ const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = 
   };
 
   const authorizeDropboxAccount = () => {
-    authorizeWithProvider(
-      DropboxService.authorizeUrl,
-      startingAuthCallback,
-      completingAuthCallBack,
-      DropboxService.redirectUrl,
-      DropboxService.authCallbackUrl
-    );
+    if (!!window.appsvc && window.appsvc.env.runtimeType === 'OnPrem') {
+      authorizeWithProvider(
+        DropboxService.authorizeUrl,
+        startingAuthCallback,
+        completingAuthCallBack,
+        DropboxService.setRedirectUrl,
+        DropboxService.authCallbackUrl
+      );
+    } else {
+      authorizeWithProvider(DropboxService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
+    }
   };
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {

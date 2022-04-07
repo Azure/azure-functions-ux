@@ -74,13 +74,17 @@ const DeploymentCenterOneDriveDataLoader: React.FC<DeploymentCenterFieldProps> =
   };
 
   const authorizeOneDriveAccount = () => {
-    authorizeWithProvider(
-      OneDriveService.authorizeUrl,
-      startingAuthCallback,
-      completingAuthCallBack,
-      OneDriveService.redirectUrl,
-      OneDriveService.authCallbackUrl
-    );
+    if (!!window.appsvc && window.appsvc.env.runtimeType === 'OnPrem') {
+      authorizeWithProvider(
+        OneDriveService.authorizeUrl,
+        startingAuthCallback,
+        completingAuthCallBack,
+        OneDriveService.setRedirectUrl,
+        OneDriveService.authCallbackUrl
+      );
+    } else {
+      authorizeWithProvider(OneDriveService.authorizeUrl, startingAuthCallback, completingAuthCallBack);
+    }
   };
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {

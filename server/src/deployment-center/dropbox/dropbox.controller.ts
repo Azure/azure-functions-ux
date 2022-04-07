@@ -20,12 +20,13 @@ export class DropboxController {
 
   private config = this.configService.staticReactConfig;
   private envIsOnPrem = !!this.config.env && this.config.env.cloud === CloudType.onprem;
-  private redirectUrl: string;
+  private onPremRedirectUrl: string;
 
-  @Get('auth/dropbox/redirectUrl')
+  @Post('auth/dropbox/setRedirectUrl')
   @HttpCode(200)
-  async setRedirectUrl(@Body('authCallbackUrl') redirUrl?: string) {
-    this.redirectUrl = redirUrl;
+  async setRedirectUrl(@Body('authCallbackUrl') authCallbackUrl: string) {
+    this.onPremRedirectUrl = authCallbackUrl;
+    return authCallbackUrl;
   }
 
   @Get('auth/dropbox/authorize')
@@ -39,19 +40,11 @@ export class DropboxController {
       throw new HttpException('Session Not Found', 500);
     }
 
-    if (this.envIsOnPrem && !!this.redirectUrl) {
-      res.redirect(
-        `https://dropbox.com/oauth2/authorize?client_id=${this._getDropboxClientId()}&redirect_uri=${
-          this.redirectUrl
-        }&response_type=code&state=${this.dcService.hashStateGuid(stateKey).substr(0, 10)}`
-      );
-    } else {
-      res.redirect(
-        `https://dropbox.com/oauth2/authorize?client_id=${this._getDropboxClientId()}&redirect_uri=${this._getDropboxRedirectUrl()}&response_type=code&state=${this.dcService
-          .hashStateGuid(stateKey)
-          .substr(0, 10)}`
-      );
-    }
+    res.redirect(
+      `https://dropbox.com/oauth2/authorize?client_id=${this._getDropboxClientId()}&redirect_uri=${this._getDropboxRedirectUrl()}&response_type=code&state=${this.dcService
+        .hashStateGuid(stateKey)
+        .substr(0, 10)}`
+    );
   }
 
   @Get('auth/dropbox/callback')
@@ -68,33 +61,20 @@ export class DropboxController {
       !session[Constants.oauthApis.dropbox_state_key] ||
       this.dcService.hashStateGuid(session[Constants.oauthApis.dropbox_state_key]).substr(0, 10) !== state
     ) {
-      this.loggingService.error({}, '', 'dropbox-invalid-sate-key');
+      this.loggingService.error({}, '', 'dropbox-invalid-state-key');
       throw new HttpException('Not Authorized', 403);
     }
     const code = this.dcService.getParameterByName('code', redirUrl);
     try {
-      let r: AxiosResponse;
-      if (this.envIsOnPrem) {
-        r = await this.httpService.post<{ access_token: string }>(
-          'https://api.dropbox.com/oauth2/token',
-          `code=${code}&grant_type=authorization_code&redirect_uri=${redirUrl}&client_id=${this._getDropboxClientId()}&client_secret=${this._getDropboxClientSecret()}`,
-          {
-            headers: {
-              'Content-type': 'application/x-www-form-urlencoded',
-            },
-          }
-        );
-      } else {
-        r = await this.httpService.post<{ access_token: string }>(
-          'https://api.dropbox.com/oauth2/token',
-          `code=${code}&grant_type=authorization_code&redirect_uri=${this._getDropboxRedirectUrl()}&client_id=${this._getDropboxClientId()}&client_secret=${this._getDropboxClientSecret()}`,
-          {
-            headers: {
-              'Content-type': 'application/x-www-form-urlencoded',
-            },
-          }
-        );
-      }
+      const r = await this.httpService.post<{ access_token: string }>(
+        'https://api.dropbox.com/oauth2/token',
+        `code=${code}&grant_type=authorization_code&redirect_uri=${this._getDropboxRedirectUrl()}&client_id=${this._getDropboxClientId()}&client_secret=${this._getDropboxClientSecret()}`,
+        {
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded',
+          },
+        }
+      );
 
       return {
         accessToken: r.data.access_token,
@@ -112,7 +92,6 @@ export class DropboxController {
   @Get('auth/dropbox/hasOnPremCredentials')
   @HttpCode(200)
   async hasOnPremCredentials() {
-    // TODO: FIX KEY VALUE FOR CLIENT SECRET
     return !!this._getDropboxClientId() && !!this._getDropboxClientSecret();
   }
 
@@ -132,6 +111,9 @@ export class DropboxController {
   }
 
   private _getDropboxRedirectUrl() {
+    if (this.envIsOnPrem) {
+      return this.onPremRedirectUrl;
+    }
     return this.configService.get('DROPBOX_REDIRECT_URL');
   }
 }

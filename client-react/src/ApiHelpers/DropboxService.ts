@@ -8,7 +8,7 @@ import { Method } from 'axios';
 
 export default class DropboxService {
   public static authorizeUrl = `${Url.serviceHost}auth/dropbox/authorize`;
-  public static redirectUrl = `${Url.serviceHost}auth/dropbox/redirectUrl`;
+  public static setRedirectUrl = `${Url.serviceHost}auth/dropbox/setRedirectUrl`;
   public static authCallbackUrl = `${Url.serviceHost}auth/dropbox/callback`;
 
   public static getUser = (dropboxToken: string): Promise<HttpResponseObject<DropboxUser>> => {

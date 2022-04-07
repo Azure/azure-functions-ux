@@ -18,12 +18,13 @@ export class OnedriveController {
 
   private config = this.configService.staticReactConfig;
   private envIsOnPrem = !!this.config.env && this.config.env.cloud === CloudType.onprem;
-  private redirectUrl: string;
+  private onPremRedirectUrl: string;
 
-  @Get('auth/onedrive/redirectUrl')
+  @Post('auth/onedrive/setRedirectUrl')
   @HttpCode(200)
-  async setRedirectUrl(@Body('authCallbackUrl') redirUrl?: string) {
-    this.redirectUrl = redirUrl;
+  async setRedirectUrl(@Body('authCallbackUrl') authCallbackUrl: string) {
+    this.onPremRedirectUrl = authCallbackUrl;
+    return authCallbackUrl;
   }
 
   @Get('auth/onedrive/authorize')
@@ -37,19 +38,11 @@ export class OnedriveController {
       throw new HttpException('Session Not Found', 500);
     }
 
-    if (this.envIsOnPrem && !!this.redirectUrl) {
-      res.redirect(
-        `https://login.live.com/oauth20_authorize.srf?client_id=${this._getOnedriveClientId()}&scope=offline_access,onedrive.appfolder&response_type=code&redirect_uri=${
-          this.redirectUrl
-        }&state=${this.dcService.hashStateGuid(stateKey).substr(0, 10)}`
-      );
-    } else {
-      res.redirect(
-        `https://login.live.com/oauth20_authorize.srf?client_id=${this._getOnedriveClientId()}&scope=offline_access,onedrive.appfolder&response_type=code&redirect_uri=${this._getOnedriveRedirectUrl()}&state=${this.dcService
-          .hashStateGuid(stateKey)
-          .substr(0, 10)}`
-      );
-    }
+    res.redirect(
+      `https://login.live.com/oauth20_authorize.srf?client_id=${this._getOnedriveClientId()}&scope=offline_access,onedrive.appfolder&response_type=code&redirect_uri=${this._getOnedriveRedirectUrl()}&state=${this.dcService
+        .hashStateGuid(stateKey)
+        .substr(0, 10)}`
+    );
   }
 
   @Get('auth/onedrive/callback')
@@ -115,6 +108,9 @@ export class OnedriveController {
   }
 
   private _getOnedriveRedirectUrl() {
+    if (this.envIsOnPrem) {
+      return this.onPremRedirectUrl;
+    }
     return this.configService.get('ONEDRIVE_REDIRECT_URL');
   }
 }

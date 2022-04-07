@@ -220,11 +220,11 @@ export const authorizeWithProvider = (
   providerAuthUrl: string,
   startingAuth: () => void,
   completingAuthCallback: (authResult: AuthorizationResult) => void,
-  getRedirectUrl?: string,
+  setRedirectUrl?: string,
   authCallbackUrl?: string
 ) => {
   if (!!authCallbackUrl) {
-    sendHttpRequest<AuthorizationResult>({ url: getRedirectUrl, data: { authCallbackUrl }, method: 'GET' }, true);
+    sendHttpRequest<AuthorizationResult>({ url: setRedirectUrl, data: { authCallbackUrl }, method: 'POST' }, true);
   }
   const oauthWindow = window.open(providerAuthUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
 
@@ -260,7 +260,6 @@ export const authorizeWithProvider = (
   authWindowsPromise.then(authorizationResult => {
     clearInterval(authorizationResult.timerId);
     oauthWindow && oauthWindow.close();
-
     completingAuthCallback(authorizationResult);
   });
 };
