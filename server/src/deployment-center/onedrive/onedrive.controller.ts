@@ -29,7 +29,7 @@ export class OnedriveController {
   @Get('auth/onedrive/authorize')
   async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
     let stateKey = '';
-    this.redirectUrl = `${host}/auth/onedrive/callback`;
+    this.redirectUrl = `https://${host}/auth/onedrive/callback`;
     if (session) {
       stateKey = session[Constants.oauthApis.onedrive_state_key] = GUID.newGuid();
     } else {
