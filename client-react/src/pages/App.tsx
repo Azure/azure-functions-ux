@@ -11,7 +11,7 @@ import PortalCommunicator from '../portal-communicator';
 import { lightTheme } from '../theme/light';
 import { ThemeExtended } from '../theme/SemanticColorsExtended';
 import { ThemeContext } from '../ThemeContext';
-import { IStartupInfo } from '../models/portal-models';
+import { IFeatureInfo, IStartupInfo } from '../models/portal-models';
 import { StartupInfoContext } from '../StartupInfoContext';
 import LoadingComponent from '../components/Loading/LoadingComponent';
 import StaticSiteRouter from './static-app/StaticSiteRouter';
@@ -23,9 +23,16 @@ const portalCommunicator = new PortalCommunicator();
 export const App: React.FC = () => {
   const [theme, setTheme] = useState(lightTheme as ThemeExtended);
   const [startupInfo, setStartupInfo] = useState({} as IStartupInfo<any>);
+  const [featureInfo, setFeatureInfo] = useState({} as IFeatureInfo<any>);
+
   useEffect(() => {
-    portalCommunicator.initializeIframe(setTheme, setStartupInfo, i18n);
+    portalCommunicator.initializeIframe(setTheme, setStartupInfo, setFeatureInfo, i18n);
   }, []);
+
+  useEffect(() => {
+    setStartupInfo({ ...startupInfo, featureInfo });
+  }, [featureInfo]);
+
   return (
     <Suspense fallback={<LoadingComponent />}>
       <I18nextProvider i18n={i18n}>

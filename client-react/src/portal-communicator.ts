@@ -27,6 +27,7 @@ import {
   PortalDebugInformation,
   FrameBladeParams,
   PortalTheme,
+  IFeatureInfo,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import { darkTheme } from './theme/dark';
@@ -99,15 +100,18 @@ export default class PortalCommunicator {
   private i18n: any;
   private setTheme: Dispatch<SetStateAction<ThemeExtended>>;
   private setStartupInfo: Dispatch<SetStateAction<IStartupInfo<any>>>;
+  private setUpdatedInputs: Dispatch<IFeatureInfo<any>>;
   public initializeIframe(
     setTheme: Dispatch<SetStateAction<ThemeExtended>>,
     setStartupInfo: Dispatch<SetStateAction<IStartupInfo<any>>>,
+    setUpdatedInputs: Dispatch<IFeatureInfo<any>>,
     i18n: any = null
   ): void {
     this.frameId = Url.getParameterByName(null, 'frameId');
     this.i18n = i18n;
     this.setTheme = setTheme;
     this.setStartupInfo = setStartupInfo;
+    this.setUpdatedInputs = setUpdatedInputs;
     window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this) as any, false);
     window.updateAuthToken = this.getAdToken.bind(this);
     const shellUrl = decodeURI(window.location.href);
@@ -295,7 +299,7 @@ export default class PortalCommunicator {
   }
 
   public loadComplete() {
-    PortalCommunicator.postMessage(Verbs.loadComplete, null);
+    PortalCommunicator.postMessage(Verbs.loadComplete, this.packageData({}));
   }
 
   public startNotification(title: string, description: string) {
@@ -560,6 +564,8 @@ export default class PortalCommunicator {
       this.notificationStartStream.next(data);
     } else if (methodName === Verbs.sendData) {
       this.operationStream.next(data);
+    } else if (methodName === Verbs.sendUpdatedInputs) {
+      this.setUpdatedInputs(data);
     }
   }
 
