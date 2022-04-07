@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { XTerm } from 'xterm-for-react';
 import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
+import { PortalContext } from '../../../PortalContext';
 
 export interface ConsoleDataLoaderProps {
   resourceId: string;
@@ -10,8 +11,15 @@ export interface ConsoleDataLoaderProps {
 }
 
 const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
+  const portalCommunicator = useContext(PortalContext);
+
   const ws = useRef<WebSocket>();
   const terminalRef = useRef<XTerm>(null);
+  const [revisionReplicaContainer, setRevisionReplicaContainer] = useState<string>();
+
+  useEffect(() => {
+    portalCommunicator.loadComplete();
+  }, [portalCommunicator]);
 
   React.useEffect(() => {
     if (terminalRef.current) {
@@ -20,29 +28,63 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   }, [terminalRef]);
 
   React.useEffect(() => {
-    ContainerAppService.getAuthToken(props.resourceId).then(authTokenResponse => {
-      const serverEndpoint = getServerEndpoint(authTokenResponse.data.properties.logStreamEndpoint, '/sh');
-      ws.current = new WebSocket(serverEndpoint);
+    if (!!props.resourceId && !!props.revision && !!props.replica && !!props.container) {
+      setRevisionReplicaContainer(`/revisions/${props.revision}/replicas/${props.replica}/containers/${props.container}`);
+    } else {
+      setRevisionReplicaContainer(undefined);
+    }
+  }, [props.resourceId, props.revision, props.replica, props.container]);
 
-      ws.current.onmessage = async (event: MessageEvent) => {
-        if (event.data instanceof Blob) {
-          processMessageBlob(event.data);
-        } else {
-          updateConsoleText(event.data + '\r\n');
+  React.useEffect(() => {
+    // The selected container has changed.
+
+    // Clean up the web socket
+    if (ws.current) {
+      if (ws.current.readyState === ws.current.OPEN) {
+        ws.current.close();
+      }
+      ws.current = undefined;
+    }
+
+    // Reset the terminal
+    if (terminalRef.current) {
+      terminalRef.current.terminal.reset();
+      terminalRef.current.terminal.options.disableStdin = true;
+    }
+
+    // Connect to the container if one is selected.
+    if (!!revisionReplicaContainer) {
+      const revisionReplicaContainerBefore = revisionReplicaContainer;
+      ContainerAppService.getAuthToken(props.resourceId).then(authTokenResponse => {
+        if (revisionReplicaContainerBefore === revisionReplicaContainer) {
+          const serverEndpoint = getServerEndpoint(authTokenResponse.data.properties.logStreamEndpoint, '/sh');
+          ws.current = new WebSocket(serverEndpoint);
+
+          ws.current.onmessage = async (event: MessageEvent) => {
+            if (event.data instanceof Blob) {
+              processMessageBlob(event.data);
+            } else {
+              updateConsoleText(event.data + '\r\n');
+            }
+          };
+
+          ws.current.onerror = (ev: Event) => {
+            // log error appropriately
+          };
+
+          if (terminalRef.current) {
+            terminalRef.current.terminal.options.disableStdin = false;
+          }
         }
-      };
-
-      ws.current.onerror = (ev: Event) => {
-        // log error appropriately
-      };
-    });
-  }, [props.resourceId]);
+      });
+    }
+  }, [revisionReplicaContainer]);
 
   const getServerEndpoint = (logStreamEndpoint: string, startUpCommand: string) => {
     const wssReplacedEndpoint = logStreamEndpoint.replace('https://', 'wss://');
     const revisionReplacedEndpoint = wssReplacedEndpoint.replace(
-      'revisions/logstream',
-      `revisions/${props.revision}/replicas/${props.replica}/containers/${props.container}/exec${startUpCommand}`
+      '/revisions/logstream',
+      `${revisionReplicaContainer}/exec${startUpCommand}`
     );
     return revisionReplacedEndpoint;
   };
