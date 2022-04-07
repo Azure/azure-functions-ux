@@ -4,9 +4,9 @@ import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
 
 export interface ConsoleDataLoaderProps {
   resourceId: string;
-  revision: string;
-  replica: string;
-  container: string;
+  revision?: string;
+  replica?: string;
+  container?: string;
 }
 
 const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {

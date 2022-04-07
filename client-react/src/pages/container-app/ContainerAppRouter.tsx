@@ -10,9 +10,6 @@ export interface ContainerAppRouterProps {
   subscriptionId?: string;
   resourcegroup?: string;
   appName?: string;
-  revision?: string;
-  replica?: string;
-  container?: string;
 }
 
 const ContainerAppRouter: React.FC<RouteComponentProps<ContainerAppRouterProps>> = props => {
@@ -25,13 +22,7 @@ const ContainerAppRouter: React.FC<RouteComponentProps<ContainerAppRouterProps>>
           return (
             value.token && (
               <Router>
-                <ConsoleLoadable
-                  resourceId={value.resourceId}
-                  revision={value.featureInfo.data.revision}
-                  replica={value.featureInfo.data.replica}
-                  container={value.featureInfo.data.container}
-                  path="/containerappconsole"
-                />
+                <ConsoleLoadable resourceId={value.resourceId} {...value.featureInfo.data} path="/containerappconsole" />
               </Router>
             )
           );
