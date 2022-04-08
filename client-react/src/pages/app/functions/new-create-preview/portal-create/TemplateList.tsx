@@ -50,7 +50,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
   } = props;
   const { t } = useTranslation();
 
-  const [filter, setFilter] = useState('');
+  const [filterValue, setFilterValue] = useState('');
 
   const functionCreateContext = useContext(FunctionCreateContext);
   const theme = useContext(ThemeContext);
@@ -148,7 +148,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
     return (
       templates
         ?.filter(template => {
-          const lowerCasedFilterValue = filter?.toLocaleLowerCase() ?? '';
+          const lowerCasedFilterValue = filterValue?.toLocaleLowerCase() ?? '';
           return (
             template.name.toLocaleLowerCase().includes(lowerCasedFilterValue) ||
             (template.description && template.description.toLocaleLowerCase().includes(lowerCasedFilterValue))
@@ -191,7 +191,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
         {t('selectTemplateDescription')}
         <Link href={Links.functionCreateTemplateLearnMore}>{t('learnMore')}</Link>
       </p>
-      {getSearchFilter('filter-template-text-field', setFilter, t('filter'), isDisabled())}
+      {getSearchFilter('filter-template-text-field', setFilterValue, t('filter'), isDisabled())}
       {templates !== null ? (
         <DisplayTableWithCommandBar
           commandBarItems={[]}
