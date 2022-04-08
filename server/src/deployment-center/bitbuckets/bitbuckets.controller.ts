@@ -18,10 +18,12 @@ export class BitbucketsController {
 
   private config = this.configService.staticReactConfig;
   private envIsOnPrem = !!this.config.env && this.config.env.cloud === CloudType.onprem;
+  private redirectURL: string;
 
   @Get('auth/bitbucket/authorize')
-  async authorize(@Session() session, @Response() res) {
+  async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
     let stateKey = '';
+    this.redirectURL = `https://${host}/auth/bitbucket/callback`;
     if (session) {
       stateKey = session[Constants.oauthApis.bitbucket_state_key] = GUID.newGuid();
     } else {
@@ -30,23 +32,13 @@ export class BitbucketsController {
       throw new HttpException('Session Not Found', 500);
     }
 
-    if (this.envIsOnPrem) {
-      res.redirect(
-        `${
-          Constants.oauthApis.bitbucketUri
-        }/authorize?client_id=${this.getBitbucketClientId()}&scope=account+repository+webhook&response_type=code&state=${this.dcService
-          .hashStateGuid(stateKey)
-          .substr(0, 10)}`
-      );
-    } else {
-      res.redirect(
-        `${
-          Constants.oauthApis.bitbucketUri
-        }/authorize?client_id=${this.getBitbucketClientId()}&redirect_uri=${this.getBitbucketRedirectUrl()}&scope=account+repository+webhook&response_type=code&state=${this.dcService
-          .hashStateGuid(stateKey)
-          .substr(0, 10)}`
-      );
-    }
+    res.redirect(
+      `${
+        Constants.oauthApis.bitbucketUri
+      }/authorize?client_id=${this.getBitbucketClientId()}&redirect_uri=${this.getBitbucketRedirectUrl()}&scope=account+repository+webhook&response_type=code&state=${this.dcService
+        .hashStateGuid(stateKey)
+        .substr(0, 10)}`
+    );
   }
 
   @Get('auth/bitbucket/callback')
@@ -73,37 +65,20 @@ export class BitbucketsController {
     const code = this.dcService.getParameterByName('code', redirUrl);
     try {
       let r: AxiosResponse;
-      if (this.envIsOnPrem) {
-        r = await this.httpService.post<{ access_token: string; refresh_token: string }>(
-          `${Constants.oauthApis.bitbucketUri}/access_token`,
-          `code=${code}&grant_type=authorization_code`,
-          {
-            auth: {
-              username: this.getBitbucketClientId() as string,
-              password: this.getBitbucketClientSecret() as string,
-            },
-            headers: {
-              Referer: redirUrl, // TODO: check for correctness
-              'Content-type': 'application/x-www-form-urlencoded',
-            },
-          }
-        );
-      } else {
-        r = await this.httpService.post<{ access_token: string; refresh_token: string }>(
-          `${Constants.oauthApis.bitbucketUri}/access_token`,
-          `code=${code}&grant_type=authorization_code&redirect_uri=${this.getBitbucketRedirectUrl()}`,
-          {
-            auth: {
-              username: this.getBitbucketClientId() as string,
-              password: this.getBitbucketClientSecret() as string,
-            },
-            headers: {
-              Referer: this.getBitbucketRedirectUrl(),
-              'Content-type': 'application/x-www-form-urlencoded',
-            },
-          }
-        );
-      }
+      r = await this.httpService.post<{ access_token: string; refresh_token: string }>(
+        `${Constants.oauthApis.bitbucketUri}/access_token`,
+        `code=${code}&grant_type=authorization_code&redirect_uri=${this.getBitbucketRedirectUrl()}`,
+        {
+          auth: {
+            username: this.getBitbucketClientId() as string,
+            password: this.getBitbucketClientSecret() as string,
+          },
+          headers: {
+            Referer: this.getBitbucketRedirectUrl(),
+            'Content-type': 'application/x-www-form-urlencoded',
+          },
+        }
+      );
       return {
         environment,
         accessToken: r.data.access_token,
@@ -140,6 +115,9 @@ export class BitbucketsController {
   }
 
   private getBitbucketRedirectUrl() {
+    if (this.envIsOnPrem) {
+      return this.redirectURL;
+    }
     return this.configService.get('BITBUCKET_REDIRECT_URL');
   }
 }

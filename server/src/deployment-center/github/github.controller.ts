@@ -36,6 +36,8 @@ export class GithubController {
     private httpService: HttpService
   ) {}
 
+  private redirectURL: string;
+
   @Post('api/github/passthrough')
   @HttpCode(200)
   async passthrough(
@@ -263,8 +265,8 @@ export class GithubController {
 
   @Get('auth/github/authorize')
   async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
-    const config = this.configService.staticReactConfig;
     let stateKey = '';
+    this.redirectURL = `https://${host}/auth/github/callback`;
     if (session) {
       stateKey = session[Constants.oauthApis.github_state_key] = GUID.newGuid();
     } else {
@@ -273,21 +275,11 @@ export class GithubController {
       throw new HttpException('Session Not Found', 500);
     }
 
-    if (config.env && config.env.cloud === CloudType.onprem) {
-      res.redirect(
-        `${
-          Constants.oauthApis.githubApiUri
-        }/authorize?client_id=${this._getGitHubClientId()}&scope=admin:repo_hook+repo+workflow&response_type=code&state=${this.dcService.hashStateGuid(
-          stateKey
-        )}`
-      );
-    } else {
-      res.redirect(
-        `${Constants.oauthApis.githubApiUri}/authorize?client_id=${this._getGitHubClientId()}&redirect_uri=${this._getRedirectUri(
-          host
-        )}&scope=admin:repo_hook+repo+workflow&response_type=code&state=${this.dcService.hashStateGuid(stateKey)}`
-      );
-    }
+    res.redirect(
+      `${Constants.oauthApis.githubApiUri}/authorize?client_id=${this._getGitHubClientId()}&redirect_uri=${this._getRedirectUri(
+        host
+      )}&scope=admin:repo_hook+repo+workflow&response_type=code&state=${this.dcService.hashStateGuid(stateKey)}`
+    );
   }
 
   @Get('auth/github/callback/env/:env')
@@ -521,6 +513,10 @@ export class GithubController {
   }
 
   private _getRedirectUri(host: string): string {
+    const config = this.configService.staticReactConfig;
+    if (config.env && config.env.cloud === CloudType.onprem) {
+      return this.redirectURL;
+    }
     const redirectUri =
       this._getGitHubRedirectUrl() || `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Prod]}/auth/github/callback`;
     const [redirectUriToLower, hostUrlToLower] = [redirectUri.toLocaleLowerCase(), `https://${host}`.toLocaleLowerCase()];
