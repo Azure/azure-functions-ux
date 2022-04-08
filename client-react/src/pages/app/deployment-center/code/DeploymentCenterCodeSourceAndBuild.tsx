@@ -190,7 +190,8 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       //Note (stpelleg): Need to disable GitHub Actions for Ruby and ILB ASE as we do not support it
       if (
         (!!defaultStackAndVersion && defaultStackAndVersion.runtimeStack.toLocaleLowerCase() === RuntimeStackOptions.Ruby) ||
-        deploymentCenterContext.isIlbASE
+        deploymentCenterContext.isIlbASE ||
+        scenarioService.checkScenario(ScenarioIds.githubActionsBuildProvider, { site: siteStateContext.site }).status === 'disabled'
       ) {
         setSelectedBuild(BuildProvider.AppServiceBuildService);
         formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);

@@ -327,6 +327,20 @@ export class OnPremEnvironment extends Environment {
         return { status: 'enabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.githubActionsBuildProvider] = {
+      id: ScenarioIds.githubActionsBuildProvider,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.azurePipelinesBuildProvider] = {
+      id: ScenarioIds.azurePipelinesBuildProvider,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
