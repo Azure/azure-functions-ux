@@ -23,6 +23,7 @@ export const getSearchFilter = (
       styles={filterTextFieldStyle}
       disabled={disabled}
       autoFocus={autoFocus}
+      onSearch={() => {}}
     />
   );
 };
